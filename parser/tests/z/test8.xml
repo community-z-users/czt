@@ -2,7 +2,7 @@
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="tests/z/test8.tex"/>
+            <LocAnn Col="0" Length="273" Line="0" Loc="tests/z/test8.tex" Start="0"/>
         </Anns>
         <Content>This tests the parsing of nested predicates that contain newlines
 instead of conjunctions.
@@ -14,6 +14,9 @@ because the newline conjunction has lower priority than the forall.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="0" Line="0" Loc="tests/z/test8.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -21,14 +24,14 @@ because the newline conjunction has lower priority than the forall.
         <LatexMarkupPara/>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="8" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="0" Length="181" Line="7" Loc="tests/z/test8.tex" Start="273"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="8" Loc="tests/z/test8.tex"/>
+                                <LocAnn Col="15" Length="9" Line="7" Loc="tests/z/test8.tex" Start="288"/>
                             </Anns>
                             <Word>PredTest1</Word>
                         </ZDeclName>
@@ -37,21 +40,21 @@ because the newline conjunction has lower priority than the forall.
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="9" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="8" Loc="tests/z/test8.tex" Start="302"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="9" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="8" Loc="tests/z/test8.tex" Start="302"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="9" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="8" Loc="tests/z/test8.tex" Start="304"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="9" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="8" Loc="tests/z/test8.tex" Start="304"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -60,21 +63,21 @@ because the newline conjunction has lower priority than the forall.
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="10" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="9" Loc="tests/z/test8.tex" Start="315"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="10" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="9" Loc="tests/z/test8.tex" Start="315"/>
                                             </Anns>
                                             <Word>y</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="10" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="9" Loc="tests/z/test8.tex" Start="317"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="10" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="9" Loc="tests/z/test8.tex" Start="317"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -84,31 +87,31 @@ because the newline conjunction has lower priority than the forall.
                                 </ZDeclList>
                                 <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="16" Line="16" Loc="tests/z/test8.tex"/>
+                                        <LocAnn Col="15" Length="109" Line="15" Loc="tests/z/test8.tex" Start="332"/>
                                     </Anns>
                                     <ForallPred>
                                         <Anns>
-                                            <LocAnn Col="4" Line="12" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="3" Length="97" Line="11" Loc="tests/z/test8.tex" Start="332"/>
                                         </Anns>
                                         <ZSchText>
                                             <ZDeclList>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="13" Line="12" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="12" Length="6" Line="11" Loc="tests/z/test8.tex" Start="340"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="12" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="11" Length="1" Line="11" Loc="tests/z/test8.tex" Start="340"/>
                                                         </Anns>
                                                         <Word>a</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="12" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="4" Line="11" Loc="tests/z/test8.tex" Start="342"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="12" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="4" Line="11" Loc="tests/z/test8.tex" Start="342"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -117,21 +120,21 @@ because the newline conjunction has lower priority than the forall.
                                                 </VarDecl>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="13" Line="13" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="12" Length="6" Line="12" Loc="tests/z/test8.tex" Start="361"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="13" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="11" Length="1" Line="12" Loc="tests/z/test8.tex" Start="361"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="13" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="4" Line="12" Loc="tests/z/test8.tex" Start="363"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="13" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="4" Line="12" Loc="tests/z/test8.tex" Start="363"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -141,24 +144,21 @@ because the newline conjunction has lower priority than the forall.
                                             </ZDeclList>
                                             <AndPred And="NL">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="14" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="17" Length="25" Line="13" Loc="tests/z/test8.tex" Start="384"/>
                                                 </Anns>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="14" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="13" Loc="tests/z/test8.tex" Start="384"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="14" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="14" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="13" Loc="tests/z/test8.tex" Start="384"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="14" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="13" Loc="tests/z/test8.tex" Start="384"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
                                                                 </ZRefName>
@@ -166,19 +166,23 @@ because the newline conjunction has lower priority than the forall.
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="14" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="13" Loc="tests/z/test8.tex" Start="388"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="3"/>
+                                                                <ZNumeral Value="3">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="13" Loc="tests/z/test8.tex" Start="388"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="14" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="13" Loc="tests/z/test8.tex" Start="386"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="14" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="13" Loc="tests/z/test8.tex" Start="386"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -187,20 +191,17 @@ because the newline conjunction has lower priority than the forall.
                                                 </MemPred>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="15" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="14" Loc="tests/z/test8.tex" Start="404"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="15" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="15" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="14" Loc="tests/z/test8.tex" Start="404"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="15" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="14" Loc="tests/z/test8.tex" Start="404"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
                                                                 </ZRefName>
@@ -208,19 +209,23 @@ because the newline conjunction has lower priority than the forall.
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="15" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="14" Loc="tests/z/test8.tex" Start="408"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="4"/>
+                                                                <ZNumeral Value="4">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="14" Loc="tests/z/test8.tex" Start="408"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="15" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="14" Loc="tests/z/test8.tex" Start="406"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="15" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="14" Loc="tests/z/test8.tex" Start="406"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -231,32 +236,29 @@ because the newline conjunction has lower priority than the forall.
                                         </ZSchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="12" Line="16" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="9" Length="5" Line="15" Loc="tests/z/test8.tex" Start="424"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="10" Line="16" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="16" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="15" Loc="tests/z/test8.tex" Start="424"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="16" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="9" Length="1" Line="15" Loc="tests/z/test8.tex" Start="424"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="16" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="15" Loc="tests/z/test8.tex" Start="428"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="16" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="1" Line="15" Loc="tests/z/test8.tex" Start="428"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                         </ZRefName>
@@ -264,13 +266,13 @@ because the newline conjunction has lower priority than the forall.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="16" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="15" Loc="tests/z/test8.tex" Start="426"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="16" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="2" Line="15" Loc="tests/z/test8.tex" Start="426"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -280,32 +282,29 @@ because the newline conjunction has lower priority than the forall.
                                     </ForallPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="6" Line="17" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="3" Length="5" Line="16" Loc="tests/z/test8.tex" Start="436"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="4" Line="17" Loc="tests/z/test8.tex"/>
-                                            </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="4" Line="17" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="3" Length="1" Line="16" Loc="tests/z/test8.tex" Start="436"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="4" Line="17" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="3" Length="1" Line="16" Loc="tests/z/test8.tex" Start="436"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="17" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="7" Length="1" Line="16" Loc="tests/z/test8.tex" Start="440"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="8" Line="17" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="7" Length="1" Line="16" Loc="tests/z/test8.tex" Start="440"/>
                                                         </Anns>
                                                         <Word>a</Word>
                                                     </ZRefName>
@@ -313,13 +312,13 @@ because the newline conjunction has lower priority than the forall.
                                                 </RefExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="4" Line="17" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="2" Line="16" Loc="tests/z/test8.tex" Start="438"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="4" Line="17" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="2" Line="16" Loc="tests/z/test8.tex" Start="438"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
                                             </ZRefName>
@@ -335,7 +334,7 @@ because the newline conjunction has lower priority than the forall.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="18" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="12" Length="47" Line="17" Loc="tests/z/test8.tex" Start="454"/>
             </Anns>
             <Content>
 
@@ -344,14 +343,14 @@ This one should parse the same as the above!
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="21" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="0" Length="190" Line="20" Loc="tests/z/test8.tex" Start="501"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="21" Loc="tests/z/test8.tex"/>
+                                <LocAnn Col="15" Length="9" Line="20" Loc="tests/z/test8.tex" Start="516"/>
                             </Anns>
                             <Word>PredTest2</Word>
                         </ZDeclName>
@@ -360,21 +359,21 @@ This one should parse the same as the above!
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="22" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="21" Loc="tests/z/test8.tex" Start="530"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="22" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="21" Loc="tests/z/test8.tex" Start="530"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="22" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="21" Loc="tests/z/test8.tex" Start="532"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="22" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="21" Loc="tests/z/test8.tex" Start="532"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -383,21 +382,21 @@ This one should parse the same as the above!
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="23" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="22" Loc="tests/z/test8.tex" Start="543"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="23" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="22" Loc="tests/z/test8.tex" Start="543"/>
                                             </Anns>
                                             <Word>y</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="23" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="22" Loc="tests/z/test8.tex" Start="545"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="23" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="22" Loc="tests/z/test8.tex" Start="545"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -407,32 +406,36 @@ This one should parse the same as the above!
                                 </ZDeclList>
                                 <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="16" Line="29" Loc="tests/z/test8.tex"/>
-                                        <ParenAnn/>
+                                        <LocAnn Col="15" Length="116" Line="28" Loc="tests/z/test8.tex" Start="561"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Col="3" Length="118" Line="24" Loc="tests/z/test8.tex" Start="560"/>
+                                            </Anns>
+                                        </ParenAnn>
                                     </Anns>
                                     <ForallPred>
                                         <Anns>
-                                            <LocAnn Col="5" Line="25" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="98" Line="24" Loc="tests/z/test8.tex" Start="561"/>
                                         </Anns>
                                         <ZSchText>
                                             <ZDeclList>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="25" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="6" Line="24" Loc="tests/z/test8.tex" Start="569"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="13" Line="25" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="12" Length="1" Line="24" Loc="tests/z/test8.tex" Start="569"/>
                                                         </Anns>
                                                         <Word>a</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="25" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="24" Loc="tests/z/test8.tex" Start="571"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="25" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="4" Line="24" Loc="tests/z/test8.tex" Start="571"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -441,21 +444,21 @@ This one should parse the same as the above!
                                                 </VarDecl>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="26" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="6" Line="25" Loc="tests/z/test8.tex" Start="591"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="13" Line="26" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="12" Length="1" Line="25" Loc="tests/z/test8.tex" Start="591"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="26" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="25" Loc="tests/z/test8.tex" Start="593"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="26" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="4" Line="25" Loc="tests/z/test8.tex" Start="593"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -465,24 +468,21 @@ This one should parse the same as the above!
                                             </ZDeclList>
                                             <AndPred And="NL">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="27" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="17" Length="25" Line="26" Loc="tests/z/test8.tex" Start="614"/>
                                                 </Anns>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="27" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="26" Loc="tests/z/test8.tex" Start="614"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="27" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="27" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="26" Loc="tests/z/test8.tex" Start="614"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="27" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="26" Loc="tests/z/test8.tex" Start="614"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
                                                                 </ZRefName>
@@ -490,19 +490,23 @@ This one should parse the same as the above!
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="27" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="26" Loc="tests/z/test8.tex" Start="618"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="3"/>
+                                                                <ZNumeral Value="3">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="26" Loc="tests/z/test8.tex" Start="618"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="27" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="26" Loc="tests/z/test8.tex" Start="616"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="27" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="26" Loc="tests/z/test8.tex" Start="616"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -511,20 +515,17 @@ This one should parse the same as the above!
                                                 </MemPred>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="28" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="27" Loc="tests/z/test8.tex" Start="634"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="28" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="28" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="27" Loc="tests/z/test8.tex" Start="634"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="28" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="27" Loc="tests/z/test8.tex" Start="634"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
                                                                 </ZRefName>
@@ -532,19 +533,23 @@ This one should parse the same as the above!
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="28" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="27" Loc="tests/z/test8.tex" Start="638"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="4"/>
+                                                                <ZNumeral Value="4">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="27" Loc="tests/z/test8.tex" Start="638"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="28" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="27" Loc="tests/z/test8.tex" Start="636"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="28" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="27" Loc="tests/z/test8.tex" Start="636"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -555,32 +560,29 @@ This one should parse the same as the above!
                                         </ZSchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="12" Line="29" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="9" Length="5" Line="28" Loc="tests/z/test8.tex" Start="654"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="10" Line="29" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="29" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="28" Loc="tests/z/test8.tex" Start="654"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="29" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="9" Length="1" Line="28" Loc="tests/z/test8.tex" Start="654"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="29" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="28" Loc="tests/z/test8.tex" Start="658"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="29" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="1" Line="28" Loc="tests/z/test8.tex" Start="658"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                         </ZRefName>
@@ -588,13 +590,13 @@ This one should parse the same as the above!
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="29" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="28" Loc="tests/z/test8.tex" Start="656"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="29" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="2" Line="28" Loc="tests/z/test8.tex" Start="656"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -604,32 +606,29 @@ This one should parse the same as the above!
                                     </ForallPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="12" Line="30" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="9" Length="5" Line="29" Loc="tests/z/test8.tex" Start="672"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="10" Line="30" Loc="tests/z/test8.tex"/>
-                                            </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="30" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="9" Length="1" Line="29" Loc="tests/z/test8.tex" Start="672"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="30" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="29" Loc="tests/z/test8.tex" Start="672"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="30" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="1" Line="29" Loc="tests/z/test8.tex" Start="676"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="30" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="29" Loc="tests/z/test8.tex" Start="676"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZRefName>
@@ -637,13 +636,13 @@ This one should parse the same as the above!
                                                 </RefExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="10" Line="30" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="11" Length="2" Line="29" Loc="tests/z/test8.tex" Start="674"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="30" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="29" Loc="tests/z/test8.tex" Start="674"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
                                             </ZRefName>
@@ -659,7 +658,7 @@ This one should parse the same as the above!
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="31" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="12" Length="90" Line="30" Loc="tests/z/test8.tex" Start="691"/>
             </Anns>
             <Content>
 
@@ -669,14 +668,14 @@ INSIDE the forall.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="35" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="0" Length="190" Line="34" Loc="tests/z/test8.tex" Start="781"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="35" Loc="tests/z/test8.tex"/>
+                                <LocAnn Col="15" Length="9" Line="34" Loc="tests/z/test8.tex" Start="796"/>
                             </Anns>
                             <Word>PredTest3</Word>
                         </ZDeclName>
@@ -685,21 +684,21 @@ INSIDE the forall.
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="36" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="35" Loc="tests/z/test8.tex" Start="810"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="36" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="35" Loc="tests/z/test8.tex" Start="810"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="36" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="35" Loc="tests/z/test8.tex" Start="812"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="36" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="35" Loc="tests/z/test8.tex" Start="812"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -708,21 +707,21 @@ INSIDE the forall.
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="37" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="36" Loc="tests/z/test8.tex" Start="823"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="37" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="36" Loc="tests/z/test8.tex" Start="823"/>
                                             </Anns>
                                             <Word>y</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="37" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="36" Loc="tests/z/test8.tex" Start="825"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="37" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="36" Loc="tests/z/test8.tex" Start="825"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -732,27 +731,27 @@ INSIDE the forall.
                                 </ZDeclList>
                                 <ForallPred>
                                     <Anns>
-                                        <LocAnn Col="4" Line="39" Loc="tests/z/test8.tex"/>
+                                        <LocAnn Col="3" Length="117" Line="38" Loc="tests/z/test8.tex" Start="840"/>
                                     </Anns>
                                     <ZSchText>
                                         <ZDeclList>
                                             <VarDecl>
                                                 <Anns>
-                                                    <LocAnn Col="13" Line="39" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="12" Length="6" Line="38" Loc="tests/z/test8.tex" Start="848"/>
                                                 </Anns>
                                                 <ZDeclName>
                                                     <Anns>
-                                                        <LocAnn Col="12" Line="39" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="1" Line="38" Loc="tests/z/test8.tex" Start="848"/>
                                                     </Anns>
                                                     <Word>a</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="39" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="4" Line="38" Loc="tests/z/test8.tex" Start="850"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="39" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="4" Line="38" Loc="tests/z/test8.tex" Start="850"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
                                                     </ZRefName>
@@ -761,21 +760,21 @@ INSIDE the forall.
                                             </VarDecl>
                                             <VarDecl>
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="40" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="13" Length="6" Line="39" Loc="tests/z/test8.tex" Start="870"/>
                                                 </Anns>
                                                 <ZDeclName>
                                                     <Anns>
-                                                        <LocAnn Col="13" Line="40" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="12" Length="1" Line="39" Loc="tests/z/test8.tex" Start="870"/>
                                                     </Anns>
                                                     <Word>b</Word>
                                                 </ZDeclName>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="40" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="14" Length="4" Line="39" Loc="tests/z/test8.tex" Start="872"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="40" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="39" Loc="tests/z/test8.tex" Start="872"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
                                                     </ZRefName>
@@ -785,24 +784,21 @@ INSIDE the forall.
                                         </ZDeclList>
                                         <AndPred And="NL">
                                             <Anns>
-                                                <LocAnn Col="18" Line="41" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="17" Length="25" Line="40" Loc="tests/z/test8.tex" Start="893"/>
                                             </Anns>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="41" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="5" Line="40" Loc="tests/z/test8.tex" Start="893"/>
                                                 </Anns>
                                                 <TupleExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="12" Line="41" Loc="tests/z/test8.tex"/>
-                                                    </Anns>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="41" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="11" Length="1" Line="40" Loc="tests/z/test8.tex" Start="893"/>
                                                             </Anns>
                                                             <ZRefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="41" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="40" Loc="tests/z/test8.tex" Start="893"/>
                                                                 </Anns>
                                                                 <Word>a</Word>
                                                             </ZRefName>
@@ -810,19 +806,23 @@ INSIDE the forall.
                                                         </RefExpr>
                                                         <NumExpr>
                                                             <Anns>
-                                                                <LocAnn Col="16" Line="41" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="15" Length="1" Line="40" Loc="tests/z/test8.tex" Start="897"/>
                                                             </Anns>
-                                                            <ZNumeral Value="3"/>
+                                                            <ZNumeral Value="3">
+                                                                <Anns>
+                                                                    <LocAnn Col="15" Length="1" Line="40" Loc="tests/z/test8.tex" Start="897"/>
+                                                                </Anns>
+                                                            </ZNumeral>
                                                         </NumExpr>
                                                     </ZExprList>
                                                 </TupleExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="12" Line="41" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="2" Line="40" Loc="tests/z/test8.tex" Start="895"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="41" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="40" Loc="tests/z/test8.tex" Start="895"/>
                                                         </Anns>
                                                         <Word> _ &lt; _ </Word>
                                                     </ZRefName>
@@ -831,20 +831,17 @@ INSIDE the forall.
                                             </MemPred>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="14" Line="42" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="5" Line="41" Loc="tests/z/test8.tex" Start="913"/>
                                                 </Anns>
                                                 <TupleExpr>
-                                                    <Anns>
-                                                        <LocAnn Col="12" Line="42" Loc="tests/z/test8.tex"/>
-                                                    </Anns>
                                                     <ZExprList>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="42" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="11" Length="1" Line="41" Loc="tests/z/test8.tex" Start="913"/>
                                                             </Anns>
                                                             <ZRefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="42" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="41" Loc="tests/z/test8.tex" Start="913"/>
                                                                 </Anns>
                                                                 <Word>b</Word>
                                                             </ZRefName>
@@ -852,19 +849,23 @@ INSIDE the forall.
                                                         </RefExpr>
                                                         <NumExpr>
                                                             <Anns>
-                                                                <LocAnn Col="16" Line="42" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="15" Length="1" Line="41" Loc="tests/z/test8.tex" Start="917"/>
                                                             </Anns>
-                                                            <ZNumeral Value="4"/>
+                                                            <ZNumeral Value="4">
+                                                                <Anns>
+                                                                    <LocAnn Col="15" Length="1" Line="41" Loc="tests/z/test8.tex" Start="917"/>
+                                                                </Anns>
+                                                            </ZNumeral>
                                                         </NumExpr>
                                                     </ZExprList>
                                                 </TupleExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="12" Line="42" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="2" Line="41" Loc="tests/z/test8.tex" Start="915"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="42" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="41" Loc="tests/z/test8.tex" Start="915"/>
                                                         </Anns>
                                                         <Word> _ &lt; _ </Word>
                                                     </ZRefName>
@@ -875,37 +876,38 @@ INSIDE the forall.
                                     </ZSchText>
                                     <AndPred And="NL">
                                         <Anns>
-                                            <LocAnn Col="17" Line="43" Loc="tests/z/test8.tex"/>
-                                            <ParenAnn/>
+                                            <LocAnn Col="16" Length="23" Line="42" Loc="tests/z/test8.tex" Start="934"/>
+                                            <ParenAnn>
+                                                <Anns>
+                                                    <LocAnn Col="9" Length="25" Line="42" Loc="tests/z/test8.tex" Start="933"/>
+                                                </Anns>
+                                            </ParenAnn>
                                         </Anns>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="13" Line="43" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="10" Length="5" Line="42" Loc="tests/z/test8.tex" Start="934"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="11" Line="43" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="11" Line="43" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="10" Length="1" Line="42" Loc="tests/z/test8.tex" Start="934"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="11" Line="43" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="10" Length="1" Line="42" Loc="tests/z/test8.tex" Start="934"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="43" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="1" Line="42" Loc="tests/z/test8.tex" Start="938"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="43" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="1" Line="42" Loc="tests/z/test8.tex" Start="938"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                         </ZRefName>
@@ -913,13 +915,13 @@ INSIDE the forall.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="43" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="12" Length="2" Line="42" Loc="tests/z/test8.tex" Start="936"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="11" Line="43" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="12" Length="2" Line="42" Loc="tests/z/test8.tex" Start="936"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -928,32 +930,29 @@ INSIDE the forall.
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="12" Line="44" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="9" Length="5" Line="43" Loc="tests/z/test8.tex" Start="952"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="10" Line="44" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="44" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="43" Loc="tests/z/test8.tex" Start="952"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="44" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="9" Length="1" Line="43" Loc="tests/z/test8.tex" Start="952"/>
                                                             </Anns>
                                                             <Word>y</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="44" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="43" Loc="tests/z/test8.tex" Start="956"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="44" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="1" Line="43" Loc="tests/z/test8.tex" Start="956"/>
                                                             </Anns>
                                                             <Word>b</Word>
                                                         </ZRefName>
@@ -961,13 +960,13 @@ INSIDE the forall.
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="44" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="43" Loc="tests/z/test8.tex" Start="954"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="44" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="2" Line="43" Loc="tests/z/test8.tex" Start="954"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -984,7 +983,7 @@ INSIDE the forall.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="45" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="12" Length="60" Line="44" Loc="tests/z/test8.tex" Start="971"/>
             </Anns>
             <Content>
 
@@ -993,14 +992,14 @@ This should parse the same as the first one (but uses ;).
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="48" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="0" Length="200" Line="47" Loc="tests/z/test8.tex" Start="1031"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="48" Loc="tests/z/test8.tex"/>
+                                <LocAnn Col="15" Length="14" Line="47" Loc="tests/z/test8.tex" Start="1046"/>
                             </Anns>
                             <Word>SemicolonTest1</Word>
                         </ZDeclName>
@@ -1009,21 +1008,21 @@ This should parse the same as the first one (but uses ;).
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="49" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="48" Loc="tests/z/test8.tex" Start="1065"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="49" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="48" Loc="tests/z/test8.tex" Start="1065"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="49" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="48" Loc="tests/z/test8.tex" Start="1067"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="49" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="48" Loc="tests/z/test8.tex" Start="1067"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -1032,21 +1031,21 @@ This should parse the same as the first one (but uses ;).
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="50" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="49" Loc="tests/z/test8.tex" Start="1078"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="50" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="49" Loc="tests/z/test8.tex" Start="1078"/>
                                             </Anns>
                                             <Word>y</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="50" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="49" Loc="tests/z/test8.tex" Start="1080"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="50" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="49" Loc="tests/z/test8.tex" Start="1080"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -1056,32 +1055,36 @@ This should parse the same as the first one (but uses ;).
                                 </ZDeclList>
                                 <AndPred And="Semi">
                                     <Anns>
-                                        <LocAnn Col="16" Line="56" Loc="tests/z/test8.tex"/>
-                                        <ParenAnn/>
+                                        <LocAnn Col="15" Length="121" Line="55" Loc="tests/z/test8.tex" Start="1096"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Col="3" Length="123" Line="51" Loc="tests/z/test8.tex" Start="1095"/>
+                                            </Anns>
+                                        </ParenAnn>
                                     </Anns>
                                     <ForallPred>
                                         <Anns>
-                                            <LocAnn Col="5" Line="52" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="101" Line="51" Loc="tests/z/test8.tex" Start="1096"/>
                                         </Anns>
                                         <ZSchText>
                                             <ZDeclList>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="52" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="6" Line="51" Loc="tests/z/test8.tex" Start="1104"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="13" Line="52" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="12" Length="1" Line="51" Loc="tests/z/test8.tex" Start="1104"/>
                                                         </Anns>
                                                         <Word>a</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="52" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="51" Loc="tests/z/test8.tex" Start="1106"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="52" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="4" Line="51" Loc="tests/z/test8.tex" Start="1106"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -1090,21 +1093,21 @@ This should parse the same as the first one (but uses ;).
                                                 </VarDecl>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="53" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="6" Line="52" Loc="tests/z/test8.tex" Start="1127"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="13" Line="53" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="12" Length="1" Line="52" Loc="tests/z/test8.tex" Start="1127"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="53" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="52" Loc="tests/z/test8.tex" Start="1129"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="53" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="4" Line="52" Loc="tests/z/test8.tex" Start="1129"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -1114,24 +1117,21 @@ This should parse the same as the first one (but uses ;).
                                             </ZDeclList>
                                             <AndPred And="Semi">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="54" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="17" Length="27" Line="53" Loc="tests/z/test8.tex" Start="1150"/>
                                                 </Anns>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="54" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="53" Loc="tests/z/test8.tex" Start="1150"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="54" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="54" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="53" Loc="tests/z/test8.tex" Start="1150"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="54" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="53" Loc="tests/z/test8.tex" Start="1150"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
                                                                 </ZRefName>
@@ -1139,19 +1139,23 @@ This should parse the same as the first one (but uses ;).
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="54" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="53" Loc="tests/z/test8.tex" Start="1154"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="3"/>
+                                                                <ZNumeral Value="3">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="53" Loc="tests/z/test8.tex" Start="1154"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="54" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="53" Loc="tests/z/test8.tex" Start="1152"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="54" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="53" Loc="tests/z/test8.tex" Start="1152"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -1160,20 +1164,17 @@ This should parse the same as the first one (but uses ;).
                                                 </MemPred>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="55" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="54" Loc="tests/z/test8.tex" Start="1172"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="55" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="55" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="54" Loc="tests/z/test8.tex" Start="1172"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="55" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="54" Loc="tests/z/test8.tex" Start="1172"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
                                                                 </ZRefName>
@@ -1181,19 +1182,23 @@ This should parse the same as the first one (but uses ;).
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="55" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="54" Loc="tests/z/test8.tex" Start="1176"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="4"/>
+                                                                <ZNumeral Value="4">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="54" Loc="tests/z/test8.tex" Start="1176"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="55" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="54" Loc="tests/z/test8.tex" Start="1174"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="55" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="54" Loc="tests/z/test8.tex" Start="1174"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -1204,32 +1209,29 @@ This should parse the same as the first one (but uses ;).
                                         </ZSchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="12" Line="56" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="9" Length="5" Line="55" Loc="tests/z/test8.tex" Start="1192"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="10" Line="56" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="56" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1192"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="56" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="9" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1192"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="56" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1196"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="56" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1196"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                         </ZRefName>
@@ -1237,13 +1239,13 @@ This should parse the same as the first one (but uses ;).
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="56" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/test8.tex" Start="1194"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="56" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/test8.tex" Start="1194"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -1253,32 +1255,29 @@ This should parse the same as the first one (but uses ;).
                                     </ForallPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="12" Line="57" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="9" Length="5" Line="56" Loc="tests/z/test8.tex" Start="1212"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="10" Line="57" Loc="tests/z/test8.tex"/>
-                                            </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="10" Line="57" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="9" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1212"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="57" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="9" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1212"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="57" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1216"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="57" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1216"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZRefName>
@@ -1286,13 +1285,13 @@ This should parse the same as the first one (but uses ;).
                                                 </RefExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="10" Line="57" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="11" Length="2" Line="56" Loc="tests/z/test8.tex" Start="1214"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="57" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="11" Length="2" Line="56" Loc="tests/z/test8.tex" Start="1214"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
                                             </ZRefName>
@@ -1308,7 +1307,7 @@ This should parse the same as the first one (but uses ;).
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="58" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="12" Length="106" Line="57" Loc="tests/z/test8.tex" Start="1231"/>
             </Anns>
             <Content>
 
@@ -1318,14 +1317,14 @@ the operators rather than after).
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="62" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="0" Length="193" Line="61" Loc="tests/z/test8.tex" Start="1337"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="62" Loc="tests/z/test8.tex"/>
+                                <LocAnn Col="15" Length="14" Line="61" Loc="tests/z/test8.tex" Start="1352"/>
                             </Anns>
                             <Word>SemicolonTest2</Word>
                         </ZDeclName>
@@ -1334,21 +1333,21 @@ the operators rather than after).
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="63" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="62" Loc="tests/z/test8.tex" Start="1371"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="63" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="62" Loc="tests/z/test8.tex" Start="1371"/>
                                             </Anns>
                                             <Word>x</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="63" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="62" Loc="tests/z/test8.tex" Start="1373"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="63" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="62" Loc="tests/z/test8.tex" Start="1373"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -1357,21 +1356,21 @@ the operators rather than after).
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="5" Line="64" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="6" Line="63" Loc="tests/z/test8.tex" Start="1384"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="4" Line="64" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="3" Length="1" Line="63" Loc="tests/z/test8.tex" Start="1384"/>
                                             </Anns>
                                             <Word>y</Word>
                                         </ZDeclName>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="64" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="63" Loc="tests/z/test8.tex" Start="1386"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="64" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="63" Loc="tests/z/test8.tex" Start="1386"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                             </ZRefName>
@@ -1381,32 +1380,36 @@ the operators rather than after).
                                 </ZDeclList>
                                 <AndPred And="Semi">
                                     <Anns>
-                                        <LocAnn Col="10" Line="71" Loc="tests/z/test8.tex"/>
-                                        <ParenAnn/>
+                                        <LocAnn Col="9" Length="114" Line="70" Loc="tests/z/test8.tex" Start="1402"/>
+                                        <ParenAnn>
+                                            <Anns>
+                                                <LocAnn Col="3" Length="116" Line="65" Loc="tests/z/test8.tex" Start="1401"/>
+                                            </Anns>
+                                        </ParenAnn>
                                     </Anns>
                                     <ForallPred>
                                         <Anns>
-                                            <LocAnn Col="5" Line="66" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="4" Length="97" Line="65" Loc="tests/z/test8.tex" Start="1402"/>
                                         </Anns>
                                         <ZSchText>
                                             <ZDeclList>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="66" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="6" Line="65" Loc="tests/z/test8.tex" Start="1410"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="13" Line="66" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="12" Length="1" Line="65" Loc="tests/z/test8.tex" Start="1410"/>
                                                         </Anns>
                                                         <Word>a</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="15" Line="66" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="14" Length="4" Line="65" Loc="tests/z/test8.tex" Start="1412"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="15" Line="66" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="14" Length="4" Line="65" Loc="tests/z/test8.tex" Start="1412"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -1415,21 +1418,21 @@ the operators rather than after).
                                                 </VarDecl>
                                                 <VarDecl>
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="67" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="14" Length="6" Line="66" Loc="tests/z/test8.tex" Start="1433"/>
                                                     </Anns>
                                                     <ZDeclName>
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="67" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="1" Line="66" Loc="tests/z/test8.tex" Start="1433"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZDeclName>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="16" Line="67" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="15" Length="4" Line="66" Loc="tests/z/test8.tex" Start="1435"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="16" Line="67" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="15" Length="4" Line="66" Loc="tests/z/test8.tex" Start="1435"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
                                                         </ZRefName>
@@ -1439,24 +1442,21 @@ the operators rather than after).
                                             </ZDeclList>
                                             <AndPred And="NL">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="68" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="17" Length="25" Line="67" Loc="tests/z/test8.tex" Start="1454"/>
                                                 </Anns>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="68" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="67" Loc="tests/z/test8.tex" Start="1454"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="68" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="68" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="67" Loc="tests/z/test8.tex" Start="1454"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="68" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="67" Loc="tests/z/test8.tex" Start="1454"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
                                                                 </ZRefName>
@@ -1464,19 +1464,23 @@ the operators rather than after).
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="68" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="67" Loc="tests/z/test8.tex" Start="1458"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="3"/>
+                                                                <ZNumeral Value="3">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="67" Loc="tests/z/test8.tex" Start="1458"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="68" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="67" Loc="tests/z/test8.tex" Start="1456"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="68" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="67" Loc="tests/z/test8.tex" Start="1456"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -1485,20 +1489,17 @@ the operators rather than after).
                                                 </MemPred>
                                                 <MemPred Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="69" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="5" Line="68" Loc="tests/z/test8.tex" Start="1474"/>
                                                     </Anns>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="12" Line="69" Loc="tests/z/test8.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
-                                                            <RefExpr Mixfix="false">
+                                                            <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="69" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="11" Length="1" Line="68" Loc="tests/z/test8.tex" Start="1474"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="69" Loc="tests/z/test8.tex"/>
+                                                                        <LocAnn Col="11" Length="1" Line="68" Loc="tests/z/test8.tex" Start="1474"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
                                                                 </ZRefName>
@@ -1506,19 +1507,23 @@ the operators rather than after).
                                                             </RefExpr>
                                                             <NumExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="16" Line="69" Loc="tests/z/test8.tex"/>
+                                                                    <LocAnn Col="15" Length="1" Line="68" Loc="tests/z/test8.tex" Start="1478"/>
                                                                 </Anns>
-                                                                <ZNumeral Value="4"/>
+                                                                <ZNumeral Value="4">
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="68" Loc="tests/z/test8.tex" Start="1478"/>
+                                                                    </Anns>
+                                                                </ZNumeral>
                                                             </NumExpr>
                                                         </ZExprList>
                                                     </TupleExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="69" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="13" Length="2" Line="68" Loc="tests/z/test8.tex" Start="1476"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="69" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="13" Length="2" Line="68" Loc="tests/z/test8.tex" Start="1476"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
                                                         </ZRefName>
@@ -1529,32 +1534,29 @@ the operators rather than after).
                                         </ZSchText>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="14" Line="70" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="11" Length="5" Line="69" Loc="tests/z/test8.tex" Start="1494"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="12" Line="70" Loc="tests/z/test8.tex"/>
-                                                </Anns>
                                                 <ZExprList>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="70" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="11" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1494"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="70" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="11" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1494"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="16" Line="70" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="15" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1498"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="16" Line="70" Loc="tests/z/test8.tex"/>
+                                                                <LocAnn Col="15" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1498"/>
                                                             </Anns>
                                                             <Word>a</Word>
                                                         </ZRefName>
@@ -1562,13 +1564,13 @@ the operators rather than after).
                                                     </RefExpr>
                                                 </ZExprList>
                                             </TupleExpr>
-                                            <RefExpr Mixfix="false">
+                                            <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="70" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="13" Length="2" Line="69" Loc="tests/z/test8.tex" Start="1496"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="12" Line="70" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="13" Length="2" Line="69" Loc="tests/z/test8.tex" Start="1496"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
                                                 </ZRefName>
@@ -1578,32 +1580,29 @@ the operators rather than after).
                                     </ForallPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="14" Line="71" Loc="tests/z/test8.tex"/>
+                                            <LocAnn Col="11" Length="5" Line="70" Loc="tests/z/test8.tex" Start="1511"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="12" Line="71" Loc="tests/z/test8.tex"/>
-                                            </Anns>
                                             <ZExprList>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="12" Line="71" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="11" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1511"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="71" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="11" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1511"/>
                                                         </Anns>
                                                         <Word>y</Word>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
-                                                <RefExpr Mixfix="false">
+                                                <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="16" Line="71" Loc="tests/z/test8.tex"/>
+                                                        <LocAnn Col="15" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1515"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="16" Line="71" Loc="tests/z/test8.tex"/>
+                                                            <LocAnn Col="15" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1515"/>
                                                         </Anns>
                                                         <Word>b</Word>
                                                     </ZRefName>
@@ -1611,13 +1610,13 @@ the operators rather than after).
                                                 </RefExpr>
                                             </ZExprList>
                                         </TupleExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="71" Loc="tests/z/test8.tex"/>
+                                                <LocAnn Col="13" Length="2" Line="70" Loc="tests/z/test8.tex" Start="1513"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="71" Loc="tests/z/test8.tex"/>
+                                                    <LocAnn Col="13" Length="2" Line="70" Loc="tests/z/test8.tex" Start="1513"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
                                             </ZRefName>
@@ -1633,7 +1632,7 @@ the operators rather than after).
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="72" Loc="tests/z/test8.tex"/>
+                <LocAnn Col="12" Length="1" Line="71" Loc="tests/z/test8.tex" Start="1530"/>
             </Anns>
             <Content>
 </Content>

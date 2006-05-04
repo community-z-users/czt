@@ -2,7 +2,7 @@
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="1" Loc="tests/z/latexMarkupWithoutNl1.tex"/>
+            <LocAnn Col="0" Length="128" Line="0" Loc="tests/z/latexMarkupWithoutNl1.tex" Start="0"/>
         </Anns>
         <Content>This tests whether the latex markup parser handles latex markup directives
 that do not end with a newline but with EOF istead:
@@ -10,6 +10,9 @@ that do not end with a newline but with EOF istead:
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="0" Line="0" Loc="tests/z/latexMarkupWithoutNl1.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>

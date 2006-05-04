@@ -2,7 +2,7 @@
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="2" Loc="tests/z/case.tex"/>
+            <LocAnn Col="0" Length="496" Line="1" Loc="tests/z/case.tex" Start="41"/>
         </Anns>
         <Content>\documentclass{llncs}
 \usepackage{pt}
@@ -23,6 +23,9 @@ Using Name as a set to present players.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="0" Line="0" Loc="tests/z/case.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -30,18 +33,18 @@ Using Name as a set to present players.
         <LatexMarkupPara/>
         <GivenPara>
             <Anns>
-                <LocAnn Col="1" Line="19" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="30" Line="17" Loc="tests/z/case.tex" Start="537"/>
             </Anns>
             <ZDeclName>
                 <Anns>
-                    <LocAnn Col="2" Line="19" Loc="tests/z/case.tex"/>
+                    <LocAnn Col="1" Length="4" Line="18" Loc="tests/z/case.tex" Start="551"/>
                 </Anns>
                 <Word>Name</Word>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="20" Loc="tests/z/case.tex"/>
+                <LocAnn Col="9" Length="83" Line="19" Loc="tests/z/case.tex" Start="567"/>
             </Anns>
             <Content>
 Using an axiomatic definition to limit the number of players in the tournament.
@@ -49,27 +52,27 @@ Using an axiomatic definition to limit the number of players in the tournament.
         </NarrPara>
         <AxPara Box="AxBox">
             <Anns>
-                <LocAnn Col="1" Line="22" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="71" Line="21" Loc="tests/z/case.tex" Start="650"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="11" Line="23" Loc="tests/z/case.tex"/>
+                            <LocAnn Col="10" Length="16" Line="22" Loc="tests/z/case.tex" Start="665"/>
                         </Anns>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="23" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="0" Length="9" Line="22" Loc="tests/z/case.tex" Start="665"/>
                             </Anns>
                             <Word>maxPlayer</Word>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
-                                <LocAnn Col="13" Line="23" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="12" Length="4" Line="22" Loc="tests/z/case.tex" Start="677"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="13" Line="23" Loc="tests/z/case.tex"/>
+                                    <LocAnn Col="12" Length="4" Line="22" Loc="tests/z/case.tex" Start="677"/>
                                 </Anns>
                                 <Word>ℕ</Word>
                             </ZRefName>
@@ -79,20 +82,17 @@ Using an axiomatic definition to limit the number of players in the tournament.
                 </ZDeclList>
                 <MemPred Mixfix="true">
                     <Anns>
-                        <LocAnn Col="18" Line="24" Loc="tests/z/case.tex"/>
+                        <LocAnn Col="7" Length="18" Line="23" Loc="tests/z/case.tex" Start="690"/>
                     </Anns>
                     <TupleExpr>
-                        <Anns>
-                            <LocAnn Col="8" Line="24" Loc="tests/z/case.tex"/>
-                        </Anns>
                         <ZExprList>
                             <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="8" Line="24" Loc="tests/z/case.tex"/>
+                                    <LocAnn Col="7" Length="9" Line="23" Loc="tests/z/case.tex" Start="690"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="8" Line="24" Loc="tests/z/case.tex"/>
+                                        <LocAnn Col="7" Length="9" Line="23" Loc="tests/z/case.tex" Start="690"/>
                                     </Anns>
                                     <Word>maxPlayer</Word>
                                 </ZRefName>
@@ -100,19 +100,23 @@ Using an axiomatic definition to limit the number of players in the tournament.
                             </RefExpr>
                             <NumExpr>
                                 <Anns>
-                                    <LocAnn Col="23" Line="24" Loc="tests/z/case.tex"/>
+                                    <LocAnn Col="22" Length="3" Line="23" Loc="tests/z/case.tex" Start="705"/>
                                 </Anns>
-                                <ZNumeral Value="100"/>
+                                <ZNumeral Value="100">
+                                    <Anns>
+                                        <LocAnn Col="22" Length="3" Line="23" Loc="tests/z/case.tex" Start="705"/>
+                                    </Anns>
+                                </ZNumeral>
                             </NumExpr>
                         </ZExprList>
                     </TupleExpr>
                     <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
-                            <LocAnn Col="8" Line="24" Loc="tests/z/case.tex"/>
+                            <LocAnn Col="17" Length="4" Line="23" Loc="tests/z/case.tex" Start="700"/>
                         </Anns>
                         <ZRefName>
                             <Anns>
-                                <LocAnn Col="8" Line="24" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="17" Length="4" Line="23" Loc="tests/z/case.tex" Start="700"/>
                             </Anns>
                             <Word> _ ≥ _ </Word>
                         </ZRefName>
@@ -123,7 +127,7 @@ Using an axiomatic definition to limit the number of players in the tournament.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="25" Loc="tests/z/case.tex"/>
+                <LocAnn Col="11" Length="160" Line="24" Loc="tests/z/case.tex" Start="721"/>
             </Anns>
             <Content>
 This is the state schema for the tournament. It contains a set of players, with a full function 
@@ -132,14 +136,14 @@ named "score" to calculate the grade of a specific player.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="28" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="150" Line="27" Loc="tests/z/case.tex" Start="881"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="28" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="15" Length="10" Line="27" Loc="tests/z/case.tex" Start="896"/>
                             </Anns>
                             <Word>Tournament</Word>
                         </ZDeclName>
@@ -148,25 +152,25 @@ named "score" to calculate the grade of a specific player.
                                 <ZDeclList>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="9" Line="29" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="8" Length="21" Line="28" Loc="tests/z/case.tex" Start="909"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="29" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="7" Line="28" Loc="tests/z/case.tex" Start="909"/>
                                             </Anns>
                                             <Word>players</Word>
                                         </ZDeclName>
                                         <PowerExpr>
                                             <Anns>
-                                                <LocAnn Col="11" Line="29" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="10" Length="11" Line="28" Loc="tests/z/case.tex" Start="919"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="29" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="17" Length="4" Line="28" Loc="tests/z/case.tex" Start="926"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="18" Line="29" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="17" Length="4" Line="28" Loc="tests/z/case.tex" Start="926"/>
                                                     </Anns>
                                                     <Word>Name</Word>
                                                 </ZRefName>
@@ -176,32 +180,32 @@ named "score" to calculate the grade of a specific player.
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="7" Line="30" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="6" Length="23" Line="29" Loc="tests/z/case.tex" Start="935"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="30" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="5" Line="29" Loc="tests/z/case.tex" Start="935"/>
                                             </Anns>
                                             <Word>score</Word>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="14" Line="30" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="13" Length="15" Line="29" Loc="tests/z/case.tex" Start="943"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="9" Line="30" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="13" Length="5" Line="29" Loc="tests/z/case.tex" Start="948"/>
                                                 </Anns>
                                                 <Word> _ ⇸ _ </Word>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="9" Line="30" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="8" Length="4" Line="29" Loc="tests/z/case.tex" Start="943"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="9" Line="30" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="8" Length="4" Line="29" Loc="tests/z/case.tex" Start="943"/>
                                                         </Anns>
                                                         <Word>Name</Word>
                                                     </ZRefName>
@@ -209,11 +213,11 @@ named "score" to calculate the grade of a specific player.
                                                 </RefExpr>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="20" Line="30" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="19" Length="4" Line="29" Loc="tests/z/case.tex" Start="954"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="20" Line="30" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="19" Length="4" Line="29" Loc="tests/z/case.tex" Start="954"/>
                                                         </Anns>
                                                         <Word>ℤ</Word>
                                                     </ZRefName>
@@ -225,28 +229,25 @@ named "score" to calculate the grade of a specific player.
                                 </ZDeclList>
                                 <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="34" Line="31" Loc="tests/z/case.tex"/>
+                                        <LocAnn Col="33" Length="50" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                     </Anns>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="19" Line="31" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="7" Length="25" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                         </Anns>
                                         <TupleExpr>
-                                            <Anns>
-                                                <LocAnn Col="11" Line="31" Loc="tests/z/case.tex"/>
-                                            </Anns>
                                             <ZExprList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="31" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="7" Length="10" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                                     </Anns>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="8" Line="31" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="7" Length="2" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="8" Line="31" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="7" Length="2" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                                             </Anns>
                                                             <Word># _ </Word>
                                                         </ZRefName>
@@ -254,11 +255,11 @@ named "score" to calculate the grade of a specific player.
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="11" Line="31" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="10" Length="7" Line="30" Loc="tests/z/case.tex" Start="970"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="11" Line="31" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="10" Length="7" Line="30" Loc="tests/z/case.tex" Start="970"/>
                                                             </Anns>
                                                             <Word>players</Word>
                                                         </ZRefName>
@@ -267,11 +268,11 @@ named "score" to calculate the grade of a specific player.
                                                 </ApplExpr>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="24" Line="31" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="23" Length="9" Line="30" Loc="tests/z/case.tex" Start="983"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="24" Line="31" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="23" Length="9" Line="30" Loc="tests/z/case.tex" Start="983"/>
                                                         </Anns>
                                                         <Word>maxPlayer</Word>
                                                     </ZRefName>
@@ -281,11 +282,11 @@ named "score" to calculate the grade of a specific player.
                                         </TupleExpr>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="31" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="18" Length="4" Line="30" Loc="tests/z/case.tex" Start="978"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="11" Line="31" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="18" Length="4" Line="30" Loc="tests/z/case.tex" Start="978"/>
                                                 </Anns>
                                                 <Word> _ ≤ _ </Word>
                                             </ZRefName>
@@ -294,19 +295,19 @@ named "score" to calculate the grade of a specific player.
                                     </MemPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="12" Line="32" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="11" Length="20" Line="31" Loc="tests/z/case.tex" Start="997"/>
                                         </Anns>
                                         <ApplExpr Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="32" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="10" Line="31" Loc="tests/z/case.tex" Start="997"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="32" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="4" Line="31" Loc="tests/z/case.tex" Start="997"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="1" Line="32" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="0" Length="4" Line="31" Loc="tests/z/case.tex" Start="997"/>
                                                     </Anns>
                                                     <Word>dom</Word>
                                                 </ZRefName>
@@ -314,11 +315,11 @@ named "score" to calculate the grade of a specific player.
                                             </RefExpr>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="32" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="5" Length="5" Line="31" Loc="tests/z/case.tex" Start="1002"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="6" Line="32" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="5" Length="5" Line="31" Loc="tests/z/case.tex" Start="1002"/>
                                                     </Anns>
                                                     <Word>score</Word>
                                                 </ZRefName>
@@ -329,11 +330,11 @@ named "score" to calculate the grade of a specific player.
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="14" Line="32" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="13" Length="7" Line="31" Loc="tests/z/case.tex" Start="1010"/>
                                                     </Anns>
                                                     <ZRefName>
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="32" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="13" Length="7" Line="31" Loc="tests/z/case.tex" Start="1010"/>
                                                         </Anns>
                                                         <Word>players</Word>
                                                     </ZRefName>
@@ -351,7 +352,7 @@ named "score" to calculate the grade of a specific player.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="33" Loc="tests/z/case.tex"/>
+                <LocAnn Col="12" Length="44" Line="32" Loc="tests/z/case.tex" Start="1031"/>
             </Anns>
             <Content>
 
@@ -360,14 +361,14 @@ Intially, the set of players is empty.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="36" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="84" Line="35" Loc="tests/z/case.tex" Start="1075"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="36" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="15" Length="14" Line="35" Loc="tests/z/case.tex" Start="1090"/>
                             </Anns>
                             <Word>TournamentInit</Word>
                         </ZDeclName>
@@ -377,11 +378,11 @@ Intially, the set of players is empty.
                                     <InclDecl>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="37" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="10" Line="36" Loc="tests/z/case.tex" Start="1107"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="37" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="10" Line="36" Loc="tests/z/case.tex" Start="1107"/>
                                                 </Anns>
                                                 <Word>Tournament</Word>
                                             </ZRefName>
@@ -391,15 +392,15 @@ Intially, the set of players is empty.
                                 </ZDeclList>
                                 <MemPred Mixfix="true">
                                     <Anns>
-                                        <LocAnn Col="16" Line="38" Loc="tests/z/case.tex"/>
+                                        <LocAnn Col="15" Length="19" Line="37" Loc="tests/z/case.tex" Start="1126"/>
                                     </Anns>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="8" Line="38" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="7" Length="7" Line="37" Loc="tests/z/case.tex" Start="1126"/>
                                         </Anns>
                                         <ZRefName>
                                             <Anns>
-                                                <LocAnn Col="8" Line="38" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="7" Length="7" Line="37" Loc="tests/z/case.tex" Start="1126"/>
                                             </Anns>
                                             <Word>players</Word>
                                         </ZRefName>
@@ -409,11 +410,11 @@ Intially, the set of players is empty.
                                         <ZExprList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="38" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="17" Length="9" Line="37" Loc="tests/z/case.tex" Start="1136"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="18" Line="38" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="17" Length="9" Line="37" Loc="tests/z/case.tex" Start="1136"/>
                                                     </Anns>
                                                     <Word>∅</Word>
                                                 </ZRefName>
@@ -430,7 +431,7 @@ Intially, the set of players is empty.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="39" Loc="tests/z/case.tex"/>
+                <LocAnn Col="12" Length="72" Line="38" Loc="tests/z/case.tex" Start="1159"/>
             </Anns>
             <Content>
 
@@ -439,14 +440,14 @@ The "Newplayer" schema can add a new player to the set of players.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="42" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="176" Line="41" Loc="tests/z/case.tex" Start="1231"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="42" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="15" Length="9" Line="41" Loc="tests/z/case.tex" Start="1246"/>
                             </Anns>
                             <Word>NewPlayer</Word>
                         </ZDeclName>
@@ -456,11 +457,11 @@ The "Newplayer" schema can add a new player to the set of players.
                                     <InclDecl>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="43" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="17" Line="42" Loc="tests/z/case.tex" Start="1258"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="43" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="17" Line="42" Loc="tests/z/case.tex" Start="1258"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
                                             </ZRefName>
@@ -469,22 +470,22 @@ The "Newplayer" schema can add a new player to the set of players.
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="4" Line="44" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="3" Length="9" Line="43" Loc="tests/z/case.tex" Start="1280"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="44" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="2" Line="43" Loc="tests/z/case.tex" Start="1280"/>
                                             </Anns>
                                             <Word>p</Word>
                                             <InStroke/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="44" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="43" Loc="tests/z/case.tex" Start="1285"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="44" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="43" Loc="tests/z/case.tex" Start="1285"/>
                                                 </Anns>
                                                 <Word>Name</Word>
                                             </ZRefName>
@@ -494,28 +495,25 @@ The "Newplayer" schema can add a new player to the set of players.
                                 </ZDeclList>
                                 <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="32" Line="46" Loc="tests/z/case.tex"/>
+                                        <LocAnn Col="31" Length="95" Line="45" Loc="tests/z/case.tex" Start="1298"/>
                                     </Anns>
                                     <AndPred And="NL">
                                         <Anns>
-                                            <LocAnn Col="26" Line="45" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="25" Length="52" Line="44" Loc="tests/z/case.tex" Start="1298"/>
                                         </Anns>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="11" Line="45" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="7" Length="17" Line="44" Loc="tests/z/case.tex" Start="1298"/>
                                             </Anns>
                                             <TupleExpr>
-                                                <Anns>
-                                                    <LocAnn Col="8" Line="45" Loc="tests/z/case.tex"/>
-                                                </Anns>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="8" Line="45" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="7" Length="2" Line="44" Loc="tests/z/case.tex" Start="1298"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="8" Line="45" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="7" Length="2" Line="44" Loc="tests/z/case.tex" Start="1298"/>
                                                             </Anns>
                                                             <Word>p</Word>
                                                             <InStroke/>
@@ -524,11 +522,11 @@ The "Newplayer" schema can add a new player to the set of players.
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="18" Line="45" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="17" Length="7" Line="44" Loc="tests/z/case.tex" Start="1308"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="18" Line="45" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="17" Length="7" Line="44" Loc="tests/z/case.tex" Start="1308"/>
                                                             </Anns>
                                                             <Word>players</Word>
                                                         </ZRefName>
@@ -538,11 +536,11 @@ The "Newplayer" schema can add a new player to the set of players.
                                             </TupleExpr>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="45" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="10" Length="6" Line="44" Loc="tests/z/case.tex" Start="1301"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="45" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="10" Length="6" Line="44" Loc="tests/z/case.tex" Start="1301"/>
                                                     </Anns>
                                                     <Word> _ ∉ _ </Word>
                                                 </ZRefName>
@@ -551,15 +549,15 @@ The "Newplayer" schema can add a new player to the set of players.
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="10" Line="46" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="9" Length="30" Line="45" Loc="tests/z/case.tex" Start="1320"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="46" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="8" Line="45" Loc="tests/z/case.tex" Start="1320"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="1" Line="46" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="0" Length="8" Line="45" Loc="tests/z/case.tex" Start="1320"/>
                                                     </Anns>
                                                     <Word>players</Word>
                                                     <NextStroke/>
@@ -570,32 +568,29 @@ The "Newplayer" schema can add a new player to the set of players.
                                                 <ZExprList>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Col="20" Line="46" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="19" Length="19" Line="45" Loc="tests/z/case.tex" Start="1331"/>
                                                         </Anns>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="46" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="19" Length="4" Line="45" Loc="tests/z/case.tex" Start="1339"/>
                                                             </Anns>
                                                             <ZRefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="46" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="19" Length="4" Line="45" Loc="tests/z/case.tex" Start="1339"/>
                                                                 </Anns>
                                                                 <Word> _ ∪ _ </Word>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <TupleExpr>
-                                                            <Anns>
-                                                                <LocAnn Col="12" Line="46" Loc="tests/z/case.tex"/>
-                                                            </Anns>
                                                             <ZExprList>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="46" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="11" Length="7" Line="45" Loc="tests/z/case.tex" Start="1331"/>
                                                                     </Anns>
                                                                     <ZRefName>
                                                                         <Anns>
-                                                                            <LocAnn Col="12" Line="46" Loc="tests/z/case.tex"/>
+                                                                            <LocAnn Col="11" Length="7" Line="45" Loc="tests/z/case.tex" Start="1331"/>
                                                                         </Anns>
                                                                         <Word>players</Word>
                                                                     </ZRefName>
@@ -603,16 +598,16 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                 </RefExpr>
                                                                 <SetExpr>
                                                                     <Anns>
-                                                                        <LocAnn Col="25" Line="46" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="24" Length="6" Line="45" Loc="tests/z/case.tex" Start="1344"/>
                                                                     </Anns>
                                                                     <ZExprList>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
-                                                                                <LocAnn Col="27" Line="46" Loc="tests/z/case.tex"/>
+                                                                                <LocAnn Col="26" Length="2" Line="45" Loc="tests/z/case.tex" Start="1346"/>
                                                                             </Anns>
                                                                             <ZRefName>
                                                                                 <Anns>
-                                                                                    <LocAnn Col="27" Line="46" Loc="tests/z/case.tex"/>
+                                                                                    <LocAnn Col="26" Length="2" Line="45" Loc="tests/z/case.tex" Start="1346"/>
                                                                                 </Anns>
                                                                                 <Word>p</Word>
                                                                                 <InStroke/>
@@ -630,15 +625,15 @@ The "Newplayer" schema can add a new player to the set of players.
                                     </AndPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="8" Line="47" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="7" Length="38" Line="46" Loc="tests/z/case.tex" Start="1355"/>
                                         </Anns>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="47" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="6" Line="46" Loc="tests/z/case.tex" Start="1355"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="47" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="6" Line="46" Loc="tests/z/case.tex" Start="1355"/>
                                                 </Anns>
                                                 <Word>score</Word>
                                                 <NextStroke/>
@@ -649,32 +644,29 @@ The "Newplayer" schema can add a new player to the set of players.
                                             <ZExprList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="16" Line="47" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="15" Length="29" Line="46" Loc="tests/z/case.tex" Start="1364"/>
                                                     </Anns>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="47" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="15" Length="4" Line="46" Loc="tests/z/case.tex" Start="1370"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="47" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="15" Length="4" Line="46" Loc="tests/z/case.tex" Start="1370"/>
                                                             </Anns>
                                                             <Word> _ ∪ _ </Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="10" Line="47" Loc="tests/z/case.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="10" Line="47" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="9" Length="5" Line="46" Loc="tests/z/case.tex" Start="1364"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="10" Line="47" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="9" Length="5" Line="46" Loc="tests/z/case.tex" Start="1364"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
                                                                 </ZRefName>
@@ -682,37 +674,34 @@ The "Newplayer" schema can add a new player to the set of players.
                                                             </RefExpr>
                                                             <SetExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="21" Line="47" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="20" Length="18" Line="46" Loc="tests/z/case.tex" Start="1375"/>
                                                                 </Anns>
                                                                 <ZExprList>
                                                                     <ApplExpr Mixfix="true">
                                                                         <Anns>
-                                                                            <LocAnn Col="27" Line="47" Loc="tests/z/case.tex"/>
+                                                                            <LocAnn Col="26" Length="12" Line="46" Loc="tests/z/case.tex" Start="1378"/>
                                                                         </Anns>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
-                                                                                <LocAnn Col="24" Line="47" Loc="tests/z/case.tex"/>
+                                                                                <LocAnn Col="26" Length="7" Line="46" Loc="tests/z/case.tex" Start="1381"/>
                                                                             </Anns>
                                                                             <ZRefName>
                                                                                 <Anns>
-                                                                                    <LocAnn Col="24" Line="47" Loc="tests/z/case.tex"/>
+                                                                                    <LocAnn Col="26" Length="7" Line="46" Loc="tests/z/case.tex" Start="1381"/>
                                                                                 </Anns>
                                                                                 <Word> _ ↦ _ </Word>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                         <TupleExpr>
-                                                                            <Anns>
-                                                                                <LocAnn Col="24" Line="47" Loc="tests/z/case.tex"/>
-                                                                            </Anns>
                                                                             <ZExprList>
                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                     <Anns>
-                                                                                        <LocAnn Col="24" Line="47" Loc="tests/z/case.tex"/>
+                                                                                        <LocAnn Col="23" Length="2" Line="46" Loc="tests/z/case.tex" Start="1378"/>
                                                                                     </Anns>
                                                                                     <ZRefName>
                                                                                         <Anns>
-                                                                                            <LocAnn Col="24" Line="47" Loc="tests/z/case.tex"/>
+                                                                                            <LocAnn Col="23" Length="2" Line="46" Loc="tests/z/case.tex" Start="1378"/>
                                                                                         </Anns>
                                                                                         <Word>p</Word>
                                                                                         <InStroke/>
@@ -721,9 +710,13 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                                 </RefExpr>
                                                                                 <NumExpr>
                                                                                     <Anns>
-                                                                                        <LocAnn Col="35" Line="47" Loc="tests/z/case.tex"/>
+                                                                                        <LocAnn Col="34" Length="1" Line="46" Loc="tests/z/case.tex" Start="1389"/>
                                                                                     </Anns>
-                                                                                    <ZNumeral Value="0"/>
+                                                                                    <ZNumeral Value="0">
+                                                                                        <Anns>
+                                                                                            <LocAnn Col="34" Length="1" Line="46" Loc="tests/z/case.tex" Start="1389"/>
+                                                                                        </Anns>
+                                                                                    </ZNumeral>
                                                                                 </NumExpr>
                                                                             </ZExprList>
                                                                         </TupleExpr>
@@ -745,7 +738,7 @@ The "Newplayer" schema can add a new player to the set of players.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="48" Loc="tests/z/case.tex"/>
+                <LocAnn Col="12" Length="77" Line="47" Loc="tests/z/case.tex" Start="1407"/>
             </Anns>
             <Content>
 
@@ -754,14 +747,14 @@ The "PlayerResigns" schema can resign a player from the set of players.
         </NarrPara>
         <AxPara Box="SchBox">
             <Anns>
-                <LocAnn Col="1" Line="51" Loc="tests/z/case.tex"/>
+                <LocAnn Col="0" Length="163" Line="50" Loc="tests/z/case.tex" Start="1484"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="51" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="15" Length="13" Line="50" Loc="tests/z/case.tex" Start="1499"/>
                             </Anns>
                             <Word>PlayerResigns</Word>
                         </ZDeclName>
@@ -771,11 +764,11 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                     <InclDecl>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="52" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="17" Line="51" Loc="tests/z/case.tex" Start="1515"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="52" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="17" Line="51" Loc="tests/z/case.tex" Start="1515"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
                                             </ZRefName>
@@ -784,22 +777,22 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="4" Line="53" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="3" Length="9" Line="52" Loc="tests/z/case.tex" Start="1537"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="53" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="2" Line="52" Loc="tests/z/case.tex" Start="1537"/>
                                             </Anns>
                                             <Word>p</Word>
                                             <InStroke/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="53" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="52" Loc="tests/z/case.tex" Start="1542"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="53" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="52" Loc="tests/z/case.tex" Start="1542"/>
                                                 </Anns>
                                                 <Word>Name</Word>
                                             </ZRefName>
@@ -809,23 +802,23 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                 </ZDeclList>
                                 <AndPred And="NL">
                                     <Anns>
-                                        <LocAnn Col="29" Line="55" Loc="tests/z/case.tex"/>
+                                        <LocAnn Col="28" Length="78" Line="54" Loc="tests/z/case.tex" Start="1555"/>
                                     </Anns>
                                     <AndPred And="NL">
                                         <Anns>
-                                            <LocAnn Col="22" Line="54" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="21" Length="45" Line="53" Loc="tests/z/case.tex" Start="1555"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="54" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="10" Length="14" Line="53" Loc="tests/z/case.tex" Start="1555"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="54" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="7" Length="2" Line="53" Loc="tests/z/case.tex" Start="1555"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="54" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="7" Length="2" Line="53" Loc="tests/z/case.tex" Start="1555"/>
                                                     </Anns>
                                                     <Word>p</Word>
                                                     <InStroke/>
@@ -834,11 +827,11 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                             </RefExpr>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="54" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="14" Length="7" Line="53" Loc="tests/z/case.tex" Start="1562"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="54" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="14" Length="7" Line="53" Loc="tests/z/case.tex" Start="1562"/>
                                                     </Anns>
                                                     <Word>players</Word>
                                                 </ZRefName>
@@ -847,15 +840,15 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="10" Line="55" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="9" Length="27" Line="54" Loc="tests/z/case.tex" Start="1573"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="55" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="8" Line="54" Loc="tests/z/case.tex" Start="1573"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="1" Line="55" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="0" Length="8" Line="54" Loc="tests/z/case.tex" Start="1573"/>
                                                     </Anns>
                                                     <Word>players</Word>
                                                     <NextStroke/>
@@ -866,32 +859,29 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                 <ZExprList>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
-                                                            <LocAnn Col="20" Line="55" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="19" Length="16" Line="54" Loc="tests/z/case.tex" Start="1584"/>
                                                         </Anns>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="55" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="19" Length="1" Line="54" Loc="tests/z/case.tex" Start="1592"/>
                                                             </Anns>
                                                             <ZRefName>
                                                                 <Anns>
-                                                                    <LocAnn Col="12" Line="55" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="19" Length="1" Line="54" Loc="tests/z/case.tex" Start="1592"/>
                                                                 </Anns>
                                                                 <Word> _ − _ </Word>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <TupleExpr>
-                                                            <Anns>
-                                                                <LocAnn Col="12" Line="55" Loc="tests/z/case.tex"/>
-                                                            </Anns>
                                                             <ZExprList>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
-                                                                        <LocAnn Col="12" Line="55" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="11" Length="7" Line="54" Loc="tests/z/case.tex" Start="1584"/>
                                                                     </Anns>
                                                                     <ZRefName>
                                                                         <Anns>
-                                                                            <LocAnn Col="12" Line="55" Loc="tests/z/case.tex"/>
+                                                                            <LocAnn Col="11" Length="7" Line="54" Loc="tests/z/case.tex" Start="1584"/>
                                                                         </Anns>
                                                                         <Word>players</Word>
                                                                     </ZRefName>
@@ -899,16 +889,16 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                 </RefExpr>
                                                                 <SetExpr>
                                                                     <Anns>
-                                                                        <LocAnn Col="22" Line="55" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="21" Length="6" Line="54" Loc="tests/z/case.tex" Start="1594"/>
                                                                     </Anns>
                                                                     <ZExprList>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
-                                                                                <LocAnn Col="24" Line="55" Loc="tests/z/case.tex"/>
+                                                                                <LocAnn Col="23" Length="2" Line="54" Loc="tests/z/case.tex" Start="1596"/>
                                                                             </Anns>
                                                                             <ZRefName>
                                                                                 <Anns>
-                                                                                    <LocAnn Col="24" Line="55" Loc="tests/z/case.tex"/>
+                                                                                    <LocAnn Col="23" Length="2" Line="54" Loc="tests/z/case.tex" Start="1596"/>
                                                                                 </Anns>
                                                                                 <Word>p</Word>
                                                                                 <InStroke/>
@@ -926,15 +916,15 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                     </AndPred>
                                     <MemPred Mixfix="true">
                                         <Anns>
-                                            <LocAnn Col="8" Line="56" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="7" Length="28" Line="55" Loc="tests/z/case.tex" Start="1605"/>
                                         </Anns>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="56" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="6" Line="55" Loc="tests/z/case.tex" Start="1605"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="56" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="6" Line="55" Loc="tests/z/case.tex" Start="1605"/>
                                                 </Anns>
                                                 <Word>score</Word>
                                                 <NextStroke/>
@@ -945,37 +935,34 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                             <ZExprList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
-                                                        <LocAnn Col="17" Line="56" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="16" Length="19" Line="55" Loc="tests/z/case.tex" Start="1614"/>
                                                     </Anns>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="14" Line="56" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="16" Length="6" Line="55" Loc="tests/z/case.tex" Start="1621"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="14" Line="56" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="16" Length="6" Line="55" Loc="tests/z/case.tex" Start="1621"/>
                                                             </Anns>
                                                             <Word> _ ⩤ _ </Word>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <TupleExpr>
-                                                        <Anns>
-                                                            <LocAnn Col="14" Line="56" Loc="tests/z/case.tex"/>
-                                                        </Anns>
                                                         <ZExprList>
                                                             <SetExpr>
                                                                 <Anns>
-                                                                    <LocAnn Col="10" Line="56" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="9" Length="6" Line="55" Loc="tests/z/case.tex" Start="1614"/>
                                                                 </Anns>
                                                                 <ZExprList>
                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
-                                                                            <LocAnn Col="12" Line="56" Loc="tests/z/case.tex"/>
+                                                                            <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/case.tex" Start="1616"/>
                                                                         </Anns>
                                                                         <ZRefName>
                                                                             <Anns>
-                                                                                <LocAnn Col="12" Line="56" Loc="tests/z/case.tex"/>
+                                                                                <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/case.tex" Start="1616"/>
                                                                             </Anns>
                                                                             <Word>p</Word>
                                                                             <InStroke/>
@@ -986,11 +973,11 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                             </SetExpr>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="24" Line="56" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="23" Length="5" Line="55" Loc="tests/z/case.tex" Start="1628"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="24" Line="56" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="23" Length="5" Line="55" Loc="tests/z/case.tex" Start="1628"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
                                                                 </ZRefName>
@@ -1011,7 +998,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="57" Loc="tests/z/case.tex"/>
+                <LocAnn Col="12" Length="97" Line="56" Loc="tests/z/case.tex" Start="1647"/>
             </Anns>
             <Content>
 
@@ -1019,12 +1006,15 @@ The operation schema "PlayHole" can update the player's score based on the shots
 </Content>
         </NarrPara>
         <AxPara Box="SchBox">
+            <Anns>
+                <LocAnn Col="0" Length="197" Line="59" Loc="tests/z/case.tex" Start="1744"/>
+            </Anns>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="16" Line="60" Loc="tests/z/case.tex"/>
+                                <LocAnn Col="15" Length="8" Line="59" Loc="tests/z/case.tex" Start="1759"/>
                             </Anns>
                             <Word>PlayHole</Word>
                         </ZDeclName>
@@ -1034,11 +1024,11 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                     <InclDecl>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="61" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="17" Line="60" Loc="tests/z/case.tex" Start="1770"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="61" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="17" Line="60" Loc="tests/z/case.tex" Start="1770"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
                                             </ZRefName>
@@ -1047,22 +1037,22 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                     </InclDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="4" Line="62" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="3" Length="9" Line="61" Loc="tests/z/case.tex" Start="1792"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="62" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="2" Line="61" Loc="tests/z/case.tex" Start="1792"/>
                                             </Anns>
                                             <Word>p</Word>
                                             <InStroke/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="6" Line="62" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="5" Length="4" Line="61" Loc="tests/z/case.tex" Start="1797"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="6" Line="62" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="5" Length="4" Line="61" Loc="tests/z/case.tex" Start="1797"/>
                                                 </Anns>
                                                 <Word>Name</Word>
                                             </ZRefName>
@@ -1071,22 +1061,22 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                     </VarDecl>
                                     <VarDecl>
                                         <Anns>
-                                            <LocAnn Col="8" Line="63" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="7" Length="13" Line="62" Loc="tests/z/case.tex" Start="1806"/>
                                         </Anns>
                                         <ZDeclName>
                                             <Anns>
-                                                <LocAnn Col="1" Line="63" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="6" Line="62" Loc="tests/z/case.tex" Start="1806"/>
                                             </Anns>
                                             <Word>shots</Word>
                                             <InStroke/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="10" Line="63" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="9" Length="4" Line="62" Loc="tests/z/case.tex" Start="1815"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="10" Line="63" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="9" Length="4" Line="62" Loc="tests/z/case.tex" Start="1815"/>
                                                 </Anns>
                                                 <Word>ℤ</Word>
                                             </ZRefName>
@@ -1095,21 +1085,24 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                     </VarDecl>
                                 </ZDeclList>
                                 <AndPred And="NL">
+                                    <Anns>
+                                        <LocAnn Col="19" Length="99" Line="64" Loc="tests/z/case.tex" Start="1828"/>
+                                    </Anns>
                                     <AndPred And="NL">
                                         <Anns>
-                                            <LocAnn Col="23" Line="64" Loc="tests/z/case.tex"/>
+                                            <LocAnn Col="22" Length="37" Line="63" Loc="tests/z/case.tex" Start="1828"/>
                                         </Anns>
                                         <MemPred Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="11" Line="64" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="10" Length="14" Line="63" Loc="tests/z/case.tex" Start="1828"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="8" Line="64" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="7" Length="2" Line="63" Loc="tests/z/case.tex" Start="1828"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="8" Line="64" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="7" Length="2" Line="63" Loc="tests/z/case.tex" Start="1828"/>
                                                     </Anns>
                                                     <Word>p</Word>
                                                     <InStroke/>
@@ -1118,11 +1111,11 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                             </RefExpr>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="15" Line="64" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="14" Length="7" Line="63" Loc="tests/z/case.tex" Start="1835"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="15" Line="64" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="14" Length="7" Line="63" Loc="tests/z/case.tex" Start="1835"/>
                                                     </Anns>
                                                     <Word>players</Word>
                                                 </ZRefName>
@@ -1131,15 +1124,15 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                         </MemPred>
                                         <MemPred Mixfix="true">
                                             <Anns>
-                                                <LocAnn Col="10" Line="65" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="9" Length="18" Line="64" Loc="tests/z/case.tex" Start="1847"/>
                                             </Anns>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="65" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="8" Line="64" Loc="tests/z/case.tex" Start="1847"/>
                                                 </Anns>
                                                 <ZRefName>
                                                     <Anns>
-                                                        <LocAnn Col="1" Line="65" Loc="tests/z/case.tex"/>
+                                                        <LocAnn Col="0" Length="8" Line="64" Loc="tests/z/case.tex" Start="1847"/>
                                                     </Anns>
                                                     <Word>players</Word>
                                                     <NextStroke/>
@@ -1150,11 +1143,11 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="12" Line="65" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="11" Length="7" Line="64" Loc="tests/z/case.tex" Start="1858"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="12" Line="65" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="11" Length="7" Line="64" Loc="tests/z/case.tex" Start="1858"/>
                                                             </Anns>
                                                             <Word>players</Word>
                                                         </ZRefName>
@@ -1165,13 +1158,16 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                         </MemPred>
                                     </AndPred>
                                     <MemPred Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="7" Length="57" Line="65" Loc="tests/z/case.tex" Start="1870"/>
+                                        </Anns>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="1" Line="66" Loc="tests/z/case.tex"/>
+                                                <LocAnn Col="0" Length="6" Line="65" Loc="tests/z/case.tex" Start="1870"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="1" Line="66" Loc="tests/z/case.tex"/>
+                                                    <LocAnn Col="0" Length="6" Line="65" Loc="tests/z/case.tex" Start="1870"/>
                                                 </Anns>
                                                 <Word>score</Word>
                                                 <NextStroke/>
@@ -1181,13 +1177,16 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                         <SetExpr>
                                             <ZExprList>
                                                 <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Col="15" Length="48" Line="65" Loc="tests/z/case.tex" Start="1879"/>
+                                                    </Anns>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="10" Line="66" Loc="tests/z/case.tex"/>
+                                                            <LocAnn Col="15" Length="6" Line="65" Loc="tests/z/case.tex" Start="1885"/>
                                                         </Anns>
                                                         <ZRefName>
                                                             <Anns>
-                                                                <LocAnn Col="10" Line="66" Loc="tests/z/case.tex"/>
+                                                                <LocAnn Col="15" Length="6" Line="65" Loc="tests/z/case.tex" Start="1885"/>
                                                             </Anns>
                                                             <Word> _ ⊕ _ </Word>
                                                         </ZRefName>
@@ -1197,23 +1196,26 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                         <ZExprList>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
-                                                                    <LocAnn Col="10" Line="66" Loc="tests/z/case.tex"/>
+                                                                    <LocAnn Col="9" Length="5" Line="65" Loc="tests/z/case.tex" Start="1879"/>
                                                                 </Anns>
                                                                 <ZRefName>
                                                                     <Anns>
-                                                                        <LocAnn Col="10" Line="66" Loc="tests/z/case.tex"/>
+                                                                        <LocAnn Col="9" Length="5" Line="65" Loc="tests/z/case.tex" Start="1879"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                             <SetExpr>
+                                                                <Anns>
+                                                                    <LocAnn Col="22" Length="35" Line="65" Loc="tests/z/case.tex" Start="1892"/>
+                                                                </Anns>
                                                                 <ZExprList>
                                                                     <ApplExpr Mixfix="true">
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <ZRefName>
                                                                                 <Anns>
-                                                                                    <LocAnn Col="26" Line="66" Loc="tests/z/case.tex"/>
+                                                                                    <LocAnn Col="28" Length="7" Line="65" Loc="tests/z/case.tex" Start="1898"/>
                                                                                 </Anns>
                                                                                 <Word> _ ↦ _ </Word>
                                                                             </ZRefName>
@@ -1223,11 +1225,11 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                             <ZExprList>
                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                     <Anns>
-                                                                                        <LocAnn Col="26" Line="66" Loc="tests/z/case.tex"/>
+                                                                                        <LocAnn Col="25" Length="2" Line="65" Loc="tests/z/case.tex" Start="1895"/>
                                                                                     </Anns>
                                                                                     <ZRefName>
                                                                                         <Anns>
-                                                                                            <LocAnn Col="26" Line="66" Loc="tests/z/case.tex"/>
+                                                                                            <LocAnn Col="25" Length="2" Line="65" Loc="tests/z/case.tex" Start="1895"/>
                                                                                         </Anns>
                                                                                         <Word>p</Word>
                                                                                         <InStroke/>
@@ -1238,7 +1240,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                                         <ZRefName>
                                                                                             <Anns>
-                                                                                                <LocAnn Col="45" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                <LocAnn Col="46" Length="1" Line="65" Loc="tests/z/case.tex" Start="1916"/>
                                                                                             </Anns>
                                                                                             <Word> _ + _ </Word>
                                                                                         </ZRefName>
@@ -1248,15 +1250,15 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                         <ZExprList>
                                                                                             <ApplExpr Mixfix="false">
                                                                                                 <Anns>
-                                                                                                    <LocAnn Col="45" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                    <LocAnn Col="36" Length="8" Line="65" Loc="tests/z/case.tex" Start="1906"/>
                                                                                                 </Anns>
                                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                                     <Anns>
-                                                                                                        <LocAnn Col="37" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                        <LocAnn Col="36" Length="5" Line="65" Loc="tests/z/case.tex" Start="1906"/>
                                                                                                     </Anns>
                                                                                                     <ZRefName>
                                                                                                         <Anns>
-                                                                                                            <LocAnn Col="37" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                            <LocAnn Col="36" Length="5" Line="65" Loc="tests/z/case.tex" Start="1906"/>
                                                                                                         </Anns>
                                                                                                         <Word>score</Word>
                                                                                                     </ZRefName>
@@ -1264,12 +1266,16 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                                 </RefExpr>
                                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                                     <Anns>
-                                                                                                        <LocAnn Col="43" Line="66" Loc="tests/z/case.tex"/>
-                                                                                                        <ParenAnn/>
+                                                                                                        <LocAnn Col="42" Length="2" Line="65" Loc="tests/z/case.tex" Start="1912"/>
+                                                                                                        <ParenAnn>
+                                                                                                            <Anns>
+                                                                                                                <LocAnn Col="41" Length="4" Line="65" Loc="tests/z/case.tex" Start="1911"/>
+                                                                                                            </Anns>
+                                                                                                        </ParenAnn>
                                                                                                     </Anns>
                                                                                                     <ZRefName>
                                                                                                         <Anns>
-                                                                                                            <LocAnn Col="43" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                            <LocAnn Col="42" Length="2" Line="65" Loc="tests/z/case.tex" Start="1912"/>
                                                                                                         </Anns>
                                                                                                         <Word>p</Word>
                                                                                                         <InStroke/>
@@ -1279,11 +1285,11 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                             </ApplExpr>
                                                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                                                 <Anns>
-                                                                                                    <LocAnn Col="49" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                    <LocAnn Col="48" Length="6" Line="65" Loc="tests/z/case.tex" Start="1918"/>
                                                                                                 </Anns>
                                                                                                 <ZRefName>
                                                                                                     <Anns>
-                                                                                                        <LocAnn Col="49" Line="66" Loc="tests/z/case.tex"/>
+                                                                                                        <LocAnn Col="48" Length="6" Line="65" Loc="tests/z/case.tex" Start="1918"/>
                                                                                                     </Anns>
                                                                                                     <Word>shots</Word>
                                                                                                     <InStroke/>
@@ -1313,7 +1319,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="13" Line="67" Loc="tests/z/case.tex"/>
+                <LocAnn Col="12" Length="18" Line="66" Loc="tests/z/case.tex" Start="1941"/>
             </Anns>
             <Content>
 \end{document}

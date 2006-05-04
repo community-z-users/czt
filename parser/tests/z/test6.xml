@@ -2,7 +2,7 @@
 <Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Line="2" Loc="tests/z/test6.tex"/>
+            <LocAnn Col="0" Length="189" Line="1" Loc="tests/z/test6.tex" Start="36"/>
         </Anns>
         <Content>\documentclass{llncs}
 \usepackage{pt}
@@ -17,6 +17,9 @@
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="0" Line="0" Loc="tests/z/test6.tex"/>
+        </Anns>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
@@ -24,48 +27,48 @@
         <LatexMarkupPara/>
         <GivenPara>
             <Anns>
-                <LocAnn Col="1" Line="13" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="30" Line="11" Loc="tests/z/test6.tex" Start="225"/>
             </Anns>
             <ZDeclName>
                 <Anns>
-                    <LocAnn Col="2" Line="13" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="1" Length="4" Line="12" Loc="tests/z/test6.tex" Start="239"/>
                 </Anns>
                 <Word>NAME</Word>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="14" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="2" Line="13" Loc="tests/z/test6.tex" Start="255"/>
             </Anns>
             <Content>
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="1" Line="16" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="34" Line="14" Loc="tests/z/test6.tex" Start="257"/>
             </Anns>
             <ZSchText>
                 <Anns>
-                    <LocAnn Col="1" Line="16" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="0" Length="10" Line="15" Loc="tests/z/test6.tex" Start="270"/>
                 </Anns>
                 <ZDeclList>
                     <ConstDecl>
                         <Anns>
-                            <LocAnn Col="4" Line="16" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="3" Length="10" Line="15" Loc="tests/z/test6.tex" Start="270"/>
                         </Anns>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="16" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="0" Length="2" Line="15" Loc="tests/z/test6.tex" Start="270"/>
                             </Anns>
                             <Word>ID</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
-                                <LocAnn Col="7" Line="16" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="6" Length="4" Line="15" Loc="tests/z/test6.tex" Start="276"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="7" Line="16" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="6" Length="4" Line="15" Loc="tests/z/test6.tex" Start="276"/>
                                 </Anns>
                                 <Word>ℕ</Word>
                             </ZRefName>
@@ -77,54 +80,54 @@
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="17" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="2" Line="16" Loc="tests/z/test6.tex" Start="291"/>
             </Anns>
             <Content>
 </Content>
         </NarrPara>
         <FreePara>
             <Anns>
-                <LocAnn Col="49" Line="19" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="80" Line="17" Loc="tests/z/test6.tex" Start="293"/>
             </Anns>
             <Freetype>
                 <Anns>
-                    <LocAnn Col="12" Line="19" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="11" Length="56" Line="18" Loc="tests/z/test6.tex" Start="306"/>
                 </Anns>
                 <ZDeclName>
                     <Anns>
-                        <LocAnn Col="1" Line="19" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="0" Length="10" Line="18" Loc="tests/z/test6.tex" Start="306"/>
                     </Anns>
                     <Word>DEPARTMENT</Word>
                 </ZDeclName>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="16" Line="19" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="16" Line="19" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
                         </Anns>
                         <Word>administration</Word>
                     </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="33" Line="19" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="33" Line="19" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
                         </Anns>
                         <Word>manufacturing</Word>
                     </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="49" Line="19" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="49" Line="19" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
                         </Anns>
                         <Word>research</Word>
                     </ZDeclName>
@@ -133,66 +136,66 @@
         </FreePara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="20" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="2" Line="19" Loc="tests/z/test6.tex" Start="373"/>
             </Anns>
             <Content>
 </Content>
         </NarrPara>
         <AxPara Box="OmitBox">
             <Anns>
-                <LocAnn Col="1" Line="22" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="68" Line="20" Loc="tests/z/test6.tex" Start="375"/>
             </Anns>
             <ZSchText>
                 <Anns>
-                    <LocAnn Col="1" Line="22" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="0" Length="44" Line="21" Loc="tests/z/test6.tex" Start="388"/>
                 </Anns>
                 <ZDeclList>
                     <ConstDecl>
                         <Anns>
-                            <LocAnn Col="10" Line="22" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="9" Length="44" Line="21" Loc="tests/z/test6.tex" Start="388"/>
                         </Anns>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="22" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="0" Length="8" Line="21" Loc="tests/z/test6.tex" Start="388"/>
                             </Anns>
                             <Word>EMPLOYEE</Word>
                         </ZDeclName>
                         <ProdExpr>
                             <Anns>
-                                <LocAnn Col="35" Line="22" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="34" Length="32" Line="21" Loc="tests/z/test6.tex" Start="400"/>
                             </Anns>
                             <ZExprList>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="13" Line="22" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="12" Length="2" Line="21" Loc="tests/z/test6.tex" Start="400"/>
                                     </Anns>
                                     <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="13" Line="22" Loc="tests/z/test6.tex"/>
+                                            <LocAnn Col="12" Length="2" Line="21" Loc="tests/z/test6.tex" Start="400"/>
                                         </Anns>
                                         <Word>ID</Word>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="23" Line="22" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="22" Length="4" Line="21" Loc="tests/z/test6.tex" Start="410"/>
                                     </Anns>
                                     <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="23" Line="22" Loc="tests/z/test6.tex"/>
+                                            <LocAnn Col="22" Length="4" Line="21" Loc="tests/z/test6.tex" Start="410"/>
                                         </Anns>
                                         <Word>NAME</Word>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
-                                <RefExpr Mixfix="false">
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
-                                        <LocAnn Col="35" Line="22" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="34" Length="10" Line="21" Loc="tests/z/test6.tex" Start="422"/>
                                     </Anns>
                                     <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="35" Line="22" Loc="tests/z/test6.tex"/>
+                                            <LocAnn Col="34" Length="10" Line="21" Loc="tests/z/test6.tex" Start="422"/>
                                         </Anns>
                                         <Word>DEPARTMENT</Word>
                                     </ZRefName>
@@ -206,40 +209,40 @@
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="23" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="2" Line="22" Loc="tests/z/test6.tex" Start="443"/>
             </Anns>
             <Content>
 </Content>
         </NarrPara>
         <AxPara Box="AxBox">
             <Anns>
-                <LocAnn Col="1" Line="24" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="126" Line="23" Loc="tests/z/test6.tex" Start="445"/>
             </Anns>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
-                            <LocAnn Col="12" Line="25" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="11" Length="21" Line="24" Loc="tests/z/test6.tex" Start="460"/>
                         </Anns>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="1" Line="25" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="0" Length="5" Line="24" Loc="tests/z/test6.tex" Start="460"/>
                             </Anns>
                             <Word>Frank</Word>
                         </ZDeclName>
                         <ZDeclName>
                             <Anns>
-                                <LocAnn Col="8" Line="25" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="7" Length="3" Line="24" Loc="tests/z/test6.tex" Start="467"/>
                             </Anns>
                             <Word>Aki</Word>
                         </ZDeclName>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
-                                <LocAnn Col="14" Line="25" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="13" Length="8" Line="24" Loc="tests/z/test6.tex" Start="473"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="14" Line="25" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="13" Length="8" Line="24" Loc="tests/z/test6.tex" Start="473"/>
                                 </Anns>
                                 <Word>EMPLOYEE</Word>
                             </ZRefName>
@@ -249,19 +252,19 @@
                 </ZDeclList>
                 <AndPred And="NL">
                     <Anns>
-                        <LocAnn Col="43" Line="26" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="42" Length="65" Line="25" Loc="tests/z/test6.tex" Start="493"/>
                     </Anns>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="14" Line="26" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="13" Length="34" Line="25" Loc="tests/z/test6.tex" Start="493"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
-                                <LocAnn Col="8" Line="26" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="7" Length="5" Line="25" Loc="tests/z/test6.tex" Start="493"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="8" Line="26" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="7" Length="5" Line="25" Loc="tests/z/test6.tex" Start="493"/>
                                 </Anns>
                                 <Word>Frank</Word>
                             </ZRefName>
@@ -271,34 +274,38 @@
                             <ZExprList>
                                 <TupleExpr>
                                     <Anns>
-                                        <LocAnn Col="16" Line="26" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="15" Length="26" Line="25" Loc="tests/z/test6.tex" Start="501"/>
                                     </Anns>
                                     <ZExprList>
                                         <NumExpr>
                                             <Anns>
-                                                <LocAnn Col="17" Line="26" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="16" Length="2" Line="25" Loc="tests/z/test6.tex" Start="502"/>
                                             </Anns>
-                                            <ZNumeral Value="12"/>
+                                            <ZNumeral Value="12">
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="2" Line="25" Loc="tests/z/test6.tex" Start="502"/>
+                                                </Anns>
+                                            </ZNumeral>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="21" Line="26" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="20" Length="4" Line="25" Loc="tests/z/test6.tex" Start="506"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="21" Line="26" Loc="tests/z/test6.tex"/>
+                                                    <LocAnn Col="20" Length="4" Line="25" Loc="tests/z/test6.tex" Start="506"/>
                                                 </Anns>
                                                 <Word>chen</Word>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="27" Line="26" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="26" Length="14" Line="25" Loc="tests/z/test6.tex" Start="512"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="27" Line="26" Loc="tests/z/test6.tex"/>
+                                                    <LocAnn Col="26" Length="14" Line="25" Loc="tests/z/test6.tex" Start="512"/>
                                                 </Anns>
                                                 <Word>administration</Word>
                                             </ZRefName>
@@ -311,15 +318,15 @@
                     </MemPred>
                     <MemPred Mixfix="true">
                         <Anns>
-                            <LocAnn Col="5" Line="27" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="4" Length="26" Line="26" Loc="tests/z/test6.tex" Start="532"/>
                         </Anns>
-                        <RefExpr Mixfix="false">
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
-                                <LocAnn Col="1" Line="27" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="0" Length="3" Line="26" Loc="tests/z/test6.tex" Start="532"/>
                             </Anns>
                             <ZRefName>
                                 <Anns>
-                                    <LocAnn Col="1" Line="27" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="0" Length="3" Line="26" Loc="tests/z/test6.tex" Start="532"/>
                                 </Anns>
                                 <Word>Aki</Word>
                             </ZRefName>
@@ -329,34 +336,38 @@
                             <ZExprList>
                                 <TupleExpr>
                                     <Anns>
-                                        <LocAnn Col="7" Line="27" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="6" Length="20" Line="26" Loc="tests/z/test6.tex" Start="538"/>
                                     </Anns>
                                     <ZExprList>
                                         <NumExpr>
                                             <Anns>
-                                                <LocAnn Col="8" Line="27" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="7" Length="2" Line="26" Loc="tests/z/test6.tex" Start="539"/>
                                             </Anns>
-                                            <ZNumeral Value="24"/>
+                                            <ZNumeral Value="24">
+                                                <Anns>
+                                                    <LocAnn Col="7" Length="2" Line="26" Loc="tests/z/test6.tex" Start="539"/>
+                                                </Anns>
+                                            </ZNumeral>
                                         </NumExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="12" Line="27" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="11" Length="4" Line="26" Loc="tests/z/test6.tex" Start="543"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="12" Line="27" Loc="tests/z/test6.tex"/>
+                                                    <LocAnn Col="11" Length="4" Line="26" Loc="tests/z/test6.tex" Start="543"/>
                                                 </Anns>
                                                 <Word>chun</Word>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
-                                        <RefExpr Mixfix="false">
+                                        <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
-                                                <LocAnn Col="18" Line="27" Loc="tests/z/test6.tex"/>
+                                                <LocAnn Col="17" Length="8" Line="26" Loc="tests/z/test6.tex" Start="549"/>
                                             </Anns>
                                             <ZRefName>
                                                 <Anns>
-                                                    <LocAnn Col="18" Line="27" Loc="tests/z/test6.tex"/>
+                                                    <LocAnn Col="17" Length="8" Line="26" Loc="tests/z/test6.tex" Start="549"/>
                                                 </Anns>
                                                 <Word>research</Word>
                                             </ZRefName>
@@ -372,7 +383,7 @@
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="12" Line="28" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="11" Length="4" Line="27" Loc="tests/z/test6.tex" Start="571"/>
             </Anns>
             <Content>
 
@@ -380,58 +391,58 @@
         </NarrPara>
         <FreePara>
             <Anns>
-                <LocAnn Col="31" Line="31" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="60" Line="29" Loc="tests/z/test6.tex" Start="575"/>
             </Anns>
             <Freetype>
                 <Anns>
-                    <LocAnn Col="4" Line="31" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="3" Length="36" Line="30" Loc="tests/z/test6.tex" Start="588"/>
                 </Anns>
                 <ZDeclName>
                     <Anns>
-                        <LocAnn Col="1" Line="31" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="0" Length="2" Line="30" Loc="tests/z/test6.tex" Start="588"/>
                     </Anns>
                     <Word>OP</Word>
                 </ZDeclName>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="8" Line="31" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="8" Line="31" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
                         </Anns>
                         <Word>plus</Word>
                     </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="15" Line="31" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="15" Line="31" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
                         </Anns>
                         <Word>minus</Word>
                     </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="23" Line="31" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="23" Line="31" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
                         </Anns>
                         <Word>times</Word>
                     </ZDeclName>
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="31" Line="31" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="31" Line="31" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
                         </Anns>
                         <Word>divide</Word>
                     </ZDeclName>
@@ -440,42 +451,42 @@
         </FreePara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="32" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="2" Line="31" Loc="tests/z/test6.tex" Start="635"/>
             </Anns>
             <Content>
 </Content>
         </NarrPara>
         <FreePara>
             <Anns>
-                <LocAnn Col="12" Line="34" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="0" Length="104" Line="32" Loc="tests/z/test6.tex" Start="637"/>
             </Anns>
             <Freetype>
                 <Anns>
-                    <LocAnn Col="5" Line="34" Loc="tests/z/test6.tex"/>
+                    <LocAnn Col="4" Length="80" Line="33" Loc="tests/z/test6.tex" Start="650"/>
                 </Anns>
                 <ZDeclName>
                     <Anns>
-                        <LocAnn Col="1" Line="34" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="0" Length="3" Line="33" Loc="tests/z/test6.tex" Start="650"/>
                     </Anns>
                     <Word>EXP</Word>
                 </ZDeclName>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="9" Line="34" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="8" Length="24" Line="33" Loc="tests/z/test6.tex" Start="658"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="9" Line="34" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="8" Length="5" Line="33" Loc="tests/z/test6.tex" Start="658"/>
                         </Anns>
                         <Word>const</Word>
                     </ZDeclName>
-                    <RefExpr Mixfix="false">
+                    <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
-                            <LocAnn Col="22" Line="34" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
                         </Anns>
                         <ZRefName>
                             <Anns>
-                                <LocAnn Col="22" Line="34" Loc="tests/z/test6.tex"/>
+                                <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
                             </Anns>
                             <Word>ℕ</Word>
                         </ZRefName>
@@ -484,50 +495,50 @@
                 </Branch>
                 <Branch>
                     <Anns>
-                        <LocAnn Col="36" Line="34" Loc="tests/z/test6.tex"/>
+                        <LocAnn Col="35" Length="45" Line="33" Loc="tests/z/test6.tex" Start="685"/>
                     </Anns>
                     <ZDeclName>
                         <Anns>
-                            <LocAnn Col="36" Line="34" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="35" Length="5" Line="33" Loc="tests/z/test6.tex" Start="685"/>
                         </Anns>
                         <Word>binop</Word>
                     </ZDeclName>
                     <ProdExpr>
                         <Anns>
-                            <LocAnn Col="8" Line="34" Loc="tests/z/test6.tex"/>
+                            <LocAnn Col="7" Length="25" Line="33" Loc="tests/z/test6.tex" Start="698"/>
                         </Anns>
                         <ZExprList>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="49" Line="34" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="49" Line="34" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
                                     </Anns>
                                     <Word>OP</Word>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="59" Line="34" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="59" Line="34" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
                                     </Anns>
                                     <Word>EXP</Word>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
-                            <RefExpr Mixfix="false">
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
-                                    <LocAnn Col="8" Line="35" Loc="tests/z/test6.tex"/>
+                                    <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
                                 </Anns>
                                 <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="8" Line="35" Loc="tests/z/test6.tex"/>
+                                        <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
                                     </Anns>
                                     <Word>EXP</Word>
                                 </ZRefName>
@@ -540,7 +551,7 @@
         </FreePara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Line="36" Loc="tests/z/test6.tex"/>
+                <LocAnn Col="9" Length="18" Line="35" Loc="tests/z/test6.tex" Start="741"/>
             </Anns>
             <Content>
 \end{document}
