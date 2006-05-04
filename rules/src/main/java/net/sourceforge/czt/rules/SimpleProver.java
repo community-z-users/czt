@@ -73,6 +73,12 @@ public class SimpleProver
 
   /**
    * Tries all known rules to prove the sequent.
+   * For each rule that matches the sequent, it
+   * recursively proves all children.  If any
+   * children cannot be proved, that rule is undone
+   * and other rules are tried.  So this is the same
+   * depth-first, left-first search that Prolog uses.
+   * 
    * Returns <code>true</code> if this succeeds,
    * <code>false</code> otherwise.
    */
