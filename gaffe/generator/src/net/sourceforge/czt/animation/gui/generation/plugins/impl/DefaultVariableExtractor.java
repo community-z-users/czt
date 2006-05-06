@@ -74,7 +74,7 @@ public final class DefaultVariableExtractor implements VariableExtractor {
       }
       for(Iterator itn=declaration.getDeclName().iterator();itn.hasNext();) {
 	ZDeclName name=(ZDeclName)itn.next();
-	List decors = name.getStroke();
+	List decors = (List) name.getStrokeList();
 	if(decors.size()==0) {
 	  if (clazz == null)
 	    results.put(name,declaration);
