@@ -273,25 +273,27 @@ public class Factory
 
   public ZDeclName createZDeclName(String word)
   {
-    return createZDeclName(word, this.<Stroke>list());
+    return createZDeclName(word, factory_.createZStrokeList());
   }
 
-  public ZDeclName createZDeclName(String word, List<Stroke> stroke)
+  public ZDeclName createZDeclName(String word, StrokeList strokes)
   {
-    return createZDeclName(word, stroke, null);
+    return createZDeclName(word, strokes, null);
   }
 
-  public ZDeclName createZDeclName(String word, List<Stroke> stroke, String id)
+  public ZDeclName createZDeclName(String word, StrokeList strokes, String id)
   {
-    ZDeclName result = zFactory_.createZDeclName(word, stroke, id);
+    ZDeclName result = zFactory_.createZDeclName(word, strokes, id);
     addDeclNameID(result);
     return result;
   }
 
   public ZDeclName createZDeclName(ZDeclName zDeclName)
   {
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(zDeclName.getZStrokeList());
     ZDeclName result = zFactory_.createZDeclName(zDeclName.getWord(),
-						 zDeclName.getStroke(),
+						 strokes,
 						 zDeclName.getId());
     copyLocAnn(zDeclName, result);
     return result;
@@ -299,28 +301,32 @@ public class Factory
 
   public ZDeclName createZDeclName(ZRefName zRefName)
   {
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(zRefName.getZStrokeList());
     ZDeclName result =
-       createZDeclName(zRefName.getWord(), zRefName.getStroke(), null);
+       createZDeclName(zRefName.getWord(), strokes, null);
     copyLocAnn(zRefName, result);
     return result;
   }
 
   public ZRefName createZRefName(String word)
   {
-    return createZRefName(word, this.<Stroke>list(), null);
+    return createZRefName(word, factory_.createZStrokeList(), null);
   }
 
   public ZRefName createZRefName(String word,
-                                 List<Stroke> stroke,
+                                 StrokeList strokes,
                                  ZDeclName declName)
   {
-    return zFactory_.createZRefName(word, stroke, declName);
+    return zFactory_.createZRefName(word, strokes, declName);
   }
 
   public ZRefName createZRefName(ZRefName zRefName)
   {
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(zRefName.getZStrokeList());
     ZRefName result =  createZRefName(zRefName.getWord(),
-				      zRefName.getStroke(),
+				      strokes,
 				      zRefName.getDecl());
     copyLocAnn(zRefName, result);
     return result;
@@ -328,7 +334,11 @@ public class Factory
 
   public ZRefName createZRefName(ZDeclName zDeclName)
   {
-    return createZRefName(zDeclName.getWord(), zDeclName.getStroke(), null);
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(zDeclName.getZStrokeList());
+    return createZRefName(zDeclName.getWord(),
+			  strokes,
+			  null);
   }
 
   public RefExpr createRefExpr(RefName refName)

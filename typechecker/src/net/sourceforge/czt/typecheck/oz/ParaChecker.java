@@ -447,7 +447,7 @@ public class ParaChecker
     for (NameTypePair pair : pairs) {
       ZDeclName unprimed = pair.getZDeclName();
       ZDeclName primed = factory().createZDeclName(unprimed);
-      primed.getStroke().add(factory().createNextStroke());
+      primed.getZStrokeList().add(factory().createNextStroke());
       typeEnv().add(unprimed, pair.getType());
       typeEnv().add(primed, pair.getType());
     }

@@ -65,7 +65,7 @@ public class Envir
     // Must avoid differences just because of the decl_ field.
     return b != null 
         && a.getWord().equals(b.getWord())
-        && a.getStroke().equals(b.getStroke());
+        && a.getStrokeList().equals(b.getStrokeList());
   }
 
   /** Return the set of newly defined names. */

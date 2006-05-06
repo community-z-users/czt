@@ -175,12 +175,7 @@ public class PrintVisitor
 
   public String visitZDeclName(ZDeclName zDeclName)
   {
-    StringBuilder result = new StringBuilder();
-    result.append(zDeclName.getWord());
-    for (Stroke stroke : zDeclName.getStroke()) {
-      result.append(visit(stroke));
-    }
-    return result.toString();
+    return zDeclName.getWord() + visit(zDeclName.getStrokeList());
   }
 
   public String visitZNumeral(ZNumeral zNumeral)
@@ -190,9 +185,13 @@ public class PrintVisitor
 
   public String visitZRefName(ZRefName zRefName)
   {
+    return zRefName.getWord() + visit(zRefName.getStrokeList());
+  }
+
+  public String visitZStrokeList(ZStrokeList zStrokeList)
+  {
     StringBuilder result = new StringBuilder();
-    result.append(zRefName.getWord());
-    for (Stroke stroke : zRefName.getStroke()) {
+    for (Stroke stroke : zStrokeList) {
       result.append(visit(stroke));
     }
     return result.toString();

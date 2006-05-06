@@ -1,9 +1,7 @@
   public String toString()
   {
-    StringBuffer result = new StringBuffer();
-    result.append(getWord());
-    for (Iterator iter = getStroke().iterator(); iter.hasNext(); ) {
-      Stroke stroke = (Stroke) iter.next();
+    StringBuilder result = new StringBuilder(getWord());
+    for (Stroke stroke : getZStrokeList()) {
       result.append(stroke.toString());
     }
     return result.toString();
@@ -17,4 +15,13 @@
     catch(net.sourceforge.czt.z.util.OperatorName.OperatorNameException e) {
       return null;
     }
+  }
+
+  public ZStrokeList getZStrokeList()
+  {
+    StrokeList strokeList = getStrokeList();
+    if (strokeList instanceof ZStrokeList) {
+      return (ZStrokeList) strokeList;
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

@@ -44,12 +44,14 @@
                                 <LocAnn Col="2" Length="1" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="59"/>
                             </Anns>
                             <Word>x</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ZDeclName>
                             <Anns>
                                 <LocAnn Col="12" Line="5" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
                             <Word>preOp _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -60,6 +62,7 @@
                                     <LocAnn Col="22" Length="4" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="79"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -71,6 +74,7 @@
                                             <LocAnn Col="17" Length="4" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="74"/>
                                         </Anns>
                                         <Word>ℕ</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -83,6 +87,7 @@
                                             <LocAnn Col="27" Length="4" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="84"/>
                                         </Anns>
                                         <Word>ℕ</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -115,12 +120,14 @@
                                 <LocAnn Col="9" Line="9" Loc="tests/z/testOpNameInDecl.tex"/>
                             </Anns>
                             <Word>preOp _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ZDeclName>
                             <Anns>
                                 <LocAnn Col="15" Length="1" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="131"/>
                             </Anns>
                             <Word>x</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -131,6 +138,7 @@
                                     <LocAnn Col="24" Length="4" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="140"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -142,6 +150,7 @@
                                             <LocAnn Col="19" Length="4" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="135"/>
                                         </Anns>
                                         <Word>ℕ</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -154,6 +163,7 @@
                                             <LocAnn Col="29" Length="4" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="145"/>
                                         </Anns>
                                         <Word>ℕ</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>

@@ -665,7 +665,8 @@ abstract public class Checker<R>
 
       //if the name + nextstoke is in lSig, remove it from b3, and
       //remove name from b4
-      List<Stroke> strokes = factory().list(rName.getStroke());
+      ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+      strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
       strokes.add(factory().createNextStroke());
       ZDeclName sName = factory().createZDeclName(rName.getWord(), strokes);
@@ -697,7 +698,8 @@ abstract public class Checker<R>
     List<NameTypePair> rPairs = rSig.getNameTypePair();
     for (NameTypePair rPair : rPairs) {
       ZDeclName rName = rPair.getZDeclName();
-      List<Stroke> strokes = factory().list(rName.getStroke());
+      ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+      strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
       if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
         OutStroke out = factory().createOutStroke();

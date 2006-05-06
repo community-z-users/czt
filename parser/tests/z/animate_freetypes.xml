@@ -45,6 +45,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_freetypes.tex" Start="398"/>
                             </Anns>
                             <Word>undefnum</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -55,6 +56,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_freetypes.tex" Start="409"/>
                                 </Anns>
                                 <Word>ℤ</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -85,6 +87,7 @@ Testing free types...
                         <LocAnn Col="0" Length="1" Line="22" Loc="tests/z/animate_freetypes.tex" Start="462"/>
                     </Anns>
                     <Word>T</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -95,6 +98,7 @@ Testing free types...
                             <LocAnn Col="6" Length="5" Line="22" Loc="tests/z/animate_freetypes.tex" Start="468"/>
                         </Anns>
                         <Word>Happy</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -106,6 +110,7 @@ Testing free types...
                             <LocAnn Col="14" Length="3" Line="22" Loc="tests/z/animate_freetypes.tex" Start="476"/>
                         </Anns>
                         <Word>Sad</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -131,6 +136,7 @@ Testing free types...
                         <LocAnn Col="0" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="503"/>
                     </Anns>
                     <Word>U</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -141,6 +147,7 @@ Testing free types...
                             <LocAnn Col="6" Length="7" Line="26" Loc="tests/z/animate_freetypes.tex" Start="509"/>
                         </Anns>
                         <Word>Unknown</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -152,6 +159,7 @@ Testing free types...
                             <LocAnn Col="16" Length="5" Line="26" Loc="tests/z/animate_freetypes.tex" Start="519"/>
                         </Anns>
                         <Word>Known</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                     <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
@@ -162,6 +170,7 @@ Testing free types...
                                 <LocAnn Col="28" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="531"/>
                             </Anns>
                             <Word>T</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -175,6 +184,7 @@ Testing free types...
                             <LocAnn Col="38" Length="4" Line="26" Loc="tests/z/animate_freetypes.tex" Start="541"/>
                         </Anns>
                         <Word>Soon</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                     <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
@@ -185,6 +195,7 @@ Testing free types...
                                 <LocAnn Col="49" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="552"/>
                             </Anns>
                             <Word>U</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -212,6 +223,7 @@ Testing free types...
                         <LocAnn Col="0" Length="1" Line="30" Loc="tests/z/animate_freetypes.tex" Start="583"/>
                     </Anns>
                     <Word>V</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -222,6 +234,7 @@ Testing free types...
                             <LocAnn Col="6" Length="3" Line="30" Loc="tests/z/animate_freetypes.tex" Start="589"/>
                         </Anns>
                         <Word>Red</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -233,6 +246,7 @@ Testing free types...
                             <LocAnn Col="12" Length="4" Line="30" Loc="tests/z/animate_freetypes.tex" Start="595"/>
                         </Anns>
                         <Word>Blue</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -244,6 +258,7 @@ Testing free types...
                             <LocAnn Col="19" Length="7" Line="30" Loc="tests/z/animate_freetypes.tex" Start="602"/>
                         </Anns>
                         <Word>Feeling</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                     <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
@@ -254,6 +269,7 @@ Testing free types...
                                 <LocAnn Col="33" Length="1" Line="30" Loc="tests/z/animate_freetypes.tex" Start="616"/>
                             </Anns>
                             <Word>T</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -286,6 +302,7 @@ Testing free types...
                                 <LocAnn Col="0" Length="3" Line="34" Loc="tests/z/animate_freetypes.tex" Start="648"/>
                             </Anns>
                             <Word>N14</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SetExpr>
                             <Anns>
@@ -364,6 +381,7 @@ Testing free types...
                                 <LocAnn Col="0" Length="3" Line="38" Loc="tests/z/animate_freetypes.tex" Start="690"/>
                             </Anns>
                             <Word>N58</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SetExpr>
                             <Anns>
@@ -437,6 +455,7 @@ Testing free types...
                         <LocAnn Col="0" Length="6" Line="42" Loc="tests/z/animate_freetypes.tex" Start="732"/>
                     </Anns>
                     <Word>LETTER</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -447,6 +466,7 @@ Testing free types...
                             <LocAnn Col="11" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="743"/>
                         </Anns>
                         <Word>a</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -458,6 +478,7 @@ Testing free types...
                             <LocAnn Col="13" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="745"/>
                         </Anns>
                         <Word>b</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -469,6 +490,7 @@ Testing free types...
                             <LocAnn Col="15" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="747"/>
                         </Anns>
                         <Word>c</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -480,6 +502,7 @@ Testing free types...
                             <LocAnn Col="17" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="749"/>
                         </Anns>
                         <Word>d</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -491,6 +514,7 @@ Testing free types...
                             <LocAnn Col="19" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="751"/>
                         </Anns>
                         <Word>e</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -502,6 +526,7 @@ Testing free types...
                             <LocAnn Col="21" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="753"/>
                         </Anns>
                         <Word>f</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -513,6 +538,7 @@ Testing free types...
                             <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="755"/>
                         </Anns>
                         <Word>g</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -524,6 +550,7 @@ Testing free types...
                             <LocAnn Col="25" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="757"/>
                         </Anns>
                         <Word>h</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -535,6 +562,7 @@ Testing free types...
                             <LocAnn Col="27" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="759"/>
                         </Anns>
                         <Word>i</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -546,6 +574,7 @@ Testing free types...
                             <LocAnn Col="29" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="761"/>
                         </Anns>
                         <Word>j</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -557,6 +586,7 @@ Testing free types...
                             <LocAnn Col="31" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="763"/>
                         </Anns>
                         <Word>k</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -568,6 +598,7 @@ Testing free types...
                             <LocAnn Col="33" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="765"/>
                         </Anns>
                         <Word>l</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -579,6 +610,7 @@ Testing free types...
                             <LocAnn Col="35" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="767"/>
                         </Anns>
                         <Word>m</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -590,6 +622,7 @@ Testing free types...
                             <LocAnn Col="37" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="769"/>
                         </Anns>
                         <Word>n</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -601,6 +634,7 @@ Testing free types...
                             <LocAnn Col="39" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="771"/>
                         </Anns>
                         <Word>o</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -612,6 +646,7 @@ Testing free types...
                             <LocAnn Col="41" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="773"/>
                         </Anns>
                         <Word>p</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -623,6 +658,7 @@ Testing free types...
                             <LocAnn Col="43" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="775"/>
                         </Anns>
                         <Word>q</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -634,6 +670,7 @@ Testing free types...
                             <LocAnn Col="45" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="777"/>
                         </Anns>
                         <Word>r</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -645,6 +682,7 @@ Testing free types...
                             <LocAnn Col="47" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="779"/>
                         </Anns>
                         <Word>s</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -656,6 +694,7 @@ Testing free types...
                             <LocAnn Col="49" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="781"/>
                         </Anns>
                         <Word>t</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -667,6 +706,7 @@ Testing free types...
                             <LocAnn Col="51" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="783"/>
                         </Anns>
                         <Word>u</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -678,6 +718,7 @@ Testing free types...
                             <LocAnn Col="53" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="785"/>
                         </Anns>
                         <Word>v</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -689,6 +730,7 @@ Testing free types...
                             <LocAnn Col="55" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="787"/>
                         </Anns>
                         <Word>w</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -700,6 +742,7 @@ Testing free types...
                             <LocAnn Col="57" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="789"/>
                         </Anns>
                         <Word>x</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -711,6 +754,7 @@ Testing free types...
                             <LocAnn Col="59" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="791"/>
                         </Anns>
                         <Word>y</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -722,6 +766,7 @@ Testing free types...
                             <LocAnn Col="61" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="793"/>
                         </Anns>
                         <Word>z</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -752,6 +797,7 @@ Testing membership of free types
                             <LocAnn Col="21" Length="5" Line="46" Loc="tests/z/animate_freetypes.tex" Start="860"/>
                         </Anns>
                         <Word>Happy</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -764,6 +810,7 @@ Testing membership of free types
                             <LocAnn Col="31" Length="1" Line="46" Loc="tests/z/animate_freetypes.tex" Start="870"/>
                         </Anns>
                         <Word>T</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -793,6 +840,7 @@ Testing membership of free types
                             <LocAnn Col="21" Length="3" Line="47" Loc="tests/z/animate_freetypes.tex" Start="903"/>
                         </Anns>
                         <Word>Sad</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -805,6 +853,7 @@ Testing membership of free types
                             <LocAnn Col="29" Length="1" Line="47" Loc="tests/z/animate_freetypes.tex" Start="911"/>
                         </Anns>
                         <Word>T</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -834,6 +883,7 @@ Testing membership of free types
                             <LocAnn Col="21" Length="7" Line="48" Loc="tests/z/animate_freetypes.tex" Start="944"/>
                         </Anns>
                         <Word>Unknown</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -846,6 +896,7 @@ Testing membership of free types
                             <LocAnn Col="33" Length="1" Line="48" Loc="tests/z/animate_freetypes.tex" Start="956"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -879,6 +930,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="5" Line="49" Loc="tests/z/animate_freetypes.tex" Start="989"/>
                             </Anns>
                             <Word>Known</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -891,6 +943,7 @@ Testing membership of free types
                                 <LocAnn Col="27" Length="5" Line="49" Loc="tests/z/animate_freetypes.tex" Start="995"/>
                             </Anns>
                             <Word>Happy</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -904,6 +957,7 @@ Testing membership of free types
                             <LocAnn Col="37" Length="1" Line="49" Loc="tests/z/animate_freetypes.tex" Start="1005"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -937,6 +991,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="5" Line="50" Loc="tests/z/animate_freetypes.tex" Start="1038"/>
                             </Anns>
                             <Word>Known</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -949,6 +1004,7 @@ Testing membership of free types
                                 <LocAnn Col="27" Length="3" Line="50" Loc="tests/z/animate_freetypes.tex" Start="1044"/>
                             </Anns>
                             <Word>Sad</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -962,6 +1018,7 @@ Testing membership of free types
                             <LocAnn Col="35" Length="1" Line="50" Loc="tests/z/animate_freetypes.tex" Start="1052"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -995,6 +1052,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="4" Line="51" Loc="tests/z/animate_freetypes.tex" Start="1085"/>
                             </Anns>
                             <Word>Soon</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1007,6 +1065,7 @@ Testing membership of free types
                                 <LocAnn Col="26" Length="7" Line="51" Loc="tests/z/animate_freetypes.tex" Start="1090"/>
                             </Anns>
                             <Word>Unknown</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1020,6 +1079,7 @@ Testing membership of free types
                             <LocAnn Col="38" Length="1" Line="51" Loc="tests/z/animate_freetypes.tex" Start="1102"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1053,6 +1113,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="4" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1135"/>
                             </Anns>
                             <Word>Soon</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1074,6 +1135,7 @@ Testing membership of free types
                                     <LocAnn Col="27" Length="5" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1141"/>
                                 </Anns>
                                 <Word>Known</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1086,6 +1148,7 @@ Testing membership of free types
                                     <LocAnn Col="33" Length="5" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1147"/>
                                 </Anns>
                                 <Word>Happy</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1100,6 +1163,7 @@ Testing membership of free types
                             <LocAnn Col="44" Length="1" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1158"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1133,6 +1197,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="4" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1191"/>
                             </Anns>
                             <Word>Soon</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1154,6 +1219,7 @@ Testing membership of free types
                                     <LocAnn Col="27" Length="5" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1197"/>
                                 </Anns>
                                 <Word>Known</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1166,6 +1232,7 @@ Testing membership of free types
                                     <LocAnn Col="33" Length="3" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1203"/>
                                 </Anns>
                                 <Word>Sad</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1180,6 +1247,7 @@ Testing membership of free types
                             <LocAnn Col="42" Length="1" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1212"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1213,6 +1281,7 @@ Testing membership of free types
                                 <LocAnn Col="21" Length="4" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1245"/>
                             </Anns>
                             <Word>Soon</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1234,6 +1303,7 @@ Testing membership of free types
                                     <LocAnn Col="27" Length="4" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1251"/>
                                 </Anns>
                                 <Word>Soon</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1255,6 +1325,7 @@ Testing membership of free types
                                         <LocAnn Col="33" Length="5" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1257"/>
                                     </Anns>
                                     <Word>Known</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1267,6 +1338,7 @@ Testing membership of free types
                                         <LocAnn Col="39" Length="5" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1263"/>
                                     </Anns>
                                     <Word>Happy</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1282,6 +1354,7 @@ Testing membership of free types
                             <LocAnn Col="51" Length="1" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1275"/>
                         </Anns>
                         <Word>U</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1313,6 +1386,7 @@ Testing membership of free types
                                     <LocAnn Col="21" Length="3" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1308"/>
                                 </Anns>
                                 <Word>Red</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1329,6 +1403,7 @@ Testing membership of free types
                                         <LocAnn Col="32" Length="4" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1319"/>
                                     </Anns>
                                     <Word>ran</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1341,6 +1416,7 @@ Testing membership of free types
                                         <LocAnn Col="37" Length="7" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1324"/>
                                     </Anns>
                                     <Word>Feeling</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1356,6 +1432,7 @@ Testing membership of free types
                             <LocAnn Col="25" Length="6" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1312"/>
                         </Anns>
                         <Word> _ ∉ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1387,6 +1464,7 @@ Testing equality of free types
                             <LocAnn Col="21" Length="1" Line="58" Loc="tests/z/animate_freetypes.tex" Start="1395"/>
                         </Anns>
                         <Word>T</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1406,6 +1484,7 @@ Testing equality of free types
                                             <LocAnn Col="27" Length="5" Line="58" Loc="tests/z/animate_freetypes.tex" Start="1401"/>
                                         </Anns>
                                         <Word>Happy</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1418,6 +1497,7 @@ Testing equality of free types
                                             <LocAnn Col="34" Length="3" Line="58" Loc="tests/z/animate_freetypes.tex" Start="1408"/>
                                         </Anns>
                                         <Word>Sad</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1453,6 +1533,7 @@ Testing equality of free types
                                     <LocAnn Col="21" Length="1" Line="59" Loc="tests/z/animate_freetypes.tex" Start="1445"/>
                                 </Anns>
                                 <Word>T</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1470,6 +1551,7 @@ Testing equality of free types
                                             <LocAnn Col="30" Length="5" Line="59" Loc="tests/z/animate_freetypes.tex" Start="1454"/>
                                         </Anns>
                                         <Word>Happy</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1486,6 +1568,7 @@ Testing equality of free types
                             <LocAnn Col="23" Length="4" Line="59" Loc="tests/z/animate_freetypes.tex" Start="1447"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1517,6 +1600,7 @@ Testing equality of free types
                                     <LocAnn Col="21" Length="1" Line="60" Loc="tests/z/animate_freetypes.tex" Start="1493"/>
                                 </Anns>
                                 <Word>T</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -1537,6 +1621,7 @@ Testing equality of free types
                             <LocAnn Col="23" Length="4" Line="60" Loc="tests/z/animate_freetypes.tex" Start="1495"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1573,6 +1658,7 @@ Testing cardinality of free types
                                 <LocAnn Col="21" Length="2" Line="64" Loc="tests/z/animate_freetypes.tex" Start="1572"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1590,6 +1676,7 @@ Testing cardinality of free types
                                         <LocAnn Col="26" Length="1" Line="64" Loc="tests/z/animate_freetypes.tex" Start="1577"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1640,6 +1727,7 @@ Testing cardinality of free types
                                 <LocAnn Col="21" Length="2" Line="65" Loc="tests/z/animate_freetypes.tex" Start="1616"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1652,6 +1740,7 @@ Testing cardinality of free types
                                 <LocAnn Col="24" Length="6" Line="65" Loc="tests/z/animate_freetypes.tex" Start="1619"/>
                             </Anns>
                             <Word>LETTER</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1700,6 +1789,7 @@ Testing cardinality of free types
                                 <LocAnn Col="21" Length="2" Line="66" Loc="tests/z/animate_freetypes.tex" Start="1662"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1712,6 +1802,7 @@ Testing cardinality of free types
                                 <LocAnn Col="24" Length="1" Line="66" Loc="tests/z/animate_freetypes.tex" Start="1665"/>
                             </Anns>
                             <Word>T</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1761,6 +1852,7 @@ Testing cardinality of free types
                                 <LocAnn Col="21" Length="2" Line="68" Loc="tests/z/animate_freetypes.tex" Start="1703"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1773,6 +1865,7 @@ Testing cardinality of free types
                                 <LocAnn Col="24" Length="1" Line="68" Loc="tests/z/animate_freetypes.tex" Start="1706"/>
                             </Anns>
                             <Word>V</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1821,6 +1914,7 @@ Testing cardinality of free types
                                 <LocAnn Col="21" Length="2" Line="69" Loc="tests/z/animate_freetypes.tex" Start="1743"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1842,6 +1936,7 @@ Testing cardinality of free types
                                     <LocAnn Col="32" Length="1" Line="69" Loc="tests/z/animate_freetypes.tex" Start="1754"/>
                                 </Anns>
                                 <Word>V</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>

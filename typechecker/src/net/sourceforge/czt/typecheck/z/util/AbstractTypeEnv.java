@@ -65,8 +65,10 @@ abstract public class AbstractTypeEnv
 
       final int size = (ZString.DELTA).length();
       String baseWord = zRefName.getWord().substring(size);
+      ZStrokeList strokes = factory_.getZFactory().createZStrokeList();
+      strokes.addAll(zRefName.getZStrokeList());
       ZRefName baseName =
-        factory_.createZRefName(baseWord, zRefName.getStroke(), null);
+        factory_.createZRefName(baseWord, strokes, null);
       Type baseType = getType(baseName);
 
       //if this is a schema, determine and add the delta/xi type
@@ -78,7 +80,7 @@ abstract public class AbstractTypeEnv
         List<NameTypePair> newPairs = factory_.list();
         for (NameTypePair pair : signature.getNameTypePair()) {
           ZDeclName primedName = factory_.createZDeclName(pair.getZDeclName());
-          primedName.getStroke().add(factory_.createNextStroke());
+          primedName.getZStrokeList().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
           newPairs.add(pair);

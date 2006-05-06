@@ -118,14 +118,14 @@ public class ProverCalculateProviso
                       ZDeclName zDeclName =
                         declName.accept(new GetZDeclName());
                       Object[] children = { zDeclName.getWord(),
-                                            zDeclName.getStroke(),
+                                            zDeclName.getStrokeList(),
                                             null };
                       ZDeclName newZDeclName =
                         factory_.createZDeclName(zDeclName.getWord(),
-                                                 zDeclName.getStroke());
+                                                 zDeclName.getStrokeList());
                       ZRefName newZRefName =
                         factory_.createZRefName(zDeclName.getWord(),
-                                                zDeclName.getStroke(),
+                                                zDeclName.getStrokeList(),
                                                 zDeclName);
                       RefExpr newRefExpr =
                         factory_.createRefExpr(newZRefName);
@@ -436,7 +436,10 @@ public class ProverCalculateProviso
       }
       ZDeclName newName = (ZDeclName) zDeclName.create(children);
       if (declNames_.contains(zDeclName)) {
-        newName.getStroke().add(stroke_);
+	ZStrokeList strokes = factory_.createZStrokeList();
+	strokes.addAll(newName.getZStrokeList());
+	strokes.add(stroke_);
+        newName.setStrokeList(strokes);
       }
       return newName;
     }
@@ -451,7 +454,10 @@ public class ProverCalculateProviso
       }
       ZRefName newName = (ZRefName) zRefName.create(children);
       if (declNames_.contains(zRefName.getDecl())) {
-        newName.getStroke().add(stroke_);
+	ZStrokeList strokes = factory_.createZStrokeList();
+	strokes.addAll(newName.getZStrokeList());
+	strokes.add(stroke_);
+        newName.setStrokeList(strokes);
       }
       return newName;
     }

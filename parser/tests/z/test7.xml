@@ -27,6 +27,7 @@
                                 <LocAnn Col="3" Length="4" Line="1" Loc="tests/z/test7.tex" Start="15"/>
                             </Anns>
                             <Word>NAME</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="true">
                             <Anns>
@@ -41,6 +42,7 @@
                                         <LocAnn Col="13" Length="5" Line="1" Loc="tests/z/test7.tex" Start="25"/>
                                     </Anns>
                                     <Word> _ .. _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>

@@ -166,17 +166,17 @@ public class TypeParser
 
     if ("GIVEN".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token, list(), null);
+      ZDeclName zDeclName = factory_.createZDeclName(token);
       result = factory_.createGivenType(zDeclName);
     }
     else if ("VARTYPE".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token, list(), null);
+      ZDeclName zDeclName = factory_.createZDeclName(token);
       result = createVariableType(zDeclName);
     }
     else if ("GENTYPE".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token, list(), null);
+      ZDeclName zDeclName = factory_.createZDeclName(token);
       result = factory_.createGenParamType(zDeclName);
     }
     else if ("(".equals(token)) {
@@ -203,7 +203,7 @@ public class TypeParser
     List names = list();
     while (!"\\]".equals(nextToken)) {
       String word = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(word, list(), null);
+      ZDeclName zDeclName = factory_.createZDeclName(word);
       names.add(zDeclName);
 
       nextToken = nextToken();
@@ -279,7 +279,7 @@ public class TypeParser
       String nextToken = null;
       while (!"]".equals(nextToken)) {
         String word = nextToken();
-        ZDeclName zDeclName = factory_.createZDeclName(word, list(), null);
+        ZDeclName zDeclName = factory_.createZDeclName(word);
         nextToken();   //consume the ":"
 
         Type type = parseType();

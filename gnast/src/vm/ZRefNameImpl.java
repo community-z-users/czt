@@ -1,9 +1,7 @@
   public String toString()
   {
-    StringBuffer result = new StringBuffer();
-    result.append(getWord());
-    for (Iterator iter = getStroke().iterator(); iter.hasNext(); ) {
-      Stroke stroke = (Stroke) iter.next();
+    StringBuilder result = new StringBuilder(getWord());
+    for (Stroke stroke : getZStrokeList()) {
       result.append(stroke.toString());
     }
     return result.toString();
@@ -18,3 +16,18 @@
       return null;
     }
   }
+
+  /**
+   * This is a convenience method.
+   * It returns the ZStrokeList if ZStrokeList is an instance of
+   * ZStrokeList and throws an UnsupportedAstClassException otherwise.
+   */
+  public ZStrokeList getZStrokeList()
+  {
+    StrokeList strokeList = getStrokeList();
+    if (strokeList instanceof ZStrokeList) {
+      return (ZStrokeList) strokeList;
+    }
+    throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
+  }
+

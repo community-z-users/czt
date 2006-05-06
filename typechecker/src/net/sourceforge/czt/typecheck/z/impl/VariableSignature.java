@@ -49,7 +49,7 @@ public class VariableSignature
 
   protected VariableSignature(Factory factory)
   {
-    List<Stroke> strokes = factory.list();
+    ZStrokeList strokes = factory.getZFactory().createZStrokeList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     zDeclName_ = factory.createZDeclName(BETA, strokes, null);
   }

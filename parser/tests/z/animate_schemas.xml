@@ -45,6 +45,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_schemas.tex" Start="409"/>
                             </Anns>
                             <Word>undefnum</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -55,6 +56,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_schemas.tex" Start="420"/>
                                 </Anns>
                                 <Word>ℤ</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -128,6 +130,7 @@ Equality.
                                     <LocAnn Col="26" Length="1" Line="23" Loc="tests/z/animate_schemas.tex" Start="566"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -158,6 +161,7 @@ Equality.
                                             <LocAnn Col="45" Length="1" Line="23" Loc="tests/z/animate_schemas.tex" Start="585"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -205,6 +209,7 @@ Equality.
                                     <LocAnn Col="26" Length="1" Line="24" Loc="tests/z/animate_schemas.tex" Start="631"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -226,6 +231,7 @@ Equality.
                                     <LocAnn Col="31" Length="1" Line="24" Loc="tests/z/animate_schemas.tex" Start="636"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -256,6 +262,7 @@ Equality.
                                             <LocAnn Col="50" Length="1" Line="24" Loc="tests/z/animate_schemas.tex" Start="655"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -277,6 +284,7 @@ Equality.
                                             <LocAnn Col="55" Length="1" Line="24" Loc="tests/z/animate_schemas.tex" Start="660"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -326,6 +334,7 @@ Equality.
                                             <LocAnn Col="26" Length="1" Line="25" Loc="tests/z/animate_schemas.tex" Start="706"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -347,6 +356,7 @@ Equality.
                                             <LocAnn Col="31" Length="1" Line="25" Loc="tests/z/animate_schemas.tex" Start="711"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -375,6 +385,7 @@ Equality.
                                             <LocAnn Col="53" Length="1" Line="25" Loc="tests/z/animate_schemas.tex" Start="733"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -396,6 +407,7 @@ Equality.
                                             <LocAnn Col="58" Length="1" Line="25" Loc="tests/z/animate_schemas.tex" Start="738"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -421,6 +433,7 @@ Equality.
                             <LocAnn Col="41" Length="4" Line="25" Loc="tests/z/animate_schemas.tex" Start="721"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -455,6 +468,7 @@ Equality.
                                     <LocAnn Col="26" Length="1" Line="26" Loc="tests/z/animate_schemas.tex" Start="784"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -476,6 +490,7 @@ Equality.
                                     <LocAnn Col="31" Length="1" Line="26" Loc="tests/z/animate_schemas.tex" Start="789"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -506,6 +521,7 @@ Equality.
                                             <LocAnn Col="50" Length="1" Line="26" Loc="tests/z/animate_schemas.tex" Start="808"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -527,6 +543,7 @@ Equality.
                                             <LocAnn Col="55" Length="1" Line="26" Loc="tests/z/animate_schemas.tex" Start="813"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -571,6 +588,7 @@ Equality.
                                     <LocAnn Col="27" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="860"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -603,6 +621,7 @@ Equality.
                                         <LocAnn Col="41" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="874"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -624,6 +643,7 @@ Equality.
                                         <LocAnn Col="46" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="879"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -654,6 +674,7 @@ Equality.
                                                 <LocAnn Col="67" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="900"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <NumExpr>
                                             <Anns>
@@ -675,6 +696,7 @@ Equality.
                                                 <LocAnn Col="72" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="905"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -685,6 +707,7 @@ Equality.
                                                     <LocAnn Col="75" Length="1" Line="27" Loc="tests/z/animate_schemas.tex" Start="908"/>
                                                 </Anns>
                                                 <Word>a</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -722,6 +745,7 @@ Equality.
                                     <LocAnn Col="27" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="952"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -756,6 +780,7 @@ Equality.
                                                 <LocAnn Col="41" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="966"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <NumExpr>
                                             <Anns>
@@ -777,6 +802,7 @@ Equality.
                                                 <LocAnn Col="46" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="971"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <NumExpr>
                                             <Anns>
@@ -805,6 +831,7 @@ Equality.
                                                 <LocAnn Col="70" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="995"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <NumExpr>
                                             <Anns>
@@ -826,6 +853,7 @@ Equality.
                                                 <LocAnn Col="75" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="1000"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -836,6 +864,7 @@ Equality.
                                                     <LocAnn Col="78" Length="1" Line="28" Loc="tests/z/animate_schemas.tex" Start="1003"/>
                                                 </Anns>
                                                 <Word>a</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -853,6 +882,7 @@ Equality.
                                 <LocAnn Col="58" Length="4" Line="28" Loc="tests/z/animate_schemas.tex" Start="983"/>
                             </Anns>
                             <Word> _ ≠ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -894,6 +924,7 @@ Selection.
                                         <LocAnn Col="26" Length="1" Line="31" Loc="tests/z/animate_schemas.tex" Start="1058"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -915,6 +946,7 @@ Selection.
                                         <LocAnn Col="31" Length="1" Line="31" Loc="tests/z/animate_schemas.tex" Start="1063"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -936,6 +968,7 @@ Selection.
                                         <LocAnn Col="36" Length="1" Line="31" Loc="tests/z/animate_schemas.tex" Start="1068"/>
                                     </Anns>
                                     <Word>c</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -955,6 +988,7 @@ Selection.
                             <LocAnn Col="48" Length="1" Line="31" Loc="tests/z/animate_schemas.tex" Start="1080"/>
                         </Anns>
                         <Word>a</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                 </BindSelExpr>
                 <SetExpr>
@@ -1006,6 +1040,7 @@ Selection.
                                         <LocAnn Col="26" Length="1" Line="32" Loc="tests/z/animate_schemas.tex" Start="1122"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1027,6 +1062,7 @@ Selection.
                                         <LocAnn Col="31" Length="1" Line="32" Loc="tests/z/animate_schemas.tex" Start="1127"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1048,6 +1084,7 @@ Selection.
                                         <LocAnn Col="36" Length="1" Line="32" Loc="tests/z/animate_schemas.tex" Start="1132"/>
                                     </Anns>
                                     <Word>c</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1067,6 +1104,7 @@ Selection.
                             <LocAnn Col="48" Length="1" Line="32" Loc="tests/z/animate_schemas.tex" Start="1144"/>
                         </Anns>
                         <Word>b</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                 </BindSelExpr>
                 <SetExpr>
@@ -1118,6 +1156,7 @@ Selection.
                                         <LocAnn Col="26" Length="1" Line="33" Loc="tests/z/animate_schemas.tex" Start="1186"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1139,6 +1178,7 @@ Selection.
                                         <LocAnn Col="31" Length="1" Line="33" Loc="tests/z/animate_schemas.tex" Start="1191"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1160,6 +1200,7 @@ Selection.
                                         <LocAnn Col="36" Length="1" Line="33" Loc="tests/z/animate_schemas.tex" Start="1196"/>
                                     </Anns>
                                     <Word>c</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <NumExpr>
                                     <Anns>
@@ -1179,6 +1220,7 @@ Selection.
                             <LocAnn Col="48" Length="1" Line="33" Loc="tests/z/animate_schemas.tex" Start="1208"/>
                         </Anns>
                         <Word>c</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                 </BindSelExpr>
                 <SetExpr>
@@ -1228,6 +1270,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="26" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1304"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -1249,6 +1292,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="31" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1309"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -1278,12 +1322,14 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="48" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1326"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <ZDeclName>
                                     <Anns>
                                         <LocAnn Col="50" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1328"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
@@ -1298,6 +1344,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="54" Length="5" Line="36" Loc="tests/z/animate_schemas.tex" Start="1332"/>
                                             </Anns>
                                             <Word> _ .. _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1343,6 +1390,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="64" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1342"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1355,6 +1403,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="68" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1346"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1369,6 +1418,7 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="66" Length="2" Line="36" Loc="tests/z/animate_schemas.tex" Start="1344"/>
                                     </Anns>
                                     <Word> _ &lt; _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1411,6 +1461,7 @@ Membership/equality with schemas (sets of bindings).
                                             <LocAnn Col="27" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1385"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -1432,6 +1483,7 @@ Membership/equality with schemas (sets of bindings).
                                             <LocAnn Col="32" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1390"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <NumExpr>
                                         <Anns>
@@ -1465,12 +1517,14 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="49" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1407"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="51" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1409"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
@@ -1485,6 +1539,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="55" Length="5" Line="37" Loc="tests/z/animate_schemas.tex" Start="1413"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1530,6 +1585,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="65" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1423"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1542,6 +1598,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="69" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1427"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1556,6 +1613,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="67" Length="2" Line="37" Loc="tests/z/animate_schemas.tex" Start="1425"/>
                                             </Anns>
                                             <Word> _ &lt; _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1589,6 +1647,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="15" Length="1" Line="42" Loc="tests/z/animate_schemas.tex" Start="1493"/>
                             </Anns>
                             <Word>A</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1602,13 +1661,16 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="2" Length="1" Line="43" Loc="tests/z/animate_schemas.tex" Start="1498"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="4" Length="2" Line="43" Loc="tests/z/animate_schemas.tex" Start="1500"/>
                                             </Anns>
                                             <Word>x</Word>
-                                            <NextStroke/>
+                                            <ZStrokeList>
+                                                <NextStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
@@ -1623,6 +1685,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="11" Length="5" Line="43" Loc="tests/z/animate_schemas.tex" Start="1507"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1661,7 +1724,9 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="2" Length="4" Line="44" Loc="tests/z/animate_schemas.tex" Start="1521"/>
                                             </Anns>
                                             <Word>out</Word>
-                                            <OutStroke/>
+                                            <ZStrokeList>
+                                                <OutStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
@@ -1676,6 +1741,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="11" Length="5" Line="44" Loc="tests/z/animate_schemas.tex" Start="1530"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1727,6 +1793,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="4" Length="1" Line="46" Loc="tests/z/animate_schemas.tex" Start="1550"/>
                                                     </Anns>
                                                     <Word> _ + _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1741,6 +1808,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="2" Length="1" Line="46" Loc="tests/z/animate_schemas.tex" Start="1548"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1753,7 +1821,9 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="6" Length="2" Line="46" Loc="tests/z/animate_schemas.tex" Start="1552"/>
                                                             </Anns>
                                                             <Word>x</Word>
-                                                            <NextStroke/>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1788,7 +1858,9 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="2" Length="4" Line="47" Loc="tests/z/animate_schemas.tex" Start="1565"/>
                                                 </Anns>
                                                 <Word>out</Word>
-                                                <OutStroke/>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1807,6 +1879,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="11" Length="1" Line="47" Loc="tests/z/animate_schemas.tex" Start="1574"/>
                                                             </Anns>
                                                             <Word> _ * _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1821,6 +1894,7 @@ Membership/equality with schemas (sets of bindings).
                                                                         <LocAnn Col="9" Length="1" Line="47" Loc="tests/z/animate_schemas.tex" Start="1572"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1833,7 +1907,9 @@ Membership/equality with schemas (sets of bindings).
                                                                         <LocAnn Col="13" Length="2" Line="47" Loc="tests/z/animate_schemas.tex" Start="1576"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
-                                                                    <NextStroke/>
+                                                                    <ZStrokeList>
+                                                                        <NextStroke/>
+                                                                    </ZStrokeList>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1876,6 +1952,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="2" Line="51" Loc="tests/z/animate_schemas.tex" Start="1607"/>
                             </Anns>
                             <Word>A2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -1892,6 +1969,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="9" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1614"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
@@ -1906,6 +1984,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="15" Length="5" Line="51" Loc="tests/z/animate_schemas.tex" Start="1620"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1956,7 +2035,9 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="35" Length="4" Line="51" Loc="tests/z/animate_schemas.tex" Start="1640"/>
                                                     </Anns>
                                                     <Word>out</Word>
-                                                    <OutStroke/>
+                                                    <ZStrokeList>
+                                                        <OutStroke/>
+                                                    </ZStrokeList>
                                                 </ZDeclName>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
@@ -1971,6 +2052,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="42" Length="5" Line="51" Loc="tests/z/animate_schemas.tex" Start="1647"/>
                                                             </Anns>
                                                             <Word> _ .. _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2015,7 +2097,9 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="53" Length="4" Line="51" Loc="tests/z/animate_schemas.tex" Start="1658"/>
                                                 </Anns>
                                                 <Word>out</Word>
-                                                <OutStroke/>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2034,6 +2118,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="62" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1667"/>
                                                             </Anns>
                                                             <Word> _ * _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2048,6 +2133,7 @@ Membership/equality with schemas (sets of bindings).
                                                                         <LocAnn Col="60" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1665"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2069,6 +2155,7 @@ Membership/equality with schemas (sets of bindings).
                                                                             <LocAnn Col="67" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1672"/>
                                                                         </Anns>
                                                                         <Word> _ − _ </Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2093,6 +2180,7 @@ Membership/equality with schemas (sets of bindings).
                                                                                     <LocAnn Col="68" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1673"/>
                                                                                 </Anns>
                                                                                 <Word>x</Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -2130,6 +2218,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="2" Line="53" Loc="tests/z/animate_schemas.tex" Start="1683"/>
                             </Anns>
                             <Word>A3</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -2146,6 +2235,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="9" Length="1" Line="53" Loc="tests/z/animate_schemas.tex" Start="1690"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <SetExpr>
                                             <Anns>
@@ -2240,6 +2330,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="4" Line="55" Loc="tests/z/animate_schemas.tex" Start="1717"/>
                             </Anns>
                             <Word>preA</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <PreExpr>
                             <Anns>
@@ -2254,6 +2345,7 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="15" Length="1" Line="55" Loc="tests/z/animate_schemas.tex" Start="1730"/>
                                     </Anns>
                                     <Word>A</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2280,6 +2372,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="5" Line="57" Loc="tests/z/animate_schemas.tex" Start="1737"/>
                             </Anns>
                             <Word>preA2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <PreExpr>
                             <Anns>
@@ -2294,6 +2387,7 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="16" Length="2" Line="57" Loc="tests/z/animate_schemas.tex" Start="1751"/>
                                     </Anns>
                                     <Word>A2</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2327,6 +2421,7 @@ Membership/equality with schemas (sets of bindings).
                             <LocAnn Col="20" Length="4" Line="60" Loc="tests/z/animate_schemas.tex" Start="1785"/>
                         </Anns>
                         <Word>preA</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -2341,6 +2436,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="27" Length="2" Line="60" Loc="tests/z/animate_schemas.tex" Start="1792"/>
                                 </Anns>
                                 <Word>A3</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2372,6 +2468,7 @@ Membership/equality with schemas (sets of bindings).
                             <LocAnn Col="20" Length="5" Line="61" Loc="tests/z/animate_schemas.tex" Start="1825"/>
                         </Anns>
                         <Word>preA2</Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -2386,6 +2483,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="28" Length="2" Line="61" Loc="tests/z/animate_schemas.tex" Start="1833"/>
                                 </Anns>
                                 <Word>A3</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2429,6 +2527,7 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="29" Length="1" Line="63" Loc="tests/z/animate_schemas.tex" Start="1876"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
@@ -2443,6 +2542,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="35" Length="5" Line="63" Loc="tests/z/animate_schemas.tex" Start="1882"/>
                                             </Anns>
                                             <Word> _ .. _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2491,6 +2591,7 @@ Membership/equality with schemas (sets of bindings).
                                         <LocAnn Col="51" Length="1" Line="63" Loc="tests/z/animate_schemas.tex" Start="1898"/>
                                     </Anns>
                                     <Word>A</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2504,6 +2605,7 @@ Membership/equality with schemas (sets of bindings).
                                     <LocAnn Col="58" Length="2" Line="63" Loc="tests/z/animate_schemas.tex" Start="1905"/>
                                 </Anns>
                                 <Word>A2</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2538,6 +2640,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="9" Line="67" Loc="tests/z/animate_schemas.tex" Start="1960"/>
                             </Anns>
                             <Word>OnePoint1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -2554,6 +2657,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="16" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1974"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -2564,6 +2668,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="20" Length="4" Line="67" Loc="tests/z/animate_schemas.tex" Start="1978"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2589,6 +2694,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="38" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1996"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -2599,6 +2705,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="40" Length="4" Line="67" Loc="tests/z/animate_schemas.tex" Start="1998"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2617,6 +2724,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="47" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="2005"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2635,6 +2743,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="50" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="2008"/>
                                                                 </Anns>
                                                                 <Word> _ + _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2649,6 +2758,7 @@ Membership/equality with schemas (sets of bindings).
                                                                             <LocAnn Col="49" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="2007"/>
                                                                         </Anns>
                                                                         <Word>x</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2682,6 +2792,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="55" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="2013"/>
                                                 </Anns>
                                                 <Word>f</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2725,6 +2836,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="9" Line="68" Loc="tests/z/animate_schemas.tex" Start="2025"/>
                             </Anns>
                             <Word>OnePoint2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -2741,6 +2853,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="16" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2039"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -2751,6 +2864,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="20" Length="4" Line="68" Loc="tests/z/animate_schemas.tex" Start="2043"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2776,6 +2890,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="38" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2061"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -2786,6 +2901,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="40" Length="4" Line="68" Loc="tests/z/animate_schemas.tex" Start="2063"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2804,6 +2920,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="47" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2070"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2822,6 +2939,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="50" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2073"/>
                                                                 </Anns>
                                                                 <Word> _ + _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2836,6 +2954,7 @@ Membership/equality with schemas (sets of bindings).
                                                                             <LocAnn Col="49" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2072"/>
                                                                         </Anns>
                                                                         <Word>x</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2869,6 +2988,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="55" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2078"/>
                                                 </Anns>
                                                 <Word>f</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2912,6 +3032,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="9" Line="69" Loc="tests/z/animate_schemas.tex" Start="2090"/>
                             </Anns>
                             <Word>OnePoint3</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -2928,6 +3049,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="16" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2104"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -2938,6 +3060,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="20" Length="4" Line="69" Loc="tests/z/animate_schemas.tex" Start="2108"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2963,6 +3086,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="38" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2126"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -2973,6 +3097,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="40" Length="4" Line="69" Loc="tests/z/animate_schemas.tex" Start="2128"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2991,6 +3116,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="47" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2135"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3009,6 +3135,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="50" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2138"/>
                                                                 </Anns>
                                                                 <Word> _ + _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3023,6 +3150,7 @@ Membership/equality with schemas (sets of bindings).
                                                                             <LocAnn Col="49" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2137"/>
                                                                         </Anns>
                                                                         <Word>x</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -3056,6 +3184,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="55" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2143"/>
                                                 </Anns>
                                                 <Word>f</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3099,6 +3228,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="9" Line="70" Loc="tests/z/animate_schemas.tex" Start="2155"/>
                             </Anns>
                             <Word>OnePoint4</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -3115,6 +3245,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="16" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2169"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -3125,6 +3256,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="20" Length="4" Line="70" Loc="tests/z/animate_schemas.tex" Start="2173"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3150,6 +3282,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="36" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2189"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
@@ -3164,6 +3297,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="41" Length="5" Line="70" Loc="tests/z/animate_schemas.tex" Start="2194"/>
                                                             </Anns>
                                                             <Word> _ .. _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3215,6 +3349,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="40" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2244"/>
                                                         </Anns>
                                                         <Word>g</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -3225,6 +3360,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="42" Length="4" Line="71" Loc="tests/z/animate_schemas.tex" Start="2246"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3243,6 +3379,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="49" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2253"/>
                                                         </Anns>
                                                         <Word>f</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3257,6 +3394,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="51" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2255"/>
                                                                 </Anns>
                                                                 <Word>g</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3277,6 +3415,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="55" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2259"/>
                                                     </Anns>
                                                     <Word>g</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3291,6 +3430,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="57" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2261"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3323,6 +3463,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="2" Length="9" Line="72" Loc="tests/z/animate_schemas.tex" Start="2272"/>
                             </Anns>
                             <Word>OnePoint5</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -3339,6 +3480,7 @@ Membership/equality with schemas (sets of bindings).
                                                 <LocAnn Col="16" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2286"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -3349,6 +3491,7 @@ Membership/equality with schemas (sets of bindings).
                                                     <LocAnn Col="20" Length="4" Line="72" Loc="tests/z/animate_schemas.tex" Start="2290"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3374,6 +3517,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="36" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2306"/>
                                                     </Anns>
                                                     <Word>f</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
@@ -3388,6 +3532,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="41" Length="5" Line="72" Loc="tests/z/animate_schemas.tex" Start="2311"/>
                                                             </Anns>
                                                             <Word> _ .. _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3439,6 +3584,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="40" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2361"/>
                                                         </Anns>
                                                         <Word>g</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -3449,6 +3595,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="42" Length="4" Line="73" Loc="tests/z/animate_schemas.tex" Start="2363"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3467,6 +3614,7 @@ Membership/equality with schemas (sets of bindings).
                                                             <LocAnn Col="49" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2370"/>
                                                         </Anns>
                                                         <Word>f</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3481,6 +3629,7 @@ Membership/equality with schemas (sets of bindings).
                                                                     <LocAnn Col="51" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2372"/>
                                                                 </Anns>
                                                                 <Word>g</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3501,6 +3650,7 @@ Membership/equality with schemas (sets of bindings).
                                                         <LocAnn Col="55" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2376"/>
                                                     </Anns>
                                                     <Word>g</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3515,6 +3665,7 @@ Membership/equality with schemas (sets of bindings).
                                                                 <LocAnn Col="57" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2378"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3558,6 +3709,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="20" Length="2" Line="76" Loc="tests/z/animate_schemas.tex" Start="2415"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3570,6 +3722,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="23" Length="9" Line="76" Loc="tests/z/animate_schemas.tex" Start="2418"/>
                             </Anns>
                             <Word>OnePoint1</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3618,6 +3771,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="20" Length="2" Line="77" Loc="tests/z/animate_schemas.tex" Start="2462"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3630,6 +3784,7 @@ Membership/equality with schemas (sets of bindings).
                                 <LocAnn Col="23" Length="9" Line="77" Loc="tests/z/animate_schemas.tex" Start="2465"/>
                             </Anns>
                             <Word>OnePoint2</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3680,6 +3835,7 @@ TODO: enable this when we have DNF normalisation?
                                 <LocAnn Col="20" Length="2" Line="80" Loc="tests/z/animate_schemas.tex" Start="2619"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3692,6 +3848,7 @@ TODO: enable this when we have DNF normalisation?
                                 <LocAnn Col="23" Length="9" Line="80" Loc="tests/z/animate_schemas.tex" Start="2622"/>
                             </Anns>
                             <Word>OnePoint3</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3741,6 +3898,7 @@ TODO: this one needs pre-evaluation of the type 2..2
                                 <LocAnn Col="20" Length="2" Line="82" Loc="tests/z/animate_schemas.tex" Start="2719"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3753,6 +3911,7 @@ TODO: this one needs pre-evaluation of the type 2..2
                                 <LocAnn Col="23" Length="9" Line="82" Loc="tests/z/animate_schemas.tex" Start="2722"/>
                             </Anns>
                             <Word>OnePoint4</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3802,6 +3961,7 @@ TODO: same difficulty as OnePoint3
                                 <LocAnn Col="20" Length="2" Line="84" Loc="tests/z/animate_schemas.tex" Start="2801"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3814,6 +3974,7 @@ TODO: same difficulty as OnePoint3
                                 <LocAnn Col="23" Length="9" Line="84" Loc="tests/z/animate_schemas.tex" Start="2804"/>
                             </Anns>
                             <Word>OnePoint5</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3857,6 +4018,7 @@ echo Miscellaneous schema challenges
                                 <LocAnn Col="15" Length="5" Line="89" Loc="tests/z/animate_schemas.tex" Start="2883"/>
                             </Anns>
                             <Word>Test1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3870,13 +4032,16 @@ echo Miscellaneous schema challenges
                                                 <LocAnn Col="2" Length="1" Line="90" Loc="tests/z/animate_schemas.tex" Start="2892"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="4" Length="2" Line="90" Loc="tests/z/animate_schemas.tex" Start="2894"/>
                                             </Anns>
                                             <Word>a</Word>
-                                            <NextStroke/>
+                                            <ZStrokeList>
+                                                <NextStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
@@ -3891,6 +4056,7 @@ echo Miscellaneous schema challenges
                                                         <LocAnn Col="9" Length="5" Line="90" Loc="tests/z/animate_schemas.tex" Start="2899"/>
                                                     </Anns>
                                                     <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3941,6 +4107,7 @@ echo Miscellaneous schema challenges
                                                         <LocAnn Col="11" Length="1" Line="92" Loc="tests/z/animate_schemas.tex" Start="2926"/>
                                                     </Anns>
                                                     <Word>i</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -3951,6 +4118,7 @@ echo Miscellaneous schema challenges
                                                             <LocAnn Col="13" Length="4" Line="92" Loc="tests/z/animate_schemas.tex" Start="2928"/>
                                                         </Anns>
                                                         <Word>ℤ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3975,6 +4143,7 @@ echo Miscellaneous schema challenges
                                                             <LocAnn Col="21" Length="1" Line="92" Loc="tests/z/animate_schemas.tex" Start="2936"/>
                                                         </Anns>
                                                         <Word>i</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3987,7 +4156,9 @@ echo Miscellaneous schema challenges
                                                             <LocAnn Col="23" Length="2" Line="92" Loc="tests/z/animate_schemas.tex" Start="2938"/>
                                                         </Anns>
                                                         <Word>a</Word>
-                                                        <NextStroke/>
+                                                        <ZStrokeList>
+                                                            <NextStroke/>
+                                                        </ZStrokeList>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4012,6 +4183,7 @@ echo Miscellaneous schema challenges
                                                                     <LocAnn Col="34" Length="1" Line="92" Loc="tests/z/animate_schemas.tex" Start="2949"/>
                                                                 </Anns>
                                                                 <Word>a</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4069,7 +4241,9 @@ until it was fixed.
                                     <LocAnn Col="27" Length="2" Line="97" Loc="tests/z/animate_schemas.tex" Start="3082"/>
                                 </Anns>
                                 <Word>a</Word>
-                                <NextStroke/>
+                                <ZStrokeList>
+                                    <NextStroke/>
+                                </ZStrokeList>
                             </ZDeclName>
                             <NumExpr>
                                 <Anns>
@@ -4104,6 +4278,7 @@ until it was fixed.
                                                 <LocAnn Col="45" Length="5" Line="97" Loc="tests/z/animate_schemas.tex" Start="3100"/>
                                             </Anns>
                                             <Word>Test1</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4122,6 +4297,7 @@ until it was fixed.
                                             <LocAnn Col="53" Length="1" Line="97" Loc="tests/z/animate_schemas.tex" Start="3108"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4148,6 +4324,7 @@ until it was fixed.
                                 <LocAnn Col="64" Length="1" Line="97" Loc="tests/z/animate_schemas.tex" Start="3119"/>
                             </Anns>
                             <Word>a</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                     </ZRefNameList>
                 </HideExpr>
@@ -4173,6 +4350,7 @@ until it was fixed.
                                 <LocAnn Col="15" Length="10" Line="99" Loc="tests/z/animate_schemas.tex" Start="3148"/>
                             </Anns>
                             <Word>SimpleHeap</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -4186,6 +4364,7 @@ until it was fixed.
                                                 <LocAnn Col="4" Length="5" Line="100" Loc="tests/z/animate_schemas.tex" Start="3164"/>
                                             </Anns>
                                             <Word>items</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
@@ -4196,6 +4375,7 @@ until it was fixed.
                                                     <LocAnn Col="11" Length="4" Line="100" Loc="tests/z/animate_schemas.tex" Start="3171"/>
                                                 </Anns>
                                                 <Word>seq _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -4207,6 +4387,7 @@ until it was fixed.
                                                             <LocAnn Col="16" Length="4" Line="100" Loc="tests/z/animate_schemas.tex" Start="3176"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4222,6 +4403,7 @@ until it was fixed.
                                                 <LocAnn Col="4" Length="7" Line="101" Loc="tests/z/animate_schemas.tex" Start="3188"/>
                                             </Anns>
                                             <Word>maxsize</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -4232,6 +4414,7 @@ until it was fixed.
                                                     <LocAnn Col="13" Length="4" Line="101" Loc="tests/z/animate_schemas.tex" Start="3197"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4245,6 +4428,7 @@ until it was fixed.
                                                 <LocAnn Col="4" Length="8" Line="102" Loc="tests/z/animate_schemas.tex" Start="3209"/>
                                             </Anns>
                                             <Word>currsize</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -4255,6 +4439,7 @@ until it was fixed.
                                                     <LocAnn Col="14" Length="4" Line="102" Loc="tests/z/animate_schemas.tex" Start="3219"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4279,6 +4464,7 @@ until it was fixed.
                                                             <LocAnn Col="4" Length="7" Line="104" Loc="tests/z/animate_schemas.tex" Start="3235"/>
                                                         </Anns>
                                                         <Word>maxsize</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4291,6 +4477,7 @@ until it was fixed.
                                                             <LocAnn Col="17" Length="8" Line="104" Loc="tests/z/animate_schemas.tex" Start="3248"/>
                                                         </Anns>
                                                         <Word>currsize</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4305,6 +4492,7 @@ until it was fixed.
                                                     <LocAnn Col="12" Length="4" Line="104" Loc="tests/z/animate_schemas.tex" Start="3243"/>
                                                 </Anns>
                                                 <Word> _ ≥ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4322,6 +4510,7 @@ until it was fixed.
                                                     <LocAnn Col="4" Length="8" Line="105" Loc="tests/z/animate_schemas.tex" Start="3264"/>
                                                 </Anns>
                                                 <Word>currsize</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4340,6 +4529,7 @@ until it was fixed.
                                                                 <LocAnn Col="15" Length="2" Line="105" Loc="tests/z/animate_schemas.tex" Start="3275"/>
                                                             </Anns>
                                                             <Word># _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -4361,6 +4551,7 @@ until it was fixed.
                                                                     <LocAnn Col="18" Length="4" Line="105" Loc="tests/z/animate_schemas.tex" Start="3278"/>
                                                                 </Anns>
                                                                 <Word>ran</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4373,6 +4564,7 @@ until it was fixed.
                                                                     <LocAnn Col="23" Length="5" Line="105" Loc="tests/z/animate_schemas.tex" Start="3283"/>
                                                                 </Anns>
                                                                 <Word>items</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4409,6 +4601,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                 <LocAnn Col="15" Length="16" Line="109" Loc="tests/z/animate_schemas.tex" Start="3401"/>
                             </Anns>
                             <Word>SimpleHeapRemove</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -4422,7 +4615,9 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                 <LocAnn Col="4" Length="8" Line="110" Loc="tests/z/animate_schemas.tex" Start="3423"/>
                                             </Anns>
                                             <Word>offheap</Word>
-                                            <OutStroke/>
+                                            <ZStrokeList>
+                                                <OutStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -4433,6 +4628,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                     <LocAnn Col="14" Length="4" Line="110" Loc="tests/z/animate_schemas.tex" Start="3433"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4447,6 +4643,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                     <LocAnn Col="4" Length="17" Line="111" Loc="tests/z/animate_schemas.tex" Start="3445"/>
                                                 </Anns>
                                                 <Word>ΔSimpleHeap</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4479,6 +4676,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="4" Length="8" Line="113" Loc="tests/z/animate_schemas.tex" Start="3477"/>
                                                                 </Anns>
                                                                 <Word>currsize</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4503,6 +4701,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                             <LocAnn Col="13" Length="2" Line="113" Loc="tests/z/animate_schemas.tex" Start="3486"/>
                                                         </Anns>
                                                         <Word> _ &gt; _ </Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4522,12 +4721,14 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="12" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3505"/>
                                                                 </Anns>
                                                                 <Word>i</Word>
+                                                                <ZStrokeList/>
                                                             </ZDeclName>
                                                             <ZDeclName>
                                                                 <Anns>
                                                                     <LocAnn Col="15" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3508"/>
                                                                 </Anns>
                                                                 <Word>v</Word>
+                                                                <ZStrokeList/>
                                                             </ZDeclName>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
@@ -4538,6 +4739,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                         <LocAnn Col="19" Length="4" Line="114" Loc="tests/z/animate_schemas.tex" Start="3512"/>
                                                                     </Anns>
                                                                     <Word>ℕ</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -4565,6 +4767,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 <LocAnn Col="27" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3520"/>
                                                                             </Anns>
                                                                             <Word>i</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -4577,6 +4780,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 <LocAnn Col="29" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3522"/>
                                                                             </Anns>
                                                                             <Word>v</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -4591,6 +4795,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                         <LocAnn Col="36" Length="5" Line="114" Loc="tests/z/animate_schemas.tex" Start="3529"/>
                                                                     </Anns>
                                                                     <Word>items</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -4608,6 +4813,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                         <LocAnn Col="48" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3541"/>
                                                                     </Anns>
                                                                     <Word>v</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -4626,6 +4832,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                     <LocAnn Col="52" Length="3" Line="114" Loc="tests/z/animate_schemas.tex" Start="3545"/>
                                                                                 </Anns>
                                                                                 <Word>min _ </Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -4647,6 +4854,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                         <LocAnn Col="58" Length="4" Line="114" Loc="tests/z/animate_schemas.tex" Start="3551"/>
                                                                                     </Anns>
                                                                                     <Word>ran</Word>
+                                                                                    <ZStrokeList/>
                                                                                 </ZRefName>
                                                                                 <ZExprList/>
                                                                             </RefExpr>
@@ -4659,6 +4867,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                         <LocAnn Col="63" Length="5" Line="114" Loc="tests/z/animate_schemas.tex" Start="3556"/>
                                                                                     </Anns>
                                                                                     <Word>items</Word>
+                                                                                    <ZStrokeList/>
                                                                                 </ZRefName>
                                                                                 <ZExprList/>
                                                                             </RefExpr>
@@ -4686,7 +4895,9 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="10" Length="6" Line="115" Loc="tests/z/animate_schemas.tex" Start="3573"/>
                                                                 </Anns>
                                                                 <Word>items</Word>
-                                                                <NextStroke/>
+                                                                <ZStrokeList>
+                                                                    <NextStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4705,6 +4916,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                 <LocAnn Col="19" Length="6" Line="115" Loc="tests/z/animate_schemas.tex" Start="3582"/>
                                                                             </Anns>
                                                                             <Word>squash</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -4726,6 +4938,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                     <LocAnn Col="33" Length="9" Line="115" Loc="tests/z/animate_schemas.tex" Start="3596"/>
                                                                                 </Anns>
                                                                                 <Word> _ \ _ </Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -4740,6 +4953,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                             <LocAnn Col="27" Length="5" Line="115" Loc="tests/z/animate_schemas.tex" Start="3590"/>
                                                                                         </Anns>
                                                                                         <Word>items</Word>
+                                                                                        <ZStrokeList/>
                                                                                     </ZRefName>
                                                                                     <ZExprList/>
                                                                                 </RefExpr>
@@ -4762,6 +4976,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                                             <LocAnn Col="46" Length="1" Line="115" Loc="tests/z/animate_schemas.tex" Start="3609"/>
                                                                                                         </Anns>
                                                                                                         <Word>i</Word>
+                                                                                                        <ZStrokeList/>
                                                                                                     </ZRefName>
                                                                                                     <ZExprList/>
                                                                                                 </RefExpr>
@@ -4774,6 +4989,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                                                             <LocAnn Col="48" Length="1" Line="115" Loc="tests/z/animate_schemas.tex" Start="3611"/>
                                                                                                         </Anns>
                                                                                                         <Word>v</Word>
+                                                                                                        <ZStrokeList/>
                                                                                                     </ZRefName>
                                                                                                     <ZExprList/>
                                                                                                 </RefExpr>
@@ -4801,7 +5017,9 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="60" Length="8" Line="115" Loc="tests/z/animate_schemas.tex" Start="3623"/>
                                                                 </Anns>
                                                                 <Word>offheap</Word>
-                                                                <OutStroke/>
+                                                                <ZStrokeList>
+                                                                    <OutStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4816,6 +5034,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                             <LocAnn Col="71" Length="1" Line="115" Loc="tests/z/animate_schemas.tex" Start="3634"/>
                                                                         </Anns>
                                                                         <Word>v</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -4838,7 +5057,9 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                         <LocAnn Col="4" Length="9" Line="116" Loc="tests/z/animate_schemas.tex" Start="3643"/>
                                                     </Anns>
                                                     <Word>currsize</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -4857,6 +5078,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                     <LocAnn Col="25" Length="1" Line="116" Loc="tests/z/animate_schemas.tex" Start="3664"/>
                                                                 </Anns>
                                                                 <Word> _ − _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4871,6 +5093,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                                             <LocAnn Col="16" Length="8" Line="116" Loc="tests/z/animate_schemas.tex" Start="3655"/>
                                                                         </Anns>
                                                                         <Word>currsize</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -4904,7 +5127,9 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                     <LocAnn Col="4" Length="8" Line="117" Loc="tests/z/animate_schemas.tex" Start="3675"/>
                                                 </Anns>
                                                 <Word>maxsize</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4919,6 +5144,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                             <LocAnn Col="15" Length="7" Line="117" Loc="tests/z/animate_schemas.tex" Start="3686"/>
                                                         </Anns>
                                                         <Word>maxsize</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4959,6 +5185,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                 <LocAnn Col="2" Length="10" Line="122" Loc="tests/z/animate_schemas.tex" Start="3803"/>
                             </Anns>
                             <Word>RemoveTest</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -4976,6 +5203,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                                     <LocAnn Col="17" Length="16" Line="122" Loc="tests/z/animate_schemas.tex" Start="3818"/>
                                                 </Anns>
                                                 <Word>SimpleHeapRemove</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4998,6 +5226,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                                     <LocAnn Col="36" Length="7" Line="122" Loc="tests/z/animate_schemas.tex" Start="3837"/>
                                                 </Anns>
                                                 <Word>maxsize</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5029,6 +5258,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                                     <LocAnn Col="55" Length="5" Line="122" Loc="tests/z/animate_schemas.tex" Start="3856"/>
                                                 </Anns>
                                                 <Word>items</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5047,6 +5277,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                                                 <LocAnn Col="63" Length="17" Line="122" Loc="tests/z/animate_schemas.tex" Start="3864"/>
                                                             </Anns>
                                                             <Word>⟨ ,, ⟩</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5113,6 +5344,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                 <LocAnn Col="20" Length="2" Line="124" Loc="tests/z/animate_schemas.tex" Start="3913"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5125,6 +5357,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
                                 <LocAnn Col="23" Length="10" Line="124" Loc="tests/z/animate_schemas.tex" Start="3916"/>
                             </Anns>
                             <Word>RemoveTest</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5173,6 +5406,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="2" Length="7" Line="129" Loc="tests/z/animate_schemas.tex" Start="4038"/>
                             </Anns>
                             <Word>SeqTest</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -5189,6 +5423,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="15" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4051"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
@@ -5199,6 +5434,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <LocAnn Col="19" Length="4" Line="129" Loc="tests/z/animate_schemas.tex" Start="4055"/>
                                                 </Anns>
                                                 <Word>seq _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -5210,6 +5446,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="24" Length="4" Line="129" Loc="tests/z/animate_schemas.tex" Start="4060"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5237,6 +5474,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                         <LocAnn Col="40" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4076"/>
                                                     </Anns>
                                                     <Word>i</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
@@ -5251,6 +5489,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                 <LocAnn Col="44" Length="4" Line="129" Loc="tests/z/animate_schemas.tex" Start="4080"/>
                                                             </Anns>
                                                             <Word>dom</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5263,6 +5502,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                 <LocAnn Col="49" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4085"/>
                                                             </Anns>
                                                             <Word>s</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5285,6 +5525,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="53" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4089"/>
                                                         </Anns>
                                                         <Word>i</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5301,6 +5542,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                 <LocAnn Col="60" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4096"/>
                                                             </Anns>
                                                             <Word>s</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5313,6 +5555,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                 <LocAnn Col="62" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4098"/>
                                                             </Anns>
                                                             <Word>i</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5328,6 +5571,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <LocAnn Col="55" Length="4" Line="129" Loc="tests/z/animate_schemas.tex" Start="4091"/>
                                                 </Anns>
                                                 <Word> _ ≠ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5357,6 +5601,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="2" Length="8" Line="130" Loc="tests/z/animate_schemas.tex" Start="4108"/>
                             </Anns>
                             <Word>UniqSoln</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -5373,6 +5618,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="15" Length="5" Line="130" Loc="tests/z/animate_schemas.tex" Start="4121"/>
                                             </Anns>
                                             <Word>deref</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
@@ -5383,6 +5629,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <LocAnn Col="23" Length="4" Line="130" Loc="tests/z/animate_schemas.tex" Start="4129"/>
                                                 </Anns>
                                                 <Word>seq _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -5394,6 +5641,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="28" Length="4" Line="130" Loc="tests/z/animate_schemas.tex" Start="4134"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5414,6 +5662,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="35" Length="5" Line="130" Loc="tests/z/animate_schemas.tex" Start="4141"/>
                                             </Anns>
                                             <Word>deref</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5432,6 +5681,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="43" Length="23" Line="130" Loc="tests/z/animate_schemas.tex" Start="4149"/>
                                                         </Anns>
                                                         <Word>⟨ ,, ⟩</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5538,6 +5788,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="2" Length="7" Line="131" Loc="tests/z/animate_schemas.tex" Start="4179"/>
                             </Anns>
                             <Word>MuTest1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -5555,6 +5806,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <LocAnn Col="15" Length="7" Line="131" Loc="tests/z/animate_schemas.tex" Start="4192"/>
                                                 </Anns>
                                                 <Word>SeqTest</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5573,6 +5825,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="25" Length="1" Line="131" Loc="tests/z/animate_schemas.tex" Start="4202"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5599,6 +5852,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                             <LocAnn Col="34" Length="8" Line="131" Loc="tests/z/animate_schemas.tex" Start="4211"/>
                                                                         </Anns>
                                                                         <Word>UniqSoln</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -5611,6 +5865,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                         <LocAnn Col="44" Length="5" Line="131" Loc="tests/z/animate_schemas.tex" Start="4221"/>
                                                     </Anns>
                                                     <Word>deref</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                             </BindSelExpr>
                                         </ZExprList>
@@ -5640,6 +5895,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="2" Length="7" Line="132" Loc="tests/z/animate_schemas.tex" Start="4233"/>
                             </Anns>
                             <Word>MuTest2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -5657,6 +5913,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                     <LocAnn Col="15" Length="7" Line="132" Loc="tests/z/animate_schemas.tex" Start="4246"/>
                                                 </Anns>
                                                 <Word>SeqTest</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5675,6 +5932,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <LocAnn Col="25" Length="1" Line="132" Loc="tests/z/animate_schemas.tex" Start="4256"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5693,6 +5951,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="29" Length="4" Line="132" Loc="tests/z/animate_schemas.tex" Start="4260"/>
                                                         </Anns>
                                                         <Word>tail</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5717,6 +5976,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                                                 <LocAnn Col="39" Length="8" Line="132" Loc="tests/z/animate_schemas.tex" Start="4270"/>
                                                                             </Anns>
                                                                             <Word>UniqSoln</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -5729,6 +5989,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                             <LocAnn Col="49" Length="5" Line="132" Loc="tests/z/animate_schemas.tex" Start="4280"/>
                                                         </Anns>
                                                         <Word>deref</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                 </BindSelExpr>
                                             </ApplExpr>
@@ -5769,6 +6030,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="20" Length="2" Line="134" Loc="tests/z/animate_schemas.tex" Start="4317"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5781,6 +6043,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="23" Length="7" Line="134" Loc="tests/z/animate_schemas.tex" Start="4320"/>
                             </Anns>
                             <Word>MuTest1</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5829,6 +6092,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="20" Length="2" Line="135" Loc="tests/z/animate_schemas.tex" Start="4362"/>
                             </Anns>
                             <Word># _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5841,6 +6105,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                 <LocAnn Col="23" Length="7" Line="135" Loc="tests/z/animate_schemas.tex" Start="4365"/>
                             </Anns>
                             <Word>MuTest2</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>

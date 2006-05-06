@@ -223,7 +223,7 @@ public class Flatten
     if ( ! (e instanceof RefExpr))
       return null;
     ZRefName ref = ((RefExpr)e).getZRefName();
-    if (ref.getStroke().size() > 0)
+    if (ref.getZStrokeList().size() > 0)
       return null;
     String rel = ref.getWord();
     if (knownRelations.contains(rel))
@@ -419,12 +419,12 @@ public class Flatten
       flat_.add(new FlatRangeSet(oneName,null,result));
     }
     else if (result.getWord().equals(ZString.NUM)
-        && result.getStroke().isEmpty()) {
+        && result.getZStrokeList().isEmpty()) {
       result = zlive_.createNewName();
       flat_.add(new FlatRangeSet(null,null,result));
     }
     else if (result.getWord().equals(ZString.ARITHMOS)
-        && result.getStroke().isEmpty()) {
+        && result.getZStrokeList().isEmpty()) {
       result = zlive_.createNewName();
       flat_.add(new FlatRangeSet(null,null,result));
     }
@@ -470,7 +470,7 @@ public class Flatten
       argList = ((TupleExpr) arg).getZExprList();
 
     if (func instanceof RefExpr
-        && ((RefExpr) func).getZRefName().getStroke().size() == 0) {
+        && ((RefExpr) func).getZRefName().getZStrokeList().size() == 0) {
       String funcname = ((RefExpr) func).getZRefName().getWord();
       if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) 
         flat_.add(new FlatPlus(

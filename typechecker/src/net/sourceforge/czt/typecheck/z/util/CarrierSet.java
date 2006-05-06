@@ -95,9 +95,11 @@ public class CarrierSet
 
   public Term visitGenParamType(GenParamType genParamType)
   {
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(genParamType.getName().getZStrokeList());
     ZRefName zRefName =
       zFactory_.createZRefName(genParamType.getName().getWord(),
-                               genParamType.getName().getStroke(),
+                               strokes,
                                null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
@@ -107,9 +109,11 @@ public class CarrierSet
 
   public Term visitGivenType(GivenType givenType)
   {
+    ZStrokeList strokes = zFactory_.createZStrokeList();
+    strokes.addAll(givenType.getName().getZStrokeList());
     ZRefName zRefName =
       zFactory_.createZRefName(givenType.getName().getWord(),
-			       givenType.getName().getStroke(),
+			       strokes,
                                null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
@@ -160,7 +164,7 @@ public class CarrierSet
     if (!allowVariableTypes_) {
       throw new UndeterminedTypeException();
     }
-    List<Stroke> strokes = factory_.list();
+    StrokeList strokes = zFactory_.createZStrokeList();
     ZRefName zRefName =
       zFactory_.createZRefName("unknown(" + unknownType.getZRefName() + ")",
                                strokes, null);
@@ -176,7 +180,8 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      List<Stroke> strokes = vType.getName().getStroke();
+      ZStrokeList strokes = zFactory_.createZStrokeList();
+      strokes.addAll(vType.getName().getZStrokeList());
       ZRefName zRefName = zFactory_.createZRefName("??", strokes, null);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr result =
@@ -192,7 +197,8 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      List<Stroke> strokes = vSig.getName().getStroke();
+      ZStrokeList strokes = zFactory_.createZStrokeList();
+      strokes.addAll(vSig.getName().getZStrokeList());
       ZRefName zRefName =
         zFactory_.createZRefName("??", strokes, null);
       ZExprList zExprList = zFactory_.createZExprList();

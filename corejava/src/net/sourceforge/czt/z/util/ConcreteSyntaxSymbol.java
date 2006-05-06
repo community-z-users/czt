@@ -147,7 +147,8 @@ public enum ConcreteSyntaxSymbol
   DECL_LIST("List of declarations"),
   EXPR_LIST("List of expressions"),
   REFNAME_LIST("List of referencing names"),
-  RENAME_LIST("List of pairs of names");
+  RENAME_LIST("List of pairs of names"),
+  STROKE_LIST("List of strokes");
 
 
   private final String description_;

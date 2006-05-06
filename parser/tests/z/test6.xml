@@ -34,6 +34,7 @@
                     <LocAnn Col="1" Length="4" Line="12" Loc="tests/z/test6.tex" Start="239"/>
                 </Anns>
                 <Word>NAME</Word>
+                <ZStrokeList/>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
@@ -61,6 +62,7 @@
                                 <LocAnn Col="0" Length="2" Line="15" Loc="tests/z/test6.tex" Start="270"/>
                             </Anns>
                             <Word>ID</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -71,6 +73,7 @@
                                     <LocAnn Col="6" Length="4" Line="15" Loc="tests/z/test6.tex" Start="276"/>
                                 </Anns>
                                 <Word>ℕ</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -98,6 +101,7 @@
                         <LocAnn Col="0" Length="10" Line="18" Loc="tests/z/test6.tex" Start="306"/>
                     </Anns>
                     <Word>DEPARTMENT</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -108,6 +112,7 @@
                             <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
                         </Anns>
                         <Word>administration</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -119,6 +124,7 @@
                             <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
                         </Anns>
                         <Word>manufacturing</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -130,6 +136,7 @@
                             <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
                         </Anns>
                         <Word>research</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -159,6 +166,7 @@
                                 <LocAnn Col="0" Length="8" Line="21" Loc="tests/z/test6.tex" Start="388"/>
                             </Anns>
                             <Word>EMPLOYEE</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ProdExpr>
                             <Anns>
@@ -174,6 +182,7 @@
                                             <LocAnn Col="12" Length="2" Line="21" Loc="tests/z/test6.tex" Start="400"/>
                                         </Anns>
                                         <Word>ID</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -186,6 +195,7 @@
                                             <LocAnn Col="22" Length="4" Line="21" Loc="tests/z/test6.tex" Start="410"/>
                                         </Anns>
                                         <Word>NAME</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -198,6 +208,7 @@
                                             <LocAnn Col="34" Length="10" Line="21" Loc="tests/z/test6.tex" Start="422"/>
                                         </Anns>
                                         <Word>DEPARTMENT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -229,12 +240,14 @@
                                 <LocAnn Col="0" Length="5" Line="24" Loc="tests/z/test6.tex" Start="460"/>
                             </Anns>
                             <Word>Frank</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ZDeclName>
                             <Anns>
                                 <LocAnn Col="7" Length="3" Line="24" Loc="tests/z/test6.tex" Start="467"/>
                             </Anns>
                             <Word>Aki</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -245,6 +258,7 @@
                                     <LocAnn Col="13" Length="8" Line="24" Loc="tests/z/test6.tex" Start="473"/>
                                 </Anns>
                                 <Word>EMPLOYEE</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -267,6 +281,7 @@
                                     <LocAnn Col="7" Length="5" Line="25" Loc="tests/z/test6.tex" Start="493"/>
                                 </Anns>
                                 <Word>Frank</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -296,6 +311,7 @@
                                                     <LocAnn Col="20" Length="4" Line="25" Loc="tests/z/test6.tex" Start="506"/>
                                                 </Anns>
                                                 <Word>chen</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -308,6 +324,7 @@
                                                     <LocAnn Col="26" Length="14" Line="25" Loc="tests/z/test6.tex" Start="512"/>
                                                 </Anns>
                                                 <Word>administration</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -329,6 +346,7 @@
                                     <LocAnn Col="0" Length="3" Line="26" Loc="tests/z/test6.tex" Start="532"/>
                                 </Anns>
                                 <Word>Aki</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -358,6 +376,7 @@
                                                     <LocAnn Col="11" Length="4" Line="26" Loc="tests/z/test6.tex" Start="543"/>
                                                 </Anns>
                                                 <Word>chun</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -370,6 +389,7 @@
                                                     <LocAnn Col="17" Length="8" Line="26" Loc="tests/z/test6.tex" Start="549"/>
                                                 </Anns>
                                                 <Word>research</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -402,6 +422,7 @@
                         <LocAnn Col="0" Length="2" Line="30" Loc="tests/z/test6.tex" Start="588"/>
                     </Anns>
                     <Word>OP</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -412,6 +433,7 @@
                             <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
                         </Anns>
                         <Word>plus</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -423,6 +445,7 @@
                             <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
                         </Anns>
                         <Word>minus</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -434,6 +457,7 @@
                             <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
                         </Anns>
                         <Word>times</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -445,6 +469,7 @@
                             <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
                         </Anns>
                         <Word>divide</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -469,6 +494,7 @@
                         <LocAnn Col="0" Length="3" Line="33" Loc="tests/z/test6.tex" Start="650"/>
                     </Anns>
                     <Word>EXP</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -479,6 +505,7 @@
                             <LocAnn Col="8" Length="5" Line="33" Loc="tests/z/test6.tex" Start="658"/>
                         </Anns>
                         <Word>const</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                     <RefExpr Explicit="false" Mixfix="false">
                         <Anns>
@@ -489,6 +516,7 @@
                                 <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
                             </Anns>
                             <Word>ℕ</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -502,6 +530,7 @@
                             <LocAnn Col="35" Length="5" Line="33" Loc="tests/z/test6.tex" Start="685"/>
                         </Anns>
                         <Word>binop</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                     <ProdExpr>
                         <Anns>
@@ -517,6 +546,7 @@
                                         <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
                                     </Anns>
                                     <Word>OP</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -529,6 +559,7 @@
                                         <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
                                     </Anns>
                                     <Word>EXP</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -541,6 +572,7 @@
                                         <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
                                     </Anns>
                                     <Word>EXP</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>

@@ -314,7 +314,7 @@ public class GlobalDefs
   public static boolean namesEqual(ZDeclName zDeclName1, ZDeclName zDeclName2)
   {
     boolean result = zDeclName1.getWord().equals(zDeclName2.getWord()) &&
-      zDeclName1.getStroke().equals(zDeclName2.getStroke());
+      zDeclName1.getStrokeList().equals(zDeclName2.getStrokeList());
     return result;
   }
 
@@ -336,7 +336,7 @@ public class GlobalDefs
   public static boolean namesEqual(ZDeclName zDeclName, ZRefName zRefName)
   {
     boolean result = zDeclName.getWord().equals(zRefName.getWord()) &&
-      zDeclName.getStroke().equals(zRefName.getStroke());
+      zDeclName.getStrokeList().equals(zRefName.getStrokeList());
     return result;
   }
 
@@ -346,7 +346,7 @@ public class GlobalDefs
   public static boolean namesEqual(ZRefName zRefName1, ZRefName zRefName2)
   {
     boolean result = zRefName1.getWord().equals(zRefName2.getWord()) &&
-      zRefName1.getStroke().equals(zRefName2.getStroke());
+      zRefName1.getStrokeList().equals(zRefName2.getStrokeList());
     return result;
   }
 
@@ -431,8 +431,8 @@ public class GlobalDefs
       return compareWord;
     }
     else {
-      List<Stroke> strokes1 = zDeclName1.getStroke();
-      List<Stroke> strokes2 = zDeclName2.getStroke();
+      ZStrokeList strokes1 = zDeclName1.getZStrokeList();
+      ZStrokeList strokes2 = zDeclName2.getZStrokeList();
       int lengthDiff = strokes1.size() - strokes2.size();
       if (lengthDiff != 0) {
         return lengthDiff;

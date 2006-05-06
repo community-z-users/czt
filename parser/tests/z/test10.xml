@@ -39,6 +39,7 @@ Test schemas and axdefs with empty declaration parts.
                                 <LocAnn Col="2" Length="4" Line="7" Loc="tests/z/test10.tex" Start="127"/>
                             </Anns>
                             <Word>TRUE</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -83,6 +84,7 @@ Test schemas and axdefs with empty declaration parts.
                                 <LocAnn Col="2" Length="5" Line="11" Loc="tests/z/test10.tex" Start="168"/>
                             </Anns>
                             <Word>FALSE</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <Anns>
@@ -136,6 +138,7 @@ Test axdef with no declarations.
                                         <LocAnn Col="12" Length="1" Line="17" Loc="tests/z/test10.tex" Start="263"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -146,6 +149,7 @@ Test axdef with no declarations.
                                             <LocAnn Col="14" Length="4" Line="17" Loc="tests/z/test10.tex" Start="265"/>
                                         </Anns>
                                         <Word>ℕ</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -166,6 +170,7 @@ Test axdef with no declarations.
                                                 <LocAnn Col="21" Length="1" Line="17" Loc="tests/z/test10.tex" Start="272"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -190,6 +195,7 @@ Test axdef with no declarations.
                                         <LocAnn Col="23" Length="2" Line="17" Loc="tests/z/test10.tex" Start="274"/>
                                     </Anns>
                                     <Word> _ &lt; _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -212,6 +218,7 @@ Test axdef with no declarations.
                                         <LocAnn Col="31" Length="1" Line="17" Loc="tests/z/test10.tex" Start="282"/>
                                     </Anns>
                                     <Word> _ * _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -226,6 +233,7 @@ Test axdef with no declarations.
                                                 <LocAnn Col="30" Length="1" Line="17" Loc="tests/z/test10.tex" Start="281"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -238,6 +246,7 @@ Test axdef with no declarations.
                                                 <LocAnn Col="32" Length="1" Line="17" Loc="tests/z/test10.tex" Start="283"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -255,6 +264,7 @@ Test axdef with no declarations.
                                             <LocAnn Col="36" Length="1" Line="17" Loc="tests/z/test10.tex" Start="287"/>
                                         </Anns>
                                         <Word>x</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>

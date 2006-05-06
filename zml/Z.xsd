@@ -817,6 +817,20 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- the StrokeList hierarchy -->
+  <xs:element name="StrokeList" type="Z:StrokeList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract stroke list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZStrokeList" type="Z:ZStrokeList" substitutionGroup="Z:StrokeList">
+    <xs:annotation>
+      <xs:documentation>
+        A stroke list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- Miscellaneous Z elements -->
   <xs:element name="Parent" type="Z:Parent">
     <xs:annotation>
@@ -1273,7 +1287,7 @@ more detail.
       <xs:extension base="Z:DeclName">
         <xs:sequence>
           <xs:element name="Word" type="xs:string"/>
-          <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:StrokeList"/>
         </xs:sequence>
         <xs:attribute name="Id" type="xs:ID" use="optional"/>
       </xs:extension>
@@ -1289,7 +1303,7 @@ more detail.
       <xs:extension base="Z:RefName">
         <xs:sequence>
           <xs:element name="Word" type="xs:string"/>
-          <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:StrokeList"/>
         </xs:sequence>
         <xs:attribute name="Decl" type="xs:IDREF" use="optional"/>
       </xs:extension>
@@ -1500,7 +1514,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:StrokeList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1688,6 +1702,20 @@ more detail.
       <xs:extension base="Z:DeclList">
         <xs:sequence>
           <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="StrokeList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZStrokeList">
+    <xs:complexContent>
+      <xs:extension base="Z:StrokeList">
+        <xs:sequence>
+          <xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

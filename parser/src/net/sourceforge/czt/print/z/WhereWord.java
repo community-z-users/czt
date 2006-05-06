@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.util.ArrayList;
-
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -29,6 +27,6 @@ public class WhereWord
 {
   public WhereWord()
   {
-    super(ZString.BAR, new ArrayList());
+    super(ZString.BAR);
   }
 }

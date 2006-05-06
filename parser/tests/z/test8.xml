@@ -34,6 +34,7 @@ because the newline conjunction has lower priority than the forall.
                                 <LocAnn Col="15" Length="9" Line="7" Loc="tests/z/test8.tex" Start="288"/>
                             </Anns>
                             <Word>PredTest1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -47,6 +48,7 @@ because the newline conjunction has lower priority than the forall.
                                                 <LocAnn Col="3" Length="1" Line="8" Loc="tests/z/test8.tex" Start="302"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -57,6 +59,7 @@ because the newline conjunction has lower priority than the forall.
                                                     <LocAnn Col="5" Length="4" Line="8" Loc="tests/z/test8.tex" Start="304"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -70,6 +73,7 @@ because the newline conjunction has lower priority than the forall.
                                                 <LocAnn Col="3" Length="1" Line="9" Loc="tests/z/test8.tex" Start="315"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -80,6 +84,7 @@ because the newline conjunction has lower priority than the forall.
                                                     <LocAnn Col="5" Length="4" Line="9" Loc="tests/z/test8.tex" Start="317"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -104,6 +109,7 @@ because the newline conjunction has lower priority than the forall.
                                                             <LocAnn Col="11" Length="1" Line="11" Loc="tests/z/test8.tex" Start="340"/>
                                                         </Anns>
                                                         <Word>a</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -114,6 +120,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="13" Length="4" Line="11" Loc="tests/z/test8.tex" Start="342"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -127,6 +134,7 @@ because the newline conjunction has lower priority than the forall.
                                                             <LocAnn Col="11" Length="1" Line="12" Loc="tests/z/test8.tex" Start="361"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -137,6 +145,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="13" Length="4" Line="12" Loc="tests/z/test8.tex" Start="363"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -161,6 +170,7 @@ because the newline conjunction has lower priority than the forall.
                                                                         <LocAnn Col="11" Length="1" Line="13" Loc="tests/z/test8.tex" Start="384"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -185,6 +195,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="13" Length="2" Line="13" Loc="tests/z/test8.tex" Start="386"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -204,6 +215,7 @@ because the newline conjunction has lower priority than the forall.
                                                                         <LocAnn Col="11" Length="1" Line="14" Loc="tests/z/test8.tex" Start="404"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -228,6 +240,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="13" Length="2" Line="14" Loc="tests/z/test8.tex" Start="406"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -249,6 +262,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="9" Length="1" Line="15" Loc="tests/z/test8.tex" Start="424"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -261,6 +275,7 @@ because the newline conjunction has lower priority than the forall.
                                                                 <LocAnn Col="13" Length="1" Line="15" Loc="tests/z/test8.tex" Start="428"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -275,6 +290,7 @@ because the newline conjunction has lower priority than the forall.
                                                         <LocAnn Col="11" Length="2" Line="15" Loc="tests/z/test8.tex" Start="426"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -295,6 +311,7 @@ because the newline conjunction has lower priority than the forall.
                                                             <LocAnn Col="3" Length="1" Line="16" Loc="tests/z/test8.tex" Start="436"/>
                                                         </Anns>
                                                         <Word>y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -307,6 +324,7 @@ because the newline conjunction has lower priority than the forall.
                                                             <LocAnn Col="7" Length="1" Line="16" Loc="tests/z/test8.tex" Start="440"/>
                                                         </Anns>
                                                         <Word>a</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -321,6 +339,7 @@ because the newline conjunction has lower priority than the forall.
                                                     <LocAnn Col="5" Length="2" Line="16" Loc="tests/z/test8.tex" Start="438"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -353,6 +372,7 @@ This one should parse the same as the above!
                                 <LocAnn Col="15" Length="9" Line="20" Loc="tests/z/test8.tex" Start="516"/>
                             </Anns>
                             <Word>PredTest2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -366,6 +386,7 @@ This one should parse the same as the above!
                                                 <LocAnn Col="3" Length="1" Line="21" Loc="tests/z/test8.tex" Start="530"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -376,6 +397,7 @@ This one should parse the same as the above!
                                                     <LocAnn Col="5" Length="4" Line="21" Loc="tests/z/test8.tex" Start="532"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -389,6 +411,7 @@ This one should parse the same as the above!
                                                 <LocAnn Col="3" Length="1" Line="22" Loc="tests/z/test8.tex" Start="543"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -399,6 +422,7 @@ This one should parse the same as the above!
                                                     <LocAnn Col="5" Length="4" Line="22" Loc="tests/z/test8.tex" Start="545"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -428,6 +452,7 @@ This one should parse the same as the above!
                                                             <LocAnn Col="12" Length="1" Line="24" Loc="tests/z/test8.tex" Start="569"/>
                                                         </Anns>
                                                         <Word>a</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -438,6 +463,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="14" Length="4" Line="24" Loc="tests/z/test8.tex" Start="571"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -451,6 +477,7 @@ This one should parse the same as the above!
                                                             <LocAnn Col="12" Length="1" Line="25" Loc="tests/z/test8.tex" Start="591"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -461,6 +488,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="14" Length="4" Line="25" Loc="tests/z/test8.tex" Start="593"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -485,6 +513,7 @@ This one should parse the same as the above!
                                                                         <LocAnn Col="11" Length="1" Line="26" Loc="tests/z/test8.tex" Start="614"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -509,6 +538,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="13" Length="2" Line="26" Loc="tests/z/test8.tex" Start="616"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -528,6 +558,7 @@ This one should parse the same as the above!
                                                                         <LocAnn Col="11" Length="1" Line="27" Loc="tests/z/test8.tex" Start="634"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -552,6 +583,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="13" Length="2" Line="27" Loc="tests/z/test8.tex" Start="636"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -573,6 +605,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="9" Length="1" Line="28" Loc="tests/z/test8.tex" Start="654"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -585,6 +618,7 @@ This one should parse the same as the above!
                                                                 <LocAnn Col="13" Length="1" Line="28" Loc="tests/z/test8.tex" Start="658"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -599,6 +633,7 @@ This one should parse the same as the above!
                                                         <LocAnn Col="11" Length="2" Line="28" Loc="tests/z/test8.tex" Start="656"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -619,6 +654,7 @@ This one should parse the same as the above!
                                                             <LocAnn Col="9" Length="1" Line="29" Loc="tests/z/test8.tex" Start="672"/>
                                                         </Anns>
                                                         <Word>y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -631,6 +667,7 @@ This one should parse the same as the above!
                                                             <LocAnn Col="13" Length="1" Line="29" Loc="tests/z/test8.tex" Start="676"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -645,6 +682,7 @@ This one should parse the same as the above!
                                                     <LocAnn Col="11" Length="2" Line="29" Loc="tests/z/test8.tex" Start="674"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -678,6 +716,7 @@ INSIDE the forall.
                                 <LocAnn Col="15" Length="9" Line="34" Loc="tests/z/test8.tex" Start="796"/>
                             </Anns>
                             <Word>PredTest3</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -691,6 +730,7 @@ INSIDE the forall.
                                                 <LocAnn Col="3" Length="1" Line="35" Loc="tests/z/test8.tex" Start="810"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -701,6 +741,7 @@ INSIDE the forall.
                                                     <LocAnn Col="5" Length="4" Line="35" Loc="tests/z/test8.tex" Start="812"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -714,6 +755,7 @@ INSIDE the forall.
                                                 <LocAnn Col="3" Length="1" Line="36" Loc="tests/z/test8.tex" Start="823"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -724,6 +766,7 @@ INSIDE the forall.
                                                     <LocAnn Col="5" Length="4" Line="36" Loc="tests/z/test8.tex" Start="825"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -744,6 +787,7 @@ INSIDE the forall.
                                                         <LocAnn Col="11" Length="1" Line="38" Loc="tests/z/test8.tex" Start="848"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -754,6 +798,7 @@ INSIDE the forall.
                                                             <LocAnn Col="13" Length="4" Line="38" Loc="tests/z/test8.tex" Start="850"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -767,6 +812,7 @@ INSIDE the forall.
                                                         <LocAnn Col="12" Length="1" Line="39" Loc="tests/z/test8.tex" Start="870"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -777,6 +823,7 @@ INSIDE the forall.
                                                             <LocAnn Col="14" Length="4" Line="39" Loc="tests/z/test8.tex" Start="872"/>
                                                         </Anns>
                                                         <Word>ℕ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -801,6 +848,7 @@ INSIDE the forall.
                                                                     <LocAnn Col="11" Length="1" Line="40" Loc="tests/z/test8.tex" Start="893"/>
                                                                 </Anns>
                                                                 <Word>a</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -825,6 +873,7 @@ INSIDE the forall.
                                                             <LocAnn Col="13" Length="2" Line="40" Loc="tests/z/test8.tex" Start="895"/>
                                                         </Anns>
                                                         <Word> _ &lt; _ </Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -844,6 +893,7 @@ INSIDE the forall.
                                                                     <LocAnn Col="11" Length="1" Line="41" Loc="tests/z/test8.tex" Start="913"/>
                                                                 </Anns>
                                                                 <Word>b</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -868,6 +918,7 @@ INSIDE the forall.
                                                             <LocAnn Col="13" Length="2" Line="41" Loc="tests/z/test8.tex" Start="915"/>
                                                         </Anns>
                                                         <Word> _ &lt; _ </Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -898,6 +949,7 @@ INSIDE the forall.
                                                                 <LocAnn Col="10" Length="1" Line="42" Loc="tests/z/test8.tex" Start="934"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -910,6 +962,7 @@ INSIDE the forall.
                                                                 <LocAnn Col="14" Length="1" Line="42" Loc="tests/z/test8.tex" Start="938"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -924,6 +977,7 @@ INSIDE the forall.
                                                         <LocAnn Col="12" Length="2" Line="42" Loc="tests/z/test8.tex" Start="936"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -943,6 +997,7 @@ INSIDE the forall.
                                                                 <LocAnn Col="9" Length="1" Line="43" Loc="tests/z/test8.tex" Start="952"/>
                                                             </Anns>
                                                             <Word>y</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -955,6 +1010,7 @@ INSIDE the forall.
                                                                 <LocAnn Col="13" Length="1" Line="43" Loc="tests/z/test8.tex" Start="956"/>
                                                             </Anns>
                                                             <Word>b</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -969,6 +1025,7 @@ INSIDE the forall.
                                                         <LocAnn Col="11" Length="2" Line="43" Loc="tests/z/test8.tex" Start="954"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1002,6 +1059,7 @@ This should parse the same as the first one (but uses ;).
                                 <LocAnn Col="15" Length="14" Line="47" Loc="tests/z/test8.tex" Start="1046"/>
                             </Anns>
                             <Word>SemicolonTest1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1015,6 +1073,7 @@ This should parse the same as the first one (but uses ;).
                                                 <LocAnn Col="3" Length="1" Line="48" Loc="tests/z/test8.tex" Start="1065"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1025,6 +1084,7 @@ This should parse the same as the first one (but uses ;).
                                                     <LocAnn Col="5" Length="4" Line="48" Loc="tests/z/test8.tex" Start="1067"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1038,6 +1098,7 @@ This should parse the same as the first one (but uses ;).
                                                 <LocAnn Col="3" Length="1" Line="49" Loc="tests/z/test8.tex" Start="1078"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1048,6 +1109,7 @@ This should parse the same as the first one (but uses ;).
                                                     <LocAnn Col="5" Length="4" Line="49" Loc="tests/z/test8.tex" Start="1080"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1077,6 +1139,7 @@ This should parse the same as the first one (but uses ;).
                                                             <LocAnn Col="12" Length="1" Line="51" Loc="tests/z/test8.tex" Start="1104"/>
                                                         </Anns>
                                                         <Word>a</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -1087,6 +1150,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="14" Length="4" Line="51" Loc="tests/z/test8.tex" Start="1106"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1100,6 +1164,7 @@ This should parse the same as the first one (but uses ;).
                                                             <LocAnn Col="12" Length="1" Line="52" Loc="tests/z/test8.tex" Start="1127"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -1110,6 +1175,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="14" Length="4" Line="52" Loc="tests/z/test8.tex" Start="1129"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1134,6 +1200,7 @@ This should parse the same as the first one (but uses ;).
                                                                         <LocAnn Col="11" Length="1" Line="53" Loc="tests/z/test8.tex" Start="1150"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1158,6 +1225,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="13" Length="2" Line="53" Loc="tests/z/test8.tex" Start="1152"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1177,6 +1245,7 @@ This should parse the same as the first one (but uses ;).
                                                                         <LocAnn Col="11" Length="1" Line="54" Loc="tests/z/test8.tex" Start="1172"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1201,6 +1270,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="13" Length="2" Line="54" Loc="tests/z/test8.tex" Start="1174"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1222,6 +1292,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="9" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1192"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1234,6 +1305,7 @@ This should parse the same as the first one (but uses ;).
                                                                 <LocAnn Col="13" Length="1" Line="55" Loc="tests/z/test8.tex" Start="1196"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1248,6 +1320,7 @@ This should parse the same as the first one (but uses ;).
                                                         <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/test8.tex" Start="1194"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1268,6 +1341,7 @@ This should parse the same as the first one (but uses ;).
                                                             <LocAnn Col="9" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1212"/>
                                                         </Anns>
                                                         <Word>y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1280,6 +1354,7 @@ This should parse the same as the first one (but uses ;).
                                                             <LocAnn Col="13" Length="1" Line="56" Loc="tests/z/test8.tex" Start="1216"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1294,6 +1369,7 @@ This should parse the same as the first one (but uses ;).
                                                     <LocAnn Col="11" Length="2" Line="56" Loc="tests/z/test8.tex" Start="1214"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1327,6 +1403,7 @@ the operators rather than after).
                                 <LocAnn Col="15" Length="14" Line="61" Loc="tests/z/test8.tex" Start="1352"/>
                             </Anns>
                             <Word>SemicolonTest2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1340,6 +1417,7 @@ the operators rather than after).
                                                 <LocAnn Col="3" Length="1" Line="62" Loc="tests/z/test8.tex" Start="1371"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1350,6 +1428,7 @@ the operators rather than after).
                                                     <LocAnn Col="5" Length="4" Line="62" Loc="tests/z/test8.tex" Start="1373"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1363,6 +1442,7 @@ the operators rather than after).
                                                 <LocAnn Col="3" Length="1" Line="63" Loc="tests/z/test8.tex" Start="1384"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1373,6 +1453,7 @@ the operators rather than after).
                                                     <LocAnn Col="5" Length="4" Line="63" Loc="tests/z/test8.tex" Start="1386"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1402,6 +1483,7 @@ the operators rather than after).
                                                             <LocAnn Col="12" Length="1" Line="65" Loc="tests/z/test8.tex" Start="1410"/>
                                                         </Anns>
                                                         <Word>a</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -1412,6 +1494,7 @@ the operators rather than after).
                                                                 <LocAnn Col="14" Length="4" Line="65" Loc="tests/z/test8.tex" Start="1412"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1425,6 +1508,7 @@ the operators rather than after).
                                                             <LocAnn Col="13" Length="1" Line="66" Loc="tests/z/test8.tex" Start="1433"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
@@ -1435,6 +1519,7 @@ the operators rather than after).
                                                                 <LocAnn Col="15" Length="4" Line="66" Loc="tests/z/test8.tex" Start="1435"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1459,6 +1544,7 @@ the operators rather than after).
                                                                         <LocAnn Col="11" Length="1" Line="67" Loc="tests/z/test8.tex" Start="1454"/>
                                                                     </Anns>
                                                                     <Word>a</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1483,6 +1569,7 @@ the operators rather than after).
                                                                 <LocAnn Col="13" Length="2" Line="67" Loc="tests/z/test8.tex" Start="1456"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1502,6 +1589,7 @@ the operators rather than after).
                                                                         <LocAnn Col="11" Length="1" Line="68" Loc="tests/z/test8.tex" Start="1474"/>
                                                                     </Anns>
                                                                     <Word>b</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1526,6 +1614,7 @@ the operators rather than after).
                                                                 <LocAnn Col="13" Length="2" Line="68" Loc="tests/z/test8.tex" Start="1476"/>
                                                             </Anns>
                                                             <Word> _ &lt; _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1547,6 +1636,7 @@ the operators rather than after).
                                                                 <LocAnn Col="11" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1494"/>
                                                             </Anns>
                                                             <Word>x</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1559,6 +1649,7 @@ the operators rather than after).
                                                                 <LocAnn Col="15" Length="1" Line="69" Loc="tests/z/test8.tex" Start="1498"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1573,6 +1664,7 @@ the operators rather than after).
                                                         <LocAnn Col="13" Length="2" Line="69" Loc="tests/z/test8.tex" Start="1496"/>
                                                     </Anns>
                                                     <Word> _ &lt; _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1593,6 +1685,7 @@ the operators rather than after).
                                                             <LocAnn Col="11" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1511"/>
                                                         </Anns>
                                                         <Word>y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1605,6 +1698,7 @@ the operators rather than after).
                                                             <LocAnn Col="15" Length="1" Line="70" Loc="tests/z/test8.tex" Start="1515"/>
                                                         </Anns>
                                                         <Word>b</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1619,6 +1713,7 @@ the operators rather than after).
                                                     <LocAnn Col="13" Length="2" Line="70" Loc="tests/z/test8.tex" Start="1513"/>
                                                 </Anns>
                                                 <Word> _ &lt; _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>

@@ -36,7 +36,7 @@
    * This is a convenience method.
    */
   public ZDeclName createZDeclName(String word,
-                                   java.util.List<? extends Stroke> strokes)
+                                   StrokeList strokes)
   {
     return createZDeclName(word, strokes, null);
   }
@@ -50,13 +50,13 @@
    */
   public ZDeclName createZDeclName(String decorword)
   {
-    java.util.List<Stroke> strokes = new java.util.ArrayList<Stroke>();
+    ZStrokeList strokes = createZStrokeList();
     final String word = getWordAndStrokes(decorword, strokes);
     return createZDeclName(word, strokes, null);
   }
 
   protected String getWordAndStrokes(String decorword,
-                                     java.util.List<Stroke> strokes)
+                                     ZStrokeList strokes)
   {
     net.sourceforge.czt.z.util.ZChar[] zchars =
       net.sourceforge.czt.z.util.ZChar.toZChars(decorword);
@@ -233,11 +233,11 @@
 
   /**
    * Creates a ZRefName with the given word and strokes and
-   * id set to <code>null</code>.
+   * decl set to <code>null</code>.
    * This is a convenience method.
    */
   public ZRefName createZRefName(String word,
-                                 java.util.List<? extends Stroke> strokes)
+                                 StrokeList strokes)
   {
     return createZRefName(word, strokes, null);
   }
@@ -251,7 +251,7 @@
    */
   public ZRefName createZRefName(String decorword)
   {
-    java.util.List<Stroke> strokes = new java.util.ArrayList<Stroke>();
+    ZStrokeList strokes = createZStrokeList();
     final String word = getWordAndStrokes(decorword, strokes);
     return createZRefName(word, strokes, null);
   }
@@ -263,7 +263,9 @@
    */
   public ZRefName createZRefName(ZDeclName declName)
   {
-    return createZRefName(declName.getWord(), declName.getStroke(), declName);
+    return createZRefName(declName.getWord(),
+			  declName.getStrokeList(),
+			  declName);
   }
 
   /**

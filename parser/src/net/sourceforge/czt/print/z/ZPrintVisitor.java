@@ -291,7 +291,9 @@ public class ZPrintVisitor
   {
     OperatorName op = declName.getOperatorName();
     if (op == null) {
-      printDecorword(new Decorword(declName.getWord(), declName.getStroke()));
+      final Decorword decorword =
+	new Decorword(declName.getWord(), declName.getZStrokeList());
+      printDecorword(decorword);
       return null;
     }
     for (String wordPart : op.getWords()) {
@@ -299,7 +301,7 @@ public class ZPrintVisitor
         printDecorword(wordPart);
       }
       else {
-        printDecorword(new Decorword(wordPart, op.getStroke()));
+        printDecorword(new Decorword(wordPart, (ZStrokeList) op.getStrokes()));
       }
     }
     return null;
@@ -939,7 +941,7 @@ public class ZPrintVisitor
     OperatorName op = refName.getOperatorName();
     if (op == null) {
       print(TokenName.DECORWORD,
-            new Decorword(refName.getWord(), refName.getStroke()));
+            new Decorword(refName.getWord(), refName.getZStrokeList()));
       return null;
     }
     print(TokenName.LPAREN);
@@ -948,10 +950,16 @@ public class ZPrintVisitor
         printDecorword(wordPart);
       }
       else {
-        printDecorword(new Decorword(wordPart, op.getStroke()));
+        printDecorword(new Decorword(wordPart, (ZStrokeList) op.getStrokes()));
       }
     }
     print(TokenName.RPAREN);
+    return null;
+  }
+
+  public Object visitZStrokeList(ZStrokeList zStrokeList)
+  {
+    for (Stroke stroke : zStrokeList) visit(stroke);
     return null;
   }
 
@@ -1044,7 +1052,7 @@ public class ZPrintVisitor
     if (braces) print(TokenName.LPAREN);
     print(Keyword.THETA);
     visit(thetaExpr.getExpr());
-    visit(thetaExpr.getStroke());
+    visit(thetaExpr.getStrokeList());
     if (braces) print(TokenName.RPAREN);
     return null;
   }
@@ -1208,7 +1216,9 @@ public class ZPrintVisitor
         pos++;
       }
       else {
-        print(TokenName.DECORWORD, new Decorword(opPart, op.getStroke()));
+	final Decorword decorword =
+	  new Decorword(opPart, (ZStrokeList) op.getStrokes());
+        print(TokenName.DECORWORD, decorword);
       }
     }
     return null;

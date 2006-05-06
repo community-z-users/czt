@@ -63,7 +63,7 @@ public class PostChecker
         Object undecAnn = pair.getZDeclName().getAnn(UndeclaredAnn.class);
         if (undecAnn != null) {
           ZDeclName decorName = factory().createZDeclName(pair.getZDeclName());
-          decorName.getStroke().addAll(thetaExpr.getStroke());
+          decorName.getZStrokeList().addAll(thetaExpr.getZStrokeList());
           Object [] params = {decorName, thetaExpr};
           ErrorAnn errorAnn =
             errorAnn(thetaExpr,

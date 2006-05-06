@@ -45,6 +45,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_ints.tex" Start="416"/>
                             </Anns>
                             <Word>undefnum</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -55,6 +56,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_ints.tex" Start="427"/>
                                 </Anns>
                                 <Word>ℤ</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -94,6 +96,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="22" Loc="tests/z/animate_ints.tex" Start="540"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -166,6 +169,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="23" Loc="tests/z/animate_ints.tex" Start="578"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -238,6 +242,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="24" Loc="tests/z/animate_ints.tex" Start="616"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -310,6 +315,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="25" Loc="tests/z/animate_ints.tex" Start="654"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -382,6 +388,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="1" Line="26" Loc="tests/z/animate_ints.tex" Start="701"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -400,6 +407,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="26" Loc="tests/z/animate_ints.tex" Start="691"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -471,6 +479,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="1" Line="27" Loc="tests/z/animate_ints.tex" Start="741"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -499,6 +508,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="26" Length="7" Line="27" Loc="tests/z/animate_ints.tex" Start="743"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -560,6 +570,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="25" Length="1" Line="28" Loc="tests/z/animate_ints.tex" Start="792"/>
                             </Anns>
                             <Word> _ + _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -634,6 +645,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="25" Length="1" Line="29" Loc="tests/z/animate_ints.tex" Start="837"/>
                                     </Anns>
                                     <Word> _ + _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -683,6 +695,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="30" Length="4" Line="29" Loc="tests/z/animate_ints.tex" Start="842"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -737,6 +750,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="34" Length="1" Line="30" Loc="tests/z/animate_ints.tex" Start="894"/>
                                         </Anns>
                                         <Word> _ + _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -800,6 +814,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="33" Loc="tests/z/animate_ints.tex" Start="966"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -872,6 +887,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="34" Loc="tests/z/animate_ints.tex" Start="1004"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -915,6 +931,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="27" Length="7" Line="34" Loc="tests/z/animate_ints.tex" Start="1008"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -961,6 +978,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="35" Loc="tests/z/animate_ints.tex" Start="1051"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1033,6 +1051,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="36" Loc="tests/z/animate_ints.tex" Start="1089"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1105,6 +1124,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="1" Line="37" Loc="tests/z/animate_ints.tex" Start="1136"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1123,6 +1143,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="37" Loc="tests/z/animate_ints.tex" Start="1126"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1165,6 +1186,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="37" Length="7" Line="37" Loc="tests/z/animate_ints.tex" Start="1141"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1211,6 +1233,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="1" Line="38" Loc="tests/z/animate_ints.tex" Start="1185"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1239,6 +1262,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="26" Length="7" Line="38" Loc="tests/z/animate_ints.tex" Start="1187"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1300,6 +1324,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="25" Length="1" Line="39" Loc="tests/z/animate_ints.tex" Start="1236"/>
                             </Anns>
                             <Word> _ − _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1343,6 +1368,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="32" Length="7" Line="39" Loc="tests/z/animate_ints.tex" Start="1243"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1391,6 +1417,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="25" Length="1" Line="40" Loc="tests/z/animate_ints.tex" Start="1288"/>
                                     </Anns>
                                     <Word> _ − _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1440,6 +1467,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="30" Length="4" Line="40" Loc="tests/z/animate_ints.tex" Start="1293"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -1476,6 +1504,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="44" Loc="tests/z/animate_ints.tex" Start="1372"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1548,6 +1577,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="45" Loc="tests/z/animate_ints.tex" Start="1410"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1620,6 +1650,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="46" Loc="tests/z/animate_ints.tex" Start="1448"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1692,6 +1723,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="47" Loc="tests/z/animate_ints.tex" Start="1486"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1764,6 +1796,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="1" Line="48" Loc="tests/z/animate_ints.tex" Start="1533"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1782,6 +1815,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="48" Loc="tests/z/animate_ints.tex" Start="1523"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1824,6 +1858,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="37" Length="7" Line="48" Loc="tests/z/animate_ints.tex" Start="1538"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1870,6 +1905,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="1" Line="49" Loc="tests/z/animate_ints.tex" Start="1582"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -1898,6 +1934,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="26" Length="7" Line="49" Loc="tests/z/animate_ints.tex" Start="1584"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1930,6 +1967,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="38" Length="7" Line="49" Loc="tests/z/animate_ints.tex" Start="1596"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1976,6 +2014,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="25" Length="1" Line="50" Loc="tests/z/animate_ints.tex" Start="1641"/>
                             </Anns>
                             <Word> _ * _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2050,6 +2089,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="25" Length="1" Line="51" Loc="tests/z/animate_ints.tex" Start="1687"/>
                                     </Anns>
                                     <Word> _ * _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2099,6 +2139,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="30" Length="4" Line="51" Loc="tests/z/animate_ints.tex" Start="1692"/>
                         </Anns>
                         <Word> _ ≠ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -2136,6 +2177,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="4" Line="56" Loc="tests/z/animate_ints.tex" Start="1806"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2175,6 +2217,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="32" Length="8" Line="56" Loc="tests/z/animate_ints.tex" Start="1815"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2210,6 +2253,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="57" Loc="tests/z/animate_ints.tex" Start="1866"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2228,6 +2272,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="57" Loc="tests/z/animate_ints.tex" Start="1856"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2266,6 +2311,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="41" Length="8" Line="57" Loc="tests/z/animate_ints.tex" Start="1875"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2301,6 +2347,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="58" Loc="tests/z/animate_ints.tex" Start="1918"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2340,6 +2387,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="33" Length="8" Line="58" Loc="tests/z/animate_ints.tex" Start="1927"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2376,6 +2424,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="60" Loc="tests/z/animate_ints.tex" Start="1971"/>
                             </Anns>
                             <Word> _ mod _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2415,6 +2464,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="33" Length="8" Line="60" Loc="tests/z/animate_ints.tex" Start="1980"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2450,6 +2500,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="61" Loc="tests/z/animate_ints.tex" Start="2031"/>
                             </Anns>
                             <Word> _ mod _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2468,6 +2519,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="61" Loc="tests/z/animate_ints.tex" Start="2021"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2506,6 +2558,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="41" Length="8" Line="61" Loc="tests/z/animate_ints.tex" Start="2040"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2541,6 +2594,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="62" Loc="tests/z/animate_ints.tex" Start="2083"/>
                             </Anns>
                             <Word> _ mod _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2580,6 +2634,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="33" Length="8" Line="62" Loc="tests/z/animate_ints.tex" Start="2092"/>
                                 </Anns>
                                 <Word>undefnum</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -2616,6 +2671,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="64" Loc="tests/z/animate_ints.tex" Start="2136"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2688,6 +2744,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="65" Loc="tests/z/animate_ints.tex" Start="2189"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2706,6 +2763,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="65" Loc="tests/z/animate_ints.tex" Start="2179"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2748,6 +2806,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="65" Loc="tests/z/animate_ints.tex" Start="2198"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2794,6 +2853,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="66" Loc="tests/z/animate_ints.tex" Start="2242"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2866,6 +2926,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="67" Loc="tests/z/animate_ints.tex" Start="2287"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2894,6 +2955,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="67" Loc="tests/z/animate_ints.tex" Start="2292"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2955,6 +3017,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="68" Loc="tests/z/animate_ints.tex" Start="2348"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -2973,6 +3036,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="68" Loc="tests/z/animate_ints.tex" Start="2338"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3000,6 +3064,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="68" Loc="tests/z/animate_ints.tex" Start="2353"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3061,6 +3126,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="69" Loc="tests/z/animate_ints.tex" Start="2401"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3089,6 +3155,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="69" Loc="tests/z/animate_ints.tex" Start="2406"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3121,6 +3188,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="69" Loc="tests/z/animate_ints.tex" Start="2418"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3168,6 +3236,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="71" Loc="tests/z/animate_ints.tex" Start="2463"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3240,6 +3309,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="72" Loc="tests/z/animate_ints.tex" Start="2508"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3312,6 +3382,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="73" Loc="tests/z/animate_ints.tex" Start="2553"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3384,6 +3455,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="74" Loc="tests/z/animate_ints.tex" Start="2598"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3456,6 +3528,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="75" Loc="tests/z/animate_ints.tex" Start="2643"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3528,6 +3601,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="76" Loc="tests/z/animate_ints.tex" Start="2688"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3600,6 +3674,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="77" Loc="tests/z/animate_ints.tex" Start="2741"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3618,6 +3693,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="77" Loc="tests/z/animate_ints.tex" Start="2731"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3660,6 +3736,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="77" Loc="tests/z/animate_ints.tex" Start="2750"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3706,6 +3783,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="78" Loc="tests/z/animate_ints.tex" Start="2802"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3724,6 +3802,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="78" Loc="tests/z/animate_ints.tex" Start="2792"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3766,6 +3845,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="78" Loc="tests/z/animate_ints.tex" Start="2811"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3812,6 +3892,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="79" Loc="tests/z/animate_ints.tex" Start="2863"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3830,6 +3911,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="79" Loc="tests/z/animate_ints.tex" Start="2853"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3872,6 +3954,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="79" Loc="tests/z/animate_ints.tex" Start="2872"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3918,6 +4001,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="80" Loc="tests/z/animate_ints.tex" Start="2924"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -3936,6 +4020,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="80" Loc="tests/z/animate_ints.tex" Start="2914"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3978,6 +4063,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="80" Loc="tests/z/animate_ints.tex" Start="2933"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4024,6 +4110,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="81" Loc="tests/z/animate_ints.tex" Start="2985"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4042,6 +4129,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="81" Loc="tests/z/animate_ints.tex" Start="2975"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4084,6 +4172,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="81" Loc="tests/z/animate_ints.tex" Start="2994"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4130,6 +4219,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="82" Loc="tests/z/animate_ints.tex" Start="3038"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4158,6 +4248,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="82" Loc="tests/z/animate_ints.tex" Start="3043"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4190,6 +4281,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="82" Loc="tests/z/animate_ints.tex" Start="3055"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4236,6 +4328,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="83" Loc="tests/z/animate_ints.tex" Start="3099"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4264,6 +4357,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="83" Loc="tests/z/animate_ints.tex" Start="3104"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4296,6 +4390,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="83" Loc="tests/z/animate_ints.tex" Start="3116"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4342,6 +4437,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="84" Loc="tests/z/animate_ints.tex" Start="3160"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4370,6 +4466,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="84" Loc="tests/z/animate_ints.tex" Start="3165"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4402,6 +4499,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="84" Loc="tests/z/animate_ints.tex" Start="3177"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4448,6 +4546,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="85" Loc="tests/z/animate_ints.tex" Start="3221"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4476,6 +4575,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="85" Loc="tests/z/animate_ints.tex" Start="3226"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4508,6 +4608,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="85" Loc="tests/z/animate_ints.tex" Start="3238"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4554,6 +4655,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="86" Loc="tests/z/animate_ints.tex" Start="3282"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4582,6 +4684,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="29" Length="7" Line="86" Loc="tests/z/animate_ints.tex" Start="3287"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4614,6 +4717,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="41" Length="7" Line="86" Loc="tests/z/animate_ints.tex" Start="3299"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4660,6 +4764,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="87" Loc="tests/z/animate_ints.tex" Start="3351"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4678,6 +4783,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="87" Loc="tests/z/animate_ints.tex" Start="3341"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4705,6 +4811,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="87" Loc="tests/z/animate_ints.tex" Start="3356"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4766,6 +4873,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="88" Loc="tests/z/animate_ints.tex" Start="3412"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4784,6 +4892,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="88" Loc="tests/z/animate_ints.tex" Start="3402"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4811,6 +4920,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="88" Loc="tests/z/animate_ints.tex" Start="3417"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4872,6 +4982,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="89" Loc="tests/z/animate_ints.tex" Start="3473"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4890,6 +5001,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="89" Loc="tests/z/animate_ints.tex" Start="3463"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4917,6 +5029,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="89" Loc="tests/z/animate_ints.tex" Start="3478"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4978,6 +5091,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="90" Loc="tests/z/animate_ints.tex" Start="3534"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -4996,6 +5110,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="90" Loc="tests/z/animate_ints.tex" Start="3524"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5023,6 +5138,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="90" Loc="tests/z/animate_ints.tex" Start="3539"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5084,6 +5200,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="32" Length="4" Line="91" Loc="tests/z/animate_ints.tex" Start="3595"/>
                             </Anns>
                             <Word> _ div _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5102,6 +5219,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="22" Length="7" Line="91" Loc="tests/z/animate_ints.tex" Start="3585"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5129,6 +5247,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="37" Length="7" Line="91" Loc="tests/z/animate_ints.tex" Start="3600"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5195,12 +5314,14 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="31" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3729"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ZDeclName>
                                 <Anns>
                                     <LocAnn Col="33" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3731"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ApplExpr Mixfix="true">
                                 <Anns>
@@ -5215,6 +5336,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="45" Length="5" Line="94" Loc="tests/z/animate_ints.tex" Start="3743"/>
                                         </Anns>
                                         <Word> _ .. _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5233,6 +5355,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="35" Length="7" Line="94" Loc="tests/z/animate_ints.tex" Start="3733"/>
                                                     </Anns>
                                                     <Word>- _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5277,6 +5400,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="55" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3753"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5301,6 +5425,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="57" Length="2" Line="94" Loc="tests/z/animate_ints.tex" Start="3755"/>
                                 </Anns>
                                 <Word> _ &gt; _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -5339,6 +5464,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="72" Length="4" Line="94" Loc="tests/z/animate_ints.tex" Start="3770"/>
                                             </Anns>
                                             <Word> _ mod _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5353,6 +5479,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="70" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3768"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5365,6 +5492,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="77" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3775"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5382,6 +5510,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="65" Length="4" Line="94" Loc="tests/z/animate_ints.tex" Start="3763"/>
                                 </Anns>
                                 <Word> _ ≤ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -5405,6 +5534,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="72" Length="4" Line="94" Loc="tests/z/animate_ints.tex" Start="3770"/>
                                             </Anns>
                                             <Word> _ mod _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5419,6 +5549,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="70" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3768"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5431,6 +5562,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="77" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3775"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5446,6 +5578,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="81" Length="1" Line="94" Loc="tests/z/animate_ints.tex" Start="3779"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5460,6 +5593,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="77" Line="94" Loc="tests/z/animate_ints.tex"/>
                                 </Anns>
                                 <Word> _ &lt; _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -5498,12 +5632,14 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="31" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3823"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ZDeclName>
                                 <Anns>
                                     <LocAnn Col="33" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3825"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ApplExpr Mixfix="true">
                                 <Anns>
@@ -5518,6 +5654,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="45" Length="5" Line="95" Loc="tests/z/animate_ints.tex" Start="3837"/>
                                         </Anns>
                                         <Word> _ .. _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5536,6 +5673,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="35" Length="7" Line="95" Loc="tests/z/animate_ints.tex" Start="3827"/>
                                                     </Anns>
                                                     <Word>- _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5580,6 +5718,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="55" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3847"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5604,6 +5743,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="57" Length="4" Line="95" Loc="tests/z/animate_ints.tex" Start="3849"/>
                                 </Anns>
                                 <Word> _ ≠ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -5622,6 +5762,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="66" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3858"/>
                             </Anns>
                             <Word>a</Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -5634,6 +5775,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="85" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3877"/>
                                         </Anns>
                                         <Word> _ + _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5652,6 +5794,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="81" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3873"/>
                                                     </Anns>
                                                     <Word> _ * _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5675,6 +5818,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                     <LocAnn Col="73" Length="4" Line="95" Loc="tests/z/animate_ints.tex" Start="3865"/>
                                                                 </Anns>
                                                                 <Word> _ div _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -5689,6 +5833,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                             <LocAnn Col="71" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3863"/>
                                                                         </Anns>
                                                                         <Word>a</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -5701,6 +5846,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                             <LocAnn Col="78" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3870"/>
                                                                         </Anns>
                                                                         <Word>b</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -5716,6 +5862,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                 <LocAnn Col="83" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3875"/>
                                                             </Anns>
                                                             <Word>b</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5729,6 +5876,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="89" Length="4" Line="95" Loc="tests/z/animate_ints.tex" Start="3881"/>
                                                     </Anns>
                                                     <Word> _ mod _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5743,6 +5891,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                 <LocAnn Col="87" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3879"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5755,6 +5904,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                                 <LocAnn Col="94" Length="1" Line="95" Loc="tests/z/animate_ints.tex" Start="3886"/>
                                                             </Anns>
                                                             <Word>b</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5800,12 +5950,14 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="31" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="3930"/>
                                 </Anns>
                                 <Word>a</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ZDeclName>
                                 <Anns>
                                     <LocAnn Col="33" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="3932"/>
                                 </Anns>
                                 <Word>b</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <ApplExpr Mixfix="true">
                                 <Anns>
@@ -5820,6 +5972,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="45" Length="5" Line="96" Loc="tests/z/animate_ints.tex" Start="3944"/>
                                         </Anns>
                                         <Word> _ .. _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5838,6 +5991,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="35" Length="7" Line="96" Loc="tests/z/animate_ints.tex" Start="3934"/>
                                                     </Anns>
                                                     <Word>- _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5875,6 +6029,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="54" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="3953"/>
                                 </Anns>
                                 <Word>c</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <SetExpr>
                                 <Anns>
@@ -5894,6 +6049,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                     <LocAnn Col="58" Length="7" Line="96" Loc="tests/z/animate_ints.tex" Start="3957"/>
                                                 </Anns>
                                                 <Word>- _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5921,6 +6077,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                     <LocAnn Col="69" Length="7" Line="96" Loc="tests/z/animate_ints.tex" Start="3968"/>
                                                 </Anns>
                                                 <Word>- _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5974,6 +6131,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="89" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="3988"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -5998,6 +6156,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="91" Length="4" Line="96" Loc="tests/z/animate_ints.tex" Start="3990"/>
                                 </Anns>
                                 <Word> _ ≠ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -6020,6 +6179,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="106" Length="4" Line="96" Loc="tests/z/animate_ints.tex" Start="4005"/>
                                 </Anns>
                                 <Word> _ div _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -6043,6 +6203,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="102" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4001"/>
                                             </Anns>
                                             <Word> _ * _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -6057,6 +6218,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="101" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4000"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -6069,6 +6231,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="103" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4002"/>
                                                     </Anns>
                                                     <Word>c</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -6093,6 +6256,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                 <LocAnn Col="113" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4012"/>
                                             </Anns>
                                             <Word> _ * _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -6107,6 +6271,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="112" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4011"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -6119,6 +6284,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                         <LocAnn Col="114" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4013"/>
                                                     </Anns>
                                                     <Word>c</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -6143,6 +6309,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="121" Length="4" Line="96" Loc="tests/z/animate_ints.tex" Start="4020"/>
                                         </Anns>
                                         <Word> _ div _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -6157,6 +6324,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                     <LocAnn Col="119" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4018"/>
                                                 </Anns>
                                                 <Word>a</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -6169,6 +6337,7 @@ the constant undefnum should have an undefined left-hand-side.
                                                     <LocAnn Col="126" Length="1" Line="96" Loc="tests/z/animate_ints.tex" Start="4025"/>
                                                 </Anns>
                                                 <Word>b</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -6210,6 +6379,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="22" Length="4" Line="99" Loc="tests/z/animate_ints.tex" Start="4084"/>
                             </Anns>
                             <Word>succ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6268,6 +6438,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="22" Length="4" Line="100" Loc="tests/z/animate_ints.tex" Start="4130"/>
                             </Anns>
                             <Word>succ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6326,6 +6497,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="22" Length="4" Line="101" Loc="tests/z/animate_ints.tex" Start="4174"/>
                             </Anns>
                             <Word>succ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6347,6 +6519,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="28" Length="7" Line="101" Loc="tests/z/animate_ints.tex" Start="4180"/>
                                 </Anns>
                                 <Word>- _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -6377,6 +6550,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="42" Length="7" Line="101" Loc="tests/z/animate_ints.tex" Start="4194"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -6432,6 +6606,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="33" Length="4" Line="102" Loc="tests/z/animate_ints.tex" Start="4247"/>
                                 </Anns>
                                 <Word> _ ∼</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -6445,6 +6620,7 @@ the constant undefnum should have an undefined left-hand-side.
                                     <LocAnn Col="29" Line="102" Loc="tests/z/animate_ints.tex"/>
                                 </Anns>
                                 <Word>succ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -6526,6 +6702,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="23" Length="1" Line="105" Loc="tests/z/animate_ints.tex" Start="4328"/>
                         </Anns>
                         <Word> _ &lt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -6579,6 +6756,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="23" Length="1" Line="106" Loc="tests/z/animate_ints.tex" Start="4364"/>
                         </Anns>
                         <Word> _ &lt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -6636,6 +6814,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="23" Length="1" Line="107" Loc="tests/z/animate_ints.tex" Start="4401"/>
                             </Anns>
                             <Word> _ &lt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6677,6 +6856,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Line="107" Loc="tests/z/animate_ints.tex"/>
                             </Anns>
                             <Word> _ &lt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6713,6 +6893,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="22" Length="7" Line="108" Loc="tests/z/animate_ints.tex" Start="4440"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -6748,6 +6929,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="31" Length="1" Line="108" Loc="tests/z/animate_ints.tex" Start="4449"/>
                         </Anns>
                         <Word> _ &lt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -6805,6 +6987,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Length="1" Line="109" Loc="tests/z/animate_ints.tex" Start="4491"/>
                             </Anns>
                             <Word> _ &lt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6863,6 +7046,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Length="1" Line="110" Loc="tests/z/animate_ints.tex" Start="4533"/>
                             </Anns>
                             <Word> _ &lt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -6919,6 +7103,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="24" Length="4" Line="113" Loc="tests/z/animate_ints.tex" Start="4608"/>
                         </Anns>
                         <Word> _ ≤ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -6972,6 +7157,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="24" Length="4" Line="114" Loc="tests/z/animate_ints.tex" Start="4649"/>
                         </Anns>
                         <Word> _ ≤ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7025,6 +7211,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="24" Length="4" Line="115" Loc="tests/z/animate_ints.tex" Start="4690"/>
                         </Anns>
                         <Word> _ ≤ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7082,6 +7269,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="24" Length="4" Line="116" Loc="tests/z/animate_ints.tex" Start="4732"/>
                             </Anns>
                             <Word> _ ≤ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7123,6 +7311,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Line="116" Loc="tests/z/animate_ints.tex"/>
                             </Anns>
                             <Word> _ ≤ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7159,6 +7348,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="22" Length="7" Line="117" Loc="tests/z/animate_ints.tex" Start="4780"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -7194,6 +7384,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="32" Length="4" Line="117" Loc="tests/z/animate_ints.tex" Start="4790"/>
                         </Anns>
                         <Word> _ ≤ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7251,6 +7442,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="30" Length="4" Line="118" Loc="tests/z/animate_ints.tex" Start="4837"/>
                             </Anns>
                             <Word> _ ≤ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7311,6 +7503,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Length="1" Line="121" Loc="tests/z/animate_ints.tex" Start="4918"/>
                             </Anns>
                             <Word> _ &gt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7369,6 +7562,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Length="1" Line="122" Loc="tests/z/animate_ints.tex" Start="4960"/>
                             </Anns>
                             <Word> _ &gt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7409,6 +7603,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="28" Length="7" Line="123" Loc="tests/z/animate_ints.tex" Start="5002"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -7444,6 +7639,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="37" Length="1" Line="123" Loc="tests/z/animate_ints.tex" Start="5011"/>
                             </Anns>
                             <Word> _ &gt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7502,6 +7698,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="29" Length="1" Line="124" Loc="tests/z/animate_ints.tex" Start="5053"/>
                             </Anns>
                             <Word> _ &gt; _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7556,6 +7753,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="23" Length="1" Line="125" Loc="tests/z/animate_ints.tex" Start="5089"/>
                         </Anns>
                         <Word> _ &gt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7609,6 +7807,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="24" Length="1" Line="126" Loc="tests/z/animate_ints.tex" Start="5126"/>
                         </Anns>
                         <Word> _ &gt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7654,6 +7853,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="26" Length="7" Line="127" Loc="tests/z/animate_ints.tex" Start="5165"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -7679,6 +7879,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="24" Length="2" Line="127" Loc="tests/z/animate_ints.tex" Start="5163"/>
                         </Anns>
                         <Word> _ &gt; _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7734,6 +7935,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="30" Length="4" Line="130" Loc="tests/z/animate_ints.tex" Start="5253"/>
                         </Anns>
                         <Word> _ ≥ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7791,6 +7993,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="30" Length="4" Line="131" Loc="tests/z/animate_ints.tex" Start="5300"/>
                             </Anns>
                             <Word> _ ≥ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7849,6 +8052,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="30" Length="4" Line="132" Loc="tests/z/animate_ints.tex" Start="5347"/>
                             </Anns>
                             <Word> _ ≥ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -7903,6 +8107,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="31" Length="4" Line="133" Loc="tests/z/animate_ints.tex" Start="5396"/>
                         </Anns>
                         <Word> _ ≥ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>
@@ -7942,6 +8147,7 @@ the constant undefnum should have an undefined left-hand-side.
                                             <LocAnn Col="28" Length="7" Line="134" Loc="tests/z/animate_ints.tex" Start="5441"/>
                                         </Anns>
                                         <Word>- _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -7977,6 +8183,7 @@ the constant undefnum should have an undefined left-hand-side.
                                 <LocAnn Col="38" Length="4" Line="134" Loc="tests/z/animate_ints.tex" Start="5451"/>
                             </Anns>
                             <Word> _ ≥ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -8013,6 +8220,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="28" Length="7" Line="135" Loc="tests/z/animate_ints.tex" Start="5496"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -8040,6 +8248,7 @@ the constant undefnum should have an undefined left-hand-side.
                                         <LocAnn Col="43" Length="7" Line="135" Loc="tests/z/animate_ints.tex" Start="5511"/>
                                     </Anns>
                                     <Word>- _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -8065,6 +8274,7 @@ the constant undefnum should have an undefined left-hand-side.
                             <LocAnn Col="38" Length="4" Line="135" Loc="tests/z/animate_ints.tex" Start="5506"/>
                         </Anns>
                         <Word> _ ≥ _ </Word>
+                        <ZStrokeList/>
                     </ZRefName>
                     <ZExprList/>
                 </RefExpr>

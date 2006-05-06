@@ -280,7 +280,8 @@ action code
       throws ParseException
     {
       final ZDeclName dn = factory_.createZDeclName(name);
-      if (dn.getStroke().size() != 0) {
+      final StrokeList sl = dn.getStrokeList();
+      if (sl instanceof List &amp;&amp; ((List) sl).size() != 0) {
         final Object[] params = { name };
   	parser.report_error(ZParseMessage.MSG_STROKE_IN_OPNAME,
                             params, locInfo);
@@ -314,7 +315,7 @@ action code
       if (list.size() &lt;= 1) {
         throw new OperatorName.OperatorNameException(errorMessage);
       }
-      List&lt;Stroke&gt; strokes = null;
+      StrokeList strokes = null;
       Boolean expectArgument = null;
       StringBuilder stringBuilder = new StringBuilder();
       for (String opPart : list) {
@@ -341,9 +342,9 @@ action code
           ZDeclName declName = factory_.createZDeclName(opPart);
           stringBuilder.append(declName.getWord());
           if (strokes == null) {
-            strokes = declName.getStroke();
+            strokes = declName.getStrokeList();
           }
-          else if (! strokes.equals(declName.getStroke())) {
+          else if (! strokes.equals(declName.getStrokeList())) {
             final String message =
               "The component names of an operator must have the " +
               "same decorations.";
@@ -364,7 +365,7 @@ action code
     {
       try {
         OperatorName opName = createOperatorName(list);
-        return factory_.createZDeclName(opName.getWord(), opName.getStroke());
+        return factory_.createZDeclName(opName.getWord(), opName.getStrokes());
       }
       catch (OperatorName.OperatorNameException e) {
         parser.report_error(ZParseMessage.MSG_OPNAME_ERROR,
@@ -383,7 +384,7 @@ action code
       try {
         OperatorName opName = createOperatorName(list);
         RefName result =
-          factory_.createZRefName(opName.getWord(), opName.getStroke());
+          factory_.createZRefName(opName.getWord(), opName.getStrokes());
         addLocAnn(result, loc);
         return result;
       }
@@ -4272,7 +4273,7 @@ refName ::=
            LocInfo loc = getLocation(onleft, onright);
            ZDeclName declName = strListToZDeclName(on, loc);
            RESULT = factory_.createZRefName(declName.getWord(),
-                                            declName.getStroke(),
+                                            declName.getStrokeList(),
                                             null);
            RESULT.getAnns().add(factory_.createParenAnn());
            addLocAnn(RESULT, loc);
@@ -5057,9 +5058,9 @@ RSQUARE:rsq
            Object pAnn = it.getAnn(ParenAnn.class);
            if (it instanceof ThetaExpr &amp;&amp; pAnn == null) {
              ThetaExpr te = (ThetaExpr) it;
-             List&lt;Stroke&gt; sl = list(te.getStroke());
-             sl.add(s);
-             RESULT = factory_.createThetaExpr(te.getExpr(), sl);
+	     te.getZStrokeList().add(s);
+	     addLocAnn(te, getLocation(te, s));
+	     RESULT = te;
            }
            else {
              RESULT = factory_.createDecorExpr(expr(it), s);
@@ -5070,7 +5071,8 @@ RSQUARE:rsq
         /* binding construction */
         THETA:theta inner_term:it
         {:
-           RESULT = factory_.createThetaExpr(expr(it), null);
+	   ZStrokeList sl = factory_.createZStrokeList();
+           RESULT = factory_.createThetaExpr(expr(it), sl);
            addLocAnn(RESULT, getLocation(theta, it));
         :}
         |
@@ -6742,14 +6744,14 @@ event ::=
 inOutEvent ::=
         refName:rn INSTROKE inner_term:it
         {:
-           rn.getStroke().add(factory_.createInStroke());
+           rn.getZStrokeList().add(factory_.createInStroke());
            RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, getLocation(rn, it));
         :}
         |
         refName:rn OUTSTROKE inner_term:it
         {:
-           rn.getStroke().add(factory_.createOutStroke());
+           rn.getZStrokeList().add(factory_.createOutStroke());
            RESULT = factory_.createEvent(rn, expr(it));
            addLocAnn(RESULT, getLocation(rn, it));
         :}

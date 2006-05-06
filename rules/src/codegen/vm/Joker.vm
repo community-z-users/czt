@@ -109,7 +109,7 @@ public class ${classname}
       ZDeclName zDeclName = (ZDeclName) v${typebase};
       ZFactory factory = new ZFactoryImpl();
       ZRefName zRefName = factory.createZRefName(zDeclName.getWord(),
-                                                 zDeclName.getStroke(),
+                                                 zDeclName.getStrokeList(),
                                                  zDeclName);
       getJokerRefName().bind2(zRefName);
     }

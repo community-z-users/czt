@@ -35,6 +35,7 @@
                     <LocAnn Col="1" Length="5" Line="13" Loc="tests/z/test3.tex" Start="246"/>
                 </Anns>
                 <Word>EVENT</Word>
+                <ZStrokeList/>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
@@ -56,6 +57,7 @@
                                 <LocAnn Col="15" Length="5" Line="15" Loc="tests/z/test3.tex" Start="280"/>
                             </Anns>
                             <Word>Event</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -70,6 +72,7 @@
                                                     <LocAnn Col="0" Length="14" Line="16" Loc="tests/z/test3.tex" Start="288"/>
                                                 </Anns>
                                                 <Word>ΔConsole</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -83,7 +86,9 @@
                                                 <LocAnn Col="0" Length="2" Line="17" Loc="tests/z/test3.tex" Start="306"/>
                                             </Anns>
                                             <Word>e</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -94,6 +99,7 @@
                                                     <LocAnn Col="5" Length="5" Line="17" Loc="tests/z/test3.tex" Start="311"/>
                                                 </Anns>
                                                 <Word>EVENT</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -130,6 +136,7 @@
                                 <LocAnn Col="0" Length="6" Line="20" Loc="tests/z/test3.tex" Start="345"/>
                             </Anns>
                             <Word>Ignore</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <AndExpr>
                             <Anns>
@@ -144,6 +151,7 @@
                                         <LocAnn Col="10" Length="5" Line="20" Loc="tests/z/test3.tex" Start="355"/>
                                     </Anns>
                                     <Word>Event</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -156,6 +164,7 @@
                                         <LocAnn Col="22" Length="11" Line="20" Loc="tests/z/test3.tex" Start="367"/>
                                     </Anns>
                                     <Word>ΞConsole</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -181,24 +190,28 @@
                     <LocAnn Col="1" Length="7" Line="24" Loc="tests/z/test3.tex" Start="407"/>
                 </Anns>
                 <Word>DISPLAY</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="10" Length="7" Line="24" Loc="tests/z/test3.tex" Start="416"/>
                 </Anns>
                 <Word>SETTING</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="19" Length="5" Line="24" Loc="tests/z/test3.tex" Start="425"/>
                 </Anns>
                 <Word>VALUE</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="26" Length="4" Line="24" Loc="tests/z/test3.tex" Start="432"/>
                 </Anns>
                 <Word>CHAR</Word>
+                <ZStrokeList/>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
@@ -226,6 +239,7 @@
                                 <LocAnn Col="0" Length="4" Line="27" Loc="tests/z/test3.tex" Start="463"/>
                             </Anns>
                             <Word>TEXT</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -236,6 +250,7 @@
                                     <LocAnn Col="8" Length="4" Line="27" Loc="tests/z/test3.tex" Start="471"/>
                                 </Anns>
                                 <Word>seq _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -247,6 +262,7 @@
                                             <LocAnn Col="13" Length="4" Line="27" Loc="tests/z/test3.tex" Start="476"/>
                                         </Anns>
                                         <Word>CHAR</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -276,6 +292,7 @@
                         <LocAnn Col="0" Length="4" Line="30" Loc="tests/z/test3.tex" Start="506"/>
                     </Anns>
                     <Word>MODE</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -286,6 +303,7 @@
                             <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
                         </Anns>
                         <Word>idle</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -297,6 +315,7 @@
                             <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
                         </Anns>
                         <Word>dialog</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -321,6 +340,7 @@
                         <LocAnn Col="0" Length="6" Line="33" Loc="tests/z/test3.tex" Start="554"/>
                     </Anns>
                     <Word>BUTTON</Word>
+                    <ZStrokeList/>
                 </ZDeclName>
                 <Branch>
                     <Anns>
@@ -331,6 +351,7 @@
                             <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
                         </Anns>
                         <Word>accept</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
                 <Branch>
@@ -342,6 +363,7 @@
                             <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
                         </Anns>
                         <Word>cancel</Word>
+                        <ZStrokeList/>
                     </ZDeclName>
                 </Branch>
             </Freetype>
@@ -365,6 +387,7 @@
                                 <LocAnn Col="15" Length="7" Line="35" Loc="tests/z/test3.tex" Start="608"/>
                             </Anns>
                             <Word>Console</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -378,6 +401,7 @@
                                                 <LocAnn Col="0" Length="7" Line="36" Loc="tests/z/test3.tex" Start="618"/>
                                             </Anns>
                                             <Word>display</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -388,6 +412,7 @@
                                                     <LocAnn Col="9" Length="7" Line="36" Loc="tests/z/test3.tex" Start="627"/>
                                                 </Anns>
                                                 <Word>DISPLAY</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -401,6 +426,7 @@
                                                 <LocAnn Col="0" Length="4" Line="37" Loc="tests/z/test3.tex" Start="639"/>
                                             </Anns>
                                             <Word>mode</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -411,6 +437,7 @@
                                                     <LocAnn Col="6" Length="4" Line="37" Loc="tests/z/test3.tex" Start="645"/>
                                                 </Anns>
                                                 <Word>MODE</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -424,6 +451,7 @@
                                                 <LocAnn Col="0" Length="6" Line="38" Loc="tests/z/test3.tex" Start="654"/>
                                             </Anns>
                                             <Word>buffer</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -434,6 +462,7 @@
                                                     <LocAnn Col="8" Length="4" Line="38" Loc="tests/z/test3.tex" Start="662"/>
                                                 </Anns>
                                                 <Word>TEXT</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -447,6 +476,7 @@
                                                 <LocAnn Col="0" Length="7" Line="39" Loc="tests/z/test3.tex" Start="671"/>
                                             </Anns>
                                             <Word>setting</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -457,6 +487,7 @@
                                                     <LocAnn Col="9" Length="7" Line="39" Loc="tests/z/test3.tex" Start="680"/>
                                                 </Anns>
                                                 <Word>SETTING</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -491,6 +522,7 @@
                                 <LocAnn Col="0" Length="4" Line="43" Loc="tests/z/test3.tex" Start="720"/>
                             </Anns>
                             <Word>disp</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -501,6 +533,7 @@
                                     <LocAnn Col="12" Length="5" Line="43" Loc="tests/z/test3.tex" Start="732"/>
                                 </Anns>
                                 <Word> _ ⇸ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -512,6 +545,7 @@
                                             <LocAnn Col="6" Length="5" Line="43" Loc="tests/z/test3.tex" Start="726"/>
                                         </Anns>
                                         <Word>EVENT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -524,6 +558,7 @@
                                             <LocAnn Col="18" Length="7" Line="43" Loc="tests/z/test3.tex" Start="738"/>
                                         </Anns>
                                         <Word>DISPLAY</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -552,6 +587,7 @@
                                 <LocAnn Col="15" Length="13" Line="45" Loc="tests/z/test3.tex" Start="775"/>
                             </Anns>
                             <Word>SelectDisplay</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -566,6 +602,7 @@
                                                     <LocAnn Col="0" Length="5" Line="46" Loc="tests/z/test3.tex" Start="791"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -596,6 +633,7 @@
                                                             <LocAnn Col="7" Length="4" Line="47" Loc="tests/z/test3.tex" Start="808"/>
                                                         </Anns>
                                                         <Word>mode</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -610,6 +648,7 @@
                                                                     <LocAnn Col="14" Length="4" Line="47" Loc="tests/z/test3.tex" Start="815"/>
                                                                 </Anns>
                                                                 <Word>idle</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -629,7 +668,9 @@
                                                             <LocAnn Col="0" Length="2" Line="48" Loc="tests/z/test3.tex" Start="824"/>
                                                         </Anns>
                                                         <Word>e</Word>
-                                                        <InStroke/>
+                                                        <ZStrokeList>
+                                                            <InStroke/>
+                                                        </ZStrokeList>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -646,6 +687,7 @@
                                                                 <LocAnn Col="7" Length="4" Line="48" Loc="tests/z/test3.tex" Start="831"/>
                                                             </Anns>
                                                             <Word>dom</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -658,6 +700,7 @@
                                                                 <LocAnn Col="12" Length="4" Line="48" Loc="tests/z/test3.tex" Start="836"/>
                                                             </Anns>
                                                             <Word>disp</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -677,7 +720,9 @@
                                                         <LocAnn Col="0" Length="8" Line="49" Loc="tests/z/test3.tex" Start="845"/>
                                                     </Anns>
                                                     <Word>display</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -696,6 +741,7 @@
                                                                     <LocAnn Col="11" Length="4" Line="49" Loc="tests/z/test3.tex" Start="856"/>
                                                                 </Anns>
                                                                 <Word>disp</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -713,7 +759,9 @@
                                                                     <LocAnn Col="17" Length="2" Line="49" Loc="tests/z/test3.tex" Start="862"/>
                                                                 </Anns>
                                                                 <Word>e</Word>
-                                                                <InStroke/>
+                                                                <ZStrokeList>
+                                                                    <InStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -735,7 +783,9 @@
                                                     <LocAnn Col="0" Length="5" Line="50" Loc="tests/z/test3.tex" Start="870"/>
                                                 </Anns>
                                                 <Word>mode</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -750,6 +800,7 @@
                                                             <LocAnn Col="8" Length="4" Line="50" Loc="tests/z/test3.tex" Start="878"/>
                                                         </Anns>
                                                         <Word>mode</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -782,6 +833,7 @@
                                 <LocAnn Col="15" Length="13" Line="52" Loc="tests/z/test3.tex" Start="913"/>
                             </Anns>
                             <Word>IgnoreDisplay</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -796,6 +848,7 @@
                                                     <LocAnn Col="0" Length="6" Line="53" Loc="tests/z/test3.tex" Start="929"/>
                                                 </Anns>
                                                 <Word>Ignore</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -818,7 +871,9 @@
                                                     <LocAnn Col="7" Length="2" Line="54" Loc="tests/z/test3.tex" Start="947"/>
                                                 </Anns>
                                                 <Word>e</Word>
-                                                <InStroke/>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -835,6 +890,7 @@
                                                         <LocAnn Col="14" Length="4" Line="54" Loc="tests/z/test3.tex" Start="954"/>
                                                     </Anns>
                                                     <Word>dom</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -847,6 +903,7 @@
                                                         <LocAnn Col="19" Length="4" Line="54" Loc="tests/z/test3.tex" Start="959"/>
                                                     </Anns>
                                                     <Word>disp</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -865,6 +922,7 @@
                                                     <LocAnn Col="0" Length="4" Line="55" Loc="tests/z/test3.tex" Start="967"/>
                                                 </Anns>
                                                 <Word>mode</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -879,6 +937,7 @@
                                                             <LocAnn Col="7" Length="6" Line="55" Loc="tests/z/test3.tex" Start="974"/>
                                                         </Anns>
                                                         <Word>dialog</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -917,6 +976,7 @@
                                 <LocAnn Col="0" Length="12" Line="58" Loc="tests/z/test3.tex" Start="1009"/>
                             </Anns>
                             <Word>DisplayEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <OrExpr>
                             <Anns>
@@ -931,6 +991,7 @@
                                         <LocAnn Col="16" Length="13" Line="58" Loc="tests/z/test3.tex" Start="1025"/>
                                     </Anns>
                                     <Word>SelectDisplay</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -943,6 +1004,7 @@
                                         <LocAnn Col="35" Length="13" Line="58" Loc="tests/z/test3.tex" Start="1044"/>
                                     </Anns>
                                     <Word>IgnoreDisplay</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -974,6 +1036,7 @@
                                 <LocAnn Col="0" Length="3" Line="62" Loc="tests/z/test3.tex" Start="1087"/>
                             </Anns>
                             <Word>stg</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -984,6 +1047,7 @@
                                     <LocAnn Col="12" Length="5" Line="62" Loc="tests/z/test3.tex" Start="1099"/>
                                 </Anns>
                                 <Word> _ ⇸ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -995,6 +1059,7 @@
                                             <LocAnn Col="6" Length="5" Line="62" Loc="tests/z/test3.tex" Start="1093"/>
                                         </Anns>
                                         <Word>EVENT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1007,6 +1072,7 @@
                                             <LocAnn Col="18" Length="7" Line="62" Loc="tests/z/test3.tex" Start="1105"/>
                                         </Anns>
                                         <Word>SETTING</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1035,6 +1101,7 @@
                                 <LocAnn Col="15" Length="13" Line="64" Loc="tests/z/test3.tex" Start="1142"/>
                             </Anns>
                             <Word>SelectSetting</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1049,6 +1116,7 @@
                                                     <LocAnn Col="0" Length="5" Line="65" Loc="tests/z/test3.tex" Start="1158"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1087,6 +1155,7 @@
                                                                     <LocAnn Col="7" Length="4" Line="66" Loc="tests/z/test3.tex" Start="1175"/>
                                                                 </Anns>
                                                                 <Word>mode</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1101,6 +1170,7 @@
                                                                             <LocAnn Col="14" Length="4" Line="66" Loc="tests/z/test3.tex" Start="1182"/>
                                                                         </Anns>
                                                                         <Word>idle</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -1120,7 +1190,9 @@
                                                                     <LocAnn Col="0" Length="2" Line="67" Loc="tests/z/test3.tex" Start="1191"/>
                                                                 </Anns>
                                                                 <Word>e</Word>
-                                                                <InStroke/>
+                                                                <ZStrokeList>
+                                                                    <InStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1137,6 +1209,7 @@
                                                                         <LocAnn Col="7" Length="4" Line="67" Loc="tests/z/test3.tex" Start="1198"/>
                                                                     </Anns>
                                                                     <Word>dom</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1149,6 +1222,7 @@
                                                                         <LocAnn Col="12" Length="3" Line="67" Loc="tests/z/test3.tex" Start="1203"/>
                                                                     </Anns>
                                                                     <Word>stg</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1168,7 +1242,9 @@
                                                                 <LocAnn Col="0" Length="8" Line="68" Loc="tests/z/test3.tex" Start="1211"/>
                                                             </Anns>
                                                             <Word>setting</Word>
-                                                            <NextStroke/>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1187,6 +1263,7 @@
                                                                             <LocAnn Col="11" Length="3" Line="68" Loc="tests/z/test3.tex" Start="1222"/>
                                                                         </Anns>
                                                                         <Word>stg</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -1204,7 +1281,9 @@
                                                                             <LocAnn Col="15" Length="2" Line="68" Loc="tests/z/test3.tex" Start="1226"/>
                                                                         </Anns>
                                                                         <Word>e</Word>
-                                                                        <InStroke/>
+                                                                        <ZStrokeList>
+                                                                            <InStroke/>
+                                                                        </ZStrokeList>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -1226,7 +1305,9 @@
                                                             <LocAnn Col="0" Length="5" Line="69" Loc="tests/z/test3.tex" Start="1234"/>
                                                         </Anns>
                                                         <Word>mode</Word>
-                                                        <NextStroke/>
+                                                        <ZStrokeList>
+                                                            <NextStroke/>
+                                                        </ZStrokeList>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1241,6 +1322,7 @@
                                                                     <LocAnn Col="8" Length="6" Line="69" Loc="tests/z/test3.tex" Start="1242"/>
                                                                 </Anns>
                                                                 <Word>dialog</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1261,7 +1343,9 @@
                                                         <LocAnn Col="0" Length="7" Line="70" Loc="tests/z/test3.tex" Start="1253"/>
                                                     </Anns>
                                                     <Word>buffer</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1276,6 +1360,7 @@
                                                                 <LocAnn Col="10" Length="9" Line="70" Loc="tests/z/test3.tex" Start="1263"/>
                                                             </Anns>
                                                             <Word>∅</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1296,7 +1381,9 @@
                                                     <LocAnn Col="0" Length="8" Line="71" Loc="tests/z/test3.tex" Start="1277"/>
                                                 </Anns>
                                                 <Word>display</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1311,6 +1398,7 @@
                                                             <LocAnn Col="11" Length="7" Line="71" Loc="tests/z/test3.tex" Start="1288"/>
                                                         </Anns>
                                                         <Word>display</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1343,6 +1431,7 @@
                                 <LocAnn Col="15" Length="13" Line="73" Loc="tests/z/test3.tex" Start="1326"/>
                             </Anns>
                             <Word>IgnoreSetting</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1357,6 +1446,7 @@
                                                     <LocAnn Col="0" Length="6" Line="74" Loc="tests/z/test3.tex" Start="1342"/>
                                                 </Anns>
                                                 <Word>Ignore</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1379,7 +1469,9 @@
                                                     <LocAnn Col="7" Length="2" Line="75" Loc="tests/z/test3.tex" Start="1360"/>
                                                 </Anns>
                                                 <Word>e</Word>
-                                                <InStroke/>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1396,6 +1488,7 @@
                                                         <LocAnn Col="14" Length="4" Line="75" Loc="tests/z/test3.tex" Start="1367"/>
                                                     </Anns>
                                                     <Word>dom</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1408,6 +1501,7 @@
                                                         <LocAnn Col="19" Length="3" Line="75" Loc="tests/z/test3.tex" Start="1372"/>
                                                     </Anns>
                                                     <Word>stg</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1426,6 +1520,7 @@
                                                     <LocAnn Col="0" Length="4" Line="76" Loc="tests/z/test3.tex" Start="1380"/>
                                                 </Anns>
                                                 <Word>mode</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1440,6 +1535,7 @@
                                                             <LocAnn Col="7" Length="6" Line="76" Loc="tests/z/test3.tex" Start="1387"/>
                                                         </Anns>
                                                         <Word>dialog</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1478,6 +1574,7 @@
                                 <LocAnn Col="0" Length="7" Line="79" Loc="tests/z/test3.tex" Start="1422"/>
                             </Anns>
                             <Word>Setting</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <OrExpr>
                             <Anns>
@@ -1492,6 +1589,7 @@
                                         <LocAnn Col="11" Length="13" Line="79" Loc="tests/z/test3.tex" Start="1433"/>
                                     </Anns>
                                     <Word>SelectSetting</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1504,6 +1602,7 @@
                                         <LocAnn Col="30" Length="13" Line="79" Loc="tests/z/test3.tex" Start="1452"/>
                                     </Anns>
                                     <Word>IgnoreSetting</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1535,6 +1634,7 @@
                                 <LocAnn Col="0" Length="4" Line="83" Loc="tests/z/test3.tex" Start="1495"/>
                             </Anns>
                             <Word>char</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -1545,6 +1645,7 @@
                                     <LocAnn Col="13" Length="5" Line="83" Loc="tests/z/test3.tex" Start="1508"/>
                                 </Anns>
                                 <Word> _ ⇸ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -1556,6 +1657,7 @@
                                             <LocAnn Col="7" Length="5" Line="83" Loc="tests/z/test3.tex" Start="1502"/>
                                         </Anns>
                                         <Word>EVENT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1568,6 +1670,7 @@
                                             <LocAnn Col="19" Length="4" Line="83" Loc="tests/z/test3.tex" Start="1514"/>
                                         </Anns>
                                         <Word>CHAR</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1583,6 +1686,7 @@
                                 <LocAnn Col="0" Length="4" Line="84" Loc="tests/z/test3.tex" Start="1523"/>
                             </Anns>
                             <Word>edit</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -1593,6 +1697,7 @@
                                     <LocAnn Col="26" Length="4" Line="84" Loc="tests/z/test3.tex" Start="1549"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -1614,6 +1719,7 @@
                                                     <LocAnn Col="8" Length="4" Line="84" Loc="tests/z/test3.tex" Start="1531"/>
                                                 </Anns>
                                                 <Word>TEXT</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1626,6 +1732,7 @@
                                                     <LocAnn Col="20" Length="4" Line="84" Loc="tests/z/test3.tex" Start="1543"/>
                                                 </Anns>
                                                 <Word>CHAR</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1640,6 +1747,7 @@
                                             <LocAnn Col="31" Length="4" Line="84" Loc="tests/z/test3.tex" Start="1554"/>
                                         </Anns>
                                         <Word>TEXT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1668,6 +1776,7 @@
                                 <LocAnn Col="15" Length="7" Line="86" Loc="tests/z/test3.tex" Start="1588"/>
                             </Anns>
                             <Word>GetChar</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1682,6 +1791,7 @@
                                                     <LocAnn Col="0" Length="5" Line="87" Loc="tests/z/test3.tex" Start="1598"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1720,6 +1830,7 @@
                                                                     <LocAnn Col="7" Length="4" Line="88" Loc="tests/z/test3.tex" Start="1615"/>
                                                                 </Anns>
                                                                 <Word>mode</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1734,6 +1845,7 @@
                                                                             <LocAnn Col="14" Length="6" Line="88" Loc="tests/z/test3.tex" Start="1622"/>
                                                                         </Anns>
                                                                         <Word>dialog</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -1753,7 +1865,9 @@
                                                                     <LocAnn Col="0" Length="2" Line="89" Loc="tests/z/test3.tex" Start="1633"/>
                                                                 </Anns>
                                                                 <Word>e</Word>
-                                                                <InStroke/>
+                                                                <ZStrokeList>
+                                                                    <InStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1770,6 +1884,7 @@
                                                                         <LocAnn Col="7" Length="4" Line="89" Loc="tests/z/test3.tex" Start="1640"/>
                                                                     </Anns>
                                                                     <Word>dom</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1782,6 +1897,7 @@
                                                                         <LocAnn Col="12" Length="4" Line="89" Loc="tests/z/test3.tex" Start="1645"/>
                                                                     </Anns>
                                                                     <Word>char</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1801,7 +1917,9 @@
                                                                 <LocAnn Col="0" Length="7" Line="90" Loc="tests/z/test3.tex" Start="1654"/>
                                                             </Anns>
                                                             <Word>buffer</Word>
-                                                            <NextStroke/>
+                                                            <ZStrokeList>
+                                                                <NextStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1820,6 +1938,7 @@
                                                                             <LocAnn Col="10" Length="4" Line="90" Loc="tests/z/test3.tex" Start="1664"/>
                                                                         </Anns>
                                                                         <Word>edit</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -1837,6 +1956,7 @@
                                                                                     <LocAnn Col="15" Length="6" Line="90" Loc="tests/z/test3.tex" Start="1669"/>
                                                                                 </Anns>
                                                                                 <Word>buffer</Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -1849,6 +1969,7 @@
                                                                                     <LocAnn Col="23" Length="4" Line="90" Loc="tests/z/test3.tex" Start="1677"/>
                                                                                 </Anns>
                                                                                 <Word>char</Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -1872,7 +1993,9 @@
                                                             <LocAnn Col="0" Length="5" Line="91" Loc="tests/z/test3.tex" Start="1688"/>
                                                         </Anns>
                                                         <Word>mode</Word>
-                                                        <NextStroke/>
+                                                        <ZStrokeList>
+                                                            <NextStroke/>
+                                                        </ZStrokeList>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1887,6 +2010,7 @@
                                                                     <LocAnn Col="8" Length="4" Line="91" Loc="tests/z/test3.tex" Start="1696"/>
                                                                 </Anns>
                                                                 <Word>mode</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -1907,7 +2031,9 @@
                                                         <LocAnn Col="0" Length="8" Line="92" Loc="tests/z/test3.tex" Start="1705"/>
                                                     </Anns>
                                                     <Word>setting</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1922,6 +2048,7 @@
                                                                 <LocAnn Col="11" Length="7" Line="92" Loc="tests/z/test3.tex" Start="1716"/>
                                                             </Anns>
                                                             <Word>setting</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1942,7 +2069,9 @@
                                                     <LocAnn Col="0" Length="8" Line="93" Loc="tests/z/test3.tex" Start="1728"/>
                                                 </Anns>
                                                 <Word>display</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1957,6 +2086,7 @@
                                                             <LocAnn Col="11" Length="7" Line="93" Loc="tests/z/test3.tex" Start="1739"/>
                                                         </Anns>
                                                         <Word>display</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1989,6 +2119,7 @@
                                 <LocAnn Col="15" Length="10" Line="95" Loc="tests/z/test3.tex" Start="1777"/>
                             </Anns>
                             <Word>IgnoreChar</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -2003,6 +2134,7 @@
                                                     <LocAnn Col="0" Length="6" Line="96" Loc="tests/z/test3.tex" Start="1790"/>
                                                 </Anns>
                                                 <Word>Ignore</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2025,7 +2157,9 @@
                                                     <LocAnn Col="7" Length="2" Line="97" Loc="tests/z/test3.tex" Start="1808"/>
                                                 </Anns>
                                                 <Word>e</Word>
-                                                <InStroke/>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2042,6 +2176,7 @@
                                                         <LocAnn Col="14" Length="4" Line="97" Loc="tests/z/test3.tex" Start="1815"/>
                                                     </Anns>
                                                     <Word>dom</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2054,6 +2189,7 @@
                                                         <LocAnn Col="19" Length="4" Line="97" Loc="tests/z/test3.tex" Start="1820"/>
                                                     </Anns>
                                                     <Word>char</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2072,6 +2208,7 @@
                                                     <LocAnn Col="0" Length="4" Line="98" Loc="tests/z/test3.tex" Start="1829"/>
                                                 </Anns>
                                                 <Word>mode</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2086,6 +2223,7 @@
                                                             <LocAnn Col="7" Length="4" Line="98" Loc="tests/z/test3.tex" Start="1836"/>
                                                         </Anns>
                                                         <Word>idle</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2124,6 +2262,7 @@
                                 <LocAnn Col="0" Length="9" Line="101" Loc="tests/z/test3.tex" Start="1869"/>
                             </Anns>
                             <Word>CharEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <OrExpr>
                             <Anns>
@@ -2138,6 +2277,7 @@
                                         <LocAnn Col="13" Length="7" Line="101" Loc="tests/z/test3.tex" Start="1882"/>
                                     </Anns>
                                     <Word>GetChar</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2150,6 +2290,7 @@
                                         <LocAnn Col="26" Length="10" Line="101" Loc="tests/z/test3.tex" Start="1895"/>
                                     </Anns>
                                     <Word>IgnoreChar</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2181,6 +2322,7 @@
                                 <LocAnn Col="0" Length="6" Line="105" Loc="tests/z/test3.tex" Start="1935"/>
                             </Anns>
                             <Word>button</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2191,6 +2333,7 @@
                                     <LocAnn Col="15" Length="5" Line="105" Loc="tests/z/test3.tex" Start="1950"/>
                                 </Anns>
                                 <Word> _ ⇸ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2202,6 +2345,7 @@
                                             <LocAnn Col="9" Length="5" Line="105" Loc="tests/z/test3.tex" Start="1944"/>
                                         </Anns>
                                         <Word>EVENT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2214,6 +2358,7 @@
                                             <LocAnn Col="21" Length="6" Line="105" Loc="tests/z/test3.tex" Start="1956"/>
                                         </Anns>
                                         <Word>BUTTON</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2229,6 +2374,7 @@
                                 <LocAnn Col="0" Length="5" Line="106" Loc="tests/z/test3.tex" Start="1967"/>
                             </Anns>
                             <Word>value</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2239,6 +2385,7 @@
                                     <LocAnn Col="13" Length="4" Line="106" Loc="tests/z/test3.tex" Start="1980"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2250,6 +2397,7 @@
                                             <LocAnn Col="8" Length="4" Line="106" Loc="tests/z/test3.tex" Start="1975"/>
                                         </Anns>
                                         <Word>TEXT</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2262,6 +2410,7 @@
                                             <LocAnn Col="18" Length="5" Line="106" Loc="tests/z/test3.tex" Start="1985"/>
                                         </Anns>
                                         <Word>VALUE</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2277,6 +2426,7 @@
                                 <LocAnn Col="0" Length="8" Line="107" Loc="tests/z/test3.tex" Start="1995"/>
                             </Anns>
                             <Word>valid_</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2287,6 +2437,7 @@
                                     <LocAnn Col="19" Length="4" Line="107" Loc="tests/z/test3.tex" Start="2014"/>
                                 </Anns>
                                 <Word> _ ↔ _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2298,6 +2449,7 @@
                                             <LocAnn Col="11" Length="7" Line="107" Loc="tests/z/test3.tex" Start="2006"/>
                                         </Anns>
                                         <Word>SETTING</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2310,6 +2462,7 @@
                                             <LocAnn Col="24" Length="5" Line="107" Loc="tests/z/test3.tex" Start="2019"/>
                                         </Anns>
                                         <Word>VALUE</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -2338,6 +2491,7 @@
                                 <LocAnn Col="15" Length="6" Line="109" Loc="tests/z/test3.tex" Start="2054"/>
                             </Anns>
                             <Word>Accept</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -2352,6 +2506,7 @@
                                                     <LocAnn Col="0" Length="5" Line="110" Loc="tests/z/test3.tex" Start="2063"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2390,6 +2545,7 @@
                                                                     <LocAnn Col="7" Length="4" Line="111" Loc="tests/z/test3.tex" Start="2080"/>
                                                                 </Anns>
                                                                 <Word>mode</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2404,6 +2560,7 @@
                                                                             <LocAnn Col="14" Length="6" Line="111" Loc="tests/z/test3.tex" Start="2087"/>
                                                                         </Anns>
                                                                         <Word>dialog</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2423,7 +2580,9 @@
                                                                     <LocAnn Col="0" Length="2" Line="112" Loc="tests/z/test3.tex" Start="2098"/>
                                                                 </Anns>
                                                                 <Word>e</Word>
-                                                                <InStroke/>
+                                                                <ZStrokeList>
+                                                                    <InStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2440,6 +2599,7 @@
                                                                         <LocAnn Col="7" Length="4" Line="112" Loc="tests/z/test3.tex" Start="2105"/>
                                                                     </Anns>
                                                                     <Word>dom</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2452,6 +2612,7 @@
                                                                         <LocAnn Col="12" Length="6" Line="112" Loc="tests/z/test3.tex" Start="2110"/>
                                                                     </Anns>
                                                                     <Word>button</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2475,6 +2636,7 @@
                                                                     <LocAnn Col="0" Length="6" Line="113" Loc="tests/z/test3.tex" Start="2121"/>
                                                                 </Anns>
                                                                 <Word>button</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2492,7 +2654,9 @@
                                                                     <LocAnn Col="7" Length="2" Line="113" Loc="tests/z/test3.tex" Start="2128"/>
                                                                 </Anns>
                                                                 <Word>e</Word>
-                                                                <InStroke/>
+                                                                <ZStrokeList>
+                                                                    <InStroke/>
+                                                                </ZStrokeList>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2508,6 +2672,7 @@
                                                                         <LocAnn Col="12" Length="6" Line="113" Loc="tests/z/test3.tex" Start="2133"/>
                                                                     </Anns>
                                                                     <Word>accept</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2532,6 +2697,7 @@
                                                                 <LocAnn Col="0" Length="5" Line="114" Loc="tests/z/test3.tex" Start="2144"/>
                                                             </Anns>
                                                             <Word>value</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2549,6 +2715,7 @@
                                                                 <LocAnn Col="6" Length="6" Line="114" Loc="tests/z/test3.tex" Start="2150"/>
                                                             </Anns>
                                                             <Word>buffer</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2568,6 +2735,7 @@
                                                                         <LocAnn Col="16" Length="5" Line="114" Loc="tests/z/test3.tex" Start="2160"/>
                                                                     </Anns>
                                                                     <Word>valid</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2585,6 +2753,7 @@
                                                                         <LocAnn Col="22" Length="7" Line="114" Loc="tests/z/test3.tex" Start="2166"/>
                                                                     </Anns>
                                                                     <Word>setting</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2606,7 +2775,9 @@
                                                         <LocAnn Col="0" Length="5" Line="115" Loc="tests/z/test3.tex" Start="2178"/>
                                                     </Anns>
                                                     <Word>mode</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2621,6 +2792,7 @@
                                                                 <LocAnn Col="8" Length="4" Line="115" Loc="tests/z/test3.tex" Start="2186"/>
                                                             </Anns>
                                                             <Word>idle</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2641,7 +2813,9 @@
                                                     <LocAnn Col="0" Length="8" Line="116" Loc="tests/z/test3.tex" Start="2195"/>
                                                 </Anns>
                                                 <Word>display</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2656,6 +2830,7 @@
                                                             <LocAnn Col="11" Length="7" Line="116" Loc="tests/z/test3.tex" Start="2206"/>
                                                         </Anns>
                                                         <Word>display</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2688,6 +2863,7 @@
                                 <LocAnn Col="15" Length="8" Line="118" Loc="tests/z/test3.tex" Start="2244"/>
                             </Anns>
                             <Word>Reprompt</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -2702,6 +2878,7 @@
                                                     <LocAnn Col="0" Length="5" Line="119" Loc="tests/z/test3.tex" Start="2255"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2744,6 +2921,7 @@
                                                                         <LocAnn Col="7" Length="4" Line="120" Loc="tests/z/test3.tex" Start="2272"/>
                                                                     </Anns>
                                                                     <Word>mode</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2758,6 +2936,7 @@
                                                                                 <LocAnn Col="14" Length="6" Line="120" Loc="tests/z/test3.tex" Start="2279"/>
                                                                             </Anns>
                                                                             <Word>dialog</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -2777,7 +2956,9 @@
                                                                         <LocAnn Col="0" Length="2" Line="121" Loc="tests/z/test3.tex" Start="2290"/>
                                                                     </Anns>
                                                                     <Word>e</Word>
-                                                                    <InStroke/>
+                                                                    <ZStrokeList>
+                                                                        <InStroke/>
+                                                                    </ZStrokeList>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2794,6 +2975,7 @@
                                                                             <LocAnn Col="7" Length="4" Line="121" Loc="tests/z/test3.tex" Start="2297"/>
                                                                         </Anns>
                                                                         <Word>dom</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2806,6 +2988,7 @@
                                                                             <LocAnn Col="12" Length="6" Line="121" Loc="tests/z/test3.tex" Start="2302"/>
                                                                         </Anns>
                                                                         <Word>button</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2829,6 +3012,7 @@
                                                                         <LocAnn Col="0" Length="6" Line="122" Loc="tests/z/test3.tex" Start="2313"/>
                                                                     </Anns>
                                                                     <Word>button</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2846,7 +3030,9 @@
                                                                         <LocAnn Col="7" Length="2" Line="122" Loc="tests/z/test3.tex" Start="2320"/>
                                                                     </Anns>
                                                                     <Word>e</Word>
-                                                                    <InStroke/>
+                                                                    <ZStrokeList>
+                                                                        <InStroke/>
+                                                                    </ZStrokeList>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2862,6 +3048,7 @@
                                                                             <LocAnn Col="13" Length="6" Line="122" Loc="tests/z/test3.tex" Start="2326"/>
                                                                         </Anns>
                                                                         <Word>accept</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -2890,6 +3077,7 @@
                                                                         <LocAnn Col="6" Length="5" Line="123" Loc="tests/z/test3.tex" Start="2343"/>
                                                                     </Anns>
                                                                     <Word>valid</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -2907,6 +3095,7 @@
                                                                                 <LocAnn Col="12" Length="7" Line="123" Loc="tests/z/test3.tex" Start="2349"/>
                                                                             </Anns>
                                                                             <Word>setting</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -2919,6 +3108,7 @@
                                                                                 <LocAnn Col="21" Length="5" Line="123" Loc="tests/z/test3.tex" Start="2358"/>
                                                                             </Anns>
                                                                             <Word>value</Word>
+                                                                            <ZStrokeList/>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -2941,7 +3131,9 @@
                                                             <LocAnn Col="0" Length="7" Line="124" Loc="tests/z/test3.tex" Start="2368"/>
                                                         </Anns>
                                                         <Word>buffer</Word>
-                                                        <NextStroke/>
+                                                        <ZStrokeList>
+                                                            <NextStroke/>
+                                                        </ZStrokeList>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2956,6 +3148,7 @@
                                                                     <LocAnn Col="10" Length="6" Line="124" Loc="tests/z/test3.tex" Start="2378"/>
                                                                 </Anns>
                                                                 <Word>buffer</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2976,7 +3169,9 @@
                                                         <LocAnn Col="0" Length="5" Line="125" Loc="tests/z/test3.tex" Start="2389"/>
                                                     </Anns>
                                                     <Word>mode</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2991,6 +3186,7 @@
                                                                 <LocAnn Col="8" Length="4" Line="125" Loc="tests/z/test3.tex" Start="2397"/>
                                                             </Anns>
                                                             <Word>mode</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3011,7 +3207,9 @@
                                                     <LocAnn Col="0" Length="8" Line="126" Loc="tests/z/test3.tex" Start="2406"/>
                                                 </Anns>
                                                 <Word>display</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3026,6 +3224,7 @@
                                                             <LocAnn Col="11" Length="7" Line="126" Loc="tests/z/test3.tex" Start="2417"/>
                                                         </Anns>
                                                         <Word>display</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3058,6 +3257,7 @@
                                 <LocAnn Col="15" Length="6" Line="128" Loc="tests/z/test3.tex" Start="2455"/>
                             </Anns>
                             <Word>Cancel</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3072,6 +3272,7 @@
                                                     <LocAnn Col="0" Length="5" Line="129" Loc="tests/z/test3.tex" Start="2464"/>
                                                 </Anns>
                                                 <Word>Event</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3106,6 +3307,7 @@
                                                                 <LocAnn Col="7" Length="4" Line="130" Loc="tests/z/test3.tex" Start="2481"/>
                                                             </Anns>
                                                             <Word>mode</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3120,6 +3322,7 @@
                                                                         <LocAnn Col="14" Length="6" Line="130" Loc="tests/z/test3.tex" Start="2488"/>
                                                                     </Anns>
                                                                     <Word>dialog</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -3139,7 +3342,9 @@
                                                                 <LocAnn Col="0" Length="2" Line="131" Loc="tests/z/test3.tex" Start="2499"/>
                                                             </Anns>
                                                             <Word>e</Word>
-                                                            <InStroke/>
+                                                            <ZStrokeList>
+                                                                <InStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3156,6 +3361,7 @@
                                                                     <LocAnn Col="7" Length="4" Line="131" Loc="tests/z/test3.tex" Start="2506"/>
                                                                 </Anns>
                                                                 <Word>dom</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3168,6 +3374,7 @@
                                                                     <LocAnn Col="12" Length="6" Line="131" Loc="tests/z/test3.tex" Start="2511"/>
                                                                 </Anns>
                                                                 <Word>button</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3191,6 +3398,7 @@
                                                                 <LocAnn Col="0" Length="6" Line="132" Loc="tests/z/test3.tex" Start="2522"/>
                                                             </Anns>
                                                             <Word>button</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3208,7 +3416,9 @@
                                                                 <LocAnn Col="7" Length="2" Line="132" Loc="tests/z/test3.tex" Start="2529"/>
                                                             </Anns>
                                                             <Word>e</Word>
-                                                            <InStroke/>
+                                                            <ZStrokeList>
+                                                                <InStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3224,6 +3434,7 @@
                                                                     <LocAnn Col="13" Length="6" Line="132" Loc="tests/z/test3.tex" Start="2535"/>
                                                                 </Anns>
                                                                 <Word>cancel</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3244,7 +3455,9 @@
                                                         <LocAnn Col="0" Length="5" Line="133" Loc="tests/z/test3.tex" Start="2546"/>
                                                     </Anns>
                                                     <Word>mode</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3259,6 +3472,7 @@
                                                                 <LocAnn Col="8" Length="4" Line="133" Loc="tests/z/test3.tex" Start="2554"/>
                                                             </Anns>
                                                             <Word>idle</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3279,7 +3493,9 @@
                                                     <LocAnn Col="0" Length="8" Line="134" Loc="tests/z/test3.tex" Start="2563"/>
                                                 </Anns>
                                                 <Word>display</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3294,6 +3510,7 @@
                                                             <LocAnn Col="11" Length="7" Line="134" Loc="tests/z/test3.tex" Start="2574"/>
                                                         </Anns>
                                                         <Word>display</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3332,6 +3549,7 @@
                                 <LocAnn Col="0" Length="11" Line="137" Loc="tests/z/test3.tex" Start="2610"/>
                             </Anns>
                             <Word>ButtonEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <OrExpr>
                             <Anns>
@@ -3350,6 +3568,7 @@
                                             <LocAnn Col="15" Length="6" Line="137" Loc="tests/z/test3.tex" Start="2625"/>
                                         </Anns>
                                         <Word>Accept</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3362,6 +3581,7 @@
                                             <LocAnn Col="27" Length="6" Line="137" Loc="tests/z/test3.tex" Start="2637"/>
                                         </Anns>
                                         <Word>Cancel</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -3375,6 +3595,7 @@
                                         <LocAnn Col="39" Length="8" Line="137" Loc="tests/z/test3.tex" Start="2649"/>
                                     </Anns>
                                     <Word>Reprompt</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3403,6 +3624,7 @@
                                 <LocAnn Col="15" Length="7" Line="140" Loc="tests/z/test3.tex" Start="2687"/>
                             </Anns>
                             <Word>Machine</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3416,12 +3638,14 @@
                                                 <LocAnn Col="0" Length="7" Line="141" Loc="tests/z/test3.tex" Start="2697"/>
                                             </Anns>
                                             <Word>measure</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <ZDeclName>
                                             <Anns>
                                                 <LocAnn Col="9" Length="10" Line="141" Loc="tests/z/test3.tex" Start="2706"/>
                                             </Anns>
                                             <Word>prescribed</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
@@ -3432,6 +3656,7 @@
                                                     <LocAnn Col="30" Length="4" Line="141" Loc="tests/z/test3.tex" Start="2727"/>
                                                 </Anns>
                                                 <Word> _ → _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -3443,6 +3668,7 @@
                                                             <LocAnn Col="22" Length="7" Line="141" Loc="tests/z/test3.tex" Start="2719"/>
                                                         </Anns>
                                                         <Word>SETTING</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3455,6 +3681,7 @@
                                                             <LocAnn Col="35" Length="5" Line="141" Loc="tests/z/test3.tex" Start="2732"/>
                                                         </Anns>
                                                         <Word>VALUE</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3487,6 +3714,7 @@
                                 <LocAnn Col="15" Length="10" Line="143" Loc="tests/z/test3.tex" Start="2768"/>
                             </Anns>
                             <Word>NewSetting</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3501,6 +3729,7 @@
                                                     <LocAnn Col="0" Length="14" Line="144" Loc="tests/z/test3.tex" Start="2781"/>
                                                 </Anns>
                                                 <Word>ΔMachine</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3514,7 +3743,9 @@
                                                 <LocAnn Col="0" Length="2" Line="145" Loc="tests/z/test3.tex" Start="2800"/>
                                             </Anns>
                                             <Word>s</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -3525,6 +3756,7 @@
                                                     <LocAnn Col="5" Length="7" Line="145" Loc="tests/z/test3.tex" Start="2805"/>
                                                 </Anns>
                                                 <Word>SETTING</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3538,7 +3770,9 @@
                                                 <LocAnn Col="14" Length="2" Line="145" Loc="tests/z/test3.tex" Start="2814"/>
                                             </Anns>
                                             <Word>v</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -3549,6 +3783,7 @@
                                                     <LocAnn Col="19" Length="5" Line="145" Loc="tests/z/test3.tex" Start="2819"/>
                                                 </Anns>
                                                 <Word>VALUE</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3571,7 +3806,9 @@
                                                     <LocAnn Col="7" Length="11" Line="146" Loc="tests/z/test3.tex" Start="2836"/>
                                                 </Anns>
                                                 <Word>prescribed</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3590,6 +3827,7 @@
                                                                 <LocAnn Col="32" Length="6" Line="146" Loc="tests/z/test3.tex" Start="2861"/>
                                                             </Anns>
                                                             <Word> _ ⊕ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3604,6 +3842,7 @@
                                                                         <LocAnn Col="21" Length="10" Line="146" Loc="tests/z/test3.tex" Start="2850"/>
                                                                     </Anns>
                                                                     <Word>prescribed</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -3625,6 +3864,7 @@
                                                                                     <LocAnn Col="44" Length="7" Line="146" Loc="tests/z/test3.tex" Start="2873"/>
                                                                                 </Anns>
                                                                                 <Word> _ ↦ _ </Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -3639,7 +3879,9 @@
                                                                                             <LocAnn Col="41" Length="2" Line="146" Loc="tests/z/test3.tex" Start="2870"/>
                                                                                         </Anns>
                                                                                         <Word>s</Word>
-                                                                                        <InStroke/>
+                                                                                        <ZStrokeList>
+                                                                                            <InStroke/>
+                                                                                        </ZStrokeList>
                                                                                     </ZRefName>
                                                                                     <ZExprList/>
                                                                                 </RefExpr>
@@ -3652,7 +3894,9 @@
                                                                                             <LocAnn Col="52" Length="2" Line="146" Loc="tests/z/test3.tex" Start="2881"/>
                                                                                         </Anns>
                                                                                         <Word>v</Word>
-                                                                                        <InStroke/>
+                                                                                        <ZStrokeList>
+                                                                                            <InStroke/>
+                                                                                        </ZStrokeList>
                                                                                     </ZRefName>
                                                                                     <ZExprList/>
                                                                                 </RefExpr>
@@ -3680,7 +3924,9 @@
                                                     <LocAnn Col="0" Length="7" Line="147" Loc="tests/z/test3.tex" Start="2890"/>
                                                 </Anns>
                                                 <Word>actual</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3695,6 +3941,7 @@
                                                             <LocAnn Col="10" Length="6" Line="147" Loc="tests/z/test3.tex" Start="2900"/>
                                                         </Anns>
                                                         <Word>actual</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3727,6 +3974,7 @@
                                 <LocAnn Col="15" Length="3" Line="149" Loc="tests/z/test3.tex" Start="2937"/>
                             </Anns>
                             <Word>Sys</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3741,6 +3989,7 @@
                                                     <LocAnn Col="0" Length="7" Line="150" Loc="tests/z/test3.tex" Start="2943"/>
                                                 </Anns>
                                                 <Word>Console</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3755,6 +4004,7 @@
                                                     <LocAnn Col="0" Length="7" Line="151" Loc="tests/z/test3.tex" Start="2955"/>
                                                 </Anns>
                                                 <Word>Machine</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3785,6 +4035,7 @@
                                 <LocAnn Col="15" Length="13" Line="153" Loc="tests/z/test3.tex" Start="2993"/>
                             </Anns>
                             <Word>ChangeSetting</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -3799,6 +4050,7 @@
                                                     <LocAnn Col="0" Length="10" Line="154" Loc="tests/z/test3.tex" Start="3009"/>
                                                 </Anns>
                                                 <Word>ΔSys</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3813,6 +4065,7 @@
                                                     <LocAnn Col="0" Length="6" Line="155" Loc="tests/z/test3.tex" Start="3024"/>
                                                 </Anns>
                                                 <Word>Accept</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3827,6 +4080,7 @@
                                                     <LocAnn Col="0" Length="10" Line="156" Loc="tests/z/test3.tex" Start="3035"/>
                                                 </Anns>
                                                 <Word>NewSetting</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3849,7 +4103,9 @@
                                                     <LocAnn Col="7" Length="2" Line="157" Loc="tests/z/test3.tex" Start="3057"/>
                                                 </Anns>
                                                 <Word>s</Word>
-                                                <InStroke/>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3864,6 +4120,7 @@
                                                             <LocAnn Col="12" Length="7" Line="157" Loc="tests/z/test3.tex" Start="3062"/>
                                                         </Anns>
                                                         <Word>setting</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3883,7 +4140,9 @@
                                                     <LocAnn Col="0" Length="2" Line="158" Loc="tests/z/test3.tex" Start="3074"/>
                                                 </Anns>
                                                 <Word>v</Word>
-                                                <InStroke/>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3902,6 +4161,7 @@
                                                                 <LocAnn Col="5" Length="5" Line="158" Loc="tests/z/test3.tex" Start="3079"/>
                                                             </Anns>
                                                             <Word>value</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3919,6 +4179,7 @@
                                                                 <LocAnn Col="11" Length="6" Line="158" Loc="tests/z/test3.tex" Start="3085"/>
                                                             </Anns>
                                                             <Word>buffer</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3958,6 +4219,7 @@
                                 <LocAnn Col="0" Length="15" Line="161" Loc="tests/z/test3.tex" Start="3121"/>
                             </Anns>
                             <Word>SysDisplayEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <AndExpr>
                             <Anns>
@@ -3972,6 +4234,7 @@
                                         <LocAnn Col="19" Length="12" Line="161" Loc="tests/z/test3.tex" Start="3140"/>
                                     </Anns>
                                     <Word>DisplayEvent</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3984,6 +4247,7 @@
                                         <LocAnn Col="38" Length="11" Line="161" Loc="tests/z/test3.tex" Start="3159"/>
                                     </Anns>
                                     <Word>ΞMachine</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4017,6 +4281,7 @@
                                 <LocAnn Col="0" Length="15" Line="164" Loc="tests/z/test3.tex" Start="3196"/>
                             </Anns>
                             <Word>SysSettingEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <AndExpr>
                             <Anns>
@@ -4031,6 +4296,7 @@
                                         <LocAnn Col="19" Length="12" Line="164" Loc="tests/z/test3.tex" Start="3215"/>
                                     </Anns>
                                     <Word>SettingEvent</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4043,6 +4309,7 @@
                                         <LocAnn Col="38" Length="11" Line="164" Loc="tests/z/test3.tex" Start="3234"/>
                                     </Anns>
                                     <Word>ΞMachine</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4076,6 +4343,7 @@
                                 <LocAnn Col="0" Length="12" Line="167" Loc="tests/z/test3.tex" Start="3271"/>
                             </Anns>
                             <Word>SysCharEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <AndExpr>
                             <Anns>
@@ -4090,6 +4358,7 @@
                                         <LocAnn Col="16" Length="9" Line="167" Loc="tests/z/test3.tex" Start="3287"/>
                                     </Anns>
                                     <Word>CharEvent</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4102,6 +4371,7 @@
                                         <LocAnn Col="32" Length="11" Line="167" Loc="tests/z/test3.tex" Start="3303"/>
                                     </Anns>
                                     <Word>ΞMachine</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4135,6 +4405,7 @@
                                 <LocAnn Col="0" Length="14" Line="170" Loc="tests/z/test3.tex" Start="3340"/>
                             </Anns>
                             <Word>SysButtonEvent</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <OrExpr>
                             <Anns>
@@ -4153,6 +4424,7 @@
                                             <LocAnn Col="18" Length="13" Line="170" Loc="tests/z/test3.tex" Start="3358"/>
                                         </Anns>
                                         <Word>ChangeSetting</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4174,6 +4446,7 @@
                                                 <LocAnn Col="38" Length="8" Line="170" Loc="tests/z/test3.tex" Start="3378"/>
                                             </Anns>
                                             <Word>Reprompt</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4186,6 +4459,7 @@
                                                 <LocAnn Col="53" Length="12" Line="170" Loc="tests/z/test3.tex" Start="3393"/>
                                             </Anns>
                                             <Word>ΞMachine</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4209,6 +4483,7 @@
                                             <LocAnn Col="15" Length="6" Line="171" Loc="tests/z/test3.tex" Start="3413"/>
                                         </Anns>
                                         <Word>Cancel</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -4221,6 +4496,7 @@
                                             <LocAnn Col="28" Length="11" Line="171" Loc="tests/z/test3.tex" Start="3426"/>
                                         </Anns>
                                         <Word>ΞMachine</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>

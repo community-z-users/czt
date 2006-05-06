@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.util.ArrayList;
-
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -29,6 +27,6 @@ public class DefsWord
 {
   public DefsWord()
   {
-    super(ZString.DEFEQUAL, new ArrayList());
+    super(ZString.DEFEQUAL);
   }
 }

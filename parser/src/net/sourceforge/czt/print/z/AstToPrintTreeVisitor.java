@@ -655,7 +655,9 @@ public class AstToPrintTreeVisitor
         pos++;
       }
       else {
-        result.add(new Decorword(opPart, op.getStroke()).toString());
+	Decorword decorword =
+	  new Decorword(opPart, (ZStrokeList) op.getStrokes());
+        result.add(decorword.toString());
       }
     }
     return result;

@@ -148,7 +148,7 @@ public class FlatPredList extends FlatPred
               // should be linked to a DeclName after typechecking.
               // For now, we create the corresponding ZDeclName
               dvar = factory_.createZDeclName(var.getWord(),
-                  var.getStroke(),
+                  var.getStrokeList(),
                   null);
             if ( ! boundVars_.contains(dvar))
               freeVars_.add(var);
@@ -221,7 +221,7 @@ public class FlatPredList extends FlatPred
         for (DeclName name : vdecl.getDeclName()) {
           ZDeclName dvar = (ZDeclName) name;
           boundVars_.add(dvar);
-          ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), dvar);
+          ZRefName varref = factory_.createZRefName(dvar);
           predlist_.add(new FlatMember(typeName, varref));
         }
       }
@@ -230,7 +230,7 @@ public class FlatPredList extends FlatPred
         ZDeclName dvar = cdecl.getZDeclName();
         boundVars_.add(dvar);
         Expr expr = cdecl.getExpr();
-        ZRefName varref = factory_.createZRefName(dvar.getWord(), dvar.getStroke(), dvar);
+        ZRefName varref = factory_.createZRefName(dvar);
         flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
       }
       else {

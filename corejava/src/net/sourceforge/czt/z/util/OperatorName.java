@@ -47,7 +47,7 @@ public class OperatorName
   /**
    * The list of decorations of this operator name.
    */
-  private List strokes_ = null;
+  private StrokeList strokes_ = null;
 
   /**
    * The string list representation of this operator name,
@@ -62,7 +62,7 @@ public class OperatorName
    * @throws OperatorNameException if the given name does not
    *         represent an operator name.
    */
-  public OperatorName(String name, List strokes)
+  public OperatorName(String name, StrokeList strokes)
     throws OperatorNameException
   {
     word_ = name;
@@ -80,12 +80,12 @@ public class OperatorName
   public OperatorName(ZDeclName name)
     throws OperatorNameException
   {
-    this(name.getWord(), name.getStroke());
+    this(name.getWord(), name.getStrokeList());
   }
   public OperatorName(ZRefName name)
     throws OperatorNameException
   {
-    this(name.getWord(), name.getStroke());
+    this(name.getWord(), name.getStrokeList());
   }
 
   /**
@@ -96,7 +96,7 @@ public class OperatorName
    *                (can be <code>null</code>).
    * @param fixity must be INFIX, PREFIX, or POSTFIX.
    */
-  public OperatorName(String name, List strokes, Fixity fixity)
+  public OperatorName(String name, StrokeList strokes, Fixity fixity)
     throws OperatorNameException
   {
     if (Fixity.INFIX.equals(fixity)) {
@@ -175,7 +175,7 @@ public class OperatorName
     return word_;
   }
 
-  public List getStroke()
+  public StrokeList getStrokes()
   {
     return strokes_;
   }

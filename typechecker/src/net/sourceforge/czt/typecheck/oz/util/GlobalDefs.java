@@ -172,7 +172,7 @@ public class GlobalDefs
   public static boolean isSelfName(ZDeclName zDeclName)
   {
     boolean result = zDeclName.getWord().equals(OzString.SELF) &&
-      zDeclName.getStroke().size() == 0;
+      zDeclName.getZStrokeList().size() == 0;
     return result;
   }
 }

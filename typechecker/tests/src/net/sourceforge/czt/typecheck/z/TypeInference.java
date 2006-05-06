@@ -30,6 +30,7 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
 import net.sourceforge.czt.session.*;
@@ -53,7 +54,7 @@ public class TypeInference
   protected Spec spec_;
 
   //a Factory
-  protected ZFactory factory_;
+  protected Factory factory_;
 
   public static Test suite()
   {
@@ -64,7 +65,7 @@ public class TypeInference
 
   protected void setUp()
   {
-    factory_ = new ZFactoryImpl();
+    factory_ = new Factory(new ZFactoryImpl());
     manager_ = new SectionManager();
     spec_ = null;
   }
@@ -226,7 +227,7 @@ public class TypeInference
   //lookup a type from the SectTypeEnv
   protected Type getType(String word)
   {
-    ZDeclName zDeclName = factory_.createZDeclName(word, list(), null);
+    ZDeclName zDeclName = factory_.createZDeclName(word);
     ZSect zSect = (ZSect) spec_.getSect().get(0);
     SectTypeEnvAnn ann = (SectTypeEnvAnn) zSect.getAnn(SectTypeEnvAnn.class);
     List triples = ann.getNameSectTypeTriple();

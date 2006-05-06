@@ -915,7 +915,7 @@ public class ExprChecker
         List<NameTypePair> newPairs = factory().list();
         for (NameTypePair oldPair : oldPairs) {
           //the strokes of this name
-          List<Stroke> strokes = oldPair.getZDeclName().getStroke();
+          ZStrokeList strokes = oldPair.getZDeclName().getZStrokeList();
 
           //if the last stroke is not a prime or shriek, then add
           //to the new signature
@@ -1017,7 +1017,7 @@ public class ExprChecker
         for (NameTypePair pair : pairs) {
           //add the strokes to the name
           ZRefName name = factory().createZRefName(pair.getZDeclName());
-          name.getStroke().addAll(thetaExpr.getStroke());
+          name.getZStrokeList().addAll(thetaExpr.getZStrokeList());
 
           //lookup the name in the environment
           Type envType = getType(name);
@@ -1083,7 +1083,9 @@ public class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType decorSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-        decorSchemaType = decorate(schemaType, factory().list(decorExpr.getStroke()));
+	ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+	strokes.add(decorExpr.getStroke());
+        decorSchemaType = decorate(schemaType, strokes);
       }
       type = factory().createPowerType(decorSchemaType);
     }
@@ -1219,7 +1221,7 @@ public class ExprChecker
 
   //// helper methods /////
   //decorate each name in a signature with a specified stroke
-  protected SchemaType decorate(SchemaType schemaType, List<Stroke> stroke)
+  protected SchemaType decorate(SchemaType schemaType, ZStrokeList stroke)
   {
     List<NameTypePair> nameTypePairs = factory().list();
 
@@ -1227,7 +1229,8 @@ public class ExprChecker
     List<NameTypePair> pairs = schemaType.getSignature().getNameTypePair();
     for (NameTypePair oldPair : pairs) {
       ZDeclName oldName = oldPair.getZDeclName();
-      List<Stroke> strokes = factory().list(oldName.getStroke());
+      ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+      strokes.addAll(oldName.getZStrokeList());
       strokes.addAll(stroke);
       ZDeclName newName = factory().createZDeclName(oldName.getWord(), strokes);
       NameTypePair newPair =

@@ -51,7 +51,7 @@ public class VariableClassSig
 
   protected VariableClassSig(Factory factory)
   {
-    List<Stroke> strokes = new java.util.ArrayList<Stroke>();
+    ZStrokeList strokes = factory.getZFactory().createZStrokeList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     zDeclName_ = factory.createZDeclName(PSI, strokes, null);
   }

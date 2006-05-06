@@ -413,7 +413,8 @@ public class OpExprChecker
     if (distOpExpr instanceof DistSeqOpExpr) {
       for (NameTypePair distPair : distPairs) {
         ZDeclName distName = distPair.getZDeclName();
-        List<Stroke> strokes = factory().list(distName.getStroke());
+        ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+	strokes.addAll(distName.getZStrokeList());
         int size = strokes.size();
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);

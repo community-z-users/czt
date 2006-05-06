@@ -156,12 +156,14 @@
                     <LocAnn Col="15" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="304"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="306"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -174,6 +176,7 @@
                                 <LocAnn Col="0" Length="5" Line="13" Loc="lib/relation_toolkit.tex" Start="310"/>
                             </Anns>
                             <Word>first</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -184,6 +187,7 @@
                                     <LocAnn Col="20" Length="4" Line="13" Loc="lib/relation_toolkit.tex" Start="330"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -200,6 +204,7 @@
                                                     <LocAnn Col="8" Length="1" Line="13" Loc="lib/relation_toolkit.tex" Start="318"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -212,6 +217,7 @@
                                                     <LocAnn Col="17" Length="1" Line="13" Loc="lib/relation_toolkit.tex" Start="327"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -226,6 +232,7 @@
                                             <LocAnn Col="25" Length="1" Line="13" Loc="lib/relation_toolkit.tex" Start="335"/>
                                         </Anns>
                                         <Word>X</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -248,6 +255,7 @@
                                         <LocAnn Col="8" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="354"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -258,6 +266,7 @@
                                             <LocAnn Col="12" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="358"/>
                                         </Anns>
                                         <Word>X</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -271,6 +280,7 @@
                                         <LocAnn Col="15" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="361"/>
                                     </Anns>
                                     <Word>y</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -281,6 +291,7 @@
                                             <LocAnn Col="19" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="365"/>
                                         </Anns>
                                         <Word>Y</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -304,6 +315,7 @@
                                         <LocAnn Col="23" Length="5" Line="15" Loc="lib/relation_toolkit.tex" Start="369"/>
                                     </Anns>
                                     <Word>first</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -321,6 +333,7 @@
                                                 <LocAnn Col="30" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="376"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -333,6 +346,7 @@
                                                 <LocAnn Col="32" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="378"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -350,6 +364,7 @@
                                             <LocAnn Col="37" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="383"/>
                                         </Anns>
                                         <Word>x</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -381,12 +396,14 @@ $first~(x,y)$ is the $x$ component of the pair.
                     <LocAnn Col="15" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="541"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="543"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -399,6 +416,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                 <LocAnn Col="0" Length="6" Line="24" Loc="lib/relation_toolkit.tex" Start="547"/>
                             </Anns>
                             <Word>second</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -409,6 +427,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                     <LocAnn Col="20" Length="4" Line="24" Loc="lib/relation_toolkit.tex" Start="567"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -425,6 +444,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                                     <LocAnn Col="9" Length="1" Line="24" Loc="lib/relation_toolkit.tex" Start="556"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -437,6 +457,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                                     <LocAnn Col="18" Length="1" Line="24" Loc="lib/relation_toolkit.tex" Start="565"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -451,6 +472,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                             <LocAnn Col="25" Length="1" Line="24" Loc="lib/relation_toolkit.tex" Start="572"/>
                                         </Anns>
                                         <Word>Y</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -473,6 +495,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                         <LocAnn Col="8" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="591"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -483,6 +506,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                             <LocAnn Col="12" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="595"/>
                                         </Anns>
                                         <Word>X</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -496,6 +520,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                         <LocAnn Col="15" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="598"/>
                                     </Anns>
                                     <Word>y</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -506,6 +531,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                             <LocAnn Col="19" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="602"/>
                                         </Anns>
                                         <Word>Y</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -529,6 +555,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                         <LocAnn Col="23" Length="6" Line="26" Loc="lib/relation_toolkit.tex" Start="606"/>
                                     </Anns>
                                     <Word>second</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -546,6 +573,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                                 <LocAnn Col="31" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="614"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -558,6 +586,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                                 <LocAnn Col="33" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="616"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -575,6 +604,7 @@ $first~(x,y)$ is the $x$ component of the pair.
                                             <LocAnn Col="38" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="621"/>
                                         </Anns>
                                         <Word>y</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -627,12 +657,14 @@ $second~(x,y)$ is the $y$ component of the pair.
                     <LocAnn Col="15" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="852"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="854"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -645,6 +677,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                 <LocAnn Col="11" Line="40" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ↦ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <ZRefName>
@@ -652,6 +685,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                     <LocAnn Col="27" Length="4" Line="40" Loc="lib/relation_toolkit.tex" Start="885"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -668,6 +702,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="16" Length="1" Line="40" Loc="lib/relation_toolkit.tex" Start="874"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -680,6 +715,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="25" Length="1" Line="40" Loc="lib/relation_toolkit.tex" Start="883"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -696,6 +732,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="32" Length="1" Line="40" Loc="lib/relation_toolkit.tex" Start="890"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -708,6 +745,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="41" Length="1" Line="40" Loc="lib/relation_toolkit.tex" Start="899"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -732,6 +770,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                         <LocAnn Col="8" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="918"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -742,6 +781,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                             <LocAnn Col="12" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="922"/>
                                         </Anns>
                                         <Word>X</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -755,6 +795,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                         <LocAnn Col="16" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="926"/>
                                     </Anns>
                                     <Word>y</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
@@ -765,6 +806,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                             <LocAnn Col="20" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="930"/>
                                         </Anns>
                                         <Word>Y</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -788,6 +830,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                         <LocAnn Col="26" Length="7" Line="42" Loc="lib/relation_toolkit.tex" Start="936"/>
                                     </Anns>
                                     <Word> _ ↦ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -802,6 +845,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                 <LocAnn Col="24" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="934"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -814,6 +858,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                 <LocAnn Col="34" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="944"/>
                                             </Anns>
                                             <Word>y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -836,6 +881,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="40" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="950"/>
                                                 </Anns>
                                                 <Word>x</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -848,6 +894,7 @@ $second~(x,y)$ is the $y$ component of the pair.
                                                     <LocAnn Col="44" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="954"/>
                                                 </Anns>
                                                 <Word>y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -881,12 +928,14 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                     <LocAnn Col="15" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1139"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1141"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -899,6 +948,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                 <LocAnn Col="0" Length="4" Line="52" Loc="lib/relation_toolkit.tex" Start="1145"/>
                             </Anns>
                             <Word>dom</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -909,6 +959,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                     <LocAnn Col="18" Length="4" Line="52" Loc="lib/relation_toolkit.tex" Start="1163"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="true">
@@ -925,6 +976,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                             <LocAnn Col="10" Length="4" Line="52" Loc="lib/relation_toolkit.tex" Start="1155"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -936,6 +988,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                     <LocAnn Col="8" Length="1" Line="52" Loc="lib/relation_toolkit.tex" Start="1153"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -948,6 +1001,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                     <LocAnn Col="15" Length="1" Line="52" Loc="lib/relation_toolkit.tex" Start="1160"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -966,6 +1020,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                 <LocAnn Col="30" Length="1" Line="52" Loc="lib/relation_toolkit.tex" Start="1175"/>
                                             </Anns>
                                             <Word>X</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -989,6 +1044,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                         <LocAnn Col="8" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1194"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -999,6 +1055,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                             <LocAnn Col="14" Length="4" Line="54" Loc="lib/relation_toolkit.tex" Start="1200"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1010,6 +1067,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                     <LocAnn Col="12" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1198"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1022,6 +1080,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                     <LocAnn Col="19" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1205"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1047,6 +1106,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                         <LocAnn Col="23" Length="4" Line="54" Loc="lib/relation_toolkit.tex" Start="1209"/>
                                     </Anns>
                                     <Word>dom</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1059,6 +1119,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                         <LocAnn Col="28" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1214"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1080,6 +1141,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                         <LocAnn Col="36" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1222"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -1090,6 +1152,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                             <LocAnn Col="40" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1226"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1109,6 +1172,7 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                     <LocAnn Col="44" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1230"/>
                                                 </Anns>
                                                 <Word>p</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1147,12 +1211,14 @@ pairs in $r$.
                     <LocAnn Col="15" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1404"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1406"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -1165,6 +1231,7 @@ pairs in $r$.
                                 <LocAnn Col="0" Length="4" Line="64" Loc="lib/relation_toolkit.tex" Start="1410"/>
                             </Anns>
                             <Word>ran</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -1175,6 +1242,7 @@ pairs in $r$.
                                     <LocAnn Col="18" Length="4" Line="64" Loc="lib/relation_toolkit.tex" Start="1428"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="true">
@@ -1191,6 +1259,7 @@ pairs in $r$.
                                             <LocAnn Col="10" Length="4" Line="64" Loc="lib/relation_toolkit.tex" Start="1420"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1202,6 +1271,7 @@ pairs in $r$.
                                                     <LocAnn Col="8" Length="1" Line="64" Loc="lib/relation_toolkit.tex" Start="1418"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1214,6 +1284,7 @@ pairs in $r$.
                                                     <LocAnn Col="15" Length="1" Line="64" Loc="lib/relation_toolkit.tex" Start="1425"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1232,6 +1303,7 @@ pairs in $r$.
                                                 <LocAnn Col="30" Length="1" Line="64" Loc="lib/relation_toolkit.tex" Start="1440"/>
                                             </Anns>
                                             <Word>Y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1255,6 +1327,7 @@ pairs in $r$.
                                         <LocAnn Col="8" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1459"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -1265,6 +1338,7 @@ pairs in $r$.
                                             <LocAnn Col="14" Length="4" Line="66" Loc="lib/relation_toolkit.tex" Start="1465"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1276,6 +1350,7 @@ pairs in $r$.
                                                     <LocAnn Col="12" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1463"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1288,6 +1363,7 @@ pairs in $r$.
                                                     <LocAnn Col="19" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1470"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1313,6 +1389,7 @@ pairs in $r$.
                                         <LocAnn Col="23" Length="4" Line="66" Loc="lib/relation_toolkit.tex" Start="1474"/>
                                     </Anns>
                                     <Word>ran</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1325,6 +1402,7 @@ pairs in $r$.
                                         <LocAnn Col="28" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1479"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1346,6 +1424,7 @@ pairs in $r$.
                                                         <LocAnn Col="36" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1487"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -1356,6 +1435,7 @@ pairs in $r$.
                                                             <LocAnn Col="40" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1491"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1375,6 +1455,7 @@ pairs in $r$.
                                                     <LocAnn Col="44" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1495"/>
                                                 </Anns>
                                                 <Word>p</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1433,6 +1514,7 @@ pairs in $r$.
                     <LocAnn Col="4" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1726"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <Anns>
@@ -1445,6 +1527,7 @@ pairs in $r$.
                         </Anns>
                         <ZDeclName>
                             <Word>id _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SetCompExpr>
                             <Anns>
@@ -1461,6 +1544,7 @@ pairs in $r$.
                                                 <LocAnn Col="13" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1735"/>
                                             </Anns>
                                             <Word>x</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1471,6 +1555,7 @@ pairs in $r$.
                                                     <LocAnn Col="17" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1739"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1490,6 +1575,7 @@ pairs in $r$.
                                             <LocAnn Col="23" Length="7" Line="80" Loc="lib/relation_toolkit.tex" Start="1745"/>
                                         </Anns>
                                         <Word> _ ↦ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -1504,6 +1590,7 @@ pairs in $r$.
                                                     <LocAnn Col="21" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1743"/>
                                                 </Anns>
                                                 <Word>x</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1516,6 +1603,7 @@ pairs in $r$.
                                                     <LocAnn Col="31" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1753"/>
                                                 </Anns>
                                                 <Word>x</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1570,18 +1658,21 @@ member of $X$ to itself.
                     <LocAnn Col="15" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2013"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2015"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="19" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2017"/>
                 </Anns>
                 <Word>Z</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -1594,6 +1685,7 @@ member of $X$ to itself.
                                 <LocAnn Col="9" Line="94" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ⨾ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -1604,6 +1696,7 @@ member of $X$ to itself.
                                     <LocAnn Col="43" Length="4" Line="94" Loc="lib/relation_toolkit.tex" Start="2064"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -1625,6 +1718,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="17" Length="4" Line="94" Loc="lib/relation_toolkit.tex" Start="2038"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -1636,6 +1730,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="15" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2036"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1648,6 +1743,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="22" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2043"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1667,6 +1763,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="35" Length="4" Line="94" Loc="lib/relation_toolkit.tex" Start="2056"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -1678,6 +1775,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="33" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2054"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1690,6 +1788,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="40" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2061"/>
                                                         </Anns>
                                                         <Word>Z</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1711,6 +1810,7 @@ member of $X$ to itself.
                                             <LocAnn Col="51" Length="4" Line="94" Loc="lib/relation_toolkit.tex" Start="2072"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1722,6 +1822,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="49" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2070"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1734,6 +1835,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="56" Length="1" Line="94" Loc="lib/relation_toolkit.tex" Start="2077"/>
                                                 </Anns>
                                                 <Word>Z</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1758,6 +1860,7 @@ member of $X$ to itself.
                                         <LocAnn Col="8" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2097"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -1768,6 +1871,7 @@ member of $X$ to itself.
                                             <LocAnn Col="14" Length="4" Line="96" Loc="lib/relation_toolkit.tex" Start="2103"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1779,6 +1883,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="12" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2101"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1791,6 +1896,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="19" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2108"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1806,6 +1912,7 @@ member of $X$ to itself.
                                         <LocAnn Col="23" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2112"/>
                                     </Anns>
                                     <Word>s</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -1816,6 +1923,7 @@ member of $X$ to itself.
                                             <LocAnn Col="29" Length="4" Line="96" Loc="lib/relation_toolkit.tex" Start="2118"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1827,6 +1935,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="27" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2116"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1839,6 +1948,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="34" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2123"/>
                                                 </Anns>
                                                 <Word>Z</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1864,6 +1974,7 @@ member of $X$ to itself.
                                         <LocAnn Col="3" Length="5" Line="97" Loc="lib/relation_toolkit.tex" Start="2131"/>
                                     </Anns>
                                     <Word> _ ⨾ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1878,6 +1989,7 @@ member of $X$ to itself.
                                                 <LocAnn Col="1" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2129"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1890,6 +2002,7 @@ member of $X$ to itself.
                                                 <LocAnn Col="9" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2137"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -1913,6 +2026,7 @@ member of $X$ to itself.
                                                         <LocAnn Col="17" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2145"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -1923,6 +2037,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="21" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2149"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1936,6 +2051,7 @@ member of $X$ to itself.
                                                         <LocAnn Col="25" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2153"/>
                                                     </Anns>
                                                     <Word>q</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -1946,6 +2062,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="29" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2157"/>
                                                         </Anns>
                                                         <Word>s</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1968,6 +2085,7 @@ member of $X$ to itself.
                                                             <LocAnn Col="33" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2161"/>
                                                         </Anns>
                                                         <Word>p</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -1992,6 +2110,7 @@ member of $X$ to itself.
                                                                     <LocAnn Col="39" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2167"/>
                                                                 </Anns>
                                                                 <Word>q</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -2018,6 +2137,7 @@ member of $X$ to itself.
                                                     <LocAnn Col="49" Length="7" Line="97" Loc="lib/relation_toolkit.tex" Start="2177"/>
                                                 </Anns>
                                                 <Word> _ ↦ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2036,6 +2156,7 @@ member of $X$ to itself.
                                                                 <LocAnn Col="45" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2173"/>
                                                             </Anns>
                                                             <Word>p</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2058,6 +2179,7 @@ member of $X$ to itself.
                                                                 <LocAnn Col="57" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2185"/>
                                                             </Anns>
                                                             <Word>q</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -2123,18 +2245,21 @@ and relating the first component of $p$ with the second component of $q$.
                     <LocAnn Col="15" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2672"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2674"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="19" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2676"/>
                 </Anns>
                 <Word>Z</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -2147,6 +2272,7 @@ and relating the first component of $p$ with the second component of $q$.
                                 <LocAnn Col="9" Line="114" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ∘ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2157,6 +2283,7 @@ and relating the first component of $p$ with the second component of $q$.
                                     <LocAnn Col="43" Length="4" Line="114" Loc="lib/relation_toolkit.tex" Start="2723"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -2178,6 +2305,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="17" Length="4" Line="114" Loc="lib/relation_toolkit.tex" Start="2697"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2189,6 +2317,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                             <LocAnn Col="15" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2695"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2201,6 +2330,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                             <LocAnn Col="22" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2702"/>
                                                         </Anns>
                                                         <Word>Z</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2220,6 +2350,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="35" Length="4" Line="114" Loc="lib/relation_toolkit.tex" Start="2715"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2231,6 +2362,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                             <LocAnn Col="33" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2713"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2243,6 +2375,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                             <LocAnn Col="40" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2720"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2264,6 +2397,7 @@ and relating the first component of $p$ with the second component of $q$.
                                             <LocAnn Col="51" Length="4" Line="114" Loc="lib/relation_toolkit.tex" Start="2731"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -2275,6 +2409,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="49" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2729"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2287,6 +2422,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="56" Length="1" Line="114" Loc="lib/relation_toolkit.tex" Start="2736"/>
                                                 </Anns>
                                                 <Word>Z</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2311,6 +2447,7 @@ and relating the first component of $p$ with the second component of $q$.
                                         <LocAnn Col="8" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2756"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -2321,6 +2458,7 @@ and relating the first component of $p$ with the second component of $q$.
                                             <LocAnn Col="14" Length="4" Line="116" Loc="lib/relation_toolkit.tex" Start="2762"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -2332,6 +2470,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="12" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2760"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2344,6 +2483,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="19" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2767"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2359,6 +2499,7 @@ and relating the first component of $p$ with the second component of $q$.
                                         <LocAnn Col="23" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2771"/>
                                     </Anns>
                                     <Word>s</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -2369,6 +2510,7 @@ and relating the first component of $p$ with the second component of $q$.
                                             <LocAnn Col="29" Length="4" Line="116" Loc="lib/relation_toolkit.tex" Start="2777"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -2380,6 +2522,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="27" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2775"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2392,6 +2535,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                     <LocAnn Col="34" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2782"/>
                                                 </Anns>
                                                 <Word>Z</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2417,6 +2561,7 @@ and relating the first component of $p$ with the second component of $q$.
                                         <LocAnn Col="40" Length="5" Line="116" Loc="lib/relation_toolkit.tex" Start="2788"/>
                                     </Anns>
                                     <Word> _ ∘ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2431,6 +2576,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                 <LocAnn Col="38" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2786"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2443,6 +2589,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                 <LocAnn Col="46" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2794"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2464,6 +2611,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                 <LocAnn Col="52" Length="5" Line="116" Loc="lib/relation_toolkit.tex" Start="2800"/>
                                             </Anns>
                                             <Word> _ ⨾ _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2478,6 +2626,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                         <LocAnn Col="50" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2798"/>
                                                     </Anns>
                                                     <Word>r</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2490,6 +2639,7 @@ and relating the first component of $p$ with the second component of $q$.
                                                         <LocAnn Col="58" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2806"/>
                                                     </Anns>
                                                     <Word>s</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2545,12 +2695,14 @@ the relational composition of $r$ and $s$.
                     <LocAnn Col="15" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3067"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3069"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -2563,6 +2715,7 @@ the relational composition of $r$ and $s$.
                                 <LocAnn Col="9" Line="130" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ◁ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2573,6 +2726,7 @@ the relational composition of $r$ and $s$.
                                     <LocAnn Col="43" Length="4" Line="130" Loc="lib/relation_toolkit.tex" Start="3116"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -2593,6 +2747,7 @@ the relational composition of $r$ and $s$.
                                                         <LocAnn Col="21" Length="1" Line="130" Loc="lib/relation_toolkit.tex" Start="3094"/>
                                                     </Anns>
                                                     <Word>X</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2611,6 +2766,7 @@ the relational composition of $r$ and $s$.
                                                     <LocAnn Col="34" Length="4" Line="130" Loc="lib/relation_toolkit.tex" Start="3107"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -2622,6 +2778,7 @@ the relational composition of $r$ and $s$.
                                                             <LocAnn Col="32" Length="1" Line="130" Loc="lib/relation_toolkit.tex" Start="3105"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2634,6 +2791,7 @@ the relational composition of $r$ and $s$.
                                                             <LocAnn Col="39" Length="1" Line="130" Loc="lib/relation_toolkit.tex" Start="3112"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2655,6 +2813,7 @@ the relational composition of $r$ and $s$.
                                             <LocAnn Col="52" Length="4" Line="130" Loc="lib/relation_toolkit.tex" Start="3125"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -2666,6 +2825,7 @@ the relational composition of $r$ and $s$.
                                                     <LocAnn Col="50" Length="1" Line="130" Loc="lib/relation_toolkit.tex" Start="3123"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2678,6 +2838,7 @@ the relational composition of $r$ and $s$.
                                                     <LocAnn Col="57" Length="1" Line="130" Loc="lib/relation_toolkit.tex" Start="3130"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2702,6 +2863,7 @@ the relational composition of $r$ and $s$.
                                         <LocAnn Col="8" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3151"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <PowerExpr>
                                     <Anns>
@@ -2716,6 +2878,7 @@ the relational composition of $r$ and $s$.
                                                 <LocAnn Col="19" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3162"/>
                                             </Anns>
                                             <Word>X</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2730,6 +2893,7 @@ the relational composition of $r$ and $s$.
                                         <LocAnn Col="23" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3166"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -2740,6 +2904,7 @@ the relational composition of $r$ and $s$.
                                             <LocAnn Col="29" Length="4" Line="132" Loc="lib/relation_toolkit.tex" Start="3172"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -2751,6 +2916,7 @@ the relational composition of $r$ and $s$.
                                                     <LocAnn Col="27" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3170"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2763,6 +2929,7 @@ the relational composition of $r$ and $s$.
                                                     <LocAnn Col="34" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3177"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -2788,6 +2955,7 @@ the relational composition of $r$ and $s$.
                                         <LocAnn Col="40" Length="5" Line="132" Loc="lib/relation_toolkit.tex" Start="3183"/>
                                     </Anns>
                                     <Word> _ ◁ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -2802,6 +2970,7 @@ the relational composition of $r$ and $s$.
                                                 <LocAnn Col="38" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3181"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2814,6 +2983,7 @@ the relational composition of $r$ and $s$.
                                                 <LocAnn Col="46" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3189"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -2837,6 +3007,7 @@ the relational composition of $r$ and $s$.
                                                         <LocAnn Col="54" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3197"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -2847,6 +3018,7 @@ the relational composition of $r$ and $s$.
                                                             <LocAnn Col="58" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3201"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2869,6 +3041,7 @@ the relational composition of $r$ and $s$.
                                                             <LocAnn Col="62" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3205"/>
                                                         </Anns>
                                                         <Word>p</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -2887,6 +3060,7 @@ the relational composition of $r$ and $s$.
                                                         <LocAnn Col="70" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3213"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -2942,12 +3116,14 @@ the set of pairs in $r$ whose first components are in $a$.
                     <LocAnn Col="15" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3514"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3516"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -2960,6 +3136,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                 <LocAnn Col="9" Line="146" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ▷ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -2970,6 +3147,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                     <LocAnn Col="42" Length="4" Line="146" Loc="lib/relation_toolkit.tex" Start="3562"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -2991,6 +3169,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                     <LocAnn Col="18" Length="4" Line="146" Loc="lib/relation_toolkit.tex" Start="3538"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -3002,6 +3181,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                             <LocAnn Col="16" Length="1" Line="146" Loc="lib/relation_toolkit.tex" Start="3536"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3014,6 +3194,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                             <LocAnn Col="23" Length="1" Line="146" Loc="lib/relation_toolkit.tex" Start="3543"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3032,6 +3213,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                         <LocAnn Col="40" Length="1" Line="146" Loc="lib/relation_toolkit.tex" Start="3560"/>
                                                     </Anns>
                                                     <Word>Y</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3052,6 +3234,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                             <LocAnn Col="51" Length="4" Line="146" Loc="lib/relation_toolkit.tex" Start="3571"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3063,6 +3246,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                     <LocAnn Col="49" Length="1" Line="146" Loc="lib/relation_toolkit.tex" Start="3569"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3075,6 +3259,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                     <LocAnn Col="56" Length="1" Line="146" Loc="lib/relation_toolkit.tex" Start="3576"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3099,6 +3284,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                         <LocAnn Col="8" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3597"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -3109,6 +3295,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                             <LocAnn Col="14" Length="4" Line="148" Loc="lib/relation_toolkit.tex" Start="3603"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3120,6 +3307,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                     <LocAnn Col="12" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3601"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3132,6 +3320,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                     <LocAnn Col="19" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3608"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3147,6 +3336,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                         <LocAnn Col="23" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3612"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <PowerExpr>
                                     <Anns>
@@ -3161,6 +3351,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                 <LocAnn Col="34" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3623"/>
                                             </Anns>
                                             <Word>Y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3185,6 +3376,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                         <LocAnn Col="40" Length="5" Line="148" Loc="lib/relation_toolkit.tex" Start="3629"/>
                                     </Anns>
                                     <Word> _ ▷ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3199,6 +3391,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                 <LocAnn Col="38" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3627"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3211,6 +3404,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                 <LocAnn Col="46" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3635"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3234,6 +3428,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                         <LocAnn Col="54" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3643"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -3244,6 +3439,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                             <LocAnn Col="58" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3647"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3266,6 +3462,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                             <LocAnn Col="62" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3651"/>
                                                         </Anns>
                                                         <Word>p</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3284,6 +3481,7 @@ the set of pairs in $r$ whose first components are in $a$.
                                                         <LocAnn Col="70" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3659"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3339,12 +3537,14 @@ the set of pairs in $r$ whose second components are in $b$.
                     <LocAnn Col="15" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3964"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3966"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -3357,6 +3557,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                 <LocAnn Col="10" Line="162" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ⩤ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -3367,6 +3568,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                     <LocAnn Col="44" Length="4" Line="162" Loc="lib/relation_toolkit.tex" Start="4014"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -3387,6 +3589,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                         <LocAnn Col="22" Length="1" Line="162" Loc="lib/relation_toolkit.tex" Start="3992"/>
                                                     </Anns>
                                                     <Word>X</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3405,6 +3608,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                     <LocAnn Col="35" Length="4" Line="162" Loc="lib/relation_toolkit.tex" Start="4005"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -3416,6 +3620,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                             <LocAnn Col="33" Length="1" Line="162" Loc="lib/relation_toolkit.tex" Start="4003"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3428,6 +3633,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                             <LocAnn Col="40" Length="1" Line="162" Loc="lib/relation_toolkit.tex" Start="4010"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3449,6 +3655,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                             <LocAnn Col="53" Length="4" Line="162" Loc="lib/relation_toolkit.tex" Start="4023"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3460,6 +3667,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                     <LocAnn Col="51" Length="1" Line="162" Loc="lib/relation_toolkit.tex" Start="4021"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3472,6 +3680,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                     <LocAnn Col="58" Length="1" Line="162" Loc="lib/relation_toolkit.tex" Start="4028"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3496,6 +3705,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                         <LocAnn Col="8" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4049"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <PowerExpr>
                                     <Anns>
@@ -3510,6 +3720,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                 <LocAnn Col="19" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4060"/>
                                             </Anns>
                                             <Word>X</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3524,6 +3735,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                         <LocAnn Col="23" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4064"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -3534,6 +3746,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                             <LocAnn Col="29" Length="4" Line="164" Loc="lib/relation_toolkit.tex" Start="4070"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3545,6 +3758,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                     <LocAnn Col="27" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4068"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3557,6 +3771,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                     <LocAnn Col="34" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4075"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3582,6 +3797,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                         <LocAnn Col="40" Length="6" Line="164" Loc="lib/relation_toolkit.tex" Start="4081"/>
                                     </Anns>
                                     <Word> _ ⩤ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -3596,6 +3812,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                 <LocAnn Col="38" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4079"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3608,6 +3825,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                 <LocAnn Col="47" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4088"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3631,6 +3849,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                         <LocAnn Col="55" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4096"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -3641,6 +3860,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                             <LocAnn Col="59" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4100"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3665,6 +3885,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                                     <LocAnn Col="63" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4104"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -3683,6 +3904,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                                 <LocAnn Col="74" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4115"/>
                                                             </Anns>
                                                             <Word>a</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -3697,6 +3919,7 @@ the set of pairs in $r$ whose second components are in $b$.
                                                         <LocAnn Col="67" Length="6" Line="164" Loc="lib/relation_toolkit.tex" Start="4108"/>
                                                     </Anns>
                                                     <Word> _ ∉ _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3753,12 +3976,14 @@ is the set of pairs in $r$ whose first components are not in $a$.
                     <LocAnn Col="15" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4423"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4425"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -3771,6 +3996,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                 <LocAnn Col="10" Line="179" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ⩥ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -3781,6 +4007,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                     <LocAnn Col="43" Length="4" Line="179" Loc="lib/relation_toolkit.tex" Start="4472"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -3802,6 +4029,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                     <LocAnn Col="19" Length="4" Line="179" Loc="lib/relation_toolkit.tex" Start="4448"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -3813,6 +4041,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                             <LocAnn Col="17" Length="1" Line="179" Loc="lib/relation_toolkit.tex" Start="4446"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3825,6 +4054,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                             <LocAnn Col="24" Length="1" Line="179" Loc="lib/relation_toolkit.tex" Start="4453"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -3843,6 +4073,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                         <LocAnn Col="41" Length="1" Line="179" Loc="lib/relation_toolkit.tex" Start="4470"/>
                                                     </Anns>
                                                     <Word>Y</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -3863,6 +4094,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                             <LocAnn Col="52" Length="4" Line="179" Loc="lib/relation_toolkit.tex" Start="4481"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3874,6 +4106,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                     <LocAnn Col="50" Length="1" Line="179" Loc="lib/relation_toolkit.tex" Start="4479"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3886,6 +4119,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                     <LocAnn Col="57" Length="1" Line="179" Loc="lib/relation_toolkit.tex" Start="4486"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3910,6 +4144,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                         <LocAnn Col="8" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4507"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -3920,6 +4155,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                             <LocAnn Col="14" Length="4" Line="181" Loc="lib/relation_toolkit.tex" Start="4513"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -3931,6 +4167,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                     <LocAnn Col="12" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4511"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3943,6 +4180,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                     <LocAnn Col="19" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4518"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -3958,6 +4196,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                         <LocAnn Col="23" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4522"/>
                                     </Anns>
                                     <Word>b</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <PowerExpr>
                                     <Anns>
@@ -3972,6 +4211,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                 <LocAnn Col="34" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4533"/>
                                             </Anns>
                                             <Word>Y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -3996,6 +4236,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                         <LocAnn Col="2" Length="6" Line="182" Loc="lib/relation_toolkit.tex" Start="4540"/>
                                     </Anns>
                                     <Word> _ ⩥ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4010,6 +4251,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                 <LocAnn Col="0" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4538"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4022,6 +4264,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                 <LocAnn Col="9" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4547"/>
                                             </Anns>
                                             <Word>b</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4045,6 +4288,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                         <LocAnn Col="17" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4555"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -4055,6 +4299,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                             <LocAnn Col="21" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4559"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4079,6 +4324,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                                     <LocAnn Col="25" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4563"/>
                                                                 </Anns>
                                                                 <Word>p</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -4097,6 +4343,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                                 <LocAnn Col="36" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4574"/>
                                                             </Anns>
                                                             <Word>b</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -4111,6 +4358,7 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                         <LocAnn Col="29" Length="6" Line="182" Loc="lib/relation_toolkit.tex" Start="4567"/>
                                                     </Anns>
                                                     <Word> _ ∉ _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -4165,12 +4413,14 @@ is the set of pairs in $r$ whose second components are not in $b$.
                     <LocAnn Col="15" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4865"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4867"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -4183,6 +4433,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                 <LocAnn Col="3" Line="196" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ∼</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -4193,6 +4444,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                     <LocAnn Col="23" Length="4" Line="196" Loc="lib/relation_toolkit.tex" Start="4894"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="true">
@@ -4209,6 +4461,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                             <LocAnn Col="14" Length="4" Line="196" Loc="lib/relation_toolkit.tex" Start="4885"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -4220,6 +4473,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="12" Length="1" Line="196" Loc="lib/relation_toolkit.tex" Start="4883"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4232,6 +4486,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="19" Length="1" Line="196" Loc="lib/relation_toolkit.tex" Start="4890"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4251,6 +4506,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                             <LocAnn Col="32" Length="4" Line="196" Loc="lib/relation_toolkit.tex" Start="4903"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -4262,6 +4518,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="30" Length="1" Line="196" Loc="lib/relation_toolkit.tex" Start="4901"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4274,6 +4531,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="37" Length="1" Line="196" Loc="lib/relation_toolkit.tex" Start="4908"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4298,6 +4556,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                         <LocAnn Col="8" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4929"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -4308,6 +4567,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                             <LocAnn Col="14" Length="4" Line="198" Loc="lib/relation_toolkit.tex" Start="4935"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -4319,6 +4579,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="12" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4933"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4331,6 +4592,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="19" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4940"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4356,6 +4618,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                         <LocAnn Col="25" Length="4" Line="198" Loc="lib/relation_toolkit.tex" Start="4946"/>
                                     </Anns>
                                     <Word> _ ∼</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4368,6 +4631,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                         <LocAnn Col="23" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4944"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4389,6 +4653,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                         <LocAnn Col="36" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4957"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -4399,6 +4664,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                             <LocAnn Col="40" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4961"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4418,6 +4684,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                     <LocAnn Col="48" Length="7" Line="198" Loc="lib/relation_toolkit.tex" Start="4969"/>
                                                 </Anns>
                                                 <Word> _ ↦ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4436,6 +4703,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                                 <LocAnn Col="44" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4965"/>
                                                             </Anns>
                                                             <Word>p</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -4458,6 +4726,7 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                                 <LocAnn Col="56" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4977"/>
                                                             </Anns>
                                                             <Word>p</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -4526,12 +4795,14 @@ ordered pair in the relation.
                     <LocAnn Col="15" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5259"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5261"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -4544,6 +4815,7 @@ ordered pair in the relation.
                                 <LocAnn Col="12" Line="213" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ⦇ _ ⦈</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -4554,6 +4826,7 @@ ordered pair in the relation.
                                     <LocAnn Col="49" Length="4" Line="213" Loc="lib/relation_toolkit.tex" Start="5314"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -4575,6 +4848,7 @@ ordered pair in the relation.
                                                     <LocAnn Col="24" Length="4" Line="213" Loc="lib/relation_toolkit.tex" Start="5289"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -4586,6 +4860,7 @@ ordered pair in the relation.
                                                             <LocAnn Col="22" Length="1" Line="213" Loc="lib/relation_toolkit.tex" Start="5287"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4598,6 +4873,7 @@ ordered pair in the relation.
                                                             <LocAnn Col="29" Length="1" Line="213" Loc="lib/relation_toolkit.tex" Start="5294"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4616,6 +4892,7 @@ ordered pair in the relation.
                                                         <LocAnn Col="47" Length="1" Line="213" Loc="lib/relation_toolkit.tex" Start="5312"/>
                                                     </Anns>
                                                     <Word>X</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -4635,6 +4912,7 @@ ordered pair in the relation.
                                                 <LocAnn Col="61" Length="1" Line="213" Loc="lib/relation_toolkit.tex" Start="5326"/>
                                             </Anns>
                                             <Word>Y</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4658,6 +4936,7 @@ ordered pair in the relation.
                                         <LocAnn Col="8" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5345"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -4668,6 +4947,7 @@ ordered pair in the relation.
                                             <LocAnn Col="14" Length="4" Line="215" Loc="lib/relation_toolkit.tex" Start="5351"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -4679,6 +4959,7 @@ ordered pair in the relation.
                                                     <LocAnn Col="12" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5349"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4691,6 +4972,7 @@ ordered pair in the relation.
                                                     <LocAnn Col="19" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5356"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4706,6 +4988,7 @@ ordered pair in the relation.
                                         <LocAnn Col="23" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5360"/>
                                     </Anns>
                                     <Word>a</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <PowerExpr>
                                     <Anns>
@@ -4720,6 +5003,7 @@ ordered pair in the relation.
                                                 <LocAnn Col="34" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5371"/>
                                             </Anns>
                                             <Word>X</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4744,6 +5028,7 @@ ordered pair in the relation.
                                         <LocAnn Col="40" Length="13" Line="215" Loc="lib/relation_toolkit.tex" Start="5377"/>
                                     </Anns>
                                     <Word> _ ⦇ _ ⦈</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -4758,6 +5043,7 @@ ordered pair in the relation.
                                                 <LocAnn Col="38" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5375"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4770,6 +5056,7 @@ ordered pair in the relation.
                                                 <LocAnn Col="46" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5383"/>
                                             </Anns>
                                             <Word>a</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -4793,6 +5080,7 @@ ordered pair in the relation.
                                                         <LocAnn Col="60" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5397"/>
                                                     </Anns>
                                                     <Word>p</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
@@ -4803,6 +5091,7 @@ ordered pair in the relation.
                                                             <LocAnn Col="64" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5401"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4825,6 +5114,7 @@ ordered pair in the relation.
                                                             <LocAnn Col="68" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5405"/>
                                                         </Anns>
                                                         <Word>p</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4843,6 +5133,7 @@ ordered pair in the relation.
                                                         <LocAnn Col="76" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5413"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -4861,6 +5152,7 @@ ordered pair in the relation.
                                                     <LocAnn Col="80" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5417"/>
                                                 </Anns>
                                                 <Word>p</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -4920,12 +5212,14 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                     <LocAnn Col="15" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5735"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZDeclName>
                 <Anns>
                     <LocAnn Col="17" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5737"/>
                 </Anns>
                 <Word>Y</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -4938,6 +5232,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                 <LocAnn Col="10" Line="229" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ⊕ _ </Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -4948,6 +5243,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                     <LocAnn Col="48" Length="4" Line="229" Loc="lib/relation_toolkit.tex" Start="5789"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <ProdExpr>
@@ -4969,6 +5265,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="19" Length="4" Line="229" Loc="lib/relation_toolkit.tex" Start="5760"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -4980,6 +5277,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                             <LocAnn Col="17" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5758"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -4992,6 +5290,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                             <LocAnn Col="24" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5765"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5011,6 +5310,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="39" Length="4" Line="229" Loc="lib/relation_toolkit.tex" Start="5780"/>
                                                 </Anns>
                                                 <Word> _ ↔ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -5022,6 +5322,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                             <LocAnn Col="37" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5778"/>
                                                         </Anns>
                                                         <Word>X</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5034,6 +5335,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                             <LocAnn Col="44" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5785"/>
                                                         </Anns>
                                                         <Word>Y</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5055,6 +5357,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                             <LocAnn Col="57" Length="4" Line="229" Loc="lib/relation_toolkit.tex" Start="5798"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5066,6 +5369,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="55" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5796"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5078,6 +5382,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="62" Length="1" Line="229" Loc="lib/relation_toolkit.tex" Start="5803"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5102,12 +5407,14 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                         <LocAnn Col="8" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5824"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <ZDeclName>
                                     <Anns>
                                         <LocAnn Col="12" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5828"/>
                                     </Anns>
                                     <Word>s</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -5118,6 +5425,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                             <LocAnn Col="18" Length="4" Line="231" Loc="lib/relation_toolkit.tex" Start="5834"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5129,6 +5437,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="16" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5832"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5141,6 +5450,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                     <LocAnn Col="23" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5839"/>
                                                 </Anns>
                                                 <Word>Y</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5166,6 +5476,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                         <LocAnn Col="29" Length="6" Line="231" Loc="lib/relation_toolkit.tex" Start="5845"/>
                                     </Anns>
                                     <Word> _ ⊕ _ </Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -5180,6 +5491,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                 <LocAnn Col="27" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5843"/>
                                             </Anns>
                                             <Word>r</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5192,6 +5504,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                 <LocAnn Col="36" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5852"/>
                                             </Anns>
                                             <Word>s</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5213,6 +5526,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                 <LocAnn Col="64" Length="4" Line="231" Loc="lib/relation_toolkit.tex" Start="5880"/>
                                             </Anns>
                                             <Word> _ ∪ _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5236,6 +5550,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                             <LocAnn Col="53" Length="6" Line="231" Loc="lib/relation_toolkit.tex" Start="5869"/>
                                                         </Anns>
                                                         <Word> _ ⩤ _ </Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -5259,6 +5574,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                                         <LocAnn Col="44" Length="4" Line="231" Loc="lib/relation_toolkit.tex" Start="5860"/>
                                                                     </Anns>
                                                                     <Word>dom</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5271,6 +5587,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                                         <LocAnn Col="49" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5865"/>
                                                                     </Anns>
                                                                     <Word>s</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5284,6 +5601,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                                     <LocAnn Col="60" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5876"/>
                                                                 </Anns>
                                                                 <Word>r</Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -5299,6 +5617,7 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                                         <LocAnn Col="69" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5885"/>
                                                     </Anns>
                                                     <Word>s</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -5355,6 +5674,7 @@ that have no first components that are in the domain of $s$.
                     <LocAnn Col="15" Length="1" Line="246" Loc="lib/relation_toolkit.tex" Start="6228"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -5367,6 +5687,7 @@ that have no first components that are in the domain of $s$.
                                 <LocAnn Col="3" Line="247" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ↗+↙</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -5377,6 +5698,7 @@ that have no first components that are in the domain of $s$.
                                     <LocAnn Col="24" Length="4" Line="247" Loc="lib/relation_toolkit.tex" Start="6256"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="true">
@@ -5393,6 +5715,7 @@ that have no first components that are in the domain of $s$.
                                             <LocAnn Col="15" Length="4" Line="247" Loc="lib/relation_toolkit.tex" Start="6247"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5404,6 +5727,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="13" Length="1" Line="247" Loc="lib/relation_toolkit.tex" Start="6245"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5416,6 +5740,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="20" Length="1" Line="247" Loc="lib/relation_toolkit.tex" Start="6252"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5435,6 +5760,7 @@ that have no first components that are in the domain of $s$.
                                             <LocAnn Col="32" Length="4" Line="247" Loc="lib/relation_toolkit.tex" Start="6264"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5446,6 +5772,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="30" Length="1" Line="247" Loc="lib/relation_toolkit.tex" Start="6262"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5458,6 +5785,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="37" Length="1" Line="247" Loc="lib/relation_toolkit.tex" Start="6269"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5482,6 +5810,7 @@ that have no first components that are in the domain of $s$.
                                         <LocAnn Col="8" Length="1" Line="249" Loc="lib/relation_toolkit.tex" Start="6290"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -5492,6 +5821,7 @@ that have no first components that are in the domain of $s$.
                                             <LocAnn Col="14" Length="4" Line="249" Loc="lib/relation_toolkit.tex" Start="6296"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5503,6 +5833,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="12" Length="1" Line="249" Loc="lib/relation_toolkit.tex" Start="6294"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5515,6 +5846,7 @@ that have no first components that are in the domain of $s$.
                                                     <LocAnn Col="19" Length="1" Line="249" Loc="lib/relation_toolkit.tex" Start="6301"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5540,6 +5872,7 @@ that have no first components that are in the domain of $s$.
                                         <LocAnn Col="2" Length="5" Line="250" Loc="lib/relation_toolkit.tex" Start="6308"/>
                                     </Anns>
                                     <Word> _ ↗+↙</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -5552,6 +5885,7 @@ that have no first components that are in the domain of $s$.
                                         <LocAnn Col="0" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6306"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -5571,6 +5905,7 @@ that have no first components that are in the domain of $s$.
                                                 <LocAnn Col="10" Length="7" Line="250" Loc="lib/relation_toolkit.tex" Start="6316"/>
                                             </Anns>
                                             <Word>⋂</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -5589,6 +5924,7 @@ that have no first components that are in the domain of $s$.
                                                             <LocAnn Col="22" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6328"/>
                                                         </Anns>
                                                         <Word>s</Word>
+                                                        <ZStrokeList/>
                                                     </ZDeclName>
                                                     <RefExpr Explicit="true" Mixfix="true">
                                                         <Anns>
@@ -5599,6 +5935,7 @@ that have no first components that are in the domain of $s$.
                                                                 <LocAnn Col="28" Length="4" Line="250" Loc="lib/relation_toolkit.tex" Start="6334"/>
                                                             </Anns>
                                                             <Word> _ ↔ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList>
                                                             <RefExpr Explicit="false" Mixfix="false">
@@ -5610,6 +5947,7 @@ that have no first components that are in the domain of $s$.
                                                                         <LocAnn Col="26" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6332"/>
                                                                     </Anns>
                                                                     <Word>X</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5622,6 +5960,7 @@ that have no first components that are in the domain of $s$.
                                                                         <LocAnn Col="33" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6339"/>
                                                                     </Anns>
                                                                     <Word>X</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5648,6 +5987,7 @@ that have no first components that are in the domain of $s$.
                                                                         <LocAnn Col="37" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6343"/>
                                                                     </Anns>
                                                                     <Word>r</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5660,6 +6000,7 @@ that have no first components that are in the domain of $s$.
                                                                         <LocAnn Col="49" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6355"/>
                                                                     </Anns>
                                                                     <Word>s</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5674,6 +6015,7 @@ that have no first components that are in the domain of $s$.
                                                                 <LocAnn Col="39" Length="9" Line="250" Loc="lib/relation_toolkit.tex" Start="6345"/>
                                                             </Anns>
                                                             <Word> _ ⊆ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5697,6 +6039,7 @@ that have no first components that are in the domain of $s$.
                                                                             <LocAnn Col="59" Length="5" Line="250" Loc="lib/relation_toolkit.tex" Start="6365"/>
                                                                         </Anns>
                                                                         <Word> _ ⨾ _ </Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -5711,6 +6054,7 @@ that have no first components that are in the domain of $s$.
                                                                                     <LocAnn Col="57" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6363"/>
                                                                                 </Anns>
                                                                                 <Word>r</Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -5723,6 +6067,7 @@ that have no first components that are in the domain of $s$.
                                                                                     <LocAnn Col="65" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6371"/>
                                                                                 </Anns>
                                                                                 <Word>s</Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -5738,6 +6083,7 @@ that have no first components that are in the domain of $s$.
                                                                         <LocAnn Col="77" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6383"/>
                                                                     </Anns>
                                                                     <Word>s</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -5752,6 +6098,7 @@ that have no first components that are in the domain of $s$.
                                                                 <LocAnn Col="67" Length="9" Line="250" Loc="lib/relation_toolkit.tex" Start="6373"/>
                                                             </Anns>
                                                             <Word> _ ⊆ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -5809,6 +6156,7 @@ is closed under the action of composing $r$ with its members.
                     <LocAnn Col="15" Length="1" Line="264" Loc="lib/relation_toolkit.tex" Start="6695"/>
                 </Anns>
                 <Word>X</Word>
+                <ZStrokeList/>
             </ZDeclName>
             <ZSchText>
                 <ZDeclList>
@@ -5821,6 +6169,7 @@ is closed under the action of composing $r$ with its members.
                                 <LocAnn Col="3" Line="265" Loc="lib/relation_toolkit.tex"/>
                             </Anns>
                             <Word> _ ↗*↙</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
@@ -5831,6 +6180,7 @@ is closed under the action of composing $r$ with its members.
                                     <LocAnn Col="24" Length="4" Line="265" Loc="lib/relation_toolkit.tex" Start="6723"/>
                                 </Anns>
                                 <Word> _ → _ </Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="true">
@@ -5847,6 +6197,7 @@ is closed under the action of composing $r$ with its members.
                                             <LocAnn Col="15" Length="4" Line="265" Loc="lib/relation_toolkit.tex" Start="6714"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5858,6 +6209,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="13" Length="1" Line="265" Loc="lib/relation_toolkit.tex" Start="6712"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5870,6 +6222,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="20" Length="1" Line="265" Loc="lib/relation_toolkit.tex" Start="6719"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5889,6 +6242,7 @@ is closed under the action of composing $r$ with its members.
                                             <LocAnn Col="32" Length="4" Line="265" Loc="lib/relation_toolkit.tex" Start="6731"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5900,6 +6254,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="30" Length="1" Line="265" Loc="lib/relation_toolkit.tex" Start="6729"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5912,6 +6267,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="37" Length="1" Line="265" Loc="lib/relation_toolkit.tex" Start="6736"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5936,6 +6292,7 @@ is closed under the action of composing $r$ with its members.
                                         <LocAnn Col="8" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6757"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZDeclName>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
@@ -5946,6 +6303,7 @@ is closed under the action of composing $r$ with its members.
                                             <LocAnn Col="14" Length="4" Line="267" Loc="lib/relation_toolkit.tex" Start="6763"/>
                                         </Anns>
                                         <Word> _ ↔ _ </Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -5957,6 +6315,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="12" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6761"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5969,6 +6328,7 @@ is closed under the action of composing $r$ with its members.
                                                     <LocAnn Col="19" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6768"/>
                                                 </Anns>
                                                 <Word>X</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -5994,6 +6354,7 @@ is closed under the action of composing $r$ with its members.
                                         <LocAnn Col="25" Length="5" Line="267" Loc="lib/relation_toolkit.tex" Start="6774"/>
                                     </Anns>
                                     <Word> _ ↗*↙</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -6006,6 +6367,7 @@ is closed under the action of composing $r$ with its members.
                                         <LocAnn Col="23" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6772"/>
                                     </Anns>
                                     <Word>r</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -6025,6 +6387,7 @@ is closed under the action of composing $r$ with its members.
                                                 <LocAnn Col="41" Length="4" Line="267" Loc="lib/relation_toolkit.tex" Start="6790"/>
                                             </Anns>
                                             <Word> _ ∪ _ </Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -6043,6 +6406,7 @@ is closed under the action of composing $r$ with its members.
                                                             <LocAnn Col="35" Length="5" Line="267" Loc="lib/relation_toolkit.tex" Start="6784"/>
                                                         </Anns>
                                                         <Word> _ ↗+↙</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -6055,6 +6419,7 @@ is closed under the action of composing $r$ with its members.
                                                             <LocAnn Col="33" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6782"/>
                                                         </Anns>
                                                         <Word>r</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -6068,6 +6433,7 @@ is closed under the action of composing $r$ with its members.
                                                         <LocAnn Col="46" Length="3" Line="267" Loc="lib/relation_toolkit.tex" Start="6795"/>
                                                     </Anns>
                                                     <Word>id _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
@@ -6079,6 +6445,7 @@ is closed under the action of composing $r$ with its members.
                                                                 <LocAnn Col="50" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6799"/>
                                                             </Anns>
                                                             <Word>X</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>

@@ -378,7 +378,7 @@ abstract public class Checker<R>
       RefExpr refExpr = (RefExpr) expr;
       ZRefName zRefName = refExpr.getZRefName();
       result = zRefName.getWord().equals(OzString.SELF) &&
-        zRefName.getStroke().size() == 0;
+        zRefName.getZStrokeList().size() == 0;
     }
     return result;
   }
@@ -618,7 +618,8 @@ abstract public class Checker<R>
 
     for (NameTypePair rPair : rPairs) {
       ZDeclName rName = rPair.getZDeclName();
-      List<Stroke> strokes = factory().list(rName.getStroke());
+      ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+      strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
       if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
         OutStroke out = factory().createOutStroke();

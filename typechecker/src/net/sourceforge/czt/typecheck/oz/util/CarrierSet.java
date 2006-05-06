@@ -86,9 +86,10 @@ public class CarrierSet
     Expr result = null;
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
-      ZRefName oidName = ozFactory_.createZRefName(OzString.OID,
-						   factory_.<Stroke>list(),
-						   null);
+      ZRefName oidName =
+	ozFactory_.createZRefName(OzString.OID,
+				  factory_.getZFactory().createZStrokeList(),
+				  null);
       ZExprList zExprList = ozFactory_.createZExprList();
       result = ozFactory_.createRefExpr(oidName,
 					zExprList,
@@ -145,9 +146,10 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      ZRefName zRefName = zFactory_.createZRefName("?class?",
-						   factory_.<Stroke>list(),
-						   null);
+      ZRefName zRefName =
+	zFactory_.createZRefName("?class?",
+				 factory_.getZFactory().createZStrokeList(),
+				 null);
       ZExprList zExprList = zFactory_.createZExprList();
       result = zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
     }
@@ -170,10 +172,12 @@ public class CarrierSet
     ClassDeclAnn classDeclAnn = (ClassDeclAnn) givenType.getAnn(ClassDeclAnn.class);
     if (classDeclAnn != null) {
       ZDeclName className = classDeclAnn.getClassName();
-      ZRefName classRefName = zFactory_.createZRefName(
-						       className.getWord(),
-						       className.getStroke(),
-						       className);
+      ZStrokeList strokes = zFactory_.createZStrokeList();
+      strokes.addAll(className.getZStrokeList());
+      ZRefName classRefName =
+	zFactory_.createZRefName(className.getWord(),
+				 strokes,
+				 className);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr classRefExpr = 
 	zFactory_.createRefExpr(classRefName, zExprList, Boolean.FALSE);

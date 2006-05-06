@@ -118,7 +118,7 @@ public class ChildExtractor
 
   public Object[] visitZDeclName(ZDeclName zDeclName)
   {
-    Object[] children = { zDeclName.getWord(), zDeclName.getStroke() };
+    Object[] children = { zDeclName.getWord(), zDeclName.getStrokeList() };
     return children;
   }
 
@@ -129,7 +129,7 @@ public class ChildExtractor
   {
     return new Object[] { "ZRefName",
                           zRefName.getWord(),
-                          zRefName.getStroke() };
+                          zRefName.getStrokeList() };
   }
 
   private Object[] add(String name, Object[] children)

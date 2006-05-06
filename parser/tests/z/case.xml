@@ -40,6 +40,7 @@ Using Name as a set to present players.
                     <LocAnn Col="1" Length="4" Line="18" Loc="tests/z/case.tex" Start="551"/>
                 </Anns>
                 <Word>Name</Word>
+                <ZStrokeList/>
             </ZDeclName>
         </GivenPara>
         <NarrPara>
@@ -65,6 +66,7 @@ Using an axiomatic definition to limit the number of players in the tournament.
                                 <LocAnn Col="0" Length="9" Line="22" Loc="tests/z/case.tex" Start="665"/>
                             </Anns>
                             <Word>maxPlayer</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
@@ -75,6 +77,7 @@ Using an axiomatic definition to limit the number of players in the tournament.
                                     <LocAnn Col="12" Length="4" Line="22" Loc="tests/z/case.tex" Start="677"/>
                                 </Anns>
                                 <Word>ℕ</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList/>
                         </RefExpr>
@@ -95,6 +98,7 @@ Using an axiomatic definition to limit the number of players in the tournament.
                                         <LocAnn Col="7" Length="9" Line="23" Loc="tests/z/case.tex" Start="690"/>
                                     </Anns>
                                     <Word>maxPlayer</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -119,6 +123,7 @@ Using an axiomatic definition to limit the number of players in the tournament.
                                 <LocAnn Col="17" Length="4" Line="23" Loc="tests/z/case.tex" Start="700"/>
                             </Anns>
                             <Word> _ ≥ _ </Word>
+                            <ZStrokeList/>
                         </ZRefName>
                         <ZExprList/>
                     </RefExpr>
@@ -146,6 +151,7 @@ named "score" to calculate the grade of a specific player.
                                 <LocAnn Col="15" Length="10" Line="27" Loc="tests/z/case.tex" Start="896"/>
                             </Anns>
                             <Word>Tournament</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -159,6 +165,7 @@ named "score" to calculate the grade of a specific player.
                                                 <LocAnn Col="0" Length="7" Line="28" Loc="tests/z/case.tex" Start="909"/>
                                             </Anns>
                                             <Word>players</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <PowerExpr>
                                             <Anns>
@@ -173,6 +180,7 @@ named "score" to calculate the grade of a specific player.
                                                         <LocAnn Col="17" Length="4" Line="28" Loc="tests/z/case.tex" Start="926"/>
                                                     </Anns>
                                                     <Word>Name</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -187,6 +195,7 @@ named "score" to calculate the grade of a specific player.
                                                 <LocAnn Col="0" Length="5" Line="29" Loc="tests/z/case.tex" Start="935"/>
                                             </Anns>
                                             <Word>score</Word>
+                                            <ZStrokeList/>
                                         </ZDeclName>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
@@ -197,6 +206,7 @@ named "score" to calculate the grade of a specific player.
                                                     <LocAnn Col="13" Length="5" Line="29" Loc="tests/z/case.tex" Start="948"/>
                                                 </Anns>
                                                 <Word> _ ⇸ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList>
                                                 <RefExpr Explicit="false" Mixfix="false">
@@ -208,6 +218,7 @@ named "score" to calculate the grade of a specific player.
                                                             <LocAnn Col="8" Length="4" Line="29" Loc="tests/z/case.tex" Start="943"/>
                                                         </Anns>
                                                         <Word>Name</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -220,6 +231,7 @@ named "score" to calculate the grade of a specific player.
                                                             <LocAnn Col="19" Length="4" Line="29" Loc="tests/z/case.tex" Start="954"/>
                                                         </Anns>
                                                         <Word>ℤ</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -250,6 +262,7 @@ named "score" to calculate the grade of a specific player.
                                                                 <LocAnn Col="7" Length="2" Line="30" Loc="tests/z/case.tex" Start="967"/>
                                                             </Anns>
                                                             <Word># _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -262,6 +275,7 @@ named "score" to calculate the grade of a specific player.
                                                                 <LocAnn Col="10" Length="7" Line="30" Loc="tests/z/case.tex" Start="970"/>
                                                             </Anns>
                                                             <Word>players</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -275,6 +289,7 @@ named "score" to calculate the grade of a specific player.
                                                             <LocAnn Col="23" Length="9" Line="30" Loc="tests/z/case.tex" Start="983"/>
                                                         </Anns>
                                                         <Word>maxPlayer</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -289,6 +304,7 @@ named "score" to calculate the grade of a specific player.
                                                     <LocAnn Col="18" Length="4" Line="30" Loc="tests/z/case.tex" Start="978"/>
                                                 </Anns>
                                                 <Word> _ ≤ _ </Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -310,6 +326,7 @@ named "score" to calculate the grade of a specific player.
                                                         <LocAnn Col="0" Length="4" Line="31" Loc="tests/z/case.tex" Start="997"/>
                                                     </Anns>
                                                     <Word>dom</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -322,6 +339,7 @@ named "score" to calculate the grade of a specific player.
                                                         <LocAnn Col="5" Length="5" Line="31" Loc="tests/z/case.tex" Start="1002"/>
                                                     </Anns>
                                                     <Word>score</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -337,6 +355,7 @@ named "score" to calculate the grade of a specific player.
                                                             <LocAnn Col="13" Length="7" Line="31" Loc="tests/z/case.tex" Start="1010"/>
                                                         </Anns>
                                                         <Word>players</Word>
+                                                        <ZStrokeList/>
                                                     </ZRefName>
                                                     <ZExprList/>
                                                 </RefExpr>
@@ -371,6 +390,7 @@ Intially, the set of players is empty.
                                 <LocAnn Col="15" Length="14" Line="35" Loc="tests/z/case.tex" Start="1090"/>
                             </Anns>
                             <Word>TournamentInit</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -385,6 +405,7 @@ Intially, the set of players is empty.
                                                     <LocAnn Col="0" Length="10" Line="36" Loc="tests/z/case.tex" Start="1107"/>
                                                 </Anns>
                                                 <Word>Tournament</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -403,6 +424,7 @@ Intially, the set of players is empty.
                                                 <LocAnn Col="7" Length="7" Line="37" Loc="tests/z/case.tex" Start="1126"/>
                                             </Anns>
                                             <Word>players</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -417,6 +439,7 @@ Intially, the set of players is empty.
                                                         <LocAnn Col="17" Length="9" Line="37" Loc="tests/z/case.tex" Start="1136"/>
                                                     </Anns>
                                                     <Word>∅</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -450,6 +473,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                 <LocAnn Col="15" Length="9" Line="41" Loc="tests/z/case.tex" Start="1246"/>
                             </Anns>
                             <Word>NewPlayer</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -464,6 +488,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                     <LocAnn Col="0" Length="17" Line="42" Loc="tests/z/case.tex" Start="1258"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -477,7 +502,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                 <LocAnn Col="0" Length="2" Line="43" Loc="tests/z/case.tex" Start="1280"/>
                                             </Anns>
                                             <Word>p</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -488,6 +515,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                     <LocAnn Col="5" Length="4" Line="43" Loc="tests/z/case.tex" Start="1285"/>
                                                 </Anns>
                                                 <Word>Name</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -516,7 +544,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                 <LocAnn Col="7" Length="2" Line="44" Loc="tests/z/case.tex" Start="1298"/>
                                                             </Anns>
                                                             <Word>p</Word>
-                                                            <InStroke/>
+                                                            <ZStrokeList>
+                                                                <InStroke/>
+                                                            </ZStrokeList>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -529,6 +559,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                 <LocAnn Col="17" Length="7" Line="44" Loc="tests/z/case.tex" Start="1308"/>
                                                             </Anns>
                                                             <Word>players</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -543,6 +574,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                         <LocAnn Col="10" Length="6" Line="44" Loc="tests/z/case.tex" Start="1301"/>
                                                     </Anns>
                                                     <Word> _ ∉ _ </Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -560,7 +592,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                         <LocAnn Col="0" Length="8" Line="45" Loc="tests/z/case.tex" Start="1320"/>
                                                     </Anns>
                                                     <Word>players</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -579,6 +613,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                     <LocAnn Col="19" Length="4" Line="45" Loc="tests/z/case.tex" Start="1339"/>
                                                                 </Anns>
                                                                 <Word> _ ∪ _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -593,6 +628,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                             <LocAnn Col="11" Length="7" Line="45" Loc="tests/z/case.tex" Start="1331"/>
                                                                         </Anns>
                                                                         <Word>players</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -610,7 +646,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                                     <LocAnn Col="26" Length="2" Line="45" Loc="tests/z/case.tex" Start="1346"/>
                                                                                 </Anns>
                                                                                 <Word>p</Word>
-                                                                                <InStroke/>
+                                                                                <ZStrokeList>
+                                                                                    <InStroke/>
+                                                                                </ZStrokeList>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -636,7 +674,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                     <LocAnn Col="0" Length="6" Line="46" Loc="tests/z/case.tex" Start="1355"/>
                                                 </Anns>
                                                 <Word>score</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -655,6 +695,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                 <LocAnn Col="15" Length="4" Line="46" Loc="tests/z/case.tex" Start="1370"/>
                                                             </Anns>
                                                             <Word> _ ∪ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -669,6 +710,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                         <LocAnn Col="9" Length="5" Line="46" Loc="tests/z/case.tex" Start="1364"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -690,6 +732,7 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                                     <LocAnn Col="26" Length="7" Line="46" Loc="tests/z/case.tex" Start="1381"/>
                                                                                 </Anns>
                                                                                 <Word> _ ↦ _ </Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -704,7 +747,9 @@ The "Newplayer" schema can add a new player to the set of players.
                                                                                             <LocAnn Col="23" Length="2" Line="46" Loc="tests/z/case.tex" Start="1378"/>
                                                                                         </Anns>
                                                                                         <Word>p</Word>
-                                                                                        <InStroke/>
+                                                                                        <ZStrokeList>
+                                                                                            <InStroke/>
+                                                                                        </ZStrokeList>
                                                                                     </ZRefName>
                                                                                     <ZExprList/>
                                                                                 </RefExpr>
@@ -757,6 +802,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                 <LocAnn Col="15" Length="13" Line="50" Loc="tests/z/case.tex" Start="1499"/>
                             </Anns>
                             <Word>PlayerResigns</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -771,6 +817,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                     <LocAnn Col="0" Length="17" Line="51" Loc="tests/z/case.tex" Start="1515"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -784,7 +831,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                 <LocAnn Col="0" Length="2" Line="52" Loc="tests/z/case.tex" Start="1537"/>
                                             </Anns>
                                             <Word>p</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -795,6 +844,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                     <LocAnn Col="5" Length="4" Line="52" Loc="tests/z/case.tex" Start="1542"/>
                                                 </Anns>
                                                 <Word>Name</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -821,7 +871,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                         <LocAnn Col="7" Length="2" Line="53" Loc="tests/z/case.tex" Start="1555"/>
                                                     </Anns>
                                                     <Word>p</Word>
-                                                    <InStroke/>
+                                                    <ZStrokeList>
+                                                        <InStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -834,6 +886,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                         <LocAnn Col="14" Length="7" Line="53" Loc="tests/z/case.tex" Start="1562"/>
                                                     </Anns>
                                                     <Word>players</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -851,7 +904,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                         <LocAnn Col="0" Length="8" Line="54" Loc="tests/z/case.tex" Start="1573"/>
                                                     </Anns>
                                                     <Word>players</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -870,6 +925,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                     <LocAnn Col="19" Length="1" Line="54" Loc="tests/z/case.tex" Start="1592"/>
                                                                 </Anns>
                                                                 <Word> _ − _ </Word>
+                                                                <ZStrokeList/>
                                                             </ZRefName>
                                                             <ZExprList/>
                                                         </RefExpr>
@@ -884,6 +940,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                             <LocAnn Col="11" Length="7" Line="54" Loc="tests/z/case.tex" Start="1584"/>
                                                                         </Anns>
                                                                         <Word>players</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZRefName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
@@ -901,7 +958,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                                     <LocAnn Col="23" Length="2" Line="54" Loc="tests/z/case.tex" Start="1596"/>
                                                                                 </Anns>
                                                                                 <Word>p</Word>
-                                                                                <InStroke/>
+                                                                                <ZStrokeList>
+                                                                                    <InStroke/>
+                                                                                </ZStrokeList>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -927,7 +986,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                     <LocAnn Col="0" Length="6" Line="55" Loc="tests/z/case.tex" Start="1605"/>
                                                 </Anns>
                                                 <Word>score</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -946,6 +1007,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                 <LocAnn Col="16" Length="6" Line="55" Loc="tests/z/case.tex" Start="1621"/>
                                                             </Anns>
                                                             <Word> _ ⩤ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -965,7 +1027,9 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                                 <LocAnn Col="11" Length="2" Line="55" Loc="tests/z/case.tex" Start="1616"/>
                                                                             </Anns>
                                                                             <Word>p</Word>
-                                                                            <InStroke/>
+                                                                            <ZStrokeList>
+                                                                                <InStroke/>
+                                                                            </ZStrokeList>
                                                                         </ZRefName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
@@ -980,6 +1044,7 @@ The "PlayerResigns" schema can resign a player from the set of players.
                                                                         <LocAnn Col="23" Length="5" Line="55" Loc="tests/z/case.tex" Start="1628"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1017,6 +1082,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                 <LocAnn Col="15" Length="8" Line="59" Loc="tests/z/case.tex" Start="1759"/>
                             </Anns>
                             <Word>PlayHole</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <SchExpr>
                             <ZSchText>
@@ -1031,6 +1097,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                     <LocAnn Col="0" Length="17" Line="60" Loc="tests/z/case.tex" Start="1770"/>
                                                 </Anns>
                                                 <Word>ΔTournament</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1044,7 +1111,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                 <LocAnn Col="0" Length="2" Line="61" Loc="tests/z/case.tex" Start="1792"/>
                                             </Anns>
                                             <Word>p</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1055,6 +1124,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                     <LocAnn Col="5" Length="4" Line="61" Loc="tests/z/case.tex" Start="1797"/>
                                                 </Anns>
                                                 <Word>Name</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1068,7 +1138,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                 <LocAnn Col="0" Length="6" Line="62" Loc="tests/z/case.tex" Start="1806"/>
                                             </Anns>
                                             <Word>shots</Word>
-                                            <InStroke/>
+                                            <ZStrokeList>
+                                                <InStroke/>
+                                            </ZStrokeList>
                                         </ZDeclName>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
@@ -1079,6 +1151,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                     <LocAnn Col="9" Length="4" Line="62" Loc="tests/z/case.tex" Start="1815"/>
                                                 </Anns>
                                                 <Word>ℤ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1105,7 +1178,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                         <LocAnn Col="7" Length="2" Line="63" Loc="tests/z/case.tex" Start="1828"/>
                                                     </Anns>
                                                     <Word>p</Word>
-                                                    <InStroke/>
+                                                    <ZStrokeList>
+                                                        <InStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1118,6 +1193,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                         <LocAnn Col="14" Length="7" Line="63" Loc="tests/z/case.tex" Start="1835"/>
                                                     </Anns>
                                                     <Word>players</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1135,7 +1211,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                         <LocAnn Col="0" Length="8" Line="64" Loc="tests/z/case.tex" Start="1847"/>
                                                     </Anns>
                                                     <Word>players</Word>
-                                                    <NextStroke/>
+                                                    <ZStrokeList>
+                                                        <NextStroke/>
+                                                    </ZStrokeList>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -1150,6 +1228,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                 <LocAnn Col="11" Length="7" Line="64" Loc="tests/z/case.tex" Start="1858"/>
                                                             </Anns>
                                                             <Word>players</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1170,7 +1249,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                     <LocAnn Col="0" Length="6" Line="65" Loc="tests/z/case.tex" Start="1870"/>
                                                 </Anns>
                                                 <Word>score</Word>
-                                                <NextStroke/>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -1189,6 +1270,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                 <LocAnn Col="15" Length="6" Line="65" Loc="tests/z/case.tex" Start="1885"/>
                                                             </Anns>
                                                             <Word> _ ⊕ _ </Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -1203,6 +1285,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                         <LocAnn Col="9" Length="5" Line="65" Loc="tests/z/case.tex" Start="1879"/>
                                                                     </Anns>
                                                                     <Word>score</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZRefName>
                                                                 <ZExprList/>
                                                             </RefExpr>
@@ -1218,6 +1301,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                     <LocAnn Col="28" Length="7" Line="65" Loc="tests/z/case.tex" Start="1898"/>
                                                                                 </Anns>
                                                                                 <Word> _ ↦ _ </Word>
+                                                                                <ZStrokeList/>
                                                                             </ZRefName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
@@ -1232,7 +1316,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                             <LocAnn Col="25" Length="2" Line="65" Loc="tests/z/case.tex" Start="1895"/>
                                                                                         </Anns>
                                                                                         <Word>p</Word>
-                                                                                        <InStroke/>
+                                                                                        <ZStrokeList>
+                                                                                            <InStroke/>
+                                                                                        </ZStrokeList>
                                                                                     </ZRefName>
                                                                                     <ZExprList/>
                                                                                 </RefExpr>
@@ -1243,6 +1329,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                                 <LocAnn Col="46" Length="1" Line="65" Loc="tests/z/case.tex" Start="1916"/>
                                                                                             </Anns>
                                                                                             <Word> _ + _ </Word>
+                                                                                            <ZStrokeList/>
                                                                                         </ZRefName>
                                                                                         <ZExprList/>
                                                                                     </RefExpr>
@@ -1261,6 +1348,7 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                                             <LocAnn Col="36" Length="5" Line="65" Loc="tests/z/case.tex" Start="1906"/>
                                                                                                         </Anns>
                                                                                                         <Word>score</Word>
+                                                                                                        <ZStrokeList/>
                                                                                                     </ZRefName>
                                                                                                     <ZExprList/>
                                                                                                 </RefExpr>
@@ -1278,7 +1366,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                                             <LocAnn Col="42" Length="2" Line="65" Loc="tests/z/case.tex" Start="1912"/>
                                                                                                         </Anns>
                                                                                                         <Word>p</Word>
-                                                                                                        <InStroke/>
+                                                                                                        <ZStrokeList>
+                                                                                                            <InStroke/>
+                                                                                                        </ZStrokeList>
                                                                                                     </ZRefName>
                                                                                                     <ZExprList/>
                                                                                                 </RefExpr>
@@ -1292,7 +1382,9 @@ The operation schema "PlayHole" can update the player's score based on the shots
                                                                                                         <LocAnn Col="48" Length="6" Line="65" Loc="tests/z/case.tex" Start="1918"/>
                                                                                                     </Anns>
                                                                                                     <Word>shots</Word>
-                                                                                                    <InStroke/>
+                                                                                                    <ZStrokeList>
+                                                                                                        <InStroke/>
+                                                                                                    </ZStrokeList>
                                                                                                 </ZRefName>
                                                                                                 <ZExprList/>
                                                                                             </RefExpr>

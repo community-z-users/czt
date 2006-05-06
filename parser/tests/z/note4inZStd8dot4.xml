@@ -37,6 +37,7 @@ can either turn out to be a generic instantitation:
                                 <LocAnn Col="2" Length="2" Line="5" Loc="tests/z/note4inZStd8dot4.tex" Start="193"/>
                             </Anns>
                             <Word>c1</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
@@ -47,6 +48,7 @@ can either turn out to be a generic instantitation:
                                     <LocAnn Col="8" Length="1" Line="5" Loc="tests/z/note4inZStd8dot4.tex" Start="199"/>
                                 </Anns>
                                 <Word>i</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -58,6 +60,7 @@ can either turn out to be a generic instantitation:
                                             <LocAnn Col="11" Length="2" Line="5" Loc="tests/z/note4inZStd8dot4.tex" Start="202"/>
                                         </Anns>
                                         <Word>e1</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -95,6 +98,7 @@ Alternatively, it can turn out to be an application to a schema construction:
                                 <LocAnn Col="2" Length="2" Line="11" Loc="tests/z/note4inZStd8dot4.tex" Start="310"/>
                             </Anns>
                             <Word>c2</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -109,6 +113,7 @@ Alternatively, it can turn out to be an application to a schema construction:
                                         <LocAnn Col="8" Length="1" Line="11" Loc="tests/z/note4inZStd8dot4.tex" Start="316"/>
                                     </Anns>
                                     <Word>i</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -125,6 +130,7 @@ Alternatively, it can turn out to be an application to a schema construction:
                                                         <LocAnn Col="11" Length="2" Line="11" Loc="tests/z/note4inZStd8dot4.tex" Start="319"/>
                                                     </Anns>
                                                     <Word>e1</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -139,6 +145,7 @@ Alternatively, it can turn out to be an application to a schema construction:
                                                         <LocAnn Col="15" Length="2" Line="11" Loc="tests/z/note4inZStd8dot4.tex" Start="323"/>
                                                     </Anns>
                                                     <Word>e2</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -179,6 +186,7 @@ Here are some more examples:
                                 <LocAnn Col="2" Length="2" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="382"/>
                             </Anns>
                             <Word>c3</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
@@ -189,6 +197,7 @@ Here are some more examples:
                                     <LocAnn Col="8" Length="1" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="388"/>
                                 </Anns>
                                 <Word>x</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="false" Mixfix="false">
@@ -200,6 +209,7 @@ Here are some more examples:
                                             <LocAnn Col="11" Length="1" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="391"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -212,6 +222,7 @@ Here are some more examples:
                                             <LocAnn Col="14" Length="1" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="394"/>
                                         </Anns>
                                         <Word>b</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -224,6 +235,7 @@ Here are some more examples:
                                             <LocAnn Col="17" Length="1" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="397"/>
                                         </Anns>
                                         <Word>c</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList/>
                                 </RefExpr>
@@ -261,6 +273,7 @@ should be a generic instantiation of x.
                                 <LocAnn Col="2" Length="2" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="466"/>
                             </Anns>
                             <Word>c4</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -275,6 +288,7 @@ should be a generic instantiation of x.
                                         <LocAnn Col="8" Length="1" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="472"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -291,6 +305,7 @@ should be a generic instantiation of x.
                                                         <LocAnn Col="12" Length="1" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="476"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -305,6 +320,7 @@ should be a generic instantiation of x.
                                                         <LocAnn Col="14" Length="1" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="478"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -319,6 +335,7 @@ should be a generic instantiation of x.
                                                         <LocAnn Col="16" Length="1" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="480"/>
                                                     </Anns>
                                                     <Word>c</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -359,6 +376,7 @@ and
                                 <LocAnn Col="2" Length="2" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="514"/>
                             </Anns>
                             <Word>c5</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -373,6 +391,7 @@ and
                                         <LocAnn Col="8" Length="1" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="520"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -389,6 +408,7 @@ and
                                                         <LocAnn Col="12" Length="1" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="524"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -403,6 +423,7 @@ and
                                                         <LocAnn Col="14" Length="1" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="526"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -417,6 +438,7 @@ and
                                                         <LocAnn Col="16" Length="1" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="528"/>
                                                     </Anns>
                                                     <Word>c</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -460,6 +482,7 @@ and
                                 <LocAnn Col="2" Length="2" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="563"/>
                             </Anns>
                             <Word>c6</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -474,6 +497,7 @@ and
                                         <LocAnn Col="8" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="569"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -490,6 +514,7 @@ and
                                                         <LocAnn Col="12" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="573"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -504,6 +529,7 @@ and
                                                         <LocAnn Col="14" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="575"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -517,6 +543,7 @@ and
                                                     <LocAnn Col="16" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="577"/>
                                                 </Anns>
                                                 <Word>c</Word>
+                                                <ZStrokeList/>
                                             </ZDeclName>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
@@ -527,6 +554,7 @@ and
                                                         <LocAnn Col="20" Length="4" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="581"/>
                                                     </Anns>
                                                     <Word>ℕ</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -569,6 +597,7 @@ rest should be a function application.
                                 <LocAnn Col="2" Length="2" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="805"/>
                             </Anns>
                             <Word>c7</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
@@ -579,6 +608,7 @@ rest should be a function application.
                                     <LocAnn Col="8" Length="1" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="811"/>
                                 </Anns>
                                 <Word>x</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <RefExpr Explicit="true" Mixfix="false">
@@ -590,6 +620,7 @@ rest should be a function application.
                                             <LocAnn Col="12" Length="1" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="815"/>
                                         </Anns>
                                         <Word>a</Word>
+                                        <ZStrokeList/>
                                     </ZRefName>
                                     <ZExprList>
                                         <RefExpr Explicit="false" Mixfix="false">
@@ -601,6 +632,7 @@ rest should be a function application.
                                                     <LocAnn Col="14" Length="4" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="817"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
+                                                <ZStrokeList/>
                                             </ZRefName>
                                             <ZExprList/>
                                         </RefExpr>
@@ -630,6 +662,7 @@ rest should be a function application.
                                 <LocAnn Col="2" Length="2" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="828"/>
                             </Anns>
                             <Word>c8</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -644,6 +677,7 @@ rest should be a function application.
                                         <LocAnn Col="8" Length="1" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="834"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -660,6 +694,7 @@ rest should be a function application.
                                                         <LocAnn Col="12" Length="1" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="838"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
@@ -671,6 +706,7 @@ rest should be a function application.
                                                                 <LocAnn Col="14" Length="4" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="840"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -708,6 +744,7 @@ rest should be a function application.
                                 <LocAnn Col="2" Length="2" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="858"/>
                             </Anns>
                             <Word>c9</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -722,6 +759,7 @@ rest should be a function application.
                                         <LocAnn Col="8" Length="1" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="864"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -738,6 +776,7 @@ rest should be a function application.
                                                         <LocAnn Col="12" Length="1" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="868"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
@@ -749,6 +788,7 @@ rest should be a function application.
                                                                 <LocAnn Col="14" Length="4" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="870"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -765,6 +805,7 @@ rest should be a function application.
                                                         <LocAnn Col="21" Length="1" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="877"/>
                                                     </Anns>
                                                     <Word>b</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
@@ -776,6 +817,7 @@ rest should be a function application.
                                                                 <LocAnn Col="23" Length="4" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="879"/>
                                                             </Anns>
                                                             <Word>ℕ</Word>
+                                                            <ZStrokeList/>
                                                         </ZRefName>
                                                         <ZExprList/>
                                                     </RefExpr>
@@ -808,6 +850,7 @@ rest should be a function application.
                                 <LocAnn Col="2" Length="3" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="890"/>
                             </Anns>
                             <Word>c10</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -822,6 +865,7 @@ rest should be a function application.
                                         <LocAnn Col="9" Length="1" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="897"/>
                                     </Anns>
                                     <Word>x</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -837,6 +881,7 @@ rest should be a function application.
                                                     <LocAnn Col="13" Length="1" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="901"/>
                                                 </Anns>
                                                 <Word>a</Word>
+                                                <ZStrokeList/>
                                             </ZDeclName>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
@@ -847,6 +892,7 @@ rest should be a function application.
                                                         <LocAnn Col="18" Length="4" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="906"/>
                                                     </Anns>
                                                     <Word>ℕ</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -889,6 +935,7 @@ applications to schemas formed from sets of bindings.
                                 <LocAnn Col="2" Length="3" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1119"/>
                             </Anns>
                             <Word>c11</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <RefExpr Explicit="true" Mixfix="false">
                             <Anns>
@@ -899,6 +946,7 @@ applications to schemas formed from sets of bindings.
                                     <LocAnn Col="9" Length="9" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1126"/>
                                 </Anns>
                                 <Word>∅</Word>
+                                <ZStrokeList/>
                             </ZRefName>
                             <ZExprList>
                                 <MuExpr>
@@ -916,6 +964,7 @@ applications to schemas formed from sets of bindings.
                                                         <LocAnn Col="25" Length="1" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1142"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZDeclName>
                                                 <NumExpr>
                                                     <Anns>
@@ -944,6 +993,7 @@ applications to schemas formed from sets of bindings.
                                                         <LocAnn Col="38" Length="1" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1155"/>
                                                     </Anns>
                                                     <Word>a</Word>
+                                                    <ZStrokeList/>
                                                 </ZRefName>
                                                 <ZExprList/>
                                             </RefExpr>
@@ -974,6 +1024,7 @@ applications to schemas formed from sets of bindings.
                                 <LocAnn Col="2" Length="3" Line="53" Loc="tests/z/note4inZStd8dot4.tex" Start="1167"/>
                             </Anns>
                             <Word>c12</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -988,6 +1039,7 @@ applications to schemas formed from sets of bindings.
                                         <LocAnn Col="9" Length="9" Line="53" Loc="tests/z/note4inZStd8dot4.tex" Start="1174"/>
                                     </Anns>
                                     <Word>∅</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1014,6 +1066,7 @@ applications to schemas formed from sets of bindings.
                                                                         <LocAnn Col="31" Length="1" Line="53" Loc="tests/z/note4inZStd8dot4.tex" Start="1196"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZDeclName>
                                                                 <NumExpr>
                                                                     <Anns>
@@ -1051,6 +1104,7 @@ applications to schemas formed from sets of bindings.
                                                                         <LocAnn Col="31" Length="1" Line="54" Loc="tests/z/note4inZStd8dot4.tex" Start="1247"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZDeclName>
                                                                 <NumExpr>
                                                                     <Anns>
@@ -1094,6 +1148,7 @@ applications to schemas formed from sets of bindings.
                                 <LocAnn Col="2" Length="3" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1272"/>
                             </Anns>
                             <Word>c13</Word>
+                            <ZStrokeList/>
                         </ZDeclName>
                         <ApplExpr Mixfix="false">
                             <Anns>
@@ -1108,6 +1163,7 @@ applications to schemas formed from sets of bindings.
                                         <LocAnn Col="9" Length="9" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1279"/>
                                     </Anns>
                                     <Word>∅</Word>
+                                    <ZStrokeList/>
                                 </ZRefName>
                                 <ZExprList/>
                             </RefExpr>
@@ -1136,6 +1192,7 @@ applications to schemas formed from sets of bindings.
                                                                             <LocAnn Col="30" Length="1" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1300"/>
                                                                         </Anns>
                                                                         <Word>a</Word>
+                                                                        <ZStrokeList/>
                                                                     </ZDeclName>
                                                                     <BindExpr>
                                                                         <Anns>
@@ -1151,6 +1208,7 @@ applications to schemas formed from sets of bindings.
                                                                                         <LocAnn Col="42" Length="1" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1312"/>
                                                                                     </Anns>
                                                                                     <Word>x</Word>
+                                                                                    <ZStrokeList/>
                                                                                 </ZDeclName>
                                                                                 <NumExpr>
                                                                                     <Anns>
@@ -1192,6 +1250,7 @@ applications to schemas formed from sets of bindings.
                                                                         <LocAnn Col="31" Length="1" Line="56" Loc="tests/z/note4inZStd8dot4.tex" Start="1365"/>
                                                                     </Anns>
                                                                     <Word>x</Word>
+                                                                    <ZStrokeList/>
                                                                 </ZDeclName>
                                                                 <NumExpr>
                                                                     <Anns>

@@ -78,12 +78,14 @@ the conjecture conjoined using a newline.
                                             <LocAnn Col="19" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="190"/>
                                         </Anns>
                                         <Word>X</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <ZDeclName>
                                         <Anns>
                                             <LocAnn Col="22" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="193"/>
                                         </Anns>
                                         <Word>Y</Word>
+                                        <ZStrokeList/>
                                     </ZDeclName>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
@@ -94,6 +96,7 @@ the conjecture conjoined using a newline.
                                                 <LocAnn Col="26" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="197"/>
                                             </Anns>
                                             <Word>ℕ</Word>
+                                            <ZStrokeList/>
                                         </ZRefName>
                                         <ZExprList/>
                                     </RefExpr>
@@ -133,6 +136,7 @@ Bug report 1234527 (parsing of empty schema text):
                                     <LocAnn Col="18" Length="1" Line="14" Loc="tests/z/conjectures.tex" Start="296"/>
                                 </Anns>
                                 <Word>p</Word>
+                                <ZStrokeList/>
                             </ZDeclName>
                             <PowerExpr>
                                 <Anns>

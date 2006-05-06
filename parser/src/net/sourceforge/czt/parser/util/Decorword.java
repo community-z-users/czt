@@ -39,23 +39,23 @@ public class Decorword
   private Factory factory_ = new Factory();
   private String name_;
   private String word_;
-  private List<Stroke> strokes_ = new ArrayList<Stroke>();
+  private ZStrokeList strokes_;
   private LocInfo locInfo_;
 
   /**
    * @throws IllegalArgumentException if the list of strokes
                                       contains an unknown stroke type.
    */
-  public Decorword(String word, List strokes, LocInfo locInfo)
+  public Decorword(String word, ZStrokeList strokes, LocInfo locInfo)
   {
     this(word, strokes);
     locInfo_ = locInfo;
   }
 
-  public Decorword(String word, List strokes)
+  public Decorword(String word, ZStrokeList strokes)
   {
     word_ = word;
-    strokes_.addAll(strokes);
+    strokes_ = strokes;
     StringBuffer buffer = new StringBuffer();
     buffer.append(word);
     for (Iterator iter = strokes.iterator(); iter.hasNext(); ) {
@@ -91,6 +91,7 @@ public class Decorword
   public Decorword(String decorword)
   {
     name_ = decorword;
+    strokes_ = factory_.createZStrokeList();
     ZChar[] zchars = ZChar.toZChars(decorword);
     int i;
     for (i = zchars.length - 1; i >= 0; i--) {

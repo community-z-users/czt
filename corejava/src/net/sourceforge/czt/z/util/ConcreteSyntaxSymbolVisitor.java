@@ -541,6 +541,11 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.SCH_TEXT;
   }
 
+  public ConcreteSyntaxSymbol visitZStrokeList(ZStrokeList term)
+  {
+    return ConcreteSyntaxSymbol.STROKE_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitZSect(ZSect term)
   {
     return ConcreteSyntaxSymbol.SECT;
