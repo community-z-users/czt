@@ -459,7 +459,7 @@ public class BTermWriter
       if (p.getRightExpr() instanceof RefExpr) {
         RefExpr func = (RefExpr)p.getRightExpr();
         ZRefName name = func.getZRefName();
-        if (name.getStroke().size() == 0) {
+        if (! hasDecorations(name)) {
 	  // NOTE: we ignore any type arguments here., assuming
 	  // that they were added by the typechecking.
 	  // This should be the case when Mixfix=true.
@@ -573,7 +573,7 @@ public class BTermWriter
     if (e.getLeftExpr() instanceof RefExpr) {
       RefExpr func = (RefExpr)e.getLeftExpr();
       ZRefName name = func.getZRefName();
-      if (name.getStroke().size() == 0) {
+      if (! hasDecorations(name)) {
 	String zop = name.getWord();
 	op = bOp(zop);
         sLogger.fine("ApplExpr(" + zop + ") --> B " + op);
@@ -612,8 +612,9 @@ public class BTermWriter
   public Object visitRefExpr(RefExpr e) {
     BOperator op = null;
     ZRefName name = e.getZRefName();
-    if (name.getStroke().size() == 0) 
+    if (! hasDecorations(name)) {
       op = bOp(name.getWord());
+    }
     sLogger.fine("RefExpr(" + name.getWord() + "...) --> B " + op);
     if (op != null && op.arity == e.getZExprList().size()) {
       if (op.arity == 1) {
@@ -685,6 +686,14 @@ public class BTermWriter
     return e;
   }
 
+  private boolean hasDecorations(ZRefName zRefName)
+  {
+    StrokeList strokeList = zRefName.getStrokeList();
+    if (strokeList instanceof List) {
+      return ((List) strokeList).size() > 0;
+    }
+    return false;
+  }
 
 /*
   // ================ unused  TODO: Add these? =======================

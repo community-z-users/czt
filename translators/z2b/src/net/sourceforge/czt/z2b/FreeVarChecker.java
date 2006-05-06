@@ -81,7 +81,7 @@ public class FreeVarChecker
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public void visitName(List<Stroke> strokes)
+  public void visitName(ZStrokeList strokes)
   {
     if (strokes.size() > 0) {
       Stroke str = strokes.get(strokes.size()-1);
@@ -96,13 +96,13 @@ public class FreeVarChecker
 
   public Object visitZDeclName(ZDeclName zDeclName)
   {
-    visitName(zDeclName.getStroke());
+    visitName(zDeclName.getZStrokeList());
     return zDeclName;
   }
 
   public Object visitZRefName(ZRefName zRefName)
   {
-    visitName(zRefName.getStroke());
+    visitName(zRefName.getZStrokeList());
     return zRefName;
   }
 }

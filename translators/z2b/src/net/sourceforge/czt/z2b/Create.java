@@ -81,15 +81,17 @@ public class Create
   public static ZRefName refName(String name) {
     // TODO: this could/should strip decorations off name and
     //        put them into the Stroke list.
-    return factory_.createZRefName(name, new ArrayList(), null);
+    return factory_.createZRefName(name, factory_.createZStrokeList(), null);
   }
 
   /** Creates a RefName to a given Name (which may be any kind of Name) */
   public static ZRefName refName(ZRefName n) {
-    return factory_.createZRefName(n.getWord(), n.getStroke(), n.getDecl());
+    return factory_.createZRefName(n.getWord(),
+				   n.getStrokeList(),
+				   n.getDecl());
   }
   public static ZRefName refName(ZDeclName n) {
-    return factory_.createZRefName(n.getWord(), n.getStroke(), n);
+    return factory_.createZRefName(n.getWord(), n.getStrokeList(), n);
   }
 
   /** Creates a RefExpr to a given Name */
@@ -106,7 +108,7 @@ public class Create
   /** Prime a Name */
   public static ZRefName prime(String name) {
     ZRefName n2 = Create.refName(name);
-    n2.getStroke().add(factory_.createNextStroke());
+    ((List) n2.getStrokeList()).add(factory_.createNextStroke());
     return n2;
   }
 }
