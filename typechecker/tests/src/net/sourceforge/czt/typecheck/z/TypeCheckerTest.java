@@ -99,6 +99,7 @@ public class TypeCheckerTest
 
     String [] files = directory.list();
     for (int i = 0; i < files.length; i++) {
+      manager_.reset();
       String file = files[i];
 
       //don't check files that end with "_"
