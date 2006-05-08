@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor"
+            contributorClass="net.sourceforge.czt.eclipse.editors.zeditor.ZEditorActionContributor"
+            extensions="tex,utf8,utf16"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.editors.zeditor.ZEditor"
+            name="Z Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="net.sourceforge.czt.eclipse"
+            name="CZT"/>
+      <view
+            category="net.sourceforge.czt.eclipse"
+            class="net.sourceforge.czt.eclipse.views.ZCharMapView"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.views.ZCharMapView"
+            name="Z Char Map"/>
+      <view
+            category="net.sourceforge.czt.eclipse"
+            class="net.sourceforge.czt.eclipse.views.CZTConsoleView"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.views.CZTConsoleView"
+            name="CZT Console"/>
+   </extension>
+   <extension
+         id="CZTDocumentSetupParticipant"
+         name="CZT DocumentSetupParticipant"
+         point="org.eclipse.core.filebuffers.documentSetup">
+      <participant
+            class="net.sourceforge.czt.eclipse.editors.ZDocumentSetupParticipant_Latex"
+            extensions="tex"/>
+      <participant
+            class="net.sourceforge.czt.eclipse.editors.ZDocumentSetupParticipant_Utf8"
+            extensions="utf8"/>
+      <participant
+            class="net.sourceforge.czt.eclipse.editors.ZDocumentSetupParticipant_Utf16"
+            extensions="utf16"/>
+   </extension>
+   <extension
+         id="net.sourceforge.czt.eclipse.problemmarker"
+         name="%ProblemMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="id"/>
+   </extension>
+   <extension
+         id="net.sourceforge.czt.eclipse.taskmarker"
+         name="%TaskMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.taskmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="id"/>
+   </extension>
+   <extension
+         id="net.sourceforge.czt.eclipse.bookmarkmarker"
+         name="%BookmarkMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.bookmark"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="true"/>
+      <attribute name="id"/>
+   </extension>
+   <extension
+         id="net.sourceforge.czt.eclipse.occurrencemarker"
+         name="%OccurrenceMarker.name"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent value="false"/>
+      <attribute name="term"/>
+   </extension>
+   <extension
+         id="net.sourceforge.czt.eclipse.annotationTypes"
+         name="net.sourceforge.czt.eclipse.annotationTypes"
+         point="org.eclipse.ui.editors.annotationTypes">
+      <type
+            markerType="net.sourceforge.czt.eclipse.occurrencemarker"
+            name="net.sourceforge.czt.eclipse.occurrence"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="net.sourceforge.czt.eclipse.occurrence"
+            colorPreferenceKey="occurrenceIndicationColor"
+            colorPreferenceValue="255,248,147"
+            contributesToHeader="true"
+            highlightPreferenceKey="occurrenceHighlighting"
+            highlightPreferenceValue="true"
+            icon="icons/mark_occurrences.gif"
+            includeOnPreferencePage="true"
+            isGoToNextNavigationTarget="false"
+            isGoToNextNavigationTargetKey="isOccurrenceGoToNextNavigationTarget"
+            isGoToPreviousNavigationTarget="false"
+            isGoToPreviousNavigationTargetKey="isOccurrenceGoToPreviousNavigationTarget"
+            label="%OccurrenceAnnotation.label"
+            overviewRulerPreferenceKey="occurrenceIndicationInOverviewRuller"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="4"
+            showInNextPrevDropdownToolbarAction="true"
+            showInNextPrevDropdownToolbarActionKey="showOccurrenceInNextPrevDropdownToolbarAction"
+            symbolicIcon="info"
+            textPreferenceKey="occurrenceTextIndication"
+            textPreferenceValue="false"
+            textStylePreferenceKey="occurrenceTextStyle"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="occurrenceIndicationInVerticalRuller"
+            verticalRulerPreferenceValue="false"/>
+   </extension>
+
+</plugin>
