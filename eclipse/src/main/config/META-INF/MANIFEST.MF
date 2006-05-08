@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CZT Plug-in
+Bundle-SymbolicName: net.sourceforge.czt.eclipse; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: net.sourceforge.czt.eclipse.CZTPlugin
+Bundle-Vendor: Community Z Tools
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text,
+ org.eclipse.ui,
+ org.eclipse.ui.editors,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.console,
+ org.eclipse.ui.views,
+ org.eclipse.search
+Eclipse-AutoStart: true
+Bundle-ClassPath: lib/czt.jar
