@@ -56,11 +56,13 @@ public class PrintVisitor
              SignatureVisitor<String>,
              ZDeclNameVisitor<String>,
              ZNumeralVisitor<String>,
-             ZRefNameVisitor<String>
+             ZRefNameVisitor<String>,
+             ZStrokeListVisitor<String>
 {
   protected String visit(Term term)
   {
-    return term.accept(this);
+    if (term != null) return term.accept(this);
+    return "";
   }
 
   public String visitGenericType(GenericType genericType)
