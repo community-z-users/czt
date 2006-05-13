@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.base.ast;
 
+import java.util.List;
+
 import net.sourceforge.czt.util.Visitor;
 
 /**
@@ -94,7 +96,7 @@ public interface Term
    *
    * @return a list of annotations (should never be <code>null</code>).
    */
-  ListTerm getAnns();
+  List getAnns();
 
   /**
    * <p>Returns one of the <code>aClass</code> annotations of this

@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.typecheck.z.impl;
 
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.impl.ListTermImpl;
@@ -63,21 +65,13 @@ public abstract class TermImpl
     return s.hashCode();
   }
 
-  public ListTerm<Object> getAnns()
+  public List getAnns()
   {
-    ListTerm<Object> result = new ListTermImpl<Object>();
-    if (term_ != null) {
-      result = term_.getAnns();
-    }
-    return result;
+    return term_ != null ? term_.getAnns() : null;
   }
 
   public Object getAnn(Class aClass)
   {
-    Object result = null;
-    if (term_ != null) {
-      result = term_.getAnn(aClass);
-    }
-    return result;
+    return term_ != null ? term_.getAnn(aClass) : null;
   }
 }

@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.base.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.util.Visitor;
@@ -33,7 +36,7 @@ public abstract class TermImpl implements Term
   /**
    * A list of annotations.
    */
-  private ListTerm<Object> anns_ = new ListTermImpl<Object>();
+  private List anns_ = new ArrayList();
 
   public <R> R accept(Visitor<R> v)
   {
@@ -57,7 +60,7 @@ public abstract class TermImpl implements Term
     return s.hashCode();
   }
 
-  public ListTerm<Object> getAnns()
+  public List getAnns()
   {
     return anns_;
   }

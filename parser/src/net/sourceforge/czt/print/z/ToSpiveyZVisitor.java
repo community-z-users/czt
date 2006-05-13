@@ -56,7 +56,7 @@ public class ToSpiveyZVisitor
 {
   protected static int count = 0;
   protected Factory factory_ = new Factory();
-  ListTerm anns_;
+  List anns_;
   Stack<Term> parents_ = new Stack<Term>();
 
   public Object visitTerm(Term term)
