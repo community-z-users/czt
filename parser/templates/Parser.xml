@@ -2541,7 +2541,7 @@ catTemplate ::=
         NUMERAL:pr assoc:a infixTemplate:it
         {:
            RESULT = factory_.createOptempPara();
-           RESULT.setPrec(pr.getInteger());
+           RESULT.setPrec(pr.getValue());
            RESULT.getOper().addAll(it);
            RESULT.setAssoc(a);
         :}
@@ -5043,7 +5043,7 @@ RSQUARE:rsq
         /* tuple selection */
         inner_term:it DOT:dot NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           ZNumeral numeral = factory_.createZNumeral(n.getValue());
            addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createTupleSelExpr(expr(it), numeral);
            LocInfo loc = getLocation(dotleft, dotright, it, n.getLocation());
@@ -5113,7 +5113,7 @@ RSQUARE:rsq
         /* number literal */
         NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           ZNumeral numeral = factory_.createZNumeral(n.getValue());
            addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createNumExpr(numeral);
            addLocAnn(RESULT, n.getLocation());
@@ -5196,7 +5196,7 @@ appendage ::=
         |
         DOT NUMERAL:n
         {:
-           ZNumeral numeral = factory_.createZNumeral(n.getInteger());
+           ZNumeral numeral = factory_.createZNumeral(n.getValue());
            addLocAnn(numeral, n.getLocation());
            RESULT = factory_.createTupleSelExpr(null, numeral);
         :}
@@ -5299,7 +5299,7 @@ stroke ::=
         |
         NUMSTROKE:ns
         {:
-           RESULT = factory_.createNumStroke(ns.getInteger());
+           RESULT = factory_.createNumStroke(ns.getIntValue());
            addLocAnn(RESULT, ns.getLocation());
         :}
         ;

@@ -732,8 +732,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              |
              NUMSTROKE:i
              {:
-                final Integer num = i.getInteger();
-                final String numString = num.toString();
+                final String numString = i.getValue().toString();
                 String latex = "^" + numString;
                 String unicode = ZString.SE + numString + ZString.NW;
                 RESULT =
@@ -742,8 +741,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              |
              NUMERAL:i
              {:
-                final Integer num = i.getInteger();
-                final String numString = num.toString();
+                final String numString = i.getValue().toString();
                 RESULT =
                   new LatexCommand(numString, numString, false, false);
              :}

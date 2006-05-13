@@ -26,24 +26,24 @@ import java.math.BigInteger;
  */
 public class LocInt
 {
-  private Integer value_;
+  private BigInteger value_;
   private LocInfo locInfo_;
 
   public LocInt(String value, LocInfo locInfo)
   {
-    value_ = new Integer(value);
+    value_ = new BigInteger(value);
     locInfo_ = locInfo;
   }
 
-  public LocInt(Integer value, LocInfo locInfo)
+  public LocInt(int value, LocInfo locInfo)
   {
-    value_ = value;
+    value_ = BigInteger.valueOf(value);
     locInfo_ = locInfo;
   }
 
   public LocInt(BigInteger value, LocInfo locInfo)
   {
-    value_ = value.intValue();
+    value_ = value;
     locInfo_ = locInfo;
   }
 
@@ -52,9 +52,14 @@ public class LocInt
     return locInfo_;
   }
 
-  public Integer getInteger()
+  public BigInteger getValue()
   {
     return value_;
+  }
+
+  public int getIntValue()
+  {
+    return value_.intValue();
   }
 
   public String toString()

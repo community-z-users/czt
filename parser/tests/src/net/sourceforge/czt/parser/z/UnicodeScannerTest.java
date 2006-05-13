@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.z;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.*;
 
@@ -66,12 +67,13 @@ public class UnicodeScannerTest extends TestCase
     Assert.assertEquals(string, ((Decorword) symbol.value).getName());
   }
 
-  private void nextIsNumeral(Integer integer)
+  private void nextIsNumeral(int value)
     throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMERAL, symbol.sym);
-    Assert.assertEquals(integer, ((LocInt) symbol.value).getInteger());
+    BigInteger foundValue = ((LocInt) symbol.value).getValue();
+    Assert.assertEquals(0, BigInteger.valueOf(value).compareTo(foundValue));
   }
 
   private void nextIsInStroke()
@@ -88,12 +90,13 @@ public class UnicodeScannerTest extends TestCase
     Assert.assertEquals(Sym.OUTSTROKE, symbol.sym);
   }
 
-  private void nextIsNumStroke(Integer num)
+  private void nextIsNumStroke(int num)
     throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
-    Assert.assertEquals(num, ((LocInt) symbol.value).getInteger());
+    BigInteger foundValue = ((LocInt) symbol.value).getValue();
+    Assert.assertEquals(0, BigInteger.valueOf(num).compareTo(foundValue));
   }
 
   private void nextIsNl()
@@ -295,7 +298,7 @@ public class UnicodeScannerTest extends TestCase
     nextIsZed();
     nextIsDecorword("a");
     final int twelve = 12;
-    nextIsNumeral(new Integer(twelve));
+    nextIsNumeral(twelve);
     nextIsEnd();
     nextIsEof();
 
