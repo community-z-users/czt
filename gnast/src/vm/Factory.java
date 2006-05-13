@@ -55,8 +55,8 @@
     return createZDeclName(word, strokes, null);
   }
 
-  protected String getWordAndStrokes(String decorword,
-                                     ZStrokeList strokes)
+  public String getWordAndStrokes(String decorword,
+                                  ZStrokeList strokes)
   {
     net.sourceforge.czt.z.util.ZChar[] zchars =
       net.sourceforge.czt.z.util.ZChar.toZChars(decorword);
@@ -76,9 +76,9 @@
           net.sourceforge.czt.z.util.ZChar.NW.equals(zchar) &&
           net.sourceforge.czt.z.util.ZChar.isDigit(zchars[i - 1]) &&
           net.sourceforge.czt.z.util.ZChar.SE.equals(zchars[i - 2])) {
-        NumStroke numStroke =
-          createNumStroke(new Integer(zchars[i - 1].toString()));
-        strokes.add(numStroke);
+        net.sourceforge.czt.base.ast.Digit digit =
+          net.sourceforge.czt.base.util.CztDatatypeConverter.parseDigit(zchars[i - 1].toString());
+        strokes.add(createNumStroke(digit));
         i = i - 2;
       }
       else {
@@ -201,7 +201,7 @@
 
   public ZNumeral createZNumeral(int value)
   {
-    return factory_.createZNumeral(value);
+    return factory_.createZNumeral(java.math.BigInteger.valueOf(value));
   }
 
   /**
@@ -346,7 +346,31 @@
     return createTupleExpr(createZExprList(list(left, right)));
   }
 
+  public java.math.BigInteger toBig(Integer i)
+  {
+    if (i != null) {
+      return java.math.BigInteger.valueOf(i.intValue());
+    }
+    return null;
+  }
+
+  public NumStroke createNumStroke(int value)
+  {
+    net.sourceforge.czt.base.ast.Digit digit =
+      net.sourceforge.czt.base.ast.Digit.fromValue(value);
+    return createNumStroke(digit);
+  }
+
   public LocAnn createLocAnn(String source, Integer line, Integer col)
   {
     return createLocAnn(source, line, col, null, null);
+  }
+
+  public LocAnn createLocAnn(String source,
+                             Integer line, Integer col,
+                             Integer start, Integer length)
+  {
+    return createLocAnn(source,
+                        toBig(line), toBig(col),
+                        toBig(start), toBig(length));
   }

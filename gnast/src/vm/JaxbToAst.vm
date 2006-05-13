@@ -77,7 +77,8 @@ public class ${class.Name}#if($ImportProject)
         || object instanceof Boolean
         || object instanceof List
         || object instanceof Integer
-        || object instanceof java.math.BigInteger) {
+        || object instanceof java.math.BigInteger
+        || object instanceof net.sourceforge.czt.base.ast.Digit) {
       return object;
     }
     throw new UnsupportedOperationException("Unexpected element "

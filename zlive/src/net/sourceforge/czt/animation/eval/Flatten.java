@@ -561,7 +561,7 @@ public class Flatten
     ZRefName result = zlive_.createNewName();
     flat_.add(new FlatTupleSel(
             e.getExpr().accept(this),
-            ((ZNumeral) e.getNumeral()).getValue(),
+            ((ZNumeral) e.getNumeral()).getValue().intValue(),
             result));
     return result;
   }

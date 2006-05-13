@@ -658,13 +658,14 @@ public class ZPrintVisitor
 
   public Object visitZNumeral(ZNumeral zNumeral)
   {
-    print(TokenName.NUMERAL, new LocInt(Integer.valueOf(zNumeral.getValue().toString()), null));
+    print(TokenName.NUMERAL, new LocInt(zNumeral.getValue(), null));
     return null;
   }
 
   public Object visitNumStroke(NumStroke numStroke)
   {
-    print(TokenName.NUMSTROKE, new LocInt(numStroke.getDigit(), null));
+    print(TokenName.NUMSTROKE,
+          new LocInt(numStroke.getDigit().getValue(), null));
     return null;
   }
 

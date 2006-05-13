@@ -17,39 +17,48 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.base.util;
+package net.sourceforge.czt.base.ast;
 
-import net.sourceforge.czt.base.ast.Digit;
-
-/**
- * @author Petra Malik
- */
-public final class CztDatatypeConverter
+public enum Digit
 {
+  ZERO(0),
+  ONE(1),
+  TWO(2),
+  THREE(3),
+  FOUR(4),
+  FIVE(5),
+  SIX(6),
+  SEVEN(7),
+  EIGHT(8),
+  NINE(9);
+
+  private int value_;
+
+  private Digit(int value)
+  {
+    value_ = value;
+  }
+
+  public int getValue()
+  {
+    return value_;
+  }
+
   /**
-   * Do not create instances of this class.
+   * @param i the digit; must be between zero and nine.
    */
-  private CztDatatypeConverter()
+  public static Digit fromValue(int i)
   {
-  }
-
-  public static Digit parseDigit(String s)
-  {
-    return Digit.fromValue(Integer.valueOf(s).intValue());
-  }
-
-  public static String printDigit(Digit digit)
-  {
-    return "" + digit.getValue();
-  }
-
-  public static Boolean parseBoolean(String s)
-  {
-    return Boolean.valueOf(s);
-  }
-
-  public static String printBoolean(Boolean b)
-  {
-    return  b.toString();
+    if (i == 0) return ZERO;
+    if (i == 1) return ONE;
+    if (i == 2) return TWO;
+    if (i == 3) return THREE;
+    if (i == 4) return FOUR;
+    if (i == 5) return FIVE;
+    if (i == 6) return SIX;
+    if (i == 7) return SEVEN;
+    if (i == 8) return EIGHT;
+    if (i == 9) return NINE;
+    throw new IllegalArgumentException("Int value: " + i);
   }
 }

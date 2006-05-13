@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
+import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.Stack;
 
 import net.sourceforge.czt.base.ast.*;
@@ -80,6 +82,8 @@ public class TermSelector
    * the closest ancestor with non-<code>null</code> start and length
    * location annotation is selected.  If there doesn't exist such an
    * ancestor, the next selected term is set to <code>null</code>.
+   *
+   * @return whether a new term has been selected or not.
    */
   public boolean next(int position)
   {
@@ -87,9 +91,12 @@ public class TermSelector
       return root_.accept(new FindTermVisitor(position, stack_));
     }
     LocAnn locAnn = (LocAnn) stack_.pop().getAnn(LocAnn.class);
-    if (locAnn.getStart() > position ||
-        position > locAnn.getStart() + locAnn.getLength())
+    BigInteger pos = BigInteger.valueOf(position);
+    if (locAnn.getStart().compareTo(pos) > 0 ||
+        pos.compareTo(locAnn.getEnd()) > 0) {
+      stack_.clear();
       return root_.accept(new FindTermVisitor(position, stack_));
+    }
     while (! stack_.empty()) {
       final Term term = stack_.pop();
       locAnn = (LocAnn) term.getAnn(LocAnn.class);
@@ -99,6 +106,15 @@ public class TermSelector
       }
     }
     return false;
+  }
+
+  /**
+   * Not sure whether this is a good method to have here.
+   * I want to use it to have access to the parents of a term.
+   */
+  public Iterator<Term> iterator()
+  {
+    return stack_.iterator();
   }
 
   /**
@@ -120,12 +136,12 @@ public class TermSelector
   static class FindTermVisitor
     implements TermVisitor<Boolean>
   {
-    private int position_;
+    private BigInteger position_;
     private Stack<Term> stack_;
 
     public FindTermVisitor(int position, Stack<Term> stack)
     {
-      position_ = position;
+      position_ = BigInteger.valueOf(position);
       stack_ = stack;
     }
 
@@ -133,11 +149,11 @@ public class TermSelector
     {
       LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
       if (locAnn != null && locAnn.getStart() != null) {
-        if (position_ < locAnn.getStart()) {
+        if (position_.compareTo(locAnn.getStart()) < 0) {
           return false;
         }
-        if (locAnn.getLength() != null &&
-            position_ > locAnn.getStart() + locAnn.getLength()) {
+        BigInteger endPos = locAnn.getEnd();
+        if (endPos != null && position_.compareTo(endPos) > 0) {
           return false;
         }
       }

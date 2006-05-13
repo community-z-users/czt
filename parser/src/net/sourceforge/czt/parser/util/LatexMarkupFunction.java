@@ -1,24 +1,25 @@
 /*
-Copyright (C) 2004 Petra Malik
-This file is part of the CZT project: http://czt.sourceforge.net
+  Copyright (C) 2004, 2006 Petra Malik
+  This file is part of the CZT project: http://czt.sourceforge.net
 
-The CZT project contains free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published
-by the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The CZT project contains free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License as published
+  by the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The CZT project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The CZT project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with CZT; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License along
+  with CZT; if not, write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -216,7 +217,7 @@ public class LatexMarkupFunction
     private String unicode_;
     private DirectiveType type_;
     private String section_;
-    private Integer lineNr_ = null;
+    private BigInteger lineNr_ = null;
 
     /**
      * @throws NullPointerException if one of the arguments
@@ -226,7 +227,7 @@ public class LatexMarkupFunction
                            String unicode,
                            DirectiveType type,
                            String section,
-                           Integer lineNr)
+                           BigInteger lineNr)
     {
       command_ = command;
       unicode_ = unicode;
@@ -270,7 +271,7 @@ public class LatexMarkupFunction
       }
     }
 
-    public Integer getLine()
+    public BigInteger getLine()
     {
       return lineNr_;
     }

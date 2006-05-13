@@ -445,7 +445,7 @@ public class ExprChecker
 
       //if the select value is invalid, raise an error
       Numeral numeral = tupleSelExpr.getNumeral();
-      int select = assertZNumeral(numeral).getValue();
+      int select = assertZNumeral(numeral).getValue().intValue();
       if (select > prodType.getType().size() || select < 1) {
         Object [] params = {tupleSelExpr, prodType.getType().size()};
         error(tupleSelExpr, ErrorMessage.INDEX_ERROR_IN_TUPLESELEXPR, params);

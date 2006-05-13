@@ -1,0 +1,1 @@
+  void setPrec(int prec);

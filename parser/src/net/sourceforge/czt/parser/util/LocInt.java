@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.math.BigInteger;
+
 /**
  * @author Petra Malik
  */
@@ -36,6 +38,12 @@ public class LocInt
   public LocInt(Integer value, LocInfo locInfo)
   {
     value_ = value;
+    locInfo_ = locInfo;
+  }
+
+  public LocInt(BigInteger value, LocInfo locInfo)
+  {
+    value_ = value.intValue();
     locInfo_ = locInfo;
   }
 

@@ -159,7 +159,8 @@ public class ZSideKickActions
           if (locAnn != null && locAnn.getLoc() != null) {
             if (locAnn.getLoc().equals(view.getBuffer().getPath()) &&
                 locAnn.getStart() != null) {
-              view.getTextArea().setCaretPosition(locAnn.getStart());
+              int pos = locAnn.getStart().intValue();
+              view.getTextArea().setCaretPosition(pos);
             }
             else {
               String message = "Defined in " + locAnn.getLoc();

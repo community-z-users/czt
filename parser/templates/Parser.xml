@@ -2120,8 +2120,8 @@ section ::=
              if (loc.getStart() >= 0 &amp;&amp;
                  loc.getLength() >= 0  &amp;&amp;
                  locAnn.getStart() != null) {
-               final int length =
-                 loc.getStart() + loc.getLength() - locAnn.getStart();
+               final int length = loc.getStart() + loc.getLength()
+                                  - locAnn.getStart().intValue();
                locAnn.setLength(length);
              }
            }

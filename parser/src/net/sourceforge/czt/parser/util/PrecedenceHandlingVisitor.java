@@ -20,6 +20,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +47,7 @@ public class PrecedenceHandlingVisitor
              ProdExprVisitor
 {
   /** The precedence of a cross product. */
-  protected static Integer PRODEXPR_PRECEDENCE = new Integer(8);
+  protected static BigInteger PRODEXPR_PRECEDENCE = BigInteger.valueOf(8);
 
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
@@ -209,8 +210,8 @@ public class PrecedenceHandlingVisitor
     }
 
     //get the precedences of the two expressions
-    Integer prec = getPrec(wrappedExpr);
-    Integer nestedPrec = getPrec(nestedExpr);
+    BigInteger prec = getPrec(wrappedExpr);
+    BigInteger nestedPrec = getPrec(nestedExpr);
 
     //if the precedence of refName is lower than the precedence of
     //nestedRefExpr, or they are not infix operators (no precedence
@@ -260,9 +261,9 @@ public class PrecedenceHandlingVisitor
    * Returns the precedence of the name in a wrapped expr
    * or <code>null</code> if no precedence is given.
    */
-  private Integer getPrec(WrappedExpr wrappedExpr)
+  private BigInteger getPrec(WrappedExpr wrappedExpr)
   {
-    Integer result = null;
+    BigInteger result = null;
     if (wrappedExpr.getExpr() instanceof ProdExpr) {
       result = PRODEXPR_PRECEDENCE;
     }

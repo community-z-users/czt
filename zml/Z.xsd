@@ -39,11 +39,6 @@
         bindingStyle="modelGroupBinding"
         choiceContentProperty="true">
         <jaxb:javaType
-          name="java.lang.Integer"
-          xmlType="xs:nonNegativeInteger"
-          printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printInteger"
-          parseMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.parseInteger"/>
-        <jaxb:javaType
           name="java.lang.Boolean"
           xmlType="xs:boolean"
           printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printBoolean"
@@ -1322,7 +1317,14 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:simpleType name="Digit">
-    <xs:restriction base="xs:nonNegativeInteger">
+    <xs:annotation> 
+      <xs:appinfo>
+        <jaxb:javaType name="net.sourceforge.czt.base.ast.Digit" 
+          parseMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.parseDigit" 
+          printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printDigit"/>
+      </xs:appinfo>
+    </xs:annotation>  
+    <xs:restriction base="xs:integer">
       <xs:minInclusive value="0"/>
       <xs:maxInclusive value="9"/>
     </xs:restriction>

@@ -37,10 +37,10 @@ public class LocInfoImpl
   {
     if (locAnn != null) {
       source_ = locAnn.getLoc();
-      if (locAnn.getLine() != null) line_ = locAnn.getLine();
-      if (locAnn.getCol() != null) column_ = locAnn.getCol();
-      if (locAnn.getStart() != null) start_ = locAnn.getStart();
-      if (locAnn.getLength() != null) length_ = locAnn.getLength();
+      if (locAnn.getLine() != null) line_ = locAnn.getLine().intValue();
+      if (locAnn.getCol() != null) column_ = locAnn.getCol().intValue();
+      if (locAnn.getStart() != null) start_ = locAnn.getStart().intValue();
+      if (locAnn.getLength() != null) length_ = locAnn.getLength().intValue();
     }
   }
 

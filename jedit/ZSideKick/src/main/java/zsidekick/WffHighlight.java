@@ -19,6 +19,7 @@
 package zsidekick;
 
 import java.awt.*;
+import java.util.Iterator;
 import java.util.Stack;
 
 import org.gjt.sp.jedit.*;
@@ -48,8 +49,8 @@ public class WffHighlight
       if (term != null) {
         final int offset = textArea_.xyToOffset(x, y);
         final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-        if (locAnn.getStart() <= offset &&
-            offset <= locAnn.getStart() + locAnn.getLength()) {
+        if (locAnn.getStart().intValue() <= offset &&
+            offset <= locAnn.getEnd().intValue()) {
           return term.accept(new ConcreteSyntaxDescriptionVisitor());
         }
       }
@@ -63,8 +64,8 @@ public class WffHighlight
     if (termSelector_ != null && termSelector_.getSelectedTerm() != null) {
       final Term term = termSelector_.getSelectedTerm();
       final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      final int matchStart = locAnn.getStart();
-      final int matchEnd = locAnn.getStart() + locAnn.getLength();
+      final int matchStart = locAnn.getStart().intValue();
+      final int matchEnd = locAnn.getEnd().intValue();
       if (matchStart < end && matchEnd >= start) {
         final int matchStartLine = textArea_.getScreenLineOfOffset(matchStart);
         final int matchEndLine = textArea_.getScreenLineOfOffset(matchEnd);
@@ -124,6 +125,15 @@ public class WffHighlight
       result = termSelector_.getSelectedTerm();
     }
     return result;
+  }
+
+  public ZSect findZSectForCurrentWff()
+  {
+    for(Iterator<Term> iter = termSelector_.iterator(); iter.hasNext(); ) {
+      Term term = iter.next();
+      if (term instanceof ZSect) return (ZSect) term;
+    }
+    return null;
   }
 
   private int getStartOffset(int screenLine, int start)

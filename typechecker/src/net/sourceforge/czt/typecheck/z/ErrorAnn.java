@@ -94,7 +94,7 @@ public class ErrorAnn
   public int getLine()
   {
     if (locAnn_ != null && locAnn_.getLine() != null) {
-      return locAnn_.getLine();
+      return locAnn_.getLine().intValue();
     }
     return -1;
   }
@@ -102,7 +102,7 @@ public class ErrorAnn
   public int getColumn()
   {
     if (locAnn_ != null && locAnn_.getCol() != null) {
-      return locAnn_.getCol();
+      return locAnn_.getCol().intValue();
     }
     return -1;
   }
@@ -123,7 +123,7 @@ public class ErrorAnn
   public int getStart()
   {
     if (locAnn_ != null && locAnn_.getStart() != null) {
-      return locAnn_.getStart();
+      return locAnn_.getStart().intValue();
     }
     return -1;
   }
@@ -131,7 +131,7 @@ public class ErrorAnn
   public int getLength()
   {
     if (locAnn_ != null && locAnn_.getLength() != null) {
-      return locAnn_.getLength();
+      return locAnn_.getLength().intValue();
     }
     return -1;
   }
@@ -170,7 +170,7 @@ public class ErrorAnn
     String localised = null;
     String [] args = null;
     if (locAnn_ != null) {
-      final Integer lineNr = locAnn_.getLine();
+      final Integer lineNr = locAnn_.getLine().intValue();
       final String source = locAnn_.getLoc();
       localised =
         RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());

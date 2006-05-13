@@ -50,7 +50,7 @@ public class VariableType
   {
     super(null);
     ZStrokeList strokes = factory.getZFactory().createZStrokeList();
-    strokes.add(factory.createNumStroke(new Integer(serial_++)));
+    //    strokes.add(factory.createNumStroke(new Integer(serial_++)));
     zDeclName_ = factory.createZDeclName(ALPHA, strokes, null);
   }
 

@@ -60,13 +60,13 @@ public class CztTreeNode
     int start = 0;
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null) {
-      if (locAnn.getStart() != null && locAnn.getStart() >= 0) {
-        start = locAnn.getStart();
+      if (locAnn.getStart() != null) {
+        start = locAnn.getStart().intValue();
       }
       else {
         try {
-          start = buffer.getLineStartOffset(locAnn.getLine() - 1)
-            + locAnn.getCol();
+          start = buffer.getLineStartOffset(locAnn.getLine().intValue() - 1)
+            + locAnn.getCol().intValue();
         }
         catch(IndexOutOfBoundsException e) {
         }
@@ -80,9 +80,9 @@ public class CztTreeNode
     int end = buffer.getLength();
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null &&
-        locAnn.getStart() != null && locAnn.getStart() >= 0 &&
-        locAnn.getLength() != null && locAnn.getLength() >= 0) {
-      end = locAnn.getStart() + locAnn.getLength();
+        locAnn.getStart() != null && locAnn.getStart().intValue() >= 0 &&
+        locAnn.getLength() != null && locAnn.getLength().intValue() >= 0) {
+      end = locAnn.getEnd().intValue();
     }
     return buffer.createPosition(end);
   }

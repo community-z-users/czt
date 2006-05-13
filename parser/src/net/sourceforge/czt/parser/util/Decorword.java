@@ -72,7 +72,7 @@ public class Decorword
       else if (stroke instanceof NumStroke) {
         NumStroke numStroke = (NumStroke) stroke;
         buffer.append(ZChar.SE);
-        buffer.append(numStroke.getDigit());
+        buffer.append(numStroke.getDigit().getValue());
         buffer.append(ZChar.NW);
       }
       else {
@@ -92,37 +92,7 @@ public class Decorword
   {
     name_ = decorword;
     strokes_ = factory_.createZStrokeList();
-    ZChar[] zchars = ZChar.toZChars(decorword);
-    int i;
-    for (i = zchars.length - 1; i >= 0; i--) {
-      ZChar zchar = zchars[i];
-      if (ZChar.INSTROKE.equals(zchar)) {
-        strokes_.add(0, factory_.createInStroke());
-      }
-      else if (ZChar.OUTSTROKE.equals(zchar)) {
-        strokes_.add(0, factory_.createOutStroke());
-      }
-      else if (ZChar.PRIME.equals(zchar)) {
-        strokes_.add(0, factory_.createNextStroke());
-      }
-      else if (i >= 2 &&
-          ZChar.NW.equals(zchar) &&
-          ZChar.isDigit(zchars[i - 1]) &&
-          ZChar.SE.equals(zchars[i - 2])) {
-        NumStroke numStroke =
-          factory_.createNumStroke(new Integer(zchars[i - 1].toString()));
-        strokes_.add(numStroke);
-        i = i - 2;
-      }
-      else {
-        break;
-      }
-    }
-    StringBuffer result = new StringBuffer();
-    for (int j = 0; j <= i; j++) {
-      result.append(zchars[j].toString());
-    }
-    word_ = result.toString();
+    word_ = factory_.getWordAndStrokes(decorword, strokes_);
   }
 
   public String getName()
@@ -204,7 +174,7 @@ public class Decorword
       else if (stroke instanceof NumStroke) {
         NumStroke numStroke = (NumStroke) stroke;
         result.append(ZChar.SE);
-        result.append(numStroke.getDigit());
+        result.append(numStroke.getDigit().getValue());
         result.append(ZChar.NW);
       }
       else {

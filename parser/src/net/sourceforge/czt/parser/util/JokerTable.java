@@ -1,20 +1,21 @@
-/**
-Copyright (C) 2005 Tim Miller, Mark Utting, Petra Malik
-This file is part of the czt project.
+/*
+  Copyright (C) 2005 Tim Miller, Mark Utting
+  Copyright (C) 2005, 2006 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -40,7 +41,7 @@ public class JokerTable
   /**
    * Records all jokers defined in this section.
    */
-  private Map<String, JokerType> jokers_ = new HashMap<String, JokerType>();
+  private Map<String, Jokers> jokers_ = new HashMap<String, Jokers>();
 
   /**
    * Constructs a joker table for a new section, checking for duplicates.
@@ -66,21 +67,17 @@ public class JokerTable
 
   public JokerType getTokenType(String name)
   {
-    JokerType result = jokers_.get(name);
-    return result;
+    Jokers jokers = jokers_.get(name);
+    if (jokers != null) return jokers.getKind();
+    return null;
   }
 
   public void add(Jokers jokers)
     throws JokerException
   {
-    LocAnn locAnn = (LocAnn) jokers.getAnn(LocAnn.class);
-    JokerType kind = jokers.getKind();
     List<String> names = jokers.getName();
     for (String name : names) {
-      final Integer line = locAnn.getLine();
-      final Integer col = locAnn.getCol();
-      final String loc = locAnn.getLoc();
-      addTokenType(name, kind, line, col, loc);
+      addTokenType(name, jokers);
     }
   }
 
@@ -90,32 +87,27 @@ public class JokerTable
    * throws JokerException if an association of the same name already
    * exists.
    */
-  private void addTokenType(String name, JokerType type, String loc)
+  private void addTokenType(String name, Jokers jokers)
     throws JokerException
   {
-    addTokenType(name, type, null, null, loc);
-  }
-
-  /**
-   * Adds a new association from a decl name to joker token.
-   *
-   * throws JokerException if an association of the same name already
-   * exists.
-   */
-  private void addTokenType(String name, JokerType kind,
-                            Integer line, Integer col, String loc)
-    throws JokerException
-  {
-    final JokerType existingType =
-      (JokerType) jokers_.get(name);
-    if (existingType != null) {
+    final Jokers existingJokers = jokers_.get(name);
+    if (existingJokers != null) {
       String message = "Duplicate joker name " + name;
-      if (line != null && line >= 0)  message += " at line " + line;
-      if (col != null && col >= 0) message += " column " + col;
-      message += " in " + loc;
+      LocAnn locAnn = (LocAnn) jokers.getAnn(LocAnn.class);
+      if (locAnn != null) {
+        if (locAnn.getLine() != null) {
+          message += " at line " + locAnn.getLine();
+        }
+        if (locAnn.getCol() != null) {
+          message += " column " + locAnn.getCol();
+        }
+        if (locAnn.getLoc() != null) {
+          message += " in " + locAnn.getLoc();
+        }
+      }
       throw new JokerException(message);
     }
-    jokers_.put(name, kind);
+    jokers_.put(name, jokers);
   }
 
   /**
@@ -126,11 +118,10 @@ public class JokerTable
   private void addJokerTable(JokerTable parentTable)
     throws JokerException
   {
-    final Set<Map.Entry<String, JokerType>> parentJokers =
+    final Set<Map.Entry<String, Jokers>> parentJokers =
       parentTable.jokers_.entrySet();
-    for (Map.Entry<String, JokerType> entry : parentJokers) {
-      addTokenType(entry.getKey(), entry.getValue(),
-                   parentTable.getSection());
+    for (Map.Entry<String, Jokers> entry : parentJokers) {
+      addTokenType(entry.getKey(), entry.getValue());
     }
   }
 

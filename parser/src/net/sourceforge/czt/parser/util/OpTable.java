@@ -1,5 +1,6 @@
 /*
   Copyright (C) 2004, 2005 Tim Miller, Mark Utting, Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project: http://czt.sourceforge.net
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +20,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.math.BigInteger;
 import java.util.*;
 
 import net.sourceforge.czt.session.CommandException;
@@ -46,13 +48,14 @@ public class OpTable
    *
    * @czt.todo should the domain be String, Name or DeclName?
    */
-  private /*@non_null@*/ SortedMap/*<String,OpInfo>*/ ops_ = new TreeMap();
+  private SortedMap<String,OpInfo> ops_ = new TreeMap<String,OpInfo>();
 
   /**
    * <p>A mapping from operator word to operator template.
    * This is used to compute meaningful error messages.</p>
    */
-  private Map<String, OptempPara> optempPara_ = new HashMap();
+  private Map<String,OptempPara> optempPara_ =
+    new HashMap<String,OptempPara>();
 
   /**
    * <p>A mapping from operator word to operator token type.
@@ -63,18 +66,18 @@ public class OpTable
    * Since the set of active associations is always a function,
    * a map can be used here.</p>
    */
-  private Map/*<String, OperatorTokenType>*/ opTokens_ = new HashMap();
+  private Map<String,OperatorTokenType> opTokens_ = new HashMap();
 
   /**
    * A mapping from operator word to precedence.
    * For instance, '+' is mapped to '30'.
    */
-  private Map/*<String, Integer>*/ precedence_ = new HashMap();
+  private Map<String, BigInteger> precedence_ = new HashMap();
 
   /**
    * Maps precedence to associativity.
    */
-  private Map/*<Integer, Assoc>*/ assoc_ = new HashMap();
+  private Map<BigInteger,Assoc> assoc_ = new HashMap();
 
   /**
    * Constructs an operator table for a new section.
@@ -190,14 +193,14 @@ public class OpTable
     return (OperatorTokenType) opTokens_.get(decorword.getWord());
   }
 
-  public Integer getPrec(String opWord)
+  public BigInteger getPrec(String opWord)
   {
-    return (Integer) precedence_.get(getWord(opWord));
+    return precedence_.get(getWord(opWord));
   }
 
   public Assoc getAssoc(String opWord)
   {
-    Integer prec = (Integer) precedence_.get(getWord(opWord));
+    BigInteger prec = precedence_.get(getWord(opWord));
     if (prec == null) return null;
     return (Assoc) assoc_.get(prec);
   }
@@ -504,7 +507,7 @@ public class OpTable
   private void addOp(String name, OperatorTokenType type, OptempPara opPara)
     throws OperatorException
   {
-    final Integer precedence = opPara.getPrec();
+    final BigInteger precedence = opPara.getPrec();
     final Assoc associativity = opPara.getAssoc();
     addOptempPara(name, opPara);
     addOpToken(name, type, opPara);
@@ -592,11 +595,11 @@ public class OpTable
    * throws OperatorException if an association of the same
    *        word to a different precedence already exists.
    */
-  private void addPrecedence(String word, Integer precedence)
+  private void addPrecedence(String word, BigInteger precedence)
     throws OperatorException
   {
     if (precedence != null) {
-      final Integer existingPrec = (Integer) precedence_.get(word);
+      final BigInteger existingPrec = precedence_.get(word);
       if (existingPrec != null && ! existingPrec.equals(precedence)) {
         String message =
           "Name " + word + " defined with precedence " + existingPrec +
@@ -617,10 +620,9 @@ public class OpTable
   private void addPrecedences(OpTable parentTable)
     throws OperatorException
   {
-    final Map parentPrecs = parentTable.precedence_;
-    for (Iterator i = parentPrecs.keySet().iterator(); i.hasNext();) {
-      String word = (String) i.next();
-      Integer prec = (Integer) parentPrecs.get(word);
+    final Map<String,BigInteger> parentPrecs = parentTable.precedence_;
+    for (String word : parentPrecs.keySet()) {
+      BigInteger prec = parentPrecs.get(word);
       assert prec != null;
       addPrecedence(word, prec);
     }
@@ -634,7 +636,7 @@ public class OpTable
    * throws OperatorException if a different association is already
    *        defined for this precedence.
    */
-  private void addAssociativity(Integer precedence, Assoc assoc)
+  private void addAssociativity(BigInteger precedence, Assoc assoc)
     throws OperatorException
   {
     if (precedence != null) {
@@ -660,9 +662,8 @@ public class OpTable
   private void addAssociativities(OpTable parentTable)
     throws OperatorException
   {
-    final Map parentAssoc = parentTable.assoc_;
-    for (Iterator i = parentAssoc.keySet().iterator(); i.hasNext();) {
-      Integer precedence = (Integer) i.next();
+    final Map<BigInteger,Assoc> parentAssoc = parentTable.assoc_;
+    for (BigInteger precedence : parentAssoc.keySet()) {
       Assoc assoc = (Assoc) parentAssoc.get(precedence);
       assert assoc != null;
       addAssociativity(precedence, assoc);
@@ -680,7 +681,7 @@ public class OpTable
     private String section_;
     private Cat cat_;
     private Assoc assoc_;
-    private Integer prec_;
+    private BigInteger prec_;
 
     public OpInfo(String section, OptempPara opPara)
     {
@@ -705,7 +706,7 @@ public class OpTable
       return assoc_;
     }
 
-    public Integer getPrec()
+    public BigInteger getPrec()
     {
       return prec_;
     }
