@@ -92,23 +92,13 @@ public class FlatPredList extends FlatPred
   private /*@non_null@*/ ZLive zlive_;
   
   /** Used to flatten a predicate into a list of FlatPreds. */
-  /*@non_null@*/ Flatten flatten_;
-  
-  protected /*@non_null@*/ Factory factory_;
-
-  /** The number of solutions that have been returned by nextEvaluation().
-  This is -1 before startEvaluation() is called and 0 immediately
-  after it has been called.
-  */
-  protected int solutionsReturned = -1;
-
+  private /*@non_null@*/ Flatten flatten_;
 
   /** Creates an empty FlatPred list. */
   public FlatPredList(ZLive newZLive) 
   {
     zlive_ = newZLive;
     flatten_ = new Flatten(newZLive);
-    factory_ = zlive_.getFactory();
   }
 
   /** Returns the number of FlatPreds in this list. */
@@ -147,7 +137,7 @@ public class FlatPredList extends FlatPred
               // TODO: this should never happen, because all ZRefNames
               // should be linked to a DeclName after typechecking.
               // For now, we create the corresponding ZDeclName
-              dvar = factory_.createZDeclName(var.getWord(),
+              dvar = getFactory().createZDeclName(var.getWord(),
                   var.getStrokeList(),
                   null);
             if ( ! boundVars_.contains(dvar))
@@ -217,11 +207,11 @@ public class FlatPredList extends FlatPred
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
         Expr type = vdecl.getExpr();
-        ZRefName typeName = flatten_.flattenExpr(type, predlist_);
+        ZRefName typeName = flattenExpr(type, predlist_);
         for (DeclName name : vdecl.getDeclName()) {
           ZDeclName dvar = (ZDeclName) name;
           boundVars_.add(dvar);
-          ZRefName varref = factory_.createZRefName(dvar);
+          ZRefName varref = getFactory().createZRefName(dvar);
           predlist_.add(new FlatMember(typeName, varref));
         }
       }
@@ -230,8 +220,8 @@ public class FlatPredList extends FlatPred
         ZDeclName dvar = cdecl.getZDeclName();
         boundVars_.add(dvar);
         Expr expr = cdecl.getExpr();
-        ZRefName varref = factory_.createZRefName(dvar);
-        flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
+        ZRefName varref = getFactory().createZRefName(dvar);
+        flattenPred(getFactory().createMemPred(varref, expr), predlist_);
       }
       else {
         throw new EvalException("Unknown kind of Decl: " + decl);
@@ -252,7 +242,7 @@ public class FlatPredList extends FlatPred
   {
     assert freeVars_ == null;
     try {
-      flatten_.flattenPred(pred,predlist_);
+      flattenPred(pred,predlist_);
     }
     catch (CommandException exception) {
       throw new EvalException(exception);
@@ -275,7 +265,7 @@ public class FlatPredList extends FlatPred
   {
     assert freeVars_ == null;
     try {
-      return flatten_.flattenExpr(expr,predlist_);
+      return flattenExpr(expr,predlist_);
     }
     catch (CommandException exception) {
       throw new EvalException(exception);
@@ -355,15 +345,12 @@ public class FlatPredList extends FlatPred
   //@ ensures evalMode_ == mode;
   public void setMode(/*@non_null@*/Mode mode)
   {
-    evalMode_ = mode;
-
+    super.setMode(mode);
     // set modes of all the flatpreds in the list.
     Iterator<FlatPred> preds = predlist_.iterator();
     Iterator<Mode> modes = ((ModeList)evalMode_).iterator();
     while (preds.hasNext())
       ((FlatPred)preds.next()).setMode((Mode)modes.next());
-
-    solutionsReturned = -1;
   }
 
   /** Starts a fresh evaluation.
@@ -372,8 +359,8 @@ public class FlatPredList extends FlatPred
   public void startEvaluation()
   {
     LOG.entering("FlatPredList","startEvaluation");
+    super.startEvaluation();
     assert evalMode_ != null;
-    solutionsReturned = 0;
     LOG.exiting("FlatPredList","startEvaluation");
    }
 
@@ -397,9 +384,9 @@ public class FlatPredList extends FlatPred
     LOG.entering("FlatPredList","nextEvaluation");
     final int end = predlist_.size(); // points just PAST the last flatpred.
     int curr;
-    if (solutionsReturned == 0) {
+    if (solutionsReturned_ == 0) {
       // start from the beginning of the list
-      solutionsReturned++;
+      solutionsReturned_++;
       curr = 0;
       LOG.fine("starting search, size=" + end
           + ((curr < end) ? ": "+predlist_.get(curr) : ""));
@@ -412,7 +399,7 @@ public class FlatPredList extends FlatPred
     }
     else {
       // start backtracking from the end of the list
-      solutionsReturned++;
+      solutionsReturned_++;
       curr = end - 1;
       LOG.fine("starting backtracking from "+curr);
     }
@@ -439,11 +426,31 @@ public class FlatPredList extends FlatPred
     return curr == end;
   }
 
+  protected Factory getFactory()
+  {
+    return zlive_.getFactory();
+  }
+
+  protected void flattenPred(Pred toFlatten, List<FlatPred> destination)
+    throws CommandException
+  {
+    flatten_.flattenPred(toFlatten, destination);
+    // TODO: why does that give different results?
+    //    zlive_.getFlatten().flattenPred(toFlatten, destination);
+  }
+
+  protected ZRefName flattenExpr(Expr toFlatten, List<FlatPred> destination)
+    throws CommandException
+  {
+    return flatten_.flattenExpr(toFlatten, destination);
+    // TODO: why does that give different results?
+    //    return zlive_.getFlatten().flattenExpr(toFlatten, destination);
+  }
+
   public String toString() {
     StringBuffer result = new StringBuffer();
     for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
-      FlatPred p = (FlatPred) i.next();
-      result.append(p.toString());
+      result.append(i.next().toString());
       if (i.hasNext())
         result.append(", ");
     }
