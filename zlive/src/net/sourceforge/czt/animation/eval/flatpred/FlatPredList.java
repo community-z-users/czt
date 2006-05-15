@@ -91,14 +91,10 @@ public class FlatPredList extends FlatPred
   /** The ZLive animator that owns/uses this FlatPred list. */
   private /*@non_null@*/ ZLive zlive_;
   
-  /** Used to flatten a predicate into a list of FlatPreds. */
-  private /*@non_null@*/ Flatten flatten_;
-
   /** Creates an empty FlatPred list. */
   public FlatPredList(ZLive newZLive) 
   {
     zlive_ = newZLive;
-    flatten_ = new Flatten(newZLive);
   }
 
   /** Returns the number of FlatPreds in this list. */
@@ -434,16 +430,12 @@ public class FlatPredList extends FlatPred
   protected void flattenPred(Pred toFlatten, List<FlatPred> destination)
     throws CommandException
   {
-    //flatten_.flattenPred(toFlatten, destination);
-    // TODO: why does that give different results?
     zlive_.getFlatten().flattenPred(toFlatten, destination);
   }
 
   protected ZRefName flattenExpr(Expr toFlatten, List<FlatPred> destination)
     throws CommandException
   {
-    //return flatten_.flattenExpr(toFlatten, destination);
-    // TODO: why does that give different results?
     return zlive_.getFlatten().flattenExpr(toFlatten, destination);
   }
 
