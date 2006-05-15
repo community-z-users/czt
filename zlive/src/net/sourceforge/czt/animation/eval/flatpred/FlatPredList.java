@@ -434,17 +434,17 @@ public class FlatPredList extends FlatPred
   protected void flattenPred(Pred toFlatten, List<FlatPred> destination)
     throws CommandException
   {
-    flatten_.flattenPred(toFlatten, destination);
+    //flatten_.flattenPred(toFlatten, destination);
     // TODO: why does that give different results?
-    //    zlive_.getFlatten().flattenPred(toFlatten, destination);
+    zlive_.getFlatten().flattenPred(toFlatten, destination);
   }
 
   protected ZRefName flattenExpr(Expr toFlatten, List<FlatPred> destination)
     throws CommandException
   {
-    return flatten_.flattenExpr(toFlatten, destination);
+    //return flatten_.flattenExpr(toFlatten, destination);
     // TODO: why does that give different results?
-    //    return zlive_.getFlatten().flattenExpr(toFlatten, destination);
+    return zlive_.getFlatten().flattenExpr(toFlatten, destination);
   }
 
   public String toString() {
