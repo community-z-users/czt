@@ -60,11 +60,15 @@ public class Mode
    */
   protected List<ZRefName> args_;
 
+  protected FlatPred parent_;
+
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
-  public Mode(/*@non_null@*/Envir preEnv,
-               /*@non_null@*/List<ZRefName> args,
+  public Mode(/*@non_null@*/FlatPred parent,
+              /*@non_null@*/Envir preEnv,
+              /*@non_null@*/List<ZRefName> args,
                double solns) {
+    parent_ = parent;
     preEnvir_ = preEnv;
     postEnvir_ = preEnv;
     solutions_ = solns;
@@ -73,6 +77,12 @@ public class Mode
       if ( ! preEnvir_.isDefined(name))
         postEnvir_ = postEnvir_.plus(name, null);
     }
+  }
+
+  /** Returns the FlatPred that created this mode */
+  public FlatPred getParent()
+  {
+    return parent_;
   }
 
   /** Is the given argument an input? */

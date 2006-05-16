@@ -172,7 +172,7 @@ public abstract class FlatPred
    */
   protected Mode modeAllDefined(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
+    Mode result = new Mode(this, env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
     if (result.numOutputs() == 0)
       return result;
     else
@@ -185,7 +185,7 @@ public abstract class FlatPred
    */
   protected Mode modeFunction(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, getArgs(), Mode.ONE_SOLUTION);
+    Mode result = new Mode(this, env, getArgs(), Mode.ONE_SOLUTION);
     if (result.numOutputs() == 0)
       result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
     else if (result.numOutputs() != 1
@@ -201,7 +201,7 @@ public abstract class FlatPred
    */
   protected Mode modeOneOutput(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, getArgs(), 0.0);
+    Mode result = new Mode(this, env, getArgs(), 0.0);
     if (result.numOutputs() == 0)
       result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
     else if (result.numOutputs() == 1)
@@ -219,7 +219,7 @@ public abstract class FlatPred
   {
     Mode result = modeFunction(env);
     if (result == null && env.isDefined(getLastArg())) {
-      result = new Mode(env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
+      result = new Mode(this, env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
       if (result.numOutputs() == getArgs().size() - 1)
         result.setSolutions(Mode.ONE_SOLUTION);
     }
@@ -232,6 +232,7 @@ public abstract class FlatPred
   //@ ensures evalMode_ == mode;
   public void setMode( /*@non_null@*/Mode mode)
   {
+    assert this == mode.getParent();
     evalMode_ = mode;
     solutionsReturned_ = -1;
   }

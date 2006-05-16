@@ -79,7 +79,7 @@ public class FlatOr extends FlatPred
       modes.add(rightMode);
       // TODO: investigate why leftMode.inputs_ is legal here -- should be protected.
       // TODO: unify leftMode.inputs and rightMode.inputs here!!!
-      result = new ModeList(env, args_, solutions, modes);
+      result = new ModeList(this, env, args_, solutions, modes);
     }
     return result;
   }

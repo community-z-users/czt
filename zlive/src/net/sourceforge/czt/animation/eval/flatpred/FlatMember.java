@@ -84,7 +84,7 @@ public class FlatMember extends FlatPred
     // the set must be defined in env.
     ZRefName setName = args_.get(0);
     ZRefName elemName = args_.get(1);
-    Mode result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
+    Mode result = new Mode(this, env, args_, Mode.MAYBE_ONE_SOLUTION);
     // is the set an input?
     if (result.isInput(setName)) {
       if (result.isOutput(elemName)) {

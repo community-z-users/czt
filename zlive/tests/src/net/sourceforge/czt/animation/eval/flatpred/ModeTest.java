@@ -41,7 +41,7 @@ public class ModeTest extends ZTestCase
     xy = new ArrayList<ZRefName>();
     xy.add(x);
     xy.add(y);
-    modey = new Mode(x10, xy, 5.0);
+    modey = new Mode(null, x10, xy, 5.0);
   }
 
   /*
@@ -77,7 +77,7 @@ public class ModeTest extends ZTestCase
    */
   public void testSetSolutions()
   {
-    Mode tmp = new Mode(x10, xy, 5.0);
+    Mode tmp = new Mode(null, x10, xy, 5.0);
     tmp.setSolutions(1.0);
     Assert.assertEquals(1.0, tmp.getSolutions());
   }

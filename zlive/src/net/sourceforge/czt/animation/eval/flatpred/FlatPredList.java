@@ -325,13 +325,14 @@ public class FlatPredList extends FlatPred
         LOG.exiting("FlatPredList","chooseMode",null);
         return null;
       }
+      assert fp == m.getParent();
       submodes.add(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
       LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost
           +" and outputs="+m.getOutputs());
     }
-    ModeList result = new ModeList(env, args_, cost, submodes);
+    ModeList result = new ModeList(this, env, args_, cost, submodes);
     LOG.exiting("FlatPredList","chooseMode",result);
     return result;
   }
