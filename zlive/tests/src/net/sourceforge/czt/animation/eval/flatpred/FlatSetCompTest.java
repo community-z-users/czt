@@ -44,7 +44,7 @@ public class FlatSetCompTest
   public FlatSetCompTest()
   {
   }
-  
+
   public void setUp()
   {
     SetCompExpr setComp = (SetCompExpr) parseExpr(setCompStr);
@@ -56,13 +56,16 @@ public class FlatSetCompTest
 			  text.getPred(),
 			  setComp.getExpr(),
 			  s));
-    text = emptySetComp.getZSchText();
+    set.inferBounds(new Bounds());
+
     emptySet = new FlatPredList(zlive_);
+    text = emptySetComp.getZSchText();
     emptySet.add(new FlatSetComp(zlive_,
 			       text.getZDeclList(),
 			       text.getPred(),
 			       emptySetComp.getExpr(),
 			       s));
+    emptySet.inferBounds(new Bounds());
   }
 
   public void testFreeVars()

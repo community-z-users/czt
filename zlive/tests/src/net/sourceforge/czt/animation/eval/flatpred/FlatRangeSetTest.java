@@ -41,15 +41,18 @@ public class FlatRangeSetTest
   public FlatRangeSetTest()
   {
   }
-  
+
   public void setUp()
   {
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,k,s));   // 10..12
+    set.inferBounds(new Bounds());
+
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatRangeSet(k,j,s));   // 12..11
+    emptySet.inferBounds(new Bounds());
   }
-  
+
   /** A helper function for constructing and evaluating FlatRangeSets. */
   private FlatRangeSet range(ZRefName lo, ZRefName hi, Envir env)
   {
@@ -61,7 +64,7 @@ public class FlatRangeSetTest
     Assert.assertTrue(flat1.nextEvaluation());
     return flat1;
   }
-  
+
   public void testNoBoundEquality()
   {
     FlatRangeSet set = range(null,null,envIJK);
@@ -71,7 +74,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,j,envIJK)));
     Assert.assertNull(set.maxSize());
   }
-    
+
   public void testLowerBoundEquality()
   {
     FlatRangeSet set = range(j,null,envIJK); // 11..infinity
@@ -83,7 +86,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
     Assert.assertNull(set.maxSize());
   }
-  
+
   public void testUpperBoundEquality()
   {
     FlatRangeSet set = range(null,j,envIJK); // -infinity..11
@@ -95,7 +98,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
     Assert.assertNull(set.maxSize());
   }
-  
+
   public void testEmptyEquality()
   {
     FlatRangeSet set = range(j,i,envIJK); // 11..10
@@ -108,7 +111,7 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,i,envIJK))); // 10..10
     Assert.assertEquals(new BigInteger("0"), set.maxSize());
   }
-  
+
   public void testOrdinaryEquality()
   {
     FlatRangeSet set = range(i,k,envIJK); // 10..12

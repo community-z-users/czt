@@ -322,15 +322,18 @@ public class FlattenVisitor
       return notYet(e, "generic");
     ZRefName result = e.getZRefName();
     // check for \nat and \num
-    if ( result.toString().equals(ZString.NAT)) {
+    if ( result.getWord().equals(ZString.NAT)
+        && result.getZStrokeList().isEmpty()) {
       result = zlive_.createNewName();
       ZRefName zeroName = zlive_.createNewName();
       Expr zero = zlive_.getFactory().createNumExpr(0);
       flat_.add(new FlatConst(zeroName, zero));
       flat_.add(new FlatRangeSet(zeroName,null,result));
     }
-    else if ( result.toString().equals(ZString.NAT
-        + ZString.SE + "1" + ZString.NW)) {
+    else if ( result.getWord().equals(ZString.NAT)
+        && result.getZStrokeList().size() == 1
+        && (result.getZStrokeList().get(0) instanceof NumStroke)
+        && ((NumStroke) result.getZStrokeList().get(0)).getDigit().equals(Digit.ONE)) {
       result = zlive_.createNewName();
       ZRefName oneName = zlive_.createNewName();
       Expr one = zlive_.getFactory().createNumExpr(1);
@@ -358,7 +361,10 @@ public class FlattenVisitor
     }
     else {
       // Try to unfold this name via a (non-generic) definition.
-      DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
+      DefinitionTable.Definition def = null;
+      // We only try to unfold undecorated names at the moment.
+      if (e.getZRefName().getZStrokeList().isEmpty())
+        def = table_.lookup(e.getZRefName().getWord());
       if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
         Expr newExpr = def.getExpr();
         result = newExpr.accept(this);      

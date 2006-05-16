@@ -41,26 +41,32 @@ public class FlatCardTest
   private ZRefName o = factory_.createZRefName("o");
   private ZRefName p = factory_.createZRefName("p");
   private ZRefName q = factory_.createZRefName("q");
-  
+
   private ZRefName s = factory_.createZRefName("s");
-  
+
   private ZRefName w = factory_.createZRefName("w");
 
-  protected FlatPred pred = new FlatCard(z,s);
-  
+  protected FlatPred pred;
+
+  public void setUp()
+  {
+    pred = new FlatCard(z,s);
+    pred.inferBounds(new Bounds());
+  }
+
   public void testEmpty()
   {
     Mode m = pred.chooseMode(empty);
     Assert.assertNull(m);
   }
-  
+
   public void testOI()
   {
     Envir envS = empty.plus(s,i6);
     Mode m = pred.chooseMode(envS);
     Assert.assertNull(m);
   }
-  
+
   public void testRangeSetIO()
   {
     Envir envX = empty.plus(x,i10);
@@ -83,7 +89,7 @@ public class FlatCardTest
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
   }
-  
+
   public void testDiscreteSetIO()
   {
     Envir envLMNOPQ = empty.plus(l,i10);
@@ -100,6 +106,7 @@ public class FlatCardTest
     tempArgsList.add(p);
     tempArgsList.add(q);
     EvalSet tempDiscreteSet = new FlatDiscreteSet(tempArgsList,w);
+    ((FlatPred)tempDiscreteSet).inferBounds(new Bounds());
     Mode tempMode = ((FlatPred)tempDiscreteSet).chooseMode(envLMNOPQ);
     Assert.assertTrue(tempMode != null);
     ((FlatPred)tempDiscreteSet).setMode(tempMode);
@@ -126,12 +133,13 @@ public class FlatCardTest
     Assert.assertEquals("result value", i5, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
   }
-  
+
   public void testRangeSetII()
   {
     Envir envX = empty.plus(x,i10);
     Envir envXY = envX.plus(y,i15);
     EvalSet tempRangeSet = new FlatRangeSet(x,y,w);
+    ((FlatPred)tempRangeSet).inferBounds(new Bounds());
     Mode tempMode = ((FlatPred)tempRangeSet).chooseMode(envXY);
     ((FlatPred)tempRangeSet).setMode(tempMode);
     ((FlatPred)tempRangeSet).startEvaluation();
@@ -150,7 +158,7 @@ public class FlatCardTest
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
   }
-  
+
   public void testDiscreteSetII()
   {
     Envir envLMNOPQ = empty.plus(l,i10);
@@ -167,6 +175,7 @@ public class FlatCardTest
     tempArgsList.add(p);
     tempArgsList.add(q);
     EvalSet tempDiscreteSet = new FlatDiscreteSet(tempArgsList,w);
+    ((FlatPred)tempDiscreteSet).inferBounds(new Bounds());
     Mode tempMode = ((FlatPred)tempDiscreteSet).chooseMode(envLMNOPQ);
     Assert.assertTrue(tempMode != null);
     ((FlatPred)tempDiscreteSet).setMode(tempMode);

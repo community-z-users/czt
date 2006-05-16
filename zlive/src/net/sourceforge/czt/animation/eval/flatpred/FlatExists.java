@@ -31,6 +31,18 @@ public class FlatExists extends FlatForall
     super(sch,body);
   }
 
+  /** This allows bounds information to flow into the Exists but not out.
+   *  Within the Exists, bound information can flow in both directions
+   *  between the bound variable constraints and the body of the Exists.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    Bounds bnds1 = bnds.clone();
+    schText_.inferBounds(bnds1);
+    body_.inferBounds(bnds1);
+    return false;
+  }
+
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -40,14 +52,14 @@ public class FlatExists extends FlatForall
     while (schText_.nextEvaluation()) {
       body_.startEvaluation();
       try {
-	if (body_.nextEvaluation()) {
-	  sLogger.exiting("FlatExists","nextEvaluation",Boolean.TRUE);
-	  return true;
-	}
+        if (body_.nextEvaluation()) {
+          sLogger.exiting("FlatExists","nextEvaluation",Boolean.TRUE);
+          return true;
+        }
       }
       catch (UndefException e) {
         undef = e;
-	// and continue, in case we find a true.
+        // and continue, in case we find a true.
       }
     }
     if (undef != null) {

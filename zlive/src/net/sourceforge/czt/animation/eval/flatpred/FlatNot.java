@@ -36,6 +36,12 @@ public class FlatNot extends FlatPred
     solutionsReturned_ = -1;
   }
 
+  public boolean inferBounds(Bounds bnds)
+  {
+    predlist_.inferBounds(bnds.clone());
+    return false;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public ModeList chooseMode(/*@non_null@*/ Envir env)
   {
@@ -57,7 +63,7 @@ public class FlatNot extends FlatPred
   {
     return predlist_.freeVars();
   }
-  
+
   public void startEvaluation()
   {
     assert(evalMode_ != null);
@@ -82,7 +88,7 @@ public class FlatNot extends FlatPred
   public String toString() {
     return "FlatNot( " + predlist_.toString() + " )";
   }
-  
+
   public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatNotVisitor)

@@ -24,14 +24,26 @@ import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.ZNumeral;
+import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
 
 public class ZLive
@@ -209,6 +221,7 @@ public class ZLive
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
+    predlist_.inferBounds(new Bounds());
     Mode m = predlist_.chooseMode(env0);
     if (m == null) {
       final String message =
@@ -246,6 +259,7 @@ public class ZLive
     
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);
+    predlist_.inferBounds(new Bounds());
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
     if (m == null) {

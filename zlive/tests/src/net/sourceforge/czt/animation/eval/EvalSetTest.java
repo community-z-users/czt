@@ -66,7 +66,7 @@ public class EvalSetTest
    *  The resulting set must be the last entry in the FlatPredList.
    */
   protected FlatPredList set;
-  
+
   /** Subclasses must initialise this FlatPredList so that it
    *  calculates an empty set called s.
    *  The resulting set must be the last entry in the FlatPredList.
@@ -77,11 +77,13 @@ public class EvalSetTest
   {
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,k,s));
-    
+    set.inferBounds(new Bounds());
+
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+    emptySet.inferBounds(new Bounds());
   }
-  
+
   /** @return Bounds for i,j,k only. */
   protected Bounds getBounds()
   {
@@ -94,25 +96,25 @@ public class EvalSetTest
     bnds.addUpper(k,new BigInteger("12"));
     return bnds;
   }
-  
+
   public void testEmpty()
   {
     Mode m = set.chooseMode(envEmpty);
     Assert.assertNull(m);
   }
-  
+
   public void testIOO()
   {
     Mode m = set.chooseMode(envI);
     Assert.assertNull(m);
   }
-  
+
   public void testOIO()
   {
     Mode m = set.chooseMode(envK);
     Assert.assertNull(m);
   }
-  
+
   public void testEmptySet()
   {
     Mode m = emptySet.chooseMode(envIJK);
@@ -130,7 +132,7 @@ public class EvalSetTest
     Assert.assertFalse(resultSet.contains(i12));
     Assert.assertFalse(emptySet.nextEvaluation());
   }
-  
+
   public void testII0()
   {
     Mode m = set.chooseMode(envIJK);
@@ -141,7 +143,7 @@ public class EvalSetTest
     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
     Assert.assertTrue(resultSet != null);
     // Checking the estSize() method
-    // Some implementations may return a bit more than the true size. 
+    // Some implementations may return a bit more than the true size.
     Assert.assertTrue(3.0 <= resultSet.estSize());
     Assert.assertTrue(resultSet.estSize() <= 4.0);
     //Checking the freeVars() method
@@ -173,11 +175,12 @@ public class EvalSetTest
     Assert.assertFalse(set.nextEvaluation());
   }
 
-  /** Tests t := i..k, then i..k == t. */ 
+  /** Tests t := i..k, then i..k == t. */
   public void testIII()
   {
     EvalSet tempRangeSet = new FlatRangeSet(i,k,t);
     FlatPred tempFlat = (FlatPred)tempRangeSet;
+    tempFlat.inferBounds(new Bounds());
     Mode tempMode = tempFlat.chooseMode(envIJK);
     tempFlat.setMode(tempMode);
     tempFlat.startEvaluation();

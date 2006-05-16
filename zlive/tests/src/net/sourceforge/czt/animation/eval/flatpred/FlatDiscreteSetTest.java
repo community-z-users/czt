@@ -42,7 +42,7 @@ public class FlatDiscreteSetTest
   public FlatDiscreteSetTest()
   {
   }
-  
+
   public void setUp()
   {
     ArrayList<ZRefName> argsList = new ArrayList<ZRefName>();
@@ -52,19 +52,22 @@ public class FlatDiscreteSetTest
     argsList.add(i);
     set = new FlatPredList(zlive_);
     set.add(new FlatDiscreteSet(argsList,s));
+    set.inferBounds(new Bounds());
+
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+    emptySet.inferBounds(new Bounds());
   }
-  
+
   public void testMaxSize()
   {
     EvalSet resultSet = (EvalSet) set.iterator().next();
     Assert.assertNotNull(resultSet);
 
     System.out.println("resultSet type = " + resultSet.getClass());
-    
+
     Assert.assertTrue(resultSet instanceof FlatDiscreteSet);
-    
+
     Assert.assertEquals(new BigInteger("3"), resultSet.maxSize());
     resultSet = (EvalSet) emptySet.iterator().next();
     Assert.assertEquals(new BigInteger("0"), resultSet.maxSize());

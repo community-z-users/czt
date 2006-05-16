@@ -39,7 +39,7 @@ public class FlatPredModel implements FsmModel
 {
   /** The FlatPred object that is being tested. */
   private FlatPred pred_;
-  
+
   /** The names of all the free variables of the FlatPred. */
   private ZRefName[] names_;
 
@@ -106,7 +106,7 @@ public class FlatPredModel implements FsmModel
 
   /** Debugging messages that can be printed to System.out/err. */
   public void debug(String msg)
-  {    
+  {
   }
 
   public String getState()
@@ -124,7 +124,7 @@ public class FlatPredModel implements FsmModel
     }
     return result.toString();
   }
-  
+
   /** Resets the implementation under test.
    *  TODO: it would be nice to be able to actually reset the FlatPred.
    * @param testing true if this is a real test run (currently ignored).
@@ -140,6 +140,7 @@ public class FlatPredModel implements FsmModel
   public boolean inferBoundsGuard() {return state_ == State.Init; }
   @Action public void inferBounds()
   {
+    pred_.inferBounds(new Bounds());
     state_ = State.NoMode;
   }
 
@@ -161,7 +162,7 @@ public class FlatPredModel implements FsmModel
       isInput[i] = inout.charAt(1) == 'I';
     // Is names_[length-1] an input?
     isInput[names_.length - 1] = inout.charAt(2) == 'I';
-    
+
     // Now add the inputs into env.
     for (int i=0; i < names_.length; i++)
       if (isInput[i])
@@ -207,14 +208,14 @@ public class FlatPredModel implements FsmModel
   {
     chooseMode("IIO");
   }
-  
+
   /** Tries chooseMode with all names except the second one being inputs. */
   public boolean chooseModeIOIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeIOI()
   {
     chooseMode("IOI");
   }
-  
+
   /** Tries chooseMode with all names except the first one being inputs. */
   public boolean chooseModeOIIGuard() {return state_ == State.NoMode; }
   @Action public void chooseModeOII()
@@ -340,7 +341,7 @@ public class FlatPredModel implements FsmModel
     data_ = null;
     state_ = State.GotMode;
   }
-  
+
   public boolean newModeGuard() {return state_ == State.Started
                                      || state_ == State.Finished
                                      || state_ == State.GotMode; }

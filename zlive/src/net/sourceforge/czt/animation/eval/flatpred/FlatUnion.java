@@ -70,6 +70,7 @@ public class FlatUnion extends FlatEvalSet
 
   public Mode chooseMode(Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
     return m;
   }
@@ -186,6 +187,7 @@ public class FlatUnion extends FlatEvalSet
   //@ requires getEnvir() != null;
   public double estSize()
   {
+    assert bounds_ != null; // inferBounds should have been called.
     if (findSets())
       return leftSet_.estSize() + rightSet_.estSize();
     else
@@ -195,6 +197,7 @@ public class FlatUnion extends FlatEvalSet
   /** Estimate the size of the set in a given environment. */
   public double estSize(Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     EvalSet left = (EvalSet) env.lookup(args_.get(0));
     EvalSet right = (EvalSet) env.lookup((args_.get(1)));
     if (left != null && right != null) {
@@ -209,6 +212,7 @@ public class FlatUnion extends FlatEvalSet
    */
   public double estSubsetSize(Envir env, ZRefName elem)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     EvalSet left = (EvalSet) env.lookup(args_.get(0));
     EvalSet right = (EvalSet) env.lookup((args_.get(1)));
     if (left != null && right != null)
@@ -245,6 +249,7 @@ public class FlatUnion extends FlatEvalSet
    */
   public Iterator<Expr> subsetIterator(ZRefName element)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     assert solutionsReturned_ > 0; // nextEvaluation() must have succeeded.
     Set<Expr> subset = new HashSet<Expr>();
     // generate all subset members from BOTH sets.
@@ -265,6 +270,7 @@ public class FlatUnion extends FlatEvalSet
   //@ requires solutionsReturned > 0;
   public boolean contains(Object e)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     return leftSet_.contains(e) || rightSet_.contains(e);
   }
 

@@ -300,6 +300,9 @@ public class FlatPredList extends FlatPred
   }
 
   /** Optimises the list and chooses a mode.
+   *  Note that inferBounds should usually be done before this,
+   *  since it may narrow the search space of chooseMode.
+   *  
    *  @czt.todo Implement a simple reordering algorithm here.
    *  The current implementation does no reordering.
    */
@@ -307,7 +310,6 @@ public class FlatPredList extends FlatPred
   {
     LOG.entering("FlatPredList","chooseMode",env0);
     // first do static inference of integer bounds
-    inferBounds(new Bounds()); // TODO: make the client responsible for this?
     
     List<Mode> submodes = new ArrayList<Mode>();
     getArgs();  // forces freeVars_ and args_ to be evaluated.

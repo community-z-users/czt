@@ -52,9 +52,12 @@ public class FlatMu extends FlatPred
     sLogger.exiting("FlatMu","FlatMu");
   }
 
-  /** TODO */
+  /** This does local bounds inference.
+   *  So bounds information flows into the mu term, but not out.
+   */
   public boolean inferBounds(Bounds bnds)
   {
+    schText_.inferBounds(bnds.clone());
     return false;
   }
 

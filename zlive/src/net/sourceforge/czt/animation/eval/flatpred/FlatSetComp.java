@@ -31,6 +31,7 @@ import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -51,7 +52,7 @@ public class FlatSetComp extends FlatEvalSet
   /** This FlatPredList is used to check membership of ONE given value.
       Its first entry is resultNNN=value, where resultNNN is a fresh
       ZRefName (see resultName) and value is initially unknown, but will
-      be set within isMember before this FlatPredList is evaluated.
+      be set within the contains method before this FlatPredList is evaluated.
   */
   protected FlatPredList predsOne_;
 
@@ -102,16 +103,14 @@ public class FlatSetComp extends FlatEvalSet
     solutionsReturned_ = -1;
   }
 
+  /** This does local bounds inference.
+   *  So bounds information flows into the set, but not out.
+   */
   public boolean inferBounds(Bounds bnds)
   {
-    // we infer bounds for both copies of the PredList.
-    // They should be identical.
-    boolean changeAll = predsAll_.inferBounds(bnds);
-    boolean changeOne = predsOne_.inferBounds(bnds);
-    assert changeAll == changeOne;
-    changeAll |= bnds.setEvalSet(args_.get(args_.size()-1), this);
-    bounds_ = bnds;
-    return changeAll;
+    bounds_ = bnds.clone();
+    predsAll_.inferBounds(bounds_);
+    return bnds.setEvalSet(getLastArg(), this);
   }
 
   public BigInteger getLower()
@@ -148,6 +147,7 @@ public class FlatSetComp extends FlatEvalSet
   {
     LOG.entering("FlatSetComp","chooseMode",env);
     LOG.fine("args = "+args_+" freevars="+this.freeVars_);
+    assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
@@ -161,6 +161,7 @@ public class FlatSetComp extends FlatEvalSet
    */
   public double estSize(Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     double est = EvalSet.UNKNOWN_SIZE;
     Mode m = predsAll_.chooseMode(env);
     if (m != null)
@@ -202,6 +203,7 @@ public class FlatSetComp extends FlatEvalSet
    */
   public Iterator<Expr> subsetIterator(ZRefName element)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     return iterator();
   }
 
@@ -241,6 +243,7 @@ public class FlatSetComp extends FlatEvalSet
   //@ requires evalMode_ != null;
   public boolean contains(Object e)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     assert(evalMode_ != null);
     if ( ! (e instanceof Expr))
       throw new RuntimeException("illegal non-Expr object "+e+" cannot be in "+this);
@@ -249,6 +252,15 @@ public class FlatSetComp extends FlatEvalSet
     // This allows the predicates inside the set to CHECK the result
     // rather than generating all possible results.
     env = env.plus(resultName_, (Expr)e);
+    // now do some static inference for this member.
+    Bounds bnds = new Bounds();
+    if (e instanceof NumExpr) {
+      // TODO: make this code common with FlatConst.
+      BigInteger val = ((NumExpr)e).getValue();
+      bnds.addLower(resultName_,val);
+      bnds.addUpper(resultName_,val);
+    }
+    predsOne_.inferBounds(bnds);
     Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);

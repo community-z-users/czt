@@ -1,21 +1,21 @@
 /*
-  ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2004 Mark Utting
+ ZLive - A Z animator -- Part of the CZT Project.
+ Copyright 2004 Mark Utting
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class FlatForall extends FlatPred
 
   protected FlatPredList schText_;
   protected FlatPredList body_;
-  
+
   /** The mode returned by schText_ */
   protected Mode schMode_ = null;
 
@@ -48,7 +48,7 @@ public class FlatForall extends FlatPred
     sLogger.entering("FlatForall","FlatForall");
     schText_ = sch;
     body_ = body;
-    
+
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
     freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
     sLogger.fine("schText freevars = "+schText_.freeVars());
@@ -69,9 +69,25 @@ public class FlatForall extends FlatPred
     sLogger.exiting("FlatForall","FlatForall");
   }
 
+  /** This currently lets bound information flow into the
+   *  quantifier, but not out.  This is because the constraints
+   *  on the bound variables can be arbitrarily tight, and these
+   *  should not be allowed influence the bounds of any free variables.
+   *  Similarly, bounds information can flow from the bound variables
+   *  into the body of the quantifier, but not in the reverse direction.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    Bounds bnds1 = bnds.clone();
+    schText_.inferBounds(bnds1);
+    Bounds bnds2 = bnds1.clone();
+    body_.inferBounds(bnds2);
+    return false;
+  }
+
   /** Chooses the mode in which the predicate can be evaluated.
-   *  @czt.todo Quantifiers are one place where it would be nice to 
-   *            have separate 'cost' and 'numSolutions' information 
+   *  @czt.todo Quantifiers are one place where it would be nice to
+   *            have separate 'cost' and 'numSolutions' information
    *            within Mode objects, because the cost of evaluating a
    *            universal quantifier can be large, even though it returns
    *            only a single true or false solution.
@@ -91,9 +107,9 @@ public class FlatForall extends FlatPred
       schMode = schText_.chooseMode(env);
       sLogger.fine("schema text gives mode = " + schMode);
       if (schMode != null) {
-	// Now check that the body of the quantifier can be evaluated.
-	bodyMode = body_.chooseMode(schMode.getEnvir());
-	sLogger.fine("body gives mode: " + bodyMode);
+        // Now check that the body of the quantifier can be evaluated.
+        bodyMode = body_.chooseMode(schMode.getEnvir());
+        sLogger.fine("body gives mode: " + bodyMode);
       }
     }
 
@@ -140,7 +156,7 @@ public class FlatForall extends FlatPred
     while (schText_.nextEvaluation()) {
       body_.startEvaluation();
       if (!(body_.nextEvaluation())) {
-	sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
+        sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
         return false;
       }
     }

@@ -59,12 +59,14 @@ public class FlatUnionTest
     set.add(new FlatDiscreteSet(jk,s2));   // 11..12
     union = new FlatUnion(s1,s2,s);
     set.add(union);
+    set.inferBounds(new Bounds());
     
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatRangeSet(k,j,s1));   // 12..11
     emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(), s2));
     emptyUnion = new FlatUnion(s1,s2,s);
     emptySet.add(emptyUnion);
+    emptySet.inferBounds(new Bounds());
   }
   
   public void testEmptyBounds()

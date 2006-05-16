@@ -66,6 +66,7 @@ public class FlatOr extends FlatPred
 
   public Mode chooseMode(Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     // TODO choose intersection of the modes
     Mode result = null;
     Mode leftMode = left_.chooseMode(env);

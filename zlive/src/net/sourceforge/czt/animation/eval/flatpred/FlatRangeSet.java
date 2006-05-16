@@ -41,7 +41,7 @@ import net.sourceforge.czt.z.util.Factory;
 * integers etc.
 */
 public class FlatRangeSet extends FlatEvalSet
-{  
+{
   protected Factory factory_ = new Factory();
 
   /** The most recent variable bounds information. */
@@ -49,7 +49,7 @@ public class FlatRangeSet extends FlatEvalSet
 
   /** The exact value of the lower bound, or null if not known. */
   protected BigInteger lower_;
-  
+
   /** The exact value of the upper bound, or null if not known. */
   protected BigInteger upper_;
 
@@ -57,16 +57,16 @@ public class FlatRangeSet extends FlatEvalSet
   //@ invariant -1 <= lowerArg_ && lowerArg_ <= 0;
   //@ invariant lower_ != null ==> lowerArg_ != -1;
   private int lowerArg_ = -1;
-  
+
   /** The index into args of the upper bound name (-1 if no bound) */
-  //@ invariant -1 <= upperArg_ && upperArg_ <= 1; 
+  //@ invariant -1 <= upperArg_ && upperArg_ <= 1;
   //@ invariant upper_ != null ==> upperArg_ != -1;
    private int upperArg_ = -1;
-   
+
    /** The index into args of the name of the resulting set */
-   //@ invariant 0 <= setArg_ && setArg_ <= 2; 
+   //@ invariant 0 <= setArg_ && setArg_ <= 2;
    private int setArg_ = -1;
-    
+
   /** Creates a FlatRangeSet object, with optional bounds.
    *
    * @param lowerBound  a lower bound expression, or null for no bound.
@@ -146,11 +146,11 @@ public class FlatRangeSet extends FlatEvalSet
     return m;
   }
 
-  /** Looks in the envir (if any) for an upper/lower bound. 
+  /** Looks in the envir (if any) for an upper/lower bound.
    *  If boundArg==-1, this means no bound, so the result will be null.
    *  A null result also happens when env==null or the bound is
    *  not yet available in env.
-   *  
+   *
    *  @param env       the (optional) environment to look for bounds in.
    *  @param boundArg  an index into args (ie. lowerArg_ or upperArg_).
    */
@@ -208,7 +208,7 @@ public class FlatRangeSet extends FlatEvalSet
     else
       return (high.subtract(low).add(BigInteger.ONE).doubleValue());
   }
-  
+
   /** Estimate the size of the set in the given environment. */
   public double estSize(Envir env) {
     lower_ = getBound(env, lowerArg_);
@@ -218,24 +218,24 @@ public class FlatRangeSet extends FlatEvalSet
 
   public double estSubsetSize(Envir env, ZRefName element)
   {
-    assert bounds_ != null;
+    assert bounds_ != null; // inferBounds should have been called.
     BigInteger low = getBound(env, lowerArg_);
     BigInteger high = getBound(env, upperArg_);
     BigInteger elemLow = bounds_.getLower(element);
     BigInteger elemHigh = bounds_.getUpper(element);
-    
+
     if (low == null) {
       low = elemLow;
     }
     else if (elemLow != null)
       low = low.max(elemLow);
-    
+
     if (high == null) {
       high = elemHigh;
     }
     else if (elemHigh != null)
       high = high.min(elemHigh);
-    
+
     return setSize(low, high);
   }
 
@@ -243,7 +243,7 @@ public class FlatRangeSet extends FlatEvalSet
   {
     protected BigInteger current_;
     protected BigInteger highest_;
-    
+
     public RangeSetIterator(BigInteger low, BigInteger high)
     {
       assert(low != null);
@@ -289,20 +289,20 @@ public class FlatRangeSet extends FlatEvalSet
   /** This uses bounds information about element (if any)
    *  to reduce the size of the set that is returned.
    *  The set that is returned is guaranteed to be a subset
-   *  (or equal to) the true set of elements in the range. 
+   *  (or equal to) the true set of elements in the range.
    *  This methods has no side-effects, so does not change the
    *  set returned by the usual members() method.
    */
   public Iterator<Expr> subsetIterator(ZRefName element)
   {
     assert evalMode_ != null;
-    assert bounds_ != null;
+    assert bounds_ != null; // inferBounds should have been called.
     Envir env = evalMode_.getEnvir();
     BigInteger low = getBound(env, lowerArg_);
     BigInteger high = getBound(env, upperArg_);
     BigInteger elemLow = bounds_.getLower(element);
     BigInteger elemHigh = bounds_.getUpper(element);
-    
+
     if (low != null && elemLow != null)
       low = low.max(elemLow);  // take the tighter of the two bounds.
     else if (lowerArg_ < 0)
@@ -315,7 +315,7 @@ public class FlatRangeSet extends FlatEvalSet
 
     if (low == null || high == null)
       throw new EvalException("Unbounded integer "+element+" in "+this);
-    
+
     return new RangeSetIterator(low, high);
   }
 
@@ -440,14 +440,14 @@ public class FlatRangeSet extends FlatEvalSet
       if ((upper_ == null) != (rset.upper_ == null))
         return false;
       // handle the empty range case (lower_ > upper_) specially.
-      if (lower_ != null && upper_ != null 
+      if (lower_ != null && upper_ != null
           && lower_.compareTo(upper_)>0) {
         return rset.lower_.compareTo(rset.upper_) > 0;
       }
       else
         return (lower_ == null || lower_.equals(rset.lower_))
             && (upper_ == null || upper_.equals(rset.upper_));
-    } 
+    }
     else
       return equalsEvalSet(this,(EvalSet)other);
   }

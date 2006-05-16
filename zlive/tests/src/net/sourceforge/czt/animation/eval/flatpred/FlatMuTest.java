@@ -72,7 +72,7 @@ public class FlatMuTest
     sch.addSchText(mu.getZSchText());
     ZRefName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
-    
+
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZRefName[] {x,y,resultName},
@@ -95,7 +95,6 @@ public class FlatMuTest
     Expr pair = parseExpr("(1,3)");
 
     FlatPredList sch = new FlatPredList(zlive_);
-    Flatten flatten = new Flatten(zlive_);
     ZSchText stext = mu.getZSchText();
     sch.addSchText(stext);
     Expr expr = mu.getExpr();
@@ -103,7 +102,7 @@ public class FlatMuTest
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     ZRefName resultName = sch.addExpr(expr);
     FlatMu pred = new FlatMu(sch, resultName);
-    
+
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZRefName[] {y,resultName},

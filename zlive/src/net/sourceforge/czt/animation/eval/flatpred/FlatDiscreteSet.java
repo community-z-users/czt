@@ -122,6 +122,7 @@ public class FlatDiscreteSet extends FlatEvalSet
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
@@ -139,18 +140,21 @@ public class FlatDiscreteSet extends FlatEvalSet
   /** Estimate the size of the set. */
   public double estSize(Envir env)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     return (double) (args_.size() - 1);
   }
 
   /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
   public double estSubsetSize(Envir env, ZRefName elem)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     return estSize(env);
   }
 
   /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
   public Iterator<Expr> subsetIterator(ZRefName element)
   {
+    assert bounds_ != null; // inferBounds should have been called.
     return iterator();
   }
 
