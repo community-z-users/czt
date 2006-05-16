@@ -92,7 +92,7 @@ public class FlatMultTest
         System.out.print(","+hist.get(i));
       System.out.println();
     }
-    model.printGraphDot("FlatMult.dot");
+    //model.printGraphDot("FlatMult.dot");
   }
 
   public static void main(String[] args)

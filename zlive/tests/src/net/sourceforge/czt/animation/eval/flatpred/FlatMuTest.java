@@ -59,8 +59,8 @@ public class FlatMuTest
     );
     ModelTestCase model = new ModelTestCase(iut);
     model.randomWalk(200);
-    model.buildGraph();
-    model.printGraphDot("FlatMu1.dot");
+    //model.buildGraph();
+    //model.printGraphDot("FlatMu1.dot");
   }
 
   public void testMu2()
@@ -82,14 +82,14 @@ public class FlatMuTest
     );
     ModelTestCase model = new ModelTestCase(iut);
     model.randomWalk(200);
-    model.buildGraph();
-    model.printGraphDot("FlatMu2.dot");
+    //model.buildGraph();
+    //model.printGraphDot("FlatMu2.dot");
   }
 
   public void testMuImplicit()
   throws FileNotFoundException
   {
-    ZFormatter.startLogging("zlive.log", Level.FINEST);
+    //ZFormatter.startLogging("zlive.log", Level.FINEST);
 
     MuExpr mu = (MuExpr) parseExpr("(\\mu a,b:\\{1,3,5\\} |a<b<y)");
     Expr pair = parseExpr("(1,3)");
@@ -112,9 +112,9 @@ public class FlatMuTest
     );
     ModelTestCase model = new ModelTestCase(iut);
     model.randomWalk(200);
-    model.buildGraph();
-    model.printGraphDot("FlatMu3.dot");
-    ZFormatter.stopLogging();
+    //model.buildGraph();
+    //model.printGraphDot("FlatMu3.dot");
+    //ZFormatter.stopLogging();
   }
 }
 

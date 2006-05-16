@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.*;
 import net.sourceforge.czt.base.ast.*;
@@ -137,6 +138,7 @@ public abstract class EvalTest extends TestCase
   
   public static Test generateSuite(String filename) {
     ZLive animator = new ZLive();
+    ZFormatter.startLogging("zlive.log", Level.FINEST);
     TestSuite tests = new TestSuite();
     int count = 0;
     Spec spec = null;
