@@ -221,9 +221,9 @@ public class FlattenVisitor
   public ZRefName visitImpliesPred(ImpliesPred p) { return notYet(p); }
   public ZRefName visitIffPred(IffPred p) { return notYet(p); }
   public ZRefName visitNegPred(NegPred p) {
-    FlatPredList inner = new FlatPredList(zlive_);
-    inner.addPred(p.getPred());
-    flat_.add(new FlatNot(inner));
+    FlatNot not = new FlatNot(zlive_);
+    not.addPred(p.getPred());
+    flat_.add(not);
     return null;
   }
 

@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2004 Mark Utting
+  Copyright 2004, 2006 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -22,53 +22,28 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.ZRefName;
 
-public class FlatNot extends FlatPred
+public class FlatNot extends FlatPredList
 {
-  private FlatPredList predlist_;
-
-  public FlatNot(FlatPredList fps)
+  public FlatNot(ZLive zlive)
   {
-    args_ = new ArrayList<ZRefName>(fps.freeVars());
-    predlist_ = fps;
-    solutionsReturned_ = -1;
+    super(zlive);
   }
 
+  /** This let bounds information flow into the negation, but not out. */
   public boolean inferBounds(Bounds bnds)
   {
-    predlist_.inferBounds(bnds.clone());
+    super.inferBounds(bnds.clone());
     return false;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
   public ModeList chooseMode(/*@non_null@*/ Envir env)
   {
-    Mode result = modeAllDefined(env);
-    if (result == null)
-      return null;
-    else
-      return predlist_.chooseMode(env);
-  }
-
-  //@ requires mode instanceof ModeList;
-  public void setMode(/*@non_null@*/Mode mode)
-  {
-    super.setMode(mode);
-    predlist_.setMode( (ModeList)mode );
-  }
-
-  public Set<ZRefName> freeVars()
-  {
-    return predlist_.freeVars();
-  }
-
-  public void startEvaluation()
-  {
-    assert(evalMode_ != null);
-    super.startEvaluation();
-    predlist_.startEvaluation();
+    if (modeAllDefined(env) == null) return null;
+    return super.chooseMode(env);
   }
 
   /** Does the actual evaluation */
@@ -76,8 +51,7 @@ public class FlatNot extends FlatPred
   {
     assert(evalMode_ != null);
     if (solutionsReturned_ == 0) {
-      solutionsReturned_++;
-      return !(predlist_.nextEvaluation());
+      return ! super.nextEvaluation();
     }
     return false;
   }
@@ -86,7 +60,7 @@ public class FlatNot extends FlatPred
   ///////////////////////// Pred methods ///////////////////////
 
   public String toString() {
-    return "FlatNot( " + predlist_.toString() + " )";
+    return "FlatNot( " + super.toString() + " )";
   }
 
   public <R> R accept(Visitor<R> visitor)

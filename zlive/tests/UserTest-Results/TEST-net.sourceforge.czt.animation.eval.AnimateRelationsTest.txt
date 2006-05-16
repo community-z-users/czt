@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 22, Errors: 3, Time elapsed: 42.844 sec
+Tests run: 102, Failures: 30, Errors: 7, Time elapsed: 42.875 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -61,152 +61,140 @@ Passed test:animate_relations.tex:27
 Passed test:animate_relations.tex:28
 Passed test:animate_relations.tex:29
 Passed test:animate_relations.tex:30
-Passed test:animate_relations.tex:34
-Passed test:animate_relations.tex:35
-Passed undef test: animate_relations.tex:36
-Passed undef test: animate_relations.tex:37
-Passed undef test: animate_relations.tex:38
-Passed undef test: animate_relations.tex:39
-Passed test:animate_relations.tex:41
-Passed test:animate_relations.tex:42
-Passed undef test: animate_relations.tex:43
-Passed test:animate_relations.tex:44
-Passed test:animate_relations.tex:45
-Passed undef test: animate_relations.tex:46
-set compare: { FlatDiscreteSet(tmp4441), FlatMember(tmp4441,x), FlatTupleSel(x,tmp4443), FlatEquals(tmp4440,tmp4443) @ tmp4440 } = tmp4439, FlatDiscreteSet(tmp4445)
+set compare: { FlatDiscreteSet(tmp4359), FlatMember(tmp4359,x), FlatTupleSel(x,tmp4361), FlatEquals(tmp4358,tmp4361) @ tmp4358 } = tmp4357, FlatDiscreteSet(tmp4363)
 Passed test:animate_relations.tex:54
-set compare: { FlatDiscreteSet(tmp4448), FlatMember(tmp4448,x), FlatTupleSel(x,tmp4450), FlatEquals(tmp4447,tmp4450) @ tmp4447 } = tmp4446, FlatDiscreteSet(tmp4452)
+set compare: { FlatDiscreteSet(tmp4366), FlatMember(tmp4366,x), FlatTupleSel(x,tmp4368), FlatEquals(tmp4365,tmp4368) @ tmp4365 } = tmp4364, FlatDiscreteSet(tmp4370)
 Passed test:animate_relations.tex:55
-set compare: { tmp4455==1, tmp4456==1, FlatTuple(tmp4455,tmp4456,tmp4457), FlatDiscreteSet(tmp4457,tmp4458), FlatMember(tmp4458,x), FlatTupleSel(x,tmp4463), FlatEquals(tmp4454,tmp4463) @ tmp4454 } = tmp4453, FlatDiscreteSet(tmp4465,tmp4466)
-set compare members: 1, 1
+set compare: { tmp4373==1, tmp4374==1, FlatTuple(tmp4373,tmp4374,tmp4375), FlatDiscreteSet(tmp4375,tmp4376), FlatMember(tmp4376,x), FlatTupleSel(x,tmp4381), FlatEquals(tmp4372,tmp4381) @ tmp4372 } = tmp4371, FlatDiscreteSet(tmp4383,tmp4384)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
 Passed test:animate_relations.tex:56
-set compare: { tmp4469==1, tmp4470==1, FlatTuple(tmp4469,tmp4470,tmp4471), tmp4472==2, tmp4473==4, FlatTuple(tmp4472,tmp4473,tmp4474), tmp4475==3, tmp4476==9, FlatTuple(tmp4475,tmp4476,tmp4477), tmp4478==4, tmp4479==16, FlatTuple(tmp4478,tmp4479,tmp4480), FlatDiscreteSet(tmp4477,tmp4474,tmp4480,tmp4471,tmp4481), FlatMember(tmp4481,x), FlatTupleSel(x,tmp4495), FlatEquals(tmp4468,tmp4495) @ tmp4468 } = tmp4467, FlatDiscreteSet(tmp4497,tmp4499,tmp4498,tmp4500,tmp4501)
-set compare members: 1, 1
-set compare members: 4, 4
-set compare members: 9, 9
-set compare members: 16, 16
+set compare: { tmp4387==1, tmp4388==1, FlatTuple(tmp4387,tmp4388,tmp4389), tmp4390==2, tmp4391==4, FlatTuple(tmp4390,tmp4391,tmp4392), tmp4393==3, tmp4394==9, FlatTuple(tmp4393,tmp4394,tmp4395), tmp4396==4, tmp4397==16, FlatTuple(tmp4396,tmp4397,tmp4398), FlatDiscreteSet(tmp4398,tmp4395,tmp4389,tmp4392,tmp4399), FlatMember(tmp4399,x), FlatTupleSel(x,tmp4413), FlatEquals(tmp4386,tmp4413) @ tmp4386 } = tmp4385, FlatDiscreteSet(tmp4418,tmp4416,tmp4415,tmp4417,tmp4419)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7956ab7, net.sourceforge.czt.z.impl.NumExprImpl@7956ab7
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79584fe, net.sourceforge.czt.z.impl.NumExprImpl@79584fe
 Passed test:animate_relations.tex:57
-set compare: { tmp4505==1, tmp4506==1, FlatTuple(tmp4505,tmp4506,tmp4507), FlatDiscreteSet(tmp4507,tmp4508), tmp4509==2, tmp4510==2, FlatTuple(tmp4509,tmp4510,tmp4511), FlatDiscreteSet(tmp4511,tmp4512), FlatUnion(tmp4508,tmp4512,tmp4504), FlatMember(tmp4504,x), FlatTupleSel(x,tmp4522), FlatEquals(tmp4503,tmp4522) @ tmp4503 } = tmp4502, FlatDiscreteSet(tmp4524,tmp4525,tmp4526)
-set compare members: 1, 1
-set compare members: 2, 2
+set compare: { tmp4423==1, tmp4424==1, FlatTuple(tmp4423,tmp4424,tmp4425), FlatDiscreteSet(tmp4425,tmp4426), tmp4427==2, tmp4428==2, FlatTuple(tmp4427,tmp4428,tmp4429), FlatDiscreteSet(tmp4429,tmp4430), FlatUnion(tmp4426,tmp4430,tmp4422), FlatMember(tmp4422,x), FlatTupleSel(x,tmp4440), FlatEquals(tmp4421,tmp4440) @ tmp4421 } = tmp4420, FlatDiscreteSet(tmp4443,tmp4442,tmp4444)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
 Passed test:animate_relations.tex:58
-set compare: { FlatDiscreteSet(tmp4530), tmp4531==1, tmp4532==1, FlatTuple(tmp4531,tmp4532,tmp4533), FlatDiscreteSet(tmp4533,tmp4534), FlatUnion(tmp4530,tmp4534,tmp4529), FlatMember(tmp4529,x), FlatTupleSel(x,tmp4541), FlatEquals(tmp4528,tmp4541) @ tmp4528 } = tmp4527, FlatDiscreteSet(tmp4543,tmp4544)
-set compare members: 1, 1
+set compare: { FlatDiscreteSet(tmp4448), tmp4449==1, tmp4450==1, FlatTuple(tmp4449,tmp4450,tmp4451), FlatDiscreteSet(tmp4451,tmp4452), FlatUnion(tmp4448,tmp4452,tmp4447), FlatMember(tmp4447,x), FlatTupleSel(x,tmp4459), FlatEquals(tmp4446,tmp4459) @ tmp4446 } = tmp4445, FlatDiscreteSet(tmp4461,tmp4462)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
 Passed test:animate_relations.tex:59
-set compare: { { tmp4550==1, tmp4551==5, FlatRangeSet(tmp4550,tmp4551,tmp4549), FlatMember(tmp4549,x), FlatMember(tmp4549,y), FlatLessThan(x,y), FlatTuple(x,y,tmp4555), FlatEquals(tmp4548,tmp4555) @ tmp4548 } = tmp4547, FlatMember(tmp4547,x), FlatTupleSel(x,tmp4567), FlatEquals(tmp4546,tmp4567) @ tmp4546 } = tmp4545, FlatDiscreteSet(tmp4570,tmp4572,tmp4569,tmp4571,tmp4573)
-set compare members: 2, 2
-set compare members: 3, 3
-set compare members: 4, 4
-set compare members: 5, 5
-set compare: FlatDiscreteSet(tmp4575,tmp4574,tmp4577,tmp4576,tmp4578), FlatRangeSet(tmp4580,tmp4581,tmp4579)
-set compare members: 2, 2
-set compare members: 3, 3
-set compare members: 4, 4
-set compare members: 5, 5
+set compare: { { tmp4468==1, tmp4469==5, FlatRangeSet(tmp4468,tmp4469,tmp4467), FlatMember(tmp4467,x), FlatMember(tmp4467,y), FlatLessThan(x,y), FlatTuple(x,y,tmp4473), FlatEquals(tmp4466,tmp4473) @ tmp4466 } = tmp4465, FlatMember(tmp4465,x), FlatTupleSel(x,tmp4485), FlatEquals(tmp4464,tmp4485) @ tmp4464 } = tmp4463, FlatDiscreteSet(tmp4489,tmp4487,tmp4490,tmp4488,tmp4491)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
+set compare: FlatDiscreteSet(tmp4495,tmp4492,tmp4494,tmp4493,tmp4496), FlatRangeSet(tmp4498,tmp4499,tmp4497)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
 Passed test:animate_relations.tex:60
-set compare: { FlatDiscreteSet(tmp4649), FlatMember(tmp4649,x), FlatTupleSel(x,tmp4651), FlatEquals(tmp4648,tmp4651) @ tmp4648 } = tmp4647, FlatDiscreteSet(tmp4653)
+set compare: { FlatDiscreteSet(tmp4567), FlatMember(tmp4567,x), FlatTupleSel(x,tmp4569), FlatEquals(tmp4566,tmp4569) @ tmp4566 } = tmp4565, FlatDiscreteSet(tmp4571)
 Passed test:animate_relations.tex:67
-set compare: { FlatDiscreteSet(tmp4656), FlatMember(tmp4656,x), FlatTupleSel(x,tmp4658), FlatEquals(tmp4655,tmp4658) @ tmp4655 } = tmp4654, FlatDiscreteSet(tmp4660)
+set compare: { FlatDiscreteSet(tmp4574), FlatMember(tmp4574,x), FlatTupleSel(x,tmp4576), FlatEquals(tmp4573,tmp4576) @ tmp4573 } = tmp4572, FlatDiscreteSet(tmp4578)
 Passed test:animate_relations.tex:68
-set compare: { tmp4663==1, tmp4664==1, FlatTuple(tmp4663,tmp4664,tmp4665), FlatDiscreteSet(tmp4665,tmp4666), FlatMember(tmp4666,x), FlatTupleSel(x,tmp4671), FlatEquals(tmp4662,tmp4671) @ tmp4662 } = tmp4661, FlatDiscreteSet(tmp4673,tmp4674)
-set compare members: 1, 1
+set compare: { tmp4581==1, tmp4582==1, FlatTuple(tmp4581,tmp4582,tmp4583), FlatDiscreteSet(tmp4583,tmp4584), FlatMember(tmp4584,x), FlatTupleSel(x,tmp4589), FlatEquals(tmp4580,tmp4589) @ tmp4580 } = tmp4579, FlatDiscreteSet(tmp4591,tmp4592)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
 Passed test:animate_relations.tex:69
-set compare: { tmp4677==1, tmp4678==1, FlatTuple(tmp4677,tmp4678,tmp4679), tmp4680==2, tmp4681==4, FlatTuple(tmp4680,tmp4681,tmp4682), tmp4683==3, tmp4684==9, FlatTuple(tmp4683,tmp4684,tmp4685), tmp4686==4, tmp4687==16, FlatTuple(tmp4686,tmp4687,tmp4688), FlatDiscreteSet(tmp4688,tmp4685,tmp4682,tmp4679,tmp4689), FlatMember(tmp4689,x), FlatTupleSel(x,tmp4703), FlatEquals(tmp4676,tmp4703) @ tmp4676 } = tmp4675, FlatRangeSet(tmp4706,tmp4707,tmp4705)
-set compare members: 1, 1
-set compare members: 2, 2
-set compare members: 3, 3
-set compare members: 4, 4
+set compare: { tmp4595==1, tmp4596==1, FlatTuple(tmp4595,tmp4596,tmp4597), tmp4598==2, tmp4599==4, FlatTuple(tmp4598,tmp4599,tmp4600), tmp4601==3, tmp4602==9, FlatTuple(tmp4601,tmp4602,tmp4603), tmp4604==4, tmp4605==16, FlatTuple(tmp4604,tmp4605,tmp4606), FlatDiscreteSet(tmp4603,tmp4597,tmp4600,tmp4606,tmp4607), FlatMember(tmp4607,x), FlatTupleSel(x,tmp4621), FlatEquals(tmp4594,tmp4621) @ tmp4594 } = tmp4593, FlatRangeSet(tmp4624,tmp4625,tmp4623)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
 Passed test:animate_relations.tex:70
-set compare: { tmp4711==1, tmp4712==1, FlatTuple(tmp4711,tmp4712,tmp4713), FlatDiscreteSet(tmp4713,tmp4714), tmp4715==2, tmp4716==2, FlatTuple(tmp4715,tmp4716,tmp4717), FlatDiscreteSet(tmp4717,tmp4718), FlatUnion(tmp4714,tmp4718,tmp4710), FlatMember(tmp4710,x), FlatTupleSel(x,tmp4728), FlatEquals(tmp4709,tmp4728) @ tmp4709 } = tmp4708, FlatDiscreteSet(tmp4731,tmp4730,tmp4732)
-set compare members: 1, 1
-set compare members: 2, 2
+set compare: { tmp4629==1, tmp4630==1, FlatTuple(tmp4629,tmp4630,tmp4631), FlatDiscreteSet(tmp4631,tmp4632), tmp4633==2, tmp4634==2, FlatTuple(tmp4633,tmp4634,tmp4635), FlatDiscreteSet(tmp4635,tmp4636), FlatUnion(tmp4632,tmp4636,tmp4628), FlatMember(tmp4628,x), FlatTupleSel(x,tmp4646), FlatEquals(tmp4627,tmp4646) @ tmp4627 } = tmp4626, FlatDiscreteSet(tmp4648,tmp4649,tmp4650)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
 Passed test:animate_relations.tex:71
-set compare: { FlatDiscreteSet(tmp4736), tmp4737==1, tmp4738==1, FlatTuple(tmp4737,tmp4738,tmp4739), FlatDiscreteSet(tmp4739,tmp4740), FlatUnion(tmp4736,tmp4740,tmp4735), FlatMember(tmp4735,x), FlatTupleSel(x,tmp4747), FlatEquals(tmp4734,tmp4747) @ tmp4734 } = tmp4733, FlatDiscreteSet(tmp4749,tmp4750)
-set compare members: 1, 1
+set compare: { FlatDiscreteSet(tmp4654), tmp4655==1, tmp4656==1, FlatTuple(tmp4655,tmp4656,tmp4657), FlatDiscreteSet(tmp4657,tmp4658), FlatUnion(tmp4654,tmp4658,tmp4653), FlatMember(tmp4653,x), FlatTupleSel(x,tmp4665), FlatEquals(tmp4652,tmp4665) @ tmp4652 } = tmp4651, FlatDiscreteSet(tmp4667,tmp4668)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
 Passed test:animate_relations.tex:72
-set compare: { { tmp4756==1, tmp4757==5, FlatRangeSet(tmp4756,tmp4757,tmp4755), FlatMember(tmp4755,x), FlatMember(tmp4755,y), FlatLessThan(x,y), FlatTuple(x,y,tmp4761), FlatEquals(tmp4754,tmp4761) @ tmp4754 } = tmp4753, FlatMember(tmp4753,x), FlatTupleSel(x,tmp4773), FlatEquals(tmp4752,tmp4773) @ tmp4752 } = tmp4751, FlatRangeSet(tmp4776,tmp4777,tmp4775)
-set compare members: 1, 1
-set compare members: 2, 2
-set compare members: 3, 3
-set compare members: 4, 4
+set compare: { { tmp4674==1, tmp4675==5, FlatRangeSet(tmp4674,tmp4675,tmp4673), FlatMember(tmp4673,x), FlatMember(tmp4673,y), FlatLessThan(x,y), FlatTuple(x,y,tmp4679), FlatEquals(tmp4672,tmp4679) @ tmp4672 } = tmp4671, FlatMember(tmp4671,x), FlatTupleSel(x,tmp4691), FlatEquals(tmp4670,tmp4691) @ tmp4670 } = tmp4669, FlatRangeSet(tmp4694,tmp4695,tmp4693)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
 Passed test:animate_relations.tex:73
-set compare: { FlatDiscreteSet(tmp4847), FlatMember(tmp4847,r), FlatTupleSel(r,tmp4849), FlatTupleSel(r,tmp4850), FlatTuple(tmp4849,tmp4850,tmp4851), FlatEquals(tmp4846,tmp4851) @ tmp4846 } = tmp4845, FlatDiscreteSet(tmp4855)
+set compare: { FlatDiscreteSet(tmp4765), FlatMember(tmp4765,r), FlatTupleSel(r,tmp4767), FlatTupleSel(r,tmp4768), FlatTuple(tmp4767,tmp4768,tmp4769), FlatEquals(tmp4764,tmp4769) @ tmp4764 } = tmp4763, FlatDiscreteSet(tmp4773)
 Passed test:animate_relations.tex:81
-set compare: { tmp4858==1, tmp4859==2, FlatTuple(tmp4858,tmp4859,tmp4860), FlatDiscreteSet(tmp4860,tmp4861), FlatMember(tmp4861,r), FlatTupleSel(r,tmp4866), FlatTupleSel(r,tmp4867), FlatTuple(tmp4866,tmp4867,tmp4868), FlatEquals(tmp4857,tmp4868) @ tmp4857 } = tmp4856, FlatDiscreteSet(tmp4874,tmp4875)
+set compare: { tmp4776==1, tmp4777==2, FlatTuple(tmp4776,tmp4777,tmp4778), FlatDiscreteSet(tmp4778,tmp4779), FlatMember(tmp4779,r), FlatTupleSel(r,tmp4784), FlatTupleSel(r,tmp4785), FlatTuple(tmp4784,tmp4785,tmp4786), FlatEquals(tmp4775,tmp4786) @ tmp4775 } = tmp4774, FlatDiscreteSet(tmp4792,tmp4793)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:83
-set compare: { tmp4878==1, tmp4879==2, FlatTuple(tmp4878,tmp4879,tmp4880), tmp4881==2, tmp4882==4, FlatTuple(tmp4881,tmp4882,tmp4883), tmp4884==3, tmp4885==6, FlatTuple(tmp4884,tmp4885,tmp4886), FlatDiscreteSet(tmp4886,tmp4880,tmp4883,tmp4887), FlatMember(tmp4887,r), FlatTupleSel(r,tmp4898), FlatTupleSel(r,tmp4899), FlatTuple(tmp4898,tmp4899,tmp4900), FlatEquals(tmp4877,tmp4900) @ tmp4877 } = tmp4876, FlatDiscreteSet(tmp4912,tmp4906,tmp4909,tmp4913)
+set compare: { tmp4796==1, tmp4797==2, FlatTuple(tmp4796,tmp4797,tmp4798), tmp4799==2, tmp4800==4, FlatTuple(tmp4799,tmp4800,tmp4801), tmp4802==3, tmp4803==6, FlatTuple(tmp4802,tmp4803,tmp4804), FlatDiscreteSet(tmp4804,tmp4798,tmp4801,tmp4805), FlatMember(tmp4805,r), FlatTupleSel(r,tmp4816), FlatTupleSel(r,tmp4817), FlatTuple(tmp4816,tmp4817,tmp4818), FlatEquals(tmp4795,tmp4818) @ tmp4795 } = tmp4794, FlatDiscreteSet(tmp4830,tmp4827,tmp4824,tmp4831)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604861e3, net.sourceforge.czt.z.impl.TupleExprImpl@604861e3
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60650544, net.sourceforge.czt.z.impl.TupleExprImpl@60650544
 Passed test:animate_relations.tex:84
-set compare: { tmp4916==1, tmp4917==1, FlatTuple(tmp4916,tmp4917,tmp4918), tmp4919==1, tmp4920==2, FlatTuple(tmp4919,tmp4920,tmp4921), FlatDiscreteSet(tmp4921,tmp4918,tmp4922), FlatMember(tmp4922,r), FlatTupleSel(r,tmp4930), FlatTupleSel(r,tmp4931), FlatTuple(tmp4930,tmp4931,tmp4932), FlatEquals(tmp4915,tmp4932) @ tmp4915 } = tmp4914, FlatDiscreteSet(tmp4938,tmp4941,tmp4942)
+set compare: { tmp4834==1, tmp4835==1, FlatTuple(tmp4834,tmp4835,tmp4836), tmp4837==1, tmp4838==2, FlatTuple(tmp4837,tmp4838,tmp4839), FlatDiscreteSet(tmp4836,tmp4839,tmp4840), FlatMember(tmp4840,r), FlatTupleSel(r,tmp4848), FlatTupleSel(r,tmp4849), FlatTuple(tmp4848,tmp4849,tmp4850), FlatEquals(tmp4833,tmp4850) @ tmp4833 } = tmp4832, FlatDiscreteSet(tmp4856,tmp4859,tmp4860)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:86
-set compare: { tmp4945==1, tmp4946==1, FlatTuple(tmp4945,tmp4946,tmp4947), tmp4948==2, tmp4949==1, FlatTuple(tmp4948,tmp4949,tmp4950), FlatDiscreteSet(tmp4947,tmp4950,tmp4951), FlatMember(tmp4951,r), FlatTupleSel(r,tmp4959), FlatTupleSel(r,tmp4960), FlatTuple(tmp4959,tmp4960,tmp4961), FlatEquals(tmp4944,tmp4961) @ tmp4944 } = tmp4943, FlatDiscreteSet(tmp4970,tmp4967,tmp4971)
+set compare: { tmp4863==1, tmp4864==1, FlatTuple(tmp4863,tmp4864,tmp4865), tmp4866==2, tmp4867==1, FlatTuple(tmp4866,tmp4867,tmp4868), FlatDiscreteSet(tmp4868,tmp4865,tmp4869), FlatMember(tmp4869,r), FlatTupleSel(r,tmp4877), FlatTupleSel(r,tmp4878), FlatTuple(tmp4877,tmp4878,tmp4879), FlatEquals(tmp4862,tmp4879) @ tmp4862 } = tmp4861, FlatDiscreteSet(tmp4888,tmp4885,tmp4889)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 Passed test:animate_relations.tex:88
-set compare: { tmp4974==1, tmp4975==1, FlatTuple(tmp4974,tmp4975,tmp4976), tmp4977==1, tmp4978==2, FlatTuple(tmp4977,tmp4978,tmp4979), tmp4980==2, tmp4981==1, FlatTuple(tmp4980,tmp4981,tmp4982), FlatDiscreteSet(tmp4976,tmp4982,tmp4979,tmp4983), FlatMember(tmp4983,r), FlatTupleSel(r,tmp4994), FlatTupleSel(r,tmp4995), FlatTuple(tmp4994,tmp4995,tmp4996), FlatEquals(tmp4973,tmp4996) @ tmp4973 } = tmp4972, FlatDiscreteSet(tmp5005,tmp5008,tmp5002,tmp5009)
+set compare: { tmp4892==1, tmp4893==1, FlatTuple(tmp4892,tmp4893,tmp4894), tmp4895==1, tmp4896==2, FlatTuple(tmp4895,tmp4896,tmp4897), tmp4898==2, tmp4899==1, FlatTuple(tmp4898,tmp4899,tmp4900), FlatDiscreteSet(tmp4894,tmp4897,tmp4900,tmp4901), FlatMember(tmp4901,r), FlatTupleSel(r,tmp4912), FlatTupleSel(r,tmp4913), FlatTuple(tmp4912,tmp4913,tmp4914), FlatEquals(tmp4891,tmp4914) @ tmp4891 } = tmp4890, FlatDiscreteSet(tmp4920,tmp4926,tmp4923,tmp4927)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:90
-set compare: { tmp5012==1, tmp5013==1, FlatTuple(tmp5012,tmp5013,tmp5014), tmp5015==1, tmp5016==2, FlatTuple(tmp5015,tmp5016,tmp5017), tmp5018==2, tmp5019==1, FlatTuple(tmp5018,tmp5019,tmp5020), tmp5021==2, tmp5022==2, FlatTuple(tmp5021,tmp5022,tmp5023), FlatDiscreteSet(tmp5017,tmp5014,tmp5023,tmp5020,tmp5024), FlatMember(tmp5024,r), FlatTupleSel(r,tmp5038), FlatTupleSel(r,tmp5039), FlatTuple(tmp5038,tmp5039,tmp5040), FlatEquals(tmp5011,tmp5040) @ tmp5011 } = tmp5010, FlatDiscreteSet(tmp5055,tmp5049,tmp5052,tmp5046,tmp5056)
+set compare: { tmp4930==1, tmp4931==1, FlatTuple(tmp4930,tmp4931,tmp4932), tmp4933==1, tmp4934==2, FlatTuple(tmp4933,tmp4934,tmp4935), tmp4936==2, tmp4937==1, FlatTuple(tmp4936,tmp4937,tmp4938), tmp4939==2, tmp4940==2, FlatTuple(tmp4939,tmp4940,tmp4941), FlatDiscreteSet(tmp4938,tmp4935,tmp4932,tmp4941,tmp4942), FlatMember(tmp4942,r), FlatTupleSel(r,tmp4956), FlatTupleSel(r,tmp4957), FlatTuple(tmp4956,tmp4957,tmp4958), FlatEquals(tmp4929,tmp4958) @ tmp4929 } = tmp4928, FlatDiscreteSet(tmp4970,tmp4973,tmp4967,tmp4964,tmp4974)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602c32e1, net.sourceforge.czt.z.impl.TupleExprImpl@602c32e1
 Passed test:animate_relations.tex:91
-set compare: { tmp5059==1, tmp5060==2, FlatTuple(tmp5059,tmp5060,tmp5061), FlatDiscreteSet(tmp5061,tmp5062), FlatMember(tmp5062,r), FlatTupleSel(r,tmp5067), FlatTupleSel(r,tmp5068), FlatTuple(tmp5067,tmp5068,tmp5069), FlatEquals(tmp5058,tmp5069) @ tmp5058 } = tmp5057, FlatDiscreteSet(tmp5075,tmp5076)
+set compare: { tmp4977==1, tmp4978==2, FlatTuple(tmp4977,tmp4978,tmp4979), FlatDiscreteSet(tmp4979,tmp4980), FlatMember(tmp4980,r), FlatTupleSel(r,tmp4985), FlatTupleSel(r,tmp4986), FlatTuple(tmp4985,tmp4986,tmp4987), FlatEquals(tmp4976,tmp4987) @ tmp4976 } = tmp4975, FlatDiscreteSet(tmp4993,tmp4994)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:93
-set compare: { tmp5079==1, tmp5080==1, FlatTuple(tmp5079,tmp5080,tmp5081), tmp5082==1, tmp5083==2, FlatTuple(tmp5082,tmp5083,tmp5084), FlatDiscreteSet(tmp5081,tmp5084,tmp5085), FlatMember(tmp5085,r), FlatTupleSel(r,tmp5093), FlatTupleSel(r,tmp5094), FlatTuple(tmp5093,tmp5094,tmp5095), FlatEquals(tmp5078,tmp5095) @ tmp5078 } = tmp5077, FlatDiscreteSet(tmp5101,tmp5104,tmp5105)
+set compare: { tmp4997==1, tmp4998==1, FlatTuple(tmp4997,tmp4998,tmp4999), tmp5000==1, tmp5001==2, FlatTuple(tmp5000,tmp5001,tmp5002), FlatDiscreteSet(tmp4999,tmp5002,tmp5003), FlatMember(tmp5003,r), FlatTupleSel(r,tmp5011), FlatTupleSel(r,tmp5012), FlatTuple(tmp5011,tmp5012,tmp5013), FlatEquals(tmp4996,tmp5013) @ tmp4996 } = tmp4995, FlatDiscreteSet(tmp5019,tmp5022,tmp5023)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:94
-set compare: { tmp5108==1, tmp5109==1, FlatTuple(tmp5108,tmp5109,tmp5110), tmp5111==2, tmp5112==1, FlatTuple(tmp5111,tmp5112,tmp5113), FlatDiscreteSet(tmp5113,tmp5110,tmp5114), FlatMember(tmp5114,r), FlatTupleSel(r,tmp5122), FlatTupleSel(r,tmp5123), FlatTuple(tmp5122,tmp5123,tmp5124), FlatEquals(tmp5107,tmp5124) @ tmp5107 } = tmp5106, FlatDiscreteSet(tmp5130,tmp5133,tmp5134)
+set compare: { tmp5026==1, tmp5027==1, FlatTuple(tmp5026,tmp5027,tmp5028), tmp5029==2, tmp5030==1, FlatTuple(tmp5029,tmp5030,tmp5031), FlatDiscreteSet(tmp5031,tmp5028,tmp5032), FlatMember(tmp5032,r), FlatTupleSel(r,tmp5040), FlatTupleSel(r,tmp5041), FlatTuple(tmp5040,tmp5041,tmp5042), FlatEquals(tmp5025,tmp5042) @ tmp5025 } = tmp5024, FlatDiscreteSet(tmp5048,tmp5051,tmp5052)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 Passed test:animate_relations.tex:95
-set compare: { tmp5137==1, tmp5138==1, FlatTuple(tmp5137,tmp5138,tmp5139), tmp5140==1, tmp5141==2, FlatTuple(tmp5140,tmp5141,tmp5142), tmp5143==2, tmp5144==1, FlatTuple(tmp5143,tmp5144,tmp5145), FlatDiscreteSet(tmp5142,tmp5145,tmp5139,tmp5146), FlatMember(tmp5146,r), FlatTupleSel(r,tmp5157), FlatTupleSel(r,tmp5158), FlatTuple(tmp5157,tmp5158,tmp5159), FlatEquals(tmp5136,tmp5159) @ tmp5136 } = tmp5135, FlatDiscreteSet(tmp5168,tmp5171,tmp5165,tmp5172)
+set compare: { tmp5055==1, tmp5056==1, FlatTuple(tmp5055,tmp5056,tmp5057), tmp5058==1, tmp5059==2, FlatTuple(tmp5058,tmp5059,tmp5060), tmp5061==2, tmp5062==1, FlatTuple(tmp5061,tmp5062,tmp5063), FlatDiscreteSet(tmp5060,tmp5063,tmp5057,tmp5064), FlatMember(tmp5064,r), FlatTupleSel(r,tmp5075), FlatTupleSel(r,tmp5076), FlatTuple(tmp5075,tmp5076,tmp5077), FlatEquals(tmp5054,tmp5077) @ tmp5054 } = tmp5053, FlatDiscreteSet(tmp5083,tmp5086,tmp5089,tmp5090)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82, net.sourceforge.czt.z.impl.TupleExprImpl@602bbe82
 Passed test:animate_relations.tex:96
-set compare: { tmp5187==9999, FlatNegate(tmp5187,tmp5186), tmp5188==9999, FlatTuple(tmp5186,tmp5188,tmp5189), tmp5191==1, FlatNegate(tmp5191,tmp5190), tmp5192==1, FlatTuple(tmp5190,tmp5192,tmp5193), tmp5194==9999, tmp5196==9999, FlatNegate(tmp5196,tmp5195), FlatTuple(tmp5194,tmp5195,tmp5197), FlatDiscreteSet(tmp5193,tmp5197,tmp5189,tmp5198), FlatMember(tmp5198,r), FlatTupleSel(r,tmp5212), FlatDiscreteSet(tmp5213), FlatNot( FlatMember(tmp5213,tmp5212) ), FlatEquals(tmp5185,r) @ tmp5185 } = tmp5184, FlatDiscreteSet(tmp5227,tmp5223,tmp5219,tmp5228)
+set compare: { tmp5105==9999, FlatNegate(tmp5105,tmp5104), tmp5106==9999, FlatTuple(tmp5104,tmp5106,tmp5107), tmp5109==1, FlatNegate(tmp5109,tmp5108), tmp5110==1, FlatTuple(tmp5108,tmp5110,tmp5111), tmp5112==9999, tmp5114==9999, FlatNegate(tmp5114,tmp5113), FlatTuple(tmp5112,tmp5113,tmp5115), FlatDiscreteSet(tmp5111,tmp5115,tmp5107,tmp5116), FlatMember(tmp5116,r), FlatTupleSel(r,tmp5130), FlatDiscreteSet(tmp5131), FlatNot( FlatMember(tmp5131,tmp5130) ), FlatEquals(tmp5103,r) @ tmp5103 } = tmp5102, FlatDiscreteSet(tmp5145,tmp5141,tmp5137,tmp5146)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23, net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@600177ff, net.sourceforge.czt.z.impl.TupleExprImpl@600177ff
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f, net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f
 Passed test:animate_relations.tex:108
-set compare: { FlatDiscreteSet(tmp5231), FlatMember(tmp5231,r), FlatTupleSel(r,tmp5233), FlatDiscreteSet(tmp5234), FlatNot( FlatMember(tmp5234,tmp5233) ), FlatEquals(tmp5230,r) @ tmp5230 } = tmp5229, FlatDiscreteSet(tmp5237)
+set compare: { FlatDiscreteSet(tmp5149), FlatMember(tmp5149,r), FlatTupleSel(r,tmp5151), FlatDiscreteSet(tmp5152), FlatNot( FlatMember(tmp5152,tmp5151) ), FlatEquals(tmp5148,r) @ tmp5148 } = tmp5147, FlatDiscreteSet(tmp5155)
 Passed test:animate_relations.tex:109
-set compare: { tmp5240==1, tmp5242==1, FlatNegate(tmp5242,tmp5241), FlatTuple(tmp5240,tmp5241,tmp5243), FlatDiscreteSet(tmp5243,tmp5244), FlatMember(tmp5244,r), FlatTupleSel(r,tmp5250), tmp5251==1, FlatDiscreteSet(tmp5251,tmp5252), FlatNot( FlatMember(tmp5252,tmp5250) ), FlatEquals(tmp5239,r) @ tmp5239 } = tmp5238, FlatDiscreteSet(tmp5256)
+set compare: { tmp5158==1, tmp5160==1, FlatNegate(tmp5160,tmp5159), FlatTuple(tmp5158,tmp5159,tmp5161), FlatDiscreteSet(tmp5161,tmp5162), FlatMember(tmp5162,r), FlatTupleSel(r,tmp5168), tmp5169==1, FlatDiscreteSet(tmp5169,tmp5170), FlatNot( FlatMember(tmp5170,tmp5168) ), FlatEquals(tmp5157,r) @ tmp5157 } = tmp5156, FlatDiscreteSet(tmp5174)
 Passed test:animate_relations.tex:112
-set compare: { tmp5260==1, FlatNegate(tmp5260,tmp5259), tmp5261==1, FlatTuple(tmp5259,tmp5261,tmp5262), FlatDiscreteSet(tmp5262,tmp5263), FlatMember(tmp5263,r), FlatTupleSel(r,tmp5269), tmp5270==1, FlatDiscreteSet(tmp5270,tmp5271), FlatNot( FlatMember(tmp5271,tmp5269) ), FlatEquals(tmp5258,r) @ tmp5258 } = tmp5257, FlatDiscreteSet(tmp5278,tmp5279)
+set compare: { tmp5178==1, FlatNegate(tmp5178,tmp5177), tmp5179==1, FlatTuple(tmp5177,tmp5179,tmp5180), FlatDiscreteSet(tmp5180,tmp5181), FlatMember(tmp5181,r), FlatTupleSel(r,tmp5187), tmp5188==1, FlatDiscreteSet(tmp5188,tmp5189), FlatNot( FlatMember(tmp5189,tmp5187) ), FlatEquals(tmp5176,r) @ tmp5176 } = tmp5175, FlatDiscreteSet(tmp5196,tmp5197)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@600177ff, net.sourceforge.czt.z.impl.TupleExprImpl@600177ff
 Passed test:animate_relations.tex:113
-set compare: { tmp5282==1, tmp5283==1, FlatTuple(tmp5282,tmp5283,tmp5284), tmp5285==1, tmp5286==2, FlatTuple(tmp5285,tmp5286,tmp5287), tmp5288==1, tmp5289==3, FlatTuple(tmp5288,tmp5289,tmp5290), FlatDiscreteSet(tmp5290,tmp5287,tmp5284,tmp5291), FlatMember(tmp5291,r), FlatTupleSel(r,tmp5302), tmp5303==1, FlatDiscreteSet(tmp5303,tmp5304), FlatNot( FlatMember(tmp5304,tmp5302) ), FlatEquals(tmp5281,r) @ tmp5281 } = tmp5280, FlatDiscreteSet(tmp5308)
+set compare: { tmp5200==1, tmp5201==1, FlatTuple(tmp5200,tmp5201,tmp5202), tmp5203==1, tmp5204==2, FlatTuple(tmp5203,tmp5204,tmp5205), tmp5206==1, tmp5207==3, FlatTuple(tmp5206,tmp5207,tmp5208), FlatDiscreteSet(tmp5202,tmp5208,tmp5205,tmp5209), FlatMember(tmp5209,r), FlatTupleSel(r,tmp5220), tmp5221==1, FlatDiscreteSet(tmp5221,tmp5222), FlatNot( FlatMember(tmp5222,tmp5220) ), FlatEquals(tmp5199,r) @ tmp5199 } = tmp5198, FlatDiscreteSet(tmp5226)
 Passed test:animate_relations.tex:114
-set compare: { tmp5312==9999, FlatNegate(tmp5312,tmp5311), tmp5313==9999, FlatTuple(tmp5311,tmp5313,tmp5314), tmp5316==1, FlatNegate(tmp5316,tmp5315), tmp5317==1, FlatTuple(tmp5315,tmp5317,tmp5318), tmp5319==9999, tmp5321==9999, FlatNegate(tmp5321,tmp5320), FlatTuple(tmp5319,tmp5320,tmp5322), FlatDiscreteSet(tmp5322,tmp5314,tmp5318,tmp5323), FlatMember(tmp5323,r), FlatTupleSel(r,tmp5337), tmp5338==9999, FlatDiscreteSet(tmp5338,tmp5339), FlatNot( FlatMember(tmp5339,tmp5337) ), FlatEquals(tmp5310,r) @ tmp5310 } = tmp5309, FlatDiscreteSet(tmp5346,tmp5350,tmp5351)
+set compare: { tmp5230==9999, FlatNegate(tmp5230,tmp5229), tmp5231==9999, FlatTuple(tmp5229,tmp5231,tmp5232), tmp5234==1, FlatNegate(tmp5234,tmp5233), tmp5235==1, FlatTuple(tmp5233,tmp5235,tmp5236), tmp5237==9999, tmp5239==9999, FlatNegate(tmp5239,tmp5238), FlatTuple(tmp5237,tmp5238,tmp5240), FlatDiscreteSet(tmp5240,tmp5236,tmp5232,tmp5241), FlatMember(tmp5241,r), FlatTupleSel(r,tmp5255), tmp5256==9999, FlatDiscreteSet(tmp5256,tmp5257), FlatNot( FlatMember(tmp5257,tmp5255) ), FlatEquals(tmp5228,r) @ tmp5228 } = tmp5227, FlatDiscreteSet(tmp5264,tmp5268,tmp5269)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23, net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@600177ff, net.sourceforge.czt.z.impl.TupleExprImpl@600177ff
 Passed test:animate_relations.tex:115
-set compare: { tmp5355==9999, FlatNegate(tmp5355,tmp5354), tmp5356==9999, FlatTuple(tmp5354,tmp5356,tmp5357), tmp5359==1, FlatNegate(tmp5359,tmp5358), tmp5360==1, FlatTuple(tmp5358,tmp5360,tmp5361), tmp5362==9999, tmp5364==9999, FlatNegate(tmp5364,tmp5363), FlatTuple(tmp5362,tmp5363,tmp5365), FlatDiscreteSet(tmp5365,tmp5357,tmp5361,tmp5366), FlatMember(tmp5366,r), FlatTupleSel(r,tmp5380), tmp5382==1, FlatNegate(tmp5382,tmp5381), FlatDiscreteSet(tmp5381,tmp5383), FlatNot( FlatMember(tmp5383,tmp5380) ), FlatEquals(tmp5353,r) @ tmp5353 } = tmp5352, FlatDiscreteSet(tmp5395,tmp5391,tmp5396)
+set compare: { tmp5273==9999, FlatNegate(tmp5273,tmp5272), tmp5274==9999, FlatTuple(tmp5272,tmp5274,tmp5275), tmp5277==1, FlatNegate(tmp5277,tmp5276), tmp5278==1, FlatTuple(tmp5276,tmp5278,tmp5279), tmp5280==9999, tmp5282==9999, FlatNegate(tmp5282,tmp5281), FlatTuple(tmp5280,tmp5281,tmp5283), FlatDiscreteSet(tmp5283,tmp5279,tmp5275,tmp5284), FlatMember(tmp5284,r), FlatTupleSel(r,tmp5298), tmp5300==1, FlatNegate(tmp5300,tmp5299), FlatDiscreteSet(tmp5299,tmp5301), FlatNot( FlatMember(tmp5301,tmp5298) ), FlatEquals(tmp5271,r) @ tmp5271 } = tmp5270, FlatDiscreteSet(tmp5309,tmp5313,tmp5314)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23, net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f, net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f
 Passed test:animate_relations.tex:116
-set compare: { tmp5400==9999, FlatNegate(tmp5400,tmp5399), tmp5401==9999, FlatTuple(tmp5399,tmp5401,tmp5402), tmp5404==1, FlatNegate(tmp5404,tmp5403), tmp5405==1, FlatTuple(tmp5403,tmp5405,tmp5406), tmp5407==9999, tmp5409==9999, FlatNegate(tmp5409,tmp5408), FlatTuple(tmp5407,tmp5408,tmp5410), FlatDiscreteSet(tmp5410,tmp5406,tmp5402,tmp5411), FlatMember(tmp5411,r), FlatTupleSel(r,tmp5425), tmp5427==9999, FlatNegate(tmp5427,tmp5426), FlatDiscreteSet(tmp5426,tmp5428), FlatNot( FlatMember(tmp5428,tmp5425) ), FlatEquals(tmp5398,r) @ tmp5398 } = tmp5397, FlatDiscreteSet(tmp5440,tmp5436,tmp5441)
+set compare: { tmp5318==9999, FlatNegate(tmp5318,tmp5317), tmp5319==9999, FlatTuple(tmp5317,tmp5319,tmp5320), tmp5322==1, FlatNegate(tmp5322,tmp5321), tmp5323==1, FlatTuple(tmp5321,tmp5323,tmp5324), tmp5325==9999, tmp5327==9999, FlatNegate(tmp5327,tmp5326), FlatTuple(tmp5325,tmp5326,tmp5328), FlatDiscreteSet(tmp5324,tmp5328,tmp5320,tmp5329), FlatMember(tmp5329,r), FlatTupleSel(r,tmp5343), tmp5345==9999, FlatNegate(tmp5345,tmp5344), FlatDiscreteSet(tmp5344,tmp5346), FlatNot( FlatMember(tmp5346,tmp5343) ), FlatEquals(tmp5316,r) @ tmp5316 } = tmp5315, FlatDiscreteSet(tmp5358,tmp5354,tmp5359)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@600177ff, net.sourceforge.czt.z.impl.TupleExprImpl@600177ff
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f, net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f
 Passed test:animate_relations.tex:117
-set compare: { tmp5445==9999, FlatNegate(tmp5445,tmp5444), tmp5446==9999, FlatTuple(tmp5444,tmp5446,tmp5447), tmp5449==1, FlatNegate(tmp5449,tmp5448), tmp5450==1, FlatTuple(tmp5448,tmp5450,tmp5451), tmp5452==9999, tmp5454==9999, FlatNegate(tmp5454,tmp5453), FlatTuple(tmp5452,tmp5453,tmp5455), FlatDiscreteSet(tmp5455,tmp5451,tmp5447,tmp5456), FlatMember(tmp5456,r), FlatTupleSel(r,tmp5470), tmp5471==0, FlatDiscreteSet(tmp5471,tmp5472), FlatNot( FlatMember(tmp5472,tmp5470) ), FlatEquals(tmp5443,r) @ tmp5443 } = tmp5442, FlatDiscreteSet(tmp5483,tmp5479,tmp5487,tmp5488)
+set compare: { tmp5363==9999, FlatNegate(tmp5363,tmp5362), tmp5364==9999, FlatTuple(tmp5362,tmp5364,tmp5365), tmp5367==1, FlatNegate(tmp5367,tmp5366), tmp5368==1, FlatTuple(tmp5366,tmp5368,tmp5369), tmp5370==9999, tmp5372==9999, FlatNegate(tmp5372,tmp5371), FlatTuple(tmp5370,tmp5371,tmp5373), FlatDiscreteSet(tmp5369,tmp5365,tmp5373,tmp5374), FlatMember(tmp5374,r), FlatTupleSel(r,tmp5388), tmp5389==0, FlatDiscreteSet(tmp5389,tmp5390), FlatNot( FlatMember(tmp5390,tmp5388) ), FlatEquals(tmp5361,r) @ tmp5361 } = tmp5360, FlatDiscreteSet(tmp5397,tmp5405,tmp5401,tmp5406)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23, net.sourceforge.czt.z.impl.TupleExprImpl@4b685e23
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@600177ff, net.sourceforge.czt.z.impl.TupleExprImpl@600177ff
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f, net.sourceforge.czt.z.impl.TupleExprImpl@74b5d81f
 Passed test:animate_relations.tex:118
-set compare: { { tmp5494==1, tmp5495==5, FlatRangeSet(tmp5494,tmp5495,tmp5493), FlatMember(tmp5493,x), FlatMember(tmp5493,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5499), FlatEquals(tmp5492,tmp5499) @ tmp5492 } = tmp5491, FlatMember(tmp5491,r), FlatTupleSel(r,tmp5511), tmp5512==2, FlatDiscreteSet(tmp5512,tmp5513), FlatNot( FlatMember(tmp5513,tmp5511) ), FlatEquals(tmp5490,r) @ tmp5490 } = tmp5489, FlatDiscreteSet(tmp5531,tmp5534,tmp5537,tmp5525,tmp5528,tmp5519,tmp5522,tmp5538)
+set compare: { { tmp5412==1, tmp5413==5, FlatRangeSet(tmp5412,tmp5413,tmp5411), FlatMember(tmp5411,x), FlatMember(tmp5411,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5417), FlatEquals(tmp5410,tmp5417) @ tmp5410 } = tmp5409, FlatMember(tmp5409,r), FlatTupleSel(r,tmp5429), tmp5430==2, FlatDiscreteSet(tmp5430,tmp5431), FlatNot( FlatMember(tmp5431,tmp5429) ), FlatEquals(tmp5408,r) @ tmp5408 } = tmp5407, FlatDiscreteSet(tmp5437,tmp5449,tmp5446,tmp5455,tmp5440,tmp5452,tmp5443,tmp5456)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf, net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
@@ -215,87 +203,87 @@ set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603b3320, net.sour
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f, net.sourceforge.czt.z.impl.TupleExprImpl@603ba77f
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6049bf00, net.sourceforge.czt.z.impl.TupleExprImpl@6049bf00
 Passed test:animate_relations.tex:119
-set compare: { tmp5541==1, tmp5543==1, tmp5544==5, FlatRangeSet(tmp5543,tmp5544,tmp5542), FlatTuple(tmp5541,tmp5542,tmp5545), tmp5546==2, tmp5548==6, tmp5549==10, FlatRangeSet(tmp5548,tmp5549,tmp5547), FlatTuple(tmp5546,tmp5547,tmp5550), FlatDiscreteSet(tmp5550,tmp5545,tmp5551), FlatMember(tmp5551,r), FlatTupleSel(r,tmp5563), tmp5564==2, FlatDiscreteSet(tmp5564,tmp5565), FlatNot( FlatMember(tmp5565,tmp5563) ), FlatEquals(tmp5540,r) @ tmp5540 } = tmp5539, FlatDiscreteSet(tmp5573,tmp5574)
-set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@9bedb4b8, net.sourceforge.czt.z.impl.TupleExprImpl@7f077607
-set compare: FlatRangeSet(tmp5543,tmp5544,tmp5542), FlatRangeSet(tmp5571,tmp5572,tmp5570)
-set compare members: 1, 1
-set compare members: 2, 2
-set compare members: 3, 3
-set compare members: 4, 4
-set compare members: 5, 5
+set compare: { tmp5459==1, tmp5461==1, tmp5462==5, FlatRangeSet(tmp5461,tmp5462,tmp5460), FlatTuple(tmp5459,tmp5460,tmp5463), tmp5464==2, tmp5466==6, tmp5467==10, FlatRangeSet(tmp5466,tmp5467,tmp5465), FlatTuple(tmp5464,tmp5465,tmp5468), FlatDiscreteSet(tmp5468,tmp5463,tmp5469), FlatMember(tmp5469,r), FlatTupleSel(r,tmp5481), tmp5482==2, FlatDiscreteSet(tmp5482,tmp5483), FlatNot( FlatMember(tmp5483,tmp5481) ), FlatEquals(tmp5458,r) @ tmp5458 } = tmp5457, FlatDiscreteSet(tmp5491,tmp5492)
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@81d96baa, net.sourceforge.czt.z.impl.TupleExprImpl@99238697
+set compare: FlatRangeSet(tmp5461,tmp5462,tmp5460), FlatRangeSet(tmp5489,tmp5490,tmp5488)
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7954caf, net.sourceforge.czt.z.impl.NumExprImpl@7954caf
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955070, net.sourceforge.czt.z.impl.NumExprImpl@7955070
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955431, net.sourceforge.czt.z.impl.NumExprImpl@7955431
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@79557f2, net.sourceforge.czt.z.impl.NumExprImpl@79557f2
+set compare members: net.sourceforge.czt.z.impl.NumExprImpl@7955bb3, net.sourceforge.czt.z.impl.NumExprImpl@7955bb3
 Passed test:animate_relations.tex:120
-set compare: { { tmp5580==1, tmp5581==4, FlatRangeSet(tmp5580,tmp5581,tmp5579), FlatMember(tmp5579,x), FlatTuple(x,x,tmp5585), FlatEquals(tmp5578,tmp5585) @ tmp5578 } = tmp5577, FlatMember(tmp5577,r), FlatTupleSel(r,tmp5597), tmp5598==2, FlatDiscreteSet(tmp5598,tmp5599), FlatNot( FlatMember(tmp5599,tmp5597) ), FlatEquals(tmp5576,r) @ tmp5576 } = tmp5575, FlatDiscreteSet(tmp5611,tmp5605,tmp5608,tmp5612)
+set compare: { { tmp5498==1, tmp5499==4, FlatRangeSet(tmp5498,tmp5499,tmp5497), FlatMember(tmp5497,x), FlatTuple(x,x,tmp5503), FlatEquals(tmp5496,tmp5503) @ tmp5496 } = tmp5495, FlatMember(tmp5495,r), FlatTupleSel(r,tmp5515), tmp5516==2, FlatDiscreteSet(tmp5516,tmp5517), FlatNot( FlatMember(tmp5517,tmp5515) ), FlatEquals(tmp5494,r) @ tmp5494 } = tmp5493, FlatDiscreteSet(tmp5523,tmp5526,tmp5529,tmp5530)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603abec1, net.sourceforge.czt.z.impl.TupleExprImpl@603abec1
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60494aa1, net.sourceforge.czt.z.impl.TupleExprImpl@60494aa1
 Passed test:animate_relations.tex:121
-set compare: { { tmp5618==1, tmp5619==5, FlatRangeSet(tmp5618,tmp5619,tmp5617), FlatMember(tmp5617,x), FlatMult(x,x,tmp5623), FlatTuple(x,tmp5623,tmp5624), FlatEquals(tmp5616,tmp5624) @ tmp5616 } = tmp5615, FlatMember(tmp5615,r), FlatTupleSel(r,tmp5639), tmp5640==2, FlatDiscreteSet(tmp5640,tmp5641), FlatNot( FlatMember(tmp5641,tmp5639) ), FlatEquals(tmp5614,r) @ tmp5614 } = tmp5613, FlatDiscreteSet(tmp5650,tmp5647,tmp5656,tmp5653,tmp5657)
+set compare: { { tmp5536==1, tmp5537==5, FlatRangeSet(tmp5536,tmp5537,tmp5535), FlatMember(tmp5535,x), FlatMult(x,x,tmp5541), FlatTuple(x,tmp5541,tmp5542), FlatEquals(tmp5534,tmp5542) @ tmp5534 } = tmp5533, FlatMember(tmp5533,r), FlatTupleSel(r,tmp5557), tmp5558==2, FlatDiscreteSet(tmp5558,tmp5559), FlatNot( FlatMember(tmp5559,tmp5557) ), FlatEquals(tmp5532,r) @ tmp5532 } = tmp5531, FlatDiscreteSet(tmp5571,tmp5565,tmp5574,tmp5568,tmp5575)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:122
-set compare: { { tmp5663==1, tmp5664==5, FlatRangeSet(tmp5663,tmp5664,tmp5662), FlatMember(tmp5662,x), FlatMember(tmp5662,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5668), FlatEquals(tmp5661,tmp5668) @ tmp5661 } = tmp5660, FlatMember(tmp5660,r), FlatTupleSel(r,tmp5680), tmp5682==2, tmp5683==4, FlatRangeSet(tmp5682,tmp5683,tmp5681), FlatNot( FlatMember(tmp5681,tmp5680) ), FlatEquals(tmp5659,r) @ tmp5659 } = tmp5658, FlatDiscreteSet(tmp5696,tmp5699,tmp5690,tmp5693,tmp5700)
+set compare: { { tmp5581==1, tmp5582==5, FlatRangeSet(tmp5581,tmp5582,tmp5580), FlatMember(tmp5580,x), FlatMember(tmp5580,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5586), FlatEquals(tmp5579,tmp5586) @ tmp5579 } = tmp5578, FlatMember(tmp5578,r), FlatTupleSel(r,tmp5598), tmp5600==2, tmp5601==4, FlatRangeSet(tmp5600,tmp5601,tmp5599), FlatNot( FlatMember(tmp5599,tmp5598) ), FlatEquals(tmp5577,r) @ tmp5577 } = tmp5576, FlatDiscreteSet(tmp5617,tmp5614,tmp5611,tmp5608,tmp5618)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60, net.sourceforge.czt.z.impl.TupleExprImpl@601e1b60
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf, net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f787d, net.sourceforge.czt.z.impl.TupleExprImpl@601f787d
 Passed test:animate_relations.tex:125
-set compare: { { tmp5706==1, tmp5707==5, FlatRangeSet(tmp5706,tmp5707,tmp5705), FlatMember(tmp5705,x), FlatTuple(x,x,tmp5711), FlatEquals(tmp5704,tmp5711) @ tmp5704 } = tmp5703, FlatMember(tmp5703,r), FlatTupleSel(r,tmp5723), tmp5725==2, tmp5726==4, FlatRangeSet(tmp5725,tmp5726,tmp5724), FlatNot( FlatMember(tmp5724,tmp5723) ), FlatEquals(tmp5702,r) @ tmp5702 } = tmp5701, FlatDiscreteSet(tmp5736,tmp5733,tmp5737)
+set compare: { { tmp5624==1, tmp5625==5, FlatRangeSet(tmp5624,tmp5625,tmp5623), FlatMember(tmp5623,x), FlatTuple(x,x,tmp5629), FlatEquals(tmp5622,tmp5629) @ tmp5622 } = tmp5621, FlatMember(tmp5621,r), FlatTupleSel(r,tmp5641), tmp5643==2, tmp5644==4, FlatRangeSet(tmp5643,tmp5644,tmp5642), FlatNot( FlatMember(tmp5642,tmp5641) ), FlatEquals(tmp5620,r) @ tmp5620 } = tmp5619, FlatDiscreteSet(tmp5654,tmp5651,tmp5655)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6057d681, net.sourceforge.czt.z.impl.TupleExprImpl@6057d681
 Passed test:animate_relations.tex:126
-set compare: { { tmp5743==1, tmp5744==5, FlatRangeSet(tmp5743,tmp5744,tmp5742), FlatMember(tmp5742,x), FlatMult(x,x,tmp5748), FlatTuple(x,tmp5748,tmp5749), FlatEquals(tmp5741,tmp5749) @ tmp5741 } = tmp5740, FlatMember(tmp5740,r), FlatTupleSel(r,tmp5764), tmp5766==2, tmp5767==4, FlatRangeSet(tmp5766,tmp5767,tmp5765), FlatNot( FlatMember(tmp5765,tmp5764) ), FlatEquals(tmp5739,r) @ tmp5739 } = tmp5738, FlatDiscreteSet(tmp5774,tmp5777,tmp5778)
+set compare: { { tmp5661==1, tmp5662==5, FlatRangeSet(tmp5661,tmp5662,tmp5660), FlatMember(tmp5660,x), FlatMult(x,x,tmp5666), FlatTuple(x,tmp5666,tmp5667), FlatEquals(tmp5659,tmp5667) @ tmp5659 } = tmp5658, FlatMember(tmp5658,r), FlatTupleSel(r,tmp5682), tmp5684==2, tmp5685==4, FlatRangeSet(tmp5684,tmp5685,tmp5683), FlatNot( FlatMember(tmp5683,tmp5682) ), FlatEquals(tmp5657,r) @ tmp5657 } = tmp5656, FlatDiscreteSet(tmp5692,tmp5695,tmp5696)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:127
-set compare: { { tmp5784==1, tmp5785==5, FlatRangeSet(tmp5784,tmp5785,tmp5783), FlatMember(tmp5783,x), FlatMember(tmp5783,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5789), FlatEquals(tmp5782,tmp5789) @ tmp5782 } = tmp5781, FlatMember(tmp5781,r), FlatTupleSel(r,tmp5801), tmp5803==0, tmp5804==7, FlatRangeSet(tmp5803,tmp5804,tmp5802), FlatNot( FlatMember(tmp5802,tmp5801) ), FlatEquals(tmp5780,r) @ tmp5780 } = tmp5779, FlatDiscreteSet(tmp5809)
+set compare: { { tmp5702==1, tmp5703==5, FlatRangeSet(tmp5702,tmp5703,tmp5701), FlatMember(tmp5701,x), FlatMember(tmp5701,y), FlatLessThan(x,y), FlatTuple(x,y,tmp5707), FlatEquals(tmp5700,tmp5707) @ tmp5700 } = tmp5699, FlatMember(tmp5699,r), FlatTupleSel(r,tmp5719), tmp5721==0, tmp5722==7, FlatRangeSet(tmp5721,tmp5722,tmp5720), FlatNot( FlatMember(tmp5720,tmp5719) ), FlatEquals(tmp5698,r) @ tmp5698 } = tmp5697, FlatDiscreteSet(tmp5727)
 Passed test:animate_relations.tex:128
-set compare: { tmp5812==1, tmp5813==1, FlatTuple(tmp5812,tmp5813,tmp5814), tmp5815==2, tmp5816==2, FlatTuple(tmp5815,tmp5816,tmp5817), tmp5818==3, tmp5819==3, FlatTuple(tmp5818,tmp5819,tmp5820), tmp5821==4, tmp5822==4, FlatTuple(tmp5821,tmp5822,tmp5823), tmp5824==5, tmp5825==5, FlatTuple(tmp5824,tmp5825,tmp5826), FlatDiscreteSet(tmp5814,tmp5820,tmp5823,tmp5826,tmp5817,tmp5827), FlatMember(tmp5827,r), FlatTupleSel(r,tmp5844), tmp5846==0, tmp5847==7, FlatRangeSet(tmp5846,tmp5847,tmp5845), FlatNot( FlatMember(tmp5845,tmp5844) ), FlatEquals(tmp5811,r) @ tmp5811 } = tmp5810, FlatDiscreteSet(tmp5852)
+set compare: { tmp5730==1, tmp5731==1, FlatTuple(tmp5730,tmp5731,tmp5732), tmp5733==2, tmp5734==2, FlatTuple(tmp5733,tmp5734,tmp5735), tmp5736==3, tmp5737==3, FlatTuple(tmp5736,tmp5737,tmp5738), tmp5739==4, tmp5740==4, FlatTuple(tmp5739,tmp5740,tmp5741), tmp5742==5, tmp5743==5, FlatTuple(tmp5742,tmp5743,tmp5744), FlatDiscreteSet(tmp5738,tmp5735,tmp5732,tmp5741,tmp5744,tmp5745), FlatMember(tmp5745,r), FlatTupleSel(r,tmp5762), tmp5764==0, tmp5765==7, FlatRangeSet(tmp5764,tmp5765,tmp5763), FlatNot( FlatMember(tmp5763,tmp5762) ), FlatEquals(tmp5729,r) @ tmp5729 } = tmp5728, FlatDiscreteSet(tmp5770)
 Passed test:animate_relations.tex:129
-set compare: { { tmp5858==1, tmp5859==5, FlatRangeSet(tmp5858,tmp5859,tmp5857), FlatMember(tmp5857,x), FlatMult(x,x,tmp5863), FlatTuple(x,tmp5863,tmp5864), FlatEquals(tmp5856,tmp5864) @ tmp5856 } = tmp5855, FlatMember(tmp5855,r), FlatTupleSel(r,tmp5879), tmp5881==0, tmp5882==7, FlatRangeSet(tmp5881,tmp5882,tmp5880), FlatNot( FlatMember(tmp5880,tmp5879) ), FlatEquals(tmp5854,r) @ tmp5854 } = tmp5853, FlatDiscreteSet(tmp5887)
+set compare: { { tmp5776==1, tmp5777==5, FlatRangeSet(tmp5776,tmp5777,tmp5775), FlatMember(tmp5775,x), FlatMult(x,x,tmp5781), FlatTuple(x,tmp5781,tmp5782), FlatEquals(tmp5774,tmp5782) @ tmp5774 } = tmp5773, FlatMember(tmp5773,r), FlatTupleSel(r,tmp5797), tmp5799==0, tmp5800==7, FlatRangeSet(tmp5799,tmp5800,tmp5798), FlatNot( FlatMember(tmp5798,tmp5797) ), FlatEquals(tmp5772,r) @ tmp5772 } = tmp5771, FlatDiscreteSet(tmp5805)
 Passed test:animate_relations.tex:130
-set compare: { { tmp5894==2, FlatNegate(tmp5894,tmp5893), tmp5895==10, FlatRangeSet(tmp5893,tmp5895,tmp5892), FlatMember(tmp5892,x), tmp5901==2, FlatMult(x,tmp5901,tmp5900), FlatTuple(x,tmp5900,tmp5902), FlatEquals(tmp5891,tmp5902) @ tmp5891 } = tmp5890, FlatMember(tmp5890,r), FlatTupleSel(r,tmp5922), tmp5924==0, FlatRangeSet(tmp5924,-,tmp5923), FlatNot( FlatMember(tmp5923,tmp5922) ), FlatEquals(tmp5889,r) @ tmp5889 } = tmp5888, FlatDiscreteSet(tmp5932,tmp5937,tmp5938)
+set compare: { { tmp5812==2, FlatNegate(tmp5812,tmp5811), tmp5813==10, FlatRangeSet(tmp5811,tmp5813,tmp5810), FlatMember(tmp5810,x), tmp5819==2, FlatMult(x,tmp5819,tmp5818), FlatTuple(x,tmp5818,tmp5820), FlatEquals(tmp5809,tmp5820) @ tmp5809 } = tmp5808, FlatMember(tmp5808,r), FlatTupleSel(r,tmp5840), tmp5842==0, FlatRangeSet(tmp5842,-,tmp5841), FlatNot( FlatMember(tmp5841,tmp5840) ), FlatEquals(tmp5807,r) @ tmp5807 } = tmp5806, FlatDiscreteSet(tmp5855,tmp5850,tmp5856)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@5ff11aa3, net.sourceforge.czt.z.impl.TupleExprImpl@5ff11aa3
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60001ae2, net.sourceforge.czt.z.impl.TupleExprImpl@60001ae2
 Passed test:animate_relations.tex:132
-set compare: { { tmp5944==0, FlatRangeSet(tmp5944,-,tmp5943), FlatMember(tmp5943,x), tmp5948==2, FlatMult(x,tmp5948,tmp5947), FlatTuple(x,tmp5947,tmp5949), FlatEquals(tmp5942,tmp5949) @ tmp5942 } = tmp5941, FlatMember(tmp5941,r), FlatTupleSel(r,tmp5965), tmp5967==1, FlatRangeSet(tmp5967,-,tmp5966), FlatNot( FlatMember(tmp5966,tmp5965) ), FlatEquals(tmp5940,r) @ tmp5940 } = tmp5939, FlatDiscreteSet(tmp5973,tmp5974)
-set compare: FlatUnion(tmp5976,tmp6016,tmp5975), { tmp6020==1, tmp6021==5, FlatRangeSet(tmp6020,tmp6021,tmp6019), FlatMember(tmp6019,x), FlatMult(x,x,tmp6025), FlatTuple(x,tmp6025,tmp6026), FlatEquals(tmp6018,tmp6026) @ tmp6018 } = tmp6017
+set compare: { { tmp5862==0, FlatRangeSet(tmp5862,-,tmp5861), FlatMember(tmp5861,x), tmp5866==2, FlatMult(x,tmp5866,tmp5865), FlatTuple(x,tmp5865,tmp5867), FlatEquals(tmp5860,tmp5867) @ tmp5860 } = tmp5859, FlatMember(tmp5859,r), FlatTupleSel(r,tmp5883), tmp5885==1, FlatRangeSet(tmp5885,-,tmp5884), FlatNot( FlatMember(tmp5884,tmp5883) ), FlatEquals(tmp5858,r) @ tmp5858 } = tmp5857, FlatDiscreteSet(tmp5891,tmp5892)
+set compare: FlatUnion(tmp5894,tmp5934,tmp5893), { tmp5938==1, tmp5939==5, FlatRangeSet(tmp5938,tmp5939,tmp5937), FlatMember(tmp5937,x), FlatMult(x,x,tmp5943), FlatTuple(x,tmp5943,tmp5944), FlatEquals(tmp5936,tmp5944) @ tmp5936 } = tmp5935
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:137
-set compare: FlatUnion(tmp6030,tmp6092,tmp6029), { tmp6107==1, tmp6108==5, FlatRangeSet(tmp6107,tmp6108,tmp6106), FlatMember(tmp6106,x), FlatMult(x,x,tmp6112), FlatTuple(x,tmp6112,tmp6113), FlatEquals(tmp6105,tmp6113) @ tmp6105 } = tmp6104
+set compare: FlatUnion(tmp5948,tmp6010,tmp5947), { tmp6025==1, tmp6026==5, FlatRangeSet(tmp6025,tmp6026,tmp6024), FlatMember(tmp6024,x), FlatMult(x,x,tmp6030), FlatTuple(x,tmp6030,tmp6031), FlatEquals(tmp6023,tmp6031) @ tmp6023 } = tmp6022
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:138
-set compare: FlatUnion(tmp6117,tmp6201,tmp6116), { tmp6216==1, tmp6217==5, FlatRangeSet(tmp6216,tmp6217,tmp6215), FlatMember(tmp6215,x), FlatMult(x,x,tmp6221), FlatTuple(x,tmp6221,tmp6222), FlatEquals(tmp6214,tmp6222) @ tmp6214 } = tmp6213
+set compare: FlatUnion(tmp6035,tmp6119,tmp6034), { tmp6134==1, tmp6135==5, FlatRangeSet(tmp6134,tmp6135,tmp6133), FlatMember(tmp6133,x), FlatMult(x,x,tmp6139), FlatTuple(x,tmp6139,tmp6140), FlatEquals(tmp6132,tmp6140) @ tmp6132 } = tmp6131
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:139
-set compare: FlatUnion(tmp6226,tmp6281,tmp6225), FlatDiscreteSet(tmp6296,tmp6287,tmp6290,tmp6284,tmp6293,tmp6297)
+set compare: FlatUnion(tmp6144,tmp6199,tmp6143), FlatDiscreteSet(tmp6202,tmp6205,tmp6214,tmp6211,tmp6208,tmp6215)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602fd5d9, net.sourceforge.czt.z.impl.TupleExprImpl@602fd5d9
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:140
-set compare: FlatUnion(tmp6299,tmp6364,tmp6298), FlatDiscreteSet(tmp6373,tmp6367,tmp6370,tmp6379,tmp6376,tmp6380)
+set compare: FlatUnion(tmp6217,tmp6282,tmp6216), FlatDiscreteSet(tmp6297,tmp6288,tmp6285,tmp6291,tmp6294,tmp6298)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602fd5d9, net.sourceforge.czt.z.impl.TupleExprImpl@602fd5d9
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15, net.sourceforge.czt.z.impl.TupleExprImpl@604ebf15
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sourceforge.czt.z.impl.TupleExprImpl@6060eded
 Passed test:animate_relations.tex:141
-set compare: FlatUnion(tmp6382,tmp6437,tmp6381), FlatDiscreteSet(tmp6440,tmp6449,tmp6446,tmp6452,tmp6455,tmp6443,tmp6456)
+set compare: FlatUnion(tmp6300,tmp6355,tmp6299), FlatDiscreteSet(tmp6373,tmp6364,tmp6367,tmp6370,tmp6358,tmp6361,tmp6374)
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601da701, net.sourceforge.czt.z.impl.TupleExprImpl@601da701
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f, net.sourceforge.czt.z.impl.TupleExprImpl@602d1b9f
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb, net.sourceforge.czt.z.impl.TupleExprImpl@603d78fb
@@ -304,42 +292,42 @@ set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@6060eded, net.sour
 set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60b8352d, net.sourceforge.czt.z.impl.TupleExprImpl@60b8352d
 Passed test:animate_relations.tex:142
 Passed test:animate_relations.tex:155
-set compare: { FlatTupleSel(p,tmp6486), FlatMember(tmp6486,x), FlatTupleSel(q,tmp6488), FlatMember(tmp6488,x), FlatEquals(tmp6485,x) @ tmp6485 } = tmp6484, FlatDiscreteSet(tmp6490)
-set compare: { FlatTupleSel(p,tmp6486), FlatMember(tmp6486,x), FlatTupleSel(q,tmp6488), FlatMember(tmp6488,x), FlatEquals(tmp6485,x) @ tmp6485 } = tmp6484, FlatDiscreteSet(tmp6490)
+set compare: { FlatTupleSel(p,tmp6404), FlatMember(tmp6404,x), FlatTupleSel(q,tmp6406), FlatMember(tmp6406,x), FlatEquals(tmp6403,x) @ tmp6403 } = tmp6402, FlatDiscreteSet(tmp6408)
+set compare: { FlatTupleSel(p,tmp6404), FlatMember(tmp6404,x), FlatTupleSel(q,tmp6406), FlatMember(tmp6406,x), FlatEquals(tmp6403,x) @ tmp6403 } = tmp6402, FlatDiscreteSet(tmp6408)
 Passed test:animate_relations.tex:156
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
-set compare: { FlatTupleSel(p,tmp6509), FlatMember(tmp6509,x), FlatTupleSel(q,tmp6511), FlatMember(tmp6511,x), FlatEquals(tmp6508,x) @ tmp6508 } = tmp6507, FlatDiscreteSet(tmp6513)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
+set compare: { FlatTupleSel(p,tmp6427), FlatMember(tmp6427,x), FlatTupleSel(q,tmp6429), FlatMember(tmp6429,x), FlatEquals(tmp6426,x) @ tmp6426 } = tmp6425, FlatDiscreteSet(tmp6431)
 Passed test:animate_relations.tex:157
-set compare: { FlatTupleSel(p,tmp6529), FlatMember(tmp6529,x), FlatTupleSel(q,tmp6531), FlatMember(tmp6531,x), FlatEquals(tmp6528,x) @ tmp6528 } = tmp6527, FlatDiscreteSet(tmp6533)
+set compare: { FlatTupleSel(p,tmp6447), FlatMember(tmp6447,x), FlatTupleSel(q,tmp6449), FlatMember(tmp6449,x), FlatEquals(tmp6446,x) @ tmp6446 } = tmp6445, FlatDiscreteSet(tmp6451)
 Passed test:animate_relations.tex:158
-set compare: { { FlatDiscreteSet(tmp6546), FlatMember(tmp6546,x), FlatTupleSel(x,tmp6548), FlatEquals(tmp6545,tmp6548) @ tmp6545 } = tmp6544, FlatMember(tmp6544,s), FlatRangeSet(-,-,tmp6556), FlatMember(tmp6556,x), FlatMember(s,x), FlatEquals(tmp6543,x) @ tmp6543 } = tmp6542, FlatDiscreteSet(tmp6558)
+set compare: { { FlatDiscreteSet(tmp6464), FlatMember(tmp6464,x), FlatTupleSel(x,tmp6466), FlatEquals(tmp6463,tmp6466) @ tmp6463 } = tmp6462, FlatMember(tmp6462,s), FlatRangeSet(-,-,tmp6474), FlatMember(tmp6474,x), FlatMember(s,x), FlatEquals(tmp6461,x) @ tmp6461 } = tmp6460, FlatDiscreteSet(tmp6476)
 Passed test:animate_relations.tex:160
-set compare: { { FlatDiscreteSet(tmp6571), FlatMember(tmp6571,x), FlatTupleSel(x,tmp6573), FlatEquals(tmp6570,tmp6573) @ tmp6570 } = tmp6569, FlatMember(tmp6569,s), FlatRangeSet(-,-,tmp6581), FlatMember(tmp6581,x), FlatMember(s,x), FlatEquals(tmp6568,x) @ tmp6568 } = tmp6567, FlatDiscreteSet(tmp6583,tmp6584)
-set compare: { { tmp6603==1, tmp6604==1, tmp6605==3, tmp6606==5, FlatDiscreteSet(tmp6604,tmp6606,tmp6605,tmp6607), FlatTuple(tmp6603,tmp6607,tmp6608), FlatDiscreteSet(tmp6608,tmp6609), FlatMember(tmp6609,x), FlatTupleSel(x,tmp6617), FlatEquals(tmp6602,tmp6617) @ tmp6602 } = tmp6601, FlatMember(tmp6601,s), FlatRangeSet(-,-,tmp6637), FlatMember(tmp6637,x), FlatMember(s,x), FlatEquals(tmp6600,x) @ tmp6600 } = tmp6599, { tmp6642==1, tmp6643==5, FlatRangeSet(tmp6642,tmp6643,tmp6641), FlatMember(tmp6641,x), tmp6647==2, tmp6648==4, FlatDiscreteSet(tmp6648,tmp6647,tmp6649), FlatNot( FlatMember(tmp6649,x) ), FlatEquals(tmp6640,x) @ tmp6640 } = tmp6639
-set compare: { FlatTupleSel(p,tmp6668), FlatMember(tmp6668,x), FlatTupleSel(q,tmp6670), FlatMember(tmp6670,x), FlatEquals(tmp6667,x) @ tmp6667 } = tmp6666, FlatDiscreteSet(tmp6672)
-set compare: { FlatTupleSel(p,tmp6668), FlatMember(tmp6668,x), FlatTupleSel(q,tmp6670), FlatMember(tmp6670,x), FlatEquals(tmp6667,x) @ tmp6667 } = tmp6666, FlatDiscreteSet(tmp6672)
-set compare: { { tmp6677==1, tmp6678==1, tmp6679==3, tmp6680==5, FlatDiscreteSet(tmp6679,tmp6680,tmp6678,tmp6681), FlatTuple(tmp6677,tmp6681,tmp6682), tmp6683==3, tmp6684==2, tmp6685==4, tmp6686==6, FlatDiscreteSet(tmp6685,tmp6686,tmp6684,tmp6687), FlatTuple(tmp6683,tmp6687,tmp6688), FlatDiscreteSet(tmp6682,tmp6688,tmp6689), FlatMember(tmp6689,x), FlatTupleSel(x,tmp6703), FlatEquals(tmp6676,tmp6703) @ tmp6676 } = tmp6675, FlatMember(tmp6675,s), FlatRangeSet(-,-,tmp6735), FlatMember(tmp6735,x), FlatMember(s,x), FlatEquals(tmp6674,x) @ tmp6674 } = tmp6673, FlatRangeSet(tmp6738,tmp6739,tmp6737)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { FlatTupleSel(p,tmp6758), FlatMember(tmp6758,x), FlatTupleSel(q,tmp6760), FlatMember(tmp6760,x), FlatEquals(tmp6757,x) @ tmp6757 } = tmp6756, FlatDiscreteSet(tmp6762)
-set compare: { { tmp6767==1, tmp6768==1, tmp6769==3, tmp6770==5, FlatDiscreteSet(tmp6769,tmp6770,tmp6768,tmp6771), FlatTuple(tmp6767,tmp6771,tmp6772), tmp6773==3, tmp6774==2, tmp6775==4, tmp6776==6, FlatDiscreteSet(tmp6776,tmp6774,tmp6775,tmp6777), FlatTuple(tmp6773,tmp6777,tmp6778), tmp6779==5, FlatDiscreteSet(tmp6780), FlatTuple(tmp6779,tmp6780,tmp6781), FlatDiscreteSet(tmp6781,tmp6778,tmp6772,tmp6782), FlatMember(tmp6782,x), FlatTupleSel(x,tmp6799), FlatEquals(tmp6766,tmp6799) @ tmp6766 } = tmp6765, FlatMember(tmp6765,s), FlatRangeSet(-,-,tmp6837), FlatMember(tmp6837,x), FlatMember(s,x), FlatEquals(tmp6764,x) @ tmp6764 } = tmp6763, FlatRangeSet(tmp6840,tmp6841,tmp6839)
+set compare: { { FlatDiscreteSet(tmp6489), FlatMember(tmp6489,x), FlatTupleSel(x,tmp6491), FlatEquals(tmp6488,tmp6491) @ tmp6488 } = tmp6487, FlatMember(tmp6487,s), FlatRangeSet(-,-,tmp6499), FlatMember(tmp6499,x), FlatMember(s,x), FlatEquals(tmp6486,x) @ tmp6486 } = tmp6485, FlatDiscreteSet(tmp6501,tmp6502)
+set compare: { { tmp6521==1, tmp6522==1, tmp6523==3, tmp6524==5, FlatDiscreteSet(tmp6524,tmp6522,tmp6523,tmp6525), FlatTuple(tmp6521,tmp6525,tmp6526), FlatDiscreteSet(tmp6526,tmp6527), FlatMember(tmp6527,x), FlatTupleSel(x,tmp6535), FlatEquals(tmp6520,tmp6535) @ tmp6520 } = tmp6519, FlatMember(tmp6519,s), FlatRangeSet(-,-,tmp6555), FlatMember(tmp6555,x), FlatMember(s,x), FlatEquals(tmp6518,x) @ tmp6518 } = tmp6517, { tmp6560==1, tmp6561==5, FlatRangeSet(tmp6560,tmp6561,tmp6559), FlatMember(tmp6559,x), tmp6565==2, tmp6566==4, FlatDiscreteSet(tmp6565,tmp6566,tmp6567), FlatNot( FlatMember(tmp6567,x) ), FlatEquals(tmp6558,x) @ tmp6558 } = tmp6557
+set compare: { FlatTupleSel(p,tmp6586), FlatMember(tmp6586,x), FlatTupleSel(q,tmp6588), FlatMember(tmp6588,x), FlatEquals(tmp6585,x) @ tmp6585 } = tmp6584, FlatDiscreteSet(tmp6590)
+set compare: { FlatTupleSel(p,tmp6586), FlatMember(tmp6586,x), FlatTupleSel(q,tmp6588), FlatMember(tmp6588,x), FlatEquals(tmp6585,x) @ tmp6585 } = tmp6584, FlatDiscreteSet(tmp6590)
+set compare: { { tmp6595==1, tmp6596==1, tmp6597==3, tmp6598==5, FlatDiscreteSet(tmp6598,tmp6597,tmp6596,tmp6599), FlatTuple(tmp6595,tmp6599,tmp6600), tmp6601==3, tmp6602==2, tmp6603==4, tmp6604==6, FlatDiscreteSet(tmp6604,tmp6603,tmp6602,tmp6605), FlatTuple(tmp6601,tmp6605,tmp6606), FlatDiscreteSet(tmp6606,tmp6600,tmp6607), FlatMember(tmp6607,x), FlatTupleSel(x,tmp6621), FlatEquals(tmp6594,tmp6621) @ tmp6594 } = tmp6593, FlatMember(tmp6593,s), FlatRangeSet(-,-,tmp6653), FlatMember(tmp6653,x), FlatMember(s,x), FlatEquals(tmp6592,x) @ tmp6592 } = tmp6591, FlatRangeSet(tmp6656,tmp6657,tmp6655)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { FlatTupleSel(p,tmp6676), FlatMember(tmp6676,x), FlatTupleSel(q,tmp6678), FlatMember(tmp6678,x), FlatEquals(tmp6675,x) @ tmp6675 } = tmp6674, FlatDiscreteSet(tmp6680)
+set compare: { { tmp6685==1, tmp6686==1, tmp6687==3, tmp6688==5, FlatDiscreteSet(tmp6688,tmp6686,tmp6687,tmp6689), FlatTuple(tmp6685,tmp6689,tmp6690), tmp6691==3, tmp6692==2, tmp6693==4, tmp6694==6, FlatDiscreteSet(tmp6694,tmp6692,tmp6693,tmp6695), FlatTuple(tmp6691,tmp6695,tmp6696), tmp6697==5, FlatDiscreteSet(tmp6698), FlatTuple(tmp6697,tmp6698,tmp6699), FlatDiscreteSet(tmp6696,tmp6699,tmp6690,tmp6700), FlatMember(tmp6700,x), FlatTupleSel(x,tmp6717), FlatEquals(tmp6684,tmp6717) @ tmp6684 } = tmp6683, FlatMember(tmp6683,s), FlatRangeSet(-,-,tmp6755), FlatMember(tmp6755,x), FlatMember(s,x), FlatEquals(tmp6682,x) @ tmp6682 } = tmp6681, FlatRangeSet(tmp6758,tmp6759,tmp6757)
 ------------- ---------------- ---------------
 
-Testcase: animate_relations.tex:22 took 0.11 sec
-Testcase: animate_relations.tex:23 took 0.296 sec
-Testcase: animate_relations.tex:24 took 0.36 sec
+Testcase: animate_relations.tex:22 took 0.125 sec
+Testcase: animate_relations.tex:23 took 0.281 sec
+Testcase: animate_relations.tex:24 took 0.375 sec
 Testcase: animate_relations.tex:25 took 0.406 sec
-Testcase: animate_relations.tex:26 took 0.344 sec
-Testcase: animate_relations.tex:27 took 0.359 sec
-Testcase: animate_relations.tex:28 took 0.438 sec
-Testcase: animate_relations.tex:29 took 0.515 sec
+Testcase: animate_relations.tex:26 took 0.328 sec
+Testcase: animate_relations.tex:27 took 0.36 sec
+Testcase: animate_relations.tex:28 took 0.437 sec
+Testcase: animate_relations.tex:29 took 0.516 sec
 Testcase: animate_relations.tex:30 took 0.375 sec
 Testcase: animate_relations.tex:31 took 0.078 sec
 	FAILED
@@ -347,115 +335,273 @@ Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Can
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bae64622 (( 1 , 2 ) \in ( succ~\_ ))
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:34 took 0.125 sec
-Testcase: animate_relations.tex:35 took 0.219 sec
+Testcase: animate_relations.tex:34 took 0.141 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:35 took 0.218 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
 Testcase: animate_relations.tex:36 took 0.047 sec
-Testcase: animate_relations.tex:37 took 0.094 sec
-Testcase: animate_relations.tex:38 took 0.14 sec
-Testcase: animate_relations.tex:39 took 0.219 sec
-Testcase: animate_relations.tex:41 took 0.313 sec
-Testcase: animate_relations.tex:42 took 0.328 sec
-Testcase: animate_relations.tex:43 took 0.281 sec
-Testcase: animate_relations.tex:44 took 0.313 sec
-Testcase: animate_relations.tex:45 took 0.312 sec
-Testcase: animate_relations.tex:46 took 0.281 sec
-Testcase: animate_relations.tex:47 took 0.203 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
-
-Testcase: animate_relations.tex:48 took 0.204 sec
-	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
-
-Testcase: animate_relations.tex:49 took 0.171 sec
 	Caused an ERROR
-Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@a875a542 (( ( 1 \upto 10 ) \cross \{ 3 \} )) 
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:142)
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:137)
-	at net.sourceforge.czt.animation.eval.Flatten.visitProdExpr(Flatten.java:601)
-	at net.sourceforge.czt.animation.eval.Flatten.visitProdExpr(Flatten.java:45)
-	at net.sourceforge.czt.z.impl.ProdExprImpl.accept(ProdExprImpl.java:97)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:220)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:199)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:545)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:248)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:37 took 0.094 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:38 took 0.125 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:39 took 0.234 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:41 took 0.297 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:42 took 0.313 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:43 took 0.25 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:44 took 0.312 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:45 took 0.313 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:46 took 0.265 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.base.util.UnsupportedAstClassException
+	at net.sourceforge.czt.z.impl.ZRefNameImpl.getZStrokeList(ZRefNameImpl.java:236)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:366)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:149)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:487)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTupleSelExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.TupleSelExprImpl.accept(TupleSelExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:240)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:136)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:68)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:435)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:241)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:188)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:477)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:45)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:84)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenExpr(FlatPredList.java:441)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:264)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:261)
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
+
+Testcase: animate_relations.tex:47 took 0.204 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:48 took 0.203 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+
+Testcase: animate_relations.tex:49 took 0.156 sec
+	FAILED
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
 
 Testcase: animate_relations.tex:50 took 0.172 sec
-	Caused an ERROR
-Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@2321d214 (( ( 1 \upto 10 ) \cross \{ 3 , 4 \} )) 
-java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@2321d214 (( ( 1 \upto 10 ) \cross \{ 3 , 4 \} )) 
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:142)
-	at net.sourceforge.czt.animation.eval.Flatten.notYet(Flatten.java:137)
-	at net.sourceforge.czt.animation.eval.Flatten.visitProdExpr(Flatten.java:601)
-	at net.sourceforge.czt.animation.eval.Flatten.visitProdExpr(Flatten.java:45)
-	at net.sourceforge.czt.z.impl.ProdExprImpl.accept(ProdExprImpl.java:97)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:220)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:199)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:545)
-	at net.sourceforge.czt.animation.eval.Flatten.visitApplExpr(Flatten.java:45)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:110)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:186)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:248)
-	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
-
-Testcase: animate_relations.tex:54 took 0.11 sec
-Testcase: animate_relations.tex:55 took 0.109 sec
-Testcase: animate_relations.tex:56 took 0.172 sec
-Testcase: animate_relations.tex:57 took 0.359 sec
-Testcase: animate_relations.tex:58 took 0.344 sec
-Testcase: animate_relations.tex:59 took 0.313 sec
-Testcase: animate_relations.tex:60 took 0.593 sec
-Testcase: animate_relations.tex:61 took 0.36 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@776b7d4f (( 2 \upto 5 \cross 3 \upto 7 )) 
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@776b7d4f (( 2 \upto 5 \cross 3 \upto 7 )) 
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:133)
+
+Testcase: animate_relations.tex:54 took 0.109 sec
+Testcase: animate_relations.tex:55 took 0.125 sec
+Testcase: animate_relations.tex:56 took 0.172 sec
+Testcase: animate_relations.tex:57 took 0.344 sec
+Testcase: animate_relations.tex:58 took 0.359 sec
+Testcase: animate_relations.tex:59 took 0.297 sec
+Testcase: animate_relations.tex:60 took 0.609 sec
+Testcase: animate_relations.tex:61 took 0.344 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:62 took 0.109 sec
+Testcase: animate_relations.tex:62 took 0.094 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1f05b392 (2 \in \{ x : ( succ~\_ ) @ x . 2 \})
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1f05b392 (2 \in \{ x : ( succ~\_ ) @ x . 2 \})
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:63 took 0.25 sec
+Testcase: animate_relations.tex:63 took 0.234 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4606,-,tmp4605)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4606,-,tmp4605)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4524,-,tmp4523)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4524,-,tmp4523)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:64 took 0.297 sec
+Testcase: animate_relations.tex:64 took 0.312 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4636,-,tmp4635)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4636,-,tmp4635)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4554,-,tmp4553)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4554,-,tmp4553)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:67 took 0.109 sec
-Testcase: animate_relations.tex:68 took 0.11 sec
+Testcase: animate_relations.tex:67 took 0.11 sec
+Testcase: animate_relations.tex:68 took 0.109 sec
 Testcase: animate_relations.tex:69 took 0.172 sec
 Testcase: animate_relations.tex:70 took 0.359 sec
-Testcase: animate_relations.tex:71 took 0.359 sec
-Testcase: animate_relations.tex:72 took 0.297 sec
-Testcase: animate_relations.tex:73 took 0.422 sec
-Testcase: animate_relations.tex:74 took 0.359 sec
+Testcase: animate_relations.tex:71 took 0.344 sec
+Testcase: animate_relations.tex:72 took 0.313 sec
+Testcase: animate_relations.tex:73 took 0.406 sec
+Testcase: animate_relations.tex:74 took 0.344 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@776b7d4f (( 2 \upto 5 \cross 3 \upto 7 )) 
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ProdExprImpl@776b7d4f (( 2 \upto 5 \cross 3 \upto 7 )) 
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ProdExprImpl yet. 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:75 took 0.094 sec
+Testcase: animate_relations.tex:75 took 0.109 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1ef79c11 (2 \in \{ x : ( succ~\_ ) @ x . 1 \})
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1ef79c11 (2 \in \{ x : ( succ~\_ ) @ x . 1 \})
@@ -463,134 +609,134 @@ junit.framework.AssertionFailedError: Should not throw exception net.sourceforge
 
 Testcase: animate_relations.tex:76 took 0.281 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4802,-,tmp4801)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4802,-,tmp4801)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4720,-,tmp4719)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4720,-,tmp4719)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:77 took 0.344 sec
+Testcase: animate_relations.tex:77 took 0.328 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4834,-,tmp4833)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4834,-,tmp4833)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4752,-,tmp4751)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp4752,-,tmp4751)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:81 took 0.156 sec
-Testcase: animate_relations.tex:83 took 0.266 sec
-Testcase: animate_relations.tex:84 took 0.438 sec
-Testcase: animate_relations.tex:86 took 0.343 sec
+Testcase: animate_relations.tex:81 took 0.172 sec
+Testcase: animate_relations.tex:83 took 0.25 sec
+Testcase: animate_relations.tex:84 took 0.453 sec
+Testcase: animate_relations.tex:86 took 0.36 sec
 Testcase: animate_relations.tex:88 took 0.344 sec
-Testcase: animate_relations.tex:90 took 0.422 sec
+Testcase: animate_relations.tex:90 took 0.453 sec
 Testcase: animate_relations.tex:91 took 0.531 sec
-Testcase: animate_relations.tex:93 took 0.281 sec
-Testcase: animate_relations.tex:94 took 0.375 sec
+Testcase: animate_relations.tex:93 took 0.266 sec
+Testcase: animate_relations.tex:94 took 0.39 sec
 Testcase: animate_relations.tex:95 took 0.391 sec
 Testcase: animate_relations.tex:96 took 0.5 sec
-Testcase: animate_relations.tex:97 took 0.188 sec
+Testcase: animate_relations.tex:97 took 0.187 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ce252e19 (( 2 , 1 ) \in \{ r : ( succ~\_ ) @ ( r . 2 , r . 1 ) \})
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ce252e19 (( 2 , 1 ) \in \{ r : ( succ~\_ ) @ ( r . 2 , r . 1 ) \})
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:108 took 0.734 sec
-Testcase: animate_relations.tex:109 took 0.187 sec
-Testcase: animate_relations.tex:112 took 0.282 sec
-Testcase: animate_relations.tex:113 took 0.39 sec
+Testcase: animate_relations.tex:108 took 0.75 sec
+Testcase: animate_relations.tex:109 took 0.188 sec
+Testcase: animate_relations.tex:112 took 0.297 sec
+Testcase: animate_relations.tex:113 took 0.375 sec
 Testcase: animate_relations.tex:114 took 0.375 sec
-Testcase: animate_relations.tex:115 took 0.657 sec
+Testcase: animate_relations.tex:115 took 0.672 sec
 Testcase: animate_relations.tex:116 took 0.718 sec
-Testcase: animate_relations.tex:117 took 0.703 sec
-Testcase: animate_relations.tex:118 took 0.766 sec
-Testcase: animate_relations.tex:119 took 0.719 sec
-Testcase: animate_relations.tex:120 took 0.578 sec
-Testcase: animate_relations.tex:121 took 0.469 sec
-Testcase: animate_relations.tex:122 took 0.625 sec
-Testcase: animate_relations.tex:125 took 0.609 sec
+Testcase: animate_relations.tex:117 took 0.735 sec
+Testcase: animate_relations.tex:118 took 0.781 sec
+Testcase: animate_relations.tex:119 took 0.703 sec
+Testcase: animate_relations.tex:120 took 0.563 sec
+Testcase: animate_relations.tex:121 took 0.468 sec
+Testcase: animate_relations.tex:122 took 0.609 sec
+Testcase: animate_relations.tex:125 took 0.61 sec
 Testcase: animate_relations.tex:126 took 0.484 sec
-Testcase: animate_relations.tex:127 took 0.579 sec
-Testcase: animate_relations.tex:128 took 0.437 sec
-Testcase: animate_relations.tex:129 took 0.469 sec
+Testcase: animate_relations.tex:127 took 0.578 sec
+Testcase: animate_relations.tex:128 took 0.438 sec
+Testcase: animate_relations.tex:129 took 0.484 sec
 Testcase: animate_relations.tex:130 took 0.484 sec
-Testcase: animate_relations.tex:132 took 0.688 sec
+Testcase: animate_relations.tex:132 took 0.704 sec
 Testcase: animate_relations.tex:133 took 0.39 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp5944,-,tmp5943)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp5944,-,tmp5943)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp5862,-,tmp5861)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(tmp5862,-,tmp5861)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:137 took 0.782 sec
-Testcase: animate_relations.tex:138 took 1.031 sec
-Testcase: animate_relations.tex:139 took 1.281 sec
-Testcase: animate_relations.tex:140 took 0.891 sec
-Testcase: animate_relations.tex:141 took 1.078 sec
+Testcase: animate_relations.tex:137 took 0.781 sec
+Testcase: animate_relations.tex:138 took 1.032 sec
+Testcase: animate_relations.tex:139 took 1.297 sec
+Testcase: animate_relations.tex:140 took 0.875 sec
+Testcase: animate_relations.tex:141 took 1.109 sec
 Testcase: animate_relations.tex:142 took 0.937 sec
-Testcase: animate_relations.tex:146 took 0.219 sec
+Testcase: animate_relations.tex:146 took 0.204 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38c89604 (\{ ( 1 , 2 ) \} \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@38c89604 (\{ ( 1 , 2 ) \} \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_relations.tex:147 took 0.375 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@40ed2e04 (\{ ( 1 , 2 ) , ( 3 , 4 ) , ( 5 , 6 ) \} \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@40ed2e04 (\{ ( 1 , 2 ) , ( 3 , 4 ) , ( 5 , 6 ) \} \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:148 took 0.516 sec
+Testcase: animate_relations.tex:148 took 0.531 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@36ef9e24 (\{ ( 1 , 2 ) , ( 2 , 3 ) , ( 3 , 4 ) \} \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@36ef9e24 (\{ ( 1 , 2 ) , ( 2 , 3 ) , ( 3 , 4 ) \} \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_relations.tex:149 took 1 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5c782d19 (\{ x : 1 \upto 5 @ ( x , x + 1 ) \} \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5c782d19 (\{ x : 1 \upto 5 @ ( x , x + 1 ) \} \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_relations.tex:150 took 0.109 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@67c36206 (\{ \} \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@67c36206 (\{ \} \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:151 took 0.875 sec
+Testcase: animate_relations.tex:151 took 0.86 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@779e52fc (( \{ ( 1 , 2 ) , ( 2 , 3 ) , ( 3 , 4 ) \} \cup \{ ( 4 , 5 ) \} ) \plus)  _ ?+?
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@779e52fc (( \{ ( 1 , 2 ) , ( 2 , 3 ) , ( 3 , 4 ) \} \cup \{ ( 4 , 5 ) \} ) \plus)  _ ?+?
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_relations.tex:155 took 0.25 sec
-Testcase: animate_relations.tex:156 took 0.438 sec
-Testcase: animate_relations.tex:157 took 0.484 sec
+Testcase: animate_relations.tex:156 took 0.437 sec
+Testcase: animate_relations.tex:157 took 0.5 sec
 Testcase: animate_relations.tex:158 took 0.453 sec
 Testcase: animate_relations.tex:160 took 0.5 sec
-Testcase: animate_relations.tex:161 took 0.531 sec
+Testcase: animate_relations.tex:161 took 0.516 sec
 	Caused an ERROR
 null
 java.lang.AssertionError
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:118)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:422)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:140)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:422)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:74)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:422)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:222)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:407)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:156)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:407)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:80)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:407)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:235)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:103)
 
-Testcase: animate_relations.tex:162 took 0.891 sec
+Testcase: animate_relations.tex:162 took 0.875 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6637)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6637)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6555)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6555)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_relations.tex:163 took 0.953 sec
+Testcase: animate_relations.tex:163 took 0.938 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6735)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6735)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6653)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6653)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_relations.tex:164 took 1.047 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6837)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6837)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6755)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp6755)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 

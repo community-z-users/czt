@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 12, Errors: 0, Time elapsed: 1.969 sec
+Tests run: 18, Failures: 12, Errors: 0, Time elapsed: 2 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -85,59 +85,59 @@ GivenSet V.
 
 Testcase: animate_freetypes.tex:46 took 0.047 sec
 Testcase: animate_freetypes.tex:47 took 0.047 sec
-Testcase: animate_freetypes.tex:48 took 0.046 sec
-Testcase: animate_freetypes.tex:49 took 0.094 sec
+Testcase: animate_freetypes.tex:48 took 0.047 sec
+Testcase: animate_freetypes.tex:49 took 0.078 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@694bebd6 (Known~Happy) Known
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@694bebd6 (Known~Happy) Known
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_freetypes.tex:50 took 0.078 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@cc08ec97 (Known~Sad) Known
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@cc08ec97 (Known~Sad) Known
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_freetypes.tex:51 took 0.094 sec
+Testcase: animate_freetypes.tex:51 took 0.078 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@c4332801 (Soon~Unknown) Soon
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@c4332801 (Soon~Unknown) Soon
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_freetypes.tex:52 took 0.125 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4eb8dbd3 (Soon ( Known~Happy )) Soon
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@4eb8dbd3 (Soon ( Known~Happy )) Soon
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_freetypes.tex:53 took 0.125 sec
+Testcase: animate_freetypes.tex:53 took 0.11 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@439bf332 (Soon ( Known~Sad )) Soon
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@439bf332 (Soon ( Known~Sad )) Soon
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
 Testcase: animate_freetypes.tex:54 took 0.156 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@16e9eb76 (Soon ( Soon ( Known~Happy ) )) Soon
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@16e9eb76 (Soon ( Soon ( Known~Happy ) )) Soon
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_freetypes.tex:55 took 0.157 sec
+Testcase: animate_freetypes.tex:55 took 0.219 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@28baf45b (Red \notin \{ x : Feeling @ x . 2 \})
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@28baf45b (Red \notin \{ x : Feeling @ x . 2 \})
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_freetypes.tex:58 took 0.093 sec
+Testcase: animate_freetypes.tex:58 took 0.125 sec
 	FAILED
 null
 junit.framework.AssertionFailedError: null
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:103)
 
-Testcase: animate_freetypes.tex:59 took 0.141 sec
+Testcase: animate_freetypes.tex:59 took 0.125 sec
 Testcase: animate_freetypes.tex:60 took 0.109 sec
-Testcase: animate_freetypes.tex:64 took 0.141 sec
-Testcase: animate_freetypes.tex:65 took 0.125 sec
+Testcase: animate_freetypes.tex:64 took 0.125 sec
+Testcase: animate_freetypes.tex:65 took 0.141 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN LETTER is too big to iterate through.
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN LETTER is too big to iterate through.
@@ -155,9 +155,9 @@ Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIV
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN V is too big to iterate through.
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_freetypes.tex:69 took 0.141 sec
+Testcase: animate_freetypes.tex:69 took 0.14 sec
 	FAILED
-Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@3f6cab1a (( \power V )) 
-junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@3f6cab1a (( \power V )) 
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PowerExprImpl yet. 
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PowerExprImpl yet. 
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 

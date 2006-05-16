@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateIntsTest
-Tests run: 90, Failures: 1, Errors: 0, Time elapsed: 14.86 sec
+Tests run: 90, Failures: 1, Errors: 0, Time elapsed: 14.547 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -194,98 +194,98 @@ Passed test:animate_ints.tex:134
 Passed test:animate_ints.tex:135
 ------------- ---------------- ---------------
 
-Testcase: animate_ints.tex:22 took 0.282 sec
-Testcase: animate_ints.tex:23 took 0.187 sec
-Testcase: animate_ints.tex:24 took 0.156 sec
-Testcase: animate_ints.tex:25 took 0.157 sec
-Testcase: animate_ints.tex:26 took 0.172 sec
-Testcase: animate_ints.tex:27 took 0.187 sec
-Testcase: animate_ints.tex:28 took 0.141 sec
-Testcase: animate_ints.tex:29 took 0.172 sec
-Testcase: animate_ints.tex:30 took 0.156 sec
-Testcase: animate_ints.tex:33 took 0.125 sec
-Testcase: animate_ints.tex:34 took 0.172 sec
+Testcase: animate_ints.tex:22 took 0.265 sec
+Testcase: animate_ints.tex:23 took 0.172 sec
+Testcase: animate_ints.tex:24 took 0.172 sec
+Testcase: animate_ints.tex:25 took 0.156 sec
+Testcase: animate_ints.tex:26 took 0.188 sec
+Testcase: animate_ints.tex:27 took 0.172 sec
+Testcase: animate_ints.tex:28 took 0.125 sec
+Testcase: animate_ints.tex:29 took 0.187 sec
+Testcase: animate_ints.tex:30 took 0.141 sec
+Testcase: animate_ints.tex:33 took 0.141 sec
+Testcase: animate_ints.tex:34 took 0.156 sec
 Testcase: animate_ints.tex:35 took 0.125 sec
-Testcase: animate_ints.tex:36 took 0.125 sec
-Testcase: animate_ints.tex:37 took 0.218 sec
-Testcase: animate_ints.tex:38 took 0.172 sec
-Testcase: animate_ints.tex:39 took 0.172 sec
+Testcase: animate_ints.tex:36 took 0.14 sec
+Testcase: animate_ints.tex:37 took 0.204 sec
+Testcase: animate_ints.tex:38 took 0.171 sec
+Testcase: animate_ints.tex:39 took 0.157 sec
 Testcase: animate_ints.tex:40 took 0.172 sec
-Testcase: animate_ints.tex:44 took 0.125 sec
+Testcase: animate_ints.tex:44 took 0.14 sec
 Testcase: animate_ints.tex:45 took 0.125 sec
 Testcase: animate_ints.tex:46 took 0.125 sec
 Testcase: animate_ints.tex:47 took 0.125 sec
-Testcase: animate_ints.tex:48 took 0.219 sec
+Testcase: animate_ints.tex:48 took 0.203 sec
 Testcase: animate_ints.tex:49 took 0.203 sec
 Testcase: animate_ints.tex:50 took 0.125 sec
-Testcase: animate_ints.tex:51 took 0.172 sec
-Testcase: animate_ints.tex:56 took 0.078 sec
-Testcase: animate_ints.tex:57 took 0.125 sec
+Testcase: animate_ints.tex:51 took 0.156 sec
+Testcase: animate_ints.tex:56 took 0.094 sec
+Testcase: animate_ints.tex:57 took 0.109 sec
 Testcase: animate_ints.tex:58 took 0.094 sec
 Testcase: animate_ints.tex:60 took 0.078 sec
 Testcase: animate_ints.tex:61 took 0.125 sec
 Testcase: animate_ints.tex:62 took 0.078 sec
 Testcase: animate_ints.tex:64 took 0.125 sec
-Testcase: animate_ints.tex:65 took 0.203 sec
+Testcase: animate_ints.tex:65 took 0.204 sec
 Testcase: animate_ints.tex:66 took 0.125 sec
-Testcase: animate_ints.tex:67 took 0.172 sec
-Testcase: animate_ints.tex:68 took 0.203 sec
-Testcase: animate_ints.tex:69 took 0.219 sec
+Testcase: animate_ints.tex:67 took 0.171 sec
+Testcase: animate_ints.tex:68 took 0.204 sec
+Testcase: animate_ints.tex:69 took 0.203 sec
 Testcase: animate_ints.tex:71 took 0.125 sec
 Testcase: animate_ints.tex:72 took 0.125 sec
 Testcase: animate_ints.tex:73 took 0.125 sec
 Testcase: animate_ints.tex:74 took 0.125 sec
 Testcase: animate_ints.tex:75 took 0.125 sec
 Testcase: animate_ints.tex:76 took 0.125 sec
-Testcase: animate_ints.tex:77 took 0.203 sec
-Testcase: animate_ints.tex:78 took 0.219 sec
+Testcase: animate_ints.tex:77 took 0.218 sec
+Testcase: animate_ints.tex:78 took 0.204 sec
 Testcase: animate_ints.tex:79 took 0.203 sec
-Testcase: animate_ints.tex:80 took 0.219 sec
+Testcase: animate_ints.tex:80 took 0.203 sec
 Testcase: animate_ints.tex:81 took 0.203 sec
 Testcase: animate_ints.tex:82 took 0.203 sec
-Testcase: animate_ints.tex:83 took 0.219 sec
-Testcase: animate_ints.tex:84 took 0.218 sec
+Testcase: animate_ints.tex:83 took 0.188 sec
+Testcase: animate_ints.tex:84 took 0.203 sec
 Testcase: animate_ints.tex:85 took 0.203 sec
-Testcase: animate_ints.tex:86 took 0.204 sec
+Testcase: animate_ints.tex:86 took 0.203 sec
 Testcase: animate_ints.tex:87 took 0.203 sec
 Testcase: animate_ints.tex:88 took 0.203 sec
-Testcase: animate_ints.tex:89 took 0.219 sec
+Testcase: animate_ints.tex:89 took 0.203 sec
 Testcase: animate_ints.tex:90 took 0.203 sec
-Testcase: animate_ints.tex:91 took 0.203 sec
+Testcase: animate_ints.tex:91 took 0.204 sec
 Testcase: animate_ints.tex:94 took 0.562 sec
-Testcase: animate_ints.tex:95 took 0.672 sec
-Testcase: animate_ints.tex:96 took 0.86 sec
-Testcase: animate_ints.tex:99 took 0.093 sec
+Testcase: animate_ints.tex:95 took 0.656 sec
+Testcase: animate_ints.tex:96 took 0.844 sec
+Testcase: animate_ints.tex:99 took 0.094 sec
 Testcase: animate_ints.tex:100 took 0.094 sec
-Testcase: animate_ints.tex:101 took 0.172 sec
-Testcase: animate_ints.tex:102 took 0.281 sec
+Testcase: animate_ints.tex:101 took 0.171 sec
+Testcase: animate_ints.tex:102 took 0.219 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@8a61aec1 (\{ r : ( succ~\_ ) @ ( r . 2 , r . 1 ) \} 10 = 9)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@8a61aec1 (\{ r : ( succ~\_ ) @ ( r . 2 , r . 1 ) \} 10 = 9)
+Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.base.util.UnsupportedAstClassException
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
 
-Testcase: animate_ints.tex:105 took 0.11 sec
+Testcase: animate_ints.tex:105 took 0.063 sec
 Testcase: animate_ints.tex:106 took 0.078 sec
-Testcase: animate_ints.tex:107 took 0.156 sec
-Testcase: animate_ints.tex:108 took 0.125 sec
-Testcase: animate_ints.tex:109 took 0.094 sec
-Testcase: animate_ints.tex:110 took 0.078 sec
+Testcase: animate_ints.tex:107 took 0.172 sec
+Testcase: animate_ints.tex:108 took 0.109 sec
+Testcase: animate_ints.tex:109 took 0.078 sec
+Testcase: animate_ints.tex:110 took 0.094 sec
 Testcase: animate_ints.tex:113 took 0.078 sec
 Testcase: animate_ints.tex:114 took 0.078 sec
 Testcase: animate_ints.tex:115 took 0.078 sec
-Testcase: animate_ints.tex:116 took 0.172 sec
-Testcase: animate_ints.tex:117 took 0.109 sec
-Testcase: animate_ints.tex:118 took 0.094 sec
-Testcase: animate_ints.tex:121 took 0.078 sec
-Testcase: animate_ints.tex:122 took 0.094 sec
+Testcase: animate_ints.tex:116 took 0.157 sec
+Testcase: animate_ints.tex:117 took 0.125 sec
+Testcase: animate_ints.tex:118 took 0.078 sec
+Testcase: animate_ints.tex:121 took 0.093 sec
+Testcase: animate_ints.tex:122 took 0.079 sec
 Testcase: animate_ints.tex:123 took 0.125 sec
-Testcase: animate_ints.tex:124 took 0.094 sec
-Testcase: animate_ints.tex:125 took 0.062 sec
-Testcase: animate_ints.tex:126 took 0.078 sec
-Testcase: animate_ints.tex:127 took 0.125 sec
-Testcase: animate_ints.tex:130 took 0.079 sec
-Testcase: animate_ints.tex:131 took 0.093 sec
+Testcase: animate_ints.tex:124 took 0.093 sec
+Testcase: animate_ints.tex:125 took 0.078 sec
+Testcase: animate_ints.tex:126 took 0.063 sec
+Testcase: animate_ints.tex:127 took 0.109 sec
+Testcase: animate_ints.tex:130 took 0.078 sec
+Testcase: animate_ints.tex:131 took 0.094 sec
 Testcase: animate_ints.tex:132 took 0.078 sec
-Testcase: animate_ints.tex:133 took 0.079 sec
+Testcase: animate_ints.tex:133 took 0.078 sec
 Testcase: animate_ints.tex:134 took 0.125 sec
-Testcase: animate_ints.tex:135 took 0.156 sec
+Testcase: animate_ints.tex:135 took 0.157 sec
