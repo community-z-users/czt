@@ -104,7 +104,8 @@ public abstract class FlatPred
    */
   public ZRefName getLastArg()
   {
-    return args_.get(args_.size() - 1);
+    List<ZRefName> args = getArgs();
+    return args.get(args.size() - 1);
   }
 
   /** Get the mode that has been set for evaluation purposes. */
@@ -171,7 +172,7 @@ public abstract class FlatPred
    */
   protected Mode modeAllDefined(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
+    Mode result = new Mode(env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
     if (result.numOutputs() == 0)
       return result;
     else
@@ -184,7 +185,7 @@ public abstract class FlatPred
    */
   protected Mode modeFunction(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, args_, Mode.ONE_SOLUTION);
+    Mode result = new Mode(env, getArgs(), Mode.ONE_SOLUTION);
     if (result.numOutputs() == 0)
       result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
     else if (result.numOutputs() != 1
@@ -200,7 +201,7 @@ public abstract class FlatPred
    */
   protected Mode modeOneOutput(/*@non_null@*/Envir env)
   {
-    Mode result = new Mode(env, args_, 0.0);
+    Mode result = new Mode(env, getArgs(), 0.0);
     if (result.numOutputs() == 0)
       result.setSolutions(Mode.MAYBE_ONE_SOLUTION);
     else if (result.numOutputs() == 1)
@@ -218,8 +219,8 @@ public abstract class FlatPred
   {
     Mode result = modeFunction(env);
     if (result == null && env.isDefined(getLastArg())) {
-      result = new Mode(env, args_, Mode.MAYBE_ONE_SOLUTION);
-      if (result.numOutputs() == args_.size() - 1)
+      result = new Mode(env, getArgs(), Mode.MAYBE_ONE_SOLUTION);
+      if (result.numOutputs() == getArgs().size() - 1)
         result.setSolutions(Mode.ONE_SOLUTION);
     }
     return result;
@@ -258,14 +259,7 @@ public abstract class FlatPred
     String fullName = this.getClass().getName();
     int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
     result.append(fullName.substring(dotPos));
-    result.append("(");
-    for (Iterator<ZRefName> i = args_.iterator(); i.hasNext();) {
-      ZRefName name = i.next();
-      result.append(name.toString());
-      if (i.hasNext())
-        result.append(",");
-    }
-    result.append(")");
+    result.append(getArgs().toString());
     return result.toString();
   }
 
