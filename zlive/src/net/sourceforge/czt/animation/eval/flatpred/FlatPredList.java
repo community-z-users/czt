@@ -345,11 +345,11 @@ public class FlatPredList extends FlatPred
   public void setMode(/*@non_null@*/Mode mode)
   {
     super.setMode(mode);
-    // set modes of all the flatpreds in the list.
-    Iterator<FlatPred> preds = predlist_.iterator();
-    Iterator<Mode> modes = ((ModeList)evalMode_).iterator();
-    while (preds.hasNext())
-      ((FlatPred)preds.next()).setMode((Mode)modes.next());
+    for (Iterator<Mode> modes = ((ModeList)evalMode_).iterator();
+         modes.hasNext(); ) {
+      Mode m = modes.next();
+      m.getParent().setMode(m);
+    }
   }
 
   /** Starts a fresh evaluation.
