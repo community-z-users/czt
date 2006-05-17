@@ -129,9 +129,12 @@ public class ZSideKickActions
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-      if (typeAnn != null) return typeAnn.getType();
-      else reportError(view, "Selected formula doesn't have a type");
+      if (term != null) {
+        TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+        if (typeAnn != null) return typeAnn.getType();
+        else reportError(view, "Selected formula doesn't have a type");
+      }
+      else reportError(view, "No formula selected");
     }
     return null;
   }
