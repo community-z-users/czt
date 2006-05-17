@@ -72,6 +72,18 @@ public class SimpleProver
   }
 
   /**
+   * Tries to prove the given pred.  The predicate is first copied.
+   */
+  public boolean prove(Pred pred)
+  {
+    Factory factory = new Factory(new ProverFactory());
+    CopyVisitor copyVisitor = new CopyVisitor(factory);
+    PredSequent predSequent =
+      ProverUtils.createPredSequent((Pred) pred.accept(copyVisitor));
+    return prove(predSequent);
+  }
+
+  /**
    * Tries all known rules to prove the sequent.
    * For each rule that matches the sequent, it
    * recursively proves all children.  If any

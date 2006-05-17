@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -46,61 +46,52 @@ public class SimpleProverTest
   Factory factory_ = new Factory(new ProverFactory());
 
   public void testSimple1()
+    throws Exception
   {
     prove("/simple1.tex");
   }
 
   public void testSimple2()
+    throws Exception
   {
     prove("/simple2.tex");
   }
 
   public void testSimpleUnfold()
+    throws Exception
   {
     prove("/simpleUnfold.tex");
   }
 
   private void prove(String resource)
+    throws Exception
   {
-    try {
-      SectionManager manager = new SectionManager();
-      manager.putCommands("zpatt");
-      URL url = getClass().getResource(resource);
-      assertFalse(url == null);
-      manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
-      Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
-      String sectname = term.accept(new GetZSectNameVisitor());
-      manager.get(new Key(sectname, SectTypeEnvAnn.class));
-      RuleTable rules =
-        (RuleTable) manager.get(new Key(sectname, RuleTable.class));
-      List<ConjPara> conjectures = collectConjectures(term);
-      for (Iterator<ConjPara> i = conjectures.iterator(); i.hasNext(); ) {
-        ConjPara conjPara = i.next();
-        PredSequent sequent = factory_.createPredSequent();
-	CopyVisitor visitor = new CopyVisitor(factory_);
-        sequent.setPred((Pred) conjPara.getPred().accept(visitor));
-        SimpleProver prover =
-          new SimpleProver(rules, manager, sectname);
-        if (! prover.prove(sequent)) {
-          StringWriter writer = new StringWriter();
-          PrintUtils.print(conjPara.getPred(),
-                           writer,
-                           manager,
-                           "standard_toolkit",
-                           Markup.LATEX);
-          writer.close();
-          fail("Failed to prove " + writer.toString());
-        }
+    SectionManager manager = new SectionManager();
+    manager.putCommands("zpatt");
+    URL url = getClass().getResource(resource);
+    assertFalse(url == null);
+    manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
+    Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
+    String sectname = term.accept(new GetZSectNameVisitor());
+    manager.get(new Key(sectname, SectTypeEnvAnn.class));
+    RuleTable rules =
+      (RuleTable) manager.get(new Key(sectname, RuleTable.class));
+    for (ConjPara conjPara : collectConjectures(term)) {
+      PredSequent sequent = factory_.createPredSequent();
+      CopyVisitor visitor = new CopyVisitor(factory_);
+      sequent.setPred((Pred) conjPara.getPred().accept(visitor));
+      SimpleProver prover =
+        new SimpleProver(rules, manager, sectname);
+      if (! prover.prove(sequent)) {
+        StringWriter writer = new StringWriter();
+        PrintUtils.print(conjPara.getPred(),
+                         writer,
+                         manager,
+                         "standard_toolkit",
+                         Markup.LATEX);
+        writer.close();
+        fail("Failed to prove " + writer.toString());
       }
-    }
-    catch (ParseException e) {
-      fail("Should not throw exception " + e);
-    }
-    catch (IOException e) {
-      fail("Should not throw exception " + e);
-    }
-    catch (CommandException e) {
-      fail("Should not throw exception " + e);
     }
   }
 }
