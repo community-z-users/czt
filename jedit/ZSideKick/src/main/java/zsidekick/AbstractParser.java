@@ -78,10 +78,12 @@ public abstract class AbstractParser
       spec = (Spec) manager.get(new Key(name, Spec.class));
       if (spec.getSect().size() > 0) {
         data.addData(spec, manager, buffer);
-        for (Sect sect : spec.getSect()) {
-          if (sect instanceof ZSect) {
-            manager.get(new Key(((ZSect) sect).getName(),
-                                SectTypeEnvAnn.class));
+        if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {
+          for (Sect sect : spec.getSect()) {
+            if (sect instanceof ZSect) {
+              manager.get(new Key(((ZSect) sect).getName(),
+                                  SectTypeEnvAnn.class));
+            }
           }
         }
       }

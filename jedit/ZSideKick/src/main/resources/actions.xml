@@ -38,4 +38,13 @@
       zsidekick.ZSideKickActions.insertTypeForCurrentWff(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.disableTypechecking">
+    <CODE>
+      buffer.putBooleanProperty("zsidekick.disable-typechecking",
+                ! buffer.getBooleanProperty("zsidekick.disable-typechecking"));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty("zsidekick.disable-typechecking");
+    </IS_SELECTED>
+  </ACTION>
 </ACTIONS>

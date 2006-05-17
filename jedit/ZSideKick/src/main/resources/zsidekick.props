@@ -21,7 +21,9 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.toXml \
                                       zsidekick.nextWff \
                                       zsidekick.gotoDefinition \
-                                      zsidekick.insertTypeForCurrentWff
+                                      zsidekick.insertTypeForCurrentWff \
+                                      - \
+                                      zsidekick.disableTypechecking
 
 
 # action labels
@@ -32,6 +34,7 @@ zsidekick.toXml.label=Convert to XML
 zsidekick.nextWff.label=Highlight next wff
 zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
+zsidekick.disableTypechecking.label=Disable Typechecking
 
 # Option pane
 plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick
