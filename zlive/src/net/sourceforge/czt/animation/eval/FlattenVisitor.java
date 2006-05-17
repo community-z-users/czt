@@ -460,9 +460,10 @@ public class FlattenVisitor
       //  because we have to handle the above special cases first).
       Factory factory = zlive_.getFactory();
       // create the DeclList:  p:func
-      ZDeclName pDeclName = factory.createZDeclName("p",null,
-          "ZLiveAppl"+(applvar++));
-      ZRefName pRefName = factory.createZRefName("p",null,pDeclName);
+      ZStrokeList sl = factory.createZStrokeList();
+      ZDeclName pDeclName =
+        factory.createZDeclName("p", sl, "ZLiveAppl"+(applvar++));
+      ZRefName pRefName = factory.createZRefName("p", sl, pDeclName);
       VarDecl decl = factory.createVarDecl(factory.list(pDeclName),func);
       ZDeclList decls = factory.createZDeclList(factory.list(decl));
       // create the predicate: p.1=arg
