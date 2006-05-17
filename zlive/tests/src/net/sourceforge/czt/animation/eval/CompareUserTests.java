@@ -14,7 +14,7 @@ public class CompareUserTests
   private static ArrayList<Integer> passedTests1,passedTests2;
   private static ArrayList<Integer> gainedTests,lostTests;
   private static PrintStream out;
-  
+
   protected static URL getTestExample(String name) {
     Object stupid = new CompareUserTests();
     URL result = stupid.getClass().getResource("/tests/z/" + name);
@@ -23,17 +23,18 @@ public class CompareUserTests
     }
     return result;
   }
-  
-  private static void writetoOutputFile(String fileType)
+
+  /** Returns the number of lost tests. */
+  private static int writetoOutputFile(String fileType)
   {
     Reader inStream;
     BufferedReader in;
+    int lostCounter = 0;
+    int gainedCounter = 0;
     try {
       URL fileName = getTestExample("animate_"+fileType.toLowerCase()+".tex");
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
-      int lostCounter = 0;
-      int gainedCounter = 0;
       out.println("animate_"+fileType.toLowerCase()+".tex");
       int counter = 0;
       String temp;
@@ -49,12 +50,12 @@ public class CompareUserTests
           }
         } while((temp!=null) && (gainedCounter<gainedTests.size()));
       }
-      
+
       in.close();
       counter = 0;
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
-      
+
       if (lostTests.size()>0){
         do {
           temp = in.readLine();
@@ -70,8 +71,9 @@ public class CompareUserTests
     }
     catch (FileNotFoundException e) {System.out.println("File not found : animate_"+fileType.toLowerCase()+".tex");}
     catch (IOException e) {System.out.println("I/O Error : animate_"+fileType.toLowerCase()+".tex");}
+    return lostCounter;
   }
-  
+
   private static void sortArrays()
   {
     int passedCounter1 = 0;
@@ -101,9 +103,10 @@ public class CompareUserTests
       passedCounter2++;
     }
   }
-  
-  
-  private static void compareFile(String shortName)
+
+
+  /** Returns the number of newly-failing tests. */
+  private static int compareFile(String shortName)
     throws IOException
   {
     String fileName =  "TEST-net.sourceforge.czt.animation.eval.Animate"
@@ -113,7 +116,7 @@ public class CompareUserTests
     gainedTests = new ArrayList<Integer>();
     lostTests = new ArrayList<Integer>();
     sortArrays();
-    writetoOutputFile(shortName);
+    return writetoOutputFile(shortName);
   }
 
   /** Reads dir/fileName and returns an array of the tests that passed.
@@ -168,15 +171,16 @@ public class CompareUserTests
       System.exit(2);
     }
     out = System.out;
-    
-    compareFile("Ints");
-    compareFile("Freetypes");
-    compareFile("Sets");
-    compareFile("Schemas");
-    compareFile("Misc");
-    compareFile("Relations");
-    compareFile("Scope");
-    compareFile("Sequences");
+
+    int newFailures = compareFile("Ints")
+      + compareFile("Freetypes")
+      + compareFile("Sets")
+      + compareFile("Schemas")
+      + compareFile("Misc")
+      + compareFile("Relations")
+      + compareFile("Scope")
+      + compareFile("Sequences");
+    System.exit(newFailures);  // 0 is good, > 0 is bad.
   }
 }
 
