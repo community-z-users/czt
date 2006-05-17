@@ -309,31 +309,53 @@ public class FlatPredList extends FlatPred
   public ModeList chooseMode(Envir env0)
   {
     LOG.entering("FlatPredList","chooseMode",env0);
-    // first do static inference of integer bounds
-    
+    List<FlatPred> flatPreds = new ArrayList<FlatPred>(predlist_);
     List<Mode> submodes = new ArrayList<Mode>();
-    getArgs();  // forces freeVars_ and args_ to be evaluated.
     Envir env = env0;
-    double cost = Mode.ONE_SOLUTION;
-    Iterator<FlatPred> it = predlist_.iterator();
+    getArgs();  // forces freeVars_ and args_ to be evaluated.
     LOG.finer(this.hashCode()+" starting");
-    while (it.hasNext()) {
-      FlatPred fp = (FlatPred)it.next();
-      Mode m = fp.chooseMode(env);
-      if (m == null) {
-        LOG.finer("no mode for "+fp+" with env="+env);
-        LOG.exiting("FlatPredList","chooseMode",null);
-        return null;
-      }
-      assert fp == m.getParent();
-      submodes.add(m);
-      env = m.getEnvir();
+    while(chooseMode(env, flatPreds, submodes)) {
+      env = submodes.get(submodes.size() - 1).getEnvir();
+    }
+    if (! flatPreds.isEmpty()) {
+      LOG.finer("no mode for " + flatPreds.get(0) + " with env=" + env);
+      LOG.exiting("FlatPredList","chooseMode",null);
+      return null;
+    }
+    assert flatPreds.isEmpty();
+    assert submodes.size() == predlist_.size();
+    double cost = Mode.ONE_SOLUTION;
+    for (Mode m : submodes) {
       cost *= m.getSolutions();
-      LOG.finer(this.hashCode()+" "+fp+" gives cost="+cost
-          +" and outputs="+m.getOutputs());
+      LOG.finer(this.hashCode() + " " + m.getParent() + " gives cost=" + cost
+                + " and outputs=" + m.getOutputs());
     }
     ModeList result = new ModeList(this, env, args_, cost, submodes);
     LOG.exiting("FlatPredList","chooseMode",result);
+    return result;
+  }
+
+  /**
+   * Removes the corresponding FlatPred from the list
+   * when a Mode is inserted into the mode list.
+   */
+  private boolean chooseMode(Envir env0,
+                             List<FlatPred> flatPreds,
+                             List<Mode> modes)
+  {
+    boolean result = false;
+    Envir env = env0;
+    for (Iterator<FlatPred> iter = flatPreds.iterator(); iter.hasNext(); ) {
+      FlatPred flatPred = iter.next();
+      Mode mode = flatPred.chooseMode(env);
+      if (mode != null) {
+        assert flatPred == mode.getParent();
+        result = true;
+        env = mode.getEnvir();
+        modes.add(mode);
+        iter.remove();
+      }
+    }
     return result;
   }
 
