@@ -18,6 +18,8 @@
  */
 package zsidekick;
 
+import java.util.Iterator;
+
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.textarea.*;
 import sidekick.SideKickParsedData;
@@ -25,6 +27,8 @@ import sidekick.SideKickParsedData;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.SimpleProver;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 
@@ -182,6 +186,50 @@ public class ZSideKickActions
       }
       else {
         reportError(view, "Highlighted term is not a referencing name");
+      }
+    }
+  }
+
+  public static void prove(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      if (term instanceof Pred) {
+        ParsedData parsedData = getParsedData(view);
+        if (parsedData != null) {
+          SectionManager manager = parsedData.getManager();
+          ZSect zSect = wffHighlight.findZSectForCurrentWff();
+          if (zSect != null) {
+            try {
+              RuleTable rules = (RuleTable)
+                manager.get(new Key(zSect.getName(), RuleTable.class));
+              if (rules != null) {
+                SimpleProver prover = new SimpleProver(rules,
+                                                       manager,
+                                                       zSect.getName());
+                if (prover.prove((Pred) term)) {
+                  reportMessage(view, "Selected predicate is true");
+                }
+                else {
+                  reportMessage(view, "Selected predicate cannot be proven");
+                }
+              }
+              else {
+                reportError(view, "Cannot find rules");
+              }
+            }
+            catch (CommandException e) {
+              reportError(view, "Cannot get rule table");
+            }
+          }
+          else {
+            reportError(view, "Cannot find Z section for selected term");
+          }
+        }
+      }
+      else {
+        reportError(view, "Highlighted term is not a predicate");
       }
     }
   }

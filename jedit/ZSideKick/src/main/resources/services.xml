@@ -15,4 +15,13 @@
   <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
     new zsidekick.OzLatexParser();
   </SERVICE>
+
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
+    new zsidekick.GenericParser("zpatt",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpattlatex">
+    new zsidekick.GenericParser("zpatt",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
 </SERVICES>
