@@ -66,22 +66,15 @@ public class Factory
 
   public static Term cloneTerm(Term term, List<Term> listTerm)
   {
-    Object [] children = term.getChildren();
-    Object [] args = new Object [children.length];
+    Object[] children = term.getChildren();
     for (int i = 0; i < children.length; i++) {
-      Object next = children[i];
-      if (containsObject(listTerm, next)) {
-        args[i] = next;
-      }
-      else if (next != null && next instanceof Term) {
-        Term nextTerm = (Term) next;
-        args[i] = cloneTerm(nextTerm, listTerm);
-      }
-      else {
-        args[i] = children[i];
+      Object child = children[i];
+      if (child instanceof Term &&
+          ! containsObject(listTerm, child)) {
+        children[i] = cloneTerm((Term) child, listTerm);
       }
     }
-    Term result = term.create(args);
+    Term result = term.create(children);
     assert result.equals(term);
     copyAnns(term, result);
     return result;
