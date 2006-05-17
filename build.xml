@@ -92,12 +92,13 @@
     <unjar src="${jar.dir}/${corejava.base.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
-    <unjar src="${jar.dir}/${corejava.tcoz.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.zpatt.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.jaxb.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${session.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${rules.jar.file}" dest="${czt.build.dir}"/>
     <copy todir="${czt.build.dir}/czt">
       <fileset dir="bin/bsh"/>
     </copy>
