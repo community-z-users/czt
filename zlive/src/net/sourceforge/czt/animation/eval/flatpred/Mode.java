@@ -60,6 +60,9 @@ public class Mode
    */
   protected List<ZRefName> args_;
 
+  /** The number of output variables. */
+  protected int outputs_ = 0;
+
   protected FlatPred parent_;
 
   /** Constructor for Mode objects. */
@@ -74,8 +77,11 @@ public class Mode
     solutions_ = solns;
     args_ = args;
     for (ZRefName name : args) {
-      if ( ! preEnvir_.isDefined(name))
-        postEnvir_ = postEnvir_.plus(name, null);
+      if ( ! preEnvir_.isDefined(name)) {
+        outputs_++;
+        if ( ! postEnvir_.isDefinedSince(preEnvir_, name))
+          postEnvir_ = postEnvir_.plus(name, null);
+      }
     }
   }
 
@@ -146,7 +152,7 @@ public class Mode
   /** Gives the number of output variables. */
   public /*@pure@*/ int numOutputs()
   {
-    return postEnvir_.definedSince(preEnvir_).size(); // TODO optimize
+    return outputs_;
   }
 
   public String toString()
