@@ -343,20 +343,37 @@ public class FlatPredList extends FlatPred
                              List<FlatPred> flatPreds,
                              List<Mode> modes)
   {
-    boolean result = false;
-    Envir env = env0;
+    Mode mode = null;
     for (Iterator<FlatPred> iter = flatPreds.iterator(); iter.hasNext(); ) {
       FlatPred flatPred = iter.next();
-      Mode mode = flatPred.chooseMode(env);
-      if (mode != null) {
-        assert flatPred == mode.getParent();
-        result = true;
-        env = mode.getEnvir();
-        modes.add(mode);
-        iter.remove();
+      Mode m = flatPred.chooseMode(env0);
+      if (m != null) {
+        assert flatPred == m.getParent();
+        if (mode == null || m.getSolutions() < mode.getSolutions()) mode = m;
       }
     }
-    return result;
+    if (mode == null) return false;
+    modes.add(mode);
+    boolean removed = remove(mode.getParent(), flatPreds);
+    assert removed;
+    return true;
+  }
+
+  /**
+   * Remove the first occurrence of the given element (checked with ==)
+   * from the list.
+   */
+  private boolean remove(Object element, List list)
+  {
+    boolean removed = false;
+    for (Iterator iter = list.iterator(); ! removed && iter.hasNext(); ) {
+      Object o = iter.next();
+      if (o == element) {
+        iter.remove();
+        removed = true;
+      }
+    }
+    return removed;
   }
 
  /** Set the mode that will be used to evaluate this list.
@@ -367,11 +384,17 @@ public class FlatPredList extends FlatPred
   public void setMode(/*@non_null@*/Mode mode)
   {
     super.setMode(mode);
-    for (Iterator<Mode> modes = ((ModeList)evalMode_).iterator();
+    ModeList modeList = (ModeList) evalMode_;
+    assert modeList.size() == predlist_.size();
+    predlist_.clear();
+    for (Iterator<Mode> modes = modeList.iterator();
          modes.hasNext(); ) {
-      Mode m = modes.next();
-      m.getParent().setMode(m);
+      final Mode m = modes.next();
+      final FlatPred flatPred = m.getParent();
+      predlist_.add(flatPred);
+      flatPred.setMode(m);
     }
+    assert modeList.size() == predlist_.size();
   }
 
   /** Starts a fresh evaluation.
