@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -57,5 +57,16 @@ public final class BaseUtils
       }
     }
   }
-}
 
+  public static int depth(Term term)
+  {
+    int depth = 0;
+    for (Object child : term.getChildren()) {
+      if (child instanceof Term) {
+        int d = depth((Term) child);
+        if (d > depth) depth = d;
+      }
+    }
+    return depth+1;
+  }
+}
