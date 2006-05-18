@@ -23,7 +23,8 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.gotoDefinition \
                                       zsidekick.insertTypeForCurrentWff \
                                       - \
-                                      zsidekick.disableTypechecking
+                                      zsidekick.disableTypechecking \
+                                      zsidekick.showCompleteTree
 
 
 # action labels
@@ -35,6 +36,7 @@ zsidekick.nextWff.label=Highlight next wff
 zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
 zsidekick.disableTypechecking.label=Disable Typechecking
+zsidekick.showCompleteTree.label=Show complete syntax tree
 
 # Option pane
 plugin.zsidekick.ZSideKickPlugin.option-pane=zsidekick

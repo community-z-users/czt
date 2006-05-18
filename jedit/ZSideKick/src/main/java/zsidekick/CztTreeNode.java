@@ -49,9 +49,19 @@ public class CztTreeNode
                        getStart(term, buffer),
                        getEnd(term, buffer)));
     term_ = term;
-    Term[] children = term.accept(getChildrenVisitor_);
-    for (Term child : children) {
-      add(new CztTreeNode(child, buffer));
+    if (buffer.getBooleanProperty("zsidekick.show-complete-tree")) {
+      Object[] children = term.getChildren();
+      for (Object o : children) {
+        if (o instanceof Term) {
+          add(new CztTreeNode((Term) o, buffer));
+        }
+      }
+    }
+    else {
+      Term[] children = term.accept(getChildrenVisitor_);
+      for (Term child : children) {
+        add(new CztTreeNode(child, buffer));
+      }
     }
   }
 

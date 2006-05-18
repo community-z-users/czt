@@ -47,4 +47,13 @@
       return buffer.getBooleanProperty("zsidekick.disable-typechecking");
     </IS_SELECTED>
   </ACTION>
+  <ACTION NAME="zsidekick.showCompleteTree">
+    <CODE>
+      buffer.putBooleanProperty("zsidekick.show-complete-tree",
+                ! buffer.getBooleanProperty("zsidekick.show-complete-tree"));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty("zsidekick.show-complete-tree");
+    </IS_SELECTED>
+  </ACTION>
 </ACTIONS>
