@@ -20,7 +20,11 @@
          </action>
     -->
     <release version="0.5" date="unrelease">
-      <action context="code" dev="open">
+      <action dev="Tim" type="fix">
+        Corrected the Object-Z grammar so that scope enrichment has a
+        lower precedence than other infix operators.
+      </action>
+      <action dev="Tim" type="fix">
         Corrected the Object-Z grammar so that any expression can be
         used as the LHS of an operation promotion.
       </action>

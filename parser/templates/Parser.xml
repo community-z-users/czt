@@ -978,7 +978,6 @@ action code
      */
      protected void pushIsOpExpr(boolean b)
      {
-//System.err.println("pushing "+  b);
        isOpExpr_.push(b);
      }
 
@@ -987,7 +986,6 @@ action code
      */
      protected void popIsOpExpr()
      {
-//System.err.println("popping back to " + isOpExpr());
        isOpExpr_.pop();
      }
 </add:oz>
@@ -1373,7 +1371,8 @@ parser code
 
     protected Object toObject(Symbol symbol)
     {
-      if (symbol.value != null) {
+      if (symbol.value != null &amp;&amp;
+          !(symbol.value instanceof LocInfo)) {
         return symbol.value;
       }
       return symbolMap_.get(symbol.sym);
@@ -6503,6 +6502,14 @@ outer_opExpr ::=
            RESULT = factory_.createDistSeqOpExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dsqc, t));
         :}
+        |
+        /* scope enrichment */
+        term:lhs SCOPE:s term:rhs
+        {:
+           RESULT =
+             factory_.createScopeEnrichOpExpr(opExpr(lhs), opExpr(rhs));
+           addLocAnn(RESULT, getLocation(sleft, sright, lhs, rhs));
+        :}
 <add:tcoz>
         |
         DIC:dic {: pushIsOpExpr(false); :} schemaText:st 
@@ -6563,14 +6570,6 @@ inner_opExpr ::=
            RESULT =
              factory_.createExChoiceOpExpr(opExpr(lhs), opExpr(rhs));
            addLocAnn(RESULT, getLocation(gchleft, gchright, lhs, rhs));
-        :}
-        |
-        /* scope enrichment */
-        inner_term:lhs SCOPE:s inner_term:rhs
-        {:
-           RESULT =
-             factory_.createScopeEnrichOpExpr(opExpr(lhs), opExpr(rhs));
-           addLocAnn(RESULT, getLocation(sleft, sright, lhs, rhs));
         :}
 /*
 <add:tcoz>
