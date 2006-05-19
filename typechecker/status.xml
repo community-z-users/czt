@@ -10,6 +10,11 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix"
+        Corrected bug 1486054 -- Stack overflow.
+        Also, corrected problem with type inference in the example
+        specification provided with that bug report.
+      </action>
+      <action dev="Tim" type="fix"
         Restrict class types to trees and not graphs to prevent stack
         overflowing when printing ASTs (bug 1448515).
       </action>

@@ -28,6 +28,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
+import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
@@ -64,6 +65,21 @@ public class ExprChecker
   public Type2 visitTerm(Term term)
   {
     return term.accept(zExprChecker_);
+  }
+
+  public Type2 visitRefExpr(RefExpr refExpr)
+  {
+    Type2 type = refExpr.accept(zExprChecker_);
+
+    //get the type of this name
+    ZRefName zRefName = refExpr.getZRefName();
+
+    if (className() != null &&
+	zRefName.getWord().equals(OzString.SELF) &&
+	zRefName.getZStrokeList().size() == 0) {
+      type  = getSelfType();
+    }
+    return type;
   }
 
   public Type2 visitClassUnionExpr(ClassUnionExpr classUnionExpr)
@@ -266,31 +282,39 @@ public class ExprChecker
         ClassSig classSig = classType.getClassSig();
         ZRefName selectName = bindSelExpr.getZRefName();
         if (!instanceOf(classSig, VariableClassSig.class)) {
-          //try to find the name in the state signature
-          Signature signature = classSig.getState();
-          NameTypePair pair = findNameTypePair(selectName, signature);
+	  //if the selected name is "self", then simply type of this
+	  //is the same as the type of the expression
+	  if (selectName.getWord().equals(OzString.SELF) &&
+	      selectName.getZStrokeList().size() == 0) {
+	    type = classType;
+	  }
+	  else {
+	    //try to find the name in the state signature
+	    Signature signature = classSig.getState();
+	    NameTypePair pair = findNameTypePair(selectName, signature);
+	    
+	    //if it is not found, try the attributes
+	    if (pair == null) {
+	      List<NameTypePair> pairs = classSig.getAttribute();
+	      pair = findNameTypePair(selectName, pairs);
+	    }
+	    
+	    //if it is not in the state or attributes, raise an error
+	    if (pair == null) {
+	      Object [] params = {bindSelExpr};
+	      error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+	    }
+	    //otherwise, the type is the type of the selection
+	    else {
+	      type = pair.getType();
+	    }
+	  }
 
-          //if it is not found, try the attributes
-          if (pair == null) {
-            List<NameTypePair> pairs = classSig.getAttribute();
-            pair = findNameTypePair(selectName, pairs);
-          }
-
-          //if it is not in the state or attributes, raise an error
-          if (pair == null) {
-            Object [] params = {bindSelExpr};
-            error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
-          }
-          //otherwise, the type is the type of the selection
-          else {
-            type = pair.getType();
-          }
-
-          //if the feature exists, but it is not visible, raise an error
-          if (pair != null && !isVisible(selectName, exprType)) {
-            Object [] params = {selectName, bindSelExpr};
-            error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
-          }
+	  //if the feature exists, but it is not visible, raise an error
+	  if (!(type instanceof UnknownType) && !isVisible(selectName, exprType)) {
+	    Object [] params = {selectName, bindSelExpr};
+	    error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+	  }
         }
       }
       else {

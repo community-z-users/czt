@@ -161,9 +161,6 @@ public class CarrierSet
 
   public Term visitUnknownType(UnknownType unknownType)
   {
-    if (!allowVariableTypes_) {
-      throw new UndeterminedTypeException();
-    }
     StrokeList strokes = zFactory_.createZStrokeList();
     ZRefName zRefName =
       zFactory_.createZRefName("unknown(" + unknownType.getZRefName() + ")",
