@@ -3781,7 +3781,7 @@ commField ::=
         INSTROKE:cq refName:rn
         {:
             RESULT = factory_.createInputField(rn, TRUE_PREDICATE);
-            addLocAnn(RESULT, getLocation(cq, rn));cqleft, cqright);
+            addLocAnn(RESULT, getLocation(cq, rn));
         :}
         |
         /* Input communicatio as in: c?x : P */
