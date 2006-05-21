@@ -54,7 +54,7 @@ public class QuiDoncTest extends TestCase
   {
     ModelTestCase model = new ModelTestCase(new QuiDonc());
     model.buildGraph();
-    model.printGraphDot("QuiDonc.dot");
+    //    model.printGraphDot("QuiDonc.dot");
     // NOTE: with the State+timeouts getState, it has 11 vertices, 37 edges.
     Assert.assertEquals(5, model.getGraph().numVertices());
     int numEdges = model.getGraph().numEdges();
