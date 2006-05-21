@@ -5,3 +5,5 @@
    * ZSchText and throws an UnsupportedAstClassException otherwise.
    */
   ZSchText getZSchText();
+
+  ZDeclNameList getDeclName();

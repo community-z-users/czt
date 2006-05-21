@@ -25,6 +25,7 @@ Test schemas and axdefs with empty declaration parts.
             <Anns>
                 <LocAnn Col="0" Length="39" Line="6" Loc="tests/z/test10.tex" Start="113"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="15" Line="7" Loc="tests/z/test10.tex" Start="127"/>
@@ -70,6 +71,7 @@ Test schemas and axdefs with empty declaration parts.
             <Anns>
                 <LocAnn Col="0" Length="41" Line="10" Loc="tests/z/test10.tex" Start="154"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="17" Line="11" Loc="tests/z/test10.tex" Start="168"/>
@@ -116,6 +118,7 @@ Test axdef with no declarations.
             <Anns>
                 <LocAnn Col="0" Length="71" Line="15" Loc="tests/z/test10.tex" Start="230"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList/>
                 <ExistsPred>
@@ -133,13 +136,15 @@ Test axdef with no declarations.
                                 <Anns>
                                     <LocAnn Col="13" Length="6" Line="17" Loc="tests/z/test10.tex" Start="263"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="17" Loc="tests/z/test10.tex" Start="263"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="17" Loc="tests/z/test10.tex" Start="263"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="14" Length="4" Line="17" Loc="tests/z/test10.tex" Start="265"/>
@@ -287,6 +292,7 @@ Test empty axdef
             <Anns>
                 <LocAnn Col="0" Length="25" Line="21" Loc="tests/z/test10.tex" Start="321"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList/>
             </ZSchText>

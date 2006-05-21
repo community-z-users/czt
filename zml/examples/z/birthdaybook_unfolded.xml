@@ -31,6 +31,7 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
             <Anns>
                 <LocAnn Col="0" Length="42" Line="14" Loc="birthdaybook_unfolded.tex" Start="537"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Length="17" Line="15" Loc="birthdaybook_unfolded.tex" Start="552"/>
@@ -104,6 +105,7 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
             <Anns>
                 <LocAnn Col="0" Length="44" Line="17" Loc="birthdaybook_unfolded.tex" Start="580"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Length="19" Line="18" Loc="birthdaybook_unfolded.tex" Start="595"/>
@@ -181,6 +183,7 @@ the birthday book system.
             <Anns>
                 <LocAnn Col="0" Length="128" Line="24" Loc="birthdaybook_unfolded.tex" Start="715"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -198,13 +201,15 @@ the birthday book system.
                                         <Anns>
                                             <LocAnn Col="9" Length="18" Line="25" Loc="birthdaybook_unfolded.tex" Start="748"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="25" Loc="birthdaybook_unfolded.tex" Start="748"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="25" Loc="birthdaybook_unfolded.tex" Start="748"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="11" Length="11" Line="25" Loc="birthdaybook_unfolded.tex" Start="755"/>
@@ -228,13 +233,15 @@ the birthday book system.
                                         <Anns>
                                             <LocAnn Col="12" Length="25" Line="26" Loc="birthdaybook_unfolded.tex" Start="774"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="26" Loc="birthdaybook_unfolded.tex" Start="774"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="26" Loc="birthdaybook_unfolded.tex" Start="774"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="19" Length="15" Line="26" Loc="birthdaybook_unfolded.tex" Start="784"/>
@@ -353,6 +360,7 @@ is empty.
             <Anns>
                 <LocAnn Col="0" Length="159" Line="36" Loc="birthdaybook_unfolded.tex" Start="1033"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -370,15 +378,17 @@ is empty.
                                         <Anns>
                                             <LocAnn Col="10" Length="19" Line="37" Loc="birthdaybook_unfolded.tex" Start="1070"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="6" Line="37" Loc="birthdaybook_unfolded.tex" Start="1070"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="6" Line="37" Loc="birthdaybook_unfolded.tex" Start="1070"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="12" Length="11" Line="37" Loc="birthdaybook_unfolded.tex" Start="1078"/>
@@ -402,15 +412,17 @@ is empty.
                                         <Anns>
                                             <LocAnn Col="13" Length="26" Line="38" Loc="birthdaybook_unfolded.tex" Start="1097"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="9" Line="38" Loc="birthdaybook_unfolded.tex" Start="1097"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="9" Line="38" Loc="birthdaybook_unfolded.tex" Start="1097"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="20" Length="15" Line="38" Loc="birthdaybook_unfolded.tex" Start="1108"/>
@@ -566,6 +578,7 @@ behaviour of the system.
             <Anns>
                 <LocAnn Col="0" Length="300" Line="47" Loc="birthdaybook_unfolded.tex" Start="1292"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -583,22 +596,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="48" Loc="birthdaybook_unfolded.tex" Start="1324"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="48" Loc="birthdaybook_unfolded.tex" Start="1324"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="48" Loc="birthdaybook_unfolded.tex" Start="1331"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="48" Loc="birthdaybook_unfolded.tex" Start="1324"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="48" Loc="birthdaybook_unfolded.tex" Start="1331"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="48" Loc="birthdaybook_unfolded.tex" Start="1339"/>
@@ -622,22 +637,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="49" Loc="birthdaybook_unfolded.tex" Start="1358"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="49" Loc="birthdaybook_unfolded.tex" Start="1358"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="49" Loc="birthdaybook_unfolded.tex" Start="1368"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="49" Loc="birthdaybook_unfolded.tex" Start="1358"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="49" Loc="birthdaybook_unfolded.tex" Start="1368"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="49" Loc="birthdaybook_unfolded.tex" Start="1379"/>
@@ -683,15 +700,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="50" Loc="birthdaybook_unfolded.tex" Start="1402"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="50" Loc="birthdaybook_unfolded.tex" Start="1402"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="50" Loc="birthdaybook_unfolded.tex" Start="1402"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="50" Loc="birthdaybook_unfolded.tex" Start="1409"/>
@@ -710,15 +729,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="51" Loc="birthdaybook_unfolded.tex" Start="1421"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="51" Loc="birthdaybook_unfolded.tex" Start="1421"/>
-                                            </Anns>
-                                            <Word>date</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="51" Loc="birthdaybook_unfolded.tex" Start="1421"/>
+                                                </Anns>
+                                                <Word>date</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="51" Loc="birthdaybook_unfolded.tex" Start="1428"/>
@@ -1045,6 +1066,7 @@ behaviour of the system.
             <Anns>
                 <LocAnn Col="0" Length="323" Line="60" Loc="birthdaybook_unfolded.tex" Start="1594"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1062,22 +1084,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="61" Loc="birthdaybook_unfolded.tex" Start="1627"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="61" Loc="birthdaybook_unfolded.tex" Start="1627"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="61" Loc="birthdaybook_unfolded.tex" Start="1634"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="61" Loc="birthdaybook_unfolded.tex" Start="1627"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="61" Loc="birthdaybook_unfolded.tex" Start="1634"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="61" Loc="birthdaybook_unfolded.tex" Start="1642"/>
@@ -1101,22 +1125,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="62" Loc="birthdaybook_unfolded.tex" Start="1661"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="62" Loc="birthdaybook_unfolded.tex" Start="1661"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="62" Loc="birthdaybook_unfolded.tex" Start="1671"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="62" Loc="birthdaybook_unfolded.tex" Start="1661"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="62" Loc="birthdaybook_unfolded.tex" Start="1671"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="62" Loc="birthdaybook_unfolded.tex" Start="1682"/>
@@ -1162,15 +1188,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="63" Loc="birthdaybook_unfolded.tex" Start="1705"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="63" Loc="birthdaybook_unfolded.tex" Start="1705"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="63" Loc="birthdaybook_unfolded.tex" Start="1705"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="63" Loc="birthdaybook_unfolded.tex" Start="1712"/>
@@ -1189,15 +1217,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="64" Loc="birthdaybook_unfolded.tex" Start="1724"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="64" Loc="birthdaybook_unfolded.tex" Start="1724"/>
-                                            </Anns>
-                                            <Word>date</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="64" Loc="birthdaybook_unfolded.tex" Start="1724"/>
+                                                </Anns>
+                                                <Word>date</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="64" Loc="birthdaybook_unfolded.tex" Start="1731"/>
@@ -1535,6 +1565,7 @@ behaviour of the system.
             <Anns>
                 <LocAnn Col="0" Length="325" Line="75" Loc="birthdaybook_unfolded.tex" Start="1919"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1552,22 +1583,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="76" Loc="birthdaybook_unfolded.tex" Start="1946"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="76" Loc="birthdaybook_unfolded.tex" Start="1946"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="76" Loc="birthdaybook_unfolded.tex" Start="1953"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="76" Loc="birthdaybook_unfolded.tex" Start="1946"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="76" Loc="birthdaybook_unfolded.tex" Start="1953"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="76" Loc="birthdaybook_unfolded.tex" Start="1961"/>
@@ -1591,22 +1624,24 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="77" Loc="birthdaybook_unfolded.tex" Start="1980"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="77" Loc="birthdaybook_unfolded.tex" Start="1980"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="77" Loc="birthdaybook_unfolded.tex" Start="1990"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="77" Loc="birthdaybook_unfolded.tex" Start="1980"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="77" Loc="birthdaybook_unfolded.tex" Start="1990"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="77" Loc="birthdaybook_unfolded.tex" Start="2001"/>
@@ -1652,15 +1687,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="10" Length="12" Line="78" Loc="birthdaybook_unfolded.tex" Start="2024"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="6" Line="78" Loc="birthdaybook_unfolded.tex" Start="2024"/>
-                                            </Anns>
-                                            <Word>today</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="6" Line="78" Loc="birthdaybook_unfolded.tex" Start="2024"/>
+                                                </Anns>
+                                                <Word>today</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="12" Length="4" Line="78" Loc="birthdaybook_unfolded.tex" Start="2032"/>
@@ -1679,15 +1716,17 @@ behaviour of the system.
                                         <Anns>
                                             <LocAnn Col="10" Length="19" Line="79" Loc="birthdaybook_unfolded.tex" Start="2044"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="6" Line="79" Loc="birthdaybook_unfolded.tex" Start="2044"/>
-                                            </Anns>
-                                            <Word>cards</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="6" Line="79" Loc="birthdaybook_unfolded.tex" Start="2044"/>
+                                                </Anns>
+                                                <Word>cards</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="12" Length="11" Line="79" Loc="birthdaybook_unfolded.tex" Start="2052"/>
@@ -1942,13 +1981,15 @@ behaviour of the system.
                                                                 <Anns>
                                                                     <LocAnn Col="17" Length="8" Line="85" Loc="birthdaybook_unfolded.tex" Start="2197"/>
                                                                 </Anns>
-                                                                <ZDeclName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="16" Length="1" Line="85" Loc="birthdaybook_unfolded.tex" Start="2197"/>
-                                                                    </Anns>
-                                                                    <Word>n</Word>
-                                                                    <ZStrokeList/>
-                                                                </ZDeclName>
+                                                                <ZDeclNameList>
+                                                                    <ZDeclName>
+                                                                        <Anns>
+                                                                            <LocAnn Col="16" Length="1" Line="85" Loc="birthdaybook_unfolded.tex" Start="2197"/>
+                                                                        </Anns>
+                                                                        <Word>n</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZDeclName>
+                                                                </ZDeclNameList>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="19" Length="5" Line="85" Loc="birthdaybook_unfolded.tex" Start="2200"/>
@@ -2052,6 +2093,7 @@ day.
             <Anns>
                 <LocAnn Col="0" Length="322" Line="92" Loc="birthdaybook_unfolded.tex" Start="2439"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -2069,22 +2111,24 @@ day.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="93" Loc="birthdaybook_unfolded.tex" Start="2469"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="93" Loc="birthdaybook_unfolded.tex" Start="2469"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="93" Loc="birthdaybook_unfolded.tex" Start="2476"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="93" Loc="birthdaybook_unfolded.tex" Start="2469"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="93" Loc="birthdaybook_unfolded.tex" Start="2476"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="93" Loc="birthdaybook_unfolded.tex" Start="2484"/>
@@ -2108,22 +2152,24 @@ day.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="94" Loc="birthdaybook_unfolded.tex" Start="2503"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="94" Loc="birthdaybook_unfolded.tex" Start="2503"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="94" Loc="birthdaybook_unfolded.tex" Start="2513"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="94" Loc="birthdaybook_unfolded.tex" Start="2503"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="94" Loc="birthdaybook_unfolded.tex" Start="2513"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="94" Loc="birthdaybook_unfolded.tex" Start="2524"/>
@@ -2169,15 +2215,17 @@ day.
                                         <Anns>
                                             <LocAnn Col="10" Length="12" Line="95" Loc="birthdaybook_unfolded.tex" Start="2547"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="6" Line="95" Loc="birthdaybook_unfolded.tex" Start="2547"/>
-                                            </Anns>
-                                            <Word>today</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="6" Line="95" Loc="birthdaybook_unfolded.tex" Start="2547"/>
+                                                </Anns>
+                                                <Word>today</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="12" Length="4" Line="95" Loc="birthdaybook_unfolded.tex" Start="2555"/>
@@ -2196,15 +2244,17 @@ day.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="96" Loc="birthdaybook_unfolded.tex" Start="2567"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="96" Loc="birthdaybook_unfolded.tex" Start="2567"/>
-                                            </Anns>
-                                            <Word>card</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="96" Loc="birthdaybook_unfolded.tex" Start="2567"/>
+                                                </Anns>
+                                                <Word>card</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="96" Loc="birthdaybook_unfolded.tex" Start="2574"/>
@@ -2604,6 +2654,7 @@ and error cases.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="116" Loc="birthdaybook_unfolded.tex" Start="2980"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -2621,15 +2672,17 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="11" Length="15" Line="117" Loc="birthdaybook_unfolded.tex" Start="3008"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="7" Line="117" Loc="birthdaybook_unfolded.tex" Start="3008"/>
-                                            </Anns>
-                                            <Word>result</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="7" Line="117" Loc="birthdaybook_unfolded.tex" Start="3008"/>
+                                                </Anns>
+                                                <Word>result</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Length="6" Line="117" Loc="birthdaybook_unfolded.tex" Start="3017"/>
@@ -2700,6 +2753,7 @@ and error cases.
             <Anns>
                 <LocAnn Col="0" Length="327" Line="122" Loc="birthdaybook_unfolded.tex" Start="3062"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -2717,22 +2771,24 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="123" Loc="birthdaybook_unfolded.tex" Start="3095"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="123" Loc="birthdaybook_unfolded.tex" Start="3095"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="123" Loc="birthdaybook_unfolded.tex" Start="3102"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="123" Loc="birthdaybook_unfolded.tex" Start="3095"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="123" Loc="birthdaybook_unfolded.tex" Start="3102"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="123" Loc="birthdaybook_unfolded.tex" Start="3110"/>
@@ -2756,22 +2812,24 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="124" Loc="birthdaybook_unfolded.tex" Start="3129"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="124" Loc="birthdaybook_unfolded.tex" Start="3129"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="124" Loc="birthdaybook_unfolded.tex" Start="3139"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="124" Loc="birthdaybook_unfolded.tex" Start="3129"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="124" Loc="birthdaybook_unfolded.tex" Start="3139"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="124" Loc="birthdaybook_unfolded.tex" Start="3150"/>
@@ -2817,15 +2875,17 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="125" Loc="birthdaybook_unfolded.tex" Start="3173"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="125" Loc="birthdaybook_unfolded.tex" Start="3173"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="125" Loc="birthdaybook_unfolded.tex" Start="3173"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="125" Loc="birthdaybook_unfolded.tex" Start="3180"/>
@@ -2844,15 +2904,17 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="11" Length="15" Line="126" Loc="birthdaybook_unfolded.tex" Start="3192"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="7" Line="126" Loc="birthdaybook_unfolded.tex" Start="3192"/>
-                                            </Anns>
-                                            <Word>result</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="7" Line="126" Loc="birthdaybook_unfolded.tex" Start="3192"/>
+                                                </Anns>
+                                                <Word>result</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Length="6" Line="126" Loc="birthdaybook_unfolded.tex" Start="3201"/>
@@ -3166,6 +3228,7 @@ and error cases.
             <Anns>
                 <LocAnn Col="0" Length="322" Line="137" Loc="birthdaybook_unfolded.tex" Start="3392"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -3183,22 +3246,24 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="17" Length="26" Line="138" Loc="birthdaybook_unfolded.tex" Start="3421"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="138" Loc="birthdaybook_unfolded.tex" Start="3421"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="6" Line="138" Loc="birthdaybook_unfolded.tex" Start="3428"/>
-                                            </Anns>
-                                            <Word>known</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="138" Loc="birthdaybook_unfolded.tex" Start="3421"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="6" Line="138" Loc="birthdaybook_unfolded.tex" Start="3428"/>
+                                                </Anns>
+                                                <Word>known</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="11" Line="138" Loc="birthdaybook_unfolded.tex" Start="3436"/>
@@ -3222,22 +3287,24 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="23" Length="36" Line="139" Loc="birthdaybook_unfolded.tex" Start="3455"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="139" Loc="birthdaybook_unfolded.tex" Start="3455"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="9" Line="139" Loc="birthdaybook_unfolded.tex" Start="3465"/>
-                                            </Anns>
-                                            <Word>birthday</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="139" Loc="birthdaybook_unfolded.tex" Start="3455"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="9" Line="139" Loc="birthdaybook_unfolded.tex" Start="3465"/>
+                                                </Anns>
+                                                <Word>birthday</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="15" Line="139" Loc="birthdaybook_unfolded.tex" Start="3476"/>
@@ -3283,15 +3350,17 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="9" Length="11" Line="140" Loc="birthdaybook_unfolded.tex" Start="3499"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="140" Loc="birthdaybook_unfolded.tex" Start="3499"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="140" Loc="birthdaybook_unfolded.tex" Start="3499"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="140" Loc="birthdaybook_unfolded.tex" Start="3506"/>
@@ -3310,15 +3379,17 @@ and error cases.
                                         <Anns>
                                             <LocAnn Col="11" Length="15" Line="141" Loc="birthdaybook_unfolded.tex" Start="3518"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="7" Line="141" Loc="birthdaybook_unfolded.tex" Start="3518"/>
-                                            </Anns>
-                                            <Word>result</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="7" Line="141" Loc="birthdaybook_unfolded.tex" Start="3518"/>
+                                                </Anns>
+                                                <Word>result</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Length="6" Line="141" Loc="birthdaybook_unfolded.tex" Start="3527"/>
@@ -3652,6 +3723,7 @@ For illustration purposes, we leave the $RemindOne$ operation non-robust.
             <Anns>
                 <LocAnn Col="4" Length="61" Line="156" Loc="birthdaybook_unfolded.tex" Start="3905"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="4" Length="61" Line="156" Loc="birthdaybook_unfolded.tex" Start="3905"/>
@@ -3730,6 +3802,7 @@ For illustration purposes, we leave the $RemindOne$ operation non-robust.
             <Anns>
                 <LocAnn Col="4" Length="59" Line="157" Loc="birthdaybook_unfolded.tex" Start="3974"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="4" Length="59" Line="157" Loc="birthdaybook_unfolded.tex" Start="3974"/>
@@ -3808,6 +3881,7 @@ For illustration purposes, we leave the $RemindOne$ operation non-robust.
             <Anns>
                 <LocAnn Col="4" Length="31" Line="158" Loc="birthdaybook_unfolded.tex" Start="4041"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="4" Length="31" Line="158" Loc="birthdaybook_unfolded.tex" Start="4041"/>
@@ -3928,6 +4002,7 @@ Disadvantages:
             <Anns>
                 <LocAnn Col="0" Length="208" Line="218" Loc="birthdaybook_unfolded.tex" Start="6164"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -3945,13 +4020,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="22" Line="219" Loc="birthdaybook_unfolded.tex" Start="6190"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="219" Loc="birthdaybook_unfolded.tex" Start="6190"/>
-                                            </Anns>
-                                            <Word>state</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="219" Loc="birthdaybook_unfolded.tex" Start="6190"/>
+                                                </Anns>
+                                                <Word>state</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="12" Line="219" Loc="birthdaybook_unfolded.tex" Start="6200"/>
@@ -3970,13 +4047,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="26" Line="220" Loc="birthdaybook_unfolded.tex" Start="6220"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="4" Line="220" Loc="birthdaybook_unfolded.tex" Start="6220"/>
-                                            </Anns>
-                                            <Word>init</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="4" Line="220" Loc="birthdaybook_unfolded.tex" Start="6220"/>
+                                                </Anns>
+                                                <Word>init</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="16" Line="220" Loc="birthdaybook_unfolded.tex" Start="6230"/>
@@ -3995,13 +4074,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="22" Line="221" Loc="birthdaybook_unfolded.tex" Start="6254"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="3" Line="221" Loc="birthdaybook_unfolded.tex" Start="6254"/>
-                                            </Anns>
-                                            <Word>add</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="3" Line="221" Loc="birthdaybook_unfolded.tex" Start="6254"/>
+                                                </Anns>
+                                                <Word>add</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="12" Line="221" Loc="birthdaybook_unfolded.tex" Start="6264"/>
@@ -4020,13 +4101,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="23" Line="222" Loc="birthdaybook_unfolded.tex" Start="6284"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="4" Line="222" Loc="birthdaybook_unfolded.tex" Start="6284"/>
-                                            </Anns>
-                                            <Word>find</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="4" Line="222" Loc="birthdaybook_unfolded.tex" Start="6284"/>
+                                                </Anns>
+                                                <Word>find</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="13" Line="222" Loc="birthdaybook_unfolded.tex" Start="6294"/>
@@ -4045,13 +4128,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="17" Line="223" Loc="birthdaybook_unfolded.tex" Start="6315"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="6" Line="223" Loc="birthdaybook_unfolded.tex" Start="6315"/>
-                                            </Anns>
-                                            <Word>remind</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="6" Line="223" Loc="birthdaybook_unfolded.tex" Start="6315"/>
+                                                </Anns>
+                                                <Word>remind</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="7" Line="223" Loc="birthdaybook_unfolded.tex" Start="6325"/>
@@ -4070,13 +4155,15 @@ Disadvantages:
                                         <Anns>
                                             <LocAnn Col="12" Length="19" Line="224" Loc="birthdaybook_unfolded.tex" Start="6340"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="7" Line="224" Loc="birthdaybook_unfolded.tex" Start="6340"/>
-                                            </Anns>
-                                            <Word>remind1</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="7" Line="224" Loc="birthdaybook_unfolded.tex" Start="6340"/>
+                                                </Anns>
+                                                <Word>remind1</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="9" Line="224" Loc="birthdaybook_unfolded.tex" Start="6350"/>

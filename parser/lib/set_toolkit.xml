@@ -155,20 +155,22 @@
             <Anns>
                 <LocAnn Col="0" Length="55" Line="18" Loc="lib/set_toolkit.tex" Start="337"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="19" Loc="lib/set_toolkit.tex" Start="349"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="7" Length="1" Line="19" Loc="lib/set_toolkit.tex" Start="356"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="19" Loc="lib/set_toolkit.tex" Start="349"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="7" Length="1" Line="19" Loc="lib/set_toolkit.tex" Start="356"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/set_toolkit.tex"/>
@@ -268,20 +270,22 @@ are members of $X$ and whose second members are members of $Y$.
             <Anns>
                 <LocAnn Col="0" Length="104" Line="33" Loc="lib/set_toolkit.tex" Start="690"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="702"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="7" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="709"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="702"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="7" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="709"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/set_toolkit.tex"/>
@@ -305,13 +309,15 @@ are members of $X$ and whose second members are members of $Y$.
                                         <Anns>
                                             <LocAnn Col="18" Length="12" Line="34" Loc="lib/set_toolkit.tex" Start="718"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="718"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="718"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="22" Length="8" Line="34" Loc="lib/set_toolkit.tex" Start="722"/>
@@ -364,13 +370,15 @@ are members of $X$ and whose second members are members of $Y$.
                                                 <Anns>
                                                     <LocAnn Col="41" Length="5" Line="34" Loc="lib/set_toolkit.tex" Start="741"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="39" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="741"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="39" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="741"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="43" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="745"/>
@@ -397,13 +405,15 @@ are members of $X$ and whose second members are members of $Y$.
                                                     <Anns>
                                                         <LocAnn Col="59" Length="5" Line="34" Loc="lib/set_toolkit.tex" Start="759"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="57" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="759"/>
-                                                        </Anns>
-                                                        <Word>y</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="57" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="759"/>
+                                                            </Anns>
+                                                            <Word>y</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="61" Length="1" Line="34" Loc="lib/set_toolkit.tex" Start="763"/>
@@ -520,26 +530,30 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
             <Anns>
                 <LocAnn Col="0" Length="105" Line="50" Loc="lib/set_toolkit.tex" Start="1093"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="50" Loc="lib/set_toolkit.tex" Start="1108"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="50" Loc="lib/set_toolkit.tex" Start="1108"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="51" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="51" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ≠ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="51" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ≠ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="15" Length="8" Line="51" Loc="lib/set_toolkit.tex" Start="1124"/>
@@ -592,20 +606,22 @@ such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
                                 <Anns>
                                     <LocAnn Col="14" Length="9" Line="53" Loc="lib/set_toolkit.tex" Start="1148"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="53" Loc="lib/set_toolkit.tex" Start="1148"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="53" Loc="lib/set_toolkit.tex" Start="1152"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="53" Loc="lib/set_toolkit.tex" Start="1148"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="53" Loc="lib/set_toolkit.tex" Start="1152"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="16" Length="1" Line="53" Loc="lib/set_toolkit.tex" Start="1156"/>
@@ -756,26 +772,30 @@ that are not equal to each other.
             <Anns>
                 <LocAnn Col="0" Length="129" Line="66" Loc="lib/set_toolkit.tex" Start="1399"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="66" Loc="lib/set_toolkit.tex" Start="1414"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="66" Loc="lib/set_toolkit.tex" Start="1414"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="67" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="67" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ∉ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="67" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ∉ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="17" Length="15" Line="67" Loc="lib/set_toolkit.tex" Start="1432"/>
@@ -833,13 +853,15 @@ that are not equal to each other.
                                 <Anns>
                                     <LocAnn Col="10" Length="5" Line="69" Loc="lib/set_toolkit.tex" Start="1463"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="69" Loc="lib/set_toolkit.tex" Start="1463"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="69" Loc="lib/set_toolkit.tex" Start="1463"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="12" Length="1" Line="69" Loc="lib/set_toolkit.tex" Start="1467"/>
@@ -858,13 +880,15 @@ that are not equal to each other.
                                 <Anns>
                                     <LocAnn Col="18" Length="12" Line="69" Loc="lib/set_toolkit.tex" Start="1471"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="16" Length="1" Line="69" Loc="lib/set_toolkit.tex" Start="1471"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="16" Length="1" Line="69" Loc="lib/set_toolkit.tex" Start="1471"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="20" Length="8" Line="69" Loc="lib/set_toolkit.tex" Start="1475"/>
@@ -996,13 +1020,15 @@ for which $x$ is not a member of $a$.
             <Anns>
                 <LocAnn Col="0" Length="62" Line="79" Loc="lib/set_toolkit.tex" Start="1722"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="12" Length="1" Line="80" Loc="lib/set_toolkit.tex" Start="1746"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="12" Length="1" Line="80" Loc="lib/set_toolkit.tex" Start="1746"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="16" Length="40" Line="80" Loc="lib/set_toolkit.tex" Start="1734"/>
@@ -1029,13 +1055,15 @@ for which $x$ is not a member of $a$.
                                         <Anns>
                                             <LocAnn Col="25" Length="5" Line="80" Loc="lib/set_toolkit.tex" Start="1757"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="23" Length="1" Line="80" Loc="lib/set_toolkit.tex" Start="1757"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="23" Length="1" Line="80" Loc="lib/set_toolkit.tex" Start="1757"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="27" Length="1" Line="80" Loc="lib/set_toolkit.tex" Start="1761"/>
@@ -1100,26 +1128,30 @@ type that has no members.
             <Anns>
                 <LocAnn Col="0" Length="152" Line="93" Loc="lib/set_toolkit.tex" Start="1964"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="93" Loc="lib/set_toolkit.tex" Start="1979"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="93" Loc="lib/set_toolkit.tex" Start="1979"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="16" Line="94" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="13" Line="94" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⊆ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="94" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⊆ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="27" Length="22" Line="94" Loc="lib/set_toolkit.tex" Start="2000"/>
@@ -1182,20 +1214,22 @@ type that has no members.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="96" Loc="lib/set_toolkit.tex" Start="2038"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="96" Loc="lib/set_toolkit.tex" Start="2038"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="96" Loc="lib/set_toolkit.tex" Start="2042"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="96" Loc="lib/set_toolkit.tex" Start="2038"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="96" Loc="lib/set_toolkit.tex" Start="2042"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="96" Loc="lib/set_toolkit.tex" Start="2046"/>
@@ -1284,13 +1318,15 @@ type that has no members.
                                         <Anns>
                                             <LocAnn Col="12" Length="5" Line="97" Loc="lib/set_toolkit.tex" Start="2086"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="10" Length="1" Line="97" Loc="lib/set_toolkit.tex" Start="2086"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="10" Length="1" Line="97" Loc="lib/set_toolkit.tex" Start="2086"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="1" Line="97" Loc="lib/set_toolkit.tex" Start="2090"/>
@@ -1381,26 +1417,30 @@ such that every member of $a$ is a member of $b$.
             <Anns>
                 <LocAnn Col="0" Length="149" Line="110" Loc="lib/set_toolkit.tex" Start="2349"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="110" Loc="lib/set_toolkit.tex" Start="2364"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="110" Loc="lib/set_toolkit.tex" Start="2364"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="14" Line="111" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="11" Line="111" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⊂ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Line="111" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⊂ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="25" Length="22" Line="111" Loc="lib/set_toolkit.tex" Start="2383"/>
@@ -1463,20 +1503,22 @@ such that every member of $a$ is a member of $b$.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="113" Loc="lib/set_toolkit.tex" Start="2421"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="113" Loc="lib/set_toolkit.tex" Start="2421"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="113" Loc="lib/set_toolkit.tex" Start="2425"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="113" Loc="lib/set_toolkit.tex" Start="2421"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="113" Loc="lib/set_toolkit.tex" Start="2425"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="113" Loc="lib/set_toolkit.tex" Start="2429"/>
@@ -1674,13 +1716,15 @@ and $a$ and $b$ are not equal.
             <Anns>
                 <LocAnn Col="0" Length="75" Line="124" Loc="lib/set_toolkit.tex" Start="2674"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="9" Length="1" Line="125" Loc="lib/set_toolkit.tex" Start="2695"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="9" Length="1" Line="125" Loc="lib/set_toolkit.tex" Start="2695"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/set_toolkit.tex"/>
@@ -1706,13 +1750,15 @@ and $a$ and $b$ are not equal.
                                         <Anns>
                                             <LocAnn Col="20" Length="12" Line="125" Loc="lib/set_toolkit.tex" Start="2704"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="18" Length="1" Line="125" Loc="lib/set_toolkit.tex" Start="2704"/>
-                                            </Anns>
-                                            <Word>a</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="18" Length="1" Line="125" Loc="lib/set_toolkit.tex" Start="2704"/>
+                                                </Anns>
+                                                <Word>a</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="22" Length="8" Line="125" Loc="lib/set_toolkit.tex" Start="2708"/>
@@ -1828,26 +1874,30 @@ The $\power$ symbol is established as a generic operator by the prelude.
             <Anns>
                 <LocAnn Col="0" Length="164" Line="141" Loc="lib/set_toolkit.tex" Start="3033"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="141" Loc="lib/set_toolkit.tex" Start="3048"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="141" Loc="lib/set_toolkit.tex" Start="3048"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="142" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="142" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ∪ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="142" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ∪ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="38" Length="38" Line="142" Loc="lib/set_toolkit.tex" Start="3064"/>
@@ -1935,20 +1985,22 @@ The $\power$ symbol is established as a generic operator by the prelude.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="144" Loc="lib/set_toolkit.tex" Start="3118"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3118"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3122"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3118"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3122"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="144" Loc="lib/set_toolkit.tex" Start="3126"/>
@@ -2034,13 +2086,15 @@ The $\power$ symbol is established as a generic operator by the prelude.
                                                 <Anns>
                                                     <LocAnn Col="44" Length="5" Line="144" Loc="lib/set_toolkit.tex" Start="3152"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="42" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3152"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="42" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3152"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="46" Length="1" Line="144" Loc="lib/set_toolkit.tex" Start="3156"/>
@@ -2169,26 +2223,30 @@ that are members of either set.
             <Anns>
                 <LocAnn Col="0" Length="165" Line="157" Loc="lib/set_toolkit.tex" Start="3403"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="157" Loc="lib/set_toolkit.tex" Start="3418"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="157" Loc="lib/set_toolkit.tex" Start="3418"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="158" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="158" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ∩ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="158" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ∩ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="38" Length="38" Line="158" Loc="lib/set_toolkit.tex" Start="3434"/>
@@ -2276,20 +2334,22 @@ that are members of either set.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="160" Loc="lib/set_toolkit.tex" Start="3488"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3488"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3492"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3488"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3492"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="160" Loc="lib/set_toolkit.tex" Start="3496"/>
@@ -2375,13 +2435,15 @@ that are members of either set.
                                                 <Anns>
                                                     <LocAnn Col="44" Length="5" Line="160" Loc="lib/set_toolkit.tex" Start="3522"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="42" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3522"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="42" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3522"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="46" Length="1" Line="160" Loc="lib/set_toolkit.tex" Start="3526"/>
@@ -2510,26 +2572,30 @@ values that are members of both sets.
             <Anns>
                 <LocAnn Col="0" Length="178" Line="173" Loc="lib/set_toolkit.tex" Start="3788"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="173" Loc="lib/set_toolkit.tex" Start="3803"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="173" Loc="lib/set_toolkit.tex" Start="3803"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="16" Line="174" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="13" Line="174" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ \ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="174" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ \ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="38" Line="174" Loc="lib/set_toolkit.tex" Start="3824"/>
@@ -2617,20 +2683,22 @@ values that are members of both sets.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="176" Loc="lib/set_toolkit.tex" Start="3878"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3878"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3882"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3878"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3882"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="176" Loc="lib/set_toolkit.tex" Start="3886"/>
@@ -2716,13 +2784,15 @@ values that are members of both sets.
                                                 <Anns>
                                                     <LocAnn Col="49" Length="5" Line="176" Loc="lib/set_toolkit.tex" Start="3917"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="47" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3917"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="47" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3917"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="51" Length="1" Line="176" Loc="lib/set_toolkit.tex" Start="3921"/>
@@ -2868,26 +2938,30 @@ values that are members of the first set but not members of the second set.
             <Anns>
                 <LocAnn Col="0" Length="181" Line="189" Loc="lib/set_toolkit.tex" Start="4230"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="189" Loc="lib/set_toolkit.tex" Start="4245"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="189" Loc="lib/set_toolkit.tex" Start="4245"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="15" Line="190" Loc="lib/set_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="12" Line="190" Loc="lib/set_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⊖ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="190" Loc="lib/set_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⊖ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="42" Length="38" Line="190" Loc="lib/set_toolkit.tex" Start="4265"/>
@@ -2975,20 +3049,22 @@ values that are members of the first set but not members of the second set.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="192" Loc="lib/set_toolkit.tex" Start="4319"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4319"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4323"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4319"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4323"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="16" Length="8" Line="192" Loc="lib/set_toolkit.tex" Start="4327"/>
@@ -3074,13 +3150,15 @@ values that are members of the first set but not members of the second set.
                                                 <Anns>
                                                     <LocAnn Col="48" Length="5" Line="192" Loc="lib/set_toolkit.tex" Start="4357"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="46" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4357"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="46" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4357"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="50" Length="1" Line="192" Loc="lib/set_toolkit.tex" Start="4361"/>
@@ -3199,26 +3277,30 @@ but not members of both.
             <Anns>
                 <LocAnn Col="0" Length="160" Line="202" Loc="lib/set_toolkit.tex" Start="4617"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="202" Loc="lib/set_toolkit.tex" Start="4632"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="202" Loc="lib/set_toolkit.tex" Start="4632"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Length="40" Line="203" Loc="lib/set_toolkit.tex" Start="4635"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="7" Line="203" Loc="lib/set_toolkit.tex" Start="4635"/>
-                            </Anns>
-                            <Word>⋃</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="7" Line="203" Loc="lib/set_toolkit.tex" Start="4635"/>
+                                </Anns>
+                                <Word>⋃</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="27" Length="30" Line="203" Loc="lib/set_toolkit.tex" Start="4645"/>
@@ -3286,13 +3368,15 @@ but not members of both.
                                 <Anns>
                                     <LocAnn Col="10" Length="19" Line="205" Loc="lib/set_toolkit.tex" Start="4691"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4691"/>
-                                    </Anns>
-                                    <Word>A</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4691"/>
+                                        </Anns>
+                                        <Word>A</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="12" Length="15" Line="205" Loc="lib/set_toolkit.tex" Start="4695"/>
@@ -3366,13 +3450,15 @@ but not members of both.
                                                 <Anns>
                                                     <LocAnn Col="48" Length="5" Line="205" Loc="lib/set_toolkit.tex" Start="4729"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="46" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4729"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="46" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4729"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="50" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4733"/>
@@ -3398,13 +3484,15 @@ but not members of both.
                                                         <Anns>
                                                             <LocAnn Col="64" Length="5" Line="205" Loc="lib/set_toolkit.tex" Start="4745"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="62" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4745"/>
-                                                            </Anns>
-                                                            <Word>a</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="62" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4745"/>
+                                                                </Anns>
+                                                                <Word>a</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="66" Length="1" Line="205" Loc="lib/set_toolkit.tex" Start="4749"/>
@@ -3478,26 +3566,30 @@ the set of values of that type that are members of at least one of the sets.
             <Anns>
                 <LocAnn Col="0" Length="159" Line="214" Loc="lib/set_toolkit.tex" Start="4979"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="214" Loc="lib/set_toolkit.tex" Start="4994"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="214" Loc="lib/set_toolkit.tex" Start="4994"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Length="39" Line="215" Loc="lib/set_toolkit.tex" Start="4997"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="7" Line="215" Loc="lib/set_toolkit.tex" Start="4997"/>
-                            </Anns>
-                            <Word>⋂</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="7" Line="215" Loc="lib/set_toolkit.tex" Start="4997"/>
+                                </Anns>
+                                <Word>⋂</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="26" Length="29" Line="215" Loc="lib/set_toolkit.tex" Start="5007"/>
@@ -3565,13 +3657,15 @@ the set of values of that type that are members of at least one of the sets.
                                 <Anns>
                                     <LocAnn Col="10" Length="19" Line="217" Loc="lib/set_toolkit.tex" Start="5052"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5052"/>
-                                    </Anns>
-                                    <Word>A</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5052"/>
+                                        </Anns>
+                                        <Word>A</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="12" Length="15" Line="217" Loc="lib/set_toolkit.tex" Start="5056"/>
@@ -3645,13 +3739,15 @@ the set of values of that type that are members of at least one of the sets.
                                                 <Anns>
                                                     <LocAnn Col="48" Length="5" Line="217" Loc="lib/set_toolkit.tex" Start="5090"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="46" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5090"/>
-                                                    </Anns>
-                                                    <Word>x</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="46" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5090"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="50" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5094"/>
@@ -3677,13 +3773,15 @@ the set of values of that type that are members of at least one of the sets.
                                                         <Anns>
                                                             <LocAnn Col="64" Length="5" Line="217" Loc="lib/set_toolkit.tex" Start="5106"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="62" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5106"/>
-                                                            </Anns>
-                                                            <Word>a</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="62" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5106"/>
+                                                                </Anns>
+                                                                <Word>a</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="66" Length="1" Line="217" Loc="lib/set_toolkit.tex" Start="5110"/>
@@ -3780,13 +3878,15 @@ every one of the sets.
             <Anns>
                 <LocAnn Col="0" Length="144" Line="233" Loc="lib/set_toolkit.tex" Start="5416"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="234" Loc="lib/set_toolkit.tex" Start="5436"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="234" Loc="lib/set_toolkit.tex" Start="5436"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/set_toolkit.tex"/>
@@ -3827,13 +3927,15 @@ every one of the sets.
                                             <Anns>
                                                 <LocAnn Col="27" Length="19" Line="234" Loc="lib/set_toolkit.tex" Start="5453"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="25" Length="1" Line="234" Loc="lib/set_toolkit.tex" Start="5453"/>
-                                                </Anns>
-                                                <Word>A</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="25" Length="1" Line="234" Loc="lib/set_toolkit.tex" Start="5453"/>
+                                                    </Anns>
+                                                    <Word>A</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="29" Length="15" Line="234" Loc="lib/set_toolkit.tex" Start="5457"/>
@@ -3909,13 +4011,15 @@ every one of the sets.
                                                         <Anns>
                                                             <LocAnn Col="35" Length="5" Line="235" Loc="lib/set_toolkit.tex" Start="5508"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="33" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5508"/>
-                                                            </Anns>
-                                                            <Word>a</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="33" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5508"/>
+                                                                </Anns>
+                                                                <Word>a</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="37" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5512"/>
@@ -3934,13 +4038,15 @@ every one of the sets.
                                                         <Anns>
                                                             <LocAnn Col="43" Length="5" Line="235" Loc="lib/set_toolkit.tex" Start="5516"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="41" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5516"/>
-                                                            </Anns>
-                                                            <Word>x</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="41" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5516"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="45" Length="1" Line="235" Loc="lib/set_toolkit.tex" Start="5520"/>
@@ -4058,13 +4164,15 @@ and is closed under the action of adding single elements of $X$.
             <Anns>
                 <LocAnn Col="0" Length="72" Line="245" Loc="lib/set_toolkit.tex" Start="5821"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="10" Length="1" Line="246" Loc="lib/set_toolkit.tex" Start="5843"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="10" Length="1" Line="246" Loc="lib/set_toolkit.tex" Start="5843"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/set_toolkit.tex"/>

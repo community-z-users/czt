@@ -151,33 +151,37 @@
             <Anns>
                 <LocAnn Col="0" Length="109" Line="12" Loc="lib/relation_toolkit.tex" Start="289"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="304"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="306"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="304"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="12" Loc="lib/relation_toolkit.tex" Start="306"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Length="26" Line="13" Loc="lib/relation_toolkit.tex" Start="310"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="5" Line="13" Loc="lib/relation_toolkit.tex" Start="310"/>
-                            </Anns>
-                            <Word>first</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="5" Line="13" Loc="lib/relation_toolkit.tex" Start="310"/>
+                                </Anns>
+                                <Word>first</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="20" Length="18" Line="13" Loc="lib/relation_toolkit.tex" Start="318"/>
@@ -250,13 +254,15 @@
                                 <Anns>
                                     <LocAnn Col="10" Length="5" Line="15" Loc="lib/relation_toolkit.tex" Start="354"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="354"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="354"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="12" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="358"/>
@@ -275,13 +281,15 @@
                                 <Anns>
                                     <LocAnn Col="17" Length="5" Line="15" Loc="lib/relation_toolkit.tex" Start="361"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="15" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="361"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="15" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="361"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="19" Length="1" Line="15" Loc="lib/relation_toolkit.tex" Start="365"/>
@@ -391,33 +399,37 @@ $first~(x,y)$ is the $x$ component of the pair.
             <Anns>
                 <LocAnn Col="0" Length="110" Line="23" Loc="lib/relation_toolkit.tex" Start="526"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="541"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="543"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="541"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="23" Loc="lib/relation_toolkit.tex" Start="543"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Length="26" Line="24" Loc="lib/relation_toolkit.tex" Start="547"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="6" Line="24" Loc="lib/relation_toolkit.tex" Start="547"/>
-                            </Anns>
-                            <Word>second</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="6" Line="24" Loc="lib/relation_toolkit.tex" Start="547"/>
+                                </Anns>
+                                <Word>second</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="20" Length="17" Line="24" Loc="lib/relation_toolkit.tex" Start="556"/>
@@ -490,13 +502,15 @@ $first~(x,y)$ is the $x$ component of the pair.
                                 <Anns>
                                     <LocAnn Col="10" Length="5" Line="26" Loc="lib/relation_toolkit.tex" Start="591"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="591"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="591"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="12" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="595"/>
@@ -515,13 +529,15 @@ $first~(x,y)$ is the $x$ component of the pair.
                                 <Anns>
                                     <LocAnn Col="17" Length="5" Line="26" Loc="lib/relation_toolkit.tex" Start="598"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="15" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="598"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="15" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="598"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="19" Length="1" Line="26" Loc="lib/relation_toolkit.tex" Start="602"/>
@@ -652,33 +668,37 @@ $second~(x,y)$ is the $y$ component of the pair.
             <Anns>
                 <LocAnn Col="0" Length="134" Line="39" Loc="lib/relation_toolkit.tex" Start="837"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="852"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="854"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="852"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="39" Loc="lib/relation_toolkit.tex" Start="854"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="14" Line="40" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="11" Line="40" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↦ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Line="40" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↦ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <ZRefName>
                                 <Anns>
@@ -765,13 +785,15 @@ $second~(x,y)$ is the $y$ component of the pair.
                                 <Anns>
                                     <LocAnn Col="10" Length="5" Line="42" Loc="lib/relation_toolkit.tex" Start="918"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="918"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="918"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="12" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="922"/>
@@ -790,13 +812,15 @@ $second~(x,y)$ is the $y$ component of the pair.
                                 <Anns>
                                     <LocAnn Col="18" Length="5" Line="42" Loc="lib/relation_toolkit.tex" Start="926"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="16" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="926"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="16" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="926"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="20" Length="1" Line="42" Loc="lib/relation_toolkit.tex" Start="930"/>
@@ -923,33 +947,37 @@ $x \mapsto y$ is just another notation for $(x, y)$.
             <Anns>
                 <LocAnn Col="0" Length="127" Line="51" Loc="lib/relation_toolkit.tex" Start="1124"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1139"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1141"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1139"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="51" Loc="lib/relation_toolkit.tex" Start="1141"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="31" Line="52" Loc="lib/relation_toolkit.tex" Start="1145"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="52" Loc="lib/relation_toolkit.tex" Start="1145"/>
-                            </Anns>
-                            <Word>dom</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="52" Loc="lib/relation_toolkit.tex" Start="1145"/>
+                                </Anns>
+                                <Word>dom</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="18" Length="23" Line="52" Loc="lib/relation_toolkit.tex" Start="1153"/>
@@ -1039,13 +1067,15 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="54" Loc="lib/relation_toolkit.tex" Start="1194"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1194"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1194"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="54" Loc="lib/relation_toolkit.tex" Start="1198"/>
@@ -1136,13 +1166,15 @@ $x \mapsto y$ is just another notation for $(x, y)$.
                                                 <Anns>
                                                     <LocAnn Col="38" Length="5" Line="54" Loc="lib/relation_toolkit.tex" Start="1222"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1222"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1222"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="1" Line="54" Loc="lib/relation_toolkit.tex" Start="1226"/>
@@ -1206,33 +1238,37 @@ pairs in $r$.
             <Anns>
                 <LocAnn Col="0" Length="127" Line="63" Loc="lib/relation_toolkit.tex" Start="1389"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1404"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1406"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1404"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="63" Loc="lib/relation_toolkit.tex" Start="1406"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="31" Line="64" Loc="lib/relation_toolkit.tex" Start="1410"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="64" Loc="lib/relation_toolkit.tex" Start="1410"/>
-                            </Anns>
-                            <Word>ran</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="64" Loc="lib/relation_toolkit.tex" Start="1410"/>
+                                </Anns>
+                                <Word>ran</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="18" Length="23" Line="64" Loc="lib/relation_toolkit.tex" Start="1418"/>
@@ -1322,13 +1358,15 @@ pairs in $r$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="66" Loc="lib/relation_toolkit.tex" Start="1459"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1459"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1459"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="66" Loc="lib/relation_toolkit.tex" Start="1463"/>
@@ -1419,13 +1457,15 @@ pairs in $r$.
                                                 <Anns>
                                                     <LocAnn Col="38" Length="5" Line="66" Loc="lib/relation_toolkit.tex" Start="1487"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1487"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1487"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="1" Line="66" Loc="lib/relation_toolkit.tex" Start="1491"/>
@@ -1509,13 +1549,15 @@ pairs in $r$.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="79" Loc="lib/relation_toolkit.tex" Start="1709"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="4" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1726"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="4" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1726"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/relation_toolkit.tex"/>
@@ -1539,13 +1581,15 @@ pairs in $r$.
                                         <Anns>
                                             <LocAnn Col="15" Length="5" Line="80" Loc="lib/relation_toolkit.tex" Start="1735"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="13" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1735"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="13" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1735"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="17" Length="1" Line="80" Loc="lib/relation_toolkit.tex" Start="1739"/>
@@ -1653,40 +1697,44 @@ member of $X$ to itself.
             <Anns>
                 <LocAnn Col="0" Length="208" Line="93" Loc="lib/relation_toolkit.tex" Start="1998"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2013"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2015"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="19" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2017"/>
-                </Anns>
-                <Word>Z</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2013"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2015"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="19" Length="1" Line="93" Loc="lib/relation_toolkit.tex" Start="2017"/>
+                    </Anns>
+                    <Word>Z</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="94" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="94" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⨾ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="94" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⨾ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="42" Line="94" Loc="lib/relation_toolkit.tex" Start="2036"/>
@@ -1855,13 +1903,15 @@ member of $X$ to itself.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="96" Loc="lib/relation_toolkit.tex" Start="2097"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2097"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2097"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="96" Loc="lib/relation_toolkit.tex" Start="2101"/>
@@ -1907,13 +1957,15 @@ member of $X$ to itself.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="96" Loc="lib/relation_toolkit.tex" Start="2112"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2112"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="96" Loc="lib/relation_toolkit.tex" Start="2112"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="29" Length="8" Line="96" Loc="lib/relation_toolkit.tex" Start="2116"/>
@@ -2021,13 +2073,15 @@ member of $X$ to itself.
                                                 <Anns>
                                                     <LocAnn Col="19" Length="5" Line="97" Loc="lib/relation_toolkit.tex" Start="2145"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="17" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2145"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="17" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2145"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="21" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2149"/>
@@ -2046,13 +2100,15 @@ member of $X$ to itself.
                                                 <Anns>
                                                     <LocAnn Col="27" Length="5" Line="97" Loc="lib/relation_toolkit.tex" Start="2153"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="25" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2153"/>
-                                                    </Anns>
-                                                    <Word>q</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="25" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2153"/>
+                                                        </Anns>
+                                                        <Word>q</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="29" Length="1" Line="97" Loc="lib/relation_toolkit.tex" Start="2157"/>
@@ -2240,40 +2296,44 @@ and relating the first component of $p$ with the second component of $q$.
             <Anns>
                 <LocAnn Col="0" Length="164" Line="113" Loc="lib/relation_toolkit.tex" Start="2657"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2672"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2674"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="19" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2676"/>
-                </Anns>
-                <Word>Z</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2672"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2674"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="19" Length="1" Line="113" Loc="lib/relation_toolkit.tex" Start="2676"/>
+                    </Anns>
+                    <Word>Z</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="114" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="114" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ∘ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="114" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ∘ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="42" Line="114" Loc="lib/relation_toolkit.tex" Start="2695"/>
@@ -2442,13 +2502,15 @@ and relating the first component of $p$ with the second component of $q$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="116" Loc="lib/relation_toolkit.tex" Start="2756"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2756"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2756"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="116" Loc="lib/relation_toolkit.tex" Start="2760"/>
@@ -2494,13 +2556,15 @@ and relating the first component of $p$ with the second component of $q$.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="116" Loc="lib/relation_toolkit.tex" Start="2771"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2771"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="116" Loc="lib/relation_toolkit.tex" Start="2771"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="29" Length="8" Line="116" Loc="lib/relation_toolkit.tex" Start="2775"/>
@@ -2690,33 +2754,37 @@ the relational composition of $r$ and $s$.
             <Anns>
                 <LocAnn Col="0" Length="180" Line="129" Loc="lib/relation_toolkit.tex" Start="3052"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3067"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3069"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3067"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="129" Loc="lib/relation_toolkit.tex" Start="3069"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="130" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="130" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ◁ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="130" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ◁ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="44" Line="130" Loc="lib/relation_toolkit.tex" Start="3087"/>
@@ -2858,13 +2926,15 @@ the relational composition of $r$ and $s$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="132" Loc="lib/relation_toolkit.tex" Start="3151"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3151"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3151"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="132" Loc="lib/relation_toolkit.tex" Start="3155"/>
@@ -2888,13 +2958,15 @@ the relational composition of $r$ and $s$.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="132" Loc="lib/relation_toolkit.tex" Start="3166"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3166"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3166"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="29" Length="8" Line="132" Loc="lib/relation_toolkit.tex" Start="3170"/>
@@ -3002,13 +3074,15 @@ the relational composition of $r$ and $s$.
                                                 <Anns>
                                                     <LocAnn Col="56" Length="5" Line="132" Loc="lib/relation_toolkit.tex" Start="3197"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="54" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3197"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="54" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3197"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="58" Length="1" Line="132" Loc="lib/relation_toolkit.tex" Start="3201"/>
@@ -3111,33 +3185,37 @@ the set of pairs in $r$ whose first components are in $a$.
             <Anns>
                 <LocAnn Col="0" Length="179" Line="145" Loc="lib/relation_toolkit.tex" Start="3499"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3514"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3516"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3514"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="145" Loc="lib/relation_toolkit.tex" Start="3516"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="146" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="146" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ▷ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="146" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ▷ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="42" Length="41" Line="146" Loc="lib/relation_toolkit.tex" Start="3536"/>
@@ -3279,13 +3357,15 @@ the set of pairs in $r$ whose first components are in $a$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="148" Loc="lib/relation_toolkit.tex" Start="3597"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3597"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3597"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="148" Loc="lib/relation_toolkit.tex" Start="3601"/>
@@ -3331,13 +3411,15 @@ the set of pairs in $r$ whose first components are in $a$.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="148" Loc="lib/relation_toolkit.tex" Start="3612"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3612"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3612"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="27" Length="8" Line="148" Loc="lib/relation_toolkit.tex" Start="3616"/>
@@ -3423,13 +3505,15 @@ the set of pairs in $r$ whose first components are in $a$.
                                                 <Anns>
                                                     <LocAnn Col="56" Length="5" Line="148" Loc="lib/relation_toolkit.tex" Start="3643"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="54" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3643"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="54" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3643"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="58" Length="1" Line="148" Loc="lib/relation_toolkit.tex" Start="3647"/>
@@ -3532,33 +3616,37 @@ the set of pairs in $r$ whose second components are in $b$.
             <Anns>
                 <LocAnn Col="0" Length="185" Line="161" Loc="lib/relation_toolkit.tex" Start="3949"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3964"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3966"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3964"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="161" Loc="lib/relation_toolkit.tex" Start="3966"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="162" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="162" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⩤ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="162" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⩤ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="44" Length="44" Line="162" Loc="lib/relation_toolkit.tex" Start="3985"/>
@@ -3700,13 +3788,15 @@ the set of pairs in $r$ whose second components are in $b$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="164" Loc="lib/relation_toolkit.tex" Start="4049"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4049"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4049"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="164" Loc="lib/relation_toolkit.tex" Start="4053"/>
@@ -3730,13 +3820,15 @@ the set of pairs in $r$ whose second components are in $b$.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="164" Loc="lib/relation_toolkit.tex" Start="4064"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4064"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4064"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="29" Length="8" Line="164" Loc="lib/relation_toolkit.tex" Start="4068"/>
@@ -3844,13 +3936,15 @@ the set of pairs in $r$ whose second components are in $b$.
                                                 <Anns>
                                                     <LocAnn Col="57" Length="5" Line="164" Loc="lib/relation_toolkit.tex" Start="4096"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="55" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4096"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="55" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4096"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="59" Length="1" Line="164" Loc="lib/relation_toolkit.tex" Start="4100"/>
@@ -3971,33 +4065,37 @@ is the set of pairs in $r$ whose first components are not in $a$.
             <Anns>
                 <LocAnn Col="0" Length="185" Line="178" Loc="lib/relation_toolkit.tex" Start="4408"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4423"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4425"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4423"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="178" Loc="lib/relation_toolkit.tex" Start="4425"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="179" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="179" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⩥ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="179" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⩥ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="41" Line="179" Loc="lib/relation_toolkit.tex" Start="4446"/>
@@ -4139,13 +4237,15 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="181" Loc="lib/relation_toolkit.tex" Start="4507"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4507"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4507"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="181" Loc="lib/relation_toolkit.tex" Start="4511"/>
@@ -4191,13 +4291,15 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="181" Loc="lib/relation_toolkit.tex" Start="4522"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4522"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="181" Loc="lib/relation_toolkit.tex" Start="4522"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="27" Length="8" Line="181" Loc="lib/relation_toolkit.tex" Start="4526"/>
@@ -4283,13 +4385,15 @@ is the set of pairs in $r$ whose first components are not in $a$.
                                                 <Anns>
                                                     <LocAnn Col="19" Length="5" Line="182" Loc="lib/relation_toolkit.tex" Start="4555"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="17" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4555"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="17" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4555"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="21" Length="1" Line="182" Loc="lib/relation_toolkit.tex" Start="4559"/>
@@ -4408,33 +4512,37 @@ is the set of pairs in $r$ whose second components are not in $b$.
             <Anns>
                 <LocAnn Col="0" Length="148" Line="195" Loc="lib/relation_toolkit.tex" Start="4850"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4865"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4867"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4865"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="195" Loc="lib/relation_toolkit.tex" Start="4867"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="196" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="3" Line="196" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ∼</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="196" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ∼</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="23" Length="26" Line="196" Loc="lib/relation_toolkit.tex" Start="4883"/>
@@ -4551,13 +4659,15 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="198" Loc="lib/relation_toolkit.tex" Start="4929"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4929"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4929"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="198" Loc="lib/relation_toolkit.tex" Start="4933"/>
@@ -4648,13 +4758,15 @@ is the set of pairs in $r$ whose second components are not in $b$.
                                                 <Anns>
                                                     <LocAnn Col="38" Length="5" Line="198" Loc="lib/relation_toolkit.tex" Start="4957"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4957"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4957"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="1" Line="198" Loc="lib/relation_toolkit.tex" Start="4961"/>
@@ -4790,33 +4902,37 @@ ordered pair in the relation.
             <Anns>
                 <LocAnn Col="0" Length="194" Line="212" Loc="lib/relation_toolkit.tex" Start="5244"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5259"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5261"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5259"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="212" Loc="lib/relation_toolkit.tex" Start="5261"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="18" Line="213" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="12" Line="213" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⦇ _ ⦈</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="213" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⦇ _ ⦈</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="49" Length="40" Line="213" Loc="lib/relation_toolkit.tex" Start="5287"/>
@@ -4931,13 +5047,15 @@ ordered pair in the relation.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="215" Loc="lib/relation_toolkit.tex" Start="5345"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5345"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5345"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="215" Loc="lib/relation_toolkit.tex" Start="5349"/>
@@ -4983,13 +5101,15 @@ ordered pair in the relation.
                                 <Anns>
                                     <LocAnn Col="25" Length="12" Line="215" Loc="lib/relation_toolkit.tex" Start="5360"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="23" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5360"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="23" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5360"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="27" Length="8" Line="215" Loc="lib/relation_toolkit.tex" Start="5364"/>
@@ -5075,13 +5195,15 @@ ordered pair in the relation.
                                                 <Anns>
                                                     <LocAnn Col="62" Length="5" Line="215" Loc="lib/relation_toolkit.tex" Start="5397"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="60" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5397"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="60" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5397"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="64" Length="1" Line="215" Loc="lib/relation_toolkit.tex" Start="5401"/>
@@ -5207,33 +5329,37 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
             <Anns>
                 <LocAnn Col="0" Length="180" Line="228" Loc="lib/relation_toolkit.tex" Start="5720"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5735"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5737"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5735"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="228" Loc="lib/relation_toolkit.tex" Start="5737"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="229" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="229" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⊕ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="229" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⊕ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="48" Length="46" Line="229" Loc="lib/relation_toolkit.tex" Start="5758"/>
@@ -5402,20 +5528,22 @@ is the set of values of type $Y$ that are related under $r$ to a value in $a$.
                                 <Anns>
                                     <LocAnn Col="14" Length="16" Line="231" Loc="lib/relation_toolkit.tex" Start="5824"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5824"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5828"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5824"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="231" Loc="lib/relation_toolkit.tex" Start="5828"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="18" Length="8" Line="231" Loc="lib/relation_toolkit.tex" Start="5832"/>
@@ -5669,26 +5797,30 @@ that have no first components that are in the domain of $s$.
             <Anns>
                 <LocAnn Col="0" Length="189" Line="246" Loc="lib/relation_toolkit.tex" Start="6213"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="246" Loc="lib/relation_toolkit.tex" Start="6228"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="246" Loc="lib/relation_toolkit.tex" Start="6228"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="9" Line="247" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="3" Line="247" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↗+↙</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="247" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↗+↙</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="24" Length="25" Line="247" Loc="lib/relation_toolkit.tex" Start="6245"/>
@@ -5805,13 +5937,15 @@ that have no first components that are in the domain of $s$.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="249" Loc="lib/relation_toolkit.tex" Start="6290"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="249" Loc="lib/relation_toolkit.tex" Start="6290"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="249" Loc="lib/relation_toolkit.tex" Start="6290"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="249" Loc="lib/relation_toolkit.tex" Start="6294"/>
@@ -5919,13 +6053,15 @@ that have no first components that are in the domain of $s$.
                                                     <Anns>
                                                         <LocAnn Col="24" Length="12" Line="250" Loc="lib/relation_toolkit.tex" Start="6328"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="22" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6328"/>
-                                                        </Anns>
-                                                        <Word>s</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="22" Length="1" Line="250" Loc="lib/relation_toolkit.tex" Start="6328"/>
+                                                            </Anns>
+                                                            <Word>s</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="true" Mixfix="true">
                                                         <Anns>
                                                             <LocAnn Col="28" Length="8" Line="250" Loc="lib/relation_toolkit.tex" Start="6332"/>
@@ -6151,26 +6287,30 @@ is closed under the action of composing $r$ with its members.
             <Anns>
                 <LocAnn Col="0" Length="134" Line="264" Loc="lib/relation_toolkit.tex" Start="6680"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="264" Loc="lib/relation_toolkit.tex" Start="6695"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="264" Loc="lib/relation_toolkit.tex" Start="6695"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="9" Line="265" Loc="lib/relation_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="3" Line="265" Loc="lib/relation_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↗*↙</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="265" Loc="lib/relation_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↗*↙</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="24" Length="25" Line="265" Loc="lib/relation_toolkit.tex" Start="6712"/>
@@ -6287,13 +6427,15 @@ is closed under the action of composing $r$ with its members.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="267" Loc="lib/relation_toolkit.tex" Start="6757"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6757"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="267" Loc="lib/relation_toolkit.tex" Start="6757"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="267" Loc="lib/relation_toolkit.tex" Start="6761"/>

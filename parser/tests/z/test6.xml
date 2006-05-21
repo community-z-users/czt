@@ -29,13 +29,15 @@
             <Anns>
                 <LocAnn Col="0" Length="30" Line="11" Loc="tests/z/test6.tex" Start="225"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="1" Length="4" Line="12" Loc="tests/z/test6.tex" Start="239"/>
-                </Anns>
-                <Word>NAME</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="1" Length="4" Line="12" Loc="tests/z/test6.tex" Start="239"/>
+                    </Anns>
+                    <Word>NAME</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
         </GivenPara>
         <NarrPara>
             <Anns>
@@ -48,6 +50,7 @@
             <Anns>
                 <LocAnn Col="0" Length="34" Line="14" Loc="tests/z/test6.tex" Start="257"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="10" Line="15" Loc="tests/z/test6.tex" Start="270"/>
@@ -152,6 +155,7 @@
             <Anns>
                 <LocAnn Col="0" Length="68" Line="20" Loc="tests/z/test6.tex" Start="375"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="44" Line="21" Loc="tests/z/test6.tex" Start="388"/>
@@ -229,26 +233,29 @@
             <Anns>
                 <LocAnn Col="0" Length="126" Line="23" Loc="tests/z/test6.tex" Start="445"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="21" Line="24" Loc="tests/z/test6.tex" Start="460"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="5" Line="24" Loc="tests/z/test6.tex" Start="460"/>
-                            </Anns>
-                            <Word>Frank</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="7" Length="3" Line="24" Loc="tests/z/test6.tex" Start="467"/>
-                            </Anns>
-                            <Word>Aki</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="5" Line="24" Loc="tests/z/test6.tex" Start="460"/>
+                                </Anns>
+                                <Word>Frank</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="7" Length="3" Line="24" Loc="tests/z/test6.tex" Start="467"/>
+                                </Anns>
+                                <Word>Aki</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="8" Line="24" Loc="tests/z/test6.tex" Start="473"/>

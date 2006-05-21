@@ -34,19 +34,22 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="43" Line="15" Loc="tests/z/animate_scope.tex" Start="393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="15" Line="16" Loc="tests/z/animate_scope.tex" Start="409"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_scope.tex" Start="409"/>
-                            </Anns>
-                            <Word>undefnum</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_scope.tex" Start="409"/>
+                                </Anns>
+                                <Word>undefnum</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_scope.tex" Start="420"/>
@@ -78,6 +81,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="21" Loc="tests/z/animate_scope.tex" Start="475"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="56" Length="49" Line="21" Loc="tests/z/animate_scope.tex" Start="495"/>
@@ -92,13 +96,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="23" Length="16" Line="21" Loc="tests/z/animate_scope.tex" Start="497"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="21" Loc="tests/z/animate_scope.tex" Start="497"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="21" Loc="tests/z/animate_scope.tex" Start="497"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Length="14" Line="21" Loc="tests/z/animate_scope.tex" Start="499"/>
@@ -145,13 +151,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="44" Length="3" Line="21" Loc="tests/z/animate_scope.tex" Start="518"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="43" Length="1" Line="21" Loc="tests/z/animate_scope.tex" Start="518"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="43" Length="1" Line="21" Loc="tests/z/animate_scope.tex" Start="518"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="45" Length="1" Line="21" Loc="tests/z/animate_scope.tex" Start="520"/>
@@ -224,6 +232,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="87" Line="22" Loc="tests/z/animate_scope.tex" Start="555"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="64" Length="57" Line="22" Loc="tests/z/animate_scope.tex" Start="575"/>
@@ -238,13 +247,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="23" Length="16" Line="22" Loc="tests/z/animate_scope.tex" Start="577"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="22" Loc="tests/z/animate_scope.tex" Start="577"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="22" Loc="tests/z/animate_scope.tex" Start="577"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Length="14" Line="22" Loc="tests/z/animate_scope.tex" Start="579"/>
@@ -291,13 +302,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="44" Length="3" Line="22" Loc="tests/z/animate_scope.tex" Start="598"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="43" Length="1" Line="22" Loc="tests/z/animate_scope.tex" Start="598"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="43" Length="1" Line="22" Loc="tests/z/animate_scope.tex" Start="598"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="45" Length="1" Line="22" Loc="tests/z/animate_scope.tex" Start="600"/>
@@ -417,6 +430,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="83" Line="25" Loc="tests/z/animate_scope.tex" Start="681"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="60" Length="53" Line="25" Loc="tests/z/animate_scope.tex" Start="701"/>
@@ -431,13 +445,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="23" Length="16" Line="25" Loc="tests/z/animate_scope.tex" Start="703"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="703"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="703"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Length="14" Line="25" Loc="tests/z/animate_scope.tex" Start="705"/>
@@ -484,13 +500,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="44" Length="3" Line="25" Loc="tests/z/animate_scope.tex" Start="724"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="43" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="724"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="43" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="724"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="45" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="726"/>
@@ -509,13 +527,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="48" Length="3" Line="25" Loc="tests/z/animate_scope.tex" Start="728"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="47" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="728"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="47" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="728"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Length="1" Line="25" Loc="tests/z/animate_scope.tex" Start="730"/>
@@ -588,6 +608,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="83" Line="26" Loc="tests/z/animate_scope.tex" Start="765"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="60" Length="53" Line="26" Loc="tests/z/animate_scope.tex" Start="785"/>
@@ -602,13 +623,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="23" Length="16" Line="26" Loc="tests/z/animate_scope.tex" Start="787"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="787"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="787"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Length="14" Line="26" Loc="tests/z/animate_scope.tex" Start="789"/>
@@ -655,13 +678,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="44" Length="3" Line="26" Loc="tests/z/animate_scope.tex" Start="808"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="43" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="808"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="43" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="808"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="45" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="810"/>
@@ -680,13 +705,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="48" Length="3" Line="26" Loc="tests/z/animate_scope.tex" Start="812"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="47" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="812"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="47" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="812"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="49" Length="1" Line="26" Loc="tests/z/animate_scope.tex" Start="814"/>
@@ -760,6 +787,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="89" Line="28" Loc="tests/z/animate_scope.tex" Start="850"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="66" Length="59" Line="28" Loc="tests/z/animate_scope.tex" Start="870"/>
@@ -774,13 +802,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="23" Length="16" Line="28" Loc="tests/z/animate_scope.tex" Start="872"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="28" Loc="tests/z/animate_scope.tex" Start="872"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="28" Loc="tests/z/animate_scope.tex" Start="872"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="24" Length="14" Line="28" Loc="tests/z/animate_scope.tex" Start="874"/>
@@ -827,22 +857,24 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="47" Length="6" Line="28" Loc="tests/z/animate_scope.tex" Start="893"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="43" Length="1" Line="28" Loc="tests/z/animate_scope.tex" Start="893"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="45" Length="2" Line="28" Loc="tests/z/animate_scope.tex" Start="895"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList>
-                                            <NextStroke/>
-                                        </ZStrokeList>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="43" Length="1" Line="28" Loc="tests/z/animate_scope.tex" Start="893"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="45" Length="2" Line="28" Loc="tests/z/animate_scope.tex" Start="895"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList>
+                                                <NextStroke/>
+                                            </ZStrokeList>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="48" Length="1" Line="28" Loc="tests/z/animate_scope.tex" Start="898"/>
@@ -1008,6 +1040,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="33" Loc="tests/z/animate_scope.tex" Start="1062"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="21" Length="18" Line="33" Loc="tests/z/animate_scope.tex" Start="1083"/>
@@ -1088,6 +1121,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="56" Line="34" Loc="tests/z/animate_scope.tex" Start="1113"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="21" Length="24" Line="34" Loc="tests/z/animate_scope.tex" Start="1134"/>
@@ -1197,6 +1231,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="90" Line="39" Loc="tests/z/animate_scope.tex" Start="1377"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="4" Length="52" Line="40" Loc="tests/z/animate_scope.tex" Start="1402"/>
@@ -1410,6 +1445,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="89" Line="42" Loc="tests/z/animate_scope.tex" Start="1468"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="4" Length="52" Line="43" Loc="tests/z/animate_scope.tex" Start="1493"/>
@@ -1623,6 +1659,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="48" Loc="tests/z/animate_scope.tex" Start="1611"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="18" Line="48" Loc="tests/z/animate_scope.tex" Start="1632"/>
@@ -1703,6 +1740,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="49" Loc="tests/z/animate_scope.tex" Start="1661"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="44" Length="26" Line="49" Loc="tests/z/animate_scope.tex" Start="1682"/>
@@ -1841,6 +1879,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="51" Loc="tests/z/animate_scope.tex" Start="1720"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="62" Length="45" Line="51" Loc="tests/z/animate_scope.tex" Start="1741"/>
@@ -2084,6 +2123,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="52" Loc="tests/z/animate_scope.tex" Start="1797"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="62" Length="45" Line="52" Loc="tests/z/animate_scope.tex" Start="1818"/>
@@ -2327,6 +2367,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="103" Line="56" Loc="tests/z/animate_scope.tex" Start="1928"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="27" Length="64" Line="56" Loc="tests/z/animate_scope.tex" Start="1955"/>
@@ -2342,13 +2383,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="38" Length="13" Line="56" Loc="tests/z/animate_scope.tex" Start="1965"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="37" Length="1" Line="56" Loc="tests/z/animate_scope.tex" Start="1965"/>
-                                </Anns>
-                                <Word>n</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="37" Length="1" Line="56" Loc="tests/z/animate_scope.tex" Start="1965"/>
+                                    </Anns>
+                                    <Word>n</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="42" Length="11" Line="56" Loc="tests/z/animate_scope.tex" Start="1967"/>
@@ -2409,13 +2452,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="63" Length="21" Line="56" Loc="tests/z/animate_scope.tex" Start="1990"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="62" Length="1" Line="56" Loc="tests/z/animate_scope.tex" Start="1990"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="62" Length="1" Line="56" Loc="tests/z/animate_scope.tex" Start="1990"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="75" Length="19" Line="56" Loc="tests/z/animate_scope.tex" Start="1992"/>
@@ -2563,6 +2608,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="105" Line="57" Loc="tests/z/animate_scope.tex" Start="2032"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="73" Line="57" Loc="tests/z/animate_scope.tex" Start="2052"/>
@@ -2582,13 +2628,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="38" Length="13" Line="57" Loc="tests/z/animate_scope.tex" Start="2069"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="37" Length="1" Line="57" Loc="tests/z/animate_scope.tex" Start="2069"/>
-                                    </Anns>
-                                    <Word>n</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="37" Length="1" Line="57" Loc="tests/z/animate_scope.tex" Start="2069"/>
+                                        </Anns>
+                                        <Word>n</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="42" Length="11" Line="57" Loc="tests/z/animate_scope.tex" Start="2071"/>
@@ -2649,13 +2697,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                     <Anns>
                                         <LocAnn Col="65" Length="21" Line="57" Loc="tests/z/animate_scope.tex" Start="2096"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="64" Length="1" Line="57" Loc="tests/z/animate_scope.tex" Start="2096"/>
-                                        </Anns>
-                                        <Word>f</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="64" Length="1" Line="57" Loc="tests/z/animate_scope.tex" Start="2096"/>
+                                            </Anns>
+                                            <Word>f</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="77" Length="19" Line="57" Loc="tests/z/animate_scope.tex" Start="2098"/>
@@ -2804,6 +2854,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="92" Line="58" Loc="tests/z/animate_scope.tex" Start="2138"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="61" Line="58" Loc="tests/z/animate_scope.tex" Start="2158"/>
@@ -2823,13 +2874,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="38" Length="13" Line="58" Loc="tests/z/animate_scope.tex" Start="2175"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="37" Length="1" Line="58" Loc="tests/z/animate_scope.tex" Start="2175"/>
-                                    </Anns>
-                                    <Word>n</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="37" Length="1" Line="58" Loc="tests/z/animate_scope.tex" Start="2175"/>
+                                        </Anns>
+                                        <Word>n</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="42" Length="11" Line="58" Loc="tests/z/animate_scope.tex" Start="2177"/>
@@ -2877,13 +2930,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="53" Length="21" Line="58" Loc="tests/z/animate_scope.tex" Start="2190"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="52" Length="1" Line="58" Loc="tests/z/animate_scope.tex" Start="2190"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="52" Length="1" Line="58" Loc="tests/z/animate_scope.tex" Start="2190"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="65" Length="19" Line="58" Loc="tests/z/animate_scope.tex" Start="2192"/>
@@ -3031,6 +3086,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="0" Length="99" Line="59" Loc="tests/z/animate_scope.tex" Start="2231"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="27" Length="60" Line="59" Loc="tests/z/animate_scope.tex" Start="2258"/>
@@ -3046,13 +3102,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                             <Anns>
                                 <LocAnn Col="38" Length="13" Line="59" Loc="tests/z/animate_scope.tex" Start="2268"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="37" Length="1" Line="59" Loc="tests/z/animate_scope.tex" Start="2268"/>
-                                </Anns>
-                                <Word>n</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="37" Length="1" Line="59" Loc="tests/z/animate_scope.tex" Start="2268"/>
+                                    </Anns>
+                                    <Word>n</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="42" Length="11" Line="59" Loc="tests/z/animate_scope.tex" Start="2270"/>
@@ -3113,13 +3171,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                 <Anns>
                                     <LocAnn Col="63" Length="17" Line="59" Loc="tests/z/animate_scope.tex" Start="2293"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="62" Length="1" Line="59" Loc="tests/z/animate_scope.tex" Start="2293"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="62" Length="1" Line="59" Loc="tests/z/animate_scope.tex" Start="2293"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <SetExpr>
                                     <Anns>
                                         <LocAnn Col="64" Length="15" Line="59" Loc="tests/z/animate_scope.tex" Start="2295"/>
@@ -3255,6 +3315,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="3" Length="13" Line="64" Loc="tests/z/animate_scope.tex" Start="2373"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Length="13" Line="64" Loc="tests/z/animate_scope.tex" Start="2373"/>
@@ -3296,6 +3357,7 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
             <Anns>
                 <LocAnn Col="3" Length="72" Line="65" Loc="tests/z/animate_scope.tex" Start="2393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="3" Length="72" Line="65" Loc="tests/z/animate_scope.tex" Start="2393"/>
@@ -3327,13 +3389,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                         <Anns>
                                             <LocAnn Col="19" Length="13" Line="65" Loc="tests/z/animate_scope.tex" Start="2408"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="18" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2408"/>
-                                            </Anns>
-                                            <Word>X</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="18" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2408"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="20" Length="11" Line="65" Loc="tests/z/animate_scope.tex" Start="2410"/>
@@ -3369,13 +3433,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <Anns>
                                                     <LocAnn Col="36" Length="3" Line="65" Loc="tests/z/animate_scope.tex" Start="2425"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="35" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2425"/>
-                                                    </Anns>
-                                                    <Word>a</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="35" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2425"/>
+                                                        </Anns>
+                                                        <Word>a</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="37" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2427"/>
@@ -3403,13 +3469,15 @@ NOTE: these are now illegal in standard Z, so we use \exists instead.
                                                 <Anns>
                                                     <LocAnn Col="48" Length="13" Line="65" Loc="tests/z/animate_scope.tex" Start="2437"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="47" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2437"/>
-                                                    </Anns>
-                                                    <Word>X</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="47" Length="1" Line="65" Loc="tests/z/animate_scope.tex" Start="2437"/>
+                                                        </Anns>
+                                                        <Word>X</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <PowerExpr>
                                                     <Anns>
                                                         <LocAnn Col="49" Length="11" Line="65" Loc="tests/z/animate_scope.tex" Start="2439"/>
@@ -3486,6 +3554,7 @@ TODO: is this true?
             <Anns>
                 <LocAnn Col="0" Length="43" Line="69" Loc="tests/z/animate_scope.tex" Start="2498"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="13" Line="69" Loc="tests/z/animate_scope.tex" Start="2518"/>
@@ -3557,6 +3626,7 @@ TODO: is this true?
             <Anns>
                 <LocAnn Col="0" Length="57" Line="72" Loc="tests/z/animate_scope.tex" Start="2594"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -3574,13 +3644,15 @@ TODO: is this true?
                                         <Anns>
                                             <LocAnn Col="6" Length="5" Line="73" Loc="tests/z/animate_scope.tex" Start="2617"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="1" Line="73" Loc="tests/z/animate_scope.tex" Start="2617"/>
-                                            </Anns>
-                                            <Word>X</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="1" Line="73" Loc="tests/z/animate_scope.tex" Start="2617"/>
+                                                </Anns>
+                                                <Word>X</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="8" Length="1" Line="73" Loc="tests/z/animate_scope.tex" Start="2621"/>

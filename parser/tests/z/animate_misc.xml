@@ -34,19 +34,22 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="43" Line="15" Loc="tests/z/animate_misc.tex" Start="393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="15" Line="16" Loc="tests/z/animate_misc.tex" Start="409"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_misc.tex" Start="409"/>
-                            </Anns>
-                            <Word>undefnum</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_misc.tex" Start="409"/>
+                                </Anns>
+                                <Word>undefnum</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_misc.tex" Start="420"/>
@@ -84,6 +87,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="61" Line="27" Loc="tests/z/animate_misc.tex" Start="629"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="48" Length="30" Line="27" Loc="tests/z/animate_misc.tex" Start="650"/>
@@ -188,6 +192,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="61" Line="29" Loc="tests/z/animate_misc.tex" Start="732"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="48" Length="30" Line="29" Loc="tests/z/animate_misc.tex" Start="753"/>
@@ -293,6 +298,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="32" Loc="tests/z/animate_misc.tex" Start="841"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="47" Length="29" Line="32" Loc="tests/z/animate_misc.tex" Start="862"/>
@@ -360,6 +366,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="63" Line="34" Loc="tests/z/animate_misc.tex" Start="949"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="50" Length="32" Line="34" Loc="tests/z/animate_misc.tex" Start="970"/>
@@ -433,6 +440,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="66" Line="37" Loc="tests/z/animate_misc.tex" Start="1058"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="35" Line="37" Loc="tests/z/animate_misc.tex" Start="1079"/>
@@ -523,6 +531,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="71" Line="39" Loc="tests/z/animate_misc.tex" Start="1170"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="58" Length="40" Line="39" Loc="tests/z/animate_misc.tex" Start="1191"/>
@@ -636,6 +645,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="42" Loc="tests/z/animate_misc.tex" Start="1281"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="67" Length="49" Line="42" Loc="tests/z/animate_misc.tex" Start="1302"/>
@@ -778,6 +788,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="86" Line="44" Loc="tests/z/animate_misc.tex" Start="1401"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="73" Length="55" Line="44" Loc="tests/z/animate_misc.tex" Start="1422"/>
@@ -926,6 +937,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="150" Line="47" Loc="tests/z/animate_misc.tex" Start="1534"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="137" Length="119" Line="47" Loc="tests/z/animate_misc.tex" Start="1555"/>
@@ -1230,6 +1242,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="150" Line="49" Loc="tests/z/animate_misc.tex" Start="1732"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="137" Length="119" Line="49" Loc="tests/z/animate_misc.tex" Start="1753"/>
@@ -1534,6 +1547,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="153" Line="51" Loc="tests/z/animate_misc.tex" Start="1930"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="140" Length="122" Line="51" Loc="tests/z/animate_misc.tex" Start="1951"/>
@@ -1855,6 +1869,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="153" Line="53" Loc="tests/z/animate_misc.tex" Start="2132"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="140" Length="122" Line="53" Loc="tests/z/animate_misc.tex" Start="2153"/>
@@ -2178,6 +2193,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="64" Line="57" Loc="tests/z/animate_misc.tex" Start="2322"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="47" Length="33" Line="57" Loc="tests/z/animate_misc.tex" Start="2343"/>
@@ -2193,20 +2209,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="29" Length="13" Line="57" Loc="tests/z/animate_misc.tex" Start="2348"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="26" Length="1" Line="57" Loc="tests/z/animate_misc.tex" Start="2348"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="28" Length="1" Line="57" Loc="tests/z/animate_misc.tex" Start="2350"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="26" Length="1" Line="57" Loc="tests/z/animate_misc.tex" Start="2348"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="28" Length="1" Line="57" Loc="tests/z/animate_misc.tex" Start="2350"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="32" Length="9" Line="57" Loc="tests/z/animate_misc.tex" Start="2352"/>
@@ -2369,6 +2387,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="64" Line="58" Loc="tests/z/animate_misc.tex" Start="2387"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="47" Length="33" Line="58" Loc="tests/z/animate_misc.tex" Start="2408"/>
@@ -2384,20 +2403,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="29" Length="13" Line="58" Loc="tests/z/animate_misc.tex" Start="2413"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="26" Length="1" Line="58" Loc="tests/z/animate_misc.tex" Start="2413"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="28" Length="1" Line="58" Loc="tests/z/animate_misc.tex" Start="2415"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="26" Length="1" Line="58" Loc="tests/z/animate_misc.tex" Start="2413"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="28" Length="1" Line="58" Loc="tests/z/animate_misc.tex" Start="2415"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="32" Length="9" Line="58" Loc="tests/z/animate_misc.tex" Start="2417"/>
@@ -2573,6 +2594,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="59" Loc="tests/z/animate_misc.tex" Start="2452"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="42" Line="59" Loc="tests/z/animate_misc.tex" Start="2474"/>
@@ -2592,20 +2614,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="29" Length="13" Line="59" Loc="tests/z/animate_misc.tex" Start="2478"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="26" Length="1" Line="59" Loc="tests/z/animate_misc.tex" Start="2478"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="28" Length="1" Line="59" Loc="tests/z/animate_misc.tex" Start="2480"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="26" Length="1" Line="59" Loc="tests/z/animate_misc.tex" Start="2478"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="28" Length="1" Line="59" Loc="tests/z/animate_misc.tex" Start="2480"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="32" Length="9" Line="59" Loc="tests/z/animate_misc.tex" Start="2482"/>
@@ -2830,6 +2854,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="60" Loc="tests/z/animate_misc.tex" Start="2527"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="49" Length="38" Line="60" Loc="tests/z/animate_misc.tex" Start="2548"/>
@@ -2849,20 +2874,22 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="29" Length="13" Line="60" Loc="tests/z/animate_misc.tex" Start="2553"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="26" Length="1" Line="60" Loc="tests/z/animate_misc.tex" Start="2553"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="28" Length="1" Line="60" Loc="tests/z/animate_misc.tex" Start="2555"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="26" Length="1" Line="60" Loc="tests/z/animate_misc.tex" Start="2553"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="28" Length="1" Line="60" Loc="tests/z/animate_misc.tex" Start="2555"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="32" Length="9" Line="60" Loc="tests/z/animate_misc.tex" Start="2557"/>
@@ -3033,6 +3060,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="42" Line="64" Loc="tests/z/animate_misc.tex" Start="2635"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="11" Line="64" Loc="tests/z/animate_misc.tex" Start="2656"/>
@@ -3055,6 +3083,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="47" Line="65" Loc="tests/z/animate_misc.tex" Start="2678"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="16" Line="65" Loc="tests/z/animate_misc.tex" Start="2699"/>
@@ -3082,6 +3111,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="52" Line="66" Loc="tests/z/animate_misc.tex" Start="2726"/>
             </Anns>
+            <ZDeclNameList/>
             <IffPred>
                 <Anns>
                     <LocAnn Col="32" Length="21" Line="66" Loc="tests/z/animate_misc.tex" Start="2747"/>
@@ -3115,6 +3145,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="45" Line="68" Loc="tests/z/animate_misc.tex" Start="2780"/>
             </Anns>
+            <ZDeclNameList/>
             <OrPred>
                 <Anns>
                     <LocAnn Col="26" Length="14" Line="68" Loc="tests/z/animate_misc.tex" Start="2801"/>
@@ -3142,6 +3173,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="46" Line="69" Loc="tests/z/animate_misc.tex" Start="2826"/>
             </Anns>
+            <ZDeclNameList/>
             <OrPred>
                 <Anns>
                     <LocAnn Col="26" Length="15" Line="69" Loc="tests/z/animate_misc.tex" Start="2847"/>
@@ -3169,6 +3201,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="46" Line="70" Loc="tests/z/animate_misc.tex" Start="2873"/>
             </Anns>
+            <ZDeclNameList/>
             <OrPred>
                 <Anns>
                     <LocAnn Col="27" Length="15" Line="70" Loc="tests/z/animate_misc.tex" Start="2894"/>
@@ -3196,6 +3229,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="54" Line="71" Loc="tests/z/animate_misc.tex" Start="2920"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="22" Line="71" Loc="tests/z/animate_misc.tex" Start="2941"/>
@@ -3234,6 +3268,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="46" Line="73" Loc="tests/z/animate_misc.tex" Start="2976"/>
             </Anns>
+            <ZDeclNameList/>
             <AndPred And="Wedge">
                 <Anns>
                     <LocAnn Col="26" Length="15" Line="73" Loc="tests/z/animate_misc.tex" Start="2997"/>
@@ -3261,6 +3296,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="54" Line="74" Loc="tests/z/animate_misc.tex" Start="3023"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="22" Line="74" Loc="tests/z/animate_misc.tex" Start="3044"/>
@@ -3298,6 +3334,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="54" Line="75" Loc="tests/z/animate_misc.tex" Start="3078"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="22" Line="75" Loc="tests/z/animate_misc.tex" Start="3099"/>
@@ -3335,6 +3372,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="55" Line="76" Loc="tests/z/animate_misc.tex" Start="3133"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="23" Line="76" Loc="tests/z/animate_misc.tex" Start="3154"/>
@@ -3373,6 +3411,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="78" Loc="tests/z/animate_misc.tex" Start="3190"/>
             </Anns>
+            <ZDeclNameList/>
             <ImpliesPred>
                 <Anns>
                     <LocAnn Col="26" Length="18" Line="78" Loc="tests/z/animate_misc.tex" Start="3211"/>
@@ -3400,6 +3439,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="79" Loc="tests/z/animate_misc.tex" Start="3240"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="25" Line="79" Loc="tests/z/animate_misc.tex" Start="3261"/>
@@ -3437,6 +3477,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="80" Loc="tests/z/animate_misc.tex" Start="3298"/>
             </Anns>
+            <ZDeclNameList/>
             <ImpliesPred>
                 <Anns>
                     <LocAnn Col="27" Length="19" Line="80" Loc="tests/z/animate_misc.tex" Start="3319"/>
@@ -3464,6 +3505,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="51" Line="81" Loc="tests/z/animate_misc.tex" Start="3349"/>
             </Anns>
+            <ZDeclNameList/>
             <ImpliesPred>
                 <Anns>
                     <LocAnn Col="27" Length="20" Line="81" Loc="tests/z/animate_misc.tex" Start="3370"/>
@@ -3492,6 +3534,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="45" Line="83" Loc="tests/z/animate_misc.tex" Start="3402"/>
             </Anns>
+            <ZDeclNameList/>
             <IffPred>
                 <Anns>
                     <LocAnn Col="26" Length="14" Line="83" Loc="tests/z/animate_misc.tex" Start="3423"/>
@@ -3519,6 +3562,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="53" Line="84" Loc="tests/z/animate_misc.tex" Start="3448"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="21" Line="84" Loc="tests/z/animate_misc.tex" Start="3469"/>
@@ -3556,6 +3600,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="53" Line="85" Loc="tests/z/animate_misc.tex" Start="3502"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="21" Length="21" Line="85" Loc="tests/z/animate_misc.tex" Start="3523"/>
@@ -3593,6 +3638,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="47" Line="86" Loc="tests/z/animate_misc.tex" Start="3556"/>
             </Anns>
+            <ZDeclNameList/>
             <IffPred>
                 <Anns>
                     <LocAnn Col="27" Length="16" Line="86" Loc="tests/z/animate_misc.tex" Start="3577"/>
@@ -3625,6 +3671,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="92" Loc="tests/z/animate_misc.tex" Start="3692"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="14" Line="92" Loc="tests/z/animate_misc.tex" Start="3718"/>
@@ -3650,6 +3697,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="51" Line="93" Loc="tests/z/animate_misc.tex" Start="3743"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="21" Line="93" Loc="tests/z/animate_misc.tex" Start="3763"/>
@@ -3680,6 +3728,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="94" Loc="tests/z/animate_misc.tex" Start="3795"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="21" Line="94" Loc="tests/z/animate_misc.tex" Start="3821"/>
@@ -3710,6 +3759,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="95" Loc="tests/z/animate_misc.tex" Start="3853"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="28" Line="95" Loc="tests/z/animate_misc.tex" Start="3873"/>
@@ -3745,6 +3795,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="59" Line="96" Loc="tests/z/animate_misc.tex" Start="3912"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="23" Line="96" Loc="tests/z/animate_misc.tex" Start="3938"/>
@@ -3775,6 +3826,7 @@ Universal quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="97" Loc="tests/z/animate_misc.tex" Start="3972"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="22" Line="97" Loc="tests/z/animate_misc.tex" Start="3998"/>
@@ -3807,6 +3859,7 @@ Universal quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="71" Line="100" Loc="tests/z/animate_misc.tex" Start="4079"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="35" Line="100" Loc="tests/z/animate_misc.tex" Start="4105"/>
@@ -3817,13 +3870,15 @@ Universal quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="35" Length="11" Line="100" Loc="tests/z/animate_misc.tex" Start="4113"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="34" Length="1" Line="100" Loc="tests/z/animate_misc.tex" Start="4113"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="34" Length="1" Line="100" Loc="tests/z/animate_misc.tex" Start="4113"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="38" Length="9" Line="100" Loc="tests/z/animate_misc.tex" Start="4115"/>
@@ -3931,6 +3986,7 @@ Universal quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="101" Loc="tests/z/animate_misc.tex" Start="4165"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="48" Line="101" Loc="tests/z/animate_misc.tex" Start="4191"/>
@@ -3941,13 +3997,15 @@ Universal quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="35" Length="11" Line="101" Loc="tests/z/animate_misc.tex" Start="4199"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="34" Length="1" Line="101" Loc="tests/z/animate_misc.tex" Start="4199"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="34" Length="1" Line="101" Loc="tests/z/animate_misc.tex" Start="4199"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="38" Length="9" Line="101" Loc="tests/z/animate_misc.tex" Start="4201"/>
@@ -4111,6 +4169,7 @@ Universal quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="102" Loc="tests/z/animate_misc.tex" Start="4250"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="44" Line="102" Loc="tests/z/animate_misc.tex" Start="4270"/>
@@ -4125,13 +4184,15 @@ Universal quantifiers with one bound variable.
                                 <Anns>
                                     <LocAnn Col="35" Length="11" Line="102" Loc="tests/z/animate_misc.tex" Start="4284"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="102" Loc="tests/z/animate_misc.tex" Start="4284"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="102" Loc="tests/z/animate_misc.tex" Start="4284"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="38" Length="9" Line="102" Loc="tests/z/animate_misc.tex" Start="4286"/>
@@ -4281,6 +4342,7 @@ Universal quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="103" Loc="tests/z/animate_misc.tex" Start="4325"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="44" Line="103" Loc="tests/z/animate_misc.tex" Start="4345"/>
@@ -4295,13 +4357,15 @@ Universal quantifiers with one bound variable.
                                 <Anns>
                                     <LocAnn Col="35" Length="11" Line="103" Loc="tests/z/animate_misc.tex" Start="4359"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="103" Loc="tests/z/animate_misc.tex" Start="4359"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="103" Loc="tests/z/animate_misc.tex" Start="4359"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="38" Length="9" Line="103" Loc="tests/z/animate_misc.tex" Start="4361"/>
@@ -4451,6 +4515,7 @@ Universal quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="66" Line="104" Loc="tests/z/animate_misc.tex" Start="4400"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="36" Line="104" Loc="tests/z/animate_misc.tex" Start="4420"/>
@@ -4465,13 +4530,15 @@ Universal quantifiers with one bound variable.
                                 <Anns>
                                     <LocAnn Col="35" Length="11" Line="104" Loc="tests/z/animate_misc.tex" Start="4434"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="104" Loc="tests/z/animate_misc.tex" Start="4434"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="104" Loc="tests/z/animate_misc.tex" Start="4434"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="38" Length="9" Line="104" Loc="tests/z/animate_misc.tex" Start="4436"/>
@@ -4578,6 +4645,7 @@ Universal quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="71" Line="107" Loc="tests/z/animate_misc.tex" Start="4521"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="35" Line="107" Loc="tests/z/animate_misc.tex" Start="4547"/>
@@ -4588,20 +4656,22 @@ Universal quantifiers with multiple bound variables.
                             <Anns>
                                 <LocAnn Col="37" Length="13" Line="107" Loc="tests/z/animate_misc.tex" Start="4555"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="34" Length="1" Line="107" Loc="tests/z/animate_misc.tex" Start="4555"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="36" Length="1" Line="107" Loc="tests/z/animate_misc.tex" Start="4557"/>
-                                </Anns>
-                                <Word>y</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="34" Length="1" Line="107" Loc="tests/z/animate_misc.tex" Start="4555"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="36" Length="1" Line="107" Loc="tests/z/animate_misc.tex" Start="4557"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="40" Length="9" Line="107" Loc="tests/z/animate_misc.tex" Start="4559"/>
@@ -4709,6 +4779,7 @@ Universal quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="75" Line="108" Loc="tests/z/animate_misc.tex" Start="4606"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="26" Length="39" Line="108" Loc="tests/z/animate_misc.tex" Start="4632"/>
@@ -4719,20 +4790,22 @@ Universal quantifiers with multiple bound variables.
                             <Anns>
                                 <LocAnn Col="37" Length="13" Line="108" Loc="tests/z/animate_misc.tex" Start="4640"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="34" Length="1" Line="108" Loc="tests/z/animate_misc.tex" Start="4640"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="36" Length="1" Line="108" Loc="tests/z/animate_misc.tex" Start="4642"/>
-                                </Anns>
-                                <Word>y</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="34" Length="1" Line="108" Loc="tests/z/animate_misc.tex" Start="4640"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="36" Length="1" Line="108" Loc="tests/z/animate_misc.tex" Start="4642"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="40" Length="9" Line="108" Loc="tests/z/animate_misc.tex" Start="4644"/>
@@ -4957,6 +5030,7 @@ Universal quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="109" Loc="tests/z/animate_misc.tex" Start="4682"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="47" Line="109" Loc="tests/z/animate_misc.tex" Start="4702"/>
@@ -4971,20 +5045,22 @@ Universal quantifiers with multiple bound variables.
                                 <Anns>
                                     <LocAnn Col="37" Length="13" Line="109" Loc="tests/z/animate_misc.tex" Start="4716"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="109" Loc="tests/z/animate_misc.tex" Start="4716"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="109" Loc="tests/z/animate_misc.tex" Start="4718"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="109" Loc="tests/z/animate_misc.tex" Start="4716"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="109" Loc="tests/z/animate_misc.tex" Start="4718"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="109" Loc="tests/z/animate_misc.tex" Start="4720"/>
@@ -5242,6 +5318,7 @@ Universal quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="110" Loc="tests/z/animate_misc.tex" Start="4760"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="50" Line="110" Loc="tests/z/animate_misc.tex" Start="4780"/>
@@ -5256,20 +5333,22 @@ Universal quantifiers with multiple bound variables.
                                 <Anns>
                                     <LocAnn Col="37" Length="13" Line="110" Loc="tests/z/animate_misc.tex" Start="4794"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="110" Loc="tests/z/animate_misc.tex" Start="4794"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="110" Loc="tests/z/animate_misc.tex" Start="4796"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="110" Loc="tests/z/animate_misc.tex" Start="4794"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="110" Loc="tests/z/animate_misc.tex" Start="4796"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="110" Loc="tests/z/animate_misc.tex" Start="4798"/>
@@ -5497,6 +5576,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="113" Loc="tests/z/animate_misc.tex" Start="4891"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="26" Length="14" Line="113" Loc="tests/z/animate_misc.tex" Start="4917"/>
@@ -5522,6 +5602,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="51" Line="114" Loc="tests/z/animate_misc.tex" Start="4942"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="21" Line="114" Loc="tests/z/animate_misc.tex" Start="4962"/>
@@ -5552,6 +5633,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="115" Loc="tests/z/animate_misc.tex" Start="4994"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="26" Length="21" Line="115" Loc="tests/z/animate_misc.tex" Start="5020"/>
@@ -5582,6 +5664,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="116" Loc="tests/z/animate_misc.tex" Start="5052"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="28" Line="116" Loc="tests/z/animate_misc.tex" Start="5072"/>
@@ -5617,6 +5700,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="117" Loc="tests/z/animate_misc.tex" Start="5111"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="28" Line="117" Loc="tests/z/animate_misc.tex" Start="5131"/>
@@ -5652,6 +5736,7 @@ Existential quantifiers with no bound variables.
             <Anns>
                 <LocAnn Col="0" Length="59" Line="118" Loc="tests/z/animate_misc.tex" Start="5170"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="29" Line="118" Loc="tests/z/animate_misc.tex" Start="5190"/>
@@ -5689,6 +5774,7 @@ Existential quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="78" Line="121" Loc="tests/z/animate_misc.tex" Start="5280"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="20" Length="48" Line="121" Loc="tests/z/animate_misc.tex" Start="5300"/>
@@ -5699,13 +5785,15 @@ Existential quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="29" Length="11" Line="121" Loc="tests/z/animate_misc.tex" Start="5308"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="28" Length="1" Line="121" Loc="tests/z/animate_misc.tex" Start="5308"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="28" Length="1" Line="121" Loc="tests/z/animate_misc.tex" Start="5308"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="32" Length="9" Line="121" Loc="tests/z/animate_misc.tex" Start="5310"/>
@@ -5869,6 +5957,7 @@ Existential quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="122" Loc="tests/z/animate_misc.tex" Start="5359"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="20" Length="38" Line="122" Loc="tests/z/animate_misc.tex" Start="5379"/>
@@ -5879,13 +5968,15 @@ Existential quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="29" Length="11" Line="122" Loc="tests/z/animate_misc.tex" Start="5387"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="28" Length="1" Line="122" Loc="tests/z/animate_misc.tex" Start="5387"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="28" Length="1" Line="122" Loc="tests/z/animate_misc.tex" Start="5387"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="32" Length="9" Line="122" Loc="tests/z/animate_misc.tex" Start="5389"/>
@@ -6034,6 +6125,7 @@ Existential quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="123" Loc="tests/z/animate_misc.tex" Start="5428"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="20" Length="38" Line="123" Loc="tests/z/animate_misc.tex" Start="5448"/>
@@ -6044,13 +6136,15 @@ Existential quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="29" Length="11" Line="123" Loc="tests/z/animate_misc.tex" Start="5456"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="28" Length="1" Line="123" Loc="tests/z/animate_misc.tex" Start="5456"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="28" Length="1" Line="123" Loc="tests/z/animate_misc.tex" Start="5456"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="32" Length="9" Line="123" Loc="tests/z/animate_misc.tex" Start="5458"/>
@@ -6199,6 +6293,7 @@ Existential quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="124" Loc="tests/z/animate_misc.tex" Start="5497"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="20" Length="30" Line="124" Loc="tests/z/animate_misc.tex" Start="5517"/>
@@ -6209,13 +6304,15 @@ Existential quantifiers with one bound variable.
                             <Anns>
                                 <LocAnn Col="29" Length="11" Line="124" Loc="tests/z/animate_misc.tex" Start="5525"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="28" Length="1" Line="124" Loc="tests/z/animate_misc.tex" Start="5525"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="28" Length="1" Line="124" Loc="tests/z/animate_misc.tex" Start="5525"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="32" Length="9" Line="124" Loc="tests/z/animate_misc.tex" Start="5527"/>
@@ -6319,6 +6416,7 @@ Existential quantifiers with one bound variable.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="125" Loc="tests/z/animate_misc.tex" Start="5558"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="49" Line="125" Loc="tests/z/animate_misc.tex" Start="5578"/>
@@ -6333,13 +6431,15 @@ Existential quantifiers with one bound variable.
                                 <Anns>
                                     <LocAnn Col="35" Length="11" Line="125" Loc="tests/z/animate_misc.tex" Start="5592"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="125" Loc="tests/z/animate_misc.tex" Start="5592"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="125" Loc="tests/z/animate_misc.tex" Start="5592"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="38" Length="9" Line="125" Loc="tests/z/animate_misc.tex" Start="5594"/>
@@ -6466,6 +6566,7 @@ Existential quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="128" Loc="tests/z/animate_misc.tex" Start="5694"/>
             </Anns>
+            <ZDeclNameList/>
             <ExistsPred>
                 <Anns>
                     <LocAnn Col="26" Length="41" Line="128" Loc="tests/z/animate_misc.tex" Start="5720"/>
@@ -6476,20 +6577,22 @@ Existential quantifiers with multiple bound variables.
                             <Anns>
                                 <LocAnn Col="37" Length="13" Line="128" Loc="tests/z/animate_misc.tex" Start="5728"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="34" Length="1" Line="128" Loc="tests/z/animate_misc.tex" Start="5728"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="36" Length="1" Line="128" Loc="tests/z/animate_misc.tex" Start="5730"/>
-                                </Anns>
-                                <Word>y</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="34" Length="1" Line="128" Loc="tests/z/animate_misc.tex" Start="5728"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="36" Length="1" Line="128" Loc="tests/z/animate_misc.tex" Start="5730"/>
+                                    </Anns>
+                                    <Word>y</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="40" Length="9" Line="128" Loc="tests/z/animate_misc.tex" Start="5732"/>
@@ -6733,6 +6836,7 @@ Existential quantifiers with multiple bound variables.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="129" Loc="tests/z/animate_misc.tex" Start="5772"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="47" Line="129" Loc="tests/z/animate_misc.tex" Start="5792"/>
@@ -6747,20 +6851,22 @@ Existential quantifiers with multiple bound variables.
                                 <Anns>
                                     <LocAnn Col="37" Length="13" Line="129" Loc="tests/z/animate_misc.tex" Start="5806"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="34" Length="1" Line="129" Loc="tests/z/animate_misc.tex" Start="5806"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="129" Loc="tests/z/animate_misc.tex" Start="5808"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="34" Length="1" Line="129" Loc="tests/z/animate_misc.tex" Start="5806"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="129" Loc="tests/z/animate_misc.tex" Start="5808"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="129" Loc="tests/z/animate_misc.tex" Start="5810"/>
@@ -7007,6 +7113,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="86" Line="132" Loc="tests/z/animate_misc.tex" Start="5883"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="56" Line="132" Loc="tests/z/animate_misc.tex" Start="5903"/>
@@ -7021,13 +7128,15 @@ Unique existential quantifiers.
                                 <Anns>
                                     <LocAnn Col="37" Length="11" Line="132" Loc="tests/z/animate_misc.tex" Start="5919"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="132" Loc="tests/z/animate_misc.tex" Start="5919"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="132" Loc="tests/z/animate_misc.tex" Start="5919"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="132" Loc="tests/z/animate_misc.tex" Start="5921"/>
@@ -7192,6 +7301,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="133" Loc="tests/z/animate_misc.tex" Start="5970"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="20" Length="43" Line="133" Loc="tests/z/animate_misc.tex" Start="5990"/>
@@ -7202,13 +7312,15 @@ Unique existential quantifiers.
                             <Anns>
                                 <LocAnn Col="31" Length="11" Line="133" Loc="tests/z/animate_misc.tex" Start="6000"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="30" Length="1" Line="133" Loc="tests/z/animate_misc.tex" Start="6000"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="30" Length="1" Line="133" Loc="tests/z/animate_misc.tex" Start="6000"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="34" Length="9" Line="133" Loc="tests/z/animate_misc.tex" Start="6002"/>
@@ -7357,6 +7469,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="134" Loc="tests/z/animate_misc.tex" Start="6044"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="20" Length="43" Line="134" Loc="tests/z/animate_misc.tex" Start="6064"/>
@@ -7367,13 +7480,15 @@ Unique existential quantifiers.
                             <Anns>
                                 <LocAnn Col="31" Length="11" Line="134" Loc="tests/z/animate_misc.tex" Start="6074"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="30" Length="1" Line="134" Loc="tests/z/animate_misc.tex" Start="6074"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="30" Length="1" Line="134" Loc="tests/z/animate_misc.tex" Start="6074"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="34" Length="9" Line="134" Loc="tests/z/animate_misc.tex" Start="6076"/>
@@ -7522,6 +7637,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="135" Loc="tests/z/animate_misc.tex" Start="6118"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="20" Length="50" Line="135" Loc="tests/z/animate_misc.tex" Start="6138"/>
@@ -7532,13 +7648,15 @@ Unique existential quantifiers.
                             <Anns>
                                 <LocAnn Col="31" Length="11" Line="135" Loc="tests/z/animate_misc.tex" Start="6148"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="30" Length="1" Line="135" Loc="tests/z/animate_misc.tex" Start="6148"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="30" Length="1" Line="135" Loc="tests/z/animate_misc.tex" Start="6148"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="34" Length="9" Line="135" Loc="tests/z/animate_misc.tex" Start="6150"/>
@@ -7702,6 +7820,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="136" Loc="tests/z/animate_misc.tex" Start="6198"/>
             </Anns>
+            <ZDeclNameList/>
             <Exists1Pred>
                 <Anns>
                     <LocAnn Col="20" Length="50" Line="136" Loc="tests/z/animate_misc.tex" Start="6218"/>
@@ -7712,13 +7831,15 @@ Unique existential quantifiers.
                             <Anns>
                                 <LocAnn Col="31" Length="11" Line="136" Loc="tests/z/animate_misc.tex" Start="6228"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="30" Length="1" Line="136" Loc="tests/z/animate_misc.tex" Start="6228"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="30" Length="1" Line="136" Loc="tests/z/animate_misc.tex" Start="6228"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="34" Length="9" Line="136" Loc="tests/z/animate_misc.tex" Start="6230"/>
@@ -7882,6 +8003,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="85" Line="137" Loc="tests/z/animate_misc.tex" Start="6278"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="56" Line="137" Loc="tests/z/animate_misc.tex" Start="6298"/>
@@ -7896,13 +8018,15 @@ Unique existential quantifiers.
                                 <Anns>
                                     <LocAnn Col="37" Length="11" Line="137" Loc="tests/z/animate_misc.tex" Start="6314"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="137" Loc="tests/z/animate_misc.tex" Start="6314"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="137" Loc="tests/z/animate_misc.tex" Start="6314"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="137" Loc="tests/z/animate_misc.tex" Start="6316"/>
@@ -8067,6 +8191,7 @@ Unique existential quantifiers.
             <Anns>
                 <LocAnn Col="0" Length="91" Line="138" Loc="tests/z/animate_misc.tex" Start="6364"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="62" Line="138" Loc="tests/z/animate_misc.tex" Start="6384"/>
@@ -8081,13 +8206,15 @@ Unique existential quantifiers.
                                 <Anns>
                                     <LocAnn Col="37" Length="11" Line="138" Loc="tests/z/animate_misc.tex" Start="6400"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="36" Length="1" Line="138" Loc="tests/z/animate_misc.tex" Start="6400"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="36" Length="1" Line="138" Loc="tests/z/animate_misc.tex" Start="6400"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="9" Line="138" Loc="tests/z/animate_misc.tex" Start="6402"/>
@@ -8269,6 +8396,7 @@ Equality and inequality of tuples
             <Anns>
                 <LocAnn Col="0" Length="47" Line="151" Loc="tests/z/animate_misc.tex" Start="6945"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="28" Length="17" Line="151" Loc="tests/z/animate_misc.tex" Start="6965"/>
@@ -8364,6 +8492,7 @@ Equality and inequality of tuples
             <Anns>
                 <LocAnn Col="0" Length="50" Line="152" Loc="tests/z/animate_misc.tex" Start="6993"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="20" Line="152" Loc="tests/z/animate_misc.tex" Start="7013"/>
@@ -8472,6 +8601,7 @@ Equality and inequality of tuples
             <Anns>
                 <LocAnn Col="0" Length="50" Line="153" Loc="tests/z/animate_misc.tex" Start="7044"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="20" Line="153" Loc="tests/z/animate_misc.tex" Start="7064"/>
@@ -8580,6 +8710,7 @@ Equality and inequality of tuples
             <Anns>
                 <LocAnn Col="0" Length="67" Line="154" Loc="tests/z/animate_misc.tex" Start="7095"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="38" Length="37" Line="154" Loc="tests/z/animate_misc.tex" Start="7115"/>
@@ -8745,6 +8876,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="43" Line="157" Loc="tests/z/animate_misc.tex" Start="7198"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="13" Line="157" Loc="tests/z/animate_misc.tex" Start="7218"/>
@@ -8823,6 +8955,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="43" Line="158" Loc="tests/z/animate_misc.tex" Start="7242"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="13" Line="158" Loc="tests/z/animate_misc.tex" Start="7262"/>
@@ -8901,6 +9034,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="43" Line="159" Loc="tests/z/animate_misc.tex" Start="7286"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="13" Line="159" Loc="tests/z/animate_misc.tex" Start="7306"/>
@@ -8979,6 +9113,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="51" Line="160" Loc="tests/z/animate_misc.tex" Start="7330"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="34" Length="21" Line="160" Loc="tests/z/animate_misc.tex" Start="7350"/>
@@ -9091,6 +9226,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="47" Line="161" Loc="tests/z/animate_misc.tex" Start="7382"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="34" Length="17" Line="161" Loc="tests/z/animate_misc.tex" Start="7402"/>
@@ -9167,6 +9303,7 @@ Selection of fields within tuples
             <Anns>
                 <LocAnn Col="0" Length="48" Line="162" Loc="tests/z/animate_misc.tex" Start="7430"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="18" Line="162" Loc="tests/z/animate_misc.tex" Start="7450"/>

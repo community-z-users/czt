@@ -47,13 +47,15 @@ A generic stack.
             <Anns>
                 <LocAnn Col="2" Length="28" Line="22" Loc="Sched.tex" Start="769"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="22" Loc="Sched.tex" Start="775"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="22" Loc="Sched.tex" Start="775"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="11" Length="28" Line="22" Loc="Sched.tex" Start="769"/>
@@ -80,13 +82,15 @@ A generic stack.
                                         <Anns>
                                             <LocAnn Col="21" Length="14" Line="22" Loc="Sched.tex" Start="782"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="15" Length="5" Line="22" Loc="Sched.tex" Start="782"/>
-                                            </Anns>
-                                            <Word>stack</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Length="5" Line="22" Loc="Sched.tex" Start="782"/>
+                                                </Anns>
+                                                <Word>stack</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="23" Length="6" Line="22" Loc="Sched.tex" Start="790"/>
@@ -126,13 +130,15 @@ A generic stack.
             <Anns>
                 <LocAnn Col="2" Length="46" Line="23" Loc="Sched.tex" Start="802"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="12" Length="1" Line="23" Loc="Sched.tex" Start="812"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="12" Length="1" Line="23" Loc="Sched.tex" Start="812"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="15" Length="46" Line="23" Loc="Sched.tex" Start="802"/>
@@ -238,13 +244,15 @@ A generic stack.
             <Anns>
                 <LocAnn Col="0" Length="118" Line="26" Loc="Sched.tex" Start="860"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="26" Length="1" Line="26" Loc="Sched.tex" Start="886"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="26" Length="1" Line="26" Loc="Sched.tex" Start="886"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -291,15 +299,17 @@ A generic stack.
                                         <Anns>
                                             <LocAnn Col="5" Length="6" Line="28" Loc="Sched.tex" Start="911"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="2" Line="28" Loc="Sched.tex" Start="911"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="2" Line="28" Loc="Sched.tex" Start="911"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="7" Length="1" Line="28" Loc="Sched.tex" Start="916"/>
@@ -439,13 +449,15 @@ A generic stack.
             <Anns>
                 <LocAnn Col="0" Length="117" Line="33" Loc="Sched.tex" Start="980"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="25" Length="1" Line="33" Loc="Sched.tex" Start="1005"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="25" Length="1" Line="33" Loc="Sched.tex" Start="1005"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -492,15 +504,17 @@ A generic stack.
                                         <Anns>
                                             <LocAnn Col="5" Length="6" Line="35" Loc="Sched.tex" Start="1030"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="2" Line="35" Loc="Sched.tex" Start="1030"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="2" Line="35" Loc="Sched.tex" Start="1030"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="7" Length="1" Line="35" Loc="Sched.tex" Start="1035"/>
@@ -688,26 +702,30 @@ This is included only to have a generic axiom definition.
             <Anns>
                 <LocAnn Col="0" Length="125" Line="55" Loc="Sched.tex" Start="1464"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="55" Loc="Sched.tex" Start="1479"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="55" Loc="Sched.tex" Start="1479"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="15" Line="56" Loc="Sched.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="12" Line="56" Loc="Sched.tex"/>
-                            </Anns>
-                            <Word>singleton _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="56" Loc="Sched.tex"/>
+                                </Anns>
+                                <Word>singleton _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="17" Length="16" Line="56" Loc="Sched.tex" Start="1499"/>
@@ -748,13 +766,15 @@ This is included only to have a generic axiom definition.
                                 <Anns>
                                     <LocAnn Col="12" Length="12" Line="58" Loc="Sched.tex" Start="1534"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="10" Length="1" Line="58" Loc="Sched.tex" Start="1534"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="10" Length="1" Line="58" Loc="Sched.tex" Start="1534"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="58" Loc="Sched.tex" Start="1538"/>
@@ -894,6 +914,7 @@ unsigned octet. An unsigned word is used so references to memory etc a
             <Anns>
                 <LocAnn Col="0" Length="43" Line="65" Loc="Sched.tex" Start="1742"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="19" Line="66" Loc="Sched.tex" Start="1756"/>
@@ -971,19 +992,22 @@ animation purposes.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="72" Loc="Sched.tex" Start="1878"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Length="16" Line="73" Loc="Sched.tex" Start="1894"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="9" Line="73" Loc="Sched.tex" Start="1894"/>
-                            </Anns>
-                            <Word>mem_size</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="9" Line="73" Loc="Sched.tex" Start="1894"/>
+                                </Anns>
+                                <Word>mem_size</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="14" Length="4" Line="73" Loc="Sched.tex" Start="1906"/>
@@ -1048,13 +1072,15 @@ although 'jump' hasn't been specified yet.
             <Anns>
                 <LocAnn Col="0" Length="31" Line="81" Loc="Sched.tex" Start="2062"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="3" Length="5" Line="82" Loc="Sched.tex" Start="2077"/>
-                </Anns>
-                <Word>LABEL</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="3" Length="5" Line="82" Loc="Sched.tex" Start="2077"/>
+                    </Anns>
+                    <Word>LABEL</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
         </GivenPara>
         <NarrPara>
             <Anns>
@@ -1299,6 +1325,7 @@ reference for load and store instructions.
             <Anns>
                 <LocAnn Col="2" Length="32" Line="94" Loc="Sched.tex" Start="2464"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="32" Line="94" Loc="Sched.tex" Start="2464"/>
@@ -1382,6 +1409,7 @@ reference for load and store instructions.
             <Anns>
                 <LocAnn Col="2" Length="38" Line="95" Loc="Sched.tex" Start="2501"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="38" Line="95" Loc="Sched.tex" Start="2501"/>
@@ -1465,6 +1493,7 @@ operands, and optionally, a label.
             <Anns>
                 <LocAnn Col="0" Length="138" Line="101" Loc="Sched.tex" Start="2652"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1482,13 +1511,15 @@ operands, and optionally, a label.
                                         <Anns>
                                             <LocAnn Col="8" Length="20" Line="102" Loc="Sched.tex" Start="2682"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="102" Loc="Sched.tex" Start="2682"/>
-                                            </Anns>
-                                            <Word>label</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="102" Loc="Sched.tex" Start="2682"/>
+                                                </Anns>
+                                                <Word>label</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="10" Length="12" Line="102" Loc="Sched.tex" Start="2690"/>
@@ -1512,13 +1543,15 @@ operands, and optionally, a label.
                                         <Anns>
                                             <LocAnn Col="7" Length="17" Line="103" Loc="Sched.tex" Start="2708"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="103" Loc="Sched.tex" Start="2708"/>
-                                            </Anns>
-                                            <Word>name</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="103" Loc="Sched.tex" Start="2708"/>
+                                                </Anns>
+                                                <Word>name</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Length="10" Line="103" Loc="Sched.tex" Start="2715"/>
@@ -1537,13 +1570,15 @@ operands, and optionally, a label.
                                         <Anns>
                                             <LocAnn Col="9" Length="21" Line="104" Loc="Sched.tex" Start="2731"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="104" Loc="Sched.tex" Start="2731"/>
-                                            </Anns>
-                                            <Word>params</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="104" Loc="Sched.tex" Start="2731"/>
+                                                </Anns>
+                                                <Word>params</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="11" Length="12" Line="104" Loc="Sched.tex" Start="2740"/>
@@ -1652,6 +1687,7 @@ memory. There is also a buffer for displaying output.
             <Anns>
                 <LocAnn Col="2" Length="34" Line="117" Loc="Sched.tex" Start="2998"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="34" Line="117" Loc="Sched.tex" Start="2998"/>
@@ -1716,6 +1752,7 @@ memory. There is also a buffer for displaying output.
             <Anns>
                 <LocAnn Col="2" Length="38" Line="118" Loc="Sched.tex" Start="3037"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="38" Line="118" Loc="Sched.tex" Start="3037"/>
@@ -1820,6 +1857,7 @@ memory. There is also a buffer for displaying output.
             <Anns>
                 <LocAnn Col="0" Length="102" Line="121" Loc="Sched.tex" Start="3091"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1837,13 +1875,15 @@ memory. There is also a buffer for displaying output.
                                         <Anns>
                                             <LocAnn Col="12" Length="21" Line="122" Loc="Sched.tex" Start="3116"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="9" Line="122" Loc="Sched.tex" Start="3116"/>
-                                            </Anns>
-                                            <Word>registers</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="9" Line="122" Loc="Sched.tex" Start="3116"/>
+                                                </Anns>
+                                                <Word>registers</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="9" Line="122" Loc="Sched.tex" Start="3128"/>
@@ -1862,13 +1902,15 @@ memory. There is also a buffer for displaying output.
                                         <Anns>
                                             <LocAnn Col="9" Length="15" Line="123" Loc="Sched.tex" Start="3142"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="123" Loc="Sched.tex" Start="3142"/>
-                                            </Anns>
-                                            <Word>memory</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="123" Loc="Sched.tex" Start="3142"/>
+                                                </Anns>
+                                                <Word>memory</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="6" Line="123" Loc="Sched.tex" Start="3151"/>
@@ -1887,13 +1929,15 @@ memory. There is also a buffer for displaying output.
                                         <Anns>
                                             <LocAnn Col="9" Length="18" Line="124" Loc="Sched.tex" Start="3162"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="124" Loc="Sched.tex" Start="3162"/>
-                                            </Anns>
-                                            <Word>output</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="124" Loc="Sched.tex" Start="3162"/>
+                                                </Anns>
+                                                <Word>output</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="11" Length="9" Line="124" Loc="Sched.tex" Start="3171"/>
@@ -1944,6 +1988,7 @@ output buffer is empty.
             <Anns>
                 <LocAnn Col="0" Length="212" Line="130" Loc="Sched.tex" Start="3291"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -2010,13 +2055,15 @@ output buffer is empty.
                                                                     <Anns>
                                                                         <LocAnn Col="19" Length="12" Line="133" Loc="Sched.tex" Start="3351"/>
                                                                     </Anns>
-                                                                    <ZDeclName>
-                                                                        <Anns>
-                                                                            <LocAnn Col="17" Length="1" Line="133" Loc="Sched.tex" Start="3351"/>
-                                                                        </Anns>
-                                                                        <Word>r</Word>
-                                                                        <ZStrokeList/>
-                                                                    </ZDeclName>
+                                                                    <ZDeclNameList>
+                                                                        <ZDeclName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="17" Length="1" Line="133" Loc="Sched.tex" Start="3351"/>
+                                                                            </Anns>
+                                                                            <Word>r</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZDeclName>
+                                                                    </ZDeclNameList>
                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="21" Length="8" Line="133" Loc="Sched.tex" Start="3355"/>
@@ -2160,13 +2207,15 @@ output buffer is empty.
                                                                     <Anns>
                                                                         <LocAnn Col="16" Length="21" Line="134" Loc="Sched.tex" Start="3415"/>
                                                                     </Anns>
-                                                                    <ZDeclName>
-                                                                        <Anns>
-                                                                            <LocAnn Col="14" Length="1" Line="134" Loc="Sched.tex" Start="3415"/>
-                                                                        </Anns>
-                                                                        <Word>m</Word>
-                                                                        <ZStrokeList/>
-                                                                    </ZDeclName>
+                                                                    <ZDeclNameList>
+                                                                        <ZDeclName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="14" Length="1" Line="134" Loc="Sched.tex" Start="3415"/>
+                                                                            </Anns>
+                                                                            <Word>m</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZDeclName>
+                                                                    </ZDeclNameList>
                                                                     <ApplExpr Mixfix="true">
                                                                         <Anns>
                                                                             <LocAnn Col="20" Length="17" Line="134" Loc="Sched.tex" Start="3419"/>
@@ -2358,6 +2407,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="73" Line="141" Loc="Sched.tex" Start="3576"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="73" Line="141" Loc="Sched.tex" Start="3576"/>
@@ -2512,6 +2562,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="38" Line="142" Loc="Sched.tex" Start="3654"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="38" Line="142" Loc="Sched.tex" Start="3654"/>
@@ -2595,6 +2646,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="39" Line="143" Loc="Sched.tex" Start="3697"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="39" Line="143" Loc="Sched.tex" Start="3697"/>
@@ -2678,6 +2730,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="41" Line="144" Loc="Sched.tex" Start="3741"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="41" Line="144" Loc="Sched.tex" Start="3741"/>
@@ -2761,6 +2814,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="42" Line="145" Loc="Sched.tex" Start="3787"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="42" Line="145" Loc="Sched.tex" Start="3787"/>
@@ -2852,6 +2906,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="114" Line="149" Loc="Sched.tex" Start="3855"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="114" Line="149" Loc="Sched.tex" Start="3855"/>
@@ -3062,6 +3117,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="42" Line="151" Loc="Sched.tex" Start="3974"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="42" Line="151" Loc="Sched.tex" Start="3974"/>
@@ -3145,6 +3201,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="52" Line="152" Loc="Sched.tex" Start="4021"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="52" Line="152" Loc="Sched.tex" Start="4021"/>
@@ -3228,6 +3285,7 @@ The system can have arithmetic and memory instructions.
             <Anns>
                 <LocAnn Col="2" Length="44" Line="153" Loc="Sched.tex" Start="4078"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="44" Line="153" Loc="Sched.tex" Start="4078"/>
@@ -3321,6 +3379,7 @@ A print instruction prints the value of a register.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="158" Loc="Sched.tex" Start="4187"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="44" Line="159" Loc="Sched.tex" Start="4201"/>
@@ -3430,19 +3489,22 @@ the value of a register, transitively if required.
             <Anns>
                 <LocAnn Col="0" Length="345" Line="165" Loc="Sched.tex" Start="4377"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Length="24" Line="166" Loc="Sched.tex" Start="4393"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="3" Line="166" Loc="Sched.tex" Start="4393"/>
-                            </Anns>
-                            <Word>val</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="3" Line="166" Loc="Sched.tex" Start="4393"/>
+                                </Anns>
+                                <Word>val</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="17" Length="18" Line="166" Loc="Sched.tex" Start="4399"/>
@@ -3488,13 +3550,15 @@ the value of a register, transitively if required.
                         <Anns>
                             <LocAnn Col="14" Length="48" Line="167" Loc="Sched.tex" Start="4422"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="11" Line="167" Loc="Sched.tex" Start="4422"/>
-                            </Anns>
-                            <Word>dereference</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="11" Line="167" Loc="Sched.tex" Start="4422"/>
+                                </Anns>
+                                <Word>dereference</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="41" Length="34" Line="167" Loc="Sched.tex" Start="4436"/>
@@ -3571,13 +3635,15 @@ the value of a register, transitively if required.
                                     <Anns>
                                         <LocAnn Col="12" Length="12" Line="169" Loc="Sched.tex" Start="4488"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="10" Length="1" Line="169" Loc="Sched.tex" Start="4488"/>
-                                        </Anns>
-                                        <Word>c</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="10" Length="1" Line="169" Loc="Sched.tex" Start="4488"/>
+                                            </Anns>
+                                            <Word>c</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="14" Length="8" Line="169" Loc="Sched.tex" Start="4492"/>
@@ -3609,13 +3675,15 @@ the value of a register, transitively if required.
                                         <Anns>
                                             <LocAnn Col="19" Length="8" Line="170" Loc="Sched.tex" Start="4523"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="17" Length="1" Line="170" Loc="Sched.tex" Start="4523"/>
-                                            </Anns>
-                                            <Word>n</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="17" Length="1" Line="170" Loc="Sched.tex" Start="4523"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="21" Length="4" Line="170" Loc="Sched.tex" Start="4527"/>
@@ -3765,13 +3833,15 @@ the value of a register, transitively if required.
                                     <Anns>
                                         <LocAnn Col="12" Length="11" Line="171" Loc="Sched.tex" Start="4580"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="10" Length="1" Line="171" Loc="Sched.tex" Start="4580"/>
-                                        </Anns>
-                                        <Word>a</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="10" Length="1" Line="171" Loc="Sched.tex" Start="4580"/>
+                                            </Anns>
+                                            <Word>a</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="14" Length="7" Line="171" Loc="Sched.tex" Start="4584"/>
@@ -3790,13 +3860,15 @@ the value of a register, transitively if required.
                                     <Anns>
                                         <LocAnn Col="26" Length="13" Line="171" Loc="Sched.tex" Start="4594"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="24" Length="1" Line="171" Loc="Sched.tex" Start="4594"/>
-                                        </Anns>
-                                        <Word>r</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="24" Length="1" Line="171" Loc="Sched.tex" Start="4594"/>
+                                            </Anns>
+                                            <Word>r</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="28" Length="9" Line="171" Loc="Sched.tex" Start="4598"/>
@@ -4037,6 +4109,7 @@ The specification of the arithmetic instructions.
             <Anns>
                 <LocAnn Col="0" Length="307" Line="178" Loc="Sched.tex" Start="4775"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -4558,6 +4631,7 @@ The specification of the arithmetic instructions.
             <Anns>
                 <LocAnn Col="0" Length="307" Line="190" Loc="Sched.tex" Start="5084"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -5079,6 +5153,7 @@ The specification of the arithmetic instructions.
             <Anns>
                 <LocAnn Col="0" Length="309" Line="202" Loc="Sched.tex" Start="5393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -5600,6 +5675,7 @@ The specification of the arithmetic instructions.
             <Anns>
                 <LocAnn Col="0" Length="310" Line="214" Loc="Sched.tex" Start="5704"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -6125,6 +6201,7 @@ is loaded.
             <Anns>
                 <LocAnn Col="0" Length="246" Line="230" Loc="Sched.tex" Start="6163"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -6535,6 +6612,7 @@ the constant to be loaded.
             <Anns>
                 <LocAnn Col="0" Length="237" Line="244" Loc="Sched.tex" Start="6510"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -6921,6 +6999,7 @@ Store the value of a register in memory.
             <Anns>
                 <LocAnn Col="0" Length="265" Line="256" Loc="Sched.tex" Start="6791"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -7349,6 +7428,7 @@ Store the value of a register in memory.
             <Anns>
                 <LocAnn Col="0" Length="192" Line="267" Loc="Sched.tex" Start="7058"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -7657,6 +7737,7 @@ Store the value of a register in memory.
             <Anns>
                 <LocAnn Col="2" Length="44" Line="277" Loc="Sched.tex" Start="7266"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="44" Line="277" Loc="Sched.tex" Start="7266"/>
@@ -7755,6 +7836,7 @@ Store the value of a register in memory.
             <Anns>
                 <LocAnn Col="2" Length="42" Line="278" Loc="Sched.tex" Start="7315"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="42" Line="278" Loc="Sched.tex" Start="7315"/>
@@ -7838,6 +7920,7 @@ Store the value of a register in memory.
             <Anns>
                 <LocAnn Col="2" Length="39" Line="279" Loc="Sched.tex" Start="7362"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="39" Line="279" Loc="Sched.tex" Start="7362"/>
@@ -7931,6 +8014,7 @@ The specification of the stack instructions on the system.
             <Anns>
                 <LocAnn Col="0" Length="130" Line="284" Loc="Sched.tex" Start="7473"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -8117,6 +8201,7 @@ The specification of the stack instructions on the system.
             <Anns>
                 <LocAnn Col="0" Length="200" Line="292" Loc="Sched.tex" Start="7605"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -8451,6 +8536,7 @@ The specification of the stack instructions on the system.
             <Anns>
                 <LocAnn Col="2" Length="48" Line="303" Loc="Sched.tex" Start="7821"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="48" Line="303" Loc="Sched.tex" Start="7821"/>
@@ -8546,6 +8632,7 @@ The specification of the stack instructions on the system.
             <Anns>
                 <LocAnn Col="2" Length="45" Line="304" Loc="Sched.tex" Start="7874"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="45" Line="304" Loc="Sched.tex" Start="7874"/>
@@ -8654,6 +8741,7 @@ instruction, the memory reference must offset using the base value.
             <Anns>
                 <LocAnn Col="0" Length="597" Line="312" Loc="Sched.tex" Start="8203"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -8686,15 +8774,17 @@ instruction, the memory reference must offset using the base value.
                                         <Anns>
                                             <LocAnn Col="8" Length="19" Line="314" Loc="Sched.tex" Start="8250"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="314" Loc="Sched.tex" Start="8250"/>
-                                            </Anns>
-                                            <Word>inst</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="314" Loc="Sched.tex" Start="8250"/>
+                                                </Anns>
+                                                <Word>inst</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="11" Line="314" Loc="Sched.tex" Start="8258"/>
@@ -8713,15 +8803,17 @@ instruction, the memory reference must offset using the base value.
                                         <Anns>
                                             <LocAnn Col="8" Length="25" Line="315" Loc="Sched.tex" Start="8274"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="315" Loc="Sched.tex" Start="8274"/>
-                                            </Anns>
-                                            <Word>base</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="315" Loc="Sched.tex" Start="8274"/>
+                                                </Anns>
+                                                <Word>base</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="12" Length="17" Line="315" Loc="Sched.tex" Start="8282"/>
@@ -8779,13 +8871,15 @@ instruction, the memory reference must offset using the base value.
                                                 <Anns>
                                                     <LocAnn Col="16" Length="20" Line="317" Loc="Sched.tex" Start="8317"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="10" Length="5" Line="317" Loc="Sched.tex" Start="8317"/>
-                                                    </Anns>
-                                                    <Word>label</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="10" Length="5" Line="317" Loc="Sched.tex" Start="8317"/>
+                                                        </Anns>
+                                                        <Word>label</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <PowerExpr>
                                                     <Anns>
                                                         <LocAnn Col="18" Length="12" Line="317" Loc="Sched.tex" Start="8325"/>
@@ -8809,13 +8903,15 @@ instruction, the memory reference must offset using the base value.
                                                 <Anns>
                                                     <LocAnn Col="37" Length="17" Line="317" Loc="Sched.tex" Start="8339"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="32" Length="4" Line="317" Loc="Sched.tex" Start="8339"/>
-                                                    </Anns>
-                                                    <Word>name</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="32" Length="4" Line="317" Loc="Sched.tex" Start="8339"/>
+                                                        </Anns>
+                                                        <Word>name</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="39" Length="10" Line="317" Loc="Sched.tex" Start="8346"/>
@@ -8834,13 +8930,15 @@ instruction, the memory reference must offset using the base value.
                                                 <Anns>
                                                     <LocAnn Col="58" Length="21" Line="317" Loc="Sched.tex" Start="8358"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="51" Length="6" Line="317" Loc="Sched.tex" Start="8358"/>
-                                                    </Anns>
-                                                    <Word>params</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="51" Length="6" Line="317" Loc="Sched.tex" Start="8358"/>
+                                                        </Anns>
+                                                        <Word>params</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="true" Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="60" Length="12" Line="317" Loc="Sched.tex" Start="8367"/>
@@ -9215,13 +9313,15 @@ instruction, the memory reference must offset using the base value.
                                                             <Anns>
                                                                 <LocAnn Col="54" Length="16" Line="322" Loc="Sched.tex" Start="8620"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="52" Length="1" Line="322" Loc="Sched.tex" Start="8620"/>
-                                                                </Anns>
-                                                                <Word>p</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="52" Length="1" Line="322" Loc="Sched.tex" Start="8620"/>
+                                                                    </Anns>
+                                                                    <Word>p</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <RefExpr Explicit="true" Mixfix="true">
                                                                 <Anns>
                                                                     <LocAnn Col="56" Length="12" Line="322" Loc="Sched.tex" Start="8624"/>
@@ -9593,6 +9693,7 @@ default number of credits a process receives when it is created.
             <Anns>
                 <LocAnn Col="2" Length="11" Line="338" Loc="Sched.tex" Start="9072"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="11" Line="338" Loc="Sched.tex" Start="9072"/>
@@ -9630,6 +9731,7 @@ default number of credits a process receives when it is created.
             <Anns>
                 <LocAnn Col="2" Length="31" Line="339" Loc="Sched.tex" Start="9088"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="31" Line="339" Loc="Sched.tex" Start="9088"/>
@@ -9714,6 +9816,7 @@ default number of credits a process receives when it is created.
             <Anns>
                 <LocAnn Col="2" Length="22" Line="340" Loc="Sched.tex" Start="9124"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="22" Line="340" Loc="Sched.tex" Start="9124"/>
@@ -9830,6 +9933,7 @@ suspended.
             <Anns>
                 <LocAnn Col="0" Length="646" Line="360" Loc="Sched.tex" Start="9885"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -9847,13 +9951,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="7" Length="17" Line="361" Loc="Sched.tex" Start="9913"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="361" Loc="Sched.tex" Start="9913"/>
-                                            </Anns>
-                                            <Word>pids</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="361" Loc="Sched.tex" Start="9913"/>
+                                                </Anns>
+                                                <Word>pids</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="9" Length="10" Line="361" Loc="Sched.tex" Start="9920"/>
@@ -9877,13 +9983,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="9" Length="25" Line="362" Loc="Sched.tex" Start="9935"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="362" Loc="Sched.tex" Start="9935"/>
-                                            </Anns>
-                                            <Word>status</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="362" Loc="Sched.tex" Start="9935"/>
+                                                </Anns>
+                                                <Word>status</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="15" Length="16" Line="362" Loc="Sched.tex" Start="9944"/>
@@ -9929,13 +10037,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="10" Length="24" Line="363" Loc="Sched.tex" Start="9965"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="7" Line="363" Loc="Sched.tex" Start="9965"/>
-                                            </Anns>
-                                            <Word>credits</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="7" Line="363" Loc="Sched.tex" Start="9965"/>
+                                                </Anns>
+                                                <Word>credits</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="16" Length="14" Line="363" Loc="Sched.tex" Start="9975"/>
@@ -9981,13 +10091,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="11" Length="29" Line="364" Loc="Sched.tex" Start="9994"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="8" Line="364" Loc="Sched.tex" Start="9994"/>
-                                            </Anns>
-                                            <Word>priority</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="8" Line="364" Loc="Sched.tex" Start="9994"/>
+                                                </Anns>
+                                                <Word>priority</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="17" Length="18" Line="364" Loc="Sched.tex" Start="10005"/>
@@ -10033,13 +10145,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="15" Length="42" Line="365" Loc="Sched.tex" Start="10028"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="12" Line="365" Loc="Sched.tex" Start="10028"/>
-                                            </Anns>
-                                            <Word>instructions</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="12" Line="365" Loc="Sched.tex" Start="10028"/>
+                                                </Anns>
+                                                <Word>instructions</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="21" Length="27" Line="365" Loc="Sched.tex" Start="10043"/>
@@ -10104,13 +10218,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="16" Length="32" Line="366" Loc="Sched.tex" Start="10076"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="13" Line="366" Loc="Sched.tex" Start="10076"/>
-                                            </Anns>
-                                            <Word>inst_pointer</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="13" Line="366" Loc="Sched.tex" Start="10076"/>
+                                                </Anns>
+                                                <Word>inst_pointer</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="22" Length="16" Line="366" Loc="Sched.tex" Start="10092"/>
@@ -10158,20 +10274,22 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="14" Length="28" Line="367" Loc="Sched.tex" Start="10117"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="367" Loc="Sched.tex" Start="10117"/>
-                                            </Anns>
-                                            <Word>base</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="5" Line="367" Loc="Sched.tex" Start="10123"/>
-                                            </Anns>
-                                            <Word>limit</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="367" Loc="Sched.tex" Start="10117"/>
+                                                </Anns>
+                                                <Word>base</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="5" Line="367" Loc="Sched.tex" Start="10123"/>
+                                                </Anns>
+                                                <Word>limit</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="20" Length="14" Line="367" Loc="Sched.tex" Start="10131"/>
@@ -10217,13 +10335,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="13" Length="32" Line="368" Loc="Sched.tex" Start="10150"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="10" Line="368" Loc="Sched.tex" Start="10150"/>
-                                            </Anns>
-                                            <Word>pregisters</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="10" Line="368" Loc="Sched.tex" Start="10150"/>
+                                                </Anns>
+                                                <Word>pregisters</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="19" Length="19" Line="368" Loc="Sched.tex" Start="10163"/>
@@ -10269,13 +10389,15 @@ suspended.
                                         <Anns>
                                             <LocAnn Col="9" Length="30" Line="369" Loc="Sched.tex" Start="10187"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="369" Loc="Sched.tex" Start="10187"/>
-                                            </Anns>
-                                            <Word>pstack</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="369" Loc="Sched.tex" Start="10187"/>
+                                                </Anns>
+                                                <Word>pstack</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="15" Length="21" Line="369" Loc="Sched.tex" Start="10196"/>
@@ -11031,13 +11153,15 @@ suspended.
                                                         <Anns>
                                                             <LocAnn Col="14" Length="10" Line="374" Loc="Sched.tex" Start="10397"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="10" Length="3" Line="374" Loc="Sched.tex" Start="10397"/>
-                                                            </Anns>
-                                                            <Word>pid</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="10" Length="3" Line="374" Loc="Sched.tex" Start="10397"/>
+                                                                </Anns>
+                                                                <Word>pid</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="16" Length="4" Line="374" Loc="Sched.tex" Start="10403"/>
@@ -11183,13 +11307,15 @@ suspended.
                                                     <Anns>
                                                         <LocAnn Col="14" Length="10" Line="375" Loc="Sched.tex" Start="10468"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="10" Length="3" Line="375" Loc="Sched.tex" Start="10468"/>
-                                                        </Anns>
-                                                        <Word>pid</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="10" Length="3" Line="375" Loc="Sched.tex" Start="10468"/>
+                                                            </Anns>
+                                                            <Word>pid</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="16" Length="4" Line="375" Loc="Sched.tex" Start="10474"/>
@@ -11361,19 +11487,22 @@ equal, then the order is non-deterministic.
             <Anns>
                 <LocAnn Col="0" Length="492" Line="384" Loc="Sched.tex" Start="10855"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Length="67" Line="385" Loc="Sched.tex" Start="10871"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="4" Line="385" Loc="Sched.tex" Start="10871"/>
-                            </Anns>
-                            <Word>sort</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="4" Line="385" Loc="Sched.tex" Start="10871"/>
+                                </Anns>
+                                <Word>sort</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="54" Length="59" Line="385" Loc="Sched.tex" Start="10879"/>
@@ -11548,13 +11677,15 @@ equal, then the order is non-deterministic.
                                             <Anns>
                                                 <LocAnn Col="21" Length="25" Line="388" Loc="Sched.tex" Start="10968"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="13" Length="7" Line="388" Loc="Sched.tex" Start="10968"/>
-                                                </Anns>
-                                                <Word>credits</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="13" Length="7" Line="388" Loc="Sched.tex" Start="10968"/>
+                                                    </Anns>
+                                                    <Word>credits</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="28" Length="14" Line="388" Loc="Sched.tex" Start="10979"/>
@@ -11605,13 +11736,15 @@ equal, then the order is non-deterministic.
                                             <Anns>
                                                 <LocAnn Col="50" Length="29" Line="388" Loc="Sched.tex" Start="10996"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="41" Length="8" Line="388" Loc="Sched.tex" Start="10996"/>
-                                                </Anns>
-                                                <Word>priority</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="41" Length="8" Line="388" Loc="Sched.tex" Start="10996"/>
+                                                    </Anns>
+                                                    <Word>priority</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="56" Length="18" Line="388" Loc="Sched.tex" Start="11007"/>
@@ -11756,13 +11889,15 @@ equal, then the order is non-deterministic.
                                                 <Anns>
                                                     <LocAnn Col="15" Length="13" Line="390" Loc="Sched.tex" Start="11087"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="13" Length="1" Line="390" Loc="Sched.tex" Start="11087"/>
-                                                    </Anns>
-                                                    <Word>s</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="13" Length="1" Line="390" Loc="Sched.tex" Start="11087"/>
+                                                        </Anns>
+                                                        <Word>s</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="true" Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="17" Length="9" Line="390" Loc="Sched.tex" Start="11091"/>
@@ -11892,13 +12027,15 @@ equal, then the order is non-deterministic.
                                                             <Anns>
                                                                 <LocAnn Col="21" Length="19" Line="391" Loc="Sched.tex" Start="11154"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="19" Length="1" Line="391" Loc="Sched.tex" Start="11154"/>
-                                                                </Anns>
-                                                                <Word>i</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="19" Length="1" Line="391" Loc="Sched.tex" Start="11154"/>
+                                                                    </Anns>
+                                                                    <Word>i</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <ApplExpr Mixfix="true">
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <ZRefName>
@@ -12567,6 +12704,7 @@ will eventually have a low priority.
             <Anns>
                 <LocAnn Col="0" Length="592" Line="413" Loc="Sched.tex" Start="12075"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -12643,13 +12781,15 @@ will eventually have a low priority.
                                         <Anns>
                                             <LocAnn Col="7" Length="11" Line="417" Loc="Sched.tex" Start="12144"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="417" Loc="Sched.tex" Start="12144"/>
-                                            </Anns>
-                                            <Word>mode</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="417" Loc="Sched.tex" Start="12144"/>
+                                                </Anns>
+                                                <Word>mode</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Length="4" Line="417" Loc="Sched.tex" Start="12151"/>
@@ -12668,20 +12808,22 @@ will eventually have a low priority.
                                         <Anns>
                                             <LocAnn Col="19" Length="29" Line="418" Loc="Sched.tex" Start="12160"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="7" Line="418" Loc="Sched.tex" Start="12160"/>
-                                            </Anns>
-                                            <Word>waiting</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="11" Length="7" Line="418" Loc="Sched.tex" Start="12169"/>
-                                            </Anns>
-                                            <Word>running</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="7" Line="418" Loc="Sched.tex" Start="12160"/>
+                                                </Anns>
+                                                <Word>waiting</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="7" Line="418" Loc="Sched.tex" Start="12169"/>
+                                                </Anns>
+                                                <Word>running</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <PowerExpr>
                                             <Anns>
                                                 <LocAnn Col="21" Length="10" Line="418" Loc="Sched.tex" Start="12179"/>
@@ -12705,13 +12847,15 @@ will eventually have a low priority.
                                         <Anns>
                                             <LocAnn Col="8" Length="17" Line="419" Loc="Sched.tex" Start="12194"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="419" Loc="Sched.tex" Start="12194"/>
-                                            </Anns>
-                                            <Word>ready</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="419" Loc="Sched.tex" Start="12194"/>
+                                                </Anns>
+                                                <Word>ready</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="10" Length="9" Line="419" Loc="Sched.tex" Start="12202"/>
@@ -13109,13 +13253,15 @@ will eventually have a low priority.
                                                                                 <Anns>
                                                                                     <LocAnn Col="17" Length="8" Line="424" Loc="Sched.tex" Start="12357"/>
                                                                                 </Anns>
-                                                                                <ZDeclName>
-                                                                                    <Anns>
-                                                                                        <LocAnn Col="15" Length="1" Line="424" Loc="Sched.tex" Start="12357"/>
-                                                                                    </Anns>
-                                                                                    <Word>p</Word>
-                                                                                    <ZStrokeList/>
-                                                                                </ZDeclName>
+                                                                                <ZDeclNameList>
+                                                                                    <ZDeclName>
+                                                                                        <Anns>
+                                                                                            <LocAnn Col="15" Length="1" Line="424" Loc="Sched.tex" Start="12357"/>
+                                                                                        </Anns>
+                                                                                        <Word>p</Word>
+                                                                                        <ZStrokeList/>
+                                                                                    </ZDeclName>
+                                                                                </ZDeclNameList>
                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                     <Anns>
                                                                                         <LocAnn Col="19" Length="4" Line="424" Loc="Sched.tex" Start="12361"/>
@@ -13247,13 +13393,15 @@ will eventually have a low priority.
                                                                             <Anns>
                                                                                 <LocAnn Col="17" Length="8" Line="425" Loc="Sched.tex" Start="12416"/>
                                                                             </Anns>
-                                                                            <ZDeclName>
-                                                                                <Anns>
-                                                                                    <LocAnn Col="15" Length="1" Line="425" Loc="Sched.tex" Start="12416"/>
-                                                                                </Anns>
-                                                                                <Word>p</Word>
-                                                                                <ZStrokeList/>
-                                                                            </ZDeclName>
+                                                                            <ZDeclNameList>
+                                                                                <ZDeclName>
+                                                                                    <Anns>
+                                                                                        <LocAnn Col="15" Length="1" Line="425" Loc="Sched.tex" Start="12416"/>
+                                                                                    </Anns>
+                                                                                    <Word>p</Word>
+                                                                                    <ZStrokeList/>
+                                                                                </ZDeclName>
+                                                                            </ZDeclNameList>
                                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                                 <Anns>
                                                                                     <LocAnn Col="19" Length="4" Line="425" Loc="Sched.tex" Start="12420"/>
@@ -13590,13 +13738,15 @@ will eventually have a low priority.
                                                         <Anns>
                                                             <LocAnn Col="12" Length="14" Line="428" Loc="Sched.tex" Start="12577"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="10" Length="1" Line="428" Loc="Sched.tex" Start="12577"/>
-                                                            </Anns>
-                                                            <Word>r</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="10" Length="1" Line="428" Loc="Sched.tex" Start="12577"/>
+                                                                </Anns>
+                                                                <Word>r</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <ApplExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="10" Line="428" Loc="Sched.tex" Start="12581"/>
@@ -13706,13 +13856,15 @@ will eventually have a low priority.
                                                     <Anns>
                                                         <LocAnn Col="12" Length="11" Line="429" Loc="Sched.tex" Start="12626"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="10" Length="1" Line="429" Loc="Sched.tex" Start="12626"/>
-                                                        </Anns>
-                                                        <Word>r</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="10" Length="1" Line="429" Loc="Sched.tex" Start="12626"/>
+                                                            </Anns>
+                                                            <Word>r</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="14" Length="7" Line="429" Loc="Sched.tex" Start="12630"/>
@@ -13822,6 +13974,7 @@ can no longer be used to conjoin predicates.
             <Anns>
                 <LocAnn Col="0" Length="393" Line="437" Loc="Sched.tex" Start="12916"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -14421,6 +14574,7 @@ specified priority, and places this new process on the ready queue.
             <Anns>
                 <LocAnn Col="0" Length="865" Line="452" Loc="Sched.tex" Start="13446"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -14468,15 +14622,17 @@ specified priority, and places this new process on the ready queue.
                                         <Anns>
                                             <LocAnn Col="12" Length="20" Line="455" Loc="Sched.tex" Start="13521"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="9" Line="455" Loc="Sched.tex" Start="13521"/>
-                                            </Anns>
-                                            <Word>priority</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="9" Line="455" Loc="Sched.tex" Start="13521"/>
+                                                </Anns>
+                                                <Word>priority</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="8" Line="455" Loc="Sched.tex" Start="13533"/>
@@ -14495,15 +14651,17 @@ specified priority, and places this new process on the ready queue.
                                         <Anns>
                                             <LocAnn Col="16" Length="32" Line="456" Loc="Sched.tex" Start="13546"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="13" Line="456" Loc="Sched.tex" Start="13546"/>
-                                            </Anns>
-                                            <Word>instructions</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="13" Line="456" Loc="Sched.tex" Start="13546"/>
+                                                </Anns>
+                                                <Word>instructions</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="18" Length="16" Line="456" Loc="Sched.tex" Start="13562"/>
@@ -14536,24 +14694,26 @@ specified priority, and places this new process on the ready queue.
                                         <Anns>
                                             <LocAnn Col="16" Length="20" Line="457" Loc="Sched.tex" Start="13583"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="457" Loc="Sched.tex" Start="13583"/>
-                                            </Anns>
-                                            <Word>base</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="9" Length="6" Line="457" Loc="Sched.tex" Start="13590"/>
-                                            </Anns>
-                                            <Word>limit</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="457" Loc="Sched.tex" Start="13583"/>
+                                                </Anns>
+                                                <Word>base</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Length="6" Line="457" Loc="Sched.tex" Start="13590"/>
+                                                </Anns>
+                                                <Word>limit</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="18" Length="4" Line="457" Loc="Sched.tex" Start="13599"/>
@@ -14572,15 +14732,17 @@ specified priority, and places this new process on the ready queue.
                                         <Anns>
                                             <LocAnn Col="7" Length="10" Line="458" Loc="Sched.tex" Start="13608"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="458" Loc="Sched.tex" Start="13608"/>
-                                            </Anns>
-                                            <Word>pid</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="458" Loc="Sched.tex" Start="13608"/>
+                                                </Anns>
+                                                <Word>pid</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Length="3" Line="458" Loc="Sched.tex" Start="13615"/>
@@ -15612,13 +15774,15 @@ specified priority, and places this new process on the ready queue.
                                                                                                         <Anns>
                                                                                                             <LocAnn Col="45" Length="12" Line="469" Loc="Sched.tex" Start="14112"/>
                                                                                                         </Anns>
-                                                                                                        <ZDeclName>
-                                                                                                            <Anns>
-                                                                                                                <LocAnn Col="43" Length="1" Line="469" Loc="Sched.tex" Start="14112"/>
-                                                                                                            </Anns>
-                                                                                                            <Word>r</Word>
-                                                                                                            <ZStrokeList/>
-                                                                                                        </ZDeclName>
+                                                                                                        <ZDeclNameList>
+                                                                                                            <ZDeclName>
+                                                                                                                <Anns>
+                                                                                                                    <LocAnn Col="43" Length="1" Line="469" Loc="Sched.tex" Start="14112"/>
+                                                                                                                </Anns>
+                                                                                                                <Word>r</Word>
+                                                                                                                <ZStrokeList/>
+                                                                                                            </ZDeclName>
+                                                                                                        </ZDeclNameList>
                                                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                                                             <Anns>
                                                                                                                 <LocAnn Col="47" Length="8" Line="469" Loc="Sched.tex" Start="14116"/>
@@ -15997,6 +16161,7 @@ when a reschedule occurs.
             <Anns>
                 <LocAnn Col="0" Length="113" Line="479" Loc="Sched.tex" Start="14411"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="89" Line="480" Loc="Sched.tex" Start="14425"/>
@@ -16090,6 +16255,7 @@ next process executed.
             <Anns>
                 <LocAnn Col="0" Length="455" Line="490" Loc="Sched.tex" Start="14816"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -16200,13 +16366,15 @@ next process executed.
                                                         <Anns>
                                                             <LocAnn Col="12" Length="14" Line="495" Loc="Sched.tex" Start="14929"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="10" Length="1" Line="495" Loc="Sched.tex" Start="14929"/>
-                                                            </Anns>
-                                                            <Word>r</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="10" Length="1" Line="495" Loc="Sched.tex" Start="14929"/>
+                                                                </Anns>
+                                                                <Word>r</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <ApplExpr Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="10" Line="495" Loc="Sched.tex" Start="14933"/>
@@ -16340,13 +16508,15 @@ next process executed.
                                                                                 <Anns>
                                                                                     <LocAnn Col="11" Length="8" Line="497" Loc="Sched.tex" Start="15001"/>
                                                                                 </Anns>
-                                                                                <ZDeclName>
-                                                                                    <Anns>
-                                                                                        <LocAnn Col="9" Length="1" Line="497" Loc="Sched.tex" Start="15001"/>
-                                                                                    </Anns>
-                                                                                    <Word>p</Word>
-                                                                                    <ZStrokeList/>
-                                                                                </ZDeclName>
+                                                                                <ZDeclNameList>
+                                                                                    <ZDeclName>
+                                                                                        <Anns>
+                                                                                            <LocAnn Col="9" Length="1" Line="497" Loc="Sched.tex" Start="15001"/>
+                                                                                        </Anns>
+                                                                                        <Word>p</Word>
+                                                                                        <ZStrokeList/>
+                                                                                    </ZDeclName>
+                                                                                </ZDeclNameList>
                                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                                     <Anns>
                                                                                         <LocAnn Col="13" Length="4" Line="497" Loc="Sched.tex" Start="15005"/>
@@ -16585,13 +16755,15 @@ next process executed.
                                                             <Anns>
                                                                 <LocAnn Col="19" Length="14" Line="499" Loc="Sched.tex" Start="15111"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="17" Length="1" Line="499" Loc="Sched.tex" Start="15111"/>
-                                                                </Anns>
-                                                                <Word>r</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="17" Length="1" Line="499" Loc="Sched.tex" Start="15111"/>
+                                                                    </Anns>
+                                                                    <Word>r</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <ApplExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="21" Length="10" Line="499" Loc="Sched.tex" Start="15115"/>
@@ -16890,6 +17062,7 @@ not change when a status change occurs.
             <Anns>
                 <LocAnn Col="0" Length="130" Line="507" Loc="Sched.tex" Start="15385"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="106" Line="508" Loc="Sched.tex" Start="15399"/>
@@ -16995,6 +17168,7 @@ mode.
             <Anns>
                 <LocAnn Col="0" Length="453" Line="516" Loc="Sched.tex" Start="15665"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -17155,13 +17329,15 @@ mode.
                                                                 <Anns>
                                                                     <LocAnn Col="36" Length="11" Line="522" Loc="Sched.tex" Start="15815"/>
                                                                 </Anns>
-                                                                <ZDeclName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="34" Length="1" Line="522" Loc="Sched.tex" Start="15815"/>
-                                                                    </Anns>
-                                                                    <Word>p</Word>
-                                                                    <ZStrokeList/>
-                                                                </ZDeclName>
+                                                                <ZDeclNameList>
+                                                                    <ZDeclName>
+                                                                        <Anns>
+                                                                            <LocAnn Col="34" Length="1" Line="522" Loc="Sched.tex" Start="15815"/>
+                                                                        </Anns>
+                                                                        <Word>p</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZDeclName>
+                                                                </ZDeclNameList>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="38" Length="7" Line="522" Loc="Sched.tex" Start="15819"/>
@@ -17264,13 +17440,15 @@ mode.
                                                         <Anns>
                                                             <LocAnn Col="12" Length="11" Line="523" Loc="Sched.tex" Start="15868"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="10" Length="1" Line="523" Loc="Sched.tex" Start="15868"/>
-                                                            </Anns>
-                                                            <Word>r</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="10" Length="1" Line="523" Loc="Sched.tex" Start="15868"/>
+                                                                </Anns>
+                                                                <Word>r</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="7" Line="523" Loc="Sched.tex" Start="15872"/>
@@ -17730,6 +17908,7 @@ Remove the currently running process and put it back in the ready queue.
             <Anns>
                 <LocAnn Col="0" Length="345" Line="532" Loc="Sched.tex" Start="16194"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -17802,13 +17981,15 @@ Remove the currently running process and put it back in the ready queue.
                                                                 <Anns>
                                                                     <LocAnn Col="24" Length="11" Line="536" Loc="Sched.tex" Start="16304"/>
                                                                 </Anns>
-                                                                <ZDeclName>
-                                                                    <Anns>
-                                                                        <LocAnn Col="22" Length="1" Line="536" Loc="Sched.tex" Start="16304"/>
-                                                                    </Anns>
-                                                                    <Word>r</Word>
-                                                                    <ZStrokeList/>
-                                                                </ZDeclName>
+                                                                <ZDeclNameList>
+                                                                    <ZDeclName>
+                                                                        <Anns>
+                                                                            <LocAnn Col="22" Length="1" Line="536" Loc="Sched.tex" Start="16304"/>
+                                                                        </Anns>
+                                                                        <Word>r</Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZDeclName>
+                                                                </ZDeclNameList>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="26" Length="7" Line="536" Loc="Sched.tex" Start="16308"/>
@@ -18215,6 +18396,7 @@ device, or waiting on another process
             <Anns>
                 <LocAnn Col="0" Length="83" Line="545" Loc="Sched.tex" Start="16651"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="59" Line="546" Loc="Sched.tex" Start="16665"/>
@@ -18281,6 +18463,7 @@ unblock.
             <Anns>
                 <LocAnn Col="0" Length="97" Line="552" Loc="Sched.tex" Start="16815"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="73" Line="553" Loc="Sched.tex" Start="16829"/>
@@ -18363,6 +18546,7 @@ Unblocks a process that is blocked by another process.
             <Anns>
                 <LocAnn Col="0" Length="320" Line="558" Loc="Sched.tex" Start="16970"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -18410,15 +18594,17 @@ Unblocks a process that is blocked by another process.
                                         <Anns>
                                             <LocAnn Col="7" Length="10" Line="561" Loc="Sched.tex" Start="17055"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="561" Loc="Sched.tex" Start="17055"/>
-                                            </Anns>
-                                            <Word>pid</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="561" Loc="Sched.tex" Start="17055"/>
+                                                </Anns>
+                                                <Word>pid</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Length="3" Line="561" Loc="Sched.tex" Start="17062"/>
@@ -18887,6 +19073,7 @@ Remove a process from the system
             <Anns>
                 <LocAnn Col="0" Length="561" Line="571" Loc="Sched.tex" Start="17326"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -18963,15 +19150,17 @@ Remove a process from the system
                                         <Anns>
                                             <LocAnn Col="7" Length="10" Line="575" Loc="Sched.tex" Start="17416"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="575" Loc="Sched.tex" Start="17416"/>
-                                            </Anns>
-                                            <Word>pid</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="575" Loc="Sched.tex" Start="17416"/>
+                                                </Anns>
+                                                <Word>pid</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="9" Length="3" Line="575" Loc="Sched.tex" Start="17423"/>
@@ -19902,6 +20091,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="594" Loc="Sched.tex" Start="18056"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="52" Line="595" Loc="Sched.tex" Start="18070"/>
@@ -19961,6 +20151,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="601" Line="598" Loc="Sched.tex" Start="18134"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -19993,15 +20184,17 @@ value for the current process.
                                         <Anns>
                                             <LocAnn Col="8" Length="19" Line="600" Loc="Sched.tex" Start="18196"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="600" Loc="Sched.tex" Start="18196"/>
-                                            </Anns>
-                                            <Word>inst</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="600" Loc="Sched.tex" Start="18196"/>
+                                                </Anns>
+                                                <Word>inst</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="11" Line="600" Loc="Sched.tex" Start="18204"/>
@@ -20020,15 +20213,17 @@ value for the current process.
                                         <Anns>
                                             <LocAnn Col="8" Length="12" Line="601" Loc="Sched.tex" Start="18220"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="601" Loc="Sched.tex" Start="18220"/>
-                                            </Anns>
-                                            <Word>base</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="601" Loc="Sched.tex" Start="18220"/>
+                                                </Anns>
+                                                <Word>base</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="4" Line="601" Loc="Sched.tex" Start="18228"/>
@@ -20133,13 +20328,15 @@ value for the current process.
                                                                         <Anns>
                                                                             <LocAnn Col="25" Length="11" Line="604" Loc="Sched.tex" Start="18290"/>
                                                                         </Anns>
-                                                                        <ZDeclName>
-                                                                            <Anns>
-                                                                                <LocAnn Col="23" Length="1" Line="604" Loc="Sched.tex" Start="18290"/>
-                                                                            </Anns>
-                                                                            <Word>r</Word>
-                                                                            <ZStrokeList/>
-                                                                        </ZDeclName>
+                                                                        <ZDeclNameList>
+                                                                            <ZDeclName>
+                                                                                <Anns>
+                                                                                    <LocAnn Col="23" Length="1" Line="604" Loc="Sched.tex" Start="18290"/>
+                                                                                </Anns>
+                                                                                <Word>r</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZDeclName>
+                                                                        </ZDeclNameList>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="27" Length="7" Line="604" Loc="Sched.tex" Start="18294"/>
@@ -20831,6 +21028,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="205" Line="615" Loc="Sched.tex" Start="18737"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="180" Line="616" Loc="Sched.tex" Start="18751"/>
@@ -21063,6 +21261,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="48" Line="621" Loc="Sched.tex" Start="18944"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="24" Line="622" Loc="Sched.tex" Start="18958"/>
@@ -21118,6 +21317,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="105" Line="625" Loc="Sched.tex" Start="18994"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -21150,15 +21350,17 @@ value for the current process.
                                         <Anns>
                                             <LocAnn Col="8" Length="19" Line="627" Loc="Sched.tex" Start="19035"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="627" Loc="Sched.tex" Start="19035"/>
-                                            </Anns>
-                                            <Word>inst</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="627" Loc="Sched.tex" Start="19035"/>
+                                                </Anns>
+                                                <Word>inst</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="11" Line="627" Loc="Sched.tex" Start="19043"/>
@@ -21177,15 +21379,17 @@ value for the current process.
                                         <Anns>
                                             <LocAnn Col="8" Length="12" Line="628" Loc="Sched.tex" Start="19059"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="628" Loc="Sched.tex" Start="19059"/>
-                                            </Anns>
-                                            <Word>base</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="628" Loc="Sched.tex" Start="19059"/>
+                                                </Anns>
+                                                <Word>base</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="4" Line="628" Loc="Sched.tex" Start="19067"/>
@@ -21237,6 +21441,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="46" Line="633" Loc="Sched.tex" Start="19101"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="22" Line="634" Loc="Sched.tex" Start="19115"/>
@@ -21300,6 +21505,7 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="637" Loc="Sched.tex" Start="19149"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="11" Length="26" Line="638" Loc="Sched.tex" Start="19172"/>
@@ -21315,13 +21521,15 @@ value for the current process.
                             <Anns>
                                 <LocAnn Col="21" Length="10" Line="638" Loc="Sched.tex" Start="19180"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="19" Length="1" Line="638" Loc="Sched.tex" Start="19180"/>
-                                </Anns>
-                                <Word>n</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="19" Length="1" Line="638" Loc="Sched.tex" Start="19180"/>
+                                    </Anns>
+                                    <Word>n</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="23" Length="6" Line="638" Loc="Sched.tex" Start="19184"/>
@@ -21398,13 +21606,15 @@ value for the current process.
             <Anns>
                 <LocAnn Col="0" Length="86" Line="640" Loc="Sched.tex" Start="19210"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="3" Length="1" Line="641" Loc="Sched.tex" Start="19225"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="3" Length="1" Line="641" Loc="Sched.tex" Start="19225"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="14" Length="50" Line="641" Loc="Sched.tex" Start="19236"/>
@@ -21415,13 +21625,15 @@ value for the current process.
                             <Anns>
                                 <LocAnn Col="24" Length="12" Line="641" Loc="Sched.tex" Start="19244"/>
                             </Anns>
-                            <ZDeclName>
-                                <Anns>
-                                    <LocAnn Col="22" Length="1" Line="641" Loc="Sched.tex" Start="19244"/>
-                                </Anns>
-                                <Word>x</Word>
-                                <ZStrokeList/>
-                            </ZDeclName>
+                            <ZDeclNameList>
+                                <ZDeclName>
+                                    <Anns>
+                                        <LocAnn Col="22" Length="1" Line="641" Loc="Sched.tex" Start="19244"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <ZStrokeList/>
+                                </ZDeclName>
+                            </ZDeclNameList>
                             <PowerExpr>
                                 <Anns>
                                     <LocAnn Col="26" Length="8" Line="641" Loc="Sched.tex" Start="19248"/>

@@ -1580,7 +1580,7 @@ non terminal ZDeclList letDefinitionList;
 non terminal List&lt;Branch&gt; branchList;
 non terminal Branch branch;
 
-non terminal List&lt;DeclName&gt;
+non terminal ZDeclNameList
     nameList,
     declWordList;
 
@@ -1611,7 +1611,7 @@ non terminal Decl
     declaration;
 
 non terminal GivenPara basicTypeDefinition;
-non terminal List&lt;DeclName&gt;
+non terminal ZDeclNameList
     formalParameters,
     optFormalParameters;
 
@@ -1663,7 +1663,7 @@ non terminal List&lt;String&gt;
     infixName,
     nofixName;
 
-non terminal Pair&lt;DeclName,List&lt;DeclName&gt;&gt;
+non terminal Pair&lt;DeclName,ZDeclNameList&gt;
     genName,
     prefixGenName,
     postfixGenName,
@@ -1673,7 +1673,7 @@ non terminal Pair&lt;DeclName,List&lt;DeclName&gt;&gt;
 non terminal List&lt;String&gt;
     optVargEsSsList;
 
-non terminal Pair /* List DeclName, List DeclName */
+non terminal Pair&lt;ZDeclNameList,ZDeclNameList&gt;
     optNameEsSsList;
 
 non terminal Expr
@@ -1866,7 +1866,7 @@ non terminal Expr
 non terminal ClassPara
     class;
 
-non terminal Pair&lt;DeclName,List&lt;DeclName&gt;&gt;
+non terminal Pair&lt;DeclName,ZDeclNameList&gt;
     classHeader;
 
 non terminal State
@@ -2363,7 +2363,7 @@ optFormalParameters ::=
         {: RESULT = fp; :}
         |
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.createZDeclNameList(); :}
         ;
 
 formalParameters ::= 
@@ -2374,7 +2374,8 @@ formalParameters ::=
 axiomaticDefinition ::= 
         AX:ax schemaText:st END:end
         {:
-           RESULT = factory_.createAxPara(null, st, Box.AxBox);
+           ZDeclNameList zdnl = factory_.createZDeclNameList();
+           RESULT = factory_.createAxPara(zdnl, st, Box.AxBox);
            addLocAnn(RESULT, getLocation(ax, end));
         :}
         ;
@@ -2390,7 +2391,8 @@ abbreviationDefinition ::=
            decls.add(cd);
            ZSchText st = factory_.createZSchText(decls, null);
            addLocAnn(st, getLocation(dn, e));
-           RESULT = factory_.createAxPara(null, st, Box.OmitBox);
+           ZDeclNameList zdnl = factory_.createZDeclNameList();
+           RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
            addLocAnn(RESULT, getLocation(dn, e));
         :}
         |
@@ -2413,7 +2415,7 @@ abbreviationDefinition ::=
            DeclName dn = gn.getFirst();
            LocInfo dnLoc = dn != null ?
              getLocation(dn) : getLocation(gnleft, gnright);
-           List&lt;DeclName&gt; fp = gn.getSecond();
+           ZDeclNameList fp = gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
            LocInfo eLoc = getLocation(e);
            addLocAnn(cd, getLocation(equalleft, equalright, dnLoc, eLoc));
@@ -4004,7 +4006,9 @@ varDecl ::=
         JOKERNAME:jn COLON expression:e
         {:
            DeclName dn = factory_.createJokerDeclName(jn.getString());
-           RESULT = factory_.createVarDecl(list(dn), e);
+           ZDeclNameList zdnl = factory_.createZDeclNameList();
+           zdnl.add(dn);
+           RESULT = factory_.createVarDecl(zdnl, e);
            addLocAnn(RESULT, getLocation(jn.getLocation(), e));
         :}
 </add:zpatt>
@@ -4054,7 +4058,8 @@ nameList ::=
            checkName(dw);
            DeclName dn = factory_.createZDeclName(dw.getName());
            addLocAnn(dn, dw.getLocation());
-           RESULT = list(dn);
+           RESULT = factory_.createZDeclNameList();
+           RESULT.add(dn);
         :}
         ;
 
@@ -4109,7 +4114,8 @@ declWordList ::=
            if (dn != null) {
              addLocAnn(dn, loc);
            }
-           RESULT = list(dn);
+           RESULT = factory_.createZDeclNameList();
+           RESULT.add(dn);
         :}
         |
         DECLWORD:dw
@@ -4117,7 +4123,8 @@ declWordList ::=
            checkName(dw);
            DeclName dn = factory_.createZDeclName(dw.getName());
            addLocAnn(dn, dw.getLocation());
-           RESULT = list(dn); 
+           RESULT = factory_.createZDeclNameList();
+           RESULT.add(dn); 
         :}
         |      
         misusedOpName:mon
@@ -4464,7 +4471,8 @@ prefixGenName ::=
         PRE:pre formalParameterName:fpn
         {:
            List&lt;String&gt; name = list(pre.getString(), ARG_TOK);
-           List&lt;DeclName&gt; decls = list(fpn);
+           ZDeclNameList decls = factory_.createZDeclNameList();
+           decls.add(fpn);
            LocInfo loc = getLocation(fpnleft, fpnright);
            DeclName declName = strListToZDeclName(name, loc);
            RESULT = pair(declName, decls);
@@ -4481,7 +4489,7 @@ prefixGenName ::=
            name.add(ARG_TOK);
 
            //construct the parameter list
-           List&lt;DeclName&gt; fps = (List&lt;DeclName&gt;) onesl.getFirst();
+           ZDeclNameList fps = onesl.getFirst();
            fps.add(fpn1);
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
@@ -4494,7 +4502,8 @@ postfixGenName ::=
         formalParameterName:fpn POST:p
         {:
            List&lt;String&gt; name = list(ARG_TOK, p.getString());
-           List&lt;DeclName&gt; decls = list(fpn);
+           ZDeclNameList decls = factory_.createZDeclNameList();
+           decls.add(fpn);
            LocInfo loc = getLocation(pleft, pright);
            DeclName declName = strListToZDeclName(name, loc);
            RESULT = pair(declName, decls);
@@ -4511,8 +4520,9 @@ postfixGenName ::=
            name.add(eos.getString());
 
            //construct the parameter list
-           List&lt;DeclName&gt; fps = list(fpn1);
-           fps.addAll((List) onesl.getFirst());
+           ZDeclNameList fps = factory_.createZDeclNameList();
+           fps.add(fpn1);
+           fps.addAll(onesl.getFirst());
            fps.add(fpn2);
            LocInfo loc = getLocation(eosleft, eosright);
            DeclName declName = strListToZDeclName(name, loc);
@@ -4529,7 +4539,9 @@ infixGenName ::=
            name.add(ARG_TOK);
 
            //construct the parameter list
-           List&lt;DeclName&gt; fps = list(fpn1, fpn2);
+           ZDeclNameList fps = factory_.createZDeclNameList();
+           fps.add(fpn1);
+           fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            DeclName declName = strListToZDeclName(name, loc);
            RESULT = pair(declName, fps);
@@ -4546,8 +4558,9 @@ infixGenName ::=
            name.add(eos.getString());
            name.add(ARG_TOK);
            //construct the parameter list
-           List&lt;DeclName&gt; fps = list(fpn1);
-           fps.addAll((List) onesl.getFirst());
+           ZDeclNameList fps = factory_.createZDeclNameList();
+           fps.add(fpn1);
+           fps.addAll(onesl.getFirst());
            fps.add(fpn2);
            fps.add(fpn3);
            LocInfo loc = getLocation(fpn3left, fpn3right);
@@ -4566,7 +4579,7 @@ nofixGenName ::=
            name.add(eos.getString());
 
            //construct the parameter list
-           List&lt;DeclName&gt; fps = (List) onesl.getFirst();
+           ZDeclNameList fps = onesl.getFirst();
            fps.add(fpn);
            LocInfo loc = getLocation(eosleft, eosright);
            DeclName declName = strListToZDeclName(name, loc);
@@ -4596,13 +4609,14 @@ formalParameterName ::=
 //list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = pair(list(), list()); :}
+        {: RESULT = pair(factory_.createZDeclNameList(),
+                         factory_.createZDeclNameList()); :}
         |
         optNameEsSsList:ouesl formalParameterName:fpn esOrSs:eos
         {:
-           List gens = (List) ouesl.getFirst();
+           ZDeclNameList gens = ouesl.getFirst();
            gens.add(fpn);
-           List name = (List) ouesl.getSecond();
+           List name = list(ouesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos.getString());
            RESULT = ouesl;
@@ -6053,14 +6067,18 @@ signature ::=
 varDeclList ::=
         varDeclList:vdl SEMICOLON declName:dn COLON baseType:bt
         {:
-           VarDecl vd = factory_.createVarDecl(list(dn), bt);
+           ZDeclNameList zdnl = factory_.createZDeclNameList();
+           zdnl.add(dn);
+           VarDecl vd = factory_.createVarDecl(zdnl, bt);
            vdl.getDecl().add(vd);
            RESULT = vdl;
         :}
         |
         declName:dn COLON baseType:bt
         {:
-           VarDecl vd = factory_.createVarDecl(list(dn), bt);
+           ZDeclNameList zdnl = factory_.createZDeclNameList();
+           zdnl.add(dn);
+           VarDecl vd = factory_.createVarDecl(zdnl, bt);
            addLocAnn(vd, getLocation(dn, bt));
            RESULT = factory_.createZDeclList(list(vd));
         :}
@@ -6143,7 +6161,7 @@ class ::=
              }
            }
            DeclName dn = ch.getFirst();
-           List&lt;DeclName&gt; ofp = ch.getSecond();
+           ZDeclNameList ofp = ch.getSecond();
            RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
            addLocAnn(RESULT, getLocation(ch.getFirst(), end));
            assert isOpExpr() == false;
@@ -6153,7 +6171,7 @@ class ::=
 classHeader ::=
         CLASS name:n
         {:
-           List&lt;DeclName&gt; decls = list();
+           ZDeclNameList decls = factory_.createZDeclNameList();
            RESULT = pair(n, decls);
         :}
         |

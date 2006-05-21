@@ -34,19 +34,22 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="43" Line="15" Loc="tests/z/animate_schemas.tex" Start="393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="15" Line="16" Loc="tests/z/animate_schemas.tex" Start="409"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_schemas.tex" Start="409"/>
-                            </Anns>
-                            <Word>undefnum</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_schemas.tex" Start="409"/>
+                                </Anns>
+                                <Word>undefnum</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_schemas.tex" Start="420"/>
@@ -79,6 +82,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="54" Line="22" Loc="tests/z/animate_schemas.tex" Start="485"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="31" Length="26" Line="22" Loc="tests/z/animate_schemas.tex" Start="504"/>
@@ -112,6 +116,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="64" Line="23" Loc="tests/z/animate_schemas.tex" Start="540"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="36" Line="23" Loc="tests/z/animate_schemas.tex" Start="559"/>
@@ -191,6 +196,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="24" Loc="tests/z/animate_schemas.tex" Start="605"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="46" Line="24" Loc="tests/z/animate_schemas.tex" Start="624"/>
@@ -314,6 +320,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="25" Loc="tests/z/animate_schemas.tex" Start="680"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="19" Length="49" Line="25" Loc="tests/z/animate_schemas.tex" Start="699"/>
@@ -450,6 +457,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="26" Loc="tests/z/animate_schemas.tex" Start="758"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="46" Line="26" Loc="tests/z/animate_schemas.tex" Start="777"/>
@@ -573,6 +581,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="91" Line="27" Loc="tests/z/animate_schemas.tex" Start="833"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="19" Length="63" Line="27" Loc="tests/z/animate_schemas.tex" Start="852"/>
@@ -730,6 +739,7 @@ Equality.
             <Anns>
                 <LocAnn Col="0" Length="94" Line="28" Loc="tests/z/animate_schemas.tex" Start="925"/>
             </Anns>
+            <ZDeclNameList/>
             <ForallPred>
                 <Anns>
                     <LocAnn Col="19" Length="66" Line="28" Loc="tests/z/animate_schemas.tex" Start="944"/>
@@ -902,6 +912,7 @@ Selection.
             <Anns>
                 <LocAnn Col="0" Length="63" Line="31" Loc="tests/z/animate_schemas.tex" Start="1032"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="50" Length="34" Line="31" Loc="tests/z/animate_schemas.tex" Start="1051"/>
@@ -1018,6 +1029,7 @@ Selection.
             <Anns>
                 <LocAnn Col="0" Length="63" Line="32" Loc="tests/z/animate_schemas.tex" Start="1096"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="50" Length="34" Line="32" Loc="tests/z/animate_schemas.tex" Start="1115"/>
@@ -1134,6 +1146,7 @@ Selection.
             <Anns>
                 <LocAnn Col="0" Length="63" Line="33" Loc="tests/z/animate_schemas.tex" Start="1160"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="50" Length="34" Line="33" Loc="tests/z/animate_schemas.tex" Start="1179"/>
@@ -1252,6 +1265,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="79" Line="36" Loc="tests/z/animate_schemas.tex" Start="1278"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="43" Length="51" Line="36" Loc="tests/z/animate_schemas.tex" Start="1297"/>
@@ -1317,20 +1331,22 @@ Membership/equality with schemas (sets of bindings).
                                 <Anns>
                                     <LocAnn Col="51" Length="13" Line="36" Loc="tests/z/animate_schemas.tex" Start="1326"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="48" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1326"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="50" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1328"/>
-                                    </Anns>
-                                    <Word>b</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="48" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1326"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="50" Length="1" Line="36" Loc="tests/z/animate_schemas.tex" Start="1328"/>
+                                        </Anns>
+                                        <Word>b</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="54" Length="9" Line="36" Loc="tests/z/animate_schemas.tex" Start="1330"/>
@@ -1438,6 +1454,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="80" Line="37" Loc="tests/z/animate_schemas.tex" Start="1358"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="46" Length="53" Line="37" Loc="tests/z/animate_schemas.tex" Start="1376"/>
@@ -1512,20 +1529,22 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="52" Length="13" Line="37" Loc="tests/z/animate_schemas.tex" Start="1407"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="49" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1407"/>
-                                            </Anns>
-                                            <Word>a</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="51" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1409"/>
-                                            </Anns>
-                                            <Word>b</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="49" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1407"/>
+                                                </Anns>
+                                                <Word>a</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="51" Length="1" Line="37" Loc="tests/z/animate_schemas.tex" Start="1409"/>
+                                                </Anns>
+                                                <Word>b</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="55" Length="9" Line="37" Loc="tests/z/animate_schemas.tex" Start="1411"/>
@@ -1639,6 +1658,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="113" Line="42" Loc="tests/z/animate_schemas.tex" Start="1478"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1656,22 +1676,24 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="7" Length="17" Line="43" Loc="tests/z/animate_schemas.tex" Start="1498"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="1" Line="43" Loc="tests/z/animate_schemas.tex" Start="1498"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="2" Line="43" Loc="tests/z/animate_schemas.tex" Start="1500"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="1" Line="43" Loc="tests/z/animate_schemas.tex" Start="1498"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="2" Line="43" Loc="tests/z/animate_schemas.tex" Start="1500"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="11" Length="10" Line="43" Loc="tests/z/animate_schemas.tex" Start="1505"/>
@@ -1719,15 +1741,17 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="7" Length="17" Line="44" Loc="tests/z/animate_schemas.tex" Start="1521"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="44" Loc="tests/z/animate_schemas.tex" Start="1521"/>
-                                            </Anns>
-                                            <Word>out</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="44" Loc="tests/z/animate_schemas.tex" Start="1521"/>
+                                                </Anns>
+                                                <Word>out</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="11" Length="10" Line="44" Loc="tests/z/animate_schemas.tex" Start="1528"/>
@@ -1938,6 +1962,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="70" Line="51" Loc="tests/z/animate_schemas.tex" Start="1607"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="70" Line="51" Loc="tests/z/animate_schemas.tex" Start="1607"/>
@@ -1964,13 +1989,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="11" Length="14" Line="51" Loc="tests/z/animate_schemas.tex" Start="1614"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="9" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1614"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Length="1" Line="51" Loc="tests/z/animate_schemas.tex" Start="1614"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="15" Length="10" Line="51" Loc="tests/z/animate_schemas.tex" Start="1618"/>
@@ -2030,15 +2057,17 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="39" Length="15" Line="51" Loc="tests/z/animate_schemas.tex" Start="1640"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="35" Length="4" Line="51" Loc="tests/z/animate_schemas.tex" Start="1640"/>
-                                                    </Anns>
-                                                    <Word>out</Word>
-                                                    <ZStrokeList>
-                                                        <OutStroke/>
-                                                    </ZStrokeList>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="35" Length="4" Line="51" Loc="tests/z/animate_schemas.tex" Start="1640"/>
+                                                        </Anns>
+                                                        <Word>out</Word>
+                                                        <ZStrokeList>
+                                                            <OutStroke/>
+                                                        </ZStrokeList>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="42" Length="10" Line="51" Loc="tests/z/animate_schemas.tex" Start="1645"/>
@@ -2204,6 +2233,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="28" Line="53" Loc="tests/z/animate_schemas.tex" Start="1683"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="28" Line="53" Loc="tests/z/animate_schemas.tex" Start="1683"/>
@@ -2230,13 +2260,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="11" Length="20" Line="53" Loc="tests/z/animate_schemas.tex" Start="1690"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="9" Length="1" Line="53" Loc="tests/z/animate_schemas.tex" Start="1690"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Length="1" Line="53" Loc="tests/z/animate_schemas.tex" Start="1690"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <SetExpr>
                                             <Anns>
                                                 <LocAnn Col="13" Length="16" Line="53" Loc="tests/z/animate_schemas.tex" Start="1694"/>
@@ -2316,6 +2348,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="14" Line="55" Loc="tests/z/animate_schemas.tex" Start="1717"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="14" Line="55" Loc="tests/z/animate_schemas.tex" Start="1717"/>
@@ -2358,6 +2391,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="16" Line="57" Loc="tests/z/animate_schemas.tex" Start="1737"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="16" Line="57" Loc="tests/z/animate_schemas.tex" Start="1737"/>
@@ -2408,6 +2442,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="39" Line="60" Loc="tests/z/animate_schemas.tex" Start="1765"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="25" Length="9" Line="60" Loc="tests/z/animate_schemas.tex" Start="1785"/>
@@ -2455,6 +2490,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="40" Line="61" Loc="tests/z/animate_schemas.tex" Start="1805"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="26" Length="10" Line="61" Loc="tests/z/animate_schemas.tex" Start="1825"/>
@@ -2503,6 +2539,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="71" Line="63" Loc="tests/z/animate_schemas.tex" Start="1847"/>
             </Anns>
+            <ZDeclNameList/>
             <ExprPred>
                 <Anns>
                     <LocAnn Col="21" Length="39" Line="63" Loc="tests/z/animate_schemas.tex" Start="1868"/>
@@ -2522,13 +2559,15 @@ Membership/equality with schemas (sets of bindings).
                                 <Anns>
                                     <LocAnn Col="31" Length="14" Line="63" Loc="tests/z/animate_schemas.tex" Start="1876"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="29" Length="1" Line="63" Loc="tests/z/animate_schemas.tex" Start="1876"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="29" Length="1" Line="63" Loc="tests/z/animate_schemas.tex" Start="1876"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="35" Length="10" Line="63" Loc="tests/z/animate_schemas.tex" Start="1880"/>
@@ -2626,6 +2665,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="59" Line="67" Loc="tests/z/animate_schemas.tex" Start="1960"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="59" Line="67" Loc="tests/z/animate_schemas.tex" Start="1960"/>
@@ -2652,13 +2692,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="18" Length="8" Line="67" Loc="tests/z/animate_schemas.tex" Start="1974"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1974"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1974"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="67" Loc="tests/z/animate_schemas.tex" Start="1978"/>
@@ -2689,13 +2731,15 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="39" Length="6" Line="67" Loc="tests/z/animate_schemas.tex" Start="1996"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="38" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1996"/>
-                                                    </Anns>
-                                                    <Word>f</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="38" Length="1" Line="67" Loc="tests/z/animate_schemas.tex" Start="1996"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="4" Line="67" Loc="tests/z/animate_schemas.tex" Start="1998"/>
@@ -2822,6 +2866,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="59" Line="68" Loc="tests/z/animate_schemas.tex" Start="2025"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="59" Line="68" Loc="tests/z/animate_schemas.tex" Start="2025"/>
@@ -2848,13 +2893,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="18" Length="8" Line="68" Loc="tests/z/animate_schemas.tex" Start="2039"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2039"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2039"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="68" Loc="tests/z/animate_schemas.tex" Start="2043"/>
@@ -2885,13 +2932,15 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="39" Length="6" Line="68" Loc="tests/z/animate_schemas.tex" Start="2061"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="38" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2061"/>
-                                                    </Anns>
-                                                    <Word>f</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="38" Length="1" Line="68" Loc="tests/z/animate_schemas.tex" Start="2061"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="4" Line="68" Loc="tests/z/animate_schemas.tex" Start="2063"/>
@@ -3018,6 +3067,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="59" Line="69" Loc="tests/z/animate_schemas.tex" Start="2090"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="59" Line="69" Loc="tests/z/animate_schemas.tex" Start="2090"/>
@@ -3044,13 +3094,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="18" Length="8" Line="69" Loc="tests/z/animate_schemas.tex" Start="2104"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2104"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2104"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="69" Loc="tests/z/animate_schemas.tex" Start="2108"/>
@@ -3081,13 +3133,15 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="39" Length="6" Line="69" Loc="tests/z/animate_schemas.tex" Start="2126"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="38" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2126"/>
-                                                    </Anns>
-                                                    <Word>f</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="38" Length="1" Line="69" Loc="tests/z/animate_schemas.tex" Start="2126"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="4" Line="69" Loc="tests/z/animate_schemas.tex" Start="2128"/>
@@ -3214,6 +3268,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="111" Line="70" Loc="tests/z/animate_schemas.tex" Start="2155"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="111" Line="70" Loc="tests/z/animate_schemas.tex" Start="2155"/>
@@ -3240,13 +3295,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="18" Length="8" Line="70" Loc="tests/z/animate_schemas.tex" Start="2169"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2169"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2169"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="70" Loc="tests/z/animate_schemas.tex" Start="2173"/>
@@ -3277,13 +3334,15 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="37" Length="12" Line="70" Loc="tests/z/animate_schemas.tex" Start="2189"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2189"/>
-                                                    </Anns>
-                                                    <Word>f</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="70" Loc="tests/z/animate_schemas.tex" Start="2189"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="41" Length="9" Line="70" Loc="tests/z/animate_schemas.tex" Start="2192"/>
@@ -3344,13 +3403,15 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="41" Length="6" Line="71" Loc="tests/z/animate_schemas.tex" Start="2244"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="40" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2244"/>
-                                                        </Anns>
-                                                        <Word>g</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="40" Length="1" Line="71" Loc="tests/z/animate_schemas.tex" Start="2244"/>
+                                                            </Anns>
+                                                            <Word>g</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="42" Length="4" Line="71" Loc="tests/z/animate_schemas.tex" Start="2246"/>
@@ -3449,6 +3510,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="2" Length="111" Line="72" Loc="tests/z/animate_schemas.tex" Start="2272"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="111" Line="72" Loc="tests/z/animate_schemas.tex" Start="2272"/>
@@ -3475,13 +3537,15 @@ Membership/equality with schemas (sets of bindings).
                                         <Anns>
                                             <LocAnn Col="18" Length="8" Line="72" Loc="tests/z/animate_schemas.tex" Start="2286"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2286"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2286"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="72" Loc="tests/z/animate_schemas.tex" Start="2290"/>
@@ -3512,13 +3576,15 @@ Membership/equality with schemas (sets of bindings).
                                                 <Anns>
                                                     <LocAnn Col="37" Length="12" Line="72" Loc="tests/z/animate_schemas.tex" Start="2306"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2306"/>
-                                                    </Anns>
-                                                    <Word>f</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="72" Loc="tests/z/animate_schemas.tex" Start="2306"/>
+                                                        </Anns>
+                                                        <Word>f</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="41" Length="9" Line="72" Loc="tests/z/animate_schemas.tex" Start="2309"/>
@@ -3579,13 +3645,15 @@ Membership/equality with schemas (sets of bindings).
                                                     <Anns>
                                                         <LocAnn Col="41" Length="6" Line="73" Loc="tests/z/animate_schemas.tex" Start="2361"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="40" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2361"/>
-                                                        </Anns>
-                                                        <Word>g</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="40" Length="1" Line="73" Loc="tests/z/animate_schemas.tex" Start="2361"/>
+                                                            </Anns>
+                                                            <Word>g</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="42" Length="4" Line="73" Loc="tests/z/animate_schemas.tex" Start="2363"/>
@@ -3692,6 +3760,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="46" Line="76" Loc="tests/z/animate_schemas.tex" Start="2395"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="33" Length="16" Line="76" Loc="tests/z/animate_schemas.tex" Start="2415"/>
@@ -3754,6 +3823,7 @@ Membership/equality with schemas (sets of bindings).
             <Anns>
                 <LocAnn Col="0" Length="46" Line="77" Loc="tests/z/animate_schemas.tex" Start="2442"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="33" Length="16" Line="77" Loc="tests/z/animate_schemas.tex" Start="2462"/>
@@ -3818,6 +3888,7 @@ TODO: enable this when we have DNF normalisation?
             <Anns>
                 <LocAnn Col="0" Length="46" Line="80" Loc="tests/z/animate_schemas.tex" Start="2599"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="33" Length="16" Line="80" Loc="tests/z/animate_schemas.tex" Start="2619"/>
@@ -3881,6 +3952,7 @@ TODO: this one needs pre-evaluation of the type 2..2
             <Anns>
                 <LocAnn Col="0" Length="46" Line="82" Loc="tests/z/animate_schemas.tex" Start="2699"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="33" Length="16" Line="82" Loc="tests/z/animate_schemas.tex" Start="2719"/>
@@ -3944,6 +4016,7 @@ TODO: same difficulty as OnePoint3
             <Anns>
                 <LocAnn Col="0" Length="46" Line="84" Loc="tests/z/animate_schemas.tex" Start="2781"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="33" Length="16" Line="84" Loc="tests/z/animate_schemas.tex" Start="2801"/>
@@ -4010,6 +4083,7 @@ echo Miscellaneous schema challenges
             <Anns>
                 <LocAnn Col="0" Length="101" Line="89" Loc="tests/z/animate_schemas.tex" Start="2868"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -4027,22 +4101,24 @@ echo Miscellaneous schema challenges
                                         <Anns>
                                             <LocAnn Col="6" Length="15" Line="90" Loc="tests/z/animate_schemas.tex" Start="2892"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="1" Line="90" Loc="tests/z/animate_schemas.tex" Start="2892"/>
-                                            </Anns>
-                                            <Word>a</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="2" Line="90" Loc="tests/z/animate_schemas.tex" Start="2894"/>
-                                            </Anns>
-                                            <Word>a</Word>
-                                            <ZStrokeList>
-                                                <NextStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="1" Line="90" Loc="tests/z/animate_schemas.tex" Start="2892"/>
+                                                </Anns>
+                                                <Word>a</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="2" Line="90" Loc="tests/z/animate_schemas.tex" Start="2894"/>
+                                                </Anns>
+                                                <Word>a</Word>
+                                                <ZStrokeList>
+                                                    <NextStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="9" Length="10" Line="90" Loc="tests/z/animate_schemas.tex" Start="2897"/>
@@ -4102,13 +4178,15 @@ echo Miscellaneous schema challenges
                                                 <Anns>
                                                     <LocAnn Col="12" Length="6" Line="92" Loc="tests/z/animate_schemas.tex" Start="2926"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="11" Length="1" Line="92" Loc="tests/z/animate_schemas.tex" Start="2926"/>
-                                                    </Anns>
-                                                    <Word>i</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="11" Length="1" Line="92" Loc="tests/z/animate_schemas.tex" Start="2926"/>
+                                                        </Anns>
+                                                        <Word>i</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="13" Length="4" Line="92" Loc="tests/z/animate_schemas.tex" Start="2928"/>
@@ -4223,6 +4301,7 @@ until it was fixed.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="97" Loc="tests/z/animate_schemas.tex" Start="3055"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="40" Length="46" Line="97" Loc="tests/z/animate_schemas.tex" Start="3075"/>
@@ -4342,6 +4421,7 @@ until it was fixed.
             <Anns>
                 <LocAnn Col="0" Length="169" Line="99" Loc="tests/z/animate_schemas.tex" Start="3133"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -4359,13 +4439,15 @@ until it was fixed.
                                         <Anns>
                                             <LocAnn Col="9" Length="16" Line="100" Loc="tests/z/animate_schemas.tex" Start="3164"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="5" Line="100" Loc="tests/z/animate_schemas.tex" Start="3164"/>
-                                            </Anns>
-                                            <Word>items</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="5" Line="100" Loc="tests/z/animate_schemas.tex" Start="3164"/>
+                                                </Anns>
+                                                <Word>items</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="11" Length="9" Line="100" Loc="tests/z/animate_schemas.tex" Start="3171"/>
@@ -4398,13 +4480,15 @@ until it was fixed.
                                         <Anns>
                                             <LocAnn Col="11" Length="13" Line="101" Loc="tests/z/animate_schemas.tex" Start="3188"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="7" Line="101" Loc="tests/z/animate_schemas.tex" Start="3188"/>
-                                            </Anns>
-                                            <Word>maxsize</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="7" Line="101" Loc="tests/z/animate_schemas.tex" Start="3188"/>
+                                                </Anns>
+                                                <Word>maxsize</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="13" Length="4" Line="101" Loc="tests/z/animate_schemas.tex" Start="3197"/>
@@ -4423,13 +4507,15 @@ until it was fixed.
                                         <Anns>
                                             <LocAnn Col="12" Length="14" Line="102" Loc="tests/z/animate_schemas.tex" Start="3209"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="102" Loc="tests/z/animate_schemas.tex" Start="3209"/>
-                                            </Anns>
-                                            <Word>currsize</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="102" Loc="tests/z/animate_schemas.tex" Start="3209"/>
+                                                </Anns>
+                                                <Word>currsize</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="4" Line="102" Loc="tests/z/animate_schemas.tex" Start="3219"/>
@@ -4593,6 +4679,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
             <Anns>
                 <LocAnn Col="0" Length="321" Line="109" Loc="tests/z/animate_schemas.tex" Start="3386"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -4610,15 +4697,17 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                         <Anns>
                                             <LocAnn Col="12" Length="14" Line="110" Loc="tests/z/animate_schemas.tex" Start="3423"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="4" Length="8" Line="110" Loc="tests/z/animate_schemas.tex" Start="3423"/>
-                                            </Anns>
-                                            <Word>offheap</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Length="8" Line="110" Loc="tests/z/animate_schemas.tex" Start="3423"/>
+                                                </Anns>
+                                                <Word>offheap</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="14" Length="4" Line="110" Loc="tests/z/animate_schemas.tex" Start="3433"/>
@@ -4716,20 +4805,22 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
                                                             <Anns>
                                                                 <LocAnn Col="17" Length="11" Line="114" Loc="tests/z/animate_schemas.tex" Start="3505"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="12" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3505"/>
-                                                                </Anns>
-                                                                <Word>i</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="15" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3508"/>
-                                                                </Anns>
-                                                                <Word>v</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="12" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3505"/>
+                                                                    </Anns>
+                                                                    <Word>i</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="15" Length="1" Line="114" Loc="tests/z/animate_schemas.tex" Start="3508"/>
+                                                                    </Anns>
+                                                                    <Word>v</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="19" Length="4" Line="114" Loc="tests/z/animate_schemas.tex" Start="3512"/>
@@ -5171,6 +5262,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
             <Anns>
                 <LocAnn Col="0" Length="103" Line="121" Loc="tests/z/animate_schemas.tex" Start="3789"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="79" Line="122" Loc="tests/z/animate_schemas.tex" Start="3803"/>
@@ -5327,6 +5419,7 @@ This was executable with Jaza after exists were expanded inline within schemas.
             <Anns>
                 <LocAnn Col="0" Length="47" Line="124" Loc="tests/z/animate_schemas.tex" Start="3893"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="34" Length="17" Line="124" Loc="tests/z/animate_schemas.tex" Start="3913"/>
@@ -5392,6 +5485,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="2" Length="64" Line="129" Loc="tests/z/animate_schemas.tex" Start="4038"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="64" Line="129" Loc="tests/z/animate_schemas.tex" Start="4038"/>
@@ -5418,13 +5512,15 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                         <Anns>
                                             <LocAnn Col="17" Length="13" Line="129" Loc="tests/z/animate_schemas.tex" Start="4051"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="15" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4051"/>
-                                            </Anns>
-                                            <Word>s</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4051"/>
+                                                </Anns>
+                                                <Word>s</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="19" Length="9" Line="129" Loc="tests/z/animate_schemas.tex" Start="4055"/>
@@ -5469,13 +5565,15 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                                 <Anns>
                                                     <LocAnn Col="42" Length="10" Line="129" Loc="tests/z/animate_schemas.tex" Start="4076"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="40" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4076"/>
-                                                    </Anns>
-                                                    <Word>i</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="40" Length="1" Line="129" Loc="tests/z/animate_schemas.tex" Start="4076"/>
+                                                        </Anns>
+                                                        <Word>i</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="44" Length="6" Line="129" Loc="tests/z/animate_schemas.tex" Start="4080"/>
@@ -5587,6 +5685,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="2" Length="65" Line="130" Loc="tests/z/animate_schemas.tex" Start="4108"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="65" Line="130" Loc="tests/z/animate_schemas.tex" Start="4108"/>
@@ -5613,13 +5712,15 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
                                         <Anns>
                                             <LocAnn Col="21" Length="17" Line="130" Loc="tests/z/animate_schemas.tex" Start="4121"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="15" Length="5" Line="130" Loc="tests/z/animate_schemas.tex" Start="4121"/>
-                                            </Anns>
-                                            <Word>deref</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Length="5" Line="130" Loc="tests/z/animate_schemas.tex" Start="4121"/>
+                                                </Anns>
+                                                <Word>deref</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="23" Length="9" Line="130" Loc="tests/z/animate_schemas.tex" Start="4129"/>
@@ -5774,6 +5875,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="2" Length="48" Line="131" Loc="tests/z/animate_schemas.tex" Start="4179"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="48" Line="131" Loc="tests/z/animate_schemas.tex" Start="4179"/>
@@ -5881,6 +5983,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="2" Length="53" Line="132" Loc="tests/z/animate_schemas.tex" Start="4233"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="53" Line="132" Loc="tests/z/animate_schemas.tex" Start="4233"/>
@@ -6013,6 +6116,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="0" Length="44" Line="134" Loc="tests/z/animate_schemas.tex" Start="4297"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="31" Length="14" Line="134" Loc="tests/z/animate_schemas.tex" Start="4317"/>
@@ -6075,6 +6179,7 @@ These, from Shaochun, failed to evaluate with Jaza until the fixes of 6/12/2000.
             <Anns>
                 <LocAnn Col="0" Length="44" Line="135" Loc="tests/z/animate_schemas.tex" Start="4342"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="31" Length="14" Line="135" Loc="tests/z/animate_schemas.tex" Start="4362"/>

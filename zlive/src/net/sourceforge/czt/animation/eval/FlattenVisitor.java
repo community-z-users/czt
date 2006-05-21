@@ -464,7 +464,9 @@ public class FlattenVisitor
       ZDeclName pDeclName =
         factory.createZDeclName("p", sl, "ZLiveAppl"+(applvar++));
       ZRefName pRefName = factory.createZRefName("p", sl, pDeclName);
-      VarDecl decl = factory.createVarDecl(factory.list(pDeclName),func);
+      ZDeclNameList zdnl = factory.createZDeclNameList();
+      zdnl.add(pDeclName);
+      VarDecl decl = factory.createVarDecl(zdnl, func);
       ZDeclList decls = factory.createZDeclList(factory.list(decl));
       // create the predicate: p.1=arg
       Expr pRefExpr = factory.createRefExpr(pRefName);

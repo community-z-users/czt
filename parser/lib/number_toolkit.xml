@@ -98,19 +98,22 @@
             <Anns>
                 <LocAnn Col="0" Length="103" Line="16" Loc="lib/number_toolkit.tex" Start="258"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="17" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="17" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word>succ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="17" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word>succ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="24" Line="17" Loc="lib/number_toolkit.tex" Start="282"/>
@@ -186,13 +189,15 @@
                                             <Anns>
                                                 <LocAnn Col="22" Length="8" Line="19" Loc="lib/number_toolkit.tex" Start="335"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="20" Length="1" Line="19" Loc="lib/number_toolkit.tex" Start="335"/>
-                                                </Anns>
-                                                <Word>n</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="20" Length="1" Line="19" Loc="lib/number_toolkit.tex" Start="335"/>
+                                                    </Anns>
+                                                    <Word>n</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="24" Length="4" Line="19" Loc="lib/number_toolkit.tex" Start="339"/>
@@ -276,19 +281,22 @@ The successor of a natural number $n$ is equal to $n+1$.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="27" Loc="lib/number_toolkit.tex" Start="462"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="23" Line="28" Loc="lib/number_toolkit.tex" Start="476"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="28" Loc="lib/number_toolkit.tex" Start="476"/>
-                            </Anns>
-                            <Word>ℤ</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="28" Loc="lib/number_toolkit.tex" Start="476"/>
+                                </Anns>
+                                <Word>ℤ</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="7" Length="16" Line="28" Loc="lib/number_toolkit.tex" Start="483"/>
@@ -354,19 +362,22 @@ may be specified as supersets of $\num$.
             <Anns>
                 <LocAnn Col="0" Length="443" Line="47" Loc="lib/number_toolkit.tex" Start="972"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="48" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="48" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word>- _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="48" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word>- _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="13" Length="34" Line="48" Loc="lib/number_toolkit.tex" Start="999"/>
@@ -434,20 +445,22 @@ may be specified as supersets of $\num$.
                                             <Anns>
                                                 <LocAnn Col="13" Length="11" Line="50" Loc="lib/number_toolkit.tex" Start="1050"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="8" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1050"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="11" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1053"/>
-                                                </Anns>
-                                                <Word>y</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="8" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1050"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="11" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1053"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="15" Length="4" Line="50" Loc="lib/number_toolkit.tex" Start="1057"/>
@@ -474,13 +487,15 @@ may be specified as supersets of $\num$.
                                                 <Anns>
                                                     <LocAnn Col="34" Length="8" Line="50" Loc="lib/number_toolkit.tex" Start="1074"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="32" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1074"/>
-                                                    </Anns>
-                                                    <Word>z</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="32" Length="1" Line="50" Loc="lib/number_toolkit.tex" Start="1074"/>
+                                                        </Anns>
+                                                        <Word>z</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="36" Length="4" Line="50" Loc="lib/number_toolkit.tex" Start="1078"/>
@@ -581,13 +596,15 @@ may be specified as supersets of $\num$.
                                             <Anns>
                                                 <LocAnn Col="10" Length="8" Line="51" Loc="lib/number_toolkit.tex" Start="1119"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="8" Length="1" Line="51" Loc="lib/number_toolkit.tex" Start="1119"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="8" Length="1" Line="51" Loc="lib/number_toolkit.tex" Start="1119"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="12" Length="4" Line="51" Loc="lib/number_toolkit.tex" Start="1123"/>
@@ -614,13 +631,15 @@ may be specified as supersets of $\num$.
                                                 <Anns>
                                                     <LocAnn Col="31" Length="8" Line="51" Loc="lib/number_toolkit.tex" Start="1140"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="29" Length="1" Line="51" Loc="lib/number_toolkit.tex" Start="1140"/>
-                                                    </Anns>
-                                                    <Word>y</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="29" Length="1" Line="51" Loc="lib/number_toolkit.tex" Start="1140"/>
+                                                        </Anns>
+                                                        <Word>y</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="33" Length="4" Line="51" Loc="lib/number_toolkit.tex" Start="1144"/>
@@ -702,27 +721,29 @@ may be specified as supersets of $\num$.
                                         <Anns>
                                             <LocAnn Col="18" Length="16" Line="53" Loc="lib/number_toolkit.tex" Start="1188"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1188"/>
-                                            </Anns>
-                                            <Word>i</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="12" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1192"/>
-                                            </Anns>
-                                            <Word>j</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="16" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1196"/>
-                                            </Anns>
-                                            <Word>k</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1188"/>
+                                                </Anns>
+                                                <Word>i</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="12" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1192"/>
+                                                </Anns>
+                                                <Word>j</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Length="1" Line="53" Loc="lib/number_toolkit.tex" Start="1196"/>
+                                                </Anns>
+                                                <Word>k</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="20" Length="4" Line="53" Loc="lib/number_toolkit.tex" Start="1200"/>
@@ -1227,13 +1248,15 @@ may be specified as supersets of $\num$.
                                                 <Anns>
                                                     <LocAnn Col="12" Length="13" Line="59" Loc="lib/number_toolkit.tex" Start="1341"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="10" Length="1" Line="59" Loc="lib/number_toolkit.tex" Start="1341"/>
-                                                    </Anns>
-                                                    <Word>z</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="10" Length="1" Line="59" Loc="lib/number_toolkit.tex" Start="1341"/>
+                                                        </Anns>
+                                                        <Word>z</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="59" Loc="lib/number_toolkit.tex" Start="1345"/>
@@ -1259,13 +1282,15 @@ may be specified as supersets of $\num$.
                                                         <Anns>
                                                             <LocAnn Col="36" Length="8" Line="59" Loc="lib/number_toolkit.tex" Start="1365"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="34" Length="1" Line="59" Loc="lib/number_toolkit.tex" Start="1365"/>
-                                                            </Anns>
-                                                            <Word>x</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="34" Length="1" Line="59" Loc="lib/number_toolkit.tex" Start="1365"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="38" Length="4" Line="59" Loc="lib/number_toolkit.tex" Start="1369"/>
@@ -1431,19 +1456,22 @@ the negation operator could be defined as follows.
             <Anns>
                 <LocAnn Col="0" Length="215" Line="102" Loc="lib/number_toolkit.tex" Start="2567"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="103" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="103" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ − _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="103" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ − _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="53" Line="103" Loc="lib/number_toolkit.tex" Start="2591"/>
@@ -1528,20 +1556,22 @@ the negation operator could be defined as follows.
                                     <Anns>
                                         <LocAnn Col="13" Length="11" Line="105" Loc="lib/number_toolkit.tex" Start="2661"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2661"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="11" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2664"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2661"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="11" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2664"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="15" Length="4" Line="105" Loc="lib/number_toolkit.tex" Start="2668"/>
@@ -1568,13 +1598,15 @@ the negation operator could be defined as follows.
                                         <Anns>
                                             <LocAnn Col="34" Length="8" Line="105" Loc="lib/number_toolkit.tex" Start="2685"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="32" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2685"/>
-                                            </Anns>
-                                            <Word>z</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="32" Length="1" Line="105" Loc="lib/number_toolkit.tex" Start="2685"/>
+                                                </Anns>
+                                                <Word>z</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="36" Length="4" Line="105" Loc="lib/number_toolkit.tex" Start="2689"/>
@@ -1675,20 +1707,22 @@ the negation operator could be defined as follows.
                                     <Anns>
                                         <LocAnn Col="14" Length="12" Line="107" Loc="lib/number_toolkit.tex" Start="2734"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="107" Loc="lib/number_toolkit.tex" Start="2734"/>
-                                        </Anns>
-                                        <Word>i</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="12" Length="1" Line="107" Loc="lib/number_toolkit.tex" Start="2738"/>
-                                        </Anns>
-                                        <Word>j</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="107" Loc="lib/number_toolkit.tex" Start="2734"/>
+                                            </Anns>
+                                            <Word>i</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="12" Length="1" Line="107" Loc="lib/number_toolkit.tex" Start="2738"/>
+                                            </Anns>
+                                            <Word>j</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="16" Length="4" Line="107" Loc="lib/number_toolkit.tex" Start="2742"/>
@@ -1875,19 +1909,22 @@ the subtraction operator could be defined as follows.
             <Anns>
                 <LocAnn Col="0" Length="133" Line="136" Loc="lib/number_toolkit.tex" Start="3408"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="137" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="137" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ≤ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="137" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ≤ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="13" Length="34" Line="137" Loc="lib/number_toolkit.tex" Start="3435"/>
@@ -1943,20 +1980,22 @@ the subtraction operator could be defined as follows.
                                 <Anns>
                                     <LocAnn Col="14" Length="12" Line="139" Loc="lib/number_toolkit.tex" Start="3486"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="139" Loc="lib/number_toolkit.tex" Start="3486"/>
-                                    </Anns>
-                                    <Word>i</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="139" Loc="lib/number_toolkit.tex" Start="3490"/>
-                                    </Anns>
-                                    <Word>j</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="139" Loc="lib/number_toolkit.tex" Start="3486"/>
+                                        </Anns>
+                                        <Word>i</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="139" Loc="lib/number_toolkit.tex" Start="3490"/>
+                                        </Anns>
+                                        <Word>j</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="16" Length="4" Line="139" Loc="lib/number_toolkit.tex" Start="3494"/>
@@ -2133,19 +2172,22 @@ their difference $j - i$ is a natural number.
             <Anns>
                 <LocAnn Col="0" Length="125" Line="151" Loc="lib/number_toolkit.tex" Start="3712"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="152" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="152" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ &lt; _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="152" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ &lt; _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="34" Line="152" Loc="lib/number_toolkit.tex" Start="3736"/>
@@ -2201,20 +2243,22 @@ their difference $j - i$ is a natural number.
                                 <Anns>
                                     <LocAnn Col="14" Length="12" Line="154" Loc="lib/number_toolkit.tex" Start="3787"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="154" Loc="lib/number_toolkit.tex" Start="3787"/>
-                                    </Anns>
-                                    <Word>i</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="154" Loc="lib/number_toolkit.tex" Start="3791"/>
-                                    </Anns>
-                                    <Word>j</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="154" Loc="lib/number_toolkit.tex" Start="3787"/>
+                                        </Anns>
+                                        <Word>i</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="154" Loc="lib/number_toolkit.tex" Start="3791"/>
+                                        </Anns>
+                                        <Word>j</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="16" Length="4" Line="154" Loc="lib/number_toolkit.tex" Start="3795"/>
@@ -2405,19 +2449,22 @@ $i &lt; j$ if and only if $i + 1 \leq j$.
             <Anns>
                 <LocAnn Col="0" Length="127" Line="167" Loc="lib/number_toolkit.tex" Start="4011"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="168" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="168" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ≥ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="168" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ≥ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="13" Length="34" Line="168" Loc="lib/number_toolkit.tex" Start="4038"/>
@@ -2473,20 +2520,22 @@ $i &lt; j$ if and only if $i + 1 \leq j$.
                                 <Anns>
                                     <LocAnn Col="14" Length="12" Line="170" Loc="lib/number_toolkit.tex" Start="4089"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="170" Loc="lib/number_toolkit.tex" Start="4089"/>
-                                    </Anns>
-                                    <Word>i</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="170" Loc="lib/number_toolkit.tex" Start="4093"/>
-                                    </Anns>
-                                    <Word>j</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="170" Loc="lib/number_toolkit.tex" Start="4089"/>
+                                        </Anns>
+                                        <Word>i</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="170" Loc="lib/number_toolkit.tex" Start="4093"/>
+                                        </Anns>
+                                        <Word>j</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="16" Length="4" Line="170" Loc="lib/number_toolkit.tex" Start="4097"/>
@@ -2645,19 +2694,22 @@ $i \geq j$ if and only if $j \leq i$.
             <Anns>
                 <LocAnn Col="0" Length="118" Line="182" Loc="lib/number_toolkit.tex" Start="4277"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="183" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="183" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ &gt; _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="183" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ &gt; _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="34" Line="183" Loc="lib/number_toolkit.tex" Start="4301"/>
@@ -2713,20 +2765,22 @@ $i \geq j$ if and only if $j \leq i$.
                                 <Anns>
                                     <LocAnn Col="14" Length="12" Line="185" Loc="lib/number_toolkit.tex" Start="4352"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="185" Loc="lib/number_toolkit.tex" Start="4352"/>
-                                    </Anns>
-                                    <Word>i</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="185" Loc="lib/number_toolkit.tex" Start="4356"/>
-                                    </Anns>
-                                    <Word>j</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="185" Loc="lib/number_toolkit.tex" Start="4352"/>
+                                        </Anns>
+                                        <Word>i</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="185" Loc="lib/number_toolkit.tex" Start="4356"/>
+                                        </Anns>
+                                        <Word>j</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="16" Length="4" Line="185" Loc="lib/number_toolkit.tex" Start="4360"/>
@@ -2864,6 +2918,7 @@ $i &gt; j$ if and only if $j &lt; i$.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="193" Loc="lib/number_toolkit.tex" Start="4506"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="38" Line="194" Loc="lib/number_toolkit.tex" Start="4518"/>
@@ -2892,13 +2947,15 @@ $i &gt; j$ if and only if $j &lt; i$.
                                         <Anns>
                                             <LocAnn Col="15" Length="8" Line="194" Loc="lib/number_toolkit.tex" Start="4531"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="13" Length="1" Line="194" Loc="lib/number_toolkit.tex" Start="4531"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="13" Length="1" Line="194" Loc="lib/number_toolkit.tex" Start="4531"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="17" Length="4" Line="194" Loc="lib/number_toolkit.tex" Start="4535"/>
@@ -2974,6 +3031,7 @@ are the natural numbers except zero.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="202" Loc="lib/number_toolkit.tex" Start="4684"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="38" Line="203" Loc="lib/number_toolkit.tex" Start="4696"/>
@@ -3002,13 +3060,15 @@ are the natural numbers except zero.
                                         <Anns>
                                             <LocAnn Col="15" Length="8" Line="203" Loc="lib/number_toolkit.tex" Start="4709"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="13" Length="1" Line="203" Loc="lib/number_toolkit.tex" Start="4709"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="13" Length="1" Line="203" Loc="lib/number_toolkit.tex" Start="4709"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="17" Length="4" Line="203" Loc="lib/number_toolkit.tex" Start="4713"/>
@@ -3104,19 +3164,22 @@ The non-zero integers $\num_1$ are the integers except zero.
             <Anns>
                 <LocAnn Col="0" Length="350" Line="214" Loc="lib/number_toolkit.tex" Start="4905"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="215" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="215" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ * _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="215" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ * _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="53" Line="215" Loc="lib/number_toolkit.tex" Start="4929"/>
@@ -3201,20 +3264,22 @@ The non-zero integers $\num_1$ are the integers except zero.
                                     <Anns>
                                         <LocAnn Col="13" Length="11" Line="217" Loc="lib/number_toolkit.tex" Start="4999"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="4999"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="11" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="5002"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="4999"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="11" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="5002"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="15" Length="4" Line="217" Loc="lib/number_toolkit.tex" Start="5006"/>
@@ -3241,13 +3306,15 @@ The non-zero integers $\num_1$ are the integers except zero.
                                         <Anns>
                                             <LocAnn Col="34" Length="8" Line="217" Loc="lib/number_toolkit.tex" Start="5023"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="32" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="5023"/>
-                                            </Anns>
-                                            <Word>z</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="32" Length="1" Line="217" Loc="lib/number_toolkit.tex" Start="5023"/>
+                                                </Anns>
+                                                <Word>z</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="36" Length="4" Line="217" Loc="lib/number_toolkit.tex" Start="5027"/>
@@ -3348,27 +3415,29 @@ The non-zero integers $\num_1$ are the integers except zero.
                                     <Anns>
                                         <LocAnn Col="18" Length="16" Line="219" Loc="lib/number_toolkit.tex" Start="5072"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5072"/>
-                                        </Anns>
-                                        <Word>i</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="12" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5076"/>
-                                        </Anns>
-                                        <Word>j</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="16" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5080"/>
-                                        </Anns>
-                                        <Word>k</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5072"/>
+                                            </Anns>
+                                            <Word>i</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="12" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5076"/>
+                                            </Anns>
+                                            <Word>j</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="16" Length="1" Line="219" Loc="lib/number_toolkit.tex" Start="5080"/>
+                                            </Anns>
+                                            <Word>k</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="20" Length="4" Line="219" Loc="lib/number_toolkit.tex" Start="5084"/>
@@ -4091,26 +4160,29 @@ the multiplication operator could be defined as follows.
             <Anns>
                 <LocAnn Col="0" Length="420" Line="262" Loc="lib/number_toolkit.tex" Start="6264"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="24" Line="263" Loc="lib/number_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="263" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ div _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="21" Line="263" Loc="lib/number_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ mod _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="263" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ div _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="21" Line="263" Loc="lib/number_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ mod _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="26" Length="53" Line="263" Loc="lib/number_toolkit.tex" Start="6304"/>
@@ -4199,13 +4271,15 @@ the multiplication operator could be defined as follows.
                                         <Anns>
                                             <LocAnn Col="10" Length="8" Line="265" Loc="lib/number_toolkit.tex" Start="6374"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6374"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6374"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="12" Length="4" Line="265" Loc="lib/number_toolkit.tex" Start="6378"/>
@@ -4224,13 +4298,15 @@ the multiplication operator could be defined as follows.
                                         <Anns>
                                             <LocAnn Col="21" Length="10" Line="265" Loc="lib/number_toolkit.tex" Start="6385"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="19" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6385"/>
-                                            </Anns>
-                                            <Word>y</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="19" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6385"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="23" Length="6" Line="265" Loc="lib/number_toolkit.tex" Start="6389"/>
@@ -4259,13 +4335,15 @@ the multiplication operator could be defined as follows.
                                             <Anns>
                                                 <LocAnn Col="44" Length="8" Line="265" Loc="lib/number_toolkit.tex" Start="6408"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="42" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6408"/>
-                                                </Anns>
-                                                <Word>z</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="42" Length="1" Line="265" Loc="lib/number_toolkit.tex" Start="6408"/>
+                                                    </Anns>
+                                                    <Word>z</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="46" Length="4" Line="265" Loc="lib/number_toolkit.tex" Start="6412"/>
@@ -4366,13 +4444,15 @@ the multiplication operator could be defined as follows.
                                         <Anns>
                                             <LocAnn Col="10" Length="8" Line="267" Loc="lib/number_toolkit.tex" Start="6460"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6460"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6460"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="12" Length="4" Line="267" Loc="lib/number_toolkit.tex" Start="6464"/>
@@ -4391,13 +4471,15 @@ the multiplication operator could be defined as follows.
                                         <Anns>
                                             <LocAnn Col="21" Length="10" Line="267" Loc="lib/number_toolkit.tex" Start="6471"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="19" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6471"/>
-                                            </Anns>
-                                            <Word>y</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="19" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6471"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="23" Length="6" Line="267" Loc="lib/number_toolkit.tex" Start="6475"/>
@@ -4426,13 +4508,15 @@ the multiplication operator could be defined as follows.
                                             <Anns>
                                                 <LocAnn Col="44" Length="8" Line="267" Loc="lib/number_toolkit.tex" Start="6494"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="42" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6494"/>
-                                                </Anns>
-                                                <Word>z</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="42" Length="1" Line="267" Loc="lib/number_toolkit.tex" Start="6494"/>
+                                                    </Anns>
+                                                    <Word>z</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="46" Length="4" Line="267" Loc="lib/number_toolkit.tex" Start="6498"/>
@@ -4534,13 +4618,15 @@ the multiplication operator could be defined as follows.
                                     <Anns>
                                         <LocAnn Col="10" Length="8" Line="269" Loc="lib/number_toolkit.tex" Start="6546"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="269" Loc="lib/number_toolkit.tex" Start="6546"/>
-                                        </Anns>
-                                        <Word>i</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="269" Loc="lib/number_toolkit.tex" Start="6546"/>
+                                            </Anns>
+                                            <Word>i</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="12" Length="4" Line="269" Loc="lib/number_toolkit.tex" Start="6550"/>
@@ -4559,13 +4645,15 @@ the multiplication operator could be defined as follows.
                                     <Anns>
                                         <LocAnn Col="21" Length="10" Line="269" Loc="lib/number_toolkit.tex" Start="6557"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="19" Length="1" Line="269" Loc="lib/number_toolkit.tex" Start="6557"/>
-                                        </Anns>
-                                        <Word>j</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="19" Length="1" Line="269" Loc="lib/number_toolkit.tex" Start="6557"/>
+                                            </Anns>
+                                            <Word>j</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="23" Length="6" Line="269" Loc="lib/number_toolkit.tex" Start="6561"/>

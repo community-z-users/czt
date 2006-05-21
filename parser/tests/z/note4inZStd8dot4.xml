@@ -23,6 +23,7 @@ can either turn out to be a generic instantitation:
             <Anns>
                 <LocAnn Col="0" Length="36" Line="4" Loc="tests/z/note4inZStd8dot4.tex" Start="179"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="12" Line="5" Loc="tests/z/note4inZStd8dot4.tex" Start="193"/>
@@ -84,6 +85,7 @@ Alternatively, it can turn out to be an application to a schema construction:
             <Anns>
                 <LocAnn Col="0" Length="40" Line="10" Loc="tests/z/note4inZStd8dot4.tex" Start="296"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="16" Line="11" Loc="tests/z/note4inZStd8dot4.tex" Start="310"/>
@@ -172,6 +174,7 @@ Here are some more examples:
             <Anns>
                 <LocAnn Col="0" Length="41" Line="16" Loc="tests/z/note4inZStd8dot4.tex" Start="368"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="17" Line="17" Loc="tests/z/note4inZStd8dot4.tex" Start="382"/>
@@ -259,6 +262,7 @@ should be a generic instantiation of x.
             <Anns>
                 <LocAnn Col="0" Length="41" Line="22" Loc="tests/z/note4inZStd8dot4.tex" Start="452"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="17" Line="23" Loc="tests/z/note4inZStd8dot4.tex" Start="466"/>
@@ -362,6 +366,7 @@ and
             <Anns>
                 <LocAnn Col="0" Length="47" Line="28" Loc="tests/z/note4inZStd8dot4.tex" Start="500"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="23" Line="29" Loc="tests/z/note4inZStd8dot4.tex" Start="514"/>
@@ -468,6 +473,7 @@ and
             <Anns>
                 <LocAnn Col="0" Length="47" Line="32" Loc="tests/z/note4inZStd8dot4.tex" Start="549"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="23" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="563"/>
@@ -538,13 +544,15 @@ and
                                             <Anns>
                                                 <LocAnn Col="18" Length="8" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="577"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="16" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="577"/>
-                                                </Anns>
-                                                <Word>c</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="16" Length="1" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="577"/>
+                                                    </Anns>
+                                                    <Word>c</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="20" Length="4" Line="33" Loc="tests/z/note4inZStd8dot4.tex" Start="581"/>
@@ -583,6 +591,7 @@ rest should be a function application.
             <Anns>
                 <LocAnn Col="2" Length="18" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="805"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="18" Line="41" Loc="tests/z/note4inZStd8dot4.tex" Start="805"/>
@@ -648,6 +657,7 @@ rest should be a function application.
             <Anns>
                 <LocAnn Col="2" Length="25" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="828"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="25" Line="42" Loc="tests/z/note4inZStd8dot4.tex" Start="828"/>
@@ -730,6 +740,7 @@ rest should be a function application.
             <Anns>
                 <LocAnn Col="2" Length="27" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="858"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="27" Line="43" Loc="tests/z/note4inZStd8dot4.tex" Start="858"/>
@@ -836,6 +847,7 @@ rest should be a function application.
             <Anns>
                 <LocAnn Col="2" Length="21" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="890"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="21" Line="44" Loc="tests/z/note4inZStd8dot4.tex" Start="890"/>
@@ -921,6 +933,7 @@ applications to schemas formed from sets of bindings.
             <Anns>
                 <LocAnn Col="2" Length="42" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1119"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="42" Line="52" Loc="tests/z/note4inZStd8dot4.tex" Start="1119"/>
@@ -1010,6 +1023,7 @@ applications to schemas formed from sets of bindings.
             <Anns>
                 <LocAnn Col="2" Length="99" Line="53" Loc="tests/z/note4inZStd8dot4.tex" Start="1167"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="99" Line="53" Loc="tests/z/note4inZStd8dot4.tex" Start="1167"/>
@@ -1134,6 +1148,7 @@ applications to schemas formed from sets of bindings.
             <Anns>
                 <LocAnn Col="2" Length="112" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1272"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="112" Line="55" Loc="tests/z/note4inZStd8dot4.tex" Start="1272"/>

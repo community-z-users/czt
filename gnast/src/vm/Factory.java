@@ -166,9 +166,13 @@
                                     java.util.List<? extends DeclName> formals,
                                     Expr expr)
   {
+    ZDeclNameList zdnl = createZDeclNameList();
+    if (formals != null) {
+      zdnl.addAll(formals);
+    }
     Decl decl = createConstDecl(declName, expr);
     SchText schText = createZSchText(createZDeclList(list(decl)), null);
-    return createAxPara(formals, schText, Box.OmitBox);
+    return createAxPara(zdnl, schText, Box.OmitBox);
   }
 
   /**
@@ -306,9 +310,13 @@
                              java.util.List<? extends DeclName> formals,
                              SchText schemaText)
   {
+    ZDeclNameList zdnl = createZDeclNameList();
+    if (formals != null) {
+      zdnl.addAll(formals);
+    }
     Decl decl = createConstDecl(declName, createSchExpr(schemaText));
     SchText schText = createZSchText(createZDeclList(list(decl)), null);
-    return createAxPara(formals, schText, Box.SchBox);
+    return createAxPara(zdnl, schText, Box.SchBox);
   }
 
   /**

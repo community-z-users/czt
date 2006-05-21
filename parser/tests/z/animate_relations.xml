@@ -34,19 +34,22 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="43" Line="15" Loc="tests/z/animate_relations.tex" Start="393"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="15" Line="16" Loc="tests/z/animate_relations.tex" Start="409"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_relations.tex" Start="409"/>
-                            </Anns>
-                            <Word>undefnum</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_relations.tex" Start="409"/>
+                                </Anns>
+                                <Word>undefnum</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_relations.tex" Start="420"/>
@@ -79,6 +82,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="22" Loc="tests/z/animate_relations.tex" Start="513"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Length="19" Line="22" Loc="tests/z/animate_relations.tex" Start="533"/>
@@ -157,6 +161,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="23" Loc="tests/z/animate_relations.tex" Start="563"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Length="47" Line="23" Loc="tests/z/animate_relations.tex" Start="583"/>
@@ -198,20 +203,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="36" Length="15" Line="23" Loc="tests/z/animate_relations.tex" Start="596"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="33" Length="1" Line="23" Loc="tests/z/animate_relations.tex" Start="596"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="35" Length="1" Line="23" Loc="tests/z/animate_relations.tex" Start="598"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="33" Length="1" Line="23" Loc="tests/z/animate_relations.tex" Start="596"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="35" Length="1" Line="23" Loc="tests/z/animate_relations.tex" Start="598"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="40" Length="10" Line="23" Loc="tests/z/animate_relations.tex" Start="601"/>
@@ -352,6 +359,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="24" Loc="tests/z/animate_relations.tex" Start="641"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="50" Line="24" Loc="tests/z/animate_relations.tex" Start="661"/>
@@ -395,20 +403,22 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="39" Length="15" Line="24" Loc="tests/z/animate_relations.tex" Start="677"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="36" Length="1" Line="24" Loc="tests/z/animate_relations.tex" Start="677"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="38" Length="1" Line="24" Loc="tests/z/animate_relations.tex" Start="679"/>
-                                            </Anns>
-                                            <Word>y</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="36" Length="1" Line="24" Loc="tests/z/animate_relations.tex" Start="677"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="38" Length="1" Line="24" Loc="tests/z/animate_relations.tex" Start="679"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="43" Length="10" Line="24" Loc="tests/z/animate_relations.tex" Start="682"/>
@@ -564,6 +574,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="25" Loc="tests/z/animate_relations.tex" Start="722"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Length="52" Line="25" Loc="tests/z/animate_relations.tex" Start="743"/>
@@ -647,20 +658,22 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="42" Length="15" Line="25" Loc="tests/z/animate_relations.tex" Start="761"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="39" Length="1" Line="25" Loc="tests/z/animate_relations.tex" Start="761"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="41" Length="1" Line="25" Loc="tests/z/animate_relations.tex" Start="763"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="39" Length="1" Line="25" Loc="tests/z/animate_relations.tex" Start="761"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="41" Length="1" Line="25" Loc="tests/z/animate_relations.tex" Start="763"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="46" Length="10" Line="25" Loc="tests/z/animate_relations.tex" Start="766"/>
@@ -802,6 +815,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="90" Line="26" Loc="tests/z/animate_relations.tex" Start="807"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="39" Length="59" Line="26" Loc="tests/z/animate_relations.tex" Start="828"/>
@@ -883,20 +897,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="49" Length="15" Line="26" Loc="tests/z/animate_relations.tex" Start="853"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="46" Length="1" Line="26" Loc="tests/z/animate_relations.tex" Start="853"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="48" Length="1" Line="26" Loc="tests/z/animate_relations.tex" Start="855"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="46" Length="1" Line="26" Loc="tests/z/animate_relations.tex" Start="853"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="48" Length="1" Line="26" Loc="tests/z/animate_relations.tex" Start="855"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="53" Length="10" Line="26" Loc="tests/z/animate_relations.tex" Start="858"/>
@@ -1037,6 +1053,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="91" Line="27" Loc="tests/z/animate_relations.tex" Start="898"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="40" Length="60" Line="27" Loc="tests/z/animate_relations.tex" Start="919"/>
@@ -1118,20 +1135,22 @@ the constant undefnum should have an undefined left-hand-side.
                                 <Anns>
                                     <LocAnn Col="50" Length="15" Line="27" Loc="tests/z/animate_relations.tex" Start="945"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="47" Length="1" Line="27" Loc="tests/z/animate_relations.tex" Start="945"/>
-                                    </Anns>
-                                    <Word>x</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="49" Length="1" Line="27" Loc="tests/z/animate_relations.tex" Start="947"/>
-                                    </Anns>
-                                    <Word>y</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="47" Length="1" Line="27" Loc="tests/z/animate_relations.tex" Start="945"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="49" Length="1" Line="27" Loc="tests/z/animate_relations.tex" Start="947"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <ApplExpr Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="54" Length="10" Line="27" Loc="tests/z/animate_relations.tex" Start="950"/>
@@ -1272,6 +1291,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="97" Line="28" Loc="tests/z/animate_relations.tex" Start="990"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Length="67" Line="28" Loc="tests/z/animate_relations.tex" Start="1010"/>
@@ -1337,20 +1357,22 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="40" Length="15" Line="28" Loc="tests/z/animate_relations.tex" Start="1027"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="37" Length="1" Line="28" Loc="tests/z/animate_relations.tex" Start="1027"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="39" Length="1" Line="28" Loc="tests/z/animate_relations.tex" Start="1029"/>
-                                                </Anns>
-                                                <Word>y</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="37" Length="1" Line="28" Loc="tests/z/animate_relations.tex" Start="1027"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="39" Length="1" Line="28" Loc="tests/z/animate_relations.tex" Start="1029"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="44" Length="10" Line="28" Loc="tests/z/animate_relations.tex" Start="1032"/>
@@ -1507,6 +1529,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="97" Line="29" Loc="tests/z/animate_relations.tex" Start="1088"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="67" Line="29" Loc="tests/z/animate_relations.tex" Start="1108"/>
@@ -1574,20 +1597,22 @@ the constant undefnum should have an undefined left-hand-side.
                                                     <Anns>
                                                         <LocAnn Col="40" Length="15" Line="29" Loc="tests/z/animate_relations.tex" Start="1125"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="37" Length="1" Line="29" Loc="tests/z/animate_relations.tex" Start="1125"/>
-                                                        </Anns>
-                                                        <Word>x</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="39" Length="1" Line="29" Loc="tests/z/animate_relations.tex" Start="1127"/>
-                                                        </Anns>
-                                                        <Word>y</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="37" Length="1" Line="29" Loc="tests/z/animate_relations.tex" Start="1125"/>
+                                                            </Anns>
+                                                            <Word>x</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="39" Length="1" Line="29" Loc="tests/z/animate_relations.tex" Start="1127"/>
+                                                            </Anns>
+                                                            <Word>y</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <ApplExpr Mixfix="true">
                                                         <Anns>
                                                             <LocAnn Col="44" Length="10" Line="29" Loc="tests/z/animate_relations.tex" Start="1130"/>
@@ -1780,6 +1805,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="30" Loc="tests/z/animate_relations.tex" Start="1186"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="43" Line="30" Loc="tests/z/animate_relations.tex" Start="1206"/>
@@ -1823,13 +1849,15 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="37" Length="13" Line="30" Loc="tests/z/animate_relations.tex" Start="1222"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="36" Length="1" Line="30" Loc="tests/z/animate_relations.tex" Start="1222"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="36" Length="1" Line="30" Loc="tests/z/animate_relations.tex" Start="1222"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="41" Length="10" Line="30" Loc="tests/z/animate_relations.tex" Start="1225"/>
@@ -1972,6 +2000,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="31" Loc="tests/z/animate_relations.tex" Start="1260"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Line="31" Loc="tests/z/animate_relations.tex" Start="1280"/>
@@ -2032,6 +2061,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="47" Line="34" Loc="tests/z/animate_relations.tex" Start="1351"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="34" Length="17" Line="34" Loc="tests/z/animate_relations.tex" Start="1371"/>
@@ -2112,6 +2142,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="59" Line="35" Loc="tests/z/animate_relations.tex" Start="1399"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="46" Length="29" Line="35" Loc="tests/z/animate_relations.tex" Start="1419"/>
@@ -2246,6 +2277,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="36" Loc="tests/z/animate_relations.tex" Start="1459"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="29" Length="19" Line="36" Loc="tests/z/animate_relations.tex" Start="1479"/>
@@ -2301,6 +2333,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="54" Line="37" Loc="tests/z/animate_relations.tex" Start="1509"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="34" Length="24" Line="37" Loc="tests/z/animate_relations.tex" Start="1529"/>
@@ -2384,6 +2417,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="38" Loc="tests/z/animate_relations.tex" Start="1564"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="40" Length="30" Line="38" Loc="tests/z/animate_relations.tex" Start="1584"/>
@@ -2494,6 +2528,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="72" Line="39" Loc="tests/z/animate_relations.tex" Start="1625"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="52" Length="42" Line="39" Loc="tests/z/animate_relations.tex" Start="1645"/>
@@ -2658,6 +2693,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="67" Line="41" Loc="tests/z/animate_relations.tex" Start="1741"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="36" Line="41" Loc="tests/z/animate_relations.tex" Start="1762"/>
@@ -2676,13 +2712,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="24" Length="12" Line="41" Loc="tests/z/animate_relations.tex" Start="1764"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="23" Length="1" Line="41" Loc="tests/z/animate_relations.tex" Start="1764"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="23" Length="1" Line="41" Loc="tests/z/animate_relations.tex" Start="1764"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="27" Length="10" Line="41" Loc="tests/z/animate_relations.tex" Start="1766"/>
@@ -2832,6 +2870,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="65" Line="42" Loc="tests/z/animate_relations.tex" Start="1809"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="52" Length="34" Line="42" Loc="tests/z/animate_relations.tex" Start="1830"/>
@@ -2850,13 +2889,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="24" Length="12" Line="42" Loc="tests/z/animate_relations.tex" Start="1832"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_relations.tex" Start="1832"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_relations.tex" Start="1832"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="27" Length="10" Line="42" Loc="tests/z/animate_relations.tex" Start="1834"/>
@@ -3006,6 +3047,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="71" Line="43" Loc="tests/z/animate_relations.tex" Start="1875"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="51" Length="41" Line="43" Loc="tests/z/animate_relations.tex" Start="1895"/>
@@ -3024,13 +3066,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="23" Length="12" Line="43" Loc="tests/z/animate_relations.tex" Start="1897"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="22" Length="1" Line="43" Loc="tests/z/animate_relations.tex" Start="1897"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="22" Length="1" Line="43" Loc="tests/z/animate_relations.tex" Start="1897"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="26" Length="10" Line="43" Loc="tests/z/animate_relations.tex" Start="1899"/>
@@ -3183,6 +3227,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="67" Line="44" Loc="tests/z/animate_relations.tex" Start="1947"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="54" Length="35" Line="44" Loc="tests/z/animate_relations.tex" Start="1969"/>
@@ -3206,13 +3251,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="31" Length="12" Line="44" Loc="tests/z/animate_relations.tex" Start="1977"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="30" Length="1" Line="44" Loc="tests/z/animate_relations.tex" Start="1977"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="30" Length="1" Line="44" Loc="tests/z/animate_relations.tex" Start="1977"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="34" Length="10" Line="44" Loc="tests/z/animate_relations.tex" Start="1979"/>
@@ -3342,6 +3389,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="45" Loc="tests/z/animate_relations.tex" Start="2015"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="55" Length="36" Line="45" Loc="tests/z/animate_relations.tex" Start="2037"/>
@@ -3365,13 +3413,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="31" Length="12" Line="45" Loc="tests/z/animate_relations.tex" Start="2045"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="30" Length="1" Line="45" Loc="tests/z/animate_relations.tex" Start="2045"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="30" Length="1" Line="45" Loc="tests/z/animate_relations.tex" Start="2045"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="34" Length="10" Line="45" Loc="tests/z/animate_relations.tex" Start="2047"/>
@@ -3501,6 +3551,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="46" Loc="tests/z/animate_relations.tex" Start="2084"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="42" Line="46" Loc="tests/z/animate_relations.tex" Start="2105"/>
@@ -3524,13 +3575,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="30" Length="12" Line="46" Loc="tests/z/animate_relations.tex" Start="2113"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="29" Length="1" Line="46" Loc="tests/z/animate_relations.tex" Start="2113"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="29" Length="1" Line="46" Loc="tests/z/animate_relations.tex" Start="2113"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="33" Length="10" Line="46" Loc="tests/z/animate_relations.tex" Start="2115"/>
@@ -3663,6 +3716,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="67" Line="47" Loc="tests/z/animate_relations.tex" Start="2158"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="54" Length="33" Line="47" Loc="tests/z/animate_relations.tex" Start="2182"/>
@@ -3785,6 +3839,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="48" Loc="tests/z/animate_relations.tex" Start="2226"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="55" Length="34" Line="48" Loc="tests/z/animate_relations.tex" Start="2250"/>
@@ -3907,6 +3962,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="49" Loc="tests/z/animate_relations.tex" Start="2295"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="40" Line="49" Loc="tests/z/animate_relations.tex" Start="2318"/>
@@ -4032,6 +4088,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="75" Line="50" Loc="tests/z/animate_relations.tex" Start="2369"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="55" Length="42" Line="50" Loc="tests/z/animate_relations.tex" Start="2392"/>
@@ -4170,6 +4227,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="54" Loc="tests/z/animate_relations.tex" Start="2470"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="39" Line="54" Loc="tests/z/animate_relations.tex" Start="2490"/>
@@ -4262,6 +4320,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="55" Loc="tests/z/animate_relations.tex" Start="2540"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="59" Length="50" Line="55" Loc="tests/z/animate_relations.tex" Start="2560"/>
@@ -4366,6 +4425,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="53" Line="56" Loc="tests/z/animate_relations.tex" Start="2621"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="23" Line="56" Loc="tests/z/animate_relations.tex" Start="2641"/>
@@ -4456,6 +4516,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="81" Line="57" Loc="tests/z/animate_relations.tex" Start="2675"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="57" Length="51" Line="57" Loc="tests/z/animate_relations.tex" Start="2695"/>
@@ -4657,6 +4718,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="72" Line="58" Loc="tests/z/animate_relations.tex" Start="2757"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="42" Line="58" Loc="tests/z/animate_relations.tex" Start="2777"/>
@@ -4818,6 +4880,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="59" Loc="tests/z/animate_relations.tex" Start="2830"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="40" Line="59" Loc="tests/z/animate_relations.tex" Start="2850"/>
@@ -4948,6 +5011,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="97" Line="60" Loc="tests/z/animate_relations.tex" Start="2901"/>
             </Anns>
+            <ZDeclNameList/>
             <AndPred And="Chain">
                 <Anns>
                     <LocAnn Col="73" Line="60" Loc="tests/z/animate_relations.tex"/>
@@ -4983,20 +5047,22 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="31" Length="14" Line="60" Loc="tests/z/animate_relations.tex" Start="2929"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="28" Length="1" Line="60" Loc="tests/z/animate_relations.tex" Start="2929"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="30" Length="1" Line="60" Loc="tests/z/animate_relations.tex" Start="2931"/>
-                                            </Anns>
-                                            <Word>y</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="28" Length="1" Line="60" Loc="tests/z/animate_relations.tex" Start="2929"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="30" Length="1" Line="60" Loc="tests/z/animate_relations.tex" Start="2931"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="35" Length="9" Line="60" Loc="tests/z/animate_relations.tex" Start="2934"/>
@@ -5291,6 +5357,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="75" Line="61" Loc="tests/z/animate_relations.tex" Start="2999"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="54" Length="45" Line="61" Loc="tests/z/animate_relations.tex" Start="3019"/>
@@ -5457,6 +5524,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="62" Loc="tests/z/animate_relations.tex" Start="3075"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="22" Line="62" Loc="tests/z/animate_relations.tex" Start="3095"/>
@@ -5516,6 +5584,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="62" Line="63" Loc="tests/z/animate_relations.tex" Start="3126"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="22" Length="32" Line="63" Loc="tests/z/animate_relations.tex" Start="3146"/>
@@ -5557,13 +5626,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="34" Length="6" Line="63" Loc="tests/z/animate_relations.tex" Start="3159"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="33" Length="1" Line="63" Loc="tests/z/animate_relations.tex" Start="3159"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="33" Length="1" Line="63" Loc="tests/z/animate_relations.tex" Start="3159"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="35" Length="4" Line="63" Loc="tests/z/animate_relations.tex" Start="3161"/>
@@ -5660,6 +5731,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="65" Line="64" Loc="tests/z/animate_relations.tex" Start="3189"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="35" Line="64" Loc="tests/z/animate_relations.tex" Start="3209"/>
@@ -5703,13 +5775,15 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="37" Length="6" Line="64" Loc="tests/z/animate_relations.tex" Start="3225"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="36" Length="1" Line="64" Loc="tests/z/animate_relations.tex" Start="3225"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="36" Length="1" Line="64" Loc="tests/z/animate_relations.tex" Start="3225"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="38" Length="4" Line="64" Loc="tests/z/animate_relations.tex" Start="3227"/>
@@ -5823,6 +5897,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="67" Loc="tests/z/animate_relations.tex" Start="3279"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="39" Line="67" Loc="tests/z/animate_relations.tex" Start="3299"/>
@@ -5915,6 +5990,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="68" Loc="tests/z/animate_relations.tex" Start="3349"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="59" Length="50" Line="68" Loc="tests/z/animate_relations.tex" Start="3369"/>
@@ -6019,6 +6095,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="53" Line="69" Loc="tests/z/animate_relations.tex" Start="3430"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="23" Line="69" Loc="tests/z/animate_relations.tex" Start="3450"/>
@@ -6109,6 +6186,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="78" Line="70" Loc="tests/z/animate_relations.tex" Start="3484"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="57" Length="48" Line="70" Loc="tests/z/animate_relations.tex" Start="3504"/>
@@ -6305,6 +6383,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="72" Line="71" Loc="tests/z/animate_relations.tex" Start="3563"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="42" Line="71" Loc="tests/z/animate_relations.tex" Start="3583"/>
@@ -6466,6 +6545,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="72" Loc="tests/z/animate_relations.tex" Start="3636"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="53" Length="40" Line="72" Loc="tests/z/animate_relations.tex" Start="3656"/>
@@ -6596,6 +6676,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="83" Line="73" Loc="tests/z/animate_relations.tex" Start="3707"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="62" Length="53" Line="73" Loc="tests/z/animate_relations.tex" Start="3727"/>
@@ -6627,20 +6708,22 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="31" Length="14" Line="73" Loc="tests/z/animate_relations.tex" Start="3735"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="28" Length="1" Line="73" Loc="tests/z/animate_relations.tex" Start="3735"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="30" Length="1" Line="73" Loc="tests/z/animate_relations.tex" Start="3737"/>
-                                        </Anns>
-                                        <Word>y</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="28" Length="1" Line="73" Loc="tests/z/animate_relations.tex" Start="3735"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="30" Length="1" Line="73" Loc="tests/z/animate_relations.tex" Start="3737"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="35" Length="9" Line="73" Loc="tests/z/animate_relations.tex" Start="3740"/>
@@ -6828,6 +6911,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="75" Line="74" Loc="tests/z/animate_relations.tex" Start="3791"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="54" Length="45" Line="74" Loc="tests/z/animate_relations.tex" Start="3811"/>
@@ -6994,6 +7078,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="50" Line="75" Loc="tests/z/animate_relations.tex" Start="3867"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="22" Line="75" Loc="tests/z/animate_relations.tex" Start="3887"/>
@@ -7053,6 +7138,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="76" Loc="tests/z/animate_relations.tex" Start="3918"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="30" Length="40" Line="76" Loc="tests/z/animate_relations.tex" Start="3938"/>
@@ -7112,13 +7198,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="42" Length="6" Line="76" Loc="tests/z/animate_relations.tex" Start="3959"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="41" Length="1" Line="76" Loc="tests/z/animate_relations.tex" Start="3959"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="41" Length="1" Line="76" Loc="tests/z/animate_relations.tex" Start="3959"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="43" Length="4" Line="76" Loc="tests/z/animate_relations.tex" Start="3961"/>
@@ -7215,6 +7303,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="77" Loc="tests/z/animate_relations.tex" Start="3989"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="43" Line="77" Loc="tests/z/animate_relations.tex" Start="4009"/>
@@ -7276,13 +7365,15 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="45" Length="6" Line="77" Loc="tests/z/animate_relations.tex" Start="4033"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="44" Length="1" Line="77" Loc="tests/z/animate_relations.tex" Start="4033"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="44" Length="1" Line="77" Loc="tests/z/animate_relations.tex" Start="4033"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="46" Length="4" Line="77" Loc="tests/z/animate_relations.tex" Start="4035"/>
@@ -7396,6 +7487,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="81" Loc="tests/z/animate_relations.tex" Start="4099"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="39" Line="81" Loc="tests/z/animate_relations.tex" Start="4119"/>
@@ -7488,6 +7580,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="60" Line="83" Loc="tests/z/animate_relations.tex" Start="4182"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="37" Length="30" Line="83" Loc="tests/z/animate_relations.tex" Start="4202"/>
@@ -7595,6 +7688,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="84" Loc="tests/z/animate_relations.tex" Start="4243"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="49" Length="54" Line="84" Loc="tests/z/animate_relations.tex" Start="4263"/>
@@ -7810,6 +7904,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="86" Loc="tests/z/animate_relations.tex" Start="4342"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="44" Length="44" Line="86" Loc="tests/z/animate_relations.tex" Start="4362"/>
@@ -7971,6 +8066,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="88" Loc="tests/z/animate_relations.tex" Start="4431"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="44" Length="44" Line="88" Loc="tests/z/animate_relations.tex" Start="4451"/>
@@ -8132,6 +8228,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="88" Line="90" Loc="tests/z/animate_relations.tex" Start="4521"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="51" Length="58" Line="90" Loc="tests/z/animate_relations.tex" Start="4541"/>
@@ -8347,6 +8444,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="102" Line="91" Loc="tests/z/animate_relations.tex" Start="4610"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="58" Length="72" Line="91" Loc="tests/z/animate_relations.tex" Start="4630"/>
@@ -8616,6 +8714,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="93" Loc="tests/z/animate_relations.tex" Start="4728"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="45" Length="46" Line="93" Loc="tests/z/animate_relations.tex" Start="4748"/>
@@ -8763,6 +8862,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="106" Line="94" Loc="tests/z/animate_relations.tex" Start="4805"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="60" Length="76" Line="94" Loc="tests/z/animate_relations.tex" Start="4825"/>
@@ -9004,6 +9104,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="106" Line="95" Loc="tests/z/animate_relations.tex" Start="4912"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="60" Length="76" Line="95" Loc="tests/z/animate_relations.tex" Start="4932"/>
@@ -9245,6 +9346,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="136" Line="96" Loc="tests/z/animate_relations.tex" Start="5019"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="75" Length="106" Line="96" Loc="tests/z/animate_relations.tex" Start="5039"/>
@@ -9580,6 +9682,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="55" Line="97" Loc="tests/z/animate_relations.tex" Start="5156"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="26" Line="97" Loc="tests/z/animate_relations.tex" Start="5176"/>
@@ -9663,6 +9766,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="2" Length="26" Line="101" Loc="tests/z/animate_relations.tex" Start="5278"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="26" Line="101" Loc="tests/z/animate_relations.tex" Start="5278"/>
@@ -9689,20 +9793,22 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="10" Length="13" Line="101" Loc="tests/z/animate_relations.tex" Start="5283"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="7" Length="1" Line="101" Loc="tests/z/animate_relations.tex" Start="5283"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="9" Length="1" Line="101" Loc="tests/z/animate_relations.tex" Start="5285"/>
-                                            </Anns>
-                                            <Word>y</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="7" Length="1" Line="101" Loc="tests/z/animate_relations.tex" Start="5283"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="9" Length="1" Line="101" Loc="tests/z/animate_relations.tex" Start="5285"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="13" Length="9" Line="101" Loc="tests/z/animate_relations.tex" Start="5287"/>
@@ -9805,6 +9911,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="2" Length="41" Line="102" Loc="tests/z/animate_relations.tex" Start="5310"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="41" Line="102" Loc="tests/z/animate_relations.tex" Start="5310"/>
@@ -9952,6 +10059,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="2" Length="30" Line="103" Loc="tests/z/animate_relations.tex" Start="5356"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="30" Line="103" Loc="tests/z/animate_relations.tex" Start="5356"/>
@@ -9983,13 +10091,15 @@ the constant undefnum should have an undefined left-hand-side.
                                         <Anns>
                                             <LocAnn Col="16" Length="11" Line="103" Loc="tests/z/animate_relations.tex" Start="5369"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="15" Length="1" Line="103" Loc="tests/z/animate_relations.tex" Start="5369"/>
-                                            </Anns>
-                                            <Word>x</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Length="1" Line="103" Loc="tests/z/animate_relations.tex" Start="5369"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <ApplExpr Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="19" Length="9" Line="103" Loc="tests/z/animate_relations.tex" Start="5371"/>
@@ -10092,6 +10202,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="2" Length="89" Line="104" Loc="tests/z/animate_relations.tex" Start="5392"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="2" Length="89" Line="104" Loc="tests/z/animate_relations.tex" Start="5392"/>
@@ -10311,6 +10422,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="108" Loc="tests/z/animate_relations.tex" Start="5506"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="39" Length="27" Line="108" Loc="tests/z/animate_relations.tex" Start="5526"/>
@@ -10386,6 +10498,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="90" Line="109" Loc="tests/z/animate_relations.tex" Start="5564"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="47" Length="60" Line="109" Loc="tests/z/animate_relations.tex" Start="5584"/>
@@ -10508,6 +10621,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="78" Line="112" Loc="tests/z/animate_relations.tex" Start="5674"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="57" Length="48" Line="112" Loc="tests/z/animate_relations.tex" Start="5694"/>
@@ -10648,6 +10762,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="92" Line="113" Loc="tests/z/animate_relations.tex" Start="5753"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="57" Length="62" Line="113" Loc="tests/z/animate_relations.tex" Start="5773"/>
@@ -10842,6 +10957,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="96" Line="114" Loc="tests/z/animate_relations.tex" Start="5846"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="75" Length="66" Line="114" Loc="tests/z/animate_relations.tex" Start="5866"/>
@@ -11048,6 +11164,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="105" Line="115" Loc="tests/z/animate_relations.tex" Start="5943"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="43" Length="75" Line="115" Loc="tests/z/animate_relations.tex" Start="5963"/>
@@ -11248,6 +11365,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="116" Line="116" Loc="tests/z/animate_relations.tex" Start="6049"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="48" Length="86" Line="116" Loc="tests/z/animate_relations.tex" Start="6069"/>
@@ -11466,6 +11584,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="113" Line="117" Loc="tests/z/animate_relations.tex" Start="6166"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="51" Length="83" Line="117" Loc="tests/z/animate_relations.tex" Start="6186"/>
@@ -11684,6 +11803,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="118" Loc="tests/z/animate_relations.tex" Start="6280"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="40" Length="28" Line="118" Loc="tests/z/animate_relations.tex" Start="6300"/>
@@ -11770,6 +11890,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="93" Line="119" Loc="tests/z/animate_relations.tex" Start="6339"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="63" Line="119" Loc="tests/z/animate_relations.tex" Start="6359"/>
@@ -12039,6 +12160,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="65" Line="120" Loc="tests/z/animate_relations.tex" Start="6433"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="35" Line="120" Loc="tests/z/animate_relations.tex" Start="6453"/>
@@ -12178,6 +12300,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="121" Loc="tests/z/animate_relations.tex" Start="6499"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="51" Length="54" Line="121" Loc="tests/z/animate_relations.tex" Start="6519"/>
@@ -12392,6 +12515,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="77" Line="122" Loc="tests/z/animate_relations.tex" Start="6584"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="47" Line="122" Loc="tests/z/animate_relations.tex" Start="6604"/>
@@ -12581,6 +12705,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="125" Loc="tests/z/animate_relations.tex" Start="6681"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="49" Line="125" Loc="tests/z/animate_relations.tex" Start="6702"/>
@@ -12799,6 +12924,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="126" Loc="tests/z/animate_relations.tex" Start="6762"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="57" Length="53" Line="126" Loc="tests/z/animate_relations.tex" Start="6783"/>
@@ -13016,6 +13142,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="127" Loc="tests/z/animate_relations.tex" Start="6847"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="42" Length="39" Line="127" Loc="tests/z/animate_relations.tex" Start="6868"/>
@@ -13180,6 +13307,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="128" Loc="tests/z/animate_relations.tex" Start="6918"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="26" Line="128" Loc="tests/z/animate_relations.tex" Start="6939"/>
@@ -13289,6 +13417,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="89" Line="129" Loc="tests/z/animate_relations.tex" Start="6976"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="73" Length="58" Line="129" Loc="tests/z/animate_relations.tex" Start="6997"/>
@@ -13527,6 +13656,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="58" Line="130" Loc="tests/z/animate_relations.tex" Start="7066"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="42" Length="27" Line="130" Loc="tests/z/animate_relations.tex" Start="7087"/>
@@ -13637,6 +13767,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="129" Line="132" Loc="tests/z/animate_relations.tex" Start="7126"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="68" Length="99" Line="132" Loc="tests/z/animate_relations.tex" Start="7146"/>
@@ -13683,13 +13814,15 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="35" Length="21" Line="132" Loc="tests/z/animate_relations.tex" Start="7160"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="34" Length="1" Line="132" Loc="tests/z/animate_relations.tex" Start="7160"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="34" Length="1" Line="132" Loc="tests/z/animate_relations.tex" Start="7160"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <ApplExpr Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="47" Length="18" Line="132" Loc="tests/z/animate_relations.tex" Start="7163"/>
@@ -13972,6 +14105,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="76" Line="133" Loc="tests/z/animate_relations.tex" Start="7256"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="55" Length="46" Line="133" Loc="tests/z/animate_relations.tex" Start="7276"/>
@@ -14020,13 +14154,15 @@ the constant undefnum should have an undefined left-hand-side.
                                             <Anns>
                                                 <LocAnn Col="37" Length="6" Line="133" Loc="tests/z/animate_relations.tex" Start="7292"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="36" Length="1" Line="133" Loc="tests/z/animate_relations.tex" Start="7292"/>
-                                                </Anns>
-                                                <Word>x</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="36" Length="1" Line="133" Loc="tests/z/animate_relations.tex" Start="7292"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="38" Length="4" Line="133" Loc="tests/z/animate_relations.tex" Start="7294"/>
@@ -14166,6 +14302,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="137" Loc="tests/z/animate_relations.tex" Start="7372"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="19" Line="137" Loc="tests/z/animate_relations.tex" Start="7392"/>
@@ -14241,6 +14378,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="138" Loc="tests/z/animate_relations.tex" Start="7422"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="19" Line="138" Loc="tests/z/animate_relations.tex" Start="7442"/>
@@ -14316,6 +14454,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="139" Loc="tests/z/animate_relations.tex" Start="7472"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="19" Line="139" Loc="tests/z/animate_relations.tex" Start="7492"/>
@@ -14398,6 +14537,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="89" Line="140" Loc="tests/z/animate_relations.tex" Start="7522"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="59" Line="140" Loc="tests/z/animate_relations.tex" Start="7542"/>
@@ -14630,6 +14770,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="106" Line="141" Loc="tests/z/animate_relations.tex" Start="7612"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="58" Length="75" Line="141" Loc="tests/z/animate_relations.tex" Start="7633"/>
@@ -14923,6 +15064,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="95" Line="142" Loc="tests/z/animate_relations.tex" Start="7719"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="41" Length="65" Line="142" Loc="tests/z/animate_relations.tex" Start="7739"/>
@@ -15185,6 +15327,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="57" Line="146" Loc="tests/z/animate_relations.tex" Start="7858"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="27" Line="146" Loc="tests/z/animate_relations.tex" Start="7878"/>
@@ -15292,6 +15435,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="81" Line="147" Loc="tests/z/animate_relations.tex" Start="7916"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="48" Length="51" Line="147" Loc="tests/z/animate_relations.tex" Start="7936"/>
@@ -15507,6 +15651,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="99" Line="148" Loc="tests/z/animate_relations.tex" Start="7998"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="48" Length="69" Line="148" Loc="tests/z/animate_relations.tex" Start="8018"/>
@@ -15803,6 +15948,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="160" Line="149" Loc="tests/z/animate_relations.tex" Start="8098"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="55" Length="130" Line="149" Loc="tests/z/animate_relations.tex" Start="8118"/>
@@ -15834,13 +15980,15 @@ the constant undefnum should have an undefined left-hand-side.
                                     <Anns>
                                         <LocAnn Col="24" Length="12" Line="149" Loc="tests/z/animate_relations.tex" Start="8121"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="23" Length="1" Line="149" Loc="tests/z/animate_relations.tex" Start="8121"/>
-                                        </Anns>
-                                        <Word>x</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="23" Length="1" Line="149" Loc="tests/z/animate_relations.tex" Start="8121"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <ApplExpr Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="28" Length="9" Line="149" Loc="tests/z/animate_relations.tex" Start="8124"/>
@@ -16382,6 +16530,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="73" Line="150" Loc="tests/z/animate_relations.tex" Start="8259"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="36" Length="43" Line="150" Loc="tests/z/animate_relations.tex" Start="8279"/>
@@ -16481,6 +16630,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="140" Line="151" Loc="tests/z/animate_relations.tex" Start="8333"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="65" Length="109" Line="151" Loc="tests/z/animate_relations.tex" Start="8354"/>
@@ -16949,6 +17099,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="155" Loc="tests/z/animate_relations.tex" Start="8531"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="44" Line="155" Loc="tests/z/animate_relations.tex" Start="8551"/>
@@ -17035,6 +17186,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="156" Loc="tests/z/animate_relations.tex" Start="8606"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="44" Line="156" Loc="tests/z/animate_relations.tex" Start="8626"/>
@@ -17180,6 +17332,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="84" Line="157" Loc="tests/z/animate_relations.tex" Start="8681"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="54" Line="157" Loc="tests/z/animate_relations.tex" Start="8701"/>
@@ -17348,6 +17501,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="82" Line="158" Loc="tests/z/animate_relations.tex" Start="8766"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="51" Line="158" Loc="tests/z/animate_relations.tex" Start="8786"/>
@@ -17504,6 +17658,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="160" Loc="tests/z/animate_relations.tex" Start="8850"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="49" Line="160" Loc="tests/z/animate_relations.tex" Start="8870"/>
@@ -17596,6 +17751,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="86" Line="161" Loc="tests/z/animate_relations.tex" Start="8930"/>
             </Anns>
+            <ZDeclNameList/>
             <NegPred>
                 <Anns>
                     <LocAnn Col="20" Length="56" Line="161" Loc="tests/z/animate_relations.tex" Start="8950"/>
@@ -17704,6 +17860,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="90" Line="162" Loc="tests/z/animate_relations.tex" Start="9017"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="60" Line="162" Loc="tests/z/animate_relations.tex" Start="9037"/>
@@ -17895,6 +18052,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="85" Line="163" Loc="tests/z/animate_relations.tex" Start="9108"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="55" Line="163" Loc="tests/z/animate_relations.tex" Start="9128"/>
@@ -18086,6 +18244,7 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="95" Line="164" Loc="tests/z/animate_relations.tex" Start="9194"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="20" Length="65" Line="164" Loc="tests/z/animate_relations.tex" Start="9214"/>

@@ -23,13 +23,15 @@
             <Anns>
                 <LocAnn Col="0" Length="29" Line="4" Loc="buffer.tex" Start="62"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="3" Length="3" Line="5" Loc="buffer.tex" Start="77"/>
-                </Anns>
-                <Word>MSG</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="3" Length="3" Line="5" Loc="buffer.tex" Start="77"/>
+                    </Anns>
+                    <Word>MSG</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
         </GivenPara>
         <NarrPara>
             <Anns>
@@ -43,19 +45,22 @@
             <Anns>
                 <LocAnn Col="0" Length="41" Line="8" Loc="buffer.tex" Start="93"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="9" Length="13" Line="9" Loc="buffer.tex" Start="109"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="7" Line="9" Loc="buffer.tex" Start="109"/>
-                            </Anns>
-                            <Word>MaxSize</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="7" Line="9" Loc="buffer.tex" Start="109"/>
+                                </Anns>
+                                <Word>MaxSize</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="11" Length="4" Line="9" Loc="buffer.tex" Start="118"/>
@@ -85,6 +90,7 @@
             <Anns>
                 <LocAnn Col="0" Length="86" Line="12" Loc="buffer.tex" Start="136"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -102,13 +108,15 @@
                                         <Anns>
                                             <LocAnn Col="7" Length="16" Line="13" Loc="buffer.tex" Start="161"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="13" Loc="buffer.tex" Start="161"/>
-                                            </Anns>
-                                            <Word>items</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="13" Loc="buffer.tex" Start="161"/>
+                                                </Anns>
+                                                <Word>items</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="9" Length="9" Line="13" Loc="buffer.tex" Start="168"/>
@@ -222,6 +230,7 @@
             <Anns>
                 <LocAnn Col="0" Length="81" Line="18" Loc="buffer.tex" Start="224"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -316,6 +325,7 @@
             <Anns>
                 <LocAnn Col="0" Length="136" Line="28" Loc="buffer.tex" Start="390"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -348,15 +358,17 @@
                                         <Anns>
                                             <LocAnn Col="6" Length="9" Line="30" Loc="buffer.tex" Start="431"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="30" Loc="buffer.tex" Start="431"/>
-                                            </Anns>
-                                            <Word>msg</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="30" Loc="buffer.tex" Start="431"/>
+                                                </Anns>
+                                                <Word>msg</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="8" Length="3" Line="30" Loc="buffer.tex" Start="437"/>
@@ -568,6 +580,7 @@
             <Anns>
                 <LocAnn Col="0" Length="132" Line="40" Loc="buffer.tex" Start="641"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -600,15 +613,17 @@
                                         <Anns>
                                             <LocAnn Col="6" Length="9" Line="42" Loc="buffer.tex" Start="683"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="42" Loc="buffer.tex" Start="683"/>
-                                            </Anns>
-                                            <Word>msg</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="42" Loc="buffer.tex" Start="683"/>
+                                                </Anns>
+                                                <Word>msg</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="8" Length="3" Line="42" Loc="buffer.tex" Start="689"/>
@@ -818,6 +833,7 @@
             <Anns>
                 <LocAnn Col="0" Length="121" Line="56" Loc="buffer.tex" Start="1096"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -850,15 +866,17 @@
                                         <Anns>
                                             <LocAnn Col="6" Length="15" Line="58" Loc="buffer.tex" Start="1138"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="4" Line="58" Loc="buffer.tex" Start="1138"/>
-                                            </Anns>
-                                            <Word>out</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="4" Line="58" Loc="buffer.tex" Start="1138"/>
+                                                </Anns>
+                                                <Word>out</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="8" Length="9" Line="58" Loc="buffer.tex" Start="1144"/>
@@ -996,6 +1014,7 @@
             <Anns>
                 <LocAnn Col="0" Length="119" Line="64" Loc="buffer.tex" Start="1219"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1028,15 +1047,17 @@
                                         <Anns>
                                             <LocAnn Col="4" Length="7" Line="66" Loc="buffer.tex" Start="1258"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="2" Line="66" Loc="buffer.tex" Start="1258"/>
-                                            </Anns>
-                                            <Word>m</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="2" Line="66" Loc="buffer.tex" Start="1258"/>
+                                                </Anns>
+                                                <Word>m</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="6" Length="3" Line="66" Loc="buffer.tex" Start="1262"/>
@@ -1055,15 +1076,17 @@
                                         <Anns>
                                             <LocAnn Col="8" Length="12" Line="67" Loc="buffer.tex" Start="1270"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="6" Line="67" Loc="buffer.tex" Start="1270"/>
-                                            </Anns>
-                                            <Word>count</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="6" Line="67" Loc="buffer.tex" Start="1270"/>
+                                                </Anns>
+                                                <Word>count</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="10" Length="4" Line="67" Loc="buffer.tex" Start="1278"/>
@@ -1201,6 +1224,7 @@
             <Anns>
                 <LocAnn Col="0" Length="91" Line="72" Loc="buffer.tex" Start="1340"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="69" Line="73" Loc="buffer.tex" Start="1352"/>
@@ -1246,15 +1270,17 @@
                                             <Anns>
                                                 <LocAnn Col="26" Length="7" Line="73" Loc="buffer.tex" Start="1376"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="24" Length="2" Line="73" Loc="buffer.tex" Start="1376"/>
-                                                </Anns>
-                                                <Word>m</Word>
-                                                <ZStrokeList>
-                                                    <InStroke/>
-                                                </ZStrokeList>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="24" Length="2" Line="73" Loc="buffer.tex" Start="1376"/>
+                                                    </Anns>
+                                                    <Word>m</Word>
+                                                    <ZStrokeList>
+                                                        <InStroke/>
+                                                    </ZStrokeList>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="28" Length="3" Line="73" Loc="buffer.tex" Start="1380"/>
@@ -1370,6 +1396,7 @@
             <Anns>
                 <LocAnn Col="0" Length="145" Line="76" Loc="buffer.tex" Start="1433"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1645,6 +1672,7 @@
             <Anns>
                 <LocAnn Col="0" Length="82" Line="83" Loc="buffer.tex" Start="1580"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1677,15 +1705,17 @@
                                         <Anns>
                                             <LocAnn Col="4" Length="8" Line="85" Loc="buffer.tex" Start="1618"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="2" Line="85" Loc="buffer.tex" Start="1618"/>
-                                            </Anns>
-                                            <Word>n</Word>
-                                            <ZStrokeList>
-                                                <OutStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="2" Line="85" Loc="buffer.tex" Start="1618"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                                <ZStrokeList>
+                                                    <OutStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="6" Length="4" Line="85" Loc="buffer.tex" Start="1622"/>
@@ -1774,6 +1804,7 @@
             <Anns>
                 <LocAnn Col="0" Length="133" Line="90" Loc="buffer.tex" Start="1664"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -1806,15 +1837,17 @@
                                         <Anns>
                                             <LocAnn Col="7" Length="16" Line="92" Loc="buffer.tex" Start="1708"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="92" Loc="buffer.tex" Start="1708"/>
-                                            </Anns>
-                                            <Word>msgs</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="92" Loc="buffer.tex" Start="1708"/>
+                                                </Anns>
+                                                <Word>msgs</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="9" Length="9" Line="92" Loc="buffer.tex" Start="1715"/>
@@ -2013,6 +2046,7 @@
             <Anns>
                 <LocAnn Col="0" Length="205" Line="97" Loc="buffer.tex" Start="1799"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>
@@ -2045,15 +2079,17 @@
                                         <Anns>
                                             <LocAnn Col="7" Length="16" Line="99" Loc="buffer.tex" Start="1843"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="2" Length="5" Line="99" Loc="buffer.tex" Start="1843"/>
-                                            </Anns>
-                                            <Word>msgs</Word>
-                                            <ZStrokeList>
-                                                <InStroke/>
-                                            </ZStrokeList>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="2" Length="5" Line="99" Loc="buffer.tex" Start="1843"/>
+                                                </Anns>
+                                                <Word>msgs</Word>
+                                                <ZStrokeList>
+                                                    <InStroke/>
+                                                </ZStrokeList>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="9" Length="9" Line="99" Loc="buffer.tex" Start="1850"/>
@@ -2093,13 +2129,15 @@
                                                 <Anns>
                                                     <LocAnn Col="12" Length="12" Line="101" Loc="buffer.tex" Start="1878"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="11" Length="1" Line="101" Loc="buffer.tex" Start="1878"/>
-                                                    </Anns>
-                                                    <Word>s</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="11" Length="1" Line="101" Loc="buffer.tex" Start="1878"/>
+                                                        </Anns>
+                                                        <Word>s</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="true" Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="101" Loc="buffer.tex" Start="1881"/>

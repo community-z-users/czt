@@ -931,6 +931,12 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitZDeclNameList(ZDeclNameList zDeclNameList)
+  {
+    printTermList(zDeclNameList);
+    return null;
+  }
+
   public Object visitZRefNameList(ZRefNameList zRefNameList)
   {
     printTermList(zRefNameList.getRefName());

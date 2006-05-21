@@ -511,6 +511,11 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.DECL_NAME;
   }
 
+  public ConcreteSyntaxSymbol visitZDeclNameList(ZDeclNameList term)
+  {
+    return ConcreteSyntaxSymbol.DECLNAME_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitZExprList(ZExprList term)
   {
     return ConcreteSyntaxSymbol.EXPR_LIST;

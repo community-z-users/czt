@@ -135,8 +135,9 @@ public class CarrierSet
     List<Decl> decls = factory_.list();
     for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
-      List<DeclName> name = factory_.list(pair.getDeclName());
-      VarDecl varDecl = zFactory_.createVarDecl(name, expr);
+      ZDeclNameList zdnl = zFactory_.createZDeclNameList();
+      zdnl.add(pair.getDeclName());
+      VarDecl varDecl = zFactory_.createVarDecl(zdnl, expr);
       decls.add(varDecl);
     }
     ZDeclList zDeclList = zFactory_.createZDeclList(decls);

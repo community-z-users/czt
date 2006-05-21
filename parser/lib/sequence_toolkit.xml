@@ -157,19 +157,22 @@
             <Anns>
                 <LocAnn Col="0" Length="249" Line="17" Loc="lib/sequence_toolkit.tex" Start="346"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="12" Line="18" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="18" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ .. _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="18" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ .. _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="41" Length="49" Line="18" Loc="lib/sequence_toolkit.tex" Start="374"/>
@@ -395,20 +398,22 @@
                                     <Anns>
                                         <LocAnn Col="14" Length="12" Line="22" Loc="lib/sequence_toolkit.tex" Start="522"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="522"/>
-                                        </Anns>
-                                        <Word>i</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="12" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="526"/>
-                                        </Anns>
-                                        <Word>j</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="522"/>
+                                            </Anns>
+                                            <Word>i</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="12" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="526"/>
+                                            </Anns>
+                                            <Word>j</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="16" Length="4" Line="22" Loc="lib/sequence_toolkit.tex" Start="530"/>
@@ -489,13 +494,15 @@
                                                     <Anns>
                                                         <LocAnn Col="41" Length="8" Line="22" Loc="lib/sequence_toolkit.tex" Start="553"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="39" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="553"/>
-                                                        </Anns>
-                                                        <Word>k</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="39" Length="1" Line="22" Loc="lib/sequence_toolkit.tex" Start="553"/>
+                                                            </Anns>
+                                                            <Word>k</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="43" Length="4" Line="22" Loc="lib/sequence_toolkit.tex" Start="557"/>
@@ -639,26 +646,30 @@ which are also less than or equal to $j$.
             <Anns>
                 <LocAnn Col="0" Length="274" Line="31" Loc="lib/sequence_toolkit.tex" Start="752"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="31" Loc="lib/sequence_toolkit.tex" Start="767"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="31" Loc="lib/sequence_toolkit.tex" Start="767"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="42" Line="32" Loc="lib/sequence_toolkit.tex" Start="770"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="32" Loc="lib/sequence_toolkit.tex" Start="770"/>
-                            </Anns>
-                            <Word>iter</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="32" Loc="lib/sequence_toolkit.tex" Start="770"/>
+                                </Anns>
+                                <Word>iter</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <ZRefName>
                                 <Anns>
@@ -804,13 +815,15 @@ which are also less than or equal to $j$.
                                         <Anns>
                                             <LocAnn Col="10" Length="12" Line="34" Loc="lib/sequence_toolkit.tex" Start="829"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="34" Loc="lib/sequence_toolkit.tex" Start="829"/>
-                                            </Anns>
-                                            <Word>r</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="34" Loc="lib/sequence_toolkit.tex" Start="829"/>
+                                                </Anns>
+                                                <Word>r</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="14" Length="8" Line="34" Loc="lib/sequence_toolkit.tex" Start="833"/>
@@ -947,13 +960,15 @@ which are also less than or equal to $j$.
                                         <Anns>
                                             <LocAnn Col="10" Length="12" Line="36" Loc="lib/sequence_toolkit.tex" Start="879"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="36" Loc="lib/sequence_toolkit.tex" Start="879"/>
-                                            </Anns>
-                                            <Word>r</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="36" Loc="lib/sequence_toolkit.tex" Start="879"/>
+                                                </Anns>
+                                                <Word>r</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="14" Length="8" Line="36" Loc="lib/sequence_toolkit.tex" Start="883"/>
@@ -999,13 +1014,15 @@ which are also less than or equal to $j$.
                                         <Anns>
                                             <LocAnn Col="24" Length="8" Line="36" Loc="lib/sequence_toolkit.tex" Start="893"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="22" Length="1" Line="36" Loc="lib/sequence_toolkit.tex" Start="893"/>
-                                            </Anns>
-                                            <Word>n</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="22" Length="1" Line="36" Loc="lib/sequence_toolkit.tex" Start="893"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="26" Length="4" Line="36" Loc="lib/sequence_toolkit.tex" Start="897"/>
@@ -1218,13 +1235,15 @@ which are also less than or equal to $j$.
                                     <Anns>
                                         <LocAnn Col="10" Length="12" Line="38" Loc="lib/sequence_toolkit.tex" Start="952"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="38" Loc="lib/sequence_toolkit.tex" Start="952"/>
-                                        </Anns>
-                                        <Word>r</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="38" Loc="lib/sequence_toolkit.tex" Start="952"/>
+                                            </Anns>
+                                            <Word>r</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="14" Length="8" Line="38" Loc="lib/sequence_toolkit.tex" Start="956"/>
@@ -1270,13 +1289,15 @@ which are also less than or equal to $j$.
                                     <Anns>
                                         <LocAnn Col="24" Length="8" Line="38" Loc="lib/sequence_toolkit.tex" Start="966"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="22" Length="1" Line="38" Loc="lib/sequence_toolkit.tex" Start="966"/>
-                                        </Anns>
-                                        <Word>n</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="22" Length="1" Line="38" Loc="lib/sequence_toolkit.tex" Start="966"/>
+                                            </Anns>
+                                            <Word>n</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="26" Length="4" Line="38" Loc="lib/sequence_toolkit.tex" Start="970"/>
@@ -1497,26 +1518,30 @@ iteration for $n$ times of the inverse of the relation.
             <Anns>
                 <LocAnn Col="0" Length="142" Line="53" Loc="lib/sequence_toolkit.tex" Start="1467"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="53" Loc="lib/sequence_toolkit.tex" Start="1482"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="53" Loc="lib/sequence_toolkit.tex" Start="1482"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="54" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="54" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↗ _ ↙</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="54" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↗ _ ↙</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="36" Length="36" Line="54" Loc="lib/sequence_toolkit.tex" Start="1499"/>
@@ -1653,13 +1678,15 @@ iteration for $n$ times of the inverse of the relation.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="56" Loc="lib/sequence_toolkit.tex" Start="1552"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="56" Loc="lib/sequence_toolkit.tex" Start="1552"/>
-                                    </Anns>
-                                    <Word>r</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="56" Loc="lib/sequence_toolkit.tex" Start="1552"/>
+                                        </Anns>
+                                        <Word>r</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="8" Line="56" Loc="lib/sequence_toolkit.tex" Start="1556"/>
@@ -1705,13 +1732,15 @@ iteration for $n$ times of the inverse of the relation.
                                 <Anns>
                                     <LocAnn Col="24" Length="8" Line="56" Loc="lib/sequence_toolkit.tex" Start="1566"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="22" Length="1" Line="56" Loc="lib/sequence_toolkit.tex" Start="1566"/>
-                                    </Anns>
-                                    <Word>n</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="22" Length="1" Line="56" Loc="lib/sequence_toolkit.tex" Start="1566"/>
+                                        </Anns>
+                                        <Word>n</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="26" Length="4" Line="56" Loc="lib/sequence_toolkit.tex" Start="1570"/>
@@ -1873,26 +1902,30 @@ $iter~n~r$ may be written as $r ^{ n }$.
             <Anns>
                 <LocAnn Col="0" Length="160" Line="68" Loc="lib/sequence_toolkit.tex" Start="1754"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="68" Loc="lib/sequence_toolkit.tex" Start="1769"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="68" Loc="lib/sequence_toolkit.tex" Start="1769"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Line="69" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="3" Line="69" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word># _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="69" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word># _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="18" Length="19" Line="69" Loc="lib/sequence_toolkit.tex" Start="1780"/>
@@ -1959,13 +1992,15 @@ $iter~n~r$ may be written as $r ^{ n }$.
                                 <Anns>
                                     <LocAnn Col="10" Length="13" Line="71" Loc="lib/sequence_toolkit.tex" Start="1815"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1815"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1815"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="9" Line="71" Loc="lib/sequence_toolkit.tex" Start="1819"/>
@@ -2044,13 +2079,15 @@ $iter~n~r$ may be written as $r ^{ n }$.
                                                 <Anns>
                                                     <LocAnn Col="38" Length="8" Line="71" Loc="lib/sequence_toolkit.tex" Start="1843"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="36" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1843"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="36" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1843"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="40" Length="4" Line="71" Loc="lib/sequence_toolkit.tex" Start="1847"/>
@@ -2081,13 +2118,15 @@ $iter~n~r$ may be written as $r ^{ n }$.
                                                         <Anns>
                                                             <LocAnn Col="59" Length="20" Line="71" Loc="lib/sequence_toolkit.tex" Start="1864"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="57" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1864"/>
-                                                            </Anns>
-                                                            <Word>f</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="57" Length="1" Line="71" Loc="lib/sequence_toolkit.tex" Start="1864"/>
+                                                                </Anns>
+                                                                <Word>f</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="true" Mixfix="true">
                                                             <Anns>
                                                                 <LocAnn Col="71" Length="16" Line="71" Loc="lib/sequence_toolkit.tex" Start="1868"/>
@@ -2262,19 +2301,22 @@ range starting at $1$ that can be put into bijection with the set.
             <Anns>
                 <LocAnn Col="0" Length="197" Line="83" Loc="lib/sequence_toolkit.tex" Start="2117"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Line="84" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="4" Line="84" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word>min _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="4" Line="84" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word>min _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="26" Length="32" Line="84" Loc="lib/sequence_toolkit.tex" Start="2140"/>
@@ -2392,13 +2434,15 @@ range starting at $1$ that can be put into bijection with the set.
                                             <Anns>
                                                 <LocAnn Col="35" Length="15" Line="86" Loc="lib/sequence_toolkit.tex" Start="2213"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="33" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2213"/>
-                                                </Anns>
-                                                <Word>a</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="33" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2213"/>
+                                                    </Anns>
+                                                    <Word>a</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="37" Length="11" Line="86" Loc="lib/sequence_toolkit.tex" Start="2217"/>
@@ -2422,13 +2466,15 @@ range starting at $1$ that can be put into bijection with the set.
                                             <Anns>
                                                 <LocAnn Col="53" Length="8" Line="86" Loc="lib/sequence_toolkit.tex" Start="2231"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="51" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2231"/>
-                                                </Anns>
-                                                <Word>m</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="51" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2231"/>
+                                                    </Anns>
+                                                    <Word>m</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="55" Length="4" Line="86" Loc="lib/sequence_toolkit.tex" Start="2235"/>
@@ -2494,13 +2540,15 @@ range starting at $1$ that can be put into bijection with the set.
                                                         <Anns>
                                                             <LocAnn Col="88" Length="5" Line="86" Loc="lib/sequence_toolkit.tex" Start="2266"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="86" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2266"/>
-                                                            </Anns>
-                                                            <Word>n</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="86" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2266"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="90" Length="1" Line="86" Loc="lib/sequence_toolkit.tex" Start="2270"/>
@@ -2660,19 +2708,22 @@ that member is its minimum.
             <Anns>
                 <LocAnn Col="0" Length="197" Line="99" Loc="lib/sequence_toolkit.tex" Start="2496"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Line="100" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="4" Line="100" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word>max _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="4" Line="100" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word>max _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="26" Length="32" Line="100" Loc="lib/sequence_toolkit.tex" Start="2519"/>
@@ -2790,13 +2841,15 @@ that member is its minimum.
                                             <Anns>
                                                 <LocAnn Col="35" Length="15" Line="102" Loc="lib/sequence_toolkit.tex" Start="2592"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="33" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2592"/>
-                                                </Anns>
-                                                <Word>a</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="33" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2592"/>
+                                                    </Anns>
+                                                    <Word>a</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="37" Length="11" Line="102" Loc="lib/sequence_toolkit.tex" Start="2596"/>
@@ -2820,13 +2873,15 @@ that member is its minimum.
                                             <Anns>
                                                 <LocAnn Col="53" Length="8" Line="102" Loc="lib/sequence_toolkit.tex" Start="2610"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="51" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2610"/>
-                                                </Anns>
-                                                <Word>m</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="51" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2610"/>
+                                                    </Anns>
+                                                    <Word>m</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="55" Length="4" Line="102" Loc="lib/sequence_toolkit.tex" Start="2614"/>
@@ -2892,13 +2947,15 @@ that member is its minimum.
                                                         <Anns>
                                                             <LocAnn Col="88" Length="5" Line="102" Loc="lib/sequence_toolkit.tex" Start="2645"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="86" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2645"/>
-                                                            </Anns>
-                                                            <Word>n</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="86" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2645"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="90" Length="1" Line="102" Loc="lib/sequence_toolkit.tex" Start="2649"/>
@@ -3058,13 +3115,15 @@ that member is its maximum.
             <Anns>
                 <LocAnn Col="0" Length="80" Line="116" Loc="lib/sequence_toolkit.tex" Start="2907"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="5" Length="1" Line="117" Loc="lib/sequence_toolkit.tex" Start="2924"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="5" Length="1" Line="117" Loc="lib/sequence_toolkit.tex" Start="2924"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/sequence_toolkit.tex"/>
@@ -3088,13 +3147,15 @@ that member is its maximum.
                                         <Anns>
                                             <LocAnn Col="16" Length="16" Line="117" Loc="lib/sequence_toolkit.tex" Start="2933"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="14" Length="1" Line="117" Loc="lib/sequence_toolkit.tex" Start="2933"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Length="1" Line="117" Loc="lib/sequence_toolkit.tex" Start="2933"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="23" Length="12" Line="117" Loc="lib/sequence_toolkit.tex" Start="2937"/>
@@ -3267,13 +3328,15 @@ for some $n$, to elements of $X$.
             <Anns>
                 <LocAnn Col="0" Length="66" Line="129" Loc="lib/sequence_toolkit.tex" Start="3322"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="7" Length="1" Line="130" Loc="lib/sequence_toolkit.tex" Start="3341"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="7" Length="1" Line="130" Loc="lib/sequence_toolkit.tex" Start="3341"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/sequence_toolkit.tex"/>
@@ -3398,13 +3461,15 @@ $\seq_1 X$ is the set of all non-empty finite sequences of values of $X$.
             <Anns>
                 <LocAnn Col="0" Length="59" Line="142" Loc="lib/sequence_toolkit.tex" Start="3562"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="6" Length="1" Line="143" Loc="lib/sequence_toolkit.tex" Start="3580"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="6" Length="1" Line="143" Loc="lib/sequence_toolkit.tex" Start="3580"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/sequence_toolkit.tex"/>
@@ -3559,13 +3624,15 @@ that is, of finite sequences over $X$ that are also injections.
             <Anns>
                 <LocAnn Col="0" Length="79" Line="157" Loc="lib/sequence_toolkit.tex" Start="3904"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="27" Length="1" Line="158" Loc="lib/sequence_toolkit.tex" Start="3943"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="27" Length="1" Line="158" Loc="lib/sequence_toolkit.tex" Start="3943"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="32" Line="158" Loc="lib/sequence_toolkit.tex"/>
@@ -3592,13 +3659,15 @@ that is, of finite sequences over $X$ that are also injections.
                                         <Anns>
                                             <LocAnn Col="45" Length="10" Line="158" Loc="lib/sequence_toolkit.tex" Start="3959"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="43" Length="1" Line="158" Loc="lib/sequence_toolkit.tex" Start="3959"/>
-                                            </Anns>
-                                            <Word>s</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="43" Length="1" Line="158" Loc="lib/sequence_toolkit.tex" Start="3959"/>
+                                                </Anns>
+                                                <Word>s</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="47" Length="6" Line="158" Loc="lib/sequence_toolkit.tex" Start="3963"/>
@@ -3685,26 +3754,30 @@ The brackets $\langle$ and $\rangle$ can be used for enumerated sequences.
             <Anns>
                 <LocAnn Col="0" Length="168" Line="171" Loc="lib/sequence_toolkit.tex" Start="4170"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="171" Loc="lib/sequence_toolkit.tex" Start="4185"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="171" Loc="lib/sequence_toolkit.tex" Start="4185"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Line="172" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="8" Line="172" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ⁀ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="172" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ⁀ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="34" Length="32" Line="172" Loc="lib/sequence_toolkit.tex" Start="4201"/>
@@ -3819,20 +3892,22 @@ The brackets $\langle$ and $\rangle$ can be used for enumerated sequences.
                                 <Anns>
                                     <LocAnn Col="14" Length="14" Line="174" Loc="lib/sequence_toolkit.tex" Start="4249"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="174" Loc="lib/sequence_toolkit.tex" Start="4249"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="12" Length="1" Line="174" Loc="lib/sequence_toolkit.tex" Start="4253"/>
-                                    </Anns>
-                                    <Word>t</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="174" Loc="lib/sequence_toolkit.tex" Start="4249"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="12" Length="1" Line="174" Loc="lib/sequence_toolkit.tex" Start="4253"/>
+                                        </Anns>
+                                        <Word>t</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="16" Length="6" Line="174" Loc="lib/sequence_toolkit.tex" Start="4257"/>
@@ -3959,13 +4034,15 @@ The brackets $\langle$ and $\rangle$ can be used for enumerated sequences.
                                                             <Anns>
                                                                 <LocAnn Col="24" Length="10" Line="175" Loc="lib/sequence_toolkit.tex" Start="4288"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="22" Length="1" Line="175" Loc="lib/sequence_toolkit.tex" Start="4288"/>
-                                                                </Anns>
-                                                                <Word>n</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="22" Length="1" Line="175" Loc="lib/sequence_toolkit.tex" Start="4288"/>
+                                                                    </Anns>
+                                                                    <Word>n</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <ApplExpr Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="26" Length="6" Line="175" Loc="lib/sequence_toolkit.tex" Start="4292"/>
@@ -4148,26 +4225,30 @@ continues with all elements of the second sequence.
             <Anns>
                 <LocAnn Col="0" Length="131" Line="185" Loc="lib/sequence_toolkit.tex" Start="4581"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="185" Loc="lib/sequence_toolkit.tex" Start="4596"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="185" Loc="lib/sequence_toolkit.tex" Start="4596"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="4" Length="24" Line="186" Loc="lib/sequence_toolkit.tex" Start="4599"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="3" Line="186" Loc="lib/sequence_toolkit.tex" Start="4599"/>
-                            </Anns>
-                            <Word>rev</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="3" Line="186" Loc="lib/sequence_toolkit.tex" Start="4599"/>
+                                </Anns>
+                                <Word>rev</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="13" Length="18" Line="186" Loc="lib/sequence_toolkit.tex" Start="4605"/>
@@ -4248,13 +4329,15 @@ continues with all elements of the second sequence.
                                 <Anns>
                                     <LocAnn Col="10" Length="10" Line="188" Loc="lib/sequence_toolkit.tex" Start="4639"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="188" Loc="lib/sequence_toolkit.tex" Start="4639"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="188" Loc="lib/sequence_toolkit.tex" Start="4639"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="6" Line="188" Loc="lib/sequence_toolkit.tex" Start="4643"/>
@@ -4332,13 +4415,15 @@ continues with all elements of the second sequence.
                                                 <Anns>
                                                     <LocAnn Col="39" Length="10" Line="188" Loc="lib/sequence_toolkit.tex" Start="4668"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="37" Length="1" Line="188" Loc="lib/sequence_toolkit.tex" Start="4668"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="37" Length="1" Line="188" Loc="lib/sequence_toolkit.tex" Start="4668"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="41" Length="6" Line="188" Loc="lib/sequence_toolkit.tex" Start="4672"/>
@@ -4518,26 +4603,30 @@ elements in the opposite order.
             <Anns>
                 <LocAnn Col="0" Length="96" Line="196" Loc="lib/sequence_toolkit.tex" Start="4843"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="196" Loc="lib/sequence_toolkit.tex" Start="4858"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="196" Loc="lib/sequence_toolkit.tex" Start="4858"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="22" Line="197" Loc="lib/sequence_toolkit.tex" Start="4861"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="197" Loc="lib/sequence_toolkit.tex" Start="4861"/>
-                            </Anns>
-                            <Word>head</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="197" Loc="lib/sequence_toolkit.tex" Start="4861"/>
+                                </Anns>
+                                <Word>head</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="16" Length="15" Line="197" Loc="lib/sequence_toolkit.tex" Start="4868"/>
@@ -4606,13 +4695,15 @@ elements in the opposite order.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="199" Loc="lib/sequence_toolkit.tex" Start="4899"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="199" Loc="lib/sequence_toolkit.tex" Start="4899"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="199" Loc="lib/sequence_toolkit.tex" Start="4899"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="199" Loc="lib/sequence_toolkit.tex" Start="4903"/>
@@ -4733,26 +4824,30 @@ then $head~s$ is the value that is first in the sequence.
             <Anns>
                 <LocAnn Col="0" Length="103" Line="207" Loc="lib/sequence_toolkit.tex" Start="5073"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="207" Loc="lib/sequence_toolkit.tex" Start="5088"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="207" Loc="lib/sequence_toolkit.tex" Start="5088"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="22" Line="208" Loc="lib/sequence_toolkit.tex" Start="5091"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="208" Loc="lib/sequence_toolkit.tex" Start="5091"/>
-                            </Anns>
-                            <Word>last</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="208" Loc="lib/sequence_toolkit.tex" Start="5091"/>
+                                </Anns>
+                                <Word>last</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="16" Length="15" Line="208" Loc="lib/sequence_toolkit.tex" Start="5098"/>
@@ -4821,13 +4916,15 @@ then $head~s$ is the value that is first in the sequence.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="210" Loc="lib/sequence_toolkit.tex" Start="5129"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="210" Loc="lib/sequence_toolkit.tex" Start="5129"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="210" Loc="lib/sequence_toolkit.tex" Start="5129"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="210" Loc="lib/sequence_toolkit.tex" Start="5133"/>
@@ -4974,26 +5071,30 @@ then $last~s$ is the value that is last in the sequence.
             <Anns>
                 <LocAnn Col="0" Length="142" Line="218" Loc="lib/sequence_toolkit.tex" Start="5309"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="218" Loc="lib/sequence_toolkit.tex" Start="5324"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="218" Loc="lib/sequence_toolkit.tex" Start="5324"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="27" Line="219" Loc="lib/sequence_toolkit.tex" Start="5327"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="219" Loc="lib/sequence_toolkit.tex" Start="5327"/>
-                            </Anns>
-                            <Word>tail</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="219" Loc="lib/sequence_toolkit.tex" Start="5327"/>
+                                </Anns>
+                                <Word>tail</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="16" Length="20" Line="219" Loc="lib/sequence_toolkit.tex" Start="5334"/>
@@ -5076,13 +5177,15 @@ then $last~s$ is the value that is last in the sequence.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="221" Loc="lib/sequence_toolkit.tex" Start="5370"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="221" Loc="lib/sequence_toolkit.tex" Start="5370"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="221" Loc="lib/sequence_toolkit.tex" Start="5370"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="221" Loc="lib/sequence_toolkit.tex" Start="5374"/>
@@ -5162,13 +5265,15 @@ then $last~s$ is the value that is last in the sequence.
                                                 <Anns>
                                                     <LocAnn Col="42" Length="21" Line="221" Loc="lib/sequence_toolkit.tex" Start="5402"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="40" Length="1" Line="221" Loc="lib/sequence_toolkit.tex" Start="5402"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="40" Length="1" Line="221" Loc="lib/sequence_toolkit.tex" Start="5402"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <ApplExpr Mixfix="true">
                                                     <Anns>
                                                         <LocAnn Col="46" Length="17" Line="221" Loc="lib/sequence_toolkit.tex" Start="5406"/>
@@ -5365,26 +5470,30 @@ by discarding the first element and renumbering the remainder.
             <Anns>
                 <LocAnn Col="0" Length="119" Line="230" Loc="lib/sequence_toolkit.tex" Start="5657"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="230" Loc="lib/sequence_toolkit.tex" Start="5672"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="230" Loc="lib/sequence_toolkit.tex" Start="5672"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Length="28" Line="231" Loc="lib/sequence_toolkit.tex" Start="5675"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="5" Line="231" Loc="lib/sequence_toolkit.tex" Start="5675"/>
-                            </Anns>
-                            <Word>front</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="5" Line="231" Loc="lib/sequence_toolkit.tex" Start="5675"/>
+                                </Anns>
+                                <Word>front</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="17" Length="20" Line="231" Loc="lib/sequence_toolkit.tex" Start="5683"/>
@@ -5467,13 +5576,15 @@ by discarding the first element and renumbering the remainder.
                                 <Anns>
                                     <LocAnn Col="10" Length="12" Line="233" Loc="lib/sequence_toolkit.tex" Start="5719"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="233" Loc="lib/sequence_toolkit.tex" Start="5719"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="233" Loc="lib/sequence_toolkit.tex" Start="5719"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="8" Line="233" Loc="lib/sequence_toolkit.tex" Start="5723"/>
@@ -5640,26 +5751,30 @@ by discarding the last element.
             <Anns>
                 <LocAnn Col="0" Length="177" Line="242" Loc="lib/sequence_toolkit.tex" Start="5942"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="242" Loc="lib/sequence_toolkit.tex" Start="5957"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="242" Loc="lib/sequence_toolkit.tex" Start="5957"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="7" Length="37" Line="243" Loc="lib/sequence_toolkit.tex" Start="5960"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="6" Line="243" Loc="lib/sequence_toolkit.tex" Start="5960"/>
-                            </Anns>
-                            <Word>squash</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="6" Line="243" Loc="lib/sequence_toolkit.tex" Start="5960"/>
+                                </Anns>
+                                <Word>squash</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="26" Length="26" Line="243" Loc="lib/sequence_toolkit.tex" Start="5971"/>
@@ -5758,13 +5873,15 @@ by discarding the last element.
                                 <Anns>
                                     <LocAnn Col="10" Length="16" Line="245" Loc="lib/sequence_toolkit.tex" Start="6013"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="245" Loc="lib/sequence_toolkit.tex" Start="6013"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="245" Loc="lib/sequence_toolkit.tex" Start="6013"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="17" Length="12" Line="245" Loc="lib/sequence_toolkit.tex" Start="6017"/>
@@ -5855,13 +5972,15 @@ by discarding the last element.
                                                 <Anns>
                                                     <LocAnn Col="7" Length="5" Line="246" Loc="lib/sequence_toolkit.tex" Start="6048"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="5" Length="1" Line="246" Loc="lib/sequence_toolkit.tex" Start="6048"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="5" Length="1" Line="246" Loc="lib/sequence_toolkit.tex" Start="6048"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="9" Length="1" Line="246" Loc="lib/sequence_toolkit.tex" Start="6052"/>
@@ -5924,13 +6043,15 @@ by discarding the last element.
                                                                     <Anns>
                                                                         <LocAnn Col="22" Length="10" Line="246" Loc="lib/sequence_toolkit.tex" Start="6063"/>
                                                                     </Anns>
-                                                                    <ZDeclName>
-                                                                        <Anns>
-                                                                            <LocAnn Col="20" Length="1" Line="246" Loc="lib/sequence_toolkit.tex" Start="6063"/>
-                                                                        </Anns>
-                                                                        <Word>i</Word>
-                                                                        <ZStrokeList/>
-                                                                    </ZDeclName>
+                                                                    <ZDeclNameList>
+                                                                        <ZDeclName>
+                                                                            <Anns>
+                                                                                <LocAnn Col="20" Length="1" Line="246" Loc="lib/sequence_toolkit.tex" Start="6063"/>
+                                                                            </Anns>
+                                                                            <Word>i</Word>
+                                                                            <ZStrokeList/>
+                                                                        </ZDeclName>
+                                                                    </ZDeclNameList>
                                                                     <ApplExpr Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="24" Length="6" Line="246" Loc="lib/sequence_toolkit.tex" Start="6067"/>
@@ -6096,26 +6217,30 @@ and renumbers its domain to produce a finite sequence.
             <Anns>
                 <LocAnn Col="0" Length="168" Line="259" Loc="lib/sequence_toolkit.tex" Start="6343"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="259" Loc="lib/sequence_toolkit.tex" Start="6358"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="259" Loc="lib/sequence_toolkit.tex" Start="6358"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="15" Line="260" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="12" Line="260" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↿ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="260" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↿ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="43" Length="37" Line="260" Loc="lib/sequence_toolkit.tex" Start="6378"/>
@@ -6221,13 +6346,15 @@ and renumbers its domain to produce a finite sequence.
                                 <Anns>
                                     <LocAnn Col="10" Length="15" Line="262" Loc="lib/sequence_toolkit.tex" Start="6431"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="262" Loc="lib/sequence_toolkit.tex" Start="6431"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="262" Loc="lib/sequence_toolkit.tex" Start="6431"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="12" Length="11" Line="262" Loc="lib/sequence_toolkit.tex" Start="6435"/>
@@ -6251,13 +6378,15 @@ and renumbers its domain to produce a finite sequence.
                                 <Anns>
                                     <LocAnn Col="28" Length="10" Line="262" Loc="lib/sequence_toolkit.tex" Start="6449"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="26" Length="1" Line="262" Loc="lib/sequence_toolkit.tex" Start="6449"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="26" Length="1" Line="262" Loc="lib/sequence_toolkit.tex" Start="6449"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="30" Length="6" Line="262" Loc="lib/sequence_toolkit.tex" Start="6453"/>
@@ -6459,26 +6588,30 @@ then renumbering the remainder.
             <Anns>
                 <LocAnn Col="0" Length="160" Line="278" Loc="lib/sequence_toolkit.tex" Start="6809"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="278" Loc="lib/sequence_toolkit.tex" Start="6824"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="278" Loc="lib/sequence_toolkit.tex" Start="6824"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="14" Line="279" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="11" Line="279" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ ↾ _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Line="279" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ ↾ _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="39" Length="34" Line="279" Loc="lib/sequence_toolkit.tex" Start="6843"/>
@@ -6584,13 +6717,15 @@ then renumbering the remainder.
                                 <Anns>
                                     <LocAnn Col="10" Length="10" Line="281" Loc="lib/sequence_toolkit.tex" Start="6893"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="281" Loc="lib/sequence_toolkit.tex" Start="6893"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="281" Loc="lib/sequence_toolkit.tex" Start="6893"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="12" Length="6" Line="281" Loc="lib/sequence_toolkit.tex" Start="6897"/>
@@ -6623,13 +6758,15 @@ then renumbering the remainder.
                                 <Anns>
                                     <LocAnn Col="23" Length="12" Line="281" Loc="lib/sequence_toolkit.tex" Start="6906"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="21" Length="1" Line="281" Loc="lib/sequence_toolkit.tex" Start="6906"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="21" Length="1" Line="281" Loc="lib/sequence_toolkit.tex" Start="6906"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="25" Length="8" Line="281" Loc="lib/sequence_toolkit.tex" Start="6910"/>
@@ -6822,26 +6959,30 @@ then renumbering the remainder.
             <Anns>
                 <LocAnn Col="0" Length="125" Line="297" Loc="lib/sequence_toolkit.tex" Start="7242"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="297" Loc="lib/sequence_toolkit.tex" Start="7257"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="297" Loc="lib/sequence_toolkit.tex" Start="7257"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="14" Line="298" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="11" Line="298" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ prefix _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Line="298" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ prefix _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="23" Length="18" Line="298" Loc="lib/sequence_toolkit.tex" Start="7276"/>
@@ -6922,20 +7063,22 @@ then renumbering the remainder.
                                 <Anns>
                                     <LocAnn Col="11" Length="11" Line="300" Loc="lib/sequence_toolkit.tex" Start="7310"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="300" Loc="lib/sequence_toolkit.tex" Start="7310"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="10" Length="1" Line="300" Loc="lib/sequence_toolkit.tex" Start="7312"/>
-                                    </Anns>
-                                    <Word>t</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="300" Loc="lib/sequence_toolkit.tex" Start="7310"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="10" Length="1" Line="300" Loc="lib/sequence_toolkit.tex" Start="7312"/>
+                                        </Anns>
+                                        <Word>t</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="13" Length="6" Line="300" Loc="lib/sequence_toolkit.tex" Start="7315"/>
@@ -7108,26 +7251,30 @@ if it forms the front portion of $t$.
             <Anns>
                 <LocAnn Col="0" Length="147" Line="314" Loc="lib/sequence_toolkit.tex" Start="7561"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="314" Loc="lib/sequence_toolkit.tex" Start="7576"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="314" Loc="lib/sequence_toolkit.tex" Start="7576"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="14" Line="315" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="11" Line="315" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ suffix _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Line="315" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ suffix _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="23" Length="18" Line="315" Loc="lib/sequence_toolkit.tex" Start="7595"/>
@@ -7208,20 +7355,22 @@ if it forms the front portion of $t$.
                                 <Anns>
                                     <LocAnn Col="11" Length="11" Line="317" Loc="lib/sequence_toolkit.tex" Start="7629"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="317" Loc="lib/sequence_toolkit.tex" Start="7629"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="10" Length="1" Line="317" Loc="lib/sequence_toolkit.tex" Start="7631"/>
-                                    </Anns>
-                                    <Word>t</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="317" Loc="lib/sequence_toolkit.tex" Start="7629"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="10" Length="1" Line="317" Loc="lib/sequence_toolkit.tex" Start="7631"/>
+                                        </Anns>
+                                        <Word>t</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="13" Length="6" Line="317" Loc="lib/sequence_toolkit.tex" Start="7634"/>
@@ -7319,13 +7468,15 @@ if it forms the front portion of $t$.
                                         <Anns>
                                             <LocAnn Col="28" Length="9" Line="318" Loc="lib/sequence_toolkit.tex" Start="7670"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="27" Length="1" Line="318" Loc="lib/sequence_toolkit.tex" Start="7670"/>
-                                            </Anns>
-                                            <Word>u</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Length="1" Line="318" Loc="lib/sequence_toolkit.tex" Start="7670"/>
+                                                </Anns>
+                                                <Word>u</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="30" Length="6" Line="318" Loc="lib/sequence_toolkit.tex" Start="7673"/>
@@ -7469,26 +7620,30 @@ if it forms the end portion of $t$.
             <Anns>
                 <LocAnn Col="0" Length="154" Line="331" Loc="lib/sequence_toolkit.tex" Start="7896"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="331" Loc="lib/sequence_toolkit.tex" Start="7911"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="331" Loc="lib/sequence_toolkit.tex" Start="7911"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="332" Loc="lib/sequence_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="332" Loc="lib/sequence_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ infix _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="332" Loc="lib/sequence_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ infix _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="22" Length="18" Line="332" Loc="lib/sequence_toolkit.tex" Start="7929"/>
@@ -7569,20 +7724,22 @@ if it forms the end portion of $t$.
                                 <Anns>
                                     <LocAnn Col="11" Length="11" Line="334" Loc="lib/sequence_toolkit.tex" Start="7963"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="334" Loc="lib/sequence_toolkit.tex" Start="7963"/>
-                                    </Anns>
-                                    <Word>s</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="10" Length="1" Line="334" Loc="lib/sequence_toolkit.tex" Start="7965"/>
-                                    </Anns>
-                                    <Word>t</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="334" Loc="lib/sequence_toolkit.tex" Start="7963"/>
+                                        </Anns>
+                                        <Word>s</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="10" Length="1" Line="334" Loc="lib/sequence_toolkit.tex" Start="7965"/>
+                                        </Anns>
+                                        <Word>t</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="13" Length="6" Line="334" Loc="lib/sequence_toolkit.tex" Start="7968"/>
@@ -7680,20 +7837,22 @@ if it forms the end portion of $t$.
                                         <Anns>
                                             <LocAnn Col="29" Length="11" Line="335" Loc="lib/sequence_toolkit.tex" Start="8003"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="26" Length="1" Line="335" Loc="lib/sequence_toolkit.tex" Start="8003"/>
-                                            </Anns>
-                                            <Word>u</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="28" Length="1" Line="335" Loc="lib/sequence_toolkit.tex" Start="8005"/>
-                                            </Anns>
-                                            <Word>v</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="26" Length="1" Line="335" Loc="lib/sequence_toolkit.tex" Start="8003"/>
+                                                </Anns>
+                                                <Word>u</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="28" Length="1" Line="335" Loc="lib/sequence_toolkit.tex" Start="8005"/>
+                                                </Anns>
+                                                <Word>v</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="31" Length="6" Line="335" Loc="lib/sequence_toolkit.tex" Start="8008"/>
@@ -7851,26 +8010,30 @@ if it forms a mid portion of $t$.
             <Anns>
                 <LocAnn Col="0" Length="250" Line="344" Loc="lib/sequence_toolkit.tex" Start="8200"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="344" Loc="lib/sequence_toolkit.tex" Start="8215"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="344" Loc="lib/sequence_toolkit.tex" Start="8215"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="6" Length="31" Line="345" Loc="lib/sequence_toolkit.tex" Start="8218"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="5" Line="345" Loc="lib/sequence_toolkit.tex" Start="8218"/>
-                            </Anns>
-                            <Word>⁀/</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="5" Line="345" Loc="lib/sequence_toolkit.tex" Start="8218"/>
+                                </Anns>
+                                <Word>⁀/</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="20" Length="23" Line="345" Loc="lib/sequence_toolkit.tex" Start="8226"/>
@@ -8048,13 +8211,15 @@ if it forms a mid portion of $t$.
                                         <Anns>
                                             <LocAnn Col="10" Length="10" Line="349" Loc="lib/sequence_toolkit.tex" Start="8311"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="349" Loc="lib/sequence_toolkit.tex" Start="8311"/>
-                                            </Anns>
-                                            <Word>s</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="349" Loc="lib/sequence_toolkit.tex" Start="8311"/>
+                                                </Anns>
+                                                <Word>s</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="12" Length="6" Line="349" Loc="lib/sequence_toolkit.tex" Start="8315"/>
@@ -8182,20 +8347,22 @@ if it forms a mid portion of $t$.
                                     <Anns>
                                         <LocAnn Col="14" Length="19" Line="351" Loc="lib/sequence_toolkit.tex" Start="8366"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="351" Loc="lib/sequence_toolkit.tex" Start="8366"/>
-                                        </Anns>
-                                        <Word>q</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="12" Length="1" Line="351" Loc="lib/sequence_toolkit.tex" Start="8370"/>
-                                        </Anns>
-                                        <Word>r</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="351" Loc="lib/sequence_toolkit.tex" Start="8366"/>
+                                            </Anns>
+                                            <Word>q</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="12" Length="1" Line="351" Loc="lib/sequence_toolkit.tex" Start="8370"/>
+                                            </Anns>
+                                            <Word>r</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="true" Mixfix="true">
                                         <Anns>
                                             <LocAnn Col="16" Length="11" Line="351" Loc="lib/sequence_toolkit.tex" Start="8374"/>

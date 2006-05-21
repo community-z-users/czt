@@ -574,13 +574,15 @@ lies amongst those of user-defined operators.
             <Anns>
                 <LocAnn Col="0" Length="33" Line="118" Loc="lib/prelude.tex" Start="2903"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="1" Length="9" Line="119" Loc="lib/prelude.tex" Start="2916"/>
-                </Anns>
-                <Word>𝔸</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="1" Length="9" Line="119" Loc="lib/prelude.tex" Start="2916"/>
+                    </Anns>
+                    <Word>𝔸</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
         </GivenPara>
         <NarrPara>
             <Anns>
@@ -597,19 +599,22 @@ a supply of values for use in specifying number systems.
             <Anns>
                 <LocAnn Col="0" Length="49" Line="125" Loc="lib/prelude.tex" Start="3058"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="5" Length="23" Line="126" Loc="lib/prelude.tex" Start="3072"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="0" Length="4" Line="126" Loc="lib/prelude.tex" Start="3072"/>
-                            </Anns>
-                            <Word>ℕ</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="0" Length="4" Line="126" Loc="lib/prelude.tex" Start="3072"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="7" Length="16" Line="126" Loc="lib/prelude.tex" Start="3079"/>
@@ -647,19 +652,22 @@ The set of natural numbers, $\nat$, is a subset of $\arithmos$.
             <Anns>
                 <LocAnn Col="0" Length="83" Line="138" Loc="lib/prelude.tex" Start="3337"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="21" Length="25" Line="139" Loc="lib/prelude.tex" Start="3353"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="18" Line="139" Loc="lib/prelude.tex" Start="3353"/>
-                            </Anns>
-                            <Word>number_literal_0</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="18" Line="139" Loc="lib/prelude.tex" Start="3353"/>
+                                </Anns>
+                                <Word>number_literal_0</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="23" Length="4" Line="139" Loc="lib/prelude.tex" Start="3374"/>
@@ -678,13 +686,15 @@ The set of natural numbers, $\nat$, is a subset of $\arithmos$.
                         <Anns>
                             <LocAnn Col="21" Length="25" Line="140" Loc="lib/prelude.tex" Start="3383"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="18" Line="140" Loc="lib/prelude.tex" Start="3383"/>
-                            </Anns>
-                            <Word>number_literal_1</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="18" Line="140" Loc="lib/prelude.tex" Start="3383"/>
+                                </Anns>
+                                <Word>number_literal_1</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="23" Length="4" Line="140" Loc="lib/prelude.tex" Start="3404"/>
@@ -738,19 +748,22 @@ to references to these declarations (see 12.2.6.9).
             <Anns>
                 <LocAnn Col="0" Length="437" Line="150" Loc="lib/prelude.tex" Start="3599"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="8" Line="151" Loc="lib/prelude.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="5" Line="151" Loc="lib/prelude.tex"/>
-                            </Anns>
-                            <Word> _ + _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="5" Line="151" Loc="lib/prelude.tex"/>
+                                </Anns>
+                                <Word> _ + _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="10" Length="53" Line="151" Loc="lib/prelude.tex" Start="3623"/>
@@ -855,20 +868,22 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="12" Length="10" Line="153" Loc="lib/prelude.tex" Start="3693"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="8" Length="1" Line="153" Loc="lib/prelude.tex" Start="3693"/>
-                                                            </Anns>
-                                                            <Word>m</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="11" Length="1" Line="153" Loc="lib/prelude.tex" Start="3696"/>
-                                                            </Anns>
-                                                            <Word>n</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="8" Length="1" Line="153" Loc="lib/prelude.tex" Start="3693"/>
+                                                                </Anns>
+                                                                <Word>m</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="11" Length="1" Line="153" Loc="lib/prelude.tex" Start="3696"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="4" Line="153" Loc="lib/prelude.tex" Start="3699"/>
@@ -895,13 +910,15 @@ to references to these declarations (see 12.2.6.9).
                                                             <Anns>
                                                                 <LocAnn Col="32" Line="153" Loc="lib/prelude.tex" Start="3716"/>
                                                             </Anns>
-                                                            <ZDeclName>
-                                                                <Anns>
-                                                                    <LocAnn Col="31" Length="1" Line="153" Loc="lib/prelude.tex" Start="3716"/>
-                                                                </Anns>
-                                                                <Word>p</Word>
-                                                                <ZStrokeList/>
-                                                            </ZDeclName>
+                                                            <ZDeclNameList>
+                                                                <ZDeclName>
+                                                                    <Anns>
+                                                                        <LocAnn Col="31" Length="1" Line="153" Loc="lib/prelude.tex" Start="3716"/>
+                                                                    </Anns>
+                                                                    <Word>p</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZDeclName>
+                                                            </ZDeclNameList>
                                                             <RefExpr Explicit="false" Mixfix="false">
                                                                 <Anns>
                                                                     <LocAnn Col="41" Line="153" Loc="lib/prelude.tex"/>
@@ -996,20 +1013,22 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="12" Length="10" Line="154" Loc="lib/prelude.tex" Start="3756"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="8" Length="1" Line="154" Loc="lib/prelude.tex" Start="3756"/>
-                                                            </Anns>
-                                                            <Word>m</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="11" Length="1" Line="154" Loc="lib/prelude.tex" Start="3759"/>
-                                                            </Anns>
-                                                            <Word>n</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="8" Length="1" Line="154" Loc="lib/prelude.tex" Start="3756"/>
+                                                                </Anns>
+                                                                <Word>m</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="11" Length="1" Line="154" Loc="lib/prelude.tex" Start="3759"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="4" Line="154" Loc="lib/prelude.tex" Start="3762"/>
@@ -1104,20 +1123,22 @@ to references to these declarations (see 12.2.6.9).
                                                     <Anns>
                                                         <LocAnn Col="12" Length="10" Line="155" Loc="lib/prelude.tex" Start="3794"/>
                                                     </Anns>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="8" Length="1" Line="155" Loc="lib/prelude.tex" Start="3794"/>
-                                                        </Anns>
-                                                        <Word>m</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
-                                                    <ZDeclName>
-                                                        <Anns>
-                                                            <LocAnn Col="11" Length="1" Line="155" Loc="lib/prelude.tex" Start="3797"/>
-                                                        </Anns>
-                                                        <Word>n</Word>
-                                                        <ZStrokeList/>
-                                                    </ZDeclName>
+                                                    <ZDeclNameList>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="8" Length="1" Line="155" Loc="lib/prelude.tex" Start="3794"/>
+                                                            </Anns>
+                                                            <Word>m</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                        <ZDeclName>
+                                                            <Anns>
+                                                                <LocAnn Col="11" Length="1" Line="155" Loc="lib/prelude.tex" Start="3797"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                            <ZStrokeList/>
+                                                        </ZDeclName>
+                                                    </ZDeclNameList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="14" Length="4" Line="155" Loc="lib/prelude.tex" Start="3800"/>
@@ -1280,13 +1301,15 @@ to references to these declarations (see 12.2.6.9).
                                                 <Anns>
                                                     <LocAnn Col="9" Length="7" Line="156" Loc="lib/prelude.tex" Start="3839"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="8" Length="1" Line="156" Loc="lib/prelude.tex" Start="3839"/>
-                                                    </Anns>
-                                                    <Word>n</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="8" Length="1" Line="156" Loc="lib/prelude.tex" Start="3839"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="156" Loc="lib/prelude.tex" Start="3842"/>
@@ -1384,13 +1407,15 @@ to references to these declarations (see 12.2.6.9).
                                             <Anns>
                                                 <LocAnn Col="9" Length="14" Line="157" Loc="lib/prelude.tex" Start="3875"/>
                                             </Anns>
-                                            <ZDeclName>
-                                                <Anns>
-                                                    <LocAnn Col="8" Length="1" Line="157" Loc="lib/prelude.tex" Start="3875"/>
-                                                </Anns>
-                                                <Word>w</Word>
-                                                <ZStrokeList/>
-                                            </ZDeclName>
+                                            <ZDeclNameList>
+                                                <ZDeclName>
+                                                    <Anns>
+                                                        <LocAnn Col="8" Length="1" Line="157" Loc="lib/prelude.tex" Start="3875"/>
+                                                    </Anns>
+                                                    <Word>w</Word>
+                                                    <ZStrokeList/>
+                                                </ZDeclName>
+                                            </ZDeclNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="11" Length="11" Line="157" Loc="lib/prelude.tex" Start="3878"/>
@@ -1458,13 +1483,15 @@ to references to these declarations (see 12.2.6.9).
                                                         <Anns>
                                                             <LocAnn Col="49" Length="4" Line="157" Loc="lib/prelude.tex" Start="3915"/>
                                                         </Anns>
-                                                        <ZDeclName>
-                                                            <Anns>
-                                                                <LocAnn Col="48" Length="1" Line="157" Loc="lib/prelude.tex" Start="3915"/>
-                                                            </Anns>
-                                                            <Word>y</Word>
-                                                            <ZStrokeList/>
-                                                        </ZDeclName>
+                                                        <ZDeclNameList>
+                                                            <ZDeclName>
+                                                                <Anns>
+                                                                    <LocAnn Col="48" Length="1" Line="157" Loc="lib/prelude.tex" Start="3915"/>
+                                                                </Anns>
+                                                                <Word>y</Word>
+                                                                <ZStrokeList/>
+                                                            </ZDeclName>
+                                                        </ZDeclNameList>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="51" Length="1" Line="157" Loc="lib/prelude.tex" Start="3918"/>
@@ -1594,13 +1621,15 @@ to references to these declarations (see 12.2.6.9).
                                         <Anns>
                                             <LocAnn Col="9" Length="7" Line="158" Loc="lib/prelude.tex" Start="3956"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="8" Length="1" Line="158" Loc="lib/prelude.tex" Start="3956"/>
-                                            </Anns>
-                                            <Word>m</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Length="1" Line="158" Loc="lib/prelude.tex" Start="3956"/>
+                                                </Anns>
+                                                <Word>m</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="11" Length="4" Line="158" Loc="lib/prelude.tex" Start="3959"/>
@@ -1696,20 +1725,22 @@ to references to these declarations (see 12.2.6.9).
                                     <Anns>
                                         <LocAnn Col="12" Length="10" Line="159" Loc="lib/prelude.tex" Start="3986"/>
                                     </Anns>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="8" Length="1" Line="159" Loc="lib/prelude.tex" Start="3986"/>
-                                        </Anns>
-                                        <Word>m</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
-                                    <ZDeclName>
-                                        <Anns>
-                                            <LocAnn Col="11" Length="1" Line="159" Loc="lib/prelude.tex" Start="3989"/>
-                                        </Anns>
-                                        <Word>n</Word>
-                                        <ZStrokeList/>
-                                    </ZDeclName>
+                                    <ZDeclNameList>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="8" Length="1" Line="159" Loc="lib/prelude.tex" Start="3986"/>
+                                            </Anns>
+                                            <Word>m</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                        <ZDeclName>
+                                            <Anns>
+                                                <LocAnn Col="11" Length="1" Line="159" Loc="lib/prelude.tex" Start="3989"/>
+                                            </Anns>
+                                            <Word>n</Word>
+                                            <ZStrokeList/>
+                                        </ZDeclName>
+                                    </ZDeclNameList>
                                     <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="14" Length="4" Line="159" Loc="lib/prelude.tex" Start="3992"/>

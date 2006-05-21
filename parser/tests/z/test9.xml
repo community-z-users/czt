@@ -13,6 +13,7 @@
             <Anns>
                 <LocAnn Col="0" Length="73" Line="0" Loc="tests/z/test9.tex" Start="0"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <ConstDecl>

@@ -34,19 +34,22 @@ the constant undefnum should have an undefined left-hand-side.
             <Anns>
                 <LocAnn Col="0" Length="43" Line="15" Loc="tests/z/animate_freetypes.tex" Start="382"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="11" Length="15" Line="16" Loc="tests/z/animate_freetypes.tex" Start="398"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_freetypes.tex" Start="398"/>
-                            </Anns>
-                            <Word>undefnum</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="8" Line="16" Loc="tests/z/animate_freetypes.tex" Start="398"/>
+                                </Anns>
+                                <Word>undefnum</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="13" Length="4" Line="16" Loc="tests/z/animate_freetypes.tex" Start="409"/>
@@ -288,6 +291,7 @@ Testing free types...
             <Anns>
                 <LocAnn Col="0" Length="40" Line="33" Loc="tests/z/animate_freetypes.tex" Start="636"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="18" Line="34" Loc="tests/z/animate_freetypes.tex" Start="648"/>
@@ -367,6 +371,7 @@ Testing free types...
             <Anns>
                 <LocAnn Col="0" Length="40" Line="37" Loc="tests/z/animate_freetypes.tex" Start="678"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <Anns>
                     <LocAnn Col="0" Length="18" Line="38" Loc="tests/z/animate_freetypes.tex" Start="690"/>
@@ -784,6 +789,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="42" Line="46" Loc="tests/z/animate_freetypes.tex" Start="839"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="27" Length="11" Line="46" Loc="tests/z/animate_freetypes.tex" Start="860"/>
@@ -827,6 +833,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="40" Line="47" Loc="tests/z/animate_freetypes.tex" Start="882"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="25" Length="9" Line="47" Loc="tests/z/animate_freetypes.tex" Start="903"/>
@@ -870,6 +877,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="44" Line="48" Loc="tests/z/animate_freetypes.tex" Start="923"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="29" Length="13" Line="48" Loc="tests/z/animate_freetypes.tex" Start="944"/>
@@ -913,6 +921,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="48" Line="49" Loc="tests/z/animate_freetypes.tex" Start="968"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="33" Length="17" Line="49" Loc="tests/z/animate_freetypes.tex" Start="989"/>
@@ -974,6 +983,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="46" Line="50" Loc="tests/z/animate_freetypes.tex" Start="1017"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="31" Length="15" Line="50" Loc="tests/z/animate_freetypes.tex" Start="1038"/>
@@ -1035,6 +1045,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="49" Line="51" Loc="tests/z/animate_freetypes.tex" Start="1064"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="34" Length="18" Line="51" Loc="tests/z/animate_freetypes.tex" Start="1085"/>
@@ -1096,6 +1107,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="55" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1114"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="40" Length="24" Line="52" Loc="tests/z/animate_freetypes.tex" Start="1135"/>
@@ -1180,6 +1192,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="53" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1170"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="38" Length="22" Line="53" Loc="tests/z/animate_freetypes.tex" Start="1191"/>
@@ -1264,6 +1277,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="62" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1224"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="false">
                 <Anns>
                     <LocAnn Col="47" Length="31" Line="54" Loc="tests/z/animate_freetypes.tex" Start="1245"/>
@@ -1371,6 +1385,7 @@ Testing membership of free types
             <Anns>
                 <LocAnn Col="0" Length="54" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1287"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="21" Length="23" Line="55" Loc="tests/z/animate_freetypes.tex" Start="1308"/>
@@ -1451,6 +1466,7 @@ Testing equality of free types
             <Anns>
                 <LocAnn Col="0" Length="49" Line="58" Loc="tests/z/animate_freetypes.tex" Start="1374"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="23" Length="18" Line="58" Loc="tests/z/animate_freetypes.tex" Start="1395"/>
@@ -1518,6 +1534,7 @@ Testing equality of free types
             <Anns>
                 <LocAnn Col="0" Length="47" Line="59" Loc="tests/z/animate_freetypes.tex" Start="1424"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="21" Length="16" Line="59" Loc="tests/z/animate_freetypes.tex" Start="1445"/>
@@ -1585,6 +1602,7 @@ Testing equality of free types
             <Anns>
                 <LocAnn Col="0" Length="42" Line="60" Loc="tests/z/animate_freetypes.tex" Start="1472"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="21" Length="11" Line="60" Loc="tests/z/animate_freetypes.tex" Start="1493"/>
@@ -1641,6 +1659,7 @@ Testing cardinality of free types
             <Anns>
                 <LocAnn Col="0" Length="43" Line="64" Loc="tests/z/animate_freetypes.tex" Start="1551"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="30" Length="12" Line="64" Loc="tests/z/animate_freetypes.tex" Start="1572"/>
@@ -1710,6 +1729,7 @@ Testing cardinality of free types
             <Anns>
                 <LocAnn Col="0" Length="45" Line="65" Loc="tests/z/animate_freetypes.tex" Start="1595"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="31" Length="14" Line="65" Loc="tests/z/animate_freetypes.tex" Start="1616"/>
@@ -1772,6 +1792,7 @@ Testing cardinality of free types
             <Anns>
                 <LocAnn Col="0" Length="39" Line="66" Loc="tests/z/animate_freetypes.tex" Start="1641"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="26" Length="8" Line="66" Loc="tests/z/animate_freetypes.tex" Start="1662"/>
@@ -1835,6 +1856,7 @@ Testing cardinality of free types
             <Anns>
                 <LocAnn Col="0" Length="39" Line="68" Loc="tests/z/animate_freetypes.tex" Start="1682"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="26" Length="8" Line="68" Loc="tests/z/animate_freetypes.tex" Start="1703"/>
@@ -1897,6 +1919,7 @@ Testing cardinality of free types
             <Anns>
                 <LocAnn Col="0" Length="49" Line="69" Loc="tests/z/animate_freetypes.tex" Start="1722"/>
             </Anns>
+            <ZDeclNameList/>
             <MemPred Mixfix="true">
                 <Anns>
                     <LocAnn Col="35" Length="18" Line="69" Loc="tests/z/animate_freetypes.tex" Start="1743"/>

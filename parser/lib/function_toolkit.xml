@@ -130,20 +130,22 @@
             <Anns>
                 <LocAnn Col="0" Length="101" Line="17" Loc="lib/function_toolkit.tex" Start="354"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="367"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="375"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="367"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="375"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -167,13 +169,15 @@
                                         <Anns>
                                             <LocAnn Col="19" Length="12" Line="18" Loc="lib/function_toolkit.tex" Start="384"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="17" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="384"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="17" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="384"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="23" Length="8" Line="18" Loc="lib/function_toolkit.tex" Start="388"/>
@@ -226,20 +230,22 @@
                                                 <Anns>
                                                     <LocAnn Col="46" Length="9" Line="18" Loc="lib/function_toolkit.tex" Start="407"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="40" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="407"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="44" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="411"/>
-                                                    </Anns>
-                                                    <Word>q</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="40" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="407"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="44" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="411"/>
+                                                        </Anns>
+                                                        <Word>q</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="48" Length="1" Line="18" Loc="lib/function_toolkit.tex" Start="415"/>
@@ -413,20 +419,22 @@ The terms ``function'' and ``partial function'' are synonymous.
             <Anns>
                 <LocAnn Col="0" Length="103" Line="33" Loc="lib/function_toolkit.tex" Start="833"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="846"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="854"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="846"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="854"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -450,13 +458,15 @@ The terms ``function'' and ``partial function'' are synonymous.
                                         <Anns>
                                             <LocAnn Col="19" Length="12" Line="34" Loc="lib/function_toolkit.tex" Start="863"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="17" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="863"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="17" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="863"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="23" Length="8" Line="34" Loc="lib/function_toolkit.tex" Start="867"/>
@@ -509,20 +519,22 @@ The terms ``function'' and ``partial function'' are synonymous.
                                                 <Anns>
                                                     <LocAnn Col="45" Length="8" Line="34" Loc="lib/function_toolkit.tex" Start="886"/>
                                                 </Anns>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="40" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="886"/>
-                                                    </Anns>
-                                                    <Word>p</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
-                                                    <Anns>
-                                                        <LocAnn Col="43" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="889"/>
-                                                    </Anns>
-                                                    <Word>q</Word>
-                                                    <ZStrokeList/>
-                                                </ZDeclName>
+                                                <ZDeclNameList>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="40" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="886"/>
+                                                        </Anns>
+                                                        <Word>p</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                    <ZDeclName>
+                                                        <Anns>
+                                                            <LocAnn Col="43" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="889"/>
+                                                        </Anns>
+                                                        <Word>q</Word>
+                                                        <ZStrokeList/>
+                                                    </ZDeclName>
+                                                </ZDeclNameList>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="47" Length="1" Line="34" Loc="lib/function_toolkit.tex" Start="893"/>
@@ -702,20 +714,22 @@ The terms ``injection'' and ``partial injection'' are synonymous.
             <Anns>
                 <LocAnn Col="0" Length="67" Line="50" Loc="lib/function_toolkit.tex" Start="1378"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="51" Loc="lib/function_toolkit.tex" Start="1391"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="7" Length="1" Line="51" Loc="lib/function_toolkit.tex" Start="1398"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="51" Loc="lib/function_toolkit.tex" Start="1391"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="7" Length="1" Line="51" Loc="lib/function_toolkit.tex" Start="1398"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -884,20 +898,22 @@ that are also total functions from $X$ to $Y$.
             <Anns>
                 <LocAnn Col="0" Length="72" Line="65" Loc="lib/function_toolkit.tex" Start="1731"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1744"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="9" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1753"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1744"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="9" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1753"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -921,13 +937,15 @@ that are also total functions from $X$ to $Y$.
                                         <Anns>
                                             <LocAnn Col="20" Length="13" Line="66" Loc="lib/function_toolkit.tex" Start="1762"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="18" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1762"/>
-                                            </Anns>
-                                            <Word>f</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="18" Length="1" Line="66" Loc="lib/function_toolkit.tex" Start="1762"/>
+                                                </Anns>
+                                                <Word>f</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="true" Mixfix="true">
                                             <Anns>
                                                 <LocAnn Col="24" Length="9" Line="66" Loc="lib/function_toolkit.tex" Start="1766"/>
@@ -1069,20 +1087,22 @@ The terms ``surjection'' and ``partial surjection'' are synonymous.
             <Anns>
                 <LocAnn Col="0" Length="68" Line="81" Loc="lib/function_toolkit.tex" Start="2140"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="82" Loc="lib/function_toolkit.tex" Start="2153"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="82" Loc="lib/function_toolkit.tex" Start="2161"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="82" Loc="lib/function_toolkit.tex" Start="2153"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="82" Loc="lib/function_toolkit.tex" Start="2161"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -1251,20 +1271,22 @@ that are also total functions from $X$ to $Y$.
             <Anns>
                 <LocAnn Col="0" Length="67" Line="96" Loc="lib/function_toolkit.tex" Start="2484"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="97" Loc="lib/function_toolkit.tex" Start="2497"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="7" Length="1" Line="97" Loc="lib/function_toolkit.tex" Start="2504"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="97" Loc="lib/function_toolkit.tex" Start="2497"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="7" Length="1" Line="97" Loc="lib/function_toolkit.tex" Start="2504"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -1433,20 +1455,22 @@ that are also total injections from $X$ to $Y$.
             <Anns>
                 <LocAnn Col="0" Length="74" Line="111" Loc="lib/function_toolkit.tex" Start="2834"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="112" Loc="lib/function_toolkit.tex" Start="2847"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="112" Loc="lib/function_toolkit.tex" Start="2855"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="112" Loc="lib/function_toolkit.tex" Start="2847"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="112" Loc="lib/function_toolkit.tex" Start="2855"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -1621,20 +1645,22 @@ that are also finite sets.
             <Anns>
                 <LocAnn Col="0" Length="69" Line="125" Loc="lib/function_toolkit.tex" Start="3134"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="0" Length="1" Line="126" Loc="lib/function_toolkit.tex" Start="3147"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="8" Length="1" Line="126" Loc="lib/function_toolkit.tex" Start="3155"/>
-                </Anns>
-                <Word>Y</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="0" Length="1" Line="126" Loc="lib/function_toolkit.tex" Start="3147"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="8" Length="1" Line="126" Loc="lib/function_toolkit.tex" Start="3155"/>
+                    </Anns>
+                    <Word>Y</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <Anns>
                     <LocAnn Loc="lib/function_toolkit.tex"/>
@@ -1801,33 +1827,37 @@ that are also finite functions from $X$ to $Y$.
             <Anns>
                 <LocAnn Col="0" Length="193" Line="139" Loc="lib/function_toolkit.tex" Start="3442"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="139" Loc="lib/function_toolkit.tex" Start="3457"/>
-                </Anns>
-                <Word>L</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="139" Loc="lib/function_toolkit.tex" Start="3459"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="139" Loc="lib/function_toolkit.tex" Start="3457"/>
+                    </Anns>
+                    <Word>L</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="139" Loc="lib/function_toolkit.tex" Start="3459"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="13" Line="140" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="10" Line="140" Loc="lib/function_toolkit.tex"/>
-                            </Anns>
-                            <Word>disjoint _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="10" Line="140" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
+                                <Word>disjoint _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <PowerExpr>
                             <Anns>
                                 <LocAnn Col="15" Length="24" Line="140" Loc="lib/function_toolkit.tex" Start="3478"/>
@@ -1895,13 +1925,15 @@ that are also finite functions from $X$ to $Y$.
                                 <Anns>
                                     <LocAnn Col="10" Length="19" Line="142" Loc="lib/function_toolkit.tex" Start="3522"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="142" Loc="lib/function_toolkit.tex" Start="3522"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="142" Loc="lib/function_toolkit.tex" Start="3522"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="15" Line="142" Loc="lib/function_toolkit.tex" Start="3526"/>
@@ -2000,20 +2032,22 @@ that are also finite functions from $X$ to $Y$.
                                         <Anns>
                                             <LocAnn Col="33" Length="9" Line="143" Loc="lib/function_toolkit.tex" Start="3572"/>
                                         </Anns>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="27" Length="1" Line="143" Loc="lib/function_toolkit.tex" Start="3572"/>
-                                            </Anns>
-                                            <Word>p</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
-                                        <ZDeclName>
-                                            <Anns>
-                                                <LocAnn Col="31" Length="1" Line="143" Loc="lib/function_toolkit.tex" Start="3576"/>
-                                            </Anns>
-                                            <Word>q</Word>
-                                            <ZStrokeList/>
-                                        </ZDeclName>
+                                        <ZDeclNameList>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Length="1" Line="143" Loc="lib/function_toolkit.tex" Start="3572"/>
+                                                </Anns>
+                                                <Word>p</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                            <ZDeclName>
+                                                <Anns>
+                                                    <LocAnn Col="31" Length="1" Line="143" Loc="lib/function_toolkit.tex" Start="3576"/>
+                                                </Anns>
+                                                <Word>q</Word>
+                                                <ZStrokeList/>
+                                            </ZDeclName>
+                                        </ZDeclNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="35" Length="1" Line="143" Loc="lib/function_toolkit.tex" Start="3580"/>
@@ -2211,33 +2245,37 @@ distinct pair yields sets with no members in common.
             <Anns>
                 <LocAnn Col="0" Length="203" Line="156" Loc="lib/function_toolkit.tex" Start="3866"/>
             </Anns>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="15" Length="1" Line="156" Loc="lib/function_toolkit.tex" Start="3881"/>
-                </Anns>
-                <Word>L</Word>
-                <ZStrokeList/>
-            </ZDeclName>
-            <ZDeclName>
-                <Anns>
-                    <LocAnn Col="17" Length="1" Line="156" Loc="lib/function_toolkit.tex" Start="3883"/>
-                </Anns>
-                <Word>X</Word>
-                <ZStrokeList/>
-            </ZDeclName>
+            <ZDeclNameList>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="15" Length="1" Line="156" Loc="lib/function_toolkit.tex" Start="3881"/>
+                    </Anns>
+                    <Word>L</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+                <ZDeclName>
+                    <Anns>
+                        <LocAnn Col="17" Length="1" Line="156" Loc="lib/function_toolkit.tex" Start="3883"/>
+                    </Anns>
+                    <Word>X</Word>
+                    <ZStrokeList/>
+                </ZDeclName>
+            </ZDeclNameList>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="17" Line="157" Loc="lib/function_toolkit.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="14" Line="157" Loc="lib/function_toolkit.tex"/>
-                            </Anns>
-                            <Word> _ partition _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="14" Line="157" Loc="lib/function_toolkit.tex"/>
+                                </Anns>
+                                <Word> _ partition _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="39" Length="31" Line="157" Loc="lib/function_toolkit.tex" Start="3908"/>
@@ -2332,13 +2370,15 @@ distinct pair yields sets with no members in common.
                                 <Anns>
                                     <LocAnn Col="10" Length="19" Line="159" Loc="lib/function_toolkit.tex" Start="3957"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="8" Length="1" Line="159" Loc="lib/function_toolkit.tex" Start="3957"/>
-                                    </Anns>
-                                    <Word>f</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="8" Length="1" Line="159" Loc="lib/function_toolkit.tex" Start="3957"/>
+                                        </Anns>
+                                        <Word>f</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <RefExpr Explicit="true" Mixfix="true">
                                     <Anns>
                                         <LocAnn Col="14" Length="15" Line="159" Loc="lib/function_toolkit.tex" Start="3961"/>
@@ -2389,13 +2429,15 @@ distinct pair yields sets with no members in common.
                                 <Anns>
                                     <LocAnn Col="32" Length="12" Line="159" Loc="lib/function_toolkit.tex" Start="3979"/>
                                 </Anns>
-                                <ZDeclName>
-                                    <Anns>
-                                        <LocAnn Col="30" Length="1" Line="159" Loc="lib/function_toolkit.tex" Start="3979"/>
-                                    </Anns>
-                                    <Word>a</Word>
-                                    <ZStrokeList/>
-                                </ZDeclName>
+                                <ZDeclNameList>
+                                    <ZDeclName>
+                                        <Anns>
+                                            <LocAnn Col="30" Length="1" Line="159" Loc="lib/function_toolkit.tex" Start="3979"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                        <ZStrokeList/>
+                                    </ZDeclName>
+                                </ZDeclNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="34" Length="8" Line="159" Loc="lib/function_toolkit.tex" Start="3983"/>

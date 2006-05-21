@@ -33,26 +33,29 @@
             <Anns>
                 <LocAnn Col="0" Length="57" Line="4" Loc="tests/z/testOpNameInDecl.tex" Start="43"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="15" Length="29" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="59"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="2" Length="1" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="59"/>
-                            </Anns>
-                            <Word>x</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="12" Line="5" Loc="tests/z/testOpNameInDecl.tex"/>
-                            </Anns>
-                            <Word>preOp _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="2" Length="1" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="59"/>
+                                </Anns>
+                                <Word>x</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="5" Loc="tests/z/testOpNameInDecl.tex"/>
+                                </Anns>
+                                <Word>preOp _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="22" Length="14" Line="5" Loc="tests/z/testOpNameInDecl.tex" Start="74"/>
@@ -109,26 +112,29 @@
             <Anns>
                 <LocAnn Col="0" Length="59" Line="8" Loc="tests/z/testOpNameInDecl.tex" Start="102"/>
             </Anns>
+            <ZDeclNameList/>
             <ZSchText>
                 <ZDeclList>
                     <VarDecl>
                         <Anns>
                             <LocAnn Col="17" Line="9" Loc="tests/z/testOpNameInDecl.tex"/>
                         </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="9" Line="9" Loc="tests/z/testOpNameInDecl.tex"/>
-                            </Anns>
-                            <Word>preOp _ </Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="15" Length="1" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="131"/>
-                            </Anns>
-                            <Word>x</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
+                        <ZDeclNameList>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="9" Loc="tests/z/testOpNameInDecl.tex"/>
+                                </Anns>
+                                <Word>preOp _ </Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="15" Length="1" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="131"/>
+                                </Anns>
+                                <Word>x</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </ZDeclNameList>
                         <RefExpr Explicit="true" Mixfix="true">
                             <Anns>
                                 <LocAnn Col="24" Length="14" Line="9" Loc="tests/z/testOpNameInDecl.tex" Start="135"/>
