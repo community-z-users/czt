@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -531,7 +532,7 @@ public class BTermWriter
   //=========================================================
 
   public Object visitZDeclName(ZDeclName zDeclName) {
-    String name = zDeclName.toString();
+    String name = zDeclName.accept(new PrintVisitor());
     sLogger.fine("BTermWriter.visitName(" + zDeclName + ") sees " + name);
     if (name.equals(ZString.EMPTYSET))
       out.print("{}");
@@ -547,7 +548,7 @@ public class BTermWriter
   }
 
   public Object visitZRefName(ZRefName zRefName) {
-    String name = zRefName.toString();
+    String name = zRefName.accept(new PrintVisitor());
     sLogger.fine("BTermWriter.visitName(" + zRefName + ") sees " + name);
     if (name.equals(ZString.EMPTYSET))
       out.print("{}");
@@ -563,7 +564,7 @@ public class BTermWriter
   }
 
   public Object visitNumExpr(NumExpr e) {
-    out.print(e.getNumeral().toString());
+    out.print(e.getNumeral().accept(new PrintVisitor()));
     return e;
   }
 

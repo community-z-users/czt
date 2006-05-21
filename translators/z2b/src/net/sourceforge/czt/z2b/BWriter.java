@@ -309,13 +309,13 @@ public class BWriter extends PrintWriter
   /** Convert a Z Name into a legal B name.
    */
   static public String bName(ZRefName name) {
-    return bName(name.toString());
+    return bName(name.accept(new PrintVisitor()));
   }
 
   /** Convert a Z Name into a legal B name.
    */
   static public String bName(ZDeclName name) {
-    return bName(name.toString());
+    return bName(name.accept(new PrintVisitor()));
   }
 
 

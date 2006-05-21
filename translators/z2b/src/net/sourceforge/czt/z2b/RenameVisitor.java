@@ -25,6 +25,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 
 import net.sourceforge.czt.z2b.*;
@@ -67,7 +68,8 @@ public class RenameVisitor
   /** This visit method performs the renaming.
   */
   public Object visitRefName(RefName name) {
-    String strName = name.toString();
+    
+    String strName = name.accept(new PrintVisitor());
     if (subs_.containsKey(strName))
       return subs_.get(strName);
     else

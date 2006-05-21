@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 
 // the Gaffe plugins for analysing specs and schemas
@@ -206,7 +207,7 @@ public class Z2B
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
       ZDeclName declName = (ZDeclName) i.next();
-      names.add(declName.toString());
+      names.add(declName.accept(new PrintVisitor()));
       ZRefName refName = getFactory().createZRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
@@ -222,7 +223,7 @@ public class Z2B
     while (i.hasNext()) {
       ZDeclName declName = (ZDeclName) i.next();
       VarDecl decl = (VarDecl) vars.get(declName);
-      names.add(declName.toString());
+      names.add(declName.accept(new PrintVisitor()));
       ZRefName refName = getFactory().createZRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
@@ -306,7 +307,7 @@ public class Z2B
     Iterator i = para.getDeclName().iterator();
     while (i.hasNext()) {
       DeclName name = (DeclName) i.next();
-      sets.put(name.toString(), null);
+      sets.put(name.accept(new PrintVisitor()), null);
     }
     return null;
   }
@@ -338,10 +339,10 @@ public class Z2B
         throw new BException("free types must be simple enumerations, but "
 			     +branch.getDeclName()+" branch has expression "
 			     +branch.getExpr());
-      contents.add(branch.getDeclName().toString());
+      contents.add(branch.getDeclName().accept(new PrintVisitor()));
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
-    sets.put(freetype.getDeclName().toString(), contents);
+    sets.put(freetype.getDeclName().accept(new PrintVisitor()), contents);
     return null;
   }
 
@@ -399,7 +400,7 @@ public class Z2B
   public Object visitConstDecl(ConstDecl decl)
   {
     if ( ! (decl.getExpr() instanceof SchExpr)) {
-      String name = decl.getDeclName().toString();
+      String name = decl.getDeclName().accept(new PrintVisitor());
       mach_.getDefns().put(name, decl.getExpr());
     }
     return null;
