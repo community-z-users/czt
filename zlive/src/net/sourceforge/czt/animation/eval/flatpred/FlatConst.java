@@ -27,6 +27,7 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPlus implements the var = const predicate. */
 public class FlatConst extends FlatPred
@@ -87,7 +88,9 @@ public class FlatConst extends FlatPred
     return result;
   }
   
-  public String toString() {
+  public String toString()
+  {
+    PrintVisitor printVisitor = new PrintVisitor();
     String val = "???";
     if (constant_ != null)
       val = constant_.toString();
@@ -96,7 +99,7 @@ public class FlatConst extends FlatPred
       ZNumeral num = (ZNumeral) numExpr.getNumeral(); // TODO check this cast
       val = num.getValue().toString();
     }
-    return args_.get(0).toString() + "==" + val;
+    return args_.get(0).accept(printVisitor) + "==" + val;
   }
 
 

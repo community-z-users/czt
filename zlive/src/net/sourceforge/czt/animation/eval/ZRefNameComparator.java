@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 import java.util.Comparator;
 
 import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A comparator for evaluated Z expressions.
  *  The compare method defines a total order over evaluated Z expressions,
@@ -46,8 +47,9 @@ public class ZRefNameComparator implements Comparator<ZRefName>
    */
   public int compare(ZRefName var0, ZRefName var1)
   {
-    String name0 = var0.toString();
-    String name1 = var1.toString();
+    PrintVisitor printVisitor = new PrintVisitor();
+    String name0 = var0.accept(printVisitor);
+    String name1 = var1.accept(printVisitor);
     return name0.compareTo(name1);
   }
 }

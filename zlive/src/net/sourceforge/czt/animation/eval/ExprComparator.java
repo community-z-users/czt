@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A comparator for evaluated Z expressions.
  *  The compare method defines a total order over evaluated Z expressions,
@@ -77,8 +78,9 @@ public class ExprComparator implements Comparator<Expr>
   {
     public int compare(ConstDecl cdecl0, ConstDecl cdecl1)
     {
-      String name0 = cdecl0.getZDeclName().toString();
-      String name1 = cdecl1.getZDeclName().toString();
+      PrintVisitor printVisitor = new PrintVisitor();
+      String name0 = cdecl0.getZDeclName().accept(printVisitor);
+      String name1 = cdecl1.getZDeclName().accept(printVisitor);
       return name0.compareTo(name1);
     }
   }
@@ -101,6 +103,7 @@ public class ExprComparator implements Comparator<Expr>
    */
   public int compare(Expr arg0, Expr arg1)
   {
+    PrintVisitor printVisitor = new PrintVisitor();
     int type0 = exprType(arg0);
     int type1 = exprType(arg1);
     int result = sign(type0 - type1);
@@ -128,8 +131,8 @@ public class ExprComparator implements Comparator<Expr>
         case FREETYPE1:
           Branch free0 = (Branch)arg0;
           Branch free1 = (Branch)arg1;
-          String name0 = free0.getZDeclName().toString();
-          String name1 = free1.getZDeclName().toString();
+          String name0 = free0.getZDeclName().accept(printVisitor);
+          String name1 = free1.getZDeclName().accept(printVisitor);
           result = sign(name0.compareTo(name1));
           if (result == EQUAL && type0 == FREETYPE1)
             result = compare(free0.getExpr(), free1.getExpr());
@@ -164,14 +167,15 @@ public class ExprComparator implements Comparator<Expr>
             
             // compare all the names
             for (int i=0; result==EQUAL && i<size; i++) {
-              String n0 = binding0.get(i).getZDeclName().toString();
-              String n1 = binding1.get(i).getZDeclName().toString();
+              String n0 = binding0.get(i).getZDeclName().accept(printVisitor);
+              String n1 = binding1.get(i).getZDeclName().accept(printVisitor);
               result = sign(n0.compareTo(n1));
             }
             
             // compare all the values
             for (int i=0; result==EQUAL && i<size; i++)
-              result = compare(binding0.get(i).getExpr(), binding1.get(i).getExpr());
+              result = compare(binding0.get(i).getExpr(),
+                               binding1.get(i).getExpr());
           }
           break;
 
