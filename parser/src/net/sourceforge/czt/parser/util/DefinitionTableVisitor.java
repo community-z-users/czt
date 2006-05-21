@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -95,7 +96,7 @@ public class DefinitionTableVisitor
       if (decl instanceof ConstDecl) {
         ConstDecl constDecl = (ConstDecl) decl;
         DeclName declName = constDecl.getDeclName();
-        String name = declName.toString();
+        String name = declName.accept(new PrintVisitor());
         DefinitionTable.Definition def =
           new DefinitionTable.Definition(declNames, constDecl.getExpr());
         try {
