@@ -93,7 +93,7 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //add the names to the local type env
-    addGenParamTypes(axPara.getDeclName());
+    addGenParamTypes(assertZDeclNameList(axPara.getDeclNameList()));
 
     //get and visit the SchText
     SchText schText = axPara.getSchText();
@@ -231,7 +231,7 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //add the (optional) generic types
-    addGenParamTypes(conjPara.getDeclName());
+    addGenParamTypes(assertZDeclNameList(conjPara.getDeclNameList()));
 
     //visit the predicate
     Pred pred = conjPara.getPred();

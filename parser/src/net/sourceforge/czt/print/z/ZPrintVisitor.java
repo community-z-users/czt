@@ -33,9 +33,7 @@ import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -58,6 +56,7 @@ public class ZPrintVisitor
              PrintPredicateVisitor, PrintExpressionVisitor
 {
   private boolean zEves_ = false;
+  private Utils utils_ = new UtilsImpl();
 
   /**
    * Creates a new Z print visitor.
@@ -259,9 +258,9 @@ public class ZPrintVisitor
   public Object visitConjPara(ConjPara conjPara)
   {
     print(TokenName.ZED);
-    if (conjPara.getDeclName().size() > 0) {
+    if (! utils_.isEmpty(conjPara.getDeclNameList())) {
       print(TokenName.LSQUARE);
-      visit(conjPara.getDeclName());
+      visit(conjPara.getDeclNameList());
       print(TokenName.RSQUARE);
     }
     print(Keyword.CONJECTURE);
@@ -1249,5 +1248,16 @@ public class ZPrintVisitor
         print(separator);
       }
     }
+  }
+
+  public interface Utils
+    extends IsEmptyDeclNameList
+  {
+  }
+
+  public static class UtilsImpl
+    extends StandardZ
+    implements Utils
+  {
   }
 }

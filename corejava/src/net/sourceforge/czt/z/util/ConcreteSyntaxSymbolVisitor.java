@@ -20,18 +20,32 @@
 package net.sourceforge.czt.z.util;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
 
-/** This visitor classifies a given AST node as a concrete
- * syntax symbol {@link ConcreteSyntaxSymbol}.  This is used
- * by the JEdit and Eclipse Z plugins to produce an outline
- * view (or structure tree) of the Z source.
+/**
+ * This visitor classifies a given AST node as a concrete syntax
+ * symbol {@link ConcreteSyntaxSymbol}.  This is used by the JEdit and
+ * Eclipse Z plugins to produce an outline view (or structure tree) of
+ * the Z source.
  * 
  * @author Petra Malik
  */
 public class ConcreteSyntaxSymbolVisitor
   implements ZVisitor<ConcreteSyntaxSymbol>
 {
+  private Utils utils_;
+
+  public ConcreteSyntaxSymbolVisitor()
+  {
+    utils_ = new UtilsImpl();
+  }
+
+  public ConcreteSyntaxSymbolVisitor(Utils utils)
+  {
+    utils_ = utils;
+  }
+
   public ConcreteSyntaxSymbol visitAndExpr(AndExpr term)
   {
     return ConcreteSyntaxSymbol.AND_EXPR;
@@ -64,16 +78,16 @@ public class ConcreteSyntaxSymbolVisitor
   {
     final Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
-      if (axPara.getDeclName().size() > 0) {
-        return ConcreteSyntaxSymbol.GENAX_PARA;
+      if (utils_.isEmpty(axPara.getDeclNameList())) {
+        return ConcreteSyntaxSymbol.AX_PARA;
       }
-      return ConcreteSyntaxSymbol.AX_PARA;
+      return ConcreteSyntaxSymbol.GENAX_PARA;
     }
     else if (Box.SchBox.equals(box)) {
-      if (axPara.getDeclName().size() > 0) {
-        return ConcreteSyntaxSymbol.GENSCH_PARA;
+      if (utils_.isEmpty(axPara.getDeclNameList())) {
+        return ConcreteSyntaxSymbol.SCH_PARA;
       }
-      return ConcreteSyntaxSymbol.SCH_PARA;
+      return ConcreteSyntaxSymbol.GENSCH_PARA;
     }
     else if (Box.OmitBox.equals(box)) {
       final ConstDecl constDecl =
@@ -83,10 +97,10 @@ public class ConcreteSyntaxSymbolVisitor
       if (operatorName != null) {
         return ConcreteSyntaxSymbol.OPDEF_PARA;
       }
-      if (axPara.getDeclName().size() > 0) {
-        return ConcreteSyntaxSymbol.GENDEF_PARA;
+      if (utils_.isEmpty(axPara.getDeclName())) {
+        return ConcreteSyntaxSymbol.DEF_PARA;
       }
-      return ConcreteSyntaxSymbol.DEF_PARA;
+      return ConcreteSyntaxSymbol.GENDEF_PARA;
     }
     return null;
   }
@@ -118,10 +132,10 @@ public class ConcreteSyntaxSymbolVisitor
 
   public ConcreteSyntaxSymbol visitConjPara(ConjPara conjPara)
   {
-    if (conjPara.getDeclName().size() > 0) {
-      return ConcreteSyntaxSymbol.GENCONJ_PARA;
+    if (utils_.isEmpty(conjPara.getDeclNameList())) {
+      return ConcreteSyntaxSymbol.CONJ_PARA;
     }
-    return ConcreteSyntaxSymbol.CONJ_PARA;
+    return ConcreteSyntaxSymbol.GENCONJ_PARA;
   }
 
   public ConcreteSyntaxSymbol visitConstDecl(ConstDecl term)
@@ -554,5 +568,16 @@ public class ConcreteSyntaxSymbolVisitor
   public ConcreteSyntaxSymbol visitZSect(ZSect term)
   {
     return ConcreteSyntaxSymbol.SECT;
+  }
+
+  public interface Utils
+    extends IsEmptyDeclNameList
+  {
+  }
+
+  public static class UtilsImpl
+    extends StandardZ
+    implements Utils
+  {
   }
 }
