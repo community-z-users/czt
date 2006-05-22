@@ -83,6 +83,16 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
 
+  public static ZDeclNameList assertZDeclNameList(Term term)
+  {
+    if (term instanceof ZDeclNameList) {
+      return (ZDeclNameList) term;
+    }
+    final String message =
+      "Expected a ZDeclNameList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+
   public static ZDeclList assertZDeclList(Term term)
   {
     if (term instanceof ZDeclList) {
