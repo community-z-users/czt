@@ -74,6 +74,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <path id="gaffe.class.path">
       <pathelement path="${bsf.jar}"/>
       <pathelement path="${rhino.jar}"/>
+      <pathelement path="${zlive.build.dir}"/>
+      <fileset dir="${czt.home}/${jar.dir}">
+        <include name="${corejava.base.jar.file}"/>
+        <include name="${corejava.core.jar.file}"/>
+        <include name="${zlive.jar.file}"/>
+      </fileset>	
     </path>
   </target>
 
@@ -96,7 +102,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <fileset dir="resources" includes="**/.xvpics" defaultexcludes="no"/>
     </delete>
   </target>
-
+  
   <target name="doc" depends="-init" description="Build the API documentation.">
     <mkdir dir="${gaffe.api.path}"/>
     <javadoc packagenames="net.sourceforge.czt.*"
@@ -181,7 +187,7 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.Gaffe</echo>
   <target name="scripts"
           depends="-choosescripts,-unix-scripts,-windows-scripts"/>
 
-  <target name="all" depends="-init,classes,install,doc,scripts"
+  <target name="all" depends="-init,classes,install,scripts"
           description="Build everything."/>
 
   <target name="checkstyle" description="check java sources">

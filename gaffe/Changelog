@@ -16,6 +16,32 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+23 May 2006 -
+        - Reformatting sources in src and generator/src to CZT coding style
+                 - Format Spaces and Indents under CZT checkstyle requirements
+        - Migarating sources in src and generator/src to Java 1.5
+                 - Avoid unsafety type convertions
+                 - Remove unused imports.
+                 - Remove unused declarations.
+        - Reimplementing net.sourceforge.czt.animation.gui.temp package as a proxy for ZLive data types
+                 - ZValue to Expr add
+                   - add General interface for transforming ZValue to Expr 
+                 - ZNumber to NumberExpr
+                 - ZGiven to ZRefName(GiveValue as the inner expr)
+                 - ZTuple to TupleExpr
+                 - ZSet to EvalSet(ZLive specified infinite set) 
+                   - Retrieve a ZLive defined Set during initialisation
+                 - ZBinding to BindingExpr 
+                   - Add a method for transforming HashMap to ZDeclList 
+                 - Add a ZFactory class for transforming Expr to ZValue
+                 - Add a UnexpectedTypeException class for catching unexpected types of Expr being transformed
+        - Other notes with related packages:
+                 - BSF is switched to version 2.2, since 2.3 has a HashTable.get(NULL) exception
+                 - Rhino is switched to version 1.5R3, since 1.5R4 is not supported by 2.3 yet, thus not supported by 2.2 neither.
+                 - Since gaffe is calling ZLive, it should change the compiling sequence in CZT ant files.
+                 - Need OutStrokeImpl in corejava to support getting the string representation of "!"
+                  
+
 19 Mar 2004 (2) -
         - Added a copy of my (Nicholas Daley's) Masters thesis to the doc
           folder.
