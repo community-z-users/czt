@@ -1,45 +1,47 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
-  
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
-  
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
+ 
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.generation.plugins;
 
 import java.net.URL;
 
 import net.sourceforge.czt.animation.gui.generation.Plugin;
-
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.SectionManager;
 
 /**
  * A plugin interface for obtaining the Z specification in AST form.
  * @author Nicholas Daley
  */
-public interface SpecSource extends Plugin {
+public interface SpecSource extends Plugin
+{
 
   /**
    * This plugin's option name.
    */
-  public static final String optionName="source";
+  public static final String optionName = "source";
 
   /**
    * This plugin's name.
    */
-  public static final String name="Specification Source";
+  public static final String name = "Specification Source";
 
   /** Get the SectionManager used for reading/parsing.
    *  This returns a default section manager, unless setSectionManager
@@ -70,5 +72,5 @@ public interface SpecSource extends Plugin {
    * Should be run after <tt>obtainSpec</tt>.
    * @return The URL or null if the source can not be described as a URL.
    */
-  public URL getURL();  
+  public URL getURL();
 };

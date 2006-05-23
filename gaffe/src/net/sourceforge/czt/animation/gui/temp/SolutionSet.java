@@ -1,21 +1,22 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.temp;
 
 import java.beans.PropertyChangeListener;
@@ -30,11 +31,13 @@ import java.util.Vector;
  */
 public class SolutionSet
 {
-  protected final PropertyChangeSupport propertyChangeSupport_
-    = new PropertyChangeSupport(this);
+  protected final PropertyChangeSupport propertyChangeSupport_ = new PropertyChangeSupport(
+      this);
 
-  private List/*<ZBinding>*/ solutions_;
+  private List<ZBinding> solutions_;
+
   private ListIterator currentSolution_;
+
   private String schemaName_;
 
   /**
@@ -44,12 +47,13 @@ public class SolutionSet
    * @param solutions The set of solutions to go into this
    *        <code>SolutionSet</code>.
    */
-  public SolutionSet(String schemaName, Set/*<ZBinding>*/ solutions)
+  public SolutionSet(String schemaName, Set<ZBinding> solutions)
   {
     schemaName_ = schemaName;
-    solutions_ = new Vector(solutions);
+    solutions_ = new Vector<ZBinding>(solutions);
     currentSolution_ = solutions_.listIterator();
-  };
+  }
+
   /**
    * Creates a <code>SolutionSet</code> containing just one solution.
    * @param schemaName The name of the schema that created this solution set.
@@ -59,10 +63,10 @@ public class SolutionSet
   public SolutionSet(String schemaName, ZBinding solution)
   {
     schemaName_ = schemaName;
-    solutions_ = new Vector();
+    solutions_ = new Vector<ZBinding>();
     solutions_.add(solution);
     currentSolution_ = solutions_.listIterator();
-  };
+  }
 
   /**
    * Getter function for the name of the schema that created this solution set.
@@ -71,7 +75,7 @@ public class SolutionSet
   public String getSchemaName()
   {
     return schemaName_;
-  };
+  }
 
   /**
    * Getter function for the currently selected solution in the SolutionSet.
@@ -80,11 +84,13 @@ public class SolutionSet
    */
   public ZBinding getCurrentSolution()
   {
-    if (!currentSolution_.hasNext()) return null;
+    if (!currentSolution_.hasNext())
+      return null;
     ZBinding current = (ZBinding) currentSolution_.next();
     currentSolution_.previous();
     return current;
-  };
+  }
+
   /**
    * @return <code>true</code> if there is a current solution (i.e. if
    *         {@link #getCurrentSolution} <em>will not</em> return
@@ -93,7 +99,8 @@ public class SolutionSet
   public boolean hasCurrentSolution()
   {
     return currentSolution_.hasNext();
-  };
+  }
+
   /**
    * @return <code>true</code> if there is a next solution in the
    *         <code>SolutionSet</code> (similar to hasNext in
@@ -101,12 +108,14 @@ public class SolutionSet
    */
   public boolean hasNextSolution()
   {
-    if (!hasCurrentSolution()) return false;
+    if (!hasCurrentSolution())
+      return false;
     currentSolution_.next();
     boolean hasnext = currentSolution_.hasNext();
     currentSolution_.previous();
     return hasnext;
-  };
+  }
+
   /**
    * Steps the current solution to the next in this <code>SolutionSet</code>.
    * Does nothing if it is already at the first solution.
@@ -117,7 +126,8 @@ public class SolutionSet
       currentSolution_.next();
       propertyChangeSupport_.firePropertyChange("currentSolution", null, null);
     }
-  };
+  }
+
   /**
    * @return <code>true</code> if there is a previous solution in the
    *         <code>SolutionSet</code> (similar to hasPrevious in
@@ -126,7 +136,8 @@ public class SolutionSet
   public boolean hasPreviousSolution()
   {
     return currentSolution_.hasPrevious();
-  };
+  }
+
   /**
    * Steps the current solution to the previous in this
    * <code>SolutionSet</code>.
@@ -138,7 +149,7 @@ public class SolutionSet
       currentSolution_.previous();
       propertyChangeSupport_.firePropertyChange("currentSolution", null, null);
     }
-  };
+  }
 
   /**
    * Registers a <code>PropertyChangeListener</code>.
@@ -148,7 +159,8 @@ public class SolutionSet
   public void addPropertyChangeListener(PropertyChangeListener listener)
   {
     propertyChangeSupport_.addPropertyChangeListener(listener);
-  };
+  }
+
   /**
    * Unregisters a <code>PropertyChangeListener</code>.
    * The only property that will trigger a <code>PropertyChangeEvent</code> is
@@ -157,7 +169,8 @@ public class SolutionSet
   public void removePropertyChangeListener(PropertyChangeListener listener)
   {
     propertyChangeSupport_.addPropertyChangeListener(listener);
-  };
+  }
+
   /**
    * Returns all of the <code>PropertyChangeListener</code>s.
    * The only property that will trigger a <code>PropertyChangeEvent</code> is
@@ -166,52 +179,56 @@ public class SolutionSet
   public PropertyChangeListener[] getPropertyChangeListeners()
   {
     return propertyChangeSupport_.getPropertyChangeListeners();
-  };
+  }
+
   /**
    * Registers a <code>PropertyChangeListener</code> for a specific property.
    * The only property that will trigger a <code>PropertyChangeEvent</code> is
    * {@link #currentSolution_ currentSolution}.
    */
   public void addPropertyChangeListener(String propertyName,
-                                        PropertyChangeListener listener)
+      PropertyChangeListener listener)
   {
     propertyChangeSupport_.addPropertyChangeListener(propertyName, listener);
-  };
+  }
+
   /**
    * Unregisters a <code>PropertyChangeListener</code> for a specific property.
    * The only property that will trigger a <code>PropertyChangeEvent</code> is
    * {@link #currentSolution_ currentSolution}.
    */
   public void removePropertyChangeListener(String propertyName,
-                                           PropertyChangeListener listener)
+      PropertyChangeListener listener)
   {
     propertyChangeSupport_.removePropertyChangeListener(propertyName, listener);
-  };
+  }
+
   /**
    * Returns all of the <code>PropertyChangeListener</code>s for a specific
    * property.
    * The only property that will trigger a <code>PropertyChangeEvent</code> is
    * {@link #currentSolution_ currentSolution}.
    */
-  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName
-                                                             )
+  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName)
   {
     return propertyChangeSupport_.getPropertyChangeListeners(propertyName);
-  };
+  }
+
   /**
    * @return <code>true</code> if there are no
    *         <code>PropertyChangeListener</code>s registered.
-  public boolean hasListeners(String propertyName)
-  {
-    return propertyChangeSupport_.hasListeners(propertyName);
-  };
-  /**
+   public boolean hasListeners(String propertyName)
+   {
+   return propertyChangeSupport_.hasListeners(propertyName);
+   };
+   /**
    * @return A <code>String</code> suitable for displaying to users to identify
    *         the current place in the <code>SolutionSet</code>.
    */
   public String getPositionLabel()
   {
-    if (solutions_.size() == 0) return "0/0";
+    if (solutions_.size() == 0)
+      return "0/0";
     return "" + (currentSolution_.nextIndex() + 1) + "/" + solutions_.size();
-  };
-};
+  }
+}

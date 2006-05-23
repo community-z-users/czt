@@ -1,21 +1,22 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.util;
 
 import java.beans.BeanInfo;
@@ -25,14 +26,12 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.EventListener;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * IntrospectionHelper provides functions for simplifying Introspection on beans
@@ -45,16 +44,14 @@ public final class IntrospectionHelper
   //Have to keep a strong reference to get around bug #4646747
   //Mentioned here:
   //http://java.sun.com/products/jfc/tsc/articles/persistence4/index.html
-  private static final Set/*<BeanInfo>*/ rememberedBeanInfos = new HashSet();
+  private static final Set<BeanInfo> rememberedBeanInfos = new HashSet<BeanInfo>();
 
   //Cache is needed because findEditor is too slow to do a lot.
   //Specifically PropertiesTable uses it a lot to determine whether a cell can
   //be edited.
   //Without this cache significant delays happen when creating/switching beans.
   //Even with this cache there are still some delays.
-  private static final HashMap/*<Class, PropertyEditor>*/ editorCache
-    = new HashMap();
-
+  private static final HashMap<Class, PropertyEditor> editorCache = new HashMap<Class, PropertyEditor>();
 
   /**
    * Private unused constructor to prevent creation of IntrospectionHelper
@@ -62,7 +59,7 @@ public final class IntrospectionHelper
    */
   private IntrospectionHelper()
   {
-  };
+  }
 
   /**
    * Checks if a bean has a particular property.
@@ -81,14 +78,14 @@ public final class IntrospectionHelper
     };
 
     PropertyDescriptor[] pds = bi.getPropertyDescriptors();
-    PropertyDescriptor pd = null;
+    //PropertyDescriptor pd = null;
     for (int i = 0; i < pds.length; i++) {
       if (pds[i].getName().equals(property)) {
         return true;
       }
     }
     return false;
-  };
+  }
 
   /**
    * Tests if a property is readable.
@@ -98,7 +95,7 @@ public final class IntrospectionHelper
   public static boolean isReadableProperty(PropertyDescriptor pd)
   {
     return (pd.getReadMethod() != null);
-  };
+  }
 
   /**
    * Checks if a bean has a particular property, and it is readable.
@@ -117,12 +114,12 @@ public final class IntrospectionHelper
       return false;
     };
     PropertyDescriptor[] pds = bi.getPropertyDescriptors();
-    PropertyDescriptor pd = null;
+    //PropertyDescriptor pd = null;
     for (int i = 0; i < pds.length; i++)
       if (pds[i].getName().equals(property))
         return isReadableProperty(pds[i]);
     return false;
-  };
+  }
 
   /**
    * Tests if a property is writable.
@@ -132,8 +129,7 @@ public final class IntrospectionHelper
   public static boolean isWritableProperty(PropertyDescriptor pd)
   {
     return (pd.getWriteMethod() != null);
-  };
-
+  }
 
   /**
    * Checks if a bean has a particular property, and it is writable.
@@ -152,17 +148,18 @@ public final class IntrospectionHelper
       return false;
     };
     PropertyDescriptor[] pds = bi.getPropertyDescriptors();
-    PropertyDescriptor pd = null;
+    //PropertyDescriptor pd = null;
     for (int i = 0; i < pds.length; i++)
       if (pds[i].getName().equals(property))
         return isWritableProperty(pds[i]);
     return false;
-  };
+  }
 
   public static Object getBeanProperty(Object bean, PropertyDescriptor pd)
   {
     Method getter = pd.getReadMethod();
-    if (getter == null) return null;
+    if (getter == null)
+      return null;
     try {
       return getter.invoke(bean, new Object[]{});
     } catch (java.lang.IllegalAccessException e) {
@@ -172,14 +169,14 @@ public final class IntrospectionHelper
     }
     //XXX catch exceptions due to missing property, bad getter function,
     //    missing getter function,...
-  };
+  }
 
   /**
    * Returns the value of a bean's property.
    * @param bean The bean to use.
    * @param property The name of the property to get.
    */
-  public static  Object getBeanProperty(Object bean, String property)
+  public static Object getBeanProperty(Object bean, String property)
   {
     BeanInfo bi;
     try {
@@ -198,13 +195,14 @@ public final class IntrospectionHelper
     }
     if (pd != null)
       return getBeanProperty(bean, pd);
-    else return null;
+    else
+      return null;
     //XXX catch exceptions due to missing property, bad getter function,
     //    missing getter function,...
-  };
+  }
 
   public static void setBeanProperty(Object bean, PropertyDescriptor pd,
-                                     Object value)
+      Object value)
   {
     Method setter = pd.getWriteMethod();
     try {
@@ -216,8 +214,7 @@ public final class IntrospectionHelper
     }
     //XXX catch exceptions due to missing property, bad setter function,
     //    missing setter function,...
-  };
-
+  }
 
   /**
    * Sets the value of a bean's property.
@@ -245,7 +242,7 @@ public final class IntrospectionHelper
     setBeanProperty(bean, pd, value);
     //XXX catch exceptions due to missing property, bad setter function,
     //    missing setter function,...
-  };
+  }
 
   /**
    * Returns true if <code>bean</code> can register the given type of
@@ -267,7 +264,7 @@ public final class IntrospectionHelper
       if (esds[i].getListenerType().equals(listener))
         return true;
     return false;
-  };
+  }
 
   /**
    * Registers with <code>bean</code> a <code>listener</code> of a given type.
@@ -278,7 +275,7 @@ public final class IntrospectionHelper
    * @return true if successful.
    */
   public static boolean addBeanListener(Object bean, Class listenerType,
-                                        Object listener)
+      Object listener)
   {
     BeanInfo bi;
     try {
@@ -294,7 +291,8 @@ public final class IntrospectionHelper
         esd = esds[i];
         break;
       }
-    if (esd == null) return false;
+    if (esd == null)
+      return false;
     Method adder = esd.getAddListenerMethod();
     try {
       adder.invoke(bean, new Object[]{listener});
@@ -304,7 +302,8 @@ public final class IntrospectionHelper
       return false; //XXX throw exception instead?
     }
     return true;
-  };
+  }
+
   /**
    * Unregisters with <code>bean</code> a <code>listener</code> of a given type.
    * @param bean The bean to unregister with.
@@ -314,7 +313,7 @@ public final class IntrospectionHelper
    * @return true if successful.
    */
   public static boolean removeBeanListener(Object bean, Class listenerType,
-                                           Object listener)
+      Object listener)
   {
     BeanInfo bi;
     try {
@@ -330,7 +329,8 @@ public final class IntrospectionHelper
         esd = esds[i];
         break;
       }
-    if (esd == null) return false;
+    if (esd == null)
+      return false;
     Method remover = esd.getRemoveListenerMethod();
     try {
       remover.invoke(bean, new Object[]{listener});
@@ -340,16 +340,15 @@ public final class IntrospectionHelper
       return false; //XXX throw exception instead?
     }
     return true;
-  };
+  }
 
-  public static EventListener[] getBeanListeners(Object bean,
-                                                 Class listenerType)
+  public static EventListener[] getBeanListeners(Object bean, Class listenerType)
   {
     BeanInfo bi;
     try {
       bi = Introspector.getBeanInfo(bean.getClass());
     } catch (IntrospectionException ex) {
-      return new EventListener[] {};
+      return new EventListener[]{};
     }
     EventSetDescriptor[] esds = bi.getEventSetDescriptors();
     EventSetDescriptor esd = null;
@@ -358,68 +357,84 @@ public final class IntrospectionHelper
         esd = esds[i];
         break;
       }
-    if (esd == null) return new EventListener[] {};
+    if (esd == null)
+      return new EventListener[]{};
     Method getter = esd.getGetListenerMethod();
-    if (getter == null) return null;
+    if (getter == null)
+      return null;
     EventListener[] result;
     try {
       result = (EventListener[]) getter.invoke(bean, new Object[]{});
     } catch (IllegalAccessException ex) {
-      return new EventListener[] {};
+      return new EventListener[]{};
     } catch (InvocationTargetException ex) {
-      return new EventListener[] {};
+      return new EventListener[]{};
     }
     return result;
-  };
+  }
 
   public static String translateClassName(String s)
   {
     if (s.charAt(0) == '[') {
-      switch(s.charAt(1)) {
-        case 'B': return "byte[]";
-        case 'C': return "char[]";
-        case 'D': return "double[]";
-        case 'F': return "float[]";
-        case 'I': return "int[]";
-        case 'J': return "long[]";
-        case 'L': return s.substring(2, s.length() - 1) + "[]";
-        case 'S': return "short[]";
-        case 'Z': return "boolean[]";
-        case 'V': return "void[]";
-        case '[': return translateClassName(s.substring(1)) + "[]";
-        default:
+      switch (s.charAt(1)) {
+        case 'B' :
+          return "byte[]";
+        case 'C' :
+          return "char[]";
+        case 'D' :
+          return "double[]";
+        case 'F' :
+          return "float[]";
+        case 'I' :
+          return "int[]";
+        case 'J' :
+          return "long[]";
+        case 'L' :
+          return s.substring(2, s.length() - 1) + "[]";
+        case 'S' :
+          return "short[]";
+        case 'Z' :
+          return "boolean[]";
+        case 'V' :
+          return "void[]";
+        case '[' :
+          return translateClassName(s.substring(1)) + "[]";
+        default :
           throw new Error("Badly formatted Class name passed to "
-                          + "translateClassName:" + s);
+              + "translateClassName:" + s);
       }
-    } else {
+    }
+    else {
       return s;
     }
-  };
+  }
+
   public static String translateClassName(Class c)
   {
     return translateClassName(c.getName());
-  };
+  }
 
   public static void rememberBeanInfo(BeanInfo bi)
   {
     rememberedBeanInfos.add(bi);
-  };
+  }
+
   public static void rememberBeanInfo(Class type)
   {
     try {
       rememberBeanInfo(Introspector.getBeanInfo(type));
     } catch (IntrospectionException ex) {
     };
-  };
-
+  }
 
   public static PropertyEditor getEditor(Class clazz)
   {
-    if (clazz == null) return null;
+    if (clazz == null)
+      return null;
     if (editorCache.containsKey(clazz))
       return (PropertyEditor) editorCache.get(clazz);
     PropertyEditor result = PropertyEditorManager.findEditor(clazz);
     editorCache.put(clazz, result);
     return result;
-  };
-};
+  }
+}

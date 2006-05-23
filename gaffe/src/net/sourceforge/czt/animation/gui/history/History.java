@@ -1,32 +1,32 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.history;
 
 import java.beans.PropertyChangeListener;
-
 import java.beans.beancontext.BeanContext;
-
 import java.util.Map;
 
 import net.sourceforge.czt.animation.ZLocator;
-
-import net.sourceforge.czt.animation.gui.temp.*;
+import net.sourceforge.czt.animation.gui.temp.SolutionSet;
+import net.sourceforge.czt.animation.gui.temp.ZBinding;
+import net.sourceforge.czt.animation.gui.temp.ZValue;
 
 /**
  * Interface that all animation history objects derive from.
@@ -37,6 +37,7 @@ public interface History
    * Getter for the name of the initialisation schema.
    */
   public String getInitSchema();
+
   /**
    * Setter for the name of the initialisation schema.
    */
@@ -46,11 +47,11 @@ public interface History
    * Getter for the name of the state schema.
    */
   public String getStateSchema();
+
   /**
    * Setter for the name of the state schema.
    */
   public void setStateSchema(String schemaName);
-
 
   /**
    * Returns the current solution set.
@@ -58,11 +59,13 @@ public interface History
    *         hasn't been set up yet.
    */
   public SolutionSet getCurrentSolutionSet();
+
   /**
    * Returns the current solution in the current solution set.
    * @return The current solution (or null if there's no solution).
    */
   public ZBinding getCurrentSolution();
+
   /**
    * Returns true if there is a current solution.
    * @return true if there is a current solution, false if there is no solution.
@@ -74,7 +77,7 @@ public interface History
    * Getter function for the map from locators, and the object.property to bind
    * them to.
    */
-  public Map/*<ZLocator, ZValue>*/ getInputs();
+  public Map<ZLocator, ZValue> getInputs();
 
   /**
    * Convenience function for adding values into the inputs.
@@ -82,6 +85,7 @@ public interface History
    * @param value Value to bind variable to.
    */
   public void addInput(ZLocator variable, ZValue value);
+
   /**
    * Convenience function for adding values into the inputs.
    * @param variable Location of variable to bind to value.
@@ -89,6 +93,7 @@ public interface History
    * @param property Name of property in bean to set variable to.
    */
   public void addInput(ZLocator variable, Object bean, String property);
+
   /**
    * Convenience function for adding values into the inputs.
    * @param variable Location of variable to bind to value.
@@ -97,7 +102,7 @@ public interface History
    * @param property Name of property in bean to set variable to.
    */
   public void addInput(ZLocator variable, BeanContext beanContext,
-                       String beanName, String property);
+      String beanName, String property);
 
   /**
    * Performs an operation from the current solution.
@@ -108,8 +113,6 @@ public interface History
    */
   public void activateSchema(String schemaName);
 
-
-
   //Support for property change listeners on "currentSolution" and
   //"currentSolutionSet"
   /**
@@ -117,6 +120,7 @@ public interface History
    * @see java.beans.PropertyChangeSupport
    */
   public void addPropertyChangeListener(PropertyChangeListener listener);
+
   /**
    * Function for removing property change listeners.
    * @see java.beans.PropertyChangeSupport
@@ -128,24 +132,27 @@ public interface History
    * @see java.beans.PropertyChangeSupport
    */
   public PropertyChangeListener[] getPropertyChangeListeners();
+
   /**
    * Function for adding property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
   public void addPropertyChangeListener(String propertyName,
-                                        PropertyChangeListener listener);
+      PropertyChangeListener listener);
+
   /**
    * Function for removing property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
   public void removePropertyChangeListener(String propertyName,
-                                           PropertyChangeListener listener);
+      PropertyChangeListener listener);
+
   /**
    * Getter function for property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
-  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName
-                                                             );
+  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName);
+
   /**
    * Check if a property has property change listeners.
    * @see java.beans.PropertyChangeSupport

@@ -1,25 +1,25 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
 import java.awt.Component;
-
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
@@ -41,8 +41,7 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
   /**
    * The singleton instance.
    */
-  private static final BeanWrapperDelegate SINGLETON
-    = new BeanWrapperDelegate();
+  private static final BeanWrapperDelegate SINGLETON = new BeanWrapperDelegate();
 
   /**
    * Block construction.  This class follows the singleton patttern, so we don't
@@ -66,13 +65,14 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
       beanInfo.getBeanDescriptor().setValue("persistenceDelegate", SINGLETON);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining "
-                      + "BeanWrapper from BeanWrapperDelegate." + ex);
+          + "BeanWrapper from BeanWrapperDelegate." + ex);
     }
   };
-//    public void writeObject(Object oldInstance, Encoder out)
-//    {
-//      super.writeObject(oldInstance, out);
-//    };
+
+  //public void writeObject(Object oldInstance, Encoder out)
+  //{
+  //  super.writeObject(oldInstance, out);
+  //};
 
   /**
    * Returns true if an equivalent copy of <code>oldInstance</code> can be made
@@ -84,6 +84,7 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
   {
     return newInstance != null;
   };
+
   /**
    * Return an expression whose value is oldInstance.
    * @param oldInstance The instance that will be created by the expression.
@@ -93,6 +94,7 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
   {
     return super.instantiate(oldInstance, out);
   };
+
   /**
    * Produces statements on <code>newInstance</code> so that
    * <code>newInstance</code> becomes equivalent to <code>oldInstance</code>.
@@ -102,15 +104,11 @@ public final class BeanWrapperDelegate extends DefaultPersistenceDelegate
    * @param out The encoder to write the statements to.
    */
   protected void initialize(Class type, Object oldInstance, Object newInstance,
-                            Encoder out)
+      Encoder out)
   {
     out.writeStatement(new Statement(oldInstance, "setBean",
-                                     new Object[] {
-                                       ((BeanWrapper) oldInstance).getBean()
-                                     }));
+        new Object[]{((BeanWrapper) oldInstance).getBean()}));
     out.writeStatement(new Statement(oldInstance, "setBounds",
-                                     new Object[] {
-                                       ((Component) oldInstance).getBounds()
-                                     }));
+        new Object[]{((Component) oldInstance).getBounds()}));
   };
 };

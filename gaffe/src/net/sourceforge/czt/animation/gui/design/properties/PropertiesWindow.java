@@ -1,88 +1,108 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.design.properties;
 
-import java.awt.BorderLayout;           import java.awt.Component;
-import java.awt.GridLayout;             import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Window;
-
-import java.awt.event.ActionEvent;      import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;        import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-
-import java.beans.BeanInfo;             import java.beans.Customizer;
+import java.beans.BeanInfo;
+import java.beans.Customizer;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyDescriptor;   import java.beans.PropertyEditor;
+import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
-import java.util.EventObject;           import java.util.EventListener;
-import java.util.Hashtable;             import java.util.HashMap;
-import java.util.Iterator;              import java.util.Map;
-
-import javax.swing.AbstractAction;      import javax.swing.AbstractButton;
-import javax.swing.Action;              import javax.swing.ActionMap;
-import javax.swing.Box;                 import javax.swing.ImageIcon;
-import javax.swing.InputMap;            import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;   import javax.swing.JComboBox;
-import javax.swing.JComponent;          import javax.swing.JDialog;
-import javax.swing.JFrame;              import javax.swing.JLabel;
-import javax.swing.JMenu;               import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;           import javax.swing.JOptionPane;
-import javax.swing.JPanel;              import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;         import javax.swing.JTable;
-import javax.swing.JTextField;          import javax.swing.KeyStroke;
-
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.EventListenerList;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import net.sourceforge.czt.animation.gui.design.BeanSelectedListener;
 import net.sourceforge.czt.animation.gui.design.BeanSelectedEvent;
-
+import net.sourceforge.czt.animation.gui.design.BeanSelectedListener;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The properties window displays the properties/events/methods/configuration of
  * the currently selected bean.
  */
-public final class PropertiesWindow
-  extends JFrame implements BeanSelectedListener
+public final class PropertiesWindow extends JFrame
+    implements
+      BeanSelectedListener
 {
   /**
    * The bean that properties are being shown for.
    */
   private Object bean_ = null;
+
   /**
    * The <code>BeanInfo</code> for <code>bean_</code>'s class.
    */
   private BeanInfo beanInfo_;
+
   /**
    * A label appearing at the top of the window identifying bean_'s type.
    * Plus an icon if that is provided by beanInfo_.
    */
   private JLabel headingTypeLabel_;
+
   /**
    * A label appearing at the top of the window identifying bean_'s
    * <code>name</code> property (if there is one).
@@ -90,38 +110,47 @@ public final class PropertiesWindow
   private JLabel headingNameLabel_;
 
   private JButton customiserButton_;
+
   /**
    * The tabbed pane that takes up most of this window.
    */
   private JTabbedPane tabbedPane_;
+
   /**
    * The PropertiesTable model that appears under the "Properties" tab.
    */
   private final PropertiesTable propertiesTable_;
+
   /**
    * The EventsTable model that appears under the "Events" tab.
    */
   private final EventsTable eventsTable_;
+
   /**
    * The MethodsTable model that appears under the "Methods" tab.
    */
   private final MethodsTable methodsTable_;
+
   /**
    * The tables for properties events and methods.
    */
   private JTable propertiesTableT_, eventsTableT_, methodsTableT_;
 
   private boolean hiddenShown_ = false, expertShown_ = false;
+
   private boolean onlyPreferredShown_ = false, transientShown_ = false;
+
   private boolean onlyEditableShown_ = false;
+
   private JCheckBoxMenuItem hiddenShownCB_, expertShownCB_;
+
   private JCheckBoxMenuItem onlyPreferredShownCB_, transientShownCB_;
+
   private JCheckBoxMenuItem onlyEditableShownCB_;
 
-
   private ActionMap actionMap = new ActionMap();
-  private InputMap inputMap = new InputMap();
 
+  private InputMap inputMap = new InputMap();
 
   private void setDescriptors()
   {
@@ -129,18 +158,23 @@ public final class PropertiesWindow
     eventsTable_.setEventDescriptors();
     methodsTable_.setMethodDescriptors();
   };
+
   private void setHiddenShown(boolean b)
   {
     hiddenShown_ = b;
-    if (hiddenShownCB_.isSelected() != b)hiddenShownCB_.setSelected(b);
+    if (hiddenShownCB_.isSelected() != b)
+      hiddenShownCB_.setSelected(b);
     setDescriptors();
   };
+
   private void setExpertShown(boolean b)
   {
     expertShown_ = b;
-    if (expertShownCB_.isSelected() != b)expertShownCB_.setSelected(b);
+    if (expertShownCB_.isSelected() != b)
+      expertShownCB_.setSelected(b);
     setDescriptors();
   };
+
   private void setOnlyPreferredShown(boolean b)
   {
     onlyPreferredShown_ = b;
@@ -148,12 +182,15 @@ public final class PropertiesWindow
       onlyPreferredShownCB_.setSelected(b);
     setDescriptors();
   };
+
   private void setTransientShown(boolean b)
   {
     transientShown_ = b;
-    if (transientShownCB_.isSelected() != b)transientShownCB_.setSelected(b);
+    if (transientShownCB_.isSelected() != b)
+      transientShownCB_.setSelected(b);
     setDescriptors();
   };
+
   private void setOnlyEditableShown(boolean b)
   {
     onlyEditableShown_ = b;
@@ -166,18 +203,22 @@ public final class PropertiesWindow
   {
     return hiddenShown_;
   };
+
   boolean getExpertShown()
   {
     return expertShown_;
   };
+
   boolean getOnlyPreferredShown()
   {
     return onlyPreferredShown_;
   };
+
   boolean getTransientShown()
   {
     return transientShown_;
   };
+
   boolean getOnlyEditableShown()
   {
     return onlyEditableShown_;
@@ -195,6 +236,7 @@ public final class PropertiesWindow
     actionMap.put(name, action);
     inputMap.put(key, name);
   };
+
   private void setupActions(ActionMap am, InputMap im)
   {
     actionMap.setParent(am);
@@ -202,79 +244,83 @@ public final class PropertiesWindow
 
     getLayeredPane().setActionMap(actionMap);
     getLayeredPane().setInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,
-                                 inputMap);
+        inputMap);
 
-    Action action_show_hidden_descriptors
-      = new AbstractAction("Show hidden descriptors") {
-          public void actionPerformed(ActionEvent e)
-          {
-            if (e.getSource() instanceof AbstractButton)
-              setHiddenShown(((AbstractButton) e.getSource()).isSelected());
-            else
-              setHiddenShown(!getHiddenShown());
-          };
-        };
-    registerAction(action_show_hidden_descriptors, "Show hidden descriptors",
-                   KeyStroke.getKeyStroke("control H"));
-
-    Action action_show_expert_descriptors
-      = new AbstractAction("Show expert descriptors") {
-          public void actionPerformed(ActionEvent e)
-          {
-            if (e.getSource() instanceof AbstractButton)
-              setExpertShown(((AbstractButton) e.getSource()).isSelected());
-            else
-              setExpertShown(!getExpertShown());
-          };
-        };
-    registerAction(action_show_expert_descriptors, "Show expert descriptors"
-                   , KeyStroke.getKeyStroke("control E"));
-
-    Action action_show_onlyPreferred_descriptors
-      = new AbstractAction("Only show preferred descriptors") {
-          public void actionPerformed(ActionEvent e)
-          {
-            if (e.getSource() instanceof AbstractButton) {
-              AbstractButton ab = (AbstractButton) e.getSource();
-              setOnlyPreferredShown(ab.isSelected());
-            } else {
-              setOnlyPreferredShown(!getOnlyPreferredShown());
-            }
-          };
-        };
-    registerAction(action_show_onlyPreferred_descriptors,
-                   "Only show preferred descriptors",
-                   KeyStroke.getKeyStroke("control P"));
-
-    Action action_show_transient_descriptors
-      = new AbstractAction("Show transient descriptors") {
-        public void actionPerformed(ActionEvent e)
-        {
-          if (e.getSource() instanceof AbstractButton)
-            setTransientShown(((AbstractButton) e.getSource()).isSelected());
-          else
-            setTransientShown(!getTransientShown());
-        };
+    Action action_show_hidden_descriptors = new AbstractAction(
+        "Show hidden descriptors")
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        if (e.getSource() instanceof AbstractButton)
+          setHiddenShown(((AbstractButton) e.getSource()).isSelected());
+        else
+          setHiddenShown(!getHiddenShown());
       };
-    registerAction(action_show_transient_descriptors,
-                   "Show transient descriptors",
-                   KeyStroke.getKeyStroke("control T"));
+    };
+    registerAction(action_show_hidden_descriptors, "Show hidden descriptors",
+        KeyStroke.getKeyStroke("control H"));
 
-    Action action_show_onlyEditable_descriptors
-      = new AbstractAction("Only show editable properties") {
-          public void actionPerformed(ActionEvent e)
-          {
-            if (e.getSource() instanceof AbstractButton) {
-              AbstractButton ab = (AbstractButton) e.getSource();
-              setOnlyEditableShown(ab.isSelected());
-            } else {
-              setOnlyEditableShown(!getOnlyEditableShown());
-            }
-          };
-        };
+    Action action_show_expert_descriptors = new AbstractAction(
+        "Show expert descriptors")
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        if (e.getSource() instanceof AbstractButton)
+          setExpertShown(((AbstractButton) e.getSource()).isSelected());
+        else
+          setExpertShown(!getExpertShown());
+      };
+    };
+    registerAction(action_show_expert_descriptors, "Show expert descriptors",
+        KeyStroke.getKeyStroke("control E"));
+
+    Action action_show_onlyPreferred_descriptors = new AbstractAction(
+        "Only show preferred descriptors")
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        if (e.getSource() instanceof AbstractButton) {
+          AbstractButton ab = (AbstractButton) e.getSource();
+          setOnlyPreferredShown(ab.isSelected());
+        }
+        else {
+          setOnlyPreferredShown(!getOnlyPreferredShown());
+        }
+      };
+    };
+    registerAction(action_show_onlyPreferred_descriptors,
+        "Only show preferred descriptors", KeyStroke.getKeyStroke("control P"));
+
+    Action action_show_transient_descriptors = new AbstractAction(
+        "Show transient descriptors")
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        if (e.getSource() instanceof AbstractButton)
+          setTransientShown(((AbstractButton) e.getSource()).isSelected());
+        else
+          setTransientShown(!getTransientShown());
+      };
+    };
+    registerAction(action_show_transient_descriptors,
+        "Show transient descriptors", KeyStroke.getKeyStroke("control T"));
+
+    Action action_show_onlyEditable_descriptors = new AbstractAction(
+        "Only show editable properties")
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        if (e.getSource() instanceof AbstractButton) {
+          AbstractButton ab = (AbstractButton) e.getSource();
+          setOnlyEditableShown(ab.isSelected());
+        }
+        else {
+          setOnlyEditableShown(!getOnlyEditableShown());
+        }
+      };
+    };
     registerAction(action_show_onlyEditable_descriptors,
-                   "Only show editable properties",
-                   KeyStroke.getKeyStroke("control D"));
+        "Only show editable properties", KeyStroke.getKeyStroke("control D"));
   };
 
   private void setupMenus()
@@ -285,20 +331,20 @@ public final class PropertiesWindow
 
     JMenu filter = new JMenu("Filter");
     filter.setMnemonic(KeyEvent.VK_V);
-    hiddenShownCB_
-      = new JCheckBoxMenuItem(actionMap.get("Show hidden descriptors"));
+    hiddenShownCB_ = new JCheckBoxMenuItem(actionMap
+        .get("Show hidden descriptors"));
     filter.add(hiddenShownCB_);
-    expertShownCB_
-      = new JCheckBoxMenuItem(actionMap.get("Show expert descriptors"));
+    expertShownCB_ = new JCheckBoxMenuItem(actionMap
+        .get("Show expert descriptors"));
     filter.add(expertShownCB_);
-    onlyPreferredShownCB_
-      = new JCheckBoxMenuItem(actionMap.get("Only show preferred descriptors"));
+    onlyPreferredShownCB_ = new JCheckBoxMenuItem(actionMap
+        .get("Only show preferred descriptors"));
     filter.add(onlyPreferredShownCB_);
-    transientShownCB_
-      = new JCheckBoxMenuItem(actionMap.get("Show transient descriptors"));
+    transientShownCB_ = new JCheckBoxMenuItem(actionMap
+        .get("Show transient descriptors"));
     filter.add(transientShownCB_);
-    onlyEditableShownCB_
-      = new JCheckBoxMenuItem(actionMap.get("Only show editable properties"));
+    onlyEditableShownCB_ = new JCheckBoxMenuItem(actionMap
+        .get("Only show editable properties"));
     filter.add(onlyEditableShownCB_);
 
     JMenu help = new JMenu("Help");
@@ -312,7 +358,6 @@ public final class PropertiesWindow
     mb.add(help);
     setJMenuBar(mb);
   };
-
 
   /**
    * Creates a properties window.
@@ -329,53 +374,56 @@ public final class PropertiesWindow
     npanel.add(headingTypeLabel_ = new JLabel());
     npanel.add(headingNameLabel_ = new JLabel());
     npanel.add(customiserButton_ = new JButton("Customiser"));
-    customiserButton_.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev)
-        {
-          //XXX Creation of the customiser, etc. should probably be done in
-          //    setBean instead.
-          Customizer customiser;
-          try {
-            Class customiserClass
-              = beanInfo_.getBeanDescriptor().getCustomizerClass();
-            customiser = (Customizer) customiserClass.newInstance();
-          } catch (Exception ex) {
-            System.err.println("Exception while creating customiser (ignoring):"
-                               + ex);
-            customiserButton_.setEnabled(false);
-            return;
-          };
-          JDialog cDialog = new JDialog(PropertiesWindow.this,
-                                        beanInfo_.getBeanDescriptor().getName()
-                                        + " Customiser", true);
-          customiser.setObject(bean_);
-          customiser.addPropertyChangeListener(new PropertyChangeListener() {
-              public void propertyChange(PropertyChangeEvent ev)
-              {
-                propertiesTable_.fireTableDataChanged();
-              };
-            });
-
-          cDialog.getContentPane().add((Component) customiser);
-          cDialog.pack();
-          cDialog.setVisible(true);
+    customiserButton_.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent ev)
+      {
+        //XXX Creation of the customiser, etc. should probably be done in
+        //    setBean instead.
+        Customizer customiser;
+        try {
+          Class customiserClass = beanInfo_.getBeanDescriptor()
+              .getCustomizerClass();
+          customiser = (Customizer) customiserClass.newInstance();
+        } catch (Exception ex) {
+          System.err.println("Exception while creating customiser (ignoring):"
+              + ex);
+          customiserButton_.setEnabled(false);
+          return;
         };
-      });
+        JDialog cDialog = new JDialog(PropertiesWindow.this, beanInfo_
+            .getBeanDescriptor().getName()
+            + " Customiser", true);
+        customiser.setObject(bean_);
+        customiser.addPropertyChangeListener(new PropertyChangeListener()
+        {
+          public void propertyChange(PropertyChangeEvent ev)
+          {
+            propertiesTable_.fireTableDataChanged();
+          };
+        });
+
+        cDialog.getContentPane().add((Component) customiser);
+        cDialog.pack();
+        cDialog.setVisible(true);
+      };
+    });
     getContentPane().add(npanel, BorderLayout.NORTH);
 
     tabbedPane_ = new JTabbedPane();
     getContentPane().add(tabbedPane_, BorderLayout.CENTER);
     propertiesTable_ = new PropertiesTable(this);
-    propertiesTableT_ = new JTable(propertiesTable_) {
-        protected void createDefaultEditors()
-        {
-          defaultEditorsByColumnClass = new Hashtable();
-        };
+    propertiesTableT_ = new JTable(propertiesTable_)
+    {
+      protected void createDefaultEditors()
+      {
+        defaultEditorsByColumnClass = new Hashtable();
       };
+    };
     tabbedPane_.add("Properties", new JScrollPane(propertiesTableT_));
     propertiesTableT_.setDefaultEditor(Object.class, new PropertyCellEditor());
     propertiesTableT_.setDefaultRenderer(Object.class,
-                                        new PropertyCellRenderer());
+        new PropertyCellRenderer());
     propertiesTableT_.setDefaultRenderer(String.class, new OtherRenderer());
 
     eventsTable_ = new EventsTable(this);
@@ -396,33 +444,35 @@ public final class PropertiesWindow
    */
   private void setBean(Object bean)
   {
-    PropertyChangeListener beanNameChangeListener
-      = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent evt)
-        {
-          if (evt.getPropertyName().equals("name")) {
-            String name = (String) evt.getNewValue();
-            if (name == null)
-              headingNameLabel_.setText("(unnamed)");
-            else
-              headingNameLabel_.setText(name);
-          }
-        };
+    PropertyChangeListener beanNameChangeListener = new PropertyChangeListener()
+    {
+      public void propertyChange(PropertyChangeEvent evt)
+      {
+        if (evt.getPropertyName().equals("name")) {
+          String name = (String) evt.getNewValue();
+          if (name == null)
+            headingNameLabel_.setText("(unnamed)");
+          else
+            headingNameLabel_.setText(name);
+        }
       };
+    };
 
     if (this.bean_ != null)
       IntrospectionHelper.removeBeanListener(this.bean_,
-                                             PropertyChangeListener.class,
-                                             beanNameChangeListener);
+          PropertyChangeListener.class, beanNameChangeListener);
     this.bean_ = bean;
     customiserButton_.setEnabled(false);
     if (bean_ != null)
       try {
         beanInfo_ = Introspector.getBeanInfo(bean_.getClass());
         Image icon = beanInfo_.getIcon(BeanInfo.ICON_COLOR_32x32);
-        if (icon == null) icon = beanInfo_.getIcon(BeanInfo.ICON_MONO_32x32);
-        if (icon == null) icon = beanInfo_.getIcon(BeanInfo.ICON_COLOR_16x16);
-        if (icon == null) icon = beanInfo_.getIcon(BeanInfo.ICON_MONO_16x16);
+        if (icon == null)
+          icon = beanInfo_.getIcon(BeanInfo.ICON_MONO_32x32);
+        if (icon == null)
+          icon = beanInfo_.getIcon(BeanInfo.ICON_COLOR_16x16);
+        if (icon == null)
+          icon = beanInfo_.getIcon(BeanInfo.ICON_MONO_16x16);
         if (icon == null)
           headingTypeLabel_.setIcon(null);
         else
@@ -449,7 +499,7 @@ public final class PropertiesWindow
       setTitle("Property Editor: (none)");
     else
       setTitle("Property Editor: "
-               + beanInfo_.getBeanDescriptor().getDisplayName());
+          + beanInfo_.getBeanDescriptor().getDisplayName());
     propertiesTableT_.clearSelection();
     eventsTableT_.clearSelection();
     if (beanInfo_ != null) {
@@ -467,8 +517,7 @@ public final class PropertiesWindow
     methodsTableT_.clearSelection();
     if (this.bean_ != null)
       IntrospectionHelper.addBeanListener(this.bean_,
-                                          PropertyChangeListener.class,
-                                          beanNameChangeListener);
+          PropertyChangeListener.class, beanNameChangeListener);
   };
 
   public void beanSelected(BeanSelectedEvent ev)
@@ -483,14 +532,21 @@ public final class PropertiesWindow
   private final class PropertyCellEditor implements TableCellEditor
   {
     private static final int CS_NONE = 0;
+
     private static final int CS_CUSTOM_EDITOR = 1;
+
     private static final int CS_TAGS = 2;
+
     private static final int CS_STRING = 3;
+
     private int componentSource;
 
     private EventListenerList cellEditorListeners;
+
     private Component currentComponent;
+
     private PropertyEditor propertyEditor;
+
     private PropertyDescriptor propertyDescriptor;
 
     public PropertyCellEditor()
@@ -503,46 +559,44 @@ public final class PropertiesWindow
     };
 
     public Component getTableCellEditorComponent(JTable table, Object value,
-                                                 boolean isSelected,
-                                                 int row, int column)
+        boolean isSelected, int row, int column)
     {
       //XXX will cancel or stop have been called first to tidy away the old
       //    editor?
 
       propertyDescriptor = propertiesTable_.getPropertyDescriptor(row);
-      propertyEditor
-        = IntrospectionHelper.getEditor(propertyDescriptor.getPropertyType());
-      Object propertyValue
-        = IntrospectionHelper.getBeanProperty(bean_, propertyDescriptor);
+      propertyEditor = IntrospectionHelper.getEditor(propertyDescriptor
+          .getPropertyType());
+      Object propertyValue = IntrospectionHelper.getBeanProperty(bean_,
+          propertyDescriptor);
       propertyEditor.setValue(propertyValue);
-      propertyEditor.addPropertyChangeListener(new PropertyChangeListener() {
-          public void propertyChange(PropertyChangeEvent evt)
-          {
-            IntrospectionHelper.setBeanProperty(bean_,
-                                                propertyDescriptor,
-                                                propertyEditor.getValue());
-            //XXX Nasty nasty hack, because Component objects don't send a
-            //    PropertyChange event when their 'name' property changes.
-            if (bean_ instanceof Component
-                && propertyDescriptor.getName().equals("name")) {
-              System.err.println("SENDING PropertyChangeEvents for name");
-              PropertyChangeEvent event
-                = new PropertyChangeEvent(bean_, "name", null,
-                                          propertyEditor.getValue());
-              PropertyChangeListener[] listeners
-                = ((Component) bean_).getPropertyChangeListeners();
-              for (int i = 0; i < listeners.length; i++) {
-                listeners[i].propertyChange(event);
-                System.err.println(i + 1);
-              }
-              listeners = ((Component) bean_).getPropertyChangeListeners("name");
-              for (int i = 0; i < listeners.length; i++) {
-                listeners[i].propertyChange(event);
-                System.err.println("" + (i + 1) + "b");
-              }
+      propertyEditor.addPropertyChangeListener(new PropertyChangeListener()
+      {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+          IntrospectionHelper.setBeanProperty(bean_, propertyDescriptor,
+              propertyEditor.getValue());
+          //XXX Nasty nasty hack, because Component objects don't send a
+          //    PropertyChange event when their 'name' property changes.
+          if (bean_ instanceof Component
+              && propertyDescriptor.getName().equals("name")) {
+            System.err.println("SENDING PropertyChangeEvents for name");
+            PropertyChangeEvent event = new PropertyChangeEvent(bean_, "name",
+                null, propertyEditor.getValue());
+            PropertyChangeListener[] listeners = ((Component) bean_)
+                .getPropertyChangeListeners();
+            for (int i = 0; i < listeners.length; i++) {
+              listeners[i].propertyChange(event);
+              System.err.println(i + 1);
             }
-          };
-        });
+            listeners = ((Component) bean_).getPropertyChangeListeners("name");
+            for (int i = 0; i < listeners.length; i++) {
+              listeners[i].propertyChange(event);
+              System.err.println("" + (i + 1) + "b");
+            }
+          }
+        };
+      });
       //XXX I probably need to add a PropertyChangeListener to actually write
       //    the edited values into the bean.
       String[] tags;
@@ -551,49 +605,53 @@ public final class PropertiesWindow
         final Component component = propertyEditor.getCustomEditor();
         if (component instanceof Window) {
           window = (Window) component;
-        } else {
-          final JDialog dialog
-            = new JDialog((JFrame) null,
-                          "Edit property: "
-                          + beanInfo_.getBeanDescriptor().getName()
-                          + "." + propertyDescriptor.getName(), true);
+        }
+        else {
+          final JDialog dialog = new JDialog((JFrame) null, "Edit property: "
+              + beanInfo_.getBeanDescriptor().getName() + "."
+              + propertyDescriptor.getName(), true);
           dialog.getContentPane().setLayout(new BorderLayout());
           dialog.getContentPane().add(component, BorderLayout.CENTER);
           dialog.pack();
           window = dialog;
         }
         final JButton button = new JButton("Edit");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev)
-            {
-              window.setVisible(true);
-            };
-          });
+        button.addActionListener(new ActionListener()
+        {
+          public void actionPerformed(ActionEvent ev)
+          {
+            window.setVisible(true);
+          };
+        });
 
         currentComponent = button;
         componentSource = CS_CUSTOM_EDITOR;
-      } else if ((tags = propertyEditor.getTags()) != null) {
+      }
+      else if ((tags = propertyEditor.getTags()) != null) {
         currentComponent = new JComboBox(tags);
         componentSource = CS_TAGS;
         JComboBox cb = (JComboBox) currentComponent;
         cb.setSelectedItem(propertyEditor.getAsText());
-        cb.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e)
-            {
-              //XXX ? Should I be changing the property here, or wait until
-              //    editing is stopped?
-            }
-          });
-      } else {
+        cb.addItemListener(new ItemListener()
+        {
+          public void itemStateChanged(ItemEvent e)
+          {
+            //XXX ? Should I be changing the property here, or wait until
+            //    editing is stopped?
+          }
+        });
+      }
+      else {
         currentComponent = new JTextField(propertyEditor.getAsText());
         componentSource = CS_STRING;
-        ((JTextField) currentComponent).addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev)
-            {
-              //XXX is this necessary?
-              stopCellEditing();
-            };
-          });
+        ((JTextField) currentComponent).addActionListener(new ActionListener()
+        {
+          public void actionPerformed(ActionEvent ev)
+          {
+            //XXX is this necessary?
+            stopCellEditing();
+          };
+        });
       }
       System.err.println("*** currentComponent=" + currentComponent);
       System.err.println("*** componentSource=" + componentSource);
@@ -608,31 +666,35 @@ public final class PropertiesWindow
       //4. return the component.
     };
 
-
-
     public Object getCellEditorValue()
     {
       if (componentSource == CS_CUSTOM_EDITOR) {
         return propertyEditor.getValue();
-      } else if (componentSource == CS_TAGS) {
+      }
+      else if (componentSource == CS_TAGS) {
         return (String) ((JComboBox) currentComponent).getSelectedItem();
-      } else if (componentSource == CS_STRING) {
+      }
+      else if (componentSource == CS_STRING) {
         return (String) ((JTextField) currentComponent).getText();
-      } else {
+      }
+      else {
         throw new Error("PropertyCellEditor.getCellEditorValue() shouldn't be "
-                        + "getting called when it doesn't have a component");
+            + "getting called when it doesn't have a component");
       }
       //xxx...
     };
+
     public boolean isCellEditable(EventObject anEvent)
     {
       //XXX we're relying on the table model to say yeah or nay on this.
       return true;
     };
+
     public boolean shouldSelectCell(EventObject anEvent)
     {
       return true;
     };
+
     public boolean stopCellEditing()
     {
       System.err.println("*** currentComponent=" + currentComponent);
@@ -642,62 +704,66 @@ public final class PropertiesWindow
       //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       if (componentSource == CS_CUSTOM_EDITOR) {
         //XXX can I assume that the custom editor will handle changing the bean?
-      } else if (componentSource == CS_TAGS) {
+      }
+      else if (componentSource == CS_TAGS) {
         //XXX should I combine CS_TAGS and CS_STRING getting the value from
         //    getCellEditorValue()
         JComboBox cb = (JComboBox) currentComponent;
         propertyEditor.setAsText((String) cb.getSelectedItem());
-      } else if (componentSource == CS_STRING) {
+      }
+      else if (componentSource == CS_STRING) {
         try {
           JTextField tf = (JTextField) currentComponent;
           propertyEditor.setAsText((String) tf.getText());
         } catch (IllegalArgumentException ex) {
           JOptionPane.showMessageDialog(PropertiesWindow.this,
-                                        "Badly formatted property");
+              "Badly formatted property");
           return false;
         };
-      } else {
+      }
+      else {
         throw new Error("PropertyCellEditor.stopCellEditing() shouldn't be "
-                        + "getting called when it doesn't have a component");
+            + "getting called when it doesn't have a component");
       }
 
       //Let all the listeners know editing has stopped.
-      EventListener[] listeners
-        = cellEditorListeners.getListeners(CellEditorListener.class);
+      EventListener[] listeners = cellEditorListeners
+          .getListeners(CellEditorListener.class);
       for (int i = 0; i < listeners.length; i++) {
         CellEditorListener listener = (CellEditorListener) listeners[i];
         listener.editingStopped(new ChangeEvent(this));
       }
 
       componentSource = CS_NONE; //Cut off the now unused component.
-      currentComponent = null;  //XXX maybe I should reuse it if possible?
+      currentComponent = null; //XXX maybe I should reuse it if possible?
       propertyEditor = null;
       propertyDescriptor = null;
       //xxx...
       return true;
     };
+
     public void cancelCellEditing()
     {
       //Let all the listeners know editing has stopped.
-      EventListener[] listeners
-        = cellEditorListeners.getListeners(CellEditorListener.class);
+      EventListener[] listeners = cellEditorListeners
+          .getListeners(CellEditorListener.class);
       for (int i = 0; i < listeners.length; i++) {
         CellEditorListener listener = (CellEditorListener) listeners[i];
         listener.editingCanceled(new ChangeEvent(this));
       }
       componentSource = CS_NONE; //Cut off the now unused component.
-      currentComponent = null;  //XXX maybe I should reuse it if possible?
+      currentComponent = null; //XXX maybe I should reuse it if possible?
       propertyEditor = null;
       propertyDescriptor = null;
       //xxx...
     };
-
 
     //Functions delegating to cellEditorListeners
     public void addCellEditorListener(CellEditorListener l)
     {
       cellEditorListeners.add(CellEditorListener.class, l);
     };
+
     public void removeCellEditorListener(CellEditorListener l)
     {
       cellEditorListeners.remove(CellEditorListener.class, l);
@@ -707,14 +773,17 @@ public final class PropertiesWindow
     {
       return cellEditorListeners.getListenerList();
     };
-    public EventListener[] getListeners(Class t)
+
+    public EventListener[] getListeners(Class<EventListener> t)
     {
       return cellEditorListeners.getListeners(t);
     };
+
     public int getListenerCount()
     {
       return cellEditorListeners.getListenerCount();
     };
+
     public int getListenerCount(Class t)
     {
       return cellEditorListeners.getListenerCount(t);
@@ -729,17 +798,12 @@ public final class PropertiesWindow
   private class OtherRenderer extends DefaultTableCellRenderer
   {
     public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected,
-                                                   boolean hasFocus,
-                                                   int row, int column)
+        boolean isSelected, boolean hasFocus, int row, int column)
     {
       int valueColumn = table.getColumn("Value").getModelIndex();
-      boolean isEditable
-        = propertiesTable_.isCellEditable(row, valueColumn);
+      boolean isEditable = propertiesTable_.isCellEditable(row, valueColumn);
       Component component = super.getTableCellRendererComponent(table, value,
-                                                                isSelected,
-                                                                hasFocus, row,
-                                                                column);
+          isSelected, hasFocus, row, column);
       component.setEnabled(isEditable);
       return component;
     }
@@ -751,40 +815,34 @@ public final class PropertiesWindow
    */
   private class PropertyCellRenderer implements TableCellRenderer
   {
-    private DefaultTableCellRenderer defaultRenderer
-    = new DefaultTableCellRenderer();
+    private DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+
     public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected,
-                                                   boolean hasFocus,
-                                                   int row, int column)
+        boolean isSelected, boolean hasFocus, int row, int column)
     {
       boolean isEditable = propertiesTable_.isCellEditable(row, column);
       Component component;
       if (value != null)
-        for (Iterator it = defaultRenderers.entrySet().iterator();
-             it.hasNext();) {
+        for (Iterator it = defaultRenderers.entrySet().iterator(); it.hasNext();) {
           Map.Entry entry = (Map.Entry) it.next();
           Class clazz = (Class) entry.getKey();
           TableCellRenderer renderer = (TableCellRenderer) entry.getValue();
           if (clazz.isAssignableFrom(value.getClass())) {
-            component
-              = renderer.getTableCellRendererComponent(table, value, isSelected,
-                                                       hasFocus, row, column);
-          component.setEnabled(isEditable);
-          return component;
-        }
-      };
+            component = renderer.getTableCellRendererComponent(table, value,
+                isSelected, hasFocus, row, column);
+            component.setEnabled(isEditable);
+            return component;
+          }
+        };
       component = defaultRenderer.getTableCellRendererComponent(table, value,
-                                                                isSelected,
-                                                                hasFocus,
-                                                                row, column);
+          isSelected, hasFocus, row, column);
       component.setEnabled(isEditable);
       return component;
     };
   };
 
-  private static final Map/*<Class, TableCellRenderer>*/ defaultRenderers
-    = new HashMap();
+  private static final Map<Class, TableCellRenderer> defaultRenderers = new HashMap<Class, TableCellRenderer>();
+
   public static void addDefaultRenderer(Class c, TableCellRenderer r)
   {
     defaultRenderers.put(c, r);

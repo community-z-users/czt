@@ -1,37 +1,36 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServicesSupport;
-
 import java.util.EventListener;
 import java.util.Iterator;
 
-import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
@@ -50,13 +49,13 @@ public class Form extends JPanel implements BeanContextProxy
    *   <li>provide access to the BSF scripting engine to beans.</li>
    * </ul>
    */
-  protected BeanContextServicesSupport bcsSupport
-    = new BeanContextServicesSupport();
+  protected BeanContextServicesSupport bcsSupport = new BeanContextServicesSupport();
 
   /**
    * Title property - ends up in title bar of Frame.
    */
   private String title = "";
+
   /**
    * StartsVisible property - true if this form should be open when the animator
    * starts up.
@@ -80,10 +79,12 @@ public class Form extends JPanel implements BeanContextProxy
     setName(name);
     setTitle(name);
     bcsSupport.addService(Form.class, new FormServiceProvider(this));
-    addContainerListener(new ContainerListener() {
+    addContainerListener(new ContainerListener()
+    {
       private void addBean(Object bean)
       {
-        if (bcsSupport.contains(bean)) return;
+        if (bcsSupport.contains(bean))
+          return;
         bcsSupport.add(bean);
         fireFormEvent(new FormEvent(Form.this, bean, FormEvent.ADDED));
         if (bean instanceof Container) {
@@ -102,7 +103,8 @@ public class Form extends JPanel implements BeanContextProxy
 
       private void removeBean(Object bean)
       {
-        if (!bcsSupport.contains(bean)) return;
+        if (!bcsSupport.contains(bean))
+          return;
 
         if (bean instanceof Container) {
           Container beanAsContainer = (Container) bean;
@@ -128,7 +130,6 @@ public class Form extends JPanel implements BeanContextProxy
     for (int i = 0; i < listeners.length; i++)
       listeners[i].beanAdded(ev);
   };
-
 
   /**
    * Allows access to the BeanContext contained in this class.
@@ -161,16 +162,17 @@ public class Form extends JPanel implements BeanContextProxy
       ((JScrollPane) parent).getViewport().setView(bean);
     else
       parent.add(bean);
-    //      bcsSupport.add(bean);
-    //      FormListener[] listeners=getFormListeners();
+    //bcsSupport.add(bean);
+    //FormListener[] listeners=getFormListeners();
 
-    //      for (int i=0;i<listeners.length;i++)
-    //        listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
+    //for (int i=0;i<listeners.length;i++)
+    //listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
   };
 
   public boolean removeBean(Object bean)
   {
-    if (!bcsSupport.contains(bean)) return false;
+    if (!bcsSupport.contains(bean))
+      return false;
     if (bean instanceof Container) {
       Component[] comps = ((Container) bean).getComponents();
       for (int i = 0; i < comps.length; i++)
@@ -209,6 +211,7 @@ public class Form extends JPanel implements BeanContextProxy
   {
     listenerList.add(FormListener.class, l);
   };
+
   /**
    * Removes a listener for <code>FormEvent</code>.
    */
@@ -216,6 +219,7 @@ public class Form extends JPanel implements BeanContextProxy
   {
     listenerList.remove(FormListener.class, l);
   };
+
   /**
    * Returns all of the listeners of class <code>c</code>.
    */
@@ -223,12 +227,13 @@ public class Form extends JPanel implements BeanContextProxy
   {
     return listenerList.getListeners(c);
   };
+
   /**
    * Returns all of the <code>FormListener</code>s.
    */
   public FormListener[] getFormListeners()
   {
-    return (FormListener[]) getListeners(FormListener.class);
+    return (FormListener[]) listenerList.getListeners(FormListener.class);
   };
 
   /**
@@ -238,6 +243,7 @@ public class Form extends JPanel implements BeanContextProxy
   {
     return title;
   };
+
   /**
    * Setter method for <code>title</code>.
    */
@@ -255,6 +261,7 @@ public class Form extends JPanel implements BeanContextProxy
   {
     return startsVisible;
   };
+
   /**
    * Setter method for <code>startsVisible</code>.
    */
@@ -272,8 +279,8 @@ public class Form extends JPanel implements BeanContextProxy
   public void setVisible(boolean visible)
   {
     super.setVisible(visible);
-    Container window=getTopLevelAncestor();
-    if(window!=null)
+    Container window = getTopLevelAncestor();
+    if (window != null)
       window.setVisible(visible);
   };
 };

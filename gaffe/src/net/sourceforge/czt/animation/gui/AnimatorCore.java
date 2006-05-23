@@ -1,47 +1,39 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui;
 
-import org.apache.bsf.BSFException;
-import org.apache.bsf.BSFManager;
-
 import java.awt.BorderLayout;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
 import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.XMLDecoder;
-
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -50,16 +42,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.czt.animation.gui.design.BeanLink;
-
 import net.sourceforge.czt.animation.gui.history.BasicHistory;
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
-
 import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
-
-import net.sourceforge.czt.animation.gui.temp.*;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 import net.sourceforge.czt.animation.gui.util.Utils;
+
+import com.ibm.bsf.BSFException;
+import com.ibm.bsf.BSFManager;
 
 /**
  * The core program for normal animation of a specification.
@@ -79,37 +70,38 @@ public class AnimatorCore
    * {@link #getBeanContextProxy() #getBeanContextProxy()}).
    * Provides services to contexts and beans in the program.
    */
-  protected BeanContextServices    rootContext;
-
+  protected BeanContextServices rootContext;
 
   protected String initScript_ = "";
+
   protected String initScriptLanguage_ = "javascript";
+
   protected URL specificationURL_ = null;
 
-  private final Vector/*<Form>*/ forms_ = new Vector() {
+  private final Vector<Form> forms_ = new Vector<Form>()
+  {
     public Form lookup(String name)
     { //For use by scripts.
       for (Iterator it = iterator(); it.hasNext();) {
         Form f = (Form) it.next();
-        if (f.getName().equals(name)) return f;
+        if (f.getName().equals(name))
+          return f;
       }
       return null;
     };
   };
 
-  public AnimatorCore(String fileName)
-    throws FileNotFoundException
+  public AnimatorCore(String fileName) throws FileNotFoundException
   {
     this(new File(fileName));
   };
 
-  public AnimatorCore(File file)
-    throws FileNotFoundException
+  public AnimatorCore(File file) throws FileNotFoundException
   {
     Beans.setDesignTime(false);
-    history = new BasicHistory();
     rootContext = new BeanContextServicesSupport();
-    
+    history = new BasicHistory();
+
     XMLDecoder decoder;
     decoder = new XMLDecoder(new FileInputStream(file), this);
 
@@ -117,28 +109,32 @@ public class AnimatorCore
       while (true) {
         final Form newForm;
         newForm = (Form) decoder.readObject();
-        final JFrame frame = new JFrame() {
+        final JFrame frame = new JFrame()
+        {
           public void setVisible(boolean b)
           {
             super.setVisible(b);
-            if (newForm.isVisible() != b) newForm.setVisible(b);
+            if (newForm.isVisible() != b)
+              newForm.setVisible(b);
           };
         };
 
-        newForm.addComponentListener(new ComponentAdapter() {
+        newForm.addComponentListener(new ComponentAdapter()
+        {
           public void componentHidden(ComponentEvent e)
           {
             //If the last form was closed, then quit.
-            Vector visibleForms = new Vector(forms_);
+            Vector<Form> visibleForms = new Vector<Form>(forms_);
             for (Iterator i = visibleForms.iterator(); i.hasNext();)
-              if (!((Form) i.next()).isVisible()) i.remove();
+              if (!((Form) i.next()).isVisible())
+                i.remove();
             visibleForms.remove(e.getComponent());
             if (visibleForms.isEmpty())
               System.exit(0);
           };
         });
-        newForm.addPropertyChangeListener("title",
-                                          new PropertyChangeListener() {
+        newForm.addPropertyChangeListener("title", new PropertyChangeListener()
+        {
           public void propertyChange(PropertyChangeEvent evt)
           {
             frame.setTitle((String) evt.getNewValue());
@@ -165,12 +161,12 @@ public class AnimatorCore
         for (Iterator iter = beanLinks.iterator(); iter.hasNext();) {
           BeanLink bl = (BeanLink) iter.next();
           IntrospectionHelper.addBeanListener(bl.source, bl.listenerType,
-                                              bl.listener);
+              bl.listener);
         }
         rootContext.add(newForm);
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
-    };
+    }
 
     //XXX Load Z specification.
     //XXX Display appropriate forms.
@@ -186,7 +182,7 @@ public class AnimatorCore
       bsfm.declareBean("out", System.out, System.out.getClass());
     } catch (BSFException ex) {
       throw new Error("History,AnimatorCore, or Forms couldn't be declared "
-                      + "with the Scripting Engine. " + ex);
+          + "with the Scripting Engine. " + ex);
     }
 
     rootContext.addService(BSFManager.class, new BSFServiceProvider(bsfm));
@@ -204,11 +200,11 @@ public class AnimatorCore
       System.err.println("------");
       ex.getTargetException().printStackTrace();
     };
-    for(Iterator it=forms_.iterator();it.hasNext();) {
-      Form form=(Form)it.next();
-      boolean v=form.getStartsVisible();
+    for (Iterator it = forms_.iterator(); it.hasNext();) {
+      Form form = (Form) it.next();
+      boolean v = form.getStartsVisible();
       form.setVisible(v);
-      System.err.println("Setting visible "+form.getName()+" = "+v);
+      System.err.println("Setting visible " + form.getName() + " = " + v);
     }
   };
 
@@ -217,16 +213,17 @@ public class AnimatorCore
    * @return The property <code>history</code>.
    * @see #history
    */
-  public History    getHistory()
+  public History getHistory()
   {
     return history;
   };
+
   /**
    * Setter function for {@link #history history}.
    * @param h The property <code>history</code>.
    * @see #history
    */
-  public void       setHistory(History h)
+  public void setHistory(History h)
   {
     history = h;
   };
@@ -247,14 +244,17 @@ public class AnimatorCore
   {
     initScript_ = initScript;
   };
+
   public void setInitScriptLanguage(String initScriptLanguage)
   {
     initScriptLanguage_ = initScriptLanguage;
   };
+
   public String getInitScript()
   {
     return initScript_;
   };
+
   public String getInitScriptLanguage()
   {
     return initScriptLanguage_;
@@ -268,11 +268,11 @@ public class AnimatorCore
       specificationURL_ = null;
     };
   };
+
   public String getSpecificationURL()
   {
     return specificationURL_.toExternalForm();
   };
-
 
   public static int run(String[] args)
   {
@@ -284,17 +284,16 @@ public class AnimatorCore
       if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
         return -1;
       file = fc.getSelectedFile();
-    } else
+    }
+    else
       file = new File(args[0]);
 
     try {
       new AnimatorCore(file);
     } catch (FileNotFoundException ex) {
       JOptionPane.showMessageDialog(null, "Couldn't open file",
-                                    "File not found",
-                                    JOptionPane.ERROR_MESSAGE);
+          "File not found", JOptionPane.ERROR_MESSAGE);
     };
     return 0;
   };
 };
-

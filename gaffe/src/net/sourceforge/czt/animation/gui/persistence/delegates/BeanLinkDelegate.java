@@ -1,21 +1,22 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
 import java.beans.BeanInfo;
@@ -26,7 +27,6 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
 import net.sourceforge.czt.animation.gui.design.BeanLink;
-
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
@@ -62,10 +62,12 @@ public final class BeanLinkDelegate extends DefaultPersistenceDelegate
       IntrospectionHelper.rememberBeanInfo(beanInfo);
       beanInfo.getBeanDescriptor().setValue("persistenceDelegate", SINGLETON);
     } catch (IntrospectionException ex) {
-      throw new Error("Shouldn't get IntrospectionException examining BeanLink "
-                      + "from BeanLinkDelegate." + ex);
+      throw new Error(
+          "Shouldn't get IntrospectionException examining BeanLink "
+              + "from BeanLinkDelegate." + ex);
     }
   };
+
   /**
    * Returns true if an equivalent copy of <code>oldInstance</code> can be made
    * from <code>newInstance</code>.
@@ -76,6 +78,7 @@ public final class BeanLinkDelegate extends DefaultPersistenceDelegate
   {
     return newInstance != null;
   };
+
   /**
    * Return an expression whose value is oldInstance.
    * @param oldInstance The instance that will be created by the expression.
@@ -84,9 +87,7 @@ public final class BeanLinkDelegate extends DefaultPersistenceDelegate
   protected Expression instantiate(Object oldInstance, Encoder out)
   {
     BeanLink oldLink = (BeanLink) oldInstance;
-    return new Expression(oldLink, BeanLink.class, "new",
-                          new Object[] {oldLink.source,
-                                        oldLink.listener,
-                                        oldLink.listenerType});
+    return new Expression(oldLink, BeanLink.class, "new", new Object[]{
+        oldLink.source, oldLink.listener, oldLink.listenerType});
   };
 };

@@ -1,35 +1,33 @@
 /*
-  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
-  Copyright 2003 Nicholas Daley
+ GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+ Copyright 2003 Nicholas Daley
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
 import java.awt.Component;
 import java.awt.Container;
-
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.Statement;
-
 import java.beans.beancontext.BeanContext;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,7 +68,7 @@ public final class FormDelegate extends DefaultPersistenceDelegate
       beanInfo.getBeanDescriptor().setValue("persistenceDelegate", SINGLETON);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining Form "
-                      + "from FormDelegate." + ex);
+          + "from FormDelegate." + ex);
     }
   };
 
@@ -103,12 +101,12 @@ public final class FormDelegate extends DefaultPersistenceDelegate
    * @param out The encoder to write the statements to.
    */
   protected void initialize(Class type, Object oldInstance, Object newInstance,
-                            Encoder out)
+      Encoder out)
   {
     Form oldForm = (Form) oldInstance;
     Form newForm = (Form) newInstance;
-    BeanContext oldBeanContext = (BeanContext) oldForm.getBeanContextProxy();
-    BeanContext newBeanContext = (BeanContext) newForm.getBeanContextProxy();
+    //BeanContext oldBeanContext = (BeanContext) oldForm.getBeanContextProxy();
+    //BeanContext newBeanContext = (BeanContext) newForm.getBeanContextProxy();
 
     //The location for the form bean should be transient, however location
     //doesn't seem to appear as a property for components, and XMLEncoder seems
@@ -121,13 +119,12 @@ public final class FormDelegate extends DefaultPersistenceDelegate
 
     Form f = (Form) oldInstance;
 
-    for (Iterator i = ((BeanContext) f.getBeanContextProxy()).iterator();
-        i.hasNext();)
-    {
+    for (Iterator i = ((BeanContext) f.getBeanContextProxy()).iterator(); i
+        .hasNext();) {
       Object obj = i.next();
       if (!(obj instanceof Component))
         out.writeStatement(new Statement(oldInstance, "addBean",
-                                         new Object[] {obj}));
+            new Object[]{obj}));
     }
     super.initialize(type, oldInstance, newInstance, out);
   };
@@ -141,8 +138,7 @@ public final class FormDelegate extends DefaultPersistenceDelegate
    * @param newList the list the beans are added to.
    * @return newList.
    */
-  private static List makeSortedComponentList(Container c, List bc,
-                                              List newList)
+  private static List makeSortedComponentList(Container c, List bc, List newList)
   {
     Component[] components = c.getComponents();
     for (int i = 0; i < components.length; i++)
