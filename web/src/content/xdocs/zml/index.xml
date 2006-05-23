@@ -64,6 +64,66 @@
         <th>Changes/Comments</th>
       </tr>
       <tr>
+        <td>2.0</td>
+        <td><link href="Z_1_4.xsd">Z_2_0.xsd</link></td>
+        <td>?.??</td>
+        <td>
+          Renamed the SchText element and type to ZSchText and added new
+          abstract element and type SchText.  The element ZSchText is
+          declared to be in the substitution group of (the new abstract)
+          element SchText.  This makes it possible to define new kinds of
+          schema texts by providing new elements that are in the
+          substitution group of SchText like, for example, jokers
+          (metavariables) as used in Cadiz's tactic language.
+          <br/>
+          Renamed the DeclName element and type to ZDeclName and added new
+          abstract element and type DeclName.  The element ZDeclName is
+          declared to be in the substitution group of (the new abstract)
+          element DeclName.
+          <br/>
+          Renamed the RefName element and type to ZRefName and added new
+          abstract element and type RefName.  The element ZRefName is
+          declared to be in the substitution group of (the new abstract)
+          element RefName.
+          <br/>
+          Deleted abstract element and type Name since it is no longer used.
+          <br/>
+          Added new element and type Numeral (abstract) and ZNumeral
+          and use it in NumExpr and TupleSelExpr.
+          <br/>
+          Added new elements and types for lists: DeclList (abstract)
+          and ZDeclList, ExprList (abstract) and ZExprList, RenameList
+          (abstract) and ZRenameList, RefNameList (abstract) and
+          ZRefNameList, StrokeList (abstract) and ZStrokeList,
+          DeclNameList (abstract) and ZDeclNameList.
+          Those are now used instead of sequences defined via minOccurs and
+          maxOccurs elements.
+          <br/>
+          Removed element and type NameExprPair since it is not used any more.
+          <br/>
+          Rename NameNamePair as NewOldPair and use Z ordering of the names.
+          <br/>
+          Rename Number as Digit to distinct it from Numeral.
+          <br/>
+          Rename type TermA as Term and let all other types extend
+          from Term.  Now all elements can have annotations.
+          <br/>
+          Added new attribute Explicit to RefExpr.  It is used to
+          distinguish whether the instantiating expressions are
+          explicitly given in the specification (explicit is true) or
+          whether they were inferred by the typechecker (explicit is
+          false).
+          <br/>
+          Added new element/type Ann, an abstract base class for all
+          annotations.  This is mostly for consistency with our other
+          complex type hierarchies.
+          <br/>
+          Added new attributes Start and Length to LocAnn.
+          <br/>
+          Improve some documentation.
+        </td>
+      </tr>
+      <tr>
         <td>1.4</td>
         <td><link href="Z_1_4.xsd">Z_1_4.xsd</link></td>
         <td>1.71</td>
