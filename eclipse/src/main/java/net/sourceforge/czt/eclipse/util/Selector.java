@@ -42,6 +42,12 @@ public class Selector {
 		return fTermStack.get(fSelection);
 	}
 	
+	public Term current() {
+		if (fSelection < 0)
+			return null;
+		return fTermStack.get(fSelection);
+	}
+	
 	public Term next() {
 		if (fTermStack.isEmpty())
 			return null;

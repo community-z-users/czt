@@ -9,8 +9,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.z.ast.RefName;
-import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZRefName;
 
@@ -18,7 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
@@ -131,17 +129,19 @@ public class OccurrencesFinderJob extends Job {
 	private void computeOccurrenceAnnotations(Map<Annotation, Position> map, Term term, Term selected, String message) {
 		if (term == null)
 			return;
+//		String annotationType = "net.sourceforge.czt.eclipse.occurrence";
+		
 		for (Object child : term.getChildren()) {		
 			if (child == null)
 				continue;
 			if (child instanceof Term) {
 				if (child.equals(selected)) {
-					map.put(new Annotation("net.sourceforge.czt.eclipse.occurrence", false, message), //$NON-NLS-1$
+					map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
 							fEditor.getParsedData().getTermPosition((Term)child));
 				}
 				else if (child instanceof ZRefName) {
 					if (selected.equals(((ZRefName)child).getDecl())) {
-						map.put(new Annotation("net.sourceforge.czt.eclipse.occurrence", false, message), //$NON-NLS-1$
+						map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
 								fEditor.getParsedData().getTermPosition((Term)child));
 					}
 				}

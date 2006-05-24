@@ -6,9 +6,13 @@ package net.sourceforge.czt.eclipse;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import net.sourceforge.czt.eclipse.editors.ZCodeScanner;
-import net.sourceforge.czt.eclipse.editors.ZPartitionScanner;
+import net.sourceforge.czt.eclipse.editors.ImageDescriptorRegistry;
+import net.sourceforge.czt.eclipse.editors.latex.ZLatexCodeScanner;
+import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
+import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodeCodeScanner;
+import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.util.CZTPluginImages;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -20,14 +24,19 @@ import net.sourceforge.czt.z.ast.Spec;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -44,17 +53,36 @@ public class CZTPlugin extends AbstractUIPlugin {
 	
 	public final static String Z_PARTITIONING= "__zed_partitioning";   //$NON-NLS-1$
 
-	private ZPartitionScanner fZPartitionScanner_Default;
-	private ZPartitionScanner fZPartitionScanner_Latex;
-	private ZPartitionScanner fZPartitionScanner_Utf8;
-	private ZPartitionScanner fZPartitionScanner_Utf16;
-	private ZPartitionScanner fZPartitionScanner_Utf16be;
-	private ZPartitionScanner fZPartitionScanner_Utf16le;
+	private RuleBasedPartitionScanner fZDefaultPartitionScanner;
+	private RuleBasedPartitionScanner fZLatexPartitionScanner;
+	private RuleBasedPartitionScanner fZUnicodePartitionScanner;
 	
 	private CZTColorManager fColorManager;
-	private ZCodeScanner fCodeScanner;
+	private ZLatexCodeScanner fLatexCodeScanner;
+	private ZUnicodeCodeScanner fUnicodeCodeScanner;
 	private SectionManager fSectionManager;
+	
+	private ImageDescriptorRegistry fImageDescriptorRegistry;
 		
+	/**
+	 * Property change listener on this plugin's preference store.
+	 * 
+	 * @since 3.0
+	 */
+	private IPropertyChangeListener fPropertyChangeListener;
+	private IPropertyChangeListener fFontPropertyChangeListener;
+	
+	/**
+	 * The combined preference store.
+	 * @since 3.0
+	 */
+	private IPreferenceStore fCombinedPreferenceStore;
+	
+	/**
+	 * The shared Z properties file document provider.
+	 * @since 3.1
+	 */
+	private IDocumentProvider fPropertiesFileDocumentProvider;
 	
 	/**
 	 * The constructor.
@@ -82,7 +110,20 @@ public class CZTPlugin extends AbstractUIPlugin {
 	 * This method is called when the plug-in is stopped
 	 */
 	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
+		try {
+			if (fImageDescriptorRegistry != null)
+				fImageDescriptorRegistry.dispose();
+					
+//			if (fCZTTextTools != null) {
+//				fCZTTextTools.dispose();
+//				fCZTTextTools= null;
+//			}
+			
+//			uninstallPreferenceStoreBackwardsCompatibility();
+		} finally {	
+			super.stop(context);
+		}
+		
 		plugin = null;
 	}
 
@@ -101,7 +142,7 @@ public class CZTPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("net.sourceforge.czt", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("net.sourceforge.czt.eclipse", path);
 	}
 	
 	
@@ -210,47 +251,44 @@ public class CZTPlugin extends AbstractUIPlugin {
 	/**
 	 * Return a scanner for creating java partitions.
 	 */
-	public ZPartitionScanner getZedPartitionScanner(String fileType) {
+	public RuleBasedPartitionScanner getZPartitionScanner(String fileType) {
 		if ((fileType == null) || fileType.equals("")) {
-			return fZPartitionScanner_Default;
+			return fZDefaultPartitionScanner;
 		}
-		else if (fileType.equals(IZFileType.FILETYPE_LATEX)) {
-			if (fZPartitionScanner_Latex == null)
-				fZPartitionScanner_Latex = new ZPartitionScanner(IZFileType.FILETYPE_LATEX);
-			return fZPartitionScanner_Latex;
+		else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(fileType)) {
+			if (fZLatexPartitionScanner == null)
+				fZLatexPartitionScanner = new ZLatexPartitionScanner();
+			return fZLatexPartitionScanner;
 		}
-		else if (fileType.equals(IZFileType.FILETYPE_UTF8)) {
-			if (fZPartitionScanner_Utf8 == null)
-				fZPartitionScanner_Utf8 = new ZPartitionScanner(IZFileType.FILETYPE_UTF8);
-			return fZPartitionScanner_Utf8;
-		}
-		else if (fileType.equals(IZFileType.FILETYPE_UTF16)) {
-			if (fZPartitionScanner_Utf16 == null)
-				fZPartitionScanner_Utf16 = new ZPartitionScanner(IZFileType.FILETYPE_UTF16);
-			return fZPartitionScanner_Utf16;
-		}
-		else if (fileType.equals(IZFileType.FILETYPE_UTF16_BE)) {
-			if (fZPartitionScanner_Utf16be == null)
-				fZPartitionScanner_Utf16be = new ZPartitionScanner(IZFileType.FILETYPE_UTF16_BE);
-			return fZPartitionScanner_Utf16be;
-		}
-		else if (fileType.equals(IZFileType.FILETYPE_UTF16_LE)) {
-			if (fZPartitionScanner_Utf16le == null)
-				fZPartitionScanner_Utf16le = new ZPartitionScanner(IZFileType.FILETYPE_UTF16_LE);
-			return fZPartitionScanner_Utf16le;
+		else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(fileType)
+				|| IZFileType.FILETYPE_UTF16.equalsIgnoreCase(fileType)) {
+			if (fZUnicodePartitionScanner == null)
+				fZUnicodePartitionScanner = new ZUnicodePartitionScanner();
+			return fZUnicodePartitionScanner;
 		}
 		else {
-			return fZPartitionScanner_Default;
+			if (fZDefaultPartitionScanner == null)
+				fZDefaultPartitionScanner = new RuleBasedPartitionScanner();
+			return fZDefaultPartitionScanner;
 		}
 	}
 	
 	/**
-	 * Returns the singleton scanner.
+	 * Returns the Z Latex markup code scanner.
 	 */
-	public RuleBasedScanner getZedCodeScanner() {
-		if (fCodeScanner == null)
-			fCodeScanner = new ZCodeScanner(getCZTColorManager());
-		return fCodeScanner;
+	public RuleBasedScanner getZLatexCodeScanner() {
+		if (fLatexCodeScanner == null)
+			fLatexCodeScanner = new ZLatexCodeScanner(getCZTColorManager());
+		return fLatexCodeScanner;
+	}
+	
+	/**
+	 * Returns the Z Unicode markup code scanner.
+	 */
+	public RuleBasedScanner getZUnicodeCodeScanner() {
+		if (fUnicodeCodeScanner == null)
+			fUnicodeCodeScanner = new ZUnicodeCodeScanner(getCZTColorManager());
+		return fUnicodeCodeScanner;
 	}
 	
 	/**
@@ -295,6 +333,23 @@ public class CZTPlugin extends AbstractUIPlugin {
 		}
 		
 		return sectManager;
+	}
+	
+	/*
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#createImageRegistry()
+	 */
+	protected ImageRegistry createImageRegistry() {
+		return CZTPluginImages.getImageRegistry();
+	}
+	
+	public static ImageDescriptorRegistry getImageDescriptorRegistry() {
+		return getDefault().internalGetImageDescriptorRegistry();
+	}
+	
+	private synchronized ImageDescriptorRegistry internalGetImageDescriptorRegistry() {
+		if (fImageDescriptorRegistry == null)
+			fImageDescriptorRegistry= new ImageDescriptorRegistry();
+		return fImageDescriptorRegistry;
 	}
 }
 

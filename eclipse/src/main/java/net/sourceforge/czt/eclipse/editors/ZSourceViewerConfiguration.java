@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.latex.ZLatexDoubleClickStrategy;
+import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
+import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodeDoubleClickStrategy;
+import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
@@ -39,12 +43,14 @@ public class ZSourceViewerConfiguration
 	 */
 	public ZSourceViewerConfiguration(ITextEditor editor) {
 		super(editor);
+		System.out.println("ZSourceViewerConfiguration constructor");
 	}
 	
 	/*
 	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredDocumentPartitioning(org.eclipse.jface.text.source.ISourceViewer)
 	 */
 	public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer) {
+		System.out.println("ZSourceViewerConfiguration.getConfiguredDocumentPartitioning");
 		return CZTPlugin.Z_PARTITIONING;
 	}
 	
@@ -53,31 +59,22 @@ public class ZSourceViewerConfiguration
 	 * Method declared on SourceViewerConfiguration
 	 */
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		System.out.println("ZSourceViewerConfiguration.getConfiguredContentTypes");
 		String sourceFileType = getSourceFileType();
 		
-		List contentTypes = new ArrayList();
+		List<String> contentTypes = new ArrayList<String>();
 		contentTypes.add(IDocument.DEFAULT_CONTENT_TYPE);
 		
-		if ((sourceFileType == null) || sourceFileType.equals("")) {
-			
-		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_LATEX)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_LATEX.length; i++) {
-				contentTypes.add(ZPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
+		if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(sourceFileType)) {
+			for (int i = 0; i < ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX.length; i++) {
+				contentTypes.add(ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
 			}
 		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_UTF8)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_UTF8.length; i++) {
-				contentTypes.add(ZPartitionScanner.Z_PARTITION_TYPES_UTF8[i]);
+		else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
+				|| IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType)) {
+			for (int i = 0; i < ZUnicodePartitionScanner.Z_PARTITION_TYPES_UNICODE.length; i++) {
+				contentTypes.add(ZUnicodePartitionScanner.Z_PARTITION_TYPES_UNICODE[i]);
 			}
-		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_UTF16)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_UTF16.length; i++) {
-				contentTypes.add(ZPartitionScanner.Z_PARTITION_TYPES_UTF16[i]);
-			}
-		}
-		else {
-			
 		}
 		
 		String[] types = new String[contentTypes.size()];
@@ -99,7 +96,16 @@ public class ZSourceViewerConfiguration
 	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration
 	 */
 	public ITextDoubleClickStrategy getDoubleClickStrategy(ISourceViewer sourceViewer, String contentType) {
-		return new ZDoubleClickStrategy();
+		System.out.println("ZSourceViewerConfiguration.getDoubleClickStrategy");
+		String sourceFileType = getSourceFileType();
+		
+		if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(sourceFileType))
+			return new ZLatexDoubleClickStrategy();
+		else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
+				|| IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType))
+			return new ZUnicodeDoubleClickStrategy();
+		else
+			return super.getDoubleClickStrategy(sourceViewer, contentType);
 	}
 	
 	/**
@@ -107,6 +113,7 @@ public class ZSourceViewerConfiguration
 	 */
 	public IPresentationReconciler getPresentationReconciler(
 			ISourceViewer sourceViewer) {
+		System.out.println("ZSourceViewerConfiguration.getPresentationReconciler starts");
 		CZTColorManager colorManager = CZTPlugin.getDefault().getCZTColorManager();
 		PresentationReconciler reconciler= new PresentationReconciler();
 		reconciler.setDocumentPartitioning(
@@ -118,33 +125,23 @@ public class ZSourceViewerConfiguration
 		if ((sourceFileType == null) || sourceFileType.equals("")) {
 			System.out.println("null file type");
 		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_LATEX)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_LATEX.length; i++) {
+		else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(sourceFileType)) {
+			for (int i = 0; i < ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX.length; i++) {
 				
 				dr = new DefaultDamagerRepairer(
-						CZTPlugin.getDefault().getZedCodeScanner());
-				reconciler.setDamager(dr, ZPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
-				reconciler.setRepairer(dr, ZPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
+						CZTPlugin.getDefault().getZLatexCodeScanner());
+				reconciler.setDamager(dr, ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
+				reconciler.setRepairer(dr, ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX[i]);
 			}
 		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_UTF8)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_UTF8.length; i++) {
+		else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
+				|| IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType)) {
+			for (int i = 0; i < ZUnicodePartitionScanner.Z_PARTITION_TYPES_UNICODE.length; i++) {
 				dr = new DefaultDamagerRepairer(
-						CZTPlugin.getDefault().getZedCodeScanner());
-				reconciler.setDamager(dr, ZPartitionScanner.Z_PARTITION_TYPES_UTF8[i]);
-				reconciler.setRepairer(dr, ZPartitionScanner.Z_PARTITION_TYPES_UTF8[i]);
+						CZTPlugin.getDefault().getZUnicodeCodeScanner());
+				reconciler.setDamager(dr, ZUnicodePartitionScanner.Z_PARTITION_TYPES_UNICODE[i]);
+				reconciler.setRepairer(dr, ZUnicodePartitionScanner.Z_PARTITION_TYPES_UNICODE[i]);
 			}
-		}
-		else if (sourceFileType.equals(IZFileType.FILETYPE_UTF16)) {
-			for (int i = 0; i < ZPartitionScanner.Z_PARTITION_TYPES_UTF16.length; i++) {
-				dr = new DefaultDamagerRepairer(
-						CZTPlugin.getDefault().getZedCodeScanner());
-				reconciler.setDamager(dr, ZPartitionScanner.Z_PARTITION_TYPES_UTF16[i]);
-				reconciler.setRepairer(dr, ZPartitionScanner.Z_PARTITION_TYPES_UTF16[i]);
-			}
-		}
-		else {
-			
 		}
 		
 		//Set the DamagerRepairer to default content type
@@ -152,11 +149,12 @@ public class ZSourceViewerConfiguration
 				new TextAttribute(colorManager.getColor(IZColorConstants.MULTI_LINE_COMMENT))));
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-				
+		System.out.println("ZSourceViewerConfiguration.getPresentationReconciler finishes");
 		return reconciler;
 	}
 	
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		System.out.println("ZSourceViewerConfiguration.getContentAssistant starts");
 		ContentAssistant assistant = new ContentAssistant();
 		assistant.setContentAssistProcessor(
 			new ZCompletionProcessor(),
@@ -165,6 +163,7 @@ public class ZSourceViewerConfiguration
 		assistant.setAutoActivationDelay(500);
 		assistant.setProposalPopupOrientation(
 			IContentAssistant.PROPOSAL_OVERLAY);
+		System.out.println("ZSourceViewerConfiguration.getContentAssistant finishes");
 		return assistant;
 	}
 	
@@ -173,7 +172,7 @@ public class ZSourceViewerConfiguration
 	 */
 	
 	public IReconciler getReconciler(ISourceViewer sourceViewer) {
-
+		System.out.println("ZSourceViewerConfiguration.getReconciler starts");
 		final ITextEditor editor= getEditor();
 		
 		if (editor != null && editor.isEditable()) {
@@ -182,14 +181,17 @@ public class ZSourceViewerConfiguration
 			reconciler.setIsIncrementalReconciler(false);
 			reconciler.setProgressMonitor(new NullProgressMonitor());
 			reconciler.setDelay(500);
-
+			System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
 			return reconciler;
 		}
+		
+		System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
 		
 		return null;
 	}
 	
 	public String getSourceFileType() {
+		System.out.println("ZSourceViewerConfiguration.getSourceFileType");
 		ITextEditor editor = getEditor();
 		if (editor instanceof ZEditor)
 			return ((ZEditor) editor).getFileType();

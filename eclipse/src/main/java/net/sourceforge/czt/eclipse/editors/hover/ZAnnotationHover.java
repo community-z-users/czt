@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
+
 import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -143,7 +145,7 @@ public class ZAnnotationHover implements IAnnotationHover {
 
 		while (iterator.hasNext()) {
 			Annotation annotation= (Annotation) iterator.next();
-			if (!annotation.getType().equals("org.eclipse.ui.workbench.texteditor.error"))
+			if (!annotation.getType().equals(IZAnnotationType.ERROR))
 				continue;
 			Position position= model.getPosition(annotation);
 			if (position == null)

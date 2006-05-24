@@ -49,7 +49,11 @@ public class ZCharacter {
 				(character == '\'');
 	}
 	
-	public static boolean isZWhitespace(char character) {
+	public static boolean isZLatexWhitespace(char character) {
+		return Character.isWhitespace(character);
+	}
+	
+	public static boolean isZUnicodeWhitespace(char character) {
 		return Character.isWhitespace(character);
 	}
 

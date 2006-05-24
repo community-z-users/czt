@@ -18,6 +18,7 @@ import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.LocAnn;
@@ -27,6 +28,7 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.ast.ZSect;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
@@ -36,7 +38,7 @@ import org.eclipse.jface.text.Position;
  */
 public class ParsedData {
 	
-	private String name_;
+	private Object source_;
 	private CztSegment root_;
 	private SectionManager manager_;
 	private Spec spec_;
@@ -50,9 +52,9 @@ public class ParsedData {
 
 	private static Visitor<Term[]> getNodeChildrenVisitor_ = new NodeChildrenVisitor();
 	
-	public ParsedData(String name) {
-		name_ = name;
-		root_ = new CztSegment(new Segment(name), null);
+	public ParsedData(Object source) {
+		source_ = source;
+		root_ = new CztSegment(source, new Segment(String.valueOf(source)), null);
 	}
 	
 	public void addData(Spec spec, SectionManager manager, IDocument document) {
@@ -146,6 +148,10 @@ public class ParsedData {
 		return this.root_;
 	}
 	
+	public Object getSource() {
+		return this.source_;
+	}
+	
 	public Spec getSpec() {
 		return this.spec_;
 	}
@@ -190,25 +196,31 @@ public class ParsedData {
 		if (term instanceof ZSect) {
 			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
 			Position range = getPosition(term);
-			return new CztSegment(segment, range);
+			return new CztSegment(source_, segment, range);
 		}
 		else if (term instanceof GivenPara) {
 			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
 			Position range = getPosition(term);
 			Position namePosition = getNamePosition(((GivenPara)term).getDeclName());			
-			return new CztSegment(segment, range, namePosition);
+			return new CztSegment(source_, segment, range, namePosition);
 		}
 		else if (term instanceof AxPara) {
 			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
 			Position range = getPosition(term);
 			Position namePosition = getNamePosition(((AxPara)term).getDeclName());
-			return new CztSegment(segment, range, namePosition);
+			return new CztSegment(source_, segment, range, namePosition);
+		}
+		else if (term instanceof ConstDecl) {
+			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
+			Position range = getPosition(term);
+			Position namePosition = getPosition(((ConstDecl)term).getZDeclName());
+			return new CztSegment(source_, segment, range, namePosition);
 		}
 		else if (term instanceof VarDecl) {
 			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
 			Position range = getPosition(term);
 			Position namePosition = getNamePosition(((VarDecl)term).getDeclName());
-			return new CztSegment(segment, range, namePosition);
+			return new CztSegment(source_, segment, range, namePosition);
 		}
 		
 		return null;

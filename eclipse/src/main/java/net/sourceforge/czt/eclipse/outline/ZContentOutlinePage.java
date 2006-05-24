@@ -3,7 +3,6 @@ package net.sourceforge.czt.eclipse.outline;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
@@ -15,14 +14,13 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
@@ -49,7 +47,7 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 		 */
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			if (oldInput != null) {
-				IDocument document = fDocumentProvider.getDocument(fTextEditor
+				IDocument document = fTextEditor.getDocumentProvider().getDocument(fTextEditor
 						.getEditorInput());
 				if (document != null) {
 					try {
@@ -63,7 +61,7 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 			fContents.clear();
 
 			if (newInput != null) {
-				IDocument document = fDocumentProvider.getDocument(fTextEditor
+				IDocument document = fTextEditor.getDocumentProvider().getDocument(fTextEditor
 						.getEditorInput());
 				if (document != null) {
 					try {
@@ -143,7 +141,7 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 
 	protected Object fInput;
 
-	protected IDocumentProvider fDocumentProvider;
+	protected String fContextMenuId;
 
 	protected ITextEditor fTextEditor;
 
@@ -156,9 +154,9 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 	 * @param editor
 	 *            the editor
 	 */
-	public ZContentOutlinePage(IDocumentProvider provider, ITextEditor editor) {
+	public ZContentOutlinePage(String contextMenuId, ITextEditor editor) {
 		super();
-		fDocumentProvider = provider;
+		fContextMenuId = contextMenuId;
 		fTextEditor = editor;
 	}
 	
@@ -171,7 +169,7 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 
 		TreeViewer viewer = getTreeViewer();
 		viewer.setContentProvider(new OutlineContentProvider());
-		viewer.setLabelProvider(new LabelProvider());
+		viewer.setLabelProvider(new DecoratingCztLabelProvider(new OutlineLabelProvider()));
 		viewer.addSelectionChangedListener(this);
 		viewer.addDoubleClickListener(this);
 
@@ -207,12 +205,11 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 		Object element = getNodeOfPoint(
 				contentProvider, contents.toArray(), offset);
 		if (element == null) {
-//			System.out.println("null");
 			this.getTreeViewer().setSelection(null);
 		}
 		else {
-//			System.out.println(element.toString());
-			this.getTreeViewer().reveal(element);
+			IStructuredSelection selection = new StructuredSelection(element);
+			this.getTreeViewer().setSelection(selection, false);
 		}
 	}
 	
@@ -242,30 +239,12 @@ public class ZContentOutlinePage extends ContentOutlinePage implements
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
 		super.selectionChanged(event);
-		if (!this.getControl().isFocusControl())
-			return;
-		ISelection selection = event.getSelection();
-		if (selection.isEmpty())
-			fTextEditor.resetHighlightRange();
-		else {
-			CztSegment segment = (CztSegment) ((IStructuredSelection) selection)
-					.getFirstElement();
-			int start = segment.getNamePosition().getOffset();
-			int length = segment.getNamePosition().getLength();
-			try {
-				fTextEditor.selectAndReveal(start, length);
-//				fTextEditor.setHighlightRange(start, length, true);
-			} catch (IllegalArgumentException x) {
-				fTextEditor.resetHighlightRange();
-			}
-		}
 	}
 
 	/**
 	 * Sets the input of the outline page
 	 * 
-	 * @param input
-	 *            the input of this outline page
+	 * @param input - the input of this outline page
 	 */
 	public void setInput(Object input) {
 		fInput = input;

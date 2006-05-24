@@ -93,11 +93,7 @@ public class ZCompilerMessageParser {
     	attributes.put(IMarker.MESSAGE,
     			message);
     	
-//    	MarkerUtilities.setLineNumber(attributes, lineNumber);
-//    	MarkerUtilities.setCharStart(attributes, charStart);
-//    	MarkerUtilities.setCharEnd(attributes, charEnd);
-//    	MarkerUtilities.setMessage(attributes, message);
     	MarkerUtilities.createMarker(this.fResource, attributes,
-    			IMarker.PROBLEM);
+    			IZMarker.PROBLEM);
     }
 }

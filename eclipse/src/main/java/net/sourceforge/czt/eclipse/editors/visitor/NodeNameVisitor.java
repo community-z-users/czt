@@ -7,9 +7,11 @@ import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.DecorExpr;
 import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.OptempPara;
@@ -27,8 +29,10 @@ import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
+import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
@@ -45,28 +49,33 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
 /**
  * @author Chengdong Xu
  */
-public class NodeNameVisitor implements TermVisitor<String>,
+public class NodeNameVisitor implements
+		TermVisitor<String>, GivenParaVisitor<String>,
 		AxParaVisitor<String>, ConjParaVisitor<String>,
 		FreeParaVisitor<String>, NarrParaVisitor<String>,
 		NarrSectVisitor<String>, OptempParaVisitor<String>,
 		UnparsedParaVisitor<String>, ZSectVisitor<String>,
-		VarDeclVisitor<String>, ZDeclNameVisitor<String>,
-		RefExprVisitor<String>, PowerExprVisitor<String>,
-		DecorExprVisitor<String>, SchExprVisitor<String>,
-		SetExprVisitor<String>, TupleExprVisitor<String>,
-		ApplExprVisitor<String>, AndExprVisitor<String>,
-		OrExprVisitor<String> {
+		ConstDeclVisitor<String>, VarDeclVisitor<String>,
+		ZDeclNameVisitor<String>, RefExprVisitor<String>,
+		PowerExprVisitor<String>, DecorExprVisitor<String>,
+		SchExprVisitor<String>, SetExprVisitor<String>,
+		TupleExprVisitor<String>, ApplExprVisitor<String>,
+		AndExprVisitor<String>, OrExprVisitor<String> {
 
 	public String visitTerm(Term term) {
 		return String.valueOf(term);
 	}
+	
+	public String visitGivenPara(GivenPara givenPara) {
+		return "GivenPara: " + getNames(givenPara.getDeclName());
+	}
 
 	public String visitAxPara(AxPara axPara) {
-		return "AxPara: " + axPara.getDeclName().toString();
+		return "AxPara: " + getNames(axPara.getDeclName());
 	}
 
 	public String visitConjPara(ConjPara conjPara) {
-		return "ConjPara" + conjPara.getDeclName().toString();
+		return "ConjPara" + getNames(conjPara.getDeclName());
 	}
 
 	public String visitFreePara(FreePara freePara) {
@@ -92,7 +101,11 @@ public class NodeNameVisitor implements TermVisitor<String>,
 	public String visitZSect(ZSect zSect) {
 		return zSect.getName();
 	}
-
+	
+	public String visitConstDecl(ConstDecl constDecl) {
+		return constDecl.getZDeclName().accept(this);
+	}
+	
 	public String visitVarDecl(VarDecl varDecl) {
 		ListTerm<DeclName> declNameList = varDecl.getDeclName();
 		if (declNameList.size() == 0)
@@ -124,7 +137,7 @@ public class NodeNameVisitor implements TermVisitor<String>,
 	}
 	
 	public String visitSchExpr(SchExpr schExpr) {
-		return String.valueOf(schExpr.getZSchText().getPred());
+		return schExpr.getZSchText().getPred().accept(this);
 	}
 	
 	public String visitSetExpr(SetExpr setExpr) {
@@ -145,5 +158,18 @@ public class NodeNameVisitor implements TermVisitor<String>,
 	
 	public String visitOrExpr(OrExpr orExpr) {
 		return String.valueOf(orExpr);
+	}
+	
+	private String getNames(ListTerm<DeclName> declNames) {
+		if (declNames.size() == 0)
+			return "";
+		if (declNames.size() == 1)
+			return declNames.get(0).accept(this);
+		String result = "[" + declNames.get(0).accept(this);
+		for (int i = 1; i < declNames.size(); i++)
+			result = result + ", " + declNames.get(i).accept(this);
+		result = result + "]";
+
+		return result;
 	}
 }

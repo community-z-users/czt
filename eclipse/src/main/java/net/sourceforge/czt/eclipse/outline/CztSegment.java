@@ -22,32 +22,43 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.Position;
 
 /**
  * @author Chengdong Xu
  */
 public class CztSegment {
+	private Object source_ = null;
 	private Segment segment_ = null;
 	private Position range_ = null;
 	private Position namePosition_ = null;
 	private CztSegment parent_ = null;
 	private List<CztSegment> children_ = new ArrayList<CztSegment>();
 	
-	public CztSegment(Segment segment) {
+	public CztSegment(Object source, Segment segment) {
+		source_ = source;
 		this.segment_ = segment;
 	}
 	
-	public CztSegment(Segment segment, Position range) {
+	public CztSegment(Object source, Segment segment, Position range) {
+		source_ = source;
 		this.segment_ = segment;
 		this.range_ = this.namePosition_ = range;
 	}
 	
-	public CztSegment(Segment segment, Position range, Position namePosition) {
-		this(segment, range);
+	public CztSegment(Object source, Segment segment, Position range, Position namePosition) {
+		this(source, segment, range);
 		if (namePosition != null)
 			this.namePosition_ = namePosition;
+	}
+	
+	public Object getSource() {
+		return source_;
+	}
+	
+	public void setSource(Object source) {
+		source_ = source;
 	}
 	
 	public String getName() {

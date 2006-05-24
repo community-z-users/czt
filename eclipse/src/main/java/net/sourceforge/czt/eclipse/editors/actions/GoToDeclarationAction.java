@@ -27,7 +27,7 @@ public class GoToDeclarationAction extends TextEditorAction {
 			ITextEditor editor) {
 		super(bundle, prefix, editor);
 	}
-
+	
 	public GoToDeclarationAction(ResourceBundle bundle, String prefix,
 			ITextEditor editor, int style) {
 		super(bundle, prefix, editor, style);
@@ -43,11 +43,11 @@ public class GoToDeclarationAction extends TextEditorAction {
 		Term term = selector.getTerm(new Position(selection.getOffset(), selection.getLength()));
 		if (term == null)
 			return;
-		DeclName decl = null;
-		if (term instanceof ZRefName)
-			decl = ((ZRefName)term).getDecl();
-		
-		Position decl_pos = editor.getParsedData().getTermPosition(decl);
+		Position decl_pos = null;
+		if (term instanceof DeclName)
+			decl_pos = editor.getParsedData().getTermPosition(term);
+		else if (term instanceof ZRefName)
+			decl_pos = editor.getParsedData().getTermPosition(((ZRefName)term).getDecl());
 		
 		if (decl_pos != null) {
 			IWorkbenchPage page = CZTPlugin.getActivePage();
@@ -57,5 +57,4 @@ public class GoToDeclarationAction extends TextEditorAction {
 			}
 		}
 	}
-
 }

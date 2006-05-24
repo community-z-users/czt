@@ -2,10 +2,13 @@ package net.sourceforge.czt.eclipse.outline;
 
 import javax.swing.Icon;
 
+import org.eclipse.core.resources.IResource;
+
 /**
  * @author Chengdong Xu
  */
 public class Segment {
+	
 	private String name_ = null;
 	private String description_ = null;
 	private Icon icon_ = null;

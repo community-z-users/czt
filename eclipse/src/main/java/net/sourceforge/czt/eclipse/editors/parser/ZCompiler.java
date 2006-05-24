@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
@@ -18,7 +19,6 @@ import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.Spec;
 
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
@@ -55,15 +55,13 @@ public class ZCompiler {
 	public ParsedData parse() {
 		ZEditor editor = getEditor();
 		IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-		this.fParsedData = new ParsedData(editor.getEditorInput().getName());
+		this.fParsedData = new ParsedData(editor);
 		SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
 		List<CztError> errors = new ArrayList<CztError>();
 		
 		Source source = new StringSource(document.get(), ((IFileEditorInput)editor.getEditorInput()).getFile().getName());
 		source.setMarkup(editor.getMarkup());     // or Markup.UNICODE
-		System.out.println(source.getMarkup());
 		source.setEncoding(editor.getEncoding());   // for Unicode
-		System.out.println(source.getEncoding());
 		
 		Spec parsed = null;
 		
@@ -131,7 +129,7 @@ public class ZCompiler {
 	 */
 	protected void createMarkers(List<CztError> errors, IResource resource, IDocument document) throws CoreException {
 		// first delete all the previous markers
-		resource.deleteMarkers(IMarker.PROBLEM, false, 0);
+		resource.deleteMarkers(IZMarker.PROBLEM, false, 0);
 
 		ZCompilerMessageParser compMsgParser = getZCompilerMessageParser();
 		compMsgParser.parseCompilerMessage(document, resource, errors);

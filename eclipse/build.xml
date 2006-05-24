@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="net.sourceforge.czt.eclipse" basedir="." default="product">
-  <!--  Target directory used to build the product...  will be deleted. -->
-  <property name="temp_dir" location="CZTProductTemp"/>
-  <!--  Product directory where final product will be placed. -->
-  <property name="product_dir" location="CZTProduct"/>
-  <!--  Current product version number. -->
-  <property name="product_version" value="1.0.0"/>
-  <!--  Product directory...  subdirectory of product directory -->
-  <property name="plugin_dir" location="${temp_dir}/plugins/net.sourceforge.czt.eclipse_${product_version}"/>
-
-  <target name="product">
-    <delete dir="${temp_dir}"/>
-    <mkdir dir="${plugin_dir}"/>
-    <mkdir dir="${product_dir}"/>
-    <jar destfile="${plugin_dir}/net.sourceforge.czt.eclipse.jar">
-      <fileset dir="bin"/>
-    </jar>
-    <copy todir="${plugin_dir}">
-      <fileset dir="." includes="src/main/config/*.*"/>
-      <fileset dir="." includes="icons/*.gif"/>
-      <fileset dir="." includes="src/main/resources/*.*"/>
-    </copy>
-    <!--  Build the product from the temp directory. -->
-    <zip destfile="${product_dir}/CommunityZTools_v${product_version}.zip">
-      <fileset dir="${temp_dir}"/>
-    </zip>
-    <!--  Delete the temp directory -->
-    <delete dir="${temp_dir}"/>
-  </target>
-
-  <target name="clean">
-    <delete dir="${temp_dir}"/>
-    <delete dir="${product_dir}"/>
-  </target>
+	<!--  ===============================================================
+	-->
+	<target name="product">
+		<!--  Target directory used to build the product...  will be deleted.
+		-->
+		<property name="temp_dir" location="./../CZTProductTemp"/>
+		<!--  Product directory where final product will be placed.
+		-->
+		<property name="product_dir" location="./../CZTProduct"/>
+		<!--  Current product version number.
+		-->
+		<property name="product_version" value="1.0.0"/>
+		<!--  Product directory...  subdirectory of product directory
+		-->
+		<property name="plugin_dir" location="${temp_dir}/plugins/net.sourceforge.czt.eclipse_${product_version}"/>
+		<!--  Clear out the temp directory
+		-->
+		<delete dir="${temp_dir}"/>
+		<mkdir dir="${plugin_dir}"/>
+		<mkdir dir="${product_dir}"/>
+		<!--  Assemble the product in the temp directory
+		-->
+		<jar destfile="${plugin_dir}/net.sourceforge.czt.eclipse.jar">
+			<fileset dir="bin"/>
+		</jar>
+		<copy todir="${plugin_dir}">
+			<fileset dir="." includes="plugin.xml"/>
+			<fileset dir="." includes="plugin.properties"/>
+			<fileset dir="." includes=".classpath"/>
+			<fileset dir="." includes="META-INF/*.*"/>
+			<fileset dir="." includes="icons/*.gif"/>
+			<fileset dir="." includes="lib/*.*"/>
+		</copy>
+		<!--  Build the product from the temp directory.
+		-->
+		<zip destfile="${product_dir}/CommunityZTools_v${product_version}.zip">
+			<fileset dir="${temp_dir}"/>
+		</zip>
+		<!--  Delete the temp directory
+		-->
+		<delete dir="${temp_dir}"/>
+	</target>
 </project>

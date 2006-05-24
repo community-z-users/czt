@@ -13,7 +13,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Bundle of most images used by the Java plug-in.
+ * Bundle of most images used by the CZT plug-in.
  * @author Chengdong Xu
  */
 public class CZTPluginImages {
@@ -32,12 +32,63 @@ public class CZTPluginImages {
 	// The plug-in registry
 	private static ImageRegistry fgImageRegistry= null;
 	private static HashMap fgAvoidSWTErrorMap= null;
-
+	
+	private static final String T_OBJ= "obj16"; 		//$NON-NLS-1$
+	private static final String T_OVR= "ovr16"; 		//$NON-NLS-1$
+	private static final String T_WIZBAN= "wizban"; 	//$NON-NLS-1$
+	private static final String T_ELCL= "elcl16"; 	//$NON-NLS-1$
+	private static final String T_DLCL= "dlcl16"; 	//$NON-NLS-1$
+	private static final String T_ETOOL= "etool16"; 	//$NON-NLS-1$
+	private static final String T_EVIEW= "eview16"; //$NON-NLS-1$
+	
 	/*
 	 * Available cached Images in the CZT plug-in image registry.
 	 */
 	public static final String IMG_SPECIFICATION= NAME_PREFIX + "specification.gif"; 			//$NON-NLS-1$
-
+	
+	/*
+	 * Set of predefined Image Descriptors.
+	 */
+	public static final ImageDescriptor DESC_OVR_STATIC= create(T_OVR, "static_co.gif"); 						//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_FINAL= create(T_OVR, "final_co.gif"); 						//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_ABSTRACT= create(T_OVR, "abstract_co.gif"); 					//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_SYNCH= create(T_OVR, "synch_co.gif"); 						//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_RUN= create(T_OVR, "run_co.gif"); 							//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_WARNING= create(T_OVR, "warning_co.gif"); 					//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_ERROR= create(T_OVR, "error_co.gif"); 						//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_OVERRIDES= create(T_OVR, "over_co.gif");  					//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_IMPLEMENTS= create(T_OVR, "implm_co.gif");  				//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_SYNCH_AND_OVERRIDES= create(T_OVR, "sync_over.gif");  	//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_SYNCH_AND_IMPLEMENTS= create(T_OVR, "sync_impl.gif");   //$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_CONSTRUCTOR= create(T_OVR, "constr_ovr.gif");			//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_DEPRECATED= create(T_OVR, "deprecated.gif");			//$NON-NLS-1$
+	public static final ImageDescriptor DESC_OVR_FOCUS= create(T_OVR, "focus_ovr.gif"); //$NON-NLS-1$
+	
+	// Keys for correction proposal. We have to put the image into the registry since "code assist" doesn't
+	// have a life cycle. So no change to dispose icons.
+	
+//	public static final String IMG_CORRECTION_CHANGE= NAME_PREFIX + "correction_change.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_MOVE= NAME_PREFIX + "correction_move.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_RENAME= NAME_PREFIX + "correction_rename.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_DELETE_IMPORT= NAME_PREFIX + "correction_delete_import.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_LOCAL= NAME_PREFIX + "localvariable_obj.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_REMOVE= NAME_PREFIX + "remove_correction.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_ADD= NAME_PREFIX + "add_correction.gif"; //$NON-NLS-1$
+//	public static final String IMG_CORRECTION_CAST= NAME_PREFIX + "correction_cast.gif"; //$NON-NLS-1$
+/*
+	static {
+		createManaged(T_OBJ, IMG_CORRECTION_CHANGE);
+		createManaged(T_OBJ, IMG_CORRECTION_MOVE);
+		createManaged(T_OBJ, IMG_CORRECTION_RENAME);
+		createManaged(T_OBJ, IMG_CORRECTION_DELETE_IMPORT);
+		createManaged(T_OBJ, IMG_CORRECTION_LOCAL);
+		createManaged(T_OBJ, IMG_CORRECTION_REMOVE);
+		createManaged(T_OBJ, IMG_CORRECTION_ADD);
+		createManaged(T_OBJ, IMG_CORRECTION_CAST);
+	}
+*/
+	
+	
 	/**
 	 * Returns the image managed under the given key in this registry.
 	 * 
@@ -86,7 +137,8 @@ public class CZTPluginImages {
 	/*
 	 * Helper method to access the image registry from the JavaPlugin class.
 	 */
-	/* package */ static ImageRegistry getImageRegistry() {
+	/* package */
+	public static ImageRegistry getImageRegistry() {
 		if (fgImageRegistry == null) {
 			fgImageRegistry= new ImageRegistry();
 			for (Iterator iter= fgAvoidSWTErrorMap.keySet().iterator(); iter.hasNext();) {
@@ -119,7 +171,9 @@ public class CZTPluginImages {
 		StringBuffer buffer= new StringBuffer(prefix);
 		buffer.append('/');
 		buffer.append(name);
-		return new URL(fgIconBaseURL, buffer.toString());
+		
+//		return new URL(fgIconBaseURL, buffer.toString());
+		return new URL(fgIconBaseURL, name);
 	}
 	
 	private static ImageDescriptor create(String prefix, String name) {

@@ -16,8 +16,8 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 public class ZCompletionProcessor
 	implements IContentAssistProcessor {
 	
-	protected final static String[] fProposals = { "myTag", "html","form" };
-	/* (non-Javadoc)
+	protected final static String[] fProposals = { "begin" };
+	/**
 	 * Method declared on IContentAssistProcessor
 	 */
 	public ICompletionProposal[] computeCompletionProposals(
@@ -31,7 +31,7 @@ public class ZCompletionProcessor
 		}
 		return result;
 	}
-	/* (non-Javadoc)
+	/**
 	 * Method declared on IContentAssistProcessor
 	 */
 	public IContextInformation[] computeContextInformation(
@@ -39,26 +39,28 @@ public class ZCompletionProcessor
 		int documentOffset) {
 		return null;
 	}
-	/* (non-Javadoc)
+	/**
 	 * Method declared on IContentAssistProcessor
 	 */
 	public char[] getCompletionProposalAutoActivationCharacters() {
-		return new char[] { '<' };
+		return new char[] { '\\' };
 	}
-	/* (non-Javadoc)
+	/**
 	 * Method declared on IContentAssistProcessor
 	 */
 	public char[] getContextInformationAutoActivationCharacters() {
 		return null;
 	}
-	// For Context information 
-	/* (non-Javadoc)
+	
+	/**
+	 * For Context information
+	 * 
 	 * Method declared on IContentAssistProcessor
 	 */
 	public IContextInformationValidator getContextInformationValidator() {
 		return null;
 	}
-	/* (non-Javadoc)
+	/**
 	 * Method declared on IContentAssistProcessor
 	 */
 	public String getErrorMessage() {
