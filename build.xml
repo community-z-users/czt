@@ -12,6 +12,9 @@
     file="${basedir}/gnast/build.xml"
     property="gnast.present"/>
   <available
+    file="${basedir}/eclipse/build.xml"
+    property="eclipse.present"/>
+  <available
     file="${basedir}/corejava/build.xml"
     property="corejava.present"/>
   <available
@@ -244,9 +247,20 @@
     <echo message="Skipping zlive plugin."/>
   </target>
 
+  <target name="install-eclipse" if="eclipse.present"
+    depends="install-session, install-parser, install-typechecker, install-rules"
+    description="install CZT Eclipse plugin">
+    <ant dir="eclipse" target="install"/>
+  </target>
+
   <target name="api-corejava" if="corejava.present"
     description="build api doc for corejava">
     <ant dir="corejava" target="api"/>
+  </target>
+
+  <target name="api-eclipse" if="eclipse.present"
+    description="build api doc for CZT Eclipse plugin">
+    <ant dir="eclipse" target="api"/>
   </target>
 
   <target name="api-session" if="session.present"
