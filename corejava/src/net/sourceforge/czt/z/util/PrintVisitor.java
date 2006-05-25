@@ -62,7 +62,7 @@ public class PrintVisitor
   protected String visit(Term term)
   {
     if (term != null) return term.accept(this);
-    return "";
+    return null;
   }
 
   public String visitGenericType(GenericType genericType)

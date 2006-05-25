@@ -34,9 +34,29 @@ import net.sourceforge.czt.util.Visitor;
 public abstract class TermImpl implements Term
 {
   /**
+   * The factory that created this Term.
+   */
+  private BaseFactory factory_;
+
+  /**
    * A list of annotations.
    */
   private List anns_ = new ArrayList();
+
+  protected TermImpl()
+  {
+    factory_ = null;
+  }
+
+  protected TermImpl(BaseFactory factory)
+  {
+    factory_ = factory;
+  }
+
+  public BaseFactory getFactory()
+  {
+    return factory_;
+  }
 
   public <R> R accept(Visitor<R> v)
   {
@@ -65,13 +85,21 @@ public abstract class TermImpl implements Term
     return anns_;
   }
 
-  public Object getAnn(Class aClass)
+  public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return annotation;
+        return (T) annotation;
       }
     }
     return null;
+  }
+
+  public String toString()
+  {
+    if (getFactory() != null) {
+      return getFactory().toString(this);
+    }
+    return super.toString();
   }
 }

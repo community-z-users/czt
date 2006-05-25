@@ -103,5 +103,5 @@ public interface Term
    * term, or <code>null</code> if the term does not contain an
    * annotation of this type.
    */
-  Object getAnn(Class aClass);
+  <T> T getAnn(Class<T> aClass);
 }

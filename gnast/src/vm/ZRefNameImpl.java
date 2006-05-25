@@ -1,11 +1,3 @@
-  public String toString()
-  {
-    StringBuilder result = new StringBuilder(getWord());
-    for (Stroke stroke : getZStrokeList()) {
-      result.append(stroke.toString());
-    }
-    return result.toString();
-  }
 
   public net.sourceforge.czt.z.util.OperatorName getOperatorName()
   {

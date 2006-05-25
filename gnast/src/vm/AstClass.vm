@@ -71,6 +71,8 @@ public class ${class.ImplName}
   extends java.util.AbstractList<${type}>
   implements ${class.Name}
 {
+  private BaseFactory factory_;
+
   /**
    * The list containing the data.
    */
@@ -83,11 +85,29 @@ public class ${class.ImplName}
   private List anns_ = new java.util.ArrayList();
 
   /**
-   * Constructs an empty list term that accepts all Objects.
+   * The default constructor.
+   *
+   * Do not use it explicitly, unless you are extending this class.
+   * If you want to create an instance of this class, please use the
+   * {@link ${project.getObject("factory")} object factory}.
    */
-  public ${class.ImplName}()
+  protected ${class.ImplName}()
+  {
+    factory_ = null;
+  }
+
+  protected ${class.ImplName}(BaseFactory factory)
   {
     super();
+    factory_ = factory;
+  }
+
+  public String toString()
+  {
+    if (factory_ != null) {
+      return factory_.toString(this);
+    }
+    return super.toString();
   }
 
   /**
@@ -104,10 +124,12 @@ public class ${class.ImplName}
     return this;
   }
 
-  public Object getAnn(Class aClass)
+  public <T> T getAnn(Class<T> aClass)
   {
-    for (Object obj : anns_) {
-      if (aClass.isInstance(obj)) return obj;
+    for (Object annotation : anns_) {
+      if (aClass.isInstance(annotation)) {
+        return (T) annotation;
+      }
     }
     return null;
   }
@@ -199,7 +221,7 @@ public class ${class.ImplName}
 
   public ${class.ImplName} create(Object[] args)
   {
-    ${class.ImplName} result = new ${class.ImplName}();
+    ${class.ImplName} result = new ${class.ImplName}(factory_);
     for (int i = 0; i < args.length; i++) {
       result.add((${type}) args[i]);
     }
@@ -211,7 +233,6 @@ public#abstract($class) class ${class.ImplName}
 #if($class.Extends)  extends ${class.ImplExtends} #end
   implements ${class.Name}
 {
-#if(! ${class.Abstract})
   /**
    * The default constructor.
    *
@@ -222,7 +243,11 @@ public#abstract($class) class ${class.ImplName}
   protected ${class.ImplName}()
   {
   }
-#end
+
+  protected ${class.ImplName}(BaseFactory factory)
+  {
+    super(factory);
+  }
 
   /**
    * Compares the specified object with this ${class.ImplName}
@@ -295,7 +320,7 @@ public#abstract($class) class ${class.ImplName}
 #set($counter = $velocityCount - 1)
       ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
 #end
-      zedObject = new ${class.ImplName}();
+      zedObject = new ${class.ImplName}(getFactory());
 #foreach($prop in $class.AllProperties)
 #if(${prop.isList()})
       if (${prop.VarName} != null) {

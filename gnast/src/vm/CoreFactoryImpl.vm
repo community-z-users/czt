@@ -29,10 +29,13 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
+import net.sourceforge.czt.util.Visitor;
+
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
 import ${project.AstPackage}.*;
+import ${project.BasePackage}.util.PrintVisitor;
 
 /**
  * <p>An implementation of the object factory for constructing
@@ -55,15 +58,27 @@ import ${project.AstPackage}.*;
 public class ${class.Name}
 #if($ImportProject)
   extends ${ImportProject.getObject("factoryImpl")}
+#else
+  extends net.sourceforge.czt.base.impl.BaseFactory
 #end
   implements ${FactoryInterface.FullName}
 {
+  protected ${class.Name}(Visitor<String> toStringVisitor)
+  {
+    super(toStringVisitor);
+  }
+
+  public ${class.Name}()
+  {
+    super(new PrintVisitor());
+  }
+
 #foreach($c in $classes)
 #if(!$c.Abstract)
 #set($head = "public ${c.Name} create${c.Name}")
   ${head}()
   {
-    ${c.Name} zedObject = new ${c.ImplName}();
+    ${c.Name} zedObject = new ${c.ImplName}(this);
     return zedObject;
   }
 
