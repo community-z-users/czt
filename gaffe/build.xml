@@ -102,8 +102,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <fileset dir="resources" includes="**/.xvpics" defaultexcludes="no"/>
     </delete>
   </target>
-  
-  <target name="doc" depends="-init" description="Build the API documentation.">
+
+  <target name="doc" depends="api"
+    description="Builds all the documentation (currently just the API documentation)."/>
+
+  <target name="api" depends="-init"
+      description="Build the API documentation.">
     <mkdir dir="${gaffe.api.path}"/>
     <javadoc packagenames="net.sourceforge.czt.*"
              sourcepath="${gaffe.source.path}"

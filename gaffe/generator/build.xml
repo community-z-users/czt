@@ -45,7 +45,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.generator.api.path" location="doc/api"/>
   <property name="gaffe.generator.bin.path" location="bin"/>
 
-  <target name="doc" depends="-init" description="Build the API documentation.">   
+  <target name="doc" depends="api"
+    description="Builds all the documentation (currently just the API documentation)."/>
+
+  <target name="api" depends="-init"
+      description="Build the API documentation.">   
     <mkdir dir="${gaffe.generator.api.path}"/>
     <javadoc packagenames="net.sourceforge.czt.*"
 	     sourcepath="${gaffe.generator.source.path}"

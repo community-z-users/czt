@@ -117,15 +117,15 @@
 
   <target name="install-subprojects"
     depends="install-corejava, install-session, install-modeljunit,
-      install-parser, install-gaffe, install-z2b, install-typechecker,
+      install-parser, install-z2b, install-typechecker,
       install-rules, install-zlive, install-jedit, install-zsidekick-plugin,
-      install-zlive-plugin" 
+      install-zlive-plugin, install-gaffe, install-gaffe-generator" 
     description="install subprojects">
   </target>
 
   <target name="api-subprojects"
     depends="api-corejava, api-session, api-parser, api-typechecker,
-      api-rules, api-zlive, api-modeljunit"
+      api-rules, api-zlive, api-modeljunit, api-gaffe, api-gaffe-generator"
     description="build the api for subprojects">
   </target>
 
@@ -156,7 +156,7 @@
   </target>
 
   <target name="install-gaffe" if="gaffe.present"
-    depends="install-corejava"
+    depends="install-corejava, install-zlive"
     description="install gaffe">
     <ant dir="gaffe" target="install"/>
   </target>
@@ -277,6 +277,16 @@
   <target name="api-rules" if="rules.present"
     description="build api doc for rules">
     <ant dir="rules" target="api"/>
+  </target>
+
+  <target name="api-gaffe" if="gaffe.present"
+    description="build api doc for gaffe">
+    <ant dir="gaffe" target="api"/>
+  </target>
+
+  <target name="api-gaffe-generator" if="gaffe-generator.present"
+    description="build api doc for gaffe/generator">
+    <ant dir="gaffe/generator" target="api"/>
   </target>
 
   <!-- not maintained any more
