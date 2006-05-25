@@ -24,6 +24,7 @@ import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZDeclNameList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
@@ -76,7 +77,7 @@ public class NodeDescriptionVisitor implements
 	}
 	
 	public String visitConjPara(ConjPara conjPara) {
-		return "Conjecture paragraph - " + getNames(conjPara.getDeclName());
+		return "Conjecture paragraph - " + getNames((ZDeclNameList)conjPara.getDeclNameList());
 	}
 	
 	public String visitFreePara(FreePara freePara) {
@@ -108,7 +109,7 @@ public class NodeDescriptionVisitor implements
 	}
 	
 	public String visitVarDecl(VarDecl varDecl) {
-		ListTerm<DeclName> declNameList = varDecl.getDeclName();
+		ZDeclNameList declNameList = (ZDeclNameList) varDecl.getDeclNameList();
 		if (declNameList.size() == 0)
 			return null;
 		String name;
@@ -161,7 +162,7 @@ public class NodeDescriptionVisitor implements
 		return String.valueOf(orExpr);
 	}
 	
-	private String getNames(ListTerm<DeclName> declNames) {
+	private String getNames(ZDeclNameList declNames) {
 		if (declNames.size() == 0)
 			return "";
 		if (declNames.size() == 1)

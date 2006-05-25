@@ -1,5 +1,6 @@
 package net.sourceforge.czt.eclipse.editors.parser;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.visitor.NodeChildrenVisitor;
 import net.sourceforge.czt.eclipse.editors.visitor.NodeDescriptionVisitor;
@@ -19,16 +19,15 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclNameList;
 import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.ast.ZSect;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
@@ -226,7 +225,7 @@ public class ParsedData {
 		return null;
 	}
 	
-	private Position getNamePosition(ListTerm<DeclName> nameList) {
+	private Position getNamePosition(ZDeclNameList nameList) {
 		int start = -1;
 		int end = -1;
 		int index;
@@ -258,10 +257,10 @@ public class ParsedData {
 			return null;
 		LocAnn locAnn = (LocAnn)term.getAnn(LocAnn.class);
 		if (locAnn != null) {
-			Integer start = locAnn.getStart();
-			Integer length = locAnn.getLength();
+			BigInteger start = locAnn.getStart();
+			BigInteger length = locAnn.getLength();
 			if ((start != null) && (length != null))
-				return new Position(start, length);
+				return new Position(start.intValue(), length.intValue());
 		}
 		return this.fTermPositionMap.get(term);
 	}
@@ -395,10 +394,10 @@ public class ParsedData {
 		LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
 		
 		if (locAnn != null) {
-			Integer rangeStart = locAnn.getStart();
-			Integer rangeLength = locAnn.getLength();
+			BigInteger rangeStart = locAnn.getStart();
+			BigInteger rangeLength = locAnn.getLength();
 			if ((rangeStart != null) || (rangeLength != null))
-				return new Position(rangeStart, rangeLength);
+				return new Position(rangeStart.intValue(), rangeLength.intValue());
 		}
 		
 		return null;
@@ -409,15 +408,15 @@ public class ParsedData {
 		LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
 		
 		if (locAnn != null) {
-			Integer start = locAnn.getStart();
+			BigInteger start = locAnn.getStart();
 			if (start != null) {
 //				System.out.println("locAnn.getStart: " + start);
-				return start;
+				return start.intValue();
 			}
 			
 			try {
-				int line = locAnn.getLine();
-				int column = locAnn.getCol();
+				int line = locAnn.getLine().intValue();
+				int column = locAnn.getCol().intValue();
 				
 //				System.out.println("line: " + line);
 //				System.out.println("column: " + column);
@@ -444,9 +443,9 @@ public class ParsedData {
 		LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
 		
 		if (locAnn != null) {
-			Integer length = locAnn.getLength();
+			BigInteger length = locAnn.getLength();
 			if (length != null)
-				return length;
+				return length.intValue();
 		}
 		
 		return -1;
@@ -460,11 +459,11 @@ public class ParsedData {
 			if (children[i] instanceof Term) {
 				LocAnn locAnn = (LocAnn) ((Term)children[i]).getAnn(LocAnn.class);
 				if (locAnn != null) {
-					Integer start = locAnn.getStart();
-					Integer length = locAnn.getLength();
+					BigInteger start = locAnn.getStart();
+					BigInteger length = locAnn.getLength();
 					if ((start != null) && (length != null)) {
 //						System.out.println("locAnn.getStart: " + start);
-						end = start + length - 1;
+						end = start.intValue() + length.intValue() - 1;
 						if (end < 0)
 							end = getChildrenEnd((Term)children[i]);
 					}

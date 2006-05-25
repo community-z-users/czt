@@ -1,7 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="net.sourceforge.czt.eclipse" basedir="." default="product">
+<project name="net.sourceforge.czt.eclipse" basedir="." default="install">
 	<!--  ===============================================================
 	-->
+  <property name="czt.home" location=".."/>  
+  <property file="${czt.home}/czt.properties"/>
+  <property name="eclipse.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="jar.file" location="${eclipse.jar.dir}/${eclipse.jar.file}"/>
+  <property name="eclipse.src.dir" location="src/main/java"/>
+  <property name="eclipse.build.dir" location="build"/>
+  <property name="eclipse.api.dir" location="doc/api"/>
+
+  <path id="classpath">
+    <pathelement path="${jwsdp.classpath}"/>
+    <pathelement path="${java.class.path}"/>
+    <pathelement path="${eclipse.build.dir}"/>    
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.core.runtime_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.osgi_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.workbench.texteditor_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.jface.text_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.text_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.swt_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.swt.gtk.linux.x86_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.jface_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.core.commands_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.workbench_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.editors_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.core.filebuffers_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.core.resources_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.ide_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.console_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.views_3.1.0.jar"/>
+    <pathelement location="${eclipse.home}/plugins/org.eclipse.search_3.1.0.jar"/>
+    <fileset dir="${czt.home}/${jar.dir}">
+      <include name="${corejava.base.jar.file}"/>
+      <include name="${corejava.core.jar.file}"/>
+      <include name="${corejava.oz.jar.file}"/>
+      <include name="${corejava.zpatt.jar.file}"/>
+      <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${session.jar.file}"/>
+      <include name="${parser.jar.file}"/>
+      <include name="${typechecker.jar.file}"/>
+      <include name="${rules.jar.file}"/>
+    </fileset>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${eclipse.build.dir}"/>
+  </target>
+
+  <target name="all" depends="install"
+    description="build the jar files"/>
+
+  <target name="install" depends="compile"
+          description="build and install the jar files">
+    <mkdir dir="${eclipse.jar.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${eclipse.build.dir}"/>
+      <fileset dir="rulesets"/>
+    </jar>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the sources">
+    <javac
+      srcdir="${eclipse.src.dir}"
+      destdir="${eclipse.build.dir}"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      source="1.5"
+      deprecation="yes"
+      optimize="${optimize}">
+      <classpath refid="classpath"/>      
+      <!--<compilerarg value="-Xlint:unchecked"/>-->
+    </javac>
+  </target>
+
 	<target name="product">
 		<!--  Target directory used to build the product...  will be deleted.
 		-->
