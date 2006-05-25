@@ -85,6 +85,7 @@ public class AstToPrintTreeVisitor
              ZSectVisitor
 {
   private ZFactory factory_ = new ZFactoryImpl();
+  private PrintFactory printFactory_ = new PrintFactory();
 
   private boolean oldZ_ = false;
 
@@ -204,7 +205,8 @@ public class AstToPrintTreeVisitor
     else {
       throw new CztException("Unexpected Op");
     }
-    PrintPredicate result = new PrintPredicate(list, prec, null);
+    PrintPredicate result =
+      printFactory_.createPrintPredicate(list, prec, null);
     if (andPred.getAnn(ParenAnn.class) != null) {
       result.getAnns().add(factory_.createParenAnn());
     }
@@ -240,7 +242,7 @@ public class AstToPrintTreeVisitor
     }
     final Expr leftExpr = (Expr) applExpr.getLeftExpr().accept(this);
     final Expr rightExpr = (Expr) applExpr.getRightExpr().accept(this);
-    Application appl = new Application();
+    Application appl = printFactory_.createApplication();
     appl.setLeftExpr(leftExpr);
     appl.setRightExpr(rightExpr);
     appl.getAnns().addAll(applExpr.getAnns());
@@ -341,7 +343,8 @@ public class AstToPrintTreeVisitor
     else {
       throw new CztException("Unexpected Box " + box);
     }
-    return handleOldZ(axPara.getAnns(), new PrintParagraph(list));
+    return handleOldZ(axPara.getAnns(),
+                      printFactory_.createPrintParagraph(list));
   }
 
   private PrintParagraph handleSchemaDefinition(AxPara axPara)
@@ -379,7 +382,7 @@ public class AstToPrintTreeVisitor
       list.add(visit(schText.getPred()));
     }
     list.add(TokenName.END);
-    return new PrintParagraph(list);
+    return printFactory_.createPrintParagraph(list);
   }
 
   /**
@@ -410,7 +413,7 @@ public class AstToPrintTreeVisitor
       list.add("=");
       list.add(setExpr.getZExprList().get(0));
       PrintPredicate result =
-        new PrintPredicate(list, precedence, null);
+        printFactory_.createPrintPredicate(list, precedence, null);
       if (memPred.getAnn(ParenAnn.class) != null) {
         result.getAnns().add(factory_.createParenAnn());
       }
@@ -421,9 +424,9 @@ public class AstToPrintTreeVisitor
         Expr operand = memPred.getLeftExpr();
         RefExpr operator = (RefExpr) memPred.getRightExpr();
         OperatorName op = new OperatorName(operator.getZRefName());
-        return new PrintPredicate(printOperator(op, operand),
-                                  precedence,
-                                  null);
+        return printFactory_.createPrintPredicate(printOperator(op, operand),
+                                                  precedence,
+                                                  null);
       }
       catch (Exception e) {
         throw new CannotPrintAstException(e.getMessage());
@@ -434,7 +437,7 @@ public class AstToPrintTreeVisitor
     list.add(ZString.MEM);
     list.add(visit(memPred.getRightExpr()));
     PrintPredicate result =
-      new PrintPredicate(list, precedence, null);
+      printFactory_.createPrintPredicate(list, precedence, null);
     if (memPred.getAnn(ParenAnn.class) != null) {
       result.getAnns().add(factory_.createParenAnn());
     }
@@ -577,7 +580,10 @@ public class AstToPrintTreeVisitor
       final int prec = 190;
       precedence = new Precedence(prec);
     }
-    return new OperatorApplication(opName, argList, precedence, assoc);
+    return printFactory_.createOperatorApplication(opName,
+                                                   argList,
+                                                   precedence,
+                                                   assoc);
   }
 
   protected Object visit(Object object)

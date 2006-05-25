@@ -35,8 +35,9 @@ public class PrintExpression
 {
   List something_;
 
-  public PrintExpression(List something)
+  protected PrintExpression(PrintFactory factory, List something)
   {
+    super(factory);
     something_ = something;
   }
 

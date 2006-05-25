@@ -42,11 +42,13 @@ public class OperatorApplication
   private Precedence prec_;
   private Assoc assoc_;
 
-  public OperatorApplication(OperatorName opName,
-                             List<Expr> args,
-                             Precedence prec,
-                             Assoc assoc)
+  protected OperatorApplication(PrintFactory factory,
+                                OperatorName opName,
+                                List<Expr> args,
+                                Precedence prec,
+                                Assoc assoc)
   {
+    super(factory);
     opName_ = opName;
     args_.addAll(args);
     prec_ = prec;
@@ -94,6 +96,7 @@ public class OperatorApplication
     for (int i = 0; i < children.length; i++) {
       argList.add(children[0]);
     }
-    return new OperatorApplication(opName_, argList, prec_, assoc_);
+    return new OperatorApplication((PrintFactory) getFactory(),
+                                   opName_, argList, prec_, assoc_);
   }
 }

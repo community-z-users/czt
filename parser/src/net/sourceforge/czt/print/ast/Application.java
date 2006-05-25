@@ -27,6 +27,11 @@ import net.sourceforge.czt.z.impl.Expr2Impl;
 public class Application
   extends Expr2Impl
 {
+  protected Application(PrintFactory factory)
+  {
+    super(factory);
+  }
+
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof ApplicationVisitor)
@@ -44,7 +49,7 @@ public class Application
 
   public Application create(Object[] children)
   {
-    Application result = new Application();
+    Application result = new Application((PrintFactory) getFactory());
     result.setLeftExpr((Expr) children[0]);
     result.setRightExpr((Expr) children[1]);
     return result;

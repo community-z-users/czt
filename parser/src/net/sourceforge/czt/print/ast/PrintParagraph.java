@@ -36,8 +36,9 @@ public class PrintParagraph
 {
   List something_;
 
-  public PrintParagraph(List something)
+  protected PrintParagraph(PrintFactory factory, List something)
   {
+    super(factory);
     something_ = something;
   }
 

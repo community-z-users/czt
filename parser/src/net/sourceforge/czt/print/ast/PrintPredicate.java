@@ -38,8 +38,10 @@ public class PrintPredicate
   Precedence prec_;
   Assoc assoc_;
 
-  public PrintPredicate(List something, Precedence prec, Assoc assoc)
+  protected PrintPredicate(PrintFactory factory,
+                           List something, Precedence prec, Assoc assoc)
   {
+    super(factory);
     something_ = something;
     prec_ = prec;
     assoc_ = assoc;
