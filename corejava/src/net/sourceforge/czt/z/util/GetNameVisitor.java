@@ -37,6 +37,7 @@ public class GetNameVisitor
              ListTermVisitor<String>,
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
+             ZDeclNameListVisitor<String>,
              ZSchTextVisitor<String>,
              ZSectVisitor<String>
 {
@@ -74,12 +75,17 @@ public class GetNameVisitor
 
   public String visitVarDecl(VarDecl varDecl)
   {
-    return visit(varDecl.getDeclName());
+    return visit(varDecl.getDeclNameList());
   }
 
   public String visitZDeclList(ZDeclList zDeclList)
   {
     return visitList(zDeclList, LIST_SEPARATOR);
+  }
+
+  public String visitZDeclNameList(ZDeclNameList zdnl)
+  {
+    return visitList(zdnl, LIST_SEPARATOR);
   }
 
   public String visitZSchText(ZSchText zSchText)
