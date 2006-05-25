@@ -58,7 +58,8 @@
     <mkdir dir="${eclipse.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${eclipse.build.dir}"/>
-      <fileset dir="rulesets"/>
+      <fileset file="plugin.xml"/>
+      <fileset file="plugin.properties"/>
     </jar>
   </target>
 
