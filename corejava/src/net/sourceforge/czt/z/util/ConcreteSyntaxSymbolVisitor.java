@@ -265,7 +265,7 @@ public class ConcreteSyntaxSymbolVisitor
 
   public ConcreteSyntaxSymbol visitLatexMarkupPara(LatexMarkupPara term)
   {
-    return ConcreteSyntaxSymbol.LAMBDA_EXPR;
+    return ConcreteSyntaxSymbol.LATEX_MARKUP_PARA;
   }
 
   public ConcreteSyntaxSymbol visitLetExpr(LetExpr term)
