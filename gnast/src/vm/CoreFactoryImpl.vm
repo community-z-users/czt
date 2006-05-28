@@ -29,7 +29,7 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
-import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.base.util.VisitorImpl;
 
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
@@ -63,7 +63,7 @@ public class ${class.Name}
 #end
   implements ${FactoryInterface.FullName}
 {
-  protected ${class.Name}(Visitor<String> toStringVisitor)
+  protected ${class.Name}(VisitorImpl<String> toStringVisitor)
   {
     super(toStringVisitor);
   }
