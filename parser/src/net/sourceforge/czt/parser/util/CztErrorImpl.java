@@ -51,6 +51,11 @@ public abstract class CztErrorImpl
     return form.format(params_);
   }
 
+  public ErrorType getErrorType()
+  {
+    return ErrorType.ERROR;
+  }
+
   public String toString()
   {
     return super.toString() + ": " + getMessage();
