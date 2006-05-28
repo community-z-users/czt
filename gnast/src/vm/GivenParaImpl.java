@@ -1,5 +1,5 @@
 
-  public ZDeclNameList getDeclName()
+  public ZDeclNameList getDeclNames()
   {
     DeclNameList dnl = getDeclNameList();
     if (dnl instanceof ZDeclNameList) {

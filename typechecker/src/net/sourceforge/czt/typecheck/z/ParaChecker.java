@@ -65,7 +65,7 @@ public class ParaChecker
     List<NameTypePair> pairs = factory().list();
 
     //get each ZDeclName
-    List<DeclName> givenNames = givenPara.getDeclName();
+    List<DeclName> givenNames = givenPara.getDeclNames();
     for (DeclName givenName : givenNames) {
       //create the type
       ZDeclName zGivenName = assertZDeclName(givenName);

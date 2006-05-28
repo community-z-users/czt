@@ -65,7 +65,7 @@ public class GetNameVisitor
 
   public String visitGivenPara(GivenPara givenPara)
   {
-    return visit(givenPara.getDeclName());
+    return visit(givenPara.getDeclNameList());
   }
 
   public String visitListTerm(ListTerm listTerm)

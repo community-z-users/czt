@@ -304,9 +304,7 @@ public class Z2B
   public Object visitGivenPara(GivenPara para)
   {
     Map sets = mach_.getSets();
-    Iterator i = para.getDeclName().iterator();
-    while (i.hasNext()) {
-      DeclName name = (DeclName) i.next();
+    for (DeclName name : para.getDeclNames()) {
       sets.put(name.accept(new PrintVisitor()), null);
     }
     return null;

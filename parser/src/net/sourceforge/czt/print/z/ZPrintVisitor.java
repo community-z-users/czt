@@ -439,7 +439,7 @@ public class ZPrintVisitor
   {
     print(TokenName.ZED);
     print(TokenName.LSQUARE);
-    printTermList(givenPara.getDeclName());
+    printTermList(givenPara.getDeclNames());
     print(TokenName.RSQUARE);
     print(TokenName.END);
     return null;
