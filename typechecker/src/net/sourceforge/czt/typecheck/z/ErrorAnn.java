@@ -25,7 +25,7 @@ import java.text.MessageFormat;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorImpl;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
 
@@ -33,18 +33,12 @@ import net.sourceforge.czt.typecheck.z.util.CarrierSet;
  * A class for annotating terms associated with error messages.
  */
 public class ErrorAnn
-  implements CztError
+  extends CztErrorImpl
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.typecheck.z.TypeCheckResources";
   private static ResourceBundle RESOURCE_BUNDLE =
     ResourceBundle.getBundle(RESOURCE_NAME);
-
-  /** The error message. */
-  protected String errorMessage_;
-
-  /** The parameters associated with this error message. */
-  protected Object [] params_;
 
   /** The section in which this error occurred. */
   protected String sectName_;
@@ -72,8 +66,7 @@ public class ErrorAnn
                   SectionInfo sectInfo, String sectName,
                   LocAnn locAnn, Term term, Markup markup)
   {
-    errorMessage_ = errorMessage;
-    params_ = params;
+    super(errorMessage, params, null);
     sectInfo_ = sectInfo;
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
@@ -81,14 +74,14 @@ public class ErrorAnn
     markup_ = markup;
   }
 
-  public void setErrorMessage(String errorMessage)
+  protected String getResourceName()
   {
-    errorMessage_ = errorMessage.toString();
+    return RESOURCE_NAME;
   }
 
   public String getErrorMessage()
   {
-    return errorMessage_;
+    return getMessageKey();
   }
 
   public int getLine()
@@ -153,12 +146,13 @@ public class ErrorAnn
 
   public String getMessage()
   {
+    Object[] params = getMessageParams();
     //format the parameters and write into the message
-    String formatted [] = new String[params_.length];
-    for (int i = 0; i < params_.length; i++) {
-      formatted[i] = format(params_[i], sectInfo_, sectName_);
+    String formatted [] = new String[params.length];
+    for (int i = 0; i < params.length; i++) {
+      formatted[i] = format(params[i], sectInfo_, sectName_);
     }
-    String localised = RESOURCE_BUNDLE.getString(errorMessage_.toString());
+    String localised = RESOURCE_BUNDLE.getString(getMessageKey());
     MessageFormat form = new MessageFormat(localised);
     return form.format(formatted);
   }
