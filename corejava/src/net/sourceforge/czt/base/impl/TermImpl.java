@@ -97,8 +97,14 @@ public abstract class TermImpl implements Term
 
   public String toString()
   {
-    if (getFactory() != null) {
-      return getFactory().toString(this);
+    try {
+      if (getFactory() != null) {
+        final String result = getFactory().toString(this);
+        if (result != null) return result;
+      }
+    }
+    catch (Exception e) {
+      e.printStackTrace();
     }
     return super.toString();
   }

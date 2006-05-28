@@ -21,24 +21,52 @@ package net.sourceforge.czt.base.impl;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.PrintVisitor;
-import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.base.util.Visit;
+import net.sourceforge.czt.base.util.VisitorImpl;
 
 public abstract class BaseFactory
 {
-  /**
-   * Should never be null.
-   */
-  private Visitor<String> toStringVisitor_ = new PrintVisitor();
+  private VisitorImpl<String> toStringVisitor_;
 
   protected BaseFactory()
   {
+    toStringVisitor_ = null;
   }
 
-  protected BaseFactory(Visitor<String> toStringVisitor)
+  /**
+   * Sets the visit method of the given visitor to toString.
+   */
+  protected BaseFactory(VisitorImpl<String> toStringVisitor)
   {
-    if (toStringVisitor != null) {
-      toStringVisitor_ = toStringVisitor;
+    toStringVisitor_ = toStringVisitor;
+    setVisitMethod();
+  }
+
+  private void setVisitMethod()
+  {
+    if (toStringVisitor_ != null) {
+      Visit<String> visit = new Visit<String>()
+        {
+          public String visit(Term term)
+          {
+            if (term != null) return term.toString();
+            return null;
+          }
+        };
+      toStringVisitor_.setVisit(visit);
     }
+  }
+
+  public void setToStringVisitor(VisitorImpl<String> toStringVisitor,
+                                 boolean setVisitMethod)
+  {
+    toStringVisitor_ = toStringVisitor;
+    if (setVisitMethod) setVisitMethod();
+  }
+
+  public VisitorImpl<String> getToStringVisitor()
+  {
+    return toStringVisitor_;
   }
 
   public String toString(Term term)

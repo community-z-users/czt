@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,16 +19,33 @@
 
 package net.sourceforge.czt.base.util;
 
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
 
-public class PrintVisitor
-  extends VisitorImpl<String>
-  implements TermVisitor<String>
+/**
+ * A helper visitor implementation.
+ *
+ * @author Petra Malik
+ */
+public class VisitorImpl<R>
+  implements Visitor<R>
 {
-  public String visitTerm(Term term)
+  private Visit<R> visit_;
+
+  public void setVisit(Visit<R> visit)
   {
-    return
-      term.getClass().getName() + '@' + Integer.toHexString(term.hashCode());
+    visit_ = visit;
+  }
+
+  public Visit<R> getVisit()
+  {
+    return visit_;
+  }
+
+  protected R visit(Term term)
+  {
+    if (visit_ != null) return visit_.visit(term);
+    if (term != null) return term.accept(this);
+    return null;
   }
 }

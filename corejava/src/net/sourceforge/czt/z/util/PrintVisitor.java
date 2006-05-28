@@ -22,6 +22,7 @@ package net.sourceforge.czt.z.util;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.VisitorImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -39,6 +40,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class PrintVisitor
+  extends VisitorImpl<String>
   implements GenericTypeVisitor<String>,
              GenParamTypeVisitor<String>,
              GivenTypeVisitor<String>,
@@ -59,12 +61,6 @@ public class PrintVisitor
              ZRefNameVisitor<String>,
              ZStrokeListVisitor<String>
 {
-  protected String visit(Term term)
-  {
-    if (term != null) return term.accept(this);
-    return null;
-  }
-
   public String visitGenericType(GenericType genericType)
   {
     StringBuilder result = new StringBuilder();
@@ -120,7 +116,7 @@ public class PrintVisitor
 
   public String visitNumStroke(NumStroke numStroke)
   {
-    return ZString.SE + numStroke.getDigit() + ZString.NW;
+    return ZString.SE + numStroke.getDigit().getValue() + ZString.NW;
   }
 
   public String visitOutStroke(OutStroke outStroke)

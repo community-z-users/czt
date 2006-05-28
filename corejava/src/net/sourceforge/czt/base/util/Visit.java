@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright 2006 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,15 +20,11 @@
 package net.sourceforge.czt.base.util;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.TermVisitor;
 
-public class PrintVisitor
-  extends VisitorImpl<String>
-  implements TermVisitor<String>
+/**
+ * @author Petra Malik
+ */
+public interface Visit<R>
 {
-  public String visitTerm(Term term)
-  {
-    return
-      term.getClass().getName() + '@' + Integer.toHexString(term.hashCode());
-  }
+  R visit(Term term);
 }
