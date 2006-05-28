@@ -64,11 +64,13 @@ public class LocInfoImpl
 
   public LocInfoImpl(LocInfo locInfo)
   {
-    source_ = locInfo.getSource();
-    line_ = locInfo.getLine();
-    column_ = locInfo.getColumn();
-    start_ = locInfo.getStart();
-    length_ = locInfo.getLength();
+    if (locInfo != null) {
+      source_ = locInfo.getSource();
+      line_ = locInfo.getLine();
+      column_ = locInfo.getColumn();
+      start_ = locInfo.getStart();
+      length_ = locInfo.getLength();
+    }
   }
 
   public String getSource()
