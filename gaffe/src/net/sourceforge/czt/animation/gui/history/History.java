@@ -98,11 +98,11 @@ public interface History
    * Convenience function for adding values into the inputs.
    * @param variable Location of variable to bind to value.
    * @param beanContext Context containing the bean to get the value from.
-   * @param bean Name of the java bean to get the value from.
+   * @param beanName Name of the java bean to get the value from.
    * @param property Name of property in bean to set variable to.
    */
   public void addInput(ZLocator variable, BeanContext beanContext,
-      String beanName, String property);
+                       String beanName, String property);
 
   /**
    * Performs an operation from the current solution.

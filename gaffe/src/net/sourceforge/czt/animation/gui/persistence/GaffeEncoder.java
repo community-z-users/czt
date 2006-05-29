@@ -46,7 +46,7 @@ public class GaffeEncoder extends XMLEncoder
    * Overridden <code>writeStatement</code>.  Strips any statements with a
    * method name of the form add*Listener, with an EventListener (from the
    * relevant places in Gaffe) as its only argument.
-   * @param {@inheritDoc}
+   * @param stat {@inheritDoc}
    */
   public void writeStatement(Statement stat)
   {

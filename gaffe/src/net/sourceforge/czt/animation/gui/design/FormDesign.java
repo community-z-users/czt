@@ -1313,14 +1313,15 @@ public class FormDesign extends JFrame implements ToolChangeListener
    * Translates a coordinate described in a coordinate space that is a
    * descendant of this <code>FormDesign</code> to the same coordinate relative
    * to the <code>beanPane</code>'s coordinate space.
-   * @param point the coordinate to translate.
-   * @param cSpace container with coordinate space to which <code>point</code>
-   *        is relative.
-   * @return the transformed coordinate.  <code>null</code> if cSpace is not a
+   * @param oldPoint the coordinate to translate.
+   * @param initialCSpace container with coordinate space to which
+   *                      <code>point</code> is relative.
+   * @return the transformed coordinate.
+   *         <code>null</code> if initialCSpace is not a
    *         descendant of <code>beanPane</code>.
    */
   public Point translateCoordinateFromCSpace(Point oldPoint,
-      Component initialCSpace)
+                                             Component initialCSpace)
   {
     Point point = new Point(oldPoint);
     Component cSpace = initialCSpace;
