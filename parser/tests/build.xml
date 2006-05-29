@@ -29,7 +29,7 @@
   </target>
 
   <target name="compile" depends="init" description="compile the test">
-    <javac source="1.4" srcdir="src" destdir="${test.build.dir}"
+    <javac source="1.5" srcdir="src" destdir="${test.build.dir}"
       debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
