@@ -200,7 +200,7 @@ public class ParsedData {
 		else if (term instanceof GivenPara) {
 			Segment segment = new Segment(term.accept(getNodeNameVisitor_), term.accept(getNodeDescriptionVisitor_));
 			Position range = getPosition(term);
-			Position namePosition = getNamePosition(((GivenPara)term).getDeclName());			
+			Position namePosition = getNamePosition(((GivenPara)term).getDeclNames());			
 			return new CztSegment(source_, segment, range, namePosition);
 		}
 		else if (term instanceof AxPara) {

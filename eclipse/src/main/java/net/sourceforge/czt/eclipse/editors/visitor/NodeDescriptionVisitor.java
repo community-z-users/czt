@@ -69,7 +69,7 @@ public class NodeDescriptionVisitor implements
 	}
 	
 	public String visitGivenPara(GivenPara givenPara) {
-		return "Given Paragraph - " + getNames(givenPara.getDeclName());
+		return "Given Paragraph - " + getNames(givenPara.getDeclNames());
 	}
 	
 	public String visitAxPara(AxPara axPara) {

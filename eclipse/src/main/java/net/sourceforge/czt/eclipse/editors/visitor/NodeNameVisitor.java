@@ -68,7 +68,7 @@ public class NodeNameVisitor implements
 	}
 	
 	public String visitGivenPara(GivenPara givenPara) {
-		return "GivenPara: " + getNames(givenPara.getDeclName());
+		return "GivenPara: " + getNames(givenPara.getDeclNames());
 	}
 
 	public String visitAxPara(AxPara axPara) {
