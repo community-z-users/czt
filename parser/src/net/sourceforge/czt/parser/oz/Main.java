@@ -34,8 +34,7 @@ import java.util.*;
 import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 
 /**
@@ -62,25 +61,23 @@ public class Main extends JPanel implements ActionListener
   {
     try {
       //parse the specification
-      Object o =
-          ParseUtils.parseLatexFile(file, new SectionManager());
-
-      if (o instanceof Spec) {
-        Spec newSpec = (Spec) o;
-
+      SectionManager manager = new SectionManager("oz");
+      manager.put(new Key(file, Source.class), new FileSource(file));
+      Spec spec = (Spec) manager.get(new Key(file, Spec.class));
+      if (spec != null) {
         //validate the specification
         AstValidator validator = new JaxbValidator();
-        validator.validate(newSpec);
+        validator.validate(spec);
 
         net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
           new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
-        //writer.write(newSpec, System.out);
+        //writer.write(spec, System.out);
 
         if (spec_ == null) {
-          spec_ = newSpec;
+          spec_ = spec;
         }
         else {
-          spec_.getSect().addAll(newSpec.getSect());
+          spec_.getSect().addAll(spec.getSect());
         }
 
         JTreeVisitor visitor = new JTreeVisitor();
