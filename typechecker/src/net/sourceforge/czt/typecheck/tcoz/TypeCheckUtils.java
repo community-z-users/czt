@@ -124,9 +124,10 @@ public class TypeCheckUtils
   }
 
   protected Term parse(String file, SectionInfo sectInfo)
-    throws IOException, net.sourceforge.czt.parser.util.ParseException
+    throws IOException, net.sourceforge.czt.parser.util.ParseException,
+           net.sourceforge.czt.base.util.UnmarshalException
   {
-    return ParseUtils.parse(file, sectInfo);
+    return parse(new FileSource(file), sectInfo);
   }
 
   protected String name()

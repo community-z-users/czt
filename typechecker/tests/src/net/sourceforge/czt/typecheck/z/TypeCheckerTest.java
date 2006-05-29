@@ -128,7 +128,9 @@ public class TypeCheckerTest
   protected Term parse(String file)
     throws Exception
   {
-    return ParseUtils.parseLatexFile(file, manager_);
+    Source source = new FileSource(file);
+    source.setMarkup(Markup.LATEX);
+    return ParseUtils.parse(source, manager_);
   }
 
   protected List typecheck(Term term)

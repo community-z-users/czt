@@ -255,7 +255,9 @@ public class TypeInference
   protected Spec getSpec(String str)
     throws Exception
   {
-    Spec spec = (Spec) ParseUtils.parseLatexString(str, manager_);
+    Source source = new StringSource(str);
+    source.setMarkup(Markup.LATEX);
+    Spec spec = (Spec) ParseUtils.parse(source, manager_);
     spec_ = spec;
     return spec;
   }
