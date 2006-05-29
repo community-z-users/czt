@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.oz.jaxb.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
@@ -53,6 +54,7 @@ public class ParserTest
    * since the keyword "Init" is used as a schema name.
    */
   public void test5Test()
+    throws Exception
   {
     try {
       Term term = parse(getTestExample("test5.tex"), manager_);
@@ -63,99 +65,99 @@ public class ParserTest
     catch (ParseException ok) {
       // we want to end up here
     }
-    catch (IOException e) {
-      fail("Should not throw IOException");
-    }
   }
 
   public void testCC()
+    throws Exception
   {
     compareOz(getOzExample("CC.tex"),
               getOzExample("CC.xml"));
   }
 
   public void testDms()
+    throws Exception
   {
     compareOz(getOzExample("dms.tex"),
               getOzExample("dms.xml"));
   }
 
   public void testGraph()
+    throws Exception
   {
     compareOz(getOzExample("graph.tex"),
               getOzExample("graph.xml"));
   }
 
   public void testMtr()
+    throws Exception
   {
     compareOz(getOzExample("mtr.tex"),
               getOzExample("mtr.xml"));
   }
 
   public void testPirate()
+    throws Exception
   {
     compareOz(getOzExample("pirate.tex"),
               getOzExample("pirate.xml"));
   }
 
   public void testShunting()
+    throws Exception
   {
     compareOz(getOzExample("shunting.tex"),
               getOzExample("shunting.xml"));
   }
 
   public void testTreespec()
+    throws Exception
   {
     compareOz(getOzExample("treespec.tex"),
               getOzExample("treespec.xml"));
   }
 
   public void testOzSimple1()
+    throws Exception
   {
     compareOz(getOzTestExample("simple1.tex"),
               getOzTestExample("simple1.xml"));
   }
 
   public Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException
+    throws Exception
   {
-    return ParseUtils.parse(url, manager);
+    return ParseUtils.parse(new UrlSource(url), manager);
   }
 
   public void compareOz(URL url, URL zmlURL)
+    throws Exception
   {
-    try {
-      JaxbXmlReader reader = new JaxbXmlReader();
-      Visitor visitor = new DeleteNarrVisitor();
-      Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
-      Spec parsedSpec =
-        (Spec) parse(url, manager_).accept(visitor);
-      visitor = new DeleteMarkupParaVisitor();
-      parsedSpec = (Spec) parsedSpec.accept(visitor);
-      zmlSpec = (Spec) zmlSpec.accept(visitor);
-      JaxbValidator validator = new JaxbValidator();
-      Assert.assertTrue(validator.validate(parsedSpec));
-      Assert.assertTrue(validator.validate(zmlSpec));
-      if (! zmlSpec.equals(parsedSpec)) {
-        String message = "For " + url.toString();
-        JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
-        File expected = File.createTempFile("cztParser", "test.zml");
-        Writer out =
-          new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
-        xmlWriter.write(zmlSpec, out);
-        out.close();
-        message += "\nexpected: " + expected.getAbsolutePath();
-        File got = File.createTempFile("cztParser", "test.zml");
-        out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
-        xmlWriter.write(parsedSpec, out);
-        out.close();
-        message += "\nbut was:" + got.getAbsolutePath();
-        fail(message);
-      }
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      fail("Should not throw exception " + e);
+    JaxbXmlReader reader = new JaxbXmlReader();
+    Visitor visitor = new DeleteNarrVisitor();
+    Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
+    Spec parsedSpec =
+      (Spec) parse(url, manager_).accept(visitor);
+    visitor = new DeleteMarkupParaVisitor();
+    parsedSpec = (Spec) parsedSpec.accept(visitor);
+    zmlSpec = (Spec) zmlSpec.accept(visitor);
+    JaxbValidator validator = new JaxbValidator();
+    Assert.assertTrue(validator.validate(parsedSpec));
+    Assert.assertTrue(validator.validate(zmlSpec));
+    if (! zmlSpec.equals(parsedSpec)) {
+      String message = "For " + url.toString();
+      JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
+      File expected = File.createTempFile("cztParser", "test.zml");
+      Writer out =
+        new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
+      xmlWriter.write(zmlSpec, out);
+      out.close();
+      message += "\nexpected: " + expected.getAbsolutePath();
+      File got = File.createTempFile("cztParser", "test.zml");
+      out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
+      xmlWriter.write(parsedSpec, out);
+      out.close();
+      message += "\nbut was:" + got.getAbsolutePath();
+      fail(message);
     }
   }
 
@@ -170,9 +172,9 @@ public class ParserTest
     extends AbstractParserFailTest
   {
     public Term parse(URL url, SectionManager manager)
-      throws ParseException, IOException
+      throws Exception
     {
-      return ParseUtils.parse(url, manager);
+      return ParseUtils.parse(new UrlSource(url), manager);
     }
   }
 }

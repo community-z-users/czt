@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -48,7 +48,7 @@ public abstract class AbstractParserFailTest
   }
 
   public abstract Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException;
+    throws Exception;
 
   private URL getTestExample(String name)
   {
@@ -56,6 +56,7 @@ public abstract class AbstractParserFailTest
   }
 
   private void check(URL url)
+    throws Exception
   {
     try {
       Term term = parse(url, manager_);
@@ -66,47 +67,52 @@ public abstract class AbstractParserFailTest
     catch (ParseException e) {
       // ok
     }
-    catch (IOException e) {
-      fail("Should not throw IOException!");
-    }
   }
 
   public void testInvalidOperatorWord()
+    throws Exception
   {
     check(getTestExample("invalidOperatorWord.tex"));
   }
 
   public void testInvalidOperatorWord2()
+    throws Exception
   {
     check(getTestExample("invalidOperatorWord2.tex"));
   }
 
   public void testInvalidOperatorWord3()
+    throws Exception
   {
     check(getTestExample("invalidOperatorWord3.tex"));
   }
 
   public void testInvalidOperatorWord4()
+    throws Exception
   {
     check(getTestExample("invalidOperatorWord4.tex"));
   }
 
   public void testInvalidOperator1()
+    throws Exception
   {
     check(getTestExample("invalidOperator1.tex"));
   }
 
   public void testInvalidOperator2()
+    throws Exception
   {
     check(getTestExample("invalidOperator2.tex"));
   }
 
   public void testInvalidOperator3()
+    throws Exception
   {
     check(getTestExample("invalidOperator3.tex"));
   }
 
   public void testInvalidOperator4()
+    throws Exception
   {
     check(getTestExample("invalidOperator4.tex"));
   }

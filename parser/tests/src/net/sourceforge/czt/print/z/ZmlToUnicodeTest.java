@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -38,19 +38,20 @@ public class ZmlToUnicodeTest
   extends AbstractParserTest
 {
   public Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException
+    throws Exception
   {
     File tmpUnicodeFile =
       File.createTempFile("cztPrintTest", ".utf8");
     tmpUnicodeFile.deleteOnExit();
     Source source = new UrlSource(url);
-    Term term = ParseUtils.parse(url, manager);
+    Term term = ParseUtils.parse(new UrlSource(url), manager);
     DeleteAnnVisitor visitor = new DeleteAnnVisitor();
     term.accept(visitor);
     Writer writer =
       new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
     PrintUtils.printUnicode(term, writer, manager);
     writer.close();
-    return ParseUtils.parse(tmpUnicodeFile.getAbsolutePath(), manager);
+    return ParseUtils.parse(new FileSource(tmpUnicodeFile.getAbsolutePath()),
+                            manager);
   }
 }

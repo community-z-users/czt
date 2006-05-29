@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -27,7 +27,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.z.UnicodeToLatex;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.UrlSource;
 
 /**
  * A (JUnit) test class for testing the latex markup converter.
@@ -55,7 +57,8 @@ public class LatexMarkupConverterTest
       LatexToUnicode.convert(url, uniFile, new Properties());
       String[] args2 = { "-in", uniFile, "-out", latexFile };
       UnicodeToLatex.main(args2);
-      return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
+      return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
+                              manager_);
     }
     else if (url.toString().endsWith(".utf8") ||
              url.toString().endsWith(".UTF8")) {
@@ -66,8 +69,9 @@ public class LatexMarkupConverterTest
       writer.close();
       String[] args2 = { "-in", latexFile, "-out", uniFile };
       LatexToUnicode.main(args2);
-      return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
+      return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
+                              manager_);
     }
-    return ParseUtils.parse(url, manager_);
+    return ParseUtils.parse(new UrlSource(url), manager_);
   }
 }

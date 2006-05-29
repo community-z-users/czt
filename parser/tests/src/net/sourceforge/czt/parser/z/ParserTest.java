@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004 Petra Malik
+  Copyright (C) 2003, 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import net.sourceforge.czt.parser.util.AbstractParserFailTest;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.UrlSource;
 
 /**
  * A (JUnit) test class for testing the Z parser.
@@ -48,9 +49,9 @@ public class ParserTest
   }
 
   public Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException
+    throws Exception
   {
-    return ParseUtils.parse(url, manager);
+    return ParseUtils.parse(new UrlSource(url), manager);
   }
 
   /**
@@ -64,9 +65,9 @@ public class ParserTest
     extends AbstractParserFailTest
   {
     public Term parse(URL url, SectionManager manager)
-      throws ParseException, IOException
+      throws Exception
     {
-      return ParseUtils.parse(url, manager);
+      return ParseUtils.parse(new UrlSource(url), manager);
     }
   }
 }

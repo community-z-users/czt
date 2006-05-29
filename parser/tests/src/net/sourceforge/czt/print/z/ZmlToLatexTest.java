@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -39,17 +39,17 @@ public class ZmlToLatexTest
   extends AbstractParserTest
 {
   public Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException
+    throws Exception
   {
     File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
     tmpLatexFile.deleteOnExit();
-    Spec spec = (Spec) ParseUtils.parse(url, manager);
+    Spec spec = (Spec) ParseUtils.parse(new UrlSource(url), manager);
     DeleteAnnVisitor visitor = new DeleteAnnVisitor();
     spec.accept(visitor);
     Writer writer = new FileWriter(tmpLatexFile);
     PrintUtils.printLatex(spec, writer, manager);
     writer.close();
-    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(),
+    return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
                             new SectionManager());
   }
 }
