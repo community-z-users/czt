@@ -102,19 +102,21 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
+    final String name = "ZLiveDefault";
     try {
-	Source spec = new StringSource("\\begin{zsection} "
-				       + "\\SECTION ZLiveDefault "
-				       + "\\parents standard\\_toolkit "
-				       + "\\end{zsection}");
-	spec.setMarkup(Markup.LATEX);
-	sectman_.put(new Key("ZLiveDefault",Source.class), spec);
-	// This parses the above specification
-	ZSect sec = (ZSect) sectman_.get(new Key("ZLiveDefault", ZSect.class));
-	setCurrentSection(sec.getName());
+      Source specSource = new StringSource("\\begin{zsection} "
+                                           + "\\SECTION " + name + " "
+                                           + "\\parents standard\\_toolkit "
+                                           + "\\end{zsection}",
+                                           name);
+      specSource.setMarkup(Markup.LATEX);
+      sectman_.put(new Key(name ,Source.class), specSource);
+      // This parses the above specification
+      ZSect sec = (ZSect) sectman_.get(new Key(name, ZSect.class));
+      setCurrentSection(sec.getName());
     }
     catch (Exception e) {
-      System.err.println("ERROR creating ZLiveDefault section: " + e);
+      System.err.println("ERROR creating " + name + " section: " + e);
       e.printStackTrace();
     }
     try {
