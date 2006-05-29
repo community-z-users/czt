@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@ public abstract class Source
 {
   private String encoding_;
   private Markup markup_ = Markup.LATEX;
+  private String name_;
 
   public String getEncoding()
   {
@@ -58,6 +59,17 @@ public abstract class Source
       return new InputStreamReader(getStream(), encoding_);
     else
       return new InputStreamReader(getStream());
+  }
+
+  public String getName()
+  {
+    if (name_ != null) return name_;
+    return toString();
+  }
+
+  public void setName(String name)
+  {
+    name_ = name;
   }
 
   /**

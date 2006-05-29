@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import java.io.StringReader;
 public class StringSource
   extends Source
 {
-  private String source_ = "StringSource";
   private String string_;
 
   /**
@@ -37,21 +36,20 @@ public class StringSource
   {
     if (value == null) throw new NullPointerException();
     string_ = value;
+    setName("StringSource");
   }
 
   /**
+   * @param source the name of this StringSource; usually used to describe
+   *               the source since it is used when printing error messages.
+   *               
    * @throws NullPointerException if value or source is <code>null</code>.
    */
   public StringSource(String value, String source)
   {
-    if (value == null || source == null) throw new NullPointerException();
-    source_ = source;
+    if (value == null) throw new NullPointerException();
     string_ = value;
-  }
-
-  public String toString()
-  {
-    return source_;
+    setName(source);
   }
 
   protected InputStream getStream()
