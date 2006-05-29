@@ -33,6 +33,7 @@ public abstract class CztErrorImpl
 {
   private String message_;
   private Object[] params_;
+  private ErrorType errorType_ = ErrorType.ERROR;
 
   public CztErrorImpl(String message, Object[] params, LocInfo locInfo)
   {
@@ -51,9 +52,14 @@ public abstract class CztErrorImpl
     return form.format(params_);
   }
 
+  public void setErrorType(ErrorType errorType)
+  {
+    errorType_ = errorType;
+  }
+
   public ErrorType getErrorType()
   {
-    return ErrorType.ERROR;
+    return errorType_;
   }
 
   public String toString()
