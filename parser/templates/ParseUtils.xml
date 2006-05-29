@@ -78,9 +78,7 @@ public class <class/>
       return parser.parse();
     }
     else if (source.getMarkup() == Markup.UNICODE) {
-      UnicodeParser parser =
-        new UnicodeParser(source.getReader(), source.toString(),
-                           sectInfo, properties);
+      UnicodeParser parser = new UnicodeParser(source, sectInfo, properties);
       return parser.parse();
     }
     else if (source.getMarkup() == Markup.ZML) {

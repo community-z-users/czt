@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2003, 2004 Petra Malik
-     This file is part of the czt project.
-     
-     The czt project contains free software;
-     you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
-     
-     The czt project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-     
-     You should have received a copy of the GNU General Public License
-     along with czt; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-     -->
-
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+/*
+  Copyright (C) 2003, 2004, 2006 Petra Malik
+  This file is part of the czt project.
+
+  The czt project contains free software;
+  you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 package <package/>;
 
 import java.io.*;
@@ -29,6 +28,7 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.session.*;
 
 /**
  * &lt;p&gt;A scanner for lexing
@@ -58,9 +58,10 @@ public class UnicodeScanner
   KeywordScanner keywordScanner_;
   SmartScanner smartScanner_;
 
-  public <class/>(Reader in, Properties properties)
+  public <class/>(Source source, Properties properties)
+    throws IOException
   {
-    contextFreeScanner_ = new ContextFreeScanner(in);
+    contextFreeScanner_ = new ContextFreeScanner(source);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_, properties);
     smartScanner_ = new SmartScanner(keywordScanner_);
   }
@@ -75,12 +76,13 @@ public class UnicodeScanner
   /**
    * Lexes a given file.
    */
-  public static void main(String argv[]) {    
+  public static void main(String argv[])
+  {
     try {
-      InputStream stream = new FileInputStream(argv[0]);
-      InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-
-      <class/> scanner = new <class/>(reader, new Properties());
+      Source source = new FileSource(argv[0]);
+      source.setMarkup(Markup.UNICODE);
+      source.setEncoding("UTF-8");
+      <class/> scanner = new <class/>(source, new Properties());
       DebugUtils.scan(scanner, Sym.class);
     }
     catch (Exception e) {

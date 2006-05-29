@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004, 2005 Petra Malik
+  Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,34 +28,26 @@ import junit.framework.*;
 
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.LocInt;
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.session.*;
+
+import static net.sourceforge.czt.z.util.ZString.*;
 
 /**
  * A (JUnit) test class for testing the unicode lexer.
  *
  * @author Petra Malik
  */
-public class UnicodeScannerTest extends TestCase
+public class UnicodeScannerTest
+  extends TestCase
 {
-  private static final String CROSS = ZString.CROSS;
-  private static final String DELTA = ZString.DELTA;
-  private static final String END = ZString.END;
-  private static final String EXI = ZString.EXI;
-  private static final String LAMBDA = ZString.LAMBDA;
-  private static final String MEM = ZString.MEM;
-  private static final String NE = ZString.NE;
-  private static final String NW = ZString.NW;
-  private static final String SE = ZString.SE;
-  private static final String SW = ZString.SW;
-  private static final String ZED = ZString.ZED;
-
-  private UnicodeScanner lexer_ =
-    new UnicodeScanner(new java.io.StringReader(""), new Properties());
+  private UnicodeScanner lexer_;
 
   private void resetLexer(String string)
     throws Exception
   {
-    lexer_.reset(new java.io.StringReader(string));
+    final String name = "UnicodeScannerTest" + string.hashCode();
+    lexer_ = new UnicodeScanner(new StringSource(string, name),
+                                new Properties());
   }
 
   private void nextIsDecorword(String string)
@@ -193,7 +185,7 @@ public class UnicodeScannerTest extends TestCase
   private void isDecorword(String string)
     throws Exception
   {
-    resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + string + ENDCHAR);
     nextIsZed();
     nextIsDecorword(string);
     nextIsEnd();
@@ -203,7 +195,7 @@ public class UnicodeScannerTest extends TestCase
   private void isKeywordElse(String string)
     throws Exception
   {
-    resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + string + ENDCHAR);
     nextIsZed();
     Assert.assertEquals(Sym.ELSE, lexer_.next_token().sym);
     nextIsEnd();
@@ -250,7 +242,7 @@ public class UnicodeScannerTest extends TestCase
     isDecorword(EXI + "_X");
     isDecorword(EXI + SE + "x" + NW);
 
-    resetLexer(ZString.ZEDCHAR + EXI + "S" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + EXI + "S" + ENDCHAR);
     nextIsZed();
     nextIsExi();
     nextIsDecorword("S");
@@ -268,7 +260,7 @@ public class UnicodeScannerTest extends TestCase
     isDecorword("x_:_e");
     isDecorword(SE + "x" + NW + ":" + SE + "e" + NW);
 
-    resetLexer(ZString.ZEDCHAR + "x:e" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + "x:e" + ENDCHAR);
     nextIsZed();
     nextIsDecorword("x");
     nextIsColon();
@@ -285,7 +277,7 @@ public class UnicodeScannerTest extends TestCase
   {
     isDecorword("abc");
 
-    resetLexer(ZString.ZEDCHAR + "a bc" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + "a bc" + ENDCHAR);
     nextIsZed();
     nextIsDecorword("a");
     nextIsDecorword("bc");
@@ -294,7 +286,7 @@ public class UnicodeScannerTest extends TestCase
 
     isDecorword("a12");
 
-    resetLexer(ZString.ZEDCHAR + "a 12" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + "a 12" + ENDCHAR);
     nextIsZed();
     nextIsDecorword("a");
     final int twelve = 12;
@@ -304,14 +296,14 @@ public class UnicodeScannerTest extends TestCase
 
     isDecorword("x!");
 
-    resetLexer(ZString.ZEDCHAR + "x !" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + "x !" + ENDCHAR);
     nextIsZed();
     nextIsDecorword("x");
     nextIsOutStroke();
     nextIsEnd();
     nextIsEof();
 
-    resetLexer(ZString.ZEDCHAR + "x! !" + ZString.ENDCHAR);
+    resetLexer(ZEDCHAR + "x! !" + ENDCHAR);
     nextIsZed();
     nextIsDecorword("x!");
     nextIsOutStroke();
@@ -337,10 +329,10 @@ public class UnicodeScannerTest extends TestCase
   public void testTutorial()
     throws Exception
   {
-    String tutorial = ZString.ZED + "[NAME, DATE]" + END;
-    tutorial += ZString.SCH + "BirthdayBook ";
-    tutorial += "known:" + ZString.POWER + " NAME" + ZString.NLCHAR;
-    tutorial += "birthday:NAME" + ZString.PFUN + "DATE";
+    String tutorial = ZED + "[NAME, DATE]" + END;
+    tutorial += SCH + "BirthdayBook ";
+    tutorial += "known:" + POWER + " NAME" + NLCHAR;
+    tutorial += "birthday:NAME" + PFUN + "DATE";
     tutorial += "|";
     tutorial += "known = dom birthday";
     tutorial += END;
@@ -367,7 +359,7 @@ public class UnicodeScannerTest extends TestCase
     nextIsDecorword("birthday");
     nextIsColon();
     nextIsDecorword("NAME");
-    nextIsDecorword(ZString.PFUN);
+    nextIsDecorword(PFUN);
     nextIsDecorword("DATE");
 
     nextIsBar();

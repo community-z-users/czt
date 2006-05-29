@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2004, 2005 Petra Malik
-     This file is part of the CZT project.
-
-     The CZT project contains free software;
-     you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
-
-     The CZT project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-
-     You should have received a copy of the GNU General Public License
-     along with CZT; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
-
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+/*
+  Copyright (C) 2004, 2005, 2006 Petra Malik
+  This file is part of the CZT project.
+
+  The CZT project contains free software;
+  you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The CZT project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with CZT; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 package <package/>;
 
 import java.io.*;
@@ -54,8 +53,7 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.tcoz.jaxb.JaxbValidator;
 import net.sourceforge.czt.tcoz.jaxb.JaxbXmlWriter;
 </add:tcoz>
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 
 /**
  * &lt;p&gt;A parser for unicode.  This class is a convenience class
@@ -68,16 +66,11 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Reader in, SectionInfo sectInfo, Properties properties)
+  public <class/>(Source source, SectionInfo sectInfo, Properties properties)
+    throws IOException
   {
-    this(in, null, sectInfo, properties);
-  }
-
-  public <class/>(Reader in, String filename,
-                  SectionInfo sectInfo, Properties properties)
-  {
-    Scanner scanner = new UnicodeScanner(in, properties);
-    parser_ = new Parser(scanner, filename, sectInfo);
+    Scanner scanner = new UnicodeScanner(source, properties);
+    parser_ = new Parser(scanner, source.toString(), sectInfo);
   }
 
   /**
@@ -113,8 +106,10 @@ public class <class/>
           return;
         }
       }
+      final Source source = new FileSource(filename);
+      source.setMarkup(Markup.UNICODE);
       <class/> parser =
-        new <class/>(in, filename, new SectionManager(), new Properties());
+        new <class/>(source, new SectionManager(), new Properties());
       Term term = parser.parse();
       AstValidator validator = new JaxbValidator();
       if (! validator.validate(term)) {
