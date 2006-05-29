@@ -45,7 +45,8 @@ public enum ZParseMessage
   MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
   MSG_OPNAME_ERROR ("Cannot parse operator name"),
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables"),
-  MSG_CANNOT_ADD_OP ("Cannot add operator template");
+  MSG_CANNOT_ADD_OP ("Cannot add operator template"),
+  MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space");
 
   private final String message_;
   private final String explanation_;
