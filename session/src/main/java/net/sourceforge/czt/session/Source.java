@@ -59,4 +59,21 @@ public abstract class Source
     else
       return new InputStreamReader(getStream());
   }
+
+  /**
+   * Tries to guess markup and encoding based on the given string,
+   * which is usually the file or url name.
+   */
+  protected void guessSettings(String name)
+  {
+    if (name.endsWith(".tex")) setMarkup(Markup.LATEX);
+    if (name.endsWith(".utf8")) {
+      setMarkup(Markup.UNICODE);
+      setEncoding("UTF-8");
+    }
+    if (name.endsWith(".utf16")) {
+      setMarkup(Markup.UNICODE);
+      setEncoding("UTF-16");
+    }
+  }
 }

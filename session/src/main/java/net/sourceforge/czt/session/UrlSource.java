@@ -38,6 +38,7 @@ public class UrlSource
   {
     if (url == null) throw new NullPointerException();
     url_ = url;
+    guessSettings(url.toString());
   }
 
   public String toString()

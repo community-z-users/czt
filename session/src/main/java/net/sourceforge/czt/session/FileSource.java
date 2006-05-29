@@ -44,16 +44,7 @@ public class FileSource
   {
     if (file == null) throw new NullPointerException();
     file_ = file;
-    String filename = file_.getAbsolutePath();
-    if (filename.endsWith(".tex")) setMarkup(Markup.LATEX);
-    if (filename.endsWith(".utf8")) {
-      setMarkup(Markup.UNICODE);
-      setEncoding("UTF-8");
-    }
-    if (filename.endsWith(".utf16")) {
-      setMarkup(Markup.UNICODE);
-      setEncoding("UTF-16");
-    }
+    guessSettings(file_.getAbsolutePath());
   }
 
   public String toString()
