@@ -56,6 +56,7 @@ import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.parser.z.ZParseMessage;
+import net.sourceforge.czt.session.*;
 
 /**
  * &lt;p&gt;
@@ -167,10 +168,9 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   private boolean directive_ = false;
 
   /**
-   * The name of the file to be scanned.
-   * This is used when warnings are printed.
+   * The source to be scanned.
    */
-  private String source_ = null;
+  private Source source_ = null;
 
   private Properties properties_;
 
@@ -186,20 +186,19 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   private Stack&lt;String&gt; openBeginCommands_ = new Stack();
 
   /**
-   * Creates a new scanner for the given URL.
+   * Creates a new scanner for the source.
    */
-  public <class/>(URL url, Properties properties)
+  public <class/>(Source source, Properties properties)
     throws IOException
   {
-    this(url.openStream());
-    source_ = url.toString();
+    this(source.getReader());
+    source_ = source;
     properties_ = properties;
   }
 
-  public <class/>(Reader in, Properties properties)
+  private String getLoc()
   {
-    this(in);
-    properties_ = properties;
+    return source_.toString();
   }
 
   private boolean getBooleanProperty(String propertyKey)
@@ -225,7 +224,7 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   private LocToken result(LatexSym sym, String spelling)
     throws IOException
   {
-    LocInfo location = new LocInfoImpl(getSource(),
+    LocInfo location = new LocInfoImpl(getLoc(),
                                        yyline, yycolumn,
                                        yychar, yytext().length());
     return new LocTokenImpl(sym, spelling, location);
@@ -294,26 +293,6 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   public void setMarkupFunction(LatexMarkupFunction markupFunction)
   {
     latexCommands_ = markupFunction;
-  }
-
-  /**
-   * Returns the source of the file that is currently scanned.
-   * @see #setSource
-   */
-  public String getSource()
-  {
-    return source_;
-  }
-
-  /**
-   * Sets the source to be scanned.
-   *
-   * This information is only needed by instances of this class
-   * when warning or information messages are provided.
-   */
-  public void setSource(String source)
-  {
-    source_ = source;
   }
 
   /**
@@ -403,13 +382,13 @@ import net.sourceforge.czt.parser.z.ZParseMessage;
   {
     if (openBeginCommands_.empty()) {
       reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
-                  name, source_, line, column);
+                  name, getLoc(), line, column);
     }
     else {
       String openCommand = openBeginCommands_.pop();
       if (! name.equals(openCommand)) {
         reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
-                    openCommand, source_, line, column);
+                    openCommand, getLoc(), line, column);
       }
     }
   }
@@ -928,7 +907,7 @@ NAME =   {NOT_LB}*
           if (zstring != null) {
             result += zstring;
           } else {
-            reportUnknownLatexCommand(command, source_, yyline, yycolumn);
+            reportUnknownLatexCommand(command, getLoc(), yyline, yycolumn);
             result += command.substring(1);
           }
           result += endScript(script);
@@ -984,7 +963,7 @@ NAME =   {NOT_LB}*
             result += zstring;
           }
           else {
-            reportUnknownLatexCommand(yytext(), source_, yyline, yycolumn);
+            reportUnknownLatexCommand(yytext(), getLoc(), yyline, yycolumn);
             if (spaces) result += ZString.SPACE;
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
@@ -1002,7 +981,7 @@ NAME =   {NOT_LB}*
           String result = "";
           if (braceStack_.empty()) {
             reportError(ZParseMessage.MSG_UNMATCHED_BRACES,
-                        "}", source_, yyline, yycolumn);
+                        "}", getLoc(), yyline, yycolumn);
             return result(result);
           }
           BraceType brace = (BraceType) braceStack_.pop();
@@ -1069,7 +1048,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(YYINITIAL);
           reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
-                      yytext(), source_, yyline, yycolumn);
+                      yytext(), getLoc(), yyline, yycolumn);
         }
 }
 
@@ -1138,7 +1117,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(YYINITIAL);
           reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
-                      yytext(), source_, yyline, yycolumn);
+                      yytext(), getLoc(), yyline, yycolumn);
         }
 }
 </scanner>

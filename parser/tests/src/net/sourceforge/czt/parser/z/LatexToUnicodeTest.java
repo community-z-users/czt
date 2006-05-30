@@ -39,11 +39,10 @@ public class LatexToUnicodeTest
   private String lex(String string)
     throws Exception
   {
-    Source source = new StringSource(string);
+    Source source = new StringSource(string, "'" + string + "'");
     source.setMarkup(Markup.LATEX);
     LatexToUnicode lexer =
       new LatexToUnicode(source, manager_, new Properties());
-    lexer.setSource("'" + string + "'");
     StringWriter result = new StringWriter();
     Token token = null;
     while ((token = lexer.next()) != null) {

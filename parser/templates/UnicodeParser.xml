@@ -70,7 +70,7 @@ public class <class/>
     throws IOException
   {
     Scanner scanner = new UnicodeScanner(source, properties);
-    parser_ = new Parser(scanner, source.toString(), sectInfo);
+    parser_ = new Parser(scanner, source, sectInfo);
   }
 
   /**

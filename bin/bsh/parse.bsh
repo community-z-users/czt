@@ -40,8 +40,11 @@ parse(File file, net.sourceforge.czt.session.SectionInfo manager)
     absolutPath = file.getAbsolutePath();
     System.err.println("Parse file " + absolutPath);
     try {
-      return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath,
-                                                           manager);
+      manager.put(new  net.sourceforge.czt.session.Key(absolutPath,
+                                 net.sourceforge.czt.session.Source.class),
+                  new FileSource(absolutPath));
+      return manager.get(new  net.sourceforge.czt.session.Key(absolutPath,
+                                                              Spec.class));
     }
     catch (Exception e) {
       show(e.getMessage());

@@ -40,10 +40,9 @@ public class LatexToUnicodeTest
     throws Exception
   {
     LatexToUnicode lexer =
-      new LatexToUnicode(new StringSource(string),
+      new LatexToUnicode(new StringSource(string, "'" + string + "'"),
                          manager_,
                          new Properties());
-    lexer.setSource("'" + string + "'");
     StringWriter result = new StringWriter();
     Token token = null;
     while ((token = lexer.next()) != null) {

@@ -76,7 +76,6 @@ import net.sourceforge.czt.z.util.Factory;
 </add:z>
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.session.SectionInfo;
 
 action code
 {:
@@ -114,8 +113,8 @@ action code
     protected JokerTable jokerTable_;
 </add:zpatt>
 
-    /** The name of file currently being parsed. */
-    protected String file_ = null;
+    /** The source currently being parsed. */
+    protected Source source_ = null;
 
     /**
      * The symbol returned by the last call to local_next_token().
@@ -300,7 +299,7 @@ action code
 
     private LocInfo getLocation(int line, int column)
     {
-      return new LocInfoImpl(file_, line, column);
+      return new LocInfoImpl(getLoc(), line, column);
     }
 
     private LocInfo getLocation(Term term)
@@ -724,7 +723,7 @@ action code
         Object [] args = { "Operator table",
                            section };
         parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(file_, line, column));
+                            args, new LocInfoImpl(getLoc(), line, column));
         return null;
       }
     }
@@ -768,7 +767,7 @@ action code
         Object [] args = { "Joker table",
                            section };
         parser.report_error(ZParseMessage.MSG_OF_PARENT_NOT_FOUND,
-                            args, new LocInfoImpl(file_, line, column));
+                            args, new LocInfoImpl(getLoc(), line, column));
         return null;
       }
     }
@@ -856,6 +855,11 @@ action code
       return sect;
     }
 
+    protected String getLoc()
+    {
+      return source_.toString();
+    }
+
     private void addLocAnn(Term term, LocInfo locInfo)
     {
       if (locInfo != null) {
@@ -864,7 +868,7 @@ action code
           locAnn = factory_.createLocAnn();
           term.getAnns().add(locAnn);
         }
-        locAnn.setLoc(file_);
+        locAnn.setLoc(getLoc());
         if (locInfo.getLine() >= 0) locAnn.setLine(locInfo.getLine());
         if (locInfo.getColumn() >= 0) locAnn.setCol(locInfo.getColumn());
         if (locInfo.getStart() >= 0) locAnn.setStart(locInfo.getStart());
@@ -1219,7 +1223,7 @@ parser code
     }
 
     /** The file being parsed. */
-    protected String file_;
+    protected Source source_;
 
     /** Section information. */
     protected SectionInfo sectInfo_;
@@ -1255,11 +1259,11 @@ parser code
      * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
      */
     public <class/>(Scanner scanner,
-                    String source,
+                    Source source,
                     SectionInfo sectInfo)
     {
       super(scanner);
-      file_ = source;
+      source_ = source;
       sectInfo_ = sectInfo;
       opScanner_ = new OperatorScanner(getScanner());
 <add:zpatt>
@@ -1301,7 +1305,7 @@ parser code
 </add:oz>
       action_obj.previous_ = result;
       String logMessage =
-        "Next token in " + file_ +
+        "Next token in " + getLoc() +
         " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
       return result;
@@ -1378,9 +1382,14 @@ parser code
       return symbolMap_.get(symbol.sym);
     }
 
+    protected String getLoc()
+    {
+      return source_.toString();
+    }
+
     protected LocInfo getLocation(Symbol token)
     {
-      return new LocInfoImpl(file_, token.left, token.right);
+      return new LocInfoImpl(getLoc(), token.left, token.right);
     }
 
     protected LocInfo getLocation(Term term)
@@ -1398,7 +1407,7 @@ parser code
 init with
 {:
     //share the operator table between the action code and the parser code
-    action_obj.file_ = file_;
+    action_obj.source_ = source_;
     action_obj.sectInfo_ = sectInfo_;
     action_obj.opScanner_ = opScanner_;
     action_obj.nlScanner_ = nlScanner_;

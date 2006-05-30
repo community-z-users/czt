@@ -83,8 +83,7 @@ public class <class/>
   {
     final String filename = source.toString();
     scanner_ = new LatexScanner(source, sectInfo, properties);
-    scanner_.setSource(filename);
-    parser_ = new Parser(scanner_, filename, sectInfo);
+    parser_ = new Parser(scanner_, source, sectInfo);
   }
 
   /**

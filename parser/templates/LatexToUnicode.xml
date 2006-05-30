@@ -61,16 +61,9 @@ public class <class/>
   public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
-    l2u_ = new Latex2Unicode(source.getReader(), properties);
-    l2u_.setSource(source.toString());
+    l2u_ = new Latex2Unicode(source, properties);
     lexer_ = new LatexMarkupParser(l2u_, sectInfo);
     lexer_.setSource(source.toString());
-  }
-
-  public void setSource(String source)
-  {
-    l2u_.setSource(source);
-    lexer_.setSource(source);
   }
 
   public LocToken next()

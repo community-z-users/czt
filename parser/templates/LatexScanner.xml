@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     -->
-
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
   Copyright 2003, 2004, 2005 Tim Miller
@@ -74,11 +71,6 @@ public class <class/>
     latexLexer_ = new LatexToUnicode(source, sectInfo, properties);
     CztReader cztReader = new CztReader(latexLexer_);
     unicodeLexer_ = new UnicodeScanner(cztReader, properties);
-  }
-
-  public void setSource(String source)
-  {
-    latexLexer_.setSource(source);
   }
 
   public Symbol next_token()
