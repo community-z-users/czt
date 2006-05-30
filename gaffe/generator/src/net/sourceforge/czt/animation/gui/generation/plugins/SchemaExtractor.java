@@ -43,7 +43,8 @@ public interface SchemaExtractor extends Plugin
 
   /**
    * Gives the list of schemas in the specification.
-   * @param specification Term containing the Spec, Sect, or Para the schema was found in.
+   * @param spec Term containing the Spec, Sect, or Para
+   *             the schema was found in.
    * @return The list of schemas.
    */
   public List<ConstDecl/*<SchExpr>*/> getSchemas(Term spec);

@@ -490,7 +490,7 @@ public final class PluginList
    * plugins.<br/>
    * When option processing has finished it runs the handlers for all anonymous options that don't 
    * <em>require</em> an argument.
-   * @param options The String list iterator containing the options.
+   * @param it The String list iterator containing the options.
    */
   public void processOptions(ListIterator<String> it) throws BadOptionException
   {

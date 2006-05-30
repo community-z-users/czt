@@ -116,7 +116,7 @@ public final class Option
    * @param name Sets {@link #optionName optionName}.
    * @param takeArg Sets {@link #takesArgument takesArgument}.
    * @param argName Sets {@link #argumentName argumentName}.
-   * @param handl Sets {@link #handler handler}.
+   * @param handler Sets {@link #handler handler}.
    */
   public Option(String name, int takeArg, String argName, OptionHandler handler)
   {
