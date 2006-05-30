@@ -23,7 +23,6 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
@@ -52,131 +51,42 @@ public class ProverCalculateProviso
   {
     Factory factory_ = new Factory();
     final Expr expr = getRightExpr();
-    if (expr instanceof DecorExpr) {
-      final DecorExpr decorExpr = (DecorExpr) expr;
-      final Stroke stroke = decorExpr.getStroke();
-      if (decorExpr.getExpr() instanceof SchExpr) {
-        final CollectStateVariablesVisitor collectVisitor =
-          new CollectStateVariablesVisitor();
-        final DecorateNamesVisitor visitor =
-          new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
-        try {
-          SchExpr result =
-            (SchExpr) ProverUtils.removeJoker(decorExpr.getExpr());
-          List errors =
-            TypeCheckUtils.typecheck(result, manager, false, section);
-          if (errors == null || errors.isEmpty()) {
-            result.getZSchText().getDeclList().accept(collectVisitor);
-            result = (SchExpr) result.accept(visitor);
-            if (result != null) {
-              unify(result, getLeftExpr());
-              return;
-            }
-          }
-          else {
-          }
-          System.err.println("Typeckecking failed:");
-          System.err.println(errors);
-          status_ = Status.FAIL;
-        }
-        catch(ProverUtils.UnboundJokerException e) {
-          // status is unknown
-          final String message =
-            "Found unbound joker when checking calculate proviso";
-          System.err.println(message + "\nCause by:\n  " + e.getMessage());
-        }
-        catch(CztException e) {
-          final String message =
-            "Caught CztException when checking calculate proviso";
-          System.err.println(message + "\nCause by:\n  " + e.getMessage());
-          // status is unknown
-        }
-      }
-    }
+    if (expr instanceof DecorExpr) 
+      checkDecorExpr((DecorExpr)expr, manager, section);
     else if (expr instanceof ApplExpr) {
       ApplExpr applExpr = (ApplExpr) expr;
       Expr left = applExpr.getLeftExpr();
-      if (left instanceof RefExpr) {
-        RefExpr refExpr = (RefExpr) left;
-        RefName refName = refExpr.getRefName();
-        if (refName instanceof ZRefName) {
-          ZRefName zRefName = (ZRefName) refName;
-          if ("binding".equals(zRefName.getWord())) {
-            Expr rightExpr = applExpr.getRightExpr();
-            if (rightExpr instanceof SchExpr) {
-              SchExpr schExpr = (SchExpr) rightExpr;
-              SchText schText = schExpr.getSchText();
-              if (schText instanceof ZSchText) {
-                ZSchText zSchText = (ZSchText) schText;
-                ZDeclList zDeclList =
-                  zSchText.accept(new GetZDeclList(factory_));
-                ZDeclList newZDeclList = factory_.createZDeclList();
-                for (Decl decl : zDeclList) {
-                  if (decl instanceof VarDecl) {
-                    VarDecl varDecl = (VarDecl) decl;
-                    for (DeclName declName : varDecl.getDeclName()) {
-                      ZDeclName zDeclName =
-                        declName.accept(new GetZDeclName());
-                      Object[] children = { zDeclName.getWord(),
-                                            zDeclName.getStrokeList(),
-                                            null };
-                      ZDeclName newZDeclName =
-                        factory_.createZDeclName(zDeclName.getWord(),
-                                                 zDeclName.getStrokeList());
-                      ZRefName newZRefName =
-                        factory_.createZRefName(zDeclName.getWord(),
-                                                zDeclName.getStrokeList(),
-                                                zDeclName);
-                      RefExpr newRefExpr =
-                        factory_.createRefExpr(newZRefName);
-                      ConstDecl constDecl =
-                        factory_.createConstDecl(newZDeclName,
-                                                 newRefExpr);
-                      newZDeclList.add(constDecl);
-                    }
-                  }
-                  else {
-                    final String message = decl.getClass() +
-                      " is not a supported Decl " +
-                      " for the calculate proviso";
-                    throw new CztException(message);
-                  }
-                }
-                BindExpr bindExpr = factory_.createBindExpr(newZDeclList);
-                unify(bindExpr, getLeftExpr());
-                return;
-              }
-              else {
-                final String message = schText.getClass() +
-                  " is not a supported SchText " +
-                  " for the calculate proviso";
-                throw new CztException(message);
-              }
-            }
-            else {
-              final String message = rightExpr.getClass() +
-                " is not supported by the binding function " +
-                "of the calculate proviso";
-              throw new CztException(message);
-            }
-          }
-          else {
-            final String message = zRefName.getWord() +
-              " is not supported by the calculate proviso";
-            throw new CztException(message);
-          }
-        }
-        else {
-          final String message = refName.getClass() +
-            " is not a supported RefName " +
-            " for the calculate proviso";
-          throw new CztException(message);
-        }
-      }
-      else {
+      if ( ! (left instanceof RefExpr)) {
         final String message = left.getClass() +
-          " not supported as left exprssion" +
-          "of ApplExpr by calculate proviso";
+        " not supported as left exprssion" +
+        "of ApplExpr by calculate proviso";
+        throw new CztException(message);
+      }
+      RefExpr refExpr = (RefExpr) left;
+      RefName refName = refExpr.getRefName();
+      if ( ! (refName instanceof ZRefName)) {
+        final String message = refName.getClass() +
+        " is not a supported RefName " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+      ZRefName zRefName = (ZRefName) refName;
+      if (zRefName.getZStrokeList().size() != 0) {
+        final String message = zRefName +
+        " with decorations is not a supported RefName " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+      String funcName = zRefName.getWord();
+      Expr arg = applExpr.getRightExpr();
+      if ("binding".equals(funcName))
+        checkBinding(arg, factory_);
+      else if ("schemaminus".equals(funcName))
+        checkSchemaMinus(arg);
+      else
+      {
+        final String message = funcName +
+        " is not supported by the calculate proviso";
         throw new CztException(message);
       }
     }
@@ -185,9 +95,132 @@ public class ProverCalculateProviso
         expr.getClass() + " not supported in calculate proviso";
       throw new CztException(message);
     }
-    status_ = Status.UNKNOWN;
   }
-
+  
+  /** Implements the 'decorated expression' proviso.
+   *  For example, given [D] ', this will create a primed
+   *  version of [D] and bind it to getLeftExpr().
+   *  Every path through this method should set status_.
+   */
+  private void checkDecorExpr(DecorExpr decorExpr, 
+			      SectionManager manager, String section)
+  {
+    final Stroke stroke = decorExpr.getStroke();
+    if (decorExpr.getExpr() instanceof SchExpr) {
+      final CollectStateVariablesVisitor collectVisitor =
+        new CollectStateVariablesVisitor();
+      final DecorateNamesVisitor visitor =
+        new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
+      try {
+        SchExpr result =
+          (SchExpr) ProverUtils.removeJoker(decorExpr.getExpr());
+        List errors =
+          TypeCheckUtils.typecheck(result, manager, false, section);
+        if (errors == null || errors.isEmpty()) {
+          result.getZSchText().getDeclList().accept(collectVisitor);
+          result = (SchExpr) result.accept(visitor);
+          if (result != null) {
+            unify(result, getLeftExpr());
+	    // unify sets status_
+          }
+	  else {
+	      status_ = Status.UNKNOWN; // TODO: should this be FAIL?
+	  }
+        }
+        else {
+	  System.err.println("Typeckecking failed:");
+	  System.err.println(errors);
+	  status_ = Status.FAIL;
+        }
+      }
+      catch(ProverUtils.UnboundJokerException e) {
+        final String message =
+          "Found unbound joker when checking calculate proviso";
+        System.err.println(message + "\nCause by:\n  " + e.getMessage());
+	status_ = Status.UNKNOWN;
+      }
+      catch(CztException e) {
+        final String message =
+          "Caught CztException when checking calculate proviso";
+        System.err.println(message + "\nCause by:\n  " + e.getMessage());
+	status_ = Status.UNKNOWN;
+      }
+    }
+  }
+  
+  /** Implements the 'binding [D]' proviso.
+   *  This constructs a binding from the names in D.
+   *  For example, if D=[x,y:\num], then getLeftExpr() will
+   *  be unified with the binding \lblot x==x, y==y \rblot.
+   *  Every path through this method should set status_. 
+   */
+  private void checkBinding(Expr rightExpr, Factory factory_)
+  {
+    if (rightExpr instanceof SchExpr) {
+      SchExpr schExpr = (SchExpr) rightExpr;
+      SchText schText = schExpr.getSchText();
+      if (schText instanceof ZSchText) {
+        ZSchText zSchText = (ZSchText) schText;
+        ZDeclList zDeclList =
+          zSchText.accept(new GetZDeclList(factory_));
+        ZDeclList newZDeclList = factory_.createZDeclList();
+        for (Decl decl : zDeclList) {
+          if (decl instanceof VarDecl) {
+            VarDecl varDecl = (VarDecl) decl;
+            for (DeclName declName : varDecl.getDeclName()) {
+              ZDeclName zDeclName =
+                declName.accept(new GetZDeclName());
+              ZDeclName newZDeclName =
+                factory_.createZDeclName(zDeclName.getWord(),
+                    zDeclName.getStrokeList());
+              ZRefName newZRefName =
+                factory_.createZRefName(zDeclName.getWord(),
+                    zDeclName.getStrokeList(),
+                    zDeclName);
+              RefExpr newRefExpr =
+                factory_.createRefExpr(newZRefName);
+              ConstDecl constDecl =
+                factory_.createConstDecl(newZDeclName,
+                    newRefExpr);
+              newZDeclList.add(constDecl);
+            }
+          }
+          else {
+            final String message = decl.getClass() +
+            " is not a supported Decl " +
+            " for the calculate proviso";
+            throw new CztException(message);
+          }
+        }
+        BindExpr bindExpr = factory_.createBindExpr(newZDeclList);
+        unify(bindExpr, getLeftExpr());
+	// unify sets status_
+      }
+      else {
+        final String message = schText.getClass() +
+        " is not a supported SchText " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+    }
+    else {
+      final String message = rightExpr.getClass() +
+      " is not supported by the binding function " +
+      "of the calculate proviso";
+      throw new CztException(message);
+    }
+  }
+  
+  /** Implements the [D1|true] schemaminus [D2|true] proviso.
+   *  This calculates the signature D1 minus D2.
+   *  Every path through this method should set status_. 
+   * @param args
+   */
+  private void checkSchemaMinus(Expr args)
+  {
+    System.err.println("TODO: schemaminus of "+args);
+    status_ = Status.FAIL;
+  }
 
   private void unify(Term term1, Term term2)
   {
