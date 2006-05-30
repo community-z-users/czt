@@ -55,7 +55,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	     sourcepath="${gaffe.generator.source.path}"
              destdir="${gaffe.generator.api.path}"
 	     classpathref="gaffe.generator.class.path"  
-             access="private" use="yes" version="yes" author="yes"/>
+             access="private" use="yes" version="yes" author="yes">
+      <tag name="czt.todo" description="To do:"/>
+    </javadoc>
   </target>
 
   <target name="classpath" depends="-init" description="Show the classpath">
