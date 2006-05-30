@@ -10,6 +10,9 @@
     <!-- Add new releases here -->
     <release version="0.5" date="unreleased">
       <action dev="Tim" type="fix"
+        Corrected bug 1497266 -- Typechecker merges too many DeclName ids.
+      </action>
+      <action dev="Tim" type="fix"
         Corrected bug 1486054 -- Stack overflow.
         Also, corrected problem with type inference in the example
         specification provided with that bug report.
