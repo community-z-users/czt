@@ -70,11 +70,7 @@ public class <class/>
     throws ParseException, IOException, UnmarshalException
   {
     if (source.getMarkup() == Markup.LATEX) {
-      LatexParser parser =
-        new LatexParser(source.getReader(),
-                        source.toString(),
-                        sectInfo,
-                        properties);
+      LatexParser parser = new LatexParser(source, sectInfo, properties);
       return parser.parse();
     }
     else if (source.getMarkup() == Markup.UNICODE) {

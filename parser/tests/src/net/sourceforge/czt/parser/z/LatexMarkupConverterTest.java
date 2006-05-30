@@ -27,9 +27,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.z.UnicodeToLatex;
-import net.sourceforge.czt.session.FileSource;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.session.*;
 
 /**
  * A (JUnit) test class for testing the latex markup converter.
@@ -54,7 +52,11 @@ public class LatexMarkupConverterTest
     String uniFile = tmpUnicodeFile.getAbsolutePath();
     String latexFile = tmpLatexFile.getAbsolutePath();
     if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
-      LatexToUnicode.convert(url, uniFile, new Properties());
+      final Source source = new UrlSource(url);
+      final Writer writer =
+        new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
+      LatexToUnicode.convert(source, writer, new Properties());
+      writer.close();
       String[] args2 = { "-in", uniFile, "-out", latexFile };
       UnicodeToLatex.main(args2);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),

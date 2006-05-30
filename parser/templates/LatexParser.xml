@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2004, 2005 Petra Malik
-     This file is part of the CZT project.
-
-     The CZT project contains free software;
-     you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
-
-     The CZT project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
-
-     You should have received a copy of the GNU General Public License
-     along with CZT; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
-
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+/*
+  Copyright (C) 2004, 2005, 2006 Petra Malik
+  This file is part of the CZT project.
+
+  The CZT project contains free software;
+  you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The CZT project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with CZT; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 package <package/>;
 
 import java.io.*;
@@ -39,10 +38,7 @@ import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.Command;
-import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 <add:circus>
@@ -80,18 +76,13 @@ public class <class/>
   LatexScanner scanner_;
   Parser parser_;
 
-  public <class/>(Reader in, SectionInfo sectInfo, Properties properties)
-  {
-    scanner_ = new LatexScanner(in, sectInfo, properties);
-    parser_ = new Parser(scanner_, sectInfo);
-  }
-
-  public <class/>(Reader in,
-                  String filename,
+  public <class/>(Source source,
                   SectionInfo sectInfo,
                   Properties properties)
+    throws IOException
   {
-    scanner_ = new LatexScanner(in, sectInfo, properties);
+    final String filename = source.toString();
+    scanner_ = new LatexScanner(source, sectInfo, properties);
     scanner_.setSource(filename);
     parser_ = new Parser(scanner_, filename, sectInfo);
   }
@@ -129,8 +120,10 @@ public class <class/>
           return;
         }
       }
+      final Source source = new FileSource(filename);
+      source.setMarkup(Markup.LATEX);
       <class/> parser =
-        new <class/>(in, filename, new SectionManager(), new Properties());
+        new <class/>(source, new SectionManager(), new Properties());
       Term term = parser.parse();
       if (term != null) {
         AstValidator validator = new JaxbValidator();

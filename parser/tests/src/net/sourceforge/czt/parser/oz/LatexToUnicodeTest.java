@@ -26,7 +26,7 @@ import junit.framework.*;
 
 import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
@@ -40,7 +40,7 @@ public class LatexToUnicodeTest
     throws Exception
   {
     LatexToUnicode lexer =
-      new LatexToUnicode(new java.io.StringReader(string),
+      new LatexToUnicode(new StringSource(string),
                          manager_,
                          new Properties());
     lexer.setSource("'" + string + "'");
