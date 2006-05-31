@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2005 Mark Utting
+  Copyright 2006 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -37,9 +38,12 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.ExistsExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -50,17 +54,17 @@ public class ZLive
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
+
   /** The name and current version of ZLive */
   public static final String banner =
     "ZLive version 0.2, (C) 2005, Mark Utting";
-  
+
   private Factory factory_;
 
   private /*@non_null@*/ Flatten flatten_;
-  
+
   private /*@non_null@*/ Preprocess preprocess_;
-  
+
   /** A Writer interface to System.out. */
   protected PrintWriter writer_ = new PrintWriter(System.out);
 
@@ -74,7 +78,7 @@ public class ZLive
   private String sectName_;
   private Markup markup_ = Markup.LATEX;
   private int givenSetSize_ = Integer.MAX_VALUE;
-  
+
   /** Generates a fresh temporary name. */
   public ZRefName createNewName()
   {
@@ -169,14 +173,14 @@ public class ZLive
   {
       markup_ = Enum.valueOf(Markup.class, markup);
   }
-  
+
   public int getGivenSetSize()
   {
     return givenSetSize_;
   }
 
   /**
-   * @throws NumberFormatException if the argument 
+   * @throws NumberFormatException if the argument
    *  string is not a positive integer.
    */
   public void setGivenSetSize(String value)
@@ -219,7 +223,7 @@ public class ZLive
     }
     // preprocess the predicate, to unfold things.
     pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
-    
+
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
@@ -258,7 +262,7 @@ public class ZLive
     }
     // preprocess the expr, to unfold things.
     expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
-    
+
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);
     predlist_.inferBounds(new Bounds());
@@ -279,10 +283,30 @@ public class ZLive
     return result;
   }
 
-    public void printCode()
-    {
-      printCode(writer_);
-    }
+  /** Evaluate a schema with some given inputs/output.
+   *  This calls evalExpr(exists binding @ schema).
+   *  The expressions in the BindExpr must be type checked.
+   *  @param expr  A net.sourceforge.czt.z.ast.Pred object.
+   *  @return      An instance of EvalSet.
+  */
+  public Expr evalSchema(String schemaName, BindExpr args)
+  throws EvalException, CommandException
+  {
+    String currSect = getCurrentSection();
+    Key key = new Key(currSect, DefinitionTable.class);
+    DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
+    SchText schText = factory_.createZSchText(args.getZDeclList(), factory_.createTruePred());
+    Expr schema = table.lookup(schemaName).getExpr();
+    if (schema == null)
+      throw new CztException("Cannot find schema: "+schemaName);
+    ExistsExpr expr = factory_.createExistsExpr(schText, schema);
+    return evalExpr(expr);
+  }
+
+  public void printCode()
+  {
+    printCode(writer_);
+  }
 
   /** Prints the list of FlatPreds used in the last call
     * to evalPred or evalExpr.
@@ -317,7 +341,7 @@ public class ZLive
     writer.flush();
   }
 
-  /** Writes an evaluated expression as a standard text string. 
+  /** Writes an evaluated expression as a standard text string.
    */
   public void printTerm(PrintWriter out, Term term, Markup markup)
   {
