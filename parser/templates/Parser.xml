@@ -1394,8 +1394,10 @@ parser code
 
     protected LocInfo getLocation(Term term)
     {
-      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-      return getLocation(locAnn);
+      if (term != null) {
+        return getLocation((LocAnn) term.getAnn(LocAnn.class));
+      }
+      return null;
     }
 
     protected LocInfo getLocation(LocAnn locAnn)
