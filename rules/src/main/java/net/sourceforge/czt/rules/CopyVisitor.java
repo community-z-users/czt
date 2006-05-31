@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -38,15 +38,15 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * @author Petra Malik
  */
 public class CopyVisitor
-  implements TermVisitor,
-             JokerDeclListVisitor,
-             JokerExprVisitor,
-             JokerDeclNameVisitor,
-             JokerRefNameVisitor,
-             JokerPredVisitor,
-             LookupConstDeclProvisoVisitor,
-             CalculateProvisoVisitor,
-             TypeProvisoVisitor
+  implements TermVisitor<Term>,
+             JokerDeclListVisitor<Term>,
+             JokerExprVisitor<Term>,
+             JokerDeclNameVisitor<Term>,
+             JokerRefNameVisitor<Term>,
+             JokerPredVisitor<Term>,
+             LookupConstDeclProvisoVisitor<Term>,
+             CalculateProvisoVisitor<Term>,
+             TypeProvisoVisitor<Term>
 {
   private Factory factory_;
 
@@ -55,37 +55,37 @@ public class CopyVisitor
     factory_ = factory;
   }
 
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, false);
   }
 
-  public Object visitJokerDeclList(JokerDeclList joker)
+  public Term visitJokerDeclList(JokerDeclList joker)
   {
     return factory_.createJokerDeclList(joker.getName());
   }
 
-  public Object visitJokerExpr(JokerExpr joker)
+  public Term visitJokerExpr(JokerExpr joker)
   {
     return factory_.createJokerExpr(joker.getName());
   }
 
-  public Object visitJokerDeclName(JokerDeclName joker)
+  public Term visitJokerDeclName(JokerDeclName joker)
   {
     return factory_.createJokerDeclName(joker.getName());
   }
 
-  public Object visitJokerRefName(JokerRefName joker)
+  public Term visitJokerRefName(JokerRefName joker)
   {
     return factory_.createJokerRefName(joker.getName());
   }
 
-  public Object visitJokerPred(JokerPred joker)
+  public Term visitJokerPred(JokerPred joker)
   {
     return factory_.createJokerPred(joker.getName());
   }
 
-  public Object visitLookupConstDeclProviso(LookupConstDeclProviso proviso)
+  public Term visitLookupConstDeclProviso(LookupConstDeclProviso proviso)
   {
     SequentContext context = proviso.getSequentContext();
     Expr left = (Expr) proviso.getLeftExpr().accept(this);
@@ -93,7 +93,7 @@ public class CopyVisitor
     return factory_.createLookupConstDeclProviso(context, left, right);
   }
 
-  public Object visitCalculateProviso(CalculateProviso proviso)
+  public Term visitCalculateProviso(CalculateProviso proviso)
   {
     SequentContext context = proviso.getSequentContext();
     Expr left = (Expr) proviso.getLeftExpr().accept(this);
@@ -101,7 +101,7 @@ public class CopyVisitor
     return factory_.createCalculateProviso(context, left, right);
   }
 
-  public Object visitTypeProviso(TypeProviso proviso)
+  public Term visitTypeProviso(TypeProviso proviso)
   {
     SequentContext context = proviso.getSequentContext();
     Expr left = (Expr) proviso.getExpr().accept(this);
