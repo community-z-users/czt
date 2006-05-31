@@ -114,7 +114,9 @@ public abstract class AbstractParser
                              message);
       }
     }
-    wffHighlight_.setSpec(spec);
+    if (spec != null) {
+      wffHighlight_.setSpec(spec);
+    }
     return data;
   }
 
@@ -125,9 +127,9 @@ public abstract class AbstractParser
     for (CztError error : errors) {
       errorSource.addError(ErrorSource.ERROR,
                            buffer.getPath(),
-                           error.getLine() - 1,
-                           error.getColumn() - 1,
-                           0,
+                           error.getLine(),
+                           error.getColumn(),
+                           error.getColumn() + error.getLength(),
                            error.getMessage());
     }
   }
