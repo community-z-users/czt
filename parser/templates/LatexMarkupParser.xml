@@ -86,8 +86,6 @@ public class <class/>
    */
   private LocToken symbol_ = null;
 
-  private String source_ = null;
-
   /**
    * Creates a new latex markup parser that uses the scanner provided.
    * The section information should be able to provide information of type
@@ -100,14 +98,9 @@ public class <class/>
     sectInfo_ = sectInfo;
   }
 
-  public String getSource()
+  public Source getSource()
   {
-    return source_;
-  }
-
-  public void setSource(String source)
-  {
-    source_ = source;
+    return lexer_.getSource();
   }
 
   /**
@@ -284,7 +277,7 @@ public class <class/>
   {
     final LocInfo loc = t2.getLocation();
     final String message = "WARNING: Possible missing hard space at line "
-      + loc.getLine() + " column " + loc.getColumn() + " in " + source_;
+      + loc.getLine() + " column " + loc.getColumn() + " in " + getSource();
     if (t1 != null &amp;&amp; t2 != null) {
       if (is(t1, LatexSym.UNICODE) &amp;&amp; is(t2, LatexSym.UNICODE)) {
         String s1 = t1.spelling();

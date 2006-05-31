@@ -52,7 +52,6 @@ public class <class/>
 {
   private LatexMarkupParser lexer_;
   private SectionInfo sectInfo_;
-  private Latex2Unicode l2u_;
 
   /**
    * Ignores the markup information contained in source and treats the
@@ -61,15 +60,19 @@ public class <class/>
   public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
-    l2u_ = new Latex2Unicode(source, properties);
-    lexer_ = new LatexMarkupParser(l2u_, sectInfo);
-    lexer_.setSource(source.toString());
+    Latex2Unicode l2u = new Latex2Unicode(source, properties);
+    lexer_ = new LatexMarkupParser(l2u, sectInfo);
   }
 
   public LocToken next()
     throws IOException
   {
     return lexer_.next();
+  }
+
+  public Source getSource()
+  {
+    return lexer_.getSource();
   }
 
   public static void convert(Source source,

@@ -21,7 +21,14 @@ package net.sourceforge.czt.parser.util;
 
 import java.io.IOException;
 
+import net.sourceforge.czt.session.Source;
+
 public interface Lexer
 {
   LocToken next() throws IOException;
+
+  /**
+   * The source that is lexed.
+   */
+  Source getSource();
 }

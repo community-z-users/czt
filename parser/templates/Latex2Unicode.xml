@@ -196,6 +196,11 @@ import net.sourceforge.czt.session.*;
     properties_ = properties;
   }
 
+  public Source getSource()
+  {
+    return source_;
+  }
+
   private String getLoc()
   {
     return source_.toString();

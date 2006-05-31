@@ -54,7 +54,6 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbValidator;
 import net.sourceforge.czt.tcoz.jaxb.JaxbXmlWriter;
 </add:tcoz>
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
@@ -72,18 +71,15 @@ import net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter;
  */
 public class <class/>
 {
-  ZFactory factory_ = new ZFactoryImpl();
-  LatexScanner scanner_;
-  Parser parser_;
+  private Parser parser_;
 
   public <class/>(Source source,
                   SectionInfo sectInfo,
                   Properties properties)
     throws IOException
   {
-    final String filename = source.toString();
-    scanner_ = new LatexScanner(source, sectInfo, properties);
-    parser_ = new Parser(scanner_, source, sectInfo);
+    LatexScanner scanner = new LatexScanner(source, sectInfo, properties);
+    parser_ = new Parser(scanner, source, sectInfo);
   }
 
   /**
