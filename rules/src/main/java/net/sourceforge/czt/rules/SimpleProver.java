@@ -89,7 +89,8 @@ public class SimpleProver
    * recursively proves all children.  If any
    * children cannot be proved, that rule is undone
    * and other rules are tried.  So this is the same
-   * depth-first, left-first search that Prolog uses.
+   * depth-first, left-first search (if one regards the
+   * rules as being ordered left-to-right) that Prolog uses.
    * 
    * Returns <code>true</code> if this succeeds,
    * <code>false</code> otherwise.

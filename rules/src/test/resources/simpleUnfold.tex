@@ -48,8 +48,6 @@ This document defines simple rules for unfolding schema inclusions.
   \SECTION simpleUnfold \parents zpattern\_toolkit
 \end{zsection}
 
-\section*{Stage 1: Unfolding Simple Schema Inclusions}
-
 Declare the jokers used in these rules.
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker} \\
@@ -58,13 +56,43 @@ Declare the jokers used in these rules.
 \begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+\newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
+
+We define some operators for manipulating schema signatures.
+$[D1] \schemaminus [D2]$ returns the declarations that are in
+$D1$ but not in $D2$.  It has the precondition that $D1$ and $D2$
+must be in normalized form (base types, VarDecls only with one 
+name per VarDecl).
+
+\begin{verbatim}
+%%Zinword \schemaminus schemaminus
+\end{verbatim}
+\begin{zed}
+  \function 30 \leftassoc ( \_ \schemaminus \_ )
+\end{zed}
+
+This definition captures part of the semantics of
+the $\schemaminus$ operator and gives it the correct
+type.  Note that this definition will create an $\exists$
+within the predicate of SIG3, but that exists will be
+trivially true if we assume that all base types are non-empty. 
+
+TODO: add this predicate: $SIG3 = \exists SIG2 @ SIG1$.
+
+\begin{gendef}[SIG1,SIG2,SIG3]
+  \_ \schemaminus \_ : SIG1 \cross SIG2 \fun SIG3
+\end{gendef}
+
+
+\section*{Stage 1: Unfolding Simple Schema Inclusions}
 
 The first step in the process is to move the predicates into
 the normalised result.
 \begin{zedrule}{Start}
-   [D1 | true] \unfoldsTo [D2 | P2]
+   [D1 | true] \unfoldsTo [D2 | P2] \\
+   P2 \land P \iff P3
 \derives
-   [D1 | P] = [D2 | P2 \land P]
+   [D1 | P] = [D2 | P3]
 \end{zedrule}
 
 Now we handle each possible kind of declaration, from left to right.
@@ -74,6 +102,14 @@ Note that if the first declaration declares multiple variables,
 like $a,b,c:\nat$, then the matcher should automatically split this
 so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
 becomes the first declaration within $D1$.
+
+\begin{zedrule}{VarDeclBaseType}
+   \proviso E : \power E \\
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+\end{zedrule}
+
 \begin{zedrule}{VarDecl}
    \proviso E : \power E2 \\
    [D1 | true] \unfoldsTo [D2 | P2] \\
@@ -145,6 +181,15 @@ declared names within the schema.
   P \iff P
 \end{zedrule}
 
+\begin{zedrule}{ExistsSchema}
+   E1 \unfoldsTo [D1 | P1] \\
+   E2 \unfoldsTo [D2 | P2] \\
+%  \proviso [D3|true] == [D2|true] \schemaminus [D1|true]
+\derives
+   (\exists E1 @ E2) \unfoldsTo [D2 | (\exists [D1|P1] @ P2)]
+\end{zedrule}
+
+
 \section*{Examples}
 Here is an example of the results we should get.
 (These could be used as tests for the rules implementation).
@@ -182,9 +227,13 @@ do the following transformations:
 \begin{zed}
 \vdash? [S1~' | true] \unfoldsTo [x':\arithmos | x'<10 \land x'\in\nat]
 \end{zed}
+
+This next test is not working yet.
+\begin{verbatim}
 \vdash? [S1;S1~' | true] \unfoldsTo
         [x:\arithmos~; x':\nat | x<10 \land x\in\nat \land x'<10]
-\end{zed}
+\end{verbatim}
+
 \begin{zed}
 \vdash? [S2~' | true] \unfoldsTo
         [x':\arithmos~; y':\arithmos | y'<x' \land (x'<10 \land
@@ -201,4 +250,12 @@ is trying to prime contains difficult operators (operators that
 decoration does not distribute into, like schema composition,
 piping, hiding, projection, and precondition).
 
+\begin{zed}
+\vdash? [x:\arithmos|true] \unfoldsTo [x:\arithmos|true]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x:\arithmos|true] @ [y:\arithmos|true]) \unfoldsTo
+        [y:\arithmos | (\exists [x:\arithmos|true] @ true)]
+\end{zed}
 \end{document}

@@ -63,6 +63,15 @@ public class SimpleProverTest
     prove("/simpleUnfold.tex");
   }
 
+  /** Proves all the conjectures in the given file.
+   *  The file should contain just one Z Section,
+   *  which contains the conjectures to be proved.
+   *  The ruletable of that section (which includes any
+   *  inherited rules) will be used to do the proofs.
+   *  appear in 
+   * @param resource The name of the Z source. 
+   * @throws Exception
+   */
   private void prove(String resource)
     throws Exception
   {
