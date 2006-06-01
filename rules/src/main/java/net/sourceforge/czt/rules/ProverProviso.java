@@ -25,6 +25,17 @@ import net.sourceforge.czt.zpatt.ast.*;
 public interface ProverProviso
   extends Proviso
 {
+  /** Checks the correctness of this proviso/sidecondition. 
+   *  Before this check() method is called (for the first time), we say that
+   *  the sequent has UNCHECKED status. After this check() method
+   *  has been called, the sequent can be in one of three states: PASS (the
+   *  side-condition was correctly discharged), FAIL (the side-condition is
+   *  false), UNKNOWN (the side-condition needs to be checked later,
+   *  when the sequent is instantiated more fully).
+   *  
+   * @param manager
+   * @param section
+   */
   void check(SectionManager manager, String section);
   Status getStatus();
 

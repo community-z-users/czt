@@ -135,6 +135,8 @@
     <junit fork="yes" printsummary="on">
       <formatter type="xml"/>
       <test toDir="${rules.build.dir}"
+          name="net.sourceforge.czt.rules.ast.ProverCalculateProvisoTest"/>
+      <test toDir="${rules.build.dir}"
         name="net.sourceforge.czt.rules.SimpleProverTest"/>
       <classpath>
         <pathelement location="${jar.file}"/>

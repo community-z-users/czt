@@ -56,32 +56,8 @@ Declare the jokers used in these rules.
 \begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
 \newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
-
-We define some operators for manipulating schema signatures.
-$[D1] \schemaminus [D2]$ returns the declarations that are in
-$D1$ but not in $D2$.  It has the precondition that $D1$ and $D2$
-must be in normalized form (base types, VarDecls only with one 
-name per VarDecl).
-
-\begin{verbatim}
-%%Zinword \schemaminus schemaminus
-\end{verbatim}
-\begin{zed}
-  \function 30 \leftassoc ( \_ \schemaminus \_ )
-\end{zed}
-
-This definition captures part of the semantics of
-the $\schemaminus$ operator and gives it the correct
-type.  Note that this definition will create an $\exists$
-within the predicate of SIG3, but that exists will be
-trivially true if we assume that all base types are non-empty. 
-
-TODO: add this predicate: $SIG3 = \exists SIG2 @ SIG1$.
-
-\begin{gendef}[SIG1,SIG2,SIG3]
-  \_ \schemaminus \_ : SIG1 \cross SIG2 \fun SIG3
-\end{gendef}
 
 
 \section*{Stage 1: Unfolding Simple Schema Inclusions}
@@ -184,9 +160,9 @@ declared names within the schema.
 \begin{zedrule}{ExistsSchema}
    E1 \unfoldsTo [D1 | P1] \\
    E2 \unfoldsTo [D2 | P2] \\
-%  \proviso [D3|true] == [D2|true] \schemaminus [D1|true]
+   \proviso [D3|true] == [D2|true] \schemaminus [D1|true]
 \derives
-   (\exists E1 @ E2) \unfoldsTo [D2 | (\exists [D1|P1] @ P2)]
+   (\exists E1 @ E2) \unfoldsTo [D3 | (\exists [D1|P1] @ P2)]
 \end{zedrule}
 
 
@@ -257,5 +233,15 @@ piping, hiding, projection, and precondition).
 \begin{zed}
 \vdash? (\exists [x:\arithmos|true] @ [y:\arithmos|true]) \unfoldsTo
         [y:\arithmos | (\exists [x:\arithmos|true] @ true)]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x:\arithmos|true] @ [x:\arithmos|true]) \unfoldsTo
+        [ | (\exists [x:\arithmos|true] @ true)]
+\end{zed}
+
+\begin{zed}
+\vdash? (\exists [x,z:\arithmos | true] @ [y,z:\arithmos|true]) \unfoldsTo
+        [y:\arithmos | (\exists [x:\arithmos~; z:\arithmos|true] @ true)]
 \end{zed}
 \end{document}
