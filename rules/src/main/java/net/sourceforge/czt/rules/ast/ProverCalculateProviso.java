@@ -29,6 +29,8 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.CalculateProvisoImpl;
@@ -81,8 +83,8 @@ public class ProverCalculateProviso
       Expr arg = applExpr.getRightExpr();
       if ("binding".equals(funcName))
         checkBinding(arg, factory_);
-      else if ("schemaminus".equals(funcName))
-        checkSchemaMinus(arg);
+      else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
+        checkSchemaMinus(arg, factory_);
       else
       {
         final String message = funcName +
@@ -154,7 +156,7 @@ public class ProverCalculateProviso
    *  be unified with the binding \lblot x==x, y==y \rblot.
    *  Every path through this method should set status_. 
    */
-  private void checkBinding(Expr rightExpr, Factory factory_)
+  private void checkBinding(Expr rightExpr, Factory factory)
   {
     if (rightExpr instanceof SchExpr) {
       SchExpr schExpr = (SchExpr) rightExpr;
@@ -162,8 +164,8 @@ public class ProverCalculateProviso
       if (schText instanceof ZSchText) {
         ZSchText zSchText = (ZSchText) schText;
         ZDeclList zDeclList =
-          zSchText.accept(new GetZDeclList(factory_));
-        ZDeclList newZDeclList = factory_.createZDeclList();
+          zSchText.accept(new GetZDeclList(factory));
+        ZDeclList newZDeclList = factory.createZDeclList();
         for (Decl decl : zDeclList) {
           if (decl instanceof VarDecl) {
             VarDecl varDecl = (VarDecl) decl;
@@ -171,16 +173,16 @@ public class ProverCalculateProviso
               ZDeclName zDeclName =
                 declName.accept(new GetZDeclName());
               ZDeclName newZDeclName =
-                factory_.createZDeclName(zDeclName.getWord(),
+                factory.createZDeclName(zDeclName.getWord(),
                     zDeclName.getStrokeList());
               ZRefName newZRefName =
-                factory_.createZRefName(zDeclName.getWord(),
+                factory.createZRefName(zDeclName.getWord(),
                     zDeclName.getStrokeList(),
                     zDeclName);
               RefExpr newRefExpr =
-                factory_.createRefExpr(newZRefName);
+                factory.createRefExpr(newZRefName);
               ConstDecl constDecl =
-                factory_.createConstDecl(newZDeclName,
+                factory.createConstDecl(newZDeclName,
                     newRefExpr);
               newZDeclList.add(constDecl);
             }
@@ -192,7 +194,7 @@ public class ProverCalculateProviso
             throw new CztException(message);
           }
         }
-        BindExpr bindExpr = factory_.createBindExpr(newZDeclList);
+        BindExpr bindExpr = factory.createBindExpr(newZDeclList);
         unify(bindExpr, getLeftExpr());
 	// unify sets status_
       }
@@ -216,10 +218,64 @@ public class ProverCalculateProviso
    *  Every path through this method should set status_. 
    * @param args
    */
-  private void checkSchemaMinus(Expr args)
+  private void checkSchemaMinus(Expr args, Factory factory)
   {
-    System.err.println("TODO: schemaminus of "+args);
-    status_ = Status.FAIL;
+    String op = "\\schemaminus";
+    ZExprList argList = null;
+    if ( ! (args instanceof TupleExpr)
+        || (argList=((TupleExpr)args).getZExprList()).size() != 2)
+      throw new CztException(op+" requires two arguments.");
+    ZDeclList decls1 = getDeclsFromSchema(op, argList.get(0));
+    ZDeclList decls2 = getDeclsFromSchema(op, argList.get(1));
+    // create a map of the names in decls2.
+    Map<String,Expr> map2 = new HashMap<String,Expr>();
+    for (Decl decl : decls2)
+    {
+      VarDecl vdecl = (VarDecl)decl;
+      String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+      System.out.println("map2["+name+"] := "+vdecl.getExpr());
+      map2.put(name,vdecl.getExpr());
+    }
+    // now go through decls1, and filter out any names in map2
+    ZDeclList result = factory.createZDeclList();
+    for (Decl decl : decls1)
+    {
+      VarDecl vdecl = (VarDecl)decl;
+      String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+      System.out.println("checking name:"+name+".");
+      if (map2.containsKey(name)) {
+        assert map2.get(name).equals(vdecl.getExpr());
+      }
+      else {
+        System.out.println("added name:"+name+".");
+        result.add(decl);
+      }
+    }
+    ZSchText schtext = factory.createZSchText(result, factory.createTruePred()); 
+    unify(factory.createSchExpr(schtext), getLeftExpr());
+    // unify sets status_
+  }
+
+  /** Gets the declarations out of a schema expression, with
+   *  a few checks to see if schema is in normal form.
+   */
+  private ZDeclList getDeclsFromSchema(String op, Expr expr)
+  {
+    if ( ! (expr instanceof SchExpr))
+      throw new CztException(op+" arguments must be schemas");
+    ZSchText text = ((SchExpr)expr).getZSchText();
+    if ( ! (text.getPred() instanceof TruePred))
+      throw new CztException(op+" arguments should have predicate part = true");
+    ZDeclList decls = (ZDeclList) ProverUtils.removeJoker(text.getDeclList());
+    for (Decl decl : decls)
+    {
+      if ( ! (decl instanceof VarDecl))
+        throw new CztException(op+" arguments must contain only VarDecls");
+      VarDecl vdecl = (VarDecl)decl;
+      if (vdecl.getDeclName().size() != 1)
+        throw new CztException(op+" arguments must be in normal form");
+    }
+    return decls;
   }
 
   private void unify(Term term1, Term term2)
