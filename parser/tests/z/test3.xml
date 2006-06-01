@@ -303,30 +303,32 @@
                     <Word>MODE</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
                         </Anns>
-                        <Word>idle</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
+                            </Anns>
+                            <Word>idle</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
                         </Anns>
-                        <Word>dialog</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
+                            </Anns>
+                            <Word>dialog</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
@@ -351,30 +353,32 @@
                     <Word>BUTTON</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
                         </Anns>
-                        <Word>accept</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
+                            </Anns>
+                            <Word>accept</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
                         </Anns>
-                        <Word>cancel</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
+                            </Anns>
+                            <Word>cancel</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>

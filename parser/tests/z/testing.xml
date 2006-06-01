@@ -668,30 +668,32 @@
                     <Word>INTLK</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="10" Length="5" Line="31" Loc="tests/z/testing.tex" Start="589"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="10" Length="5" Line="31" Loc="tests/z/testing.tex" Start="589"/>
                         </Anns>
-                        <Word>clear</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="18" Length="3" Line="31" Loc="tests/z/testing.tex" Start="597"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="10" Length="5" Line="31" Loc="tests/z/testing.tex" Start="589"/>
+                            </Anns>
+                            <Word>clear</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="18" Length="3" Line="31" Loc="tests/z/testing.tex" Start="597"/>
                         </Anns>
-                        <Word>set</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="18" Length="3" Line="31" Loc="tests/z/testing.tex" Start="597"/>
+                            </Anns>
+                            <Word>set</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
@@ -716,42 +718,44 @@
                     <Word>READY</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="10" Length="5" Line="34" Loc="tests/z/testing.tex" Start="636"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="10" Length="5" Line="34" Loc="tests/z/testing.tex" Start="636"/>
                         </Anns>
-                        <Word>ready</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="18" Length="10" Line="34" Loc="tests/z/testing.tex" Start="644"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="10" Length="5" Line="34" Loc="tests/z/testing.tex" Start="636"/>
+                            </Anns>
+                            <Word>ready</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="18" Length="10" Line="34" Loc="tests/z/testing.tex" Start="644"/>
                         </Anns>
-                        <Word>not_ready</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="31" Length="8" Line="34" Loc="tests/z/testing.tex" Start="657"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="18" Length="10" Line="34" Loc="tests/z/testing.tex" Start="644"/>
+                            </Anns>
+                            <Word>not_ready</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="31" Length="8" Line="34" Loc="tests/z/testing.tex" Start="657"/>
                         </Anns>
-                        <Word>override</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="31" Length="8" Line="34" Loc="tests/z/testing.tex" Start="657"/>
+                            </Anns>
+                            <Word>override</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>

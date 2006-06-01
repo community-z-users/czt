@@ -92,30 +92,32 @@ Testing free types...
                     <Word>T</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="6" Length="5" Line="22" Loc="tests/z/animate_freetypes.tex" Start="468"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="6" Length="5" Line="22" Loc="tests/z/animate_freetypes.tex" Start="468"/>
                         </Anns>
-                        <Word>Happy</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="14" Length="3" Line="22" Loc="tests/z/animate_freetypes.tex" Start="476"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="6" Length="5" Line="22" Loc="tests/z/animate_freetypes.tex" Start="468"/>
+                            </Anns>
+                            <Word>Happy</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="14" Length="3" Line="22" Loc="tests/z/animate_freetypes.tex" Start="476"/>
                         </Anns>
-                        <Word>Sad</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="14" Length="3" Line="22" Loc="tests/z/animate_freetypes.tex" Start="476"/>
+                            </Anns>
+                            <Word>Sad</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
@@ -141,68 +143,70 @@ Testing free types...
                     <Word>U</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="6" Length="7" Line="26" Loc="tests/z/animate_freetypes.tex" Start="509"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="6" Length="7" Line="26" Loc="tests/z/animate_freetypes.tex" Start="509"/>
                         </Anns>
-                        <Word>Unknown</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="16" Length="19" Line="26" Loc="tests/z/animate_freetypes.tex" Start="519"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="6" Length="7" Line="26" Loc="tests/z/animate_freetypes.tex" Start="509"/>
+                            </Anns>
+                            <Word>Unknown</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
-                            <LocAnn Col="16" Length="5" Line="26" Loc="tests/z/animate_freetypes.tex" Start="519"/>
+                            <LocAnn Col="16" Length="19" Line="26" Loc="tests/z/animate_freetypes.tex" Start="519"/>
                         </Anns>
-                        <Word>Known</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                    <RefExpr Explicit="false" Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="28" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="531"/>
-                        </Anns>
-                        <ZRefName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="16" Length="5" Line="26" Loc="tests/z/animate_freetypes.tex" Start="519"/>
+                            </Anns>
+                            <Word>Known</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="28" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="531"/>
                             </Anns>
-                            <Word>T</Word>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="28" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="531"/>
+                                </Anns>
+                                <Word>T</Word>
+                                <ZStrokeList/>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </Branch>
+                    <Branch>
+                        <Anns>
+                            <LocAnn Col="38" Length="18" Line="26" Loc="tests/z/animate_freetypes.tex" Start="541"/>
+                        </Anns>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="38" Length="4" Line="26" Loc="tests/z/animate_freetypes.tex" Start="541"/>
+                            </Anns>
+                            <Word>Soon</Word>
                             <ZStrokeList/>
-                        </ZRefName>
-                        <ZExprList/>
-                    </RefExpr>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="38" Length="18" Line="26" Loc="tests/z/animate_freetypes.tex" Start="541"/>
-                    </Anns>
-                    <ZDeclName>
-                        <Anns>
-                            <LocAnn Col="38" Length="4" Line="26" Loc="tests/z/animate_freetypes.tex" Start="541"/>
-                        </Anns>
-                        <Word>Soon</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                    <RefExpr Explicit="false" Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="49" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="552"/>
-                        </Anns>
-                        <ZRefName>
+                        </ZDeclName>
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="49" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="552"/>
                             </Anns>
-                            <Word>U</Word>
-                            <ZStrokeList/>
-                        </ZRefName>
-                        <ZExprList/>
-                    </RefExpr>
-                </Branch>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="49" Length="1" Line="26" Loc="tests/z/animate_freetypes.tex" Start="552"/>
+                                </Anns>
+                                <Word>U</Word>
+                                <ZStrokeList/>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
@@ -228,55 +232,57 @@ Testing free types...
                     <Word>V</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="6" Length="3" Line="30" Loc="tests/z/animate_freetypes.tex" Start="589"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="6" Length="3" Line="30" Loc="tests/z/animate_freetypes.tex" Start="589"/>
                         </Anns>
-                        <Word>Red</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="12" Length="4" Line="30" Loc="tests/z/animate_freetypes.tex" Start="595"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="6" Length="3" Line="30" Loc="tests/z/animate_freetypes.tex" Start="589"/>
+                            </Anns>
+                            <Word>Red</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="12" Length="4" Line="30" Loc="tests/z/animate_freetypes.tex" Start="595"/>
                         </Anns>
-                        <Word>Blue</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="19" Length="22" Line="30" Loc="tests/z/animate_freetypes.tex" Start="602"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="12" Length="4" Line="30" Loc="tests/z/animate_freetypes.tex" Start="595"/>
+                            </Anns>
+                            <Word>Blue</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
-                            <LocAnn Col="19" Length="7" Line="30" Loc="tests/z/animate_freetypes.tex" Start="602"/>
+                            <LocAnn Col="19" Length="22" Line="30" Loc="tests/z/animate_freetypes.tex" Start="602"/>
                         </Anns>
-                        <Word>Feeling</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                    <RefExpr Explicit="false" Mixfix="false">
-                        <Anns>
-                            <LocAnn Col="33" Length="1" Line="30" Loc="tests/z/animate_freetypes.tex" Start="616"/>
-                        </Anns>
-                        <ZRefName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="19" Length="7" Line="30" Loc="tests/z/animate_freetypes.tex" Start="602"/>
+                            </Anns>
+                            <Word>Feeling</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                        <RefExpr Explicit="false" Mixfix="false">
                             <Anns>
                                 <LocAnn Col="33" Length="1" Line="30" Loc="tests/z/animate_freetypes.tex" Start="616"/>
                             </Anns>
-                            <Word>T</Word>
-                            <ZStrokeList/>
-                        </ZRefName>
-                        <ZExprList/>
-                    </RefExpr>
-                </Branch>
+                            <ZRefName>
+                                <Anns>
+                                    <LocAnn Col="33" Length="1" Line="30" Loc="tests/z/animate_freetypes.tex" Start="616"/>
+                                </Anns>
+                                <Word>T</Word>
+                                <ZStrokeList/>
+                            </ZRefName>
+                            <ZExprList/>
+                        </RefExpr>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
@@ -462,318 +468,320 @@ Testing free types...
                     <Word>LETTER</Word>
                     <ZStrokeList/>
                 </ZDeclName>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="11" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="743"/>
-                    </Anns>
-                    <ZDeclName>
+                <ZBranchList>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="11" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="743"/>
                         </Anns>
-                        <Word>a</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="13" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="745"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="11" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="743"/>
+                            </Anns>
+                            <Word>a</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="13" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="745"/>
                         </Anns>
-                        <Word>b</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="15" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="747"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="13" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="745"/>
+                            </Anns>
+                            <Word>b</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="15" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="747"/>
                         </Anns>
-                        <Word>c</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="17" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="749"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="15" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="747"/>
+                            </Anns>
+                            <Word>c</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="17" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="749"/>
                         </Anns>
-                        <Word>d</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="19" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="751"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="17" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="749"/>
+                            </Anns>
+                            <Word>d</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="19" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="751"/>
                         </Anns>
-                        <Word>e</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="21" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="753"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="19" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="751"/>
+                            </Anns>
+                            <Word>e</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="21" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="753"/>
                         </Anns>
-                        <Word>f</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="755"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="21" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="753"/>
+                            </Anns>
+                            <Word>f</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="755"/>
                         </Anns>
-                        <Word>g</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="25" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="757"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="23" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="755"/>
+                            </Anns>
+                            <Word>g</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="25" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="757"/>
                         </Anns>
-                        <Word>h</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="27" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="759"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="25" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="757"/>
+                            </Anns>
+                            <Word>h</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="27" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="759"/>
                         </Anns>
-                        <Word>i</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="29" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="761"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="27" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="759"/>
+                            </Anns>
+                            <Word>i</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="29" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="761"/>
                         </Anns>
-                        <Word>j</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="31" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="763"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="29" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="761"/>
+                            </Anns>
+                            <Word>j</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="31" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="763"/>
                         </Anns>
-                        <Word>k</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="33" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="765"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="31" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="763"/>
+                            </Anns>
+                            <Word>k</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="33" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="765"/>
                         </Anns>
-                        <Word>l</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="35" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="767"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="33" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="765"/>
+                            </Anns>
+                            <Word>l</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="35" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="767"/>
                         </Anns>
-                        <Word>m</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="37" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="769"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="35" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="767"/>
+                            </Anns>
+                            <Word>m</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="37" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="769"/>
                         </Anns>
-                        <Word>n</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="39" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="771"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="37" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="769"/>
+                            </Anns>
+                            <Word>n</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="39" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="771"/>
                         </Anns>
-                        <Word>o</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="41" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="773"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="39" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="771"/>
+                            </Anns>
+                            <Word>o</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="41" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="773"/>
                         </Anns>
-                        <Word>p</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="43" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="775"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="41" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="773"/>
+                            </Anns>
+                            <Word>p</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="43" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="775"/>
                         </Anns>
-                        <Word>q</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="45" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="777"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="43" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="775"/>
+                            </Anns>
+                            <Word>q</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="45" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="777"/>
                         </Anns>
-                        <Word>r</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="47" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="779"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="45" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="777"/>
+                            </Anns>
+                            <Word>r</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="47" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="779"/>
                         </Anns>
-                        <Word>s</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="49" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="781"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="47" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="779"/>
+                            </Anns>
+                            <Word>s</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="49" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="781"/>
                         </Anns>
-                        <Word>t</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="51" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="783"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="49" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="781"/>
+                            </Anns>
+                            <Word>t</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="51" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="783"/>
                         </Anns>
-                        <Word>u</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="53" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="785"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="51" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="783"/>
+                            </Anns>
+                            <Word>u</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="53" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="785"/>
                         </Anns>
-                        <Word>v</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="55" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="787"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="53" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="785"/>
+                            </Anns>
+                            <Word>v</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="55" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="787"/>
                         </Anns>
-                        <Word>w</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="57" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="789"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="55" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="787"/>
+                            </Anns>
+                            <Word>w</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="57" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="789"/>
                         </Anns>
-                        <Word>x</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="59" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="791"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="57" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="789"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="59" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="791"/>
                         </Anns>
-                        <Word>y</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
-                <Branch>
-                    <Anns>
-                        <LocAnn Col="61" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="793"/>
-                    </Anns>
-                    <ZDeclName>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="59" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="791"/>
+                            </Anns>
+                            <Word>y</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                    <Branch>
                         <Anns>
                             <LocAnn Col="61" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="793"/>
                         </Anns>
-                        <Word>z</Word>
-                        <ZStrokeList/>
-                    </ZDeclName>
-                </Branch>
+                        <ZDeclName>
+                            <Anns>
+                                <LocAnn Col="61" Length="1" Line="42" Loc="tests/z/animate_freetypes.tex" Start="793"/>
+                            </Anns>
+                            <Word>z</Word>
+                            <ZStrokeList/>
+                        </ZDeclName>
+                    </Branch>
+                </ZBranchList>
             </Freetype>
         </FreePara>
         <NarrPara>
