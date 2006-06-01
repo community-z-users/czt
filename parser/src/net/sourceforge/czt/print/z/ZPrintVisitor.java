@@ -230,6 +230,12 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitZBranchList(ZBranchList zBranchList)
+  {
+    printTermList(zBranchList, Keyword.BAR);
+    return null;
+  }
+
   public Object visitCompExpr(CompExpr compExpr)
   {
     final boolean braces = compExpr.getAnn(ParenAnn.class) != null;
@@ -421,7 +427,7 @@ public class ZPrintVisitor
   {
     visit(freetype.getDeclName());
     print(Keyword.DEFFREE);
-    printTermList(freetype.getBranch(), Keyword.BAR);
+    visit(freetype.getBranchList());
     return null;
   }
 

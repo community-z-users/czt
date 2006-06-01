@@ -1588,7 +1588,7 @@ non terminal SchText
 
 non terminal ZDeclList letDefinitionList;
 
-non terminal List&lt;Branch&gt; branchList;
+non terminal ZBranchList branchList;
 non terminal Branch branch;
 
 non terminal ZDeclNameList
@@ -2468,7 +2468,9 @@ branchList ::=
         :}
         |
         branch:b 
-        {: RESULT = list(b); :}
+        {:
+           RESULT = factory_.createZBranchList();
+           RESULT.add(b); :}
         ;
 
 branch ::=

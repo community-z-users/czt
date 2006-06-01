@@ -120,6 +120,11 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.BRANCH;
   }
 
+  public ConcreteSyntaxSymbol visitZBranchList(ZBranchList zBranchList)
+  {
+    return ConcreteSyntaxSymbol.BRANCH_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitCompExpr(CompExpr term)
   {
     return ConcreteSyntaxSymbol.COMP_EXPR;

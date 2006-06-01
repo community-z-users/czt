@@ -30,6 +30,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
+import static net.sourceforge.czt.z.util.ZUtils.*;
 
 // the Gaffe plugins for analysing specs and schemas
 import net.sourceforge.czt.animation.gui.generation.*;
@@ -328,7 +329,7 @@ public class Z2B
   public Object visitFreetype(Freetype freetype)
   {
     Map sets = mach_.getSets();
-    Iterator i = freetype.getBranch().iterator();
+    Iterator i = assertZBranchList(freetype.getBranchList()).iterator();
     // now we get all the branch names, and check they are simple.
     List/*<String>*/ contents = new ArrayList();
     while (i.hasNext()) {

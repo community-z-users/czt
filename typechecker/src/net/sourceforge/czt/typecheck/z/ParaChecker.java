@@ -167,7 +167,7 @@ public class ParaChecker
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the ZDeclName
-    List<Branch> branches = freetype.getBranch();
+    ZBranchList branches = assertZBranchList(freetype.getBranchList());
     for (Branch branch : branches) {
       NameTypePair pair = localVisitBranch(branch, givenType);
       if (pair != null) {

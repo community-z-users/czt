@@ -144,6 +144,7 @@ public enum ConcreteSyntaxSymbol
   NAME_TYPE_PAIR("Pair of name and type"),
   NAME_NAME_PAIR("Pair of names"),
 
+  BRANCH_LIST("List of branches"),
   DECL_LIST("List of declarations"),
   DECLNAME_LIST("List of declaring names"),
   EXPR_LIST("List of expressions"),

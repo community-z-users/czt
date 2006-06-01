@@ -43,6 +43,16 @@ public final class ZUtils
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
   }
 
+  public static ZBranchList assertZBranchList(Term term)
+  {
+    if (term instanceof ZBranchList) {
+      return (ZBranchList) term;
+    }
+    final String message =
+      "Expected a ZBranchList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+
   public static ZDeclName assertZDeclName(Term term)
   {
     if (term instanceof ZDeclName) {
