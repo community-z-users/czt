@@ -685,6 +685,20 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- the BranchList hierarchy -->
+  <xs:element name="BranchList" type="Z:BranchList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract branch list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZBranchList" type="Z:ZBranchList" substitutionGroup="Z:BranchList">
+    <xs:annotation>
+      <xs:documentation>
+        A branch list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- The Predicate hierarchy -->
   <xs:element name="Pred" type="Z:Pred" abstract="true">
     <xs:annotation>
@@ -1608,6 +1622,20 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="BranchList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZBranchList">
+    <xs:complexContent>
+      <xs:extension base="Z:BranchList">
+        <xs:sequence>
+          <xs:element ref="Z:Branch" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="Pred">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
@@ -1764,7 +1792,7 @@ more detail.
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
-          <xs:element ref="Z:Branch" maxOccurs="unbounded"/>
+          <xs:element ref="Z:BranchList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
