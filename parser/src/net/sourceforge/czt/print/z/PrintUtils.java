@@ -174,7 +174,7 @@ public final class PrintUtils
     ZmlScanner scanner = new ZmlScanner(tree);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
-    Unicode2OldLatex parser = new Unicode2OldLatex(scanner);
+    Unicode2Latex parser = new Unicode2Latex(scanner);
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -204,7 +204,7 @@ public final class PrintUtils
     ZmlScanner scanner = new ZmlScanner(tree, true);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
-    Unicode2Latex parser = new Unicode2Latex(scanner);
+    Unicode2OldLatex parser = new Unicode2OldLatex(scanner);
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
