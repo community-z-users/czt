@@ -95,56 +95,58 @@
             <Anns>
                 <LocAnn Col="0" Length="80" Line="17" Loc="tests/z/test6.tex" Start="293"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="11" Length="56" Line="18" Loc="tests/z/test6.tex" Start="306"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="0" Length="10" Line="18" Loc="tests/z/test6.tex" Start="306"/>
+                        <LocAnn Col="11" Length="56" Line="18" Loc="tests/z/test6.tex" Start="306"/>
                     </Anns>
-                    <Word>DEPARTMENT</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
+                            <LocAnn Col="0" Length="10" Line="18" Loc="tests/z/test6.tex" Start="306"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>DEPARTMENT</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
                             </Anns>
-                            <Word>administration</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="15" Length="14" Line="18" Loc="tests/z/test6.tex" Start="321"/>
+                                </Anns>
+                                <Word>administration</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
                             </Anns>
-                            <Word>manufacturing</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="32" Length="13" Line="18" Loc="tests/z/test6.tex" Start="338"/>
+                                </Anns>
+                                <Word>manufacturing</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
                             </Anns>
-                            <Word>research</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="48" Length="8" Line="18" Loc="tests/z/test6.tex" Start="354"/>
+                                </Anns>
+                                <Word>research</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
@@ -422,68 +424,70 @@
             <Anns>
                 <LocAnn Col="0" Length="60" Line="29" Loc="tests/z/test6.tex" Start="575"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="3" Length="36" Line="30" Loc="tests/z/test6.tex" Start="588"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="0" Length="2" Line="30" Loc="tests/z/test6.tex" Start="588"/>
+                        <LocAnn Col="3" Length="36" Line="30" Loc="tests/z/test6.tex" Start="588"/>
                     </Anns>
-                    <Word>OP</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
+                            <LocAnn Col="0" Length="2" Line="30" Loc="tests/z/test6.tex" Start="588"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>OP</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
                             </Anns>
-                            <Word>plus</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="7" Length="4" Line="30" Loc="tests/z/test6.tex" Start="595"/>
+                                </Anns>
+                                <Word>plus</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
                             </Anns>
-                            <Word>minus</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="14" Length="5" Line="30" Loc="tests/z/test6.tex" Start="602"/>
+                                </Anns>
+                                <Word>minus</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
                             </Anns>
-                            <Word>times</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="22" Length="5" Line="30" Loc="tests/z/test6.tex" Start="610"/>
+                                </Anns>
+                                <Word>times</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
                             </Anns>
-                            <Word>divide</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="30" Length="6" Line="30" Loc="tests/z/test6.tex" Start="618"/>
+                                </Anns>
+                                <Word>divide</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
@@ -496,103 +500,105 @@
             <Anns>
                 <LocAnn Col="0" Length="104" Line="32" Loc="tests/z/test6.tex" Start="637"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="4" Length="80" Line="33" Loc="tests/z/test6.tex" Start="650"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="0" Length="3" Line="33" Loc="tests/z/test6.tex" Start="650"/>
+                        <LocAnn Col="4" Length="80" Line="33" Loc="tests/z/test6.tex" Start="650"/>
                     </Anns>
-                    <Word>EXP</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="8" Length="24" Line="33" Loc="tests/z/test6.tex" Start="658"/>
+                            <LocAnn Col="0" Length="3" Line="33" Loc="tests/z/test6.tex" Start="650"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>EXP</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
-                                <LocAnn Col="8" Length="5" Line="33" Loc="tests/z/test6.tex" Start="658"/>
+                                <LocAnn Col="8" Length="24" Line="33" Loc="tests/z/test6.tex" Start="658"/>
                             </Anns>
-                            <Word>const</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <RefExpr Explicit="false" Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
-                            </Anns>
-                            <ZRefName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Length="5" Line="33" Loc="tests/z/test6.tex" Start="658"/>
+                                </Anns>
+                                <Word>const</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
                                 </Anns>
-                                <Word>ℕ</Word>
-                                <ZStrokeList/>
-                            </ZRefName>
-                            <ZExprList/>
-                        </RefExpr>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="35" Length="45" Line="33" Loc="tests/z/test6.tex" Start="685"/>
-                        </Anns>
-                        <ZDeclName>
-                            <Anns>
-                                <LocAnn Col="35" Length="5" Line="33" Loc="tests/z/test6.tex" Start="685"/>
-                            </Anns>
-                            <Word>binop</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ProdExpr>
-                            <Anns>
-                                <LocAnn Col="7" Length="25" Line="33" Loc="tests/z/test6.tex" Start="698"/>
-                            </Anns>
-                            <ZExprList>
-                                <RefExpr Explicit="false" Mixfix="false">
+                                <ZRefName>
                                     <Anns>
-                                        <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
+                                        <LocAnn Col="21" Length="4" Line="33" Loc="tests/z/test6.tex" Start="671"/>
                                     </Anns>
-                                    <ZRefName>
+                                    <Word>ℕ</Word>
+                                    <ZStrokeList/>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </Branch>
+                        <Branch>
+                            <Anns>
+                                <LocAnn Col="35" Length="45" Line="33" Loc="tests/z/test6.tex" Start="685"/>
+                            </Anns>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="35" Length="5" Line="33" Loc="tests/z/test6.tex" Start="685"/>
+                                </Anns>
+                                <Word>binop</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ProdExpr>
+                                <Anns>
+                                    <LocAnn Col="7" Length="25" Line="33" Loc="tests/z/test6.tex" Start="698"/>
+                                </Anns>
+                                <ZExprList>
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
                                         </Anns>
-                                        <Word>OP</Word>
-                                        <ZStrokeList/>
-                                    </ZRefName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <RefExpr Explicit="false" Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
-                                    </Anns>
-                                    <ZRefName>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="48" Length="2" Line="33" Loc="tests/z/test6.tex" Start="698"/>
+                                            </Anns>
+                                            <Word>OP</Word>
+                                            <ZStrokeList/>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
                                         </Anns>
-                                        <Word>EXP</Word>
-                                        <ZStrokeList/>
-                                    </ZRefName>
-                                    <ZExprList/>
-                                </RefExpr>
-                                <RefExpr Explicit="false" Mixfix="false">
-                                    <Anns>
-                                        <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
-                                    </Anns>
-                                    <ZRefName>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="58" Length="3" Line="33" Loc="tests/z/test6.tex" Start="708"/>
+                                            </Anns>
+                                            <Word>EXP</Word>
+                                            <ZStrokeList/>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                    <RefExpr Explicit="false" Mixfix="false">
                                         <Anns>
                                             <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
                                         </Anns>
-                                        <Word>EXP</Word>
-                                        <ZStrokeList/>
-                                    </ZRefName>
-                                    <ZExprList/>
-                                </RefExpr>
-                            </ZExprList>
-                        </ProdExpr>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                                        <ZRefName>
+                                            <Anns>
+                                                <LocAnn Col="7" Length="3" Line="34" Loc="tests/z/test6.tex" Start="720"/>
+                                            </Anns>
+                                            <Word>EXP</Word>
+                                            <ZStrokeList/>
+                                        </ZRefName>
+                                        <ZExprList/>
+                                    </RefExpr>
+                                </ZExprList>
+                            </ProdExpr>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>

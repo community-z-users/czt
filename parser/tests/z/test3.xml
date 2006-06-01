@@ -292,44 +292,46 @@
             <Anns>
                 <LocAnn Col="0" Length="46" Line="29" Loc="tests/z/test3.tex" Start="493"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="5" Length="22" Line="30" Loc="tests/z/test3.tex" Start="506"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="0" Length="4" Line="30" Loc="tests/z/test3.tex" Start="506"/>
+                        <LocAnn Col="5" Length="22" Line="30" Loc="tests/z/test3.tex" Start="506"/>
                     </Anns>
-                    <Word>MODE</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
+                            <LocAnn Col="0" Length="4" Line="30" Loc="tests/z/test3.tex" Start="506"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>MODE</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
                             </Anns>
-                            <Word>idle</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="9" Length="4" Line="30" Loc="tests/z/test3.tex" Start="515"/>
+                                </Anns>
+                                <Word>idle</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
                             </Anns>
-                            <Word>dialog</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="16" Length="6" Line="30" Loc="tests/z/test3.tex" Start="522"/>
+                                </Anns>
+                                <Word>dialog</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
@@ -342,44 +344,46 @@
             <Anns>
                 <LocAnn Col="0" Length="50" Line="32" Loc="tests/z/test3.tex" Start="541"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="7" Length="26" Line="33" Loc="tests/z/test3.tex" Start="554"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="0" Length="6" Line="33" Loc="tests/z/test3.tex" Start="554"/>
+                        <LocAnn Col="7" Length="26" Line="33" Loc="tests/z/test3.tex" Start="554"/>
                     </Anns>
-                    <Word>BUTTON</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
+                            <LocAnn Col="0" Length="6" Line="33" Loc="tests/z/test3.tex" Start="554"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>BUTTON</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
                             </Anns>
-                            <Word>accept</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Length="6" Line="33" Loc="tests/z/test3.tex" Start="565"/>
+                                </Anns>
+                                <Word>accept</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
                             </Anns>
-                            <Word>cancel</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="20" Length="6" Line="33" Loc="tests/z/test3.tex" Start="574"/>
+                                </Anns>
+                                <Word>cancel</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
