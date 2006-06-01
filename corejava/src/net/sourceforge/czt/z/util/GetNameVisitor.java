@@ -38,6 +38,7 @@ public class GetNameVisitor
              VarDeclVisitor<String>,
              ZDeclListVisitor<String>,
              ZDeclNameListVisitor<String>,
+             ZFreetypeListVisitor<String>,
              ZSchTextVisitor<String>,
              ZSectVisitor<String>
 {
@@ -55,7 +56,7 @@ public class GetNameVisitor
 
   public String visitFreePara(FreePara freePara)
   {
-    return visit(freePara.getFreetype());
+    return visit(freePara.getFreetypeList());
   }
 
   public String visitFreetype(Freetype freetype)
@@ -86,6 +87,11 @@ public class GetNameVisitor
   public String visitZDeclNameList(ZDeclNameList zdnl)
   {
     return visitList(zdnl, LIST_SEPARATOR);
+  }
+
+  public String visitZFreetypeList(ZFreetypeList list)
+  {
+    return visitList(list, LIST_SEPARATOR);
   }
 
   public String visitZSchText(ZSchText zSchText)

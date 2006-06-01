@@ -699,6 +699,20 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- the BranchList hierarchy -->
+  <xs:element name="FreetypeList" type="Z:FreetypeList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>An abstract freetype list.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZFreetypeList" type="Z:ZFreetypeList" substitutionGroup="Z:FreetypeList">
+    <xs:annotation>
+      <xs:documentation>
+        A freetype list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- The Predicate hierarchy -->
   <xs:element name="Pred" type="Z:Pred" abstract="true">
     <xs:annotation>
@@ -1180,7 +1194,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:Freetype" maxOccurs="unbounded"/>
+          <xs:element ref="Z:FreetypeList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1632,6 +1646,20 @@ more detail.
       <xs:extension base="Z:BranchList">
         <xs:sequence>
           <xs:element ref="Z:Branch" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="FreetypeList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZFreetypeList">
+    <xs:complexContent>
+      <xs:extension base="Z:FreetypeList">
+        <xs:sequence>
+          <xs:element ref="Z:Freetype" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

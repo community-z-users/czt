@@ -117,7 +117,7 @@ public class ParaChecker
     pending().enterScope();
 
     //for each free type in this paragraph, first add the left side
-    List<Freetype> freetypes = freePara.getFreetype();
+    ZFreetypeList freetypes = assertZFreetypeList(freePara.getFreetypeList());
     for (Freetype freetype : freetypes) {
       //the type of the Freetype's ZDeclName is a powerset of the
       //given type of itself

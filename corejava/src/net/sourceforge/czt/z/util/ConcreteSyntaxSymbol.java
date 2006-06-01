@@ -148,6 +148,7 @@ public enum ConcreteSyntaxSymbol
   DECL_LIST("List of declarations"),
   DECLNAME_LIST("List of declaring names"),
   EXPR_LIST("List of expressions"),
+  FREETYPE_LIST("List of freetypes"),
   REFNAME_LIST("List of referencing names"),
   RENAME_LIST("List of pairs of names"),
   STROKE_LIST("List of strokes");

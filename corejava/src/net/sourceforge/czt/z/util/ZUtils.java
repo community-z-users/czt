@@ -113,6 +113,16 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
 
+  public static ZFreetypeList assertZFreetypeList(Term term)
+  {
+    if (term instanceof ZFreetypeList) {
+      return (ZFreetypeList) term;
+    }
+    final String message =
+      "Expected a ZFreetypeList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+
   public static ZRefNameList assertZRefNameList(Term term)
   {
     if (term instanceof ZRefNameList) {

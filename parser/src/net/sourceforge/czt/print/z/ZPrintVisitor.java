@@ -418,8 +418,14 @@ public class ZPrintVisitor
   public Object visitFreePara(FreePara freePara)
   {
     print(TokenName.ZED);
-    printTermList(freePara.getFreetype(), Keyword.ANDALSO);
+    visit(freePara.getFreetypeList());
     print(TokenName.END);
+    return null;
+  }
+
+  public Object visitZFreetypeList(ZFreetypeList zFreetypeList)
+  {
+    printTermList(zFreetypeList, Keyword.ANDALSO);
     return null;
   }
 

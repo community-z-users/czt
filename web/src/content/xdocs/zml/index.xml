@@ -93,7 +93,8 @@
           <br/>
           Added new elements and types for lists: BranchList (abstract)
           and ZBranchList, DeclList (abstract)
-          and ZDeclList, ExprList (abstract) and ZExprList, RenameList
+          and ZDeclList, ExprList (abstract) and ZExprList,
+          FreetypeList (abstract) and ZFreetypeList, RenameList
           (abstract) and ZRenameList, RefNameList (abstract) and
           ZRefNameList, StrokeList (abstract) and ZStrokeList,
           DeclNameList (abstract) and ZDeclNameList.

@@ -131,7 +131,7 @@ public class OzPrintVisitor
 
   protected Object visitInnerFreePara(FreePara freePara)
   {
-    printTermList(freePara.getFreetype(), Keyword.ANDALSO);
+    visit(freePara.getFreetypeList());
     print(TokenName.NL);
     return null;
   }

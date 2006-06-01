@@ -54,7 +54,8 @@ public class Z2B
              OptempParaVisitor,
              UnparsedParaVisitor,
              VarDeclVisitor,
-             ConstDeclVisitor
+             ConstDeclVisitor,
+             ZFreetypeListVisitor
 {
   private static final Logger sLogger
     = Logger.getLogger("net.sourceforge.czt.z2b");
@@ -315,7 +316,16 @@ public class Z2B
   /** Process all free types. */
   public Object visitFreePara(FreePara para)
   {
-    para.getFreetype().accept(this);
+    para.getFreetypeList().accept(this);
+    return null;
+  }
+
+  public Object visitZFreetypeList(ZFreetypeList list)
+  {
+    for (Freetype freetype : list)
+    {
+      freetype.accept(this);
+    }
     return null;
   }
 

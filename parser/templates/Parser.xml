@@ -1561,7 +1561,7 @@ non terminal AxPara
 non terminal ConstDecl
     letDefinition;
 
-non terminal List&lt;Freetype&gt; freeTypeList;
+non terminal ZFreetypeList freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
 non terminal List&lt;LocString&gt;
@@ -2448,7 +2448,9 @@ freeTypeList ::=
         :}
         |
         freeTypeDefinition:ftd
-        {: RESULT = list(ftd); :}
+        {:
+           RESULT = factory_.createZFreetypeList();
+           RESULT.add(ftd); :}
         ;
 
 freeTypeDefinition ::=

@@ -540,6 +540,11 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.EXPR_LIST;
   }
 
+  public ConcreteSyntaxSymbol visitZFreetypeList(ZFreetypeList term)
+  {
+    return ConcreteSyntaxSymbol.FREETYPE_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitZNumeral(ZNumeral term)
   {
     return ConcreteSyntaxSymbol.NUMERAL;
