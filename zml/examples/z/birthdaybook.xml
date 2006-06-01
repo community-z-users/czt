@@ -1250,56 +1250,58 @@ Now we strengthen the specification by adding error handling.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="80" Loc="birthdaybook.tex" Start="1835"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="11" Length="43" Line="81" Loc="birthdaybook.tex" Start="1852"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="4" Length="6" Line="81" Loc="birthdaybook.tex" Start="1852"/>
+                        <LocAnn Col="11" Length="43" Line="81" Loc="birthdaybook.tex" Start="1852"/>
                     </Anns>
-                    <Word>REPORT</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="15" Length="2" Line="81" Loc="birthdaybook.tex" Start="1863"/>
+                            <LocAnn Col="4" Length="6" Line="81" Loc="birthdaybook.tex" Start="1852"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>REPORT</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="15" Length="2" Line="81" Loc="birthdaybook.tex" Start="1863"/>
                             </Anns>
-                            <Word>ok</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="20" Length="14" Line="81" Loc="birthdaybook.tex" Start="1868"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="15" Length="2" Line="81" Loc="birthdaybook.tex" Start="1863"/>
+                                </Anns>
+                                <Word>ok</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="20" Length="14" Line="81" Loc="birthdaybook.tex" Start="1868"/>
                             </Anns>
-                            <Word>already_known</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="37" Length="10" Line="81" Loc="birthdaybook.tex" Start="1885"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="20" Length="14" Line="81" Loc="birthdaybook.tex" Start="1868"/>
+                                </Anns>
+                                <Word>already_known</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="37" Length="10" Line="81" Loc="birthdaybook.tex" Start="1885"/>
                             </Anns>
-                            <Word>not_known</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="37" Length="10" Line="81" Loc="birthdaybook.tex" Start="1885"/>
+                                </Anns>
+                                <Word>not_known</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>

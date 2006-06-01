@@ -2590,56 +2590,58 @@ Now we strengthen the specification by adding error handling.
             <Anns>
                 <LocAnn Col="0" Length="70" Line="109" Loc="birthdaybook_unfolded.tex" Start="2827"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="11" Length="43" Line="110" Loc="birthdaybook_unfolded.tex" Start="2844"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="4" Length="6" Line="110" Loc="birthdaybook_unfolded.tex" Start="2844"/>
+                        <LocAnn Col="11" Length="43" Line="110" Loc="birthdaybook_unfolded.tex" Start="2844"/>
                     </Anns>
-                    <Word>REPORT</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="15" Length="2" Line="110" Loc="birthdaybook_unfolded.tex" Start="2855"/>
+                            <LocAnn Col="4" Length="6" Line="110" Loc="birthdaybook_unfolded.tex" Start="2844"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>REPORT</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="15" Length="2" Line="110" Loc="birthdaybook_unfolded.tex" Start="2855"/>
                             </Anns>
-                            <Word>ok</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="20" Length="14" Line="110" Loc="birthdaybook_unfolded.tex" Start="2860"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="15" Length="2" Line="110" Loc="birthdaybook_unfolded.tex" Start="2855"/>
+                                </Anns>
+                                <Word>ok</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="20" Length="14" Line="110" Loc="birthdaybook_unfolded.tex" Start="2860"/>
                             </Anns>
-                            <Word>already_known</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="37" Length="10" Line="110" Loc="birthdaybook_unfolded.tex" Start="2877"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="20" Length="14" Line="110" Loc="birthdaybook_unfolded.tex" Start="2860"/>
+                                </Anns>
+                                <Word>already_known</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="37" Length="10" Line="110" Loc="birthdaybook_unfolded.tex" Start="2877"/>
                             </Anns>
-                            <Word>not_known</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="37" Length="10" Line="110" Loc="birthdaybook_unfolded.tex" Start="2877"/>
+                                </Anns>
+                                <Word>not_known</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>

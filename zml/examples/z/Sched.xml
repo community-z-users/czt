@@ -1098,232 +1098,236 @@ reference for load and store instructions.
             <Anns>
                 <LocAnn Col="13" Length="105" Line="90" Loc="Sched.tex" Start="2289"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="13" Length="105" Line="90" Loc="Sched.tex" Start="2289"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="2" Length="10" Line="90" Loc="Sched.tex" Start="2289"/>
+                        <LocAnn Col="13" Length="105" Line="90" Loc="Sched.tex" Start="2289"/>
                     </Anns>
-                    <Word>INST_NAME</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="8" Length="3" Line="91" Loc="Sched.tex" Start="2315"/>
+                            <LocAnn Col="2" Length="10" Line="90" Loc="Sched.tex" Start="2289"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>INST_NAME</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="8" Length="3" Line="91" Loc="Sched.tex" Start="2315"/>
                             </Anns>
-                            <Word>add</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="14" Length="3" Line="91" Loc="Sched.tex" Start="2321"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="8" Length="3" Line="91" Loc="Sched.tex" Start="2315"/>
+                                </Anns>
+                                <Word>add</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="14" Length="3" Line="91" Loc="Sched.tex" Start="2321"/>
                             </Anns>
-                            <Word>sub</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="20" Length="6" Line="91" Loc="Sched.tex" Start="2327"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="14" Length="3" Line="91" Loc="Sched.tex" Start="2321"/>
+                                </Anns>
+                                <Word>sub</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="20" Length="6" Line="91" Loc="Sched.tex" Start="2327"/>
                             </Anns>
-                            <Word>divide</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="29" Length="4" Line="91" Loc="Sched.tex" Start="2336"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="20" Length="6" Line="91" Loc="Sched.tex" Start="2327"/>
+                                </Anns>
+                                <Word>divide</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="29" Length="4" Line="91" Loc="Sched.tex" Start="2336"/>
                             </Anns>
-                            <Word>mult</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="36" Length="4" Line="91" Loc="Sched.tex" Start="2343"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="29" Length="4" Line="91" Loc="Sched.tex" Start="2336"/>
+                                </Anns>
+                                <Word>mult</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="36" Length="4" Line="91" Loc="Sched.tex" Start="2343"/>
                             </Anns>
-                            <Word>push</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="43" Length="3" Line="91" Loc="Sched.tex" Start="2350"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="36" Length="4" Line="91" Loc="Sched.tex" Start="2343"/>
+                                </Anns>
+                                <Word>push</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="43" Length="3" Line="91" Loc="Sched.tex" Start="2350"/>
                             </Anns>
-                            <Word>pop</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="6" Length="4" Line="92" Loc="Sched.tex" Start="2362"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="43" Length="3" Line="91" Loc="Sched.tex" Start="2350"/>
+                                </Anns>
+                                <Word>pop</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="6" Length="4" Line="92" Loc="Sched.tex" Start="2362"/>
                             </Anns>
-                            <Word>load</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="13" Length="5" Line="92" Loc="Sched.tex" Start="2369"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="6" Length="4" Line="92" Loc="Sched.tex" Start="2362"/>
+                                </Anns>
+                                <Word>load</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="13" Length="5" Line="92" Loc="Sched.tex" Start="2369"/>
                             </Anns>
-                            <Word>store</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="21" Length="9" Line="92" Loc="Sched.tex" Start="2377"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Length="5" Line="92" Loc="Sched.tex" Start="2369"/>
+                                </Anns>
+                                <Word>store</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="21" Length="9" Line="92" Loc="Sched.tex" Start="2377"/>
                             </Anns>
-                            <Word>loadConst</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="33" Length="5" Line="92" Loc="Sched.tex" Start="2389"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="21" Length="9" Line="92" Loc="Sched.tex" Start="2377"/>
+                                </Anns>
+                                <Word>loadConst</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="33" Length="5" Line="92" Loc="Sched.tex" Start="2389"/>
                             </Anns>
-                            <Word>print</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="33" Length="5" Line="92" Loc="Sched.tex" Start="2389"/>
+                                </Anns>
+                                <Word>print</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <FreePara>
             <Anns>
                 <LocAnn Col="10" Length="59" Line="93" Loc="Sched.tex" Start="2400"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="10" Length="59" Line="93" Loc="Sched.tex" Start="2400"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="2" Length="7" Line="93" Loc="Sched.tex" Start="2400"/>
+                        <LocAnn Col="10" Length="59" Line="93" Loc="Sched.tex" Start="2400"/>
                     </Anns>
-                    <Word>OPERAND</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="14" Length="2" Line="93" Loc="Sched.tex" Start="2412"/>
+                            <LocAnn Col="2" Length="7" Line="93" Loc="Sched.tex" Start="2400"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>OPERAND</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="14" Length="2" Line="93" Loc="Sched.tex" Start="2412"/>
                             </Anns>
-                            <Word>AX</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="19" Length="2" Line="93" Loc="Sched.tex" Start="2417"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="14" Length="2" Line="93" Loc="Sched.tex" Start="2412"/>
+                                </Anns>
+                                <Word>AX</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="19" Length="2" Line="93" Loc="Sched.tex" Start="2417"/>
                             </Anns>
-                            <Word>BX</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="24" Length="2" Line="93" Loc="Sched.tex" Start="2422"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="19" Length="2" Line="93" Loc="Sched.tex" Start="2417"/>
+                                </Anns>
+                                <Word>BX</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="24" Length="2" Line="93" Loc="Sched.tex" Start="2422"/>
                             </Anns>
-                            <Word>CX</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="29" Length="2" Line="93" Loc="Sched.tex" Start="2427"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="24" Length="2" Line="93" Loc="Sched.tex" Start="2422"/>
+                                </Anns>
+                                <Word>CX</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="29" Length="2" Line="93" Loc="Sched.tex" Start="2427"/>
                             </Anns>
-                            <Word>DX</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="34" Length="27" Line="93" Loc="Sched.tex" Start="2432"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="29" Length="2" Line="93" Loc="Sched.tex" Start="2427"/>
+                                </Anns>
+                                <Word>DX</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
-                                <LocAnn Col="34" Length="8" Line="93" Loc="Sched.tex" Start="2432"/>
+                                <LocAnn Col="34" Length="27" Line="93" Loc="Sched.tex" Start="2432"/>
                             </Anns>
-                            <Word>constant</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <RefExpr Explicit="false" Mixfix="false">
-                            <Anns>
-                                <LocAnn Col="50" Length="4" Line="93" Loc="Sched.tex" Start="2448"/>
-                            </Anns>
-                            <ZRefName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="34" Length="8" Line="93" Loc="Sched.tex" Start="2432"/>
+                                </Anns>
+                                <Word>constant</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <RefExpr Explicit="false" Mixfix="false">
                                 <Anns>
                                     <LocAnn Col="50" Length="4" Line="93" Loc="Sched.tex" Start="2448"/>
                                 </Anns>
-                                <Word>WORD</Word>
-                                <ZStrokeList/>
-                            </ZRefName>
-                            <ZExprList/>
-                        </RefExpr>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                                <ZRefName>
+                                    <Anns>
+                                        <LocAnn Col="50" Length="4" Line="93" Loc="Sched.tex" Start="2448"/>
+                                    </Anns>
+                                    <Word>WORD</Word>
+                                    <ZStrokeList/>
+                                </ZRefName>
+                                <ZExprList/>
+                            </RefExpr>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <AxPara Box="OmitBox">
             <Anns>
@@ -9865,56 +9869,58 @@ The possible status that a process can hold.
             <Anns>
                 <LocAnn Col="0" Length="63" Line="345" Loc="Sched.tex" Start="9205"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="9" Length="39" Line="346" Loc="Sched.tex" Start="9219"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="2" Length="6" Line="346" Loc="Sched.tex" Start="9219"/>
+                        <LocAnn Col="9" Length="39" Line="346" Loc="Sched.tex" Start="9219"/>
                     </Anns>
-                    <Word>Status</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="13" Length="8" Line="346" Loc="Sched.tex" Start="9230"/>
+                            <LocAnn Col="2" Length="6" Line="346" Loc="Sched.tex" Start="9219"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>Status</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="13" Length="8" Line="346" Loc="Sched.tex" Start="9230"/>
                             </Anns>
-                            <Word>pWaiting</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="24" Length="6" Line="346" Loc="Sched.tex" Start="9241"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="13" Length="8" Line="346" Loc="Sched.tex" Start="9230"/>
+                                </Anns>
+                                <Word>pWaiting</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="24" Length="6" Line="346" Loc="Sched.tex" Start="9241"/>
                             </Anns>
-                            <Word>pReady</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="33" Length="8" Line="346" Loc="Sched.tex" Start="9250"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="24" Length="6" Line="346" Loc="Sched.tex" Start="9241"/>
+                                </Anns>
+                                <Word>pReady</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="33" Length="8" Line="346" Loc="Sched.tex" Start="9250"/>
                             </Anns>
-                            <Word>pRunning</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="33" Length="8" Line="346" Loc="Sched.tex" Start="9250"/>
+                                </Anns>
+                                <Word>pRunning</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
@@ -12651,44 +12657,46 @@ To interrupt a process during execution, the kernel must be in $kernel$ mode.
             <Anns>
                 <LocAnn Col="0" Length="46" Line="399" Loc="Sched.tex" Start="11428"/>
             </Anns>
-            <Freetype>
-                <Anns>
-                    <LocAnn Col="7" Length="22" Line="400" Loc="Sched.tex" Start="11442"/>
-                </Anns>
-                <ZDeclName>
+            <ZFreetypeList>
+                <Freetype>
                     <Anns>
-                        <LocAnn Col="2" Length="4" Line="400" Loc="Sched.tex" Start="11442"/>
+                        <LocAnn Col="7" Length="22" Line="400" Loc="Sched.tex" Start="11442"/>
                     </Anns>
-                    <Word>Mode</Word>
-                    <ZStrokeList/>
-                </ZDeclName>
-                <ZBranchList>
-                    <Branch>
+                    <ZDeclName>
                         <Anns>
-                            <LocAnn Col="11" Length="4" Line="400" Loc="Sched.tex" Start="11451"/>
+                            <LocAnn Col="2" Length="4" Line="400" Loc="Sched.tex" Start="11442"/>
                         </Anns>
-                        <ZDeclName>
+                        <Word>Mode</Word>
+                        <ZStrokeList/>
+                    </ZDeclName>
+                    <ZBranchList>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="11" Length="4" Line="400" Loc="Sched.tex" Start="11451"/>
                             </Anns>
-                            <Word>user</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                    <Branch>
-                        <Anns>
-                            <LocAnn Col="18" Length="6" Line="400" Loc="Sched.tex" Start="11458"/>
-                        </Anns>
-                        <ZDeclName>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="11" Length="4" Line="400" Loc="Sched.tex" Start="11451"/>
+                                </Anns>
+                                <Word>user</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                        <Branch>
                             <Anns>
                                 <LocAnn Col="18" Length="6" Line="400" Loc="Sched.tex" Start="11458"/>
                             </Anns>
-                            <Word>kernel</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                    </Branch>
-                </ZBranchList>
-            </Freetype>
+                            <ZDeclName>
+                                <Anns>
+                                    <LocAnn Col="18" Length="6" Line="400" Loc="Sched.tex" Start="11458"/>
+                                </Anns>
+                                <Word>kernel</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                        </Branch>
+                    </ZBranchList>
+                </Freetype>
+            </ZFreetypeList>
         </FreePara>
         <NarrPara>
             <Anns>
