@@ -63,8 +63,7 @@ public abstract class Source
 
   public String getName()
   {
-    if (name_ != null) return name_;
-    return toString();
+    return name_;
   }
 
   public void setName(String name)

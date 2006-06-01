@@ -40,16 +40,16 @@ public class StringSource
   }
 
   /**
-   * @param source the name of this StringSource; usually used to describe
-   *               the source since it is used when printing error messages.
+   * @param name the name of this StringSource; usually used to describe
+   *             the source since it is used when printing error messages.
    *               
    * @throws NullPointerException if value or source is <code>null</code>.
    */
-  public StringSource(String value, String source)
+  public StringSource(String value, String name)
   {
     if (value == null) throw new NullPointerException();
     string_ = value;
-    setName(source);
+    setName(name);
   }
 
   protected InputStream getStream()
@@ -62,5 +62,12 @@ public class StringSource
     throws IOException
   {
     return new StringReader(string_);
+  }
+
+  public String toString()
+  {
+    String result = getName();
+    if (result == null) result = "StringSource";
+    return result;
   }
 }
