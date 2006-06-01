@@ -223,7 +223,8 @@ public class ZLive
     }
     // preprocess the predicate, to unfold things.
     pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
-
+    sLogger.finer("After preprocess, pred="+printTerm(pred));
+    
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
@@ -262,7 +263,8 @@ public class ZLive
     }
     // preprocess the expr, to unfold things.
     expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
-
+    sLogger.finer("After preprocess, expr="+printTerm(expr));
+    
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);
     predlist_.inferBounds(new Bounds());
