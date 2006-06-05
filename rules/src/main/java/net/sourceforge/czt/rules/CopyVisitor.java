@@ -32,13 +32,20 @@ import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
- * A visitor that copies a term and uses the given factory to create
- * new Joker.
+ * A visitor that copies a term using the given factory.  The main purpose
+ * of this visitor is to create new Jokers that can be used by the prover
+ * (the prover assumes that there is only one instance for each joker name).
+ *
+ * In addition, this visitor rewrites variable declarations with
+ * multiple names into variable declarations with just one name,
+ * i.e. a,b:E gets rewritten to a:E;b:E.
  *
  * @author Petra Malik
  */
 public class CopyVisitor
   implements TermVisitor<Term>,
+             VarDeclVisitor<Term>,
+             ZDeclListVisitor<Term>,
              JokerDeclListVisitor<Term>,
              JokerExprVisitor<Term>,
              JokerDeclNameVisitor<Term>,
@@ -58,6 +65,41 @@ public class CopyVisitor
   public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, false);
+  }
+
+  public Term visitVarDecl(VarDecl varDecl)
+  {
+    DeclNameList declNameList = (DeclNameList)
+      varDecl.getDeclNameList().accept(this);
+    Expr expr = (Expr) varDecl.getExpr().accept(this);
+    if (declNameList instanceof ZDeclNameList) {
+      ZDeclNameList zdnl = (ZDeclNameList) declNameList;
+      if (zdnl.size() > 1) {
+        ZDeclList zDeclList = factory_.createZDeclList();
+        for (DeclName declName : zdnl) {
+          ZDeclNameList list = factory_.createZDeclNameList();
+          list.add(declName);
+          zDeclList.add(factory_.createVarDecl(list, expr));
+        }
+        return zDeclList;
+      }
+    }
+    return factory_.createVarDecl(declNameList, expr);
+  }
+
+  public Term visitZDeclList(ZDeclList zDeclList)
+  {
+    ZDeclList result = factory_.createZDeclList();
+    for (Decl decl : zDeclList) {
+      Term term = decl.accept(this);
+      if (term instanceof ZDeclList) {
+        result.addAll((ZDeclList) term);
+      }
+      else {
+        result.add((Decl) term);
+      }
+    }
+    return result;
   }
 
   public Term visitJokerDeclList(JokerDeclList joker)
