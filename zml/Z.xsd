@@ -495,6 +495,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A schema hiding expression (C.6.16).
+	The schema does not check that the RefNameList is non-empty, but
+        code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -524,6 +526,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A schema renaming expression (C.6.24).
+	The schema does not check that the RenameList is non-empty, but
+        code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -775,7 +779,7 @@ more detail.
     </xs:annotation>
   </xs:element>
 
-  <!-- the BranchList hierarchy -->
+  <!-- the FreetypeList hierarchy -->
   <xs:element name="FreetypeList" type="Z:FreetypeList" abstract="true">
     <xs:annotation>
       <xs:documentation>
@@ -994,6 +998,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A free type (C.4.10).
+	The schema does not check that the FreetypeList is non-empty, but
+        code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1746,7 +1752,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:RenameList">
         <xs:sequence>
-          <xs:element ref="Z:NewOldPair" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1774,7 +1780,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:RefNameList">
         <xs:sequence>
-          <xs:element ref="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1788,7 +1794,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:BranchList">
         <xs:sequence>
-          <xs:element ref="Z:Branch" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Branch" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
