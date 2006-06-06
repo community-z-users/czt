@@ -26,15 +26,18 @@ import org.gjt.sp.jedit.Buffer;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
 
 public class CztTreeNode
   extends DefaultMutableTreeNode
 {
   private final static String SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.z.util.ShortDescriptionResourceBundle";
+  private final static String ZPATT_SHORT_DESCRIPTION_RESOURCE =
+    "net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle";
   private static Visitor<String> getShortStringVisitor_ =
-    new ConcreteSyntaxDescriptionVisitor(SHORT_DESCRIPTION_RESOURCE);
+    new ConcreteSyntaxDescriptionVisitor(SHORT_DESCRIPTION_RESOURCE,
+                                         ZPATT_SHORT_DESCRIPTION_RESOURCE);
   private static Visitor<String> getLongStringVisitor_ =
     new ConcreteSyntaxDescriptionVisitor();
   private static Visitor<Term[]> getChildrenVisitor_ =
