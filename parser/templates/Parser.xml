@@ -810,7 +810,7 @@ action code
     private ZSect updateZSect(ZSect zSect, OpTable opTable
       <add:zpatt>, JokerTable jokerTable </add:zpatt>)
     {
-      final boolean parseError = ! parser.errorList_.isEmpty();
+      final boolean parseError = parser.error_;
       final String sectName = zSect.getName();
       final PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(opTable);
@@ -1218,7 +1218,7 @@ parser code
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
-      if (! errorList_.isEmpty()) throw new ParseException(errorList_);
+      if (error_) throw new ParseException(errorList_);
       return symbol;
     }
 
@@ -1230,26 +1230,19 @@ parser code
 
     /**
      * The list of parse errors.
-     * Not empty if and only if an error has occured during parsing.
      */
-    protected List&lt;CztError&gt; errorList_ =
-      new ArrayList&lt;CztError&gt;();
+    protected List&lt;CztError&gt; errorList_;
+
+    /**
+     * True if and only if an error has occured during parsing.
+     */
+    protected boolean error_ = false;
+
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
 <add:zpatt>
     private JokerScanner jokerScanner_;
 </add:zpatt>
-
-    /**
-     * Creates a new parser with the given scanner and section information.
-     * The section information should be able to provide information of
-     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
-     */
-    public <class/>(Scanner scanner,
-                    SectionInfo sectInfo)
-    {
-      this(scanner, null, sectInfo);
-    }
 
     /**
      * Creates a new parser with the given scanner, source information,
@@ -1265,6 +1258,18 @@ parser code
       super(scanner);
       source_ = source;
       sectInfo_ = sectInfo;
+      errorList_ = new ArrayList&lt;CztError&gt;();
+      if (source != null) {
+        try {
+          ParseException parseException = (ParseException)
+            sectInfo_.get(new Key(source.getName(),
+                                  ParseException.class));
+          errorList_ = parseException.getErrors();
+        }
+        catch (CommandException e) {
+          e.printStackTrace();
+        }
+      }
       opScanner_ = new OperatorScanner(getScanner());
 <add:zpatt>
       jokerScanner_ = new JokerScanner(getScanner());
@@ -1318,6 +1323,7 @@ parser code
     {
       CztError error = (CztError) object;
       errorList_.add(error);
+      error_ = true;
     }
 
     public void report_error(ZParseMessage msg,

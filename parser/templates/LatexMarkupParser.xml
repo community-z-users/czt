@@ -23,9 +23,12 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.ZParseError;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
@@ -275,9 +278,6 @@ public class <class/>
 
   private void check(LocToken t1, LocToken t2)
   {
-    final LocInfo loc = t2.getLocation();
-    final String message = "WARNING: Possible missing hard space at line "
-      + loc.getLine() + " column " + loc.getColumn() + " in " + getSource();
     if (t1 != null &amp;&amp; t2 != null) {
       if (is(t1, LatexSym.UNICODE) &amp;&amp; is(t2, LatexSym.UNICODE)) {
         String s1 = t1.spelling();
@@ -298,7 +298,21 @@ public class <class/>
             c1IsLetterOrDigit &amp;&amp; c2IsLetterOrDigit &amp;&amp; 
               ! c1IsDeltaOrXi;
           if (cond) {
-            System.err.println(message);
+            try {
+              ParseException parseException = (ParseException)
+                sectInfo_.get(new Key(getSource().getName(),
+                                      ParseException.class));
+              List&lt;CztError&gt; errorList = parseException.getErrors();
+              ZParseError error =
+                new ZParseError(ZParseMessage.MSG_POSSIBLE_MISSING_SPACE,
+                                new Object[0],
+                                t2.getLocation());
+              error.setErrorType(ErrorType.WARNING);
+              errorList.add(error);
+            }
+            catch (CommandException e) {
+              System.err.println(e.getMessage());
+            }
           }
         }
       }
