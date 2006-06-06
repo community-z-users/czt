@@ -78,7 +78,7 @@
           net.sourceforge.czt.z.util.ZChar.SE.equals(zchars[i - 2])) {
         net.sourceforge.czt.base.ast.Digit digit =
           net.sourceforge.czt.base.util.CztDatatypeConverter.parseDigit(zchars[i - 1].toString());
-        strokes.add(createNumStroke(digit));
+        strokes.add(0, createNumStroke(digit));
         i = i - 2;
       }
       else {
