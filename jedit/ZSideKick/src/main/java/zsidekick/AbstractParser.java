@@ -87,6 +87,16 @@ public abstract class AbstractParser
           }
         }
       }
+      try {
+        ParseException parseException = (ParseException)
+          manager.get(new Key(source.getName(), ParseException.class));
+        if (parseException != null) {
+          printErrors(parseException.getErrors(), buffer, errorSource);
+        }
+      }
+      catch (CommandException e) {
+        // TODO Is ignoring OK?
+      }
     }
     catch (CommandException exception) {
       errorSource.clear();
@@ -125,7 +135,8 @@ public abstract class AbstractParser
                              DefaultErrorSource errorSource)
   {
     for (CztError error : errors) {
-      errorSource.addError(ErrorSource.ERROR,
+      errorSource.addError(ErrorType.ERROR.equals(error.getErrorType()) ?
+                             ErrorSource.ERROR : ErrorSource.WARNING,
                            buffer.getPath(),
                            error.getLine(),
                            error.getColumn(),
