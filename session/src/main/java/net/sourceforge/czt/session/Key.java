@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   Copyright (C) 2004 Mark Utting
   This file is part of the czt project.
 
@@ -28,6 +28,8 @@ public class Key
 
   public Key(String name, Class type)
   {
+    if (name == null) throw new NullPointerException();
+    if (type == null) throw new NullPointerException();
     name_ = name;
     type_ = type;
   }
