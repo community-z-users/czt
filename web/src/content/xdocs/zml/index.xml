@@ -105,7 +105,7 @@
           <br/>
           Rename NameNamePair as NewOldPair and use Z ordering of the names.
           <br/>
-          Rename Number as Digit to distinct it from Numeral.
+          Rename Number as Digit to distinguish it from Numeral.
           <br/>
           Rename type TermA as Term and let all other types extend
           from Term.  Now all elements can have annotations.
@@ -150,7 +150,7 @@
           <br/>
           Changed attribute Loc in LocAnn to be optional.
           <br/>
-          Changed attribute Prec in OptemPara to be optional.
+          Changed attribute Prec in OptempPara to be optional.
           This can be used by, for instance, prefix templates, which do not
           have a precedence value.
           <br/>
