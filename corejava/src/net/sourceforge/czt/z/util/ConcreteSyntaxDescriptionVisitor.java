@@ -61,24 +61,13 @@ public class ConcreteSyntaxDescriptionVisitor
     resourceName_ = resourceName;
   }
 
-  public ConcreteSyntaxDescriptionVisitor(Visitor<ConcreteSyntaxSymbol> v)
+  public Visitor<String> getNameVisitor()
   {
-    visitor_ = v;
+    return nameVisitor_;
   }
 
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          Visitor<ConcreteSyntaxSymbol> v)
+  public void setNameVisitor(Visitor<String> nameVisitor)
   {
-    resourceName_ = resourceName;
-    visitor_ = v;
-  }
-
-  public ConcreteSyntaxDescriptionVisitor(String resourceName,
-                                          Visitor<ConcreteSyntaxSymbol> v,
-                                          Visitor<String> nameVisitor)
-  {
-    resourceName_ = resourceName;
-    visitor_ = v;
     nameVisitor_ = nameVisitor;
   }
 
