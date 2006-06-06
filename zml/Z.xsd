@@ -59,7 +59,8 @@
       <gnast:schemaBindings name="Standard Z">
         <gnast:package name="net.sourceforge.czt.z">
           <gnast:package id="ast" name="ast">
-            <gnast:generate id="factory" class="ZFactory" template="CoreFactory.vm"/>
+            <gnast:generate id="factory" class="ZFactory"
+              template="CoreFactory.vm"/>
             <gnast:javadoc>
 &lt;p&gt;
 These interfaces represent the AST for Standard Z proposed in [&lt;a
@@ -74,12 +75,12 @@ more detail.
 &lt;p&gt;
   &lt;a name="ZML"&gt;&lt;b&gt;[ZML]&lt;/b&gt;&lt;/a&gt;
   Mark Utting, Ian Toyn, Jing Sun, Andrew Martin,
-      Jin Song Dong, Nicholas Daley, and David Currie.
-      &lt;i&gt;&lt;a href="http://www.cs.waikato.ac.nz/~marku/zml/master.ps.gz"&gt;
-      ZML: XML Support for Standard Z.&lt;/a&gt;&lt;/i&gt; In:
-      The 3rd International Conference of B and Z Users
-      (&lt;a href="http://www.tucs.fi/zb2003/"&gt;ZB 2003&lt;/a&gt;),
-      4-6 June 2003, Turku, Finland.
+  Jin Song Dong, Nicholas Daley, and David Currie.
+  &lt;i&gt;&lt;a href="http://www.cs.waikato.ac.nz/~marku/zml/master.ps.gz"&gt;
+  ZML: XML Support for Standard Z.&lt;/a&gt;&lt;/i&gt; In:
+  The 3rd International Conference of B and Z Users
+  (&lt;a href="http://www.tucs.fi/zb2003/"&gt;ZB 2003&lt;/a&gt;),
+  4-6 June 2003, Turku, Finland.
 &lt;/p&gt;
 &lt;p&gt;
   &lt;a name="ZST"&gt;&lt;b&gt;[ZST]&lt;/b&gt;&lt;/a&gt;
@@ -101,7 +102,8 @@ more detail.
               template="AstVisitor.vm"/>
           </gnast:package>
           <gnast:package id="util" name="util">
-            <gnast:generate id="convFactory" class="Factory" template="Factory.vm"/>
+            <gnast:generate id="convFactory" class="Factory"
+              template="Factory.vm"/>
           </gnast:package>
           <gnast:package id="jaxb" name="jaxb">
             <gnast:generate
@@ -121,14 +123,18 @@ more detail.
   <!-- A specification -->
   <xs:element name="Spec" type="Z:Spec">
     <xs:annotation>
-      <xs:documentation>A specification (C.2).</xs:documentation>
+      <xs:documentation>
+        A specification (C.2).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the Section hierarchy -->
   <xs:element name="Sect" type="Z:Sect" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract section.</xs:documentation>
+      <xs:documentation>
+        An abstract section.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ZSect" type="Z:ZSect" substitutionGroup="Z:Sect">
@@ -151,14 +157,18 @@ more detail.
   </xs:element>
   <xs:element name="NarrSect" type="Z:NarrSect" substitutionGroup="Z:Sect">
     <xs:annotation>
-      <xs:documentation>Narrative before or after sections.</xs:documentation>
+      <xs:documentation>
+        Narrative before or after sections.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the Paragraph hierarchy -->
   <xs:element name="Para" type="Z:Para" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract paragraph (C.4).</xs:documentation>
+      <xs:documentation>
+        An abstract paragraph (C.4).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="AxPara" type="Z:AxPara" substitutionGroup="Z:Para">
@@ -179,12 +189,16 @@ more detail.
   </xs:element>
   <xs:element name="FreePara" type="Z:FreePara" substitutionGroup="Z:Para">
     <xs:annotation>
-      <xs:documentation>A free types paragraph (C.4.10).</xs:documentation>
+      <xs:documentation>
+        A free types paragraph (C.4.10).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="GivenPara" type="Z:GivenPara" substitutionGroup="Z:Para">
     <xs:annotation>
-      <xs:documentation>A given types paragraph (C.4.2).</xs:documentation>
+      <xs:documentation>
+        A given types paragraph (C.4.2).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NarrPara" type="Z:NarrPara" substitutionGroup="Z:Para">
@@ -208,52 +222,68 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="LatexMarkupPara" type="Z:LatexMarkupPara" substitutionGroup="Z:Para">
+  <xs:element name="LatexMarkupPara" type="Z:LatexMarkupPara"
+    substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
         A latex markup paragraph. This paragraph contains a list
-        of latex marku-up directives (A.2.3).
+        of latex mark-up directives (A.2.3).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="UnparsedPara" type="Z:UnparsedPara"
     substitutionGroup="Z:Para">
     <xs:annotation>
-      <xs:documentation>A completely unparsed paragraph.</xs:documentation>
+      <xs:documentation>
+        A completely unparsed paragraph.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the Declaration hierarchy -->
   <xs:element name="Decl" type="Z:Decl" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract declaration.</xs:documentation>
+      <xs:documentation>
+        An abstract declaration.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ConstDecl" type="Z:ConstDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>A constant declaration (C.7).  Example: x==3.</xs:documentation>
+      <xs:documentation>
+        A constant declaration (C.7).  Example: x==3.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="InclDecl" type="Z:InclDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>An include declaration (C.7).  Example: \Delta S</xs:documentation>
+      <xs:documentation>
+        An include declaration (C.7).  Example: \Delta S
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="VarDecl" type="Z:VarDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>A variable declaration (C.7).  Example: a,b:T</xs:documentation>
+      <xs:documentation>
+        A variable declaration (C.7).  Example: a,b:T
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the decoratable-declnames hierarchy -->
   <xs:element name="DeclName" type="Z:DeclName" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract declaring name.</xs:documentation>
+      <xs:documentation>
+        An abstract declaring name.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZDeclName" type="Z:ZDeclName" substitutionGroup="Z:DeclName">
+  <xs:element name="ZDeclName" type="Z:ZDeclName"
+    substitutionGroup="Z:DeclName">
     <xs:annotation>
-      <xs:documentation>A Z declaring name.</xs:documentation>
+      <xs:documentation>
+        A Z declaring name.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -285,29 +315,39 @@ more detail.
   </xs:element>
   <xs:element name="ZNumeral" type="Z:ZNumeral" substitutionGroup="Z:Numeral">
     <xs:annotation>
-      <xs:documentation>A Z numeral.</xs:documentation>
+      <xs:documentation>
+        A Z numeral.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the Stroke (Decoration) hierarchy -->
   <xs:element name="Stroke" type="Z:Stroke" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract stroke.</xs:documentation>
+      <xs:documentation>
+        An abstract stroke.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="InStroke" type="Z:Stroke" substitutionGroup="Z:Stroke">
     <xs:annotation>
-      <xs:documentation>The stroke "?".</xs:documentation>
+      <xs:documentation>
+        The stroke "?".
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="OutStroke" type="Z:Stroke" substitutionGroup="Z:Stroke">
     <xs:annotation>
-      <xs:documentation>The stroke "!".</xs:documentation>
+      <xs:documentation>
+        The stroke "!".
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NextStroke" type="Z:Stroke" substitutionGroup="Z:Stroke">
     <xs:annotation>
-      <xs:documentation>The stroke "'".</xs:documentation>
+      <xs:documentation>
+        The stroke "'".
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NumStroke" type="Z:NumStroke" substitutionGroup="Z:Stroke">
@@ -321,19 +361,25 @@ more detail.
   <!-- the Expression hierarchy -->
   <xs:element name="Expr" type="Z:Expr" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract expression (C.6).</xs:documentation>
+      <xs:documentation>
+        An abstract expression (C.6).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Expr1" type="Z:Expr1" abstract="true"
     substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>An abstract unary expression.</xs:documentation>
+      <xs:documentation>
+        An abstract unary expression.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Expr2" type="Z:Expr2" abstract="true"
     substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>An abstract binary expression.</xs:documentation>
+      <xs:documentation>
+        An abstract binary expression.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="SchExpr2" type="Z:SchExpr2"
@@ -351,8 +397,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         An abstract expression containing 2..N expressions.
-        Currently the schema does not check that there are at least two expressions,
-        but code should.
+        Currently the schema does not check that there are at least
+        two expressions, but code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -378,17 +424,23 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A binding extension expression (C.6.35).
+        It contains a list of declarations.  The restriction to ConstDecls
+        is not validated by the schema, but code should check.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="CondExpr" type="Z:CondExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>A conditional expression (C.6.13).</xs:documentation>
+      <xs:documentation>
+        A conditional expression (C.6.13).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NumExpr" type="Z:NumExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>A number literal expression (C.6.30).</xs:documentation>
+      <xs:documentation>
+        A number literal expression (C.6.30).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="RefExpr" type="Z:RefExpr" substitutionGroup="Z:Expr">
@@ -441,7 +493,9 @@ more detail.
   </xs:element>
   <xs:element name="HideExpr" type="Z:HideExpr" substitutionGroup="Z:Expr1">
     <xs:annotation>
-      <xs:documentation>A schema hiding expression (C.6.16).</xs:documentation>
+      <xs:documentation>
+        A schema hiding expression (C.6.16).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NegExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
@@ -453,7 +507,9 @@ more detail.
   </xs:element>
   <xs:element name="PowerExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
     <xs:annotation>
-      <xs:documentation>A powerset expression (C.6.20).</xs:documentation>
+      <xs:documentation>
+        A powerset expression (C.6.20).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="PreExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
@@ -463,7 +519,8 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="RenameExpr" type="Z:RenameExpr" substitutionGroup="Z:Expr1">
+  <xs:element name="RenameExpr" type="Z:RenameExpr"
+    substitutionGroup="Z:Expr1">
     <xs:annotation>
       <xs:documentation>
         A schema renaming expression (C.6.24).
@@ -482,7 +539,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A tuple selection expression (C.6.26).
-	The schema does not check that the numeral is positive, but code should.
+	The schema does not check that the numeral is positive, but
+        code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -557,7 +615,9 @@ more detail.
   </xs:element>
   <xs:element name="SetExpr" type="Z:Expr0N" substitutionGroup="Z:Expr0N">
     <xs:annotation>
-      <xs:documentation>A set extension expression (C.6.31).</xs:documentation>
+      <xs:documentation>
+        A set extension expression (C.6.31).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ProdExpr" type="Z:Expr2N" substitutionGroup="Z:Expr2N">
@@ -581,7 +641,8 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SetCompExpr" type="Z:QntExpr" substitutionGroup="Z:QntExpr">
+  <xs:element name="SetCompExpr" type="Z:QntExpr"
+    substitutionGroup="Z:QntExpr">
     <xs:annotation>
       <xs:documentation>
         A (characteristic) set comprehension expression (C.6.32, C.6.33).
@@ -632,10 +693,13 @@ more detail.
   <!-- the ExpressionList hierarchy -->
   <xs:element name="ExprList" type="Z:ExprList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract expression list.</xs:documentation>
+      <xs:documentation>
+        An abstract expression list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZExprList" type="Z:ZExprList" substitutionGroup="Z:ExprList">
+  <xs:element name="ZExprList" type="Z:ZExprList"
+    substitutionGroup="Z:ExprList">
     <xs:annotation>
       <xs:documentation>
         An expression list (12.2.12).
@@ -646,10 +710,13 @@ more detail.
   <!-- the RenameList hierarchy -->
   <xs:element name="RenameList" type="Z:RenameList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract rename list.</xs:documentation>
+      <xs:documentation>
+        An abstract rename list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZRenameList" type="Z:ZRenameList" substitutionGroup="Z:RenameList">
+  <xs:element name="ZRenameList" type="Z:ZRenameList"
+    substitutionGroup="Z:RenameList">
     <xs:annotation>
       <xs:documentation>
         A rename list.
@@ -660,10 +727,13 @@ more detail.
   <!-- the DeclNameList hierarchy -->
   <xs:element name="DeclNameList" type="Z:DeclNameList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract declaring name list.</xs:documentation>
+      <xs:documentation>
+        An abstract declaring name list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZDeclNameList" type="Z:ZDeclNameList" substitutionGroup="Z:DeclNameList">
+  <xs:element name="ZDeclNameList" type="Z:ZDeclNameList"
+    substitutionGroup="Z:DeclNameList">
     <xs:annotation>
       <xs:documentation>
         A declaring name list.
@@ -674,10 +744,13 @@ more detail.
   <!-- the RefNameList hierarchy -->
   <xs:element name="RefNameList" type="Z:RefNameList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract referencing name list.</xs:documentation>
+      <xs:documentation>
+        An abstract referencing name list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZRefNameList" type="Z:ZRefNameList" substitutionGroup="Z:RefNameList">
+  <xs:element name="ZRefNameList" type="Z:ZRefNameList"
+    substitutionGroup="Z:RefNameList">
     <xs:annotation>
       <xs:documentation>
         A referencing name list.
@@ -688,10 +761,13 @@ more detail.
   <!-- the BranchList hierarchy -->
   <xs:element name="BranchList" type="Z:BranchList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract branch list.</xs:documentation>
+      <xs:documentation>
+        An abstract branch list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZBranchList" type="Z:ZBranchList" substitutionGroup="Z:BranchList">
+  <xs:element name="ZBranchList" type="Z:ZBranchList"
+    substitutionGroup="Z:BranchList">
     <xs:annotation>
       <xs:documentation>
         A branch list.
@@ -702,10 +778,13 @@ more detail.
   <!-- the BranchList hierarchy -->
   <xs:element name="FreetypeList" type="Z:FreetypeList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract freetype list.</xs:documentation>
+      <xs:documentation>
+        An abstract freetype list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZFreetypeList" type="Z:ZFreetypeList" substitutionGroup="Z:FreetypeList">
+  <xs:element name="ZFreetypeList" type="Z:ZFreetypeList"
+    substitutionGroup="Z:FreetypeList">
     <xs:annotation>
       <xs:documentation>
         A freetype list.
@@ -716,7 +795,9 @@ more detail.
   <!-- The Predicate hierarchy -->
   <xs:element name="Pred" type="Z:Pred" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract predicate (C.5).</xs:documentation>
+      <xs:documentation>
+        An abstract predicate (C.5).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Fact" type="Z:Fact" abstract="true"
@@ -724,7 +805,9 @@ more detail.
   <xs:element name="Pred2" type="Z:Pred2" abstract="true"
     substitutionGroup="Z:Pred">
     <xs:annotation>
-      <xs:documentation>An abstract binary predicate.</xs:documentation>
+      <xs:documentation>
+        An abstract binary predicate.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="QntPred" type="Z:QntPred" abstract="true"
@@ -737,7 +820,9 @@ more detail.
   </xs:element>
   <xs:element name="ExprPred" type="Z:ExprPred" substitutionGroup="Z:Pred">
     <xs:annotation>
-      <xs:documentation>A schema predicate.</xs:documentation>
+      <xs:documentation>
+        A schema predicate.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="MemPred" type="Z:MemPred" substitutionGroup="Z:Pred">
@@ -772,17 +857,23 @@ more detail.
   </xs:element>
   <xs:element name="NegPred" type="Z:NegPred" substitutionGroup="Z:Pred">
     <xs:annotation>
-      <xs:documentation>A negation (C.5.11).</xs:documentation>
+      <xs:documentation>
+        A negation (C.5.11).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="FalsePred" type="Z:Fact" substitutionGroup="Z:Fact">
     <xs:annotation>
-      <xs:documentation>Falsity (C.5.15).</xs:documentation>
+      <xs:documentation>
+        Falsity (C.5.15).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="TruePred" type="Z:Fact" substitutionGroup="Z:Fact">
     <xs:annotation>
-      <xs:documentation>Truth (C.5.14).</xs:documentation>
+      <xs:documentation>
+        Truth (C.5.14).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="AndPred" type="Z:AndPred" substitutionGroup="Z:Pred2">
@@ -797,70 +888,93 @@ more detail.
   </xs:element>
   <xs:element name="ImpliesPred" type="Z:Pred2" substitutionGroup="Z:Pred2">
     <xs:annotation>
-      <xs:documentation>An implication (C.5.8).</xs:documentation>
+      <xs:documentation>
+        An implication (C.5.8).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="IffPred" type="Z:Pred2" substitutionGroup="Z:Pred2">
     <xs:annotation>
-      <xs:documentation>An equivalence (C.5.7).</xs:documentation>
+      <xs:documentation>
+        An equivalence (C.5.7).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="OrPred" type="Z:Pred2" substitutionGroup="Z:Pred2">
     <xs:annotation>
-      <xs:documentation>A disjunction (C.5.9).</xs:documentation>
+      <xs:documentation>
+        A disjunction (C.5.9).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ExistsPred" type="Z:QntPred" substitutionGroup="Z:QntPred">
+  <xs:element name="ExistsPred" type="Z:QntPred"
+    substitutionGroup="Z:QntPred">
     <xs:annotation>
       <xs:documentation>
         An existential quantification (C.5.3).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="Exists1Pred" type="Z:QntPred" substitutionGroup="Z:QntPred">
+  <xs:element name="Exists1Pred" type="Z:QntPred"
+    substitutionGroup="Z:QntPred">
     <xs:annotation>
       <xs:documentation>
         An unique existential quantification (C.5.4).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ForallPred" type="Z:QntPred" substitutionGroup="Z:QntPred">
+  <xs:element name="ForallPred" type="Z:QntPred"
+    substitutionGroup="Z:QntPred">
     <xs:annotation>
-      <xs:documentation>An universal quantification (C.5.2).</xs:documentation>
+      <xs:documentation>
+        An universal quantification (C.5.2).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- The SchText hierarchy. -->
   <xs:element name="SchText" type="Z:SchText" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract schema text (C.7).</xs:documentation>
+      <xs:documentation>
+        An abstract schema text (C.7).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ZSchText" type="Z:ZSchText" substitutionGroup="Z:SchText">
     <xs:annotation>
-      <xs:documentation>A schema text (C.7).</xs:documentation>
+      <xs:documentation>
+        A schema text (C.7).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- The DeclList hierarchy. -->
   <xs:element name="DeclList" type="Z:DeclList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract declaration list (12.2.7.2).</xs:documentation>
+      <xs:documentation>
+        An abstract declaration list (12.2.7.2).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZDeclList" type="Z:ZDeclList" substitutionGroup="Z:DeclList">
+  <xs:element name="ZDeclList" type="Z:ZDeclList"
+    substitutionGroup="Z:DeclList">
     <xs:annotation>
-      <xs:documentation>A declaration list (12.2.7.2).</xs:documentation>
+      <xs:documentation>
+        A declaration list (12.2.7.2).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- the StrokeList hierarchy -->
   <xs:element name="StrokeList" type="Z:StrokeList" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract stroke list.</xs:documentation>
+      <xs:documentation>
+        An abstract stroke list.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZStrokeList" type="Z:ZStrokeList" substitutionGroup="Z:StrokeList">
+  <xs:element name="ZStrokeList" type="Z:ZStrokeList"
+    substitutionGroup="Z:StrokeList">
     <xs:annotation>
       <xs:documentation>
         A stroke list.
@@ -871,36 +985,46 @@ more detail.
   <!-- Miscellaneous Z elements -->
   <xs:element name="Parent" type="Z:Parent">
     <xs:annotation>
-      <xs:documentation>The parents of a section.</xs:documentation>
+      <xs:documentation>
+        The parents of a section.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Freetype" type="Z:Freetype">
     <xs:annotation>
-      <xs:documentation>A free type (C.4.10).</xs:documentation>
+      <xs:documentation>
+        A free type (C.4.10).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Branch" type="Z:Branch">
     <xs:annotation>
-      <xs:documentation>A branch of a free type (C.4.10).</xs:documentation>
+      <xs:documentation>
+        A branch of a free type (C.4.10).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Signature" type="Z:Signature">
     <xs:annotation>
       <xs:documentation>
         A signature (3.14).  It is a function from names to types,
-        but the class just contains a list of pairs
-        consisting of a name and a type.
+        but the class just contains a list of pairs consisting of a
+        name and a type.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NewOldPair" type="Z:NewOldPair">
     <xs:annotation>
-      <xs:documentation>A pair of two names.</xs:documentation>
+      <xs:documentation>
+        A pair of two names.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NameTypePair" type="Z:NameTypePair">
     <xs:annotation>
-      <xs:documentation>A pair of a name and a type.</xs:documentation>
+      <xs:documentation>
+        A pair of a name and a type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NameSectTypeTriple" type="Z:NameSectTypeTriple">
@@ -938,7 +1062,7 @@ more detail.
     </xs:annotation>
   </xs:element>
 
-  <!-- Some standard Annotations -->
+  <!-- the annotation hierarchy -->
   <xs:element name="Ann" type="Z:Ann" abstract="true">
     <xs:annotation>
       <xs:documentation>
@@ -974,21 +1098,23 @@ more detail.
   <xs:element name="ParenAnn" type="Z:Ann" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
-        This means unnecessary parentheses surrounded the annotated element
+        This means unnecessary parentheses surrounded the annotated element.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SectTypeEnvAnn" type="Z:SectTypeEnvAnn" substitutionGroup="Z:Ann">
+  <xs:element name="SectTypeEnvAnn" type="Z:SectTypeEnvAnn"
+    substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A section-type environment (4.4 Table 22).
-        It associates names of declarations with the name
-        of the ancestral section that originally declared
-        the name paired with its type.
+        It associates names of declarations with the name of the
+        ancestral section that originally declared the name paired
+        with its type.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SignatureAnn" type="Z:SignatureAnn" substitutionGroup="Z:Ann">
+  <xs:element name="SignatureAnn" type="Z:SignatureAnn"
+    substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A signature annotation.
@@ -1016,7 +1142,9 @@ more detail.
        which are added by a typechecker -->
   <xs:element name="Type" type="Z:Type" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract base type.</xs:documentation>
+      <xs:documentation>
+        An abstract base type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Type2" type="Z:Type2" abstract="true"
@@ -1038,38 +1166,50 @@ more detail.
   <xs:element name="GenParamType" type="Z:GenParamType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
-      <xs:documentation>A generic parameter type.</xs:documentation>
+      <xs:documentation>
+        A generic parameter type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="GivenType" type="Z:GivenType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
-      <xs:documentation>A given type.</xs:documentation>
+      <xs:documentation>
+        A given type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="PowerType" type="Z:PowerType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
-      <xs:documentation>A powerset type.</xs:documentation>
+      <xs:documentation>
+        A powerset type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="ProdType" type="Z:ProdType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
-      <xs:documentation>A Cartesian product type.</xs:documentation>
+      <xs:documentation>
+        A Cartesian product type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="SchemaType" type="Z:SchemaType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
-      <xs:documentation>A schema type.</xs:documentation>
+      <xs:documentation>
+        A schema type.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <!-- The Operator/Operand hierarchy, used within Operator Templates --> 
   <xs:element name="Oper" type="Z:Oper" abstract="true">
     <xs:annotation>
-      <xs:documentation>Abstract parent of Operator/Operand.</xs:documentation>
+      <xs:documentation>
+        Abstract parent of Operator/Operand.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="Operator" type="Z:Operator" substitutionGroup="Z:Oper">
@@ -1095,7 +1235,7 @@ more detail.
   <xs:complexType name="Term" mixed="false">
     <xs:annotation>
       <xs:documentation>
-        Supertype of all ANNOTATED Z constructs.
+        Supertype of all constructs.
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -1223,9 +1363,12 @@ more detail.
         <xs:sequence>
           <xs:element ref="Z:Oper" minOccurs="2" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="Cat" type="Z:Cat" use="required"/>
-        <xs:attribute name="Assoc" type="Z:Assoc" use="optional"/>
-        <xs:attribute name="Prec" type="xs:nonNegativeInteger" use="optional"/>
+        <xs:attribute name="Cat" type="Z:Cat"
+          use="required"/>
+        <xs:attribute name="Assoc" type="Z:Assoc"
+          use="optional"/>
+        <xs:attribute name="Prec" type="xs:nonNegativeInteger"
+          use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1379,7 +1522,8 @@ more detail.
   <xs:complexType name="ZNumeral">
     <xs:complexContent>
       <xs:extension base="Z:Numeral">
-        <xs:attribute name="Value" type="xs:nonNegativeInteger" use="required"/>
+        <xs:attribute name="Value" type="xs:nonNegativeInteger"
+          use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1458,7 +1602,6 @@ more detail.
       <xs:extension base="Z:Expr">
         <xs:sequence>
           <xs:element ref="Z:DeclList"/>
-          <!-- Restriction to ConstDecls not validated: code should check. -->
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1843,11 +1986,16 @@ more detail.
   <xs:complexType name="LocAnn">
     <xs:complexContent>
       <xs:extension base="Z:Ann">
-        <xs:attribute name="Loc" type="xs:anyURI" use="optional"/>
-        <xs:attribute name="Line" type="xs:nonNegativeInteger" use="optional"/>
-        <xs:attribute name="Col" type="xs:nonNegativeInteger" use="optional"/>
-        <xs:attribute name="Start" type="xs:nonNegativeInteger" use="optional"/>
-        <xs:attribute name="Length" type="xs:nonNegativeInteger" use="optional"/>
+        <xs:attribute name="Loc" type="xs:anyURI"
+          use="optional"/>
+        <xs:attribute name="Line" type="xs:nonNegativeInteger"
+          use="optional"/>
+        <xs:attribute name="Col" type="xs:nonNegativeInteger"
+          use="optional"/>
+        <xs:attribute name="Start" type="xs:nonNegativeInteger"
+          use="optional"/>
+        <xs:attribute name="Length" type="xs:nonNegativeInteger"
+          use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1883,7 +2031,8 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:sequence>
-          <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NameTypePair"
+            minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1982,7 +2131,8 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NameTypePair"
+            minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
