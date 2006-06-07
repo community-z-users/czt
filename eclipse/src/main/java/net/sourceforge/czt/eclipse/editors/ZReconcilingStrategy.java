@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.eclipse.editors;
 
 import java.util.ArrayList;
@@ -23,164 +24,180 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
- * Copied from org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy
- *
  * A reconciling strategy consisting of a sequence of internal reconciling strategies.
  * By default, all requests are passed on to the contained strategies.
  *
  * @since 3.0
  * @author Chengdong Xu
  */
-public class ZReconcilingStrategy implements IReconcilingStrategy,
-		IReconcilingStrategyExtension {
-	
-	private ITextEditor fTextEditor;
-	
-	/** holds the calculated positions */
-    protected final List<Position> fPositions = new ArrayList<Position>();
-    
-    private IDocument fDocument;
+public class ZReconcilingStrategy
+    implements
+      IReconcilingStrategy,
+      IReconcilingStrategyExtension
+{
 
-    /** The offset of the next character to be read */
-    protected int fOffset;
+  private ITextEditor fTextEditor;
 
-    /** The end offset of the range to be scanned */
-    protected int fRangeEnd;
-    
-    protected IReconcilingStrategy[] fStrategies;
-	/**
-	 * Creates a new, empty composite reconciling strategy.
-	 */
-	public ZReconcilingStrategy() {
-		super();
-	}
-	
-	/**
-	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#setProgressMonitor(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void setProgressMonitor(IProgressMonitor monitor) {
-//		setProgressMonitor(monitor);
-	}
-	
-	/**
-	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#setDocument(org.eclipse.jface.text.IDocument)
-	 */
-	public void setDocument(IDocument document) {
-		this.fDocument = document;
-	}
+  /** holds the calculated positions */
+  protected final List<Position> fPositions = new ArrayList<Position>();
 
-	/**
-	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#initialReconcile()
-	 */
-	public void initialReconcile() {
-		final ITextEditor editor = getEditor();
-		if (editor instanceof ZEditor) {
-			ZCompiler compiler = ZCompiler.getInstance();
-			if (compiler != null) {
-				compiler.setEditor((ZEditor)editor);
-				final ParsedData data = compiler.parse();
-				foldPositions();
-				((ZEditor) editor).setParsedData(data);
-				((ZEditor) editor).updateOutlinePage(data);
-			}
-			
-		}
-	}
-	
-	/**
-	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.reconciler.DirtyRegion, org.eclipse.jface.text.IRegion)
-	 */
-	public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion) {
-		initialReconcile();
-	}
+  private IDocument fDocument;
 
-	/**
-	 * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.IRegion)
-	 */
-	public void reconcile(IRegion partition) {
-		initialReconcile();
-	}
-		
-	/**
-	 * Sets the reconciling strategies for this composite strategy.
-	 *
-	 * @param strategies the strategies to be set or <code>null</code>
-	 */
-	public void setReconcilingStrategies(IReconcilingStrategy[] strategies) {
-		fStrategies= strategies;
-	}
+  /** The offset of the next character to be read */
+  protected int fOffset;
 
-	/**
-	 * Returns the previously set stratgies or <code>null</code>.
-	 *
-	 * @return the contained strategies or <code>null</code>
-	 */
-	public IReconcilingStrategy[] getReconcilingStrategies() {
-		return fStrategies;
-	}
-	
-	public ITextEditor getEditor() {
-		return this.fTextEditor;
-	}
-	
-	public void setEditor(ITextEditor editor) {
-		this.fTextEditor = editor;
-	}
+  /** The end offset of the range to be scanned */
+  protected int fRangeEnd;
 
-    /**
-     * next character position - used locally and only valid while
-     * {@link #foldPositions()} is in progress.
-     */
-    protected int cNextPos = 0;
+  protected IReconcilingStrategy[] fStrategies;
 
-    /**
-     * uses {@link #fDocument}, {@link #fOffset} and {@link #fRangeEnd} to
-     * calculate {@link #fPositions}. About syntax errors: this method is not a
-     * validator, it is useful.
-     */
-    protected void foldPositions() {
-    	fPositions.clear();
-    	
-    	ITypedRegion[] partitions = null;
-    	try {
-    		if (this.fDocument instanceof IDocumentExtension3) {
-    			IDocumentExtension3 extension3= (IDocumentExtension3) this.fDocument;
-    			partitions = extension3.computePartitioning(
-    					CZTPlugin.Z_PARTITIONING, 0, this.fDocument.getLength(), false);
-    		}
-        	else {
-        		partitions = this.fDocument.computePartitioning(0, this.fDocument.getLength());
-        	}
-        } catch(BadLocationException ble) {
-        } catch (BadPartitioningException bpe) {
-        }
-        
-        try {
-            for (int i = 0; i < partitions.length; i++) {
-            	ITypedRegion partition = partitions[i];
-            	int offset = partition.getOffset();
-            	int length = partition.getLength();
-            	while (length > 0) {
-            		if (! Character.isWhitespace(this.fDocument.getChar(offset)))
-            			break;
-            		offset++;
-            		length--;
-            	}
-            	emitPosition(offset, length);
-            }
-        } catch (BadLocationException e) {
-        }
+  /**
+   * Creates a new, empty composite reconciling strategy.
+   */
+  public ZReconcilingStrategy()
+  {
+    super();
+  }
 
-        
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-            	if (fTextEditor instanceof ZEditor)
-            	((ZEditor)fTextEditor).updateFoldingStructure(fPositions);
-            }
-        });
+  /**
+   * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#setProgressMonitor(org.eclipse.core.runtime.IProgressMonitor)
+   */
+  public void setProgressMonitor(IProgressMonitor monitor)
+  {
+    //		setProgressMonitor(monitor);
+  }
+
+  /**
+   * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#setDocument(org.eclipse.jface.text.IDocument)
+   */
+  public void setDocument(IDocument document)
+  {
+    this.fDocument = document;
+  }
+
+  /**
+   * @see org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension#initialReconcile()
+   */
+  public void initialReconcile()
+  {
+    final ITextEditor editor = getEditor();
+    if (editor instanceof ZEditor) {
+      ZCompiler compiler = ZCompiler.getInstance();
+      if (compiler != null) {
+        compiler.setEditor((ZEditor) editor);
+        final ParsedData data = compiler.parse();
+        foldPositions();
+        ((ZEditor) editor).setParsedData(data);
+        ((ZEditor) editor).updateOutlinePage(data);
+      }
+
     }
-     
-    protected void emitPosition(int startOffset, int length) {
-            fPositions.add(new Position(startOffset, length));
+  }
+
+  /**
+   * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.reconciler.DirtyRegion, org.eclipse.jface.text.IRegion)
+   */
+  public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion)
+  {
+    initialReconcile();
+  }
+
+  /**
+   * @see org.eclipse.jface.text.reconciler.IReconcilingStrategy#reconcile(org.eclipse.jface.text.IRegion)
+   */
+  public void reconcile(IRegion partition)
+  {
+    initialReconcile();
+  }
+
+  /**
+   * Sets the reconciling strategies for this composite strategy.
+   *
+   * @param strategies the strategies to be set or <code>null</code>
+   */
+  public void setReconcilingStrategies(IReconcilingStrategy[] strategies)
+  {
+    fStrategies = strategies;
+  }
+
+  /**
+   * Returns the previously set stratgies or <code>null</code>.
+   *
+   * @return the contained strategies or <code>null</code>
+   */
+  public IReconcilingStrategy[] getReconcilingStrategies()
+  {
+    return fStrategies;
+  }
+
+  public ITextEditor getEditor()
+  {
+    return this.fTextEditor;
+  }
+
+  public void setEditor(ITextEditor editor)
+  {
+    this.fTextEditor = editor;
+  }
+
+  /**
+   * next character position - used locally and only valid while
+   * {@link #foldPositions()} is in progress.
+   */
+  protected int cNextPos = 0;
+
+  /**
+   * uses {@link #fDocument}, {@link #fOffset} and {@link #fRangeEnd} to
+   * calculate {@link #fPositions}. About syntax errors: this method is not a
+   * validator, it is useful.
+   */
+  protected void foldPositions()
+  {
+    fPositions.clear();
+
+    ITypedRegion[] partitions = null;
+    try {
+      if (this.fDocument instanceof IDocumentExtension3) {
+        IDocumentExtension3 extension3 = (IDocumentExtension3) this.fDocument;
+        partitions = extension3.computePartitioning(CZTPlugin.Z_PARTITIONING,
+            0, this.fDocument.getLength(), false);
+      }
+      else {
+        partitions = this.fDocument.computePartitioning(0, this.fDocument
+            .getLength());
+      }
+    } catch (BadLocationException ble) {
+    } catch (BadPartitioningException bpe) {
     }
+
+    try {
+      for (int i = 0; i < partitions.length; i++) {
+        ITypedRegion partition = partitions[i];
+        int offset = partition.getOffset();
+        int length = partition.getLength();
+        while (length > 0) {
+          if (!Character.isWhitespace(this.fDocument.getChar(offset)))
+            break;
+          offset++;
+          length--;
+        }
+        emitPosition(offset, length);
+      }
+    } catch (BadLocationException e) {
+    }
+
+    Display.getDefault().asyncExec(new Runnable()
+    {
+      public void run()
+      {
+        if (fTextEditor instanceof ZEditor)
+          ((ZEditor) fTextEditor).updateFoldingStructure(fPositions);
+      }
+    });
+  }
+
+  protected void emitPosition(int startOffset, int length)
+  {
+    fPositions.add(new Position(startOffset, length));
+  }
 }

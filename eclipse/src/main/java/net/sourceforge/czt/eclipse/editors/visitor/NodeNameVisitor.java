@@ -1,6 +1,6 @@
+
 package net.sourceforge.czt.eclipse.editors.visitor;
 
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.AndExpr;
@@ -8,7 +8,6 @@ import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.DecorExpr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -47,130 +46,167 @@ import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclNameVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
+
 /**
  * @author Chengdong Xu
  */
-public class NodeNameVisitor implements
-		TermVisitor<String>, GivenParaVisitor<String>,
-		AxParaVisitor<String>, ConjParaVisitor<String>,
-		FreeParaVisitor<String>, NarrParaVisitor<String>,
-		NarrSectVisitor<String>, OptempParaVisitor<String>,
-		UnparsedParaVisitor<String>, ZSectVisitor<String>,
-		ConstDeclVisitor<String>, VarDeclVisitor<String>,
-		ZDeclNameVisitor<String>, RefExprVisitor<String>,
-		PowerExprVisitor<String>, DecorExprVisitor<String>,
-		SchExprVisitor<String>, SetExprVisitor<String>,
-		TupleExprVisitor<String>, ApplExprVisitor<String>,
-		AndExprVisitor<String>, OrExprVisitor<String> {
+public class NodeNameVisitor
+    implements
+      TermVisitor<String>,
+      GivenParaVisitor<String>,
+      AxParaVisitor<String>,
+      ConjParaVisitor<String>,
+      FreeParaVisitor<String>,
+      NarrParaVisitor<String>,
+      NarrSectVisitor<String>,
+      OptempParaVisitor<String>,
+      UnparsedParaVisitor<String>,
+      ZSectVisitor<String>,
+      ConstDeclVisitor<String>,
+      VarDeclVisitor<String>,
+      ZDeclNameVisitor<String>,
+      RefExprVisitor<String>,
+      PowerExprVisitor<String>,
+      DecorExprVisitor<String>,
+      SchExprVisitor<String>,
+      SetExprVisitor<String>,
+      TupleExprVisitor<String>,
+      ApplExprVisitor<String>,
+      AndExprVisitor<String>,
+      OrExprVisitor<String>
+{
 
-	public String visitTerm(Term term) {
-		return String.valueOf(term);
-	}
-	
-	public String visitGivenPara(GivenPara givenPara) {
-		return "GivenPara: " + getNames(givenPara.getDeclNames());
-	}
+  public String visitTerm(Term term)
+  {
+    return String.valueOf(term);
+  }
 
-	public String visitAxPara(AxPara axPara) {
-		return "AxPara: " + getNames(axPara.getDeclName());
-	}
+  public String visitGivenPara(GivenPara givenPara)
+  {
+    return "GivenPara: " + getNames(givenPara.getDeclNames());
+  }
 
-	public String visitConjPara(ConjPara conjPara) {
-		return "ConjPara" + getNames((ZDeclNameList)conjPara.getDeclNameList());
-	}
+  public String visitAxPara(AxPara axPara)
+  {
+    return "AxPara: " + getNames(axPara.getDeclName());
+  }
 
-	public String visitFreePara(FreePara freePara) {
-		return "FreePara" + freePara.getFreetype().toString();
-	}
+  public String visitConjPara(ConjPara conjPara)
+  {
+    return "ConjPara" + getNames((ZDeclNameList) conjPara.getDeclNameList());
+  }
 
-	public String visitNarrPara(NarrPara narrPara) {
-		return "Narrative";
-	}
+  public String visitFreePara(FreePara freePara)
+  {
+    return "FreePara" + freePara.getFreetype().toString();
+  }
 
-	public String visitNarrSect(NarrSect narrSect) {
-		return "Narrative";
-	}
+  public String visitNarrPara(NarrPara narrPara)
+  {
+    return "Narrative";
+  }
 
-	public String visitOptempPara(OptempPara optempPara) {
-		return "OptempPara";
-	}
+  public String visitNarrSect(NarrSect narrSect)
+  {
+    return "Narrative";
+  }
 
-	public String visitUnparsedPara(UnparsedPara unparsedPara) {
-		return "UnparsedPara";
-	}
+  public String visitOptempPara(OptempPara optempPara)
+  {
+    return "OptempPara";
+  }
 
-	public String visitZSect(ZSect zSect) {
-		return zSect.getName();
-	}
-	
-	public String visitConstDecl(ConstDecl constDecl) {
-		return constDecl.getZDeclName().accept(this);
-	}
-	
-	public String visitVarDecl(VarDecl varDecl) {
-		ZDeclNameList declNameList = varDecl.getDeclName();
-		if (declNameList.size() == 0)
-			return null;
-		String name;
-		if (declNameList.size() == 1)
-			name = declNameList.get(0).toString();
-		else
-			name = declNameList.toString();
+  public String visitUnparsedPara(UnparsedPara unparsedPara)
+  {
+    return "UnparsedPara";
+  }
 
-		String type = varDecl.getExpr().accept(this);
-		return name + " : " + type;
-	}
+  public String visitZSect(ZSect zSect)
+  {
+    return zSect.getName();
+  }
 
-	public String visitZDeclName(ZDeclName zDeclName) {
-		return zDeclName.toString();
-	}
-	
-	public String visitRefExpr(RefExpr refExpr) {
-		return refExpr.getZRefName().getWord();
-	}
-	
-	public String visitPowerExpr(PowerExpr powerExpr) {
-		return powerExpr.getExpr().accept(this);
-	}
+  public String visitConstDecl(ConstDecl constDecl)
+  {
+    return constDecl.getZDeclName().accept(this);
+  }
 
-	public String visitDecorExpr(DecorExpr decorExpr) {
-		return decorExpr.getExpr().accept(this);
-	}
-	
-	public String visitSchExpr(SchExpr schExpr) {
-		return schExpr.getZSchText().getPred().accept(this);
-	}
-	
-	public String visitSetExpr(SetExpr setExpr) {
-		return String.valueOf(setExpr);
-	}
-	
-	public String visitTupleExpr(TupleExpr tupleExpr) {
-		return String.valueOf(tupleExpr);
-	}
-	
-	public String visitApplExpr(ApplExpr applExpr) {
-		return String.valueOf(applExpr);
-	}
-	
-	public String visitAndExpr(AndExpr andExpr) {
-		return String.valueOf(andExpr);
-	}
-	
-	public String visitOrExpr(OrExpr orExpr) {
-		return String.valueOf(orExpr);
-	}
-	
-	private String getNames(ZDeclNameList declNames) {
-		if (declNames.size() == 0)
-			return "";
-		if (declNames.size() == 1)
-			return declNames.get(0).accept(this);
-		String result = "[" + declNames.get(0).accept(this);
-		for (int i = 1; i < declNames.size(); i++)
-			result = result + ", " + declNames.get(i).accept(this);
-		result = result + "]";
+  public String visitVarDecl(VarDecl varDecl)
+  {
+    ZDeclNameList declNameList = varDecl.getDeclName();
+    if (declNameList.size() == 0)
+      return null;
+    String name;
+    if (declNameList.size() == 1)
+      name = declNameList.get(0).toString();
+    else
+      name = declNameList.toString();
 
-		return result;
-	}
+    String type = varDecl.getExpr().accept(this);
+    return name + " : " + type;
+  }
+
+  public String visitZDeclName(ZDeclName zDeclName)
+  {
+    return zDeclName.toString();
+  }
+
+  public String visitRefExpr(RefExpr refExpr)
+  {
+    return refExpr.getZRefName().getWord();
+  }
+
+  public String visitPowerExpr(PowerExpr powerExpr)
+  {
+    return powerExpr.getExpr().accept(this);
+  }
+
+  public String visitDecorExpr(DecorExpr decorExpr)
+  {
+    return decorExpr.getExpr().accept(this);
+  }
+
+  public String visitSchExpr(SchExpr schExpr)
+  {
+    return schExpr.getZSchText().getPred().accept(this);
+  }
+
+  public String visitSetExpr(SetExpr setExpr)
+  {
+    return String.valueOf(setExpr);
+  }
+
+  public String visitTupleExpr(TupleExpr tupleExpr)
+  {
+    return String.valueOf(tupleExpr);
+  }
+
+  public String visitApplExpr(ApplExpr applExpr)
+  {
+    return String.valueOf(applExpr);
+  }
+
+  public String visitAndExpr(AndExpr andExpr)
+  {
+    return String.valueOf(andExpr);
+  }
+
+  public String visitOrExpr(OrExpr orExpr)
+  {
+    return String.valueOf(orExpr);
+  }
+
+  private String getNames(ZDeclNameList declNames)
+  {
+    if (declNames.size() == 0)
+      return "";
+    if (declNames.size() == 1)
+      return declNames.get(0).accept(this);
+    String result = "[" + declNames.get(0).accept(this);
+    for (int i = 1; i < declNames.size(); i++)
+      result = result + ", " + declNames.get(i).accept(this);
+    result = result + "]";
+
+    return result;
+  }
 }

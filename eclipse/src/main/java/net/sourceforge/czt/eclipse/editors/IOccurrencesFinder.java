@@ -7,6 +7,9 @@ import net.sourceforge.czt.base.ast.Term;
 
 import org.eclipse.jface.text.IDocument;
 
+/**
+ * @author Chengdong Xu
+ */
 public interface IOccurrencesFinder {
 	
 	public String initialize(Term root, int offset, int length);

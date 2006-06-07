@@ -1,6 +1,7 @@
 /**
  * A ZUnicodeDoubleClickStrategy
  */
+
 package net.sourceforge.czt.eclipse.editors.unicode;
 
 import net.sourceforge.czt.eclipse.editors.ZCharacter;
@@ -14,256 +15,264 @@ import org.eclipse.jface.text.ITextViewer;
  * @author Chengdong Xu
  * 
  */
-public class ZUnicodeDoubleClickStrategy implements ITextDoubleClickStrategy {
-	
-	protected ITextViewer fText;
+public class ZUnicodeDoubleClickStrategy implements ITextDoubleClickStrategy
+{
 
-	protected int fPos;
+  protected ITextViewer fText;
 
-	protected int fStartPos;
+  protected int fPos;
 
-	protected int fEndPos;
+  protected int fStartPos;
 
-	protected static char[] fgBrackets = { '{', '}', '(', ')', '[', ']', '"',
-			'"' };
+  protected int fEndPos;
 
-	/**
-	 * Create a ZUnicodeDoubleClickStrategy
-	 */
-	public ZUnicodeDoubleClickStrategy() {
-		super();
-	}
-	
-	/**
-	 * Method declared on ITextDoubleClickStrategy
-	 * 
-	 * @see org.eclipse.jface.text.ITextDoubleClickStrategy#doubleClicked(org.eclipse.jface.text.ITextViewer)
-	 */
-	public void doubleClicked(ITextViewer viewer) {
-		fPos = viewer.getSelectedRange().x;
+  protected static char[] fgBrackets = {'{', '}', '(', ')', '[', ']', '"', '"'};
 
-		if (fPos < 0)
-			return;
+  /**
+   * Create a ZUnicodeDoubleClickStrategy
+   */
+  public ZUnicodeDoubleClickStrategy()
+  {
+    super();
+  }
 
-		fText = viewer;
+  /**
+   * Method declared on ITextDoubleClickStrategy
+   * 
+   * @see org.eclipse.jface.text.ITextDoubleClickStrategy#doubleClicked(org.eclipse.jface.text.ITextViewer)
+   */
+  public void doubleClicked(ITextViewer viewer)
+  {
+    fPos = viewer.getSelectedRange().x;
 
-//		if (!selectBracketBlock())
-		selectWord();
-	}
-	
-	/**
-	 * Select the word at the current selection.
-	 */
-	protected void selectWord() {
-		if (matchWord()) {
-			if (fStartPos == fEndPos)
-				fText.setSelectedRange(fStartPos, 0);
-			else
-				fText.setSelectedRange(fStartPos, fEndPos - fStartPos + 1);
-		}
-	}
-	
-	/**
-	 * Select the word at the current selection location. Return
-	 * <code>true</code> if successful, <code>false</code> otherwise.
-	 * 
-	 * @return <code>true</code> if a word can be found at the current
-	 *         selection location, <code>false</code> otherwise
-	 */
-	protected boolean matchWord() {
+    if (fPos < 0)
+      return;
 
-		IDocument document = fText.getDocument();
+    fText = viewer;
 
-		try {
+    //		if (!selectBracketBlock())
+    selectWord();
+  }
 
-			int pos = fPos;
-			char c;
-			
-			c = document.getChar(pos);
-			if (ZCharacter.isZUnicodeWhitespace(c))
-				return false;
-			
-			while (pos >= 0) {
-				c = document.getChar(pos);
-				if (!ZCharacter.isZUnicodeWordPart(c))
-					break;
-				--pos;
-			}
+  /**
+   * Select the word at the current selection.
+   */
+  protected void selectWord()
+  {
+    if (matchWord()) {
+      if (fStartPos == fEndPos)
+        fText.setSelectedRange(fStartPos, 0);
+      else
+        fText.setSelectedRange(fStartPos, fEndPos - fStartPos + 1);
+    }
+  }
 
-			fStartPos = pos + 1;
+  /**
+   * Select the word at the current selection location. Return
+   * <code>true</code> if successful, <code>false</code> otherwise.
+   * 
+   * @return <code>true</code> if a word can be found at the current
+   *         selection location, <code>false</code> otherwise
+   */
+  protected boolean matchWord()
+  {
 
-			pos = fPos;
-			int length = document.getLength();
-			
-			while (pos < length) {
-				c = document.getChar(pos);				
-				if (!ZCharacter.isZUnicodeWordPart(c))
-					break;
-				++pos;
-			}
+    IDocument document = fText.getDocument();
 
-			fEndPos = pos - 1;
+    try {
 
-			return true;
+      int pos = fPos;
+      char c;
 
-		} catch (BadLocationException x) {
-		}
+      c = document.getChar(pos);
+      if (ZCharacter.isZUnicodeWhitespace(c))
+        return false;
 
-		return false;
-	}
-	
-	/**
-	 * Select the area between the selected bracket and the closing bracket.
-	 * 
-	 * @return <code>true</code> if selection was successful,
-	 *         <code>false</code> otherwise
-	 */
-	protected boolean selectBracketBlock() {
-		if (matchBracketsAt()) {
-			if (fStartPos == fEndPos)
-				fText.setSelectedRange(fStartPos, 0);
-			else
-				fText.setSelectedRange(fStartPos + 1, fEndPos - fStartPos - 1);
+      while (pos >= 0) {
+        c = document.getChar(pos);
+        if (!ZCharacter.isZUnicodeWordPart(c))
+          break;
+        --pos;
+      }
 
-			return true;
-		}
-		return false;
-	}
+      fStartPos = pos + 1;
 
-	/**
-	 * Match the brackets at the current selection. Return <code>true</code>
-	 * if successful, <code>false</code> otherwise.
-	 * 
-	 * @return <code>true</code> if brackets match, <code>false</code>
-	 *         otherwise
-	 */
-	protected boolean matchBracketsAt() {
+      pos = fPos;
+      int length = document.getLength();
 
-		char prevChar, nextChar;
+      while (pos < length) {
+        c = document.getChar(pos);
+        if (!ZCharacter.isZUnicodeWordPart(c))
+          break;
+        ++pos;
+      }
 
-		int i;
-		int bracketIndex1 = fgBrackets.length;
-		int bracketIndex2 = fgBrackets.length;
+      fEndPos = pos - 1;
 
-		fStartPos = -1;
-		fEndPos = -1;
+      return true;
 
-		// get the chars preceding and following the start position
-		try {
+    } catch (BadLocationException x) {
+    }
 
-			IDocument doc = fText.getDocument();
+    return false;
+  }
 
-			prevChar = doc.getChar(fPos - 1);
-			nextChar = doc.getChar(fPos);
+  /**
+   * Select the area between the selected bracket and the closing bracket.
+   * 
+   * @return <code>true</code> if selection was successful,
+   *         <code>false</code> otherwise
+   */
+  protected boolean selectBracketBlock()
+  {
+    if (matchBracketsAt()) {
+      if (fStartPos == fEndPos)
+        fText.setSelectedRange(fStartPos, 0);
+      else
+        fText.setSelectedRange(fStartPos + 1, fEndPos - fStartPos - 1);
 
-			// is the char either an open or close bracket?
-			for (i = 0; i < fgBrackets.length; i = i + 2) {
-				if (prevChar == fgBrackets[i]) {
-					fStartPos = fPos - 1;
-					bracketIndex1 = i;
-				}
-			}
-			for (i = 1; i < fgBrackets.length; i = i + 2) {
-				if (nextChar == fgBrackets[i]) {
-					fEndPos = fPos;
-					bracketIndex2 = i;
-				}
-			}
+      return true;
+    }
+    return false;
+  }
 
-			if (fStartPos > -1 && bracketIndex1 < bracketIndex2) {
-				fEndPos = searchForClosingBracket(fStartPos, prevChar,
-						fgBrackets[bracketIndex1 + 1], doc);
-				if (fEndPos > -1)
-					return true;
-				fStartPos = -1;
-			} else if (fEndPos > -1) {
-				fStartPos = searchForOpenBracket(fEndPos,
-						fgBrackets[bracketIndex2 - 1], nextChar, doc);
-				if (fStartPos > -1)
-					return true;
-				fEndPos = -1;
-			}
+  /**
+   * Match the brackets at the current selection. Return <code>true</code>
+   * if successful, <code>false</code> otherwise.
+   * 
+   * @return <code>true</code> if brackets match, <code>false</code>
+   *         otherwise
+   */
+  protected boolean matchBracketsAt()
+  {
 
-		} catch (BadLocationException x) {
-		}
+    char prevChar, nextChar;
 
-		return false;
-	}
-	
+    int i;
+    int bracketIndex1 = fgBrackets.length;
+    int bracketIndex2 = fgBrackets.length;
 
-	/**
-	 * Returns the position of the open bracket before
-	 * <code>startPosition</code>.
-	 * 
-	 * @param startPosition -
-	 *            the beginning position
-	 * @param openBracket -
-	 *            the character that represents the open bracket
-	 * @param closeBracket -
-	 *            the character that represents the close bracket
-	 * @param document -
-	 *            the document being searched
-	 * @return the location of the starting bracket.
-	 * @throws BadLocationException
-	 *             in case <code>startPosition</code> is invalid in the
-	 *             document
-	 */
-	protected int searchForOpenBracket(int startPosition, char openBracket,
-			char closeBracket, IDocument document) throws BadLocationException {
-		int stack = 1;
-		int openPos = startPosition - 1;
-		char nextChar;
+    fStartPos = -1;
+    fEndPos = -1;
 
-		while (openPos >= 0 && stack > 0) {
-			nextChar = document.getChar(openPos);
-			if (nextChar == closeBracket && nextChar != openBracket)
-				stack++;
-			else if (nextChar == openBracket)
-				stack--;
-			openPos--;
-		}
+    // get the chars preceding and following the start position
+    try {
 
-		if (stack == 0)
-			return openPos + 1;
-		return -1;
-	}
-	
-	/**
-	 * Returns the position of the closing bracket after
-	 * <code>startPosition</code>.
-	 * 
-	 * @param startPosition -
-	 *            the beginning position
-	 * @param openBracket -
-	 *            the character that represents the open bracket
-	 * @param closeBracket -
-	 *            the character that represents the close bracket
-	 * @param document -
-	 *            the document being searched
-	 * @return the location of the closing bracket.
-	 * @throws BadLocationException
-	 *             in case <code>startPosition</code> is invalid in the
-	 *             document
-	 */
-	protected int searchForClosingBracket(int startPosition, char openBracket,
-			char closeBracket, IDocument document) throws BadLocationException {
-		int stack = 1;
-		int closePosition = startPosition + 1;
-		int length = document.getLength();
-		char nextChar;
+      IDocument doc = fText.getDocument();
 
-		while (closePosition < length && stack > 0) {
-			nextChar = document.getChar(closePosition);
-			if (nextChar == openBracket && nextChar != closeBracket)
-				stack++;
-			else if (nextChar == closeBracket)
-				stack--;
-			closePosition++;
-		}
+      prevChar = doc.getChar(fPos - 1);
+      nextChar = doc.getChar(fPos);
 
-		if (stack == 0)
-			return closePosition - 1;
-		return -1;
+      // is the char either an open or close bracket?
+      for (i = 0; i < fgBrackets.length; i = i + 2) {
+        if (prevChar == fgBrackets[i]) {
+          fStartPos = fPos - 1;
+          bracketIndex1 = i;
+        }
+      }
+      for (i = 1; i < fgBrackets.length; i = i + 2) {
+        if (nextChar == fgBrackets[i]) {
+          fEndPos = fPos;
+          bracketIndex2 = i;
+        }
+      }
 
-	}
+      if (fStartPos > -1 && bracketIndex1 < bracketIndex2) {
+        fEndPos = searchForClosingBracket(fStartPos, prevChar,
+            fgBrackets[bracketIndex1 + 1], doc);
+        if (fEndPos > -1)
+          return true;
+        fStartPos = -1;
+      }
+      else if (fEndPos > -1) {
+        fStartPos = searchForOpenBracket(fEndPos,
+            fgBrackets[bracketIndex2 - 1], nextChar, doc);
+        if (fStartPos > -1)
+          return true;
+        fEndPos = -1;
+      }
+
+    } catch (BadLocationException x) {
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns the position of the open bracket before
+   * <code>startPosition</code>.
+   * 
+   * @param startPosition -
+   *            the beginning position
+   * @param openBracket -
+   *            the character that represents the open bracket
+   * @param closeBracket -
+   *            the character that represents the close bracket
+   * @param document -
+   *            the document being searched
+   * @return the location of the starting bracket.
+   * @throws BadLocationException
+   *             in case <code>startPosition</code> is invalid in the
+   *             document
+   */
+  protected int searchForOpenBracket(int startPosition, char openBracket,
+      char closeBracket, IDocument document) throws BadLocationException
+  {
+    int stack = 1;
+    int openPos = startPosition - 1;
+    char nextChar;
+
+    while (openPos >= 0 && stack > 0) {
+      nextChar = document.getChar(openPos);
+      if (nextChar == closeBracket && nextChar != openBracket)
+        stack++;
+      else if (nextChar == openBracket)
+        stack--;
+      openPos--;
+    }
+
+    if (stack == 0)
+      return openPos + 1;
+    return -1;
+  }
+
+  /**
+   * Returns the position of the closing bracket after
+   * <code>startPosition</code>.
+   * 
+   * @param startPosition -
+   *            the beginning position
+   * @param openBracket -
+   *            the character that represents the open bracket
+   * @param closeBracket -
+   *            the character that represents the close bracket
+   * @param document -
+   *            the document being searched
+   * @return the location of the closing bracket.
+   * @throws BadLocationException
+   *             in case <code>startPosition</code> is invalid in the
+   *             document
+   */
+  protected int searchForClosingBracket(int startPosition, char openBracket,
+      char closeBracket, IDocument document) throws BadLocationException
+  {
+    int stack = 1;
+    int closePosition = startPosition + 1;
+    int length = document.getLength();
+    char nextChar;
+
+    while (closePosition < length && stack > 0) {
+      nextChar = document.getChar(closePosition);
+      if (nextChar == openBracket && nextChar != closeBracket)
+        stack++;
+      else if (nextChar == closeBracket)
+        stack--;
+      closePosition++;
+    }
+
+    if (stack == 0)
+      return closePosition - 1;
+    return -1;
+
+  }
 }

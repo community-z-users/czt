@@ -1,3 +1,4 @@
+
 package net.sourceforge.czt.eclipse.editors;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -18,59 +19,64 @@ import org.eclipse.ui.texteditor.ITextEditor;
 /**
  * @author Chengdong Xu
  */
-public class ZLineBackgroundListener implements LineBackgroundListener {
-	
-	private ITextEditor fEditor;
-	
-	public ZLineBackgroundListener(ITextEditor editor) {
-		super();
-		this.fEditor = editor;
-	}
+public class ZLineBackgroundListener implements LineBackgroundListener
+{
 
-	public void lineGetBackground(LineBackgroundEvent event) {
-		StyledText text = (StyledText)event.getSource();
-		
-		IDocument document = this.fEditor.getDocumentProvider().getDocument(this.fEditor.getEditorInput());
-		ITypedRegion[] partitions = null;
-				
-		try {
-			if (document instanceof IDocumentExtension3) {
-				IDocumentExtension3 extension3= (IDocumentExtension3) document;
-				partitions = extension3.computePartitioning(CZTPlugin.Z_PARTITIONING, 0, document.getLength(), false);
-			}
-			else {
-				partitions = document.computePartitioning(0, document.getLength());
-			}
-		} catch(BadLocationException ble) {
-		} catch (BadPartitioningException bpe) {
-		}
-		
-//		Vector styles = new Vector();
-		
-		Color bgColor = CZTPlugin.getDefault().getCZTColorManager().getColor(IZColorConstants.BACKGROUND);
-		for (int i = 0; i < partitions.length; i++) {
-			ITypedRegion partition = partitions[i];
-			if (partition.getType().startsWith("__z_paragraph_")) {
-				
-				StyleRange[] styles = text.getStyleRanges(partition.getOffset(), partition.getLength());
-				// need modifications
-				
-				
-				for (StyleRange style : styles) {
-					
-					style.background = bgColor;
-				}
-				text.setStyleRanges(styles);
-				
-				
-//				System.out.println("From " + partition.getOffset() + " to " + partition.getLength() + 
-//						" type: " + partition.getType());
-			}
-		}
-		
-		text.redraw();
-	//text.setLineBackground(5, 2, CZTPlugin.getDefault().getCZTColorManager().getColor(IZColorConstants.BACKGROUND));
-		
-	}
+  private ITextEditor fEditor;
+
+  public ZLineBackgroundListener(ITextEditor editor)
+  {
+    super();
+    this.fEditor = editor;
+  }
+
+  public void lineGetBackground(LineBackgroundEvent event)
+  {
+    StyledText text = (StyledText) event.getSource();
+
+    IDocument document = this.fEditor.getDocumentProvider().getDocument(
+        this.fEditor.getEditorInput());
+    ITypedRegion[] partitions = null;
+
+    try {
+      if (document instanceof IDocumentExtension3) {
+        IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+        partitions = extension3.computePartitioning(CZTPlugin.Z_PARTITIONING,
+            0, document.getLength(), false);
+      }
+      else {
+        partitions = document.computePartitioning(0, document.getLength());
+      }
+    } catch (BadLocationException ble) {
+    } catch (BadPartitioningException bpe) {
+    }
+
+    //		Vector styles = new Vector();
+
+    Color bgColor = CZTPlugin.getDefault().getCZTColorManager().getColor(
+        IZColorConstants.BACKGROUND);
+    for (int i = 0; i < partitions.length; i++) {
+      ITypedRegion partition = partitions[i];
+      if (partition.getType().startsWith("__z_paragraph_")) {
+
+        StyleRange[] styles = text.getStyleRanges(partition.getOffset(),
+            partition.getLength());
+        // need modifications
+
+        for (StyleRange style : styles) {
+
+          style.background = bgColor;
+        }
+        text.setStyleRanges(styles);
+
+        //				System.out.println("From " + partition.getOffset() + " to " + partition.getLength() + 
+        //						" type: " + partition.getType());
+      }
+    }
+
+    text.redraw();
+    //text.setLineBackground(5, 2, CZTPlugin.getDefault().getCZTColorManager().getColor(IZColorConstants.BACKGROUND));
+
+  }
 
 }

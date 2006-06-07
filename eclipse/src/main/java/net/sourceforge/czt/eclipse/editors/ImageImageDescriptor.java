@@ -4,6 +4,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 
+/**
+ * @author Chengdong Xu
+ */
 public class ImageImageDescriptor extends ImageDescriptor {
 	
 	private Image fImage;

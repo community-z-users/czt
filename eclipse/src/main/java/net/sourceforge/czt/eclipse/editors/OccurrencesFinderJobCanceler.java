@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package net.sourceforge.czt.eclipse.editors;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
@@ -19,82 +20,93 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
  * 
  * @author Chengdong Xu
  */
-public class OccurrencesFinderJobCanceler implements IDocumentListener,
-		ITextInputListener {
-	
-	private ZEditor fEditor;
-	
-	/**
-	 * 
-	 */
-	public OccurrencesFinderJobCanceler(ZEditor editor) {
-		fEditor = editor;
-	}
-	
-	public void install() {
-		ISourceViewer sourceViewer= fEditor.getViewer();
-		if (sourceViewer == null)
-			return;
-		
-		StyledText text= sourceViewer.getTextWidget();
-		if (text == null || text.isDisposed())
-			return;
-		
-		sourceViewer.addTextInputListener(this);
-		
-		IDocument document= sourceViewer.getDocument();
-		if (document != null)
-			document.addDocumentListener(this);
-	}
-	
-	public void uninstall() {
-		ISourceViewer sourceViewer= fEditor.getViewer();
-		if (sourceViewer != null)
-			sourceViewer.removeTextInputListener(this);
+public class OccurrencesFinderJobCanceler
+    implements
+      IDocumentListener,
+      ITextInputListener
+{
 
-		IDocumentProvider documentProvider= fEditor.getDocumentProvider();
-		if (documentProvider != null) {
-			IDocument document= documentProvider.getDocument(fEditor.getEditorInput());
-			if (document != null)
-				document.removeDocumentListener(this);
-		}
-	}
+  private ZEditor fEditor;
 
-	/**
-	 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
-	 */
-	public void documentAboutToBeChanged(DocumentEvent event) {
-		OccurrencesFinderJob job = fEditor.getOccurrencesFinderJob();
-		if (job != null)
-			job.doCancel();
-	}
+  /**
+   * 
+   */
+  public OccurrencesFinderJobCanceler(ZEditor editor)
+  {
+    fEditor = editor;
+  }
 
-	/**
-	 * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
-	 */
-	public void documentChanged(DocumentEvent event) {
-		
-	}
+  public void install()
+  {
+    ISourceViewer sourceViewer = fEditor.getViewer();
+    if (sourceViewer == null)
+      return;
 
-	/**
-	 * @see org.eclipse.jface.text.ITextInputListener#inputDocumentAboutToBeChanged(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IDocument)
-	 */
-	public void inputDocumentAboutToBeChanged(IDocument oldInput,
-			IDocument newInput) {
-		if (oldInput == null)
-			return;
+    StyledText text = sourceViewer.getTextWidget();
+    if (text == null || text.isDisposed())
+      return;
 
-		oldInput.removeDocumentListener(this);
-	}
+    sourceViewer.addTextInputListener(this);
 
-	/**
-	 * @see org.eclipse.jface.text.ITextInputListener#inputDocumentChanged(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IDocument)
-	 */
-	public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
-		if (newInput == null)
-			return;
-		
-		newInput.addDocumentListener(this);
-	}
+    IDocument document = sourceViewer.getDocument();
+    if (document != null)
+      document.addDocumentListener(this);
+  }
+
+  public void uninstall()
+  {
+    ISourceViewer sourceViewer = fEditor.getViewer();
+    if (sourceViewer != null)
+      sourceViewer.removeTextInputListener(this);
+
+    IDocumentProvider documentProvider = fEditor.getDocumentProvider();
+    if (documentProvider != null) {
+      IDocument document = documentProvider.getDocument(fEditor
+          .getEditorInput());
+      if (document != null)
+        document.removeDocumentListener(this);
+    }
+  }
+
+  /**
+   * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
+   */
+  public void documentAboutToBeChanged(DocumentEvent event)
+  {
+    OccurrencesFinderJob job = fEditor.getOccurrencesFinderJob();
+    if (job != null)
+      job.doCancel();
+  }
+
+  /**
+   * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
+   */
+  public void documentChanged(DocumentEvent event)
+  {
+
+  }
+
+  /**
+   * @see org.eclipse.jface.text.ITextInputListener#inputDocumentAboutToBeChanged(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IDocument)
+   */
+  public void inputDocumentAboutToBeChanged(IDocument oldInput,
+      IDocument newInput)
+  {
+    if (oldInput == null)
+      return;
+
+    oldInput.removeDocumentListener(this);
+  }
+
+  /**
+   * @see org.eclipse.jface.text.ITextInputListener#inputDocumentChanged(org.eclipse.jface.text.IDocument, org.eclipse.jface.text.IDocument)
+   */
+  public void inputDocumentChanged(IDocument oldInput, IDocument newInput)
+  {
+    if (newInput == null)
+      return;
+
+    newInput.addDocumentListener(this);
+  }
 
 }
