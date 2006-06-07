@@ -269,6 +269,24 @@ action code
       return factory_.createZSchText(factory_.createZDeclList(decl), pred);
     }
 
+    private ZDeclName createZDeclName(Decorword decorword)
+    {
+      checkName(decorword);
+      ZDeclName result = factory_.createZDeclName(decorword.getWord(),
+                                                  decorword.getStrokes());
+      addLocAnn(result, decorword.getLocation());
+      return result;
+    }
+
+    private ZRefName createZRefName(Decorword decorword)
+    {
+      checkName(decorword);
+      ZRefName result = factory_.createZRefName(decorword.getWord(),
+                                                decorword.getStrokes());
+      addLocAnn(result, decorword.getLocation());
+      return result;
+    }
+
     private Operator createOperator(Decorword decorword)
       throws ParseException
     {
@@ -3402,18 +3420,14 @@ circusQualifier ::=
 circusParamNameList ::=
         circusParamNameList:dwl COMMA DECLWORD:dw
         {: 
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            dwl.add(dn); 
            RESULT = dwl;
         :}     
         |
         DECLWORD:dw
         {:
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            RESULT = list(dn); 
         :}        
         ;        
@@ -4067,18 +4081,14 @@ sep ::=
 nameList ::=
         nameList:nl COMMA DECORWORD:dw
         {: 
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            nl.add(dn);
            RESULT = nl;
         :}
         |
         DECORWORD:dw
         {: 
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            RESULT = factory_.createZDeclNameList();
            RESULT.add(dn);
         :}
@@ -4087,17 +4097,13 @@ nameList ::=
 name ::=
         DECORWORD:dw
         {:
-           checkName(dw);
-           RESULT = factory_.createZDeclName(dw.getName());
-           addLocAnn(RESULT, dw.getLocation());
+           RESULT = createZDeclName(dw);
         :}
 <add:oz>
         |
         DEFNAME:dfn
         {:
-           checkName(dfn);
-           RESULT = factory_.createZDeclName(dfn.getName());
-           addLocAnn(RESULT, getLocation(dfnleft, dfnright));
+           RESULT = createZDeclName(dfn);
         :}
 </add:oz>
         ;
@@ -4105,9 +4111,7 @@ name ::=
 declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
         {: 
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            dwl.add(dn); 
            RESULT = dwl;
         :}
@@ -4141,9 +4145,7 @@ declWordList ::=
         |
         DECLWORD:dw
         {:
-           checkName(dw);
-           DeclName dn = factory_.createZDeclName(dw.getName());
-           addLocAnn(dn, dw.getLocation());
+           DeclName dn = createZDeclName(dw);
            RESULT = factory_.createZDeclNameList();
            RESULT.add(dn); 
         :}
@@ -4219,17 +4221,13 @@ misusedOpName ::=
 declName ::=
         DECORWORD:dw
         {:
-           checkName(dw);
-           RESULT = factory_.createZDeclName(dw.getName());
-           addLocAnn(RESULT, dw.getLocation());
+           RESULT = createZDeclName(dw);
         :}
         |
 <add:oz>
         DEFNAME:dfn
         {:
-           checkName(dfn);
-           RESULT = factory_.createZDeclName(dfn.getName());
-           addLocAnn(RESULT, getLocation(dfnleft, dfnright));
+           RESULT = createZDeclName(dfn);
         :}
         |
 </add:oz>
@@ -4244,9 +4242,7 @@ declName ::=
 refNameList ::=
         refNameList:rnl COMMA DECORWORD:dw
         {:
-           checkName(dw);
-           ZRefName rn = factory_.createZRefName(dw.getName());
-           addLocAnn(rn, dw.getLocation());
+           ZRefName rn = createZRefName(dw);
            rnl.add(rn);
            RESULT = rnl;
         :}        
@@ -4263,9 +4259,7 @@ refNameList ::=
         |
         DECORWORD:dw
         {:
-           checkName(dw);
-           ZRefName rn = factory_.createZRefName(dw.getName());
-           addLocAnn(rn, dw.getLocation());
+           ZRefName rn = createZRefName(dw);
            RESULT = list(rn);
         :}
         <add:oz>
@@ -4282,9 +4276,7 @@ refNameList ::=
 refName ::=
         DECORWORD:dw
         {:
-           checkName(dw);
-           RESULT = factory_.createZRefName(dw.getName());
-           addLocAnn(RESULT, dw.getLocation());
+           RESULT = createZRefName(dw);
         :}        
         <add:oz>
         |
@@ -4611,16 +4603,13 @@ nofixGenName ::=
 formalParameterName ::=
         DECORWORD:dw
         {: 
-           checkName(dw);
-           RESULT = factory_.createZDeclName(dw.getName());
-           addLocAnn(RESULT, dw.getLocation());
+           RESULT = createZDeclName(dw);
         :}
 <add:oz>
         |
         DEFNAME:dn
         {:
-           checkName(dn);
-           RESULT = factory_.createZDeclName(dn.getName());
+           RESULT = createZDeclName(dn);
         :}
 </add:oz>
         ;
@@ -6248,9 +6237,7 @@ inheritedClassList ::=
 inheritedClass ::=
         DECORWORD:dw
         {:
-           checkName(dw);
-           ZRefName rn = factory_.createZRefName(dw.getName());
-           addLocAnn(rn, dw.getLocation());
+           ZRefName rn = createZRefName(dw);
            RESULT = factory_.createRefExpr(rn);
            addLocAnn(RESULT, dw.getLocation());
         :}
