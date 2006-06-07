@@ -23,9 +23,7 @@
 
 package <package/>;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -586,8 +584,7 @@ action code
       //get the first operator in the name list, i.e. the first
       //item that is not an ARG_TOK or LISTARG_TOK.
       String firstOperator = null;
-      for (Iterator&lt;String&gt; iter = name.iterator(); iter.hasNext(); ) {
-        String next = iter.next();
+      for (String next : name) {
         if (! next.equals(ARG_TOK) &amp;&amp; ! next.equals(LISTARG_TOK)) {
           firstOperator = next;
           break;
@@ -746,7 +743,7 @@ action code
       }
     }
 
-    private void resetOpTable(String section, List parents,
+    private void resetOpTable(String section, List&lt;Parent&gt; parents,
                               int line, int column)
       throws ParseException
     {
@@ -755,9 +752,8 @@ action code
         assert parents.size() == 0;
       }
       else {
-        for (Iterator iter = parents.iterator(); iter.hasNext();) {
-          final String parent = ((Parent) iter.next()).getWord();
-          OpTable parentOp = getOperatorTable(parent, line, column);
+        for (Parent parent : parents) {
+          OpTable parentOp = getOperatorTable(parent.getWord(), line, column);
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
@@ -790,7 +786,7 @@ action code
       }
     }
 
-    private void resetJokerTable(String section, List parents,
+    private void resetJokerTable(String section, List&lt;Parent&gt; parents,
                                  int line, int column)
       throws CommandException
     {
@@ -799,9 +795,9 @@ action code
         assert parents.size() == 0;
       }
       else {
-        for (Iterator iter = parents.iterator(); iter.hasNext();) {
-          final String parent = ((Parent) iter.next()).getWord();
-          JokerTable parentJoker = getJokerTable(parent, line, column);
+        for (Parent parent : parents) {
+          JokerTable parentJoker =
+            getJokerTable(parent.getWord(), line, column);
           if (parentJoker != null) {
             parentJokerTables.add(parentJoker);
           }
@@ -819,7 +815,7 @@ action code
     }
 </add:zpatt>
 
-    private ZSect createZSect(String name, List parents)
+    private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
       ZSect result = factory_.createZSect(name, parents, null);
       return result;
@@ -853,8 +849,7 @@ action code
       if (parseError) return sect;
 
       Set dependencies = new HashSet();
-      for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
-        Parent parent = (Parent) iter.next();
+      for (Parent parent : sect.getParent()) {
         dependencies.add(new Key(parent.getWord(), OpTable.class));
       }
       sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
@@ -1160,36 +1155,34 @@ action code
      * &lt;/p&gt;
      */
     private CommType retrieveCommType(List&lt;Field&gt; fields) {
-        CommType result;
-        if (fields.isEmpty())
-            result = CommType.Synch;
-        else {
-            Field f = null;
-            int input = 0;
-            int output = 0;
-            Iterator&lt;Field&gt; it = fields.iterator();
-            while(it.hasNext()) {
-                f = it.next();
-                if (f instanceof InputField)
-                    input++;
-                else if (f instanceof DotField)
-                    output++;
-            }
-            if (input &gt; 0 &amp;&amp; output &gt; 0)
-                result = CommType.Mixed;
-            else if (input &gt; 0 &amp;&amp; output == 0)
-                result = CommType.Input;
-            else if (input == 0 &amp;&amp; output &gt; 0)
-                result = CommType.Output;
-            else {
-                // This should never happen.
-                result = CommType.Mixed; // thrown an error.
-                assert f != null; // at least one field must have been checked.
-                parser.report_error(CircusZParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
-                            new Object[0], getLocation(f));
-            }                
+      CommType result;
+      if (fields.isEmpty())
+        result = CommType.Synch;
+      else {
+        Field f = null;
+        int input = 0;
+        int output = 0;
+        for (Field f : fields) {
+          if (f instanceof InputField)
+            input++;
+          else if (f instanceof DotField)
+            output++;
         }
-        return result;
+        if (input &gt; 0 &amp;&amp; output &gt; 0)
+          result = CommType.Mixed;
+        else if (input &gt; 0 &amp;&amp; output == 0)
+          result = CommType.Input;
+        else if (input == 0 &amp;&amp; output &gt; 0)
+          result = CommType.Output;
+        else {
+          // This should never happen.
+          result = CommType.Mixed; // thrown an error.
+          assert f != null; // at least one field must have been checked.
+          parser.report_error(CircusZParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
+                              new Object[0], getLocation(f));
+        }                
+      }
+      return result;
     }
         
     /**
@@ -1621,8 +1614,7 @@ non terminal ZDeclNameList
 
 non terminal DeclName
     name,
-    declName,
-    formalParameterName;
+    declName;
 
 non terminal List&lt;ZRefName&gt; refNameList;
 non terminal ZRefName refName;
@@ -4219,18 +4211,9 @@ misusedOpName ::=
         ;
 
 declName ::=
-        DECORWORD:dw
-        {:
-           RESULT = createZDeclName(dw);
-        :}
+        name:n
+        {: RESULT = n; :}
         |
-<add:oz>
-        DEFNAME:dfn
-        {:
-           RESULT = createZDeclName(dfn);
-        :}
-        |
-</add:oz>
         opName:on
         {:
            LocInfo loc = getLocation(onleft, onright);
@@ -4481,18 +4464,19 @@ genName ::=
         ;
 
 prefixGenName ::=
-        PRE:pre formalParameterName:fpn
+        PRE:pre name:formalParameter
         {:
            List&lt;String&gt; name = list(pre.getString(), ARG_TOK);
            ZDeclNameList decls = factory_.createZDeclNameList();
-           decls.add(fpn);
-           LocInfo loc = getLocation(fpnleft, fpnright);
+           decls.add(formalParameter);
+           LocInfo loc = getLocation(formalParameterleft,
+                                     formalParameterright);
            DeclName declName = strListToZDeclName(name, loc);
            RESULT = pair(declName, decls);
         :}
         |
-        L:l optNameEsSsList:onesl formalParameterName:fpn1
-             ereOrSre:eos formalParameterName:fpn2
+        L:l optNameEsSsList:onesl name:fpn1
+             ereOrSre:eos name:fpn2
         {:
            //construct the name
            List&lt;String&gt; name = list(l.getString());
@@ -4512,7 +4496,7 @@ prefixGenName ::=
         ;
 
 postfixGenName ::=
-        formalParameterName:fpn POST:p
+        name:fpn POST:p
         {:
            List&lt;String&gt; name = list(ARG_TOK, p.getString());
            ZDeclNameList decls = factory_.createZDeclNameList();
@@ -4522,8 +4506,7 @@ postfixGenName ::=
            RESULT = pair(declName, decls);
         :}
         |
-        formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
-           formalParameterName:fpn2 erOrSr:eos
+        name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 erOrSr:eos
         {:
            //construct the name
            List&lt;String&gt; name = list(ARG_TOK);
@@ -4544,7 +4527,7 @@ postfixGenName ::=
         ;
 
 infixGenName ::=
-        formalParameterName:fpn1 I:i formalParameterName:fpn2
+        name:fpn1 I:i name:fpn2
         {:
            //construct the name
            List&lt;String&gt; name = list(ARG_TOK);
@@ -4560,8 +4543,7 @@ infixGenName ::=
            RESULT = pair(declName, fps);
         :}
         |
-        formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
-           formalParameterName:fpn2 ereOrSre:eos formalParameterName:fpn3
+        name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 ereOrSre:eos name:fpn3
         {:
            //construct the name
            List&lt;String&gt; name = list(ARG_TOK);
@@ -4583,7 +4565,7 @@ infixGenName ::=
         ;
 
 nofixGenName ::=
-        L:l optNameEsSsList:onesl formalParameterName:fpn erOrSr:eos
+        L:l optNameEsSsList:onesl name:fpn erOrSr:eos
         {:
            //construct the name
            List&lt;String&gt; name = list(l.getString());
@@ -4600,20 +4582,6 @@ nofixGenName ::=
         :}
         ;
 
-formalParameterName ::=
-        DECORWORD:dw
-        {: 
-           RESULT = createZDeclName(dw);
-        :}
-<add:oz>
-        |
-        DEFNAME:dn
-        {:
-           RESULT = createZDeclName(dn);
-        :}
-</add:oz>
-        ;
-
 //an optNameEsSsList is returned as a pair, with the first item
 //being a list comprising generic parameters, and the second being a
 //list comprising the name
@@ -4622,7 +4590,7 @@ optNameEsSsList ::=
         {: RESULT = pair(factory_.createZDeclNameList(),
                          factory_.createZDeclNameList()); :}
         |
-        optNameEsSsList:ouesl formalParameterName:fpn esOrSs:eos
+        optNameEsSsList:ouesl name:fpn esOrSs:eos
         {:
            ZDeclNameList gens = ouesl.getFirst();
            gens.add(fpn);
