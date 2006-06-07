@@ -256,12 +256,12 @@ public class KeywordScanner
     if (symbol.sym == Sym.DECORWORD) {
       Decorword decorword = (Decorword) symbol.value;
       if ("".equals(decorword.getWord())) {
-        Stroke[] strokes = decorword.getStrokes();
-        assert strokes.length > 0;
-        for (int i = strokes.length - 1; i > 0; i--) {
-          tokens_.push(toToken(strokes[i], symbol.left, symbol.right));
+        ZStrokeList strokes = decorword.getStrokes();
+        assert strokes.size() > 0;
+        for (int i = strokes.size() - 1; i > 0; i--) {
+          tokens_.push(toToken(strokes.get(i), symbol.left, symbol.right));
         }
-        return toToken(strokes[0], symbol.left, symbol.right);
+        return toToken(strokes.get(0), symbol.left, symbol.right);
       }
       String value = decorword.getName();
       Integer token = (Integer) keywords_.get(value);

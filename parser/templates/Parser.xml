@@ -66,28 +66,12 @@ import net.sourceforge.czt.z.util.Factory;
 
 action code
 {:
-    /** The ZML Version supported by this parser. */
-    public final static String ZML_VERSION = Version.ZML_VERSION;
-
-    /**
-     * The name given to an anonymous specification when rule 12.2.2.1
-     * (defined in the ISO Standard for Z) is applied.
-     */
-    public final static String ANONYMOUS_SPEC_NAME = "Specification";
-
-    /** The name of the prelude. */
-    public final static String PRELUDE = "prelude";
-
-    /** The name of the mathematical toolkit. */
-    public final static String TOOLKIT = "standard_toolkit";
-
     /** The name of the Object-Z toolkit. */
     public final static String OZ_TOOLKIT = "oz_toolkit";
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
-    public final static String ARG_TOK = ZString.ARG_TOK;
-    public final static String LISTARG_TOK = ZString.LISTARG_TOK;
-    public final static String SPACE = ZString.SPACE;
+    protected final static String ARG_TOK = ZString.ARG_TOK;
+    protected final static String LISTARG_TOK = ZString.LISTARG_TOK;
 
     /** The factory for creating AST objects. */
     protected Factory factory_ = new Factory();
@@ -245,7 +229,7 @@ action code
     private Spec createSpec(List&lt;? extends Sect&gt; sectList)
     {
       Spec result = factory_.createSpec();
-      result.setVersion(ZML_VERSION);
+      result.setVersion(Version.ZML_VERSION);
       result.getSect().addAll(sectList);
       return result;
     }
@@ -324,19 +308,19 @@ action code
       StringBuilder stringBuilder = new StringBuilder();
       for (String opPart : list) {
         if (opPart.equals(ZString.ARG) ||
-            opPart.equals(ZString.ARG_TOK)) {
+            opPart.equals(ARG_TOK)) {
           if (Boolean.FALSE.equals(expectArgument)) {
             throw new OperatorName.OperatorNameException(errorMessage);
           }
-          stringBuilder.append(ZString.ARG_TOK);
+          stringBuilder.append(ARG_TOK);
           expectArgument = Boolean.FALSE;
         }
         else if (opPart.equals(ZString.LISTARG) ||
-                 opPart.equals(ZString.LISTARG_TOK)) {
+                 opPart.equals(LISTARG_TOK)) {
           if (Boolean.FALSE.equals(expectArgument)) {
             throw new OperatorName.OperatorNameException(errorMessage);
           }
-          stringBuilder.append(ZString.LISTARG_TOK);
+          stringBuilder.append(LISTARG_TOK);
           expectArgument = Boolean.FALSE;
         }
         else {
@@ -737,7 +721,7 @@ action code
       throws ParseException
     {
       List parentOpTables = list();
-      if (PRELUDE.equals(section)) {
+      if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
       else {
@@ -780,7 +764,7 @@ action code
       throws CommandException
     {
       List parentJokerTables = list();
-      if (PRELUDE.equals(section)) {
+      if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
       else {
@@ -1052,18 +1036,18 @@ action code
      * &lt;code&gt;ZString.EMPTYSET&lt;/code&gt;.
      */
     protected boolean isEmptySetRefExpr(Expr a) {
-        boolean result = (a instanceof RefExpr);        
+      boolean result = (a instanceof RefExpr);        
+      if (result) {
+        RefExpr r = (RefExpr)a;
+        // false mixfix, as the result of createGenInst(...)
+        result = r.getMixfix() != null &amp;&amp; !r.getMixfix();
         if (result) {
-            RefExpr r = (RefExpr)a;
-            // false mixfix, as the result of createGenInst(...)
-            result = r.getMixfix() != null &amp;&amp; !r.getMixfix().booleanValue();
-            if (result) {
-                result = r.getZRefName().getWord().equals(ZString.EMPTYSET);
-            }
-        }        
-        return result;
+          result = r.getZRefName().getWord().equals(ZString.EMPTYSET);
+        }
+      }      
+      return result;
     }
-    
+
     /**
      * &lt;p&gt;
      * Creates a &lt;code&gt;BasicChannelSetExpr&lt;/code&gt; based on the given list of expressions.
@@ -2091,8 +2075,9 @@ emptySectionHeader ::=
         empty:e
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
-           final String name = ANONYMOUS_SPEC_NAME;
-           final Parent p = factory_.createParent(TOOLKIT);
+           final String name = Section.ANONYMOUS.getName();
+           final Parent p =
+             factory_.createParent(Section.STANDARD_TOOLKIT.getName());
 <add:oz>
            final Parent poz = factory_.createParent(OZ_TOOLKIT);
 </add:oz>
@@ -2151,15 +2136,16 @@ sectionHeader ::=
            String name = dw.getName();
            checkName(dw);
 
-           if (! name.equals(PRELUDE) &amp;&amp; p.isEmpty()) {
-             Parent parent = factory_.createParent(PRELUDE);
+           if (! name.equals(Section.PRELUDE.getName())
+               &amp;&amp; p.isEmpty()) {
+             Parent parent = factory_.createParent(Section.PRELUDE.getName());
              p.add(parent);
            }
 <add:oz>
            final Parent ozParent = factory_.createParent(OZ_TOOLKIT);
            if ((! name.equals(OZ_TOOLKIT)) &amp;&amp;
                (! p.contains(ozParent)) &amp;&amp;
-               (! name.equals(PRELUDE))) {
+               (! name.equals(Section.PRELUDE.getName()))) {
              p.add(ozParent);
            }
 </add:oz>

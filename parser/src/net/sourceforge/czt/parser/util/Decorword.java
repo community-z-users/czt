@@ -26,6 +26,7 @@ import java.util.Stack;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZChar;
 
 /**
@@ -56,30 +57,7 @@ public class Decorword
   {
     word_ = word;
     strokes_ = strokes;
-    StringBuffer buffer = new StringBuffer();
-    buffer.append(word);
-    for (Iterator iter = strokes.iterator(); iter.hasNext(); ) {
-      Stroke stroke = (Stroke) iter.next();
-      if (stroke instanceof InStroke) {
-        buffer.append(ZChar.INSTROKE);
-      }
-      else if (stroke instanceof OutStroke) {
-        buffer.append(ZChar.OUTSTROKE);
-      }
-      else if (stroke instanceof NextStroke) {
-        buffer.append(ZChar.PRIME);
-      }
-      else if (stroke instanceof NumStroke) {
-        NumStroke numStroke = (NumStroke) stroke;
-        buffer.append(ZChar.SE);
-        buffer.append(numStroke.getDigit().getValue());
-        buffer.append(ZChar.NW);
-      }
-      else {
-        throw new IllegalArgumentException("Unexpected stroke");
-      }
-    }
-    name_ = buffer.toString();
+    name_ = word + strokes.accept(new PrintVisitor());
   }
 
   public Decorword(String decorword, LocInfo locInfo)
@@ -105,9 +83,9 @@ public class Decorword
     return word_;
   }
 
-  public Stroke[] getStrokes()
+  public ZStrokeList getStrokes()
   {
-    return strokes_.toArray(new Stroke[0]);
+    return strokes_;
   }
 
   /**

@@ -19,14 +19,22 @@
 package net.sourceforge.czt.z.util;
 
 /**
- * Section names.
+ * Common section names.
  *
  * @author Petra Malik
  */
 public enum Section
 {
+  /**
+   * The name given to an anonymous specification when rule 12.2.2.1
+   * (defined in the ISO Standard for Z) is applied.
+   */
   ANONYMOUS("Specification"),
+
+  /** The name of the prelude. */
   PRELUDE("prelude"),
+
+  /** The name of the mathematical toolkit. */
   STANDARD_TOOLKIT("standard_toolkit");
 
   private String name_;
