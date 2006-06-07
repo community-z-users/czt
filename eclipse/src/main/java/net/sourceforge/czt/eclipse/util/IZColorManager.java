@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package net.sourceforge.czt.eclipse.util;
 
 import org.eclipse.jface.text.source.ISharedTextColors;
@@ -28,14 +29,15 @@ import org.eclipse.swt.graphics.Color;
  * 
  * @author Chengdong Xu
  */
-public interface IZColorManager extends ISharedTextColors {
-	/**
-	 * Returns a color object for the given key. The color objects
-	 * are remembered internally; the same color object is returned
-	 * for equal keys.
-	 *
-	 * @param key the color key
-	 * @return the color object for the given key
-	 */
-	Color getColor(String key);
+public interface IZColorManager extends ISharedTextColors
+{
+  /**
+   * Returns a color object for the given key. The color objects
+   * are remembered internally; the same color object is returned
+   * for equal keys.
+   *
+   * @param key the color key
+   * @return the color object for the given key
+   */
+  Color getColor(String key);
 }
