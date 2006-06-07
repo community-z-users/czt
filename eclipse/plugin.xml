@@ -40,7 +40,7 @@
             extensions="utf16"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.problemmarker"
+         id="problemmarker"
          name="%ProblemMarker.name"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.problemmarker"/>
@@ -49,7 +49,7 @@
       <attribute name="problemId"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.taskmarker"
+         id="taskmarker"
          name="%TaskMarker.name"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.taskmarker"/>
@@ -58,7 +58,7 @@
       <attribute name="taskId"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.bookmarkmarker"
+         id="bookmarkmarker"
          name="%BookmarkMarker.name"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.bookmark"/>
@@ -67,7 +67,7 @@
       <attribute name="bookmarkId"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.occurrencemarker"
+         id="occurrencemarker"
          name="%OccurrenceMarker.name"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -75,7 +75,7 @@
       <attribute name="term"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.termhighlightmarker"
+         id="termhighlightmarker"
          name="%TermHighlightMarker.name"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -83,8 +83,6 @@
       <attribute name="term"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.annotationTypes"
-         name="net.sourceforge.czt.eclipse.annotationTypes"
          point="org.eclipse.ui.editors.annotationTypes">
       <type
             markerSeverity="2"
@@ -118,8 +116,6 @@
             name="net.sourceforge.czt.eclipse.termhighlight"/>
    </extension>
    <extension
-         id="net.sourceforge.czt.eclipse.markerAnnotationSpecification"
-         name="net.sourceforge.czt.eclipse.markerAnnotationSpecification"
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
             annotationType="net.sourceforge.czt.eclipse.termhighlight"
@@ -221,6 +217,85 @@
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaBrowsingPerspective">
          <perspectiveShortcut id="net.sourceforge.czt.eclipse.perspectives"/>
       </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            name="%CztBasePreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.general"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.AppearancePreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.AppearancePreferencePage"
+            name="%AppearancePreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.appearance"/>
+      </page> <page
+            category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            name="%ZEditorPreferencePageName">
+                 <keywordReference id="net.sourceforge.czt.eclipse.ui.zeditor"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
+            name="%ZEditorHoverPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.hover"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
+            name="%ZEditorSyntaxColoringPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"/>
+      </page>
+     
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorFoldingPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorFoldingPreferencePage"
+            name="%ZEditorFoldingPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.folding"/>
+      </page>
+      <page
+            category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
+            name="%ZEditorMarkOccurrancesPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.markoccurrences"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.keywords">
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.general"
+            label="%PreferenceKeywords.general"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.appearance"
+            label="%PreferenceKeywords.appearance"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.zeditor"
+            label="%PreferenceKeywords.zeditor"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.hover"
+            label="%PreferenceKeywords.hover"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"
+            label="%PreferenceKeywords.syntaxcoloring"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.folding"
+            label="%PreferenceKeywords.folding"/>
+      <keyword
+            id="net.sourceforge.czt.eclipse.ui.markoccurrences"
+            label="%PreferenceKeywords.markoccurrences"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="net.sourceforge.czt.eclipse.preferences.CZTPreferenceInitializer"/>
    </extension>
 
 </plugin>
