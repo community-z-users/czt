@@ -24,7 +24,9 @@ import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZDeclNameList;
+import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -98,7 +100,8 @@ public class NodeNameVisitor
 
   public String visitFreePara(FreePara freePara)
   {
-    return "FreePara" + freePara.getFreetype().toString();
+    ZFreetypeList list = (ZFreetypeList) freePara.getFreetypeList();
+    return "FreePara" + list.get(0).getDeclName().accept(new PrintVisitor());
   }
 
   public String visitNarrPara(NarrPara narrPara)
