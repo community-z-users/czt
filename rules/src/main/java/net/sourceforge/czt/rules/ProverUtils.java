@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;
@@ -84,7 +85,8 @@ public final class ProverUtils
     if (term instanceof Spec) {
       for (Sect sect : ((Spec) term).getSect()) {
         if (sect instanceof ZSect) {
-          for (Para para : ((ZSect) sect).getPara()) {
+          ZSect zsect = (ZSect) sect;
+          for (Para para : ZUtils.assertZParaList(zsect.getParaList())) {
             if (para instanceof ConjPara) {
               result.add((ConjPara) para);
             }

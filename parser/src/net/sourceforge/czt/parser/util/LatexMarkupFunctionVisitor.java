@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,8 +31,8 @@ import net.sourceforge.czt.z.visitor.*;
 public class LatexMarkupFunctionVisitor
   implements TermVisitor,
              LatexMarkupParaVisitor,
-             ListTermVisitor,
              ParaVisitor,
+             ZParaListVisitor,
              ZSectVisitor
 {
   private LatexMarkupFunction table_;
@@ -85,15 +85,9 @@ public class LatexMarkupFunctionVisitor
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitZParaList(ZParaList list)
   {
-    for (Iterator iter = listTerm.iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof Term) {
-        Term t = (Term) o;
-        visit(t);
-      }
-    }
+    for (Para p : list) visit(p);
     return null;
   }
 
@@ -134,7 +128,7 @@ public class LatexMarkupFunctionVisitor
         throw new CztException(e);
       }
     }
-    visit(zSect.getPara());
+    visit(zSect.getParaList());
     return null;
   }
 

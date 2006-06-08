@@ -93,11 +93,11 @@
           <br/>
           Added new elements and types for lists: BranchList (abstract)
           and ZBranchList, DeclList (abstract)
-          and ZDeclList, ExprList (abstract) and ZExprList,
-          FreetypeList (abstract) and ZFreetypeList, RenameList
-          (abstract) and ZRenameList, RefNameList (abstract) and
-          ZRefNameList, StrokeList (abstract) and ZStrokeList,
-          DeclNameList (abstract) and ZDeclNameList.
+          and ZDeclList, DeclNameList (abstract) and ZDeclNameList,
+          ExprList (abstract) and ZExprList,
+          FreetypeList (abstract) and ZFreetypeList, ParaList (abstract)
+          and ZParaList, RefNameList (abstract) and ZRefNameList, RenameList
+          (abstract) and ZRenameList, StrokeList (abstract) and ZStrokeList.
           Those are now used instead of sequences defined via minOccurs and
           maxOccurs elements.
           <br/>

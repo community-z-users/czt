@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,9 +31,9 @@ import net.sourceforge.czt.z.visitor.*;
 public class OpTableVisitor
   extends AbstractVisitor
   implements TermVisitor,
-             ListTermVisitor,
              OptempParaVisitor,
              ParaVisitor,
+             ZParaListVisitor,
              ZSectVisitor
 {
   private OpTable table_;
@@ -72,15 +72,9 @@ public class OpTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitZParaList(ZParaList list)
   {
-    for (Iterator iter = listTerm.iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof Term) {
-        Term t = (Term) o;
-        visit(t);
-      }
-    }
+    for (Para p : list) visit(p);
     return null;
   }
 
@@ -104,8 +98,7 @@ public class OpTableVisitor
   {
     final String name = zSect.getName();
     List parentTables = new ArrayList();
-    for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-      Parent parent = (Parent) iter.next();
+    for (Parent parent : zSect.getParent()) {
       OpTable parentTable =
         (OpTable) get(parent.getWord(), OpTable.class);
       parentTables.add(parentTable);
@@ -117,7 +110,7 @@ public class OpTableVisitor
     {
       throw new CztException(e);
     }
-    visit(zSect.getPara());
+    visit(zSect.getParaList());
     return null;
   }
 

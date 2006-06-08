@@ -38,9 +38,9 @@ import net.sourceforge.czt.z.visitor.*;
 public class DefinitionTableVisitor
   extends AbstractVisitor
   implements TermVisitor,
-             ListTermVisitor,
              AxParaVisitor,
              ParaVisitor,
+             ZParaListVisitor,
              ZSectVisitor
 {
   private DefinitionTable table_;
@@ -74,15 +74,9 @@ public class DefinitionTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitZParaList(ZParaList list)
   {
-    for (Iterator iter = listTerm.iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof Term) {
-        Term t = (Term) o;
-        visit(t);
-      }
-    }
+    for (Para p : list) visit(p);
     return null;
   }
 
@@ -132,7 +126,7 @@ public class DefinitionTableVisitor
     {
       throw new CztException(exception);
     }
-    visit(zSect.getPara());
+    visit(zSect.getParaList());
     return null;
   }
 

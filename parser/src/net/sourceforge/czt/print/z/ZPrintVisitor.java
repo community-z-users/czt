@@ -106,11 +106,9 @@ public class ZPrintVisitor
 
   public Object visitListTerm(ListTerm listTerm)
   {
-    for (Iterator iter = listTerm.iterator(); iter.hasNext();) {
-      Object o = iter.next();
+    for (Object o : listTerm) {
       if (o instanceof Term) {
-        Term t = (Term) o;
-        visit(t);
+        visit((Term) o);
       }
     }
     return null;
@@ -1150,7 +1148,15 @@ public class ZPrintVisitor
       }
       print(TokenName.END);
     }
-    visit(zSect.getPara());
+    visit(zSect.getParaList());
+    return null;
+  }
+
+  public Object visitZParaList(ZParaList list)
+  {
+    for (Para p : list) {
+      visit(p);
+    }
     return null;
   }
 

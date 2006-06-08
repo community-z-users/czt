@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -45,6 +45,7 @@ public class RuleTableCommand
   public static class RuleTableVisitor
     implements TermVisitor,
                SpecVisitor,
+               ZParaListVisitor,
                ZSectVisitor,
                RuleVisitor
   {
@@ -70,7 +71,13 @@ public class RuleTableCommand
 
     public Object visitZSect(ZSect zSect)
     {
-      for (Para para : zSect.getPara()) {
+      zSect.getParaList().accept(this);
+      return null;
+    }
+
+    public Object visitZParaList(ZParaList list)
+    {
+      for (Para para : list) {
         para.accept(this);
       }
       return null;

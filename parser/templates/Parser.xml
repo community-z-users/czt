@@ -790,7 +790,8 @@ action code
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
-      ZSect result = factory_.createZSect(name, parents, null);
+      ZParaList paraList = factory_.createZParaList();
+      ZSect result = factory_.createZSect(name, parents, paraList);
       return result;
     }
 
@@ -817,7 +818,7 @@ action code
       }
       if (latexMarkupFunction != null) {
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
-        sect.getPara().add(0, markupPara);
+        ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
       }
       if (parseError) return sect;
 
@@ -1532,8 +1533,10 @@ non terminal List&lt;Parent&gt;
     parentList,
     parents;
 
+non terminal ZParaList
+    paragraphList;
+
 non terminal List&lt;Para&gt;
-    paragraphList,
     unboxedParagraphList,
     unboxedParagraphItemList;
 
@@ -2058,7 +2061,7 @@ specification ::=
         // anonymous specification
         emptySectionHeader:header paragraphList:pl
         {:
-           header.getPara().addAll(pl);
+           header.setParaList(pl);
            ZSect zSect = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
            RESULT = createSpec(list(zSect));
@@ -2111,7 +2114,7 @@ sectionList ::=
 section ::=
         sectionHeader:header paragraphList:pl
         {:
-           header.getPara().addAll(pl);
+           header.setParaList(pl);
            RESULT = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
            if (pl.size() > 0) {
@@ -2212,7 +2215,7 @@ paragraphList ::=
         :}
         |
         //empty
-        {: RESULT = list(); :} %prec NL 
+        {: RESULT = factory_.createZParaList(); :} %prec NL 
         ;
 
 

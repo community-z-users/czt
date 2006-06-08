@@ -694,6 +694,23 @@ more detail.
     </xs:annotation>
   </xs:element>
 
+  <!-- the ParaList hierarchy -->
+  <xs:element name="ParaList" type="Z:ParaList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract paragraph list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ZParaList" type="Z:ZParaList"
+    substitutionGroup="Z:ParaList">
+    <xs:annotation>
+      <xs:documentation>
+        A paragraph list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- the ExpressionList hierarchy -->
   <xs:element name="ExprList" type="Z:ExprList" abstract="true">
     <xs:annotation>
@@ -1280,7 +1297,7 @@ more detail.
         <xs:sequence>
           <xs:element name="Name" type="xs:string"/>
           <xs:element ref="Z:Parent" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:ParaList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1726,6 +1743,20 @@ more detail.
       <xs:extension base="Z:Expr2">
         <xs:attribute name="Mixfix" type="xs:boolean"
           use="optional" default="false"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ParaList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ZParaList">
+    <xs:complexContent>
+      <xs:extension base="Z:ParaList">
+        <xs:sequence>
+          <xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

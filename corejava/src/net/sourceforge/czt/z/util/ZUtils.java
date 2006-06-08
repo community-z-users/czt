@@ -83,6 +83,16 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
 
+  public static ZParaList assertZParaList(Term term)
+  {
+    if (term instanceof ZParaList) {
+      return (ZParaList) term;
+    }
+    final String message =
+      "Expected a ZParaList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+
   public static ZExprList assertZExprList(Term term)
   {
     if (term instanceof ZExprList) {

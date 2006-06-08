@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import junit.framework.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 
@@ -152,9 +153,7 @@ public abstract class EvalTest extends TestCase
       String sectName = null;
       // set zlive to use the first Z section in the file.
       if (spec != null) {
-        List sects = spec.getSect();
-        for (Iterator i = sects.iterator(); i.hasNext(); ) {
-          Sect sect = (Sect)i.next();
+        for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             sectName = ((ZSect)sect).getName();
             break;
@@ -169,12 +168,10 @@ public abstract class EvalTest extends TestCase
     } catch (Exception e) {
       fail("Error opening/parsing file: "+filename+": "+e);
     }
-    for (Iterator i = spec.getSect().iterator(); i.hasNext();) {
-      Object sect = i.next();
+    for (Sect sect : spec.getSect()) {
       if (sect instanceof ZSect) {
         ZSect zsect = (ZSect) sect;
-        for (Iterator p = zsect.getPara().iterator(); p.hasNext();) {
-          Object para = (Para) p.next();
+        for (Para para : ZUtils.assertZParaList(zsect.getParaList())) {
           if (para instanceof ConjPara) {
             Pred pred = ((ConjPara) para).getPred();
             // construct a nice name for this test.

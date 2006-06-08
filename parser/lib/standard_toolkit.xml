@@ -11,14 +11,16 @@
             </Anns>
             <Word>sequence_toolkit</Word>
         </Parent>
-        <LatexMarkupPara/>
-        <NarrPara>
-            <Anns>
-                <LocAnn Col="14" Length="1" Line="2" Loc="lib/standard_toolkit.tex" Start="87"/>
-            </Anns>
-            <Content>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Col="14" Length="1" Line="2" Loc="lib/standard_toolkit.tex" Start="87"/>
+                </Anns>
+                <Content>
 </Content>
-        </NarrPara>
+            </NarrPara>
+        </ZParaList>
     </ZSect>
 </Spec>
 

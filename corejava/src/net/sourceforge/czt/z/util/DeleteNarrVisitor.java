@@ -28,8 +28,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * A term visitor that removes all narrative paragraphs and
- * sections from a specification.
+ * A visitor that removes all narrative paragraphs and sections from a
+ * specification.
  *
  * @author Petra Malik
  */
@@ -38,6 +38,7 @@ public class DeleteNarrVisitor
              NarrParaVisitor<Term>,
              NarrSectVisitor<Term>,
              SpecVisitor<Term>,
+             ZParaListVisitor<Term>,
              ZSectVisitor<Term>
 {
   /**
@@ -90,24 +91,29 @@ public class DeleteNarrVisitor
 
   /**
    * Removes all narrative paragraphs from the paragraph list.
+   */
+  public Term visitZParaList(ZParaList list)
+  {
+    ZParaList newList = (ZParaList) list.create(new Object[0]);
+    for (Para para : list) {
+      Para p = (Para) para.accept(this);
+      if (p != null) newList.add(para);
+    }
+    if (newList.equals(list)) return list;
+    return newList;
+  }
+
+  /**
    * The Z section is returned unchanged iff it did not contain
-   * narrative paragraphs.  Otherwise, a new Z section is created
-   * containing all paragraphs contained by <code>zSect</code>
-   * but narrative paragraphs.
+   * narrative paragraphs.  Otherwise, a new Z section is returned,
+   * containing all paragraphs contained in {@code zSect} except for
+   * narrative paragraphs.
    */
   public Term visitZSect(ZSect zSect)
   {
-    ZSect newZSect = (ZSect) zSect.create(zSect.getChildren());
-    List<Para> newParas = newZSect.getPara();
-    newParas.clear();
-    List<Para> paras = zSect.getPara();
-    for (Para para : paras) {
-      para = (Para) para.accept(this);
-      if (para != null) newParas.add(para);
-    }
-    if (paras.equals(newParas)) {
-      return zSect;
-    }
-    return newZSect;
+    ParaList paraList = (ParaList) zSect.getParaList().accept(this);
+    if (paraList.equals(zSect.getParaList())) return zSect;
+    Object[] children = { zSect.getName(), zSect.getParent(), paraList };
+    return zSect.create(children);
   }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -33,9 +33,9 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public class JokerTableVisitor
   extends AbstractVisitor
   implements TermVisitor,
-             ListTermVisitor,
              JokersVisitor,
              ParaVisitor,
+             ZParaListVisitor,
              ZSectVisitor
 {
   private JokerTable table_;
@@ -74,15 +74,9 @@ public class JokerTableVisitor
     throw new UnsupportedOperationException(message);
   }
 
-  public Object visitListTerm(ListTerm listTerm)
+  public Object visitZParaList(ZParaList list)
   {
-    for (Iterator iter = listTerm.iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof Term) {
-        Term t = (Term) o;
-        visit(t);
-      }
-    }
+    for (Para p : list) visit(p);
     return null;
   }
 
@@ -121,7 +115,7 @@ public class JokerTableVisitor
     {
       throw new CztException(e);
     }
-    visit(zSect.getPara());
+    visit(zSect.getParaList());
     return null;
   }
 

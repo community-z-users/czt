@@ -38,7 +38,8 @@ public class SpecChecker
   implements SpecVisitor<Object>,
              ZSectVisitor<Object>,
              ParentVisitor<Object>,
-             SectVisitor<Object>
+             SectVisitor<Object>,
+             ZParaListVisitor<Object>
 {
   public SpecChecker(TypeChecker typeChecker)
   {
@@ -116,27 +117,7 @@ public class SpecChecker
     }
 
     //get and visit the paragraphs of the current section
-    List<Para> paras = zSect.getPara();
-    for (Para para : paras) {
-      //add the global definitions to the SectTypeEnv
-      Signature signature = para.accept(paraChecker());
-      List<NameTypePair> pairs = signature.getNameTypePair();
-      for (NameTypePair pair : pairs) {
-        //if the name already exists globally, raise an error
-        ZDeclName zDeclName = pair.getZDeclName();
-        NameSectTypeTriple duplicate =
-          sectTypeEnv().add(zDeclName, pair.getType());
-        if (duplicate != null) {
-          Object [] params = {zDeclName};
-          error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
-        }
-      }
-
-      //only check on the final traversal of the tree
-      if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
-        postCheck();
-      }
-    }
+    zSect.getParaList().accept(this);
 
     if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
       try {
@@ -183,6 +164,31 @@ public class SpecChecker
     //create the SectTypeEnvAnn and add it to the section information
     List<NameSectTypeTriple> result = sectTypeEnvAnn.getNameSectTypeTriple();
     return result;
+  }
+
+  public Object visitZParaList(ZParaList list)
+  {
+    for (Para para : list) {
+      //add the global definitions to the SectTypeEnv
+      Signature signature = para.accept(paraChecker());
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
+        //if the name already exists globally, raise an error
+        ZDeclName zDeclName = pair.getZDeclName();
+        NameSectTypeTriple duplicate =
+          sectTypeEnv().add(zDeclName, pair.getType());
+        if (duplicate != null) {
+          Object [] params = {zDeclName};
+          error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
+        }
+      }
+
+      //only check on the final traversal of the tree
+      if (!useBeforeDecl() || sectTypeEnv().getSecondTime()) {
+        postCheck();
+      }
+    }
+    return null;
   }
 
   public Object visitParent(Parent parent)

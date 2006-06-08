@@ -8,81 +8,83 @@
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>
-        <LatexMarkupPara/>
-        <AxPara Box="OmitBox">
-            <Anns>
-                <LocAnn Col="0" Length="42" Line="0" Loc="tests/z/test7.tex" Start="0"/>
-            </Anns>
-            <ZDeclNameList/>
-            <ZSchText>
+        <ZParaList>
+            <LatexMarkupPara/>
+            <AxPara Box="OmitBox">
                 <Anns>
-                    <LocAnn Col="3" Length="17" Line="1" Loc="tests/z/test7.tex" Start="15"/>
+                    <LocAnn Col="0" Length="42" Line="0" Loc="tests/z/test7.tex" Start="0"/>
                 </Anns>
-                <ZDeclList>
-                    <ConstDecl>
-                        <Anns>
-                            <LocAnn Col="8" Length="17" Line="1" Loc="tests/z/test7.tex" Start="15"/>
-                        </Anns>
-                        <ZDeclName>
+                <ZDeclNameList/>
+                <ZSchText>
+                    <Anns>
+                        <LocAnn Col="3" Length="17" Line="1" Loc="tests/z/test7.tex" Start="15"/>
+                    </Anns>
+                    <ZDeclList>
+                        <ConstDecl>
                             <Anns>
-                                <LocAnn Col="3" Length="4" Line="1" Loc="tests/z/test7.tex" Start="15"/>
+                                <LocAnn Col="8" Length="17" Line="1" Loc="tests/z/test7.tex" Start="15"/>
                             </Anns>
-                            <Word>NAME</Word>
-                            <ZStrokeList/>
-                        </ZDeclName>
-                        <ApplExpr Mixfix="true">
-                            <Anns>
-                                <LocAnn Col="13" Length="9" Line="1" Loc="tests/z/test7.tex" Start="23"/>
-                            </Anns>
-                            <RefExpr Explicit="false" Mixfix="false">
+                            <ZDeclName>
                                 <Anns>
-                                    <LocAnn Col="13" Length="5" Line="1" Loc="tests/z/test7.tex" Start="25"/>
+                                    <LocAnn Col="3" Length="4" Line="1" Loc="tests/z/test7.tex" Start="15"/>
                                 </Anns>
-                                <ZRefName>
+                                <Word>NAME</Word>
+                                <ZStrokeList/>
+                            </ZDeclName>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="13" Length="9" Line="1" Loc="tests/z/test7.tex" Start="23"/>
+                                </Anns>
+                                <RefExpr Explicit="false" Mixfix="false">
                                     <Anns>
                                         <LocAnn Col="13" Length="5" Line="1" Loc="tests/z/test7.tex" Start="25"/>
                                     </Anns>
-                                    <Word> _ .. _ </Word>
-                                    <ZStrokeList/>
-                                </ZRefName>
-                                <ZExprList/>
-                            </RefExpr>
-                            <TupleExpr>
-                                <ZExprList>
-                                    <NumExpr>
+                                    <ZRefName>
                                         <Anns>
-                                            <LocAnn Col="11" Length="1" Line="1" Loc="tests/z/test7.tex" Start="23"/>
+                                            <LocAnn Col="13" Length="5" Line="1" Loc="tests/z/test7.tex" Start="25"/>
                                         </Anns>
-                                        <ZNumeral Value="1">
+                                        <Word> _ .. _ </Word>
+                                        <ZStrokeList/>
+                                    </ZRefName>
+                                    <ZExprList/>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <ZExprList>
+                                        <NumExpr>
                                             <Anns>
                                                 <LocAnn Col="11" Length="1" Line="1" Loc="tests/z/test7.tex" Start="23"/>
                                             </Anns>
-                                        </ZNumeral>
-                                    </NumExpr>
-                                    <NumExpr>
-                                        <Anns>
-                                            <LocAnn Col="19" Length="1" Line="1" Loc="tests/z/test7.tex" Start="31"/>
-                                        </Anns>
-                                        <ZNumeral Value="5">
+                                            <ZNumeral Value="1">
+                                                <Anns>
+                                                    <LocAnn Col="11" Length="1" Line="1" Loc="tests/z/test7.tex" Start="23"/>
+                                                </Anns>
+                                            </ZNumeral>
+                                        </NumExpr>
+                                        <NumExpr>
                                             <Anns>
                                                 <LocAnn Col="19" Length="1" Line="1" Loc="tests/z/test7.tex" Start="31"/>
                                             </Anns>
-                                        </ZNumeral>
-                                    </NumExpr>
-                                </ZExprList>
-                            </TupleExpr>
-                        </ApplExpr>
-                    </ConstDecl>
-                </ZDeclList>
-            </ZSchText>
-        </AxPara>
-        <NarrPara>
-            <Anns>
-                <LocAnn Col="9" Length="1" Line="2" Loc="tests/z/test7.tex" Start="42"/>
-            </Anns>
-            <Content>
+                                            <ZNumeral Value="5">
+                                                <Anns>
+                                                    <LocAnn Col="19" Length="1" Line="1" Loc="tests/z/test7.tex" Start="31"/>
+                                                </Anns>
+                                            </ZNumeral>
+                                        </NumExpr>
+                                    </ZExprList>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </ConstDecl>
+                    </ZDeclList>
+                </ZSchText>
+            </AxPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Col="9" Length="1" Line="2" Loc="tests/z/test7.tex" Start="42"/>
+                </Anns>
+                <Content>
 </Content>
-        </NarrPara>
+            </NarrPara>
+        </ZParaList>
     </ZSect>
 </Spec>
 

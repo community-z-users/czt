@@ -550,6 +550,11 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.NUMERAL;
   }
 
+  public ConcreteSyntaxSymbol visitZParaList(ZParaList term)
+  {
+    return ConcreteSyntaxSymbol.PARA_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitZRefName(ZRefName term)
   {
     return ConcreteSyntaxSymbol.REF_NAME;

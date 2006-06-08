@@ -57,6 +57,7 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.ZUtils;
 
 public class TextUI {
   private static Logger LOG 
@@ -178,7 +179,7 @@ public class TextUI {
         }
         else {
           ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
-          for (Para par : sect.getPara())
+          for (Para par : ZUtils.assertZParaList(sect.getParaList()))
             if (par instanceof ConjPara) {
               LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
               if (loc != null) {

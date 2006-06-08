@@ -55,6 +55,7 @@ public class Z2B
              UnparsedParaVisitor,
              VarDeclVisitor,
              ConstDeclVisitor,
+             ZParaListVisitor,
              ZFreetypeListVisitor
 {
   private static final Logger sLogger
@@ -157,7 +158,7 @@ public class Z2B
     mach_ = new BMachine(sect.getName(), url.toString());
 
     // Process all the non-schema definitions from sect
-    sect.getPara().accept(this);
+    sect.getParaList().accept(this);
 
     // Add state variables
     declareVars(svars, mach_.getVariables(), mach_.getInvariant());
@@ -299,6 +300,12 @@ public class Z2B
   public Object visitListTerm(ListTerm term)
   {
     VisitorUtils.visitTerm(this, term);
+    return null;
+  }
+
+  public Object visitZParaList(ZParaList list)
+  {
+    VisitorUtils.visitTerm(this, list);
     return null;
   }
 

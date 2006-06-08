@@ -32,6 +32,7 @@ import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
@@ -90,7 +91,7 @@ final class SchemaExtractionVisitor
    */
   public Object visitZSect(ZSect zedObject)
   {
-    visitAllOf(zedObject.getPara(), AxPara.class);
+    visitAllOf(ZUtils.assertZParaList(zedObject.getParaList()), AxPara.class);
     return null;
   };//Containing AxParas
 

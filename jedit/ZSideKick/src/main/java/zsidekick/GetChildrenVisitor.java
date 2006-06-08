@@ -28,19 +28,23 @@ import net.sourceforge.czt.z.visitor.*;
 
 public class GetChildrenVisitor
   implements TermVisitor<Term[]>,
+             ZParaListVisitor<Term[]>,
              ZSectVisitor<Term[]>
 {
   public Term[] visitTerm(Term term)
   {
-    Term[] children = {};
-    return children;
+    return new Term[0];
   }
 
   public Term[] visitZSect(ZSect zSect)
   {
+    return zSect.getParaList().accept(this);
+  }
+
+  public Term[] visitZParaList(ZParaList list)
+  {
     List<Para> result = new ArrayList();
-    List<Para> children = zSect.getPara();
-    for (Para para : zSect.getPara()) {
+    for (Para para : list) {
       if (! (para instanceof LatexMarkupPara) &&
           ! (para instanceof NarrPara)) {
         result.add(para);
