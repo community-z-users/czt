@@ -810,6 +810,11 @@
 
   <!-- Action :: Schema-Exp -->  
   
+  <!-- TODO:CHECK        
+       Maybe remove this altogether and allow RefNames for previously declared schemas only.
+       That simplifies the grammar in a great extent with the price that schema construction
+       is removed from the BNF in actions. We might later reinclude this upon request.
+    -->
   <xs:element name="SchExprAction" type="CIRCUS:SchExprAction" substitutionGroup="CIRCUS:CircusAction">
     <xs:annotation>
       <xs:documentation>
@@ -1307,6 +1312,25 @@
     </xs:annotation>
   </xs:element>  
   
+  <!-- Lists used by Circus elements -->
+  
+  <!-- the RefNameList hierarchy -->
+  <xs:element name="FieldList" type="CIRCUS:FieldList" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract communication fields list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="CircusFieldList" type="CIRCUS:CircusFieldList"
+    substitutionGroup="CIRCUS:FieldList">
+    <xs:annotation>
+      <xs:documentation>
+        A communication fields list.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
   <!-- ***************************************************************** -->
   <!-- Definitions of complexTypes in the order of usage by the elements -->
   <!-- ***************************************************************** -->
@@ -1316,7 +1340,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>          
-          <xs:element ref="CIRCUS:ChannelDecl" minOccurs="0" maxOccurs="unbounded"/>
+          <!--<xs:element ref="CIRCUS:ChannelDecl" minOccurs="0" maxOccurs="unbounded"/>-->
+          <xs:element name="ChannelDecl" type="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1326,9 +1351,9 @@
       <xs:extension base="Z:Decl">
         <xs:sequence>
           <!-- Generic types, possibly empty but not null? -->                    
-          <xs:element name="GenFormals" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>          
+          <xs:element name="GenFormals" type="Z:DeclNameList"/>          
           <!-- List of channel names for channel, or null for channelFrom -->        
-          <xs:element ref="Z:DeclName" maxOccurs="unbounded"/>                    
+          <xs:element ref="Z:DeclNameList"/>          
           <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
@@ -1340,13 +1365,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
+          <xs:element name="GenFormals" type="Z:DeclNameList"/>
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
@@ -1369,13 +1388,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
+          <xs:element name="GenFormals" type="Z:DeclNameList"/>
           <xs:element ref="CIRCUS:CircusProcess"/>
         </xs:sequence>
       </xs:extension>
@@ -1476,41 +1489,12 @@
                     "ex: \circstate\ \begin{schema}{[ProcessName]_$$state} S \land T\end{schema}
           -->
           <xs:element name="StateSchema" type="Z:RefName"/>
-          <xs:element name="ZPara" type="Z:Para" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ZPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
-          <xs:element name="CircusActionPara" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="CircusActionPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="OnTheFlyActionPara" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="OnTheFlyActionPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element name="CircusNameSetPara" type="CIRCUS:NameSetPara" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="CircusNameSetPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:CircusAction">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="MainAction"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <!-- Shouldn't here be a ParaList -> ZParaList -->
+          <xs:element name="ZPara" type="Z:ParaList"/>            
+          <xs:element name="CircusActionPara" type="Z:ParaList"/>
+          <xs:element name="OnTheFlyActionPara" type="Z:ParaList"/>            
+          <xs:element name="CircusNameSetPara" type="Z:ParaList"/>
+          <xs:element name="MainAction" type="CIRCUS:CircusAction"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1962,27 +1946,29 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="FieldList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CircusFieldList">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:FieldList">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:Field" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <!-- CSP Communication complexType -->
   <xs:complexType name="Communication">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ChanName" type="Z:RefName"/>
-          <!-- <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"> -->
-          <xs:element ref="Z:ExprList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenActuals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
-          <xs:element ref="CIRCUS:Field" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ChanFields"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element name="ChanName" type="Z:RefName"/>          
+          <xs:element name="GenActuals" type="Z:ExprList"/>
+          <xs:element name="ChanFields" type="CIRCUS:CircusFieldList"/>
         </xs:sequence>
         <xs:attribute name="CommType" type="CIRCUS:CommType" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
@@ -2031,13 +2017,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
         <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Expression"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2048,7 +2028,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded"/>
+          <!-- Parser must inforce that minOccurs="1"! -->
+          <xs:element ref="Z:DeclNameList"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
         <xs:attribute name="ParamQualifier" type="CIRCUS:ParamQualifier" use="optional" default="Value"/>
@@ -2152,13 +2133,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element name="GenFormals" type="Z:DeclNameList"/>
           <!-- How to make this possibly empty? -->
           <xs:element ref="Z:Type2">
             <xs:annotation>
@@ -2223,13 +2198,7 @@
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element name="ProcessName" type="Z:DeclName"/>
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element name="GenFormals" type="Z:DeclNameList"/>
           <xs:element ref="Z:Signature" minOccurs="0">
             <xs:annotation>
               <xs:appinfo>
