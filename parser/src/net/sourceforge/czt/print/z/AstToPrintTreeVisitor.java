@@ -168,7 +168,6 @@ public class AstToPrintTreeVisitor
   public Object visitAndPred(AndPred andPred)
   {
     List list = new ArrayList();
-    Precedence prec = new Precedence(60);
     if (And.Wedge.equals(andPred.getAnd())) {
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.AND);
@@ -191,13 +190,11 @@ public class AstToPrintTreeVisitor
       }
     }
     else if (And.NL.equals(andPred.getAnd())) {
-      prec = new Precedence(10);
       list.add(visit(andPred.getLeftPred()));
       list.add(TokenName.NL);
       list.add(visit(andPred.getRightPred()));
     }
     else if (And.Semi.equals(andPred.getAnd())) {
-      prec = new Precedence(10);
       list.add(visit(andPred.getLeftPred()));
       list.add(ZString.SEMICOLON);
       list.add(visit(andPred.getRightPred()));
@@ -205,6 +202,7 @@ public class AstToPrintTreeVisitor
     else {
       throw new CztException("Unexpected Op");
     }
+    final Precedence prec = andPred.accept(new PrecedenceVisitor());
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, prec, null);
     if (andPred.getAnn(ParenAnn.class) != null) {
@@ -236,7 +234,10 @@ public class AstToPrintTreeVisitor
         TupleExpr tuple = (TupleExpr) args;
         argList.addAll(tuple.getZExprList());
       }
-      OperatorApplication result = createOperatorApplication(opName, argList);
+      final Precedence precedence =
+        applExpr.accept(new PrecedenceVisitor(opTable_));
+      OperatorApplication result =
+        createOperatorApplication(opName, argList, precedence);
       result.getAnns().addAll(applExpr.getAnns());
       return result;
     }
@@ -396,8 +397,7 @@ public class AstToPrintTreeVisitor
 
   public Object visitMemPred(MemPred memPred)
   {
-    final int prec = 80;
-    final Precedence precedence = new Precedence(prec);
+    final Precedence precedence = memPred.accept(new PrecedenceVisitor());
     Expr firstExpr = (Expr) visit(memPred.getLeftExpr());
     Expr secondExpr = (Expr) visit(memPred.getRightExpr());
     boolean mixfix = memPred.getMixfix().booleanValue();
@@ -457,7 +457,10 @@ public class AstToPrintTreeVisitor
       final OperatorName opName = refExpr.getZRefName().getOperatorName();
       final ZExprList argList =
         (ZExprList) refExpr.getZExprList().accept(this);
-      OperatorApplication result = createOperatorApplication(opName, argList);
+      final Precedence precedence =
+        refExpr.accept(new PrecedenceVisitor(opTable_));
+      OperatorApplication result =
+        createOperatorApplication(opName, argList, precedence);
       result.getAnns().addAll(refExpr.getAnns());
       return result;
     }
@@ -499,18 +502,6 @@ public class AstToPrintTreeVisitor
     return visitTerm(zSect);
   }
 
-  protected boolean isPostfix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.POSTFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isPrefix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.PREFIX.equals(opName.getFixity());
-  }
-
   protected boolean isInfix(OperatorName opName)
   {
     if (opName == null) return false;
@@ -542,21 +533,14 @@ public class AstToPrintTreeVisitor
    * @throws NullPointerException if <code>opName</code> is <code>null</code>.
    */
   private OperatorApplication createOperatorApplication(OperatorName opName,
-                                                        List argList)
+                                                        List argList,
+                                                        Precedence precedence)
   {
-    Precedence precedence = null;
     Assoc assoc = null;
     if (isInfix(opName)) {
       if (opTable_ != null) {
         OpTable.OpInfo opInfo = opTable_.lookup(opName);
         if (opInfo != null) {
-          if (opInfo.getPrec() == null) {
-            String message =
-              "Cannot find precedence of infix operator '" + opName + "'.";
-            throw new CannotPrintAstException(message);
-          }
-          final int prec = 180;
-          precedence = new Precedence(prec, opInfo.getPrec().intValue());
           assoc = opInfo.getAssoc();
         }
         else {
@@ -571,14 +555,6 @@ public class AstToPrintTreeVisitor
           "'; no operator table available";
         throw new CannotPrintAstException(message);
       }
-    }
-    else if (isPostfix(opName)) {
-      final int prec = 200;
-      precedence = new Precedence(prec);
-    }
-    else if (isPrefix(opName)) {
-      final int prec = 190;
-      precedence = new Precedence(prec);
     }
     return printFactory_.createOperatorApplication(opName,
                                                    argList,

@@ -21,10 +21,18 @@ package net.sourceforge.czt.print.z;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.visitor.*;
 
+/**
+ * Throws NullPointerException if no operator table is given but a term
+ * that needs a lookup in the operator table.
+ *
+ * @author Petra Malik
+ */
 public class PrecedenceVisitor
   implements TermVisitor<Precedence>,
              PrintPredicateVisitor<Precedence>,
@@ -33,6 +41,8 @@ public class PrecedenceVisitor
              TupleSelExprVisitor<Precedence>,
              RenameExprVisitor<Precedence>,
              DecorExprVisitor<Precedence>,
+             ApplExprVisitor<Precedence>,
+             RefExprVisitor<Precedence>,
              ApplicationVisitor<Precedence>,
              OperatorApplicationVisitor<Precedence>,
              PowerExprVisitor<Precedence>,
@@ -46,9 +56,11 @@ public class PrecedenceVisitor
              LetExprVisitor<Precedence>,
              MuExprVisitor<Precedence>,
              LambdaExprVisitor<Precedence>,
+             MemPredVisitor<Precedence>,
              NegPredVisitor<Precedence>,
              NegExprVisitor<Precedence>,
              AndExprVisitor<Precedence>,
+             AndPredVisitor<Precedence>,
              OrPredVisitor<Precedence>,
              OrExprVisitor<Precedence>,
              ImpliesPredVisitor<Precedence>,
@@ -62,6 +74,17 @@ public class PrecedenceVisitor
              ExistsExprVisitor<Precedence>,
              Exists1ExprVisitor<Precedence>
 {
+  private OpTable opTable_;
+
+  public PrecedenceVisitor()
+  {
+  }
+
+  public PrecedenceVisitor(OpTable opTable)
+  {
+    opTable_ = opTable;
+  }
+
   public Precedence visitTerm(Term term)
   {
     return null;
@@ -74,32 +97,55 @@ public class PrecedenceVisitor
 
   public Precedence visitThetaExpr(ThetaExpr term)
   {
-    return new Precedence(250);
+    return Precedence.precedence(250);
   }
 
   public Precedence visitBindSelExpr(BindSelExpr term)
   {
-    return new Precedence(240);
+    return Precedence.precedence(240);
   }
 
   public Precedence visitTupleSelExpr(TupleSelExpr term)
   {
-    return new Precedence(240);
+    return Precedence.precedence(240);
   }
 
   public Precedence visitRenameExpr(RenameExpr term)
   {
-    return new Precedence(230);
+    return Precedence.precedence(230);
   }
 
   public Precedence visitDecorExpr(DecorExpr term)
   {
-    return new Precedence(220);
+    return Precedence.precedence(220);
+  }
+
+  public Precedence visitApplExpr(ApplExpr term)
+  {
+    final boolean isFunctionApplication =
+      term.getMixfix().booleanValue();
+    if (isFunctionApplication) {
+      RefExpr refExpr = (RefExpr) term.getLeftExpr();
+      OperatorName opName = refExpr.getZRefName().getOperatorName();
+      return getPrecedence(opName);
+    }
+    return Precedence.precedence(210);
+  }
+
+  public Precedence visitRefExpr(RefExpr refExpr)
+  {
+    final boolean isGenericOperatorApplication =
+      refExpr.getMixfix().booleanValue();
+    if (isGenericOperatorApplication) {
+      final OperatorName opName = refExpr.getZRefName().getOperatorName();
+      return getPrecedence(opName);
+    }
+    return null;
   }
 
   public Precedence visitApplication(Application term)
   {
-    return new Precedence(210);
+    return Precedence.precedence(210);
   }
 
   public Precedence visitOperatorApplication(OperatorApplication term)
@@ -109,131 +155,199 @@ public class PrecedenceVisitor
 
   public Precedence visitPowerExpr(PowerExpr term)
   {
-    return new Precedence(190);
+    return Precedence.precedence(190);
   }
 
   public Precedence visitProdExpr(ProdExpr term)
   {
-    return new Precedence(180, 8);
+    return Precedence.precedence(180, 8);
   }
 
   public Precedence visitPreExpr(PreExpr term)
   {
-    return new Precedence(170);
+    return Precedence.precedence(170);
   }
 
   public Precedence visitProjExpr(ProjExpr term)
   {
-    return new Precedence(160);
+    return Precedence.precedence(160);
   }
 
   public Precedence visitHideExpr(HideExpr term)
   {
-    return new Precedence(150);
+    return Precedence.precedence(150);
   }
 
   public Precedence visitPipeExpr(PipeExpr term)
   {
-    return new Precedence(140);
+    return Precedence.precedence(140);
   }
 
   public Precedence visitCompExpr(CompExpr term)
   {
-    return new Precedence(130);
+    return Precedence.precedence(130);
   }
 
   public Precedence visitCondExpr(CondExpr term)
   {
-    return new Precedence(120);
+    return Precedence.precedence(120);
   }
 
   public Precedence visitLetExpr(LetExpr term)
   {
-    return new Precedence(110);
+    return Precedence.precedence(110);
   }
 
   public Precedence visitMuExpr(MuExpr term)
   {
-    return new Precedence(100);
+    return Precedence.precedence(100);
   }
 
   public Precedence visitLambdaExpr(LambdaExpr term)
   {
-    return new Precedence(90);
+    return Precedence.precedence(90);
+  }
+
+  public Precedence visitMemPred(MemPred memPred)
+  {
+    return Precedence.precedence(80);
   }
 
   public Precedence visitNegPred(NegPred term)
   {
-    return new Precedence(70);
+    return Precedence.precedence(70);
   }
 
   public Precedence visitNegExpr(NegExpr term)
   {
-    return new Precedence(70);
+    return Precedence.precedence(70);
   }
 
   public Precedence visitAndExpr(AndExpr term)
   {
-    return new Precedence(60);
+    return Precedence.precedence(60);
+  }
+  
+  public Precedence visitAndPred(AndPred term)
+  {
+    final And andType = term.getAnd();
+    if (And.NL.equals(andType) || And.Semi.equals(andType)) {
+      return Precedence.precedence(10);
+    }
+    return Precedence.precedence(60);
+    
   }
 
   public Precedence visitOrPred(OrPred term)
   {
-    return new Precedence(50);
+    return Precedence.precedence(50);
   }
 
   public Precedence visitOrExpr(OrExpr term)
   {
-    return new Precedence(50);
+    return Precedence.precedence(50);
   }
 
   public Precedence visitImpliesPred(ImpliesPred term)
   {
-    return new Precedence(40);
+    return Precedence.precedence(40);
   }
 
   public Precedence visitImpliesExpr(ImpliesExpr term)
   {
-    return new Precedence(40);
+    return Precedence.precedence(40);
   }
 
   public Precedence visitIffPred(IffPred term)
   {
-    return new Precedence(30);
+    return Precedence.precedence(30);
   }
 
   public Precedence visitIffExpr(IffExpr term)
   {
-    return new Precedence(30);
+    return Precedence.precedence(30);
   }
 
   public Precedence visitForallPred(ForallPred term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
   }
 
   public Precedence visitExistsPred(ExistsPred term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
   }
 
   public Precedence visitExists1Pred(Exists1Pred term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
   }
 
   public Precedence visitForallExpr(ForallExpr term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
   }
 
   public Precedence visitExistsExpr(ExistsExpr term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
   }
 
   public Precedence visitExists1Expr(Exists1Expr term)
   {
-    return new Precedence(20);
+    return Precedence.precedence(20);
+  }
+
+  protected Precedence getPrecedence(OperatorName opName)
+  {
+    if (isInfix(opName)) {
+      OpTable.OpInfo opInfo = opTable_.lookup(opName);
+      if (opInfo != null) {
+        if (opInfo.getPrec() == null) {
+          String message =
+            "Cannot find precedence of infix operator '" + opName + "'.";
+          reportError(message);
+        }
+        final int prec = 180;
+        return Precedence.precedence(prec, opInfo.getPrec().intValue());
+      }
+      else {
+        String message =
+          "Cannot find precedence and associativity for '" + opName + "'.";
+        reportError(message);
+      }
+    }
+    else if (isPostfix(opName)) {
+      final int prec = 200;
+      return Precedence.precedence(prec);
+    }
+    else if (isPrefix(opName)) {
+      final int prec = 190;
+      return Precedence.precedence(prec);
+    }
+    return null;
+  }
+
+  protected boolean isPostfix(OperatorName opName)
+  {
+    if (opName == null) return false;
+    return OperatorName.Fixity.POSTFIX.equals(opName.getFixity());
+  }
+
+  protected boolean isPrefix(OperatorName opName)
+  {
+    if (opName == null) return false;
+    return OperatorName.Fixity.PREFIX.equals(opName.getFixity());
+  }
+
+  protected boolean isInfix(OperatorName opName)
+  {
+    if (opName == null) return false;
+    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
+  }
+
+  protected void reportError(String message)
+  {
+    throw new AstToPrintTreeVisitor.CannotPrintAstException(message);
   }
 }

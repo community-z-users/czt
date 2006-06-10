@@ -56,7 +56,8 @@ public class PrecedenceParenAnnVisitorTest
       AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
       Term tree = toPrintTree.run(funApp, standardToolkitOpTable);
       final int prec = 190;
-      Assert.assertEquals(visitor.precedence(tree), new Precedence(prec));
+      Assert.assertEquals(visitor.precedence(tree),
+                          Precedence.precedence(prec));
       ApplExpr appl = factory_.createApplication(iter, funApp);
       tree = (Term) appl.accept(toPrintTree);
       tree.accept(visitor);
