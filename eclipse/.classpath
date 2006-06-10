@@ -3,12 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="net/sourceforge/czt/eclipse/editors/AbstractZSourceViewerConfiguration.java|net/sourceforge/czt/eclipse/editors/CustomSourceInformationControl.java|net/sourceforge/czt/eclipse/editors/ZLineBackgroundListener.java|net/sourceforge/czt/eclipse/editors/hover/ZSourceViewerInformationControl.java" kind="src" path="src/main/java"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/corejava"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/session"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/typechecker"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/cup-tum"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/czt.jar"/>
 	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>

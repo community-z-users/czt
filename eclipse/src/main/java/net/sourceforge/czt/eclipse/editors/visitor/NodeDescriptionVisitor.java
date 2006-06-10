@@ -25,6 +25,7 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZDeclNameList;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.AndExprVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -149,7 +150,7 @@ public class NodeDescriptionVisitor
 
   public String visitZDeclName(ZDeclName zDeclName)
   {
-    return zDeclName.toString();
+    return zDeclName.accept(new PrintVisitor());
   }
 
   public String visitRefExpr(RefExpr refExpr)

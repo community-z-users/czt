@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.preferences;
 
-import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.CztUI;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.util.Assert;
@@ -145,7 +145,7 @@ public class StatusInfo implements IStatus
     return false;
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.eclipse.core.runtime.IStatus#getSeverity()
    */
   public int getSeverity()
@@ -159,7 +159,6 @@ public class StatusInfo implements IStatus
    */
   public Throwable getException()
   {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -181,11 +180,11 @@ public class StatusInfo implements IStatus
     return new IStatus[0];
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.eclipse.core.runtime.IStatus#getPlugin()
    */
   public String getPlugin()
   {
-    return CZTPlugin.getDefault().PLUGIN_ID;
+    return CztUI.ID_PLUGIN;
   }
 }

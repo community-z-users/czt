@@ -21,7 +21,7 @@ import org.eclipse.jface.text.rules.WordRule;
 public class ZLatexCodeScanner extends AbstractZCodeScanner
 {
 
-  private static String[] fgAlphabeticKeywords = {"else", "false", "function",
+  private static String[] fgAlphabeticKeywords = {"\\begin", "else", "false", "function",
       "generic", "if", "leftassoc", "let", "IP", "parents", "pre", "relation",
       "rightassoc", "section", "then", "true"};
 

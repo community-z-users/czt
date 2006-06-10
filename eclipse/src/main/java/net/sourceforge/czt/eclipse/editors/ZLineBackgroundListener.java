@@ -36,20 +36,7 @@ public class ZLineBackgroundListener implements LineBackgroundListener
 
     IDocument document = this.fEditor.getDocumentProvider().getDocument(
         this.fEditor.getEditorInput());
-    ITypedRegion[] partitions = null;
-
-    try {
-      if (document instanceof IDocumentExtension3) {
-        IDocumentExtension3 extension3 = (IDocumentExtension3) document;
-        partitions = extension3.computePartitioning(CZTPlugin.Z_PARTITIONING,
-            0, document.getLength(), false);
-      }
-      else {
-        partitions = document.computePartitioning(0, document.getLength());
-      }
-    } catch (BadLocationException ble) {
-    } catch (BadPartitioningException bpe) {
-    }
+    ITypedRegion[] partitions = CZTPlugin.getDefault().getCZTTextTools().getPartitions(document, IZPartitions.Z_PARTITIONING);
 
     //		Vector styles = new Vector();
 

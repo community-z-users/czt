@@ -52,9 +52,6 @@ public class CZTPlugin extends AbstractUIPlugin
   //Resource bundle.
   private ResourceBundle resourceBundle;
 
-  //The Plugin ID
-  public static final String PLUGIN_ID = "net.sourceforge.czt.eclipse";
-
   public final static String Z_PARTITIONING = "___zed_partitioning"; //$NON-NLS-1$
 
   private RuleBasedPartitionScanner fZDefaultPartitionScanner;
@@ -129,10 +126,10 @@ public class CZTPlugin extends AbstractUIPlugin
       if (fImageDescriptorRegistry != null)
         fImageDescriptorRegistry.dispose();
 
-      //			if (fCZTTextTools != null) {
-      //				fCZTTextTools.dispose();
-      //				fCZTTextTools= null;
-      //			}
+      			if (fCZTTextTools != null) {
+      				fCZTTextTools.dispose();
+      				fCZTTextTools= null;
+      			}
 
       //			uninstallPreferenceStoreBackwardsCompatibility();
     } finally {
@@ -148,14 +145,6 @@ public class CZTPlugin extends AbstractUIPlugin
   public static CZTPlugin getDefault()
   {
     return plugin;
-  }
-
-  /**
-   * Returns the plugin's ID
-   */
-  public static String getPluginID()
-  {
-    return PLUGIN_ID;
   }
 
   /**

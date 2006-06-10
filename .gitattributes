@@ -14,7 +14,6 @@ doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
 eclipse/icons/sample.gif -text
 eclipse/icons/term_highlight.gif -text
-eclipse/lib/czt.jar -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset

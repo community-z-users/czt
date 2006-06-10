@@ -9,15 +9,18 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 /**
@@ -30,6 +33,7 @@ public class NodeChildrenVisitor
       TermVisitor<Term[]>,
       SpecVisitor<Term[]>,
       ZSectVisitor<Term[]>,
+      ZParaListVisitor<Term[]>,
       AxParaVisitor<Term[]>,
       SchExprVisitor<Term[]>
 {
@@ -56,19 +60,24 @@ public class NodeChildrenVisitor
     }
     return children.toArray(new Term[0]);
   }
-
+  
   public Term[] visitZSect(ZSect zSect)
   {
-    List<Para> children = zSect.getPara();
-    for (Iterator<Para> iter = children.iterator(); iter.hasNext();) {
-      Para para = iter.next();
-      if (para instanceof LatexMarkupPara) {
-        iter.remove();
-      }
-    }
-    return children.toArray(new Term[0]);
+    return zSect.getParaList().accept(this);
   }
 
+  public Term[] visitZParaList(ZParaList zParaList)
+  {
+    List<Para> result = new ArrayList<Para>();
+    for (Para para : zParaList) {
+      if (! (para instanceof LatexMarkupPara) &&
+          ! (para instanceof NarrPara)) {
+        result.add(para);
+      }
+    }
+    return result.toArray(new Term[0]);
+  }
+  
   public Term[] visitAxPara(AxPara axPara)
   {
     return axPara.getZSchText().getZDeclList().toArray(new Term[0]);

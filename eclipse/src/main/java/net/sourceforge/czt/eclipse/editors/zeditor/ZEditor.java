@@ -369,11 +369,8 @@ public class ZEditor extends TextEditor
   /** Preference key for matching brackets color */
   protected final static String MATCHING_BRACKETS_COLOR = PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
 
-  protected final static char[] BRACKETS = {'{', '}', '(', ')', '[', ']', '<',
-      '>'};
-
   /** The editor's bracket matcher */
-  protected ZPairMatcher fBracketMatcher = new ZPairMatcher(BRACKETS);
+  protected ZPairMatcher fBracketMatcher;
 
   /**
    * Mutex for the reconciler. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=63898
@@ -467,12 +464,20 @@ public class ZEditor extends TextEditor
   protected void configureSourceViewerDecorationSupport(
       SourceViewerDecorationSupport support)
   {
+    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
     //      fBracketMatcher.setSourceVersion(getPreferenceStore().getString(JavaCore.COMPILER_SOURCE));
+    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
+      fBracketMatcher = new ZPairMatcher(ZCharacter.BRACKETS_LATEX);
+    }
+    else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
+        || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType()))
+      fBracketMatcher = new ZPairMatcher(ZCharacter.BRACKETS_UNICODE);
     support.setCharacterPairMatcher(fBracketMatcher);
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
 
     super.configureSourceViewerDecorationSupport(support);
+    System.out.println("ZEditor.configureSourceViewerDecorationSupport finishes");
   }
 
   /**
@@ -856,7 +861,7 @@ public class ZEditor extends TextEditor
         IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 
         try {
-          partition = extension3.getPartition(CZTPlugin.Z_PARTITIONING, offset,
+          partition = extension3.getPartition(IZPartitions.Z_PARTITIONING, offset,
               false);
         } catch (BadPartitioningException be) {
           this.resetHighlightRange();
@@ -1553,9 +1558,9 @@ public class ZEditor extends TextEditor
   /**
    * Jumps to the matching bracket.
    */
+  /*
   public void gotoMatchingBracket()
   {
-
     ISourceViewer sourceViewer = getSourceViewer();
     IDocument document = sourceViewer.getDocument();
     if (document == null)
@@ -1620,7 +1625,7 @@ public class ZEditor extends TextEditor
     sourceViewer.setSelectedRange(targetOffset, selection.getLength());
     sourceViewer.revealRange(targetOffset, selection.getLength());
   }
-
+*/
   /**
    * Returns the signed current selection.
    * The length will be negative if the resulting selection
@@ -1632,6 +1637,7 @@ public class ZEditor extends TextEditor
    * @param sourceViewer the source viewer
    * @return a region denoting the current signed selection, for a resulting RtoL selections length is < 0
    */
+  /*
   protected IRegion getSignedSelection(ISourceViewer sourceViewer)
   {
     StyledText text = sourceViewer.getTextWidget();
@@ -1649,9 +1655,18 @@ public class ZEditor extends TextEditor
 
   private static boolean isBracket(char character)
   {
-    for (int i = 0; i != BRACKETS.length; ++i)
-      if (character == BRACKETS[i])
-        return true;
+    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
+      for (int i = 0; i != BRACKETS.length; ++i)
+        if (character == BRACKETS[i])
+          return true;
+    }
+    else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())
+        || IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
+      for (int i = 0; i != BRACKETS.length; ++i)
+        if (character == BRACKETS[i])
+          return true;
+    }
+    
     return false;
   }
 
@@ -1668,5 +1683,5 @@ public class ZEditor extends TextEditor
       return false;
     }
   }
-
+*/
 }

@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.eclipse.editors;
 
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
@@ -8,9 +9,12 @@ import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.BadPartitioningException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.rules.IPartitionTokenScanner;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
@@ -34,7 +38,7 @@ public class CZTTextTools
   /**
    * Array with legal latex content types.
    */
-  private final static String[] LEGAL_CONTENT_TYPES_LATEX = new String[]{
+  private static final String[] LEGAL_CONTENT_TYPES_LATEX = new String[]{
       IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR,
       IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION,
       IZPartitions.Z_PARAGRAPH_LATEX_ZED,
@@ -45,7 +49,7 @@ public class CZTTextTools
   /**
    * Array with legal unicode content types.
    */
-  private final static String[] LEGAL_CONTENT_TYPES_UNICODE = new String[]{
+  private static final String[] LEGAL_CONTENT_TYPES_UNICODE = new String[]{
       IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
       IZPartitions.Z_PARAGRAPH_UNICODE_ZED,
       IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
@@ -332,5 +336,50 @@ public class CZTTextTools
   protected Preferences getCorePreferenceStore()
   {
     return fCorePreferenceStore;
+  }
+  
+  public ITypedRegion getPartition(IDocument document, int offset, String partitioning) {
+    if (document == null || offset < 0)
+      return null;
+    
+    ITypedRegion partition = null;
+    
+    try {
+      if (document instanceof IDocumentExtension3) {
+        IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+        try {
+          partition = extension3.getPartition(partitioning, offset,
+              false);
+        } catch (BadPartitioningException be) {
+          partition = null;
+        }
+      }
+      else
+        partition = document.getPartition(offset);
+    } catch (BadLocationException ble) {
+      partition = null;
+    }
+    
+    return partition;
+  }
+  
+  public ITypedRegion[] getPartitions(IDocument document, String partitioning) {
+    ITypedRegion[] partitions = null;
+    try {
+      if (document instanceof IDocumentExtension3) {
+        IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+        partitions = extension3.computePartitioning(partitioning,
+            0, document.getLength(), false);
+      }
+      else {
+        partitions = document.computePartitioning(0, document.getLength());
+      }
+    } catch (BadLocationException ble) {
+      partitions = null;
+    } catch (BadPartitioningException bpe) {
+      partitions = null;
+    }
+    
+    return partitions;
   }
 }

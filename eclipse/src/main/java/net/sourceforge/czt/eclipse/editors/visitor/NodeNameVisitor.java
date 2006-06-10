@@ -151,7 +151,7 @@ public class NodeNameVisitor
 
   public String visitZDeclName(ZDeclName zDeclName)
   {
-    return zDeclName.toString();
+    return zDeclName.accept(new PrintVisitor());
   }
 
   public String visitRefExpr(RefExpr refExpr)

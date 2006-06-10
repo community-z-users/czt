@@ -10,6 +10,9 @@ package net.sourceforge.czt.eclipse.editors;
  */
 public class ZCharacter
 {
+  
+  public final static char[] BRACKETS_LATEX = { '(', ')', '[', ']', '{', '}' };
+  public final static char[] BRACKETS_UNICODE = { '\u0028', '\u0029', '\u005B', '\u005D', '\u007B', '\u007D', '\u2989', '\u298A', '\u300A', '\u300B', '\u2987', '\u2988', '\u27E8', '\u27E9' }; 
 
   /**
    * 
@@ -43,7 +46,7 @@ public class ZCharacter
   public static boolean isZLatexWordPart(char character)
   {
     return Character.isLetterOrDigit(character) || (character == '_')
-        || (character == '?') || (character == '!') || (character == '\\');
+        || (character == '?') || (character == '!');
   }
 
   public static boolean isZUnicodeWordPart(char character)
