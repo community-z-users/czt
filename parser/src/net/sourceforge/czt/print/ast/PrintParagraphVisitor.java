@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,8 +21,8 @@ package net.sourceforge.czt.print.ast;
 
 import net.sourceforge.czt.util.Visitor;
 
-public interface PrintParagraphVisitor
-  extends Visitor
+public interface PrintParagraphVisitor<R>
+  extends Visitor<R>
 {
-  Object visitPrintParagraph(PrintParagraph printParagraph);
+  R visitPrintParagraph(PrintParagraph printParagraph);
 }
