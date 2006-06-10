@@ -76,13 +76,13 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class AstToPrintTreeVisitor
-  implements TermVisitor,
-             AndPredVisitor,
-             ApplExprVisitor,
-             AxParaVisitor,
-             MemPredVisitor,
-             RefExprVisitor,
-             ZSectVisitor
+  implements TermVisitor<Term>,
+             AndPredVisitor<Term>,
+             ApplExprVisitor<Term>,
+             AxParaVisitor<Term>,
+             MemPredVisitor<Term>,
+             RefExprVisitor<Term>,
+             ZSectVisitor<Term>
 {
   private ZFactory factory_ = new ZFactoryImpl();
   private PrintFactory printFactory_ = new PrintFactory();
@@ -160,12 +160,12 @@ public class AstToPrintTreeVisitor
    * created that contains the new children.  A child that has not
    * changed is shared between the new and the old AST.
    */
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public Object visitAndPred(AndPred andPred)
+  public Term visitAndPred(AndPred andPred)
   {
     List list = new ArrayList();
     if (And.Wedge.equals(andPred.getAnd())) {
@@ -218,7 +218,7 @@ public class AstToPrintTreeVisitor
    * expression with Mixfix set to <code>false</code>) into an
    * Application.
    */
-  public Object visitApplExpr(ApplExpr applExpr)
+  public Term visitApplExpr(ApplExpr applExpr)
   {
     final boolean isFunctionApplication =
       applExpr.getMixfix().booleanValue();
@@ -264,7 +264,7 @@ public class AstToPrintTreeVisitor
     return pp;
   }
 
-  public Object visitAxPara(AxPara axPara)
+  public Term visitAxPara(AxPara axPara)
   {
     List list = new ArrayList();
     Box box = axPara.getBox();
@@ -275,9 +275,11 @@ public class AstToPrintTreeVisitor
       else {
         list.add(TokenName.GENAX);
         list.add(TokenName.LSQUARE);
-        for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
-          list.add(visit(iter.next()));
-          if (iter.hasNext()) list.add(ZString.COMMA);
+        boolean first = true;
+        for (DeclName declName : axPara.getDeclName()) {
+          if (first) first = false;
+          else list.add(ZString.COMMA);
+          list.add(visit(declName));
         }
         list.add(TokenName.RSQUARE);
       }
@@ -314,7 +316,8 @@ public class AstToPrintTreeVisitor
           list.add(visit(declName));
           if (declNameList.size() > 0) {
             list.add(TokenName.LSQUARE);
-            for (Iterator iter = declNameList.iterator(); iter.hasNext();) {
+            for (Iterator<DeclName> iter = declNameList.iterator();
+                 iter.hasNext();) {
               list.add(visit(iter.next()));
               if (iter.hasNext()) list.add(ZString.COMMA);
             }
@@ -362,10 +365,11 @@ public class AstToPrintTreeVisitor
     ConstDecl cdecl = (ConstDecl) decls.get(0);
     String declName = cdecl.getZDeclName().getWord();
     if (declName == null) throw new CztException();
-    list.add(visit(declName));
+    list.add(declName);
     if (isGeneric(axPara)) {
       list.add(TokenName.LSQUARE);
-      for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
+      for (Iterator<DeclName> iter = axPara.getDeclName().iterator();
+           iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.COMMA);
       }
@@ -395,7 +399,7 @@ public class AstToPrintTreeVisitor
     return ! axPara.getDeclName().isEmpty();
   }
 
-  public Object visitMemPred(MemPred memPred)
+  public Term visitMemPred(MemPred memPred)
   {
     final Precedence precedence = memPred.accept(new PrecedenceVisitor());
     Expr firstExpr = (Expr) visit(memPred.getLeftExpr());
@@ -449,7 +453,7 @@ public class AstToPrintTreeVisitor
    * reference expression with Mixfix set to <code>true</code> into an
    * OperatorApplication.
    */
-  public Object visitRefExpr(RefExpr refExpr)
+  public Term visitRefExpr(RefExpr refExpr)
   {
     final boolean isGenericOperatorApplication =
       refExpr.getMixfix().booleanValue();
@@ -470,7 +474,7 @@ public class AstToPrintTreeVisitor
   /**
    * Sets up the operator table for this Z section.
    */
-  public Object visitZSect(ZSect zSect)
+  public Term visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
     try {
@@ -483,8 +487,7 @@ public class AstToPrintTreeVisitor
     }
     if (opTable_ == null) {
       List parentOpTables = new ArrayList();
-      for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-        Parent parent = (Parent) iter.next();
+      for (Parent parent : zSect.getParent()) {
         OpTable parentOpTable = getOpTable(parent.getWord());
         if (parentOpTable != null) {
           parentOpTables.add(parentOpTable);
@@ -562,12 +565,9 @@ public class AstToPrintTreeVisitor
                                                    assoc);
   }
 
-  protected Object visit(Object object)
+  protected Term visit(Term term)
   {
-    if (object instanceof Term) {
-      return ((Term) object).accept(this);
-    }
-    return object;
+    return term.accept(this);
   }
 
   public static class CannotPrintAstException

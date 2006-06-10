@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2004, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.oz;
 
 import java.util.List;
 
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -31,7 +32,7 @@ import net.sourceforge.czt.oz.visitor.*;
  */
 public class AstToPrintTreeVisitor
   extends net.sourceforge.czt.print.z.AstToPrintTreeVisitor
-  implements ClassParaVisitor
+  implements ClassParaVisitor<Term>
 
 {
   /**
@@ -44,7 +45,7 @@ public class AstToPrintTreeVisitor
     super(sectInfo);
   }
 
-  public Object visitClassPara(ClassPara classPara)
+  public Term visitClassPara(ClassPara classPara)
   {
     //don't visit inner AxPara paragraphs
     List<Para> paras = classPara.getLocalDef();
