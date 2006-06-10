@@ -218,68 +218,8 @@ public class PrecedenceParenAnnVisitor
     term.getAnns().add(factory_.createParenAnn());
   }
 
-  public Precedence precedence(Term t)
+  public Precedence precedence(Term term)
   {
-    if (t instanceof PrintPredicate) {
-      return ((PrintPredicate) t).getPrecedence();
-    }
-    if      (t instanceof ThetaExpr)         return new Precedence(250);
-
-    else if (t instanceof BindSelExpr ||
-             t instanceof TupleSelExpr)      return new Precedence(240);
-
-    else if (t instanceof RenameExpr)        return new Precedence(230);
-
-    else if (t instanceof DecorExpr)         return new Precedence(220);
-
-    else if (t instanceof Application)       return new Precedence(210);
-    else if (t instanceof OperatorApplication) {
-      OperatorApplication appl = (OperatorApplication) t;
-                                             return appl.getPrecedence();
-    }
-    else if (t instanceof PowerExpr)         return new Precedence(190);
-
-    else if (t instanceof ProdExpr)          return new Precedence(180, 8);
-
-    else if (t instanceof PreExpr)           return new Precedence(170);
-
-    else if (t instanceof ProjExpr)          return new Precedence(160);
-
-    else if (t instanceof HideExpr)          return new Precedence(150);
-
-    else if (t instanceof PipeExpr)          return new Precedence(140);
-
-    else if (t instanceof CompExpr)          return new Precedence(130);
-
-    else if (t instanceof CondExpr)          return new Precedence(120);
-
-    else if (t instanceof LetExpr)           return new Precedence(110);
-
-    else if (t instanceof MuExpr)            return new Precedence(100);
-
-    else if (t instanceof LambdaExpr)        return new Precedence( 90);
-
-    else if (t instanceof NegPred ||
-             t instanceof NegExpr)           return new Precedence( 70);
-
-    else if (t instanceof AndExpr)           return new Precedence( 60);
-
-    else if (t instanceof OrPred ||
-             t instanceof OrExpr)            return new Precedence( 50);
-
-    else if (t instanceof ImpliesPred ||
-             t instanceof ImpliesExpr)       return new Precedence( 40);
-
-    else if (t instanceof IffPred ||
-             t instanceof IffExpr)           return new Precedence( 30);
-
-    else if (t instanceof ForallPred ||
-             t instanceof ExistsPred ||
-             t instanceof Exists1Pred ||
-             t instanceof ForallExpr ||
-             t instanceof ExistsExpr ||
-             t instanceof Exists1Expr)       return new Precedence( 20);
-
-    return null;
+    return term.accept(new PrecedenceVisitor());
   }
 }
