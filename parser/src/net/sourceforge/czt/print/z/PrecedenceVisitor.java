@@ -300,7 +300,8 @@ public class PrecedenceVisitor
 
   protected Precedence getPrecedence(OperatorName opName)
   {
-    if (isInfix(opName)) {
+    if (opName == null) return null;
+    if (opName.isInfix()) {
       OpTable.OpInfo opInfo = opTable_.lookup(opName);
       if (opInfo != null) {
         if (opInfo.getPrec() == null) {
@@ -317,33 +318,15 @@ public class PrecedenceVisitor
         reportError(message);
       }
     }
-    else if (isPostfix(opName)) {
+    else if (opName.isPostfix()) {
       final int prec = 200;
       return Precedence.precedence(prec);
     }
-    else if (isPrefix(opName)) {
+    else if (opName.isPrefix()) {
       final int prec = 190;
       return Precedence.precedence(prec);
     }
     return null;
-  }
-
-  protected boolean isPostfix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.POSTFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isPrefix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.PREFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isInfix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
   }
 
   protected void reportError(String message)

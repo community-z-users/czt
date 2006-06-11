@@ -219,6 +219,21 @@ public class OperatorName
     }
   }
 
+  public boolean isPostfix()
+  {
+    return Fixity.POSTFIX.equals(getFixity());
+  }
+
+  public boolean isPrefix()
+  {
+    return Fixity.PREFIX.equals(getFixity());
+  }
+
+  public boolean isInfix()
+  {
+    return Fixity.INFIX.equals(getFixity());
+  }
+
   public String[] getWords()
   {
     return list_.toArray(new String[0]);
