@@ -1970,7 +1970,7 @@
           <xs:element name="GenActuals" type="Z:ExprList"/>
           <xs:element name="ChanFields" type="CIRCUS:CircusFieldList"/>
         </xs:sequence>
-        <xs:attribute name="CommType" type="CIRCUS:CommType" use="optional" default="Synch"/>
+        <xs:attribute name="CommKind" type="CIRCUS:CommKind" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
       </xs:extension>
     </xs:complexContent>
@@ -1982,7 +1982,7 @@
       Output= !getFields().isEmpty() && forall getField().get(i) instanceof OutputField || getField().get(i) instanceof DotField
       Mixed = !getFields().isEmpty() && there are more than one class: InputField, (OutputField/DotField).
   -->
-  <xs:simpleType name="CommType">
+  <xs:simpleType name="CommKind">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Synch"/>
       <xs:enumeration value="Input"/>
