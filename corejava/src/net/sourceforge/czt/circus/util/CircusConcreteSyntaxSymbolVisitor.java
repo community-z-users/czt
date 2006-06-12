@@ -18,7 +18,7 @@ import net.sourceforge.czt.z.util.StandardZ;
 
 /**
  * This visitor classifies a given AST node as a concrete syntax
- * symbol {@link ConcreteSyntaxSymbol}.  This can be used by the JEdit and
+ * symbol {@link CircusConcreteSyntaxSymbol}.  This can be used by the JEdit and
  * Eclipse plugins to produce an outline view (or structure tree) of
  * the source.
  *

@@ -14,7 +14,7 @@ package net.sourceforge.czt.circus.util;
  * These are based on the concrete syntax productions in
  * Circus, 
  * <p>
- * The {@link ConcreteSyntaxSymbolVisitor} in this package can be
+ * The {@link CircusConcreteSyntaxSymbolVisitor} in this package can be
  * used to classify most kinds of AST nodes as one of these 
  * symbols.
  * </p>
