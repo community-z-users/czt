@@ -34,6 +34,8 @@ import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.Command;
 import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -98,20 +100,12 @@ public class SpecialLatexParser {
         sm.setProperty("czt.path", "D:\\research\\tools\\java\\sourceforge\\czt\\0.4.1\\parser\\lib");
     }
     
-    public SpecialLatexParser(Reader in, SectionInfo sectInfo, Properties properties) {
-        scanner_ = new LatexScanner(in, sectInfo, properties);
-        parser_ = new Parser(scanner_, sectInfo);
-    }
-    
-    public SpecialLatexParser(Reader in,
-            String filename,
-            SectionInfo sectInfo,
-            Properties properties) {
-        scanner_ = new LatexScanner(in, sectInfo, properties);
-        scanner_.setSource(filename);
-        parser_ = new Parser(scanner_, filename, sectInfo);
-    }
-    
+    public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
+        throws IOException {
+        scanner_ = new LatexScanner(s, sectInfo, properties);
+        parser_ = new Parser(scanner_, s, sectInfo);
+    }    
+
     /**
      * Parses a file using the latex parser.
      *
@@ -121,11 +115,11 @@ public class SpecialLatexParser {
      */
     public static Term parseLatexFile(String filename,
             SectionInfo sectInfo)
-            throws ParseException, FileNotFoundException {
+            throws ParseException, FileNotFoundException, IOException {
         logger.fine("Parse LaTex file " + filename);
         Reader in = new InputStreamReader(new FileInputStream(filename));
-        SpecialLatexParser parser = new SpecialLatexParser(in,
-                filename,
+        SpecialLatexParser parser = new SpecialLatexParser(new FileSource(filename),//in,
+                //filename,
                 sectInfo,
                 new Properties());
         return parser.parse();
@@ -146,8 +140,8 @@ public class SpecialLatexParser {
                         Term term = parseLatexFile(filename, sm);
                         if (term != null) {
                             System.out.println("Parser ok");
-                            ZSect zs = (ZSect)((Spec)term).getSect().get(1);                            
-                            for(Para pa: zs.getPara()) {                     
+                            ZSect zs = (ZSect)((Spec)term).getSect().get(1);                                                        
+                            for(Para pa: ((ZParaList)zs.getParaList())) {                     
                                 if (pa instanceof ProcessPara) {
                                     System.out.print("Annotations for " + ((ProcessPara)pa).getProcessName());
                                     System.out.println(": " + ((ProcessPara)pa).getCircusProcess().getAnns().toString());
