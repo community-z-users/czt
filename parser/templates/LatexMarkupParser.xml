@@ -298,21 +298,12 @@ public class <class/>
             c1IsLetterOrDigit &amp;&amp; c2IsLetterOrDigit &amp;&amp; 
               ! c1IsDeltaOrXi;
           if (cond) {
-            try {
-              ParseException parseException = (ParseException)
-                sectInfo_.get(new Key(getSource().getName(),
-                                      ParseException.class));
-              List&lt;CztError&gt; errorList = parseException.getErrors();
-              ZParseError error =
-                new ZParseError(ZParseMessage.MSG_POSSIBLE_MISSING_SPACE,
-                                new Object[0],
-                                t2.getLocation());
-              error.setErrorType(ErrorType.WARNING);
-              errorList.add(error);
-            }
-            catch (CommandException e) {
-              System.err.println(e.getMessage());
-            }
+            ZParseError.report(sectInfo_,
+                               getSource(),
+                               ErrorType.WARNING,
+                               ZParseMessage.MSG_POSSIBLE_MISSING_SPACE,
+                               new Object[0],
+                               t2.getLocation());
           }
         }
       }

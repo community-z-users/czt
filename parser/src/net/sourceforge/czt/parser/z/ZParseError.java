@@ -19,8 +19,14 @@
 
 package net.sourceforge.czt.parser.z;
 
+import java.util.List;
+
 import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorImpl;
+import net.sourceforge.czt.parser.util.ErrorType;
+import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.session.*;
 
 /**
  * A Z parse error.
@@ -32,6 +38,27 @@ public class ZParseError
 {
   private static String RESOURCE_NAME =
     "net.sourceforge.czt.parser.z.ZParseResourceBundle";
+
+  public static void report(SectionInfo sectInfo,
+                            Source source,
+                            ErrorType errorType,
+                            ZParseMessage msg,
+                            Object[] params,
+                            LocInfo locInfo)
+  {
+    try {
+      ParseException parseException = (ParseException)
+        sectInfo.get(new Key(source.getName(),
+                             ParseException.class));
+      List<CztError> errorList = parseException.getErrors();
+      ZParseError error = new ZParseError(msg, params, locInfo);
+      error.setErrorType(errorType);
+      errorList.add(error);
+    }
+    catch (CommandException e) {
+      e.printStackTrace();
+    }
+  }
 
   public ZParseError(ZParseMessage msg, Object[] params, LocInfo locInfo)
   {

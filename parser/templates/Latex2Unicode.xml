@@ -24,6 +24,7 @@ package <package/>;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -31,32 +32,33 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.parser.util.*;
-
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
 <add:tcoz>
 import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
-
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
-
-import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.util.ZString;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:zpatt>
-import net.sourceforge.czt.parser.util.LatexCommand;
+
+import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.LocToken;
+import net.sourceforge.czt.parser.util.LocTokenImpl;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.parser.util.ScanException;
+import net.sourceforge.czt.parser.z.ZParseError;
 import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * &lt;p&gt;
@@ -172,6 +174,8 @@ import net.sourceforge.czt.session.*;
    */
   private Source source_ = null;
 
+  private SectionInfo sectInfo_;
+
   private Properties properties_;
 
   /**
@@ -188,11 +192,12 @@ import net.sourceforge.czt.session.*;
   /**
    * Creates a new scanner for the source.
    */
-  public <class/>(Source source, Properties properties)
+  public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
     this(source.getReader());
     source_ = source;
+    sectInfo_ = sectInfo;
     properties_ = properties;
   }
 
@@ -204,6 +209,13 @@ import net.sourceforge.czt.session.*;
   private String getLoc()
   {
     return source_.toString();
+  }
+
+  private LocInfo getLocation()
+  {
+    return new LocInfoImpl(getLoc(),
+                           yyline, yycolumn,
+                           yychar, yytext().length());
   }
 
   private boolean getBooleanProperty(String propertyKey)
@@ -229,10 +241,7 @@ import net.sourceforge.czt.session.*;
   private LocToken result(LatexSym sym, String spelling)
     throws IOException
   {
-    LocInfo location = new LocInfoImpl(getLoc(),
-                                       yyline, yycolumn,
-                                       yychar, yytext().length());
-    return new LocTokenImpl(sym, spelling, location);
+    return new LocTokenImpl(sym, spelling, getLocation());
   }
 
   /**
@@ -331,51 +340,30 @@ import net.sourceforge.czt.session.*;
     return result;
   }
 
-  private void reportWarning(ZParseMessage msg,
-                             String arg0,
-                             String source,
-                             int line,
-                             int column)
+  private void reportError(ErrorType type, ZParseMessage msg, String arg0)
   {
-    final LocInfo locInfo = new LocInfoImpl(source, line, column);
+    final Level level =
+      ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
+    final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo, };
-    LOGGER.logrb(Level.WARNING,
+    LOGGER.logrb(level,
                  getClass().toString(),
                  "",
                  RESOURCE_NAME,
                  msg.toString(),
                  args);
+    ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo);
   }
 
-  private void reportError(ZParseMessage msg,
-                           String arg0,
-                           String source,
-                           int line,
-                           int column)
+  private void reportUnknownLatexCommand(String command)
   {
-    final LocInfo locInfo = new LocInfoImpl(source, line, column);
-    final Object[] args = { arg0, locInfo, };
-    LOGGER.logrb(Level.SEVERE,
-                 getClass().toString(),
-                 "",
-                 RESOURCE_NAME,
-                 msg.toString(),
-                 args);
-  }
-
-  private void reportUnknownLatexCommand(String command,
-                                         String source,
-                                         int line,
-                                         int column)
-  {
+    ErrorType errorType = ErrorType.ERROR;
     if (getBooleanProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)) {
-      reportWarning(ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
-                    command, source, line, column);
+      errorType = ErrorType.WARNING;
     }
-    else {
-      reportError(ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
-                  command, source, line, column);
-    }
+    reportError(errorType,
+                ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
+                command);
   }
 
   private void begin(String name)
@@ -383,17 +371,19 @@ import net.sourceforge.czt.session.*;
     openBeginCommands_.push(name);
   }
 
-  private void end(String name, int line, int column)
+  private void end(String name)
   {
     if (openBeginCommands_.empty()) {
-      reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
-                  name, getLoc(), line, column);
+      reportError(ErrorType.ERROR,
+                  ZParseMessage.MSG_UNMATCHED_BEGIN_END,
+                  name);
     }
     else {
       String openCommand = openBeginCommands_.pop();
       if (! name.equals(openCommand)) {
-        reportError(ZParseMessage.MSG_UNMATCHED_BEGIN_END,
-                    openCommand, getLoc(), line, column);
+        reportError(ErrorType.ERROR,
+                    ZParseMessage.MSG_UNMATCHED_BEGIN_END,
+                    openCommand);
       }
     }
   }
@@ -676,7 +666,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{axdef}"
         {
-          end("axdef", yyline, yycolumn);
+          end("axdef");
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -689,7 +679,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{gendef}"
         {
-          end("gendef", yyline, yycolumn);
+          end("gendef");
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -702,7 +692,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{schema}"
         {
-          end("schema", yyline, yycolumn);
+          end("schema");
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -715,7 +705,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{zed}"
         {
-          end("zed", yyline, yycolumn);
+          end("zed");
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -728,7 +718,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{zsection}"
         {
-          end("zsection", yyline, yycolumn);
+          end("zsection");
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -742,14 +732,14 @@ NAME =   {NOT_LB}*
 <add:zpatt>
   "\\end" {IGNORE}* "{zedjoker}"
         {
-          end("zedjoker", yyline, yycolumn);
+          end("zedjoker");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{zedrule}"
         {
-          end("zedrule", yyline, yycolumn);
+          end("zedrule");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
@@ -758,7 +748,7 @@ NAME =   {NOT_LB}*
 <add:circus>
   "\\end" {IGNORE}* "{circus}"
         {
-          end("circus", yyline, yycolumn);
+          end("circus");
              yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
@@ -820,7 +810,7 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* "{class}"
         {
-          end("class", yyline, yycolumn);
+          end("class");
           yybegin(YYINITIAL);
           nested_ = false;
           String result = addSpace();
@@ -828,19 +818,19 @@ NAME =   {NOT_LB}*
         }
   "\\end" {IGNORE}* ("{state}" | "{anonschema}")
         {
-          end("state", yyline, yycolumn);
+          end("state");
           String result = addSpace();
           return result(result + ZString.END);
         }
   "\\end" {IGNORE}* "{init}"
         {
-          end("init", yyline, yycolumn);
+          end("init");
           String result = addSpace();
           return result(result + ZString.END);
         }
   "\\end" {IGNORE}* "{op}"
         {
-          end("op", yyline, yycolumn);
+          end("op");
           String result = addSpace();
           return result(result + ZString.END);
         }
@@ -912,7 +902,7 @@ NAME =   {NOT_LB}*
           if (zstring != null) {
             result += zstring;
           } else {
-            reportUnknownLatexCommand(command, getLoc(), yyline, yycolumn);
+            reportUnknownLatexCommand(command);
             result += command.substring(1);
           }
           result += endScript(script);
@@ -968,7 +958,7 @@ NAME =   {NOT_LB}*
             result += zstring;
           }
           else {
-            reportUnknownLatexCommand(yytext(), getLoc(), yyline, yycolumn);
+            reportUnknownLatexCommand(yytext());
             if (spaces) result += ZString.SPACE;
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
@@ -985,8 +975,8 @@ NAME =   {NOT_LB}*
         {
           String result = "";
           if (braceStack_.empty()) {
-            reportError(ZParseMessage.MSG_UNMATCHED_BRACES,
-                        "}", getLoc(), yyline, yycolumn);
+            final ErrorType errorType = ErrorType.ERROR;
+            reportError(errorType, ZParseMessage.MSG_UNMATCHED_BRACES, "}");
             return result(result);
           }
           BraceType brace = (BraceType) braceStack_.pop();
@@ -1052,8 +1042,9 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
-                      yytext(), getLoc(), yyline, yycolumn);
+          reportError(ErrorType.ERROR,
+                      ZParseMessage.MSG_UNEXPECTED_TOKEN,
+                      yytext());
         }
 }
 
@@ -1072,7 +1063,7 @@ NAME =   {NOT_LB}*
 &lt;CLASSCOM&gt; {
   "\\end" {IGNORE}* "{classcom}"
        {
-         end("classcom", yyline, yycolumn);
+         end("classcom");
          yybegin(ZED);
          //return result(OzString.ENDCLASSCOM);
        }  
@@ -1121,8 +1112,9 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          reportError(ZParseMessage.MSG_UNEXPECTED_TOKEN,
-                      yytext(), getLoc(), yyline, yycolumn);
+          reportError(ErrorType.ERROR,
+                      ZParseMessage.MSG_UNEXPECTED_TOKEN,
+                      yytext());
         }
 }
 </scanner>

@@ -60,7 +60,7 @@ public class <class/>
   public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
-    Latex2Unicode l2u = new Latex2Unicode(source, properties);
+    Latex2Unicode l2u = new Latex2Unicode(source, sectInfo, properties);
     lexer_ = new LatexMarkupParser(l2u, sectInfo);
   }
 
