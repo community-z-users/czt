@@ -500,11 +500,6 @@ public class ConcreteSyntaxSymbolVisitor
     return null;
   }
 
-  public ConcreteSyntaxSymbol visitTypeEnvAnn(TypeEnvAnn term)
-  {
-    return null;
-  }
-
   public ConcreteSyntaxSymbol visitUnparsedPara(UnparsedPara term)
   {
     return ConcreteSyntaxSymbol.UNPARSED_PARA;

@@ -77,12 +77,6 @@ public class TypeEnv
     parameters_.pop();
   }
 
-  public TypeEnvAnn getTypeEnvAnn()
-  {
-    List<NameTypePair> pairs = getNameTypePairs();
-    return factory_.createTypeEnvAnn(pairs);
-  }
-
   public void addParameters(List<DeclName> paramNames)
   {
     for (DeclName paramName : paramNames) {

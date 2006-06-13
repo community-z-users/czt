@@ -80,7 +80,7 @@ public class Factory
     return result;
   }
 
-  //copy the LocAnn and TypeEnvAnn from term1 to term2
+  //copy the LocAnn and UndeclaredAnn from term1 to term2
   public static void copyAnns(Term term1, Term term2)
   {
     LocAnn locAnn = (LocAnn) term1.getAnn(LocAnn.class);
@@ -252,11 +252,6 @@ public class Factory
     SignatureAnn signatureAnn = factory_.createSignatureAnn(signature);
     SignatureAnn result = new SignatureAnnImpl(signatureAnn);
     return result;
-  }
-
-  public TypeEnvAnn createTypeEnvAnn(List<NameTypePair> pairs)
-  {
-    return factory_.createTypeEnvAnn(pairs);
   }
 
   public SectTypeEnvAnn createSectTypeEnvAnn(List<NameSectTypeTriple> triples)

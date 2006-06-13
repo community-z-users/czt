@@ -103,6 +103,9 @@
           <br/>
           Removed element and type NameExprPair since it is not used any more.
           <br/>
+          Removed element and type TypeEnvAnn since it is not used.  Use
+          Signature instead.
+          <br/>
           Rename NameNamePair as NewOldPair and use Z ordering of the names.
           <br/>
           Rename Number as Digit to distinguish it from Numeral.
