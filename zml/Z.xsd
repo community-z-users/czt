@@ -383,7 +383,14 @@ more detail.
     </xs:annotation>
   </xs:element>
   <xs:element name="SchExpr2" type="Z:SchExpr2"
-    abstract="true" substitutionGroup="Z:Expr2"/>
+    abstract="true" substitutionGroup="Z:Expr2">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract binary schema expression.
+        The type of both arguments is a set of bindings.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="Expr0N" type="Z:Expr0N"
     abstract="true" substitutionGroup="Z:Expr">
     <xs:annotation>
@@ -822,7 +829,13 @@ more detail.
     </xs:annotation>
   </xs:element>
   <xs:element name="Fact" type="Z:Fact" abstract="true"
-    substitutionGroup="Z:Pred"/>
+    substitutionGroup="Z:Pred">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract superclass for constant true/false facts.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="Pred2" type="Z:Pred2" abstract="true"
     substitutionGroup="Z:Pred">
     <xs:annotation>
