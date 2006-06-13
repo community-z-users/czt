@@ -2,7 +2,7 @@
   CallAction createCallAction(RefName name);
   
   /** Creates a parameterless call process with empty generic actuals. This is a convenience method */
-  CallProcess createCallProcess(RefName name, CallType ctype);
+  CallProcess createCallProcess(RefName name);
   
   /** Creates an empty BasicNameSet. This is a convenience method */
   NameSet createEmptyNameSet();

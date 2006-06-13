@@ -372,7 +372,7 @@
     rather than a simple RefName. There are two approaches for the implementation of process/action calls.
     We have taken the first one in order to simplify the implementation of visitor of different tools.
     
-    The first demands specialised CallType attribute on CallProcess, whereas the second introduces specialised classes      
+    The first demands specialised CallKind attribute on CallProcess, whereas the second introduces specialised classes      
     for each special production. For processes, these are actual parameters, indexes, and actual types. For action 
     these are actual parameters, and command parameters.
     
@@ -400,7 +400,7 @@
         An empty list of generic actuals means that refering process is not generic.
         An empty list of expressions means a simple process call of the grammar rules <b>N, N[Expr+]</b>,
         where <b>N</b> is the process name.
-        If the list of expressions is not empty, then the <code>CallType</code> attribute defines if this is an indexed 
+        If the list of expressions is not empty, then the <code>CallKind</code> attribute defines if this is an indexed 
         process instantiation call, a parameterised process call.
         It represents the grammar rules: <b>N(Expr+), N lfloor Expr+ rfloor</b>
         </p>
@@ -417,7 +417,7 @@
                          The call type defines whether the expressions are actual parameters or indexes.</li>          
         </ul>
         The case for parameterised and indexed process is not present in the grammar. 
-        The default value of CallType is <b>Param</b> and need to be inspected only for the case where the 
+        The default value of CallKind is <b>Param</b> and need to be inspected only for the case where the 
         second expression list demands attention.
         </p>
       </xs:documentation>
@@ -1523,11 +1523,11 @@
           <xs:element name="GenActuals" type="Z:ExprList"/>
           <xs:element name="Actuals" type="Z:ExprList"/>          
         </xs:sequence>
-        <xs:attribute name="CallType" type="CIRCUS:CallType" use="optional" default="Param"/>
+        <xs:attribute name="CallKind" type="CIRCUS:CallKind" use="optional" default="Param"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>  
-  <xs:simpleType name="CallType">
+  <xs:simpleType name="CallKind">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Param"/>
       <xs:enumeration value="Index"/>
