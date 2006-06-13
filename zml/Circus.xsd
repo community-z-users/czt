@@ -1476,24 +1476,26 @@
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
           <!-- 
-            Reference to a previously declared schema name; must enforce that the schema name is within the Z:Para or ActionPara 
-            Originally we had here a Z:RefName pointing to a previously declared schema name. Although that is usually 
-            the case, it is also possible to have a Schema expression, such as conjunction, as the state schema!
-            Therefore, we need to have a Z:Expr instead. For the usual cases, the Z:Expr will be a Z:RefExpr.          
-          
-            TODO: NORMALISE THE paragraph below whenever the parser handles this properly.
-            From the parsing rules, we reached a convention that is as follows:
-                    State schemas can be defined using AxPara (Schema), Horizontal def (Schema) or on-the-fly with a Schema expression
-                    such as S \land T. For the first two cases, we already have a declared "name" to refer to whereas for the last case
-                    "ex: \circstate\ S \land T", we translate the on-the-fly description to the following convention:
-                    "ex: \circstate\ \begin{schema}{[ProcessName]_$$state} S \land T\end{schema}
+            It is simpler to just allow one ZParagraph to be the state.
+            Such paragraph contains a CircusStateAnn annotation on it.
+            The parser allows schemas or abbreviations only.
+            That rules out schema construction  (i.e. on-the-fly schemas),
+            as we need a RefName for the state as well. It also rules out
+            generic schemas (or generic abbreviations), as the geneirc types
+            on schemas must come from the process generic formals.
+            
+            Also, we allo implicit circus state to be declared on the fly,
+            where the default name is "$$defaultSt". That is, we allow
+            Expr production after \circstate\ as well. For example,
+            "\circstate\ S \land T", we translate the on-the-fly description 
+            to the following convention: "\circstate\ $$defaultState == S \land T".
+            
+            The state is always an AxPara with OmitBox setting.
           -->
-          <xs:element name="StateSchema" type="Z:RefName"/>
-          <!-- Shouldn't here be a ParaList -> ZParaList -->
-          <xs:element name="ZPara" type="Z:ParaList"/>            
-          <xs:element name="CircusActionPara" type="Z:ParaList"/>
-          <xs:element name="OnTheFlyActionPara" type="Z:ParaList"/>            
-          <xs:element name="CircusNameSetPara" type="Z:ParaList"/>
+          <xs:element name="StatePara" type="Z:Para"/>          
+          <xs:element name="ZPara" type="Z:ParaList"/>           
+          <!-- On this list we only have ActionPara named "$$implActN" -->
+          <xs:element name="OnTheFlyActionPara" type="Z:ParaList"/>                      
           <xs:element name="MainAction" type="CIRCUS:CircusAction"/>
         </xs:sequence>
       </xs:extension>
@@ -2236,28 +2238,16 @@
               For stateless processes, the typechecker must create an empty signature for the SchemaType.
               Moreover, it must also resolve any pending generic actual from either the schema or the process.
               --> 
-              <xs:element ref="Z:SchemaType">
-                <xs:annotation>
-                  <xs:appinfo>
-                    <jaxb:property name="State"/>
-                  </xs:appinfo>
-                </xs:annotation>
-              </xs:element> 
+              <xs:element name="StateType" type="Z:SchemaType"/>
               <xs:element ref="Z:Signature" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                   <xs:appinfo>
-                    <jaxb:property name="LocalZDeclSignature"/>
+                    <jaxb:property name="ZDeclSignature"/>
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element> 
               <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>                
-              <xs:element ref="Z:ZRefNameList">
-                <xs:annotation>
-                   <xs:appinfo>
-                     <jaxb:property name="NameSet"/>
-                   </xs:appinfo>
-                </xs:annotation>
-              </xs:element>
+              <xs:element name="NameSet" type="Z:ZRefNameList"/>                
           </xs:sequence>
       </xs:extension>
     </xs:complexContent>    
