@@ -105,6 +105,14 @@ action code
        new Stack &lt; Boolean &gt; ();
 </add:oz>
 
+<add:circus>
+    public static final String MAIN_ACTION_NAME = "$$mainAction";
+    private List&lt;ActionPara&gt; implicitlyDeclaredActions_ = new ArrayList&lt;ActionPara&gt;();
+    
+    private DeclName currentProcessName = null;
+    private RefName currentProcessState = null;
+</add:circus>
+
    /** Section information. */
     protected SectionInfo sectInfo_;
 
@@ -831,14 +839,14 @@ action code
 <add:zpatt>
       sectInfo_.put(new Key(sectName, JokerTable.class), jokerTable, dependencies);
 </add:zpatt>
-<add:circus>
+//<add:circus>
 //      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
 //         sect.getName() + ".");
 //      for(Para para : sect.getPara()) {
 //        System.out.println("\t" + para.toString());
 //      }      
 //      System.out.println();
-</add:circus>
+//</add:circus>
       return sect;
     }
 
@@ -1009,7 +1017,7 @@ action code
      * Default number of multisynchronisation occurrences for particular communication pattern.
      * At the moment this feature is still experimental, and may disapear in the future.
      */
-    private final Integer DEFAULT_MULTISYNCH = new Integer(0);
+    private final java.math.BigInteger DEFAULT_MULTISYNCH = java.math.BigInteger.ZERO;
     
     /**
      * Creates an empty (basic) channel set expression
@@ -1077,7 +1085,7 @@ action code
       if (errorIdx == -1) {
         result.getZExprList().addAll(zrl);
       } else {
-        parser.report_error(CircusZParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
+        parser.report_error(CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
                             new Object[] { errorIdx }, getLocation(result));
       }       
       return result;
@@ -1107,7 +1115,7 @@ action code
       } 
       // For set extensions (possibly empty) or comprehension, report an error.
       else if (result instanceof SetExpr || result instanceof SetCompExpr){
-        parser.report_error(CircusZParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
+        parser.report_error(CircusParseMessage.MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET,
                             new Object[0], getLocation(result));
       } 
       return result;
@@ -1120,20 +1128,19 @@ action code
      * &lt;p&gt;       
      * It returns: 
      * &lt;ul&gt;
-     *    &lt;li&gt;&lt;code&gt;CommType.Synch&lt;/code&gt; if the list of fields is empty.
-     *    &lt;li&gt;&lt;code&gt;CommType.Input&lt;/code&gt; if the list of fields is not empty and contain only instances of &lt;code&gt;InputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommType.Output&lt;/code&gt; if the list of fields is not empty and contain instances of either &lt;code&gt;DotField&lt;/code&gt; or &lt;code&gt;OutputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommType.Mixed&lt;/code&gt; if the list of fields is not empty and contain at least one &lt;code&gt;InputField&lt;/code&gt; and either one &lt;code&gt;DotField&lt;/code&gt; or one &lt;code&gt;OutputField&lt;/code&gt;.
-     *    &lt;li&gt;&lt;code&gt;CommType.Mixed&lt;/code&gt; with a parser error if the list of fields is not empty but neither of the above patterns hold.
+     *    &lt;li&gt;&lt;code&gt;CommKind.Synch&lt;/code&gt; if the list of fields is empty.
+     *    &lt;li&gt;&lt;code&gt;CommKind.Input&lt;/code&gt; if the list of fields is not empty and contain only instances of &lt;code&gt;InputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommKind.Output&lt;/code&gt; if the list of fields is not empty and contain instances of either &lt;code&gt;DotField&lt;/code&gt; or &lt;code&gt;OutputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommKind.Mixed&lt;/code&gt; if the list of fields is not empty and contain at least one &lt;code&gt;InputField&lt;/code&gt; and either one &lt;code&gt;DotField&lt;/code&gt; or one &lt;code&gt;OutputField&lt;/code&gt;.
+     *    &lt;li&gt;&lt;code&gt;CommKind.Mixed&lt;/code&gt; with a parser error if the list of fields is not empty but neither of the above patterns hold.
      * &lt;/ul&gt;
      * &lt;/p&gt;
      */
-    private CommType retrieveCommType(List&lt;Field&gt; fields) {
-      CommType result;
-      if (fields.isEmpty())
-        result = CommType.Synch;
-      else {
-        Field f = null;
+    private CommKind retrieveCommKind(List&lt;Field&gt; fields) {
+      CommKind result;
+      if (fields.isEmpty()) {
+        result = CommKind.Synch;
+      } else {        
         int input = 0;
         int output = 0;
         for (Field f : fields) {
@@ -1143,17 +1150,17 @@ action code
             output++;
         }
         if (input &gt; 0 &amp;&amp; output &gt; 0)
-          result = CommType.Mixed;
+          result = CommKind.Mixed;
         else if (input &gt; 0 &amp;&amp; output == 0)
-          result = CommType.Input;
+          result = CommKind.Input;
         else if (input == 0 &amp;&amp; output &gt; 0)
-          result = CommType.Output;
+          result = CommKind.Output;
         else {
           // This should never happen.
-          result = CommType.Mixed; // thrown an error.
-          assert f != null; // at least one field must have been checked.
-          parser.report_error(CircusZParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
-                              new Object[0], getLocation(f));
+          result = CommKind.Mixed; // thrown an error.
+          assert false; // at least one field must have been checked.
+          parser.report_error(CircusParseMessage.MSG_UNKNOWN_COMMUNICATION_PATTERN,
+                              new Object[0], getLocation(fields.get(0)));
         }                
       }
       return result;
@@ -1168,7 +1175,7 @@ action code
         List&lt;?&gt; l, List&lt;?&gt; r) {
         boolean result = l.size() == r.size();
         if (!result) {
-          parser.report_error(CircusZParseMessage.MSG_UNBALANCED_LISTS,
+          parser.report_error(CircusParseMessage.MSG_UNBALANCED_LISTS,
               new Object[] { l.size(), l.getClass().getTypeParameters()[0].getName(),
                   r.size(), r.getClass().getTypeParameters()[0].getName() }, 
                   getLocation(line, column));
@@ -1328,11 +1335,11 @@ parser code
 
 </add:zpatt>
 <add:circus>
-    public void report_error(CircusZParseMessage msg,
+    public void report_error(CircusParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
     {
-      report_error(null, new CircusZParseError(msg, params, locInfo));
+      report_error(null, new CircusParseError(msg, params, locInfo));
     }
 </add:circus>
     
@@ -1748,12 +1755,16 @@ non terminal Para
     channelPara,
     channelSetPara,
     processPara,
+    boxedBasicProcessPara,
     actionPara,
     namesetPara, 
-    unboxedInnerPara;
+    unboxedCircProcState,
+    boxedCircusInnerPara,
+    unboxedCircusInnerPara;
 
 non terminal List &lt; Para &gt;
-    optInnerCircParaList;
+    boxedOptInnerCircusParaList,
+    unboxedOptInnerCircusParaList;
 
 /// Circus channel definition ////////////////////////////////////////////////   
 non terminal List&lt;ChannelDecl&gt;
@@ -1803,7 +1814,7 @@ non terminal CircusProcess
     process;
 
 non terminal RenameList
-    channelRenameList;
+    channelRenameList;    
     
 /// Circus parameters definition /////////////////////////////////////////////    
     
@@ -2230,6 +2241,11 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd
         {: RESULT = gd; :}
+<add:circus>        
+        |
+        boxedBasicProcessPara:bpp
+        {: RESULT = bpp; :}
+</add:circus>        
 <add:zpatt>
         |
         jokerPara:jp
@@ -2654,13 +2670,13 @@ varg ::=
 channelPara ::= 
         CIRCCHAN:chan channelDeclList:cdl
         {:             
-           RESULT = factory_.createChannelPara(cdl);
+           RESULT = factory_.createChannelPara(factory_.createZDeclList(cdl));
            addLocAnn(RESULT, getLocation(chanleft, chanright));
         :}
         |
         CIRCCHANFROM:chanf channelFromDecl:cfd
-        {:
-           RESULT = factory_.createChannelPara(factory_.list(cfd));
+        {:            
+           RESULT = factory_.createChannelPara(factory_.createZDeclList(factory_.list(cfd)));
            addLocAnn(RESULT, getLocation(chanfleft, chanfright));
         :}                            
         ;
@@ -2698,7 +2714,7 @@ channelDecl ::=
         nameList:nl
 	{:                  
            RESULT = factory_.createChannelDecl(null, nl, null);
-           addLocAnn(RESULT, getlocation(nlleft, nlright));
+           addLocAnn(RESULT, getLocation(nlleft, nlright));
 	:} 
         ;
 
@@ -3097,7 +3113,7 @@ channelSet ::=
 processPara ::=
         /* Process declaration */
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
-        {:           
+        {:                      
            RESULT = factory_.createProcessPara(n, ofp, pd);
            addLocAnn(RESULT, getLocation(cp, pd));
         :}                
@@ -3159,13 +3175,13 @@ process ::=
         process:pl LPAR:lp channelSet:cs RPAR:rp process:pr
         {:
             RESULT = factory_.createParallelProcess(pl, pr, cs);
-            addLocAnn(RESULT, getLocation(pl, pr));
+            addLocAnn(RESULT, getLocation(rpleft, rpright, pl, pr));
         :}             
         |
         process:pl INTCHOICE:ic process:pr
         {:
             RESULT = factory_.createIntChoiceProcess(pl, pr);
-            addLocAnn(RESULT, getLocation(icleft, icright, pl, pr);
+            addLocAnn(RESULT, getLocation(icleft, icright, pl, pr));
         :}
         |
         process:pl EXTCHOICE:cs process:pr
@@ -3250,7 +3266,7 @@ process ::=
             addLocAnn(RESULT, getLocation(rs, p));
         :} %prec _REPSEQ
         |
-        /* Parenthesized processes */
+        /* Parenthesised processes */
         LPAREN process:p RPAREN
         {:
            p.getAnns().add(factory_.createParenAnn());
@@ -3264,11 +3280,30 @@ process ::=
         :} 
         ;
         
-unboxedBasicProcess ::=        
-        CIRCBEGIN optInnerCircParaList:ipl1 CIRCSTATE expression:e
-            optInnerCircParaList:ipl2 SPOT circusAction:ca CIRCEND
+unboxedBasicProcess ::=                        
+        /*CIRCBEGIN:cb unboxedOptInnerCircusParaList:ipl1 circState:ocs
+            unboxedOptInnerCircusParaList:ipl2 SPOT circusAction:ca CIRCEND*/
+        CIRCBEGIN:cb unboxedOptInnerCircusParaList:ipl1 SPOT circusAction:ca CIRCEND
         {: 
-           RESULT = null; 
+        
+           //ZParaList para = factory_.createZParaList();
+           //para.addAll(ipl1);
+           //para.addAll(ipl2);
+           //ActionPara mainActPara = factory_.createActionPara(factory_.createZDeclName(MAIN_ACTION_NAME), ca);
+           //para.add(mainActPara);                      
+           //// TODO: check Maybe we don't need this separation/distinction after all...
+           ////net.sourceforge.czt.z.ast.RefName  stateSchema, 
+           ////net.sourceforge.czt.z.ast.ParaList  zPara, 
+           ////net.sourceforge.czt.z.ast.ParaList  circusActionPara, 
+           ////net.sourceforge.czt.z.ast.ParaList  onTheFlyActionPara, 
+           ////net.sourceforge.czt.z.ast.ParaList  circusNameSetPara, 
+           ////CircusAction  mainAction)
+           ////RESULT = factory_.createBasicProcess(ocs, para, null, 
+           ////     factory_.createZParaList(implicitlyDeclaredActions_), null, ca);           
+           ////TODO: Need something similar for processes.
+           //implicitlyDeclaredActions_.clear();
+           RESULT = null;
+           //addLocAnn(RESULT, getLocation(cbleft, cbright));
         :}
         ;
         
@@ -3289,7 +3324,7 @@ processCall ::=
         {:
             /* The CallType is Param and the generic actuals are null */
             RESULT = factory_.createCallProcess(rn, el, null, CallType.Param);
-            addLocAnn(RESULT, getLocation(refName, rparen));
+            addLocAnn(RESULT, getLocation(rn));
         :}
         |
         /* Genertic parameterised process call with instantiations */
@@ -3363,7 +3398,7 @@ qualifiedDecl ::=
         optCircusQualifier:ocq declWordList:dwl COLON:colon expression:e
         {:
            RESULT = factory_.createQualifiedDecl(dwl, e, ocq);
-           addLocAnn(RESULT, getLocation(colonleft, colonright, ocq, e));
+           addLocAnn(RESULT, getLocation(colonleft, colonright));
         :}        
         ;
 
@@ -3405,31 +3440,27 @@ circusParamNameList ::=
 
 /// Z paragraphs withing Process paragraphs ////////////////////////////////
 
-optInnerCircParaList ::=
-        optInnerCircParaList:ipl optNL boxedParagraph:bp
+/* List of unboxed inner paragraphs for Circus. This excludes AXDEF, GAXDEF,
+ * SCH, and GSCH, since those are boxed paragraphs. Moreover, as we have 
+ * unboxed items, NL is always needed between paragraphs.
+ */
+unboxedOptInnerCircusParaList ::=
+        unboxedOptInnerCircusParaList:ipl NL unboxedCircusInnerPara:ip 
         {:
-           ipl.add(bp);
+           //assert currentProcessName != null : "Parsing inner paragraphs of an unknown (null) BasicProcess.";
+           if (ip != null) ipl.add(ip);
            RESULT = ipl;
         :}
         |
-        optInnerCircParaList:ipl NL unboxedInnerPara:uip
-        {:
-           ipl.add(uip);
-           RESULT = ipl;
-        :}
-        |
-        //empty
-        {: 
-            RESULT = list(); 
-        :}
+        unboxedCircusInnerPara:ip 
+        {: RESULT = list(ip); :}
+        | // empty
+        {: RESULT = list(); :}
         ;
-
-unboxedInnerPara ::=
-        basicTypeDefinition:btd
-        {: RESULT = btd; :}
-        |
-        abbreviationDefinition:ad
-        {: RESULT = ad; :}
+        
+unboxedCircusInnerPara ::=               
+        basicTypeDefinition:gtd
+        {: RESULT = gtd; :}
         |
         freeTypeList:ftl
         {:
@@ -3437,12 +3468,15 @@ unboxedInnerPara ::=
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
         :}
         |
+        abbreviationDefinition:ad
+        {: RESULT = ad; :}
+        |    
         optFormalParameters:ofp CONJECTURE predicate:p
         {:
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(ofpleft, ofpright));
         :}
-        |
+        |            
         operatorTemplate:ot
         {:
            try {
@@ -3455,17 +3489,33 @@ unboxedInnerPara ::=
                                  getLocation(otleft, otright));
            }
            RESULT = ot;
-        :}
+        :}        
         |
+        unboxedCircProcState:cps
+        {: RESULT = cps; :}                 
+        |        
         namesetPara:np
         {: RESULT = np; :}
         |        
         actionPara:ap
-        {: RESULT = ap; :}        
-        ;
+        {: RESULT = ap; :}            
+        ;        
 
 /// Boxed basic process paragraphs ////////////////////////////////
 
+/* Unboxed Circus basic processes state can only be an expression or
+ * an abbreviation. For a schema or a generic schema, we need a boxed
+ * basic process paragraph.
+ */
+unboxedCircProcState ::= 
+        CIRCSTATE:cs abbreviationDefinition:ad
+        {:
+            ad.getAnns().add(factory_.createCircusStateAnn());
+            RESULT = ad;            
+            addLocAnn(RESULT, getLocation(csleft, csright));
+        :}
+        ;      
+ 
 //boxedBasicProcessPara ::=        
 //        |
 //        CIRCPROCESSENV:cpe name:n optNL optFormalParameters:ofp basicProcess:bp END 
@@ -3536,7 +3586,14 @@ circusAction ::=
         {: RESULT = ca; :}
         |
         command:c
-        {: RESULT = c; :}
+        {: RESULT = c; :}                
+        /* Parenthesised action */
+        /*|        
+        LPAREN circusAction:ca RPAREN
+        {:
+           ca.getAnns().add(factory_.createParenAnn());
+           RESULT = ca;
+        :}  */
         ;        
         
 cspAction ::=
@@ -3604,7 +3661,7 @@ cspAction ::=
         circusAction:cal EXTCHOICE:cs circusAction:car
         {:
             RESULT = factory_.createExtChoiceAction(cal, car);
-            addLocAnn(RESULT, getLocation(cal, car));calleft, calright);
+            addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal CIRCSEQ:cs circusAction:car
@@ -3669,7 +3726,7 @@ cspAction ::=
             RESULT = factory_.createSeqActionIte(ca, dp);
             addLocAnn(RESULT, getLocation(rs, ca));
         :} %prec _REPSEQ
-        |
+        |       
         actionCall:ac
         {:
             RESULT = ac;
@@ -3706,15 +3763,17 @@ communication ::=
         /* Synchronisation or communication without generic parameters */
         refName:rn optCommFields:ocf
         {:
-            RESULT = factory_.createCommunication(rn, null, ocf, retrieveCommType(ocf), DEFAULT_MULTISYNCH);
-            addLocAnn(RESULT, getLocation(rn, ocf));
+            RESULT = factory_.createCommunication(rn, null, 
+                factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), DEFAULT_MULTISYNCH);
+            addLocAnn(RESULT, getLocation(rn));
         :}
         |
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
         refName:rn LSQUARE expressionList:el RSQUARE commFields:cf
         {:
-            RESULT = factory_.createCommunication(rn, el, cf, retrieveCommType(cf), DEFAULT_MULTISYNCH);
-            addLocAnn(RESULT, getLocation(rn, cf));
+            RESULT = factory_.createCommunication(rn, el, 
+                factory_.createCircusFieldList(cf), retrieveCommKind(cf), DEFAULT_MULTISYNCH);
+            addLocAnn(RESULT, getLocation(rn));
         :}
         ;
 
@@ -3825,7 +3884,7 @@ commField ::=
 /// Command (Action) paragraphs (as part of Process paragraph) ////////////////////////////////
 
 command ::=
-        /* Variable assignment */
+        /* Assignment */
         refNameList:rnl COLON EQUALS expressionList:el
         {:
             // If the lists are not with the same size, generate a parsing error
@@ -3835,15 +3894,18 @@ command ::=
             else
               RESULT = factory_.createAssignmentCommand(factory_.createZRefNameList(), 
                   factory_.createZExprList());
-            addLocAnn(RESULT, getLocation(rnl el));
+            assert !rnl.isEmpty() : "Invalid assignment, LHS is empty";
+            addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0), el));
         :}
         |
+        /* Alternative */
         IF:cif guardedCommands:gcs CIRCFI:cfi
         {:
             RESULT = factory_.createIfGuardedCommand(gcs);
             addLocAnn(RESULT, getLocation(cif, cfi));
         :} %prec _CIRCIF
         |
+        /* Iteration */
         CIRCDO:cdo guardedCommands:gcs CIRCOD:cod
         {:
             RESULT = factory_.createIfGuardedCommand(gcs);//createWhileGuardedCommand(gcs);
