@@ -1108,11 +1108,6 @@ public class ZPrintVisitor
     throw new UnsupportedOperationException("Unexpected term TypeAnn.");
   }
 
-  public Object visitTypeEnvAnn(TypeEnvAnn typeEnvAnn)
-  {
-    throw new UnsupportedOperationException("Unexpected term TypeEnvAnn.");
-  }
-
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
   {
     // TODO: What to do with UnparsedPara?
