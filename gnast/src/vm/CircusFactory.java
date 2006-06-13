@@ -14,4 +14,3 @@
   InterleaveAction createInterleaveAction(CircusAction left, CircusAction right);
   
   
-  
