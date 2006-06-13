@@ -87,11 +87,11 @@ public class PrintVisitor
     
     public String visitBasicProcessSignature(BasicProcessSignature term) {        
         StringBuffer result = new StringBuffer(visitProcess(term));        
-        if (term.getState() != null) {
-            result.append(visit(term.getState()));//SchemaType
+        if (term.getStateType() != null) {
+            result.append(visit(term.getStateType()));//SchemaType
         }
         final String sep = "\n\t";
-        result.append(visitList(term.getLocalZDeclSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
+        result.append(visitList(term.getZDeclSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
         result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
         result.append(visitList(term.getNameSet(), "NameSet  : [", ", ", "]\n"));//ZRefNameList          
         return result.toString();
