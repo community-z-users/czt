@@ -12,7 +12,6 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.outline.CztSegment;
 import net.sourceforge.czt.eclipse.util.CZTPluginImages;
-import net.sourceforge.czt.eclipse.util.IZMarker;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -234,7 +233,7 @@ public class ProblemsLabelDecorator
       throws CoreException
   {
     if (marker != null && marker.exists()
-        && marker.isSubtypeOf(IZMarker.PROBLEM)) {
+        && marker.isSubtypeOf(IMarker.PROBLEM)) {
       Integer start = (Integer) marker.getAttribute(IMarker.CHAR_START);
       Integer end = (Integer) marker.getAttribute(IMarker.CHAR_END);
       if (start != null && end != null) {
@@ -257,7 +256,7 @@ public class ProblemsLabelDecorator
       if (annot instanceof MarkerAnnotation) {
         IMarker marker = ((MarkerAnnotation) annot).getMarker();
         if (isMarkerInRange(marker, sourceElement)
-            && marker.isSubtypeOf(IZMarker.PROBLEM)) {
+            && marker.isSubtypeOf(IMarker.PROBLEM)) {
           int priority = marker.getAttribute(IMarker.SEVERITY, -1);
           if (priority == IMarker.SEVERITY_WARNING) {
             info = ERRORTICK_WARNING;

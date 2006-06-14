@@ -40,9 +40,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -87,7 +84,6 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    * @param preferenceStore the preference store, can be read-only
    * @param editor the editor in which the configured viewer(s) will reside, or <code>null</code> if none
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
-   * @since 3.0
    */
   public ZSourceViewerConfiguration(CZTColorManager colorManager,
       IPreferenceStore preferenceStore, ITextEditor editor, String partitioning)
@@ -246,7 +242,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
     return new ZTextHover(sourceViewer, contentType, getEditor());
   }
 
-  /*
+  /**
    * @see SourceViewerConfiguration#getTextHover(ISourceViewer, String)
    */
   public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType)
@@ -263,10 +259,9 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   {
     System.out
         .println("ZSourceViewerConfiguration.getPresentationReconciler starts");
-    IColorManager colorManager = fColorManager;
     PresentationReconciler reconciler = new PresentationReconciler();
-    reconciler
-        .setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
+    reconciler.setDocumentPartitioning(
+        getConfiguredDocumentPartitioning(sourceViewer));
 
     String sourceFileType = getSourceFileType();
     System.out.println("SourceFileType: " + sourceFileType);
@@ -275,35 +270,35 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
       System.out.println("null file type");
     }
     else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(sourceFileType)) {
-      dr = new DefaultDamagerRepairer(getCodeScanner());
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_AXDEF);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_AXDEF);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENDEF);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENDEF);
-
       dr = new DefaultDamagerRepairer(getZCharScanner());
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR);
+      
+      dr = new DefaultDamagerRepairer(getCodeScanner());
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_AXDEF);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_AXDEF);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(sourceFileType)
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(sourceFileType)) {
       dr = new DefaultDamagerRepairer(getCodeScanner());
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_ZED);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_ZED);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF);
-      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENDEF);
-      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENDEF);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
+      reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
+      reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
     }
 
     //Set the DamagerRepairer to default content type

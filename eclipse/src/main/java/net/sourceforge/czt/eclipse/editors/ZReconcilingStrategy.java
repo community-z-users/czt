@@ -4,7 +4,6 @@ package net.sourceforge.czt.eclipse.editors;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
@@ -159,7 +158,7 @@ public class ZReconcilingStrategy
     try {
       if (this.fDocument instanceof IDocumentExtension3) {
         IDocumentExtension3 extension3 = (IDocumentExtension3) this.fDocument;
-        partitions = extension3.computePartitioning(CZTPlugin.Z_PARTITIONING,
+        partitions = extension3.computePartitioning(IZPartitions.Z_PARTITIONING,
             0, this.fDocument.getLength(), false);
       }
       else {

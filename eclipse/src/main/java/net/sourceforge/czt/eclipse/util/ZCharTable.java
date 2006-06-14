@@ -17,7 +17,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.views.ZXmlHandler;
 
+import org.apache.xerces.parsers.SAXParser;
 import org.eclipse.core.runtime.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,7 +39,8 @@ public class ZCharTable
    * (the heading for the corresponding row) and all other columns
    * contain ZChar objects.
    */
-  private Object[][] mTableArray = createZCharTable();
+//  private Object[][] mTableArray = createZCharTable();
+  private Object[][] mTableArray = getTable();
 
   public ZCharTable()
   {
@@ -85,7 +88,7 @@ public class ZCharTable
       if (file == null)
         return new Object[0][0];
       Document doc = builder.parse(file);
-
+      
       // gets the root of the structure of the XML file
       Element root = doc.getDocumentElement();
       // gets the list of all items
@@ -206,5 +209,37 @@ public class ZCharTable
   public String getColumnName(int col)
   {
     return null;
+  }
+  
+  public Object[][] getTable() {
+    try {
+      ZXmlHandler handler = new ZXmlHandler();
+      SAXParser parser = new SAXParser();
+      parser.setContentHandler(handler);
+      parser.setErrorHandler(handler);
+      parser.parse(getZCharFile().getAbsolutePath());
+      
+      List<List<Object>> lists = handler.getCharList();
+      int maxsize = 0;
+      for (List<Object> list : lists) {
+        int size = list.size();
+        if (size > maxsize) maxsize = size;
+      }
+      Object[][] result = new Object[lists.size()][maxsize];
+      int i = 0;
+      for (List<Object> list : lists) {
+        int j = 0;
+        for (Object elem : list) {
+          result[i][j] = elem;
+          j++;
+        }
+        i++;
+      }
+      return result;
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return new Object[0][];
   }
 }

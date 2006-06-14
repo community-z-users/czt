@@ -384,7 +384,6 @@ public class ZEditor extends TextEditor
   public ZEditor()
   {
     super();
-    //		setSourceViewerConfiguration(new ZSourceViewerConfiguration(this));
   }
 
   /**
@@ -719,6 +718,8 @@ public class ZEditor extends TextEditor
     if (this.fParsedData == null)
       return;
     fTermSelector = this.fParsedData.getTermSelector();
+    if (fTermSelector == null)
+      return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
     Position word = findWordOfOffset(document, offset);
     Term term = fTermSelector.getTerm(word);

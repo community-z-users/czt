@@ -52,8 +52,6 @@ public class CZTPlugin extends AbstractUIPlugin
   //Resource bundle.
   private ResourceBundle resourceBundle;
 
-  public final static String Z_PARTITIONING = "___zed_partitioning"; //$NON-NLS-1$
-
   private RuleBasedPartitionScanner fZDefaultPartitionScanner;
 
   private RuleBasedPartitionScanner fZLatexPartitionScanner;

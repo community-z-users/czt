@@ -15,6 +15,7 @@ import net.sourceforge.czt.eclipse.editors.ZCharacter;
 import net.sourceforge.czt.eclipse.editors.parser.Triple;
 import net.sourceforge.czt.eclipse.editors.visitor.NodeNameVisitor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
@@ -81,7 +82,7 @@ public class ZTextHover implements ITextHover
     this.fTextEditor = editor;
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.eclipse.jface.text.ITextHover#getHoverInfo(org.eclipse.jface.text.ITextViewer, org.eclipse.jface.text.IRegion)
    */
   public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion)
@@ -175,7 +176,6 @@ public class ZTextHover implements ITextHover
     }
 
     if (getEditor() instanceof ZEditor) {
-
     }
     return name;
   }
@@ -285,8 +285,7 @@ public class ZTextHover implements ITextHover
 
     while (iterator.hasNext()) {
       Annotation annotation = (Annotation) iterator.next();
-      if (!annotation.getType().equals(
-          "org.eclipse.ui.workbench.texteditor.error"))
+      if (!annotation.getType().equals(IZAnnotationType.ERROR))
         continue;
       Position position = model.getPosition(annotation);
       if (position == null)

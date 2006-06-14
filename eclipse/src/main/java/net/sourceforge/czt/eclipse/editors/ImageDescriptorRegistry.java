@@ -3,6 +3,7 @@ package net.sourceforge.czt.eclipse.editors;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.util.Assert;
@@ -17,7 +18,7 @@ import org.eclipse.swt.widgets.Display;
 public class ImageDescriptorRegistry
 {
 
-  private HashMap fRegistry = new HashMap(10);
+  private Map<ImageDescriptor, Image> fRegistry = new HashMap<ImageDescriptor, Image>(10);
 
   private Display fDisplay;
 
@@ -89,5 +90,4 @@ public class ImageDescriptorRegistry
       }
     });
   }
-
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.ErrorType;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -23,9 +24,6 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
  */
 public class ZCompilerMessageParser
 {
-  protected static final String ERROR = "error"; //$NON-NLS-1$
-
-  protected static final String WARNING = "warning"; //$NON-NLS-1$
 
   private IResource fResource = null;
 
@@ -49,6 +47,7 @@ public class ZCompilerMessageParser
    */
   protected void parseError(CztError error) throws CoreException
   {
+    ErrorType errorType = error.getErrorType();
     String message = error.getMessage();
     int line = error.getLine();
     int column = error.getColumn();
@@ -70,7 +69,8 @@ public class ZCompilerMessageParser
 
     end = start + length;
 
-    setMarker(message, line + 1, start, end);
+    int severity = ErrorType.ERROR.equals(errorType) ? IMarker.SEVERITY_ERROR : IMarker.SEVERITY_WARNING;
+    setMarker(severity, message, line + 1, start, end);
   }
 
   /**
@@ -80,12 +80,12 @@ public class ZCompilerMessageParser
    * @param charEnd
    * @throws CoreException
    */
-  protected void setMarker(String message, int lineNumber, int charStart,
+  protected void setMarker(int severity, String message, int lineNumber, int charStart,
       int charEnd) throws CoreException
   {
     Map<String, Object> attributes = new HashMap<String, Object>();
 
-    attributes.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
+    attributes.put(IMarker.SEVERITY, new Integer(severity));
     attributes.put(IMarker.PRIORITY, new Integer(IMarker.PRIORITY_HIGH));
     attributes.put(IMarker.LINE_NUMBER, new Integer(lineNumber));
     attributes.put(IMarker.CHAR_START, new Integer(charStart));
@@ -93,8 +93,5 @@ public class ZCompilerMessageParser
     attributes.put(IMarker.MESSAGE, message);
 
     MarkerUtilities.createMarker(this.fResource, attributes, IZMarker.PROBLEM);
-
-    //    IMarker marker = this.fResource.createMarker(IZMarker.PROBLEM);
-    //    marker.setAttributes(attributes);
   }
 }

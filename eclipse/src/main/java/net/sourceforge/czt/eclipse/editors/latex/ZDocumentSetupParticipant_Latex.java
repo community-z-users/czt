@@ -5,6 +5,7 @@
 package net.sourceforge.czt.eclipse.editors.latex;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.IZPartitions;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.core.filebuffers.IDocumentSetupParticipant;
@@ -38,7 +39,7 @@ public class ZDocumentSetupParticipant_Latex
       IDocumentPartitioner partitioner = new FastPartitioner(CZTPlugin
           .getDefault().getZPartitionScanner(IZFileType.FILETYPE_LATEX),
           ZLatexPartitionScanner.Z_PARTITION_TYPES_LATEX);
-      extension3.setDocumentPartitioner(CZTPlugin.Z_PARTITIONING, partitioner);
+      extension3.setDocumentPartitioner(IZPartitions.Z_PARTITIONING, partitioner);
       partitioner.connect(document);
     }
   }

@@ -1,7 +1,6 @@
 
 package net.sourceforge.czt.eclipse.editors;
 
-import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
@@ -23,7 +22,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 /**
- * Tools required to configure a CZT editor.
+ * Tools required to configure a Z editor.
  * The color manager and all scanner exist only one time, i.e.
  * the same instances are returned to all clients. Thus, clients
  * share those tools.
@@ -40,21 +39,21 @@ public class CZTTextTools
    */
   private static final String[] LEGAL_CONTENT_TYPES_LATEX = new String[]{
       IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR,
-      IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION,
       IZPartitions.Z_PARAGRAPH_LATEX_ZED,
-      IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA,
+      IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION,
       IZPartitions.Z_PARAGRAPH_LATEX_AXDEF,
-      IZPartitions.Z_PARAGRAPH_LATEX_GENDEF};
+      IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA,
+      IZPartitions.Z_PARAGRAPH_LATEX_GENAX,};
 
   /**
    * Array with legal unicode content types.
    */
   private static final String[] LEGAL_CONTENT_TYPES_UNICODE = new String[]{
       IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
-      IZPartitions.Z_PARAGRAPH_UNICODE_ZED,
-      IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
       IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
-      IZPartitions.Z_PARAGRAPH_UNICODE_GENDEF};
+      IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,};
 
   /**
    * This tools' preference listener.

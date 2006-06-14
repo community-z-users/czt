@@ -16,11 +16,11 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
 {
 
   public final static String[] Z_PARTITION_TYPES_UNICODE = new String[]{
-      IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
-      IZPartitions.Z_PARAGRAPH_UNICODE_ZED,
-      IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
+    IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
       IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
-      IZPartitions.Z_PARAGRAPH_UNICODE_GENDEF};
+      IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH};
 
   /**
    * Detector for empty comments.
@@ -75,33 +75,34 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
   {
     super();
     List<IPredicateRule> rules = new ArrayList<IPredicateRule>();
-
+    
     IToken zParagraphUnicodeZSection = new Token(
         IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION);
-    IToken zParagraphUnicodeZed = new Token(
-        IZPartitions.Z_PARAGRAPH_UNICODE_ZED);
-    IToken zParagraphUnicodeSchema = new Token(
-        IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
     IToken zParagraphUnicodeAxdef = new Token(
         IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF);
-    IToken zParagraphUnicodeGendef = new Token(
-        IZPartitions.Z_PARAGRAPH_UNICODE_GENDEF);
+    IToken zParagraphUnicodeSchema = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
+    IToken zParagraphUnicodeGenAx = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
+    IToken zParagraphUnicodeGenSch = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
 
     // Add special case word rule.
     // rules.add(new WordPredicateRule(zMultiLineComment));
 
     //Add rules for multi-line Z paragraphs.
+    
     rules.add(new MultiLineRule(
-        "\u2028", "\u2029", zParagraphUnicodeZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u2500", "\u2029", zParagraphUnicodeZed, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u250C", "\u2029", zParagraphUnicodeSchema, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+        "\u2500", "\u2029", zParagraphUnicodeZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
     rules.add(new MultiLineRule(
         "\u2577", "\u2029", zParagraphUnicodeAxdef, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
     rules.add(new MultiLineRule(
-        "\u2550", "\u2029", zParagraphUnicodeGendef, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-
+        "\u250C", "\u2029", zParagraphUnicodeSchema, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u2577,\u2550", "\u2029", zParagraphUnicodeGenAx, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u250C,\u2550", "\u2029", zParagraphUnicodeGenSch, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    
     IPredicateRule[] result = new IPredicateRule[rules.size()];
     rules.toArray(result);
 

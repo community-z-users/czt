@@ -9,20 +9,18 @@ import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.parser.util.CztError;
+import net.sourceforge.czt.parser.util.CztErrorList;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
-import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.Spec;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IFileEditorInput;
 
@@ -68,16 +66,16 @@ public class ZCompiler
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
     this.fParsedData = new ParsedData(editor);
-    SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
+    Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
-
-    Source source = new StringSource(document.get(), ((IFileEditorInput) editor
-        .getEditorInput()).getFile().getName());
+    
+    SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
+    final String name = ((IFileEditorInput) editor
+        .getEditorInput()).getFile().getName();
+    final Source source = new StringSource(document.get(), name);
     source.setMarkup(editor.getMarkup()); // or Markup.UNICODE
     source.setEncoding(editor.getEncoding()); // for Unicode
-
-    Spec parsed = null;
-
+    
     try {
       sectMan.put(new Key(this.getCurrentSection(), Source.class), source);
       parsed = (Spec) sectMan
@@ -85,11 +83,25 @@ public class ZCompiler
       if (parsed != null)
         errors.addAll(TypeCheckUtils.typecheck(parsed, sectMan));
 
-      if (parsed.getSect().size() > 0)
+      if (parsed.getSect().size() > 0) {
         this.fParsedData.addData(parsed, sectMan, document);
+      }
+      
+      try {
+        ParseException parseException = (ParseException)
+          sectMan.get(new Key(source.getName(), ParseException.class));
+        if (parseException != null) {
+          errors.addAll(parseException.getErrors());
+        }
+      }
+      catch (CommandException ce) {
+        // TODO Is ignoring OK?
+      }
     } catch (CommandException ce) {
       errors.clear();
       Throwable cause = ce.getCause();
+      
+/*
       if (cause instanceof ParseException) {
         System.out.println("ParseErrorException starts");
         List<CztError> parseErrors = ((ParseException) cause).getErrorList();
@@ -101,6 +113,10 @@ public class ZCompiler
         List<ErrorAnn> typeErrors = ((TypeErrorException) cause).errors();
         errors.addAll(typeErrors);
         System.out.println("TypeErrorException finishes");
+      }
+*/
+      if (cause instanceof CztErrorList) {
+        errors.addAll(((CztErrorList) cause).getErrors());
       }
       else if (cause instanceof IOException) {
         String ioError = "Input output error: " + cause.getMessage();
