@@ -228,6 +228,10 @@ LCIRCCHANSET = "\u2983" /* channel set left bracket */
 RCIRCCHANSET = "\u2984" /* channel set right bracket */
 CIRCLINST = "\u230A" /* left indexed process instantiation angle bracket */
 CIRCRINST = "\u230B" /* left indexed process instantiation angle bracket */
+LCIRCGUARD = "\u3014" /* left action guard bracket */
+RCIRCGUARD = "\u3015" /* right action guard bracket */
+LSCHEXPRACT = "\u3014" /* left action guard bracket */
+RSCHEXPRACT = "\u3015" /* right action guard bracket */
 LPAR = "\u27E6" /* left parallel bracket */
 RPAR = "\u27E7" /* right parallel bracket */
 LINTER = "\u301A"   /* left interleave bracket */
@@ -236,7 +240,8 @@ RINTER = "\u301B"   /* left interleave bracket */
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
-    <add:zpatt> | {JOKERCHAR} | {RULECHAR} </add:zpatt>
+    <add:zpatt> | {JOKERCHAR} | {RULECHAR} </add:zpatt>    
+    <add:circus> /*| {CIRCUPROCESSCHAR}*/ </add:circus>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
@@ -247,6 +252,9 @@ JOKERCHAR = "\u2605"
 RULECHAR = "\u25A0"
 PROVISO = "\u25B8"
 </add:zpatt>
+<add:circus>
+//CIRCUSPROCESSCHAR = "\u250F" /* box drawings down light and right heavy */
+</add:circus>
 
 /* Other SPECIAL characters (6.4.4.5) */
 NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
@@ -283,6 +291,9 @@ NL = {NLCHAR}
 JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
 </add:zpatt>
+<add:circus>
+//CIRCUSPROCESSBOX = {CIRCUSPROCESSCHAR}
+</add:circus>
 
 %state Z <add:oz>CLASS</add:oz>
 
@@ -306,6 +317,11 @@ RULE = {RULECHAR}
   {JOKER}       {  yybegin(Z); return symbol(Sym.JOKER); }
   {RULE}        {  yybegin(Z); return symbol(Sym.RULE); }
   </add:zpatt>
+  
+  <add:circus>
+  /* Circus paragraphs */
+  //{CIRCUSPROCESSBOX} { yybegin(Z); returm symbol(Sym.CIRCUSPROCESSBOX); }
+  </add:circus>
 
   <add:oz>
   /* Object-Z class paragraph */
@@ -390,6 +406,10 @@ RULE = {RULECHAR}
   {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }  
   {CIRCLINST}    {  return symbol(Sym.CIRCLINST); }  
   {CIRCRINST}    {  return symbol(Sym.CIRCRINST); }  
+  {LCIRCGUARD}   {  return symbol(Sym.LCIRCGUARD); }
+  {RCIRCGUARD}   {  return symbol(Sym.RCIRCGUARD); }
+  {LSCHEXPRACT}  {  return symbol(Sym.LSCHEXPRACT); }
+  {RSCHEXPRACT}  {  return symbol(Sym.RSCHEXPRACT); }
   {LPAR}         {  return symbol(Sym.LPAR); }  
   {RPAR}         {  return symbol(Sym.RPAR); }  
   {LINTER}       {  return symbol(Sym.LINTER); }  

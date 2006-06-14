@@ -71,6 +71,9 @@ public class <class/>
                 Sym.INTERRUPT, Sym.TIMEOUT, Sym.TIMEEND,               
 </add:tcoz>
 <add:circus>
+                /* Circus LaTeX environments */
+                //Sym.CIRCUSPROCESSBOX, 
+                
                 /* Everything infix comes here */
                 Sym.CIRCDEF, Sym.CIRCINDEX, Sym.CIRCTHEN, Sym.CIRCELSE, 
                 Sym.PREFIXTHEN, Sym.PREFIXCOLON, 
@@ -122,7 +125,7 @@ public class <class/>
                 Sym.CIRCRES, Sym.CIRCVRES, Sym.CIRCCHAN, Sym.CIRCCHANFROM, 
                 Sym.CIRCCHANSET, Sym.CIRCNAMESET, Sym.CIRCPROC,
                 
-                Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LPAR, Sym.LINTER
+                Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LPAR, Sym.LINTER, Sym.LCIRCGUARD, Sym.LSCHEXPRACT
 </add:circus>
     };
 
@@ -141,7 +144,7 @@ public class <class/>
                 /* Everything posfix comes here */
                 Sym.CIRCFI, Sym.CIRCOD, /* Are these postfix or no fix? */
 
-                Sym.RCIRCCHANSET, Sym.CIRCRINST,  Sym.RPAR, Sym.RINTER
+                Sym.RCIRCCHANSET, Sym.CIRCRINST, Sym.RPAR, Sym.RINTER, Sym.RCIRCGUARD, Sym.RSCHEXPRACT
 </add:circus>
     };
     /* These are NOFIX, hence not included 
