@@ -40,12 +40,12 @@ public enum ZParseMessage
   MSG_STROKE_IN_OPNAME ("Syntax error in operator name {0}", "Names in operator templates cannot contain strokes"),
   MSG_OPNAME_AS_DECLWORD ("{0} is declared as an operator, and cannot be used as a declaration name"),
   MSG_PARENT_NOT_FOUND ("Parent section {0} could not be found"),
-  MSG_OF_PARENT_NOT_FOUND ("{0} of parent section {1} could not be found" ),
+  MSG_OF_PARENT_NOT_FOUND ("{0} of parent section {1} could not be found (Command execution error message: {2})"), 
   MSG_DUPLICATE_STATE ("Duplicate state declaration"),
   MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
-  MSG_OPNAME_ERROR ("Cannot parse operator name"),
-  MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables"),
-  MSG_CANNOT_ADD_OP ("Cannot add operator template"),
+  MSG_OPNAME_ERROR ("Cannot parse operator name ({0})"), 
+  MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables ({0})"),
+  MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space");
 
   private final String message_;

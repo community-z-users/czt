@@ -26,8 +26,8 @@ package net.sourceforge.czt.parser.zpatt;
 public enum ZpattParseMessage
 {
   MSG_UNKNOWN_JOKER_TYPE ("Unknow joker type {0}"),
-  MSG_CANNOT_MERGE_JOKERTABLES ("Cannot merge the parent joker tables"),
-  MSG_CANNOT_ADD_JOKER ("Cannot add joker");
+  MSG_CANNOT_MERGE_JOKERTABLES ("Cannot merge the parent joker tables ({0})"),
+  MSG_CANNOT_ADD_JOKER ("Cannot add joker ({0})");
 
   private final String message_;
   private final String explanation_;
