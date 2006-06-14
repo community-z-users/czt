@@ -5,16 +5,19 @@
       <char id="LCIRCCHANSET" hex="2983" description="left channel set bracket"/>
       <char id="RCIRCCHANSET" hex="2984" description="right channel set bracket"/>
       <char id="CIRCLINST" hex="230A" description="left indexed process instantiation angle bracket"/>
-      <char id="CIRCRINST" hex="230B" description="left indexed process instantiation angle bracket"/>
+      <char id="CIRCRINST" hex="230B" description="right indexed process instantiation angle bracket"/>
+      <char id="LCIRCGUARD" hex="3014" description="left guarded action bracket"/>
+      <char id="RCIRCGUARD" hex="3015" description="right guarded action bracket"/>
+      <char id="LSCHEXPRACT" hex="2768" description="left schema expression action bracket"/>
+      <char id="RSCHEXPRACT" hex="2769" description="right schema expression action bracket"/>      
       <char id="LPAR" hex="27E6" description="left parallel bracket"/>
       <char id="RPAR" hex="27E7" description="right parallel bracket"/>
       <!-- TODO: Find appropriate unicode for those two -->
       <char id="LINTER" hex="27E6" description="left interleave bracket"/>
       <char id="RINTER" hex="27E7" description="right interleave bracket"/>      
     </BRACKET>    
-    <BOXCHAR>
-      <char id="CIRCUSCHAR" hex="2501" description="box drawings thick horizontal for circus environments. Like ZEDCHAR"/>      
-      <char id="CIRCUSPROCESSCHAR " hex="250F" description="box drawings thick down and right. Like SCHCHAR"/>            
+    <BOXCHAR>      
+      <char id="CIRCUSPROCESSCHAR" hex="250F" description="box drawings thick down and right. Like SCHCHAR"/>            
     </BOXCHAR>
   </SPECIAL>
   <SYMBOL>
@@ -46,6 +49,9 @@
     <CIRCUSTOOLKITSYMBOL>      
       <char id="BOOLEAN" hex="1D539" description="mathematical double-struck capital B"/>
       <char id="GENDJ" hex="2A46" description="generalised disjointness"/>
+      <char id="REGIONS" hex="2A02" description="regions of a set of sets"/>
+      <char id="DSETMINUS" hex="21F2" description="distributed set difference"/>
+      <char id="DCAP" hex="25C7" description="distributed set intersection"/>      
     </CIRCUSTOOLKITSYMBOL>
   </SYMBOL>
 </CIRCUSCHAR>
