@@ -1,124 +1,226 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PREAMBLE: Circus toolkit, v 1.2 
+%           Copyright 2004-2006 Leo Freitas
+%           Department of Computer Science 
+%           University of York, YO10 5DD UK
+%           leo@cs.york.ac.uk, +44-1904-434753
+%           http://www.cs.york.ac.uk/circus
+%           http://www.cs.york.ac.uk/~leo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{zsection}
   \SECTION circus\_toolkit \parents standard\_toolkit
 \end{zsection}
 
-% TODO: Normalise the keywords and keychar latex names.
-%
-% Mark-up directives for core language symbols are as follows.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mark-up directives for core language symbols are as follows:
 % The choice for pre, in, or post, has to do with how one wants
 % the character to be rendered. See Z Std A.2.3.2.
 %
-% By using keychars such as \circguard instead of %, one allows
+% By using keychars, such as \circguard instead of &, we allow
 % appropriate rendering by both LaTeX and Unicode mark-ups.
-%
-% TODO: Use just \circthen for both guarded commands and prefixing?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODO: Normalise the keywords and keychar latex names.
+% TODO: Use just \circthen for both guarded commands and prefixing?
+% TODO: Replicated Internal Choice Unicode 2294 is Wrong! FIX IT!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Unicode symbols (divided like the sections of zchar.xml)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CORESYMBOLS
-%
+
+%   Input field prefix colon
+%%Zinchar \prefixcolon U+2236
+
 %   Spivey's like definition symbol (or just \defs?)
 %%Zinchar \circdef U+2259
+
 %   Process indexing
 %%Zinchar \circindex U+2299
+
 %   Recursion
-%%Zprechar \circmu U+03BC
+%%Zprechar \circmu U+00B5
+
 %   Guarded command then
-%%Zinchar \circthen U+2192
+%%Zinchar \circthen U+27FC
+
 %   Guarded command else
 %%Zinchar \circelse U+25A1
+
 %   Prefixing 
-%%Zinchar \then U+2192
+%%Zinchar \then U+27F6
+
 %   Prefixing guards
 %%Zinchar \circguard U+0026
+
 %   Sequential composition
-%%Zinchar \circseq U+003B
+%%Zinchar \circseq U+037E
+
 %   Replicated sequential composition
 %%Zprechar \Semi U+2A1F
+
 %   Process interleave
 %%Zinchar \interleave U+2980
+
 %   Replicated parallelism
 %%Zprechar \Parallel U+2225
+
 %   Replicated interleaving
 %%Zprechar \Interleave U+2AFC
-%   Hiding
-%%Zinchar \circhide U+005C
+
+%   Hiding  
+%   It must be a different Unicode from \setminus and \hide.
+%   Otherwise, the KeywordScanner will raise a warning.
+%%Zinchar \circhide U+2AF5
+
 %   External choice
 %%Zinchar \extchoice U+25FB
+
 %   Replicated external choice
 %%Zprechar \Extchoice U+25A1
+
 %   Internal choice
 %%Zinchar \intchoice U+2293
-%   Replicated internal choice TODO:FIX UNICODE! WRONG
+
+%   Replicated internal choice 
 %%Zprechar \Intchoice U+2294
 
-% Brackets
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BRACKETS
+
+%   Left/Right channel set brackets
 %%Zprechar \lchanset U+2983
 %%Zpostchar \rchanset U+2984
-%%Zchar \circlinst U+230A
-%%Zchar \circrinst U+230B
+
+%   Left/Right index instantiation brackets
+%%Zprechar \circlinst U+230A
+%%Zpostchar \circrinst U+230B
+
+%   Left/Right guarded action brackets
+%%Zprechar \lcircguard U+3014
+%%Zpostchar \rcircguard U+3015
+
+%   Left/Right schema expression action brackets
+%%Zprechar \lschexpract U+2768
+%%Zpostchar \rschexpract U+2769
+
+%   Left/Right interface parallel action/process brackets
 %%Zinchar \lpar U+27E6
 %%Zinchar \rpar U+27E7
-%%Zinchar \linter U+27E6
-%%Zinchar \rinter U+27E7
 
+%   Left/Right interleave action/process brackets
+%%Zinchar \linter U+301A
+%%Zinchar \rinter U+301B
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Alternatives          Observation
 %
-% \lpar         U+301A  Both options are like [|, rather than |[
-% \rpar         U+301B  Both options are like |], rather than ]|
-% \linter       U+301A  At the moment just like \lpar (find other later).
-% \rinter       U+301B  At the moment just like \rpar (find other later).
 % \circindex    U+2A00  (2A00=bigger version). Use circus.sty \circindex instead of LaTeX \odot.
 % \circlinst    U+23A3
 % \circrinst    U+23A6, U+300D
 % \Parallel     U+2016
 % \Interleave   U+2980  Small version of |||
-% \defs         U+225D  = with def on the top of it.
+% \circdef      U+225D  = with def on the top of it.
 % \Semi         U+2A3E
+% \lcircguard   U+2772, U+2329, U+276C
+% \rcircguard   U+2773, U+232A, U+276D
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Language keywords:
-%
-% Guarded commands
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Guarded commands 
+
+%   Circus alternative
 %%Zpreword \circif if
 %%Zpostword \circfi fi
+
+%   Circus iteration
 %%Zpreword \circdo do
 %%Zpostword \circod od
+
+%   Logical constants
 %%Zpreword \circcon con
+
+%   Variable declaration
 %%Zpreword \circvar var
+
+%   Parameter qualifiers: value, result, value-result
 %%Zpreword \circval val
 %%Zpreword \circres res
 %%Zpreword \circvres vres
-%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Channel and name set
-%
+
+%   Channel declaration
 %%Zpreword \circchannel channel
+
+%   Channel declaration from schema inclusion
 %%Zpreword \circchannelfrom channelfrom
+
+%   Channel set declaration
 %%Zpreword \circchannelset channelset
+
+%   Name set declaration
 %%Zpreword \circnameset nameset
-%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Processes
-%
+
+%   Process declaration
 %%Zpreword \circprocess process
+
+%   Basic process begin
 %%Zpreword \circbegin begin
+
+%   Basic process state
 %%Zinword  \circstate state
+
+%   Basic process end
 %%Zpostword \circend end
-%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Actions
-%
+
+%   Basic termination action
 %%Zword \Skip Skip
+
+%   Basic deadlock action
 %%Zword \Stop Stop
+
+%   Basic divergent (chaotic) action
 %%Zword \Chaos Chaos
 
-% Definitions
-%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Auxiliary definitions for the semantics of Circus
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% UTP related
+
+%   UTP boolean value.
+%   LaTeX equivalent to \mathcal{B}
 %%Zchar \boolean U-0001D539
 \begin{zed}
    \boolean ::= t | f
 \end{zed}
 
-% TODO: Find the equivalent in LaTeX for this Unicode.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Automata normalisation
+
+%   Distributed disjointness between set of sets.
+%   TODO: Find the equivalent in LaTeX for this Unicode.
 %%Zinchar \gendj U+2A46
 \begin{zed}
 \function 40 \leftassoc (\_~\gendj~\_)
@@ -130,15 +232,22 @@
     \forall S, P: \power~(\power X) @ P \gendj S = (\bigcap~P)~\setminus~(\bigcup~(S~\setminus~P))
 \end{gendef}
 
-% LaTeX equivalent is \otimes
+%   Non-empty regions of a non-empty set of sets. 
+%   That is, the corresponding set of sets with nondeterminism clearly separated.
+%   It is used in the normalisation algorithm for Circus automata.
+%   LaTeX char equivalent to \otimes
 %%Zprechar \regions U+2A02
 \begin{gendef}[X]
     \regions: \power_1~(\power~X) \fun \power_1~(\power~X)
 \where
     \forall S: \power_1~(\power~X) @ \\
-      \t1 regions~S = \{~ P: \power_1~(\power~X) | P \subseteq S @ P \gendj S \}~\setminus~\{~ \emptyset ~\}
+      \t1 \regions S = \{~ P: \power_1~(\power~X) | P \subseteq S @ P \gendj S \}~\setminus~\{~ \emptyset ~\}
 \end{gendef}
 
+%   Calculates the minimal set of a set of sets.
+%   That is, the sets that are minimal under subset inclusion.
+%   It is used in the normalisation algorithm for Circus automata
+%   while calculating minimal sets of coalesced (power) states.
 \begin{gendef}[X]
     minimal: \power~(\power~X) \fun \power~(\power~X)
 \where
@@ -147,41 +256,37 @@
                 \t2 \lnot~(~\exists R: \power~X | R \in SS @ R \subset S~) \}
 \end{gendef}
 
-%TODO: Fix these functions when get to parallelism in the parser.
-%
-%<<<<<<< circus_toolkit.tex
-%%TODO: Fix UNICODE CHARACTER
-% Zinchar searrow U+2200
-%%\begin{zed}
-%%\function 30 \leftassoc (\_ searrow \_)
-%%\end{zed}
-%
-%\begin{gendef}[X]
-%%\_ searrow \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
-%    searrow:\power~(\power~X) \cross \power X \fun \power~(\power~X)
-%\where
-%    \forall P: \power~(\power~X); p: \power~X @ searrow~(P, p) = \{~ q: \power~X | q \in P @ q \setminus p ~\}
-%\end{gendef}
-%
-%%TODO: Fix UNICODE CHARACTER
-% Zinchar \diamond U+2201
-%%\begin{zed}
-%%\function 40 \leftassoc (\_ \diamond \_)
-%%\end{zed}
-%=======
-% Zinchar \searrow U+2200
-%%\begin{zed}
-%% \function 30 \leftassoc (\_ \searrow \_)
-%%\end{zed}
-%>>>>>>> 1.5
-%
-%<<<<<<< circus_toolkit.tex
-%\begin{gendef}[X]
-%%\_ \diamond \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
-%  diamond: \power~(\power~X) \cross \power X \fun \power~(\power~X)
-%\where
-%    %\forall~ P: \power~(\power~X); p: \power~X @ P \diamond p = \{~ q: \power~X | q \in P @ q \cap p ~\}
-%    \forall~ P: \power~(\power~X); p: \power~X @ diamond~(P, p) = \{~ q: \power~X | q \in P @ q \cap p ~\}
-%\end{gendef}
-%=======
-%>>>>>>> 1.5
+%   Set difference distributed over set of sets.
+%   It is used for in the operational semantics of parallelism. 
+%   LaTeX char equivalent to \searrow.
+%   The associativity is the same as \setminus.
+%   The binding power of this operator template is slightly tigher than \setminus (30).
+%%Zinchar \dsetminus U+21F2
+\begin{zed}
+    \function 35 \leftassoc (\_ \dsetminus \_)
+\end{zed}
+
+\begin{gendef}[X]
+    \_ \dsetminus \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)           
+\where
+    \forall P: \power~(\power~X); p: \power~X @ P \dsetminus p = \{~ q: \power~X | q \in P @ q \setminus p ~\}
+\end{gendef}
+
+%   Set intersection distributed over set of sets.
+%   It is used for in the operational semantics of parallelism.
+%   LaTeX char equivalent to \lozenge(?).
+%   Alternative unicode to use U+22C4, which has LaTeX equivalent as \diamond.
+%   The associativity is the same as \cap.
+%   The binding power of this operator template is slightly tigher than \cap (40).
+%   We haven't used 45 because it has already been taken by a \rightassoc operator
+%   in sequence_toolkit.tex (\_ \extract \_).
+%%Zinchar \dcap U+25C7
+\begin{zed}
+    \function 44 \leftassoc (\_ \dcap \_)
+\end{zed}
+
+\begin{gendef}[X]
+    \_ \dcap \_ : \power~(\power~X) \cross \power X \fun \power~(\power~X)
+\where
+    \forall~ P: \power~(\power~X); p: \power~X @ P \dcap p = \{~ q: \power~X | q \in P @ q \cap p ~\}
+\end{gendef}
