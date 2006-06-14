@@ -349,7 +349,8 @@
   <xs:element name="CircusStateAnn" type="CIRCUS:CircusStateAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
         <xs:documentation>
-            Defines if a given paragraph is the process state. The parser must enforce such a paragraph is a schema.
+            Defines if a given paragraph is the process state. 
+            The parser must enforce such a paragraph is a schema.
         </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -357,9 +358,10 @@
   <xs:element name="OnTheFlyDefAnn" type="CIRCUS:OnTheFlyDefAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
         <xs:documentation>
-            Defines an on-the-fly definition annotation used for both processes and actions.
+            Defines an on-the-fly definition annotation used for both Process and Action terms.            
             It must be included into <code>ParamAction</code> and <code>ParamProcess</code> by 
-            the parser whenever an on-the-fly definition occurs.
+            the parser whenever an on-the-fly definition occurs. It is also used for on-the-fly
+            schema definitions.
         </xs:documentation>
     </xs:annotation>
   </xs:element>
