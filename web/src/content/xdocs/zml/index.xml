@@ -65,8 +65,8 @@
       </tr>
       <tr>
         <td>2.0</td>
-        <td><link href="Z_1_4.xsd">Z_2_0.xsd</link></td>
-        <td>?.??</td>
+        <td><link href="Z_2_0.xsd">Z_2_0.xsd</link></td>
+        <td>1.95</td>
         <td>
           Renamed the SchText element and type to ZSchText and added new
           abstract element and type SchText.  The element ZSchText is
