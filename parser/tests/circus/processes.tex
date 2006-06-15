@@ -24,17 +24,18 @@
 
 \section{Introduction}
 
-In this file, we explain the various aspect of \Circus\ related to process
-declarations. At each section relevant to the grammar, we include its
-corresponding CUP rule, as ``Section name --- \texttt{grammarRule}''.
+In this file, we explain the various aspect of \Circus\ related to
+process declarations. At each section relevant to the grammar, we
+include its corresponding CUP rule, as ``Section name ---
+\texttt{grammarRule}''.
 
-\Circus\ productions must be included within the \textsf{circus} \LaTeX\
-environment in order to be recognised by the parser. Therefore, to use \Circus\
-one needs to have the current version of the \textsf{circus.sty} \LaTeX\ style
-file.
+\Circus\ productions must be included within the \textsf{circus}
+\LaTeX\ environment in order to be recognised by the parser.
+Therefore, to use \Circus\ one needs to have the current version of
+the \textsf{circus.sty} \LaTeX\ style file.
 
-Amongst other commands, it contains all \Circus\ keywords, and some useful
-environments.
+Amongst other commands, it contains all \Circus\ keywords, and some
+useful environments.
 
 \begin{issue}[creating \texttt{circus.sty} and \texttt{circus.dtx}]
    Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
@@ -47,10 +48,10 @@ environments.
 
 \section{\Circus\ process paragraphs --- \grammar{processPara}}
 
-In \Circus\ processes are global paragraphs at section level. Other global
-paragraphs are channel, channel sets, and all other Z paragraphs. Firstly, we
-need to create a new section containing the \textsf{circus\_toolkit} as a
-parent.
+In \Circus\ processes are global paragraphs at section level. Other
+global paragraphs are channel, channel sets, and all other Z
+paragraphs. Firstly, we need to create a new section containing the
+\textsf{circus\_toolkit} as a parent.
 
 \begin{zsection}
   \SECTION\ circus\_processes \parents\ circus\_toolkit
@@ -93,46 +94,60 @@ where formal parameters are optional.
 Process names must be unique across the specification and the available process descriptions
 are defined below. They usually come between \verb'begin{circus}...end{circus}' environments.
 
-\section{Process description --- \grammar{processDesc}}
+%\section{Process description --- \grammar{processDesc}}
+%
+%Processes can be described in four different ways:~(i)~basic, (ii)~``normal'', (iii)~parameterised, or (iv)~indexed.
+%Basic processes encapsulate state information defined using Z and \Circus\ actions defined using CSP operators.
+%Normal processes are those that use the usual CSP operators.
+%Parameterised processes are process descriptions preceded by a qualified list parameters.
+%Indexed processes like parameterised processes but with the special semantics, which includes
+%change in channel type and name to accommodate the communication of indexes.
+%Each of these categories is detailed below.
+%
+%\subsection{Basic process --- \grammar{basicProcess}}
+%
+%\begin{issue}[\LaTeX\ environments!]
+%\end{issue}
+%
+%\begin{circusprocess}
+%    \begin{procheader}
+%        [X, Y] P \circdef x, y: X @ Q~(x) \extchoice R~(y)
+%    \end{procheader}
+%\end{circusprocess}
+%
+%\begin{circusprocess}[-10pt]
+%    Starting the definition of process $P$
+%    \begin{procheader}
+%        [X, Y] P \circdef \circbegin
+%    \end{procheader}
+%    Now defining an action for $P$
+%    \begin{circusaction}
+%        A \circdef c \then A
+%    \end{circusaction}
+%    Now defining the main action of $P$
+%    \begin{mainaction}
+%        A
+%    \end{mainaction}
+%\end{circusprocess}
+%%... define $BASIC$ later on...
+%
+%\begin{circus}
+%  \circprocess [X] BASIC \circdef BASIC[X]
+%\end{circus}
 
-Processes can be described in four different ways:~(i)~basic, (ii)~``normal'', (iii)~parameterised, or (iv)~indexed.
-Basic processes encapsulate state information defined using Z and \Circus\ actions defined using CSP operators.
-Normal processes are those that use the usual CSP operators.
-Parameterised processes are process descriptions preceded by a qualified list parameters.
-Indexed processes like parameterised processes but with the special semantics, which includes
-change in channel type and name to accommodate the communication of indexes.
-Each of these categories is detailed below.
-
-\subsection{Basic process --- \grammar{basicProcess}}
-
-\begin{issue}[\LaTeX\ environments!]
-\end{issue}
-
-\begin{circusprocess}
-    \begin{procheader}
-        [X, Y] P \circdef x, y: X @ Q~(x) \extchoice R~(y)
-    \end{procheader}
-\end{circusprocess}
-
-\begin{circusprocess}[-10pt]
-    Starting the definition of process $P$
-    \begin{procheader}
-        [X, Y] P \circdef \circbegin
-    \end{procheader}
-    Now defining an action for $P$
-    \begin{circusaction}
-        A \circdef c \then A
-    \end{circusaction}
-    Now defining the main action of $P$
-    \begin{mainaction}
-        A
-    \end{mainaction}
-\end{circusprocess}
-%... define $BASIC$ later on...
-
+We need the hard space on $FibState$ for it to be a $DecorExpr$.
 \begin{circus}
-  \circprocess [X] BASIC \circdef BASIC[X]
+   \circprocess\ UnboxedFibonacci \circdef \circbegin
+    \also %
+    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
+    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
+    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~]\\
+    OutFib ~~\circdef~~ \circmu\ X @ (\circvar\ next: \nat @ OutFibState \circseq\ out~!next \then X) \\
+    \t1 @ (InitFib \circseq\ OutFib) \\
+   \circend
 \end{circus}
+
 
 \subsection{Process definition --- \grammar{process}}
 
