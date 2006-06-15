@@ -91,7 +91,7 @@ public class PrintVisitor
             result.append(visit(term.getStateType()));//SchemaType
         }
         final String sep = "\n\t";
-        result.append(visitList(term.getZDeclSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
+        result.append(visitList(term.getZSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
         result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
         result.append(visitList(term.getNameSet(), "NameSet  : [", ", ", "]\n"));//ZRefNameList          
         return result.toString();
