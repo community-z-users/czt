@@ -12,6 +12,7 @@ package net.sourceforge.czt.parser.circus;
 
 public enum CircusParseMessage {
   
+  MSG_NOT_IMPLEMENTED("{0} feature not implemented yet."),
   MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET("Expressions in channel set paragraphs can be neither set extension nor set comprehension. It must be a basic channel set expresion instead."),
   MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR("Invalid basic channel set expression at index {0}."),
   MSG_UNKNOWN_COMMUNICATION_PATTERN("Invalid communication pattern.", "The prefixing communication is neither of synchronisation, input, output, or mixed. This can only happen with specialised implementations of Field that do not obbey follow any available CommType."),
