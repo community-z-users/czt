@@ -140,13 +140,20 @@ public class SpecialLatexParser {
                         Term term = parseLatexFile(filename, sm);
                         if (term != null) {
                             System.out.println("Parser ok");
-                            ZSect zs = (ZSect)((Spec)term).getSect().get(1);                                                        
-                            for(Para pa: ((ZParaList)zs.getParaList())) {                     
-                                if (pa instanceof ProcessPara) {
-                                    System.out.print("Annotations for " + ((ProcessPara)pa).getProcessName());
-                                    System.out.println(": " + ((ProcessPara)pa).getCircusProcess().getAnns().toString());
-                                }                                                                
-                            }
+                            for(Sect sect : ((Spec)term).getSect()) {
+                                if (sect instanceof ZSect) {
+                                    ZSect zs = (ZSect)sect;  
+                                    for(Para pa: ((ZParaList)zs.getParaList())) {                     
+                                        if (pa instanceof ProcessPara) {
+                                            System.out.print("Annotations for process " + ((ProcessPara)pa).getProcessName() + " in section " + zs.getName());
+                                            if (((ProcessPara)pa).getCircusProcess() != null)
+                                                System.out.println(": " + ((ProcessPara)pa).getCircusProcess().getAnns().toString());
+                                            else
+                                                System.out.println(": none (null process definition)");
+                                        }                                                                
+                                    }
+                                }                                
+                            }                                                        
                         } else {
                             System.err.println("Parse error");
                         }
