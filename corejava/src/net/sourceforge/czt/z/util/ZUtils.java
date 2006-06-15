@@ -44,6 +44,17 @@ public final class ZUtils
   }
   
   /**
+   * Returns true if the AxPara has been properly encoded as either
+   * a schema box or a horizontal definition. It is useful for assertions.
+   */
+  public static boolean isAxParaSchemaValid(AxPara axp) {
+    // ensure our understanding of the CZT encoding is right.
+    return (axp.getZSchText().getPred() == null) &&
+           (axp.getZSchText().getZDeclList().size() == 1) &&
+           (axp.getZSchText().getZDeclList().get(0) instanceof ConstDecl);
+  }
+  
+  /**
    * Checks whether the given paragraph is an <code>AxPara</code> term encoded 
    * as a schema or not. That is, it checks whether the term is properly encoded
    * as either a horizontal or a boxed schema.
@@ -60,10 +71,7 @@ public final class ZUtils
 
           // If it is an OmitBox, check if it is a schema or not.
           if (result) {
-              // ensure our understanding of the CZT encoding is right.
-              assert (axp.getZSchText().getPred() == null) &&
-                      (axp.getZSchText().getZDeclList().size() == 1) &&
-                      (axp.getZSchText().getZDeclList().get(0) instanceof ConstDecl);
+              assert isAxParaSchemaValid(axp);
               ConstDecl cdecl = (ConstDecl)axp.getZSchText().getZDeclList().get(0);
               result = (cdecl.getExpr() instanceof SchExpr);
           }
@@ -74,6 +82,21 @@ public final class ZUtils
     // Otherwise, it is not an AxPara, so not a schema.
     return result;
   }
+  
+  /**
+   * If the given paragraph <code>isSchema(para)</code>, returns
+   * the declared schema name. Otherwise, the method returns null.
+   */
+  public static DeclName getSchemaName(Para para)  
+  {
+    DeclName result = null;
+    if (isSchema(para)) {
+      AxPara axp = (AxPara)para;
+      assert isAxParaSchemaValid(axp);
+      result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getDeclName();
+    }
+    return result;
+  } 
 
   public static ZBranchList assertZBranchList(Term term)
   {
