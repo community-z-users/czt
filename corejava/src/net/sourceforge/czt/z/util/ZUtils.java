@@ -44,28 +44,34 @@ public final class ZUtils
   }
   
   /**
-   * Checks whether the given <code>AxPara</code> term is a schema or not.
-   * That is, it checks whether the term is a horizontal or a boxed schema.
+   * Checks whether the given paragraph is an <code>AxPara</code> term encoded 
+   * as a schema or not. That is, it checks whether the term is properly encoded
+   * as either a horizontal or a boxed schema.
    */
-  public static boolean isSchema(AxPara axp) 
+  public static boolean isSchema(Para p) 
   {
-    boolean result = axp.getBox().equals(Box.SchBox);        
-    // If it is not a SchBox then check for OmitBox.    
-    if (!result) {
-        result = axp.getBox().equals(Box.OmitBox);
+    boolean result = (p instanceof AxPara);
+    if (result) {
+      AxPara axp = (AxPara)p;
+      result = axp.getBox().equals(Box.SchBox);        
+      // If it is not a SchBox then check for OmitBox.    
+      if (!result) {
+          result = axp.getBox().equals(Box.OmitBox);
 
-        // If it is an OmitBox, check if it is a schema or not.
-        if (result) {
-            // ensure our understanding of the CZT encoding is right.
-            assert (axp.getZSchText().getPred() == null) &&
-                    (axp.getZSchText().getZDeclList().size() == 1) &&
-                    (axp.getZSchText().getZDeclList().get(0) instanceof ConstDecl);
-            ConstDecl cdecl = (ConstDecl)axp.getZSchText().getZDeclList().get(0);
-            result = (cdecl.getExpr() instanceof SchExpr);
-        }
-        // Otherwise, it is an AxBox and not a schema, result = false already.
-    }
-    // Otherwise, it is already an schema.
+          // If it is an OmitBox, check if it is a schema or not.
+          if (result) {
+              // ensure our understanding of the CZT encoding is right.
+              assert (axp.getZSchText().getPred() == null) &&
+                      (axp.getZSchText().getZDeclList().size() == 1) &&
+                      (axp.getZSchText().getZDeclList().get(0) instanceof ConstDecl);
+              ConstDecl cdecl = (ConstDecl)axp.getZSchText().getZDeclList().get(0);
+              result = (cdecl.getExpr() instanceof SchExpr);
+          }
+          // Otherwise, it is an AxBox and not a schema, result = false already.
+      }
+      // Otherwise, it is already a schema.
+    }        
+    // Otherwise, it is not an AxPara, so not a schema.
     return result;
   }
 
