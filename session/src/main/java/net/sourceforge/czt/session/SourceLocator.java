@@ -40,7 +40,7 @@ public class SourceLocator
     }
     for (int i = 0; i < suffix_.length; i++) {
       File file = new File(name + suffix_[i]);
-      if (file.exists()) {
+      if (file.exists() && ! file.isDirectory()) {
         manager.put(new Key(name, Source.class), new FileSource(file));
         return true;
       }
