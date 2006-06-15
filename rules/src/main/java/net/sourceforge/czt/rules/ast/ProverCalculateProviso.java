@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,10 +19,12 @@
 
 package net.sourceforge.czt.rules.ast;
 
+import java.io.StringWriter;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
@@ -85,6 +87,8 @@ public class ProverCalculateProviso
         checkBinding(arg, factory_);
       else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
         checkSchemaMinus(arg, factory_);
+      else if ("print".equals(funcName))
+        checkPrint(arg, manager, section);
       else
       {
         final String message = funcName +
@@ -96,6 +100,29 @@ public class ProverCalculateProviso
       final String message =
         expr.getClass() + " not supported in calculate proviso";
       throw new CztException(message);
+    }
+  }
+
+  private void checkPrint(Expr expr,
+                          SectionManager manager, String section)
+  {
+    try {
+      Term term = ProverUtils.removeJoker(expr);
+      StringWriter writer = new StringWriter();
+      PrintUtils.print(term, writer, manager, section, Markup.UNICODE);
+      writer.close();
+      System.out.println(writer.toString());
+      unify(expr, getLeftExpr());
+    }
+    catch(ProverUtils.UnboundJokerException e) {
+      final String message =
+        "Found unbound joker when checking calculate proviso";
+      System.err.println(message + "\nCause by:\n  " + e.getMessage());
+      status_ = Status.UNKNOWN;
+    }
+    catch(java.io.IOException e) {
+      e.printStackTrace();
+      status_ = Status.UNKNOWN;
     }
   }
   

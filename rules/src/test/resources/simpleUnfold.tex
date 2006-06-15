@@ -160,7 +160,8 @@ declared names within the schema.
 \begin{zedrule}{ExistsSchema}
    E1 \unfoldsTo [D1 | P1] \\
    E2 \unfoldsTo [D2 | P2] \\
-   \proviso [D3|true] == [D2|true] \schemaminus [D1|true]
+   \proviso [D3|true] == [D2|true] \schemaminus [D1|true] \\
+   \proviso E == print~[D3 | true]
 \derives
    (\exists E1 @ E2) \unfoldsTo [D3 | (\exists [D1|P1] @ P2)]
 \end{zedrule}
