@@ -42,6 +42,32 @@ public final class ZUtils
       parents.size() == 1 &&
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
   }
+  
+  /**
+   * Checks whether the given <code>AxPara</code> term is a schema or not.
+   * That is, it checks whether the term is a horizontal or a boxed schema.
+   */
+  public static boolean isSchema(AxPara axp) 
+  {
+    boolean result = axp.getBox().equals(Box.SchBox);        
+    // If it is not a SchBox then check for OmitBox.    
+    if (!result) {
+        result = axp.getBox().equals(Box.OmitBox);
+
+        // If it is an OmitBox, check if it is a schema or not.
+        if (result) {
+            // ensure our understanding of the CZT encoding is right.
+            assert (axp.getZSchText().getPred() == null) &&
+                    (axp.getZSchText().getZDeclList().size() == 1) &&
+                    (axp.getZSchText().getZDeclList().get(0) instanceof ConstDecl);
+            ConstDecl cdecl = (ConstDecl)axp.getZSchText().getZDeclList().get(0);
+            result = (cdecl.getExpr() instanceof SchExpr);
+        }
+        // Otherwise, it is an AxBox and not a schema, result = false already.
+    }
+    // Otherwise, it is already an schema.
+    return result;
+  }
 
   public static ZBranchList assertZBranchList(Term term)
   {
