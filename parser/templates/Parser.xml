@@ -3649,18 +3649,23 @@ circusParamZDeclList ::=
         qualifiedDecl:qd
         {: RESULT = factory_.createZDeclList(list(qd)); :}
         |
-        circusParamZDeclList:cdl sep qualifiedDecl:qd
+        circusParamZDeclList:cdl SEMICOLON qualifiedDecl:qd
         {:
            cdl.add(qd);
            RESULT = cdl;
         :}
         ;  
          
+/* We cannot use nameList here because of the COLON.
+ * The smart scanner will interpret the names as DECLNAME,
+ * but nameList produces DECORWORD. We don't want declWordList
+ * either because formal parameters cannot be operators.
+ */  
 qualifiedDecl ::=       
-        optCircusQualifier:ocq nameList:nl COLON:colon expression:e
+        optCircusQualifier:ocq circusDeclWordList:cdwl COLON:colon expression:e
         {:
-           RESULT = factory_.createQualifiedDecl(nl, e, ocq);
-           addLocAnn(RESULT, getLocation(colonleft, colonright));
+           RESULT = factory_.createQualifiedDecl(cdwl, e, ocq);
+           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(e)));
         :}        
         ;
 
@@ -3723,7 +3728,7 @@ unboxedCircusInnerPara ::=
         :} 
         |
         operatorTemplate:ot
-        {:
+        {:           
            try {
              opTable_.add(ot);
            }
@@ -3731,9 +3736,11 @@ unboxedCircusInnerPara ::=
              final Symbol token = new Symbol(Sym.ZED, otleft, otright);             
              parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
                                  new Object[] { e.getMessage() },
-                                 getLocation(otleft, otright));
-           }
+                                 getLocation(ot));
+           }           
            RESULT = ot;
+           parser.report_error(CircusParseMessage.MSG_NOT_IMPLEMENTED, 
+              new Object[] { "Process operator template" }, getLocation(ot));
         :}
         |
         unboxedCircProcState:cps
