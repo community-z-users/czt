@@ -20,6 +20,25 @@
          </action>
     -->
     <release version="0.5" date="unrelease">
+      <action dev="Petra" type="update">
+        Update to ZML 2.0.
+      </action>
+      <action dev="Tim,Petra" type="fix">
+        Improve support for parsing and printing Z pattern, Object Z,
+        and TCOZ.
+      </action>
+      <action dev="Petra" type="add">
+        Improve location annotion information of the AST classes
+        created by the parser.  Now, start character number and length
+        information is, in addition to line and column numbers, also
+        recorded.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve error reporting.
+      </action>
+      <action dev="Petra" type="fix" fixes-bug="1475274">
+        Use BigInteger for Z numerals.
+      </action>
       <action dev="Tim" type="fix">
         Corrected the Object-Z grammar so that scope enrichment has a
         lower precedence than other infix operators.
@@ -29,7 +48,7 @@
         used as the LHS of an operation promotion.
       </action>
       <action dev="Tim" type="fix">
-        Change some rules to improve memory usage for LALR(1) grammar
+        Change some rules to improve memory usage for LALR(1) grammar.
       </action>
     </release>
     <release version="0.4" date="September 2, 2005">
