@@ -2033,6 +2033,7 @@ non terminal ParamQualifier
   
 /// Circus action definition ///////////////////////////////////////////////        
 non terminal CircusAction
+    actionDesc,
     paramAction,
     circusAction,
     actionCall,
@@ -3382,6 +3383,13 @@ processDesc ::=
         :}
         ;
 
+/* Moved replicated productions out of process because they are not
+ * compatible with parenthesised processes. That is, we cannot have 
+ * "\circprocess P \circdef (\Interleave i: \nat @ B)", because it would 
+ * make no sense in "(\Interleave i: \nat @ B) \extchoice C". This also 
+ * normalises on-the-fly replicated/parameterised process calls, which gets 
+ * quite confusing if replicated processes were to be in process.
+ */
 paramProcess ::=
         /* Parameterised process */        
         circusParamDeclList:dp SPOT:sp process:p
@@ -3389,14 +3397,83 @@ paramProcess ::=
             RESULT = factory_.createParamProcess(p, dp);
             addLocAnn(RESULT, getLocation(dpleft, dpright));
         :}
+        |
+        /* Replicated processes productions in precendence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createInterleaveProcessIte(p, dp);
+            addLocAnn(RESULT, getLocation(ri, p));
+        :}
+        | 
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR SPOT:sp process:p
+        {:
+            RESULT = factory_.createParallelProcessIte(p, dp, cs);
+            addLocAnn(RESULT, getLocation(rp, p));
+        :}
+        | 
+        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createIntChoiceProcessIte(p, dp);
+            addLocAnn(RESULT, getLocation(ri, p));
+        :}
+        | 
+        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createExtChoiceProcessIte(p, dp);
+            addLocAnn(RESULT, getLocation(re, p));
+        :}
+        | 
+        ZCOMP:rs circusParamDeclList:dp SPOT:sp process:p
+        {:
+            RESULT = factory_.createSeqProcessIte(p, dp);
+            addLocAnn(RESULT, getLocation(rs, p));
+        :}  %prec _REPSEQ     
         ;
         
+/* Moved replicated indexed productions out of process because they are not
+ * compatible with parenthesised processes. That is, we cannot have 
+ * "\circprocess P \circdef (\Interleave i: \nat \circindex B)", because it would 
+ * make no sense in "(\Interleave i: \nat \circindex B) \extchoice C". This also 
+ * normalises on-the-fly (replicated) indexed process calls, which gets quite 
+ * confusing if replicated indexed processes were to be in process.
+ */        
 indexedProcess ::=  
         circusParamDeclList:dp CIRCINDEX:ci process:p
         {: 
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(dpleft, dpright));
         :}
+        | 
+        /* Indexed processes productions in precendence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createInterleaveProcessIdx(p, dp);
+            addLocAnn(RESULT, getLocation(ri, p));
+        :}
+        | 
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createParallelProcessIdx(p, dp, cs);
+            addLocAnn(RESULT, getLocation(rp, p));
+        :}
+        | 
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createIntChoiceProcessIdx(p, dp);
+            addLocAnn(RESULT, getLocation(ri, p));
+        :}
+        | 
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createExtChoiceProcessIdx(p, dp);
+            addLocAnn(RESULT, getLocation(re, p));
+        :}
+        | 
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci process:p
+        {:
+            RESULT = factory_.createSeqProcessIdx(p, dp);
+            addLocAnn(RESULT, getLocation(rs, p));
+        :} %prec _REPSEQ     
         ;
         
 process ::=       
@@ -3448,73 +3525,11 @@ process ::=
 //        {: 
 //            RESULT = factory_.createRenameProcess(pd, crl);
 //            addLocAnn(RESULT, pdleft, pdright);
-//        :} %prec _RENAME 
-        |
-        /* Replicated processes productions in precendence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp process:p
-        {:
-            RESULT = factory_.createInterleaveProcessIte(p, dp);
-            addLocAnn(RESULT, getLocation(ri, p));
-        :}
-        | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR SPOT:sp process:p
-        {:
-            RESULT = factory_.createParallelProcessIte(p, dp, cs);
-            addLocAnn(RESULT, getLocation(rp, p));
-        :}
-        | 
-        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp process:p
-        {:
-            RESULT = factory_.createIntChoiceProcessIte(p, dp);
-            addLocAnn(RESULT, getLocation(ri, p));
-        :}
-        | 
-        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp process:p
-        {:
-            RESULT = factory_.createExtChoiceProcessIte(p, dp);
-            addLocAnn(RESULT, getLocation(re, p));
-        :}
-        | 
-        ZCOMP:rs circusParamDeclList:dp SPOT:sp process:p
-        {:
-            RESULT = factory_.createSeqProcessIte(p, dp);
-            addLocAnn(RESULT, getLocation(rs, p));
-        :}  %prec _REPSEQ     
-        | 
-        /* Indexed processes productions in precendence order */
-        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
-        {:
-            RESULT = factory_.createInterleaveProcessIdx(p, dp);
-            addLocAnn(RESULT, getLocation(ri, p));
-        :}
-        | 
-        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci process:p
-        {:
-            RESULT = factory_.createParallelProcessIdx(p, dp, cs);
-            addLocAnn(RESULT, getLocation(rp, p));
-        :}
-        | 
-        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci process:p
-        {:
-            RESULT = factory_.createIntChoiceProcessIdx(p, dp);
-            addLocAnn(RESULT, getLocation(ri, p));
-        :}
-        | 
-        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci process:p
-        {:
-            RESULT = factory_.createExtChoiceProcessIdx(p, dp);
-            addLocAnn(RESULT, getLocation(re, p));
-        :}
-        | 
-        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci process:p
-        {:
-            RESULT = factory_.createSeqProcessIdx(p, dp);
-            addLocAnn(RESULT, getLocation(rs, p));
-        :} %prec _REPSEQ        
+//        :} %prec _RENAME                    
         |
         /* Process calls */
         processCall:pc
-        {:
+        {: 
             RESULT = pc;
         :} 
         |
@@ -3858,22 +3873,95 @@ nameSet ::=
 /// Action paragraphs withing Process paragraphs ////////////////////////////////
 
 actionPara ::=
-        name:n CIRCDEF paramAction:pa
+        name:n CIRCDEF actionDesc:pa
         {:
            RESULT = factory_.createActionPara(n, pa);
            addLocAnn(RESULT, getLocation(n, pa));
         :}
         ;        
         
+/* Normalisation of productions to be similar to processDesc.
+ * That is, as we do not have indexed actions, we could have 
+ * left the last two productions inside of paraAction directly, 
+ * but we have chosen to be similar to processDesc.
+ */        
+actionDesc ::=
+        paramAction:pa
+        {: RESULT = pa; :}
+        |       
+        circusAction:ca
+        {: RESULT = ca; :} 
+        |
+        /* Moved out of circusAction because we shall not accept 
+         * parenthesised  schema expression actions.
+         */
+        LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
+        {: 
+            RESULT = factory_.createSchExprAction(e);
+            addLocAnn(RESULT, getLocation(la, ra));
+        :}
+        ;
+       
+/* Moved replicated productions out of cspAction because they are not
+ * compatible with parenthesised actions. That is, we cannot have 
+ * "A \circdef (i: \nat @ B)", because it would make no sense in
+ * "(i: \nat @ B) \extchoice C". This also normalises on-the-fly 
+ * (replicated) parameterised action calls, which gets quite confusing if 
+ * replicated actions were to be a cspAction.
+ */
 paramAction ::=
         circusParamDeclList:cp SPOT paramAction:pa
         {:
             RESULT = factory_.createParamAction(pa, cp);
             addLocAnn(RESULT, getLocation(cpleft, cpright));
-        :} 
+        :}
         |
-        circusAction:ca
-        {: RESULT = ca; :}        
+        /* Replicated action productions in precendence order */
+        REPINTERLEAVE:ri circusParamDeclList:dp LINTER nameSet:ns RINTER SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createInterleaveActionIte(ca, dp, ns);
+            addLocAnn(RESULT, getLocation(ri, ca));
+        :}
+        |
+        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet());
+            addLocAnn(RESULT, getLocation(ri, ca));
+        :}
+        |
+        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp SPOT:sp LPAR nameSet:ns RPAR circusAction:ca
+        {:
+            // Namesets first because of common parent for parallel actions,
+            // and interleave has no channel set but has a name set.
+            RESULT = factory_.createParallelActionIte(ca, dp, ns, cs);
+            addLocAnn(RESULT, getLocation(lp, ca));
+        :}
+        |
+        LPAR:lp channelSet:cs RPAR circusParamDeclList:dp SPOT:sp circusAction:ca
+        {:
+            // Namesets first because of common parent for parallel actions,
+            // and interleave has no channel set but has a name set.
+            RESULT = factory_.createParallelActionIte(ca, dp, createEmptyNameSet(), cs);
+            addLocAnn(RESULT, getLocation(lp, ca));
+        :}
+        |
+        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createIntChoiceActionIte(ca, dp);
+            addLocAnn(RESULT, getLocation(ri, ca));
+        :}
+        |
+        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createExtChoiceActionIte(ca, dp);
+            addLocAnn(RESULT, getLocation(re, ca));
+        :}
+        |
+        ZCOMP:rs circusParamDeclList:dp SPOT:sp circusAction:ca
+        {:
+            RESULT = factory_.createSeqActionIte(ca, dp);
+            addLocAnn(RESULT, getLocation(rs, ca));
+        :} %prec _REPSEQ                
         ;
         
 circusAction ::=         
@@ -3887,12 +3975,18 @@ circusAction ::=
         {: RESULT = ca; :}
         |
         command:c
-        {: RESULT = c; :}                        
-        |
-        LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
-        {: 
-            RESULT = factory_.createSchExprAction(e);
-            addLocAnn(RESULT, getLocation(la, ra));
+        {: RESULT = c; :}                                
+        /* Parenthesised actions */
+        |       
+        /* Moved out of cspAction because we shall accept
+         * parenthesised commands as well.
+         */
+        LPAREN:lp circusAction:ca RPAREN:rp
+        {:
+           ParenAnn parenAnn = factory_.createParenAnn();
+           addLocAnn(parenAnn, getLocation(lp, rp));
+           ca.getAnns().add(parenAnn);                      
+           RESULT = ca;
         :} 
         ;        
         
@@ -4001,64 +4095,10 @@ cspAction ::=
             addLocAnn(RESULT, getLocation(comm, ca));
         :}
         |
-        /* Replicated action productions in precendence order */
-        REPINTERLEAVE:ri declPart:dp LINTER nameSet:ns RINTER SPOT:sp circusAction:ca
-        {:
-            RESULT = factory_.createInterleaveActionIte(ca, dp, ns);
-            addLocAnn(RESULT, getLocation(ri, ca));
-        :}
-        |
-        REPINTERLEAVE:ri declPart:dp SPOT:sp circusAction:ca
-        {:
-            RESULT = factory_.createInterleaveActionIte(ca, dp, createEmptyNameSet());
-            addLocAnn(RESULT, getLocation(ri, ca));
-        :}
-        |
-        LPAR:lp channelSet:cs RPAR declPart:dp SPOT:sp LPAR nameSet:ns RPAR circusAction:ca
-        {:
-            RESULT = factory_.createParallelActionIte(ca, dp, ns, cs);
-            addLocAnn(RESULT, getLocation(lp, ca));
-        :}
-//CONFLICTS        
-//        /* This syntactic sugar is generating 3 conflicts; just leave it out for the moment.*/
-//        |
-//        LPAR:lp channelSet:cs RPAR declPart:dp SPOT:sp circusAction:ca
-//        {:
-//            RESULT = factory_.createParallelActionIte(ca, dp, cs, createEmptyNameSet());
-//            addLocAnn(RESULT, lpleft, lpright);
-//        :}
-        |
-        REPINTCHOICE:ri declPart:dp SPOT:sp circusAction:ca
-        {:
-            RESULT = factory_.createIntChoiceActionIte(ca, dp);
-            addLocAnn(RESULT, getLocation(ri, ca));
-        :}
-        |
-        REPEXTCHOICE:re declPart:dp SPOT:sp circusAction:ca
-        {:
-            RESULT = factory_.createExtChoiceActionIte(ca, dp);
-            addLocAnn(RESULT, getLocation(re, ca));
-        :}
-        |
-        ZCOMP:rs declPart:dp SPOT:sp circusAction:ca
-        {:
-            RESULT = factory_.createSeqActionIte(ca, dp);
-            addLocAnn(RESULT, getLocation(rs, ca));
-        :} %prec _REPSEQ
-        |       
         actionCall:ac
         {:
             RESULT = ac;
-        :} 
-        /* Parenthesised actions */
-        |        
-        LPAREN:lp circusAction:ca RPAREN:rp
-        {:
-           ParenAnn parenAnn = factory_.createParenAnn();
-           addLocAnn(parenAnn, getLocation(lp, rp));
-           ca.getAnns().add(parenAnn);                      
-           RESULT = ca;
-        :} 
+        :}         
         ;
 
 actionCall ::=                        
