@@ -18,6 +18,7 @@
  */
 package zsidekick;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -70,6 +71,10 @@ public abstract class AbstractParser
     try {
       SectionManager manager = getManager();
       final String name = buffer.getPath();
+      final String path = new File(name).getParent();
+      if (path != null) {
+        manager.setProperty("czt.path", path);
+      }
       final Source source =
         new StringSource(buffer.getText(0, buffer.getLength()), name);
       source.setEncoding(buffer.getStringProperty("encoding"));
