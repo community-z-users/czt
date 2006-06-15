@@ -41,6 +41,8 @@ import net.sourceforge.czt.zpatt.util.Factory;
 <add:circus>
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.z.util.ZUtils;
 </add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
@@ -128,7 +130,7 @@ action code
      * always related to the current basic process being parsed.
      * &lt;/p&gt;
      */
-    private List&lt;ActionPara&gt; implicitlyDeclActs_ = new ArrayList&lt;ActionPara&gt;();
+    private List&lt;ActionPara&gt; implicitlyDeclActPara_ = new ArrayList&lt;ActionPara&gt;();
     
     /**
      * &lt;p&gt;
@@ -140,21 +142,21 @@ action code
      * always related to the current Z section being parsed.
      * &lt;/p&gt;
      */
-    private List&lt;ProcessPara&gt; implicitlyDeclProcs_ = new ArrayList&lt;ProcessPara&gt;();
+    private List&lt;ProcessPara&gt; implicitlyDeclProcPara_ = new ArrayList&lt;ProcessPara&gt;();
            
     /**
      * &lt;p&gt;
      * Unique number seed for implicitly declared action names.
      * &lt;/p&gt;     
      */                         
-    private static long implicitlyActUniqueNameSeed_ = 0;
+    private static int implicitlyActUniqueNameSeed_ = 0;
     
     /**
      * &lt;p&gt;
      * Unique number seed for implicitly declared process names.
      * &lt;/p&gt;     
      */  
-    private static long implicitlyProcUniqueNameSeed_ = 0;    
+    private static int implicitlyProcUniqueNameSeed_ = 0;    
     
     private DeclName currentProcessName = null;
     private RefName currentProcessState = null;        
@@ -1250,6 +1252,9 @@ action code
         return result;
     }
     
+    /**
+     * Creates a unique name for implicitly declared actions located at the given term.
+     */
     protected Decorword createImplicitlyDeclActUniqueName(Term loc) { 
         // Avoid the inline post assignment just for clarity.
         String result = "$$implicitAct" + implicitlyActUniqueNameSeed_;
@@ -1257,12 +1262,140 @@ action code
         return new Decorword(result, getLocation(loc));
     }    
     
+    /**
+     * Creates a unique name for implicitly declared processes located at the given term.
+     */
     protected Decorword createImplicitlyDeclProcUniqueName(Term loc) { 
         // Avoid the inline post assignment just for clarity.
         String result = "$$implicitProc" + implicitlyProcUniqueNameSeed_;
         implicitlyProcUniqueNameSeed_++;
         return new Decorword(result, getLocation(loc));
     }
+    
+    /**
+     * Clears the implicitly declared actions cache for the current &lt;code&gt;BasicProcess&lt;/code&gt;.
+     * It also resets the unique name seed to zero.
+     */
+    protected void clearBasicProcesOnTheFlyCache() {
+       implicitlyActUniqueNameSeed_ = 0;
+       implicitlyDeclActPara_.clear();      
+    }
+    
+    /**
+     * Clears the implicitly declared processes cache for the current &lt;code&gt;ZSect&lt;/code&gt;.
+     * It also resets the unique name seed to zero.
+     */
+    protected void clearSectProcesOnTheFlyCache() {
+       implicitlyProcUniqueNameSeed_ = 0;
+       implicitlyDeclProcPara_.clear();      
+    }
+    
+    /**
+     * Add an implicitly declared action to the current &lt;code&gt;BasicProcess&lt;/code&gt; cache.
+     * It also includes an &lt;code&gt;OnTheFlyDefAnn&lt;/code&gt; for the 
+     * action the paragraph defines.
+     */
+    protected void addImplicitlyDeclActionPara(ActionPara ap) {
+        assert ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) == null : "Action already had an on-the-fly annotation";
+        ap.getCircusAction().getAnns().add(factory_.createOnTheFlyDefAnn());
+        implicitlyDeclActPara_.add(ap);
+    }
+    
+    /**
+     * Add an implicitly declared process to the current &lt;code&gt;ZSect&lt;/code&gt; cache.
+     * It also includes an &lt;code&gt;OnTheFlyDefAnn&lt;/code&gt; for the process
+     * the paragraph defines.
+     */
+    protected void addImplicitlyDeclProcessPara(ProcessPara pp) {
+        assert pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null : "Process already had an on-the-fly annotation";
+        pp.getCircusProcess().getAnns().add(factory_.createOnTheFlyDefAnn());
+        implicitlyDeclProcPara_.add(pp);
+    }
+    
+    /**
+     * Checks whether the given predicate is a schema. 
+     * If the paragraph is not a schema, an error is reported.     
+     */
+    protected void checkCircusStateAnnParaIsSchema(Para p) {      
+      if (!CircusUtils.isSchema(p)) {                      
+         //TODO: Maybe clean this error message as it must never happen if the
+         //      parser is encoded correctly. 
+         parser.report_error(CircusParseMessage.MSG_INVALID_BASICPROCESS_STATE_PARA,
+               new Object[0], getLocation(p));
+      }
+    }
+    
+    /**
+     * Adds a &lt;code&gt;CircusStateAnn&lt;/code&gt; annotation to the given paragraph.
+     * The code also checks the paragraph is indeed a valid schema, and an error is
+     * report if a problem is found.
+     */
+    protected void addCircusStateAnn(Para para) {
+        checkCircusStateAnnParaIsSchema(para);
+        para.getAnns().add(factory_.createCircusStateAnn());
+    }
+
+    /**
+     * Flattens all paragraphs from the given list of &lt;code&gt;ZParaList&lt;/code&gt; 
+     * and then keep those that are annotated with &lt;code&gt;CircusStateAnn&lt;/code&gt;.      
+     */
+    protected ZParaList getCircusStateAnnPara(ZParaList... lists) {
+        // Create a list with all paragraphs from the lists.
+        ZParaList result = factory_.createZParaList();
+        for(ZParaList zpl : lists) {
+          result.addAll(zpl);
+        }      
+
+        // Search the complete list and remove all non-state para.
+        for(Iterator&lt;Para&gt; it = result.iterator(); it.hasNext(); ) {
+          Para p = it.next();      
+          // If we have an annotation, check it is valid.
+          if (p.getAnn(CircusStateAnn.class) != null) {
+            checkCircusStateAnnParaIsSchema(p);
+          } 
+          // Otherwise just remove them
+          else if (p.getAnn(CircusStateAnn.class) == null) {
+            it.remove();
+          }
+        }
+        return result;    
+    }
+    
+    /**
+     * Retrieves all paragraphs within the given &lt;code&gt;BasicProcess&lt;/code&gt; 
+     * that are annotated with &lt;code&gt;CircusStateAnn&lt;/code&gt;. This includes
+     * both local declarations and on-the-fly actions.
+     */
+    protected ZParaList getCircusStateAnnPara(BasicProcess bp) {
+      return getCircusStateAnnPara(ZUtils.assertZParaList(bp.getLocalPara()),
+          ZUtils.assertZParaList(bp.getOnTheFlyPara()));
+    }
+
+    /**
+     * Checks &lt;code&gt;BasicProcess&lt;/code&gt; paragraphs for repeated state annotations.     
+     * That is, if the given paragraph corresponds to a &lt;code&gt;BasicProcess&lt;/code&gt;,
+     * and the user has declared more than one state schemas, an error is reported.
+     */
+    protected void checkRepeatedStateDecl(ProcessPara pp) {  
+      if (pp.getCircusProcess() instanceof BasicProcess) {
+        BasicProcess bp = (BasicProcess)pp.getCircusProcess();
+        
+        // Collect all paragraphs annotated with CircusStateAnn.
+        ZParaList stateParaList = getCircusStateAnnPara(bp);
+
+        // If more than one state has been declared, then raise the error.
+        // The message will contain the process name and the first violating
+        // state, which is the second one (of the possibly many) declared.
+        if (stateParaList.size() > 1) {              
+          parser.report_error(CircusParseMessage.MSG_DUPLICATE_PROC_STATE_DECL,
+              new Object[] { pp.getProcessName(), CircusUtils.getSchemaName(stateParaList.get(0)), 
+                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)) }, 
+                  getLocation(pp, stateParaList.get(1)));
+        }                        
+        // Otherwise, it is fine, either we have one or no state declaration.
+      }
+    }
+
 </add:circus>
 :}
 
@@ -2170,9 +2303,8 @@ emptySectionHeader ::=
            resetJokerTable(name, parents, eleft, eright);
 </add:zpatt>
            RESULT = createZSect(name, parents);
-<add:circus>                      
-           implicitlyDeclProcs_.clear();
-           implicitlyProcUniqueNameSeed_ = 0; 
+<add:circus>                        
+           clearSectProcesOnTheFlyCache();
 </add:circus>
            addLocAnn(RESULT, getLocation(eleft, eright));
         :}
@@ -2250,8 +2382,7 @@ sectionHeader ::=
 </add:zpatt>
            RESULT = createZSect(name, p);
 <add:circus>                       
-           implicitlyDeclProcs_.clear();
-           implicitlyProcUniqueNameSeed_ = 0;
+           clearSectProcesOnTheFlyCache();
 </add:circus>           
            addLocAnn(RESULT, s);
         :}
@@ -2790,11 +2921,13 @@ channelPara ::=
 channelDeclList ::= 
         channelDecl:cd
         {:
-           RESULT = factory_.list(cd);
+           assert cd != null;
+           RESULT = factory_.list(cd);           
         :}
         |
         channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
+           assert cd != null;
            cdl.add(cd);
            RESULT = cdl;
         :}
@@ -2964,10 +3097,12 @@ channelSet ::=
 //        :}
 //        |
 //        /* parenthesized cs_term */
-//        LPAREN cs_expression:t RPAREN
+//        LPAREN:lp cs_expression:t RPAREN:rp
 //        {:
-//           t.getAnns().add(factory_.createParenAnn());
-//           RESULT = t;
+//             ParenAnn parenAnn = factory_.createParenAnn();
+//             addLocAnn(parenAnn, getLocation(lp, rp));
+//             t.getAnns().add(parenAnn);
+//             RESULT = t;
 //        :}
 //        |
 //        /* reference */
@@ -3218,14 +3353,14 @@ channelSet ::=
 //        :}
 //        ;
         
-/// Process Paragraphs ////////////////////////////////
-
+/// Process Paragraphs ////////////////////////////////      
+  
 processPara ::=
         /* Process declaration */
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
-        {:    
-           //TODO:CHECK is this here or post-parsing? checkRepeatedState(name, pd);
+        {: 
            RESULT = factory_.createProcessPara(n, ofp, pd);
+           checkRepeatedStateDecl((ProcessPara)RESULT);
            addLocAnn(RESULT, getLocation(cp, pd));
         :}                
         ;        
@@ -3384,57 +3519,73 @@ process ::=
         :} 
         |
         /* Parenthesised processes */
-        LPAREN process:p RPAREN
+        LPAREN:lp process:p RPAREN:rp
         {:
-           p.getAnns().add(factory_.createParenAnn());
+           ParenAnn parenAnn = factory_.createParenAnn();
+           addLocAnn(parenAnn, getLocation(lp, rp));
+           p.getAnns().add(parenAnn);
            RESULT = p;
         :} 
         ;
         
 unboxedBasicProcess ::=                                
-        CIRCBEGIN:cb unboxedOptInnerCircusParaList:ipl SPOT circusAction:ca CIRCEND:ce
-        {:         
+        CIRCBEGIN:cb unboxedOptInnerCircusParaList:ipl SPOT:s circusAction:ca CIRCEND:ce
+        {:  
            assert ca != null : "Invalid (null) main action."; //this should never happen.
-           ActionPara mainActPara = factory_.createActionPara(factory_.createZDeclName(DEFAULT_MAIN_ACTION_NAME), ca);
-           implicitlyDeclActs_.add(mainActPara);
-           Para statePara = null;           
-           for(Para p : ipl) {           
-                // A better parsing error is given at processPara.
-                assert statePara == null : "Duplicated state annotation paragraph";
-                if (p.getAnn(CircusStateAnn.class) != null) {
-                   //TODO: makesure that P is a schema (or SchExprAction)! 
-                   statePara = p ;
-                   break;
-                }
-           }
-           RESULT = factory_.createBasicProcess(statePara, factory_.createZParaList(ipl), factory_.createZParaList(implicitlyDeclActs_), ca);
-           implicitlyActUniqueNameSeed_ = 0;
-           implicitlyDeclActs_.clear();           
-           addLocAnn(RESULT, getLocation(getLocation(cbleft, cbright), getLocation(celeft, ceright)));
+           
+           // Create an on-the-fly paragraph for the main action named "$$mainAction".
+           ActionPara mainActPara = factory_.createActionPara(
+              factory_.createZDeclName(DEFAULT_MAIN_ACTION_NAME), ca);
+           addImplicitlyDeclActionPara(mainActPara);
+           addLocAnn(mainActPara, getLocation(s, getLocation(ca)));           
+           
+           // Collects list of declared paragraphs for the basic process 
+           ZParaList localPara = factory_.createZParaList(ipl);
+           ZParaList onTheFlyPara = factory_.createZParaList(implicitlyDeclActPara_);           
+           
+           // Retrieve all state annotated elements (and the first one to be the state).
+           // Duplicated state annotations will generate an error report at ProcessPara.
+           ZParaList stateParaList = getCircusStateAnnPara(localPara, onTheFlyPara);
+           Para statePara = null;
+           if (!stateParaList.isEmpty()) {
+              statePara = stateParaList.get(0);
+           }           
+           
+           // Creates the resulting basic process
+           RESULT = factory_.createBasicProcess(statePara, localPara, onTheFlyPara, ca);
+           addLocAnn(RESULT, getLocation(cb, ce));
+           
+           // Clears the bacis process on-the-fly cache now the the onTheFlyPara
+           // elements have been copied by the constructor (but it doesn't hurt 
+           // to assert it is acttually correct).
+           assert ((BasicProcess)RESULT).getOnTheFlyPara().equals(onTheFlyPara) : 
+                  ("Could not properly copy the on-the-fly para while creating basic process. " +
+                  "Cache is to be reset. TODO:Remove after parser stabilises.");
+           clearBasicProcesOnTheFlyCache();           
         :}
         ;        
         
 processCall ::=                        
         LPAREN:lp1 paramProcess:pp RPAREN:rp1 LPAREN:lp2 expressionList:el RPAREN:rp2
         {:            
-            Decorword pn = createImplicitlyDeclProcUniqueName(pp);
-            pp.getAnns().add(factory_.createOnTheFlyDefAnn());
+            Decorword pn = createImplicitlyDeclProcUniqueName(pp);            
             ProcessPara pa = factory_.createProcessPara(createZDeclName(pn), factory_.createZDeclNameList(), pp);
-            implicitlyDeclProcs_.add(pa);            
+            addLocAnn(pa, getLocation(pn.getLocation(), pp));
+            addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are empty */
             RESULT = factory_.createCallProcess(createZRefName(pn), factory_.createZExprList(), el, CallKind.Param);
-            addLocAnn(RESULT, getLocation(getLocation(lp1left, lp1right), getLocation(rp2left, rp2right)));
+            addLocAnn(RESULT, getLocation(lp1, rp2));
         :}
         |
         LPAREN:lp indexedProcess:ip RPAREN:rp CIRCLINST:li expressionList:idx CIRCRINST:ri
         {:
-            Decorword pn = createImplicitlyDeclProcUniqueName(ip);
-            ip.getAnns().add(factory_.createOnTheFlyDefAnn());
+            Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = factory_.createProcessPara(createZDeclName(pn), factory_.createZDeclNameList(), ip);
-            implicitlyDeclProcs_.add(pa);
+            addLocAnn(pa, getLocation(pn.getLocation(), ip));
+            addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are empty */
             RESULT = factory_.createCallProcess(createZRefName(pn), factory_.createZExprList(), idx, CallKind.Index);
-            addLocAnn(RESULT, getLocation(getLocation(lpleft, lpright), getLocation(rileft, riright)));
+            addLocAnn(RESULT, getLocation(lp, ri));
         :}
         |
         /* Nongenertic parameterised process call with instantiations */
@@ -3613,7 +3764,7 @@ unboxedCircProcState ::=
            addLocAnn(st, getLocation(n, e));
            ZDeclNameList zdnl = factory_.createZDeclNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
-           RESULT.getAnns().add(factory_.createCircusStateAnn());
+           addCircusStateAnn(RESULT);
            addLocAnn(RESULT, getLocation(getLocation(csleft, csright), e));
         :}
         |
@@ -3635,14 +3786,13 @@ unboxedCircProcState ::=
            */
            
            // Add it as an implicitly declared paragraph
-           SchExprAction sa = factory_.createSchExprAction(e);
-           sa.getAnns().add(factory_.createOnTheFlyDefAnn());           
-           addLocAnn(sa, getLocation(e));
+           SchExprAction sa = factory_.createSchExprAction(e);           
+           addLocAnn(sa, getLocation(dn, e));
            ActionPara ap = factory_.createActionPara(dn, sa);
-           ap.getAnns().add(factory_.createCircusStateAnn());
-           implicitlyDeclActs_.add(ap);
+           addCircusStateAnn(ap);           
+           addImplicitlyDeclActionPara(ap);
            RESULT = ap;
-           addLocAnn(RESULT, getLocation(dn, e));                      
+           addLocAnn(RESULT, getLocation(cs, e));                      
         :}
         ;      
  
@@ -3733,7 +3883,10 @@ circusAction ::=
         {: RESULT = c; :}                        
         |
         LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
-        {: RESULT = null; :} 
+        {: 
+            RESULT = factory_.createSchExprAction(e);
+            addLocAnn(RESULT, getLocation(la, ra));
+        :} 
         ;        
         
 cspAction ::=
@@ -3892,9 +4045,11 @@ cspAction ::=
         :} 
         /* Parenthesised actions */
         |        
-        LPAREN circusAction:ca RPAREN
+        LPAREN:lp circusAction:ca RPAREN:rp
         {:
-           ca.getAnns().add(factory_.createParenAnn());
+           ParenAnn parenAnn = factory_.createParenAnn();
+           addLocAnn(parenAnn, getLocation(lp, rp));
+           ca.getAnns().add(parenAnn);                      
            RESULT = ca;
         :} 
         ;
@@ -3902,12 +4057,12 @@ cspAction ::=
 actionCall ::=                        
         LPAREN:lp1 paramAction:pa RPAREN:rp1 LPAREN:lp2 expressionList:el RPAREN:rp2
         {:
-            Decorword an = createImplicitlyDeclActUniqueName(pa);            
-            pa.getAnns().add(factory_.createOnTheFlyDefAnn());
+            Decorword an = createImplicitlyDeclActUniqueName(pa);                        
             ActionPara ap = factory_.createActionPara(createZDeclName(an),  pa);
-            implicitlyDeclActs_.add(ap);
+            addLocAnn(ap, getLocation(an.getLocation(), pa));
+            addImplicitlyDeclActionPara(ap);
             RESULT = factory_.createCallAction(createZRefName(an), el);
-            addLocAnn(RESULT, getLocation(getLocation(lp1left, lp1right), getLocation(rp2left, rp2right)));
+            addLocAnn(RESULT, getLocation(lp1, rp2));
         :}
         |
         DECORWORD:dw LPAREN expressionList:el RPAREN
@@ -3993,7 +4148,7 @@ commField ::=
          * Option 2) Channel names without strokes
          * ---------
          *
-         * Doesn't change the fact the scanne will recognise "c?" as
+         * Doesn't change the fact the scanner will recognise "c?" as
          * one DECORWORD, which means no good will be done here.
          * This in fact is the harder solution, as it demands various
          * chamnges in both ContextFree and Latex2Unicode scanners.
@@ -4002,6 +4157,7 @@ commField ::=
          * ABSOLUTE NIGHTMARE! Forget it.
          *
          * Option 3) Using INSTROKE to represent input field
+         * ---------
          *
          * That means disapearing with CIRCCOMMQUERY (easy) and using
          * INSTROKE instead. This does not require any change anywhere else.
@@ -4010,7 +4166,14 @@ commField ::=
          * That is somehow similar to what happens with DOT. The difference
          * is that "?" and "!" are more complicated because they can be lexed
          * as either part of a DECORWORD or as STROKES.
-         *         
+         *      
+         * Option 4) Changing communication production to use CHANWORD
+         * ---------
+         *
+         * If we choose to change the scanner to use CHANWORD, which is 
+         * WORD + a selection of strokes only, this might be the closest
+         * tidiest and simplest solution. TODO:CHECK IT.
+         *
          */
         /* Input communicatio as in: c?x */
         INSTROKE:in DECORWORD:dw
