@@ -17,6 +17,85 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="2.0.0" date="unreleased">
+      <action dev="Petra" type="apichange">
+        Remove interface
+        <code>net.sourceforge.czt.base.ast.TermA</code>
+        and class
+        <code>net.sourceforge.czt.base.impl.TermAImpl</code>
+        and make
+        <code>net.sourceforge.czt.base.ast.Term</code>
+        contain annotations instead.
+      </action>
+      <action dev="Petra" type="apichange">
+        Update classes in packages z according to the changes in ZML.
+        New interfaces and classes:
+        <code>net.sourceforge.czt.z.ast.Ann</code>,
+        <code>net.sourceforge.czt.z.ast.BranchList</code>,
+        <code>net.sourceforge.czt.z.ast.DeclList</code>,
+        <code>net.sourceforge.czt.z.ast.DeclNameList</code>,
+        <code>net.sourceforge.czt.z.ast.ExprList</code>,
+        <code>net.sourceforge.czt.z.ast.FreetypeList</code>,
+        <code>net.sourceforge.czt.z.ast.Numeral</code>,
+        <code>net.sourceforge.czt.z.ast.ParaList</code>,
+        <code>net.sourceforge.czt.z.ast.RefNameList</code>,
+        <code>net.sourceforge.czt.z.ast.RenameList</code>,
+        <code>net.sourceforge.czt.z.ast.StrokeList</code>,
+        <code>net.sourceforge.czt.z.ast.ZBranchList</code>,
+        <code>net.sourceforge.czt.z.ast.ZDeclList</code>,
+        <code>net.sourceforge.czt.z.ast.ZDeclName</code>,
+        <code>net.sourceforge.czt.z.ast.ZDeclNameList</code>,
+        <code>net.sourceforge.czt.z.ast.ZExprList</code>,
+        <code>net.sourceforge.czt.z.ast.ZFreetypeList</code>,
+        <code>net.sourceforge.czt.z.ast.ZNumeral</code>,
+        <code>net.sourceforge.czt.z.ast.ZParaList</code>,
+        <code>net.sourceforge.czt.z.ast.ZRefName</code>,
+        <code>net.sourceforge.czt.z.ast.ZRefNameList</code>,
+        <code>net.sourceforge.czt.z.ast.ZRenameList</code>,
+        <code>net.sourceforge.czt.z.ast.ZSchText</code>, and
+        <code>net.sourceforge.czt.z.ast.ZStrokeList</code>.
+        Removed interfaces and classes:
+        <code>net.sourceforge.czt.z.ast.Name</code> and
+        <code>net.sourceforge.czt.z.ast.NameExprPair</code>.
+        Renamed interfaces and classes:
+        <code>net.sourceforge.czt.z.ast.NameNamePair</code> to
+        <code>net.sourceforge.czt.z.ast.NewOldPair</code>, and
+        <code>net.sourceforge.czt.z.ast.Number</code> to
+        <code>net.sourceforge.czt.z.ast.Digit</code>.
+        Added new getter and setter for Start and Length to LocAnn.
+        Added new getter and setter for Explicit to RefExpr.
+      </action>
+      <action dev="Petra" type="apichange">
+        Use <code>BigInteger</code> instead of <code>Integer</code> for
+        <code>Prec</code> in <code>OptempPara</code>,
+        in <code>ZNumeral</code>, and for <code>Line</code> and
+        <code>Col</code> in <code>LocAnn</code>.
+      </action>
+      <action dev="Petra" type="apichange">
+        Change the return type of method
+        <code>Term.getAnns()</code> to <code>List</code>.
+      </action>
+      <action dev="Tim,Leo,Petra" type="apichange">
+        Update classes in packages oz, tcoz, circus, and zpatt
+        according to the changes in the corresponding XML Schema files
+        (too many changes to explicitly list them here).
+      </action>
+      <action dev="Petra" type="add">
+        Provide support for selecting terms in an AST based on the
+        location annotations of the terms and a given position, which is
+        usually the position of a pointing device like a caret.  See
+        <code>net.sourceforge.czt.z.util.TermSelector</code> for more
+        information.
+      </action>
+      <action dev="Petra" type="add">
+        Provide support for obtaining concrete syntax information of a
+        given AST node.  This can be used to give a description of a
+        selected term to a user, or as entries in the tree of a structure
+        browsers.  See
+        <code>net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor.java</code>
+        for more information.
+      </action>
+    </release>
     <release version="1.4.1" date="September 2, 2005">
       <action dev="Petra" type="apichange">
         Change the AST to use generic lists.  Remove now unused class
@@ -416,9 +495,6 @@
       </action>
     </actions>
     <actions priority="low">
-      <action context="code" dev="open">
-        Test newly generated TCOZ classes.  They are probably not yet working.
-      </action>
       <action context="docs" dev="open">
         Design a Corejava logo.
       </action>
