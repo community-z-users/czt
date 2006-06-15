@@ -3843,11 +3843,14 @@ unboxedCircProcState ::=
         
 /// Special productions for process paragraphs ////////////////////////////////
         
+/* Changed nameList to circusDeclWordList because we need DECLWORD 
+ * rather than DECORWORD (and no operator templates, please).
+ */
 channelRenameList ::=
-        nameList:nl COLON EQUALS refNameList:rnl
+        circusDeclWordList:cdwl COLON EQUALS refNameList:rnl
         {:           
-           RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(nlleft, nlright, nl, rnl));
-           addLocAnn(RESULT, getLocation(nlleft, nlright));
+           RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(cdwlleft, cdwlright, cdwl, rnl));
+           addLocAnn(RESULT, getLocation(cdwl.get(0), rnl.get(rnl.size()-1)));
         :}
         ;   
 
@@ -3893,13 +3896,23 @@ actionDesc ::=
         {: RESULT = ca; :} 
         |
         /* Moved out of circusAction because we shall not accept 
-         * parenthesised  schema expression actions.
+         * parenthesised  schema expression actions. Note that 
+         * variable substitution can take place in two degrees,
+         * with something like:
+         * "\lschextact (S \land T)[x/y] \rschextact [y/z]"
          */
         LSCHEXPRACT:la expression:e RSCHEXPRACT:ra
         {: 
             RESULT = factory_.createSchExprAction(e);
             addLocAnn(RESULT, getLocation(la, ra));
         :}
+        /* Action substitution like in Z substitution */
+        |         
+        actionDesc:ad LSQUARE renameList:rnl RSQUARE:rsquare
+        {: 
+            RESULT = factory_.createSubstitutionAction(ad, rnl);
+            addLocAnn(RESULT, getLocation(ad, rsquare));
+        :} %prec _RENAME         
         ;
        
 /* Moved replicated productions out of cspAction because they are not
@@ -4324,7 +4337,7 @@ command ::=
         {:
             RESULT = factory_.createSpecStmtCommand(factory_.createZRefNameList(), TRUE_PREDICATE, post);
             addLocAnn(RESULT, getLocation(getLocation(lsleft, lsright), getLocation(rsleft, rsright)));
-        :}
+        :}                   
         ;
         
 guardedCommands ::=      
