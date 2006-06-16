@@ -10,6 +10,8 @@
       <char id="RCIRCGUARD" hex="3015" description="right guarded action bracket"/>
       <char id="LSCHEXPRACT" hex="2768" description="left schema expression action bracket"/>
       <char id="RSCHEXPRACT" hex="2769" description="right schema expression action bracket"/>      
+      <char id="LCIRCRENAME" hex="3016" description="left process renaming bracket"/>
+      <char id="RCIRCRENAME" hex="3017" description="right process renaming bracket"/>      
       <char id="LPAR" hex="27E6" description="left parallel bracket"/>
       <char id="RPAR" hex="27E7" description="right parallel bracket"/>
       <!-- TODO: Find appropriate unicode for those two -->
