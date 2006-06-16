@@ -149,6 +149,7 @@ public class KeywordScanner
     addKeyword(result, CircusString.CIRCTHEN, Sym.CIRCTHEN);
     addKeyword(result, CircusString.CIRCELSE, Sym.CIRCELSE);
     addKeyword(result, CircusString.PREFIXTHEN, Sym.PREFIXTHEN);
+    addKeyword(result, CircusString.CIRCASSIGN, Sym.CIRCASSIGN);
     /**
      * Note: We are reusing ANDALSO instead. See Parser.xml terminal section for an explanation.
      * addKeyword(result, CircusString.CIRCGUARD, Sym.CIRCGUARD); 
