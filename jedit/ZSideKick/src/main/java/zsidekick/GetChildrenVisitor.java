@@ -43,7 +43,7 @@ public class GetChildrenVisitor
 
   public Term[] visitZParaList(ZParaList list)
   {
-    List<Para> result = new ArrayList();
+    List<Para> result = new ArrayList<Para>();
     for (Para para : list) {
       if (! (para instanceof LatexMarkupPara) &&
           ! (para instanceof NarrPara)) {
