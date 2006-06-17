@@ -24,6 +24,12 @@
             icon="icons/sample.gif"
             id="net.sourceforge.czt.eclipse.views.ZCharMapView"
             name="%CharMapView.name"/>
+      <view
+            category="net.sourceforge.czt.eclipse"
+            class="net.sourceforge.czt.eclipse.views.ZConversionView"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.views.ZConversionView"
+            name="%ConversionView.name"/>
    </extension>
    <extension
          id="CZTDocumentSetupParticipant"
@@ -145,55 +151,112 @@
             verticalRulerPreferenceValue="false"/>
    </extension>
    <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="%EditorActionSet.description"
+            id="net.sourceforge.czt.eclipse.EditorActionSet"
+            label="%EditorActionSet.label"
+            visible="false">
+         <action
+               definitionId="net.sourceforge.czt.eclipse.editoraction.convert2latex"
+               id="net.sourceforge.czt.eclipse.editoractions.Convert2LatexAction"
+               label="%Convert2LatexAction.label"
+               retarget="true"
+               style="push"/>
+      </actionSet>
+   </extension>
+   <extension
          point="org.eclipse.ui.commands">
       <category
-            description="CZT Commands"
-            id="net.sourceforge.czt.eclipse.editorcommands"
-            name="CZT"/>
+            description="%category.source.description"
+            id="net.sourceforge.czt.eclipse.category.source"
+            name="%category.source.name"/>
       <command
-            category="CZT"
-            categoryId="net.sourceforge.czt.eclipse.editorcommands"
+            categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Go to declaration of a term"
             id="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
             name="Go To Declaration"/>
       <command
-            category="CZT Editor"
-            categoryId="net.sourceforge.czt.eclipse.editorcommands"
+            categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Expand current selection to the enclosing element"
             id="net.sourceforge.czt.eclipse.editoraction.expandselection"
             name="Expand Selection"/>
       <command
-            category="CZT Editor"
-            categoryId="net.sourceforge.czt.eclipse.editorcommands"
+            categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Restore last expansion"
             id="net.sourceforge.czt.eclipse.editoraction.contractselection"
             name="Contract Selection"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.category.source"
+            description="Convert current specification to latex markup"
+            id="net.sourceforge.czt.eclipse.editoraction.convert2latex"
+            name="Convert To Latex"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.category.source"
+            description="Convert current specification to old latex markup"
+            id="net.sourceforge.czt.eclipse.editoraction.convert2oldlatex"
+            name="Convert To Old Latex"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.category.source"
+            description="Convert current specification to unicode markup"
+            id="net.sourceforge.czt.eclipse.editoraction.convert2unicode"
+            name="Convert To Unicode"/>
+      <command
+            categoryId="net.sourceforge.czt.eclipse.category.source"
+            description="Convert current specification to XML"
+            id="net.sourceforge.czt.eclipse.editoraction.convert2xml"
+            name="Convert To XML"/>
    </extension>
    <extension
          point="org.eclipse.ui.contexts">
+      <context
+            description="%context.EditingZSource.description"
+            id="net.sourceforge.czt.eclipse.ZEditorScope"
+            name="%context.EditingZSource.name"
+            parentId="org.eclipse.ui.textEditorScope"/>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
-      <key
-            commandId="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
-            contextId="net.sourceforge.czt.eclipse.contexts"
-            schemeId="net.sourceforge.czt.eclipse.schemes.editor"
-            sequence="Ctrl+G"/>
-      <key
-            commandId="net.sourceforge.czt.eclipse.editoraction.expandselection"
-            contextId="net.sourceforge.czt.eclipse.contexts"
-            schemeId="net.sourceforge.czt.eclipse.schemes.editor"
-            sequence="Ctrl+E"/>
-      <key
-            commandId="net.sourceforge.czt.eclipse.editoraction.contractselection"
-            contextId="net.sourceforge.czt.eclipse.contexts"
-            schemeId="net.sourceforge.czt.eclipse.schemes.editor"
-            sequence="Ctrl+Shift+E"/>
       <scheme
             description="CZT Editor Scheme"
             id="net.sourceforge.czt.eclipse.schemes.editor"
             name="CZT Editor Scheme"
-            parentId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+            />
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+G"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.expandselection"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+E"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.contractselection"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Shift+E"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.convert2latex"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Shift+1"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.convert2xml"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Shift+4"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.convert2unicode"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Shift+3"/>
+      <key
+            commandId="net.sourceforge.czt.eclipse.editoraction.convert2oldlatex"
+            contextId="net.sourceforge.czt.eclipse.ZEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="Ctrl+Shift+2"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

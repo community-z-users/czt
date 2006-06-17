@@ -4,6 +4,8 @@
 
 package net.sourceforge.czt.eclipse.editors;
 
+import java.util.Stack;
+
 import net.sourceforge.czt.eclipse.CZTPlugin;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -33,12 +35,6 @@ public class ZPairMatcher implements ICharacterPairMatcher
   protected int fEndPos;
 
   protected int fAnchor;
-
-  /**
-   * Stores the source version state.
-   * @since 3.1
-   */
-  private boolean fHighlightAngularBrackets = false;
 
   /**
    * 
@@ -119,7 +115,7 @@ public class ZPairMatcher implements ICharacterPairMatcher
           pairIndex2 = i;
         }
       }
-
+      
       if (fEndPos > -1) {
         fAnchor = RIGHT;
         fStartPos = searchForOpeningPeer(fEndPos, fPairs[pairIndex2 - 1],
@@ -148,20 +144,69 @@ public class ZPairMatcher implements ICharacterPairMatcher
   protected int searchForClosingPeer(int offset, char openingPeer,
       char closingPeer, IDocument document) throws BadLocationException
   {
-    for (; offset < fPartition.getOffset() + fPartition.getLength(); offset++)
-      if (document.getChar(offset) == closingPeer)
-        return offset;
-
+    Stack<Character> foundBrackets = new Stack<Character>();
+    for (++offset; offset < fPartition.getOffset() + fPartition.getLength(); offset++) {
+      char currentChar = document.getChar(offset);
+      for (int i = 0; i < fPairs.length; i++) {
+        // check if it is a bracket
+        if (currentChar != fPairs[i])
+          continue;
+        // check if it is an opening peer
+        if (i % 2 == 0) {
+          foundBrackets.push(Character.valueOf(currentChar));
+          break;
+        }
+        // it is an closing peer
+        if (foundBrackets.empty()) {
+          if (currentChar == closingPeer)
+            return offset;
+          else
+            return -1;
+        }
+        else {
+          if (Character.valueOf(fPairs[i-1]).equals(foundBrackets.pop()))
+            break;
+          foundBrackets.clear();
+          return -1;
+        }  
+      }
+    }
+    
     return -1;
   }
 
   protected int searchForOpeningPeer(int offset, char openingPeer,
       char closingPeer, IDocument document) throws BadLocationException
   {
-    for (; offset > fPartition.getOffset() - 1; offset--)
-      if (document.getChar(offset) == openingPeer)
-        return offset;
-
+    Stack<Character> foundBrackets = new Stack<Character>();
+    
+    for (--offset; offset > fPartition.getOffset() - 1; offset--) {
+      char currentChar = document.getChar(offset);
+      for (int i = 0; i < fPairs.length; i++) {
+        // check if it is a bracket
+        if (currentChar != fPairs[i])
+          continue;
+        // check if it is an closing peer
+        if (i % 2 == 1) {
+          foundBrackets.push(Character.valueOf(currentChar));
+          break;
+        }
+        // it is an opening peer
+        if (foundBrackets.empty()) {
+          if (currentChar == openingPeer)
+            return offset;
+          else
+            return -1;
+        }
+        else {
+          if (Character.valueOf(fPairs[i+1]).equals(foundBrackets.pop()))
+            break;
+          foundBrackets.clear();
+          return -1;
+        }
+      }
+    }
+    
     return -1;
   }
 

@@ -14,6 +14,13 @@ doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
 eclipse/icons/sample.gif -text
 eclipse/icons/term_highlight.gif -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/AbstractConversionAction.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2LatexAction.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2OldLatexAction.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2UnicodeAction.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2XMLAction.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset

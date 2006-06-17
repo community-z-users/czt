@@ -39,8 +39,8 @@ public class ZCharTable
    * (the heading for the corresponding row) and all other columns
    * contain ZChar objects.
    */
-//  private Object[][] mTableArray = createZCharTable();
-  private Object[][] mTableArray = getTable();
+  private Object[][] mTableArray = createZCharTable();
+//  private Object[][] mTableArray = getTable();
 
   public ZCharTable()
   {

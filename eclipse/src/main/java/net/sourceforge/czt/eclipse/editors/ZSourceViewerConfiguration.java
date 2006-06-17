@@ -17,7 +17,6 @@ import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodeCodeScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodeDoubleClickStrategy;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
@@ -85,7 +84,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    * @param editor the editor in which the configured viewer(s) will reside, or <code>null</code> if none
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
    */
-  public ZSourceViewerConfiguration(CZTColorManager colorManager,
+  public ZSourceViewerConfiguration(IColorManager colorManager,
       IPreferenceStore preferenceStore, ITextEditor editor, String partitioning)
   {
     super(preferenceStore);
@@ -373,7 +372,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   {
     System.out.println("ZSourceViewerConfiguration.getSourceFileType");
     ITextEditor editor = getEditor();
-    if (editor instanceof ZEditor)
+    if ((editor != null) && (editor instanceof ZEditor))
       return ((ZEditor) editor).getFileType();
 
     return null;

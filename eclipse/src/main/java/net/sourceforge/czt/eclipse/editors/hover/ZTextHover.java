@@ -125,7 +125,7 @@ public class ZTextHover implements ITextHover
         hoverRegion));
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.eclipse.jface.text.ITextHover#getHoverRegion(org.eclipse.jface.text.ITextViewer, int)
    */
   public IRegion getHoverRegion(ITextViewer textViewer, int offset)
@@ -243,7 +243,8 @@ public class ZTextHover implements ITextHover
 
     return offsetOfPos <= offset && offset < offsetOfPos + position.getLength();
   }
-
+  
+  @SuppressWarnings("unused")
   private boolean isDuplicateZAnnotation(Map messagesAtPosition,
       Position position, String message)
   {
@@ -279,13 +280,16 @@ public class ZTextHover implements ITextHover
       return null;
 
     IDocument document = viewer.getDocument();
-    List zAnnotations = new ArrayList();
+    List<Annotation> zAnnotations = new ArrayList<Annotation>();
+    
     HashMap messagesAtPosition = new HashMap();
     Iterator iterator = model.getAnnotationIterator();
 
     while (iterator.hasNext()) {
       Annotation annotation = (Annotation) iterator.next();
-      if (!annotation.getType().equals(IZAnnotationType.ERROR))
+      if (!annotation.getType().equals(IZAnnotationType.ERROR)
+          && !annotation.getType().equals(IZAnnotationType.WARNING)
+          && !annotation.getType().equals(IZAnnotationType.INFO))
         continue;
       Position position = model.getPosition(annotation);
       if (position == null)

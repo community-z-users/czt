@@ -924,9 +924,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
         fColorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fPreviewViewer.configure(configuration);
-    //    // fake 1.5 source to get 1.5 features right.
-    //    configuration.handlePropertyChangeEvent(new PropertyChangeEvent(this,
-    //        JavaCore.COMPILER_SOURCE, JavaCore.VERSION_1_4, JavaCore.VERSION_1_5));
     Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
     fPreviewViewer.getTextWidget().setFont(font);
     new ZSourcePreviewerUpdater(fPreviewViewer, configuration, store);

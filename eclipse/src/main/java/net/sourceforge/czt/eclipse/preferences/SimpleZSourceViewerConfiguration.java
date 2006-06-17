@@ -5,7 +5,7 @@
 package net.sourceforge.czt.eclipse.preferences;
 
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
-import net.sourceforge.czt.eclipse.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.util.IColorManager;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -48,7 +48,7 @@ public class SimpleZSourceViewerConfiguration
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
    * @param configureFormatter <code>true</code> if a content formatter should be configured
    */
-  public SimpleZSourceViewerConfiguration(CZTColorManager colorManager,
+  public SimpleZSourceViewerConfiguration(IColorManager colorManager,
       IPreferenceStore preferenceStore, ITextEditor editor,
       String partitioning, boolean configureFormatter)
   {

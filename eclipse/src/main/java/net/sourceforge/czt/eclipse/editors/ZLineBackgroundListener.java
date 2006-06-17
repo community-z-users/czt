@@ -63,7 +63,5 @@ public class ZLineBackgroundListener implements LineBackgroundListener
 
     text.redraw();
     //text.setLineBackground(5, 2, CZTPlugin.getDefault().getCZTColorManager().getColor(IZColorConstants.BACKGROUND));
-
   }
-
 }

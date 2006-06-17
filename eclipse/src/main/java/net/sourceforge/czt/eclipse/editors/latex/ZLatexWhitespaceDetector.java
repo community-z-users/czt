@@ -20,7 +20,7 @@ public class ZLatexWhitespaceDetector implements IWhitespaceDetector
    */
   public boolean isWhitespace(char character)
   {
-    return ZCharacter.isZLatexWhitespace(character);
+    return ZCharacter.isZLaTexWhitespace(character);
   }
 
 }

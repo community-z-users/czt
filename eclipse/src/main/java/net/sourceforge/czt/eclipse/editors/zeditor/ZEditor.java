@@ -35,6 +35,7 @@ import net.sourceforge.czt.eclipse.editors.ZPairMatcher;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
+import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.outline.CztSegment;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
@@ -61,15 +62,12 @@ import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelExtension;
-import org.eclipse.jface.text.source.ICharacterPairMatcher;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
@@ -464,14 +462,12 @@ public class ZEditor extends TextEditor
       SourceViewerDecorationSupport support)
   {
     System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
-    //      fBracketMatcher.setSourceVersion(getPreferenceStore().getString(JavaCore.COMPILER_SOURCE));
     if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
-      fBracketMatcher = new ZPairMatcher(ZCharacter.BRACKETS_LATEX);
+      support.setCharacterPairMatcher(new ZLatexPairMatcher(ZCharacter.BRACKETS_LATEX));
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType()))
-      fBracketMatcher = new ZPairMatcher(ZCharacter.BRACKETS_UNICODE);
-    support.setCharacterPairMatcher(fBracketMatcher);
+      support.setCharacterPairMatcher(new ZPairMatcher(ZCharacter.BRACKETS_UNICODE));
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
 

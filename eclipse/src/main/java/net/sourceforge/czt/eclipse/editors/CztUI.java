@@ -63,9 +63,15 @@ public final class CztUI
     
     /**
      * The id of the Character Map view
-     * (value <code>"net.sourceforge.czt.eclipse.views.ZCharMapView</code>).
+     * (value <code>"net.sourceforge.czt.eclipse.views.ZCharMapView"</code>).
      */
     public static final String ID_CHARMAP = "net.sourceforge.czt.eclipse.views.ZCharMapView";
+    
+    /**
+     * The id of the Z conversion page view
+     * (value <code>"net.sourceforge.czt.eclipse.views.ZConversionView"</code>).
+     */
+    public static final String ID_CONVERSIONVIEW = "net.sourceforge.czt.eclipse.views.ZConversionView";
     
     /**
      * Returns the shared images for the CZT UI.

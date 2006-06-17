@@ -55,8 +55,6 @@ public class ZCharMapView extends ViewPart
 {
   private ZCharTable zchTable = new ZCharTable();
 
-  private Group charGroup;
-
   private Combo charCombo;
 
   private TableViewer viewer;

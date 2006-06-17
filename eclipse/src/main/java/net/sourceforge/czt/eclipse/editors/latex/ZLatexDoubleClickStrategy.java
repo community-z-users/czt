@@ -5,7 +5,6 @@
 package net.sourceforge.czt.eclipse.editors.latex;
 
 import net.sourceforge.czt.eclipse.editors.ZCharacter;
-import net.sourceforge.czt.eclipse.editors.ZPairMatcher;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -28,7 +27,7 @@ public class ZLatexDoubleClickStrategy implements ITextDoubleClickStrategy
 
   protected int fEndPos;
 
-  protected ZPairMatcher fPairMatcher = new ZPairMatcher(ZCharacter.BRACKETS_LATEX);
+  protected ZLatexPairMatcher fPairMatcher = new ZLatexPairMatcher(ZCharacter.BRACKETS_LATEX);
 
   /**
    * Create a ZLatexDoubleClickStrategy
@@ -54,9 +53,11 @@ public class ZLatexDoubleClickStrategy implements ITextDoubleClickStrategy
     IDocument document = textViewer.getDocument();
 
     IRegion region = fPairMatcher.match(document, fPos);
-    if (region != null && region.getLength() >= 2) {
-      textViewer.setSelectedRange(region.getOffset() + 1,
-          region.getLength() - 2);
+    int startLength = fPairMatcher.getStartLength();
+    int endLength = fPairMatcher.getEndLength();
+    if (region != null && region.getLength() >= startLength + endLength) {
+      textViewer.setSelectedRange(region.getOffset() + startLength,
+          region.getLength() - startLength - endLength);
     }
     else {
       selectWord();
@@ -94,13 +95,13 @@ public class ZLatexDoubleClickStrategy implements ITextDoubleClickStrategy
       char c;
 
       c = document.getChar(pos);
-      if (ZCharacter.isZLatexWhitespace(c))
+      if (ZCharacter.isZLaTexWhitespace(c))
         return false;
 
       while (pos >= 0) {
         c = document.getChar(pos);
-        if (!ZCharacter.isZLatexWordPart(c)) {
-          if (ZCharacter.isZLatexWordStart(c))
+        if (!ZCharacter.isZLaTexWordPart(c)) {
+          if (ZCharacter.isZLaTexWordStart(c))
             --pos;
           else if (pos == fPos)
             return false;
@@ -116,7 +117,7 @@ public class ZLatexDoubleClickStrategy implements ITextDoubleClickStrategy
 
       while (pos < length) {
         c = document.getChar(pos);
-        if (!ZCharacter.isZLatexWordPart(c))
+        if (!ZCharacter.isZLaTexWordPart(c))
           break;
         ++pos;
       }

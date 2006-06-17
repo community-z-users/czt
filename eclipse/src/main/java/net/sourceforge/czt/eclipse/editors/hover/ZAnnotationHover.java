@@ -157,7 +157,9 @@ public class ZAnnotationHover implements IAnnotationHover
 
     while (iterator.hasNext()) {
       Annotation annotation = (Annotation) iterator.next();
-      if (!annotation.getType().equals(IZAnnotationType.ERROR))
+      if (!annotation.getType().equals(IZAnnotationType.ERROR)
+          && !annotation.getType().equals(IZAnnotationType.WARNING)
+          && !annotation.getType().equals(IZAnnotationType.INFO))
         continue;
       Position position = model.getPosition(annotation);
       if (position == null)

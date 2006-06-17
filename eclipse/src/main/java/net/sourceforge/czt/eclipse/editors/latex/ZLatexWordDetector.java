@@ -20,7 +20,7 @@ public class ZLatexWordDetector implements IWordDetector
    */
   public boolean isWordStart(char character)
   {
-    return ZCharacter.isZLatexWordStart(character);
+    return ZCharacter.isZLaTexWordStart(character);
   }
 
   /**
@@ -29,6 +29,6 @@ public class ZLatexWordDetector implements IWordDetector
    */
   public boolean isWordPart(char character)
   {
-    return ZCharacter.isZLatexWordPart(character);
+    return ZCharacter.isZLaTexWordPart(character);
   }
 }
