@@ -10,7 +10,7 @@
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${typecheck.build.dir}"/>
-    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${util.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.zpatt.jar.file}"/>
