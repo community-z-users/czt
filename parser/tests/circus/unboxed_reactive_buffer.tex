@@ -11,7 +11,7 @@
 
 \begin{document}
 
-\title{\Circus\ Example --- Reactive Buffer}
+\title{\Circus\ Example --- Reactive Buffer (unboxed)}
 \author{Leonardo Freitas}
 \date{June 2006}
 
@@ -110,13 +110,28 @@ if it often happens within specifications
 This is an example of indexed process renaming,
 on-the-fly replicated indexed process call, and
 process hiding with on-the-fly basic channel set expressions.
-%%[rd\_i, wrt\_i := read, write]
+Renaming causes a series of problems with generic actuals (i.e. may need look-ahead to differentiate
+from variable substitution) and on-the-fly actions.
+Once the conflicts were solved, the production in itself was not yet right, as it was not parsing the expected program.
+Like in FDR, we have chosen special parenthesis to make it clear that it is a renaming. This also avoid confusion when
+generic processes and renaming are used together.
+%
 \begin{circus}
-  \circprocess\ IRingCell \circdef i: RingIndex \circindex RingCell %\circlinst i \circrinst
+    % (~i: RingIndex \circindex RingCell~)[rd\_i, wrt\_i := read, write]
+    % i: RingIndex \circindex RingCell
+  \circprocess\ IRingCell \circdef (~i: RingIndex \circindex RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
   \also
   \circprocess\ Ring \circdef (~ \Interleave i: RingIndex \circindex IRingCell ~) \circlinst i \circrinst
   \also
   \circprocess\ CRing \circdef (~ Controller \lpar \lchanset read, write \rchanset \rpar Ring ~) \circhide \lchanset read, write \rchanset
+\end{circus}
+%
+Note that
+\begin{circus}
+  \circprocess\ IRingCellJustTesting \circdef (~i: RingIndex @ RingCell~) \lcircrename rd\_i, wrt\_i := read, write \rcircrename
+  \also
+  \circprocess\ IRingCellJustTesting \circdef (P \extchoice Q) \lcircrename c\_i := d \rcircrename
+
 \end{circus}
 
 \end{document}

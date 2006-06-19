@@ -415,16 +415,14 @@ Parameteri
 
 \subsection{Indexed process --- \grammar{indexedProcess}}
 
+%\begin{circus}
+%    \circprocess\ [X, Y] S \circdef \circindex A \circseq B
+%\end{circus}
 %
-%%\begin{circus}
-%%
-%%    \circprocess\ [X, Y] S \circdef \circindex A \circseq B
-%%\end{circus}
-%%
-%%\begin{circus}
-%%    \circprocess\ R \circdef x, y: \nat @ A \circseq B \\
-%%    \circprocess\ [X, Y] S \circdef a, b: X \rel Y \circindex A \circseq B
-%%\end{circus}
+%\begin{circus}
+%    \circprocess\ R \circdef x, y: \nat @ A \circseq B \\
+%    \circprocess\ [X, Y] S \circdef a, b: X \rel Y \circindex A \circseq B
+%\end{circus}
 %
 %%\hspace{10pt}\begin{minipage}{0.8\linewidth}
 %%  Vejamos....
@@ -790,3 +788,12 @@ Parameteri
 %* Various tests including precedence
 %
 %* Problem with communication x strokes
+
+%All work
+%\circprocess\ IRingCell \circdef i: RingIndex \circindex RingCell
+%\circprocess\ IRingCell \circdef (i: RingIndex \circindex RingCell) \circlinst i \circrinst
+%
+%This fails, otherwise it would hard to distinguish between on-the-fly process call.
+%That means, indexed processes when defined like this, cannot be parenthesised.
+%And that makes sense since  (i: RingIndex \circindex RingCell) \extchoice P should be ruled out.
+%\circprocess\ IRingCell \circdef (i: RingIndex \circindex RingCell)
