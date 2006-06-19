@@ -211,7 +211,9 @@ BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {L
           {RBIND} | {LDATA} | {RDATA}
 <add:circus> 
           | {LCIRCCHANSET} | {RCIRCCHANSET} | {CIRCLINST} | {CIRCLINST} 
-          | {LPAR} | {RPAR} | {LINTER} | {RINTER}
+          | {LCIRCGUARD} | {RCIRCGUARD} | {LSCHEXPRACT} | {RSCHEXPRACT}
+          | {LCIRCRENAME} | {RCIRCRENAME} | {LPAR} | {RPAR} | {LINTER} 
+          | {RINTER}
 </add:circus>
 LPAREN = "\u0028"  /* left parenthesis */
 RPAREN = "\u0029"  /* right parenthesis */
@@ -230,8 +232,10 @@ CIRCLINST = "\u230A" /* left indexed process instantiation angle bracket */
 CIRCRINST = "\u230B" /* left indexed process instantiation angle bracket */
 LCIRCGUARD = "\u3014" /* left action guard bracket */
 RCIRCGUARD = "\u3015" /* right action guard bracket */
-LSCHEXPRACT = "\u3014" /* left action guard bracket */
-RSCHEXPRACT = "\u3015" /* right action guard bracket */
+LSCHEXPRACT = "\u2768" /* left action guard bracket */
+RSCHEXPRACT = "\u2769" /* right action guard bracket */
+LCIRCRENAME = "\u3016" /* left process renaming bracket */
+RCIRCRENAME = "\u3017" /* right process renaming bracket */
 LPAR = "\u27E6" /* left parallel bracket */
 RPAR = "\u27E7" /* right parallel bracket */
 LINTER = "\u301A"   /* left interleave bracket */
@@ -410,6 +414,8 @@ RULE = {RULECHAR}
   {RCIRCGUARD}   {  return symbol(Sym.RCIRCGUARD); }
   {LSCHEXPRACT}  {  return symbol(Sym.LSCHEXPRACT); }
   {RSCHEXPRACT}  {  return symbol(Sym.RSCHEXPRACT); }
+  {LCIRCRENAME}  {  return symbol(Sym.LCIRCRENAME); }
+  {RCIRCRENAME}  {  return symbol(Sym.RCIRCRENAME); }
   {LPAR}         {  return symbol(Sym.LPAR); }  
   {RPAR}         {  return symbol(Sym.RPAR); }  
   {LINTER}       {  return symbol(Sym.LINTER); }  
