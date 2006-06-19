@@ -4,7 +4,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="corejava.src" location="${czt.home}/corejava/src"/>
-  <property name="src.java" location="src/java"/>
+  <property name="src.java" location="src/main/java"/>
   <property name="build" location="build"/>
   <property name="api.destdir" location="doc/api"/>
   <property name="gnast.jar.dir" location="${czt.home}/${jar.dir}"/>
