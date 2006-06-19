@@ -20,7 +20,7 @@
     description="build the czt typechecker jar file">
     <property name="czt.build.dir" location="build"/>
     <mkdir dir="${czt.build.dir}"/>
-    <unjar src="${jar.dir}/${corejava.base.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${util.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>

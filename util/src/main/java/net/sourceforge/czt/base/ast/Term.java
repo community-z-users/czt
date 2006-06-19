@@ -63,8 +63,7 @@ public interface Term
    * visitors that traverse a tree of Z terms without even knowing
    * the kind of term they are visiting.</p>
    * <p>The order and types of children is the same as the arguments
-   * to the corresponding create method in the factory (for example
-   * {@link net.sourceforge.czt.z.ast.ZFactory}).
+   * to the corresponding create method in the factory.
    *
    * @return an array of all the children of this term.
    */

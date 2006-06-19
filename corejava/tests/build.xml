@@ -22,8 +22,6 @@
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <jvmarg value="-Dczt.home=${czt.home}"/>
       <formatter type="xml"/>
-      <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
-      <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <test name="net.sourceforge.czt.z.impl.AstTest"/>
       <test name="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest"/>
       <test name="net.sourceforge.czt.z.util.OperatorNameTest"/>

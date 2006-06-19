@@ -9,7 +9,7 @@
     <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${build.dir}"/>
     <pathelement location="${czt.home}/${jar.dir}/${z2b.jar.file}"/>
-    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${util.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${session.jar.file}"/>

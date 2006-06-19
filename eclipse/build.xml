@@ -35,7 +35,7 @@
     <pathelement location="${eclipse.home}/plugins/org.eclipse.ui.workbench.texteditor_3.1.2.jar"/>
     <pathelement location="${eclipse.home}/plugins/org.eclipse.ui_3.1.2.jar"/>
     <fileset dir="${czt.home}/${jar.dir}">
-      <include name="${corejava.base.jar.file}"/>
+      <include name="${util.jar.file}"/>
       <include name="${corejava.core.jar.file}"/>
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.zpatt.jar.file}"/>

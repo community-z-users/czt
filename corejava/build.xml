@@ -2,18 +2,17 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="corejava.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="util.jar" location="${corejava.jar.dir}/${util.jar.file}"/>
   <property name="corejava.src.dir" location="src/main/java"/>
   <property name="corejava.src.xsl" location="xsl"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.build.xsd" location="${corejava.build.dir}/xsd"/>
   <property name="corejava.build.src" location="${corejava.build.dir}/src"/>
-  <property name="corejava.build.base" location="${corejava.build.dir}/base"/>
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
   <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
   <property name="corejava.build.tcoz" location="${corejava.build.dir}/tcoz"/>
   <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>  <property name="corejava.build.circus" location="${corejava.build.dir}/circus"/>
   <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
-  <property name="corejava.base.jar" location="${corejava.jar.dir}/${corejava.base.jar.file}"/>
   <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
   <property name="corejava.tcoz.jar" location="${corejava.jar.dir}/${corejava.tcoz.jar.file}"/>
@@ -23,8 +22,6 @@
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
   <property name="src.xsl" location="../gnast/src/xsl"/>
-  <property name="corejava.base.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.base.jar.file}"/>
   <property name="corejava.core.src.jar"
     location="${corejava.jar.dir}/src-${corejava.core.jar.file}"/>
   <property name="corejava.oz.src.jar"
@@ -57,13 +54,13 @@
   </target>
 
   <target name="install"
-    depends="install-base,install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb"
+    depends="install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
 
   <target name="compile"
-    depends="compile-base,compile-core,compile-oz,compile-zpatt,compile-jaxb"
+    depends="compile-core,compile-oz,compile-zpatt,compile-jaxb"
     description="compile the source code"/>
 
   <!-- build source files -->
@@ -81,12 +78,12 @@
   </target>
 
   <target name="gen-jaxb" if="gnast.present"
-    depends="pre, install-base"
+    depends="pre"
     description="Generate Jaxb classes">
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
       <classpath>
         <pathelement path="${jwsdp.classpath}"/>
-        <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+        <pathelement location="${util.jar}"/>
       </classpath>
     </taskdef>
     <xjc target="${corejava.build.src}"
@@ -138,39 +135,10 @@
   </target>
 
 
-  <!-- base -->
-
-  <target name="install-base" depends="compile-base"
-          description="install the base jar file" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.base.jar}">
-      <fileset dir="${corejava.build.base}"/>
-    </jar>
-  </target>
-
-  <target name="compile-base"
-          depends="init"
-          description="compile the base source code">
-    <mkdir dir="${corejava.build.base}"/>
-    <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
-      destdir="${corejava.build.base}"
-      debug="${debug}"
-      debuglevel="${debuglevel}"
-      deprecation="on"
-      optimize="${optimize}"
-      includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
-      excludes="net/sourceforge/czt/base/jaxb/**">
-      <classpath>
-        <pathelement location="${xercesImpl.jar}"/>
-      </classpath>
-    </javac>
-  </target>
-
   <!-- core (standard Z) -->
 
   <target name="install-core" depends="compile-core"
-          description="generate the base jar file" >
+          description="generate the core jar file" >
     <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.core.jar}">
       <fileset dir="${corejava.build.core}"/>
@@ -178,7 +146,7 @@
   </target>
 
   <target name="compile-core"
-          depends="init, compile-base, build-src"
+          depends="init, build-src"
           description="compile the core (standard Z) source code">
     <mkdir dir="${corejava.build.core}"/>
     <javac
@@ -191,7 +159,7 @@
       deprecation="on"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
       </classpath>
     </javac>
   </target>
@@ -221,7 +189,7 @@
   </target>
 
   <target name="compile-oz"
-          depends="init, compile-base, compile-core, ozchar, ozstring"
+          depends="init, compile-core, ozchar, ozstring"
           description="compile the Object Z source code">
     <mkdir dir="${corejava.build.oz}"/>
     <javac
@@ -234,7 +202,7 @@
       deprecation="on"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
         <pathelement location="${corejava.build.core}"/>
       </classpath>
     </javac>
@@ -279,7 +247,7 @@
   </target>
 
   <target name="compile-tcoz"
-    depends="init, compile-base, compile-core, compile-oz,
+    depends="init, compile-core, compile-oz,
              tcozchar, tcozstring"
     description="compile the Object Z source code">
     <mkdir dir="${corejava.build.tcoz}"/>
@@ -293,7 +261,7 @@
       deprecation="on"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
         <pathelement location="${corejava.build.core}"/>
         <pathelement location="${corejava.build.oz}"/>
       </classpath>
@@ -325,7 +293,7 @@
   </target>
 
   <target name="compile-zpatt"
-          depends="init, compile-base, compile-core, zpattchar, zpattstring"
+          depends="init, compile-core, zpattchar, zpattstring"
           description="compile the Z pattern source code">
     <mkdir dir="${corejava.build.zpatt}"/>
     <javac
@@ -338,7 +306,7 @@
       deprecation="on"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
         <pathelement location="${corejava.build.core}"/>
       </classpath>
     </javac>
@@ -369,7 +337,7 @@
   </target>
 
   <target name="compile-circus"
-          depends="init, compile-base, compile-core, circuschar, circusstring"
+          depends="init, compile-core, circuschar, circusstring"
           description="compile the Circus source code">
     <mkdir dir="${corejava.build.circus}"/>
     <javac
@@ -382,7 +350,7 @@
       deprecation="on"
       optimize="${optimize}">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
         <pathelement location="${corejava.build.core}"/>
       </classpath>
     </javac>
@@ -405,7 +373,7 @@
   </target>
 
   <target name="compile-jaxb"
-          depends="init, compile-base, compile-core, compile-oz, compile-tcoz, compile-zpatt, compile-circus"
+          depends="init, compile-core, compile-oz, compile-tcoz, compile-zpatt, compile-circus"
           description="compile the Jaxb source code">
     <mkdir dir="${corejava.build.jaxb}"/>
     <javac
@@ -418,7 +386,7 @@
       fork="yes"
       memoryMaximumSize="128m">
       <classpath>
-        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${util.jar}"/>
         <pathelement location="${corejava.build.core}"/>
         <pathelement location="${corejava.build.oz}"/>
         <pathelement location="${corejava.build.tcoz}"/>
@@ -450,12 +418,14 @@
       </packageset>
       <tag name="czt.todo" description="To do:"/>
       <doctitle><![CDATA[<h1>The Annotated Syntax Tree (AST) for Z API</h1>]]></doctitle>
-      <group title="Base Z Packages" packages="net.sourceforge.czt.base.*"/>
       <group title="Standard Z Packages" packages="net.sourceforge.czt.z.*"/>
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
       <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>      <group title="Circus Packages" packages="net.sourceforge.czt.circus.*"/>
-      <classpath path="${jwsdp.classpath}"/>
+      <classpath>
+        <pathelement location="${util.jar}"/>
+        <pathelement path="${jwsdp.classpath}"/>
+      </classpath>
     </javadoc>
   </target>
 
@@ -470,7 +440,10 @@
         <include name="org/**"/>
         <include name="**/jaxb/gen/**"/>
       </packageset>
-      <classpath path="${jwsdp.classpath}"/>
+      <classpath>
+        <pathelement location="${util.jar}"/>
+        <pathelement path="${jwsdp.classpath}"/>
+      </classpath>
     </javadoc>
   </target>
 
@@ -514,25 +487,9 @@
   <!-- Source jar files -->
 
   <target name="src-jar"
-    depends="src-base,src-core,src-oz,src-tcoz,src-circus,src-zpatt,src-jaxb"
+    depends="src-core,src-oz,src-tcoz,src-circus,src-zpatt,src-jaxb"
     description="create the source jar files">
     <mkdir dir="${corejava.jar.dir}"/>
-  </target>
-  <target name="src-base" depends="compile-base"
-    description="generate the base jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.base.src.jar}">
-      <fileset dir="${corejava.src.dir}">
-        <include name="net/sourceforge/czt/util/**"/>
-        <include name="net/sourceforge/czt/base/**"/>
-        <exclude name="net/sourceforge/czt/base/jaxb/**"/>
-      </fileset>
-      <fileset dir="${corejava.build.src}">
-        <include name="net/sourceforge/czt/util/**"/>
-        <include name="net/sourceforge/czt/base/**"/>
-        <exclude name="net/sourceforge/czt/base/jaxb/**"/>
-      </fileset>
-    </jar>
   </target>
   <target name="src-core" depends="compile-core"
     description="generate the Z jar file with source code" >

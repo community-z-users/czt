@@ -11,7 +11,7 @@
   <path id="classpath">
 <!--    <pathelement path="${jwsdp.classpath}"/>-->
     <pathelement location="${typecheck.build.dir}"/>
-    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${util.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
@@ -122,7 +122,7 @@
     description="build the czt typechecker jar file">
     <property name="czt.build.dir" location="../build"/>
     <mkdir dir="${czt.build.dir}"/>
-    <unjar src="${czt.home}/${jar.dir}/${corejava.base.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${czt.home}/${jar.dir}/${util.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${czt.home}/${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${czt.home}/${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${czt.home}/${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>

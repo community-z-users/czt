@@ -76,7 +76,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${rhino.jar}"/>
       <pathelement path="${zlive.build.dir}"/>
       <fileset dir="${czt.home}/${jar.dir}">
-        <include name="${corejava.base.jar.file}"/>
+        <include name="${util.jar.file}"/>
         <include name="${corejava.core.jar.file}"/>
         <include name="${zlive.jar.file}"/>
       </fileset>	
