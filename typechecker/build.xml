@@ -4,6 +4,7 @@
   <property name="typecheck.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="typecheck.jar.file" location="${typecheck.jar.dir}/${typechecker.jar.file}"/>
   <property name="typecheck.src.jar.file"  location="${typecheck.jar.dir}/src-${typechecker.jar.file}"/>
+  <property name="typecheck.api.src.jar.file"  location="${typecheck.jar.dir}/src-api-${typechecker.jar.file}"/>
   <property name="typecheck.src.dir" location="src"/>
   <property name="typecheck.build.dir" location="build"/>
   <property name="typecheck.api.dir" location="doc/api"/>
@@ -16,6 +17,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.tcoz.jar.file}"/>
+	<pathelement location="${czt.home}/${jar.dir}/${corejava.circus.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${session.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>    
@@ -67,6 +69,14 @@
       <classpath refid="classpath"/>
     </javadoc>
   </target>
+  
+   <target name="api-src" depends="api"
+    description="generate the jar file with typechecker api doc" >
+    <mkdir dir="${typecheck.jar.dir}"/>
+    <jar jarfile="${typecheck.api.src.jar.file}">
+      <fileset dir="${typecheck.api.dir}"/>
+    </jar>
+  </target> 
 
   <target name="run" depends="install" if="file">
     <echo message="Running the typechecker ..."/>
