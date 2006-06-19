@@ -79,10 +79,10 @@ public class <class/>
                 Sym.PREFIXTHEN, Sym.PREFIXCOLON, 
                 /* Sym.CIRCGUARD, // removed, see Parser.xml terminal section for an explanation */
                 Sym.CIRCSEQ, Sym.INTERLEAVE, Sym.CIRCHIDING, 
-                Sym.EXTCHOICE, Sym.INTCHOICE,        
-                        
-                /* These three I am not sure where to put then TODO:CHECK */
-                Sym.CIRCBEGIN, Sym.CIRCEND, Sym.CIRCSTATE
+                Sym.EXTCHOICE, Sym.INTCHOICE, Sym.CIRCASSIGN,
+                
+                /* Those shall be allowed new soft lines on both sides for formatting purposes */
+                Sym.LPAR, Sym.LINTER, Sym.RPAR, Sym.RINTER
 </add:circus>
     };
 
@@ -125,7 +125,8 @@ public class <class/>
                 Sym.CIRCRES, Sym.CIRCVRES, Sym.CIRCCHAN, Sym.CIRCCHANFROM, 
                 Sym.CIRCCHANSET, Sym.CIRCNAMESET, Sym.CIRCPROC,
                 
-                Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LPAR, Sym.LINTER, Sym.LCIRCGUARD, Sym.LSCHEXPRACT
+                Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LCIRCGUARD, 
+                Sym.LSCHEXPRACT, Sym.LCIRCRENAME, Sym.CIRCSTATE, Sym.CIRCBEGIN
 </add:circus>
     };
 
@@ -144,7 +145,8 @@ public class <class/>
                 /* Everything posfix comes here */
                 Sym.CIRCFI, Sym.CIRCOD, /* Are these postfix or no fix? */
 
-                Sym.RCIRCCHANSET, Sym.CIRCRINST, Sym.RPAR, Sym.RINTER, Sym.RCIRCGUARD, Sym.RSCHEXPRACT
+                Sym.RCIRCCHANSET, Sym.CIRCRINST, Sym.RCIRCGUARD, 
+                Sym.RSCHEXPRACT, Sym.RCIRCRENAME, Sym.CIRCEND
 </add:circus>
     };
     /* These are NOFIX, hence not included 
