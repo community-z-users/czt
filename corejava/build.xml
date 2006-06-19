@@ -2,7 +2,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="corejava.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="corejava.src.dir" location="src"/>
+  <property name="corejava.src.dir" location="src/main/java"/>
   <property name="corejava.src.xsl" location="xsl"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.build.xsd" location="${corejava.build.dir}/xsd"/>
@@ -439,7 +439,7 @@
       destdir="${corejava.api.dir}"
       maxmemory="128m"
       private="true"
-      Overview="src/overview.html">
+      Overview="${corejava.src.dir}/overview.html">
       <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
