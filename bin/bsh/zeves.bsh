@@ -1,5 +1,5 @@
 
-// x1 = parse("C:\\java\\czt\\czt0.4.1\\translators\\zeves\\examples\\AxPara.tex");
+// x1 = parse("C:\\java\\czt\\czt0.4.2\\translators\\zeves\\examples\\AxPara.tex");
 // typecheck(x1);
 // manager = new SectionManager();
 // printer = new net.sourceforge.czt.zeves.z.CZT2ZEvesPrinter(manager);
