@@ -3,6 +3,8 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="util.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${util.jar.dir}/${util.jar.file}"/>
+  <property name="util.src.jar.file" location="${util.jar.dir}/src-${util.jar.file}"/>
+  <property name="util.api.src.jar.file" location="${util.jar.dir}/doc-${util.jar.file}"/>
   <property name="util.src.dir" location="src/main/java"/>
   <property name="util.build.dir" location="build"/>
   <property name="util.api.dir" location="doc/api"/>
@@ -93,6 +95,22 @@
       <packageset dir="${util.src.dir}"/>
       <tag name="czt.todo" description="To do:"/>
     </javadoc>
+  </target>
+  
+  <target name="api-src" depends="api"
+    description="generate the jar file with util api doc" >
+    <mkdir dir="${util.jar.dir}"/>
+    <jar jarfile="${util.api.src.jar.file}">
+      <fileset dir="${util.api.dir}"/>
+    </jar>
+  </target> 
+  
+  <target name="src" depends="compile"
+    description="generate the util jar file with source code" >
+    <mkdir dir="${util.jar.dir}"/>
+    <jar jarfile="${util.src.jar.file}">
+      <fileset dir="${util.src.dir}"/>
+    </jar>
   </target>
 
   <target name="checkstyle" description="check java sources">
