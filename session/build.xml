@@ -9,7 +9,9 @@
   <property name="test.src.dir" location="src/test/java"/>
   <property name="test.build.dir" location="${session.build.dir}/test"/>
   <property name="test.jar.file" location="${session.build.dir}/tests.jar"/>
-
+  <property name="session.src.jar.file" location="${session.jar.dir}/src-${session.jar.file}"/>
+  <property name="session.api.src.jar.file" location="${session.jar.dir}/src-api-${session.jar.file}"/>
+  
   <target name="init">
     <tstamp/>
     <mkdir dir="${session.build.dir}/classes"/>
@@ -110,4 +112,20 @@
     <delete dir="${session.build.dir}"/>
     <delete dir="${session.api.dir}"/>
   </target>
+  
+  <target name="src" depends="compile"
+    description="generate the jar file with session source code" >
+    <mkdir dir="${session.jar.dir}"/>
+    <jar jarfile="${session.src.jar.file}">
+      <fileset dir="${session.src.dir}"/>
+    </jar>
+  </target> 
+  
+  <target name="api-src" depends="api"
+    description="generate the jar file with session api doc" >
+    <mkdir dir="${session.jar.dir}"/>
+    <jar jarfile="${session.api.src.jar.file}">
+      <fileset dir="${session.api.dir}"/>
+    </jar>
+  </target> 
 </project>
