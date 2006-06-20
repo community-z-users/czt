@@ -4,7 +4,7 @@
   <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
-  <property name="src.dir" location="src"/>
+  <property name="src.dir" location="src/main/java"/>
   <property name="templates.dir" location="templates"/>
   <property name="build.dir" location="build"/>
   <property name="build.class.dir" location="${build.dir}/classes"/>
