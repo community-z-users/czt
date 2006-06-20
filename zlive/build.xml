@@ -3,7 +3,7 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="zlive.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${zlive.jar.dir}/${zlive.jar.file}"/>
-  <property name="zlive.src.dir" location="src"/>
+  <property name="zlive.src.dir" location="src/main/java"/>
   <property name="zlive.build.dir" location="build"/>
   <property name="zlive.api.dir" location="doc/api"/>
 
