@@ -1,0 +1,159 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.czt</groupId>
+  <artifactId>czt</artifactId>
+  <packaging>pom</packaging>
+  <version>0.5-SNAPSHOT</version>
+  <name>czt</name>
+  <description>
+    Set of libraries and tools for editing, typechecking and animating
+    formal specifications written in the Z specification language,
+    with some support for Z extensions such as Object-Z, TCOZ, and
+    Circus.
+  </description>
+  <url>http://czt.sourceforge.net</url>
+  <modules>
+    <module>corejava</module>
+    <module>gnast</module>
+    <module>parser</module>
+    <module>rules</module>
+    <module>session</module>
+    <module>typechecker</module>
+    <module>util</module>
+    <module>zlive</module>
+  </modules>
+  <dependencyManagement>
+    <dependencies>
+      <!-- ********* -->
+      <!-- CZT stuff -->
+      <!-- ********* -->
+
+      <!-- CZT GnAST -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>gnast</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>gnast-maven-plugin</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Util -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>util</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Corejava -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>corejava</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Java_Cup -->
+      <dependency>
+        <groupId>java_cup</groupId>
+        <artifactId>java_cup</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Session -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>session</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Parser -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>parser</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Typechecker -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>typechecker</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- CZT Rules -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>rules</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
+      <!-- ************** -->
+      <!-- external stuff -->
+      <!-- ************** -->
+
+      <!-- Jaxb -->
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-xjc</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-libs</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml</groupId>
+        <artifactId>relaxngDatatype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>activesoap</groupId>
+        <artifactId>xsdlib</artifactId>
+        <version>1.5</version>
+      </dependency>
+
+      <!-- Maven Plugin API -->
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>2.0</version>
+      </dependency>
+
+      <!-- Maven Project -->
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
+        <version>2.0.4</version>
+      </dependency>
+
+      <!-- Velocity -->
+      <dependency>
+        <groupId>velocity</groupId>
+        <artifactId>velocity-dep</artifactId>
+        <version>1.4</version>
+      </dependency>
+
+      <!-- JUnit -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

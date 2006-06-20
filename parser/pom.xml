@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>0.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>parser</artifactId>
+  <packaging>jar</packaging>
+  <name>czt-parser</name>
+  <description>
+    Provides classes for parsing and printing Z specifications.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.czt</groupId>
+      <artifactId>corejava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.czt</groupId>
+      <artifactId>session</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>java_cup</groupId>
+      <artifactId>java_cup</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>target/src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
+          </dependency>
+          <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-trax</artifactId>
+            <version>1.6.5</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks>
+                <ant dir="." target="generate-src"/>
+                <ant dir="." target="z-UnicodeToLatex"/>
+                <ant dir="." target="oldz-UnicodeToLatex"/>
+                <ant dir="." target="oz-UnicodeToLatex"/>
+                <ant dir="." target="generate-circus-src"/>
+                <copy todir="target/src">
+                  <fileset dir="src/main/java"/>
+                  <fileset dir="build/src"/>
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

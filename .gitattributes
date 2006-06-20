@@ -1,6 +1,7 @@
 * text=auto !eol
 admin/binary_release/bbook.utf16 -text
 admin/binary_release/screenshot.png -text
+corejava/pom.xml -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
@@ -31,6 +32,7 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteIcon.gif svneol=n
 gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
+gnast/pom.xml -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
@@ -50,9 +52,13 @@ modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
+parser/pom.xml -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
+/pom.xml -text
+rules/pom.xml -text
+typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
 util/build.xml -text
@@ -69,6 +75,7 @@ web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
 zlive/doc/design.pdf -text
+zlive/pom.xml -text
 zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.png svneol=native#unset

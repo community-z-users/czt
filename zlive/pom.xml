@@ -6,15 +6,22 @@
     <artifactId>czt</artifactId>
     <version>0.5-SNAPSHOT</version>
   </parent>
-  <artifactId>session</artifactId>
+  <artifactId>zlive</artifactId>
   <packaging>jar</packaging>
-  <name>czt-session</name>
+  <name>czt-zlive</name>
   <description>
     Provides classes for managing and caching Z sections and other
     Z-related artifacts.
   </description>
-  <url>http://czt.sourceforge.net/session/</url>
   <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.czt</groupId>
+      <artifactId>parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.czt</groupId>
+      <artifactId>rules</artifactId>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

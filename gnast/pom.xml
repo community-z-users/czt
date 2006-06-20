@@ -6,18 +6,16 @@
     <artifactId>czt</artifactId>
     <version>0.5-SNAPSHOT</version>
   </parent>
-  <artifactId>session</artifactId>
+  <artifactId>gnast</artifactId>
   <packaging>jar</packaging>
-  <name>czt-session</name>
+  <name>czt-gnast</name>
   <description>
-    Provides classes for managing and caching Z sections and other
-    Z-related artifacts.
+    Provides classes for generating AST classes from XML Schema files.
   </description>
-  <url>http://czt.sourceforge.net/session/</url>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>velocity</groupId>
+      <artifactId>velocity-dep</artifactId>
     </dependency>
   </dependencies>
   <build>
