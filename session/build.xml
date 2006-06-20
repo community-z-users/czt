@@ -10,7 +10,7 @@
   <property name="test.build.dir" location="${session.build.dir}/test"/>
   <property name="test.jar.file" location="${session.build.dir}/tests.jar"/>
   <property name="session.src.jar.file" location="${session.jar.dir}/src-${session.jar.file}"/>
-  <property name="session.api.src.jar.file" location="${session.jar.dir}/src-api-${session.jar.file}"/>
+  <property name="session.api.src.jar.file" location="${session.jar.dir}/doc-${session.jar.file}"/>
   
   <target name="init">
     <tstamp/>
