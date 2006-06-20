@@ -60,14 +60,7 @@
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build.class.dir}"/>
-      <fileset dir="${src.dir}">
-        <include name="**/*.properties"/>
-	<exclude name="documentation/**"/>
-      </fileset>
-      <fileset dir=".">
-        <include name="lib/*.tex"/>
-        <include name="lib/*.xml"/>
-      </fileset>
+      <fileset dir="src/main/resources"/>
     </jar>
   </target>
 
