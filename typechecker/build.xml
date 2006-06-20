@@ -5,7 +5,7 @@
   <property name="typecheck.jar.file" location="${typecheck.jar.dir}/${typechecker.jar.file}"/>
   <property name="typecheck.src.jar.file"  location="${typecheck.jar.dir}/src-${typechecker.jar.file}"/>
   <property name="typecheck.api.src.jar.file"  location="${typecheck.jar.dir}/src-api-${typechecker.jar.file}"/>
-  <property name="typecheck.src.dir" location="src"/>
+  <property name="typecheck.src.dir" location="src/main/java"/>
   <property name="typecheck.build.dir" location="build"/>
   <property name="typecheck.api.dir" location="doc/api"/>
 
