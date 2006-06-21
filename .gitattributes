@@ -60,6 +60,7 @@ parser/pom.xml -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
+parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
 rules/pom.xml -text
 typechecker/pom.xml -text
