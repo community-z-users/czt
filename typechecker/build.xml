@@ -6,7 +6,10 @@
   <property name="typecheck.src.jar.file"  location="${typecheck.jar.dir}/src-${typechecker.jar.file}"/>
   <property name="typecheck.api.src.jar.file"  location="${typecheck.jar.dir}/src-api-${typechecker.jar.file}"/>
   <property name="typecheck.src.dir" location="src/main/java"/>
-  <property name="typecheck.build.dir" location="build"/>
+  <property name="build.dir" location="build"/>
+  <property name="typecheck.build.dir" location="${build.dir}/main/classes"/>
+  <property name="test.build.dir" location="${build.dir}/test/classes"/>
+  <property name="test.jar.file" location="${build.dir}/test/TestSuite.jar"/>
   <property name="typecheck.api.dir" location="doc/api"/>
 
   <path id="classpath">
@@ -28,6 +31,7 @@
   <target name="init">
     <tstamp/>
     <mkdir dir="${typecheck.build.dir}"/>
+    <mkdir dir="${test.build.dir}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -87,12 +91,46 @@
     </java>
   </target>
  
-  <target name="test" depends="install"
-    description="build and run the tests">
-    <ant dir="tests"/>
-<!--
-    <ant dir="tests" target="test-report"/>
--->
+  <target name="test" depends="test-run"
+    description="build and run the tests"/>
+
+  <target name="test-compile" depends="install" description="compile the test">
+    <javac srcdir="src/test/java" destdir="${test.build.dir}" debug="on">
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${typecheck.jar.file}"/>
+     </classpath>
+    </javac>
+  </target>
+
+  <target name="test-install" depends="test-compile">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.dir}"/>
+    </jar>
+  </target>
+  
+  <target name="test-run" depends="test-install">
+    <junit fork="yes" printsummary="yes" showoutput="yes">
+      <formatter type="xml"/>
+      <test name="net.sourceforge.czt.typecheck.Suite"/>
+      <jvmarg value="-Dczt.home=${czt.home}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+  <target name="test-report">
+    <junitreport todir=".">
+      <fileset dir=".">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="build/report"/>
+    </junitreport>
   </target>
 
   <target name="printclasspath">
@@ -114,9 +152,8 @@
 
   <target name="clean"
           description="clean up">
-    <delete dir="${typecheck.build.dir}"/>
+    <delete dir="${build.dir}"/>
     <delete dir="${typecheck.api.dir}"/>
-    <ant dir="tests" target="clean"/>
   </target> 
 
   <target name="src" depends="compile"
