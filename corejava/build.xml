@@ -23,7 +23,7 @@
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>  
-  <property name="corejava.api.src.jar.file" location="${corejava.jar.dir}/doc-${corejava.jar.file}"/>  
+  <property name="corejava.api.src.jar.file" location="${corejava.jar.dir}/doc-corejava.jar"/>  
   <property name="src.xsl" location="../gnast/src/xsl"/>
   <property name="corejava.core.src.jar"
     location="${corejava.jar.dir}/src-${corejava.core.jar.file}"/>
