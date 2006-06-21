@@ -1274,6 +1274,5 @@
           description="Cleans up (this does not delete the jar file in '../lib').">
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
-    <ant dir="tests" target="clean"/>
   </target>
 </project>
