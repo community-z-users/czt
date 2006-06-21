@@ -75,7 +75,7 @@
     </jar>
   </target>
   
-  <target name="install-circus" depends="compile-circus, src-circus"
+  <target name="install-circus" depends="compile-circus"
     description="Builds and installs the jar file in '../lib'.">
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
@@ -106,6 +106,17 @@
     </xslt>
   </target>
 
+  <target name="circus-Unicode2Latex-cup" depends="init">
+    <xslt
+      in="templates/Unicode2Latex.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/circus/Unicode2Latex.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Unicode2Latex"/>
+      <param name="package" expression="net.sourceforge.czt.print.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+  </target>
+  
   <target name="oz-Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -136,6 +147,16 @@
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
+  
+  <target name="circus-UnicodeToLatex" depends="circus-Unicode2Latex-cup, -set-javacup-task">
+    <java_cup
+      srcfile="${build.src.dir}/net/sourceforge/czt/print/circus/Unicode2Latex.cup"
+      destdir="${build.src.dir}"
+      parser="Unicode2Latex"
+      symbols="Sym"
+      classpath="${czt.lib}/${java_cup.jar.file}">
+    </java_cup>
+  </target>
 
   <target name="oz-UnicodeToLatex" depends="oz-Unicode2Latex-cup, -set-javacup-task">
     <java_cup
@@ -147,8 +168,7 @@
     </java_cup>
   </target>
 
-  <target name="compile" depends="init, generate-src, 
-      z-UnicodeToLatex, oldz-UnicodeToLatex, oz-UnicodeToLatex"
+  <target name="compile" depends="init, generate-src, generate-unicode-to-latex"
           description="Compiles the sources.">
     <javac source="1.5"
            srcdir="${src.dir}:${build.src.dir}"
@@ -167,8 +187,12 @@
     </javac>    
   </target>
 
+  
+  <target name="generate-unicode-to-latex"
+    depends="z-UnicodeToLatex, oldz-UnicodeToLatex, oz-UnicodeToLatex, circus-UnicodeToLatex"/>
+      
   <target name="generate-src"
-    depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-tcoz-src, generate-circus-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-circus-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="z-print-scanner, oz-print-scanner"/>
@@ -1335,7 +1359,7 @@
     </jar>
   </target> 
   
-  <target name="src-circus" depends="compile"
+  <target name="src-circus" depends="compile-circus"
     description="generate the jar file with Circus parser source code" >
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${parser.circus.src.jar.file}">
