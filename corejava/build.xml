@@ -22,7 +22,8 @@
   <property name="corejava.circus.jar" location="${corejava.jar.dir}/${corejava.circus.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
-  <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
+  <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>  
+  <property name="corejava.api.src.jar.file" location="${corejava.jar.dir}/doc-${corejava.jar.file}"/>  
   <property name="src.xsl" location="../gnast/src/xsl"/>
   <property name="corejava.core.src.jar"
     location="${corejava.jar.dir}/src-${corejava.core.jar.file}"/>
@@ -394,6 +395,14 @@
     </javadoc>
   </target>
 
+  <target name="api-src" depends="api"
+    description="generate the jar file with corejava api doc" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.api.src.jar.file}">
+      <fileset dir="${corejava.api.dir}"/>
+    </jar>
+  </target>   
+  
   <target name="examples" depends="install"
     description="build and run the examples">
     <ant dir="examples/debug"/>
