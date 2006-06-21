@@ -9,6 +9,8 @@
   <property name="build.dir" location="build"/>
   <property name="build.class.dir" location="${build.dir}/classes"/>
   <property name="build.src.dir" location="${build.dir}/src"/>
+  <property name="build.test.dir" location="${build.dir}/test/classes"/>
+  <property name="test.jar.file" location="${build.dir}/test/parserTest.jar"/>
   <property name="api.dir" location="doc/api"/>
   <property name="src.circus.dir" location="${src.dir}/net/sourceforge/czt/parser/circus"/>
   <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
@@ -44,6 +46,7 @@
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.src.dir}"/>
     <mkdir dir="${build.class.dir}"/>
+    <mkdir dir="${build.test.dir}"/>
   </target>
 
   <target name="-set-javacup-task">
@@ -131,7 +134,7 @@
       z-UnicodeToLatex, oldz-UnicodeToLatex, oz-UnicodeToLatex"
           description="Compiles the sources.">
     <javac source="1.5"
-           srcdir="${src.dir}:${build.src.dir}" excludes="**/circus/**"
+           srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
@@ -139,7 +142,7 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-tcoz-src, generate-circus-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="z-print-scanner, oz-print-scanner"/>
@@ -1169,10 +1172,73 @@
     </javadoc>
   </target>
 
-  <target name="test" depends="install"
-    description="Builds and runs the tests.  A browsable version of the test results is created in tests/build/report/index.html.">
-    <ant dir="tests"/>
-    <ant dir="tests" target="test-report"/>
+  <target name="test" depends="test-run, test-report"
+    description="Builds and runs the tests.  A browsable version of the test results is created in build/test-report/index.html."/>
+
+  <target name="test-compile" depends="install" description="compile the test">
+    <javac source="1.5" srcdir="src" destdir="${build.test.dir}"
+      debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="test-install" depends="test-compile">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${build.test.dir}"/>
+      <fileset dir=".">
+        <include name="tests/z/*.*"/>
+        <include name="tests/oz/*.*"/>
+      </fileset>
+      <fileset dir="../zml">
+        <include name="examples/z/*.*"/>
+        <include name="examples/oz/*.*"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="test-run" depends="test-install">
+    <junit fork="yes" forkmode="once" maxmemory="128m" printsummary="on">
+      <formatter type="xml"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.util.LatexMarkupFunctionTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.oz.LatexToUnicodeTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.z.ParserTest"/>
+<!--      <test name="net.sourceforge.czt.parser.oz.ParserTest"/>-->
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.parser.z.LatexMarkupConverterTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.print.z.PrecedenceParenAnnVisitorTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.print.z.ZmlToLatexTest"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.print.z.ZmlToUnicodeTest"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+  <target name="test-report">
+    <junitreport todir="${build.dir}">
+      <fileset dir="${build.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="build/test-report"/>
+    </junitreport>
   </target>
 
   <target name="with.clover" description="Initializes clover.">

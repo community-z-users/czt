@@ -58,7 +58,6 @@
                 <ant dir="." target="z-UnicodeToLatex"/>
                 <ant dir="." target="oldz-UnicodeToLatex"/>
                 <ant dir="." target="oz-UnicodeToLatex"/>
-                <ant dir="." target="generate-circus-src"/>
                 <copy todir="target/src">
                   <fileset dir="src/main/java"/>
                   <fileset dir="build/src"/>
