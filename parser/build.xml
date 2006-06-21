@@ -21,6 +21,14 @@
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="build.src.tcoz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/tcoz"/>
   
+  <property name="parser.z.src.jar.file"  location="${parser.jar.dir}/src-z-${parser.jar.file}"/>
+  <property name="parser.oz.src.jar.file"  location="${parser.jar.dir}/src-oz-${parser.jar.file}"/>
+  <property name="parser.zpatt.src.jar.file"  location="${parser.jar.dir}/src-zpatt-${parser.jar.file}"/>
+  <property name="parser.tcoz.src.jar.file"  location="${parser.jar.dir}/src-tcoz-${parser.jar.file}"/>
+  <property name="parser.circus.src.jar.file"  location="${parser.jar.dir}/src-circus-${parser.jar.file}"/>
+  <property name="parser.src.jar.file"  location="${parser.jar.dir}/src-${parser.jar.file}"/>
+  <property name="parser.api.src.jar.file"  location="${parser.jar.dir}/doc-${parser.jar.file}"/>
+  
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex}"/>
 
@@ -58,7 +66,7 @@
   <target name="all" depends="install, doc"
     description="Builds the jar files and the api documentation."/>
 
-  <target name="install" depends="compile"
+  <target name="install" depends="compile, src"
     description="Builds and installs the jar file in '../lib'.">
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
@@ -66,7 +74,7 @@
       <fileset dir="src/main/resources"/>
     </jar>
   </target>
-
+  
   <target name="z-Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -140,7 +148,7 @@
       <classpath refid="classpath"/>
     </javac>
   </target>
-
+  
   <target name="generate-src"
     depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-tcoz-src, generate-circus-src, generate-print-src"/>
 
@@ -440,7 +448,7 @@
       <param name="add" expression="{zpatt}"/>
     </xslt>
   </target>
-
+ 
   <target name="circus-l2u">
     <xslt
       in="templates/Latex2Unicode.xml"
@@ -450,8 +458,9 @@
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
     </xslt>
+    <!-- To see jFlex debugging structures, add  dump="true" -->
     <jflex
-      file="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
+      file="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"      
       destdir="${build.src.dir}"/>
   </target>
 
@@ -681,6 +690,16 @@
     </xslt>
   </target>
 
+  <!-- 
+    To see CUP debugging structures, add any of these flags:
+  		  
+      dump_grammar="true" -> for a low-level view of the grammar
+      dump_states="true"  -> unique parsing states (Good for debugging)
+      dump_tables="true"  -> (huge) parsing table (only if states fail to be helpful)
+      debug="true"        -> to see the parsing working very closely. 
+                             This is the last resort if the states and tables do not help.  		    		  
+   in the java_cup part 
+  -->
   <target name="circus-parser" depends="circus-parser-cup, -set-javacup-task">
     <java_cup
       srcfile="${build.src.circus.dir}/Parser.cup"
@@ -1170,7 +1189,15 @@
       <tag name="czt.todo" description="To do:"/>
       <classpath refid="classpath"/>
     </javadoc>
-  </target>
+  </target>  
+  
+  <target name="api-src" depends="api"
+    description="generate the jar file with parser api doc" >
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${parser.api.src.jar.file}">
+      <fileset dir="${api.dir}"/>
+    </jar>
+  </target>  
 
   <target name="test" depends="test-run, test-report"
     description="Builds and runs the tests.  A browsable version of the test results is created in build/test-report/index.html."/>
@@ -1275,4 +1302,46 @@
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
   </target>
+  <target name="clean-circus"
+          description="Cleans up (this does not delete the jar file in '../lib').">
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/parser/circus"/>    
+    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/circus"/>    
+    
+  </target>
+  <target name="src" depends="compile"
+    description="generate the jar file with all parsers source code" >
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${parser.src.jar.file}">
+      <fileset dir="${src.dir}"/>
+      <fileset dir="${build.src.dir}"/>
+    </jar>
+  </target> 
+  
+  <target name="src-circus" depends="compile"
+    description="generate the jar file with Circus parser source code" >
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${parser.circus.src.jar.file}">
+      <fileset dir="${src.dir}">
+        <include name="net/sourceforge/czt/parser/circus/**"/>         
+        <include name="net/sourceforge/czt/parser/util/**"/>         
+      </fileset>
+      <fileset dir="${build.src.dir}">
+        <include name="net/sourceforge/czt/parser/circus/**"/>        
+      </fileset>
+    </jar>
+  </target>   
+  
+  <target name="src-core" depends="compile"
+    description="generate the jar file with Z parser source code" >
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${parser.z.src.jar.file}">
+      <fileset dir="${src.dir}">
+        <include name="net/sourceforge/czt/parser/z/**"/>         
+        <include name="net/sourceforge/czt/parser/util/**"/>         
+      </fileset>
+      <fileset dir="${build.src.dir}">
+        <include name="net/sourceforge/czt/parser/z/**"/>        
+      </fileset>
+    </jar>
+  </target>   
 </project>
