@@ -61,7 +61,7 @@
   </target>
 
   <target name="compile"
-    depends="compile-core,compile-oz,compile-zpatt,compile-jaxb"
+    depends="compile-core,compile-oz,compile-zpatt,compile-circus,compile-jaxb"
     description="compile the source code"/>
 
   <!-- build source files -->
@@ -493,6 +493,21 @@
     <delete dir="${corejava.build.dir}/tcoz"/>    
     <delete dir="${corejava.build.dir}/circus"/>        
     <delete dir="${corejava.build.dir}/jaxb"/>    
+  </target>
+  
+  <target name="clean-circus"
+          depends="clean-circus-class-files"  
+          description="clean up">
+    <delete file="${corejava.build.dir}/xsd/Circus.xsd"/>    
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus"/>
+    <delete dir="${corejava.api.dir}/net/sourceforge/czt/circus"/>
+    <delete dir="${corejava.api.jaxb.dir}/net/sourceforge/czt/circus"/>
+  </target>
+
+  <target name="clean-circus-class-files"
+          description="clean up">
+    <delete dir="${corejava.build.dir}/circus"/>    
+    <delete dir="${corejava.build.dir}/jaxb/net/sourceforge/czt/circus"/>
   </target>
 
   <target name="clean-jaxb-class-files"
