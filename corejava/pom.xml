@@ -48,7 +48,6 @@
     </dependency>
   </dependencies>
   <build>
-    <sourceDirectory>target/src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -74,11 +73,8 @@
                 <ant dir="../util" target="install"/>
                 <ant dir="." target="gen"/>
                 <ant dir="." target="build-src"/>
-                <copy todir="target/src">
-                  <fileset dir="src/main/java"/>
-                  <fileset dir="build/src"/>
-                </copy>
               </tasks>
+              <sourceRoot>${basedir}/build/src</sourceRoot>
             </configuration>
             <goals>
               <goal>run</goal>
