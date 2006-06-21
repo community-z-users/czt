@@ -206,10 +206,14 @@ public class SpecialLatexParser {
                     }                                
                 }
                 if (printLatex) {
+                  System.out.println("----STARTING LATEX PRINTING----");
                   printLatex(term, filename, sm);
+                  System.out.println("----FINISHED LATEX PRINTING----");
                 }
                 if (printUnicode) {
+                  System.out.println("----STARTING UNICODE PRINTING----");
                   printUnicode(term, filename, sm);
+                  System.out.println("----FINISHED UNICODE PRINTING----");
                 }
             } else {
                 System.err.println("Parse error");
