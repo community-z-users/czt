@@ -84,7 +84,8 @@
   <!-- Definitions of the elements in the order of appearance in the grammar -->
   <!-- ********************************************************************* -->
 
-  <!-- Paragraphs -->
+  <!-- Section level paragraphs -->
+  
   <xs:element name="ChannelPara" type="CIRCUS:ChannelPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -99,6 +100,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
   <xs:element name="ChannelSetPara" type="CIRCUS:ChannelSetPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -113,6 +115,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  
   <xs:element name="ProcessPara" type="CIRCUS:ProcessPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
@@ -126,8 +129,26 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+    
+  <xs:element name="CircusConjPara" type="CIRCUS:CircusConjPara" substitutionGroup="Z:Para" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A (generic) Circus conjecture paragraph. It is used by tools to ensure that
+        certain special properties hold.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   
-  <!-- Channel Declaration -->
+  <xs:element name="RefinementConjPara" type="CIRCUS:RefinementConjPara" substitutionGroup="CIRCUS:CircusConjPara">
+    <xs:annotation>
+      <xs:documentation>
+        Refinement conjecture between two circus specifications.
+      </xs:documentation>
+    </xs:annotation>        
+  </xs:element>
+  
+  <!-- Section level declarations -->  
+  <!-- Channel declaration -->
   
   <xs:element name="ChannelDecl" type="CIRCUS:ChannelDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
@@ -184,6 +205,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>  
+  
   <xs:element name="BasicChannelSetExpr" type="Z:Expr0N" substitutionGroup="Z:Expr0N">
     <xs:annotation>
       <xs:documentation>
@@ -811,12 +833,7 @@
   </xs:element>    
 
   <!-- Action :: Schema-Exp -->  
-  
-  <!-- TODO:CHECK        
-       Maybe remove this altogether and allow RefNames for previously declared schemas only.
-       That simplifies the grammar in a great extent with the price that schema construction
-       is removed from the BNF in actions. We might later reinclude this upon request.
-    -->
+    
   <xs:element name="SchExprAction" type="CIRCUS:SchExprAction" substitutionGroup="CIRCUS:CircusAction">
     <xs:annotation>
       <xs:documentation>
@@ -837,7 +854,7 @@
         </p>
       </xs:documentation>
     </xs:annotation>
-  </xs:element>
+  </xs:element>  
 
   <!-- Action :: Call -->  
   <xs:element name="CallAction" type="CIRCUS:CallAction" substitutionGroup="CIRCUS:CircusAction">
@@ -1222,6 +1239,32 @@
     </xs:annotation>
   </xs:element>
 
+  <!-- Special Circus actions used on post-parsing. 
+       They are related to scope for mutual recursion and variable declaration.
+    -->  
+  
+  <xs:element name="LetAction" type="CIRCUS:LetAction" substitutionGroup="CIRCUS:Action1" abstract="true">
+    <xs:annotation>
+        <xs:documentation>
+            Abstract local environment.
+        </xs:documentation>
+    </xs:annotation>     
+  </xs:element>      
+  <xs:element name="LetMuAction" type="CIRCUS:LetMuAction" substitutionGroup="CIRCUS:LetAction">
+    <xs:annotation>
+      <xs:documentation>
+        Local environment for mu actions.
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>    
+  <xs:element name="LetVarAction" type="CIRCUS:LetVarAction" substitutionGroup="CIRCUS:LetAction">
+    <xs:annotation>
+      <xs:documentation>
+        Local environment for prefixing actions involving input fields, parameterised actions, and variable commands.
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>    
+  
   <!-- Additional top-level types in Circus -->
   
   <xs:element name="ChannelType" type="CIRCUS:ChannelType" substitutionGroup="Z:Type">
@@ -1251,6 +1294,28 @@
   </xs:element> 
   
   <!-- Additional process-level types in Circus -->
+
+  
+  <xs:element name="SigmaExpr" type="CIRCUS:SigmaExpr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        Expression for channel selections, such as c.x or c.true for channel c. 
+        It is set of pairs, where the first element is the channel reference and 
+        the second element is the expression corresponding to the value to be
+        communicaticated. The channel reference is a RefExpr, as channel can 
+        contain generic actuals. It denotes set of the all the possible values a 
+        channel can communicate.
+        </p>
+        <p>
+        These expressions require special typechecking to ensure that elements are 
+        well typed with respect to the (RefExpr X Expr) pair, rather than the structure 
+        of the expressions. That is, SigmaExpr unify even when the expression have different
+        types, so that we can create the Sigma environment.
+        </p>
+      </xs:documentation>
+    </xs:annotation>     
+  </xs:element>
   
   <xs:element name="ActionType" type="CIRCUS:ActionType" substitutionGroup="Z:Type2">
     <xs:annotation>
@@ -1348,6 +1413,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="ChannelDecl">
     <xs:complexContent>
       <xs:extension base="Z:Decl">
@@ -1396,6 +1462,32 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:complexType name="CircusConjPara">
+    <xs:complexContent>
+      <xs:extension base="Z:Para"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="RefinementConjPara">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:CircusConjPara">
+        <xs:sequence>
+          <xs:element name="Specification" type="CIRCUS:CircusAction"/>
+          <xs:element name="Implementation" type="CIRCUS:CircusAction"/>
+        </xs:sequence>  
+        <xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:simpleType name="Model">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Tr"/>
+      <xs:enumeration value="SFl"/>
+      <xs:enumeration value="FlDv"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <!-- Channel Set Expression complexTypes -->
   <xs:complexType name="ChannelSet">
@@ -1714,8 +1806,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-
-<!-- Name Set Expression complexTypes -->
+  <!-- Name Set Expression complexTypes -->
   <xs:complexType name="NameSet">
     <xs:complexContent>
       <xs:extension base="Z:Term">
@@ -1726,8 +1817,7 @@
     </xs:complexContent>
   </xs:complexType>  
   
-  <!-- Action complexType -->     
-  
+  <!-- Action complexType -->    
   <xs:complexType name="CircusAction">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
@@ -1784,15 +1874,14 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ActionD"/>
     </xs:complexContent>
-  </xs:complexType>  
-  
+  </xs:complexType> 
   
   <xs:complexType name="CircusCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction"/>
     </xs:complexContent>
   </xs:complexType>
-    
+  
   <xs:complexType name="SchExprAction">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction">
@@ -2015,11 +2104,13 @@
   </xs:simpleType>
 
   <!-- CSP Communication parameters complexType -->
+  
   <xs:complexType name="Field">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
+  
   <xs:complexType name="InputField">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
@@ -2036,6 +2127,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
   <xs:complexType name="DotField">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
@@ -2045,7 +2137,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-
+  
   <!-- Parameterised Commands complextype -->  
   <xs:complexType name="QualifiedDecl">
     <xs:complexContent>
@@ -2150,6 +2242,51 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <!-- Additional Circus actions for Local Environments of the operational semantics -->
+  <xs:complexType name="LetAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:Action1"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="LetMuAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:LetAction">
+        <xs:sequence>
+          <!-- List of ActionPara to handle mutual recursion -->
+          <xs:element ref="Z:ParaList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="LetVarAction">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:LetAction">
+        <xs:sequence>                             
+          <!-- 
+          In Circus, the possibilites are VarDecl, ConstDecl, and InclDecl.
+          TODO:DESIGN: Maybe remove InclDecl, as ConstDecl is just syntactic sugar.          
+          -->
+          <xs:element ref="Z:DeclList"/>
+          <!-- Invariant: getDeclarations().size()==getValues.size() -->          
+          <xs:element ref="Z:ExprList"/>            
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="SigmaExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element name="Channel" type="Z:RefExpr"/>          
+          <xs:element name="Value" type="Z:Expr"/>            
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   <!-- Circus Types and Signatures -->
   
   <xs:complexType name="ChannelType">
@@ -2222,20 +2359,7 @@
         <xs:sequence>
           <xs:element name="ProcessName" type="Z:DeclName"/>
           <xs:element name="GenFormals" type="Z:DeclNameList"/>
-          <xs:element ref="Z:Signature" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ParamsOrIndexes"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>      
-          <xs:element ref="Z:ZRefNameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="UsedChannels"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element name="ParamOrIndexes" type="Z:Signature" minOccurs="0"/>          
         </xs:sequence>
         <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
       </xs:extension>
@@ -2289,33 +2413,15 @@
       </xs:extension>
     </xs:complexContent>    
   </xs:complexType>
+  
   <xs:complexType name="ActionSignature">
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ActionName" type="Z:DeclName"/>
-          <!-- Action formal parameters are treated as the first local variables -->
-          <xs:element ref="Z:Signature">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="FormalParams"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Signature">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LocalVars"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:ZRefNameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="UsedChannels"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element name="ActionName" type="Z:DeclName"/>          
+          <xs:element name="FormalParams" type="Z:Signature" minOccurs="0"/>            
+          <xs:element name="LocalVars" type="Z:Signature" minOccurs="0"/>
+          <xs:element name="UsedChannels" type="Z:Signature" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
