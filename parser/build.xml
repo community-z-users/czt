@@ -195,7 +195,7 @@
     depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-circus-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
-    depends="z-print-scanner, oz-print-scanner"/>
+    depends="z-print-scanner, oz-print-scanner, circus-print-scanner"/>
 
   <target name="generate-z-src"
     depends="generate-z-parser, generate-z-scanner"/>
@@ -283,6 +283,28 @@
       <param name="class" expression="SectHeadScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.oz"/>
       <param name="add" expression="{oz}{print}"/>
+    </xslt>
+  </target>
+  
+  <target name="circus-print-scanner">
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/circus/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.circus"/>
+      <param name="add" expression="{circus}{print}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/print/circus/ContextFreeScanner.jflex"
+      destdir="${build.src.dir}"/>
+    <xslt
+      in="templates/SectHeadScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/circus/SectHeadScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SectHeadScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.circus"/>
+      <param name="add" expression="{circus}{print}"/>
     </xslt>
   </target>
 
