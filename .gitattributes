@@ -60,6 +60,13 @@ parser/pom.xml -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
+parser/src/main/java/net/sourceforge/czt/print/circus/AstToPrintTreeVisitor.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/LatexPrinterCommand.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/NewlineScanner.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/PrintUtils.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/UnicodePrinterCommand.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/UnicodeToLatex.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.java -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
 rules/pom.xml -text
