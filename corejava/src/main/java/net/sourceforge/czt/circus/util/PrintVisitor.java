@@ -109,8 +109,12 @@ public class PrintVisitor
             result.append(" | V[");
             result.append(visit(term.getLocalVars()));//Signature                
             result.append("]");
+        }        
+        if (!term.getUsedChannels().getNameTypePair().isEmpty()) {
+          result.append(" @ C[");
+          result.append(visit(term.getUsedChannels()));
+          result.append("]");
         }
-        result.append(visitList(term.getUsedChannels(), " @ C[", ", ", "]"));        
         result.append(" }");
         return result.toString();
     }    
@@ -120,15 +124,11 @@ public class PrintVisitor
         result.append(visit(term.getProcessName()));
         result.append(visitList(ZUtils.assertZDeclNameList(term.getGenFormals()), "[", ",", "]"));        
         // Print parameters or indexes signature if they exist
-        if (term.getParamsOrIndexes() != null && !term.getParamsOrIndexes().getNameTypePair().isEmpty()) {
+        if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty()) {
             result.append(term.getKind().equals(ProcessKind.Parameterised) ? "P [" : "I [");
-            result.append(visit(term.getParamsOrIndexes()));
+            result.append(visit(term.getParamOrIndexes()));
             result.append("]");
-        }         
-        // Print used channels signature if not empty
-        if (term.getUsedChannels() != null && !term.getUsedChannels().isEmpty()) {            
-            result.append(visitList(ZUtils.assertZRefNameList(term.getUsedChannels()), " @\n USED_CHAN [", ", ", "]\n"));//zrefnamelist        
-        }
+        }                 
         return result.toString();
     }
 }

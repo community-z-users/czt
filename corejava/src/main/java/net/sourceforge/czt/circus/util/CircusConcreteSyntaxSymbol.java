@@ -26,6 +26,7 @@ public enum CircusConcreteSyntaxSymbol
   CHANNEL_PARA("Channel paragraph"),
   CHANNELSET_PARA("Channel set paragraph"),
   PROCESS_PARA("Process paragraph"),
+  REFINEMENT_CONJ_PARA("Refinement conjecture paragraphs"),
   
   /* Action level paragraphs */  
   ACTION_PARA("Action paragraph"),
@@ -102,6 +103,9 @@ public enum CircusConcreteSyntaxSymbol
   HIDE_ACTION("Hide action"),
   PREFIX_ACTION("Prefixing action"),
   SUBST_ACTION("Substitution action"),
+  LETVAR_ACTION("Local environment for variable declaration"),
+  LETMU_ACTION("Local environment for recursive actions"),
+  SIGMA_EXPR("Communication expression"),  
   
   /* (Concrete Binary) Action definitions */
   SEQ_ACTION("Sequential composition action"),

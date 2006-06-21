@@ -73,6 +73,18 @@ public class CircusConcreteSyntaxSymbolVisitor
         return null;
     }
     
+    public CircusConcreteSyntaxSymbol visitRefinementConjPara(RefinementConjPara term) {
+        return CircusConcreteSyntaxSymbol.REFINEMENT_CONJ_PARA;
+    }
+    
+    public CircusConcreteSyntaxSymbol visitLetVarAction(LetVarAction term) {
+        return CircusConcreteSyntaxSymbol.LETVAR_ACTION;
+    }
+    
+    public CircusConcreteSyntaxSymbol visitLetMuAction(LetMuAction term) {
+        return CircusConcreteSyntaxSymbol.LETMU_ACTION;
+    }
+    
     public CircusConcreteSyntaxSymbol visitParamProcess(ParamProcess term) {
         return CircusConcreteSyntaxSymbol.PARAM_PROCESS;
     }
@@ -116,6 +128,9 @@ public class CircusConcreteSyntaxSymbolVisitor
     }
     public CircusConcreteSyntaxSymbol visitCircusFieldList(CircusFieldList term) {
         return CircusConcreteSyntaxSymbol.FIELD_LIST;
+    }
+    public CircusConcreteSyntaxSymbol visitSigmaExpr(SigmaExpr term) {
+        return CircusConcreteSyntaxSymbol.SIGMA_EXPR;
     }
     
     public CircusConcreteSyntaxSymbol visitProcessPara(ProcessPara term) {
