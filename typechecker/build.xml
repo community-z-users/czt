@@ -112,7 +112,8 @@
   <target name="test-run" depends="test-install">
     <junit fork="yes" printsummary="yes" showoutput="yes">
       <formatter type="xml"/>
-      <test name="net.sourceforge.czt.typecheck.Suite"/>
+      <test toDir="${build.dir}"
+        name="net.sourceforge.czt.typecheck.Suite"/>
       <jvmarg value="-Dczt.home=${czt.home}"/>
       <classpath>
         <path refid="classpath"/>
@@ -125,11 +126,11 @@
   </target>
 
   <target name="test-report">
-    <junitreport todir=".">
-      <fileset dir=".">
+    <junitreport todir="${build.dir}">
+      <fileset dir="${build.dir}">
         <include name="TEST-*.xml"/>
       </fileset>
-      <report format="frames" todir="build/report"/>
+      <report format="frames" todir="${build.dir}/test-report"/>
     </junitreport>
   </target>
 
