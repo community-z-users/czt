@@ -14,11 +14,13 @@
   <url>http://czt.sourceforge.net</url>
   <modules>
     <module>corejava</module>
+    <module>gaffe</module>
     <module>gnast</module>
     <module>parser</module>
     <module>rules</module>
     <module>session</module>
     <module>typechecker</module>
+    <module>modeljunit</module>
     <module>util</module>
     <module>zlive</module>
   </modules>
@@ -90,9 +92,31 @@
         <version>0.5-SNAPSHOT</version>
       </dependency>
 
+      <!-- CZT Rules -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>zlive</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
       <!-- ************** -->
       <!-- external stuff -->
       <!-- ************** -->
+
+      <!-- Bsf -->
+      <dependency>
+        <groupId>bsf</groupId>
+        <artifactId>bsf</artifactId>
+        <version>2.2</version>
+      </dependency>
+
+      <!-- Rhino -->
+
+      <dependency>
+        <groupId>rhino</groupId>
+        <artifactId>rhino</artifactId>
+        <version>1.5-R3</version>
+      </dependency>
 
       <!-- Jaxb -->
       <dependency>
