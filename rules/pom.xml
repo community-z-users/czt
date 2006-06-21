@@ -27,7 +27,6 @@
     </dependency>
   </dependencies>
   <build>
-    <sourceDirectory>target/src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -51,12 +50,9 @@
             <configuration>
               <tasks>
                 <ant dir="." target="run-codegen"/>
-                <copy todir="target/src">
-                  <fileset dir="src/main/java"/>
-                  <fileset dir="build/src"/>
-                </copy>
               </tasks>
-            </configuration>
+              <sourceRoot>${basedir}/build/src</sourceRoot>
+           </configuration>
             <goals>
               <goal>run</goal>
             </goals>
