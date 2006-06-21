@@ -50,6 +50,13 @@
         <version>0.5-SNAPSHOT</version>
       </dependency>
 
+      <!-- CZT Jaxb (generated classes) -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>jaxb</artifactId>
+        <version>0.5-SNAPSHOT</version>
+      </dependency>
+
       <!-- CZT Corejava -->
       <dependency>
         <groupId>net.sourceforge.czt</groupId>

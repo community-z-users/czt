@@ -20,31 +20,7 @@
     </dependency>
     <dependency>
       <groupId>net.sourceforge.czt</groupId>
-      <artifactId>util</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-impl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-libs</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml</groupId>
-      <artifactId>relaxngDatatype</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>activesoap</groupId>
-      <artifactId>xsdlib</artifactId>
+      <artifactId>jaxb</artifactId>
     </dependency>
   </dependencies>
   <build>
