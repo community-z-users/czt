@@ -11,7 +11,8 @@
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
   <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
   <property name="corejava.build.tcoz" location="${corejava.build.dir}/tcoz"/>
-  <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>  <property name="corejava.build.circus" location="${corejava.build.dir}/circus"/>
+  <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>  
+  <property name="corejava.build.circus" location="${corejava.build.dir}/circus"/>
   <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
   <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
@@ -421,7 +422,8 @@
       <group title="Standard Z Packages" packages="net.sourceforge.czt.z.*"/>
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
-      <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>      <group title="Circus Packages" packages="net.sourceforge.czt.circus.*"/>
+      <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>      
+      <group title="Circus Packages" packages="net.sourceforge.czt.circus.*"/>
       <classpath>
         <pathelement location="${util.jar}"/>
         <pathelement path="${jwsdp.classpath}"/>
@@ -483,7 +485,30 @@
     <ant dir="examples/substitutionVisitor" target="clean"/>
     <ant dir="examples/object-z" target="clean"/>
   </target>
+  
+  <target name="clean-class"
+          description="clean up class files only">    
+    <delete dir="${corejava.build.dir}/core"/>    
+    <delete dir="${corejava.build.dir}/oz"/>    
+    <delete dir="${corejava.build.dir}/tcoz"/>    
+    <delete dir="${corejava.build.dir}/circus"/>        
+    <delete dir="${corejava.build.dir}/jaxb"/>    
+  </target>
 
+  <target name="clean-jaxb-class-files"
+          description="clean up">
+    <delete dir="${corejava.build.dir}/jaxb"/>        
+  </target>
+  
+  <target name="clean-jaxb" depends="clean-jaxb-class-files"
+          description="clean up">
+    <delete dir="${corejava.build.dir}/jaxb"/>        
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/z/jaxb"/>    
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/oz/jaxb"/>    
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/tcoz/jaxb"/>    
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus/jaxb"/>        
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/zpatt/jaxb"/>    
+  </target>
   <!-- Source jar files -->
 
   <target name="src-jar"
