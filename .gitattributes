@@ -59,6 +59,7 @@ parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/pom.xml -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
+parser/src/main/java/net/sourceforge/czt/parser/circus/CircusToken.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/circus/AstToPrintTreeVisitor.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/CircusPrintVisitor.java -text
