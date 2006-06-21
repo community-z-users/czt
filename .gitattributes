@@ -64,9 +64,11 @@ parser/src/main/java/net/sourceforge/czt/print/circus/AstToPrintTreeVisitor.java
 parser/src/main/java/net/sourceforge/czt/print/circus/LatexPrinterCommand.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/NewlineScanner.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/PrintUtils.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/UnicodePrinter.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/UnicodePrinterCommand.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/UnicodeToLatex.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.java -text
+parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
 rules/pom.xml -text
