@@ -75,6 +75,15 @@
     </jar>
   </target>
   
+  <target name="install-circus" depends="compile-circus, src-circus"
+    description="Builds and installs the jar file in '../lib'.">
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.class.dir}"/>
+      <fileset dir="src/main/resources"/>
+    </jar>
+  </target>  
+
   <target name="z-Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -149,6 +158,15 @@
     </javac>
   </target>
   
+  <target name="compile-circus" depends="init, generate-circus-parser, generate-circus-scanner"
+          description="Compiles the sources.">
+    <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
+           destdir="${build.class.dir}"
+           debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
+      <classpath refid="classpath"/>
+    </javac>    
+  </target>
+
   <target name="generate-src"
     depends="generate-z-src, generate-zpatt-src, generate-oz-src, generate-tcoz-src, generate-circus-src, generate-print-src"/>
 
