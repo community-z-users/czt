@@ -66,7 +66,7 @@
   <target name="all" depends="install, doc"
     description="Builds the jar files and the api documentation."/>
 
-  <target name="install" depends="compile, src"
+  <target name="install" depends="compile"
     description="Builds and installs the jar file in '../lib'.">
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
