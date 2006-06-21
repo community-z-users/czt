@@ -49,6 +49,7 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 import net.sourceforge.czt.circus.ast.*;
 
+import net.sourceforge.czt.print.circus.PrintUtils;
 
 /**
  * A parser for LaTeX mark-up.  This is a convenience class that
@@ -97,7 +98,7 @@ public class SpecialLatexParser {
         logger.addHandler(ch);
         logger.setLevel(Level.ALL);
         sm = new SectionManager();
-        sm.setProperty("czt.path", "D:\\research\\tools\\java\\sourceforge\\czt\\0.4.1\\parser\\lib");
+        sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.1\\parser\\src\\main\\resources\\lib");
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
@@ -105,6 +106,22 @@ public class SpecialLatexParser {
         scanner_ = new LatexScanner(s, sectInfo, properties);
         parser_ = new Parser(scanner_, s, sectInfo);
     }    
+    
+    public Term parse()
+    throws ParseException {
+        try {
+            final Symbol parseTree = parser_.parse();
+            final Term term = (Term) parseTree.value;
+            return term;
+        } catch (ParseException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CztException("This should never happen", e);
+        }
+    }
 
     /**
      * Parses a file using the latex parser.
@@ -125,65 +142,80 @@ public class SpecialLatexParser {
         return parser.parse();
     }
     
+    public static void printLatex(Term term, String filename, SectionInfo sectInfo) 
+      throws IOException {
+        logger.fine("Print term to LaTex file " + filename + ".print.tex");
+        FileWriter writer = new FileWriter( filename + ".print.tex" );        
+        PrintUtils.printLatex(term, writer, sectInfo);
+    }
+    
+    public static void printUnicode(Term term, String filename, SectionInfo sectInfo)  
+      throws IOException {
+        logger.fine("Print term to LaTex file " + filename + ".print.utf");
+        FileWriter writer = new FileWriter( filename + ".print.utf" );        
+        PrintUtils.printLatex(term, writer, sectInfo);
+    }
+    
     /**
      * Converts latex to zml.
      */
     public static void main(String[] args) {
         String usage = "Usage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
-                + " [ -in <texInputfile>]";
+                + " [ -in <texInputfile>] [-printLatex] [-printUnicode]";
         try {
             String filename = null;
+            boolean printLatex = false;
+            boolean printUnicode = false;
             for (int i = 0; i < args.length; i++) {
                 if ("-in".equals(args[i])) {
                     if (i < args.length) {
-                        filename = args[++i];
-                        Term term = parseLatexFile(filename, sm);
-                        if (term != null) {
-                            System.out.println("Parser ok");
-                            for(Sect sect : ((Spec)term).getSect()) {
-                                if (sect instanceof ZSect) {
-                                    ZSect zs = (ZSect)sect;  
-                                    for(Para pa: ((ZParaList)zs.getParaList())) {                     
-                                        if (pa instanceof ProcessPara) {
-                                            System.out.print("Annotations for process " + ((ProcessPara)pa).getProcessName() + " in section " + zs.getName());
-                                            if (((ProcessPara)pa).getCircusProcess() != null)
-                                                System.out.println(": " + ((ProcessPara)pa).getCircusProcess().getAnns().toString());
-                                            else
-                                                System.out.println(": none (null process definition)");
-                                        }                                                                
-                                    }
-                                }                                
-                            }                                                        
-                        } else {
-                            System.err.println("Parse error");
-                        }
+                        filename = args[++i];                        
                     } else {
                         System.err.println(usage);
                         return;
                     }
+                } else  if ("-printLatex".equals(args[i])) {
+                   printLatex = true;
+                } else  if ("-printUnicode".equals(args[i])) {
+                   printUnicode = true;
                 } else {
                     System.err.println(usage);
                     return;
                 }
             }
+            if (filename == null) {
+              System.err.println("No file name given");
+              System.err.println(usage);
+              return;
+            }               
+            Term term = parseLatexFile(filename, sm);
+            if (term != null) {
+                System.out.println("Parser ok");
+                for(Sect sect : ((Spec)term).getSect()) {
+                    if (sect instanceof ZSect) {
+                        ZSect zs = (ZSect)sect;  
+                        for(Para pa: ((ZParaList)zs.getParaList())) {                     
+                            if (pa instanceof ProcessPara) {
+                                System.out.print("Annotations for process " + ((ProcessPara)pa).getProcessName() + " in section " + zs.getName());
+                                if (((ProcessPara)pa).getCircusProcess() != null)
+                                    System.out.println(": " + ((ProcessPara)pa).getCircusProcess().getAnns().toString());
+                                else
+                                    System.out.println(": none (null process definition)");
+                            }                                                                
+                        }
+                    }                                
+                }
+                if (printLatex) {
+                  printLatex(term, filename, sm);
+                }
+                if (printUnicode) {
+                  printUnicode(term, filename, sm);
+                }
+            } else {
+                System.err.println("Parse error");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-    
-    public Term parse()
-    throws ParseException {
-        try {
-            final Symbol parseTree = parser_.parse();
-            final Term term = (Term) parseTree.value;
-            return term;
-        } catch (ParseException e) {
-            throw e;
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CztException("This should never happen", e);
         }
     }
     
