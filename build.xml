@@ -545,7 +545,7 @@ set TYPECHECKER=${typechecker.win}
 
   <target name="clean-util"
     description="clean up util">
-    <ant dir="corejava" target="clean"/>
+    <ant dir="util" target="clean"/>
   </target>
 
   <target name="clean-corejava" if="corejava.present"
