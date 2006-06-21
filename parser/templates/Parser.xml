@@ -1986,6 +1986,11 @@ non terminal List &lt; Para &gt;
     boxedOptInnerCircusParaList,
     unboxedOptInnerCircusParaList;
 
+non terminal ZExprList
+    genericActuals,
+    actualParameters,
+    actualIndexes;
+    
 /// Circus channel definition ////////////////////////////////////////////////   
 non terminal List&lt;ChannelDecl&gt;
     channelDeclList;
@@ -2036,7 +2041,8 @@ non terminal CircusProcess
     process;
 
 non terminal RenameList
-    channelRenameList;    
+    nameSubstitution,
+    channelRenaming;    
     
 /// Circus parameters definition /////////////////////////////////////////////    
     
@@ -2985,14 +2991,22 @@ channelDecl ::=
            addLocAnn(RESULT, getLocation(nl));
 	:} 
         ;
-
+        
+genericActuals ::=
+        LSQUARE:ls expressionList:el RSQUARE:rs        
+        {:
+           RESULT = el;
+           addLocAnn(RESULT, getLocation(ls, rs));
+        :}
+        ;
+        
 channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
-        optFormalParameters:ofp DECORWORD:dw LSQUARE expressionList:el RSQUARE:rs
+        optFormalParameters:ofp DECORWORD:dw genericActuals:ga
         {:  
-           RefExpr re = factory_.createRefExpr(createZRefName(dw), el, Boolean.FALSE, Boolean.TRUE);
+           RefExpr re = factory_.createRefExpr(createZRefName(dw), ga, Boolean.FALSE, Boolean.TRUE);
            RESULT = factory_.createChannelDecl(ofp, null, re);
-           addLocAnn(RESULT, getLocation(ofp, rs));
+           addLocAnn(RESULT, getLocation(ofp, ga));
         :}        
         | 
         /* Channels declared through Z schemas */                
@@ -3014,16 +3028,7 @@ channelSetPara ::=
         :}        
         ;
         
-channelSet ::=        
-        /* channel set extension */        
-        LCIRCCHANSET:lc optExpressionList:oel RCIRCCHANSET:rc
-        {:
-           // NOTE: It must be an optExpressionList because of generic actuals on channel names.
-           Expr e = validateChannelSetExpr(createBasicChannelSetExpr(oel));
-           RESULT = factory_.createChannelSet(e);
-           addLocAnn(RESULT, getLocation(lcleft, lcright));
-        :}
-        |
+channelSet ::=                
         expression:e
         {:          
            Expr eValid = validateChannelSetExpr(e);
@@ -3246,42 +3251,42 @@ unboxedBasicProcess ::=
            clearBasicProcesOnTheFlyCache();           
         :}
         ;        
-        
+
 processCall ::=                                
         /* Nongenertic parameterised process call with instantiations */
-        DECORWORD:dw LPAREN expressionList:el RPAREN:rparen
+        DECORWORD:dw actualParameters:ap
         {:
             /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), el, CallKind.Param);
+            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
         /* Genertic parameterised process call with instantiations */
-        DECORWORD:dw LSQUARE expressionList:ga RSQUARE LPAREN expressionList:param RPAREN:rparen
+        DECORWORD:dw genericActuals:ga actualParameters:ap
         {:
             /* The CallKind is Param and both generic actuals and indexes are not null */
-            RESULT = factory_.createCallProcess(createZRefName(dw), ga, param, CallKind.Param);
+            RESULT = factory_.createCallProcess(createZRefName(dw), ga, ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
         /* Nongeneric indexed process call with instantiations */
-        DECORWORD:dw CIRCLINST expressionList:idx CIRCRINST:circrinst
+        DECORWORD:dw actualIndexes:ai
         {:
             /* The CallKind is Index and the generic actuals are empty */            
-            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), idx, CallKind.Index);
+            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
         /* Generic indexed process call with instantiations */
-        DECORWORD:dw LSQUARE expressionList:ga RSQUARE CIRCLINST expressionList:idx CIRCRINST:circrinst
+        DECORWORD:dw genericActuals:ga actualIndexes:ai
         {:
             /* The CallKind is Index and both generic actuals and indexes are not null */
-            RESULT = factory_.createCallProcess(createZRefName(dw), ga, idx, CallKind.Index);
+            RESULT = factory_.createCallProcess(createZRefName(dw), ga, ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |        
         /* Generic parameterless process call with instantiation */
-        DECORWORD:dw LSQUARE expressionList:ga RSQUARE:rsq
+        DECORWORD:dw genericActuals:ga
         {:
             /* The CallKind is irrelevant and the parameters are empty */
             RESULT = factory_.createCallProcess(createZRefName(dw), ga, factory_.createZExprList(), CallKind.Param);
@@ -3292,7 +3297,8 @@ processCall ::=
         DECORWORD:dw
         {:
             /* The CallKind is irrelevant and both generic actuals and parameters are empty */
-            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), factory_.createZExprList(), CallKind.Param);
+            RESULT = factory_.createCallProcess(createZRefName(dw), 
+                factory_.createZExprList(), factory_.createZExprList(), CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         ;
@@ -3314,8 +3320,8 @@ parenthesisedProcess ::=
            RESULT = p;
         :}  
         |
-        /* On-the-fly paremeterised process call */
-        LPAREN:lp1 paramProcess:pp RPAREN:rp1 LPAREN:lp2 expressionList:param RPAREN:rp2
+        /* Non-generic on-the-fly paremeterised process call */
+        LPAREN:lp1 paramProcess:pp RPAREN:rp1 actualParameters:ap
         {:  
             addParenthesisAnn(lp1, pp, rp1);            
             Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
@@ -3323,21 +3329,45 @@ parenthesisedProcess ::=
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are the same as the  */
             RESULT = factory_.createCallProcess(createZRefName(pn), 
-                factory_.createZExprList(), param, CallKind.Param);
-            addLocAnn(RESULT, getLocation(lp1, rp2));
+                factory_.createZExprList(), ap, CallKind.Param);
+            addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
-        /* On-the-fly indexed process call */
-        LPAREN:lp indexedProcess:ip RPAREN:rp CIRCLINST:li expressionList:idx CIRCRINST:ri
+        /* Generic on-the-fly paremeterised process call */
+        formalParameters:fp LPAREN:lp1 paramProcess:pp RPAREN:rp1 genericActuals:ga actualParameters:ap
+        {:
+            addParenthesisAnn(lp1, pp, rp1);            
+            Decorword pn = createImplicitlyDeclProcUniqueName(pp);                        
+            ProcessPara pa = createImplicitProcessPara(pn, pp);            
+            addImplicitlyDeclProcessPara(pa);
+            /* The CallKind is Param and the generic actuals are the same as the  */
+            RESULT = factory_.createCallProcess(createZRefName(pn), ga, ap, CallKind.Param);
+            addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
+        :}
+        |
+        /* Non-generic on-the-fly indexed process call */
+        LPAREN:lp indexedProcess:ip RPAREN:rp actualIndexes:ai
         {:
             addParenthesisAnn(lp, ip, rp);
             Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(createZRefName(pn), factory_.createZExprList(), idx, CallKind.Index);
-            addLocAnn(RESULT, getLocation(lp, ri));
-        :}        
+            RESULT = factory_.createCallProcess(createZRefName(pn), factory_.createZExprList(), ai, CallKind.Index);
+            addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
+        :} 
+        |
+        /* Generic on-the-fly indexed process call */
+        formalParameters:fp LPAREN:lp indexedProcess:ip RPAREN:rp genericActuals:ga actualIndexes:ai
+        {:
+            addParenthesisAnn(lp, ip, rp);
+            Decorword pn = createImplicitlyDeclProcUniqueName(ip);            
+            ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
+            addImplicitlyDeclProcessPara(pa);
+            /* The CallKind is Param and the generic actuals are empty */
+            RESULT = factory_.createCallProcess(createZRefName(pn), ga, ai, CallKind.Index);
+            addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
+        :}
         |          
         /* NOTE: 
          * The reason why we have introduced the special renaming bracket is because it makes 
@@ -3347,30 +3377,29 @@ parenthesisedProcess ::=
          * Note that for parameterised and indexed processes, we enforce the parenthesis around.
          */         
         /* Process channel renaming */ 
-        LPAREN:lp process:pp RPAREN:rp LCIRCRENAME:lsq channelRenameList:crl RCIRCRENAME:rsq
+        LPAREN:lp process:pp RPAREN:rp channelRenaming:cr 
         {: 
             addParenthesisAnn(lp, pp, rp);
-            RESULT = factory_.createRenameProcess(pp, crl);
-            addLocAnn(RESULT, getLocation(pp, rsq));
+            RESULT = factory_.createRenameProcess(pp, cr);
+            addLocAnn(RESULT, getLocation(lp, rp));
         :} %prec _RENAME     
         |
         /* Parameterised process channel renaming */ 
-        LPAREN:lp paramProcess:pp RPAREN:rp LCIRCRENAME:lsq channelRenameList:crl RCIRCRENAME:rsq
+        LPAREN:lp paramProcess:pp RPAREN:rp channelRenaming:cr 
         {: 
             addParenthesisAnn(lp, pp, rp);
-            RESULT = factory_.createRenameProcess(pp, crl);
-            addLocAnn(RESULT, getLocation(pp, rsq));
+            RESULT = factory_.createRenameProcess(pp, cr);
+            addLocAnn(RESULT, getLocation(lp, rp));
         :} %prec _RENAME     
         |
         /* Indexed process channel renaming */ 
-        LPAREN:lp indexedProcess:ip RPAREN:rp LCIRCRENAME:lsq channelRenameList:crl RCIRCRENAME:rsq
+        LPAREN:lp indexedProcess:ip RPAREN:rp channelRenaming:cr 
         {: 
             addParenthesisAnn(lp, ip, rp);
-            RESULT = factory_.createRenameProcess(ip, crl);
-            addLocAnn(RESULT, getLocation(ip, rsq));
+            RESULT = factory_.createRenameProcess(ip, cr);
+            addLocAnn(RESULT, getLocation(lp, rp));
         :} %prec _RENAME     
         ;        
-        //TODO:DESIGN: what is allowed here? Can we have on-the-fly generic processes?
         
 /* This production leads to a loop in the grammar
  * if directly put on parenthesisedProces :-( 
@@ -3578,17 +3607,34 @@ unboxedCircProcState ::=
 //        :}        
         
 /// Special productions for process paragraphs ////////////////////////////////
-        
-/* Although we have the COLON, it is parsed as Changed nameList to circusDeclWordList because we need DECLWORD 
- * rather than DECORWORD (and no operator templates, please).
- */
-channelRenameList ::=
-        nameList:nl CIRCASSIGN refNameList:rnl
-        {:           
-           RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(nlleft, nlright, nl, rnl));
-           addLocAnn(RESULT, getLocation(nl.get(0), rnl.get(rnl.size()-1)));
+       
+actualParameters ::=
+        LPAREN:lp expressionList:el RPAREN:rp
+        {:
+            RESULT = el;
+            addLocAnn(RESULT, getLocation(lp, rp));
         :}
-        ;   
+        ;
+        
+actualIndexes ::=   
+        CIRCLINST:cli expressionList:idx CIRCRINST:cri
+        {:
+            RESULT = idx;
+            addLocAnn(RESULT, getLocation(cli, cri));
+        :}
+        ;
+        
+/**
+ * Although we have the COLON, it is parsed as Changed nameList to circusDeclWordList because we need DECLWORD 
+ * rather than DECORWORD (and no operator templates, please).
+ */        
+channelRenaming ::=
+        LCIRCRENAME:lsq nameList:nl CIRCASSIGN refNameList:rnl RCIRCRENAME:rsq        
+        {:  
+            RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(nlleft, nlright, nl, rnl));
+            addLocAnn(RESULT, getLocation(lsq, rsq));
+        :}        
+        ;
 
 /// Nameset paragraphs withing Process paragraphs ////////////////////////////////
 
@@ -3824,17 +3870,25 @@ cspAction ::=
         actionCall:ac
         {:
             RESULT = ac;
-        :}         
+        :} 
+        |
+        circusAction:ca nameSubstitution:ns
+        {:
+            RESULT = factory_.createSubstitutionAction(ca, ns);
+            addLocAnn(RESULT, getLocation(ca));
+        :} %prec _RENAME          
         ;
 
 actionCall ::=                                
-        DECORWORD:dw LPAREN expressionList:el RPAREN
+        /* Parameterised action call */
+        DECORWORD:dw actualParameters:ap 
         {:            
-            RESULT = factory_.createCallAction(createZRefName(dw), el);
+            RESULT = factory_.createCallAction(createZRefName(dw), ap);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :} 
         | 
-        DECORWORD:dw
+        /* Action call */
+        DECORWORD:dw 
         {:
             RESULT = factory_.createCallAction(createZRefName(dw), factory_.createZExprList());
             addLocAnn(RESULT, getLocation(dwleft, dwright));
@@ -3850,31 +3904,15 @@ parenthesisedAction ::=
         :} 
         |
         /* On-the-fly action call */
-        LPAREN:lp1 paramAction:pa RPAREN:rp1 LPAREN:lp2 expressionList:el RPAREN:rp2
+        LPAREN:lp1 paramAction:pa RPAREN:rp1 actualParameters:el
         {:
             addParenthesisAnn(lp1, pa, rp1);            
             Decorword an = createImplicitlyDeclActUniqueName(pa);                        
             ActionPara ap = createImplicitActionPara(an, pa);            
             addImplicitlyDeclActionPara(ap);            
             RESULT = factory_.createCallAction(createZRefName(an), el);
-            addLocAnn(RESULT, getLocation(lp1, rp2));
-        :}        
-        | 
-        /* Action substitution like in Z substitution */
-        LPAREN:lp circusAction:ca RPAREN:rp LSQUARE renameList:rnl RSQUARE:rsquare
-        {: 
-            addParenthesisAnn(lp, ca, rp);
-            RESULT = factory_.createSubstitutionAction(ca, rnl);
-            addLocAnn(RESULT, getLocation(ca, rsquare));
-        :} %prec _RENAME   
-        | 
-        /* Parameterised action substitution */
-        LPAREN:lp paramAction:pa RPAREN:rp LSQUARE renameList:rnl RSQUARE:rsquare
-        {: 
-            addParenthesisAnn(lp, pa, rp);
-            RESULT = factory_.createSubstitutionAction(pa, rnl);
-            addLocAnn(RESULT, getLocation(pa, rsquare));
-        :} %prec _RENAME   
+            addLocAnn(RESULT, getLocation(lp1, el.get(el.size()-1)));
+        :}               
         ;
         
 guard ::=
@@ -4102,6 +4140,14 @@ guardedCommand ::=
         :}
         ;
         
+nameSubstitution ::=
+        LSQUARE:ls renameList:rnl RSQUARE:rs
+        {:
+            RESULT = rnl;
+            addLocAnn(RESULT, getLocation(ls, rs));
+        :}
+        ;        
+
 </add:circus>     
                 
 /// schema text ///////////////////////////////////////////
@@ -5080,6 +5126,18 @@ term ::=
         outer_opExpr:ooe
         {: RESULT = ooe; :}
 </add:oz>
+<add:circus>
+        |
+        /* channel set extension */
+        // NOTE: It must be an optExpressionList because of generic actuals on channel names.
+        LCIRCCHANSET:lc optExpressionList:oel RCIRCCHANSET:rc
+        {:
+           // NOTE: The validation below makes sure that if this is a channel set extension,
+           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.
+           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           addLocAnn(RESULT, getLocation(lc, rc));
+        :}
+</add:circus>
         ;
 
 func_appl ::=
