@@ -44,6 +44,9 @@ import net.sourceforge.czt.session.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
+<add:circus>
+import net.sourceforge.czt.circus.util.CircusString;
+</add:circus>
 
 <add:oldz>
 /**
@@ -508,6 +511,12 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
+<add:circus>
+                  // Brackets
+                  LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+                  LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
+                  LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
+</add:circus>         
                    END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal LocInt    NUMERAL, NUMSTROKE;
