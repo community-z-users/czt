@@ -35,6 +35,8 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gnast/pom.xml -text
+jaxb/build.xml -text
+jaxb/pom.xml -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text

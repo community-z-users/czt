@@ -3,6 +3,7 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="corejava.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="util.jar" location="${corejava.jar.dir}/${util.jar.file}"/>
+  <property name="jaxb.jar" location="${corejava.jar.dir}/${jaxb.jar.file}"/>
   <property name="corejava.src.dir" location="src/main/java"/>
   <property name="corejava.src.xsl" location="xsl"/>
   <property name="corejava.build.dir" location="build"/>
@@ -70,71 +71,13 @@
     depends="zchar, zstring, gen"/>
 
   <target name="gen" if="gnast.present"
-    depends="gen-ast, gen-jaxb"/>
+    depends="gen-ast"/>
 
   <target name="gen-ast" depends="init"
     unless="ast.uptodate" if="gnast.present"
     description="Generate AST classes and interfaces">
     <ant dir="../gnast" target="generate"/>
   </target>
-
-  <target name="gen-jaxb" if="gnast.present"
-    depends="pre"
-    description="Generate Jaxb classes">
-    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
-      <classpath>
-        <pathelement path="${jwsdp.classpath}"/>
-        <pathelement location="${util.jar}"/>
-      </classpath>
-    </taskdef>
-    <xjc target="${corejava.build.src}"
-      extension="true" removeOldOutput="yes">
-      <schema  dir="${corejava.build.xsd}" includes="*.xsd"/>
-      <depends dir="${czt.home}/zml" includes="*.xsd"/>
-      <produces dir="${corejava.build.src}/net/sourceforge/czt/z/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.build.src}/net/sourceforge/czt/oz/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.build.src}/net/sourceforge/czt/tcoz/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.build.src}/net/sourceforge/czt/circus/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.build.src}/net/sourceforge/czt/zpatt/jaxb/gen"
-        includes="**"/>
-      <produces dir="${corejava.build.src}/org"
-        includes="**"/>
-    </xjc>
-  </target>
-
-  <target name="pre" if="gnast.present"
-    depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
-    description="Preprocesses the Schemas (used by the JAXB generator)"/>
-
-  <target name="preZ" if="gnast.present" depends="init">
-    <xslt in="../zml/Z.xsd" out="${corejava.build.xsd}/Z.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preZPatt" if="gnast.present" depends="init">
-    <xslt in="../zml/ZPattern.xsd" out="${corejava.build.xsd}/ZPattern.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preCircus" if="gnast.present" depends="init">
-    <xslt in="../zml/Circus.xsd" out="${corejava.build.xsd}/Circus.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preOZ" if="gnast.present" depends="init">
-    <xslt in="../zml/Object-Z.xsd" out="${corejava.build.xsd}/Object-Z.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
-  <target name="preTCOZ" if="gnast.present" depends="init">
-    <xslt in="../zml/TCOZ.xsd" out="${corejava.build.xsd}/TCOZ.xsd"
-      style="${src.xsl}/annotateJaxbBindings.xsl"/>
-  </target>
-
 
   <!-- core (standard Z) -->
 
@@ -362,6 +305,7 @@
   <target name="install-jaxb" depends="compile-jaxb"
           description="generate the Jaxb jar file" >
     <mkdir dir="${corejava.jar.dir}"/>
+    <unjar src="${jaxb.jar}" dest="${corejava.build.jaxb}"/>
     <jar jarfile="${corejava.jaxb.jar}">
       <fileset dir="${corejava.build.jaxb}"/>
       <fileset dir="${corejava.src.dir}">
@@ -388,6 +332,7 @@
       memoryMaximumSize="128m">
       <classpath>
         <pathelement location="${util.jar}"/>
+        <pathelement location="${jaxb.jar}"/>
         <pathelement location="${corejava.build.core}"/>
         <pathelement location="${corejava.build.oz}"/>
         <pathelement location="${corejava.build.tcoz}"/>

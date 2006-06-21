@@ -15,6 +15,9 @@
     file="${basedir}/eclipse/build.xml"
     property="eclipse.present"/>
   <available
+    file="${basedir}/jaxb/build.xml"
+    property="jaxb.present"/>
+  <available
     file="${basedir}/corejava/build.xml"
     property="corejava.present"/>
   <available
@@ -119,7 +122,7 @@
     depends="install-bin, install-subprojects"/>
 
   <target name="install-subprojects"
-    depends="install-util, install-corejava,
+    depends="install-util, install-jaxb, install-corejava,
       install-session, install-modeljunit,
       install-parser, install-z2b, install-typechecker,
       install-rules, install-zlive, install-jedit, install-zsidekick-plugin,
@@ -128,7 +131,8 @@
   </target>
 
   <target name="api-subprojects"
-    depends="api-util, api-corejava, api-session, api-parser, api-typechecker,
+    depends="api-util, api-jaxb,
+      api-corejava, api-session, api-parser, api-typechecker,
       api-rules, api-zlive, api-modeljunit, api-gaffe, api-gaffe-generator"
     description="build the api for subprojects">
   </target>
@@ -142,8 +146,14 @@
     <ant dir="util" target="install"/>
   </target>
 
-  <target name="install-corejava" if="corejava.present"
+  <target name="install-jaxb" if="jaxb.present"
     depends="install-util"
+    description="install jaxb generated classes">
+    <ant dir="jaxb" target="install"/>
+  </target>
+
+  <target name="install-corejava" if="corejava.present"
+    depends="install-jaxb"
     description="install corejava">
     <ant dir="corejava" target="install"/>
   </target>
@@ -262,6 +272,11 @@
   <target name="api-util"
     description="build api doc for util">
     <ant dir="util" target="api"/>
+  </target>
+
+  <target name="api-jaxb" if="jaxb.present"
+    description="build api doc for jaxb generated classes">
+    <ant dir="jaxb" target="api"/>
   </target>
 
   <target name="api-corejava" if="corejava.present"
@@ -532,7 +547,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-gnast, clean-util, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
+    depends="clean-gnast, clean-util, clean-jaxb, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -546,6 +561,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-util"
     description="clean up util">
     <ant dir="util" target="clean"/>
+  </target>
+
+  <target name="clean-jaxb" if="jaxb.present"
+    description="clean up jaxb">
+    <ant dir="jaxb" target="clean"/>
   </target>
 
   <target name="clean-corejava" if="corejava.present"
