@@ -329,7 +329,7 @@ parser code {:
    * Used to scan the unicode provided within markup directives.
    * Whenever a latex markup directives is to printed, a new
    * markup scanner is created that scans the unicode of that
-   * markup.  If it is not <code>null</code> we are just
+   * markup.  If it is not &lt;code&gt;null&lt;/code&gt; we are just
    * printing the definition part of a latex markup directive.
    */
   protected ContextFreeScanner markupScanner_ = null;
@@ -511,8 +511,8 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
-<add:circus>
-                  // Brackets
+<add:circus>                  
+                  CIRCDEF,
                   LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
                   LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
@@ -771,6 +771,13 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   new LatexCommand("\\sdef", OzString.SDEF, true, true);
              :}             
 </add:oz>
+<add:circus>
+             |
+             CIRCDEF
+             {:
+                RESULT = new LatexCommand("\\circdef", CircusString.CIRCDEF, true, true);
+             :}             
+</add:circus>
              ;
 
    decorword ::= DECORWORD:s
@@ -851,8 +858,94 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 RESULT =
                   new LatexCommand("\\rdata", ZString.RDATA, true, true);
              :}
+<add:circus>
+             |
+             LCIRCCHANSET
+             {:
+                RESULT =
+                  new LatexCommand("\\lchanset", CircusString.LCIRCCHANSET, true, true);
+             :}
+             |
+             RCIRCCHANSET
+             {:
+                RESULT =
+                  new LatexCommand("\\rchanset", CircusString.RCIRCCHANSET, true, true);
+             :}
+             |
+             CIRCLINST
+             {:
+                RESULT =
+                  new LatexCommand("\\circlinst", CircusString.CIRCLINST, true, true);
+             :}
+             |
+             CIRCRINST
+             {:
+                RESULT =
+                  new LatexCommand("\\circrinst", CircusString.CIRCRINST, true, true);
+             :}
+             |
+             LCIRCGUARD
+             {:
+                RESULT =
+                  new LatexCommand("\\lcircguard", CircusString.LCIRCGUARD, true, true);
+             :}
+             |
+             RCIRCGUARD
+             {:
+                RESULT =
+                  new LatexCommand("\\rcircguard", CircusString.RCIRCGUARD, true, true);
+             :}
+             |
+             LSCHEXPRACT
+             {:
+                RESULT =
+                  new LatexCommand("\\lschexpract", CircusString.LSCHEXPRACT, true, true);
+             :}
+             |
+             RSCHEXPRACT
+             {:
+                RESULT =
+                  new LatexCommand("\\rschexpract", CircusString.RSCHEXPRACT, true, true);
+             :}
+             |
+             LCIRCRENAME
+             {:
+                RESULT =
+                  new LatexCommand("\\lcircrename", CircusString.LCIRCRENAME, true, true);
+             :}
+             |
+             RCIRCRENAME
+             {:
+                RESULT =
+                  new LatexCommand("\\rcircrename", CircusString.RCIRCRENAME, true, true);
+             :}
+             |
+             LPAR
+             {:
+                RESULT =
+                  new LatexCommand("\\lpar", CircusString.LPAR, true, true);
+             :}
+             |
+             RPAR
+             {:
+                RESULT =
+                  new LatexCommand("\\rpar", CircusString.RPAR, true, true);
+             :}
+             |
+             LINTER
+             {:
+                RESULT =
+                  new LatexCommand("\\linter", CircusString.LINTER, true, true);
+             :}
+             |
+             RINTER
+             {:
+                RESULT =
+                  new LatexCommand("\\rinter", CircusString.RINTER, true, true);
+             :}                             
+</add:circus>
              ;
-
+             
   special ::= NL
              {:
                 RESULT =
