@@ -25,6 +25,7 @@ eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -te
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
+gaffe/pom.xml -text
 gaffe/resources/net/sourceforge/czt/animation/gui/beans/ScriptIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/XCursor.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteEventIcon.gif svneol=native#unset
