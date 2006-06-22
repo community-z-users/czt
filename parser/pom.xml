@@ -57,6 +57,7 @@
                 <ant dir="." target="z-UnicodeToLatex"/>
                 <ant dir="." target="oldz-UnicodeToLatex"/>
                 <ant dir="." target="oz-UnicodeToLatex"/>
+                <ant dir="." target="circus-UnicodeToLatex"/>
                 <copy todir="${basedir}/src/test/resources">
                   <fileset dir="../zml" includes="examples/**"/>
                   <fileset dir="." includes="tests/**"/>
