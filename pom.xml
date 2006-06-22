@@ -12,6 +12,9 @@
     Circus.
   </description>
   <url>http://czt.sourceforge.net</url>
+  <organization>
+    <name>Community Z Tools Project</name>
+  </organization>
   <issueManagement>
     <url>http://sourceforge.net/tracker/?group_id=86250</url>
   </issueManagement>
@@ -246,6 +249,26 @@
             </reports>
           </reportSet>
         </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>mailing-list</report>
+             <report>dependencies</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
