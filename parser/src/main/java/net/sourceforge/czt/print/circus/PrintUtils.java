@@ -119,7 +119,7 @@ public final class PrintUtils
     try {
       parser.parse();
     }
-    catch (Exception e) {
+    catch (Exception e) {      
       throw new CztException(e);
     }
   }
