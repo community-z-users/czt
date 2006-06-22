@@ -30,7 +30,7 @@ import net.sourceforge.czt.circus.visitor.*;
 
 public class AstToPrintTreeVisitor
   extends net.sourceforge.czt.print.z.AstToPrintTreeVisitor
-  /*implements BasicProcessVisitor<Term> NO NEED*/
+  implements BasicProcessVisitor<Term> 
 
 {
   /**
@@ -41,5 +41,10 @@ public class AstToPrintTreeVisitor
   public AstToPrintTreeVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
+  }
+
+  public Term visitBasicProcess(BasicProcess term) {
+    /* Must transform inner AxParas and ActionPara */
+    throw new UnsupportedOperationException("Not yet transformed for printing");
   }
 }
