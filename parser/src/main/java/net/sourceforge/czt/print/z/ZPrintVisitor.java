@@ -74,6 +74,14 @@ public class ZPrintVisitor
     zEves_ = zEves;
   }
 
+  protected void printGenericFormals(DeclNameList term) {
+    if (!utils_.isEmpty(term)) {
+      print(TokenName.LSQUARE);
+      visit(term);
+      print(TokenName.RSQUARE);
+    }
+  }
+  
   protected void print(TokenName tokenName, Object spelling)
   {
     print(new TokenImpl(tokenName, spelling));
@@ -154,6 +162,10 @@ public class ZPrintVisitor
     return null;
   }
 
+  /* NOTE:
+   * AxParas are appropriately transformed by the AstToPrintTreeVisitor 
+   * to a PrintParagraphs, which is handled by the ZPrintVisitor.
+   */
   public Object visitAxPara(AxPara axPara)
   {
     throw new UnsupportedOperationException("Unexpeced term AxPara");
@@ -270,15 +282,11 @@ public class ZPrintVisitor
     if (braces) print(TokenName.RPAREN);
     return null;
   }
-
+  
   public Object visitConjPara(ConjPara conjPara)
   {
     print(TokenName.ZED);
-    if (! utils_.isEmpty(conjPara.getDeclNameList())) {
-      print(TokenName.LSQUARE);
-      visit(conjPara.getDeclNameList());
-      print(TokenName.RSQUARE);
-    }
+    printGenericFormals(conjPara.getDeclNameList());    
     print(Keyword.CONJECTURE);
     visit(conjPara.getPred());
     print(TokenName.END);
