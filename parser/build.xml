@@ -178,7 +178,7 @@
     </javac>
   </target>
   
-  <target name="compile-circus" depends="init, generate-circus-parser, generate-circus-scanner"
+  <target name="compile-circus" depends="init, generate-circus-parser, generate-circus-scanner, circus-UnicodeToLatex"
           description="Compiles the sources.">
     <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
