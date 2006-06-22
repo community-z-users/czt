@@ -19,6 +19,9 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+  <build>
+    <testSourceDirectory>todo</testSourceDirectory>
+  </build>
   <reporting>
     <plugins>
       <plugin>
