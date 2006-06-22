@@ -170,9 +170,11 @@ public class KeywordScanner
     throws IOException
   {
     if (! tokens_.empty()) return tokens_.pop();
-    Symbol symbol = scanner_.next_token();
+    Symbol symbol = scanner_.next_token();    
     String logMessage =
-      "Received token (" + symbol.sym + ", " + symbol.value + ")";
+        "Received token (" + symbolMap_.get(symbol.sym) + ", " + 
+            (symbol.sym != Sym.TEXT ? String.valueOf(symbol.value) + ", " + 
+                (symbol.value != null ? symbol.value.getClass().getName() : "null") : "...shhh...") + ").";                    
     CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
     if (symbol.sym == Sym.DECORWORD) {
       Decorword decorword = (Decorword) symbol.value;
