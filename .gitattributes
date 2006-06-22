@@ -23,6 +23,7 @@ eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2Unicod
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2XMLAction.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
+gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
@@ -35,12 +36,14 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gnast/pom.xml -text
+jaxb/COPYING.txt -text
 jaxb/build.xml -text
 jaxb/pom.xml -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
 jedit/src/site/content/xdocs/images/sflogo.png -text
+modeljunit/COPYING.txt -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
 modeljunit/jdsl/tutorial/lesson06/treeWithBoxes.jpg -text
@@ -53,6 +56,7 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
+parser/COPYING.txt -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
@@ -74,10 +78,14 @@ parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
+rules/COPYING.txt -text
 rules/pom.xml -text
+session/COPYING.txt -text
+typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
+util/COPYING.txt -text
 util/build.xml -text
 util/pom.xml -text
 web/cztlogo/cztlogo.xcf -text
@@ -91,6 +99,7 @@ web/src/resources/images/jedit_unicode_example.png svneol=native#unset
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
+zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/pom.xml -text
 zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
