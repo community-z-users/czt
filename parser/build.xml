@@ -75,6 +75,15 @@
     </jar>
   </target>
   
+  <target name="install-core" depends="compile-core"
+    description="Builds and installs the jar file in '../lib'.">
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.class.dir}"/>
+      <fileset dir="src/main/resources"/>
+    </jar>
+  </target>  
+  
   <target name="install-circus" depends="compile-circus"
     description="Builds and installs the jar file in '../lib'.">
     <mkdir dir="${parser.jar.dir}"/>
@@ -153,7 +162,7 @@
       srcfile="${build.src.dir}/net/sourceforge/czt/print/circus/Unicode2Latex.cup"
       destdir="${build.src.dir}"
       parser="Unicode2Latex"
-      symbols="Sym"
+      symbols="Sym"      
       classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
@@ -178,10 +187,23 @@
     </javac>
   </target>
   
-  <target name="compile-circus" depends="init, generate-circus-parser, generate-circus-scanner, circus-UnicodeToLatex"
+  <target name="compile-core" depends="init, 
+      generate-z-src, z-print-scanner, z-UnicodeToLatex, oldz-UnicodeToLatex"
           description="Compiles the sources.">
     <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
+           includes="net/sourceforge/czt/parser/util/**, net/sourceforge/czt/print/util/**, net/sourceforge/czt/parser/z/**, net/sourceforge/czt/print/z/**, "
+           debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
+      <classpath refid="classpath"/>
+    </javac>    
+  </target>
+  
+  <target name="compile-circus" depends="init, compile-core,
+      generate-circus-src, circus-print-scanner, circus-UnicodeToLatex"
+          description="Compiles the sources.">
+    <javac source="1.5" srcdir="${src.dir}:${build.src.dir}"
+           destdir="${build.class.dir}"
+           includes="net/sourceforge/czt/parser/circus/**, net/sourceforge/czt/print/circus/**"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>    
@@ -1366,12 +1388,31 @@
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
   </target>
+  
+  <target name="clean-core"
+          description="Cleans up (this does not delete the jar file in '../lib').">
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/parser/util"/>    
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/parser/z"/>    
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/print/z"/>            
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/print/util"/>            
+    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/util"/>            
+    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/z"/>        
+    <delete dir="${build.dir}/src/net/sourceforge/czt/print/z"/>        
+    <delete dir="${build.dir}/src/net/sourceforge/czt/print/util"/>            
+  </target>
+  
   <target name="clean-circus"
           description="Cleans up (this does not delete the jar file in '../lib').">
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/parser/util"/>    
     <delete dir="${build.dir}/classes/net/sourceforge/czt/parser/circus"/>    
-    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/circus"/>    
-    
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/print/circus"/>    
+    <delete dir="${build.dir}/classes/net/sourceforge/czt/print/util"/>            
+    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/util"/>            
+    <delete dir="${build.dir}/src/net/sourceforge/czt/parser/circus"/>        
+    <delete dir="${build.dir}/src/net/sourceforge/czt/print/circus"/>        
+    <delete dir="${build.dir}/src/net/sourceforge/czt/print/util"/>            
   </target>
+  
   <target name="src" depends="compile"
     description="generate the jar file with all parsers source code" >
     <mkdir dir="${parser.jar.dir}"/>
