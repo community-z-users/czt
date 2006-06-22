@@ -162,6 +162,7 @@ public class SpecialLatexParser {
     public static void main(String[] args) {
         String usage = "Usage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
                 + " [ -in <texInputfile>] [-printLatex] [-printUnicode]";
+        long time = System.currentTimeMillis();
         try {
             String filename = null;
             boolean printLatex = false;
@@ -184,13 +185,18 @@ public class SpecialLatexParser {
                 }
             }
             if (filename == null) {
+              System.out.println("----USAGE-ERROR----");
               System.err.println("No file name given");
               System.err.println(usage);
               return;
-            }               
+            }
+            System.out.println("----STARTING LATEX PARSING----");
+            time = System.currentTimeMillis();
             Term term = parseLatexFile(filename, sm);
-            if (term != null) {
-                System.out.println("Parser ok");
+            time = System.currentTimeMillis() - time;            
+            if (term != null) {               
+               System.out.println("----FINISHED LATEX PARSING----(" +  (time / 60) + "secs)");
+              /*
                 for(Sect sect : ((Spec)term).getSect()) {
                     if (sect instanceof ZSect) {
                         ZSect zs = (ZSect)sect;  
@@ -205,20 +211,33 @@ public class SpecialLatexParser {
                         }
                     }                                
                 }
-                if (printLatex) {
-                  System.out.println("----STARTING LATEX PRINTING----");
-                  printLatex(term, filename, sm);
-                  System.out.println("----FINISHED LATEX PRINTING----");
-                }
-                if (printUnicode) {
-                  System.out.println("----STARTING UNICODE PRINTING----");
-                  printUnicode(term, filename, sm);
-                  System.out.println("----FINISHED UNICODE PRINTING----");
+               **/
+                try {
+                  if (printLatex) {                    
+                    System.out.println("----STARTING LATEX PRINTING----");
+                    time = System.currentTimeMillis();
+                    printLatex(term, filename, sm);
+                    time = System.currentTimeMillis() - time;
+                    System.out.println("----FINISHED LATEX PRINTING----(" +  (time / 60) + "secs)");
+                  }
+                  if (printUnicode) {
+                    System.out.println("----STARTING UNICODE PRINTING----");
+                    time = System.currentTimeMillis();
+                    printUnicode(term, filename, sm);
+                    time = System.currentTimeMillis() - time;
+                    System.out.println("----FINISHED UNICODE PRINTING----(" +  (time / 60) + "secs)");
+                  }
+                } catch(CztException f) {                  
+                  System.err.println("---PRINTER-ERROR---(" +  (time / 60) + "secs)");
+                  System.err.println("Could not print term " + term + " that was successfully parsed from " + filename);
+                  System.err.println(f.getMessage());
                 }
             } else {
+                System.err.println("---PARSER-ERROR---(" +  (time / 60) + "secs)");
                 System.err.println("Parse error");
             }
         } catch (Exception e) {
+            System.err.println("---UNEXPECTED-ERROR---(" +  (time / 60) + "secs)");
             e.printStackTrace();
         }
     }
