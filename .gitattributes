@@ -67,6 +67,7 @@ parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/circus/CircusKeyword.java -text
 parser/src/main/java/net/sourceforge/czt/parser/circus/CircusToken.java -text
 parser/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
+parser/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/src/main/java/net/sourceforge/czt/print/circus/AstToPrintTreeVisitor.java -text
