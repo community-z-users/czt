@@ -86,6 +86,7 @@ parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 rules/COPYING.txt -text
 rules/pom.xml -text
 session/COPYING.txt -text
+session/src/main/resources/circus.commands -text
 typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
