@@ -29,7 +29,22 @@ import net.sourceforge.czt.circus.util.CircusString;
  * @author Leo Freitas
  */
 public enum CircusKeyword implements Token {  
-  
+  /* Sym elements
+  LCIRCCHANSET => 26
+  RSCHEXPRACT => 37
+  RCIRCCHANSET => 27
+  LCIRCGUARD => 34
+  RCIRCGUARD => 35
+  RCIRCRENAME => 39
+  RPAR => 31
+  RINTER => 33
+  LSCHEXPRACT => 36
+  CIRCLINST => 28
+  LCIRCRENAME => 38
+  CIRCRINST => 29
+  LINTER => 32
+  CIRCDEF => 25
+    */
   /* Circus symbolic keychars*/
   PREFIXCOLON(CircusString.PREFIXCOLON),
   CIRCDEF(CircusString.CIRCDEF),  
@@ -74,11 +89,6 @@ public enum CircusKeyword implements Token {
   CIRCSTOP(CircusString.CIRCSTOP),
   CIRCCHAOS(CircusString.CIRCCHAOS),
 
-/**
- * Note: Removed from Keyword scanner and added directly into the low-level
- *       Latex2Unicode scanner instead? TODO:TESTING. I think it needs to 
- *       be kept here anyway.
- */     
   CIRCCHAN(CircusString.CIRCCHAN),
   CIRCCHANFROM(CircusString.CIRCCHANFROM),
   CIRCCHANSET(CircusString.CIRCCHANSET),
