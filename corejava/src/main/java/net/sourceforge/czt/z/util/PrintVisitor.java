@@ -59,7 +59,8 @@ public class PrintVisitor
              ZDeclNameVisitor<String>,
              ZNumeralVisitor<String>,
              ZRefNameVisitor<String>,
-             ZStrokeListVisitor<String>
+             ZStrokeListVisitor<String>,
+             LocAnnVisitor<String>
 {
   public String visitGenericType(GenericType genericType)
   {
@@ -192,6 +193,14 @@ public class PrintVisitor
     for (Stroke stroke : zStrokeList) {
       result.append(visit(stroke));
     }
+    return result.toString();
+  }
+  
+  public String visitLocAnn(LocAnn loc) {
+    StringBuffer result = new StringBuffer();    
+    if (loc.getLine().compareTo(java.math.BigInteger.ZERO) >= 0) result.append("line " + loc.getLine());
+    if (loc.getCol().compareTo(java.math.BigInteger.ZERO) >= 0) result.append(" column " + loc.getCol());
+    if (loc.getLoc() != null) result.append(" in \"" + loc.getLoc() + "\"");    
     return result.toString();
   }
 
