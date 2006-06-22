@@ -101,9 +101,9 @@ public class LocInfoImpl
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    if (source_ != null) result.append("\"" + source_ + "\"");
-    if (line_ >= 0) result.append(" line " + line_);
+    if (line_ >= 0) result.append("line " + line_);
     if (column_ >=0) result.append(" column " + column_);
+    if (source_ != null) result.append(" in \"" + source_ + "\"");
     return result.toString();
   }
 }
