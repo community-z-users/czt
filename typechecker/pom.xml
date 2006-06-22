@@ -23,6 +23,9 @@
       <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
+  <build>
+    <testSourceDirectory>todo</testSourceDirectory>
+  </build>
   <reporting>
     <plugins>
       <plugin>
