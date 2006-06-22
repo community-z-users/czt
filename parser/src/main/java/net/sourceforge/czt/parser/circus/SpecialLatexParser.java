@@ -78,27 +78,36 @@ public class SpecialLatexParser {
         ch.setFormatter(sfc);
         
       /*
+      logger = CztLogger.getLogger(KeywordScanner.class);
+      logger.addHandler(ch);
+      logger.setLevel(Level.ALL);*/
+       
       logger = CztLogger.getLogger(Latex2Unicode.class);
       logger.addHandler(ch);
       logger.setLevel(Level.ALL);
        
-      logger = CztLogger.getLogger(KeywordScanner.class);
+      logger = CztLogger.getLogger(LatexMarkupParser.class);
       logger.addHandler(ch);
       logger.setLevel(Level.ALL);
        
       logger = CztLogger.getLogger(LatexParser.class);
       logger.addHandler(ch);
       logger.setLevel(Level.ALL);
-       
+      
+      logger = CztLogger.getLogger(Parser.class);
+      logger.addHandler(ch);
+      logger.setLevel(Level.ALL);
+      
+      logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
+      logger.addHandler(ch);
+      logger.setLevel(Level.ALL);
+
       logger = CztLogger.getLogger(UnicodeParser.class);
       logger.addHandler(ch);
       logger.setLevel(Level.ALL);
-       */
-        logger = CztLogger.getLogger(Parser.class);
-        logger.addHandler(ch);
-        logger.setLevel(Level.ALL);
-        sm = new SectionManager();
-        sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.1\\parser\\src\\main\\resources\\lib");
+      
+      sm = new SectionManager();
+      sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.1\\parser\\src\\main\\resources\\lib");
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
@@ -142,18 +151,21 @@ public class SpecialLatexParser {
         return parser.parse();
     }
     
+    private static final String PRINT_LATEX_EXT = ".print.tex";
+    private static final String PRINT_UNICODE_EXT = ".print.utf8";
+    
     public static void printLatex(Term term, String filename, SectionInfo sectInfo) 
       throws IOException {
-        logger.fine("Print term to LaTex file " + filename + ".print.tex");
-        FileWriter writer = new FileWriter( filename + ".print.tex" );        
+        logger.fine("Print term to LaTex file " + filename + PRINT_LATEX_EXT);
+        FileWriter writer = new FileWriter( filename + PRINT_LATEX_EXT );        
         PrintUtils.printLatex(term, writer, sectInfo);
     }
     
     public static void printUnicode(Term term, String filename, SectionInfo sectInfo)  
       throws IOException {
-        logger.fine("Print term to LaTex file " + filename + ".print.utf");
-        FileWriter writer = new FileWriter( filename + ".print.utf" );        
-        PrintUtils.printLatex(term, writer, sectInfo);
+        logger.fine("Print term to Unicode file " + filename + PRINT_UNICODE_EXT);
+        FileWriter writer = new FileWriter( filename + PRINT_UNICODE_EXT );        
+        PrintUtils.printUnicode(term, writer, sectInfo);
     }
     
     /**
@@ -161,10 +173,11 @@ public class SpecialLatexParser {
      */
     public static void main(String[] args) {
         String usage = "Usage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
-                + " [ -in <texInputfile>] [-printLatex] [-printUnicode]";
-        long time = System.currentTimeMillis();
+                + " [ -in <texInputfile>] [ -printLatex] [ -printUnicode] [ -reparseLatex]";
+        long time = System.currentTimeMillis();       
         try {
             String filename = null;
+            boolean reparseLatex = false;
             boolean printLatex = false;
             boolean printUnicode = false;
             for (int i = 0; i < args.length; i++) {
@@ -179,6 +192,8 @@ public class SpecialLatexParser {
                    printLatex = true;
                 } else  if ("-printUnicode".equals(args[i])) {
                    printUnicode = true;
+                } else  if ("-reparseLatex".equals(args[i])) {
+                   reparseLatex = true;
                 } else {
                     System.err.println(usage);
                     return;
@@ -195,7 +210,7 @@ public class SpecialLatexParser {
             Term term = parseLatexFile(filename, sm);
             time = System.currentTimeMillis() - time;            
             if (term != null) {               
-               System.out.println("----FINISHED LATEX PARSING----(" +  (time / 60) + "secs)");
+               System.out.println("----FINISHED LATEX PARSING----(" +  time + "msecs)");
               /*
                 for(Sect sect : ((Spec)term).getSect()) {
                     if (sect instanceof ZSect) {
@@ -218,26 +233,48 @@ public class SpecialLatexParser {
                     time = System.currentTimeMillis();
                     printLatex(term, filename, sm);
                     time = System.currentTimeMillis() - time;
-                    System.out.println("----FINISHED LATEX PRINTING----(" +  (time / 60) + "secs)");
+                    System.out.println("----FINISHED LATEX PRINTING----(" +  time + "msecs)");                    
+                    if (reparseLatex) {
+                        System.out.println("----STARTING LATEX REPARSING----");
+                        time = System.currentTimeMillis();
+                        Term reparse = parseLatexFile(filename + PRINT_LATEX_EXT, sm);                        
+                        time = System.currentTimeMillis() - time;
+                        if (reparse != null) {                          
+                          boolean equalTerms = reparse.equals(term);
+                          time = System.currentTimeMillis() - time;
+                          System.out.println("Original and old terms are not Object.equals().");
+                          System.out.println("----FINISHED LATEX REPARSING----(" +  time + "msecs)");   
+                        }
+                        else {                        
+                          System.err.println("---REPARSING-ERROR---(" +  time + "msecs)");
+                          System.err.println("Could not reparse the LaTex printted specification.");
+                        }
+                    }
+                    reparseLatex = false;
                   }
                   if (printUnicode) {
                     System.out.println("----STARTING UNICODE PRINTING----");
                     time = System.currentTimeMillis();
                     printUnicode(term, filename, sm);
                     time = System.currentTimeMillis() - time;
-                    System.out.println("----FINISHED UNICODE PRINTING----(" +  (time / 60) + "secs)");
+                    System.out.println("----FINISHED UNICODE PRINTING----(" +  time + "msecs)");
                   }
                 } catch(CztException f) {                  
-                  System.err.println("---PRINTER-ERROR---(" +  (time / 60) + "secs)");
+                  System.err.println("---PRINTER-ERROR---(" +  time + "msecs)");
                   System.err.println("Could not print term " + term + " that was successfully parsed from " + filename);
                   System.err.println(f.getMessage());
+                  f.printStackTrace();
+                }
+                if (reparseLatex) {
+                  System.err.println("---REPARSING-ERROR---");
+                  System.err.println("To reparse a printed LaTeX spec, one must choose the -printLatex option!");
                 }
             } else {
-                System.err.println("---PARSER-ERROR---(" +  (time / 60) + "secs)");
+                System.err.println("---PARSER-ERROR---(" +  time + "msecs)");
                 System.err.println("Parse error");
             }
         } catch (Exception e) {
-            System.err.println("---UNEXPECTED-ERROR---(" +  (time / 60) + "secs)");
+            System.err.println("---UNEXPECTED-ERROR---(" +  time + "msecs)");
             e.printStackTrace();
         }
     }
