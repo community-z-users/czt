@@ -98,6 +98,30 @@ public class ZPrintVisitor
   {
     printDecorword(new Decorword(name));
   }
+  
+  protected void printLPAREN(Term term)
+  {
+    final boolean braces = term.getAnn(ParenAnn.class) != null;
+    if (braces) print(TokenName.LPAREN);
+  }
+
+  protected void printRPAREN(Term term)
+  {
+    final boolean braces = term.getAnn(ParenAnn.class) != null;
+    if (braces) print(TokenName.RPAREN);
+  }
+  
+  /**
+   * Prints the first term followed by the symbol followed by the
+   * second term.
+   */
+  private void print(Term t1, String symbol, Term t2)
+  {
+    if (symbol == null) throw new CztException();
+    visit(t1);
+    printDecorword(symbol);
+    visit(t2);
+  }
 
   public Object visitTerm(Term term)
   {
@@ -120,7 +144,7 @@ public class ZPrintVisitor
   }
 
   public Object visitAndExpr(AndExpr andExpr)
-  {
+  {    
     final boolean braces = andExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(andExpr.getLeftExpr());
@@ -134,19 +158,7 @@ public class ZPrintVisitor
   {
     throw new UnsupportedOperationException("Unexpeced term AxPara");
   }
-
-  /**
-   * Prints the first term followed by the symbol followed by the
-   * second term.
-   */
-  private void print(Term t1, String symbol, Term t2)
-  {
-    if (symbol == null) throw new CztException();
-    visit(t1);
-    printDecorword(symbol);
-    visit(t2);
-  }
-
+  
   /**
    * If the given RefExpr is a reference to a binary operator,
    * the name of the operator (without underscore characters)
