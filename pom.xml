@@ -12,6 +12,35 @@
     Circus.
   </description>
   <url>http://czt.sourceforge.net</url>
+  <issueManagement>
+    <url>http://sourceforge.net/tracker/?group_id=86250</url>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>CZT-Devel</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</unsubscribe>
+      <post>mailto:czt-devel@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-devel</archive>
+    </mailingList>
+    <mailingList>
+      <name>CZT-Users</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</unsubscribe>
+      <post>mailto:czt-users@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-users</archive>
+    </mailingList>
+  </mailingLists>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>COPYING.txt</url>
+    </license>
+  </licenses>
+  <scm>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
+  </scm>
   <modules>
     <module>session</module>
     <module>util</module>
@@ -200,4 +229,24 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>mailing-list</report>
+              <!-- <report>cim</report> -->
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
