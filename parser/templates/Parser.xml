@@ -1521,8 +1521,9 @@ parser code
 </add:oz>
       action_obj.previous_ = result;
       String logMessage =
-        "Next token in " + getLoc() +
-        " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
+        "Next token is (" + symbolMap_.get(result.sym) + ", " + 
+            (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
+                (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
       return result;
     }
@@ -1993,6 +1994,7 @@ non terminal ZExprList
     
 /// Circus channel definition ////////////////////////////////////////////////   
 non terminal List&lt;ChannelDecl&gt;
+    channelFromDeclList,
     channelDeclList;
 
 non terminal ChannelDecl
@@ -2949,10 +2951,10 @@ channelPara ::=
            addLocAnn(RESULT, getLocation(chan, cdl.get(cdl.size()-1)));
         :}
         |
-        CIRCCHANFROM:chanf channelFromDecl:cfd
+        CIRCCHANFROM:chanf channelFromDeclList:cfdl
         {:            
-           RESULT = factory_.createChannelPara(factory_.createZDeclList(factory_.list(cfd)));
-           addLocAnn(RESULT, getLocation(chanf, cfd));
+           RESULT = factory_.createChannelPara(factory_.createZDeclList(cfdl));
+           addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :}                            
         ;
         
@@ -2965,11 +2967,26 @@ channelDeclList ::=
         |
         channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
-           assert cd != null;
+           assert cd != null &amp;&amp; cdl != null;
            cdl.add(cd);
            RESULT = cdl;
         :}
         ;
+        
+channelFromDeclList ::= 
+        channelFromDecl:cfd
+        {:
+           assert cfd != null;
+           RESULT = factory_.list(cfd);
+        :}
+        |
+        channelFromDeclList:cfdl SEMICOLON channelFromDecl:cfd
+        {:
+           assert cfd != null &amp;&amp; cfdl != null ;
+           cfdl.add(cfd);
+           RESULT = cfdl;
+        :}
+        ;        
         
 /* Removed declWordList and use circusDeclWordList instead as we do not need
  * operator templates for channel declaration names. We cannot use nameList 
@@ -2985,6 +3002,11 @@ channelDecl ::=
         :}
         |
         /* Synchronisation channels */
+        /* 
+         * The typechecker include a type annotation but MUST NOT change
+         * the expression value from null, as this information is used for 
+         * AST printing.
+         */
         nameList:nl
 	{:                  
            RESULT = factory_.createChannelDecl(factory_.createZDeclNameList(), nl, null);
@@ -2992,14 +3014,10 @@ channelDecl ::=
 	:} 
         ;
         
-genericActuals ::=
-        LSQUARE:ls expressionList:el RSQUARE:rs        
-        {:
-           RESULT = el;
-           addLocAnn(RESULT, getLocation(ls, rs));
-        :}
-        ;
-        
+/* Channel declaration from schema inclusion MUST have the DeclName list null
+ * and the expression MUST not be NULL, it contains the schema name (possibly
+ * with generic actuals). (see Circus.xsd comments).
+ */        
 channelFromDecl ::=
         /* Generic channels declared through generic Z schemas with generic actuals */
         optFormalParameters:ofp DECORWORD:dw genericActuals:ga
@@ -3608,6 +3626,14 @@ unboxedCircProcState ::=
         
 /// Special productions for process paragraphs ////////////////////////////////
        
+genericActuals ::=
+        LSQUARE:ls expressionList:el RSQUARE:rs        
+        {:
+           RESULT = el;
+           addLocAnn(RESULT, getLocation(ls, rs));
+        :}
+        ;        
+
 actualParameters ::=
         LPAREN:lp expressionList:el RPAREN:rp
         {:
