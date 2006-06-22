@@ -26,26 +26,21 @@ import net.sourceforge.czt.parser.util.Token;
 public enum CircusToken
   implements Token
 {
-  CHANNEL(ZString.ZED + ZString.SPACE + CircusString.CIRCCHAN),
-  CHANNEL_FROM(ZString.ZED + ZString.SPACE + CircusString.CIRCCHANFROM),
-  CHANNEL_SET(ZString.ZED + ZString.SPACE + CircusString.CIRCCHANSET),  
-  PROCESS(ZString.ZED + ZString.SPACE + CircusString.CIRCPROC),
-  GENPROCESS(ZString.ZED + ZString.SPACE + "generic-process"),
-  CIRCSTATE(CircusString.CIRCSTATE + ZString.SPACE),
-  CIRCDEF(ZString.SPACE + CircusString.CIRCDEF),
-  NAME_SET(ZString.ZED + ZString.SPACE + CircusString.CIRCNAMESET),
-  CIRCIF(ZString.IF + ZString.SPACE),
-  CIRCELSE(CircusString.CIRCELSE + ZString.SPACE),
-  CIRCFI(ZString.SPACE + CircusString.CIRCFI),
-  CIRCDO(CircusString.CIRCDO + ZString.SPACE),  
-  CIRCOD(ZString.SPACE + CircusString.CIRCOD),  
-  CIRCASSIGN(ZString.SPACE + ZString.COLON + ZString.EQUALS + ZString.SPACE),
-  CIRCVAR(CircusString.CIRCVAR + ZString.SPACE),
-  CIRCVAL(CircusString.CIRCVAL + ZString.SPACE),
-  CIRCRES(CircusString.CIRCRES + ZString.SPACE),
-  CIRCVRES(CircusString.CIRCVRES + ZString.SPACE),
-  CIRCBEGIN(CircusString.CIRCBEGIN + ZString.SPACE),
-  CIRCEND(CircusString.CIRCEND + ZString.SPACE);
+  /* TODO: Maybe include hard-space here "~" for beautification */
+  LCIRCCHANSET(CircusString.LCIRCCHANSET),
+  RCIRCCHANSET(CircusString.RCIRCCHANSET),
+  CIRCLINST(CircusString.CIRCLINST), 
+  CIRCRINST(CircusString.CIRCRINST),
+  LPAR(CircusString.LPAR), 
+  RPAR(CircusString.RPAR), 
+  LINTER(CircusString.LINTER), 
+  RINTER(CircusString.RINTER), 
+  LCIRCGUARD(CircusString.LCIRCGUARD), 
+  RCIRCGUARD(CircusString.RCIRCGUARD),
+  LSCHEXPRACT(CircusString.LSCHEXPRACT), 
+  RSCHEXPRACT(CircusString.RSCHEXPRACT), 
+  LCIRCRENAME(CircusString.LCIRCRENAME), 
+  RCIRCRENAME(CircusString.RCIRCRENAME);
 
   private String spelling_;
 
