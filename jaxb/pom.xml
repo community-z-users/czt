@@ -47,6 +47,11 @@
     </dependency>
   </dependencies>
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/build/src</directory>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
