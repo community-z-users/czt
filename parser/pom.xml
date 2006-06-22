@@ -31,7 +31,6 @@
     </dependency>
   </dependencies>
   <build>
-    <sourceDirectory>target/src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -58,12 +57,13 @@
                 <ant dir="." target="z-UnicodeToLatex"/>
                 <ant dir="." target="oldz-UnicodeToLatex"/>
                 <ant dir="." target="oz-UnicodeToLatex"/>
-                <copy todir="target/src">
-                  <fileset dir="src/main/java"/>
-                  <fileset dir="build/src"/>
+                <copy todir="${basedir}/src/test/resources">
+                  <fileset dir="../zml" includes="examples/**"/>
+                  <fileset dir="." includes="tests/**"/>
                 </copy>
               </tasks>
-            </configuration>
+              <sourceRoot>${basedir}/build/src</sourceRoot>
+           </configuration>
             <goals>
               <goal>run</goal>
             </goals>
