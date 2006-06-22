@@ -40,20 +40,12 @@ import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
-<add:zpatt>
-import net.sourceforge.czt.zpatt.util.ZPattString;
-</add:zpatt>
-<add:oz>
-import net.sourceforge.czt.oz.util.OzString;
-</add:oz>
 
 <add:tcoz>
-import net.sourceforge.czt.tcoz.util.TcozString;
+import net.sourceforge.czt.parser.oz.OzKeyword;
 </add:tcoz>
 
-<add:circus>
-import net.sourceforge.czt.circus.util.CircusString;
-</add:circus>
+import net.sourceforge.czt.parser.util.Token;
 
 /**
  * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
@@ -84,123 +76,51 @@ public class KeywordScanner
   private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
-  {
-    createKeywordMap();
+  {    
     scanner_ = new SeparateDelimiter(scanner, properties);
   }
 
   private static Map &lt;String, Integer&gt; createKeywordMap()
   {
     Map &lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
+    
+    /* Adds all Z Standard keyword tokens */
+    addKeywords(result, Keyword.values());    
+
+<add:zpatt>
+    /* Adds all Z pattern keyword tokens */
+    addKeywords(result, ZPattKeyword.values());
+</add:zpatt>
+
+<add:oz>
+    /* Adds all Object-Z keyword tokens */
+    addKeywords(result, OzKeyword.values());    
+</add:oz>
+
+<add:tcoz>
+    /* Adds all Tcoz keyword tokens */
+    addKeywords(result, TcozKeyword.values());
+</add:tcoz>  
+
+<add:circus>
+    /* Adds all Circus keyword tokens */
+    addKeywords(result, CircusKeyword.values());
+</add:circus>
+
+    return result;
+  }
+  
+  private static void addKeywords(Map &lt;String, Integer&gt; result, Token[] keywords) {
     SymMap symMap = SymMap.getInstance();
-    for (Keyword keyword : Keyword.values()) {
+    for (Token keyword : keywords) {
       final Integer symbol = symMap.get(keyword.toString());
       if (symbol == null) {
         final String message = "Cannot map keyword " + keyword +
           " to a parser token.";
-        throw new RuntimeException(message);
+        throw new net.sourceforge.czt.util.CztException(message);
       }
       addKeyword(result, keyword.spelling(), symbol);
     }
-
-<add:zpatt>
-    addKeyword(result, ZString.VDASH, Sym.VDASH);
-    addKeyword(result, ZPattString.PROVISO, Sym.PROVISO);
-</add:zpatt>
-<add:oz>
-    addKeyword(result, ZString.DELTA, Sym.DELTA);
-    addKeyword(result, OzString.GCH, Sym.GCH);
-    addKeyword(result, OzString.PARALLEL, Sym.PARALLEL);
-    addKeyword(result, OzString.ASSOPARALLEL, Sym.ASSOPARALLEL);
-    addKeyword(result, OzString.DGCH, Sym.DGCH);
-    addKeyword(result, OzString.DCNJ, Sym.DCNJ);
-    addKeyword(result, OzString.CLASSUNION, Sym.CLASSUNION);
-    addKeyword(result, OzString.SDEF, Sym.SDEF);
-    addKeyword(result, OzString.POLY, Sym.POLY);
-    addKeyword(result, OzString.CONTAINMENT, Sym.CONTAINMENT);
-    addKeyword(result, OzString.INITWORD, Sym.INITWORD);
-</add:oz>
-<add:tcoz>
-    addKeyword(result, TcozString.ATTIME, Sym.ATTIME);
-    addKeyword(result, TcozString.NEXTPRO, Sym.NEXTPRO);
-    addKeyword(result, TcozString.INTCHOICE, Sym.INTCHOICE);
-    addKeyword(result, TcozString.DIC, Sym.DIC);
-    addKeyword(result, TcozString.INTERLEAVE, Sym.INTERLEAVE);
-    addKeyword(result, TcozString.DIL, Sym.DIL);
-    addKeyword(result, "waituntil", Sym.WAITUNTIL);
-    addKeyword(result, "deadline", Sym.DEADLINE);
-    addKeyword(result, "wait", Sym.WAIT);
-    addKeyword(result, TcozString.INTERRUPT, Sym.INTERRUPT);
-    addKeyword(result, TcozString.TIMEOUT, Sym.TIMEOUT);
-    addKeyword(result, TcozString.TIMEEND, Sym.TIMEEND);
-    addKeyword(result, TcozString.DPARA, Sym.DPARA);
-    addKeyword(result, TcozString.NETTOPLEFT, Sym.NETTOPLEFT);
-    addKeyword(result, TcozString.NETTOPRIGHT, Sym.NETTOPRIGHT);
-    addKeyword(result, "chan", Sym.CHAN);
-    addKeyword(result, "sensor", Sym.SENSOR);
-    addKeyword(result, "actuator", Sym.ACTUATOR);
-</add:tcoz>  
-<add:circus>
-    /* Circus symbolic keychars*/
-    addKeyword(result, CircusString.PREFIXCOLON, Sym.PREFIXCOLON);
-    addKeyword(result, CircusString.CIRCDEF, Sym.CIRCDEF);  
-    addKeyword(result, CircusString.CIRCINDEX, Sym.CIRCINDEX);
-    addKeyword(result, CircusString.CIRCMU, Sym.CIRCMU);
-    addKeyword(result, CircusString.CIRCTHEN, Sym.CIRCTHEN);
-    addKeyword(result, CircusString.CIRCELSE, Sym.CIRCELSE);
-    addKeyword(result, CircusString.PREFIXTHEN, Sym.PREFIXTHEN);
-    addKeyword(result, CircusString.CIRCASSIGN, Sym.CIRCASSIGN);
-    /**
-     * Note: We are reusing ANDALSO instead. See Parser.xml terminal section for an explanation.
-     * addKeyword(result, CircusString.CIRCGUARD, Sym.CIRCGUARD); 
-     */
-    addKeyword(result, CircusString.CIRCSEQ, Sym.CIRCSEQ);
-    /**
-     * Note: We are reusing ZCOMP instead. See Parser.xml terminal section for an explanation.
-     * addKeyword(result, CircusString.REPSEQ, Sym.REPSEQ);
-     */    
-    addKeyword(result, CircusString.INTERLEAVE, Sym.INTERLEAVE);
-    addKeyword(result, CircusString.REPINTERLEAVE, Sym.REPINTERLEAVE);   
-    addKeyword(result, CircusString.REPPARALLEL, Sym.REPPARALLEL);   
-    addKeyword(result, CircusString.CIRCHIDING, Sym.CIRCHIDING);
-    addKeyword(result, CircusString.EXTCHOICE, Sym.EXTCHOICE);
-    addKeyword(result, CircusString.REPEXTCHOICE, Sym.REPEXTCHOICE);   
-    addKeyword(result, CircusString.INTCHOICE, Sym.INTCHOICE);
-    addKeyword(result, CircusString.REPINTCHOICE, Sym.REPINTCHOICE);   
-    //addKeyword(result, CircusString.CIRCPARBAR, Sym.CIRCPARBAR);   
-    
-    /* Circus language keywords*/
-    /**
-     * Note: We are reusing ZString.IF instead. See Parser.xml terminal section for an explanation.
-     * addKeyword(result, CircusString.CIRCIF, Sym.CIRCIF);
-     */    
-    addKeyword(result, CircusString.CIRCFI, Sym.CIRCFI);
-    addKeyword(result, CircusString.CIRCDO, Sym.CIRCDO);
-    addKeyword(result, CircusString.CIRCOD, Sym.CIRCOD);
-    addKeyword(result, CircusString.CIRCVAR, Sym.CIRCVAR);
-    addKeyword(result, CircusString.CIRCVAL, Sym.CIRCVAL);
-    addKeyword(result, CircusString.CIRCRES, Sym.CIRCRES);
-    addKeyword(result, CircusString.CIRCVRES, Sym.CIRCVRES);    
-    addKeyword(result, CircusString.CIRCSKIP, Sym.CIRCSKIP);
-    addKeyword(result, CircusString.CIRCSTOP, Sym.CIRCSTOP);
-    addKeyword(result, CircusString.CIRCCHAOS, Sym.CIRCCHAOS);
-    
-    /**
-     * Note: Removed from Keyword scanner and added directly into the low-level
-     *       Latex2Unicode scanner instead? TODO:TESTING. I think it needs to 
-     *       be kept here anyway.
-     */     
-      addKeyword(result, CircusString.CIRCCHAN, Sym.CIRCCHAN);
-      addKeyword(result, CircusString.CIRCCHANFROM, Sym.CIRCCHANFROM);
-      addKeyword(result, CircusString.CIRCCHANSET, Sym.CIRCCHANSET);
-      addKeyword(result, CircusString.CIRCNAMESET, Sym.CIRCNAMESET);
-      addKeyword(result, CircusString.CIRCPROC, Sym.CIRCPROC);
-      addKeyword(result, CircusString.CIRCBEGIN, Sym.CIRCBEGIN);
-      addKeyword(result, CircusString.CIRCEND, Sym.CIRCEND);
-      addKeyword(result, CircusString.CIRCSTATE, Sym.CIRCSTATE);
-     /**/
-</add:circus>
-    return result;
   }
   
   /**
