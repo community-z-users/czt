@@ -21,6 +21,8 @@ package net.sourceforge.czt.print.circus;
 
 import java.util.List;
 import java.util.Iterator;
+import net.sourceforge.czt.parser.circus.CircusKeyword;
+import net.sourceforge.czt.parser.util.Token;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.util.CircusString;
@@ -41,7 +43,7 @@ import net.sourceforge.czt.parser.z.TokenName;
  */
 public class CircusPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
-  //implements CircusVisitor
+  implements CircusVisitor
 {
   /**
    * Creates a new Object-Z print visitor.
@@ -52,460 +54,403 @@ public class CircusPrintVisitor
   {
     super(printer);
   }
-/*
-  public Object visitClassPara(ClassPara classPara)
-  {
-    //print the header information
-    if (classPara.getFormalParameters().size() == 0) {
-      print(OzToken.CLASS);
-      visit(classPara.getDeclName());
-    }
-    else {
-      print(OzToken.GENCLASS);
-      visit(classPara.getDeclName());
-      print(TokenName.LSQUARE);
-      printTermList(classPara.getFormalParameters());
-      print(TokenName.RSQUARE);
+  
+  /*********************************************************** 
+   * Auxiliary methods 
+   ***********************************************************/
+  
+  protected void print(CircusKeyword keyword) {
+    /* CIRCDEF is the only Keyword that is a scanner token */
+    if (keyword.equals(CircusKeyword.CIRCDEF))
+      print((Token) keyword);
+    else
+      printDecorword(keyword.spelling());
+  }
+  
+  protected boolean isChannelFromDecl(ChannelDecl term) {
+    return (term.getDeclNameList() == null && term.getExpr() instanceof RefExpr);
+  }
+
+  /*********************************************************** 
+   * Channel related    
+   ***********************************************************/
+  public Object visitChannelPara(ChannelPara term) {
+    //TODO: Change this to CIRCUS for \begin{circus} at some point.
+    print(TokenName.ZED);
+    visit(term.getChannelDecl());    
+    print(TokenName.END);   
+    return null;
+  } 
+  
+  public Object visitChannelDecl(ChannelDecl term) {    
+    if (isChannelFromDecl(term)) {
+      print(CircusKeyword.CIRCCHANFROM);
+      printGenericFormals(term.getGenFormals());
+      assert term.getExpr() != null;
+      visit(term.getExpr());
+    } else {  
+      print(CircusKeyword.CIRCCHAN);
+      printGenericFormals(term.getGenFormals());
+      visit(term.getDeclNameList());      
+      if (term.getExpr() != null) {
+        print(Keyword.COLON);
+        visit(term.getExpr());
+      }
     }
     print(TokenName.NL);
-
-    visit(classPara.getVisibilityList());
-
-    //visit each inherited class, putting a NL between them
-    if (classPara.getInheritedClass() instanceof ZExprList) {
-      ZExprList inheritedClass = (ZExprList) classPara.getInheritedClass();
-      for (Expr expr : inheritedClass) {
-        visit(expr);
-        print(TokenName.NL);
-      }
-    }
-    else {
-      throw new
-        UnsupportedOperationException("Non-ZExprList as Inherited Class");
-    }
-
-    //visit each inner paragraph, putting a NL between them
-    for (Para para : classPara.getLocalDef()) {
-      if (para instanceof AxPara) {
-        AxPara axPara = (AxPara) para;
-        visitInnerAxPara(axPara);
-      }
-      else if (para instanceof FreePara) {
-        FreePara freePara = (FreePara) para;
-        visitInnerFreePara(freePara);
-      }
-      else {
-        visit(para);
-        print(TokenName.NL);
-      }
-    }
-
-    //visit the state and inital predicate
-    visit(classPara.getState());
-    visit(classPara.getInitialState());
-
-    //visit each operation, putting a NL between them
-    for (Iterator<Operation> iter = classPara.getOperation().iterator();
-         iter.hasNext(); ) {
-      Operation operation = iter.next();
-      visit(operation);
-      if (iter.hasNext()) {
-        print(TokenName.NL);
-      }
-    }
-    print(TokenName.END);
+    return null;
+  }  
+  
+  /*********************************************************** 
+   * Channel set related    
+   ***********************************************************/
+  public Object visitChannelSetPara(ChannelSetPara term) {
+    print(TokenName.ZED);
+    print(CircusKeyword.CIRCCHANSET);
+    printGenericFormals(term.getGenFormals());
+    visit(term.getName());    
+    print(Keyword.DEFEQUAL);    
+    visit(term.getChannelSet());
+    print(TokenName.END);    
     return null;
   }
 
-  protected Object visitInnerAxPara(AxPara axPara)
-  {
-    Box box = axPara.getBox();
-    if (Box.OmitBox.equals(box)) {
-      visit(axPara.getSchText());
-    }
-    else {
-      assert false : "Inner AxPara with OmitBox";
-    }
+  public Object visitChannelSet(ChannelSet term) {
+    visit(term.getExpr());
+    return null;
+  }
+  
+  public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
+    print(CircusToken.LCIRCCHANSET);
+    printTermList(term.getZExprList());    
+    print(CircusToken.RCIRCCHANSET);
+    return null;
+  }
+  
+  /*********************************************************** 
+   * Process related    
+   ***********************************************************/
+
+  public Object visitProcessPara(ProcessPara term) {
     return null;
   }
 
-  protected Object visitInnerFreePara(FreePara freePara)
-  {
-    visit(freePara.getFreetypeList());
-    print(TokenName.NL);
+  public Object visitBasicProcess(BasicProcess term) {
+    return null;
+  }
+  
+  public Object visitCallProcess(CallProcess term) {
     return null;
   }
 
-  public Object visitVisibilityList(VisibilityList visibilityList)
-  {
-    if (visibilityList != null) {
-      print(Keyword.ZPROJ);
-      print(TokenName.LPAREN);
-      printTermList(visibilityList.getZRefName());
-      print(TokenName.RPAREN);
-      print(TokenName.NL);
-    }
+  public Object visitHideProcess(HideProcess term) {
+    return null;
+  }
+  
+  public Object visitRenameProcess(RenameProcess term) {
     return null;
   }
 
-  public Object visitInitialState(InitialState initialState)
-  {
-    if (initialState != null) {
-      boolean isBox = Box.SchBox.equals(initialState.getBox());
-      if (isBox) {
-        print(OzToken.INIT);
-        print(TokenName.NL);
-        visit(initialState.getPred());
-        print(TokenName.END);
-      }
-      else {
-        printDecorword(OzString.INITWORD + ZString.SPACE +
-                       OzString.SDEF + ZString.SPACE);
-        print(TokenName.LSQUARE);
-        visit(initialState.getPred());
-        print(TokenName.RSQUARE);
-      }
-      print(TokenName.NL);
-    }
+  public Object visitSeqProcess(SeqProcess term) {
     return null;
   }
 
-  public Object visitState(State state)
-  {
-    if (state != null) {
-      boolean isBox = Box.SchBox.equals(state.getBox());
-      if (isBox) {
-        print(OzToken.STATE);
-        print(TokenName.NL);
-      }
-      else {
-        print(TokenName.LSQUARE);
-      }
-
-      DeclList pDeclList = state.getPrimaryDecl().getDeclList();
-      if (pDeclList instanceof ZDeclList) {
-        ZDeclList zDeclList = (ZDeclList) pDeclList;
-        if (zDeclList.size() > 0) {
-          visit(state.getPrimaryDecl());
-        }
-      }
-      else {
-        throw new
-          UnsupportedOperationException("Non-ZDeclList in PrimaryDecl");
-      }
-
-      DeclList sDeclList = state.getSecondaryDecl().getDeclList();
-      if (sDeclList instanceof ZDeclList) {
-        ZDeclList zDeclList = (ZDeclList) sDeclList;
-        if (zDeclList.size() > 0) {
-          print(TokenName.NL);
-          printDecorword(OzString.DELTA);
-          print(TokenName.NL);
-          visit(state.getSecondaryDecl());
-        }
-      }
-      else {
-        throw new
-          UnsupportedOperationException("Non-ZDeclList in SecondayDecl");
-      }
-
-      if (state.getPred() != null) {
-        if (isBox) {
-          print(TokenName.DECORWORD, new WhereWord());
-          visit(state.getPred());
-        }
-        else {
-          print(Keyword.BAR);
-          visit(state.getPred());
-          print(TokenName.RSQUARE);
-        }
-      }
-
-      if (isBox) {
-        print(TokenName.END);
-      }
-      print(TokenName.NL);
-    }
+  public Object visitExtChoiceProcess(ExtChoiceProcess term) {
     return null;
   }
 
-  public Object visitPrimaryDecl(PrimaryDecl primaryDecl)
-  {
-    visit(primaryDecl.getDeclList());
+  public Object visitIntChoiceProcess(IntChoiceProcess term) {
     return null;
   }
 
-  public Object visitSecondaryDecl(SecondaryDecl secondaryDecl)
-  {
-    visit(secondaryDecl.getDeclList());
+  public Object visitParallelProcess(ParallelProcess term) {
+    return null;
+  }
+  
+  public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
     return null;
   }
 
-  public Object visitOperation(Operation operation)
-  {
-    boolean isBox = Box.SchBox.equals(operation.getBox());
-    if (isBox) {
-      print(OzToken.OPSCH);
-      visit(operation.getOpName());
-      print(TokenName.NL);
+  public Object visitInterleaveProcess(InterleaveProcess term) {
+    return null;
+  }  
 
-      assert operation.getOpExpr() instanceof AnonOpExpr;
-      AnonOpExpr anonOpExpr = (AnonOpExpr) operation.getOpExpr();
-      OpText opText = anonOpExpr.getOpText();
-
-      visit(opText.getDeltaList());
-
-      if (opText.getSchText() instanceof ZSchText) {
-        ZSchText zSchText = (ZSchText) opText.getSchText();
-        visit(zSchText.getDeclList());
-        if (zSchText.getPred() != null) {
-          print(TokenName.DECORWORD, new WhereWord());
-          visit(zSchText.getPred());
-        }
-      }
-      else {
-        throw new UnsupportedOperationException("Non-ZSchText in Operation");
-      }
-      print(TokenName.END);
-    }
-    else {
-      visit(operation.getOpName());
-      print(OzToken.SDEF);
-      visit(operation.getOpExpr());
-    }
+  public Object visitParamProcess(ParamProcess term) {
     return null;
   }
 
-  public Object visitOpText(OpText opText)
-  {
-    visit(opText.getDeltaList());
-    visit(opText.getSchText());
+  public Object visitSeqProcessIte(SeqProcessIte term) {
     return null;
   }
 
-  public Object visitDeltaList(DeltaList deltaList)
-  {
-    printDecorword(OzString.DELTA);
-    print(TokenName.LPAREN);
-    printTermList(deltaList.getRefName());
-    print(TokenName.RPAREN);
-    print(TokenName.NL);
+  public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {
     return null;
   }
 
-  public Object visitPredExpr(PredExpr predExpr)
-  {
-    printLPAREN(predExpr);
-    visit(predExpr.getPred());
-    printRPAREN(predExpr);
+  public Object visitIntChoiceProcessIte(IntChoiceProcessIte term) {
+    return null;
+  }
+    
+  public Object visitParallelProcessIte(ParallelProcessIte term) {
     return null;
   }
 
-  public Object visitClassUnionExpr(ClassUnionExpr classUnionExpr)
-  {
-    printLPAREN(classUnionExpr);
-    visit(classUnionExpr.getLeftExpr());
-    printDecorword(OzString.CLASSUNION);
-    visit(classUnionExpr.getRightExpr());
-    printRPAREN(classUnionExpr);
+  public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {
+    return null;
+  }
+  
+  public Object visitInterleaveProcessIte(InterleaveProcessIte term) {
+    return null;
+  }
+  
+  public Object visitIndexedProcess(IndexedProcess term) {
     return null;
   }
 
-  public Object visitPolyExpr(PolyExpr polyExpr)
-  {
-    printLPAREN(polyExpr);
-    printDecorword(OzString.POLY);
-    visit(polyExpr.getExpr());
-    printRPAREN(polyExpr);
+  public Object visitSeqProcessIdx(SeqProcessIdx term) {
     return null;
   }
 
-  public Object visitContainmentExpr(ContainmentExpr containmentExpr)
-  {
-    printLPAREN(containmentExpr);
-    visit(containmentExpr.getExpr());
-    printDecorword(OzString.CONTAINMENT);
-    printRPAREN(containmentExpr);
+  public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
     return null;
   }
 
-  public Object visitOpPromotionExpr(OpPromotionExpr opPromotionExpr)
-  {
-    printLPAREN(opPromotionExpr);
-    if (opPromotionExpr.getExpr() != null) {
-      visit(opPromotionExpr.getExpr());
-      print(Keyword.DOT);
-    }
-    visit(opPromotionExpr.getRefName());
-    printRPAREN(opPromotionExpr);
+  public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
     return null;
   }
 
-  public Object visitDistConjOpExpr(DistConjOpExpr distConjOpExpr)
-  {
-    printLPAREN(distConjOpExpr);
-    printDecorword(OzString.DCNJ);
-    visit(distConjOpExpr.getSchText());
-    print(Keyword.SPOT);
-    visit(distConjOpExpr.getOpExpr());
-    printRPAREN(distConjOpExpr);
+  public Object visitParallelProcessIdx(ParallelProcessIdx term) {
     return null;
   }
 
-  public Object visitDistSeqOpExpr(DistSeqOpExpr distSeqOpExpr)
-  {
-    printLPAREN(distSeqOpExpr);
-    print(Keyword.ZCOMP);
-    visit(distSeqOpExpr.getSchText());
-    print(Keyword.SPOT);
-    visit(distSeqOpExpr.getOpExpr());
-    printRPAREN(distSeqOpExpr);
+  public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term) {
     return null;
   }
 
-  public Object visitDistChoiceOpExpr(DistChoiceOpExpr distChoiceOpExpr)
-  {
-    printLPAREN(distChoiceOpExpr);
-    printDecorword(OzString.DGCH);
-    visit(distChoiceOpExpr.getSchText());
-    print(Keyword.SPOT);
-    visit(distChoiceOpExpr.getOpExpr());
-    printRPAREN(distChoiceOpExpr);
+  public Object visitInterleaveProcessIdx(InterleaveProcessIdx term) {
+    return null;
+  }
+  
+  /*********************************************************** 
+   * Action related    
+   ***********************************************************/
+  public Object visitChaosAction(ChaosAction term) {    
+    print(CircusKeyword.CIRCCHAOS);
     return null;
   }
 
-  public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
-  {
-    printLPAREN(anonOpExpr);
-    print(TokenName.LSQUARE);
-    visit(anonOpExpr.getOpText());
-    print(TokenName.RSQUARE);
-    printRPAREN(anonOpExpr);
+  public Object visitSkipAction(SkipAction term) {
+    print(CircusKeyword.CIRCSKIP);
+    return null;
+  }
+  
+  public Object visitStopAction(StopAction term) {
+    print(CircusKeyword.CIRCSTOP);
+    return null;
+  }
+  
+  public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
+    return null;
+  }
+    
+  public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
     return null;
   }
 
-  public Object visitConjOpExpr(ConjOpExpr conjOpExpr)
-  {
-    printLPAREN(conjOpExpr);
-    visit(conjOpExpr.getLeftOpExpr());
-    print(Keyword.AND);
-    visit(conjOpExpr.getRightOpExpr());
-    printRPAREN(conjOpExpr);
+  
+  /*********************************************************** 
+   * Command related    
+   ***********************************************************/
+  
+  /*********************************************************** 
+   * Unexpected terms 
+   ***********************************************************/
+  
+  public Object visitChannelType(ChannelType term) {
+    throw new UnsupportedOperationException("Unexpected term ChannelType.");    
+  }
+
+  public Object visitChannelSetType(ChannelSetType term) {
+    throw new UnsupportedOperationException("Unexpected term ChannelSetType.");    
+  }
+
+  public Object visitProcessType(ProcessType term) {
+    throw new UnsupportedOperationException("Unexpected term ProcessType.");    
+  }
+
+  public Object visitActionType(ActionType term) {
+    throw new UnsupportedOperationException("Unexpected term ActionType.");    
+  }
+
+  public Object visitNameSetType(NameSetType term) {
+    throw new UnsupportedOperationException("Unexpected term NameSetType.");    
+  }
+
+  public Object visitProcessSignature(ProcessSignature term) {
+    throw new UnsupportedOperationException("Unexpected term ProcessSignature.");    
+  }
+
+  public Object visitBasicProcessSignature(BasicProcessSignature term) {
+    throw new UnsupportedOperationException("Unexpected term BasicProcessSignature.");    
+  }
+
+  public Object visitActionSignature(ActionSignature term) {
+    throw new UnsupportedOperationException("Unexpected term ActionSignature.");    
+  }
+  
+  public Object visitCircusStateAnn(CircusStateAnn term) {
+    throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");    
+  }
+
+  /*********************************************************** 
+   * Others 
+   ***********************************************************/
+  
+    public Object visitParamAction(ParamAction term) {
     return null;
   }
 
-  public Object visitParallelOpExpr(ParallelOpExpr parallelOpExpr)
-  {
-    printLPAREN(parallelOpExpr);
-    visit(parallelOpExpr.getLeftOpExpr());
-    printDecorword(OzString.PARALLEL);
-    visit(parallelOpExpr.getRightOpExpr());
-    printRPAREN(parallelOpExpr);
+
+  public Object visitParallelActionIte(ParallelActionIte term) {
     return null;
   }
 
-  public Object visitAssoParallelOpExpr(AssoParallelOpExpr assoParallelOpExpr)
-  {
-    printLPAREN(assoParallelOpExpr);
-    visit(assoParallelOpExpr.getLeftOpExpr());
-    printDecorword(OzString.ASSOPARALLEL);
-    visit(assoParallelOpExpr.getRightOpExpr());
-    printRPAREN(assoParallelOpExpr);
+  
+
+  public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
     return null;
   }
 
-  public Object visitExChoiceOpExpr(ExChoiceOpExpr exChoiceOpExpr)
-  {
-    printLPAREN(exChoiceOpExpr);
-    visit(exChoiceOpExpr.getLeftOpExpr());
-    printDecorword(OzString.GCH);
-    visit(exChoiceOpExpr.getRightOpExpr());
-    printRPAREN(exChoiceOpExpr);
+  public Object visitOutputField(OutputField term) {
     return null;
   }
 
-  public Object visitSeqOpExpr(SeqOpExpr seqOpExpr)
-  {
-    printLPAREN(seqOpExpr);
-    visit(seqOpExpr.getLeftOpExpr());
-    print(Keyword.ZCOMP);
-    visit(seqOpExpr.getRightOpExpr());
-    printRPAREN(seqOpExpr);
+  public Object visitIntChoiceAction(IntChoiceAction term) {
     return null;
   }
 
-  public Object visitScopeEnrichOpExpr(ScopeEnrichOpExpr scopeEnrichExpr)
-  {
-    printLPAREN(scopeEnrichExpr);
-    visit(scopeEnrichExpr.getLeftOpExpr());
-    print(Keyword.SPOT);
-    visit(scopeEnrichExpr.getRightOpExpr());
-    printRPAREN(scopeEnrichExpr);
+  public Object visitIfGuardedCommand(IfGuardedCommand term) {
     return null;
   }
 
-  public Object visitHideOpExpr(HideOpExpr hideOpExpr)
-  {
-    printLPAREN(hideOpExpr);
-    visit(hideOpExpr.getOpExpr());
-    print(Keyword.ZHIDE);
-    print(TokenName.LPAREN);
-    visit(hideOpExpr.getRefNameList());
-    print(TokenName.RPAREN);
-    printRPAREN(hideOpExpr);
+  public Object visitSchExprAction(SchExprAction term) {
     return null;
   }
 
-  public Object visitRenameOpExpr(RenameOpExpr renameOpExpr)
-  {
-    printLPAREN(renameOpExpr);
-    visit(renameOpExpr.getOpExpr());
-    print(TokenName.LSQUARE);
-    visit(renameOpExpr.getRenameList());
-    print(TokenName.RSQUARE);
-    printRPAREN(renameOpExpr);
+  public Object visitSeqAction(SeqAction term) {
     return null;
   }
 
-  public Object visitClassRefType(ClassRefType classRefType)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassRefType.");
+  public Object visitRefinementConjPara(RefinementConjPara term) {
+    return null;
   }
 
-  public Object visitClassPolyType(ClassPolyType classPolyType)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassPolyType.");
+  public Object visitNameSetPara(NameSetPara term) {
+    return null;
   }
 
-  public Object visitClassUnionType(ClassUnionType classUnionType)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassUnionType.");
+  public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
+    /* Annotations need special treatment, see ZPrintVisitor */
+    return null;
   }
 
-  public Object visitClassRef(ClassRef classRef)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassRef.");
+  public Object visitActionPara(ActionPara term) {
+    return null;
   }
 
-  public Object visitNameSignaturePair(NameSignaturePair nameSignaturePair)
-  {
-    throw new UnsupportedOperationException("Unexpected term NameSignaturePair.");
+  public Object visitCommunication(Communication term) {
+    return null;
   }
 
-  public Object visitClassSig(ClassSig classSig)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassSig.");
+  public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
+    return null;
   }
 
-  protected void printLPAREN(Term term)
-  {
-    final boolean braces = term.getAnn(ParenAnn.class) != null;
-    if (braces) print(TokenName.LPAREN);
+  public Object visitPrefixingAction(PrefixingAction term) {
+    return null;
   }
 
-  protected void printRPAREN(Term term)
-  {
-    final boolean braces = term.getAnn(ParenAnn.class) != null;
-    if (braces) print(TokenName.RPAREN);
-  }*/
+  public Object visitParallelAction(ParallelAction term) {
+    return null;
+  }
+
+  public Object visitHideAction(HideAction term) {
+    return null;
+  }
+
+  public Object visitMuAction(MuAction term) {
+    return null;
+  }
+
+  public Object visitCircusFieldList(CircusFieldList term) {
+    return null;
+  }
+
+  public Object visitSigmaExpr(SigmaExpr term) {
+    return null;
+  }
+
+  public Object visitLetVarAction(LetVarAction term) {
+    return null;
+  }
+
+  public Object visitSpecStmtCommand(SpecStmtCommand term) {
+    return null;
+  }
+
+  public Object visitDotField(DotField term) {
+    return null;
+  }
+
+  public Object visitNameSet(NameSet term) {
+    return null;
+  }
+
+  public Object visitInputField(InputField term) {
+    return null;
+  }
+
+  public Object visitSeqActionIte(SeqActionIte term) {
+    return null;
+  }
+
+  public Object visitGuardedAction(GuardedAction term) {
+    return null;
+  }
+
+  public Object visitAssignmentCommand(AssignmentCommand term) {
+    return null;
+  }
+
+  public Object visitSubstitutionAction(SubstitutionAction term) {
+    return null;
+  }
+
+  public Object visitLetMuAction(LetMuAction term) {
+    return null;
+  }
+
+  public Object visitQualifiedDecl(QualifiedDecl term) {
+    return null;
+  }
+
+  public Object visitCallAction(CallAction term) {
+    return null;
+  }
+
+  public Object visitInterleaveActionIte(InterleaveActionIte term) {
+    return null;
+  }
+
+  public Object visitExtChoiceAction(ExtChoiceAction term) {
+    return null;
+  }
+
+  public Object visitInterleaveAction(InterleaveAction term) {
+    return null;
+  }
+
+  public Object visitVarDeclCommand(VarDeclCommand term) {
+    return null;
+  }
 }
