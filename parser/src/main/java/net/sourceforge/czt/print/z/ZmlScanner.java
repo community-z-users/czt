@@ -32,6 +32,7 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -117,10 +118,20 @@ public class ZmlScanner
     private List<Symbol> symbolList_ = new Vector<Symbol>();
 
     private Map<String, Object> fieldMap_;
+    
+    public static boolean DEBUG_SYMBOL_MAP = false;
 
     public SymbolCollector(Class clazz)
     {
       fieldMap_ = DebugUtils.getFieldMap2(clazz);
+      if (DEBUG_SYMBOL_MAP) {
+        java.util.logging.Logger l = CztLogger.getLogger(SymbolCollector.class);
+        l.fine("----- SYMBOL MAP FOR " + clazz.getName() + " -----");
+        for(String key : fieldMap_.keySet()) {
+          l.fine(key + " -> " + fieldMap_.get(key));
+        }
+        l.fine("-------------------------------------------------");
+      }
     }
 
     public void printToken(Token token)
