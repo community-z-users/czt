@@ -20,6 +20,16 @@
     </dependency>
   </dependencies>
   <build>
-    <testSourceDirectory>todo</testSourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/ModelTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
