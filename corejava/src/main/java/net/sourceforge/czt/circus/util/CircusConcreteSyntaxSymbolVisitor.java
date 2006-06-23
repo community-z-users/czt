@@ -73,6 +73,10 @@ public class CircusConcreteSyntaxSymbolVisitor
         return null;
     }
     
+    public CircusConcreteSyntaxSymbol visitAssignmentPairs(AssignmentPairs term) {
+       return null;
+    }
+    
     public CircusConcreteSyntaxSymbol visitRefinementConjPara(RefinementConjPara term) {
         return CircusConcreteSyntaxSymbol.REFINEMENT_CONJ_PARA;
     }
