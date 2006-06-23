@@ -102,26 +102,22 @@ public class TypeCheckerTest
     for (int i = 0; i < files.length; i++) {
       manager_.reset();
       String file = files[i];
-
-      //don't check files that end with "_"
-      if (file.endsWith(".tex") || file.endsWith(".error")) {
-        String fullPath = fullDirectoryName + file;
-        //if the file name ends with error, then we have a case with
-        //the typechecker should throw the exception specified at the
-        //start of the filename
-        if (file.endsWith(".error")) {
-          int index = file.indexOf("-");
-          if (index < 1) {
-            fail(file + " does not specify an exception name");
-          }
-          String exception = file.substring(0, index);
-          handleException(fullPath, exception);
+      String fullPath = fullDirectoryName + file;
+      //if the file name ends with error, then we have a case with
+      //the typechecker should throw the exception specified at the
+      //start of the filename
+      if (file.endsWith(".error")) {
+        int index = file.indexOf("-");
+        if (index < 1) {
+          fail(file + " does not specify an exception name");
         }
-        //if the file name does not end with error, then we have a
-        //normal case
-        else {
-          handleNormal(fullPath);
-        }
+        String exception = file.substring(0, index);
+        handleException(fullPath, exception);
+      }
+      //if the file name does not end with error, then we have a
+      //normal case
+      else if (file.endsWith(".tex")) {
+        handleNormal(fullPath);
       }
     }
   }
