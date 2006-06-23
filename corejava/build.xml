@@ -503,6 +503,8 @@
     <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus"/>
     <delete dir="${corejava.api.dir}/net/sourceforge/czt/circus"/>
     <delete dir="${corejava.api.jaxb.dir}/net/sourceforge/czt/circus"/>
+    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus/jaxb"/>        
+    <delete dir="${corejava.build.dir}/jaxb/net/sourceforge/czt/circus"/>        
   </target>
 
   <target name="clean-circus-class-files"
