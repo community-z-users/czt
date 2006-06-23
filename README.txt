@@ -8,23 +8,40 @@ It provides a rich Java framework for building formal methods tools.
 
 It includes the following sub-projects in the form of sub-directories
 in <CZT_HOME> (which is the directory where this README is in).
-Note that not all of these will be included in a given release.
+Note that not all of these may be included in a given release.
 
 admin/       Tools for administration, preparing releases, ...
 corejava/    Java AST classes for standard Z
 devtools/    Some libraries (java_cup etc.) and tables of Z characters
 doc/         General Documentation and Articles
+eclipse/     A CZT plugin for Eclipse (under development)
 gaffe/       GUI-builder for Z animators
-gnast/       GeNerate AST classes (into corejava) from XML schemas
-jedit/       Support for editing Z with the JEdit editor
-modeljunit/  Model-based unit testing, used by ZLive.
+gnast/       GeNerate AST classes (into corejava and jaxb) from XML schemas
+jaxb/        Support classes for reading/writing Z XML files.
+jedit/       Several CZT plugins for the JEdit editor
+modeljunit/  Model-based unit testing, used by ZLive
 parser/      Parses and prints Z specs (various markups) into and from ZML
 rules/       Support for Z AST transformation rules (see doc/papers/rules)
 translators/ Various tools for translating into and from ZML
 typechecker/ Typechecks Z and Object-Z specifications
+util/        Support classes that are independent of Z
 web/         Sources to the czt.sourceforge.net web site
 zlive/       Z animator
 zml/         XML schemas for Z and several Z extensions, with examples
+
+Here are the dependencies between these projects:
+jaxb         uses:  util
+corejava     uses:  jaxb
+session      uses:  corejava
+parser       uses:  session, devtools (just devtools/cup_tum/build/src folder)
+typechecker  uses:  parser
+rules        uses:  typechecker
+zlive        uses:  typechecker, modeljunit
+gaffe        uses:  zlive
+jedit        uses:  ???
+eclipse      uses:  ???
+translators/z2b uses:  session, gaffe (just the generator part)
+translators/zeves uses: ???
 
 The file czt.properties controls various properties used for
 building and running czt software.  Please have a look at this
