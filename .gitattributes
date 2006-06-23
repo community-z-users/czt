@@ -41,6 +41,8 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gnast/pom.xml -text
+gnast/src/vm/AssignmentPairs.java -text
+gnast/src/vm/AssignmentPairsImpl.java -text
 jaxb/.classpath -text
 jaxb/.project -text
 jaxb/COPYING.txt -text
