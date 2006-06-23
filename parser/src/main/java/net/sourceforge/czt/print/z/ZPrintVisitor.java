@@ -75,11 +75,19 @@ public class ZPrintVisitor
   }
 
   protected void printGenericFormals(DeclNameList term) {
-    if (!utils_.isEmpty(term)) {
+    if (term != null && !utils_.isEmpty(term)) {
       print(TokenName.LSQUARE);
       visit(term);
       print(TokenName.RSQUARE);
     }
+  }
+  
+  protected void printGenericActuals(ExprList term) {
+    if (term != null && !ZUtils.assertZExprList(term).isEmpty()) {
+      print(TokenName.LSQUARE);
+      visit(term);
+      print(TokenName.RSQUARE);
+    }    
   }
   
   protected void print(TokenName tokenName, Object spelling)
