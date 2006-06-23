@@ -1216,21 +1216,42 @@ action code
         }
         return result;
     }
+        
+    /**
+     * Creates an &lt;code&gt;AssignmentPairs&lt;/code&gt; class containing the LHS and RHS
+     * elements for each list, which must have the same size. If the lists are not of the same 
+     * size, the returned list is empty and a parsing error is generated.
+     */
+    protected AssignmentPairs createAssignmentPairs(int line, int column,
+        ZRefNameList rnl, ZExprList el) {
+        AssignmentPairs result = factory_.createAssignmentPairs();        
+        if (checkListSizesAreEqual(line, column, rnl, el)) {        
+          result.setLHS(rnl);
+          result.setRHS(el);
+        }
+        if (rnl.isEmpty()) {        
+          parser.report_error(CircusParseMessage.MSG_EMPTY_ASSIGNMENT,
+              new Object[0], getLocation(line, column));          
+        }
+        return result;
+    }
     
     /**
-     * Creates a &lt;code&gt;ZRenameList&lt;/code&gt; containing &lt;code&gt;NewOldPairt&lt;/code&gt;
-     * elements for each list. That is, the elements at the same index on each list are paired to
-     * form one list of pairs. The method assumes the lists are of same size. If they are not, 
-     * the returned list is empty and a parsing error is generated.
+     * Creates an &lt;code&gt;AssignmentPairs&lt;/code&gt; class containing the LHS and RHS
+     * elements for each list, which must have the same size and must only contain &lt;code&gt;RefExpr&lt;/code&gt;. 
+     * If the lists are not of the same size, the returned list is empty and a parsing error 
+     * is generated.
      */
-    protected ZRenameList createChannelRenameNewOldPairList(int line, int column,
-        List&lt;DeclName&gt; dnl, List&lt;ZRefName&gt; rnl) {
-        ZRenameList result = factory_.createZRenameList();
-        if (checkListSizesAreEqual(line, column, dnl, rnl)) {        
-          Iterator&lt;ZRefName&gt; it = rnl.iterator();
-          for(DeclName dn : dnl) {        
-            result.add(factory_.createNewOldPair(dn, it.next()));
-          } 
+    protected AssignmentPairs createChannelRenamingPairs(int line, int column,
+        ZRefNameList rnl, ZExprList el) {
+        AssignmentPairs result = createAssignmentPairs(line, column, rnl, el);
+        int i = 0;
+        for(Expr e : el) {
+          if (!(e instanceof RefExpr)) {          
+            parser.report_error(CircusParseMessage.MSG_INVALID_CHANNEL_RENAMING_EXPR,
+              new Object[] { rnl.get(i), i+1, e.getClass().getName() }, getLocation(line, column));
+          }
+          i++;
         }
         return result;
     }
@@ -2043,7 +2064,9 @@ non terminal CircusProcess
     process;
 
 non terminal RenameList
-    nameSubstitution,
+    nameSubstitution;
+    
+non terminal AssignmentPairs    
     channelRenaming;    
     
 /// Circus parameters definition /////////////////////////////////////////////    
@@ -3655,9 +3678,12 @@ actualIndexes ::=
  * rather than DECORWORD (and no operator templates, please).
  */        
 channelRenaming ::=
-        LCIRCRENAME:lsq nameList:nl CIRCASSIGN refNameList:rnl RCIRCRENAME:rsq        
-        {:  
-            RESULT = factory_.createZRenameList(createChannelRenameNewOldPairList(nlleft, nlright, nl, rnl));
+        LCIRCRENAME:lsq refNameList:rnl CIRCASSIGN expressionList:el RCIRCRENAME:rsq        
+        {:              
+            /* Must ensure that: 1) sizes of lists are equal; 2) second list contains only RefExpr.
+             * RefExpr are possible in the case of generically defined channels.
+             */
+            RESULT = createChannelRenamingPairs(rnlleft, rnlright, factory_.createZRefNameList(rnl), el);                        
             addLocAnn(RESULT, getLocation(lsq, rsq));
         :}        
         ;
@@ -4080,16 +4106,10 @@ commField ::=
 
 command ::=
         /* Assignment */
-        refNameList:rnl CIRCASSIGN expressionList:el
-        {:
-            // If the lists are not with the same size, generate a parsing error
-            // and return an empty assignment.
-            if (checkListSizesAreEqual(rnlleft, rnlright, rnl, el))
-              RESULT = factory_.createAssignmentCommand(factory_.createZRefNameList(rnl), el);
-            else
-              RESULT = factory_.createAssignmentCommand(factory_.createZRefNameList(), 
-                  factory_.createZExprList());
-            assert !rnl.isEmpty() : "Invalid assignment, LHS is empty";
+        refNameList:rnl CIRCASSIGN:ca expressionList:el
+        {:            
+            RESULT = factory_.createAssignmentCommand(
+              createAssignmentPairs(caleft, caright, factory_.createZRefNameList(rnl), el));                        
             addLocAnn(RESULT, getLocation(rnlleft, rnlright, rnl.get(0), el));
         :}
         |
