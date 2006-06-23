@@ -27,6 +27,7 @@
         <configuration>
           <excludes>
             <exclude>**/ModelTest.java</exclude>
+            <exclude>**/QuiDoncTest.java</exclude>
           </excludes>
         </configuration>
       </plugin>
