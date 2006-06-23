@@ -35,6 +35,8 @@ import net.sourceforge.czt.circus.visitor.*;
 import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
+import net.sourceforge.czt.print.util.PrintException;
+import net.sourceforge.czt.z.util.ZUtils;
 
 /**
  * An Object-Z visitor used for printing.
@@ -69,6 +71,47 @@ public class CircusPrintVisitor
   
   protected boolean isChannelFromDecl(ChannelDecl term) {
     return (term.getDeclNameList() == null && term.getExpr() instanceof RefExpr);
+  }
+  
+  private boolean isOnTheFly(Term term) {
+     return term.getAnn(OnTheFlyDefAnn.class) != null;
+  }
+  
+  private void printActualParams(ExprList term, boolean indexes) {
+    if (term != null && !ZUtils.assertZExprList(term).isEmpty()) {
+      print(indexes ? CircusToken.CIRCLINST : TokenName.LPAREN);
+      visit(term);
+      print(indexes ? CircusToken.CIRCRINST : TokenName.RPAREN);
+    }
+  }
+  
+  protected void printFormalParameters(ZDeclList term) {
+    assert term != null;
+    if (term.isEmpty())        
+        throw new PrintException("Empty formal parameters list.");
+    visit(term);
+  }
+  
+  protected void printProcessD(ProcessD term, boolean indexes) {
+    if (!isOnTheFly(term)) {
+      printFormalParameters(term.getZDeclList());      
+      print(indexes ? CircusKeyword.CIRCINDEX : Keyword.SPOT);
+      visit(term.getCircusProcess());
+    } else {
+      throw new PrintException("On-the-fly parameterised process (" + 
+         term.getClass().getName() + ") must be processed by the AstToPrintTreeVisitor.");
+    }
+  }
+  
+  protected void printActionD(ActionD term) {
+    if (!isOnTheFly(term)) {      
+      printFormalParameters(term.getZDeclList());      
+      print(Keyword.SPOT);
+      visit(term.getCircusAction());
+    } else {
+      throw new PrintException("On-the-fly parameterised action (" + 
+         term.getClass().getName() + ") must be processed by the AstToPrintTreeVisitor.");
+    }
   }
 
   /*********************************************************** 
@@ -130,137 +173,505 @@ public class CircusPrintVisitor
   /*********************************************************** 
    * Process related    
    ***********************************************************/
-
+  
+  /**
+   * The AstToPrintTreeVisitor must have changed OnTheFly paragraphs 
+   * from ProcessPara to a special form of action call.
+   */
   public Object visitProcessPara(ProcessPara term) {
+    // TODO: Check here when we have unboxed versions.
+    print(TokenName.ZED);
+    print(CircusKeyword.CIRCPROC);
+    printGenericFormals(term.getGenFormals());
+    visit(term.getProcessName());
+    print(CircusKeyword.CIRCDEF);
+    visit(term.getCircusProcess());    
+    print(TokenName.END);
     return null;
   }
 
   public Object visitBasicProcess(BasicProcess term) {
-    return null;
+    throw new UnsupportedOperationException("not yet!");
   }
   
   public Object visitCallProcess(CallProcess term) {
+    printLPAREN(term);
+    if (!isOnTheFly(term)) {
+      visit(term.getCallExpr());            
+      printActualParams(term.getActuals(), 
+          CallKind.Index.equals(term.getCallKind()));          
+    } else {
+      throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
+    }
+    printRPAREN(term);
     return null;
   }
 
   public Object visitHideProcess(HideProcess term) {
+    printLPAREN(term);
+    visit(term.getCircusProcess());
+    print(CircusKeyword.CIRCHIDING);
+    visit(term.getChannelSet());
+    printRPAREN(term);
     return null;
   }
   
-  public Object visitRenameProcess(RenameProcess term) {
+  public Object visitRenameProcess(RenameProcess term) {    
+    visit(term.getCircusProcess());
+    print(CircusToken.LCIRCRENAME);
+    visit(term.getAssignmentPairs());
+    print(CircusToken.RCIRCRENAME);    
     return null;
   }
 
   public Object visitSeqProcess(SeqProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());
+    print(CircusKeyword.CIRCSEQ);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
   }
 
   public Object visitExtChoiceProcess(ExtChoiceProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());
+    print(CircusKeyword.EXTCHOICE);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
   }
 
   public Object visitIntChoiceProcess(IntChoiceProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());
+    print(CircusKeyword.INTCHOICE);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
   }
 
   public Object visitParallelProcess(ParallelProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());
+    print(CircusToken.LPAR);
+    visit(term.getChannelSet());
+    print(CircusToken.RPAR);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
   }
   
   public Object visitAlphabetisedParallelProcess(AlphabetisedParallelProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());
+    print(CircusToken.LPAR);
+    visit(term.getLeftAlpha());
+    print(Keyword.BAR);
+    visit(term.getRightAlpha());
+    print(CircusToken.RPAR);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
   }
 
   public Object visitInterleaveProcess(InterleaveProcess term) {
+    printLPAREN(term);
+    visit(term.getLeftProc());    
+    print(CircusKeyword.INTERLEAVE);
+    visit(term.getRightProc());
+    printRPAREN(term);
     return null;
-  }  
-
+  }   
+  
   public Object visitParamProcess(ParamProcess term) {
+    printProcessD(term, false);
     return null;
   }
 
   public Object visitSeqProcessIte(SeqProcessIte term) {
+    /* For replicated sequential composition, we have no choice but to use ZCOMP 
+     * as there are no unicode left :(. We also allow printing the keyword before
+     * checking for on-the-fly as it does not matter where the printer breaks.
+     */
+    print(Keyword.ZCOMP);
+    printProcessD(term, false);
     return null;
   }
 
-  public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {
+  public Object visitExtChoiceProcessIte(ExtChoiceProcessIte term) {    
+    print(CircusKeyword.REPEXTCHOICE);
+    printProcessD(term, false);
     return null;
   }
 
   public Object visitIntChoiceProcessIte(IntChoiceProcessIte term) {
-    return null;
-  }
-    
-  public Object visitParallelProcessIte(ParallelProcessIte term) {
+    print(CircusKeyword.REPINTCHOICE);
+    printProcessD(term, false);
     return null;
   }
 
-  public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {
+  public Object visitParallelProcessIte(ParallelProcessIte term) {    
+    /* Just like printProcessD, but with the channel set*/
+    if (!isOnTheFly(term)) {
+      print(CircusKeyword.REPPARALLEL);
+      printFormalParameters(term.getZDeclList());
+      print(CircusToken.LPAR);
+      visit(term.getChannelSet());
+      print(CircusToken.RPAR);
+      print(Keyword.SPOT);
+      visit(term.getCircusProcess());
+    } else {
+      throw new PrintException("On-the-fly replicated parallel process must be processed by the AstToPrintTreeVisitor.");
+    }
     return null;
+  }
+
+  public Object visitAlphabetisedParallelProcessIte(AlphabetisedParallelProcessIte term) {    
+    throw new PrintException("This AlphabetisedParallelProcessIte terms are to be removed from the AST.");
   }
   
   public Object visitInterleaveProcessIte(InterleaveProcessIte term) {
+    print(CircusKeyword.REPINTERLEAVE);
+    printProcessD(term, false);
     return null;
   }
   
   public Object visitIndexedProcess(IndexedProcess term) {
+    printProcessD(term, false);
     return null;
   }
 
   public Object visitSeqProcessIdx(SeqProcessIdx term) {
+    print(Keyword.ZCOMP);
+    printProcessD(term, true);
     return null;
   }
 
   public Object visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
+    print(CircusKeyword.REPEXTCHOICE);
+    printProcessD(term, true);
     return null;
   }
 
   public Object visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
+    print(CircusKeyword.REPINTCHOICE);
+    printProcessD(term, true);
     return null;
   }
 
   public Object visitParallelProcessIdx(ParallelProcessIdx term) {
+    /* Just like printProcessD, but with the channel set*/
+    if (!isOnTheFly(term)) {
+      print(CircusKeyword.REPPARALLEL);
+      printFormalParameters(term.getZDeclList());
+      print(CircusToken.LPAR);
+      visit(term.getChannelSet());
+      print(CircusToken.RPAR);
+      print(CircusKeyword.CIRCINDEX);
+      visit(term.getCircusProcess());
+    } else {
+      throw new PrintException("On-the-fly indexed parallel process must be processed by the AstToPrintTreeVisitor.");
+    }
     return null;
   }
 
   public Object visitAlphabetisedParallelProcessIdx(AlphabetisedParallelProcessIdx term) {
-    return null;
+    throw new PrintException("This AlphabetisedParallelProcessIdx terms are to be removed from the AST.");
   }
 
   public Object visitInterleaveProcessIdx(InterleaveProcessIdx term) {
+    print(CircusKeyword.REPINTERLEAVE);
+    printProcessD(term, true);
     return null;
   }
   
   /*********************************************************** 
    * Action related    
    ***********************************************************/
+  
+  public Object visitActionPara(ActionPara term) {
+    visit(term.getDeclName());
+    print(CircusKeyword.CIRCDEF);
+    visit(term.getCircusAction());    
+    return null;
+  }
+
+  public Object visitSchExprAction(SchExprAction term) {
+    if (!isOnTheFly(term)) {
+      print(CircusToken.LSCHEXPRACT);
+      visit(term.getExpr());
+      print(CircusToken.RSCHEXPRACT);
+    } else {
+      // On-the-fly state need no special brackets.
+      visit(term.getExpr());
+    }
+    return null;
+  }
+  
   public Object visitChaosAction(ChaosAction term) {    
+    // Ignore parenthesied annotations here
     print(CircusKeyword.CIRCCHAOS);
     return null;
   }
 
   public Object visitSkipAction(SkipAction term) {
+    // Ignore parenthesied annotations here
     print(CircusKeyword.CIRCSKIP);
     return null;
   }
   
   public Object visitStopAction(StopAction term) {
+    // Ignore parenthesied annotations here
     print(CircusKeyword.CIRCSTOP);
     return null;
   }
   
-  public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
+  public Object visitMuAction(MuAction term) {
+    printLPAREN(term);
+    print(CircusKeyword.CIRCMU);
+    visit(term.getDeclName());
+    print(Keyword.SPOT);
+    visit(term.getCircusAction());
+    printRPAREN(term);
+    return null;
+  }   
+
+  public Object visitCallAction(CallAction term) {
+    printLPAREN(term);
+    if (!isOnTheFly(term)) {
+      visit(term.getRefName());                  
+      printActualParams(term.getExprList(), false);//not indexes
+    } else {
+      throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
+    }
+    printRPAREN(term);
+    return null;
+  }  
+  
+  public Object visitHideAction(HideAction term) {
+    printLPAREN(term);
+    visit(term.getCircusAction());
+    print(CircusKeyword.CIRCHIDING);
+    visit(term.getChannelSet());
+    printRPAREN(term);
     return null;
   }
-    
-  public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
+  
+  public Object visitSubstitutionAction(SubstitutionAction term) {
+    visit(term.getCircusAction());
+    print(TokenName.LSQUARE);
+    visit(term.getRenameList());
+    print(TokenName.RSQUARE);        
     return null;
   }
 
+  public Object visitGuardedAction(GuardedAction term) {
+    printLPAREN(term);
+    print(CircusToken.LCIRCGUARD);
+    visit(term.getPred());
+    print(CircusToken.RCIRCGUARD);
+    // Similar to replicated sequential composition, we need to reuse
+    // the guard symbol, as there are no other good unicode char match.
+    print(Keyword.ANDALSO);
+    visit(term.getCircusAction());
+    printRPAREN(term);
+    return null;
+  }
+
+  public Object visitPrefixingAction(PrefixingAction term) {
+    printLPAREN(term);
+    visit(term.getCommunication());
+    print(CircusKeyword.PREFIXTHEN);
+    visit(term.getCircusAction());
+    printRPAREN(term);
+    return null;
+  }
+
+  public Object visitCommunication(Communication term) {    
+    //boolean needHardSpace = term.getChannelExpr().getZExprList().isEmpty();
+    visit(term.getChannelExpr());
+    printDecorword("~");//hard space please
+    visit(term.getChanFields());
+    return null;
+  }
+  
+  public Object visitOutputField(OutputField term) {
+    print(TokenName.OUTSTROKE);
+    visit(term.getExpr());
+    return null;
+  }
+
+  public Object visitDotField(DotField term) {
+    print(Keyword.DOT);
+    visit(term.getExpr());    
+    return null;
+  }
+
+  public Object visitInputField(InputField term) {
+    print(TokenName.INSTROKE);    
+    visit(term.getVariable());
+    if (term.getRestriction() != null && !(term.getRestriction() instanceof TruePred)) {
+      print(CircusKeyword.PREFIXCOLON);
+      visit(term.getRestriction());
+    }
+    return null;
+  }
+  
+  public Object visitSeqAction(SeqAction term) {
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusKeyword.CIRCSEQ);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }
+
+  public Object visitExtChoiceAction(ExtChoiceAction term) {
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusKeyword.EXTCHOICE);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }
+  
+  public Object visitIntChoiceAction(IntChoiceAction term) {
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusKeyword.INTCHOICE);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }
+  
+  public Object visitParallelAction(ParallelAction term) {
+    // TODO: Add the simplified version when the namesets are empty.
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusToken.LPAR);
+    visit(term.getLeftNameSet());
+    print(Keyword.BAR);    
+    visit(term.getChannelSet());    
+    print(Keyword.BAR);    
+    visit(term.getRightNameSet());    
+    print(CircusToken.RPAR);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }
+
+  public Object visitAlphabetisedParallelAction(AlphabetisedParallelAction term) {
+    // TODO: Add the simplified version when the namesets are empty.
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusToken.LPAR);
+    visit(term.getLeftAlpha());
+    print(Keyword.BAR);
+    visit(term.getRightAlpha());
+    print(CircusToken.RPAR);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }
+
+  public Object visitInterleaveAction(InterleaveAction term) {
+    // TODO: Add the simplified version when the namesets are empty.
+    printLPAREN(term);
+    visit(term.getLeftAction());
+    print(CircusToken.LINTER);
+    visit(term.getLeftNameSet());
+    print(Keyword.BAR);    
+    visit(term.getRightNameSet());
+    print(CircusToken.RINTER);
+    visit(term.getRightAction());
+    printRPAREN(term);
+    return null;
+  }  
+
+  public Object visitParamAction(ParamAction term) {
+    printActionD(term);
+    return null;
+  }
+
+  public Object visitSeqActionIte(SeqActionIte term) {
+    print(Keyword.ZCOMP);
+    printActionD(term);
+    return null;
+  }
+
+  public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
+    print(CircusKeyword.REPEXTCHOICE);
+    printActionD(term);
+    return null;
+  }
+
+  public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
+    print(CircusKeyword.REPINTCHOICE);
+    printActionD(term);
+    return null;
+  }
+
+  public Object visitParallelActionIte(ParallelActionIte term) {
+    /* Just like printActionD, but with the channel set*/
+    if (!isOnTheFly(term)) {
+      // TODO: Add the simplified version when the namesets are empty.
+      print(CircusToken.LPAR);
+      visit(term.getChannelSet());
+      print(CircusToken.RPAR);
+      printFormalParameters(term.getZDeclList());
+      print(Keyword.SPOT);
+      print(CircusToken.LPAR);
+      visit(term.getNameSet());
+      print(CircusToken.RPAR);      
+      visit(term.getCircusAction());
+    } else {
+      throw new PrintException("On-the-fly replicated parallel action must be processed by the AstToPrintTreeVisitor.");
+    }
+    return null;
+  }
+
+  public Object visitAlphabetisedParallelActionIte(AlphabetisedParallelActionIte term) {
+    throw new PrintException("This AlphabetisedParallelActionIte terms are to be removed from the AST.");    
+  }
+     
+  public Object visitInterleaveActionIte(InterleaveActionIte term) {    
+    if (!isOnTheFly(term)) {
+      // TODO: Add the simplified version when the namesets are empty.
+      print(CircusKeyword.REPINTERLEAVE);    
+      printFormalParameters(term.getZDeclList());      
+      print(CircusToken.LINTER);
+      visit(term.getNameSet());
+      print(CircusToken.RINTER);      
+      print(Keyword.SPOT);      
+      visit(term.getCircusAction());
+    } else {
+      throw new PrintException("On-the-fly replicated interleave action must be processed by the AstToPrintTreeVisitor.");
+    }
+    return null;
+  }
   
   /*********************************************************** 
    * Command related    
    ***********************************************************/
+  
+  public Object visitVarDeclCommand(VarDeclCommand term) {
+    /*term.getDeclList();
+    term.getCircusAction();*/
+    return null;
+  }
+  
+  public Object visitAssignmentCommand(AssignmentCommand term) {
+    return null;
+  }
+
+  public Object visitIfGuardedCommand(IfGuardedCommand term) {
+    return null;
+  }
+
+  public Object visitSpecStmtCommand(SpecStmtCommand term) {
+    return null;
+  }  
   
   /*********************************************************** 
    * Unexpected terms 
@@ -301,156 +712,73 @@ public class CircusPrintVisitor
   public Object visitCircusStateAnn(CircusStateAnn term) {
     throw new UnsupportedOperationException("Unexpected term CircusStateAnn.");    
   }
+  
+  public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
+    /* TODO: Annotations need special treatment, see ZPrintVisitor */
+    throw new UnsupportedOperationException("Unexpected term OnTheFlyDefAnn.");    
+  }  
+  
+  public Object visitLetMuAction(LetMuAction term) {
+    throw new UnsupportedOperationException("Unexpected term LetMuAction.");    
+  }  
+  
+  public Object visitLetVarAction(LetVarAction term) {
+    throw new UnsupportedOperationException("Unexpected term LetVarAction.");    
+  }  
 
   /*********************************************************** 
    * Others 
    ***********************************************************/
-  
-    public Object visitParamAction(ParamAction term) {
-    return null;
-  }
-
-
-  public Object visitParallelActionIte(ParallelActionIte term) {
-    return null;
-  }
-
-  
-
-  public Object visitIntChoiceActionIte(IntChoiceActionIte term) {
-    return null;
-  }
-
-  public Object visitOutputField(OutputField term) {
-    return null;
-  }
-
-  public Object visitIntChoiceAction(IntChoiceAction term) {
-    return null;
-  }
-
-  public Object visitIfGuardedCommand(IfGuardedCommand term) {
-    return null;
-  }
-
-  public Object visitSchExprAction(SchExprAction term) {
-    return null;
-  }
-
-  public Object visitSeqAction(SeqAction term) {
-    return null;
-  }
-
+   
   public Object visitRefinementConjPara(RefinementConjPara term) {
+    visit(term.getSpecification());    
+    //printDecorword(term.getModel());
+    visit(term.getImplementation());
+    throw new UnsupportedOperationException("not yet!");
+  }
+    
+  public Object visitQualifiedDecl(QualifiedDecl term) {        
+    if (ParamQualifier.Result.equals(term.getParamQualifier())) {            
+      print(CircusKeyword.CIRCRES);
+    } else if (ParamQualifier.ValueResult.equals(term.getParamQualifier())) {      
+      print(CircusKeyword.CIRCVRES);
+    } /* else must be by value, so just don't put it */
+    if (ZUtils.assertZDeclNameList(term.getDeclNameList()).isEmpty())
+      throw new PrintException("Empty list of qualified variables/parameters");
+    visit(term.getDeclNameList());
+    print(Keyword.COLON);
+    visit(term.getExpr());
     return null;
   }
 
-  public Object visitNameSetPara(NameSetPara term) {
-    return null;
-  }
-
-  public Object visitOnTheFlyDefAnn(OnTheFlyDefAnn term) {
-    /* Annotations need special treatment, see ZPrintVisitor */
-    return null;
-  }
-
-  public Object visitActionPara(ActionPara term) {
-    return null;
-  }
-
-  public Object visitCommunication(Communication term) {
-    return null;
-  }
-
-  public Object visitExtChoiceActionIte(ExtChoiceActionIte term) {
-    return null;
-  }
-
-  public Object visitPrefixingAction(PrefixingAction term) {
-    return null;
-  }
-
-  public Object visitParallelAction(ParallelAction term) {
-    return null;
-  }
-
-  public Object visitHideAction(HideAction term) {
-    return null;
-  }
-
-  public Object visitMuAction(MuAction term) {
+  public Object visitAssignmentPairs(AssignmentPairs term) {
+    printTermList(term.getZLHS());
+    print(CircusKeyword.CIRCASSIGN);
+    printTermList(term.getZRHS());    
     return null;
   }
 
   public Object visitCircusFieldList(CircusFieldList term) {
+    for(Field f : term) {
+      visit(f);
+    }
     return null;
   }
 
   public Object visitSigmaExpr(SigmaExpr term) {
-    return null;
+    throw new UnsupportedOperationException("not yet!");
   }
 
-  public Object visitLetVarAction(LetVarAction term) {
+  public Object visitNameSetPara(NameSetPara term) {
+    /* Hum... need to know if it is boxed or not... */
+    visit(term.getDeclName());
+    print(Keyword.DEFEQUAL);
+    visit(term.getNameSet());
     return null;
   }
-
-  public Object visitSpecStmtCommand(SpecStmtCommand term) {
-    return null;
-  }
-
-  public Object visitDotField(DotField term) {
-    return null;
-  }
-
+  
   public Object visitNameSet(NameSet term) {
-    return null;
-  }
-
-  public Object visitInputField(InputField term) {
-    return null;
-  }
-
-  public Object visitSeqActionIte(SeqActionIte term) {
-    return null;
-  }
-
-  public Object visitGuardedAction(GuardedAction term) {
-    return null;
-  }
-
-  public Object visitAssignmentCommand(AssignmentCommand term) {
-    return null;
-  }
-
-  public Object visitSubstitutionAction(SubstitutionAction term) {
-    return null;
-  }
-
-  public Object visitLetMuAction(LetMuAction term) {
-    return null;
-  }
-
-  public Object visitQualifiedDecl(QualifiedDecl term) {
-    return null;
-  }
-
-  public Object visitCallAction(CallAction term) {
-    return null;
-  }
-
-  public Object visitInterleaveActionIte(InterleaveActionIte term) {
-    return null;
-  }
-
-  public Object visitExtChoiceAction(ExtChoiceAction term) {
-    return null;
-  }
-
-  public Object visitInterleaveAction(InterleaveAction term) {
-    return null;
-  }
-
-  public Object visitVarDeclCommand(VarDeclCommand term) {
+    visit(term.getExpr());
     return null;
   }
 }
