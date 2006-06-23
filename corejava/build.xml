@@ -70,7 +70,7 @@
   </target>
 
   <target name="install"
-    depends="install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb"
+    depends="install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb, src-jar"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
