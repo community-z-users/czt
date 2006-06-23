@@ -6,7 +6,8 @@
 
     /** Creates a parameterless call process with empty generic actuals. This is a convenience method */
     public CallProcess createCallProcess(RefName name) {
-      return createCallProcess(name, createZExprList(), createZExprList(), CallKind.Param);
+      return createCallProcess(createRefExpr(name, createZExprList(), Boolean.FALSE, Boolean.True), 
+		createZExprList(), CallKind.Param);
     }
     
     /** Creates an empty BasicNameSet. This is a convenience method */
