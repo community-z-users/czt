@@ -81,20 +81,21 @@ public class TypeCheckerTest
   public void testZ()
   {
     useBeforeDecl_ = false;
-    testDirectory("/typechecker/tests/z/");
+    testDirectory("z/");
   }
 
   public void testZUseBeforeDecl()
   {
     useBeforeDecl_ = true;
-    testDirectory("/typechecker/tests/z/useBeforeDecl/");
+    testDirectory("z/useBeforeDecl/");
   }
 
   //test all the files from a directory
   protected void testDirectory(String directoryName)
   {
     String cztHome = System.getProperty("czt.home");
-    String fullDirectoryName = cztHome + directoryName;
+    String fullDirectoryName =
+      cztHome + "/typechecker/tests/" + directoryName;
     File directory = new File(fullDirectoryName);
 
     String [] files = directory.list();

@@ -84,33 +84,33 @@ public class TypeCheckerTest
   {
     useStrongTyping_ = false;
     useBeforeDecl_ = false;
-    testDirectory("/typechecker/tests/oz/");
+    testDirectory("oz/");
   }
 
   public void testOZStrong()
   {
     useStrongTyping_ = true;
-    testDirectory("/typechecker/tests/oz/");
+    testDirectory("oz/");
   }
 
   public void testOZUseBeforeDecl()
   {
     useStrongTyping_ = false;
     useBeforeDecl_ = true;
-    testDirectory("/typechecker/tests/oz/useBeforeDecl/");
+    testDirectory("oz/useBeforeDecl/");
   }
 
   public void testOZStrongOnly()
   {
     useStrongTyping_ = true;
     useBeforeDecl_ = false;
-    testDirectory("/typechecker/tests/oz/strong/");
+    testDirectory("oz/strong/");
   }
 
   public void testOZWeakOnly()
   {
     useStrongTyping_ = false;
     useBeforeDecl_ = false;
-    testDirectory("/typechecker/tests/oz/weak/");
+    testDirectory("oz/weak/");
   }
 }
