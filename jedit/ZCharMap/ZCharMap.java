@@ -59,6 +59,7 @@ public class ZCharMap extends JPanel
   private JTable mTable;
   private TableModel zTableModel_;
   private TableModel objectZTableModel_;
+  private TableModel circusTableModel_;
 
   /**
    * The status bar label.
@@ -112,6 +113,7 @@ public class ZCharMap extends JPanel
     zTableModel_ = new ZCharTable(getClass().getResource("/ZTable.xml"));
     objectZTableModel_ =
       new ZCharTable(getClass().getResource("/ObjectZTable.xml"));
+    circusTableModel_ = new ZCharTable(getClass().getResource("/CircusTable.xml"));
     mTable = new JTable();
     setTableModel();
     mTable.setFont(view.getTextArea().getPainter().getFont());
@@ -165,14 +167,18 @@ public class ZCharMap extends JPanel
 
   private void setTableModel()
   {
-    Mode mode = mView.getBuffer().getMode();
-    if (mode != null &&
-        ("oz".equals(mode.toString()) || "ozlatex".equals(mode.toString()))) {
-      mTable.setModel(objectZTableModel_);
-    }
-    else {
+    Mode mode = mView.getBuffer().getMode();    
+    if (mode != null) {
+      if  ("oz".equals(mode.toString()) || "ozlatex".equals(mode.toString())) {        
+        mTable.setModel(objectZTableModel_);
+      } else if ("circus".equals(mode.toString()) || "circuslatex".equals(mode.toString())) {
+        mTable.setModel(circusTableModel_);
+      } else {
+        mTable.setModel(zTableModel_);
+      }
+    } else {
       mTable.setModel(zTableModel_);
-    }
+    }   
   }
 
   //############################################################
