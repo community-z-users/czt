@@ -3,10 +3,14 @@
 admin/binary_release/bbook.utf16 -text
 admin/binary_release/screenshot.png -text
 bin/bsh/parseCircus.bsh -text
+corejava/.classpath -text
+corejava/.project -text
 corejava/pom.xml -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
+devtools/.classpath -text
+devtools/.project -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/eclipse-projects.zip -text
@@ -37,9 +41,13 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gnast/pom.xml -text
+jaxb/.classpath -text
+jaxb/.project -text
 jaxb/COPYING.txt -text
 jaxb/build.xml -text
 jaxb/pom.xml -text
+jedit/.classpath -text
+jedit/.project -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
@@ -57,6 +65,8 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
+parser/.classpath -text
+parser/.project -text
 parser/COPYING.txt -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
@@ -83,14 +93,22 @@ parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
+rules/.classpath -text
+rules/.project -text
 rules/COPYING.txt -text
 rules/pom.xml -text
+session/.classpath -text
+session/.project -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
+typechecker/.classpath -text
+typechecker/.project -text
 typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
+util/.classpath -text
+util/.project -text
 util/COPYING.txt -text
 util/build.xml -text
 util/pom.xml -text
@@ -105,6 +123,8 @@ web/src/resources/images/jedit_unicode_example.png svneol=native#unset
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
+zlive/.classpath -text
+zlive/.project -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/pom.xml -text
