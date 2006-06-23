@@ -42,7 +42,7 @@
     <mkdir dir="${typecheck.jar.dir}"/>
     <jar jarfile="${typecheck.jar.file}">
       <fileset dir="${typecheck.build.dir}"/>
-      <fileset dir="${typecheck.src.dir}">
+      <fileset dir="src/main/resources">
         <include name="**/*.properties"/>
       </fileset>
     </jar>
@@ -106,6 +106,7 @@
   <target name="test-install" depends="test-compile">
     <jar jarfile="${test.jar.file}">
       <fileset dir="${test.build.dir}"/>
+      <fileset dir="tests"/>
     </jar>
   </target>
   

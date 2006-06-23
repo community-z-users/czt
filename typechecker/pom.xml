@@ -24,6 +24,10 @@
     </dependency>
   </dependencies>
   <build>
-    <testSourceDirectory>todo</testSourceDirectory>
+    <testResources>
+      <testResource>
+        <directory>tests</directory>
+      </testResource>
+    </testResources>
   </build>
 </project>

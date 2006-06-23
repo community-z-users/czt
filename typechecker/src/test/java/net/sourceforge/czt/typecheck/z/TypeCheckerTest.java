@@ -97,7 +97,10 @@ public class TypeCheckerTest
     String fullDirectoryName =
       cztHome + "/typechecker/tests/" + directoryName;
     File directory = new File(fullDirectoryName);
-
+    if (! directory.isDirectory()) {
+      directory =
+        new File(getClass().getResource("/" + directoryName).getFile());
+    }
     File[] files = directory.listFiles();
     for (int i = 0; i < files.length; i++) {
       manager_.reset();
