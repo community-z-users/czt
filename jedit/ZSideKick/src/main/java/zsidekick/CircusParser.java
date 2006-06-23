@@ -23,7 +23,7 @@ import net.sourceforge.czt.session.*;
 public class CircusParser
   extends AbstractParser
 {
-  public ZParser()
+  public CircusParser()
   {
     super("circus");
   }
