@@ -3053,7 +3053,7 @@ channelFromDecl ::=
         /* Channels declared through Z schemas */                
         optFormalParameters:ofp DECORWORD:dw
         {:
-           RefExpr re = factory_.createRefExpr(createZRefName(dw));
+           RefExpr re = factory_.createRefExpr(createZRefName(dw));/*same as: FALSE, FALSE*/
            RESULT = factory_.createChannelDecl(ofp, null, re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
         :}
@@ -3298,7 +3298,8 @@ processCall ::=
         DECORWORD:dw actualParameters:ap
         {:
             /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), ap, CallKind.Param);
+            /* RefExpr: mixfix = false, explicit = false */
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(dw)), ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
@@ -3306,7 +3307,8 @@ processCall ::=
         DECORWORD:dw genericActuals:ga actualParameters:ap
         {:
             /* The CallKind is Param and both generic actuals and indexes are not null */
-            RESULT = factory_.createCallProcess(createZRefName(dw), ga, ap, CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(
+              createZRefName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
@@ -3314,7 +3316,7 @@ processCall ::=
         DECORWORD:dw actualIndexes:ai
         {:
             /* The CallKind is Index and the generic actuals are empty */            
-            RESULT = factory_.createCallProcess(createZRefName(dw), factory_.createZExprList(), ai, CallKind.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(dw)), ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
@@ -3322,7 +3324,8 @@ processCall ::=
         DECORWORD:dw genericActuals:ga actualIndexes:ai
         {:
             /* The CallKind is Index and both generic actuals and indexes are not null */
-            RESULT = factory_.createCallProcess(createZRefName(dw), ga, ai, CallKind.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(
+              createZRefName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |        
@@ -3330,7 +3333,9 @@ processCall ::=
         DECORWORD:dw genericActuals:ga
         {:
             /* The CallKind is irrelevant and the parameters are empty */
-            RESULT = factory_.createCallProcess(createZRefName(dw), ga, factory_.createZExprList(), CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(
+              createZRefName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
+              factory_.createZExprList(), CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |        
@@ -3338,8 +3343,8 @@ processCall ::=
         DECORWORD:dw
         {:
             /* The CallKind is irrelevant and both generic actuals and parameters are empty */
-            RESULT = factory_.createCallProcess(createZRefName(dw), 
-                factory_.createZExprList(), factory_.createZExprList(), CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(dw)),
+                factory_.createZExprList(), CallKind.Param);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         ;
@@ -3369,8 +3374,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(createZRefName(pn), 
-                factory_.createZExprList(), ap, CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(pn)), ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}        
         |
@@ -3382,7 +3386,8 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, pp);            
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are the same as the  */
-            RESULT = factory_.createCallProcess(createZRefName(pn), ga, ap, CallKind.Param);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(pn), 
+                ga, Boolean.FALSE, Boolean.TRUE), ap, CallKind.Param);
             addLocAnn(RESULT, getLocation(lp1, ap.get(ap.size()-1)));
         :}
         |
@@ -3394,7 +3399,7 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(createZRefName(pn), factory_.createZExprList(), ai, CallKind.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(pn)), ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :} 
         |
@@ -3406,7 +3411,8 @@ parenthesisedProcess ::=
             ProcessPara pa = createImplicitProcessPara(pn, ip);                                    
             addImplicitlyDeclProcessPara(pa);
             /* The CallKind is Param and the generic actuals are empty */
-            RESULT = factory_.createCallProcess(createZRefName(pn), ga, ai, CallKind.Index);
+            RESULT = factory_.createCallProcess(factory_.createRefExpr(createZRefName(pn), 
+                ga, Boolean.FALSE, Boolean.TRUE), ai, CallKind.Index);
             addLocAnn(RESULT, getLocation(lp, ai.get(ai.size()-1)));
         :}
         |          
@@ -3976,7 +3982,8 @@ communication ::=
         /* Synchronisation or communication without generic parameters */
         DECORWORD:dw optCommFields:ocf
         {:
-            RESULT = factory_.createCommunication(createZRefName(dw), factory_.createZExprList(), 
+            /* RefExpr: mixfix=false, explicit=false */
+            RESULT = factory_.createCommunication(factory_.createRefExpr(createZRefName(dw)), 
                 factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), DEFAULT_MULTISYNCH);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
@@ -3984,7 +3991,8 @@ communication ::=
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
         DECORWORD:dw LSQUARE expressionList:el RSQUARE commFields:cf
         {:
-            RESULT = factory_.createCommunication(createZRefName(dw), el, 
+            /* RefExpr: mixfix=false, explicit=true */
+            RESULT = factory_.createCommunication(factory_.createRefExpr(createZRefName(dw), el, Boolean.FALSE, Boolean.TRUE), 
                 factory_.createCircusFieldList(cf), retrieveCommKind(cf), DEFAULT_MULTISYNCH);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
