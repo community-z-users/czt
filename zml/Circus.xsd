@@ -1121,7 +1121,8 @@
         <p>
         A CSP communication that is part of a prefixing process or action. 
         If the communicating channel has been declared with generic types, the communication 
-        must carry the generic actual expressions. It represents the <b>Communication</b> grammar rule.
+        must carry the generic actual expressions, hence we have a <code>RefExpr</code> rather than
+        a <code>RefName</code>. It represents the <b>Communication</b> grammar rule.
         </p>
         <p>
         A communication can be either a communication for synchronisation, input, output, or mixed.
@@ -1645,8 +1646,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
-          <xs:element ref="Z:RefName"/>          
-          <xs:element name="GenActuals" type="Z:ExprList"/>
+          <!-- CallExpr because it can contain generic actuals -->
+          <xs:element name="CallExpr" type="Z:RefExpr"/>                    
           <xs:element name="Actuals" type="Z:ExprList"/>          
         </xs:sequence>
         <xs:attribute name="CallKind" type="CIRCUS:CallKind" use="optional" default="Param"/>
@@ -2114,8 +2115,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ChanName" type="Z:RefName"/>          
-          <xs:element name="GenActuals" type="Z:ExprList"/>
+          <!-- Channel expression because it can contain generic actuals -->
+          <xs:element name="ChannelExpr" type="Z:RefExpr"/>          
           <xs:element name="ChanFields" type="CIRCUS:CircusFieldList"/>
         </xs:sequence>
         <xs:attribute name="CommKind" type="CIRCUS:CommKind" use="optional" default="Synch"/>
