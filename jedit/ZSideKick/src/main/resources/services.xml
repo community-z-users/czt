@@ -9,11 +9,17 @@
   <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
     new zsidekick.OzParser();
   </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circus">
+    new zsidekick.CircusParser();
+  </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
     new zsidekick.ZLatexParser();
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
     new zsidekick.OzLatexParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circuslatex">
+    new zsidekick.CircusLatexParser();
   </SERVICE>
 
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">

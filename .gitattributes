@@ -49,6 +49,8 @@ jaxb/pom.xml -text
 jedit/.classpath -text
 jedit/.project -text
 jedit/ZCharMap/CircusTable.xml -text
+jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
+jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
