@@ -6,6 +6,7 @@
   <property name="jaxb.jar" location="${corejava.jar.dir}/${jaxb.jar.file}"/>
   <property name="corejava.src.dir" location="src/main/java"/>
   <property name="corejava.src.xsl" location="xsl"/>
+  <property name="test.src.dir" location="src/test/java"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.build.xsd" location="${corejava.build.dir}/xsd"/>
   <property name="corejava.build.src" location="${corejava.build.dir}/src"/>
@@ -15,6 +16,8 @@
   <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>  
   <property name="corejava.build.circus" location="${corejava.build.dir}/circus"/>
   <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
+  <property name="test.build.dir" location="${corejava.build.dir}/test"/>
+  <property name="test.build.classes" location="${corejava.build.dir}/test/classes"/>
   <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
   <property name="corejava.tcoz.jar" location="${corejava.jar.dir}/${corejava.tcoz.jar.file}"/>
@@ -45,6 +48,15 @@
     file="../gnast/build.xml"
     property="gnast.present"/>
 
+  <path id="classpath">
+    <pathelement location="${util.jar}"/>
+    <pathelement location="${corejava.build.core}"/>
+    <pathelement location="${corejava.build.oz}"/>
+    <pathelement location="${corejava.build.tcoz}"/>
+    <pathelement location="${corejava.build.zpatt}"/>
+    <pathelement location="${corejava.build.circus}"/>
+    <pathelement path="${jwsdp.classpath}"/>
+  </path>
 
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
@@ -54,6 +66,7 @@
     <mkdir dir="${corejava.build.dir}"/>
     <mkdir dir="${corejava.build.src}"/>
     <mkdir dir="${corejava.build.xsd}"/>
+    <mkdir dir="${test.build.classes}"/>
   </target>
 
   <target name="install"
@@ -332,14 +345,8 @@
       fork="yes"
       memoryMaximumSize="128m">
       <classpath>
-        <pathelement location="${util.jar}"/>
+        <path refid="classpath"/>
         <pathelement location="${jaxb.jar}"/>
-        <pathelement location="${corejava.build.core}"/>
-        <pathelement location="${corejava.build.oz}"/>
-        <pathelement location="${corejava.build.tcoz}"/>
-        <pathelement location="${corejava.build.zpatt}"/>
-        <pathelement location="${corejava.build.circus}"/>
-        <pathelement path="${jwsdp.classpath}"/>
       </classpath>
     </javac>
   </target>
@@ -410,12 +417,54 @@
     <ant dir="examples/substitutionVisitor"/>
   </target>
 
-  <target name="test" depends="install"
-    description="build and run the tests">
-    <ant dir="tests"/>
+  <target name="test" depends="test-run"
+    description="build and run the tests"/>
+
+  <target name="test-compile" depends="install" description="compile the test">
+    <javac srcdir="${test.src.dir}" destdir="${test.build.classes}" debug="on">
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${corejava.jaxb.jar}"/>
+     </classpath>
+    </javac>
+    <copy toDir="${test.build.classes}">
+      <fileset dir="../zml/examples/z">
+        <include name="Sched.xml"/>
+        <include name="birthdaybook.xml"/>
+      </fileset>
+    </copy>
   </target>
 
-  <target name="checkstyle" description="check java sources">
+  <target name="test-run" depends="test-compile">
+    <junit dir="${test.build.classes}" fork="yes" printsummary="on">
+      <formatter type="xml"/>
+      <test toDir="${test.build.dir}"
+        name="net.sourceforge.czt.z.impl.AstTest"/>
+      <test toDir="${test.build.dir}"
+        name="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest"/>
+      <test toDir="${test.build.dir}"
+        name="net.sourceforge.czt.z.util.OperatorNameTest"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${corejava.jaxb.jar}"/>
+        <pathelement location="${test.build.classes}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+  <target name="test-report">
+    <junitreport todir="${test.build.dir}">
+      <fileset dir="${test.build.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${corejava.build.dir}/test-report"/>
+    </junitreport>
+  </target>
+
+   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
@@ -423,8 +472,7 @@
         <include name="net/**/*.java"/>
         <exclude name="**/gen/**"/>
       </fileset>
-      <fileset dir="tests">
-      </fileset>
+      <fileset dir="${test.src.dir}"/>
       <formatter type="plain"/>
     </checkstyle>
   </target>
@@ -434,7 +482,6 @@
     <delete dir="${corejava.build.dir}"/>
     <delete dir="${corejava.api.dir}"/>
     <delete dir="${corejava.api.jaxb.dir}"/>
-    <ant dir="tests" target="clean"/>
     <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/substitutionVisitor" target="clean"/>
     <ant dir="examples/object-z" target="clean"/>
