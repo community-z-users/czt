@@ -17,6 +17,8 @@ public enum CircusParseMessage {
   MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR("Invalid basic channel set expression at index {0}."),
   MSG_UNKNOWN_COMMUNICATION_PATTERN("Invalid communication pattern.", "The prefixing communication is neither of synchronisation, input, output, or mixed. This can only happen with specialised implementations of Field that do not obbey follow any available CommType."),
   MSG_UNBALANCED_LISTS("A {0} list of size {1} cannot be related to a {2} list of size {3}."),
+  MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
+  MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
   MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}.");
 
