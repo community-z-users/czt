@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -139,7 +140,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   /** A lazy iterator through memberList.
    *  It calls insertMember() to fill up memberList when necessary.
    */
-  private class EvalSetIterator implements Iterator<Expr>
+  private class EvalSetIterator implements ListIterator<Expr>
   {
     /** The number of entries in memberList that have already been returned. */
     int done;
@@ -166,8 +167,61 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     public void remove()
     {
       throw new UnsupportedOperationException(
-          "The Remove Operation is not supported");
+          "EvalSet iterators do not support the 'remove' method.");
     }
+
+    public boolean hasPrevious()
+    {
+      return done > 0;
+    }
+
+    public Expr previous()
+    {
+      assert done > 0;
+      done--;
+      return memberList.get(done);
+    }
+
+    public int nextIndex()
+    {
+      return done;
+    }
+
+    public int previousIndex()
+    {
+      return done-1;
+    }
+
+    public void set(Expr arg0)
+    {
+      throw new UnsupportedOperationException(
+      "EvalSet iterators do not support the 'set' method.");
+    }
+
+    public void add(Expr arg0)
+    {
+      throw new UnsupportedOperationException(
+      "EvalSet iterators do not support the 'add' method.");
+    }
+  }
+
+  /** Iterate through all members of the set.
+   *   It guarantees that there will be no duplicates.
+   *   Note: this method must only be called AFTER
+   *   nextEvaluation(), because all free variables of the
+   *   set must be instantiated before we can enumerate the members
+   *   of the set.
+   *
+   * @return an expression iterator.
+   */
+  
+  public ListIterator<Expr> listIterator()
+  {
+    //if (fullyEvaluated)
+    //  TODO: could improve this to iterator through in sorted order.
+    //  return memberSet.iterator();
+    //else
+    return new EvalSetIterator();
   }
 
   /** Iterate through all members of the set.
@@ -186,7 +240,6 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     else
       return new EvalSetIterator();
   }
-
   public /*synchronized*/ boolean contains(Object obj)
   {
     if (memberSet != null && memberSet.contains(obj))

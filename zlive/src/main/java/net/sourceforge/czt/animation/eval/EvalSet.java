@@ -72,8 +72,15 @@ public interface EvalSet extends Expr, Set<Expr> {
    * @return an Iterator object.
    */
   public Iterator<Expr> iterator();
-  
-  /** Iterate through all members of this set that might
+  /** Iterate through all members of the set.
+   *  It guarantees that there will be no duplicates.
+   *
+   * @return a ListIterator object.
+   */
+  public ListIterator<Expr> listIterator();
+
+  /** Iterate forwards and backwards through all 
+   *  members of this set that might
    *  equal element (which need not be known yet).
    *  The result will contain no duplicates.
    *
