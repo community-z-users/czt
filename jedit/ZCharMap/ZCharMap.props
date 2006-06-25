@@ -5,7 +5,6 @@ plugin.CommunityZToolsPlugin.activate=startup
 plugin.CommunityZToolsPlugin.name=Community Z Tools
 plugin.CommunityZToolsPlugin.author=Petra Malik
 plugin.CommunityZToolsPlugin.version=1.0
-plugin.CommunityZToolsPlugin.jars=czt.jar
 plugin.CommunityZToolsPlugin.docs=ZCharMap.html
 
 # Plugin dependency properties
@@ -16,9 +15,4 @@ plugin.CommunityZToolsPlugin.menu=czt
 
 # dockable window name
 czt.title=Community Z Tools
-czt.label=Character Map
-
-# Option pane
-plugin.CommunityZToolsPlugin.option-pane=czt
-options.czt.label=Community Z Tools
-options.czt.code=new CztOptionPane();
+czt.label=Z Character Map
