@@ -1040,6 +1040,7 @@ corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/TypeProvisoVisitor.java
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/ZpattVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/package.html -text
 fonts/CZTSans.ttf -text
+java_cup/build.xml -text
 java_cup/pom.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
