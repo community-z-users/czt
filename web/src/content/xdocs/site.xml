@@ -85,13 +85,13 @@ See http://xml.apache.org/forrest/linking.html for more info
       <corejava href="corejava/"/>
       <parser href="parser/"/>
     </czt.sourceforge.net>
-    <czt.repository href="http://cvs.sourceforge.net/viewcvs.py/czt/">
+    <czt.repository href="http://svn.sourceforge.net/viewcvs.py/czt/">
       <zmlexamples href="zml/examples/z/"/>
     </czt.repository>
     <czt.devel href="http://lists.sourceforge.net/lists/listinfo/czt-devel"/>
     <javastyle href="http://geosoft.no/javastyle.html"/>
-    <cztcvsinfo href="http://sourceforge.net/cvs/?group_id=86250"/>
-    <cvs-book href="http://cvsbook.red-bean.com/"/>
+    <cztsvninfo href="http://sourceforge.net/svn/?group_id=86250"/>
+    <svn-book href="http://svnbook.red-bean.com/"/>
     <ant href="http://ant.apache.org/"/>
     <checkstyle href="http://checkstyle.sourceforge.net/"/>
     <beanshell href="http://www.beanshell.org/"/>
@@ -102,6 +102,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <font-howto href="http://www.linux.org/docs/ldp/howto/Font-HOWTO/"/>
     <ttfonts href="http://linux.org.mt/article/ttfonts"/>
     <velocity href="http://jakarta.apache.org/velocity/"/>
-    <xalan href=" http://xml.apache.org/xalan-j/"/>
+    <xalan href="http://xml.apache.org/xalan-j/"/>
+    <maven-dirstructure href="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"/>
   </external-refs>
 </site>
