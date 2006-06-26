@@ -53,6 +53,7 @@
     <module>util</module>
     <module>jaxb</module>
     <module>corejava</module>
+    <module>java_cup</module>
     <module>parser</module>
     <module>typechecker</module>
     <module>rules</module>
@@ -88,7 +89,7 @@
 
       <!-- CZT Java_Cup -->
       <dependency>
-        <groupId>java_cup</groupId>
+        <groupId>net.sourceforge.czt</groupId>
         <artifactId>java_cup</artifactId>
         <version>${czt.version}</version>
       </dependency>
@@ -132,7 +133,14 @@
       <!-- external stuff -->
       <!-- ************** -->
 
-      <!-- Bsf -->
+      <!-- Ant (for the ant task) -->
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6.5</version>
+      </dependency>
+
+     <!-- Bsf -->
       <dependency>
         <groupId>bsf</groupId>
         <artifactId>bsf</artifactId>
