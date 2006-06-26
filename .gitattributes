@@ -28,6 +28,7 @@ eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2Unicod
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2XMLAction.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
+fonts/CZTSans.ttf -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
@@ -54,7 +55,6 @@ jedit/ZCharMap/CircusTable.xml -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset
-jedit/fonts/CZTSans.ttf -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
 jedit/src/site/content/xdocs/images/sflogo.png -text
 modeljunit/COPYING.txt -text
