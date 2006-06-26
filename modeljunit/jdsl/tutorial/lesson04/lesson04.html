@@ -1,0 +1,213 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 4</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<!-- JDSLHEADER -->
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+<!-- JDSLMAIN -->
+<p>
+
+<a href="../lesson03/lesson03.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson05/lesson05.html">Next Lesson</a>
+
+<hr>
+<center>
+<font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 4: Triage</b></font></center>
+
+<br>This program allows the user to enter, in a text field, the name
+of a medical patient, and to associate a triage priority with each patient.
+The user can, at any time, remove the top-priority patient from the <tt>PriorityQueue</tt>.
+A second version of the Triage program highlights some additional features
+of the <tt>PriorityQueue</tt> and JDSL <tt>Locator</tt>s.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/KeyBasedContainer.html">KeyBasedContainer</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></li>
+
+<li>
+Key</li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/Comparator.html">Comparator</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/Locator.html">Locator</A></li>
+</ul>
+
+<hr>View the <tt><a href="Triage.java.html">Triage.java</a></tt> and <tt><a href="Triage2.java.html">Triage2.java</a></tt>
+files.
+<br>To run the demo programs, type <tt>java Triage</tt> or <tt>java Triage2</tt>
+in a shell.
+<br>
+<hr>
+<p>In the last lesson, we explored the JDSL's <tt>PositionalContainer</tt>
+interface, and saw the usefulness of <tt>Position</tt>s to access the internals
+of <tt>Container</tt>s. In this lesson, you will learn about a second type
+of JDSL <tt>Container</tt>: the <tt>KeyBasedContainer</tt>. Specifically,
+we will explore one type of <tt>KeyBasedContainer</tt>: the <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>.
+<p>A <tt>PriorityQueue</tt> is a <tt>Container</tt> for storing a collection
+of prioritized elements, that supports arbitrary element insertion but
+supports removal of elements in order of priority.&nbsp; Each element inserted
+into the <tt>PriorityQueue</tt> is given a key, that is, a value by which
+the <tt>Container</tt>'s objects can be compared and ranked.
+<p><tt><A HREF="../../doc/jdsl/core/api/KeyBasedContainer.html">KeyBasedContainer</A></tt>s such as the <tt>PriorityQueue</tt> require
+a <tt><A HREF="../../doc/jdsl/core/api/Comparator.html">Comparator</A></tt> in order to compare elements according to their keys.
+The JDSL&nbsp; provides a number of useful <tt>Comparator</tt> classes,
+including the <tt><A HREF="../../doc/jdsl/core/ref/IntegerComparator.html">IntegerComparator</A></tt> and classes that create JDSL <tt>Comparator</tt>s from
+Java Collections <tt>Compareable</tt> and <tt>Comparator</tt> classes.
+<p>For the first part of this lesson, we will examine the <tt>Triage</tt>
+program. Later in the lesson, we will explore the additional features provided
+in the <tt>Triage2</tt> program. In both versions, we use the <tt><A HREF="../../doc/jdsl/core/ref/ArrayHeap.html">jdsl.core.ref.ArrayHeap</A></tt>
+as our implementation of <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>, and we pass it an <tt>IntegerComparator</tt>
+in its constructor:
+<pre><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//create the PriorityQueue, passing a Comparator to its constructor
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pq_ = <font color="#FF8000">new</font><font color="#8000A0"> </font>jdsl.core.ref.<font color="#0000FF">ArrayHeap</font>(<font color="#FF8000">new</font> jdsl.core.ref.<font color="#0000FF">IntegerComparator</font>());</tt></pre>
+In the Triage method <tt>enterPatient()</tt>, we see how <tt>key,element</tt>
+pairs are inserted into the <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>. This method is called
+when the "Add a patient" button is pressed The patient's name is retrieved
+from the text field, and used as as an element. The priority number is
+retrieved from the choice widget, and used as a key. Then the key and element
+are inserted, together, into the <tt>PriorityQueue</tt>.
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected void</font> <font color="#0000FF">enterPatient</font>(){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font>element = name_field_.<font color="#0000FF">getText</font>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>priority = Integer.<font color="#0000FF">parseInt</font>(priority_chooser_.<font color="#0000FF">getSelectedItem</font>(), 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//remember that the key must be an Object, so make the int an Integer
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font>key = <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">Integer</font>(priority);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//Insert the data into the PriorityQueue
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pq_.<font color="#0000FF">insert</font>(key, element);
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+In the Triage method <tt>getTopPatient()</tt>, we see how to extract the
+top-priority item from a <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>, using the <tt>removeMin()</tt>
+method. This method is called when the "Remove top patient" button is pressed.
+The top-priority patient is removed from the <tt>PriorityQueue</tt>, and
+patient's name displayed in a text field.
+<p><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected void</font> <font color="#0000FF">getTopPatient</font>(){</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object </font><font color="#000000">output</font>;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//Remove the
+top-priority item from the PriorityQueue</font></tt>
+<br><tt><font color="#FF0080">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#8000A0">try</font><font color="#000000">{</font></tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#8000A0"> 
+</font><font color="#003300">output</font>
+= pq_.<font color="#0000FF">removeMin</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#800080">catch</font>(<font color="#3333FF">EmptyContainerException</font>
+ece) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; output = "No patients
+in queue.";</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; top_priority_patient_.<font color="#0000FF">setText</font>((<font color="#8000A0">String</font>)patient);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt>
+<p>The <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt> interface has some additional methods which
+were not used in the Triage program. For example, suppose you wanted to
+change a patient's triage status once that patient had already been entered
+into the PriorityQueue. In this case, you would use the <tt>PriorityQueue</tt>'s
+<tt>replaceKey(Locator,
+Object)</tt> method. The <tt>PriorityQueue</tt> uses <tt><A HREF="../../doc/jdsl/core/api/Locator.html">Locator</A></tt>s
+to make such an operation possible.
+<p>Just as <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>s proved useful in the previous example, to
+avoid a time-consuming examination of all the contents of a <tt><A HREF="../../doc/jdsl/core/api/PositionalContainer.html">PositionalContainer</A></tt>.
+<tt><A HREF="../../doc/jdsl/core/api/Locator.html">Locator</A></tt>s likewise are useful for accessing contained items. A
+<tt>Locator</tt>
+acts as a "coat-check", a handle for keeping track of a
+<tt>key,element</tt>
+pair. In fact, the <tt>insert(Object,Object)</tt> method of any
+<tt><A HREF="../../doc/jdsl/core/api/KeyBasedContainer.html">KeyBasedContainer</A></tt>
+returns a <tt>Locator</tt> for that pair. This "handle" can be used later
+to access that pair, to perform operations such as
+<tt>replaceKey(Locator,Object)</tt>,
+or <tt>remove(Locator)</tt>.
+<p>In the Triage2 program, we want to keep track of the patients that have
+been entered into the <tt><A HREF="../../doc/jdsl/core/api/PriorityQueue.html">PriorityQueue</A></tt>, in order to access them later
+and change their triage priorities if necessary. We use an additional data
+structure, the <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt>, to associate each patient-locator with
+a <tt>String</tt>. (The <tt>Dictionary</tt> interface is covered in detail
+in <a href="../lesson05/lesson05.html">lesson 5.</a>) That way, we can
+use the patient's
+<tt>String</tt> to access the patient-locator, and pass
+that <tt>Locator</tt> as a parameter to the <tt>PriorityQueue</tt>'s
+<tt>replaceKey(.)</tt>
+method. <tt>Locators</tt> are an extremely useful tool for updating keys
+in a <tt>PriorityQueue</tt>.
+<p>Reading through the <tt>enterPatient()</tt> and
+<tt>getTopPatient()</tt>methods
+in Triage2, you will notice some minor additions, to take care of storing
+patients and their Strings in the <tt><A HREF="../../doc/jdsl/core/api/Dictionary.html">Dictionary</A></tt>. And here, in the method <tt>changePatientPriority()</tt>,
+you can see how a patient-locator is accessed from the <tt>Dictionary</tt>,
+and used to change a patient's priority in the queue. Note that a <tt>replaceKey(.)</tt>
+operation is also performed on the <tt>Dictionary</tt>, since the patient-locator
+must then be associated with its new <tt>String</tt>.
+<br><tt><font color="#8000A0">&nbsp;&nbsp;&nbsp; protected void</font>
+<font color="#0000FF">changePatientPriority</font>(){<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//
+the String that's highlighted in the AWT list:<br></font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">String
+</font>patientString = patient_list_.<font color="#0000FF">getSelectedItem</font>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//if a patient is
+selected in the AWT list<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font><font color="#0000FF">
+</font>(patientString !=
+null){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//access
+the patient-locator from the Dictionary<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Locator
+</font>dictionaryLocator = dict_.<font color="#0000FF">find</font>(patientString);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Locator
+</font>pqLocator =<font color="#0000FF"> </font>(Locator)dictionaryLocator.<font color="#0000FF">element</font>();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>newPriority
+= Integer.<font color="#0000FF">parseInt</font>(change_priority_choice_.<font color="#0000FF">getSelectedItem</font>(),
+10);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Object
+</font>newKey = <font color="#FF8000">new</font><font color="#8000A0">
+</font><font color="#0000FF">Integer</font>(newPriority);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pq_.<font color="#0000FF">replaceKey</font>(pqLocator,
+newKey);<font color="#FF0080">//changes the priority-key in queue<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF0080">//now
+replace patientString w/ new one and change it in dict_<br>
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; patientString = <font color="#0000FF">patientString</font>(pqLocator);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dict_.<font color="#0000FF">replaceKey</font>(dictionaryLocator,
+patientString);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<br>
+</tt>We will work with <tt>Locator</tt>s again in the next example, which
+covers another type of <tt>KeyBasedContainer</tt>, the <tt>OrderedDictionary</tt>.
+<br>
+
+<hr>
+<a href="../lesson03/lesson03.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson05/lesson05.html">Next Lesson</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a></address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Sat Apr 19 16:54:05 CEST 2003
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

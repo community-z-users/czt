@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff0080>//b1.1</font>
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+<font color=#ff0080>//e1.1</font>
+<font color=#ff8000>import</font> java.util.*;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.event.*;
+
+
+<font color=#ff0080>/*
+ * A class to introduce the JDSL.  It reads words into a jdsl.ref.Sequence
+ * object and writes them back out.
+ *
+ * @author Robert Cohen (rfc)
+ * @version JDSL 2
+*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>Echo <font color=#8000a0><font color=#ff8000>extends</font> </font>Frame <font color=#8000a0><font color=#ff8000>implements</font> </font>ActionListener,WindowListener {
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* The members described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+    
+    <font color=#ff0080>/*
+     Takes a string and converts it to a sequence of words.  The StringTokenizer object
+     returns an enumeration of tokens, each a word from the original string.  Each word
+     is added to the end of the sequence.
+    */</font> 
+    <font color=#ff0080>//b1.2</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Sequence <font color=#0000ff>getWords</font>(<font color=#8000a0>String</font> s) {
+        <font color=#8000a0>Sequence </font>ret = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>ArraySequence</font>();
+        <font color=#8000a0>StringTokenizer </font>st = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>StringTokenizer</font>(s);
+        <font color=#ff8000>while</font><font color=#0000ff> </font>(st.<font color=#0000ff>hasMoreTokens</font>()) {
+            ret.<font color=#0000ff>insertLast</font>(st.<font color=#0000ff>nextToken</font>());
+        }        
+        <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+    }
+    <font color=#ff0080>//e1.2</font>
+    
+    <font color=#ff0080>/*
+     Takes a Sequence of words and returns a string consisting of all
+     the words, each separated by a space.  Uses a jdsl.api.ObjectIterator to 
+     iterate through the words.
+    */</font>
+    <font color=#ff0080>//b1.3</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>String</font> <font color=#0000ff>concatenate</font>(Sequence s) {
+        <font color=#8000a0><font color=#8000a0>String</font> </font>ret = <font color=#008000>""</font>;
+        <font color=#ff8000>for</font><font color=#0000ff></font>(ObjectIterator i=s.<font color=#0000ff>elements</font>();i.<font color=#0000ff>hasNext</font>();)
+            ret +=<font color=#0000ff> </font>(i.<font color=#0000ff>nextObject</font>() + <font color=#008000>" "</font>);
+        <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+    }
+    <font color=#ff0080>//e1.3</font>
+
+    <font color = #ff0080>/* ************************************ */</font> 
+    <font color = #ff0080>/* Members not described in the lesson. */</font>
+    <font color = #ff0080>/* ************************************ */</font> 
+    
+    <font color=#ff0080>// The sequence to store the words.</font>
+    <font color=#8000a0>Sequence </font>seq;
+    
+    <font color=#ff0080>// The GUI widgets</font>
+    <font color=#8000a0>Label </font>title = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Label</font>( <font color=#008000>"Echo"</font> );
+    <font color=#8000a0>TextField </font>inField = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>TextField</font>( <font color=#008000>""</font>, 50 );
+    <font color=#8000a0>TextField </font>outField = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>TextField</font>( <font color=#008000>""</font>, 50 );
+    <font color=#8000a0>Button </font>quitBtn = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Quit"</font>);
+
+    <font color=#ff0080>/*
+     The Constructor simple sets up the GUI.
+    */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>Echo</font>() {
+      <font color=#0000ff>setUpWindow</font>();
+    }
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>actionPerformed</font>(ActionEvent e) {
+        <font color=#ff0080>//The user entered text.  </font>
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>()==inField) {
+	        <font color=#8000a0><font color=#8000a0>String</font> </font>in = inField.<font color=#0000ff>getText</font>();
+	        <font color=#ff0080>//converts the string into a sequence of words</font>
+	        seq = <font color=#0000ff>getWords</font>(in);
+	        <font color=#ff0080>//outputs the words.</font>
+	        outField.<font color=#0000ff>setText</font>(<font color=#0000ff>concatenate</font>(seq));
+	    <font color=#ff0080>// The user clicked the quit button.    </font>
+	    } <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>()==quitBtn)
+            <font color=#0000ff>quit</font>();
+    }
+
+    <font color=#ff0080>/*
+     Run the frame.
+    */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>static</font> <font color=#8000a0><font color=#8000a0>void</font> </font><font color=#0000ff>main</font>(<font color=#8000a0>String</font> args[]) {
+        <font color=#8000a0>Echo </font>e = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Echo</font>();
+        e.<font color=#0000ff>show</font>();
+    }
+    
+    <font color=#ff0080>/*
+     Set up the GUI.
+    */</font>
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>setUpWindow</font>() {
+        <font color=#0000ff>setTitle</font>(<font color=#008000>"Echo"</font>);
+        title.<font color=#0000ff>setFont</font>( <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Font</font>( <font color=#008000>"Helvetica"</font>, Font.BOLD , 24 ) );
+        <font color=#8000a0>Panel </font>titlePanel = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        titlePanel.<font color=#0000ff>add</font>(title);
+
+        <font color=#8000a0>Panel </font>inPanel = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        inPanel.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"Enter a sentence"</font>));
+        inPanel.<font color=#0000ff>add</font>(inField);
+
+        outField.<font color=#0000ff>setEditable</font>(false);
+        <font color=#8000a0>Panel </font>outPanel = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        outPanel.<font color=#0000ff>add</font>(<font color=#ff8000>new</font> <font color=#0000ff>Label</font>(<font color=#008000>"Result"</font>));
+        outPanel.<font color=#0000ff>add</font>(outField);
+
+        <font color=#8000a0>Panel </font>centerPanel = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        centerPanel.<font color=#0000ff>add</font>(inPanel);
+        centerPanel.<font color=#0000ff>add</font>(outPanel);
+
+        <font color=#8000a0>Panel </font>btnPanel = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        btnPanel.<font color=#0000ff>add</font>(quitBtn);
+
+        <font color=#0000ff>add</font>(titlePanel, BorderLayout.NORTH);
+        <font color=#0000ff>add</font>(centerPanel, BorderLayout.CENTER);
+        <font color=#0000ff>add</font>(btnPanel, BorderLayout.SOUTH);
+        
+        <font color=#0000ff>addWindowListener</font>(<font color=#ff8000>this</font>);
+        quitBtn.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+        inField.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+        inField.<font color=#0000ff>requestFocus</font>();
+
+	<font color=#0000ff>setSize</font>(500,250);
+	<font color=#0000ff>setLocation</font>(50,50);
+    }
+
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>quit</font>() {
+        System.<font color=#0000ff>exit</font>(0);
+    }
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowActivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosed</font>(WindowEvent e) {<font color=#0000ff>quit</font>();}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosing</font>(WindowEvent e) {<font color=#0000ff>quit</font>();}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeactivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeiconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowIconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowOpened</font>(WindowEvent e) {}
+}
+</dl>
+</body>
+</html>

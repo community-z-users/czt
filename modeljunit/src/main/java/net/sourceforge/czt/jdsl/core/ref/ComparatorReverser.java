@@ -1,0 +1,73 @@
+/*
+  Copyright (c) 1999, 2000 Brown University, Providence, RI
+  
+                            All Rights Reserved
+  
+  Permission to use, copy, modify, and distribute this software and its
+  documentation for any purpose other than its incorporation into a
+  commercial product is hereby granted without fee, provided that the
+  above copyright notice appear in all copies and that both that
+  copyright notice and this permission notice appear in supporting
+  documentation, and that the name of Brown University not be used in
+  advertising or publicity pertaining to distribution of the software
+  without specific, written prior permission.
+  
+  BROWN UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+  SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+  FITNESS FOR ANY PARTICULAR PURPOSE.  IN NO EVENT SHALL BROWN
+  UNIVERSITY BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+  DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+  PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+  PERFORMANCE OF THIS SOFTWARE.
+*/
+
+package net.sourceforge.czt.jdsl.core.ref;
+
+import net.sourceforge.czt.jdsl.core.api.Comparator;
+
+
+
+/**
+ * Takes a <code>Comparator</code> and reverses the
+ * ordering with respect to which the elements are compared.
+ *
+ * @author Don Blaheta (dpb)
+ * @author Luca Vismara (lv)
+ * @version JDSL 2.1.1 
+ */
+public class ComparatorReverser extends AbstractComparator
+  implements Comparator {
+
+  // instance variables
+  
+  private Comparator cmp_;
+
+
+  // constructors
+  
+  /**
+   * @param cmp The comparator to be reversed.
+   */
+  public ComparatorReverser (Comparator cmp) {
+    cmp_ = cmp;
+  }
+
+
+  // instance methods from net.sourceforge.czt.jdsl.core.api.Comparator
+
+  /**
+   * @return the negation of a <code>compare(Object,Object)</code>
+   * call to the slave comparator; so if the other comparator
+   * guarantees some number with an absolute value greater than one,
+   * that value will be preserved
+   */
+  public int compare (Object a, Object b) {
+    return -cmp_.compare(a,b);
+  }
+  
+  public boolean isComparable (Object obj) {
+    return cmp_.isComparable(obj);
+  }
+
+}

@@ -1,0 +1,156 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 1</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<!-- JDSLHEADER -->
+
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+
+<!-- JDSLMAIN -->
+
+<p>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson02/lesson02.html">Next Lesson</a>
+<hr>
+<center><font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 1: Echo</b></font>
+</center>
+
+<br>This simple program introduces programming with the JDSL.&nbsp;
+The program reads a <tt>String</tt>, parses the <tt>String</tt> into words,
+stores the words in a&nbsp; <tt>Sequence,</tt> and outputs the words.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/Container.html">Container</A></li>
+
+<li>
+<A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></li>
+
+<li>
+Rank</li>
+
+<li>
+Iterator</li>
+</ul>
+
+<hr>The entire <tt>Echo.java</tt> file can be viewed by clicking <a href="Echo.java.html">here.</a>
+<br>This is a Java application.&nbsp; The <tt>main</tt> method is in the
+<tt>Echo</tt> class.
+<br>
+<hr>
+<p>The JDSL consists of classes and interfaces for managing and manipulating
+<tt>Container</tt>s.&nbsp;
+A <tt><A HREF="../../doc/jdsl/core/api/Container.html">Container</A></tt> object is simply an object that manages access to
+other objects.&nbsp; You are familiar with <tt>Container</tt>s if you work
+with arrays or the Java collections.&nbsp; The JDSL contains a rich variety
+of <tt>Container</tt> types and algorithms on these <tt>Container</tt>s
+<p>In this lesson, we introduce the JDSL by studying a simple program that
+uses a <tt>Sequence</tt>.&nbsp; A <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt> is a <tt>Container</tt>
+where the elements are stored in a linear order.&nbsp; Each element has
+a <i>rank</i>, or an index in the <tt>Sequence</tt>.&nbsp;&nbsp;&nbsp;
+Other libraries refer to <tt>Sequence</tt>s as
+<i>lists</i>.
+<p>Let's look in detail at some important parts of the definition of the
+Echo class:
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">import</font> jdsl.core.api.*;
+&nbsp;&nbsp;&nbsp; <font color="#FF8000">import</font> jdsl.core.ref.*;</tt></pre>
+We use classes and interfaces from these two packages. The package <tt> <A HREF="../../doc/jdsl/core/api/package-summary.html">jdsl.core.api</A></tt>
+contains the interfaces for the fundamental JDSL <tt>Container</tt>s, including
+<tt>jdsl.core.api.Sequence</tt>
+that we are using here. The package <tt> <A HREF="../../doc/jdsl/core/api/package-summary.html">jdsl.core.ref</A></tt> contains reference
+implementations for the associated
+<tt>Sequence</tt>s in <tt>jdsl.core.api</tt>.
+For example, <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt> is implemented by two classes: <tt><A HREF="../../doc/jdsl/core/ref/NodeSequence.html">NodeSequence</A></tt>
+that uses a linked list to store the elements and <tt><A HREF="../../doc/jdsl/core/ref/ArraySequence.html">ArraySequence</A></tt>
+that we use here that uses an array to store the elements.
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">private </font>Sequence <font color="#0000FF">getWords</font>(<font color="#8000A0">String</font> s) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Sequence </font>ret = <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">ArraySequence</font>();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">StringTokenizer </font>st = <font color="#FF8000">new</font><font color="#8000A0"> </font><font color="#0000FF">StringTokenizer</font>(s);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">while</font><font color="#0000FF"> </font>(st.<font color="#0000FF">hasMoreTokens</font>()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret.<font color="#0000FF">insertLast</font>(st.<font color="#0000FF">nextToken</font>());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">return</font><font color="#8000A0"> </font>ret;
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+This method is called when the user enters a <tt>String</tt>.&nbsp; The
+goal is to return a <tt>Sequence</tt> containing the words of the <tt>String</tt>.&nbsp;
+java.util.<tt>StringTokenizer</tt> is a Java class that provides methods
+to break strings into tokens.&nbsp; In this method, the
+<tt>StringTokenizer</tt>
+object does the parsing.&nbsp; The key line of code here is the call to
+the <tt>insertLast()</tt> method.&nbsp; This method inserts an object at
+the end of the <tt>Sequence</tt>.&nbsp; The
+<tt>Sequence</tt> interface
+also defines methods for insertion at the beginning (<tt>InsertFirst()</tt>),
+at a specific rank (<tt>InsertAtRank()</tt>), and after another element
+(<tt>InsertAfter(</tt>)).
+<p>For this class, it does not matter which <tt>Sequence</tt> implementation
+of we choose. When the JDSL offers a choice of implementations, you should
+choose the implementation that is most appropriate for your application.
+For example, insertions and deletions on a <tt>NodeSequence</tt> can be
+performed in constant time, while random element access takes worst-case
+linear time. For an <tt>ArraySequence</tt>, insertions and deletions takes
+worst-case linear time, while random element access can be performed in
+constant time. For a complete discussion see the <a href="http://ww3.java2.datastructures.net/">textbook</a>.
+<pre><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">private String</font> <font color="#0000FF">concatenate</font>(Sequence s) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">String </font>ret = <font color="#008000">""</font>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">for</font>(ObjectIterator i=s.<font color="#0000FF">elements</font>();i.<font color="#0000FF">hasNext</font>();)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret +=<font color="#0000FF"> </font>(i.<font color="#0000FF">nextObject</font>() + <font color="#008000">" "</font>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">return</font><font color="#8000A0"> </font>ret;
+&nbsp;&nbsp;&nbsp; }</tt></pre>
+This method is called to create the output <tt>String</tt>.&nbsp; The idea
+is to iterate through the <tt>Sequence</tt>, concatenating the words to
+the returned
+<tt>String</tt>.&nbsp; Each <tt>Container</tt> has an <tt>elements()</tt>
+method that returns an <tt><A HREF="../../doc/jdsl/core/api/ObjectIterator.html">ObjectIterator</A></tt> object for stepping through
+the elements.&nbsp; Here, we use two methods from the <tt>ObjectIterator</tt>
+interface.&nbsp; The <tt>hasNext()</tt> method returns a
+<tt>boolean</tt>
+indicating if there are unvisited <tt>Object</tt>s to return.&nbsp; The
+<tt>nextObject()</tt>
+method returns the next <tt>Object</tt> in the iteration.
+<p><tt>Iterator</tt>s in the JDSL are implemented as <i>Snapshot Iterators</i>,
+that is, when you ask for an <tt>Iterator</tt>, the elements of the <tt>Container</tt>
+are copied to prepare the <tt>Iterator</tt>.&nbsp; Changes to the <tt>Container</tt>
+during iteration will not be reflected by the <tt>Iterator</tt>.&nbsp;
+This is a JDSL design decision that differs from the <tt>java.util.Iterator</tt>
+iterator, where changes to the associated <tt>Collection</tt> invalidates
+the <tt>Iterator</tt> so an exception is thrown on subsequent method calls
+to the <tt>Iterator</tt>.
+<p>We will continue to work with <tt>Sequence</tt>s in the next lesson,
+by looking at other <tt>Sequence</tt> methods, algorithm objects and sorting.
+<p>
+
+<hr>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson02/lesson02.html">Next Lesson</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a>
+</address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Mon Sep 27 13:37:09 CEST 2004
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

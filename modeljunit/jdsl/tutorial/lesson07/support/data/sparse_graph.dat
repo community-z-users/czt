@@ -1,0 +1,25 @@
+#Airport/City information - USA
+#Compiled and commented by sln
+#
+#Fields:
+# 3 - Airport abbreviation
+# 1 - <padding>
+# 5 - Time Zone (offset from GMT)
+# 1 - <padding>
+# 3 - X coordinate on map
+# 1 - <padding>
+# 3 - Y coordinate on map
+# 1 - <padding>
+# remainder - Name of City/Airport
+#
+#
+ABQ -0800 195 275 Albuquerque, New Mexico
+DEN -0800 215 205 Denver, Colorado
+LAX -0900  55 270 Los Angeles, California
+JFK -0600 565 130 New York (Kennedy)
+ORD -0700 410 155 Chicago, Illinois
+SFO -0900  10 190 San Francisco, California
+MIA -0600 535 390 Miami, Florida  
+MSY -0700 405 345 New Orleans, Louisiana
+ATL -0600 470 280 Atlanta, Georgia
+HOU -0700 330 355 Houston, Texas(Hobby)

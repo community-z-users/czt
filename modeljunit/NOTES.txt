@@ -1,0 +1,150 @@
+TODO:
+* implement a visualizer?  [DONE output of graph in 'dot' format]
+  Perhaps using JGraph (http://www.jgraph.com) or 
+  GINY (http://csbi.sourceforge.net) or some other Java graphics package.
+  See http://manageability.org/blog/stuff/open-source-graph-network-visualization-in-java
+
+
+Log of Design and Implementation Changes
+========================================
+14Dec05: First version as subclass of junit TestCase.  Loads FSM.class
+21Dec05: Moved boolean testing parameter from transitions into just init().
+24Dec05: Added coverage listeners.  Renamed @transition to @Action.
+03Jan06: Implemented graph builder (with random seed).
+04Jan06: Made CoverageHistory into a separate wrapper class.
+04Jan06: Non-resetable FSMs make buildGraph loop.  So added random init().
+	     Same in fsmRandomWalk -- this increased coverage slightly.
+04Jan06: Added State coverage and Transition coverage.
+05Jan06: Added Transition-Pair coverage.
+11Jan06: Added fsmSaveGraph to write out the graph in DOT format.
+24Jan06: Added FsmModel interface.  Renamed init() to reset().
+08Feb06: Refactored to be independent of JUnit.  Most methods are non-static.
+09Feb06: Changed buildGraph to be incremental in the background.
+             Added fsmDone bitset as well as fsmTodo bitset.
+
+
+Experiences using ModelJUnit to test ZLive FlatPred subclasses
+==============================================================
+Initially, all testing was done on the FlatMult subclass of FlatPred.
+
+Wed 21 Dec 2005: 1/2 day
+----------------
+Designed and implemented FlatPredModel with 5 states and 6 actions.  
+Adaptor error: after adding to env_, forgot to save the result.
+
+
+Sat 24 Dec 2005: 1 hour
+----------------
+[Plus about 4 hours on the ModelJUnit classes, implementing Action coverage]
+Model: Split the chooseModeIII into lots of modes.
+Adaptor error: forgot to use new env after evaluation.
+      env_ = pred_.getEnvir();
+It takes about 50 random steps to reach 100% Action coverage.
+
+
+
+Sat 24 Dec 2005: 2 more hours (about 1/2 hour writing model, rest debugging).
+----------------
+Split the startEval into 1 good-value and 3 bad-value transitions.
+Adaptor error: quite difficult to find (about 1 hour+).
+  startEval was assigning the output env to be the current one,
+  but in fact, the FlatPred was still using the original input env.
+  So this caused the *next* startEval operation to fail one of its
+  checks.
+
+IUT error!: with inputs x=2, z=5, there is no solution for y,
+  but FlatMult returns true (with y=3 I guess).
+  This had not been found with the manually scripted JUnit tests.
+
+After that was fixed, I got an x=0 exception, which is correct, but was
+not expect by the test adaptor/model.  After trying some other bad
+combinations, it became apparent that bad values can have solutions
+when non-III modes are used!  The model needs to be parameterized
+in some different way!
+
+Model now has 13 Actions and it takes a bit over 200 steps
+to reach 100% coverage.
+
+
+Mon 2 Jan 2006:  2 more hours generalising model.
+----------------
+Model: now takes 2 Eval data objects, parameters for the eval1/eval2 actions.
+Adaptor error: minor adaptor/oracle bug -- checked wrong envir in chooseMode.
+Model now has 11 actions and about 14 states.
+It takes 43 steps to reach 100% action coverage.
+
+
+Wed 4 Jan 2006:  a few minutes fixing the model bug.
+---------------
+Model error: noticed a bug in FlatPredModel while looking at BuildGraph 
+  output -- this illustrates the benefit of being able to 'see' the graph.
+  It had NoModeIII, NoModeIOI... states, as well as the expected NoMode.
+  (I had not realised that newMode needed to set mode_ and env_ to null).
+  This meant that NoMode was only reachable from init.
+  This non-resetable loop made fsmBuildGraph loop infinitely, and
+  exposed the need for a random init.  Adding the random init to
+  fsmRandomWalk also increased transition coverage from 61 to 65 (the max).
+Before the FlatPredModel bug was fixed, the model had:
+  11 actions, 19 states, 65 transitions.  
+  Took 6 inits and 145 transitions to build the graph.
+After the model was corrected, it had:
+  11 actions, 14 states, 40 transitions.
+  Took 8 inits and 115 transitions to build the graph.
+
+
+Thu 5 Jan 2006:
+---------------
+Added several coverage metrics:  See graphs in MBT book.
+It now takes a random walk 86/104/299/1211 transitions to achieve 100%
+Action/State/Transition/Transition-Pair coverage.
+
+
+Fri 6 Jan 2006: 15 mins to reuse model for FlatMu testing.
+---------------
+
+
+Sat 7 Jan 2006: 1 hour to generalise model in two ways.
+---------------
+(plus about 7 hours writing and debugging FlatMu implementation).
+IUT error in FlatMu.nextEvaluation() (in the third transition)
+  -- missing call to schText.startEvaluation().  This triggered an assert
+  in FlatMult, which immediately suggested the problem.
+Model: changed FlatPredModel so that Eval data can specify that it should give
+  UndefException.  This took about 10 minutes, including the adaptor code.
+IUT error in FlatMu.nextEval (still in third transition)
+  -- it needed to lookup the result in the INNER schema environment, 
+  then add/check it into the outer FlatMu env.
+  Took about 30 mins to find this, by adding more detailed logging
+  messages into FlatPredList.
+Model error -- assumes that mode IOI should work, but it should not
+  for FlatMu.
+Model: Added validModes parameter to FlatPredModel, so that the chooseModeXXX
+  actions have accurate verdicts.  (About 30-40 mins).
+All tests pass!  (For FlatMult and FlatMu).
+Added several more FlatMu scenarios -- after some parsing problems
+and debugging of the FlatMu and Flatten implementation, these passed.
+IUT error: FlatMu mode III does not work correctly -- removed from tests
+  temporarily because it is difficult to fix.
+
+
+Wed 26 Jan 2006: 1/2 hour
+---------------
+Refactored FlatPredModel to make it more easily understandable
+and to allow interruption between startEvaluation and nextEvaluation.
+(renamed several states and actions, and split doEval into separate
+actions, startEval and nextEval).  No changes to the test results.
+Measured FlatMult code coverage: 73% branch and 89% stmt, which is
+one branch higher than the manual JUnit tests (68% branch and 89% stmt).
+
+
+
+Fri 3 Feb 2006:
+---------------
+Wrote tests for FlatBinding, using FlatPredModel.
+Took 2.5 hours in total (roughly 40 mins to write test, 30 of which was to construct SUT)
+Found two SUT errors (which led to complete rewrite of nextEvaluation()).
+   1.  Class cast error, due to wrong types in List.
+   2.  Problems with equality between ZDeclNames.
+Found two model parameterization errors
+   1.  Needed to add OOO mode (which is same as "O") in testEmpty.
+   2.  Wrong number of params in "III" string for testEmpty.  Should be "I".

@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text="#000000" bgcolor="#ffffff">
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.graph.api.*;
+<font color=#ff8000>import</font> jdsl.graph.algo.IntegerDijkstraPathfinder;
+<font color=#ff8000>import</font> support.*;
+
+<font color=#ff0080>/**
+ * An extension of the IntegerDijkstraPathfinder class to find
+ * shortest time paths between airports.
+ *
+ * @version JDSL 2
+ */</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>FlightDijkstra <font color=#8000a0><font color=#ff8000>extends</font> </font>IntegerDijkstraPathfinder {
+
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>int</font> startTime_;
+
+  <font color=#ff0080>/** 
+   * Calculates the weight of an edge.  In our case, the weight is the
+   * total time (in minutes) between the time a passenger is scheduled
+   * to arrive at the origin airport and the time the plane is
+   * scheduled to arrive at the destination airport.  Note this is not
+   * realistic, since it doesn't take into account minimum required
+   * layover times.
+   */</font>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> <font color=#0000ff>weight </font>(Edge e) {
+    <font color=#ff0080>// the flightspecs for the flight along Edge e</font>
+    <font color=#8000a0>FlightSpecs </font>eFS =<font color=#0000ff> </font>(FlightSpecs)e.<font color=#0000ff>element</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>connectingTime = TimeTable.<font color=#0000ff>diff</font>(eFS.<font color=#0000ff>departureTime</font>(), startTime_ + <font color=#0000ff>distance</font>(g_.<font color=#0000ff>origin</font>(e)));
+    <font color=#8000a0><font color=#ff8000>return</font> </font>connectingTime + eFS.<font color=#0000ff>flightDuration</font>();
+  }
+
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>execute</font>(InspectableGraph g, <font color=#8000a0>Vertex </font>source, <font color=#8000a0>Vertex </font>dest, <font color=#8000a0><font color=#8000a0>int</font> </font>startTime) <font color=#8000a0><font color=#ff8000>throws</font> </font>InvalidVertexException {
+    startTime_ = startTime;
+    <font color=#ff8000>super</font>.<font color=#0000ff>execute</font>(g,source,dest);
+  }
+
+  <font color = #ff0080>/* ************************************ */</font> 
+  <font color = #ff0080>/* Members not described in the lesson. */</font>
+  <font color = #ff0080>/* ************************************ */</font> 
+    
+  <font color=#8000a0><font color=#8000a0>protected</font> </font>EdgeIterator <font color=#0000ff>incidentEdges </font>(Vertex v) {
+    <font color=#8000a0><font color=#ff8000>return</font> </font>g_.<font color=#0000ff>incidentEdges</font>(v,EdgeDirection.OUT);
+  }
+
+} 
+</dl>
+</body>
+</html>

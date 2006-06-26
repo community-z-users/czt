@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff0080>/**
+ * A bid. 
+ *
+ * @author Robert Cohen (rfc)
+ * @version JDSL 2
+ */</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>Bid {
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>String</font> name;
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>double</font> amount;
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>Bid</font>(<font color=#8000a0>String</font> name, <font color=#8000a0><font color=#8000a0>double</font> </font>amount) {
+    <font color=#ff8000>this</font>.name = name;
+    <font color=#ff8000>this</font>.amount = amount;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>setAmount</font>(<font color=#8000a0>double</font> amount) {
+    <font color=#ff8000>this</font>.amount = amount;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>double</font> <font color=#0000ff>amount</font>() {
+    <font color=#8000a0><font color=#ff8000>return</font> </font>amount;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>String</font> <font color=#0000ff>name</font>() {
+    <font color=#8000a0><font color=#ff8000>return</font> </font>name;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>String</font> <font color=#0000ff>toString</font>() {
+    <font color=#8000a0><font color=#ff8000>return</font> </font>name + <font color=#008000>" bids "</font> + amount;
+  }
+}
+
+</dl>
+</body>
+</html>
