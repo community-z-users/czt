@@ -220,7 +220,7 @@ public class ModelTest extends TestCase
   {
     System.out.println("Starting testStateCoverage");
     FsmCoverage(new StateCoverage(), 3, 
-        new int[] {1,2, 2,3, 20,3});
+        new int[] {1,1, 2,2, 3,3, 20,3});
   }
 
   /** This test is a bit dependent on the path of the random walk.
@@ -240,6 +240,6 @@ public class ModelTest extends TestCase
   {
     System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10, 
-        new int[] {1,0, 2,1, 3,2, 100,10, 200,10});
+        new int[] {1,0, 2,1, 3,2, 200,10});
   }
 }

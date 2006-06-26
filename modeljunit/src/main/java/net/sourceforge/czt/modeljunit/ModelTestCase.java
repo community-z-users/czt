@@ -83,7 +83,7 @@ public class ModelTestCase
 
   public static final int PATHLEN = 20;
   
-  public static final Random FIXEDSEED = new Random(123456789L);
+  public static final long FIXEDSEED = 123456789L;
   
   /** Constructs an FSM model from the given FsmModel object.
    * @param model
@@ -465,7 +465,7 @@ public class ModelTestCase
   /** Equivalent to buildGraph(FIXEDSEED). */
   public void buildGraph()
   {
-    buildGraph(FIXEDSEED);
+    buildGraph(new Random(FIXEDSEED));
   }
 
   /** Saves the FSM graph into the given file, in DOT format.
@@ -623,7 +623,7 @@ public class ModelTestCase
     int nTrans = getNumActions();
     BitSet tried = new BitSet(nTrans);
     int index = rand.nextInt(nTrans);
-    //System.out.println("random choice is "+index);
+    //System.out.println("random choice is "+index+" out of "+nTrans);
     while (tried.cardinality() < nTrans) {
       while (tried.get(index)) {
         index = rand.nextInt(nTrans);
@@ -654,7 +654,7 @@ public class ModelTestCase
   //@requires 0 <= length;
   public void randomWalk(int length)
   {
-    randomWalk(length, FIXEDSEED);
+    randomWalk(length, new Random(FIXEDSEED));
   }
 
 
