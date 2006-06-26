@@ -3,7 +3,7 @@
   <property name="unix.settings.file" location="bin/settings.sh"/>
   <property name="windows.settings.file" location="bin/settings.bat"/>
   <available
-    file="${basedir}/devtools/cup-tum/build.xml"
+    file="${basedir}/java_cup/build.xml"
     property="java_cup.present"/>
   <available
     file="${basedir}/devtools/ant/build.xml"
@@ -139,7 +139,7 @@
 
   <target name="install-java_cup" if="java_cup.present"
     description="install java_cup">
-    <ant dir="devtools/cup-tum" target="install"/>
+    <ant dir="java_cup" target="install"/>
   </target>
 
   <target name="install-util" description="install util">
@@ -540,11 +540,6 @@ set TYPECHECKER=${typechecker.win}
       daysinpast="10"/>
   </target>
 
-  <target name="checkstyle" description="check java sources">
-    <ant dir="corejava" target="checkstyle"/>
-    <ant dir="parser" target="checkstyle"/>
-  </target>
-
   <target name="clean" description="clean up subprojects"
     depends="clean-gnast, clean-util, clean-jaxb, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
     <delete dir="${jar.dir}"/>
@@ -589,7 +584,7 @@ set TYPECHECKER=${typechecker.win}
 
   <target name="clean-java_cup" if="java_cup.present"
     description="clean up ant task">
-    <ant dir="devtools/cup-tum" target="clean"/>
+    <ant dir="java_cup" target="clean"/>
   </target>
 
   <target name="clean-gaffe" if="gaffe.present"

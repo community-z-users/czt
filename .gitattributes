@@ -1039,7 +1039,6 @@ corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/SequentVisitor.java -te
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/TypeProvisoVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/ZpattVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/package.html -text
-devtools/.project -text
 fonts/CZTSans.ttf -text
 java_cup/pom.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
@@ -2304,6 +2303,7 @@ parser/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.java -te
 parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
+parser/src/main/xsl/template2text.xsl -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
 rules/COPYING.txt -text

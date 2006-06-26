@@ -348,19 +348,6 @@
     </junitreport>
   </target>
 
-   <target name="checkstyle" description="check java sources">
-    <taskdef resource="checkstyletask.properties"
-      classpath="${checkstyle.jar}"/>
-    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <fileset dir="${corejava.src.dir}">
-        <include name="net/**/*.java"/>
-        <exclude name="**/gen/**"/>
-      </fileset>
-      <fileset dir="${test.src.dir}"/>
-      <formatter type="plain"/>
-    </checkstyle>
-  </target>
-
   <target name="clean"
           description="clean up">
     <delete dir="${corejava.build.dir}"/>

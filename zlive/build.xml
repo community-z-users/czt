@@ -171,15 +171,6 @@
     </clover-report>
   </target>
 
-  <target name="checkstyle" description="check java sources">
-    <taskdef resource="checkstyletask.properties"
-      classpath="${checkstyle.jar}"/>
-    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <fileset dir="${zlive.src.dir}"/>
-      <formatter type="plain"/>
-    </checkstyle>
-  </target>
-
   <target name="clean"
           description="clean up">
     <delete dir="${zlive.build.dir}"/>

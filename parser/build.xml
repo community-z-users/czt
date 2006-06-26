@@ -5,6 +5,7 @@
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
   <property name="src.dir" location="src/main/java"/>
+  <property name="xsl.dir" location="src/main/xsl"/>
   <property name="templates.dir" location="templates"/>
   <property name="build.dir" location="build"/>
   <property name="build.class.dir" location="${build.dir}/classes"/>
@@ -97,7 +98,7 @@
     <xslt
       in="templates/Unicode2Latex.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2Latex.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Unicode2Latex"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{z}"/>
@@ -108,7 +109,7 @@
     <xslt
       in="templates/Unicode2Latex.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/Unicode2OldLatex.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Unicode2OldLatex"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{oldz}"/>
@@ -119,7 +120,7 @@
     <xslt
       in="templates/Unicode2Latex.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/circus/Unicode2Latex.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Unicode2Latex"/>
       <param name="package" expression="net.sourceforge.czt.print.circus"/>
       <param name="add" expression="{z}{circus}"/>
@@ -130,7 +131,7 @@
     <xslt
       in="templates/Unicode2Latex.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/oz/Unicode2Latex.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Unicode2Latex"/>
       <param name="package" expression="net.sourceforge.czt.print.oz"/>
       <param name="add" expression="{z}{oz}"/>
@@ -268,7 +269,7 @@
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{print}"/>
@@ -279,7 +280,7 @@
     <xslt
       in="templates/SectHeadScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/SectHeadScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SectHeadScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{z}{print}"/>
@@ -290,7 +291,7 @@
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/oz/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.oz"/>
       <param name="add" expression="{oz}{print}"/>
@@ -301,7 +302,7 @@
     <xslt
       in="templates/SectHeadScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/oz/SectHeadScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SectHeadScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.oz"/>
       <param name="add" expression="{oz}{print}"/>
@@ -312,7 +313,7 @@
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/circus/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.circus"/>
       <param name="add" expression="{circus}{print}"/>
@@ -323,7 +324,7 @@
     <xslt
       in="templates/SectHeadScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/circus/SectHeadScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SectHeadScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.circus"/>
       <param name="add" expression="{circus}{print}"/>
@@ -334,7 +335,7 @@
     <xslt
       in="templates/LatexParser.xml"
       out="${build.src.z.dir}/LatexParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -345,7 +346,7 @@
     <xslt
       in="templates/UnicodeParser.xml"
       out="${build.src.z.dir}/UnicodeParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -356,7 +357,7 @@
     <xslt
       in="templates/LatexParser.xml"
       out="${build.src.zpatt.dir}/LatexParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -367,7 +368,7 @@
     <xslt
       in="templates/UnicodeParser.xml"
       out="${build.src.zpatt.dir}/UnicodeParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -378,7 +379,7 @@
     <xslt
       in="templates/LatexParser.xml"
       out="${build.src.circus.dir}/LatexParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -389,7 +390,7 @@
     <xslt
       in="templates/UnicodeParser.xml"
       out="${build.src.circus.dir}/UnicodeParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -400,7 +401,7 @@
     <xslt
       in="templates/LatexParser.xml"
       out="${build.src.oz.dir}/LatexParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -411,7 +412,7 @@
     <xslt
       in="templates/UnicodeParser.xml"
       out="${build.src.oz.dir}/UnicodeParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{z}"/>
@@ -423,7 +424,7 @@
     <xslt
       in="templates/LatexParser.xml"
       out="${build.src.tcoz.dir}/LatexParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -434,7 +435,7 @@
     <xslt
       in="templates/UnicodeParser.xml"
       out="${build.src.tcoz.dir}/UnicodeParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -445,7 +446,7 @@
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -459,7 +460,7 @@
     <xslt
       in="templates/LatexMarkupParser.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexMarkupParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexMarkupParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -470,7 +471,7 @@
     <xslt
       in="templates/LatexToUnicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexToUnicode.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -481,7 +482,7 @@
     <xslt
       in="templates/LatexScanner.xml"
       out="${build.src.z.dir}/LatexScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -492,7 +493,7 @@
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -506,7 +507,7 @@
     <xslt
       in="templates/LatexMarkupParser.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/LatexMarkupParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexMarkupParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -517,7 +518,7 @@
     <xslt
       in="templates/LatexToUnicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/LatexToUnicode.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -528,7 +529,7 @@
     <xslt
       in="templates/LatexScanner.xml"
       out="${build.src.zpatt.dir}/LatexScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -539,7 +540,7 @@
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -554,7 +555,7 @@
     <xslt
       in="templates/LatexMarkupParser.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/circus/LatexMarkupParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexMarkupParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -565,7 +566,7 @@
     <xslt
       in="templates/LatexToUnicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/circus/LatexToUnicode.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -576,7 +577,7 @@
     <xslt
       in="templates/LatexScanner.xml"
       out="${build.src.circus.dir}/LatexScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -587,7 +588,7 @@
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -601,7 +602,7 @@
     <xslt
       in="templates/LatexMarkupParser.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/oz/LatexMarkupParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexMarkupParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -612,7 +613,7 @@
     <xslt
       in="templates/LatexToUnicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/oz/LatexToUnicode.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -623,7 +624,7 @@
     <xslt
       in="templates/LatexScanner.xml"
       out="${build.src.oz.dir}/LatexScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -635,7 +636,7 @@
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/Latex2Unicode.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz},{tcoz}"/>
@@ -649,7 +650,7 @@
     <xslt
       in="templates/LatexMarkupParser.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/LatexMarkupParser.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexMarkupParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -660,7 +661,7 @@
     <xslt
       in="templates/LatexToUnicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/LatexToUnicode.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -671,7 +672,7 @@
     <xslt
       in="templates/LatexScanner.xml"
       out="${build.src.tcoz.dir}/LatexScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -682,7 +683,7 @@
     <xslt
       in="templates/ParseUtils.xml"
       out="${build.src.z.dir}/ParseUtils.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ParseUtils"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -693,7 +694,7 @@
     <xslt
       in="templates/ParseUtils.xml"
       out="${build.src.zpatt.dir}/ParseUtils.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ParseUtils"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -704,7 +705,7 @@
     <xslt
       in="templates/ParseUtils.xml"
       out="${build.src.circus.dir}/ParseUtils.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ParseUtils"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -715,7 +716,7 @@
     <xslt
       in="templates/ParseUtils.xml"
       out="${build.src.oz.dir}/ParseUtils.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ParseUtils"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -727,7 +728,7 @@
       <xslt
         in="templates/ParseUtils.xml"
         out="${build.src.tcoz.dir}/ParseUtils.java"
-        style="${czt.home}/devtools/template2text.xsl">
+        style="${xsl.dir}/template2text.xsl">
         <param name="class" expression="ParseUtils"/>
         <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
         <param name="add" expression="{tcoz}"/>
@@ -748,7 +749,7 @@
     <xslt
       in="templates/Parser.xml"
       out="${build.src.z.dir}/Parser.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -769,7 +770,7 @@
     <xslt
       in="templates/Parser.xml"
       out="${build.src.zpatt.dir}/Parser.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -800,7 +801,7 @@
     <xslt
       in="templates/Parser.xml"
       out="${build.src.circus.dir}/Parser.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -821,7 +822,7 @@
     <xslt
       in="templates/Parser.xml"
       out="${build.src.oz.dir}/Parser.cup"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz},{ozz}"/>
@@ -843,7 +844,7 @@
       <xslt
         in="templates/Parser.xml"
         out="${build.src.tcoz.dir}/Parser.cup"
-        style="${czt.home}/devtools/template2text.xsl">
+        style="${xsl.dir}/template2text.xsl">
         <param name="class" expression="Parser"/>
         <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
         <param name="add" expression="{oz},{tcoz}"/>
@@ -856,7 +857,7 @@
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.z.dir}/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -864,7 +865,7 @@
     <xslt
       in="templates/OperatorScanner.xml"
       out="${build.src.z.dir}/OperatorScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -872,7 +873,7 @@
     <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.z.dir}/NewlineScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -880,7 +881,7 @@
     <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.z.dir}/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -888,7 +889,7 @@
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.z.dir}/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -904,7 +905,7 @@
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.z.dir}/SmartScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
@@ -917,7 +918,7 @@
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.zpatt.dir}/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -925,7 +926,7 @@
     <xslt
       in="templates/OperatorScanner.xml"
       out="${build.src.zpatt.dir}/OperatorScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -933,7 +934,7 @@
     <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.zpatt.dir}/NewlineScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -941,7 +942,7 @@
     <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.zpatt.dir}/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -949,13 +950,13 @@
     <xslt
       in="templates/SymMap.xml"
       out="${build.src.zpatt.dir}/SymMap.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.zpatt.dir}/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -971,7 +972,7 @@
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.zpatt.dir}/SmartScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
       <param name="add" expression="{zpatt}"/>
@@ -983,7 +984,7 @@
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.circus.dir}/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -991,7 +992,7 @@
     <xslt
       in="templates/OperatorScanner.xml"
       out="${build.src.circus.dir}/OperatorScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -999,7 +1000,7 @@
     <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.circus.dir}/NewlineScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -1007,7 +1008,7 @@
     <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.circus.dir}/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -1015,13 +1016,13 @@
     <xslt
       in="templates/SymMap.xml"
       out="${build.src.circus.dir}/SymMap.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.circus.dir}/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -1037,7 +1038,7 @@
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.circus.dir}/SmartScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{circus}"/>
@@ -1049,7 +1050,7 @@
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.oz.dir}/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1057,7 +1058,7 @@
     <xslt
       in="templates/OperatorScanner.xml"
       out="${build.src.oz.dir}/OperatorScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1065,7 +1066,7 @@
     <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.oz.dir}/NewlineScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1073,7 +1074,7 @@
     <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.oz.dir}/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1081,13 +1082,13 @@
     <xslt
       in="templates/SymMap.xml"
       out="${build.src.oz.dir}/SymMap.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.oz.dir}/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1103,7 +1104,7 @@
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.oz.dir}/SmartScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
@@ -1116,7 +1117,7 @@
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.tcoz.dir}/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{tcoz}"/>
@@ -1124,7 +1125,7 @@
     <xslt
       in="templates/OperatorScanner.xml"
       out="${build.src.tcoz.dir}/OperatorScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz}{tcoz}"/>
@@ -1132,7 +1133,7 @@
     <xslt
       in="templates/NewlineScanner.xml"
       out="${build.src.tcoz.dir}/NewlineScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz}{tcoz}"/>
@@ -1140,7 +1141,7 @@
     <xslt
       in="templates/KeywordScanner.xml"
       out="${build.src.tcoz.dir}/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz},{tcoz}"/>
@@ -1148,13 +1149,13 @@
     <xslt
       in="templates/SymMap.xml"
       out="${build.src.tcoz.dir}/SymMap.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.tcoz.dir}/ContextFreeScanner.jflex"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{oz}{tcoz}"/>
@@ -1170,7 +1171,7 @@
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.tcoz.dir}/SmartScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
+      style="${xsl.dir}/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
       <param name="add" expression="{z},{oz}"/>
@@ -1369,18 +1370,6 @@
         <format type="html"/> 
       </current>         
     </clover-report>
-  </target>
-
-  <target name="checkstyle"
-    description="Checks the Java sources whether they conform to the style guidelines for CZT.">
-    <taskdef resource="checkstyletask.properties"
-      classpath="${checkstyle.jar}"/>
-    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <classpath refid="classpath"/>
-      <fileset dir="${src.dir}"/>
-      <fileset dir="tests/src"/>
-      <formatter type="plain"/>
-    </checkstyle>
   </target>
 
   <target name="clean"
