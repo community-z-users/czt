@@ -19,15 +19,6 @@ doc/papers/ifm/mc.arch.stages.eps -text
 doc/refcard/z/refcard.dvi -text
 doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
-eclipse/icons/sample.gif -text
-eclipse/icons/term_highlight.gif -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/AbstractConversionAction.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2LatexAction.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2OldLatexAction.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2UnicodeAction.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2XMLAction.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
-eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
 fonts/CZTSans.ttf -text
 gnast/pom.xml -text
 gnast/src/vm/AssignmentPairs.java -text

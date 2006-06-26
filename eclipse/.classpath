@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="net/sourceforge/czt/eclipse/editors/AbstractZSourceViewerConfiguration.java|net/sourceforge/czt/eclipse/editors/CustomSourceInformationControl.java|net/sourceforge/czt/eclipse/editors/ZLineBackgroundListener.java|net/sourceforge/czt/eclipse/editors/hover/ZSourceViewerInformationControl.java" kind="src" path="src/main/java"/>
-	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="lib/czt.jar"/>
-	<classpathentry kind="output" path="eclipse_build"/>
-</classpath>
