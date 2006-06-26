@@ -8,7 +8,7 @@
   </parent>
   <artifactId>modeljunit</artifactId>
   <packaging>jar</packaging>
-  <name>czt-modeljunit</name>
+  <name>CZT ModelJUnit</name>
   <description>
     Provides classes testing.
   </description>
@@ -19,18 +19,4 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>**/ModelTest.java</exclude>
-            <exclude>**/QuiDoncTest.java</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
