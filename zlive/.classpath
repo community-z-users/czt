@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="tests/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/rules"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/modeljunit"/>
-	<classpathentry kind="output" path="build"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/modeljunit"/>
+	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>
