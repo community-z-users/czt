@@ -3,9 +3,6 @@ bin/settings.sh
 corejava/doc
 fonts/fonts.dir
 fonts/fonts.scale
-gaffe/classes
-gaffe/generator/classes
-gaffe/resources/net/sourceforge/czt/animation/gui/GPL.txt
 gnast/src/xsd/*.xsd
 parser/doc/*.html
 parser/doc/*.pdf

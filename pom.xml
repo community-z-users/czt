@@ -55,7 +55,6 @@
     <module>typechecker</module>
     <module>rules</module>
     <module>zlive</module>
-    <module>gaffe</module>
     <module>modeljunit</module>
   </modules>
   <dependencyManagement>
