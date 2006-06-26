@@ -1043,14 +1043,6 @@ corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/ZpattVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/package.html -text
 devtools/.classpath -text
 devtools/.project -text
-doc/architecture.pdf -text
-doc/architecture.sxd -text
-doc/eclipse-projects.zip -text
-doc/papers/ifm/Typecheckers.zuml -text
-doc/papers/ifm/mc.arch.stages.eps -text
-doc/refcard/z/refcard.dvi -text
-doc/refcard/z/refcard.p1.latb -text
-doc/refcard/z/refcard.p2.latb -text
 fonts/CZTSans.ttf -text
 jaxb/.classpath -text
 jaxb/.project -text
