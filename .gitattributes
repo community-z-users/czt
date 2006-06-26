@@ -1,7 +1,6 @@
 * text=auto !eol
 /COPYING.txt -text
 bin/bsh/parseCircus.bsh -text
-corejava/.project -text
 corejava/pom.xml -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
@@ -1081,7 +1080,6 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/symbol_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
-jaxb/.project -text
 jaxb/COPYING.txt -text
 jaxb/build.xml -text
 jaxb/pom.xml -text
@@ -2262,7 +2260,6 @@ jaxb/src/main/resources/net/sourceforge/czt/tcoz/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/net/sourceforge/czt/z/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/net/sourceforge/czt/zpatt/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/org/w3/_2001/xmlschema/jaxb.properties -text
-jedit/.project -text
 jedit/ZCharMap/CircusTable.xml -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
@@ -2282,7 +2279,6 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
-parser/.project -text
 parser/COPYING.txt -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
@@ -2310,18 +2306,14 @@ parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 /pom.xml -text
-rules/.project -text
 rules/COPYING.txt -text
 rules/pom.xml -text
-session/.project -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
-typechecker/.project -text
 typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
-util/.project -text
 util/COPYING.txt -text
 util/build.xml -text
 util/pom.xml -text
@@ -2336,7 +2328,6 @@ web/src/resources/images/jedit_unicode_example.png svneol=native#unset
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
-zlive/.project -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/pom.xml -text
