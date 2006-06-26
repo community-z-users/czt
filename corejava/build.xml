@@ -5,11 +5,9 @@
   <property name="util.jar" location="${corejava.jar.dir}/${util.jar.file}"/>
   <property name="jaxb.jar" location="${corejava.jar.dir}/${jaxb.jar.file}"/>
   <property name="corejava.src.dir" location="src/main/java"/>
-  <property name="corejava.src.xsl" location="xsl"/>
   <property name="test.src.dir" location="src/test/java"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.build.xsd" location="${corejava.build.dir}/xsd"/>
-  <property name="corejava.build.src" location="${corejava.build.dir}/src"/>
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
   <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
   <property name="corejava.build.tcoz" location="${corejava.build.dir}/tcoz"/>
@@ -27,26 +25,6 @@
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>  
   <property name="corejava.api.src.jar.file" location="${corejava.jar.dir}/doc-corejava.jar"/>  
-  <property name="src.xsl" location="../gnast/src/xsl"/>
-  <property name="corejava.core.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.core.jar.file}"/>
-  <property name="corejava.oz.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.oz.jar.file}"/>
-  <property name="corejava.tcoz.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.tcoz.jar.file}"/>
-  <property name="corejava.zpatt.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.zpatt.jar.file}"/>
-  <property name="corejava.jaxb.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.jaxb.jar.file}"/> 
-  <property name="corejava.circus.src.jar"
-    location="${corejava.jar.dir}/src-${corejava.circus.jar.file}"/>
-  <uptodate property="ast.uptodate"
-    targetfile="${corejava.build.src}/net/sourceforge/czt/z/util/Factory.java">
-    <srcfiles dir= "${czt.home}/zml" includes="*.xsd"/>
-  </uptodate>
-  <available
-    file="../gnast/build.xml"
-    property="gnast.present"/>
 
   <path id="classpath">
     <pathelement location="${util.jar}"/>
@@ -64,13 +42,12 @@
   <target name="init">
     <tstamp/>
     <mkdir dir="${corejava.build.dir}"/>
-    <mkdir dir="${corejava.build.src}"/>
     <mkdir dir="${corejava.build.xsd}"/>
     <mkdir dir="${test.build.classes}"/>
   </target>
 
   <target name="install"
-    depends="install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb, src-jar"
+    depends="install-core,install-oz,install-tcoz,install-zpatt,install-circus,install-jaxb"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
@@ -78,20 +55,6 @@
   <target name="compile"
     depends="compile-core,compile-oz,compile-zpatt,compile-circus,compile-jaxb"
     description="compile the source code"/>
-
-  <!-- build source files -->
-
-  <target name="build-src"
-    depends="zchar, zstring, gen"/>
-
-  <target name="gen" if="gnast.present"
-    depends="gen-ast"/>
-
-  <target name="gen-ast" depends="init"
-    unless="ast.uptodate" if="gnast.present"
-    description="Generate AST classes and interfaces">
-    <ant dir="../gnast" target="generate"/>
-  </target>
 
   <!-- core (standard Z) -->
 
@@ -104,11 +67,11 @@
   </target>
 
   <target name="compile-core"
-          depends="init, build-src"
+          depends="init"
           description="compile the core (standard Z) source code">
     <mkdir dir="${corejava.build.core}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.core}"
       includes="net/sourceforge/czt/z/**"
       excludes="net/sourceforge/czt/z/jaxb/**"
@@ -122,20 +85,6 @@
     </javac>
   </target>
 
-  <target name="zchar">
-    <xslt
-      in="${czt.home}/devtools/zchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/z/util/ZChar.java"
-      style="${corejava.src.xsl}/zchar2class.xsl"/>
-  </target>
-
-  <target name="zstring">
-    <xslt
-      in="${czt.home}/devtools/zchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/z/util/ZString.java"
-      style="${corejava.src.xsl}/zchar2stringclass.xsl"/>
-  </target>
-
   <!-- Object Z -->
 
   <target name="install-oz" depends="compile-oz"
@@ -147,11 +96,11 @@
   </target>
 
   <target name="compile-oz"
-          depends="init, compile-core, ozchar, ozstring"
+          depends="init, compile-core"
           description="compile the Object Z source code">
     <mkdir dir="${corejava.build.oz}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.oz}"
       includes="net/sourceforge/czt/oz/**"
       excludes="net/sourceforge/czt/oz/jaxb/**"
@@ -166,34 +115,6 @@
     </javac>
   </target>
 
-  <target name="zpattchar">
-    <xslt
-      in="${czt.home}/devtools/zpattchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
-      style="${corejava.src.xsl}/zpattchar2class.xsl"/>
-  </target>
-
-  <target name="zpattstring">
-    <xslt
-      in="${czt.home}/devtools/zpattchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/zpatt/util/ZPattString.java"
-      style="${corejava.src.xsl}/zpattchar2stringclass.xsl"/>
-  </target>
-
-  <target name="ozchar">
-    <xslt
-      in="${czt.home}/devtools/ozchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/oz/util/OzChar.java"
-      style="${corejava.src.xsl}/ozchar2class.xsl"/>
-  </target>
-
-  <target name="ozstring">
-    <xslt
-      in="${czt.home}/devtools/ozchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/oz/util/OzString.java"
-      style="${corejava.src.xsl}/ozchar2stringclass.xsl"/>
-  </target>
-
   <!-- TCOZ -->
 
   <target name="install-tcoz" depends="compile-tcoz"
@@ -205,12 +126,11 @@
   </target>
 
   <target name="compile-tcoz"
-    depends="init, compile-core, compile-oz,
-             tcozchar, tcozstring"
+    depends="init, compile-core, compile-oz"
     description="compile the Object Z source code">
     <mkdir dir="${corejava.build.tcoz}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.tcoz}"
       includes="net/sourceforge/czt/tcoz/**"
       excludes="net/sourceforge/czt/tcoz/jaxb/**"
@@ -226,20 +146,6 @@
     </javac>
   </target>
 
-  <target name="tcozchar">
-    <xslt
-      in="${czt.home}/devtools/tcozchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/tcoz/util/TcozChar.java"
-      style="${corejava.src.xsl}/tcozchar2class.xsl"/>
-  </target>
-
-  <target name="tcozstring">
-    <xslt
-      in="${czt.home}/devtools/tcozchar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/tcoz/util/TcozString.java"
-      style="${corejava.src.xsl}/tcozchar2stringclass.xsl"/>
-  </target>
-
   <!-- Z pattern support -->
 
   <target name="install-zpatt" depends="compile-zpatt"
@@ -251,11 +157,11 @@
   </target>
 
   <target name="compile-zpatt"
-          depends="init, compile-core, zpattchar, zpattstring"
+          depends="init, compile-core"
           description="compile the Z pattern source code">
     <mkdir dir="${corejava.build.zpatt}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.zpatt}"
       includes="net/sourceforge/czt/zpatt/**"
       excludes="net/sourceforge/czt/zpatt/jaxb/**"
@@ -272,20 +178,6 @@
 
   <!-- Circus support -->
 
-  <target name="circuschar">
-    <xslt
-      in="${czt.home}/devtools/circuschar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/circus/util/CircusChar.java"
-      style="${corejava.src.xsl}/circuschar2class.xsl"/>
-  </target>
-
-  <target name="circusstring">
-    <xslt
-      in="${czt.home}/devtools/circuschar.xml"
-      out="${corejava.build.src}/net/sourceforge/czt/circus/util/CircusString.java"
-      style="${corejava.src.xsl}/circuschar2stringclass.xsl"/>
-  </target>
-
   <target name="install-circus" depends="compile-circus"
           description="generate the Circus jar file" >
     <mkdir dir="${corejava.jar.dir}"/>
@@ -295,11 +187,11 @@
   </target>
 
   <target name="compile-circus"
-          depends="init, compile-core, circuschar, circusstring"
+          depends="init, compile-core"
           description="compile the Circus source code">
     <mkdir dir="${corejava.build.circus}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.circus}"
       includes="net/sourceforge/czt/circus/**"
       excludes="net/sourceforge/czt/circus/jaxb/**"
@@ -325,9 +217,6 @@
       <fileset dir="${corejava.src.dir}">
         <include name="**/*.properties"/>
       </fileset>
-      <fileset dir="${corejava.build.src}">
-        <include name="**/*.properties"/>
-      </fileset>
     </jar>
   </target>
 
@@ -336,7 +225,7 @@
           description="compile the Jaxb source code">
     <mkdir dir="${corejava.build.jaxb}"/>
     <javac
-      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build.jaxb}"
       includes="net/sourceforge/czt/**/jaxb/**,org/**"
       debug="${debug}"
@@ -354,8 +243,7 @@
   <!-- Documentation -->
 
   <target name="api"
-          description="build the API documentation"
-          depends="build-src">
+          description="build the API documentation">
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
       destdir="${corejava.api.dir}"
@@ -363,10 +251,6 @@
       private="true"
       Overview="${corejava.src.dir}/overview.html">
       <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
-        <include name="net/sourceforge/**"/>
-        <exclude name="**/jaxb/gen/**"/>
-      </packageset>
-      <packageset dir="${corejava.build.src}" defaultexcludes="yes">
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
       </packageset>
@@ -482,140 +366,5 @@
     <delete dir="${corejava.build.dir}"/>
     <delete dir="${corejava.api.dir}"/>
     <delete dir="${corejava.api.jaxb.dir}"/>
-    <ant dir="examples/debug" target="clean"/>
-    <ant dir="examples/substitutionVisitor" target="clean"/>
-    <ant dir="examples/object-z" target="clean"/>
-  </target>
-  
-  <target name="clean-class"
-          description="clean up class files only">    
-    <delete dir="${corejava.build.dir}/core"/>    
-    <delete dir="${corejava.build.dir}/oz"/>    
-    <delete dir="${corejava.build.dir}/tcoz"/>    
-    <delete dir="${corejava.build.dir}/circus"/>        
-    <delete dir="${corejava.build.dir}/jaxb"/>    
-  </target>
-  
-  <target name="clean-circus"
-          depends="clean-circus-class-files"  
-          description="clean up">
-    <delete file="${corejava.build.dir}/xsd/Circus.xsd"/>    
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus"/>
-    <delete dir="${corejava.api.dir}/net/sourceforge/czt/circus"/>
-    <delete dir="${corejava.api.jaxb.dir}/net/sourceforge/czt/circus"/>
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus/jaxb"/>        
-    <delete dir="${corejava.build.dir}/jaxb/net/sourceforge/czt/circus"/>        
-  </target>
-
-  <target name="clean-circus-class-files"
-          description="clean up">
-    <delete dir="${corejava.build.dir}/circus"/>    
-    <delete dir="${corejava.build.dir}/jaxb/net/sourceforge/czt/circus"/>
-  </target>
-
-  <target name="clean-jaxb-class-files"
-          description="clean up">
-    <delete dir="${corejava.build.dir}/jaxb"/>        
-  </target>
-  
-  <target name="clean-jaxb" depends="clean-jaxb-class-files"
-          description="clean up">
-    <delete dir="${corejava.build.dir}/jaxb"/>        
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/z/jaxb"/>    
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/oz/jaxb"/>    
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/tcoz/jaxb"/>    
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/circus/jaxb"/>        
-    <delete dir="${corejava.build.dir}/src/net/sourceforge/czt/zpatt/jaxb"/>    
-  </target>
-  <!-- Source jar files -->
-
-  <target name="src-jar"
-    depends="src-core,src-oz,src-tcoz,src-circus,src-zpatt,src-jaxb"
-    description="create the source jar files">
-    <mkdir dir="${corejava.jar.dir}"/>
-  </target>
-  <target name="src-core" depends="compile-core"
-    description="generate the Z jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.core.src.jar}">
-      <fileset dir="${corejava.build.src}">
-        <include name="net/sourceforge/czt/z/**"/>
-        <exclude name="net/sourceforge/czt/z/jaxb/**"/>
-      </fileset>    
-      <fileset dir="${corejava.src.dir}">       
-        <include name="net/sourceforge/czt/z/**"/>
-        <exclude name="net/sourceforge/czt/z/jaxb/**"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="src-oz" depends="compile-oz"
-    description="generate the Object-Z jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.oz.src.jar}">
-      <fileset dir="${corejava.build.dir}/src">
-        <include name="net/sourceforge/czt/oz/**"/>
-        <exclude name="net/sourceforge/czt/oz/jaxb/**"/>
-      </fileset>    
-      <fileset dir="${corejava.src.dir}">       
-        <include name="net/sourceforge/czt/oz/**"/>
-        <exclude name="net/sourceforge/czt/oz/jaxb/**"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="src-tcoz" depends="compile-tcoz"
-    description="generate the TCOZ jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.tcoz.src.jar}">
-      <fileset dir="${corejava.build.dir}/src">
-        <include name="net/sourceforge/czt/tcoz/**"/>
-        <exclude name="net/sourceforge/czt/tcoz/jaxb/**"/>
-      </fileset>    
-      <fileset dir="${corejava.src.dir}">       
-        <include name="net/sourceforge/czt/tcoz/**"/>
-        <exclude name="net/sourceforge/czt/tcoz/jaxb/**"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="src-zpatt" depends="compile-zpatt"
-    description="generate the TCOZ jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.zpatt.src.jar}">
-      <fileset dir="${corejava.build.dir}/src">
-        <include name="net/sourceforge/czt/zpatt/**"/>
-        <exclude name="net/sourceforge/czt/zpatt/jaxb/**"/>
-      </fileset>      
-      <fileset dir="${corejava.src.dir}">       
-        <include name="net/sourceforge/czt/zpatt/**"/>
-        <exclude name="net/sourceforge/czt/zpatt/jaxb/**"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="src-circus" depends="compile-circus"
-    description="generate the Circus jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.circus.src.jar}">
-      <fileset dir="${corejava.build.dir}/src">
-        <include name="net/sourceforge/czt/circus/**"/>
-        <exclude name="net/sourceforge/czt/circus/jaxb/**"/>
-      </fileset>      
-      <fileset dir="${corejava.src.dir}">
-        <include name="net/sourceforge/czt/circus/**"/>
-        <exclude name="net/sourceforge/czt/circus/jaxb/**"/>
-      </fileset>
-    </jar>
-  </target>
-  <target name="src-jaxb" depends="compile-jaxb"
-    description="generate the JAXB jar file with source code" >
-    <mkdir dir="${corejava.jar.dir}"/>
-    <jar jarfile="${corejava.jaxb.src.jar}">
-      <fileset dir="${corejava.src.dir}">       
-        <include name="net/sourceforge/czt/base/jaxb/**"/>
-        <include name="net/sourceforge/czt/z/jaxb/**"/>
-        <include name="net/sourceforge/czt/oz/jaxb/**"/>
-        <include name="net/sourceforge/czt/tcoz/jaxb/**"/>
-        <include name="net/sourceforge/czt/zpatt/jaxb/**"/>
-        <include name="net/sourceforge/czt/circus/jaxb/**"/>
-      </fileset>
-    </jar>
   </target>
 </project>

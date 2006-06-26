@@ -3,7 +3,6 @@ bin/settings.sh
 corejava/doc
 fonts/fonts.dir
 fonts/fonts.scale
-gnast/src/xsd/*.xsd
 parser/doc/*.html
 parser/doc/*.pdf
 parser/doc/api

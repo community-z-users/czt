@@ -52,7 +52,6 @@
     <module>session</module>
     <module>util</module>
     <module>jaxb</module>
-    <module>gnast</module>
     <module>corejava</module>
     <module>parser</module>
     <module>typechecker</module>
@@ -65,19 +64,6 @@
       <!-- ********* -->
       <!-- CZT stuff -->
       <!-- ********* -->
-
-      <!-- CZT GnAST -->
-      <dependency>
-        <groupId>net.sourceforge.czt</groupId>
-        <artifactId>gnast</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>net.sourceforge.czt</groupId>
-        <artifactId>gnast-maven-plugin</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
 
       <!-- CZT Util -->
       <dependency>
