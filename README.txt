@@ -32,7 +32,6 @@ zml/         XML schemas for Z and several Z extensions, with examples
 Here are the dependencies between these projects:
 jaxb         uses:  util
 corejava     uses:  jaxb
-session      uses:  corejava
 parser       uses:  session, devtools (just devtools/cup_tum/build/src folder)
 typechecker  uses:  parser
 rules        uses:  typechecker
