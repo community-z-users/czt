@@ -25,7 +25,7 @@
     <mkdir dir="${jaxb.jar.dir}"/>
     <jar jarfile="${jaxb.jar}">
       <fileset dir="${jaxb.build.classes}"/>
-      <fileset dir="${jaxb.build.classes}">
+      <fileset dir="src/main/resources">
         <include name="**/*.properties"/>
       </fileset>
     </jar>

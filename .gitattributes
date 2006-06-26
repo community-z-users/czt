@@ -1440,7 +1440,6 @@ jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/impl/runtime/ValidationCo
 jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/impl/runtime/ValidatorImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/impl/runtime/XMLSerializable.java -text
 jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/impl/runtime/XMLSerializer.java -text
-jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/jaxb.properties -text
 jaxb/src/main/java/net/sourceforge/czt/circus/jaxb/gen/package.html -text
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/AnonOpExpr.java -text
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/AnonOpExprElement.java -text
@@ -1565,7 +1564,6 @@ jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/impl/StateElementImpl.java -t
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/impl/StateImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/impl/VisibilityListElementImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/impl/VisibilityListImpl.java -text
-jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/jaxb.properties -text
 jaxb/src/main/java/net/sourceforge/czt/oz/jaxb/gen/package.html -text
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/ActuatorExpr.java -text
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/ActuatorExprElement.java -text
@@ -1650,7 +1648,6 @@ jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/impl/WaitProExprElementImpl
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/impl/WaitProExprImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/impl/WaitUntilProExprElementImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/impl/WaitUntilProExprImpl.java -text
-jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/jaxb.properties -text
 jaxb/src/main/java/net/sourceforge/czt/tcoz/jaxb/gen/package.html -text
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/AndExpr.java -text
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/AndPred.java -text
@@ -2113,7 +2110,6 @@ jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/impl/ZSectElementImpl.java -te
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/impl/ZSectImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/impl/ZStrokeListElementImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/impl/ZStrokeListImpl.java -text
-jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/jaxb.properties -text
 jaxb/src/main/java/net/sourceforge/czt/z/jaxb/gen/package.html -text
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/Binding.java -text
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/BindingElement.java -text
@@ -2226,14 +2222,18 @@ jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/impl/SequentElementImpl.ja
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/impl/SequentImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/impl/TypeProvisoElementImpl.java -text
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/impl/TypeProvisoImpl.java -text
-jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/jaxb.properties -text
 jaxb/src/main/java/net/sourceforge/czt/zpatt/jaxb/gen/package.html -text
 jaxb/src/main/java/org/w3/_2001/xmlschema/AnyType.java -text
 jaxb/src/main/java/org/w3/_2001/xmlschema/ObjectFactory.java -text
 jaxb/src/main/java/org/w3/_2001/xmlschema/bgm.ser -text
 jaxb/src/main/java/org/w3/_2001/xmlschema/impl/AnyTypeImpl.java -text
 jaxb/src/main/java/org/w3/_2001/xmlschema/impl/JAXBVersion.java -text
-jaxb/src/main/java/org/w3/_2001/xmlschema/jaxb.properties -text
+jaxb/src/main/resources/net/sourceforge/czt/circus/jaxb/gen/jaxb.properties -text
+jaxb/src/main/resources/net/sourceforge/czt/oz/jaxb/gen/jaxb.properties -text
+jaxb/src/main/resources/net/sourceforge/czt/tcoz/jaxb/gen/jaxb.properties -text
+jaxb/src/main/resources/net/sourceforge/czt/z/jaxb/gen/jaxb.properties -text
+jaxb/src/main/resources/net/sourceforge/czt/zpatt/jaxb/gen/jaxb.properties -text
+jaxb/src/main/resources/org/w3/_2001/xmlschema/jaxb.properties -text
 jedit/.classpath -text
 jedit/.project -text
 jedit/ZCharMap/CircusTable.xml -text
