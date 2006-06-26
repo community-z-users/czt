@@ -75,8 +75,14 @@ Use the following steps to create each project:
    code folders, and will usually choose <PROJECT>/src and
    <PROJECT>/tests/src, but some CZT projects follow the Maven style of
    subdirectories, which uses mostly <PROJECT>/src/main/java and
-   <PROJECT>/src/test/java).  There are quite a few things to set
-   here before you press "Finish":
+   <PROJECT>/src/test/java).  The CZT repository now contains Eclipse
+   .project and .classpath files for most of the projects, so all the
+   settings should be correct already (but see step 2c for some 
+   classpath variables that you will need to set to reflect the
+   locations of various libraries on your system).
+   
+   If you do need to set things up manually, you should
+   check the following things before you press "Finish":
 
 2a. Sometimes the list of source folders suggested by Eclipse
     needs to be modified.  For example:
