@@ -526,9 +526,9 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="test-report">
-    <junitreport todir=".">
+    <junitreport todir="tests">
       <fileset dir=".">
-        <include name="**/TEST-*.xml"/>
+        <include name="**/build/**/TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="tests"/>
     </junitreport>
