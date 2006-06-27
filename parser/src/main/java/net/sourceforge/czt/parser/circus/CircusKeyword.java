@@ -49,6 +49,7 @@ public enum CircusKeyword implements Token {
   PREFIXCOLON(CircusString.PREFIXCOLON),
   CIRCDEF(CircusString.CIRCDEF),  
   CIRCINDEX(CircusString.CIRCINDEX),
+  CIRCREFINES(CircusString.CIRCREFINES),
   CIRCMU(CircusString.CIRCMU),
   CIRCTHEN(CircusString.CIRCTHEN),
   CIRCELSE(CircusString.CIRCELSE),
