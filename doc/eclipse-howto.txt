@@ -71,11 +71,7 @@ Use the following steps to create each project:
    have to enable the "Create project from existing source" option 
    and browse to the appropriate CZT project folder at this stage.)
 
-2. Press Next.  Eclipse will search for source
-   code folders, and will usually choose <PROJECT>/src and
-   <PROJECT>/tests/src, but some CZT projects follow the Maven style of
-   subdirectories, which uses mostly <PROJECT>/src/main/java and
-   <PROJECT>/src/test/java).  The CZT repository now contains Eclipse
+2. Press Next.   The CZT repository now contains Eclipse
    .project and .classpath files for most of the projects, so all the
    settings should be correct already (but see step 2c for some 
    classpath variables that you will need to set to reflect the
@@ -84,7 +80,12 @@ Use the following steps to create each project:
    If you do need to set things up manually, you should
    check the following things before you press "Finish":
 
-2a. Sometimes the list of source folders suggested by Eclipse
+2a. Eclipse will search for source
+    code folders, and will usually choose <PROJECT>/src and
+    <PROJECT>/tests/src, but some CZT projects follow the Maven style of
+    subdirectories, which uses mostly <PROJECT>/src/main/java and
+    <PROJECT>/src/test/java).
+    Sometimes the list of source folders suggested by Eclipse
     needs to be modified.  For example:
 
     corejava project: you should remove the corejava/examples
@@ -92,28 +93,33 @@ Use the following steps to create each project:
 
     devtools project: you should put only
         devtools/cup_tum/build/src into the source folders.
+	(But these will soon be moved into a separate java_cup project).
 
 2c. Set up the dependencies on other CZT projects.
     Click on the Projects tab and Add the CZT projects that this
     project depends upon (see the top-level README.txt).
-    
+
 2c. Some projects will require additional *.jar files.
 
     NOTE: if you are adding several related *.jar files to a 
       project, it is nice to use the "Add Variable" option and 
       define a variable for the folder that contains those *.jar 
       files, then use "Extend..."  to add the actual *.jar files.
-      
+
     For example, I add the following jars to these projects:
-    
+
+    util:      JUNIT_HOME/junit.jar
+
+    session:   JUNIT_HOME/junit.jar
+
     jaxb:      JWSDP_HOME/jaxb/lib/*.jar
                JWSDP_HOME/jwsdp-shared/lib/*.jar
 
-    corejava:  JUNIT_HOME/junit.jar
-
     devtools:  JUNIT_HOME/junit.jar
                ECLIPSE_HOME/plugins/org.apache.ant-1.6.5/lib/ant.jar
-    
+
+    modeljunit: JUNIT_HOME/junit.jar
+
     jedit:     JEDIT_HOME/jars/jedit.jar
                JEDIT_HOME/jars/Console.jar
                JEDIT_HOME/jars/ErrorList.jar
