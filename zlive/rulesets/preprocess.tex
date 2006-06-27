@@ -33,7 +33,7 @@ Declare the jokers used in these rules.
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker}
 \begin{zedjoker}{Pred} P, P1, P2, P3, P4 \end{zedjoker}
-\begin{zedjoker}{Expr} E, E1, E2, E3, E4 \end{zedjoker}
+\begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4 \end{zedjoker}
 
 
@@ -332,8 +332,8 @@ implement $\dcat$ as a ZLive primitive.
 
 \section{Unfolding Schemas}
 
-The first step in the process is to move the predicates into
-the normalised result.
+Standalone schema construction expressions are unfolded
+into sets of bindings.
 
 \begin{zedrule}{Schema}
   [D | true] \unfoldsTo [D1 | P2] \\
@@ -342,6 +342,18 @@ the normalised result.
   [D | P] = \{ D1 | P \land P2 @ E \}
 \end{zedrule}
 
+\begin{zedrule}{ExistsSchema}
+   E1 \unfoldsTo [D1 | P1] \\
+   E2 \unfoldsTo [D2 | P2] \\
+   \proviso [D3|true] == [D2|true] \schemaminus [D1|true] \\
+   \proviso E == binding ~ [D3|true]
+\derives
+   (\exists E1 @ E2) = \{D3 | (\exists D1 | P1 @ P2) @ E\}
+\end{zedrule}
+
+The next few rules implement the $\unfoldsTo$ operator,
+which unfolds and normalizes schema expressions and 
+declaration lists.
 \begin{zedrule}{VarDecl}
    \proviso E : \power E2 \\
    [D1 | true] \unfoldsTo [D2 | P2]
@@ -378,12 +390,16 @@ the normalised result.
    [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
 \end{zedrule}
 
-\begin{zedrule}{ExistsSchema}
-   E1 \unfoldsTo [D1 | P1] \\
-   E2 \unfoldsTo [D2 | P2] \\
-   \proviso [D3|true] == [D2|true] \schemaminus [D1|true] \\
-   \proviso E == binding ~ [D3|true]
+This rule catches the case where we want to start unfolding a
+literal schema construction that is used within another
+schema expression, so we want to return a schema
+(rather than an set comprehension).  It must come after
+all other $\unfoldsTo$ rules so that it does not cause
+infinite recursion.
+where we want to leave it as 
+\begin{zedrule}{Start}
+   [D1 | true] \unfoldsTo [D2 | P2]
 \derives
-   (\exists E1 @ E2) = \{D3 | (\exists D1 | P1 @ P2) @ E\}
+   [D1 | P] \unfoldsTo [D2 | P2 \land P]
 \end{zedrule}
 \end{document}
