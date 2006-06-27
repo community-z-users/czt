@@ -132,6 +132,16 @@ action code
     private static final java.math.BigInteger DEFAULT_MULTISYNCH = java.math.BigInteger.ZERO;
     
     /**
+     * Default model for RefinementConjPara is failures-divergences.
+     */    
+    private static final Model DEFAULT_REFINEMENT_MODEL = Model.FlDv;
+    
+    /**
+     * Default parameter qualifier for process and actions is by value.
+     */
+    private static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value; 
+        
+    /**
      * &lt;p&gt;
      * List of implicitly declared actions as action paragraphs, where the action
      * name is given according to &lt;code&gt;implicitlyActUniqueNameSeed_&lt;/code&gt; static field.
@@ -1440,6 +1450,21 @@ action code
         // Otherwise, it is fine, either we have one or no state declaration.
       }
     }
+    
+    protected Model validateModel(Decorword dw) {
+      Model result = DEFAULT_REFINEMENT_MODEL;
+      if (dw.toString().equals(Model.Tr.toString()))
+        result = Model.Tr;
+      else if (dw.toString().equals(Model.SFl.toString()))
+        result = Model.SFl;
+      else if (dw.toString().equals(Model.FlDv.toString()))
+        result = Model.FlDv;
+      else {
+        parser.report_error(CircusParseMessage.MSG_UNKNOWN_REFINEMENT_MODEL,
+              new Object[] { dw.getWord() }, dw.getLocation());
+      }      
+      return result;
+    }
 </add:circus>
 :}
 
@@ -1684,8 +1709,8 @@ terminal LocInfo
          */      
          
         // Keychars
-        CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, PREFIXCOLON,
-        CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
+        CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
+        PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
         EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN,
         _CIRCGUARD, _REPSEQ, 
         
@@ -1997,6 +2022,7 @@ non terminal Para
     channelPara,
     channelSetPara,
     processPara,
+    refinementPara,
     boxedBasicProcessPara,
     actionPara,
     namesetPara, 
@@ -2086,6 +2112,9 @@ non terminal QualifiedDecl
 non terminal ParamQualifier     
   circusQualifier,
   optCircusQualifier;    
+  
+non terminal Model
+  refines;
   
 /// Circus action definition ///////////////////////////////////////////////        
 non terminal CircusAction
@@ -2523,6 +2552,9 @@ boxedParagraph ::=
         |
         boxedBasicProcessPara:bpp
         {: RESULT = bpp; :}
+        |
+        refinementPara:rp
+        {: RESULT = rp; :}
 </add:circus>        
 <add:zpatt>
         |
@@ -3499,9 +3531,9 @@ optCircusQualifier ::=
         {: RESULT = cq; :}
         |
         //empty
-        {: RESULT = ParamQualifier.Value; :}
-        ;  
-    
+        {: RESULT = DEFAULT_PARAMETER_QUALIFIER; :}
+        ;      
+        
 circusQualifier ::=
         CIRCVAL
         {: RESULT = ParamQualifier.Value; :}
@@ -4201,7 +4233,22 @@ nameSubstitution ::=
             addLocAnn(RESULT, getLocation(ls, rs));
         :}
         ;        
-
+        
+refinementPara ::=
+        LCIRCGUARD circusAction:spec refines:r circusAction:impl RCIRCGUARD
+        {:
+           RESULT = factory_.createRefinementConjPara(spec, impl, r);
+           addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
+        :}
+        ;
+        
+refines ::=         
+        CIRCREFINES 
+        {: RESULT = DEFAULT_REFINEMENT_MODEL; :}
+        |
+        CIRCREFINES DECORWORD:dw
+        {: RESULT = validateModel(dw); :}        
+        ;
 </add:circus>     
                 
 /// schema text ///////////////////////////////////////////
