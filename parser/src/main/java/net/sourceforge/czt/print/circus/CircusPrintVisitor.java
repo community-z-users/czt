@@ -77,8 +77,8 @@ public class CircusPrintVisitor
      return term.getAnn(OnTheFlyDefAnn.class) != null;
   }
   
-  private void printActualParams(ExprList term, boolean indexes) {
-    if (term != null && !ZUtils.assertZExprList(term).isEmpty()) {
+  private void printActualParams(ZExprList term, boolean indexes) {
+    if (term != null && !term.isEmpty()) {
       print(indexes ? CircusToken.CIRCLINST : TokenName.LPAREN);
       visit(term);
       print(indexes ? CircusToken.CIRCRINST : TokenName.RPAREN);
@@ -198,7 +198,7 @@ public class CircusPrintVisitor
     printLPAREN(term);
     if (!isOnTheFly(term)) {
       visit(term.getCallExpr());            
-      printActualParams(term.getActuals(), 
+      printActualParams(term.getZActuals(), 
           CallKind.Index.equals(term.getCallKind()));          
     } else {
       throw new PrintException("On-the-fly process calls must be processed by the AstToPrintTreeVisitor.");
@@ -441,7 +441,7 @@ public class CircusPrintVisitor
     printLPAREN(term);
     if (!isOnTheFly(term)) {
       visit(term.getRefName());                  
-      printActualParams(term.getExprList(), false);//not indexes
+      printActualParams(term.getZExprList(), false);//not indexes
     } else {
       throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
     }
@@ -589,7 +589,7 @@ public class CircusPrintVisitor
     return null;
   }  
 
-  public Object visitParamAction(ParamAction term) {
+  public Object visitParamAction(ParamAction term) {    
     printActionD(term);
     return null;
   }
@@ -656,20 +656,81 @@ public class CircusPrintVisitor
    ***********************************************************/
   
   public Object visitVarDeclCommand(VarDeclCommand term) {
-    /*term.getDeclList();
-    term.getCircusAction();*/
+    printLPAREN(term);
+    print(CircusKeyword.CIRCVAR);
+    visit(term.getDeclList());
+    print(Keyword.SPOT);
+    visit(term.getCircusAction());
+    printRPAREN(term);
     return null;
   }
   
   public Object visitAssignmentCommand(AssignmentCommand term) {
+    printLPAREN(term);
+    visit(term.getAssignmentPairs());
+    printRPAREN(term);
     return null;
   }
 
   public Object visitIfGuardedCommand(IfGuardedCommand term) {
+    printLPAREN(term);
+    print(Keyword.IF);     
+    Iterator<GuardedAction> it = term.getGuardedAction().iterator();
+    while (it.hasNext()) {
+      GuardedAction ga = it.next();            
+      visit(ga.getPred());
+      print(CircusKeyword.CIRCTHEN);
+      visit(ga.getCircusAction());
+      if (it.hasNext()) {                
+        print(TokenName.NL);
+        print(CircusKeyword.CIRCELSE);        
+      }
+    }
+    // For a single guard, let the if on the same line as the fi
+    if (term.getGuardedAction().size() > 1) {
+      print(TokenName.NL);
+    }    
+    print(CircusKeyword.CIRCFI);
+    printRPAREN(term);
     return null;
   }
 
   public Object visitSpecStmtCommand(SpecStmtCommand term) {
+    printLPAREN(term);
+    if (term.getZFrame().isEmpty()) {
+      // Assumption
+      if (term.getPost() instanceof TruePred) {
+        print(TokenName.LBRACE);
+        visit(term.getPre());
+        print(TokenName.RBRACE);
+      } 
+      // Coercion
+      else if (term.getPre() instanceof TruePred) {
+        print(TokenName.LSQUARE);
+        visit(term.getPost());
+        print(TokenName.RSQUARE);
+      } 
+      // Specification stamement with empty frame
+      else {
+        print(Keyword.COLON);        
+        print(TokenName.LSQUARE);
+        visit(term.getPre());
+        print(Keyword.COMMA);
+        visit(term.getPost());
+        print(TokenName.RSQUARE);
+      }
+    } 
+    // Specification statement with non-empty frame
+    else {
+      visit(term.getFrame());
+      print(Keyword.COLON);        
+      print(TokenName.LSQUARE);
+      visit(term.getPre());
+      print(Keyword.COMMA);
+      visit(term.getPost());
+      print(TokenName.RSQUARE);
+    }        
+    printRPAREN(term);
     return null;
   }  
   
@@ -731,10 +792,15 @@ public class CircusPrintVisitor
    ***********************************************************/
    
   public Object visitRefinementConjPara(RefinementConjPara term) {
-    visit(term.getSpecification());    
-    //printDecorword(term.getModel());
+    print(CircusToken.LCIRCGUARD);
+    visit(term.getSpecification());
+    print(CircusKeyword.CIRCREFINES);
+    if (!term.getModel().equals(Model.FlDv)) {
+      printDecorword(term.getModel() + "~");
+    }
     visit(term.getImplementation());
-    throw new UnsupportedOperationException("not yet!");
+    print(CircusToken.RCIRCGUARD);    
+    return null;
   }
     
   public Object visitQualifiedDecl(QualifiedDecl term) {        
