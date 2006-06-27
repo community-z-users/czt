@@ -19,18 +19,11 @@
 
 package net.sourceforge.czt.rules;
 
-import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.parser.zpatt.ParseUtils;
-import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
@@ -130,13 +123,10 @@ public final class ProverUtils
   }
 
   public static class RemoveJokerVisitor
-    implements TermVisitor,
-               HeadDeclListVisitor
+    implements TermVisitor<Term>,
+               HeadDeclListVisitor<Term>
   {
-    private net.sourceforge.czt.z.util.Factory factory_
-      = new net.sourceforge.czt.z.util.Factory();
-
-    public Object visitTerm(Term term)
+    public Term visitTerm(Term term)
     {
       if (term instanceof Joker) {
         Joker joker = (Joker) term;
@@ -151,7 +141,7 @@ public final class ProverUtils
       return VisitorUtils.visitTerm(this, term, true);
     }
 
-    public Object visitHeadDeclList(HeadDeclList headDeclList)
+    public Term visitHeadDeclList(HeadDeclList headDeclList)
     {
       ZDeclList zDeclList =
         VisitorUtils.visitTerm(this, headDeclList.getZDeclList(), false);
