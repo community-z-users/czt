@@ -20,6 +20,7 @@ public enum CircusParseMessage {
   MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
   MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
   MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
+  MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}.");
 
   private final String message_;
