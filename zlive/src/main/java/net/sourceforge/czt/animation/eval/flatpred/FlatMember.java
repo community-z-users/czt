@@ -38,9 +38,9 @@ import net.sourceforge.czt.z.ast.ZRefName;
 */
 public class FlatMember extends FlatPred 
 {
-  private static final Logger sLogger
-	= Logger.getLogger("net.sourceforge.czt.animation.eval");
-		    
+  /** The most recent variable bounds information. */
+  protected Bounds bounds_;
+  
   /** This is non_null during evaluation */
   protected EvalSet set_;
   
@@ -62,7 +62,7 @@ public class FlatMember extends FlatPred
 
   public boolean inferBounds(Bounds bnds)
   {
-	sLogger.entering("FlatMember", "inferBounds", bnds);
+	LOG.entering("FlatMember", "inferBounds", bnds);
 	ZRefName setName = args_.get(0);
 	ZRefName elemName = args_.get(1);
 	EvalSet set = bnds.getEvalSet(setName);
@@ -75,7 +75,8 @@ public class FlatMember extends FlatPred
 	  if (hi != null)
 		changed |= bnds.addUpper(elemName, hi);
 	}
-	sLogger.exiting("FlatMember", "inferBounds", changed);
+    bounds_ = bnds;
+	LOG.exiting("FlatMember", "inferBounds", changed);
 	return changed;
   }
 
@@ -147,6 +148,27 @@ public class FlatMember extends FlatPred
     return result;
   }
 
+  /** Prints the FlatMember with optional bounds information. */
+  @Override public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(super.toString());
+    result.deleteCharAt(result.length()-1);  // delete the last ']'
+    ZRefName setName = args_.get(0);
+    EvalSet set = null;
+    if (bounds_ != null && (set=bounds_.getEvalSet(setName)) != null) {
+      result.append("::");
+      BigInteger lo = set.getLower();
+      if (lo != null)
+        result.append(lo.toString());
+      result.append("..");
+      BigInteger hi = set.getUpper();
+      if (hi != null)
+        result.append(hi.toString());
+    }
+    result.append("]");
+    return result.toString();
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 
