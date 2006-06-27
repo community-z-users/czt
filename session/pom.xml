@@ -8,7 +8,7 @@
   </parent>
   <artifactId>session</artifactId>
   <packaging>jar</packaging>
-  <name>czt-session</name>
+  <name>CZT Session</name>
   <description>
     Provides classes for managing and caching Z sections and other
     Z-related artifacts.

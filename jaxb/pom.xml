@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jaxb</artifactId>
   <packaging>jar</packaging>
-  <name>czt-jaxb</name>
+  <name>CZT Jaxb</name>
   <description>
     Jaxb generated classes.
   </description>
