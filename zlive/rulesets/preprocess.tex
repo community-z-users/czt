@@ -345,10 +345,11 @@ into sets of bindings.
 \begin{zedrule}{ExistsSchema}
    E1 \unfoldsTo [D1 | P1] \\
    E2 \unfoldsTo [D2 | P2] \\
-   \proviso [D3|true] == [D2|true] \schemaminus [D1|true] \\
-   \proviso E == binding ~ [D3|true]
+   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+   \proviso [D4|true] == [D2|true] \schemaminus [D1|true] \\
+   \proviso E == binding ~ [D4|true]
 \derives
-   (\exists E1 @ E2) = \{D3 | (\exists D1 | P1 @ P2) @ E\}
+   (\exists E1 @ E2) = \{D3 | P1 \land P2 @ E\}
 \end{zedrule}
 
 The next few rules implement the $\unfoldsTo$ operator,
