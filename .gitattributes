@@ -44,6 +44,12 @@ gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gnast/pom.xml -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
+gnast/src/vm/CallProcess.java -text
+gnast/src/vm/CallProcessImpl.java -text
+gnast/src/vm/QualifiedDecl.java -text
+gnast/src/vm/QualifiedDeclImpl.java -text
+gnast/src/vm/SpecStmtCommand.java -text
+gnast/src/vm/SpecStmtCommandImpl.java -text
 jaxb/.classpath -text
 jaxb/.project -text
 jaxb/COPYING.txt -text
