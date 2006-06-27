@@ -61,7 +61,7 @@ public class Bounds implements Cloneable
   public String toString()
   {
     return "Lows="+lowerBound_.toString()
-          +" Highs="+upperBound_.toString();
+          +"+Highs="+upperBound_.toString();
   }
   
   /** Creates a copy of all the lower and upper bounds.
@@ -139,7 +139,7 @@ public class Bounds implements Cloneable
     BigInteger old = lowerBound_.get(var);
     if (old == null || lower.compareTo(old) > 0) {
       lowerBound_.put(var, lower);
-      sLogger.fine("Bounds lower["+var+"] "+old+" := "+lower);
+      sLogger.fine("Bounds lower["+var+"] := "+lower+" instead of "+old);
       return true;
     }
     else
@@ -161,7 +161,7 @@ public class Bounds implements Cloneable
     BigInteger old = upperBound_.get(var);
     if (old == null || upper.compareTo(old) < 0) {
       upperBound_.put(var, upper);
-      sLogger.fine("Bounds upper["+var+"] "+old+" := "+upper);
+      sLogger.fine("Bounds upper["+var+"] := "+upper+" instead of "+old);
       return true;
     }
     else
