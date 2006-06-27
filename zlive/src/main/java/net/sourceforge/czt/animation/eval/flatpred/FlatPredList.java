@@ -77,6 +77,8 @@ public class FlatPredList extends FlatPred
   /** Maximum number of bounds-inference passes done over the list. */
   protected static final int inferPasses_ = 5;
 
+  public static final boolean optimize = false;
+
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
   
@@ -308,30 +310,29 @@ public class FlatPredList extends FlatPred
    */
   public ModeList chooseMode(Envir env0)
   {
-    LOG.entering("FlatPredList","chooseMode",env0);
+    LOG.entering("FlatPredList", "chooseMode", env0);
     List<FlatPred> flatPreds = new ArrayList<FlatPred>(predlist_);
     List<Mode> submodes = new ArrayList<Mode>();
     Envir env = env0;
-    getArgs();  // forces freeVars_ and args_ to be evaluated.
-    LOG.finer(this.hashCode()+" starting");
-    while(chooseMode(env, flatPreds, submodes)) {
+    getArgs(); // forces freeVars_ and args_ to be evaluated.
+    LOG.finer(this.hashCode() + " starting");
+    while (!flatPreds.isEmpty() && chooseMode(env, flatPreds, submodes)) {
       env = submodes.get(submodes.size() - 1).getEnvir();
     }
-    if (! flatPreds.isEmpty()) {
+    if ( ! flatPreds.isEmpty()) {
       LOG.finer("no mode for " + flatPreds.get(0) + " with env=" + env);
-      LOG.exiting("FlatPredList","chooseMode",null);
+      LOG.exiting("FlatPredList", "chooseMode", null);
       return null;
     }
-    assert flatPreds.isEmpty();
     assert submodes.size() == predlist_.size();
     double cost = Mode.ONE_SOLUTION;
     for (Mode m : submodes) {
       cost *= m.getSolutions();
       LOG.finer(this.hashCode() + " " + m.getParent() + " gives cost=" + cost
-                + " and outputs=" + m.getOutputs());
+          + " and outputs=" + m.getOutputs());
     }
     ModeList result = new ModeList(this, env, args_, cost, submodes);
-    LOG.exiting("FlatPredList","chooseMode",result);
+    LOG.exiting("FlatPredList", "chooseMode", result);
     return result;
   }
 
@@ -339,20 +340,29 @@ public class FlatPredList extends FlatPred
    * Removes the corresponding FlatPred from the list
    * when a Mode is inserted into the mode list.
    */
-  private boolean chooseMode(Envir env0,
-                             List<FlatPred> flatPreds,
-                             List<Mode> modes)
+  //@requires ! flatPreds.isEmpty();
+  private boolean chooseMode(Envir env0, List<FlatPred> flatPreds,
+      List<Mode> modes)
   {
     Mode mode = null;
-    for (Iterator<FlatPred> iter = flatPreds.iterator(); iter.hasNext(); ) {
-      FlatPred flatPred = iter.next();
-      Mode m = flatPred.chooseMode(env0);
-      if (m != null) {
-        assert flatPred == m.getParent();
-        if (mode == null || m.getSolutions() < mode.getSolutions()) mode = m;
+    if (optimize) {
+      // choose first mode with the smallest number of solutions.
+      for (Iterator<FlatPred> iter = flatPreds.iterator(); iter.hasNext();) {
+        FlatPred flatPred = iter.next();
+        Mode m = flatPred.chooseMode(env0);
+        if (m != null) {
+          assert flatPred == m.getParent();
+          if (mode == null || m.getSolutions() < mode.getSolutions())
+            mode = m;
+        }
       }
     }
-    if (mode == null) return false;
+    else {
+      // do them in the original order.
+      mode = flatPreds.get(0).chooseMode(env0);
+    }
+    if (mode == null)
+      return false;
     modes.add(mode);
     boolean removed = remove(mode.getParent(), flatPreds);
     assert removed;
