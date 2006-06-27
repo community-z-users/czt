@@ -8,7 +8,7 @@
   </parent>
   <artifactId>rules</artifactId>
   <packaging>jar</packaging>
-  <name>czt-rules</name>
+  <name>CZT Rules</name>
   <description>
     Provides classes for parsing and printing Z specifications.
   </description>

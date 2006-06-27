@@ -8,7 +8,7 @@
   </parent>
   <artifactId>typechecker</artifactId>
   <packaging>jar</packaging>
-  <name>czt-typechecker</name>
+  <name>CZT Typechecker</name>
   <description>
     Provides classes for managing and caching Z sections and other
     Z-related artifacts.
