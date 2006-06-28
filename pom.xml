@@ -4,7 +4,7 @@
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
   <version>0.5</version>
-  <name>czt</name>
+  <name>Community Z Tools</name>
   <properties>
     <czt.version>0.5</czt.version>
   </properties>
@@ -122,7 +122,14 @@
         <version>${czt.version}</version>
       </dependency>
 
-      <!-- CZT Rules -->
+      <!-- CZT ModelJUnit -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>modeljunit</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT ZLive -->
       <dependency>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>zlive</artifactId>
