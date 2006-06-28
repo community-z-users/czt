@@ -41,6 +41,7 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteIcon.gif svneol=n
 gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
+gaffe/src/net/sourceforge/czt/animation/gui/history/ZLiveHistory.java -text
 gnast/pom.xml -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
