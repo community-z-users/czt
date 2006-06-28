@@ -3,7 +3,7 @@
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
-  <version>${czt.version}</version>
+  <version>0.5-SNAPSHOT</version>
   <name>czt</name>
   <properties>
     <czt.version>0.5-SNAPSHOT</czt.version>
