@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
@@ -37,14 +38,16 @@ import net.sourceforge.czt.z.ast.ZRefName;
  */
 public class ZSet implements ZValue
 {
-  //private final Vector set_;
+  // private final Vector set_;
   private final EvalSet e;
 
   private Envir env;
 
+  private int i = 0;
+
   private List<ZRefName> list;
 
-  //private static Factory factory;
+  // private static Factory factory;
   /**
    * Construct an empty <code>ZSet</code>.
    */
@@ -55,14 +58,15 @@ public class ZSet implements ZValue
 
   /**
    * Construct a <code>ZSet</code> from a <code>Set</code> of values.
-   * @param set The set to store.
+   * 
+   * @param set
+   *            The set to store.
    */
-  public ZSet(Set<ZValue> set)
+  public ZSet(Set<? extends ZValue> set)
   {
-    //set_ = new Vector(set);
+    // set_ = new Vector(set);
     env = new Envir();
     list = new ArrayList<ZRefName>();
-    int i = 0;
     ZRefName setName = ZFactory.getFactory().createZRefName("NoName");
     ZRefName tempName = null;
     for (ZValue zValue : set) {
@@ -81,22 +85,32 @@ public class ZSet implements ZValue
 
   /**
    * Construct a <code>ZSet</code> by a <code>EvalSet</code> expr
-   * @param e The <code>EvalSet</code> expr to store
+   * 
+   * @param e
+   *            The <code>EvalSet</code> expr to store
    */
   public ZSet(EvalSet e)
   {
     this.e = e;
   }
 
+  public void add(ZValue value)
+  {
+    ZRefName tempName = ZFactory.getFactory().createZRefName(
+        String.valueOf(i++));
+    this.env = env.plus(tempName, value.getExpr());
+  }
+
   /**
    * Dynamiclly wrapping the memember of Expr to ZValue
+   * 
    * @author Mark Utting
    */
-  public class ZSetIterator implements Iterator<ZValue>
+  public class ZSetIterator implements ListIterator<ZValue>
   {
-    Iterator<Expr> exprs;
+    ListIterator<Expr> exprs;
 
-    public ZSetIterator(Iterator<Expr> e)
+    public ZSetIterator(ListIterator<Expr> e)
     {
       this.exprs = e;
     }
@@ -117,19 +131,56 @@ public class ZSet implements ZValue
       return result;
     }
 
+    public boolean hasPrevious()
+    {
+      return exprs.hasPrevious();
+
+    }
+
+    public ZValue previous()
+    {
+      ZValue result = null;
+      try {
+        result = ZFactory.zValue(exprs.previous());
+      } catch (UnexpectedTypeException ute) {
+        ute.printStackTrace();
+      }
+      return result;
+    }
+
+    public int nextIndex()
+    {
+      return exprs.nextIndex();
+    }
+
+    public int previousIndex()
+    {
+      return exprs.previousIndex();
+    }
+
+    public void set(ZValue arg0)
+    {
+      exprs.set(arg0.getExpr());
+    }
+
+    public void add(ZValue arg0)
+    {
+      exprs.add(arg0.getExpr());
+    }
+
     public void remove()
     {
-      throw new UnsupportedOperationException();
+      exprs.remove();
     }
   }
 
   /**
    * @return An iterator over this <code>ZSet</code>.
    */
-  public Iterator iterator()
+  public ListIterator iterator()
   {
-    //return set_.iterator();
-    return new ZSetIterator(e.iterator());
+    // return set_.iterator();
+    return new ZSetIterator(e.listIterator());
   }
 
   /**
@@ -137,7 +188,7 @@ public class ZSet implements ZValue
    */
   public int size()
   {
-    //return set_.size();
+    // return set_.size();
     int result = 0;
     for (Iterator<Expr> it = e.iterator(); it.hasNext();) {
       it.next();
@@ -147,23 +198,25 @@ public class ZSet implements ZValue
   }
 
   /**
-   * @param value A value to look for in this <code>ZSet</code>.
+   * @param value
+   *            A value to look for in this <code>ZSet</code>.
    * @return <code>true</code> if the <code>ZSet</code> contains
    *         <code>value</code>.
    */
   public boolean contains(ZValue value)
   {
-    //return set_.contains(value);
+    // return set_.contains(value);
     return e.contains(value.getExpr());
   }
 
   /**
-   * @param index An index into the set.
+   * @param index
+   *            An index into the set.
    * @return The <code>index</code>th value in the set.
    */
   public ZValue get(int index)
   {
-    //return (ZValue) set_.get(index);
+    // return (ZValue) set_.get(index);
     ZValue result = null;
     try {
       result = ZFactory.zValue(e.getEnvir().lookup(
@@ -179,7 +232,7 @@ public class ZSet implements ZValue
    */
   public Set<ZValue> getSet()
   {
-    //return new HashSet(set_);
+    // return new HashSet(set_);
     Set<ZValue> result = new HashSet<ZValue>();
     for (Iterator<Expr> it = e.iterator(); it.hasNext();) {
       try {
@@ -196,24 +249,26 @@ public class ZSet implements ZValue
    */
   public String toString()
   {
-    //String result = "ZSet: { ";
-    //Iterator it = iterator();
-    //if (it.hasNext()) result += it.next();
-    //while (it.hasNext()) result += " , " + it.next();
-    //result += " }";
-    //return result;
+    // String result = "ZSet: { ";
+    // Iterator it = iterator();
+    // if (it.hasNext()) result += it.next();
+    // while (it.hasNext()) result += " , " + it.next();
+    // result += " }";
+    // return result;
     return e.toString();
   }
 
   /**
    * Compare for equality against another object.
-   * @param obj The object to compare against.
+   * 
+   * @param obj
+   *            The object to compare against.
    * @return <code>true</code> if <code>obj</code> is a <code>ZSet</code>
    *         containing all of the same values as this one.
    */
   public boolean equals(Object obj)
   {
-    //return obj instanceof ZSet && ((ZSet) obj).set_.equals(set_);
+    // return obj instanceof ZSet && ((ZSet) obj).set_.equals(set_);
     return e.equals(((ZValue) obj).getExpr());
   }
 
@@ -222,12 +277,13 @@ public class ZSet implements ZValue
    */
   public int hashCode()
   {
-    //return set_.hashCode();
+    // return set_.hashCode();
     return e.hashCode();
   }
 
   /**
    * Get the expr type representing the zvalue
+   * 
    * @return the representing expr
    */
   public Expr getExpr()

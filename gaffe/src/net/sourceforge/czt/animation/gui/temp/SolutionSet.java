@@ -21,10 +21,8 @@ package net.sourceforge.czt.animation.gui.temp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * Class representing the set of solutions produced by an operation.
@@ -34,7 +32,8 @@ public class SolutionSet
   protected final PropertyChangeSupport propertyChangeSupport_ = new PropertyChangeSupport(
       this);
 
-  private List<ZBinding> solutions_;
+  //c
+  private ZSet solutions_;
 
   private ListIterator currentSolution_;
 
@@ -50,8 +49,9 @@ public class SolutionSet
   public SolutionSet(String schemaName, Set<ZBinding> solutions)
   {
     schemaName_ = schemaName;
-    solutions_ = new Vector<ZBinding>(solutions);
-    currentSolution_ = solutions_.listIterator();
+    //c
+    solutions_ = new ZSet(solutions);
+    currentSolution_ = solutions_.iterator();
   }
 
   /**
@@ -63,11 +63,12 @@ public class SolutionSet
   public SolutionSet(String schemaName, ZBinding solution)
   {
     schemaName_ = schemaName;
-    solutions_ = new Vector<ZBinding>();
+    //c
+    solutions_ = new ZSet();
     solutions_.add(solution);
-    currentSolution_ = solutions_.listIterator();
+    currentSolution_ = solutions_.iterator();
   }
-
+  
   /**
    * Getter function for the name of the schema that created this solution set.
    * @return The name of the schema.
