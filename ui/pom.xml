@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>0.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>ui</artifactId>
+  <packaging>jar</packaging>
+  <name>CZT User Interface</name>
+  <description>
+    Provides a user interface for CZT.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>net.sourceforge.czt</groupId>
+      <artifactId>zlive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assemble/dep.xml</descriptor>
+              </descriptors>
+              <archive>
+                <manifest>
+                  <mainClass>net.sourceforge.czt.ui.Main</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
