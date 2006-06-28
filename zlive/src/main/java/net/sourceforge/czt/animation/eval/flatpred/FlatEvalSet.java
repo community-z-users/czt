@@ -240,6 +240,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     else
       return new EvalSetIterator();
   }
+
   public /*synchronized*/ boolean contains(Object obj)
   {
     if (memberSet != null && memberSet.contains(obj))
@@ -383,11 +384,11 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   }
 
   /** A copy of the TermImpl implementation. */
-  public Object getAnn(Class aClass)
+  public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return annotation;
+        return (T) annotation;
       }
     }
     return null;
