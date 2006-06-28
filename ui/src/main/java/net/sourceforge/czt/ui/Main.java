@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.*;
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 
@@ -36,21 +37,66 @@ public class Main
     throws Throwable
   {
     if (args.length == 0) System.out.println(usage());
-    else if ("-e".equals(args[0])) {
-      if (args.length < 3) {
-        System.out.println(usage());
-      }
-      else {
-        SectionManager manager = new SectionManager(args[1]);
-        parse(args[2], manager);
-      }
-    }
-    else if (args[0].contains(".")) {
-      SectionManager manager = new SectionManager();
-      parse(args[0], manager);
+    if (! args[0].startsWith("-") && ! args[0].contains(".")) {
+      command(args);
     }
     else {
-      command(args);
+      String extension = "z";
+      String output = null;
+      for (int i = 0; i < args.length; i++) {
+        if ("-e".equals(args[i])) {
+          if (i < args.length) {
+            extension = args[++i];
+          }
+          else {
+            System.err.println(usage());
+            return;
+          }
+        }
+        else if ("-o".equals(args[i])) {
+          if (i < args.length) {
+            output = args[++i];
+          }
+          else {
+            System.err.println(usage());
+            return;
+          }
+        }
+        else {
+          SectionManager manager = new SectionManager(extension);
+          FileSource source = new FileSource(args[i]);
+          if (parse(source, manager) && output != null) {
+            if (output.endsWith("utf8")) {
+              UnicodeString unicode = (UnicodeString)
+                manager.get(new Key(source.getName(), UnicodeString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream, "UTF-8");
+              writer.write(unicode.toString());
+              writer.close();
+            }
+            else if (output.endsWith("utf16")) {
+              UnicodeString unicode = (UnicodeString)
+                manager.get(new Key(source.getName(), UnicodeString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream, "UTF-16");
+              writer.write(unicode.toString());
+              writer.close();
+            }
+            else if (output.endsWith("tex") || output.endsWith("zed")) {
+              LatexString latex = (LatexString)
+                manager.get(new Key(source.getName(), LatexString.class));
+              FileOutputStream stream = new FileOutputStream(output);
+              Writer writer = new OutputStreamWriter(stream);
+              writer.write(latex.toString());
+              writer.close();
+            }
+            else {
+              System.err.println("Unsupported output file " + output);
+              return;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -109,11 +155,10 @@ public class Main
     }
   }
 
-  public static void parse(String filename, SectionManager manager)
+  public static boolean parse(Source source, SectionManager manager)
     throws CommandException
   {
     try {
-      FileSource source = new FileSource(filename);
       String name = source.getName();
       manager.put(new Key(name, Source.class), source);
       Spec spec = (Spec) manager.get(new Key(name, Spec.class));
@@ -141,11 +186,13 @@ public class Main
       if (cause instanceof CztErrorList) {
         List<? extends CztError> errors = ((CztErrorList) cause).getErrors();
         printErrors(errors);
+        return false;
       }
       else {
         throw exception;
       }
     }
+    return true;
   }
 
   private static void printErrors(List<? extends CztError> errors)
