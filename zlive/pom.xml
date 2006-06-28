@@ -27,4 +27,11 @@
       <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>rulesets</directory>
+      </resource>
+    </resources>
+  </build>
 </project>
