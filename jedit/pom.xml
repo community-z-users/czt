@@ -11,6 +11,7 @@
   <modules>
     <module>zlive</module>
     <module>ZSideKick</module>
+    <module>ZCharMap</module>
   </modules>
   <dependencyManagement>
     <dependencies>
