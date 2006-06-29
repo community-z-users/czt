@@ -43,13 +43,30 @@
             <artifactId>ant-trax</artifactId>
             <version>1.6.5</version>
           </dependency>
+          <dependency>
+            <groupId>velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.4</version>
+          </dependency>
+          <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.8.0</version>
+          </dependency>
         </dependencies>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <ant dir="." target="run-codegen"/>
+                <property name="velocity"
+                  location="${user.home}/.m2/repository/velocity/velocity-dep/1.4/velocity-dep-1.4.jar"/>
+                <property name="xerces"
+                  location="${user.home}/.m2/repository/xerces/xercesImpl/2.8.0/xercesImpl-2.8.0.jar"/>
+                <ant dir="." target="run-codegen">
+                  <property name="velocity.classpath" value="${velocity}"/>
+                  <property name="xerces.classpath" value="${xerces}"/>
+                </ant>
               </tasks>
               <sourceRoot>${basedir}/build/src</sourceRoot>
            </configuration>
