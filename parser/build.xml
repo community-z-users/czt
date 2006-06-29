@@ -28,6 +28,9 @@
   <property name="parser.circus.src.jar.file"  location="${parser.jar.dir}/src-circus-${parser.jar.file}"/>
   <property name="parser.src.jar.file"  location="${parser.jar.dir}/src-${parser.jar.file}"/>
   <property name="parser.api.src.jar.file"  location="${parser.jar.dir}/doc-${parser.jar.file}"/>
+
+  <property name="java_cup"
+    location="${czt.lib}/${java_cup.jar.file}"/>
   
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex}"/>
@@ -60,7 +63,7 @@
   <target name="-set-javacup-task">
     <taskdef name="java_cup"
       classname="net.sourceforge.czt.java_cup.anttask.CUPTask"
-      classpath="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>
+      classpath="${java_cup}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -143,7 +146,7 @@
       destdir="${build.src.dir}"
       parser="Unicode2Latex"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -153,7 +156,7 @@
       destdir="${build.src.dir}"
       parser="Unicode2OldLatex"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
   
@@ -163,7 +166,7 @@
       destdir="${build.src.dir}"
       parser="Unicode2Latex"
       symbols="Sym"      
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -173,7 +176,7 @@
       destdir="${build.src.dir}"
       parser="Unicode2Latex"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -740,7 +743,7 @@
       destdir="${build.src.dir}/"
       parser="Parser"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -761,7 +764,7 @@
       destdir="${build.src.dir}/"
       parser="Parser"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -792,7 +795,7 @@
       destdir="${build.src.dir}/"
       parser="Parser"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -813,7 +816,7 @@
       destdir="${build.src.dir}/"
       parser="Parser"
       symbols="Sym"
-      classpath="${czt.lib}/${java_cup.jar.file}">
+      classpath="${java_cup}">
     </java_cup>
   </target>
 
@@ -835,7 +838,7 @@
         destdir="${build.src.dir}/"
         parser="Parser"
         symbols="Sym"
-        classpath="${czt.lib}/${java_cup.jar.file}">
+        classpath="${java_cup}">
       </java_cup>
     </target>
   
