@@ -30,9 +30,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <property name="gaffe.source.path" location="src"/>
   <property name="gaffe.resources.path" location="resources"/>
-  <property name="gaffe.build.path" location="classes"/>
+  <property name="gaffe.build.path" location="build"/>
+  <property name="gaffe.build.classes" location="${gaffe.build.path}/classes"/>
+  <property name="test.build.path" location="${gaffe.build.path}/test"/>
+
   <property name="gaffe.api.path" location="doc/api"/>
   <property name="gaffe.bin.path" location="bin"/>
+
+  <property name="test.jar.file" location="${gaffe.build.path}/tests.jar"/>
 
   <target name="-getbsfjar" unless="bsf.jar">
     <input message="What is the path of the BSF jar file?"
@@ -76,12 +81,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${rhino.jar}"/>
       <pathelement path="${zlive.build.dir}"/>
       <fileset dir="${czt.home}/${jar.dir}">
-        <include name="${corejava.base.jar.file}"/>
-        <include name="${corejava.core.jar.file}"/>
-        <include name="${parser.jar.file}"/>
-        <include name="${zlive.jar.file}"/>
-        <include name="${session.jar.file}"/>
-      </fileset>	
+        <include name="*.jar"/>
+      </fileset>
     </path>
   </target>
 
@@ -119,17 +120,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="classes" depends="-init" description="Build the classes.">   
     <mkdir dir="${gaffe.build.path}"/>
+    <mkdir dir="${gaffe.build.classes}"/>
+    <mkdir dir="${test.build.path}"/>
     <copy file="LICENSE" tofile="${gaffe.resources.path}/net/sourceforge/czt/animation/gui/GPL.txt"/>
-    <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}" 
+    <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.classes}" 
            classpathref="gaffe.class.path"
 	   debug="${debug}" debuglevel="${debuglevel}"/>
   </target>
 
   <target name="install" depends="-init,classes" description="Build and install the jar file.">   
     <mkdir dir="${gaffe.jar.dir}"/>
-    <jar destfile="${gaffe.jar.path}" basedir="${gaffe.build.path}" update="no">
+    <jar destfile="${gaffe.jar.path}" basedir="${gaffe.build.classes}" update="no">
       <manifest>
-        <attribute name="Sealed" value="true"/>
+        <!-- attribute name="Sealed" value="true"/-->
 	<attribute name="Main-Class"
                    value="net.sourceforge.czt.animation.gui.Gaffe"/>
       </manifest>
@@ -195,6 +198,38 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.Gaffe</echo>
 
   <target name="all" depends="-init,classes,install,scripts"
           description="Build everything."/>
+
+  <target name="compile-tests" depends="install"
+          description="compile the tests">
+    <javac srcdir="tests/src" destdir="${test.build.path}" debug="on"
+      source="1.5">
+      <classpath refid="gaffe.class.path"/>
+    </javac>
+  </target>
+
+  <target name="install-tests" depends="compile-tests">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.path}"/>
+    </jar>
+  </target>
+
+  <target name="test" depends="install-tests" description="Run all unit tests">
+    <junit fork="yes" printsummary="on">
+      <formatter type="xml" usefile="true"/>
+      <batchtest toDir="${gaffe.build.path}">
+        <fileset dir="tests/src">
+          <include name="**/*Test.java"/>
+       </fileset>
+      </batchtest>
+      <classpath>
+        <path refid="gaffe.class.path"/>
+	<pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
 
   <target name="checkstyle" description="check java sources">
     <!-- CZT project style checks. -->
