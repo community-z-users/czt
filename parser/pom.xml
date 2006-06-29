@@ -53,7 +53,11 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <ant dir="." target="generate-src"/>
+                <property name="java_cup"
+                  location="${user.home}/.m2/repository/net/sourceforge/czt/java_cup/0.5/java_cup-0.5.jar"/>
+                <ant dir="." target="generate-src">
+                  <property name="java_cup" value="${java_cup}"/>
+                </ant>
                 <ant dir="." target="z-UnicodeToLatex"/>
                 <ant dir="." target="oldz-UnicodeToLatex"/>
                 <ant dir="." target="oz-UnicodeToLatex"/>
