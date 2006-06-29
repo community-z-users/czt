@@ -2260,7 +2260,8 @@ jaxb/src/main/resources/net/sourceforge/czt/tcoz/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/net/sourceforge/czt/z/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/net/sourceforge/czt/zpatt/jaxb/gen/jaxb.properties -text
 jaxb/src/main/resources/org/w3/_2001/xmlschema/jaxb.properties -text
-jedit/ZCharMap/CircusTable.xml -text
+jedit/ZCharMap/pom.xml -text
+jedit/ZCharMap/src/main/resources/CircusTable.xml -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset
