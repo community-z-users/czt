@@ -48,7 +48,7 @@ public class Main
         if ("-s".equals(args[i])) {
           syntaxCheckOnly = true;
         }
-        else if ("-e".equals(args[i])) {
+        else if ("-d".equals(args[i])) {
           if (i + 1 < args.length) {
             extension = args[++i];
           }
@@ -120,12 +120,12 @@ public class Main
   public static String usage(String prefix)
   {
     return "Usage:\n" +
-      "  " + prefix + "[-e <extension>] [-o <filename>] [-s] <filename>\n" +
+      "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
-      "Flags:\n  -e   specify the extension to be used\n" +
+      "Flags:\n  -d   specify the dialect to be used\n" +
       "  -o   specifiy output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
-      "Extensions:\n  z    Standard Z (default)\n  oz   Object Z\n" +
+      "Dialects:\n  z    Standard Z (default)\n  oz   Object Z\n" +
       "File ending bingings:\n  tex, zed --> LaTeX Markup\n" +
       "  xml, zml --> ZML\n" +
       "  utf8     --> Unicode (encoding UTF-8)\n" +
