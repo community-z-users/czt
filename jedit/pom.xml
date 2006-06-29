@@ -1,0 +1,47 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>net.sourceforge.czt</groupId>
+    <artifactId>czt</artifactId>
+    <version>0.5</version>
+  </parent>
+  <artifactId>jedit</artifactId>
+  <packaging>pom</packaging>
+  <name>CZT jEdit plugins</name>
+  <modules>
+    <module>zlive</module>
+    <module>ZSideKick</module>
+  </modules>
+  <dependencyManagement>
+    <dependencies>
+      <!-- CZT jEdit plugins -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>zsidekick</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+     <!-- jEdit -->
+      <dependency>
+        <groupId>jedit</groupId>
+        <artifactId>jedit</artifactId>
+        <version>4.3pre4</version>
+      </dependency>
+      <dependency>
+        <groupId>jedit</groupId>
+        <artifactId>jedit-console</artifactId>
+        <version>4.2.6.3</version>
+      </dependency>
+      <dependency>
+        <groupId>jedit</groupId>
+        <artifactId>jedit-errorlist</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>jedit</groupId>
+        <artifactId>jedit-sidekick</artifactId>
+        <version>0.6.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

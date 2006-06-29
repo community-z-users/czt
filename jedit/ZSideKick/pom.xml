@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>jedit</artifactId>
     <version>0.5</version>
   </parent>
   <artifactId>zsidekick</artifactId>
   <packaging>jar</packaging>
-  <name>CZT ZSideKick Plugin</name>
+  <name>CZT ZSideKick jEdit Plugin</name>
   <description>
     jEdit Plugin for parsing and typechecking Z specifications.
   </description>

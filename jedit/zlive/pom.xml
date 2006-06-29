@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
-    <artifactId>czt</artifactId>
+    <artifactId>jedit</artifactId>
     <version>0.5</version>
   </parent>
   <artifactId>zlive-jedit-plugin</artifactId>
   <packaging>jar</packaging>
-  <name>CZT ZLive Plugin</name>
+  <name>CZT ZLive jEdit Plugin</name>
   <description>
     jEdit Plugin for animating Z specifications.
   </description>
