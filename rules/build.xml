@@ -10,9 +10,6 @@
   <property name="test.src.dir" location="src/test/java"/>
   <property name="test.build.dir" location="${rules.build.dir}/test"/>
   <property name="test.jar.file" location="${rules.build.dir}/tests.jar"/>
-  <property name="codegen.src.dir" location="src/codegen/java"/>
-  <property name="codegen.build.dir" location="${rules.build.dir}/codegen"/>
-  <property name="codegen.jar.file" location="${rules.build.dir}/codegen.jar"/>
 
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
@@ -32,7 +29,6 @@
     <tstamp/>
     <mkdir dir="${classes.dir}"/>
     <mkdir dir="${test.build.dir}"/>
-    <mkdir dir="${codegen.build.dir}"/>
     <mkdir dir="build/src/net/sourceforge/czt/rules/ast"/>
   </target>
 
@@ -48,7 +44,7 @@
     </jar>
   </target>
 
-  <target name="compile" depends="codegen"
+  <target name="compile" depends="init"
           description="compile the sources">
     <javac
       srcdir="${rules.src.dir}:build/src"
@@ -59,45 +55,6 @@
       <classpath refid="classpath"/>
       <compilerarg value="${compilerarg}"/>
     </javac>
-  </target>
-
-  <target name="codegen" depends="run-codegen"/>
-
-  <target name="compile-codegen" depends="init">
-    <javac
-      srcdir="${codegen.src.dir}"
-      destdir="${codegen.build.dir}"
-      debug="${debug}"
-      debuglevel="${debuglevel}"
-      optimize="${optimize}">
-      <classpath>
-        <pathelement path="${velocity.classpath}"/>
-        <pathelement path="${xerces.classpath}"/>
-      </classpath>
-      <classpath refid="classpath"/> 
-      <compilerarg value="${compilerarg}"/>
-    </javac>
-  </target>
-
-  <target name="install-codegen" depends="compile-codegen">
-    <jar jarfile="${codegen.jar.file}">
-      <fileset dir="${codegen.build.dir}"/>
-    </jar>
-  </target>
-
-  <target name="run-codegen" depends="install-codegen">
-    <java classname="net.sourceforge.czt.rules.codegen.Main" fork="true">
-      <arg line="../zml/ZPattern.xsd"/>
-      <classpath>
-        <pathelement location="${velocity.classpath}"/>
-        <pathelement path="${xerces.classpath}"/>
-        <pathelement location="${codegen.jar.file}"/>
-      </classpath>
-      <classpath refid="classpath"/> 
-      <assertions>
-        <enable/>
-      </assertions>
-    </java>
   </target>
 
   <target name="test" depends="run-tests">

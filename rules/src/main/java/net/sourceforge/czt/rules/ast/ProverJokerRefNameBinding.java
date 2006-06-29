@@ -16,9 +16,6 @@
   along with czt; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-#set( $jokername = "${complex_type.Name}" )
-#set( $name = "${jokername}Binding" )
-#set( $classname = "Prover${name}" )
 
 package net.sourceforge.czt.rules.ast;
 
@@ -35,24 +32,24 @@ import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
  * An implementation of the interface
- * {@link ${name}}.
+ * {@link JokerRefNameBinding}.
  *
  * @author Petra Malik
  */
-public class ${classname}
-  extends ${name}Impl
+public class ProverJokerRefNameBinding
+  extends JokerRefNameBindingImpl
 {
-  protected ${classname}(${jokername} joker)
+  protected ProverJokerRefNameBinding(JokerRefName joker)
   {
-    super.set${jokername}(joker);
+    super.setJokerRefName(joker);
   }
 
-  public ${classname} create(Object[] args)
+  public ProverJokerRefNameBinding create(Object[] args)
   {
     throw new UnsupportedOperationException();
   }
 
-  public void set${jokername}(${jokername} joker)
+  public void setJokerRefName(JokerRefName joker)
   {
     throw new UnsupportedOperationException();
   }
