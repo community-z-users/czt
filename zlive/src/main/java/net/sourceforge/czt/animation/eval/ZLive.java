@@ -57,7 +57,7 @@ public class ZLive
 
   /** The name and current version of ZLive */
   public static final String banner =
-    "ZLive version 0.2, (C) 2005, Mark Utting";
+    "ZLive version 0.5, (C) 2006, Mark Utting";
 
   private Factory factory_;
 
