@@ -2552,9 +2552,9 @@ boxedParagraph ::=
         |
         boxedBasicProcessPara:bpp
         {: RESULT = bpp; :}
-        |
+        /*|
         refinementPara:rp
-        {: RESULT = rp; :}
+        {: RESULT = rp; :}*/
 </add:circus>        
 <add:zpatt>
         |
