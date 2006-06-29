@@ -36,7 +36,10 @@ public class Main
   public static void main(String[] args)
     throws Throwable
   {
-    if (args.length == 0) System.out.println(usage());
+    if (args.length == 0) {
+      System.out.println(usage());
+      return;
+    }
     if (! args[0].startsWith("-") && ! args[0].contains(".")) {
       command(args);
     }
