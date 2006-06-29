@@ -1,4 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2006.06.29.08.09.35;	author petra;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -26,10 +48,6 @@
       <artifactId>java_cup</artifactId>
     </dependency>
     <dependency>
-      <groupId>jflex</groupId>
-      <artifactId>jflex</artifactId>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
@@ -50,6 +68,11 @@
             <groupId>ant</groupId>
             <artifactId>ant-trax</artifactId>
             <version>1.6.5</version>
+          </dependency>
+          <dependency>
+            <groupId>jflex</groupId>
+            <artifactId>jflex</artifactId>
+            <version>1.4.1</version>
           </dependency>
         </dependencies>
         <executions>
@@ -85,3 +108,4 @@
     </plugins>
   </build>
 </project>
+@
