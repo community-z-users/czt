@@ -2324,6 +2324,7 @@ rules/src/main/java/net/sourceforge/czt/rules/ast/ProverJokerRefName.java -text
 rules/src/main/java/net/sourceforge/czt/rules/ast/ProverJokerRefNameBinding.java -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
+src/assemble/bin.xml -text
 typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text

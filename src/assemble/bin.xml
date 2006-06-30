@@ -1,0 +1,37 @@
+<assembly>
+  <!-- The binary release can be build by first doing a "mvn install"
+       and then calling "mvn -N assembly:directory".
+       This creates a directory target/czt-0.5-bin. -->
+  <id>bin</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>zml/examples/z</directory>
+      <outputDirectory>examples</outputDirectory>
+      <includes>
+        <include>bbook.*</include>
+        <include>birthdaybook.*</include>
+        <include>Sched.tex</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>fonts</directory>
+    </fileSet>
+    <fileSet>
+      <directory>bin</directory>
+    </fileSet>
+    <fileSet>
+      <directory>jedit</directory>
+      <includes>
+        <include>bin/*</include>
+        <include>*.*</include>
+      </includes>
+      <excludes>
+        <exclude>pom.xml</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+</assembly>
