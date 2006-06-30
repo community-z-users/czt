@@ -38,36 +38,11 @@ import net.sourceforge.czt.session.UrlSource;
  * @author Petra Malik
  */
 public class ParserTest
-  extends AbstractParserTest
+  extends AbstractParserFailTest
 {
-  public static Test suite()
-  {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(ParserTest.class);
-    suite.addTestSuite(ParserExceptionTest.class);
-    return suite;
-  }
-
   public Term parse(URL url, SectionManager manager)
     throws Exception
   {
     return ParseUtils.parse(new UrlSource(url), manager);
-  }
-
-  /**
-   * A (JUnit) test class for testing the parser.
-   * This class contains tests where the parser is supposed to fail,
-   * i.e. to throw an exception.
-   *
-   * @author Petra Malik
-   */
-  public static class ParserExceptionTest
-    extends AbstractParserFailTest
-  {
-    public Term parse(URL url, SectionManager manager)
-      throws Exception
-    {
-      return ParseUtils.parse(new UrlSource(url), manager);
-    }
   }
 }
