@@ -33,9 +33,6 @@
   <property name="java_cup"
     location="${czt.lib}/${java_cup.jar.file}"/>
   
-  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
-    classpath="${jflex}"/>
-
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
     <fileset dir="${czt.lib}">
@@ -65,6 +62,11 @@
     <taskdef name="java_cup"
       classname="net.sourceforge.czt.java_cup.anttask.CUPTask"
       classpath="${java_cup}"/>
+  </target>
+
+  <target name="-set-jflex-task">
+    <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
+      classpath="${jflex}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -268,7 +270,7 @@
   <target name="generate-tcoz-scanner"
     depends="tcoz-l2u, tcoz-lmarkup, tcoz-ltu, tcoz-uscanner, tcoz-lscanner, tcoz-sscanner"/>
   
-  <target name="z-print-scanner">
+  <target name="z-print-scanner" depends="-set-jflex-task">
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
@@ -290,7 +292,7 @@
     </xslt>
   </target>
 
-  <target name="oz-print-scanner">
+  <target name="oz-print-scanner" depends="-set-jflex-task">
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/oz/ContextFreeScanner.jflex"
@@ -312,7 +314,7 @@
     </xslt>
   </target>
   
-  <target name="circus-print-scanner">
+  <target name="circus-print-scanner" depends="-set-jflex-task">
     <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/circus/ContextFreeScanner.jflex"
@@ -445,7 +447,7 @@
     </xslt>
   </target>
 
-  <target name="z-l2u">
+  <target name="z-l2u" depends="-set-jflex-task">
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/z/Latex2Unicode.jflex"
@@ -492,7 +494,7 @@
     </xslt>
   </target>
 
-  <target name="zpatt-l2u">
+  <target name="zpatt-l2u" depends="-set-jflex-task">
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/Latex2Unicode.jflex"
@@ -539,7 +541,7 @@
     </xslt>
   </target>
  
-  <target name="circus-l2u">
+  <target name="circus-l2u" depends="-set-jflex-task">
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
@@ -587,7 +589,7 @@
     </xslt>
   </target>
 
-  <target name="oz-l2u">
+  <target name="oz-l2u" depends="-set-jflex-task">
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
@@ -635,7 +637,7 @@
   </target>
 
   <!-- Modifications below for TCOZ -->
-  <target name="tcoz-l2u">
+  <target name="tcoz-l2u" depends="-set-jflex-task">
     <xslt
       in="templates/Latex2Unicode.xml"
       out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/Latex2Unicode.jflex"
@@ -854,7 +856,7 @@
       </xslt>
     </target>
 
-  <target name="z-uscanner"
+  <target name="z-uscanner" depends="-set-jflex-task"
     description="Create the unicode scanner for the Z parser">
   <!-- Create the unicode scanner for the Z parser. -->
     <xslt
@@ -915,7 +917,7 @@
     </xslt>
   </target>
 
-  <target name="zpatt-uscanner"
+  <target name="zpatt-uscanner" depends="-set-jflex-task"
     description="Create the unicode scanner for the Zpatt parser">
   <!-- Create the unicode scanner for the Zpatt parser. -->
     <xslt
@@ -983,7 +985,7 @@
   </target>
 
   <!-- Create the unicode scanner for the Circus parser. -->
-  <target name="circus-uscanner">
+  <target name="circus-uscanner" depends="-set-jflex-task">
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.circus.dir}/UnicodeScanner.java"
@@ -1049,7 +1051,7 @@
   </target>
 
   <!-- Create the unicode scanner for the object Z parser. -->
-  <target name="oz-uscanner">
+  <target name="oz-uscanner" depends="-set-jflex-task">
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.oz.dir}/UnicodeScanner.java"
@@ -1115,7 +1117,7 @@
   </target>
 
   <!-- Modifications below for TCOZ -->
-  <target name="tcoz-uscanner"
+  <target name="tcoz-uscanner" depends="-set-jflex-task"
     description="Create the unicode scanner for the TCOZ parser">
     <xslt
       in="templates/UnicodeScanner.xml"
