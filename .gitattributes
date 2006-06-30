@@ -2335,17 +2335,6 @@ ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 util/COPYING.txt -text
 util/build.xml -text
 util/pom.xml -text
-web/cztlogo/cztlogo.xcf -text
-web/cztlogo/czttitle.xcf -text
-web/cztlogo/czttitle3.xcf -text
-web/cztlogo/wordart.png -text
-web/src/resources/images/built-with-forrest-button.png -text
-web/src/resources/images/cztlogo.jpg -text
-web/src/resources/images/jedit_screen.png -text
-web/src/resources/images/jedit_unicode_example.png svneol=native#unset
-web/src/resources/images/plugin.png -text
-web/src/resources/images/project.jpg -text
-web/src/resources/images/sflogo.png -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/pom.xml -text
