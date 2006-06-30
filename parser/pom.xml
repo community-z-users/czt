@@ -22,7 +22,7 @@
       <artifactId>session</artifactId>
     </dependency>
     <dependency>
-      <groupId>java_cup</groupId>
+      <groupId>net.sourceforge.czt</groupId>
       <artifactId>java_cup</artifactId>
     </dependency>
     <dependency>
