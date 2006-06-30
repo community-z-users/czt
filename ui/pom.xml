@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT User Interface</name>
   <description>
-    Provides a user interface for CZT.
+    Provides a user interface for CZT tools.
   </description>
   <dependencies>
     <dependency>
@@ -34,6 +34,8 @@
               <descriptors>
                 <descriptor>src/assemble/dep.xml</descriptor>
               </descriptors>
+              <outputDirectory>../bin</outputDirectory>
+              <finalName>czt</finalName>
               <archive>
                 <manifest>
                   <mainClass>net.sourceforge.czt.ui.Main</mainClass>
