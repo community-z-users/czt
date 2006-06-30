@@ -5,7 +5,6 @@
   <property name="util.jar" location="${jaxb.jar.dir}/${util.jar.file}"/>
   <property name="jaxb.src.dir" location="src/main/java"/>
   <property name="jaxb.build.dir" location="build"/>
-  <property name="jaxb.build.xsd" location="${jaxb.build.dir}/xsd"/>
   <property name="jaxb.build.classes" location="${jaxb.build.dir}/classes"/>
   <property name="jaxb.jar" location="${jaxb.jar.dir}/${jaxb.jar.file}"/>
   <property name="jaxb.api.dir" location="doc/api"/>
@@ -16,7 +15,6 @@
 
   <target name="init">
     <tstamp/>
-    <mkdir dir="${jaxb.build.xsd}"/>
     <mkdir dir="${jaxb.build.classes}"/>
   </target>
 
