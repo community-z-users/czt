@@ -10,41 +10,27 @@ It includes the following sub-projects in the form of sub-directories
 in <CZT_HOME> (which is the directory where this README is in).
 Note that not all of these may be included in a given release.
 
-admin/       Tools for administration, preparing releases, ...
 corejava/    Java AST classes for standard Z
-devtools/    Some libraries (java_cup etc.) and tables of Z characters
-doc/         General Documentation and Articles
-eclipse/     A CZT plugin for Eclipse (under development)
-gaffe/       GUI-builder for Z animators
-gnast/       GeNerate AST classes (into corejava and jaxb) from XML schemas
+java_cup/    The Java Cup parser generator adabted for the CZT project
 jaxb/        Support classes for reading/writing Z XML files.
 jedit/       Several CZT plugins for the JEdit editor
 modeljunit/  Model-based unit testing, used by ZLive
 parser/      Parses and prints Z specs (various markups) into and from ZML
 rules/       Support for Z AST transformation rules (see doc/papers/rules)
-translators/ Various tools for translating into and from ZML
 typechecker/ Typechecks Z and Object-Z specifications
 util/        Support classes that are independent of Z
 web/         Sources to the czt.sourceforge.net web site
 zlive/       Z animator
 zml/         XML schemas for Z and several Z extensions, with examples
 
-Here are the dependencies between these projects:
+Here are the main dependencies between these projects:
 jaxb         uses:  util
 corejava     uses:  jaxb
-parser       uses:  session, devtools (just devtools/cup_tum/build/src folder)
+parser       uses:  session, java_cup
 typechecker  uses:  parser
 rules        uses:  typechecker
 zlive        uses:  typechecker, modeljunit
-gaffe        uses:  zlive
-jedit        uses:  ???
-eclipse      uses:  ???
-translators/z2b uses:  session, gaffe (just the generator part)
-translators/zeves uses: ???
-
-The file czt.properties controls various properties used for
-building and running czt software.  Please have a look at this
-file and adjust the settings according your needs.
+jedit        uses:  zlive
 
 See the README file in each directory for more details on each sub-project.
 
@@ -53,8 +39,60 @@ See the CZT web site for general details about CZT:
       http://czt.sourceforge.net
 
 
-Requirements
-************
+Compiling
+*********
+
+Currently, there are two alternatives to compile CZT.
+The recomended way is to use maven.  It doesn't require to install so
+many things since maven downloads the dependencies automatically.
+Using ant is the more traditional way but it requires to install all
+the 3rd party software in advance.  It also requires to set the paths
+to the installed software in the czt.properties file appropriately,
+which is cumbersome.
+
+
+Compiling using maven
+*********************
+
+You need at least the following:
+- Java 2 SDK >= 1.5
+  http://java.sun.com/j2se/
+- Maven version >= 2.0.4
+  http://maven.apache.org/
+to build CZT.  If you don't have these installed on your system,
+you should download and install them before you can build czt.
+
+Maven will download most of the dependencies automatically.
+However, there are a few things that maven can't download
+for you.  This includes
+jflex (downloadable from http://jflex.de/download.html),
+jEdit (downloadable from http://jedit.org/index.php?page=download),
+and jEdit plugins that can be downloaded using the jEdit plugin
+manager.  Please follow the instructions given by maven to install
+those in the maven respository so that maven can find them.
+
+To build CZT, you need to increase the Java heap size to at least
+256Mb, which is done by seting the MAVEN_OPTS environment variable
+to "-Xms256m".
+
+To build CZT, change into the (top level) CZT directory (<CZT_HOME>),
+and call
+  mvn install
+This should install all the CZT tools into your local maven
+repository, ready to be used in your own projects.  It should also
+create jar files in <CZT_HOME>/bin as well as <CZT_HOME>/jedit/bin.
+
+The jar file in <CZT_HOME>/bin is an (command line) executable jar
+file, which can be executed by calling
+  java -jar czt-dep.jar
+
+See <CZT_HOME>/jedit/README.txt for how to install the various jEdit
+plugins in <CZT_HOME>/jedit/bin.
+
+
+Compiling using ant
+*******************
+
 Most of the sub-projects will need at least the following:
 - Java 2 SDK >= 1.5
   http://java.sun.com/j2se/
@@ -77,14 +115,6 @@ often be obtained from the README.txt files within the sub-projects
 directories (but these are sometimes less up-to-date than czt.properties).
 For instance, read '<CZT_HOME>/corejava/README.txt' to get detailed
 information on requirements for the corejava sub-project.
-
-
-Compile
-*******
-Here are the instructions for compiling CZT from the command line.
-(If you want to do CZT development using Eclipse, you should still 
- do the following CZT build steps before you set up Eclipse.  
- Then see doc/eclipse-howto.txt for Eclipse setup).
 
 1. Customise the file czt.properties.
    CZT relies on quite a few (10-15!) external libraries and tools.
