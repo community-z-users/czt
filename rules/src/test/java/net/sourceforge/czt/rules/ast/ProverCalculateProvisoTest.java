@@ -61,7 +61,6 @@ public class ProverCalculateProvisoTest extends TestCase
     Expr result = (Expr) ProverUtils.removeJoker(left);
     StringWriter swriter = new StringWriter();
     PrintUtils.printLatex(result, swriter, sectman_, sect);
-    System.out.println("Result was:"+swriter.toString());
     assertEquals(expect, swriter.toString());
   }
 

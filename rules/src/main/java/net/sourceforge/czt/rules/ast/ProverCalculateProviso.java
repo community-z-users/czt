@@ -260,7 +260,6 @@ public class ProverCalculateProviso
     {
       VarDecl vdecl = (VarDecl)decl;
       String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
-      System.out.println("map2["+name+"] := "+vdecl.getExpr());
       map2.put(name,vdecl.getExpr());
     }
     // now go through decls1, and filter out any names in map2
@@ -269,12 +268,10 @@ public class ProverCalculateProviso
     {
       VarDecl vdecl = (VarDecl)decl;
       String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
-      System.out.println("checking name:"+name+".");
       if (map2.containsKey(name)) {
         assert map2.get(name).equals(vdecl.getExpr());
       }
       else {
-        System.out.println("added name:"+name+".");
         result.add(decl);
       }
     }
