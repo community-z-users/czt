@@ -259,7 +259,9 @@ action code
           parser.sectInfo_.get(new Key(parentName, LatexMarkupFunction.class));
       }
       catch (CommandException exception) {
-        System.err.println("Caught " + exception);
+        final String message =
+          "Cannot get LaTeX mark-up directives for parent " + parentName;
+        CztLogger.getLogger(<class/>.class).finer(message);
       }
       if (parentMarkup == null) {
         ZSect parentHeader = (ZSect) sections_.get(parentName);
@@ -285,7 +287,9 @@ action code
         parser.sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
     }
     catch (CommandException exception) {
-      System.err.println("Caught " + exception);
+      final String message =
+        "Cannot get LaTeX mark-up directives for section " + sectName;
+      CztLogger.getLogger(<class/>.class).finer(message);
     }
     if (table != null) {
       LatexMarkupPara para =
