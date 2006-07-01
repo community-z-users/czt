@@ -73,7 +73,7 @@ those in the maven respository so that maven can find them.
 
 To build CZT, you need to increase the Java heap size to at least
 256Mb, which is done by seting the MAVEN_OPTS environment variable
-to "-Xms256m".
+to "-Xmx256m".
 
 To build CZT, change into the (top level) CZT directory (<CZT_HOME>),
 and call
@@ -135,7 +135,7 @@ information on requirements for the corejava sub-project.
    The argument increases the Java heap size to 256Mb, which is 
    necessary to build some of the CZT parsers.
    Alternatively, you can set the ANT_OPTS environment variable
-   to -Xms256m before you call ant.
+   to -Xmx256m before you call ant.
 
    By default, ant will build the jar files and install them in 
    the '<CZT_HOME>/lib' directory.  Optionally, you can pass an 
