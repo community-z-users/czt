@@ -5,6 +5,7 @@
     <artifactId>czt</artifactId>
     <version>0.5</version>
   </parent>
+  <groupId>net.sourceforge.czt.jedit</groupId>
   <artifactId>jedit</artifactId>
   <packaging>pom</packaging>
   <name>CZT jEdit plugins</name>

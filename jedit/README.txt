@@ -74,13 +74,13 @@ instructions on installing edit modes.
 b) Installing the jEdit plugins
 --------------------------------------------
 To install the ZCharMap plugin you need to:
-  1. copy bin/palette-jedit-plugin.jar to SETTINGS_DIR/jars
+  1. copy ZCharMap.jar to SETTINGS_DIR/jars
   2. restart jEdit to load the new plugin
 
 To install the ZSideKick plugin you need to:
   1. Install the SideKick and ErrorList plugin
      using jEdit's Plugin manager
-  2. copy bin/zsidekick.jar AND ../bin/czt-dep.jar
+  2. copy ZSideKick.jar AND czt-dep.jar
      to SETTINGS_DIR/jars
   3. update the catalog file in SETTINGS_DIR/modes
      (see the catalog file to see how to do this)
@@ -88,7 +88,7 @@ To install the ZSideKick plugin you need to:
 
 To install the ZLive plugin you need to:
   1. Install the Console plugin using jEdit's Plugin manager
-  2. copy bin/zlive-jedit-plugin.jar AND ../bin/czt-dep.jar
+  2. copy ZLivePlugin.jar AND czt-dep.jar
      to SETTINGS_DIR/jars
   3. restart jEdit to load the new plugin
 

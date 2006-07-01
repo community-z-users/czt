@@ -2,15 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.sourceforge.czt</groupId>
+    <groupId>net.sourceforge.czt.jedit</groupId>
     <artifactId>jedit</artifactId>
     <version>0.5</version>
   </parent>
-  <artifactId>palette-jedit-plugin</artifactId>
+  <artifactId>ZCharMap</artifactId>
   <packaging>jar</packaging>
-  <name>CZT Palette jEdit Plugin</name>
+  <name>CZT Z Palette jEdit Plugin</name>
   <description>
-    jEdit Plugin for animating Z specifications.
+    jEdit Plugin that gives a palette for Z characters and formulae
   </description>
   <dependencies>
     <dependency>
