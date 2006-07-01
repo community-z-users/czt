@@ -286,7 +286,7 @@ public class SectionManager
     catch (ClassNotFoundException e) {
       final String message = "Cannot get class " + name +
         "; class cannot be found";
-      getLogger().info(message);
+      getLogger().finer(message);
     }
     return null;
   }
@@ -373,7 +373,7 @@ public class SectionManager
     assert key.getType().isInstance(value);
     if (content_.containsKey(key)) {
       String message = "Attempt to add duplicate key: " + key;
-      getLogger().warning(message);
+      getLogger().finer(message);
     }
     content_.put(key, value);
     getLogger().finer("put " + key);
