@@ -48,7 +48,7 @@ public class ZBinding implements ZValue
   public ZBinding()
   {
     //binding_ = new HashMap();
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createBindExpr();
   }
 
@@ -60,7 +60,7 @@ public class ZBinding implements ZValue
   public ZBinding(Map<String, ZValue> binding)
   {
     //binding_ = new HashMap(binding);
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createBindExpr(this.mapToDeclList(binding));
   }
 
@@ -100,7 +100,7 @@ public class ZBinding implements ZValue
       for (Decl decl : e.getZDeclList()) {
         ConstDecl tempDecl = (ConstDecl) decl;
         if (tempDecl.getZDeclName().equals(target)) {
-          return ZFactory.zValue(tempDecl.getExpr());
+          return GaffeFactory.zValue(tempDecl.getExpr());
         }
       }
       return null;

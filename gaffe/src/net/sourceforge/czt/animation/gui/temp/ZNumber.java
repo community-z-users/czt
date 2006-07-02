@@ -42,7 +42,7 @@ public class ZNumber implements ZValue
   public ZNumber(long number)
   {
     //number_ = number;
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createNumExpr(BigInteger.valueOf(number));
   }
 

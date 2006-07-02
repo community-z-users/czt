@@ -22,7 +22,7 @@ package net.sourceforge.czt.animation.gui.history;
 import java.net.URL;
 
 import net.sourceforge.czt.animation.eval.ZLive;
-import net.sourceforge.czt.animation.gui.temp.ZFactory;
+import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.DefinitionTable.Definition;
 import net.sourceforge.czt.session.Key;
@@ -62,7 +62,7 @@ public class ZLiveHistory extends BasicHistory
   
   public ZLiveHistory(String stateSchema, String initSchema, URL specURL)
   {
-    zLive_ = ZFactory.getZLive();
+    zLive_ = GaffeFactory.getZLive();
     sectman_ = zLive_.getSectionManager();
     sectman_.putCommands("zpatt");
     try {
@@ -71,7 +71,7 @@ public class ZLiveHistory extends BasicHistory
       sectman_.put(new Key("ZLiveHistory",Source.class), spec);
       ZSect sec = (ZSect) sectman_.get(new Key("ZLiveHistory", ZSect.class));
       zLive_.setCurrentSection(sec.getName());
-      key = new Key("ZLiveDefn", DefinitionTable.class);
+      key = new Key(sec.getName(), DefinitionTable.class);
       dt = (DefinitionTable) sectman_.get(key);
       this.activateSchema(initSchema);
     }

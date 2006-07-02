@@ -67,10 +67,10 @@ public class ZSet implements ZValue
     // set_ = new Vector(set);
     env = new Envir();
     list = new ArrayList<ZRefName>();
-    ZRefName setName = ZFactory.getFactory().createZRefName("NoName");
+    ZRefName setName = GaffeFactory.getFactory().createZRefName("NoName");
     ZRefName tempName = null;
     for (ZValue zValue : set) {
-      tempName = ZFactory.getFactory().createZRefName(String.valueOf(i++));
+      tempName = GaffeFactory.getFactory().createZRefName(String.valueOf(i++));
       env = env.plus(tempName, zValue.getExpr());
       list.add(tempName);
     }
@@ -117,7 +117,7 @@ public class ZSet implements ZValue
     {
       ZValue result = null;
       try {
-        result = ZFactory.zValue(exprs.next());
+        result = GaffeFactory.zValue(exprs.next());
       } catch (UnexpectedTypeException ute) {
         ute.printStackTrace();
       }
@@ -134,7 +134,7 @@ public class ZSet implements ZValue
     {
       ZValue result = null;
       try {
-        result = ZFactory.zValue(exprs.previous());
+        result = GaffeFactory.zValue(exprs.previous());
       } catch (UnexpectedTypeException ute) {
         ute.printStackTrace();
       }
@@ -212,8 +212,8 @@ public class ZSet implements ZValue
     // return (ZValue) set_.get(index);
     ZValue result = null;
     try {
-      result = ZFactory.zValue(e.getEnvir().lookup(
-          ZFactory.getFactory().createZRefName(String.valueOf(index))));
+      result = GaffeFactory.zValue(e.getEnvir().lookup(
+          GaffeFactory.getFactory().createZRefName(String.valueOf(index))));
     } catch (UnexpectedTypeException ute) {
       ute.printStackTrace();
     }
@@ -229,7 +229,7 @@ public class ZSet implements ZValue
     Set<ZValue> result = new HashSet<ZValue>();
     for (Iterator<Expr> it = e.iterator(); it.hasNext();) {
       try {
-        result.add(ZFactory.zValue(it.next()));
+        result.add(GaffeFactory.zValue(it.next()));
       } catch (UnexpectedTypeException ute) {
         ute.printStackTrace();
       }

@@ -46,7 +46,7 @@ public class ZTuple implements ZValue
   public ZTuple()
   {
     //tuple_ = new Vector();
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createTupleExpr();
   }
 
@@ -60,7 +60,7 @@ public class ZTuple implements ZValue
     //tuple_ = new Vector();
     //tuple_.add(a);
     //tuple_.add(b);
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createTupleExpr(a.getExpr(), b.getExpr());
   }
 
@@ -71,7 +71,7 @@ public class ZTuple implements ZValue
   public ZTuple(List<ZValue> tuple)
   {
     //tuple_ = new Vector(tuple);
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     List<Expr> exprTuple = new ArrayList<Expr>();
     for (ZValue zValue : tuple) {
       exprTuple.add(zValue.getExpr());
@@ -110,7 +110,7 @@ public class ZTuple implements ZValue
     {
       ZValue result = null;
       try {
-        result = ZFactory.zValue(exprs.next());
+        result = GaffeFactory.zValue(exprs.next());
       } catch (UnexpectedTypeException ute) {
         ute.printStackTrace();
       }
@@ -151,7 +151,7 @@ public class ZTuple implements ZValue
     //return (ZValue) tuple_.get(index);
     ZValue result = null;
     try {
-      result = ZFactory.zValue(e.getZExprList().get(index));
+      result = GaffeFactory.zValue(e.getZExprList().get(index));
     } catch (UnexpectedTypeException ute) {
       ute.printStackTrace();
     }

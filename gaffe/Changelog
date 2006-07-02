@@ -19,6 +19,8 @@ Changelog:
 02 July 2006 -
         - Modify SolutionSet as a ZSet to hold infinite results. Avoid gaffe using add operation on SolutionSet
           BirthdayHistoryBook.gaffe example can pass with gaffe. 
+        - Modify ZLiveHistory to work with section manager
+        - Rename ZFactory in Gaffe to GaffeFactory, updated references.
 
 25 June 2006 -
         - Add ZLiveHistory to connect ZLive. Further changes needed to call ZLiveHistory instead of BasicHistory

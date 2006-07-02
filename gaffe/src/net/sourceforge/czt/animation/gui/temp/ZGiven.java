@@ -42,7 +42,7 @@ public class ZGiven implements ZValue
   public ZGiven(String value)
   {
     //value_ = value;
-    factory = ZFactory.getFactory();
+    factory = GaffeFactory.getFactory();
     e = factory.createZRefName(value);
   }
 
