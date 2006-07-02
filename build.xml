@@ -27,6 +27,9 @@
     file="${basedir}/typechecker/build.xml"
     property="typechecker.present"/>
   <available
+    file="${basedir}/ui/build.xml"
+    property="ui.present"/>
+  <available
     file="${basedir}/zlive/build.xml"
     property="zlive.present"/>
   <available
@@ -72,7 +75,7 @@
   <echo message="czt.jar.uptodate result: ${czt.jar.uptodate}" />
 
   <target name="czt.jar"
-    depends="install-corejava, install-session, install-parser, install-typechecker"
+    depends="install-corejava, install-session, install-parser, install-typechecker, install-zlive, install-ui"
     unless="czt.jar.uptodate"
     description="build the czt jar file">
     <property name="czt.build.dir" location="build"/>
@@ -87,11 +90,13 @@
     <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${rules.jar.file}" dest="${czt.build.dir}"/>
-    <copy todir="${czt.build.dir}/czt">
-      <fileset dir="bin/bsh"/>
-    </copy>
+    <unjar src="${jar.dir}/${zlive.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${ui.jar.file}" dest="${czt.build.dir}"/>
     <jar jarfile="${jar.dir}/${czt.jar.file}" update="true">
       <fileset dir="${czt.build.dir}"/>
+      <manifest>
+        <attribute name="Main-Class" value="net.sourceforge.czt.ui.Main"/>
+      </manifest>
     </jar>
     <delete dir="${czt.build.dir}"/>
    </target>
@@ -106,7 +111,7 @@
   <target name="install-subprojects"
     depends="install-util, install-jaxb, install-corejava,
       install-session, install-modeljunit,
-      install-parser, install-typechecker,
+      install-parser, install-typechecker, install-ui,
       install-rules, install-zlive, install-jedit, install-zsidekick-plugin,
       install-zlive-plugin" 
     description="install subprojects">
@@ -114,7 +119,7 @@
 
   <target name="api-subprojects"
     depends="api-util, api-jaxb,
-      api-corejava, api-session, api-parser, api-typechecker,
+      api-corejava, api-session, api-parser, api-typechecker, api-ui,
       api-rules, api-zlive, api-modeljunit"
     description="build the api for subprojects">
   </target>
@@ -160,6 +165,12 @@
     depends="install-corejava, install-session"
     description="install typeckecker">
     <ant dir="typechecker" target="install"/>
+  </target>
+
+  <target name="install-ui" if="ui.present"
+    depends="install-session, install-parser"
+    description="install user interface">
+    <ant dir="ui" target="install"/>
   </target>
 
   <target name="install-zlive" if="zlive.present"
@@ -262,6 +273,11 @@
     <ant dir="typechecker" target="api"/>
   </target>
 
+  <target name="api-ui" if="ui.present"
+    description="build api doc for typeckecker">
+    <ant dir="ui" target="api"/>
+  </target>
+
   <target name="api-zlive" if="zlive.present"
     description="build api doc for zlive">
     <ant dir="zlive" target="api"/>
@@ -302,7 +318,7 @@
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-gnast, clean-util, clean-jaxb, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-parser, clean-typechecker, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
+    depends="clean-gnast, clean-util, clean-jaxb, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-parser, clean-typechecker, clean-ui, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -329,12 +345,12 @@
   </target>
 
   <target name="clean-session" if="session.present"
-    description="clean up typechecker">
+    description="clean up session">
     <ant dir="session" target="clean"/>
   </target>
 
   <target name="clean-modeljunit" if="modeljunit.present"
-    description="clean up typechecker">
+    description="clean up modeljunit">
     <ant dir="modeljunit" target="clean"/>
   </target>
 
@@ -351,6 +367,11 @@
   <target name="clean-typechecker" if="typechecker.present"
     description="clean up typechecker">
     <ant dir="typechecker" target="clean"/>
+  </target>
+
+  <target name="clean-ui" if="ui.present"
+    description="clean up user interface">
+    <ant dir="ui" target="clean"/>
   </target>
 
   <target name="clean-zlive" if="zlive.present"
