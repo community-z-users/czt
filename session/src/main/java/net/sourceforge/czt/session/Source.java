@@ -77,14 +77,20 @@ public abstract class Source
    */
   protected void guessSettings(String name)
   {
-    if (name.endsWith(".tex")) setMarkup(Markup.LATEX);
-    if (name.endsWith(".utf8")) {
+    if (name.endsWith(".tex") || name.endsWith(".zed")) {
+      setMarkup(Markup.LATEX);
+    }
+    else if (name.endsWith(".utf8")) {
       setMarkup(Markup.UNICODE);
       setEncoding("UTF-8");
     }
-    if (name.endsWith(".utf16")) {
+    else if (name.endsWith(".utf16")) {
       setMarkup(Markup.UNICODE);
       setEncoding("UTF-16");
+    }
+    else if (name.endsWith(".xml") || name.endsWith(".zml")) {
+      setMarkup(Markup.ZML);
+      setEncoding("UTF-8");
     }
   }
 }
