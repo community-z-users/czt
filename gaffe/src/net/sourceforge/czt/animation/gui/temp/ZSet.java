@@ -94,13 +94,6 @@ public class ZSet implements ZValue
     this.e = e;
   }
 
-  public void add(ZValue value)
-  {
-    ZRefName tempName = ZFactory.getFactory().createZRefName(
-        String.valueOf(i++));
-    this.env = env.plus(tempName, value.getExpr());
-  }
-
   /**
    * Dynamiclly wrapping the memember of Expr to ZValue
    * 
@@ -177,7 +170,7 @@ public class ZSet implements ZValue
   /**
    * @return An iterator over this <code>ZSet</code>.
    */
-  public ListIterator iterator()
+  public ListIterator<ZValue> iterator()
   {
     // return set_.iterator();
     return new ZSetIterator(e.listIterator());

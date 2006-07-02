@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.gui.temp;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.HashSet;
 import java.util.ListIterator;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class SolutionSet
   //c
   private ZSet solutions_;
 
-  private ListIterator currentSolution_;
+  private ListIterator<ZValue> currentSolution_;
 
   private String schemaName_;
 
@@ -63,9 +64,9 @@ public class SolutionSet
   public SolutionSet(String schemaName, ZBinding solution)
   {
     schemaName_ = schemaName;
-    //c
-    solutions_ = new ZSet();
-    solutions_.add(solution);
+    HashSet<ZBinding> tempSet = new HashSet<ZBinding>();
+    tempSet.add(solution);
+    solutions_ = new ZSet(tempSet);
     currentSolution_ = solutions_.iterator();
   }
   
