@@ -23,10 +23,12 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.*;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
 public class Main
@@ -47,9 +49,17 @@ public class Main
       String extension = "z";
       String output = null;
       boolean syntaxCheckOnly = false;
+      Level verbosityLevel = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-s".equals(args[i])) {
           syntaxCheckOnly = true;
+        }
+        else if ("-v".equals(args[i])) {
+          verbosityLevel = Level.INFO;
+        }
+        else if ("-vv".equals(args[i])) {
+          verbosityLevel = Level.FINER;
+          Logger.getLogger("").setLevel(verbosityLevel);
         }
         else if ("-d".equals(args[i])) {
           if (i + 1 < args.length) {
@@ -70,6 +80,7 @@ public class Main
           }
         }
         else {
+          setConsoleLogger(verbosityLevel);
           SectionManager manager = new SectionManager(extension);
           FileSource source = new FileSource(args[i]);
           if (parse(source, manager, syntaxCheckOnly) && output != null) {
@@ -209,17 +220,30 @@ public class Main
                               boolean syntaxCheckOnly)
     throws CommandException
   {
+    Logger logger = CztLogger.getLogger(Main.class);
+    logger.info("Parse " + source);
+    logger.info("Mark-up is " + source.getMarkup());
     try {
       String name = source.getName();
       manager.put(new Key(name, Source.class), source);
       Spec spec = (Spec) manager.get(new Key(name, Spec.class));
-      if (! syntaxCheckOnly && spec.getSect().size() > 0) {
+      int nrOfZSects = 0;
+      if (spec.getSect().size() > 0) {
         for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
-            manager.get(new Key(((ZSect) sect).getName(),
-                                SectTypeEnvAnn.class));
+            ZSect zSect = (ZSect) sect;
+            if (zSect.getParaList() instanceof ZParaList &&
+                ((ZParaList) zSect.getParaList()).size() > 0) nrOfZSects++;
+            if (! syntaxCheckOnly) {
+              manager.get(new Key(zSect.getName(),
+                                  SectTypeEnvAnn.class));
+            }
           }
         }
+      }
+      logger.info("Number of Z Sections parsed: " + nrOfZSects);
+      if (nrOfZSects < 1) {
+        System.err.println("WARNING: No Z sections found in " + source);
       }
       try {
         ParseException parseException = (ParseException)
@@ -250,6 +274,18 @@ public class Main
   {
     for (CztError error : errors) {
       System.out.println(error);
+    }
+  }
+
+  public static void setConsoleLogger(Level level)
+  {
+    Logger rootLogger = Logger.getLogger("");
+    Handler handler = null;
+    Handler[] h = rootLogger.getHandlers();
+    for (int i = 0; i < h.length; i++) {
+      if (h[i] instanceof ConsoleHandler) {
+        h[i].setLevel(level);
+      }
     }
   }
 }
