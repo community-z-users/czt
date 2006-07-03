@@ -16,12 +16,8 @@ plugin.zsidekick.ZSideKickPlugin.depend.3=plugin sidekick.SideKickPlugin 0.3
 
 # Plugin menu item properties
 plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
-                                      zsidekick.toOldLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
-                                      zsidekick.nextWff \
-                                      zsidekick.gotoDefinition \
-                                      zsidekick.insertTypeForCurrentWff \
                                       - \
                                       zsidekick.disableTypechecking \
                                       zsidekick.showCompleteTree
