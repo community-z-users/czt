@@ -79,7 +79,21 @@ public class <class/>
     }
     else if (source.getMarkup() == Markup.ZML) {
       JaxbXmlReader reader = new JaxbXmlReader();
-      return reader.read(new InputSource(source.getReader()));
+      Term result = reader.read(new InputSource(source.getReader()));
+      if (result instanceof Spec) {
+	Spec spec = (Spec) result;
+	for (Sect sect : spec.getSect()) {
+	  if (sect instanceof ZSect) {
+	    ZSect zSect = (ZSect) sect;
+	    sectInfo.put(new Key(zSect.getName(), ZSect.class), zSect, null);
+	  }
+	}
+      }
+      else if (result instanceof ZSect) {
+	ZSect zSect = (ZSect) result;
+	sectInfo.put(new Key(zSect.getName(), ZSect.class), zSect, null);
+      }
+      return result;
     }
     else {
       throw new UnsupportedOperationException();
