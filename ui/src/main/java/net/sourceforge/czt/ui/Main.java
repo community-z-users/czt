@@ -34,8 +34,35 @@ import net.sourceforge.czt.z.ast.*;
 public class Main
 {
   public static String PREFIX = "java -jar czt.jar ";
+  private Level verbosityLevel = Level.WARNING;
 
   public static void main(String[] args)
+    throws Throwable
+  {
+    Main main = new Main();
+    main.run(args);
+  }
+
+  public void run(String[] args)
+    throws Throwable
+  {
+    try {
+      parseArgs(args);
+    }
+    catch (CommandException e) {
+      if (e.getCause() != null) {
+        if (e.getCause().getMessage() != null &&
+            verbosityLevel.intValue() >= Level.INFO.intValue() ) {
+          System.err.println(e.getCause().getMessage());
+          return;
+        }
+        throw e.getCause();
+      }
+      throw e;
+    }
+  }
+
+  public void parseArgs(String[] args)
     throws Throwable
   {
     if (args.length == 0) {
@@ -49,7 +76,7 @@ public class Main
       String extension = "z";
       String output = null;
       boolean syntaxCheckOnly = false;
-      Level verbosityLevel = Level.WARNING;
+      Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-s".equals(args[i])) {
           syntaxCheckOnly = true;
@@ -58,7 +85,7 @@ public class Main
           verbosityLevel = Level.INFO;
         }
         else if ("-vv".equals(args[i])) {
-          verbosityLevel = Level.FINER;
+          verbosityLevel = Level.CONFIG;
           Logger.getLogger("").setLevel(verbosityLevel);
         }
         else if ("-d".equals(args[i])) {
