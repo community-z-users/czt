@@ -64,6 +64,7 @@ public class SourceLocator
 
     public SourceLocatorException(String name)
     {
+      super("Cannot find source location for section " + name);
       name_ = name;
     }
 
