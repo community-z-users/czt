@@ -233,7 +233,10 @@ public class Main
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
             if (zSect.getParaList() instanceof ZParaList &&
-                ((ZParaList) zSect.getParaList()).size() > 0) nrOfZSects++;
+                ((ZParaList) zSect.getParaList()).size() > 0) {
+	      nrOfZSects++;
+	      logger.info("Z Section " + zSect.getName());
+	    }
             if (! syntaxCheckOnly) {
               manager.get(new Key(zSect.getName(),
                                   SectTypeEnvAnn.class));
@@ -241,7 +244,6 @@ public class Main
           }
         }
       }
-      logger.info("Number of Z Sections parsed: " + nrOfZSects);
       if (nrOfZSects < 1) {
         System.err.println("WARNING: No Z sections found in " + source);
       }
