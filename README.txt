@@ -78,14 +78,18 @@ to "-Xmx256m".
 To build CZT, change into the (top level) CZT directory (<CZT_HOME>),
 and call
   mvn install
-This should install all the CZT tools into your local maven
-repository, ready to be used in your own projects.  It should also
-create jar files in <CZT_HOME>/bin as well as <CZT_HOME>/jedit/bin.
+This should compile, test, package, and install all the CZT tools into
+your local maven repository, ready to be used in your own projects.
+Running the CZT tests takes quite a lot of time.  If you want to skip
+running the unit tests call
+  mvn -Dmaven.test.skip=true install
+instead.
 
+The above commands should also create jar files in <CZT_HOME>/bin as
+well as <CZT_HOME>/jedit/bin.
 The jar file in <CZT_HOME>/bin is an (command line) executable jar
 file, which can be executed by calling
   java -jar czt-dep.jar
-
 See <CZT_HOME>/jedit/README.txt for how to install the various jEdit
 plugins in <CZT_HOME>/jedit/bin.
 
