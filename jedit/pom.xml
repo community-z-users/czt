@@ -9,6 +9,14 @@
   <artifactId>jedit</artifactId>
   <packaging>pom</packaging>
   <name>CZT jEdit plugins</name>
+  <properties>
+    <jedit.groupId>jedit</jedit.groupId>
+    <jedit.artifactId>jedit</jedit.artifactId>
+    <jedit.plugin.groupId>jedit.plugins</jedit.plugin.groupId>
+    <console.artifactId>Console</console.artifactId>
+    <errorlist.artifactId>ErrorList</errorlist.artifactId>
+    <sidekick.artifactId>SideKick</sidekick.artifactId>
+  </properties>
   <modules>
     <module>zlive</module>
     <module>ZSideKick</module>
@@ -25,23 +33,23 @@
 
      <!-- jEdit -->
       <dependency>
-        <groupId>jedit</groupId>
-        <artifactId>jedit</artifactId>
+        <groupId>${jedit.groupId}</groupId>
+        <artifactId>${jedit.artifactId}</artifactId>
         <version>4.3pre4</version>
       </dependency>
       <dependency>
-        <groupId>jedit</groupId>
-        <artifactId>jedit-console</artifactId>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${console.artifactId}</artifactId>
         <version>4.2.6.3</version>
       </dependency>
       <dependency>
-        <groupId>jedit</groupId>
-        <artifactId>jedit-errorlist</artifactId>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${errorlist.artifactId}</artifactId>
         <version>1.4</version>
       </dependency>
       <dependency>
-        <groupId>jedit</groupId>
-        <artifactId>jedit-sidekick</artifactId>
+        <groupId>${jedit.plugin.groupId}</groupId>
+        <artifactId>${sidekick.artifactId}</artifactId>
         <version>0.6.2</version>
       </dependency>
     </dependencies>

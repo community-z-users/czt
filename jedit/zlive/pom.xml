@@ -18,12 +18,12 @@
       <artifactId>zlive</artifactId>
     </dependency>
     <dependency>
-      <groupId>jedit</groupId>
-      <artifactId>jedit</artifactId>
+      <groupId>${jedit.groupId}</groupId>
+      <artifactId>${jedit.artifactId}</artifactId>
     </dependency>
     <dependency>
-      <groupId>jedit</groupId>
-      <artifactId>jedit-console</artifactId>
+      <groupId>${jedit.plugin.groupId}</groupId>
+      <artifactId>${console.artifactId}</artifactId>
     </dependency>
   </dependencies>
 </project>
