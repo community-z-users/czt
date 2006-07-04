@@ -45,7 +45,7 @@ Requirements
   http://www.jedit.org
 
 The plugins and extension provided in this directory
-have been tested using jEdit version 4.2final.
+have been tested using jEdit version 4.2final and 4.3pre4.
 
 Installation
 ************
@@ -73,6 +73,8 @@ instructions on installing edit modes.
 
 b) Installing the jEdit plugins
 --------------------------------------------
+Make sure to deinstall previous versions of the plugins.
+
 To install the ZCharMap plugin you need to:
   1. copy ZCharMap.jar to SETTINGS_DIR/jars
   2. restart jEdit to load the new plugin
