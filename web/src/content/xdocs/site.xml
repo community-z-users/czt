@@ -20,18 +20,14 @@ See http://xml.apache.org/forrest/linking.html for more info
   <about label="About">
     <index label="Home" href="index.html" description="Welcome to CZT"/>
     <news label="News" href="news.html"/>
-    <screenshots label="Screenshots" href="screenshots.html"/>
-    <people label="People" href="people.html"/>
-  </about>
-
-  <resources label="Resources">
     <download
       label="Download"
       href="http://sourceforge.net/project/showfiles.php?group_id=86250"/>
     <development
       label="Development"
       href="http://sourceforge.net/projects/czt"/>
-  </resources>
+    <people label="People" href="people.html"/>
+  </about>
 
   <projects label="Subprojects">
     <documentation label="Overview" href="documentation.html"/>

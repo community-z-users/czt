@@ -11,17 +11,17 @@
         for editing, typechecking and animating formal specifications
         written in the <link href="site:whatisz">
         Z specification language</link>, with some support for Z extensions
-	such as Object-Z and TCOZ.
+	such as Object-Z, Circus, and TCOZ.
         These tools are all built using the CZT Java framework for Z tools.
       </p>
-      <p><strong>On Christmas Eve, 2004</strong>, we released our 
-        first beta-release of the end-user CZT tools (available from 
-        <link href="http://www.cs.waikato.ac.nz/~petra">Petra's web site
-	</link>).  This release includes a 
+      <p>Beta-versions of the end-user CZT tools are now included in the
+         CZT releases.  This includes a
         <link href="ext:jedit">jEdit</link>-based
-        Z editor for editing the LaTeX or Unicode markup of Z, an
-        integrated parser and typechecker, plus conversion between
-        LaTeX, Unicode and XML forms of Z.  Here is a screenshot,
+        Z editor that gives WYSIWYG editing of the Unicode markup for Z,
+        template-based insertion of Z constructs for LaTeX and Unicode
+        markup, automatic typechecking on each save, a SideKick panel that
+        shows the structure of your Z specification, conversion between
+        the different markups and much much more.  Here is a screenshot,
         showing some random Z in Unicode format:
       </p>	
       <figure src="images/jedit_unicode_example.png" 
