@@ -9,13 +9,13 @@
   <includeBaseDirectory>false</includeBaseDirectory>
   <fileSets>
     <fileSet>
-      <directory>zml/examples/z</directory>
-      <outputDirectory>examples</outputDirectory>
       <includes>
-        <include>bbook.*</include>
-        <include>birthdaybook.*</include>
-        <include>Sched.tex</include>
+        <include>README.txt</include>
+        <include>COPYING.txt</include>
       </includes>
+    </fileSet>
+    <fileSet>
+      <directory>zml</directory>
     </fileSet>
     <fileSet>
       <directory>fonts</directory>
