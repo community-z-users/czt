@@ -59,10 +59,9 @@
                 <property name="dir" location="../bin"/>
                 <property name="file"
                   location="${project.build.directory}/${artifactId}-${version}.jar"/>
-                <echo>copy ${file} to ${dir}</echo>
                 <mkdir dir="${dir}"/>
                 <copy failonerror="false"
-                  file="${file}" toDir="${dir}"/>
+                  file="${file}" tofile="${dir}/${artifactId}.jar"/>
               </tasks>
             </configuration>
             <goals>
