@@ -33,9 +33,15 @@
     <p>
       <link href="http://www.csc.liv.ac.uk/~tim/">Tim Miller
       (University of Queensland, now University of Liverpool)</link>:
-      Developer of the Z and OZ parser and the Z typechecker.
+      Developer of the Z and OZ parser and typechecker.
     </p>
 
+    <p>
+      <link href="http://www-users.cs.york.ac.uk/~leo">Leonardo Freitas (York
+      University)</link>: 
+      Developer of the Circus tools.
+    </p>
+      
     <p>
       <link href="http://www.softeng.ox.ac.uk/Andrew.Martin/index.html">Andrew
       Martin (Oxford University)</link>:
@@ -89,9 +95,14 @@
     </p>      
 
     <p>
-      <link href="http://www.itee.uq.edu.au/~tjm">Tim McComb</link>
-      (The University of Queensland, Australia):
-      Newest developer, just joined the group!
-    </p>      
+      Chengdong Xu (Waikato University):
+      Developer of the eclipse plugin.
+    </p>
+
+    <p>
+      Linan (Waikato University):
+      Improves the 'Gaffe' GUI-builder started by Nick.
+    </p>
+
   </body>
 </document>
