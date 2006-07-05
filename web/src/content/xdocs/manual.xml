@@ -294,7 +294,7 @@
           the Z specification).
         </p>
         <p>
-          Try to insert new construct by clicking
+          Try to insert new constructs by clicking
           the "Sect", "::=" and "Sch" buttons in the
           ZCharMap plugin.  These should insert a section header, then
           a free type definition, then a schema definition.
