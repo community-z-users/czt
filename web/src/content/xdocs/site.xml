@@ -17,7 +17,7 @@ See http://xml.apache.org/forrest/linking.html for more info
 
 <site label="CZT" href="" xmlns="http://apache.org/forrest/linkmap/1.0" tab="">
 
-  <about label="About">
+  <about label="About CZT">
     <index label="Home" href="index.html" description="Welcome to CZT"/>
     <news label="News" href="news.html"/>
     <download
@@ -74,6 +74,9 @@ See http://xml.apache.org/forrest/linking.html for more info
     <iso-z-std href="http://isotc.iso.ch/livelink/livelink/fetch/2000/2489/Ittf_Home/ITTF.htm"/>
     <zml-paper href="http://www.cs.waikato.ac.nz/~marku/papers/zml-zb2003.ps.gz"/>
     <jedit href="http://www.jedit.org"/>
+    <console href="http://plugins.jedit.org/plugins/?Console"/>
+    <errorlist href="http://plugins.jedit.org/plugins/?ErrorList"/>
+    <sidekick href="http://plugins.jedit.org/plugins/?SideKick"/>
     <xml.apache.org href="http://xml.apache.org/">
       <forrest href="forrest/"/>
     </xml.apache.org>
@@ -91,7 +94,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <ant href="http://ant.apache.org/"/>
     <checkstyle href="http://checkstyle.sourceforge.net/"/>
     <beanshell href="http://www.beanshell.org/"/>
-    <jdk href="http://java.sun.com/j2se/"/>
+    <jdk href="http://java.sun.com/javase/downloads/"/>
     <jwsdp href="http://java.sun.com/webservices/webservicespack.html"/>
     <jflex href="http://www.jflex.de/"/>
     <gnomefonts href="http://www.gnome.org/fonts"/>
@@ -99,6 +102,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <ttfonts href="http://linux.org.mt/article/ttfonts"/>
     <velocity href="http://jakarta.apache.org/velocity/"/>
     <xalan href="http://xml.apache.org/xalan-j/"/>
+    <maven href="http://maven.apache.org/"/>
     <maven-dirstructure href="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"/>
   </external-refs>
 </site>
