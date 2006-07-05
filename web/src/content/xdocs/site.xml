@@ -77,6 +77,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <console href="http://plugins.jedit.org/plugins/?Console"/>
     <errorlist href="http://plugins.jedit.org/plugins/?ErrorList"/>
     <sidekick href="http://plugins.jedit.org/plugins/?SideKick"/>
+    <whitespace href="http://plugins.jedit.org/plugins/?Whitespace"/>
     <xml.apache.org href="http://xml.apache.org/">
       <forrest href="forrest/"/>
     </xml.apache.org>
