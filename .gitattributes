@@ -1,6 +1,8 @@
 * text=auto !eol
 /COPYING.txt -text
 /INSTALL.txt -text
+/LICENSE.cup -text
+/LICENSE.jdsl -text
 corejava/pom.xml -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
@@ -1041,6 +1043,7 @@ corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/ZpattVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/zpatt/visitor/package.html -text
 fonts/CZTSans.ttf -text
 fonts/README.txt -text
+java_cup/COPYING.txt -text
 java_cup/build.xml -text
 java_cup/pom.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
