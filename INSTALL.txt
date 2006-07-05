@@ -33,21 +33,21 @@ jedit        uses:  zlive
 See the README file in each directory for more details on each sub-project.
 
 
-Currently, there are two alternative ways to compile CZT.
-The recommended way is to use maven.  It doesn't require to install so
-many things since maven downloads the dependencies automatically.
-Using ant is the more traditional way but it requires to install all
-the 3rd party software in advance.  It also requires to set the paths
-to the installed software in the czt.properties file appropriately,
-which is cumbersome.
+Currently, there are two alternative ways to compile CZT.  The
+recommended way is to use maven.  It doesn't require to install so
+many things in advance since maven downloads the dependencies
+automatically.  Using ant is the more traditional way but it requires
+to install all the 3rd party software in advance.  It also requires to
+set the paths to the installed software in the czt.properties file
+appropriately, which is cumbersome.
 
 
 Compiling using maven
 *********************
 
 You need at least the following:
-- Java 2 SDK >= 1.5
-  http://java.sun.com/j2se/
+- J2SE Development Kit >= 5.0
+  http://java.sun.com/javase/downloads/
 - Maven version >= 2.0.4
   http://maven.apache.org/
 to build CZT.  If you don't have these installed on your system,
