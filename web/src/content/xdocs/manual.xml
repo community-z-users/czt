@@ -23,10 +23,12 @@
         the CZT tools.
       </p>
       <p>
-        Releases can be downloaded from <link
+        Binary releases can be downloaded from
+        <link href="ext:petra">Petra's web-site</link>
+        Source releases can be downloaded from <link
           href="http://sourceforge.net/project/showfiles.php?group_id=86250">
           Sourceforge</link>.
-        There are three bundles on this web-site.  The
+        There are three bundles on the sourceforge web-site.  The
         bundle "corejava" is deprecated and contains only old releases
         of corejava.  The bundle "czt" is a collection of all the
         tools that we consider mature enough to be distributed, and

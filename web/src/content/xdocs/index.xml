@@ -14,15 +14,20 @@
 	such as Object-Z, Circus, and TCOZ.
         These tools are all built using the CZT Java framework for Z tools.
       </p>
-      <p>Beta-versions of the end-user CZT tools are now included in the
-         CZT releases.  This includes a
+      <p>
+        Beta-versions of the end-user CZT tools are now included in the
+        CZT releases (download
+        <link href="site:download">sources</link> or
+        <link href="ext:petra">binaries</link>).  This includes a
         <link href="ext:jedit">jEdit</link>-based
         Z editor that gives WYSIWYG editing of the Unicode markup for Z,
         template-based insertion of Z constructs for LaTeX and Unicode
         markup, automatic typechecking on each save, a SideKick panel that
         shows the structure of your Z specification, conversion between
-        the different markups and much much more.  Here is a screenshot,
-        showing some random Z in Unicode format:
+        the different markups and much much more.
+        More information can be found in the
+        <link href="site:manual">manual.</link>.
+        Here is a screenshot, showing some random Z in Unicode format:
       </p>	
       <figure src="images/jedit_unicode_example.png" 
                 alt="CZT Tools within JEdit"/>

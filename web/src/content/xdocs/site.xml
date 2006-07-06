@@ -105,5 +105,6 @@ See http://xml.apache.org/forrest/linking.html for more info
     <xalan href="http://xml.apache.org/xalan-j/"/>
     <maven href="http://maven.apache.org/"/>
     <maven-dirstructure href="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html"/>
+    <petra href="http://www.cs.waikato.ac.nz/~petra/"/>
   </external-refs>
 </site>
