@@ -1,7 +1,6 @@
 * text=auto !eol
 /CHANGELOG.txt -text
 /COPYING.txt -text
-/INSTALL.txt -text
 /LICENSE.cup -text
 /LICENSE.jdsl -text
 corejava/pom.xml -text
