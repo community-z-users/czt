@@ -12,6 +12,7 @@
       <includes>
         <include>README.txt</include>
         <include>COPYING.txt</include>
+        <include>LICENSE*</include>
       </includes>
     </fileSet>
     <fileSet>
