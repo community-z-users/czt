@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION NameNotRelOp\_MemPred
+\end{zsection}
+
+\begin{zed}
+  \relation (\_ ~aRel~ \_)
+\end{zed}
+
+\begin{axdef}
+  \_ ~aRel~ \_ : (\arithmos \cross \arithmos)
+\end{axdef}
+
+\begin{axdef}
+  a == \{1\}
+\where
+  \{1\} = \{1\} ~aRel~ 1
+\end{axdef}

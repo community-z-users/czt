@@ -1,0 +1,37 @@
+# Small set of edges for testing correctness of algos 27
+# 415
+#Commented by David Powell (dep) 30
+#Sun Jan 26 00:35:54 EST 1997 337
+#revised Tue Feb 18 01:33:21 EST 1997 by bh 315
+# -- removed extraneous fields 83
+#excerpted from sparse_flights.dat by mdh Tue Mar 31 09:21:07 EST 1998 301
+# 400
+# 143
+#Fields: 185
+# 2 - Airline 221
+# 4 - Flight (left-padded with whitespace) 267
+# 2 - <padding> 452
+# 3 - Source Airport 267
+# 1 - <padding> 120
+# 5 - Departure Time (left-padded with whitespace) 97
+# 2 - <padding> 219
+# 3 - Destination Airport 479
+# 1 - <padding> 237
+# 5 - Arrival Time (left-padded with whitespace) 69
+# 2 - <padding> 436
+# 3 - Plane type 451
+# 3 - <padding> 278
+# remainder - Flight Classes 248
+# 296
+US8878  ATL  600A  DFW  745A  D10    F  Y  B  M  Q 328
+DL1234  DCA 1140A  JFK 1210P  D10    F  Y  B  M  Q 257
+DL4321  DCA 1110A  ORD 1140A  D10    F  Y  B  M  Q 79
+DL4322  DCA 1150A  ORD 1220P  D10    F  Y  B  M  Q 405
+DL5545  DCA 1100P  ATL 1245A  737    F  Y  B  M  Q 336
+AA7767  JFK  400P  DFW  800P  747    F  Y  B  M  Q 273
+DL4321  JFK 1235P  DCA  105P  D10    F  Y  B  M  Q 230
+AA2222  JFK 1230P  SFO  230P  777    F  Y  B  M  Q 57
+UA1111  ORD 1245P  SFO  250P  737    F  Y  B  M  H 476
+WN7789  SFO  240P  SEA  350P  737    F  Y  B  M  Q 169
+WN8890  SFO  300P  SEA  410P  737    F  Y  B  M  Q 288
+US2222  SFO 1000P  DCA  600A  747    F  Y  B  M  H 374

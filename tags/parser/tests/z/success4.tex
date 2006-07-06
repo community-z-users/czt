@@ -1,0 +1,41 @@
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+\begin{document}
+\begin{schema}{Gimel}
+y, z : \num \\
+z : 1 \upto 10
+\where
+1 \leq z \leq 10 \\
+y = z * z
+\end{schema}
+\begin{schema}{Aleph}
+x, y : \num
+\where
+x < y
+\end{schema}
+\begin{axdef}
+limit : \nat
+\where
+limit \leq 65535
+\end{axdef}
+
+\begin{schema}{Counter}
+value : \nat
+\where
+value \leq limit
+\end{schema}
+
+\begin{genschema}{Pool}{RESOURCE}
+owner: RESOURCE \pfun USER \\
+free : \power RESOURCE
+\where
+(\dom owner) \uni free = RESOURCE \\
+(\dom owner) \int free = \emptyset
+\end{genschema}
+\end{document}

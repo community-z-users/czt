@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION TypeMismatchInEquality\_PolyExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    x? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  A\\
+  \begin{state}
+    b : \nat
+  \end{state}
+\end{class}
+
+Check that A != \poly A if A has subclasses (for strong	typing only)
+\begin{axdef}
+  a : A\\
+  pa : \poly A
+\where
+  a = pa
+\end{axdef}

@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION NonClassInClassUnionExpr\_RightExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+\end{class}
+
+\begin{zed}
+  NotClass == \nat
+\end{zed}
+
+\begin{zed}
+  error == A \classuni NotClass
+\end{zed}

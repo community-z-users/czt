@@ -1,0 +1,20 @@
+\begin{zsection}
+  \SECTION NegPred
+\end{zsection}
+
+Test the case when the variable types in the predicate are not fully 
+resolved.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  \lnot s \in t \land
+  t = \power \nat
+\end{axdef}
+
+\begin{zed} \vdash? \lnot s \in t \end{zed}
+\begin{zed} \vdash? s \in \power \nat \end{zed}

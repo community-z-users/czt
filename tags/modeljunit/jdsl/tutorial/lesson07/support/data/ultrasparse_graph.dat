@@ -1,0 +1,21 @@
+# Small set of vertices for testing correctness of Flight algos
+#
+#Fields:
+# 3 - Airport abbreviation
+# 1 - <padding>
+# 5 - Time Zone (offset from GMT)
+# 1 - <padding>
+# 3 - X coordinate on map
+# 1 - <padding>
+# 3 - Y coordinate on map
+# 1 - <padding>
+# remainder - Name of City/Airport
+#
+#
+ATL -0600 470 280 Atlanta, Georgia
+DCA -0600 540 180 Washington, D.C. (National)
+DFW -0700 310 305 Dallas/Fort Worth, Texas
+JFK -0600 565 130 New York (Kennedy)
+ORD -0700 410 155 Chicago, Illinois
+SEA -0900  55  45 Seattle/Tacoma, Washington
+SFO -0900  10 190 San Francisco, California

@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_Global\_InclDecl
+\end{zsection}
+
+\begin{zed}
+  S == [x : \nat; x' : \power \nat]
+\end{zed}
+
+\begin{axdef}
+  \Delta S
+\end{axdef}

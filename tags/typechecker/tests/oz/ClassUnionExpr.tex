@@ -1,0 +1,95 @@
+\begin{zsection}
+  \SECTION ClassUnionExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  b == \{1\}\\
+  \begin{state}
+    s : \nat\\
+    t : \power \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    s? : \nat
+  \end{op}\\
+  \begin{op}{Op2}
+    t? : \power \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  b == \{1\}\\
+  c == \{\{1\}\}\\
+  \begin{state}
+    t : \power \nat\\
+    u : \power \power \nat
+  \end{state}\\
+  \begin{op}{Op2}
+    t? : \power \nat
+  \end{op}\\
+  \begin{op}{Op3}
+    u? : \power \power \nat
+  \end{op}
+\end{class}
+
+\begin{class}{C}
+  b == \{1\}\\
+  d == \power\nat\\
+  \begin{state}
+    t : \power \nat\\
+    v : \power \power \power \nat
+  \end{state}\\
+  \begin{op}{Op2}
+    t? : \power \nat
+  \end{op}\\
+  \begin{op}{Op4}
+    v? : \power \power \power \nat
+  \end{op}\\ 
+\end{class}
+
+\begin{class}{D}
+  a == \{1\}\\
+  c == \{1\}\\
+  d == \{1\}\\
+  \begin{state}
+    s : \power\nat\\
+    u : \power\nat\\
+    v : \power\nat
+  \end{state}\\
+  Op1 \sdef [s? : \power\nat]\\
+  Op3 \sdef [u? : \power\nat]\\
+  Op4 \sdef [v? : \power \nat]
+\end{class}
+
+\begin{class}{Test}
+  \begin{state}
+    ab : A \classuni B\\
+    abc : A \classuni B \classuni C
+  \where
+    ab.b = \{1\}\\
+    ab.t = \{1\}\\
+    abc.b = \{1\}\\
+    abc.t = \{1\}\\
+  \end{state}\\
+  OpProm1 \sdef ab.Op2\\
+  OpProm2 \sdef abc.Op2
+\end{class}
+
+Test that non-common features are not included by defining clashing
+features in D
+\begin{zed}
+  ABC == A \classuni B \classuni C\\
+  ABCD == ABC \classuni D
+\end{zed}
+
+\begin{class}{E}
+  A\\
+\end{class}
+
+Test that polymorphic expressions are permitted in class union expressions.
+
+\begin{axdef}
+  polya\_b : \poly A \classuni B
+\where
+  polya\_b \in E
+\end{axdef}

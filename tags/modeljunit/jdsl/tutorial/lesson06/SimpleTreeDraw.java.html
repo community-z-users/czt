@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.algo.traversals.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> java.applet.Applet;
+<font color=#ff8000>import</font> java.awt.*;
+<font color=#ff8000>import</font> java.awt.event.*;
+
+<font color=#ff0080>/** 
+ * Class that manages the tree drawing application.
+ *
+ * @author Lucy Perry (lep)
+ * @version JDSL 2
+*/</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>SimpleTreeDraw <font color=#8000a0><font color=#ff8000>extends</font> </font>Frame <font color=#8000a0><font color=#ff8000>implements</font> </font>ActionListener,WindowListener {
+    <font color=#8000a0><font color=#8000a0>private</font> </font>RandomTreeBuilder builder=<font color=#ff8000>new</font> <font color=#0000ff>RandomTreeBuilder</font>();
+    <font color=#8000a0><font color=#8000a0>private</font> </font>Tree tree;
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>int</font> numNodes=16;
+
+    <font color=#8000a0>Button </font>newTree = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Draw New Tree"</font>);
+    <font color=#8000a0>Button </font>quitBtn = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Button</font>(<font color=#008000>"Quit"</font>);
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#0000ff>SimpleTreeDraw</font>() {
+        <font color=#ff8000>super</font><font color=#0000ff></font>(<font color=#008000>"Simple Tree Drawing"</font>);
+        <font color=#ff0080>//build the tree</font>
+        tree=builder.<font color=#0000ff>randomTree</font>(numNodes);
+        
+        <font color=#0000ff>setLayout</font>(<font color=#ff8000>new</font> <font color=#0000ff>BorderLayout</font>());
+        <font color=#8000a0>Panel </font>p = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Panel</font>();
+        <font color=#0000ff>addWindowListener</font>(<font color=#ff8000>this</font>);
+        quitBtn.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+        newTree.<font color=#0000ff>addActionListener</font>(<font color=#ff8000>this</font>);
+        p.<font color=#0000ff>add</font>(newTree);
+        p.<font color=#0000ff>add</font>(quitBtn);
+        <font color=#0000ff>add</font>(p, BorderLayout.SOUTH);
+        <font color=#0000ff>setSize</font>(700,350);
+	    <font color=#0000ff>setLocation</font>(50,50);
+    }
+
+    <font color=#ff0080>/**
+     * The paint method draws the tree.  There are 2 steps:  The BoundingBoxCalculator
+     * determines the width of each subtree.  The TreeDrawer calculates the exact 
+     * locations for labels and edges and draws the tree.
+     */</font>
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>paint</font>(Graphics g) {
+        g.<font color=#0000ff>setColor</font>(<font color=#0000ff>getBackground</font>());
+        <font color=#8000a0>BoundingBoxCalculator </font>calc = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>BoundingBoxCalculator</font>(<font color=#0000ff>getGraphics</font>());
+        calc.<font color=#0000ff>execute</font>(tree);
+        <font color=#8000a0>TreeDrawer </font>drawer = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>TreeDrawer</font>(g);
+        drawer.<font color=#0000ff>execute</font>(tree);
+    }
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>actionPerformed</font>(ActionEvent e) {
+        <font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>()==quitBtn)
+            <font color=#0000ff>quit</font>();
+        <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(e.<font color=#0000ff>getSource</font>()==newTree) {
+            <font color=#ff0080>// The user clicked the new tree button.  Build a new tree and redraw.</font>
+            tree=builder.<font color=#0000ff>randomTree</font>(numNodes);
+            <font color=#0000ff>repaint</font>();
+        }
+    }
+
+    <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>quit</font>() {
+        System.<font color=#0000ff>exit</font>(0);
+    }
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowActivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosed</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowClosing</font>(WindowEvent e) {<font color=#0000ff>quit</font>();}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeactivated</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowDeiconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowIconified</font>(WindowEvent e) {}
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>windowOpened</font>(WindowEvent e) {}
+
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>static</font> <font color=#8000a0><font color=#8000a0>void</font> </font><font color=#0000ff>main</font>(<font color=#8000a0>String</font> args[]) {
+        <font color=#8000a0>SimpleTreeDraw </font>s = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>SimpleTreeDraw</font>();
+        s.<font color=#0000ff>show</font>();
+    }
+}
+</dl>
+</body>
+</html>

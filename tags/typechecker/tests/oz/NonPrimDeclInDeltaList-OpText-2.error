@@ -1,0 +1,16 @@
+\begin{zsection}
+  \SECTION NonPrimDeclInDeltaList\_OpText\_2 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    a : \nat\\
+    \Delta\\
+    b : \nat
+  \end{state}
+  \begin{op}{Op1}
+    \Delta (b)
+  \where
+    b = 0
+  \end{op}
+\end{class}

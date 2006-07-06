@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION Qnt1Expr
+\end{zsection}
+
+\begin{zed}
+  expr1 == \exists x, y : \nat @ [x : \nat]\\
+  expr2 == \exists y, z : \nat @ [z : \nat]\\
+\end{zed}
+
+\begin{zed} \vdash? expr1 = expr2 \end{zed}
+
+Test the case when the variable types in the expr are not fully 
+resolved.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = \exists x : \nat @ [x : \nat; y : s]\\
+  s = [x : \nat; z : \power \nat]
+\end{axdef}
+
+\begin{zed} \vdash? t = [y : [x : \nat; z : \power \nat] ] \end{zed}

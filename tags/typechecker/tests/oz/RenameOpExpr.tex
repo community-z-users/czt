@@ -1,0 +1,84 @@
+\begin{zsection}
+  \SECTION RenameOpExpr \parents oz\_toolkit
+\end{zsection}
+
+Check renames by conjoining with incompatible types.
+Check non-renames by hiding the names.
+
+\begin{class}{A}
+  Op1 \sdef [| true] [a/x]\\
+  Op2 \sdef [x : \nat] [a/x]\\
+  Op3 \sdef [x : \nat] [x/a]\\
+  Test2a \sdef Op2 \hide (a)\\
+  Test2b \sdef Op2 \land [x : \power\nat]\\
+  Test3 \sdef Op3 \hide (x)\\
+\end{class}
+
+\begin{class}{B}
+  Op1 \sdef [x : \nat; y : \nat] [a/x]\\
+  Op2 \sdef [x : \nat; y : \nat] [a/y]\\
+  Op3 \sdef [x : \nat; y : \nat] [a/x, b/y]\\
+  Op4 \sdef [x : \nat; y : \nat] [a/x, a/y]\\
+  Test1a \sdef Op1 \land [x : \power \nat]\\
+  Test1b \sdef Op1 \hide (y,a)\\
+  Test2a \sdef Op2 \land [y : \power \nat]\\
+  Test2b \sdef Op2 \hide (x,a)\\
+  Test3a \sdef Op3 \land [x, y : \power \nat]\\
+  Test3b \sdef Op3 \hide (a,b)\\
+  Test4a \sdef Op4 \land [x,y : \power \nat]\\
+  Test4b \sdef Op4 \hide (a)
+\end{class}
+
+\begin{class}{C}
+  Op1 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x]\\
+  Op2 \sdef [x : \nat; y : \nat; z : \power \nat] [a/y]\\
+  Op3 \sdef [x : \nat; y : \nat; z : \power \nat] [a/z]\\
+  Test1a \sdef Op1 \land [x : \power \nat]\\
+  Test1b \sdef Op1 \hide (a,y,z)\\
+  Test2a \sdef Op2 \land [y : \power \nat]\\
+  Test2b \sdef Op2 \hide (a,x,z)\\
+  Test3a \sdef Op3 \land [z : \nat]\\
+  Test3b \sdef Op3 \hide (a,x,y)
+\end{class}
+
+\begin{class}{D}
+  Op1 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x, b/y]\\
+  Op2 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x, b/z]\\
+  Op3 \sdef [x : \nat; y : \nat; z : \power \nat] [a/y, b/z]\\
+  Test1a \sdef Op1 \land [x, y : \power \nat]\\
+  Test1b \sdef Op1 \hide (a,b,z)\\
+  Test2a \sdef Op2 \land [x : \power \nat; z : \nat]\\
+  Test2b \sdef Op2 \hide (a,b,y)\\
+  Test3a \sdef Op3 \land [y : \power \nat; z : \nat]\\
+  Test3b \sdef Op3 \hide (a,b,x)\\
+\end{class}
+
+\begin{class}{E}
+  Op1 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x, a/y]\\
+  Op2 \sdef [x : \nat; y : \nat; z : \nat] [a/x, a/z]\\
+  Op3 \sdef [x : \nat; y : \power \nat; z : \power \nat] [a/y, a/z]\\
+  Test1a \sdef Op1 \land [x, y : \power \nat]\\
+  Test1b \sdef Op1 \hide (a,z)\\
+  Test2a \sdef Op2 \land [x : \power \nat; z : \nat]\\
+  Test2b \sdef Op2 \hide (a,y)\\
+  Test3a \sdef Op3 \land [y : \power \nat; z : \nat]\\
+  Test3b \sdef Op3 \hide (a,x)\\
+\end{class}
+
+\begin{class}{F}
+  Op1 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x, b/y, c/z]\\
+  Op2 \sdef [x : \nat; y : \nat; z : \power \nat] [a/x, a/y, c/z]\\
+  Op3 \sdef [x : \nat; y : \nat; z : \nat] [a/x, b/y, b/z]\\
+  Op4 \sdef [x : \nat; y : \nat; z : \nat] [a/x, b/y, a/z]\\
+  Op5 \sdef [x : \nat; y : \nat; z : \nat] [a/x, a/y, a/z]\\
+  Test1a \sdef Op1 \land [x, y : \power \nat; z :\nat]\\
+  Test1b \sdef Op1 \hide (a,b,c)\\
+  Test2a \sdef Op2 \land [x, y : \power \nat; z :\nat]\\
+  Test2b \sdef Op2 \hide (a,c)\\
+  Test3a \sdef Op3 \land [x, y : \power \nat; z :\nat]\\
+  Test3b \sdef Op3 \hide (a,b)\\
+  Test4a \sdef Op4 \land [x, y : \power \nat; z :\nat]\\
+  Test4b \sdef Op4 \hide (a,b)\\
+  Test5a \sdef Op5 \land [x, y : \power \nat; z :\nat]\\
+  Test5b \sdef Op5 \hide (a)\\
+\end{class}

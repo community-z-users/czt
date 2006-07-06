@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION NonVisibleNameInSelExpr\_BindSelExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ \project (m)\\
+ m == 1\\
+ n == \{1\}
+\end{class}
+
+\begin{class}{B}
+ \begin{state}
+   a : A\\
+ \where
+   a.m \in a.n
+ \end{state}\\
+\end{class}

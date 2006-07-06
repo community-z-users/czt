@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_LetExpr
+\end{zsection}
+
+\begin{axdef}
+  y : \nat
+\where
+  y = (\LET x == 1 @ x)\\
+  x = y
+\end{axdef}

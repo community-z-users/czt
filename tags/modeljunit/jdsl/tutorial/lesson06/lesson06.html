@@ -1,0 +1,324 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 6</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<!-- JDSLHEADER -->
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+
+<!-- JDSLMAIN -->
+<p>
+
+<a href="../lesson05/lesson05.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson07/lesson07.html">Next Lesson</a>
+
+<hr>
+<center>
+<font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 6: Tree Drawing</b></font></center>
+
+<br>This demo application constructs a random tree and draws it to the screen.
+The tree's nodes hold the names of employees in a company. Internal nodes
+are colored red, while external nodes are black. The application provides
+an introduction to the JDSL <tt>Tree</tt>, which is a type of non-linear
+<tt>PositionalContainer</tt>.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/core/api/Tree.html">Tree</A></li>
+
+<li>
+non-Linear Container</li>
+
+<li>
+<A HREF="../../doc/jdsl/core/algo/traversals/EulerTour.html">Euler Tour</A></li>
+</ul>
+
+<hr>There are five files in this application:
+<ul>
+<li>
+<tt><a href="SimpleTreeDraw.java.html">SimpleTreeDraw.java</a></tt>&nbsp; -&nbsp;
+controls the application</li>
+
+<li>
+<tt><a href="BoundingBoxCalculator.java.html">BoundingBoxCalculator.java</a></tt>&nbsp;
+-&nbsp; calculates the bounding boxes</li>
+
+<li>
+<tt><a href="TreeDrawer.java.html">TreeDrawer.java</a></tt> - performs the actual
+drawing</li>
+
+<li>
+<a href="RandomTreeBuilder.java.html"><tt>RandomTreeBuilder.java</tt> </a>-
+builds a random tree</li>
+
+<li>
+<tt><a href="NameGenerator.java.html">NameGenerator.java</a></tt> - generates
+the names for the labels</li>
+</ul>
+To run the demo program, type <tt>java SimpleTreeDraw</tt> in a shell.
+<br>
+<hr>
+<p>So far, we have looked at fairly traditional containers.&nbsp; In this
+lesson, we look at the <i>tree</i>, a positional container type that is
+non-linear, so there is no concept of a rank.&nbsp; The <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>
+objects in a <tt><A HREF="../../doc/jdsl/core/api/Tree.html">Tree</A></tt> are connected as a tree structure.&nbsp;
+For example, look at the following figure:
+<center><img SRC="tree.jpg" height=144 width=236 align=TEXTTOP></center>
+In this tree, each position stores a <tt>String</tt> that represents a
+person's last name (this could be an organization chart).&nbsp; We refer
+to <tt>Positions</tt> of a tree as <i>nodes</i>.&nbsp; The node labeled
+"DUNN" is called the
+<i>root</i> of the tree.&nbsp; The nodes connected
+below a node are called its <i>children</i>.&nbsp; Similarly, the node
+connected above is called its <i>parent</i>.&nbsp; Nodes without children
+are called or leaves or external nodes.&nbsp; Nodes with children are called
+internal.&nbsp; For a complete discussion of trees, see the <a href="http://ww3.java2.datastructures.net/">textbook</a>.
+<p>This application looks at drawing trees, that is, finding a readable
+layout on the screen.&nbsp; We implement a simple tree drawing algorithm
+that finds for each node a bounding box that completely surrounds the drawing
+of the subtree.&nbsp; The width of the subtree is the maximum of the width
+of the drawing of its node and the sum of the widths of the drawing of
+its children.&nbsp; The height of the drawing is some constant times the
+height of the subtree.&nbsp; For example, the following figure has the
+bounding boxes added in for the tree drawn above:
+<center><img SRC="treeWithBoxes.jpg" height=137 width=240 align=TEXTTOP></center>
+First, we look at the methods to build a tree.&nbsp; The class <tt>RandomTreeBuilder.java
+</tt>uses
+a random number generator to construct a tree.&nbsp; There is one public
+method:
+<blockquote><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected </font>Tree
+tree;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected </font>Sequence
+names;</tt>
+<p><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">public
+</font>Tree <font color="#0000FF">randomTree</font>(<font color="#8000A0">int</font>
+n) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tree = <font color="#FF8000">new
+</font><font color="#0000FF">NodeTree</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; names = NameGenerator.<font color="#0000FF">getNames</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">build</font>(tree.<font color="#0000FF">root</font>(),
+n);&nbsp; <font color="#FF0080">// auxiliary recursive method</font></tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">return
+</font>tree;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt></blockquote>
+This method builds a random tree with <tt>n</tt> nodes.&nbsp; We build
+an instance tree of the interface <tt><A HREF="../../doc/jdsl/core/api/Tree.html">jdsl.core.api.Tree</A></tt> by instantiating
+the <tt><A HREF="../../doc/jdsl/core/ref/NodeTree.html">jdsl.core.ref.NodeTree</A></tt> class.&nbsp; The constructor builds
+a <tt>NodeTree</tt> with one node.&nbsp; This is very different from the
+<tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt> implementations where you start with an empty
+<tt>Sequence</tt>.&nbsp;
+The <tt>NameGenerator</tt> object returns a <tt>Sequence</tt> of last names that
+will be used as the elements on the nodes of the tree.&nbsp; The real work
+for building the tree is done by the <tt>build(Position,int)</tt> method:
+<blockquote><tt><font color="#8000A0">&nbsp;&nbsp;&nbsp; protected void
+</font><font color="#0000FF">build</font>(Position
+p, <font color="#8000A0">int
+</font>n) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int
+</font>toBuild
+= n-1;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Sequence
+</font>sizes=<font color="#FF8000">new
+</font><font color="#0000FF">ArraySequence</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(tree.<font color="#0000FF">isExternal</font>(p))
+{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">while</font>(toBuild>0)
+{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int
+</font>size
+= <font color="#0000FF">randomInteger</font>(1, toBuild);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sizes.<font color="#0000FF">insertLast</font>(<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(size));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+toBuild-=size;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">permute</font>(sizes);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#FF8000">for</font>(<font color="#8000A0">int</font>
+i=0; i&amp;ltsizes.<font color="#0000FF">size</font>();i++){</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#993366">Position
+</font>pos = tree.<font color="#0000FF">insertLastChild</font>(p,null);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int
+</font>size
+=<font color="#0000FF"> </font>((Integer)sizes.<font color="#0000FF">atRank</font>(i).<font color="#0000FF">element</font>()).<font color="#0000FF">intValue</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000FF">build</font>(pos,size);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tree.<font color="#0000FF">replaceElement</font>(p,<font color="#0000FF">pickName</font>());</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt></blockquote>
+This method actually builds the <tt><A HREF="../../doc/jdsl/core/api/Tree.html">Tree</A></tt>.&nbsp; It is a bit tricky.&nbsp; The
+idea is that if we want to build a <tt>Tree</tt> with n nodes, and we already have
+built the root, then the sum of the sizes of the subtrees will be n-1.&nbsp;
+First, we randomly pick integers that add up to n-1 and put them in a <tt><A HREF="../../doc/jdsl/core/api/Sequence.html">Sequence</A></tt>.&nbsp;
+We then permute the list to add a bit more randomness.&nbsp; Finally, for
+each generated integer, we attach a root for the subtree, and recursively
+build the subtree.&nbsp; The recursion bottoms out when n=1 and the node
+is already build.
+<p>There is only one new JDSL concept in this method.&nbsp; We attach a
+new node with the <tt><font color="#000000">insertLastChild</font>(Position
+parent,Object element) </tt>method.&nbsp; All insertions into a <tt><A HREF="../../doc/jdsl/core/api/Tree.html">Tree</A></tt>
+are accomplished though methods like this.&nbsp; There are a series of
+insert methods to insert nodes at various places in the <tt>Tree</tt>.&nbsp; Here,
+we insert a final child of the <tt>parent</tt> node.&nbsp; What is returned
+is a
+<tt>Position</tt> representing the new tree node.
+<p>The tree drawing is done by extending an algorithm class known as <tt><A HREF="../../doc/jdsl/core/algo/traversals/EulerTour.html">EulerTour</A></tt>.&nbsp;
+An Euler tour visits nodes in the same order as if you started at the root
+and walked along the tree, keeping the tree to your left.&nbsp; In the
+tree above, an Euler tour would visit the nodes in the following order:
+<tt>DUNN,
+JOHNSON, FLORES, JOHNSON, OWENS, JOHNSON, DUNN, THOMPSON, DUNN, LEE, DUNN</tt>.
+<p>The <tt><A HREF="../../doc/jdsl/core/algo/traversals/EulerTour.html">EulerTour</A></tt> class is abstract.&nbsp; There are four methods
+you can override.&nbsp; Three for internal nodes: <tt>visitFirstTime(Position
+pos)</tt>, <tt>visitBetweenChildren(Position pos)</tt>, <tt>visitLastTime(Position
+pos)</tt>, indicating when in the ordering they will be called; and one
+for external nodes:&nbsp;&nbsp; <tt>visitExternal(Position pos). </tt>Note
+that <tt>visitBetweenChildren(Position pos)</tt> can be called on a node
+many times in one <tt>EulerTour</tt>.&nbsp; None of these methods are abstract
+in the <tt>EulerTour</tt> class.&nbsp; You only need to override the methods you
+want to use.
+<p>We use two different subclasses of <tt><A HREF="../../doc/jdsl/core/algo/traversals/EulerTour.html">EulerTour</A></tt> to draw the tree, <tt>BoundingBoxCalculator
+</tt>that
+calculates the bounding boxes, and <tt>TreeDrawer</tt> that performs the
+actual drawing. In the tutorial we will look at <tt>BoundingBoxCalculator</tt>.&nbsp;
+The <tt>TreeDrawer</tt> class is similar.
+<br>&nbsp;
+<blockquote><tt>&nbsp; <font color="#8000A0">protected int</font> offset
+= 50;&nbsp; <font color="#FF0080">// size of the grid squares</font></tt>
+<br><tt>&nbsp; <font color="#8000A0">protected int</font> width&nbsp; =
+0;&nbsp;&nbsp; <font color="#FF0080">// total width of the explored tree
+drawing</font></tt>
+<br><tt>&nbsp; <font color="#8000A0">protected int</font> depth = 0;&nbsp;&nbsp;&nbsp;
+<font color="#FF0080">// depth of the current node</font></tt>
+<br><tt>&nbsp; <font color="#8000A0">protected </font>Graphics g;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#FF0080">// where the tree will be drawn</font></tt>
+<br><tt>&nbsp; <font color="#8000A0">protected </font>FontMetrics fm;&nbsp;&nbsp;
+<font color="#FF0080">// the fontMetrics object for g</font></tt>
+<p><tt>&nbsp; <font color="#8000A0">protected void</font> <font color="#0000FF">visitFirstTime</font>(Position
+pos){</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"y"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(depth));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"x"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(width));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; depth += offset;</tt>
+<br><tt>&nbsp; }</tt></blockquote>
+The <tt>BoundingBoxCalculator </tt>overrides the <tt>visitFirstTime(Position
+pos) </tt>and<tt> visitLastTime(Position pos)</tt>methods.&nbsp; When we
+visit the node the first time we have completed all visits to the nodes
+left siblings.&nbsp; We keep in the variables <tt>width</tt> the total
+width of the drawing of the nodes fully explored so far.&nbsp; We maintain
+the variable <tt>depth</tt> to keep the depth of the bounding box of the
+subtree rooted at <tt>pos</tt>.&nbsp; (We'll see how these values are maintained
+in a moment.)&nbsp; In this way, we know the (x,y) coordinates of the upper-left
+corner of the bounding box for the subtree rooted at node <tt>pos</tt>.
+<p>The <tt><A HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt> interface extends the <tt><A HREF="../../doc/jdsl/core/api/Decorable.html">Decorable</A></tt> interface.&nbsp;
+A decoration is a way to attach a value to an object, without having to
+subclass the object.&nbsp; The <tt>set()</tt> method takes two objects
+as parameters, the first a key and the second a value.&nbsp; In this method,
+we attach two decorations with keys <tt>"x"</tt> and <tt>"y"</tt>.&nbsp;&nbsp;
+There is a corresponding <tt>get(Object key) </tt>that returns the value
+associated with the <tt>key</tt>.
+<blockquote><tt>&nbsp; <font color="#8000A0">protected void</font> <font color="#0000FF">visitLastTime</font>(Position
+pos){</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>textWidth =
+<font color="#0000FF">textWidth</font>(pos);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>shift = 0;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>x =((Integer)pos.<font color="#0000FF">get</font>(<font color="#008000">"x"</font>)).<font color="#0000FF">intValue</font>();</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>boxWidth =
+width-x;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF8000">if</font>(textWidth>boxWidth)
+{</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>delta
+= textWidth-boxWidth;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; boxWidth = textWidth;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; width += delta;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; shift = delta/2;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"width"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(boxWidth));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF0080">// The distance that the
+children's bounding boxes need to</font></tt>
+<br><tt>&nbsp;&nbsp;&nbsp; <font color="#FF0080">// be shifted in the drawing.</font></tt>
+<br><tt>&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"shift"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(shift));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; depth -= offset;</tt>
+<br><tt>&nbsp; }</tt></blockquote>
+This method looks more complicated than it is&nbsp; When we visit a node
+for the last time there are two possibilities:&nbsp; If the node is external,
+then the width of its bounding box is the width of its label.&nbsp; We
+set the <tt>"width"</tt> decoration to be the <tt>textwidth</tt> and increase
+the <tt>width</tt> variable by <tt>textwidth</tt>.&nbsp; If the node is
+internal, then the width of its bounding box is the maximum of its <tt>textwidth</tt>
+and the sum of the widths of its children.&nbsp; If the text is wider than
+the children, then we need to increase the <tt>width</tt> variable and
+store a positive <tt>"shift"</tt>, to indicate that in the drawing, the
+children bounding boxes need to be shifted to keep them centered under
+the node.
+<p><tt>&nbsp;&nbsp;&nbsp; <font color="#8000A0">protected void</font> <font color="#0000FF">visitExternal</font>(
+<font color="#8000A0">Position
+</font>pos
+) {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"y"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(depth));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"x"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(width));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">int </font>textWidth
+= <font color="#0000FF">textWidth</font>(pos);</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; width+=textWidth;</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"width"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(textWidth));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos.<font color="#0000FF">set</font>(<font color="#008000">"shift"</font>,
+<font color="#FF8000">new
+</font><font color="#0000FF">Integer</font>(0));</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; }</tt>
+<br>&nbsp;
+<p>For external nodes, the situation is simpler.&nbsp; We simply set the
+value of all decorations.&nbsp; Notice that we set the <tt>"shift"</tt>
+decoration to be <tt>0</tt>.&nbsp; This allows us to treat all nodes uniformly
+when drawing the tree with the <tt>TreeDrawer</tt> class.
+<br>
+<hr>
+
+<a href="../lesson05/lesson05.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+<br><a href="../lesson07/lesson07.html">Next Lesson</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a>
+</address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Mon Sep 27 13:39:19 CEST 2004
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION Incompatible\_Overriding\_LocalDef \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  b == \{2\}\\
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{C}
+  A\\
+  a == 1\\
+  b == a\\
+  \begin{axdef}
+    c : \nat\\
+    c : \nat
+  \end{axdef}
+\end{class}
+

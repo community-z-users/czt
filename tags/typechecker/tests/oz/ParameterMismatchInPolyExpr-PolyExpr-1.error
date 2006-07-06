@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION ParameterMismatchInPolyExpr\_PolyExpr\_1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}[X]
+\end{class}
+
+\begin{class}{B}[Y,Z]
+   A[Y]
+\end{class}
+
+\begin{axdef}
+  poly\_a : \poly A[\nat]
+\end{axdef}

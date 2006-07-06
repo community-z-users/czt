@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>JDSL Revision History</title>
+  </head>
+
+<!--#include file="template_header.html" -->
+    
+    <font face="Tahoma, sans-serif" size="+2" color="darkred">
+      The Data Structures Library in Java
+    </font>
+    <br>
+    <br>
+    <font face="Tahoma, sans-serif" size="+3">
+      <b>
+        JDSL Revision History
+      </b>
+    </font>
+
+<!--#include file="template_main.html" -->
+
+<!-- Main Content Here -->
+
+    <p>This page documents changes made in the code and documentation
+    of each JDSL release.  It logs modifications such as bug fixes,
+    interface updates, code optimizations, and changes in
+    documentation.
+
+    <p><tt><b>JDSL 2.1.1.CZT</b></tt><br>
+    <ul>
+      <li>Renamed some local variables in jdsl.graph.ref.AbstractGraph
+          from enum to edges, because enum is a reserved word in Java 1.5.</li>
+      <li>Added full package name in call to PriorityQueue in
+          jdsl.core.util.Converter.java to avoid ambiguity with
+          java.util.PriorityQueue.</li>
+      <li>Renamed package from jdsl.* to net.sourceforge.czt.jdsl.*,
+          to avoid clashes with any older copies of the JDSL library.</li>
+    </ul>
+    </p>
+
+    <p><tt><b>JDSL 2.1.1</b></tt><br>
+    <ul>
+      <li>Retrofitted exceptions with constructors that take a <font color="#8000a0"><tt>java.lang.Throwable</tt></font> cause</li>
+      <li>Updated Javadoc documentation</li>
+    </ul>
+    </p>
+
+    <p><tt><b>JDSL 2.1</b></tt><br>
+    <ul>
+      <li>Changed license and distribution policy</li>
+      <li>Updated Javadoc documentation</li>
+      <li>Deprecated <font color="#8000a0"><tt>jdsl.core.ref.Assertion</tt></font> and <font color="#8000a0"><tt>jdsl.core.ref.AssertionException</tt></font></li>
+      <li>Modified <font color="#8000a0"><tt>jdsl.core.api.Decorable</tt></font> and <font color="#8000a0"><tt>jdsl.core.ref.HashtableDecorable</tt></font>: added method <tt><font color="#0000ff">attributes</font>()</tt></li>
+    </ul>
+    </p>
+
+    <hr>
+
+    <p><tt><b>JDSL 2.0.6</b></tt><br>
+    <UL>
+      <LI>Updated Javadoc documentation</li>
+      <LI>Fixed a bug in <font color="#8000a0"><tt>jdsl.core.ref.RedBlackTree</tt></font></LI>
+      <LI>Fixed a bug in <font color="#8000a0"><tt>jdsl.graph.algo.IntegerDijkstraPathfinder</tt></font></LI>
+    </UL>
+    </p>
+
+
+    <p><tt><b>JDSL 2.0.5</b></tt><br>
+    <UL>
+      <li>Updated Javadoc documentation</li>
+      <li>Fixed a bug in <font color="#8000a0"><tt>jdsl.graph.algo.IntegerDijkstraTemplate</tt></font></li>
+      <LI>Removed <font color="#8000a0"><tt>jdsl.graph.algo.Pathfinder</tt></font></li>
+      <LI>Modified <font color="#8000a0"><tt>jdsl.graph.algo.IntegerDijkstraTemplate</tt></font>: added methods <tt><font color="#0000ff">distance</font>(.)</tt>, <font color=#0000ff><tt>getEdgeToParent</font>(.)</tt>, <font color=#0000ff><tt>isFinished</font>(.)</tt>, <font color=#0000ff><tt>isReachable</font>(.)</tt> and <font color=#0000ff><tt>cleanup</font>(.)</tt>; removed method <font color=#0000ff><tt>badWeight</font>(.)</tt></li>
+      <LI>Modified <font color="#8000a0"><tt>jdsl.graph.algo.IntegerDijkstraPathfinder</tt></font>: removed methods <tt><font color="#0000ff">sourceVertexForThisQuery</font>(.)</tt>, <tt><font color="#0000ff">parentForThisQuery</font>(.)</tt>, <tt><font color="#0000ff">shortestPathFound</font>(.)</tt> and <tt><font color="#0000ff">cleanup</font>(.)</tt>; removed incremental behavior</li>
+      <LI>Optimized <font color="#8000a0"><tt>jdsl.core.ref.RedBlackTree</tt></font> method <tt><font color="#0000ff">removeAll</font>(.)</tt></li>
+    </UL>
+  </p>
+    
+
+    <p><tt><b>JDSL 2.0.4</b></tt><br>
+    <UL>
+      <LI>Removed <font color="#8000a0"><tt>jdsl.graph.algo.InvalidEdgeException</tt></font></li>
+      <LI>Added <font color="#8000a0"><tt>jdsl.graph.algo.InvalidQueryException</tt></font></li>
+    </ul>
+  </p>
+    
+
+    <p><tt><b>JDSL 2.0.3</b></tt><br>
+    <UL>
+      <LI>Updated Javadoc documentation
+      <LI>Fixed a bug in <font color="#8000a0"><tt>jdsl.core.ref.HashtableDictionary</tt></font></li>
+      <LI>Fixed bugs in <font color="#8000a0"><tt>jdsl.graph.ref.AbstractGraph</tt></font></li>
+      <LI>Modified <font color="#8000a0"><tt>jdsl.graph.ref.AbstractGraph</tt></font>: removed methods <tt><font color="#0000ff">origin</font>(.)</tt> and <tt><font color="#0000ff">destination</font>(.)</tt></li>
+      <LI>Optimized <font color="#8000a0"><tt>jdsl.core.ref.RedBlackTree</tt></font></li>
+	
+    </ul>
+  </p>
+    
+    <p><tt><b>JDSL 2.0.1</b></tt><br>
+    <UL>
+      <li>Initial release of JDSL</li>
+    </ul>
+    </p>
+
+    <!-- End Main Content --> 
+ 
+<!--#include file="template_bottom.html" -->
+
+  </body>
+</html>

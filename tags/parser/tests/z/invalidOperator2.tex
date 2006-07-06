@@ -1,0 +1,16 @@
+From the Z standard chapter 8.3 (User-defined operators):
+
+  "These two templates conflict unacceptably, because they
+   reuse a and have different precedences."
+
+%%Zinword \a a
+%%Zinword \b b
+%%Zinword \c c
+
+\begin{zed}
+\generic 30 \leftassoc (\_ \a \_ \b \_)
+\end{zed}
+
+\begin{zed}
+\generic 20 \leftassoc (\_ \a \_ \c \_)
+\end{zed}

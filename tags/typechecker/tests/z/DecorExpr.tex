@@ -1,0 +1,34 @@
+\begin{zsection}
+  \SECTION DecorExpr
+\end{zsection}
+
+\begin{zed} \vdash? [| true] = [|true]~' \end{zed}
+\begin{zed} \vdash? [| true] = [|true]~?! \end{zed}
+\begin{zed} \vdash? [| true] = [|true]~?!' \end{zed}
+
+\begin{zed} \vdash? [x' : \nat] = [x : \nat]~' \end{zed}
+\begin{zed} \vdash? [x?! : \nat] = [x : \nat]~?! \end{zed}
+\begin{zed} \vdash? [x'?!' : \nat] = [x' : \nat]~?!' \end{zed}
+
+\begin{zed} \vdash? [x' : \nat; y' : \nat] = [x : \nat; y : \nat]~' \end{zed}
+\begin{zed} 
+  \vdash? [x?! : \nat; y?! : \nat] =  [x : \nat; y : \nat]~?!
+\end{zed}
+\begin{zed} 
+  \vdash? [x?!' : \nat; y'?!' : \nat] =  [x : \nat; y' : \nat]~?!'
+\end{zed}
+
+
+\begin{zed}
+  \vdash? [x' : \nat; y' : \nat; z' : \power \nat] = 
+          [x : \nat; y : \nat; z : \power \nat]~'
+\end{zed}
+\begin{zed}
+  \vdash? [x?! : \nat; y?! : \nat; z?! : \power \nat] = 
+          [x : \nat; y : \nat; z : \power \nat]~?!
+\end{zed}
+\begin{zed}
+  \vdash? [x?!' : \nat; y?!' : \nat; z'?!' : \power \nat] = 
+          [x : \nat; y : \nat; z' : \power \nat]~?!'
+\end{zed}
+

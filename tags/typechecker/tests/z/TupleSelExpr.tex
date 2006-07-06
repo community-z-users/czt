@@ -1,0 +1,30 @@
+\begin{zsection}
+  \SECTION TupleSelExpr
+\end{zsection}
+
+\begin{zed}
+  tupleExpr == (1, \{2\}, \power \{3\})
+\end{zed}
+
+\begin{zed}
+  \vdash? tupleExpr \in \nat \cross \power \nat \cross \power \power \nat\\
+\end{zed}
+\begin{zed} \vdash? tupleExpr.1 = 1 \end{zed}
+\begin{zed} \vdash? tupleExpr.2 = \{2\} \end{zed}
+\begin{zed} \vdash? tupleExpr.3 = \{\{\}, \{3\}\} \end{zed}
+
+Test that if the type of the argument is variable, the selection is 
+still handled correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g\\
+  t : g
+\where
+  s.1 = t\\
+  s = (\{1\}, 2, 3)
+\end{axdef}
+
+\begin{zed} \vdash? t = \{1\} \end{zed}

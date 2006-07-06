@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION NonSchExprInDecorExpr\_Parenthesised
+\end{zsection}
+
+Check that if a theta expressions is parenthesised, and then
+decorated, that an error is raised.
+
+\begin{zed}
+  S == [x : \nat]
+\end{zed}
+
+\begin{axdef}
+  s : S\\
+  x : \nat
+\where
+  s = (\theta S)~'
+\end{axdef}

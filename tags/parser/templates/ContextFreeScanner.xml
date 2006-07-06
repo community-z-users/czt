@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+/*
+  Copyright 2003, 2006 Petra Malik
+  This file is part of the czt project.
+
+  The czt project contains free software;
+  you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+/*
+  Numbers in brackets contained in comments refer to
+  the corresponding sections in the Z Standard.
+*/
+
+/* --------------------------Usercode Section------------------------ */
+package <package/>;
+
+import java.io.*;
+import net.sourceforge.czt.java_cup.runtime.*;
+
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.session.Source;
+
+/**
+ * &lt;p&gt;The context-free lexer for
+<add:z> * Z</add:z>
+<add:print> * Z</add:print>
+<add:oz> * Object Z</add:oz>
+<add:circus> * Circus</add:circus>
+<add:tcoz> and TCOZ</add:tcoz>
+ * specifications in unicode format.&lt;/p&gt;
+ *
+ * @author Petra Malik
+ * @see net.sourceforge.czt.parser.z
+ */
+
+%%
+/* -----------------Options and Declarations Section----------------- */
+%class <class/>
+%public
+%unicode
+%line
+%column
+%char
+%cupsym Sym
+//%cup
+
+%implements net.sourceforge.czt.java_cup.runtime.Scanner
+%function next_token
+%type net.sourceforge.czt.java_cup.runtime.Symbol
+%eofval{
+  return  new net.sourceforge.czt.java_cup.runtime.Symbol(Sym.EOF);
+%eofval}
+%eofclose
+
+%{
+  /**
+   * A special reader that provides line and column numbers,
+   * or <code>null</code> if not provided.
+   */
+  private CztReader reader_ = null;
+
+  <add:oz>
+  /**
+   * Records whether the number of paragraph "begins", so we know
+   * when to return to the initial state.
+   */
+  private int begins_ = 0;
+  </add:oz>
+
+  public <class/>(Source source)
+    throws IOException
+  {
+    this(source.getReader());
+  }
+
+  public <class/>(CztReader in)
+  {
+    this((Reader) in);
+    reader_ = in;
+  }
+
+  /**
+   * Lexes a given file.
+   */
+  public static void main(String argv[]) {    
+    try {
+      InputStream stream = new FileInputStream(argv[0]);
+      InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
+
+      <class/> scanner = new <class/>(reader);
+      DebugUtils.scan(scanner, Sym.class);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates a new java_cup.runtime.Symbol with line and column
+   * information about the current token.
+   * The token will have no value.
+   */
+  private Symbol symbol(int type)
+  {
+    return new Symbol(type, getLine(), getColumn(), getLocation());
+  }
+
+  /**
+   * Creates a new java_cup.runtime.Symbol with line and column
+   * information about the current token.
+   *
+   * @param value the value of the Symbol to be returned.
+   * @return a new Symbol with column and line information
+   *         and the given value.
+   */
+  private Symbol symbol(int type, Object value)
+  {
+    return new Symbol(type, getLine(), getColumn(), value);
+  }
+
+  private int getLine()
+  {
+    if (reader_ != null) {
+      return reader_.getLine(yychar);
+    }
+    return yyline;
+  }
+
+  private int getColumn()
+  {
+    if (reader_ != null) {
+      return reader_.getColumn(yychar);
+    }
+    return yycolumn;
+  }
+
+  private LocInfo getLocation()
+  {
+    if (reader_ != null) {
+      LocInfo startLoc = reader_.getLocation(yychar);
+      LocInfo endLoc = reader_.getLocation(yychar + yytext().length() - 1);
+      int start = startLoc.getStart();
+      return new LocInfoImpl(startLoc.getSource(),
+                             startLoc.getLine(),
+                             startLoc.getColumn(),
+                             start,
+                             endLoc.getStart() + endLoc.getLength() - start);
+    }
+    return new LocInfoImpl(null, yyline, yycolumn, yychar, yytext().length());
+  }
+%}
+   
+/***********************************************************************
+  Z characters (6.2)
+ ***********************************************************************/
+
+/* TODO: Distinguish between DIGIT and DECIMAL */
+DIGIT = {DECIMAL}
+DECIMAL = [:digit:]
+
+/* TODO: What about OTHERLETTER? */
+LETTER = [:letter:]
+
+SPECIAL =   {STROKECHAR}
+          | {WORDGLUE}
+          | {BRACKET}
+          | {BOXCHAR}
+          | {NLCHAR}
+          | {SPACE}
+          | {CONTROL}
+
+/* NOT_SYMBOL ist only needed to define SYMBOL */
+NOT_SYMBOL = {DIGIT} | {LETTER} | {SPECIAL} | "\t"
+
+/* SYMBOL are all the characters that are not NOT_SYMBOL */
+SYMBOL = !(![^] | {NOT_SYMBOL})
+
+/* SPECIAL
+   ======= */
+
+/* Stroke */
+STROKECHAR = {INSTROKE} | {OUTSTROKE} | {NEXTSTROKE}
+INSTROKE = "\u003F"   /* question mark */
+OUTSTROKE = "\u0021"  /* exclamation mark */
+NEXTSTROKE = "\u2032" /* prime */
+
+/* Word glue (6.4.4.2) */
+WORDGLUE = {NE} | {SE} | {SW} | {NW} | {LL}
+NE = "\u2197" /* north east arrow */
+SW = "\u2199" /* south west arrow */
+SE = "\u2198" /* south east arrow */
+NW = "\u2196" /* north west arrow */
+LL = "\u005F" /* low line */
+
+/* Bracket characters (6.4.4.3) */
+BRACKET = {LPAREN} | {RPAREN} | {LSQUARE} | {RSQUARE} | {LBRACE} | {RBRACE} | {LBIND} | 
+          {RBIND} | {LDATA} | {RDATA}
+<add:circus> 
+          | {LCIRCCHANSET} | {RCIRCCHANSET} | {CIRCLINST} | {CIRCLINST} 
+          | {LCIRCGUARD} | {RCIRCGUARD} | {LSCHEXPRACT} | {RSCHEXPRACT}
+          | {LCIRCRENAME} | {RCIRCRENAME} | {LPAR} | {RPAR} | {LINTER} 
+          | {RINTER}
+</add:circus>
+LPAREN = "\u0028"  /* left parenthesis */
+RPAREN = "\u0029"  /* right parenthesis */
+LSQUARE = "\u005B" /* left square bracket */
+RSQUARE = "\u005D" /* right square bracket */
+LBRACE = "\u007B"  /* left curly bracket */
+RBRACE = "\u007D"  /* right curly bracket */
+LBIND = "\u2989"   /* Z notation left binding bracket */
+RBIND = "\u298A"   /* Z notation right binding bracket */
+LDATA = "\u27EA"   /* mathmatical left double angle bracket */
+RDATA = "\u27EB"   /* mathmatical right double angle bracket */
+<add:circus>
+LCIRCCHANSET = "\u2983" /* channel set left bracket */
+RCIRCCHANSET = "\u2984" /* channel set right bracket */
+CIRCLINST = "\u230A" /* left indexed process instantiation angle bracket */
+CIRCRINST = "\u230B" /* left indexed process instantiation angle bracket */
+LCIRCGUARD = "\u3014" /* left action guard bracket */
+RCIRCGUARD = "\u3015" /* right action guard bracket */
+LSCHEXPRACT = "\u2768" /* left action guard bracket */
+RSCHEXPRACT = "\u2769" /* right action guard bracket */
+LCIRCRENAME = "\u3016" /* left process renaming bracket */
+RCIRCRENAME = "\u3017" /* right process renaming bracket */
+LPAR = "\u27E6" /* left parallel bracket */
+RPAR = "\u27E7" /* right parallel bracket */
+LINTER = "\u301A"   /* left interleave bracket */
+RINTER = "\u301B"   /* left interleave bracket */
+</add:circus>
+
+/* Box characters (6.4.4.3) */
+BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
+    <add:zpatt> | {JOKERCHAR} | {RULECHAR} </add:zpatt>    
+    <add:circus> /*| {CIRCUPROCESSCHAR}*/ </add:circus>
+ZEDCHAR = "\u2500" /* box drawings light horizontal */
+AXCHAR = "\u2577"  /* box drawings light down */
+SCHCHAR = "\u250C" /* box drawings light down and right */
+GENCHAR = "\u2550" /* box drawings double horizontal */
+ENDCHAR = "\u2029" /* paragraph separator */
+<add:zpatt>
+JOKERCHAR = "\u2605"
+RULECHAR = "\u25A0"
+PROVISO = "\u25B8"
+</add:zpatt>
+<add:circus>
+//CIRCUSPROCESSCHAR = "\u250F" /* box drawings down light and right heavy */
+</add:circus>
+
+/* Other SPECIAL characters (6.4.4.5) */
+NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
+SPACE =   "\u0020" /* space */
+
+CONTROL = {TAB}
+LF = "\n"
+CR = "\r"
+TAB = "\t"
+
+NOT_BOXCHAR = !(![^] | {BOXCHAR})
+TEXT = {NOT_BOXCHAR}*
+
+/***********************************************************************
+  Lexis (7)
+ ***********************************************************************/
+
+DECORWORD = {WORD} {STROKE}*
+WORD =   {WORDPART}+
+       | {LETTER} {ALPHASTR} {WORDPART}*
+       | {SYMBOL}+ {WORDPART}*
+WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
+ALPHASTR = ({LETTER} | {DIGIT})*
+NUMERAL = {DIGIT}+
+STROKE = {STROKECHAR} | {SE} {DIGIT} {NW}
+ZED = {ZEDCHAR}
+AX = {AXCHAR}
+SCH = {SCHCHAR}
+GENAX = {AXCHAR} {GENCHAR}
+GENSCH = {SCHCHAR} {GENCHAR}
+END = {ENDCHAR}
+NL = {NLCHAR}
+<add:zpatt>
+JOKER = {JOKERCHAR}
+RULE = {RULECHAR}
+</add:zpatt>
+<add:circus>
+//CIRCUSPROCESSBOX = {CIRCUSPROCESSCHAR}
+</add:circus>
+
+%state Z <add:oz>CLASS</add:oz>
+
+%%
+/* ------------------------Lexical Rules Section---------------------- */
+
+&lt;YYINITIAL&gt; {
+  {ZED}         {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); return symbol(Sym.ZED); }
+  {AX}          {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); return symbol(Sym.AX); }
+  {GENAX}       {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); return symbol(Sym.GENAX); }
+  {SCH}         {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); return symbol(Sym.SCH); }
+  {GENSCH}      {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); return symbol(Sym.GENSCH); }
+
+  <add:zpatt>
+  /* Z joker paragraph */
+  {JOKER}       {  yybegin(Z); return symbol(Sym.JOKER); }
+  {RULE}        {  yybegin(Z); return symbol(Sym.RULE); }
+  </add:zpatt>
+  
+  <add:circus>
+  /* Circus paragraphs */
+  //{CIRCUSPROCESSBOX} { yybegin(Z); returm symbol(Sym.CIRCUSPROCESSBOX); }
+  </add:circus>
+
+  <add:oz>
+  /* Object-Z class paragraph */
+  {SCHCHAR} ({SPACE} | {CONTROL}) "class"
+                {  begins_++;
+                   yybegin(Z); return symbol(Sym.CLASS); }
+  /* Object-Z class paragraph */
+  {SCHCHAR} ({SPACE} | {CONTROL}) "genclass"
+                {  begins_++;
+                   yybegin(Z); return symbol(Sym.GENCLASS); }
+  </add:oz>
+
+  {TEXT}        {
+                   LocString value = new LocString(yytext(), getLocation());
+                   return symbol(Sym.TEXT, value);
+                }
+
+  .             {
+                   String message = "Unexpected character outside para &lt;" + yytext() + "&gt;";
+                   throw new ScanException(message, getLine(), getColumn());
+                }
+}
+
+&lt;Z&gt; {
+<add:print>
+  "section"     { return symbol(Sym.SECTION); }
+  "parents"     { return symbol(Sym.PARENTS); }
+  {NL} {SPACE}* "|" {SPACE}* {NL}
+                { return symbol(Sym.WHERE); }
+</add:print>
+  /* Boxes */
+  {END}         {  <add:oz>
+                   if (--begins_ == 0) {
+                   </add:oz>
+                     yybegin(YYINITIAL);
+                   <add:oz>
+                   }
+                   </add:oz>
+                   return symbol(Sym.END); }
+  {NL}          {  return symbol(Sym.NL); }
+
+  /* strip spaces (context-sensitive lexis; 7.4.1)
+     \t is added so that unicode files containing tabs
+     can be read properly */
+  {SPACE} | {CONTROL} { }
+
+  <add:zpatt>
+  /* ZED is used as the rule-line character. */
+  {ZED}         { return symbol(Sym.RULELINE); }
+  {PROVISO}     { return symbol(Sym.PROVISO); }
+  </add:zpatt>
+
+  <add:oz>
+  /* Object-Z box characters */
+  {SCHCHAR} {ZEDCHAR}+
+                { begins_++; return symbol(Sym.STATE); }
+  {SCHCHAR} ({SPACE} | {CONTROL}) "Init"
+                { begins_++; return symbol(Sym.INIT); }
+
+  //these are added becaus they can be nested inside Object-Z class boxes
+  {ZED}         { begins_++; return symbol(Sym.ZED); }
+  {AX}          { begins_++; return symbol(Sym.AX); }
+  {GENAX}       { begins_++; return symbol(Sym.GENAX); }
+  {SCH}         { begins_++; return symbol(Sym.SCH); }
+  /* Object-Z operation */
+  {SCH} "op"    { begins_++; return symbol(Sym.OPSCH); }
+  </add:oz>
+
+  /* Brackets */
+  {LPAREN}      {  return symbol(Sym.LPAREN); }
+  {RPAREN}      {  return symbol(Sym.RPAREN); }
+  {LSQUARE}     {  return symbol(Sym.LSQUARE); }
+  {RSQUARE}     {  return symbol(Sym.RSQUARE); }
+  {LBRACE}      {  return symbol(Sym.LBRACE); }
+  {RBRACE}      {  return symbol(Sym.RBRACE); }
+  {LBIND}       {  return symbol(Sym.LBIND); }
+  {RBIND}       {  return symbol(Sym.RBIND); }
+  {LDATA}       {  return symbol(Sym.LDATA); }
+  {RDATA}       {  return symbol(Sym.RDATA); }
+  <add:circus>
+  {LCIRCCHANSET} {  return symbol(Sym.LCIRCCHANSET); }
+  {RCIRCCHANSET} {  return symbol(Sym.RCIRCCHANSET); }  
+  {CIRCLINST}    {  return symbol(Sym.CIRCLINST); }  
+  {CIRCRINST}    {  return symbol(Sym.CIRCRINST); }  
+  {LCIRCGUARD}   {  return symbol(Sym.LCIRCGUARD); }
+  {RCIRCGUARD}   {  return symbol(Sym.RCIRCGUARD); }
+  {LSCHEXPRACT}  {  return symbol(Sym.LSCHEXPRACT); }
+  {RSCHEXPRACT}  {  return symbol(Sym.RSCHEXPRACT); }
+  {LCIRCRENAME}  {  return symbol(Sym.LCIRCRENAME); }
+  {RCIRCRENAME}  {  return symbol(Sym.RCIRCRENAME); }
+  {LPAR}         {  return symbol(Sym.LPAR); }  
+  {RPAR}         {  return symbol(Sym.RPAR); }  
+  {LINTER}       {  return symbol(Sym.LINTER); }  
+  {RINTER}       {  return symbol(Sym.RINTER); }  
+  </add:circus>
+  {INSTROKE}    {  return symbol(Sym.INSTROKE); }
+  {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
+  {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
+  {SE} {DIGIT} {NW}
+                {
+                   LocInt locInt =
+                     new LocInt(yytext().substring(1,2), getLocation());
+                   return symbol(Sym.NUMSTROKE, locInt);
+                }
+  {NUMERAL}     {  return symbol(Sym.NUMERAL,
+                                 new LocInt(yytext(), getLocation())); }
+  {DECORWORD}   {  return symbol(Sym.DECORWORD,
+                                 new Decorword(yytext(), getLocation())); }
+
+  /* error fallback */
+  .             {
+                   String message = "Unexpected character &gt;" + yytext() + "&gt;";
+                   throw new ScanException(message, getLine(), getColumn());
+                }
+}
+</scanner>

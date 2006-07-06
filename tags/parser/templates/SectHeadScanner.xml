@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2004 Petra Malik
+     This file is part of the czt project.
+     
+     The czt project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+     
+     The czt project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You should have received a copy of the GNU General Public License
+     along with czt; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     -->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+import net.sourceforge.czt.java_cup.runtime.*;
+      
+import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.TokenStack;
+import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.ZString;
+
+/**
+ * This is a scanner that creates SECTHEAD tokens of type ZSect
+ * for section headers.
+ * In most cases, it just forwards the stream of tokens unchanged
+ * via the #next_token method.  When it encounters a ZED token followed
+ * by a SECTION token (the beginning of a section header), it parses untill
+ * the end of the section header definition and returns a SECTHEAD token
+ * whos type is a ZSect containing all the parsed information.  If no section
+ * header definition can be found, one is included before the first non-text
+ * token.  Parser using this scanner do not need to care about anonymous
+ * specifications.
+ *
+ * @author Petra Malik
+ */
+public class SectHeadScanner
+  implements Scanner
+{
+  private TokenStack lookahead_;
+  private ZFactory factory_ = new ZFactoryImpl();
+  private ZSect sectHead_ = null;
+  private static final String ANONYMOUS_SECT_NAME = "Specification";
+  private static final String ANONYMOUS_PARENT = "standard_toolkit";
+
+  public SectHeadScanner(Scanner scanner)
+  {
+    lookahead_ = new TokenStack(scanner);
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    Symbol result = lookahead_.pop();
+    if (result != null &amp;&amp; result.sym != Sym.TEXT) {
+      Symbol nextToken = lookahead_.pop();
+      if (isSectHead(result, nextToken))
+      {
+        sectHead_ = parseSectHead();
+        assert sectHead_ != null;
+        return new Symbol(Sym.SECTHEAD, result.left, result.right, sectHead_);
+      }
+      if (sectHead_ == null) {
+        lookahead_.push(nextToken);
+        lookahead_.push(result);
+        sectHead_ = anonymousZSect();
+        assert sectHead_ != null;
+        return new Symbol(Sym.SECTHEAD, sectHead_);
+      }
+      lookahead_.push(nextToken);
+    }
+    return result;
+  }
+
+  private ZSect anonymousZSect()
+  {
+    Parent parent = factory_.createParent(ANONYMOUS_PARENT);
+    List parentlist = new ArrayList();
+    parentlist.add(parent);
+    ZSect result = factory_.createZSect(ANONYMOUS_SECT_NAME, parentlist, null);
+    return result;
+  }
+
+
+  private boolean isSectHead(Symbol first, Symbol second)
+  {
+    final boolean firstIsZed =
+      first != null &amp;&amp; first.sym == Sym.ZED;
+    final boolean secondIsSection =
+      second != null &amp;&amp; second.sym == Sym.SECTION;
+    return firstIsZed &amp;&amp; secondIsSection;
+  }
+
+  private ZSect parseSectHead()
+    throws Exception
+  {
+    final Symbol nametok = lookahead_.pop();
+    final Symbol next = lookahead_.pop();
+    if (nametok == null || next == null) {
+      throw new ParseException("Parse error", -1, -1);
+    }
+    if (nametok.sym != Sym.DECORWORD) {
+      String message = "Parse error (expected DECORWORD)";
+      throw new ParseException(message, nametok.left, nametok.right);
+    }
+    assert nametok.value != null;
+    final String name = ((Decorword) nametok.value).getName();
+    assert name.length() > 0;
+    ZSect result = factory_.createZSect(name, null, null);
+    if (next.sym == Sym.PARENTS) {
+      parseParentList(result.getParent());
+    }
+    else if (next.sym != Sym.END) {
+      String message = "Parse error (expected PARENTS or END)";
+      throw new ParseException(message, next.left, next.right);
+    }
+    assert result != null;
+    return result;
+  }
+
+  private void parseParentList(List parentList)
+    throws Exception
+  {
+    final Symbol parentName = lookahead_.pop();
+    final Symbol next = lookahead_.pop();
+    if (parentName == null || next == null) {
+      throw new ParseException("Parse error", -1, -1);
+    }
+    if (parentName.sym != Sym.DECORWORD) {
+      throw
+        new ParseException("Parse error", parentName.left, parentName.right);
+    }
+    final String name = ((Decorword) parentName.value).getName();
+    Parent parent = factory_.createParent(name);
+    parentList.add(parent);
+    if (next.sym == Sym.DECORWORD &amp;&amp;
+             ZString.COMMA.equals(((Decorword) next.value).getName())) {
+      parseParentList(parentList);
+    }
+    else if (next.sym != Sym.END) {
+      throw new ParseException("Parse error", next.left, next.right);
+    }
+  }
+
+  public static boolean isAnonymous(ZSect zsect)
+  {
+    boolean result = false;
+    String name = zsect.getName();
+    List parents = zsect.getParent();
+    if (parents.size() == 1) {
+      Parent parent = (Parent) parents.get(0);
+      String parentName = parent.getWord();
+      if (ANONYMOUS_SECT_NAME.equals(name) &amp;&amp;
+          ANONYMOUS_PARENT.equals(parentName)) {
+        result = true;
+      }
+    }
+    return result;
+  }
+}
+</scanner>

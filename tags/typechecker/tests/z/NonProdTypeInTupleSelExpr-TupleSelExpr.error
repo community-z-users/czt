@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION NonProdTypeInTupleSelExpr\_TupleSelExpr
+\end{zsection}
+
+\begin{zed}
+  a == \power \nat\\
+  error == a.1
+\end{zed}

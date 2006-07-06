@@ -1,0 +1,120 @@
+\begin{zsection}
+\SECTION simple2 \parents zpattern\_toolkit
+\end{zsection}
+
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
+\begin{zedjoker}{Expr} E, E2\end{zedjoker} \\
+\begin{zedjoker}{Name} v\end{zedjoker} \\
+
+\begin{schema}{Foo}
+  x:\nat
+\where
+  true
+\end{schema}
+
+\begin{zed}
+  \relation ( \_~foo~\_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ ~foo~ \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 ~foo~ s2 \iff s1=s2
+\end{gendef}
+
+\begin{zedrule}{test}
+  [ v:E ; D | P1 ] foo~ E2
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ x:\nat | true ] ~foo~ [ x:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat | true ] ~foo~ [ x:\nat; y:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat ; Foo | true ] ~foo~
+           [ x:\nat; y:\nat ; Foo | true ]
+\end{zed}
+
+
+\begin{zedrule}{argh}
+  [ v ; D | P1 ] ~foo~ E2
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [Foo | true] ~foo~ [Foo | true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [Foo ; x,y:\nat | true] ~foo~ [Foo ; x,y:\nat | true]
+\end{zed}
+
+\begin{zedrule}{test2}
+  [ v:E ; D | P1 ] = [ v:E ; D | P1 ]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ x:\nat | true ] = [ x:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat | true ] = [ x:\nat; y:\nat | true ]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [ x:\nat; y:\nat ; z:\nat | true ] =
+           [ x:\nat; y:\nat ; z:\nat | true ]
+\end{zed}
+
+
+
+\begin{zedrule}{normaliseEmpty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+\begin{zedrule}{normaliseVarDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{startNormalise}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [D1 | P] = [D2 | P2 \land P]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [~ | true] = [~ | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat | true] = [x:\nat | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat ; y:\nat | true] = [x:\nat ; y:\nat | true \land true]
+\end{zed}
+
+\begin{zed}
+  \vdash?~ [x:\nat ; y:\nat ; z:\nat | true] =
+           [x:\nat ; y:\nat ; z:\nat | true \land true]
+\end{zed}
+
+
+
+\begin{zedrule}{normaliseIncludeDecl}
+   \proviso ?~ v == [D1 | P1] \\
+\derives
+   [v; D | true] \unfoldsTo [D1 | P1 \land P2]
+\end{zedrule}
+
+\begin{zed}
+  \vdash?~ [ Foo | true ] \unfoldsTo [ x:\nat | true \land true ]
+\end{zed}

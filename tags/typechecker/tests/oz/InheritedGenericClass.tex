@@ -1,0 +1,106 @@
+\begin{zsection}
+  \SECTION InheritedGenericClass \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A[X]}
+  \begin{state}
+    n : X
+  \end{state}\\
+  \begin{op}{Op1}
+    x? : X
+  \end{op}
+\end{class}
+
+\begin{class}{B[X]}
+  A[X]\\
+  \begin{state}
+    pn : \power X
+  \end{state}\\
+  \begin{op}{Op2}
+    x? : \power X
+  \end{op}
+\end{class}
+
+\begin{class}{C}
+  \begin{axdef}
+    a : A[\nat]\\
+    b : B[\nat]
+  \where
+    a.n = 1\\
+    b.pn = \{1\}\\
+    b.pn = \{a.n\}
+  \end{axdef}\\
+  \begin{state}
+    sa : A[\nat]\\
+    sb : B[\nat]
+  \end{state}\\
+  Op3 \sdef sa.Op1\\
+  Op4 \sdef sb.Op1\\
+  Op5 \sdef sb.Op2
+\end{class}
+
+Multiple inheritance
+\begin{class}{D}
+  B[\nat]\\
+  C\\
+  \begin{state}
+    d : \nat
+  \where
+    d = n\\
+    d \in pn\\
+    a \in A[\nat]\\
+    b \in B[\nat]
+  \end{state}\\
+  Op4 \sdef Op3 \land sa.Op1\\
+  Op6 \sdef Op3 \land sa.Op1\\
+  Op7 \sdef Op4 \land sb.Op1
+\end{class}
+
+Test that overridden operations have their signatures conjoined with
+their parent.
+\begin{class}{E}
+  A[\nat]\\
+  \begin{op}{Op1}
+    y? : \power\nat
+  \end{op}\\
+  Test1a \sdef Op1 \hide (x?,y?)
+\end{class}
+
+\begin{class}{F}
+  E\\
+  \begin{op}{Op1}
+    x? : \nat\\
+    y? : \power \nat\\
+    z? : \power\power \nat
+  \end{op}\\
+  Test1b \sdef Op1 \hide (x?,y?,z?)\\
+  Test1c \sdef Op1 \land [x? : \nat; y? : \power\nat; z? : \power\power\nat]
+\end{class}
+
+Test that the superclasses signature is not altered by the subclass
+\begin{class}{G}
+  \begin{state}
+    e : E
+  \end{state}\\
+  Op1 \sdef e.Op1 \land [z? : \nat]
+\end{class}
+
+Test inheritance with renaming.
+\begin{class}{H}
+  A[\nat][newn/n,newOp1/Op1]\\
+  \begin{state}
+  \where
+    newn = 1
+  \end{state}
+  Op1 \sdef newOp1
+\end{class}
+
+Test inheritance with duplicate renaming.
+\begin{class}{I}
+  A[\nat][newn/n,newOp1/Op1][n/newn,Op1/newOp1]\\
+  \begin{state}
+  \where
+    n = 1
+  \end{state}
+  newOp1 \sdef Op1
+\end{class}

@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION TypeMismatchInMemPred\_Downcast\_1
+\end{zsection}
+
+\begin{class}{A}
+\end{class}
+
+\begin{class}{B}
+ A
+\end{class}
+
+\begin{class}{C}
+ A
+\end{class}
+
+\begin{class}{Down}
+ \begin{state}
+   poly\_a : \poly A
+ \end{state}
+ Op1 \sdef [poly\_a \in B] \land [poly\_a \in C]
+\end{class}
+

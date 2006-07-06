@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE ACTIONS SYSTEM "actions.dtd">
+
+<ACTIONS>
+  <ACTION NAME="zsidekick.toLatex">
+    <CODE>
+      zsidekick.ZSideKickActions.toLatex(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.toOldLatex">
+    <CODE>
+      zsidekick.ZSideKickActions.toOldLatex(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.toUnicode">
+    <CODE>
+      zsidekick.ZSideKickActions.toUnicode(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.toXml">
+    <CODE>
+      zsidekick.ZSideKickActions.toXml(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.nextWff">
+    <CODE>
+      zsidekick.ZSideKickActions.highlightNextWff(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.gotoDefinition">
+    <CODE>
+      zsidekick.ZSideKickActions.gotoDefinition(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.insertTypeForCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.insertTypeForCurrentWff(view);
+    </CODE>
+  </ACTION>
+  <ACTION NAME="zsidekick.disableTypechecking">
+    <CODE>
+      buffer.putBooleanProperty("zsidekick.disable-typechecking",
+                ! buffer.getBooleanProperty("zsidekick.disable-typechecking"));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty("zsidekick.disable-typechecking");
+    </IS_SELECTED>
+  </ACTION>
+  <ACTION NAME="zsidekick.showCompleteTree">
+    <CODE>
+      buffer.putBooleanProperty("zsidekick.show-complete-tree",
+                ! buffer.getBooleanProperty("zsidekick.show-complete-tree"));
+    </CODE>
+    <IS_SELECTED>
+      return buffer.getBooleanProperty("zsidekick.show-complete-tree");
+    </IS_SELECTED>
+  </ACTION>
+</ACTIONS>

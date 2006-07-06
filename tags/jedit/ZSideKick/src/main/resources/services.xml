@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE SERVICES SYSTEM "services.dtd">
+
+<SERVICES>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="z">
+    new zsidekick.ZParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
+    new zsidekick.OzParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circus">
+    new zsidekick.CircusParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
+    new zsidekick.ZLatexParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
+    new zsidekick.OzLatexParser();
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="circuslatex">
+    new zsidekick.CircusLatexParser();
+  </SERVICE>
+
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
+    new zsidekick.GenericParser("zpatt",
+                                net.sourceforge.czt.session.Markup.UNICODE);
+  </SERVICE>
+  <SERVICE CLASS="sidekick.SideKickParser" NAME="zpattlatex">
+    new zsidekick.GenericParser("zpatt",
+                                net.sourceforge.czt.session.Markup.LATEX);
+  </SERVICE>
+</SERVICES>

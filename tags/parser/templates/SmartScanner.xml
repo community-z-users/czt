@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003, 2004, 2005 Mark Utting.  marku@cs.waikato.ac.nz
+     This file is part of the CZT project: http://czt.sourceforge.net
+
+     The CZT project contains free software; you can redistribute it and/or
+     modify it under the terms of the GNU General Public License as published
+     by the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License along
+     with CZT; if not, write to the Free Software Foundation, Inc.,
+     59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
+
+import java.io.IOException;
+import java.util.*;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.*;
+
+/**
+ * &lt;p&gt;
+ *   Looks ahead in the token stream to resolve some Z ambiguities.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;As described in the ISO Z standard (Section 8.4, p37), the Z
+ * grammar has several ambiguities.  This class 'buffers' the token
+ * stream, so that it can look ahead in the token stream if necessary,
+ * to help resolve the ambiguities.&lt;/p&gt;
+ *
+ * &lt;p&gt;For example, in {x,y,z...}, if the x,y,z is followed by
+ * ':', then it is part of a declaration (a set comprehension) and
+ * declares new variables x,y,z, otherwise it is a set extension, and
+ * x,y,z must already have been declared.  To resolve this, whenever
+ * we come to a DECORWORD, this class looks ahead over (COMMA, name)
+ * pairs where name is either a single DECORWORD or an operator name, to see
+ * if they are followed by a COLON (:) token.  If they are, it returns
+ * those names as DECLNAME tokens rather than DECORWORD tokens.&lt;/p&gt;
+ *
+<add:oz>
+ * This class also resolves ambiguities in Object-Z. To resolve the
+ * problem of whether the first name seen after a class name is a
+ * reference to an inheriting class or a reference to a name, we use
+ * lookahead. If the token after the name is ::= or ==, the smart
+ * scanner returns a DEFNAME instead of a DECORWORD. If the token is
+ * \sdef, we return an OPNAME instead of a DECORWORD.
+</add:oz>
+ */
+class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
+{
+  //indicates whether the previous token is a named box token
+  //i.e. SCH, GENSCH, CLASS, OPSCH
+  private boolean inBoxName = false;
+
+  private TokenStack dumb_;
+
+  <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
+  {
+    dumb_ = new TokenStack(dumbscanner);
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    Symbol result = dumb_.pop();
+    if (result.sym == Sym.DECORWORD &amp;&amp; inBoxName) {
+      //don't look ahead if the previous token was a box token
+      inBoxName = false;
+    }
+    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
+      //if this is a colon decl, convert the DECORWORD to a DECLWORD
+      if (isColonDecl()) {
+        result.sym = Sym.DECLWORD;
+      }
+<add:oz>
+      else {
+        LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+        Symbol currsym = dumb_.pop();
+        tokens.addLast(currsym);
+        //skip any newlines
+        while (currsym.sym == Sym.NL) {
+          currsym = dumb_.pop();
+          tokens.addLast(currsym);
+        }
+        //skip any formal parameters
+        if (currsym.sym == Sym.LSQUARE) {
+          while (currsym.sym != Sym.RSQUARE) {
+            currsym = dumb_.pop();
+            tokens.addLast(currsym);
+          }
+          currsym = dumb_.pop();
+          tokens.addLast(currsym);
+        }
+        //if the next token is a DEFFREE or DEFEQUAL, return a DEFNAME
+        if (currsym.sym == Sym.DEFFREE || currsym.sym == Sym.DEFEQUAL) {
+          result.sym = Sym.DEFNAME;
+        }
+        //if the next token is a SDEF, return an OPNAME
+        else if (currsym.sym == Sym.SDEF) {
+          result.sym = Sym.OPNAME;
+        }
+        pushList(tokens, false);
+      }
+</add:oz>
+    }
+    else if (result.sym == Sym.SCH ||
+<add:oz>
+             result.sym == Sym.CLASS ||
+             result.sym == Sym.OPSCH ||
+</add:oz>
+             result.sym == Sym.GENSCH) {
+        inBoxName = true;
+    } 
+    return result;
+  }
+
+  private boolean isColonDecl()
+    throws Exception
+  {
+    boolean isColonDecl = false;
+    boolean doLookahead = true;
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym = dumb_.pop();
+    tokens.addLast(currsym);
+
+    while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+      doLookahead = false;
+      while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
+            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD) {
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
+        doLookahead = true;
+      }
+    }
+
+    if (currsym.sym == Sym.COLON &amp;&amp; doLookahead) {
+      isColonDecl = true;
+    }
+    pushList(tokens, isColonDecl);
+    return isColonDecl;
+  }
+
+  private void pushList(List &lt; Symbol &gt; tokens, boolean isColonDecl)
+  {
+    for (int i = tokens.size() - 1; i >= 0; i--) {
+      Symbol symbol = tokens.get(i);
+      if (symbol.sym == Sym.DECORWORD  &amp;&amp; isColonDecl) {
+        symbol.sym = Sym.DECLWORD;
+      }
+      else {
+      }
+      dumb_.push(symbol);
+    }
+  }
+
+  private Object get_sym(Symbol symbol)
+  {
+    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
+    Object sym = symbolMap.get(new Integer(symbol.sym));
+    return sym;
+  }
+
+  private Object get_info(Symbol symbol)
+  {
+    String result = null;
+    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
+    Object sym = symbolMap.get(new Integer(symbol.sym));
+    if (symbol.value != null) {
+      result = sym.toString() + "(" + symbol.value + ")";
+    }
+    else {
+      result = sym.toString();
+    }
+    return result;
+  }
+}
+</scanner>

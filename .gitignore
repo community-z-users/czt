@@ -8,5 +8,17 @@ parser/doc/changes.rss
 parser/doc/favicon.ico
 parser/doc/images
 parser/doc/skin
+tags/corejava/doc
+tags/fonts/fonts.dir
+tags/fonts/fonts.scale
+tags/parser/doc/*.html
+tags/parser/doc/*.pdf
+tags/parser/doc/api
+tags/parser/doc/changes.rss
+tags/parser/doc/favicon.ico
+tags/parser/doc/images
+tags/parser/doc/skin
+tags/typechecker/doc
+tags/zlive/doc/api
 typechecker/doc
 zlive/doc/api

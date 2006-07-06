@@ -1,0 +1,41 @@
+\begin{zsection}
+  \SECTION ApplExpr
+\end{zsection}
+
+\begin{zed} \vdash? \{(1,1)\} 1 \in \nat \end{zed}
+
+Test that variable types are handled unified.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{gendef}[X,Y]
+  func : \power (X \cross Y)
+\end{gendef}
+
+\begin{axdef}
+\where
+  func(1) = \{1\}
+\end{axdef}
+
+\begin{axdef}
+  s == g
+\where
+  s(1) = \{1\}\\
+  s = \{(1,\{1\})\}
+\end{axdef}
+
+Check that the function type is resolve even if it is only defined via 
+the possible inputs and outputs - if that makes any sense...
+\begin{axdef}
+  f == g\\
+  a : g
+\where
+  \exists e : f @ e.1 = 5 \land f(a) = 5
+\end{axdef}
+
+\begin{axdef}
+  b : g
+\where
+  b(1) = \{1\}
+\end{axdef}

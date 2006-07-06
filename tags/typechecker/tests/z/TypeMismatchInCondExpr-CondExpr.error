@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION TypeMismatchInCondExpr\_CondExpr
+\end{zsection}
+
+\begin{zed}
+  error == \IF true \THEN 1 \ELSE \{1\}
+\end{zed}

@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSignature\_Global
+\end{zsection}
+
+\begin{axdef}
+  x : \nat\\
+  y : \nat\\
+  x : \power \nat
+\end{axdef}

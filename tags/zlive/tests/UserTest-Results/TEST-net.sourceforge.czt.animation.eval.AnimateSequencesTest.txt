@@ -1,0 +1,496 @@
+Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
+Tests run: 87, Failures: 60, Errors: 0, Time elapsed: 33.708 sec
+------------- Standard Output ---------------
+loaded rule setminus
+loaded rule taildef
+loaded rule IncludeDecl
+loaded rule domainsubtraction
+loaded rule subset
+loaded rule subseteq
+loaded rule inverse
+loaded rule symdiff
+loaded rule prefixdef
+loaded rule reloverride
+loaded rule relcomp
+loaded rule seconddef
+loaded rule infixdef
+loaded rule literalsequence
+loaded rule frontdef
+loaded rule relimage
+loaded rule headdef
+loaded rule Schema
+loaded rule rangerestriction
+loaded rule domainrestriction
+loaded rule genunion
+loaded rule range
+loaded rule unfolddefn
+loaded rule emptyset
+loaded rule genunion2
+loaded rule VarDecl
+loaded rule funccomp
+loaded rule genintersection
+loaded rule genunion1
+loaded rule filterdef
+loaded rule identity
+loaded rule partitiondef
+loaded rule firstdef
+loaded rule intersection
+loaded rule disjointdef
+loaded rule dcat0
+loaded rule DecorDecl
+loaded rule dcat1
+loaded rule SchemaRef
+loaded rule Empty
+loaded rule suffixdef
+loaded rule rangesubtraction
+loaded rule extractdef
+loaded rule reverse
+loaded rule dcatdistributive
+loaded rule genunion3
+loaded rule lambda
+loaded rule domain
+loaded rule lastdef
+loaded rule num1
+loaded rule maplet
+set compare: FlatDiscreteSet[tmp6892], FlatDiscreteSet[tmp6893]
+Passed test:animate_sequences.tex:63
+set compare: FlatDiscreteSet[tmp6896, tmp6897], FlatDiscreteSet[tmp6900, tmp6901]
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf, net.sourceforge.czt.z.impl.TupleExprImpl@601e8fbf
+Passed test:animate_sequences.tex:64
+Passed test:animate_sequences.tex:67
+Passed test:animate_sequences.tex:68
+Passed test:animate_sequences.tex:69
+Passed test:animate_sequences.tex:70
+Passed test:animate_sequences.tex:71
+Passed undef test: animate_sequences.tex:72
+set compare: { tmp6974==1, tmp6976==1, tmp6978==1, tmp6979==2, FlatTuple[tmp6978, tmp6979, tmp6980], FlatDiscreteSet[tmp6980, tmp6981], FlatCard[tmp6981, tmp6977], FlatPlus[tmp6976, tmp6975, tmp6977], FlatRangeSet(tmp6974,tmp6975,tmp6973), FlatMember[tmp6973, n], FlatMu(tmp6992==1, tmp6993==2, FlatTuple[tmp6992, tmp6993, tmp6994], FlatDiscreteSet[tmp6994, tmp6995], FlatMember[tmp6995, p], FlatTupleSel[p, tmp6996], tmp6998==1, FlatPlus[n, tmp6998, tmp6997], FlatEquals[tmp6996, tmp6997], FlatTupleSel[p, tmp6999] @ tmp6999), FlatTuple[n, tmp6999, tmp7000], FlatEquals[tmp6972, tmp7000] @ tmp6972 } = tmp6971, FlatDiscreteSet[tmp7011]
+Passed test:animate_sequences.tex:75
+set compare: { tmp7015==1, tmp7017==1, tmp7019==1, tmp7020==2, FlatTuple[tmp7019, tmp7020, tmp7021], tmp7022==2, tmp7023==4, FlatTuple[tmp7022, tmp7023, tmp7024], tmp7025==3, tmp7026==6, FlatTuple[tmp7025, tmp7026, tmp7027], FlatDiscreteSet[tmp7027, tmp7024, tmp7021, tmp7028], FlatCard[tmp7028, tmp7018], FlatPlus[tmp7017, tmp7016, tmp7018], FlatRangeSet(tmp7015,tmp7016,tmp7014), FlatMember[tmp7014, n], FlatMu(tmp7045==1, tmp7046==2, FlatTuple[tmp7045, tmp7046, tmp7047], tmp7048==2, tmp7049==4, FlatTuple[tmp7048, tmp7049, tmp7050], tmp7051==3, tmp7052==6, FlatTuple[tmp7051, tmp7052, tmp7053], FlatDiscreteSet[tmp7047, tmp7053, tmp7050, tmp7054], FlatMember[tmp7054, p], FlatTupleSel[p, tmp7055], tmp7057==1, FlatPlus[n, tmp7057, tmp7056], FlatEquals[tmp7055, tmp7056], FlatTupleSel[p, tmp7058] @ tmp7058), FlatTuple[n, tmp7058, tmp7059], FlatEquals[tmp7013, tmp7059] @ tmp7013 } = tmp7012, FlatDiscreteSet[tmp7078, tmp7081, tmp7082]
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602e045d, net.sourceforge.czt.z.impl.TupleExprImpl@602e045d
+Passed test:animate_sequences.tex:76
+set compare: { tmp7086==1, tmp7088==1, tmp7090==1, tmp7091==2, FlatTuple[tmp7090, tmp7091, tmp7092], FlatDiscreteSet[tmp7092, tmp7093], FlatCard[tmp7093, tmp7089], FlatPlus[tmp7088, tmp7087, tmp7089], FlatRangeSet(tmp7086,tmp7087,tmp7085), FlatMember[tmp7085, n], FlatMu(tmp7104==1, tmp7105==2, FlatTuple[tmp7104, tmp7105, tmp7106], FlatDiscreteSet[tmp7106, tmp7107], FlatMember[tmp7107, p], FlatTupleSel[p, tmp7108], tmp7110==1, FlatPlus[n, tmp7110, tmp7109], FlatEquals[tmp7108, tmp7109], FlatTupleSel[p, tmp7111] @ tmp7111), FlatTuple[n, tmp7111, tmp7112], FlatEquals[tmp7084, tmp7112] @ tmp7084 } = tmp7083, FlatDiscreteSet[tmp7123]
+Passed test:animate_sequences.tex:77
+set compare: { tmp7127==1, tmp7129==1, tmp7131==1, tmp7132==2, FlatTuple[tmp7131, tmp7132, tmp7133], tmp7134==2, tmp7135==4, FlatTuple[tmp7134, tmp7135, tmp7136], FlatDiscreteSet[tmp7136, tmp7133, tmp7137], FlatCard[tmp7137, tmp7130], FlatPlus[tmp7129, tmp7128, tmp7130], FlatRangeSet(tmp7127,tmp7128,tmp7126), FlatMember[tmp7126, n], FlatMu(tmp7151==1, tmp7152==2, FlatTuple[tmp7151, tmp7152, tmp7153], tmp7154==2, tmp7155==4, FlatTuple[tmp7154, tmp7155, tmp7156], FlatDiscreteSet[tmp7153, tmp7156, tmp7157], FlatMember[tmp7157, p], FlatTupleSel[p, tmp7158], tmp7160==1, FlatPlus[n, tmp7160, tmp7159], FlatEquals[tmp7158, tmp7159], FlatTupleSel[p, tmp7161] @ tmp7161), FlatTuple[n, tmp7161, tmp7162], FlatEquals[tmp7125, tmp7162] @ tmp7125 } = tmp7124, FlatDiscreteSet[tmp7178, tmp7179]
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
+Passed test:animate_sequences.tex:78
+set compare: { tmp7183==1, tmp7185==1, { tmp7190==1, tmp7191==10, FlatRangeSet(tmp7190,tmp7191,tmp7189), FlatMember[tmp7189, x], tmp7196==2, FlatMult[x, tmp7196, tmp7195], FlatTuple[x, tmp7195, tmp7197], FlatEquals[tmp7188, tmp7197] @ tmp7188 } = tmp7187, FlatCard[tmp7187, tmp7186], FlatPlus[tmp7185, tmp7184, tmp7186], FlatRangeSet(tmp7183,tmp7184,tmp7182), FlatMember[tmp7182, n], FlatMu({ tmp7224==1, tmp7225==10, FlatRangeSet(tmp7224,tmp7225,tmp7223), FlatMember[tmp7223, x], tmp7230==2, FlatMult[x, tmp7230, tmp7229], FlatTuple[x, tmp7229, tmp7231], FlatEquals[tmp7222, tmp7231] @ tmp7222 } = tmp7221, FlatMember[tmp7221, p], FlatTupleSel[p, tmp7235], tmp7237==1, FlatPlus[n, tmp7237, tmp7236], FlatEquals[tmp7235, tmp7236], FlatTupleSel[p, tmp7238] @ tmp7238), FlatTuple[n, tmp7238, tmp7239], FlatEquals[tmp7181, tmp7239] @ tmp7181 } = tmp7180, { tmp7263==1, tmp7264==9, FlatRangeSet(tmp7263,tmp7264,tmp7262), FlatMember[tmp7262, x], tmp7270==1, FlatPlus[x, tmp7270, tmp7269], tmp7271==2, FlatMult[tmp7269, tmp7271, tmp7268], FlatTuple[x, tmp7268, tmp7272], FlatEquals[tmp7261, tmp7272] @ tmp7261 } = tmp7260
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@601f041e, net.sourceforge.czt.z.impl.TupleExprImpl@601f041e
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@602e045d, net.sourceforge.czt.z.impl.TupleExprImpl@602e045d
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@603d049c, net.sourceforge.czt.z.impl.TupleExprImpl@603d049c
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@604c04db, net.sourceforge.czt.z.impl.TupleExprImpl@604c04db
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@605b051a, net.sourceforge.czt.z.impl.TupleExprImpl@605b051a
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@606a0559, net.sourceforge.czt.z.impl.TupleExprImpl@606a0559
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60790598, net.sourceforge.czt.z.impl.TupleExprImpl@60790598
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@608805d7, net.sourceforge.czt.z.impl.TupleExprImpl@608805d7
+set compare members: net.sourceforge.czt.z.impl.TupleExprImpl@60970616, net.sourceforge.czt.z.impl.TupleExprImpl@60970616
+Passed test:animate_sequences.tex:79
+Passed undef test: animate_sequences.tex:80
+Passed test:animate_sequences.tex:83
+Passed test:animate_sequences.tex:84
+Passed test:animate_sequences.tex:85
+Passed test:animate_sequences.tex:86
+Passed test:animate_sequences.tex:87
+Passed undef test: animate_sequences.tex:88
+set compare: { tmp7421==1, tmp7422==2, FlatTuple[tmp7421, tmp7422, tmp7423], FlatDiscreteSet[tmp7423, tmp7424], FlatMember[tmp7424, r], FlatTupleSel[r, tmp7429], tmp7431==1, tmp7432==2, FlatTuple[tmp7431, tmp7432, tmp7433], FlatDiscreteSet[tmp7433, tmp7434], FlatCard[tmp7434, tmp7430], FlatNot( FlatMember[tmp7430, tmp7429] ), FlatEquals[tmp7420, r] @ tmp7420 } = tmp7419, FlatDiscreteSet[tmp7441]
+set compare: { tmp7444==1, tmp7445==2, FlatTuple[tmp7444, tmp7445, tmp7446], tmp7447==2, tmp7448==4, FlatTuple[tmp7447, tmp7448, tmp7449], tmp7450==3, tmp7451==6, FlatTuple[tmp7450, tmp7451, tmp7452], FlatDiscreteSet[tmp7452, tmp7446, tmp7449, tmp7453], FlatMember[tmp7453, r], FlatTupleSel[r, tmp7464], tmp7466==1, tmp7467==2, FlatTuple[tmp7466, tmp7467, tmp7468], tmp7469==2, tmp7470==4, FlatTuple[tmp7469, tmp7470, tmp7471], tmp7472==3, tmp7473==6, FlatTuple[tmp7472, tmp7473, tmp7474], FlatDiscreteSet[tmp7468, tmp7474, tmp7471, tmp7475], FlatCard[tmp7475, tmp7465], FlatNot( FlatMember[tmp7465, tmp7464] ), FlatEquals[tmp7443, r] @ tmp7443 } = tmp7442, FlatDiscreteSet[tmp7493, tmp7490, tmp7494]
+set compare: { tmp7497==1, tmp7498==2, FlatTuple[tmp7497, tmp7498, tmp7499], FlatDiscreteSet[tmp7499, tmp7500], FlatMember[tmp7500, r], FlatTupleSel[r, tmp7505], tmp7507==1, tmp7508==2, FlatTuple[tmp7507, tmp7508, tmp7509], FlatDiscreteSet[tmp7509, tmp7510], FlatCard[tmp7510, tmp7506], FlatNot( FlatMember[tmp7506, tmp7505] ), FlatEquals[tmp7496, r] @ tmp7496 } = tmp7495, FlatDiscreteSet[tmp7517]
+set compare: { tmp7520==1, tmp7521==2, FlatTuple[tmp7520, tmp7521, tmp7522], tmp7523==2, tmp7524==4, FlatTuple[tmp7523, tmp7524, tmp7525], FlatDiscreteSet[tmp7525, tmp7522, tmp7526], FlatMember[tmp7526, r], FlatTupleSel[r, tmp7534], tmp7536==1, tmp7537==2, FlatTuple[tmp7536, tmp7537, tmp7538], tmp7539==2, tmp7540==4, FlatTuple[tmp7539, tmp7540, tmp7541], FlatDiscreteSet[tmp7538, tmp7541, tmp7542], FlatCard[tmp7542, tmp7535], FlatNot( FlatMember[tmp7535, tmp7534] ), FlatEquals[tmp7519, r] @ tmp7519 } = tmp7518, FlatDiscreteSet[tmp7554, tmp7555]
+set compare: { { tmp7561==1, tmp7562==10, FlatRangeSet(tmp7561,tmp7562,tmp7560), FlatMember[tmp7560, x], tmp7567==2, FlatMult[x, tmp7567, tmp7566], FlatTuple[x, tmp7566, tmp7568], FlatEquals[tmp7559, tmp7568] @ tmp7559 } = tmp7558, FlatMember[tmp7558, r], FlatTupleSel[r, tmp7586], { tmp7591==1, tmp7592==10, FlatRangeSet(tmp7591,tmp7592,tmp7590), FlatMember[tmp7590, x], tmp7597==2, FlatMult[x, tmp7597, tmp7596], FlatTuple[x, tmp7596, tmp7598], FlatEquals[tmp7589, tmp7598] @ tmp7589 } = tmp7588, FlatCard[tmp7588, tmp7587], FlatNot( FlatMember[tmp7587, tmp7586] ), FlatEquals[tmp7557, r] @ tmp7557 } = tmp7556, { tmp7621==1, tmp7622==9, FlatRangeSet(tmp7621,tmp7622,tmp7620), FlatMember[tmp7620, x], tmp7627==2, FlatMult[x, tmp7627, tmp7626], FlatTuple[x, tmp7626, tmp7628], FlatEquals[tmp7619, tmp7628] @ tmp7619 } = tmp7618
+Passed undef test: animate_sequences.tex:96
+Passed test:animate_sequences.tex:100
+Passed test:animate_sequences.tex:101
+Passed test:animate_sequences.tex:102
+Passed test:animate_sequences.tex:103
+Passed test:animate_sequences.tex:104
+set compare: FlatDiscreteSet[tmp7721], FlatDiscreteSet[tmp7722]
+Passed test:animate_sequences.tex:129
+------------- ---------------- ---------------
+
+Testcase: animate_sequences.tex:28 took 0.068 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:29 took 0.064 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:31 took 0.103 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:32 took 0.19 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:34 took 0.185 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:35 took 0.243 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:36 took 0.335 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:40 took 0.064 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:41 took 0.062 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:43 took 0.104 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:44 took 0.191 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:46 took 0.185 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:47 took 0.244 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:48 took 0.335 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:50 took 0.274 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:54 took 0.149 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:55 took 0.149 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:57 took 0.105 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:58 took 0.164 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:60 took 0.245 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:61 took 0.336 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:63 took 0.078 sec
+Testcase: animate_sequences.tex:64 took 0.171 sec
+Testcase: animate_sequences.tex:67 took 0.198 sec
+Testcase: animate_sequences.tex:68 took 0.309 sec
+Testcase: animate_sequences.tex:69 took 0.183 sec
+Testcase: animate_sequences.tex:70 took 0.238 sec
+Testcase: animate_sequences.tex:71 took 0.479 sec
+Testcase: animate_sequences.tex:72 took 0.088 sec
+Testcase: animate_sequences.tex:75 took 0.631 sec
+Testcase: animate_sequences.tex:76 took 1.047 sec
+Testcase: animate_sequences.tex:77 took 0.592 sec
+Testcase: animate_sequences.tex:78 took 0.787 sec
+Testcase: animate_sequences.tex:79 took 2.795 sec
+Testcase: animate_sequences.tex:80 took 0.532 sec
+Testcase: animate_sequences.tex:83 took 0.298 sec
+Testcase: animate_sequences.tex:84 took 0.532 sec
+Testcase: animate_sequences.tex:85 took 0.269 sec
+Testcase: animate_sequences.tex:86 took 0.382 sec
+Testcase: animate_sequences.tex:87 took 1.507 sec
+Testcase: animate_sequences.tex:88 took 0.116 sec
+Testcase: animate_sequences.tex:91 took 0.388 sec
+	FAILED
+Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:92 took 0.712 sec
+	FAILED
+Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:93 took 0.358 sec
+	FAILED
+Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:94 took 0.511 sec
+	FAILED
+Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:95 took 1.093 sec
+	FAILED
+Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:96 took 0.288 sec
+Testcase: animate_sequences.tex:100 took 0.261 sec
+Testcase: animate_sequences.tex:101 took 0.32 sec
+Testcase: animate_sequences.tex:102 took 0.457 sec
+Testcase: animate_sequences.tex:103 took 0.343 sec
+Testcase: animate_sequences.tex:104 took 0.344 sec
+Testcase: animate_sequences.tex:107 took 0.315 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:108 took 0.36 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:109 took 0.445 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:110 took 0.376 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:111 took 0.375 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:114 took 0.382 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:115 took 0.429 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:116 took 0.431 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:117 took 0.428 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:118 took 0.477 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:119 took 0.486 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:120 took 0.521 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:121 took 0.491 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:122 took 0.492 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:126 took 0.526 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:129 took 0.09 sec
+Testcase: animate_sequences.tex:130 took 0.86 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:131 took 0.907 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:132 took 0.584 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:135 took 0.098 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:136 took 0.18 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:137 took 0.287 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:138 took 0.275 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:139 took 0.274 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:140 took 0.172 sec
+	FAILED
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:141 took 0.171 sec
+	FAILED
+Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Exception while evaluating undef expr. net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:134)
+
+Testcase: animate_sequences.tex:144 took 0.274 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:145 took 0.33 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:146 took 0.553 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:147 took 0.188 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:148 took 0.359 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:151 took 0.272 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:152 took 0.329 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:153 took 0.329 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+
+Testcase: animate_sequences.tex:154 took 0.514 sec
+	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. squash
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+

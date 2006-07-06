@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<project name="zlive-tests" basedir="." default="usertest_compare">
+  <!-- The directory of old 'usertest' results that 'compare' will use. -->
+  <property name="latest.usertests" value="UserTest-Results"/>
+  <property name="czt.home" location="../.."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="test.build.dir" value="build"/>
+  <property name="test.jar.file" location="${test.build.dir}/animatorTest.jar"/>
+
+  <path id="classpath">
+    <pathelement path="${jwsdp.classpath}"/>
+    <fileset dir="${czt.home}/${jar.dir}">
+      <include name="${util.jar.file}"/>
+      <include name="${corejava.core.jar.file}"/>
+      <include name="${corejava.oz.jar.file}"/>
+      <include name="${corejava.zpatt.jar.file}"/>
+      <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${session.jar.file}"/>
+      <include name="${parser.jar.file}"/>
+      <include name="${typechecker.jar.file}"/>
+      <include name="${rules.jar.file}"/>
+      <include name="${java_cup.jar.file}"/>
+      <include name="${modeljunit.jar.file}"/>
+      <include name="${zlive.jar.file}"/>   <!-- gives access to rulesets -->
+    </fileset>
+    <pathelement path="${java.class.path}"/>
+    <pathelement path="${ant.home}/lib/clover.jar"/>
+    <pathelement location="${test.build.dir}"/>
+  </path>
+  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${test.build.dir}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the tests">
+    <javac srcdir="src" destdir="${test.build.dir}" debug="on"
+      source="1.5">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="install" depends="compile">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.dir}">
+        <exclude name="*.jar"/>
+      </fileset>
+      <fileset dir="../../parser">
+        <include name="tests/z/*.*"/>
+        <include name="tests/oz/*.*"/>
+      </fileset>
+      <fileset dir="../../zml">
+        <include name="examples/z/*.*"/>
+        <include name="examples/oz/*.*"/>
+      </fileset>
+    </jar>
+  </target>
+
+
+  <target name="usertest_compare" depends="usertest,compare"
+      description="Run user tests, then compare results with older results"/>
+
+
+  <target name="usertest" depends="install"
+      description="Run all user tests, producing TEST-*.txt output files">
+    <!-- NOTE: we output TEST-*.txt files, rather than .xml files, because
+        (A) the compare target needs text files as input, and
+        (B) we do not want the usertest output to be included in the
+            top-level junit report, since it is for unit tests, whereas
+            these user-level tests are more like acceptance tests.
+    -->
+    <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
+      <formatter type="plain" usefile="true"/>
+      <!-- same order as in UserTest-Statistics.csv, for convenience -->
+      <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateMiscTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateFreetypesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateScopeTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSetsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateRelationsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSequencesTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSchemasTest"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+
+  <target name="compare" depends="install"
+      description="Compare usertest output with previous UserTest-Results">
+    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
+          fork="true"
+          failonerror="true">
+      <arg file="${latest.usertests}"/>
+      <arg file="."/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions> <enable/> </assertions>
+    </java>
+  </target>
+
+
+  <target name="test" depends="install" description="Run all unit tests">
+    <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
+      <formatter type="xml" usefile="true"/>
+      <batchtest>
+        <fileset dir="src">
+          <include name="**/*Test.java"/>
+          <exclude name="**/Animate*Test.java"/> <!-- see usertest target -->
+          <exclude name="**/EvalTest.java"/>  <!-- an abstract superclass -->
+       </fileset>
+      </batchtest>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
+    </junit>
+  </target>
+
+  <target name="printclasspath" description="Show the CLASSPATH">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+
+  <target name="clean" description="clean up">
+    <delete dir="${test.build.dir}"/>
+  </target>
+</project>

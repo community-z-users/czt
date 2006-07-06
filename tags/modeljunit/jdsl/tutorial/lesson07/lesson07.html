@@ -1,0 +1,275 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>JDSL Tutorial Lesson 7</title>
+    <link rel=stylesheet type="text/css" href="../styles.css">
+  </head>
+
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#990066" alink="#FF0000">
+<!-- JDSLHEADER -->
+<font face="Tahoma, sans-serif" size="+2" color="darkred">
+The Data Structures Library in Java
+</font>
+<br>
+<br>
+<font face="Tahoma, sans-serif" size="+3"><b>
+JDSL Tutorial
+</b></font>
+<!-- JDSLMAIN -->
+<p>
+<a href="../lesson06/lesson06.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+
+<hr>
+<center>
+<font face="Tahoma, sans-serif" size="+3"><b>
+Lesson 7: Flights</b></font></center>
+
+<br>In this lesson we look at how graphs are implemented in JDSL.&nbsp;
+Our sample application calculates minimum-time flight itineraries between
+two cities.
+<h3>
+New concepts covered:</h3>
+
+<ul>
+<li>
+<A HREF="../../doc/jdsl/graph/api/Graph.html">Graph</A></li>
+
+<li>
+Dijkstra's algorithm 
+<UL>
+<LI> <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraPathfinder.html">IntegerDijkstraPathfinder</A></tt></li>
+<LI><tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraTemplate.html">IntegerDijkstraTemplate</A></tt></li>
+</ul>
+</li>
+</ul>
+
+<hr>
+<p>The definitions of the classes for this application are contained
+in four packages:
+<ul>
+<li>The default package contains the class which calls the application.</li>
+<li>
+The <b><tt>algo</tt></b> package contains the
+class that implements our shortest-path algorithm:
+<ul>
+<li>
+<a href="algo/FlightDijkstra.java.html">FlightDijkstra.java</a> - Algorithm
+that calculates a shortest path based on flight times.</li>
+</ul>
+<li>
+The <b><tt>support</tt></b> package contains classes to support the
+application.&nbsp; It provides classes that represent the application
+entities such as airports and flights and some application specific
+functions for doing time calculations.</li>
+
+<li>
+The <b><tt>support.gui</tt></b> package contains classes that define
+the application GUI.</li>
+</ul>
+To run this demo program, execute the following steps:
+    <ul>
+      <li>Add the directory <tt><font color="#DD0088">JDSLHOME</font>/tutorial/lesson07</tt>
+      to the <tt>CLASSPATH</tt> environment variable (see the <a
+      href="../../installhelp.html">Installation Help</a> for
+      instructions on how to do this).</li>
+
+      <li>Change the current directory to <tt><font
+      color="#DD0088">JDSLHOME</font>/tutorial/lesson07</tt>.</li>
+
+      <li>Run <tt>java FlightShortestPath</tt>.</li>
+    </ul>
+Choose the size of the flight graph you want to use, then follow the
+directions to calculate an itinerary.
+<p>
+<hr>
+
+<p>
+In this lesson, we look at how the JDSL implements <tt><A
+HREF="../../doc/jdsl/graph/api/Graph.html">Graph</A></tt>s,&nbsp; a
+non-linear <tt><a
+href="../../doc/jdsl/core/api/PositionalContainer.html">PositionalContainer</a></tt>
+type. (<a href="../lesson06/lesson06.html">Lesson 6</a> looks at
+trees, another non-linear positional container type.)&nbsp; A graph
+consists of a collection of <i>vertices</i> connected by
+<i>edges</i>.&nbsp;&nbsp; Each edge defines a relationship between two
+vertices.&nbsp; Edges are either <i>directed</i> from one vertex to
+the other, or are <i>undirected</i>.</p>
+
+<p>For a complete discussion of graphs, see the <a
+href="http://ww3.java2.datastructures.net/">textbook</a>.</p>
+
+
+<p>Both the <tt><A
+HREF="../../doc/jdsl/graph/api/Vertex.html">jdsl.graph.api.Vertex</A></tt>
+and <tt><A
+HREF="../../doc/jdsl/graph/api/Edge.html">jdsl.graph.api.Edge</A></tt>
+extend the <tt><A
+HREF="../../doc/jdsl/core/api/Position.html">Position</A></tt>
+interface.&nbsp; Consequently, each has an associated element object,
+and can be decorated with other objects (see <a
+href="../lesson06/lesson06.html">Lesson 6</a> ).</p>
+
+
+<p>In our application, the <tt><A HREF="../../doc/jdsl/graph/api/Graph.html">Graph</A></tt> describes a network of flights.&nbsp;
+A <tt><A HREF="../../doc/jdsl/graph/api/Vertex.html">Vertex</a></tt> of the <tt>Graph</tt> represents an airport, and each <tt><A HREF="../../doc/jdsl/graph/api/Edge.html">Edge</a></tt> represents
+a flight.&nbsp; Edges are directed from the origin airport to the destination
+airport.&nbsp; The graph is instantiated in the <tt>support.gui.FlightPanel</tt> class.
+<blockquote><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">private
+</font>Graph
+graph_ =
+<font color="#FF8000">new </font><font color="#0000FF">IncidenceListGraph</font>();</tt></blockquote>
+The <tt><A HREF="../../doc/jdsl/graph/api/Graph.html">jdsl.graph.api.Graph</A></tt> interface is implemented by the
+<tt><A HREF="../../doc/jdsl/graph/ref/IncidenceListGraph.html">jdsl.graph.ref.IncidenceListGraph</A></tt>
+class.&nbsp; In an <tt>IncidenceListGraph</tt>, each vertex keeps a list of its outgoing edges.
+<p>The
+<tt><A HREF="../../doc/jdsl/graph/api/Graph.html">Graph</A></tt> interface contains methods for inserting <tt><A HREF="../../doc/jdsl/graph/api/Vertex.html">Vertex</A></tt>es&nbsp;
+and <tt><A HREF="../../doc/jdsl/graph/api/Edge.html">Edge</A></tt>s into the <tt>Graph</tt>.
+<blockquote><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#8000A0">Vertex
+</font>v
+= graph.<font color="#0000FF">insertVertex</font>(airport);</tt></blockquote>
+
+The <tt><A
+HREF="../../doc/jdsl/graph/api/Graph.html#insertVertex(java.lang.Object)">insertVertex</a>(.)</tt>
+method inserts a new vertex into the graph.&nbsp; The <tt>airport</tt>
+object is of class <tt>support.AirportSpecs</tt> and contains
+descriptive information about the airport.
+
+<blockquote>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; graph.<font color="#0000FF">insertDirectedEdge</font>(fromAirport,
+toAirport, flight);</tt></blockquote>
+
+The <tt><A
+HREF="../../doc/jdsl/graph/api/Graph.html#insertEdge(jdsl.graph.api.Vertex,jdsl.graph.api.Vertex,java.lang.Object)">insertDirectedEdge</a>(.)</tt> method
+inserts a directed edge from <tt>Vertex</tt> object <tt>fromAirport</tt>
+to <tt>Vertex</tt> object <tt>toAirport</tt>.&nbsp;&nbsp; The <tt>flight</tt>
+object is of class
+<tt>support.FlightSpecs</tt> and contains descriptive
+information about the flight.
+<p>The shortest-time flight itinerary is calculated using Dijkstra's algorithm
+that finds a shortest path from a given start <tt>Vertex</tt> <i>s</i> to all
+vertices reachable from <i>s</i>.&nbsp; Dijkstra's algorithm keeps a
+priority queue of vertices (see <a href="../lesson04/lesson04.html">Lesson
+4</a> for more about priority queues).&nbsp; The key for each <tt>Vertex</tt> <i>v</i>
+in the priority queue is the length of the shortest known path from <i>s</i> to <i>v</i>.&nbsp;
+The priority queue is initialized by inserting <tt>Vertex</tt> <i>s</i> with
+key <tt>0</tt> and all the other vertices with key <tt>INFINITY</tt>
+(some very large number).
+<p>The algorithm runs as follows:
+<blockquote>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <tt><font color="#FF8000">while</font>(</tt>
+Q is not empty <tt>) {</tt>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+remove a minimum weight vertex <tt>v</tt> from <tt>Q</tt></font>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mark v as having the shortest path</font>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+relax v</font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <tt>}</tt></blockquote>
+Where relaxing a <tt>Vertex</tt> <i>v</i> consists of:
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <tt><font color="#FF8000">for</font></tt>
+( each vertex w connected by an edge e outgoing from v)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<tt><font color="#FF8000">if</font><font color="#000000"> (</font></tt><font color="#000000">
+the path formed by extending a shortest path to <tt>v</tt> with edge <tt>e</tt>
+is shorter than</font>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+the best known path to <tt>w</tt> <tt>)</tt></font>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+update the best known distance to <tt>w</tt></font>
+<p>This algorithm is implemented by the <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraTemplate.html">jdsl.graph.algo.IntegerDijkstraTemplate</A></tt>
+and the <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraPathfinder.html">jdsl.graph.algo.IntegerDijkstraPathfinder</A></tt> classes.&nbsp; The <tt>IntegerDijkstraTemplate</tt>
+class allows implementor fine control over the algorithm.&nbsp; It uses 
+the <em>template-method pattern</em>, in which the essential action of
+an algorithm (the code that cannot change if the algorithm is to be meaningful)
+is separated from the details necessary to adapt the essential algorithm
+to the application at hand.  The essential code calls functions that supply 
+the necessary application specific details.
+ A user can override the function definitions but cannot
+change the essential code.  
+The <tt>IntegerDijkstraPathfinder</tt>
+class is simpler, designed for the common case where you just want a
+shortest path.
+<blockquote><tt><font color="#8000A0">public</font> <font color="#FF8000">class
+</font>FlightDijkstra
+<font color="#FF8000">extends
+</font>jdsl.graph.algo.IntegerDijkstraPathfinder
+{</tt>
+<br><tt>&nbsp;&nbsp; <font color="#8000A0">private int</font> startTime_;</tt></blockquote>
+We extend the <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraPathfinder.html">IntegerDijkstraPathfinder</A></tt> class.&nbsp;&nbsp; The <tt>startTime_</tt>
+variable keeps the time the passenger wants to begin traveling.&nbsp; This
+is important, because the shortest travel time itinerary may be different
+depending on the time of day.
+<p>We need to override the <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraTemplate.html#weight(jdsl.graph.api.Edge)">weight</a>(.)</tt> method that returns the weight
+of an edge.
+<pre>
+  <font color=#8000a0><font color=#8000a0>protected</font> </font><font color=#8000a0>int</font> <font color=#0000ff>weight </font>(Edge e) {
+    <font color=#8000a0>FlightSpecs </font>eFS =<font color=#0000ff> </font>(FlightSpecs)e.<font color=#0000ff>element</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>waitTime = TimeTable.<font color=#0000ff>diff</font>(eFS.<font color=#0000ff>departureTime</font>(),
+                                  startTime_ + <font color=#0000ff>distance</font>(G.<font color=#0000ff>origin</font>(e)));
+    <font color=#8000a0><font color=#ff8000>return</font> </font>waitTime + eFS.<font color=#0000ff>flightDuration</font>();
+  }
+</pre>
+
+<p><br>For our application, the weight of an edge represents the layover time combined with the duration of the flight represented by the <tt>Edge</tt>.&nbsp; We compute
+the weight function for <tt>Edge</tt> <i>e</i> in the following manner:
+<ul>
+<li>
+The wait time (layover time) is the time between our arrival to the current city and the departure of <i>e</i>'s flight. The former value is represented by <tt>distance(Vertex v)</tt>
+function of <tt>IntegerDijkstraTemplate</tt> which returns the shortest distance
+from <i>s</i> to a given <tt>Vertex</tt> <i>v</i> - in this case it represents the quickest
+time to get to this city from the start city beginning at <tt>startTime_</tt>.
+
+If the origin airport of the flight is the start vertex, then this value is just
+time between <tt>startTime_</tt> (time when we begin our trip) and departure time of this flight.
+
+<li>
+The duration of the flight is the time between its departure and arrival.
+
+<li> The weight of an edge is the sum of the layover time between this flight and
+the previous one and its duration.
+</ul>
+
+This method uses one method defined in the class <tt>IntegerDijkstraTemplate</tt>:
+<ul>
+<li>
+<tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraTemplate.html#distance(jdsl.graph.api.Vertex)">distance</a>(Vertex v)</tt> - that returns the length of the shortest path from the start vertex to vertex <i>v</i></li>
+</ul>
+
+We also overload the <tt><A HREF="../../doc/jdsl/graph/algo/IntegerDijkstraPathfinder.html#execute(jdsl.graph.api.InspectableGraph, jdsl.graph.api.Vertex, jdsl.graph.api.Vertex)">execute</a>(.)</tt> method,
+that computes the <tt>Edge</tt>s of the shortest path. &nbsp; You can call <tt>execute(InspectableGraph, Vertex, Vertex)</tt> multiple times for pairs of vertices from the graph.&nbsp;
+We overload the method to include the <tt>startTime</tt> needed for
+our shortest path calculations.
+<pre>
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>execute</font>(InspectableGraph g, <font color=#8000a0>Vertex </font>source, <font color=#8000a0>Vertex </font>dest, <font color=#8000a0><font color=#8000a0>int</font> </font>startTime) <font color=#8000a0>
+   <font color=#ff8000>throws</font> </font>InvalidVertexException {
+    startTime_ = startTime;
+    <font color=#ff8000>super</font>.<font color=#0000ff>execute</font>(g,source,dest);
+  }
+
+</pre>
+To obtain the last computed shortest path, we call the <a href="../../doc/jdsl/graph/algo/IntegerDijkstraPathfinder.html#reportPath()"><tt>reportPath</tt></a>() method of <tt>IntegerDijkstraPathfinder</tt>. It returns the edges, in order, of the shortest path between two vertices last queried
+by the execute method above.
+
+<p>
+This is the final lesson in the tutorial.
+<p>
+<hr>
+
+<a href="../lesson06/lesson06.html">Previous Lesson</a>
+<br><a href="../tutorial.html">Table of Contents</a>
+
+<hr>
+<address>
+<a href="mailto:jdsl@cs.brown.edu">Problems, comments?</a>
+</address>
+
+<br>
+<tt><!-- hhmts start -->
+Last modified: Mon Sep 27 13:40:46 CEST 2004
+<!-- hhmts end --></tt>
+
+<!-- JDSLFOOTER -->
+
+</body>
+</html>

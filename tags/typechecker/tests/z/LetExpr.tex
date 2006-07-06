@@ -1,0 +1,11 @@
+\begin{zsection}
+  \SECTION LetExpr
+\end{zsection}
+
+\begin{zed}
+  letExprOne == \LET x == 1 @ \{x\}\\
+  letExprMany == \LET x == 1; y == \{1\} @ (x, y)
+\end{zed}
+
+\begin{zed} \vdash? letExprOne \in \power \nat \end{zed}
+\begin{zed} \vdash? letExprMany \in \nat \cross \power \nat \end{zed}

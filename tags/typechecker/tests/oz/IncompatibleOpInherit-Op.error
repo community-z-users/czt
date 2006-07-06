@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION IncompatibleOpInherit \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ Op1 \sdef [x? : \power\nat]
+\end{class}
+
+\begin{class}{B}
+ Op2 \sdef [x? : \power\nat]
+\end{class}
+
+\begin{class}{C}
+ Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{ABC}
+  A\\
+  B\\
+  C
+\end{class}

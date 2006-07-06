@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION IncompatibleInherit\_State \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{B}
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{C}
+  \begin{state}
+    s : \power \nat
+  \end{state}
+\end{class}
+
+\begin{class}{ABC}
+  A\\
+  B\\
+  C
+\end{class}

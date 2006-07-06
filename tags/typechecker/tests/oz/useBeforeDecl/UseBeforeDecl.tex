@@ -1,0 +1,114 @@
+\begin{zsection}
+  \SECTION UseBeforeDecl \parents oz\_toolkit, standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+ ss1 == \mu s : S @ \mu s1 : s @ s1.x\\
+ ss2 == \mu s1 : s @ s1.x\\
+\end{zed}
+
+\begin{axdef}
+  s : S \\
+\end{axdef}
+
+\begin{zed}
+ S == \finset [x : \nat; y : \nat]\\
+\end{zed}
+
+\begin{axdef}
+\where
+  x = \{1\}
+\end{axdef}
+
+\begin{zed}
+   x == y[\nat]\\
+   y[X] == X
+\end{zed}
+
+\begin{class}{First}
+ \begin{state}
+  f : \nat
+ \end{state}
+\end{class}
+
+\begin{class}{A}
+  ai == 1\\
+  \begin{state}
+   b : B\\
+   f : First
+  \where
+    b.c.b.c.b.c.b.c.b.c.b.c.b.c.b.c.b.bi \in \{1\}\\
+  \end{state}
+  Op1 \sdef b.c.Op1 \land [x? : \nat]\\
+\end{class}
+
+\begin{class}{B}
+  bi == 1\\
+  \begin{state}
+   c : C\\
+   a : A
+  \end{state}\\
+  Op2 \sdef a.Op1 \land [x? : \nat]
+\end{class}
+
+\begin{class}{C}
+  ci == 1\\
+  \begin{state}
+    b : B
+  \end{state}
+  Op1 \sdef [x? :  \nat]
+\end{class}
+
+
+\begin{class}{R1[X, Y]}
+  \begin{axdef}
+    x : X\\
+    y : Y
+  \end{axdef}
+  \begin{state}
+    r2 : R2
+  \where
+    r2.z \in X\\
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{R2[Z]}
+  \begin{axdef}
+    z : Z
+  \end{axdef}
+  \begin{state}
+   r1 : R1[RenamedX/x, RenamedOp1/Op1]
+  \where
+    r1.RenamedX \in Z\\
+    r1.y \in \finset Z\\
+    r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedX \in Z
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class} 
+
+\begin{class}{Top[G]}
+  \begin{state}
+    r1 : R1[\nat,\nat]\\
+    r2 : R2[\finset\finset\nat]\\
+  \where\\
+   r1.r2.r1.RenamedX = 1\\
+   r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedX \in \{\}\\
+  \end{state}\\
+  Op1 \sdef  r1.r2.r1.r2.r1.r2.r1.r2.r1.RenamedOp1 \land
+            r2.r1.r2.r1.r2.r1.r2.r1.r2.r1.r2.Op1\\
+  Op2 \sdef r1.Op1 \land r2.r1.RenamedOp1
+\end{class}
+
+\begin{class}{Me[X]}
+  x == X
+  \begin{state} 
+   m :  Me[\nat]\\
+   t : Top[\nat]
+  \where
+    t.r1.r2.r1.RenamedX = 1\\
+    t.r1.x = 1\\
+    m.x \in \finset \nat
+  \end{state}
+\end{class}
+

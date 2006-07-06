@@ -1,0 +1,33 @@
+\begin{zsection}
+  \SECTION MemPred
+\end{zsection}
+
+Test the case when the variable types in the predicate are not fully 
+resolved.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s_1 == g\\
+  t_1 == g
+\where
+  s_1 \in t_1 \land
+  s_1 = \power \nat
+\end{axdef}
+
+\begin{axdef}
+  s_2 == g\\
+  t_2 == g
+\where
+  s_2 = t_2 \land
+  s_2 = \power \nat
+\end{axdef}
+
+\begin{zed} \vdash? s_1 \in t_1 \end{zed}
+\begin{zed} \vdash? s_2 = t_2 \end{zed}
+\begin{zed} \vdash? \{1\} \in s_1 \end{zed}
+\begin{zed} \vdash? \power \{1\} \in t_1 \end{zed}
+\begin{zed} \vdash? \{1\} \in s_2 \end{zed}
+\begin{zed} \vdash? \{1\} \in t_2 \end{zed}
+

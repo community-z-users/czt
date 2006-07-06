@@ -1,0 +1,27 @@
+\begin{zsection}
+  \SECTION CondExpr
+\end{zsection}
+
+\begin{zed}
+  withoutVariable == \IF true \THEN 1 \ELSE 2\\
+  withVariable == \IF false \THEN \{1\} \ELSE \{\}
+\end{zed}
+
+\begin{zed} \vdash? withoutVariable = 1 \end{zed}
+\begin{zed} \vdash? withVariable = \{\} \end{zed}
+
+Test that is either expression is variable, everything is handled 
+correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g\\
+  t : g\\
+  u : g
+\where
+  u = \IF true \THEN s \ELSE t\\
+  s = 1\\
+  t = 2\\
+\end{axdef}

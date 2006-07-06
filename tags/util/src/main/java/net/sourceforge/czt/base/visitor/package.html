@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>Base visitors for the AST for Z.</p>
+
+<p>The interfaces in this package provide support for the visitor
+design pattern.  The purpose of the visitor pattern is to encapsulate
+an operation that you want to perform on the elements of the AST for
+Z.  In this way, you can provide operations on the AST without the
+need of changing the AST classes itself.</p>
+
+<p>Each {@link net.sourceforge.czt.base.ast.Term Z term} accepts a
+visitor via the accept-method, which in turn calls the correct visitor
+method (double dispatch).  The visitor will then execute its algorithm
+for that element.</p>
+
+<p>The AST for Z supports a variant of the so-called default visitor
+introduced by <a href="#NorIII">Nordberg</a>.  The default visitor
+adds another level of inheritance to the visitor pattern.  It provides
+the possibility to implement default behaviour by taking advantage of
+the inheritance relationship of the classes to be visited.  This is
+achieved by adding visit methods for abstract AST classes as well.</p>
+
+<p>While Nordberg suggests to derive the default visitor from the
+standard visitor and to implement all visit-methods in a way that its
+default behaviour is to call the visit method for the base class of
+the visited class, the AST classes for Z handle that
+automatically.</p>
+
+<p>Each AST object, whether abstract or not, has a corresponding
+visitor interface that defines the visit method for that object.  If a
+visitor implementation wants to visit that object, it has to implement
+this interface.  When the accept-method of the AST object is called,
+the corresponding visit-method will be executed.  If a visitor does
+not implement the visitor interface for an AST object, the
+visit-method of the base classes for that object are tried instead,
+starting with the base class, followed by the base class of the base
+class, etc., untill Term is reached.</p>
+
+<p>The following code provides a visitor that traverses over a tree
+of Z terms:</p>
+<pre><code>
+public class DepthFirstVisitor implements TermVisitor
+{
+  public Object visitTerm(Term term)
+  {
+    Object[] children = term.getChildren();
+    for (int i=0; i < children.length; i++) {
+      if (children[i] instanceof Term) {
+        ((Term) children[i]).accept(this);
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>Note that the annotations of a term are not
+visited by this visitor since they are not returned by the
+<code>getChildren</code>-method.</p>
+
+<h3>References</h3>
+
+<p>
+  <a name="NorIII"><b>[NorIII]</b></a>
+  Martin E. Nordberg III.
+  <i>Variations of the Visitor Pattern</i> In: PLoP '96
+</p>
+
+</body>
+</html>

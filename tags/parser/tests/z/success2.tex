@@ -1,0 +1,71 @@
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+\begin{document}
+\begin{schema}{BirthdayBook}
+knonw: \power NAME \\
+birthday : NAME \pfun DATE
+\where
+known = \dom birthday
+\end{schema}
+\begin{schema}{BirthdayBook1}
+names : \nat \fun NAME \\
+dates: \nat \fun DATE \\
+hwm: \nat
+\where
+\forall i, j : 1 \upto hwm @ i \neq j \implies names(i) \neq names(j)
+\end{schema}
+\begin{schema}{Abs}
+BirthdayBook \\
+BirthdayBook1 
+\where
+known = \{i : 1 \upto hwm @ names(i) \} \\
+\forall i : 1 \upto hwm @ birthday(names(i)) = dates(i)
+\end{schema}
+
+\begin{schema}{AddBirthday1}
+\Delta BirthdayBook1 \\
+name? : NAME \\
+date? : DATE
+\where
+\forall i : 1 \upto hwm @ name? \neq names(i) \\
+hwm' = hwm + 1 \\
+names' = names \oplus \{ hwm' \mapsto name? \} \\
+dates' = dates \oplus \{ hwm' \mapsto date? \}
+\end{schema}
+
+\begin{schema}{FindBirthday1}
+\Xi BirthdayBook1 \\
+name? : NAME \\
+date! : DATE
+\where 
+\exists i: 1 \upto hwm @ name? = names(i) \land date! = dates(i)
+\end{schema}
+
+\begin{schema}{AbsCards}
+cards : \power NAME \\
+cardlist : \nat \fun NAME \\
+ncards : \nat
+\where 
+cards = \{ i : 1 \upto ncards @ cardlist(i) \}
+\end{schema}
+
+\begin{schema}{Remind1}
+\Xi BirthdayBook1 \\
+today? : DATE \\
+cardlist! : \nat \fun NAME \\
+ncards! : \nat
+\where 
+\{ i : 1 \upto ncards! @ cardlist!(i) \} = \{ j : 1 \upto hwm | dates(j) = today? @ names(i) \}
+\end{schema}
+\begin{schema}{InitBirthdayBook1}
+BirthdayBook1
+\where
+hwm = 0
+\end{schema}
+\end{document}

@@ -1,0 +1,21 @@
+
+\begin{zsection}
+  \SECTION IncompatibleOpInPolyExpr\_PolyExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  \begin{state}
+    s : \nat
+  \end{state}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+  A\\
+  Op1 \sdef [x? : \nat; y? : \nat]
+\end{class}
+
+\begin{axdef}
+  a : \poly A
+\end{axdef}

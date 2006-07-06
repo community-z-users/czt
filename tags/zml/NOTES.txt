@@ -1,0 +1,207 @@
+TODO:
+  May03:  Investigate when the Creator/Date/Time attributes disappeared
+          from Spec, and decide if we want to retain them.
+	  Or should they be done with annotations instead.
+	  [DONE added them again]
+
+
+NOTE: could change OptempPara to use substitution groups, either:
+   Token and Operand as subclasses of Foo, or
+   L, LP, ES, SS, ... as subclasses of Token
+     (this means we need to distinguish Post/Pre/In/No-fix templates)
+   (We will see how the parser works after Chunqing has finished,
+    before we make this change).
+
+
+
+
+Good XSLT tutorial: http://www.zvon.org/xxl/XSLTreference/Output/index.html
+
+1. Should the DTD use namespaces rather than Z-prefix+Z-colon?
+   Yes.
+
+2. Z-PCDATA needs to be defined as an element.  (Done by David Currie)
+   We have %Z-PCDATA in %Z-Numeral and %Z-NarrPara
+   but #PCDATA used in %Z-Word.    (prefer this one -- avoids extra tag)
+
+	Also, must add <!ELEMENT %Z-PCDATA; (#PCDATA)> to
+	David Currie's DTD.
+
+ 
+3. Why have so many unparsed alternatives?
+
+They must be reflected in the Java AST tree, so are always visible 
+to the programmer, which is a pain.  (I imagine that very few tools will 
+generate mixes of parsed and unparsed Z).   Allowing every element
+of the DTD to have an unparsed alternative triples the number of
+Java classes and means that the programmer who is traversing a
+AST tree must be constantly checking that each component of the current
+node is correctly parsed.
+
+A better alternative might be to only add an unparsed alternative
+to each element that is already a choice.  That is:
+
+    Z-Para, Z-Pred, Z-Expr, Z-Decl and perhaps Z-Type
+
+These are the major chunks of the language anyway, so the effect of doing
+this would be to simplify the DTD (and the Java AST), at the cost of having
+slightly larger 'unparsed' chunks.  For example, if a paragraph contained
+several mutually recursive freetypes, and one of them could not be parsed,
+you would have to make the whole freetype paragraph unparsed in the XML
+file, rather than just one of the freetypes.
+
+
+
+
+4. Should annotations be more flexible (and less context dependent)?
+
+Currently, the XML DTD allows only one annotation per construct,
+but that annotation can be overridden to contain multiple kinds of
+information.  It is only possible to attach ALL these annotations,
+or NONE of them.  For example,...
+
+An alternative would be for each entity to allow (Z-Annotation)*,
+so that several annotations can be attached.  Some convention would
+be needed about the meaning of having multiple annotations of the
+same kind (eg. several type annotations).
+
+A related issue is how strongly 'typed' (or 'context dependent')
+the annotations should be.  For example, currently we can define a
+completely different set of annotations for the 'true' predicate than
+the 'false' predicate.  This seems overkill.  With this system, to
+add a new annotation to all kinds of predicates, one must override
+about 7 different elements, while to add an expression annotation,
+one must override 23 elements.  
+
+However, if we stay with strongly typed annotations, and allow each
+annotation to be repeated, then in Java it seems necessary to create
+a new subtype of all 23 expr annotations?  Could perhaps be done with
+'implements' (if the annotation types are interfaces).
+
+
+5. Identify subterms by position or by name?
+   The substitution group style means we are often using position
+   (because the name can be substituted by a subclass name).
+   This seems less extensible (harder to ignore added fields in arbitrary places?)
+
+   We could add more names in key places?  
+   Eg, <Code> <Then> <Else> tags within CondExpr?
+
+
+
+Why not use the XML schema from Singapore?
+1. It has a very different structure to Ian's DTD.
+   We want to stay close to the DTD, because its design reflects
+   the best features from the Z standard abstract syntax, as well
+   as from CadiZ and Zeta.
+2. It does not make maximum use of commonalities,
+   but retains many distinctions from the concrete syntax level 
+   (like prefix/postfix).  This makes it quite verbose and complex.
+3. It suffers from the 'unnecessary-tag' problem discussed below
+   <Expr><Expr><Expr>...</Expr></Expr></Expr>
+4. It predefines the prelude operators as enumerations, rather
+   than allowing arbitrary unicode (so that alternative preludes
+   can be used).  This would probably be easy to change...
+5. DeclName and RefName are both just strings?
+
+
+Notes on new Substitution-Group XML Schema
+==========================================
+
+Ian's DTD used 
+
+    <!ENTITY Para (GivenPara|AxPara|FreePara|...)>
+
+to define the allowable alternatives for each construct.  This use of
+ENTITY rather than ELEMENT is nice, because it avoids an unnecessary
+extra level of <Para>...</Para> tags around every paragraph.  
+
+The obvious way of translating this into XML schema is to use choice
+groups:
+
+<xs:complexType name="ParaType">
+  <xs:choice>
+    <xs:element name="GivenPara" type="GivenParaType"/>
+    <xs:element name="AxPara" type="AxParaType"/>
+    ....
+    <xs:element name="Unparsed" type="xs:string"/>
+  </xs:choice>
+</xs:complexType>
+
+where the DTD of AxPara (without annotations/attributes etc.)
+
+    <!ELEMENT %Z-AxPara; (((%Z-DeclName;)*, %Z-Sch;)>
+
+becomes this in XML schema:
+
+<xs:complexType name="AxParaType">
+   <xs:sequence>
+     <xs:element name="DeclName" type="DeclNameType" 
+                 minOccurs="0" maxOccurs="unbounded"/>
+     <xs:element name="SchText" type="SchTextType"/>
+  </xs:sequence>
+</xs:complexType>
+
+However, this ParaType must be called from an element, which is not
+always convenient.  (For example, within Sect, we must define a 
+repeated <Para> element, whose type is ParaType.  This introduces
+an unnecessary extra level of <Para>..</Para> tags around each
+paragraph, like the DTD would if it did not use entities.
+
+So I have used a newish XML Schema feature, `Substitution Groups',
+instead, because they seem to more closely match an object-oriented
+subclassing structure.  They can support inheritance of attributes
+and elements.  They also make it easier to extend the structure (Z
+extensions could add a new kind of paragraph simply by defining a new
+element with substitutionGroup="Para").  It is also easy to add new
+features to one of the subtypes, like AxPara, by declaring a new
+element that extends or restricts it and says
+substitutionGroup="AxPara" (the substitution relationship is
+transitive).  (Technical Note: to make this sort of extension easy, we
+need to turn the contents of AxPara into a type, so that the type can
+be extended in subclasses).
+
+
+<xs:element name="Para" abstract="true"/>
+<xs:element name="AxPara" substitutionGroup="Para">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="DeclName" type="DeclNameType" 
+                  minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SchText" type="SchTextType"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+One small disadvantage of this approach is that all these elements
+must be global (and in XML schema, this seems to mean that a .zml file
+could contain just a Para, or an Expr, rather than a Spec!).
+
+
+The types like SectType and SchTextType are not necessary.
+For example, we could unfold SectType inline and
+define a SchText element rather than the SchTextType.
+
+
+To improve readability of the XML schema (and the corresponding Java
+classes), it is very tempting to make the names reflect the subtyping
+structure more closely: Pred has subtypes PredExpr, PredNeg,
+PredLog...  But this <superclass><subclass> style doesn't reflect the
+usual English names of the Z constructs (<adjective><noun> style,
+which equals <subclass><superclass>)
+
+
+Only whole paragraphs can be unparsed at the moment.
+We could add 'Unparsed...' subclasses to Decl,Pred,Expr,Type etc.
+if we want.
+
+DIFFERENCES between Z.xsd and Ian Toyn's Z.dtd
+==============================================
+I've allowed NAMEs to have annotations (because they inherit TermType).
+Similarly for types (which usually appear inside annotations!)
+
+I've made more commonality within binary schema expressions.
+Design Issue:  use attributes, or subelements?   Subelements nicer for Java,
+        and we do not need to redefine the type of that subelement if
+        the structure has not changed...
+

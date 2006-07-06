@@ -1,0 +1,12 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_Attr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{axdef}
+    a : \nat
+  \end{axdef}\\
+  \begin{axdef}
+    a : \nat
+  \end{axdef}
+\end{class}

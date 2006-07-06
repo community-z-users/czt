@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_MuExpr\_NoExpr
+\end{zsection}
+
+\begin{axdef}
+  y : \nat
+\where
+  y = (\mu x : \nat)\\
+  x = y
+\end{axdef}

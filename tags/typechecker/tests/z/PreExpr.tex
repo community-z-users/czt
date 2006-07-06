@@ -1,0 +1,40 @@
+\begin{zsection}
+  \SECTION PreExpr
+\end{zsection}
+
+\begin{zed}
+  schExpr1 == [a : \nat; b? : \nat; c! : \nat; d' : \nat]\\
+  schExpr2 == [a? : \nat; b?! : \nat; c!' : \nat; d' : \nat]\\
+  schExpr3 == [a : \nat; b? : \nat; c!? : \nat; d'? : \nat]\\
+  schExpr4 == [a' : \nat; b?! : \nat; c! : \nat; d' : \nat]\\
+\end{zed}
+
+\begin{zed}
+  pre1 == \pre schExpr1\\
+  pre2 == \pre schExpr2\\
+  pre3 == \pre schExpr3\\
+  pre4 == \pre schExpr4\\
+\end{zed}
+
+This tests that if on the initial visit to a pre expr, if the
+signature of the expr is still variable, everything is still handled
+correctly.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  schExpr1\\
+  vSchExpr == g\\
+  vPre == g
+\where
+  vPre = \pre vSchExpr\\
+  vSchExpr = schExpr1
+\end{axdef}
+
+\begin{zed} \vdash? pre1 = [a : \nat; b? : \nat] \end{zed}
+\begin{zed} \vdash? pre2 = [a? : \nat] \end{zed}
+\begin{zed} \vdash? pre3 = [a : \nat; b? : \nat; c!? : \nat; d'? : \nat] \end{zed}
+\begin{zed} \vdash? pre4 = [|true] \end{zed}
+\begin{zed} \vdash? vPre = pre1 \end{zed}

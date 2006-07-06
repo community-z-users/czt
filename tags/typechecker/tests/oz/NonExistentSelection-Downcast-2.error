@@ -1,0 +1,28 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_Downcast\_2
+\end{zsection}
+
+\begin{class}{A}
+ a == 1\\
+ OpA \sdef [x? : \power \nat]
+\end{class}
+
+\begin{class}{B}
+ A\\
+ b == 1\\
+ OpB \sdef [x? : \nat]
+\end{class}
+
+Test that downcasts are not propagated backward through implications.
+
+\begin{class}{Down}
+ \begin{state}
+   poly\_a : \poly A
+ \end{state}\\
+ \begin{op}{Op1}
+   b? : \nat
+ \where
+    poly\_a.b = 1 \implies poly\_a \in B
+ \end{op}
+\end{class}
+

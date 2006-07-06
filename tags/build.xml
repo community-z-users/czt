@@ -1,0 +1,401 @@
+<project name="czt" default="all" basedir=".">
+  <property file="czt.properties"/>
+  <property name="unix.settings.file" location="bin/settings.sh"/>
+  <property name="windows.settings.file" location="bin/settings.bat"/>
+  <available
+    file="${basedir}/java_cup/build.xml"
+    property="java_cup.present"/>
+  <available
+    file="${basedir}/gnast/build.xml"
+    property="gnast.present"/>
+  <available
+    file="${basedir}/jaxb/build.xml"
+    property="jaxb.present"/>
+  <available
+    file="${basedir}/corejava/build.xml"
+    property="corejava.present"/>
+  <available
+    file="${basedir}/session/build.xml"
+    property="session.present"/>
+  <available
+    file="${basedir}/modeljunit/build.xml"
+    property="modeljunit.present"/>
+  <available
+    file="${basedir}/parser/build.xml"
+    property="parser.present"/>
+  <available
+    file="${basedir}/typechecker/build.xml"
+    property="typechecker.present"/>
+  <available
+    file="${basedir}/ui/build.xml"
+    property="ui.present"/>
+  <available
+    file="${basedir}/zlive/build.xml"
+    property="zlive.present"/>
+  <available
+    file="${basedir}/rules/build.xml"
+    property="rules.present"/>
+  <available
+    file="${jedit.jar}"
+    property="jedit.present"/>
+  <available
+    file="${basedir}/jedit/ZCharMap/build.xml"
+    property="jedit-plugin.present"/>
+  <available
+    file="${basedir}/jedit/ZSideKick/build.xml"
+    property="zsidekick-plugin.present"/>
+  <available
+    file="${basedir}/jedit/zlive/build.xml"
+    property="zlive-plugin.present"/>
+  <condition property="build.jedit.plugin">
+    <and>
+      <isset property="jedit.present"/>
+      <isset property="jedit-plugin.present"/>
+    </and>
+  </condition>
+  <condition property="build.zsidekick.plugin">
+    <and>
+      <isset property="jedit.present"/>
+      <isset property="zsidekick-plugin.present"/>
+    </and>
+  </condition>
+  <condition property="build.zlive.plugin">
+    <and>
+      <isset property="jedit.present"/>
+      <isset property="zlive-plugin.present"/>
+    </and>
+  </condition>
+
+  <target name="all" depends="install-subprojects, czt.jar, api-subprojects"/>
+
+  <uptodate property="czt.jar.uptodate"
+    targetfile="${jar.dir}/${czt.jar.file}" >
+    <srcfiles dir= "${jar.dir}" includes="*.jar"/>
+  </uptodate>
+  <echo message="czt.jar.uptodate result: ${czt.jar.uptodate}" />
+
+  <target name="czt.jar"
+    depends="install-corejava, install-session, install-parser, install-typechecker, install-zlive, install-ui"
+    unless="czt.jar.uptodate"
+    description="build the czt jar file">
+    <property name="czt.build.dir" location="build"/>
+    <mkdir dir="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${util.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.zpatt.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.jaxb.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${session.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${rules.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${zlive.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${ui.jar.file}" dest="${czt.build.dir}"/>
+    <jar jarfile="${jar.dir}/${czt.jar.file}" update="true">
+      <fileset dir="${czt.build.dir}"/>
+      <manifest>
+        <attribute name="Main-Class" value="net.sourceforge.czt.ui.Main"/>
+      </manifest>
+    </jar>
+    <delete dir="${czt.build.dir}"/>
+   </target>
+
+  <target name="install"
+    depends="install-subprojects, api-subprojects"
+    description="install all binaries, jar files and API documentation"/>
+
+  <target name="install-jars"
+    depends="install-subprojects"/>
+
+  <target name="install-subprojects"
+    depends="install-util, install-jaxb, install-corejava,
+      install-session, install-modeljunit,
+      install-parser, install-typechecker, install-ui,
+      install-rules, install-zlive, install-jedit, install-zsidekick-plugin,
+      install-zlive-plugin" 
+    description="install subprojects">
+  </target>
+
+  <target name="api-subprojects"
+    depends="api-util, api-jaxb,
+      api-corejava, api-session, api-parser, api-typechecker, api-ui,
+      api-rules, api-zlive, api-modeljunit"
+    description="build the api for subprojects">
+  </target>
+
+  <target name="install-java_cup" if="java_cup.present"
+    description="install java_cup">
+    <ant dir="java_cup" target="install"/>
+  </target>
+
+  <target name="install-util" description="install util">
+    <ant dir="util" target="install"/>
+  </target>
+
+  <target name="install-jaxb" if="jaxb.present"
+    depends="install-util"
+    description="install jaxb generated classes">
+    <ant dir="jaxb" target="install"/>
+  </target>
+
+  <target name="install-corejava" if="corejava.present"
+    depends="install-jaxb"
+    description="install corejava">
+    <ant dir="corejava" target="install"/>
+  </target>
+
+  <target name="install-session" if="session.present"
+    description="install session">
+    <ant dir="session" target="install"/>
+  </target>
+
+  <target name="install-modeljunit" if="modeljunit.present"
+    description="install modeljunit">
+    <ant dir="modeljunit" target="install"/>
+  </target>
+
+  <target name="install-parser" if="parser.present"
+    depends="install-java_cup, install-corejava, install-session"
+    description="install parser">
+    <ant dir="parser" target="install"/>
+  </target>
+
+  <target name="install-typechecker" if="typechecker.present"
+    depends="install-corejava, install-session"
+    description="install typeckecker">
+    <ant dir="typechecker" target="install"/>
+  </target>
+
+  <target name="install-ui" if="ui.present"
+    depends="install-session, install-parser"
+    description="install user interface">
+    <ant dir="ui" target="install"/>
+  </target>
+
+  <target name="install-zlive" if="zlive.present"
+    depends="install-corejava, install-parser, install-typechecker,
+      install-rules, install-modeljunit"
+    description="install zlive">
+    <ant dir="zlive" target="install"/>
+  </target>
+
+  <target name="install-rules" if="rules.present"
+    depends="install-corejava, install-parser, install-typechecker"
+    description="install rules">
+    <ant dir="rules" target="install"/>
+  </target>
+
+  <target name="install-jedit"
+    depends="install-jedit-present, install-jedit-failure"/>
+
+  <target name="install-jedit-present" if="build.jedit.plugin"
+    description="install jedit plugin">
+    <ant dir="jedit/ZCharMap" target="install"/>
+    <copy file="${jar.dir}/${plugin.jar.file}" todir="${plugin.jar.dir}"/>
+  </target>
+
+  <target name="install-jedit-failure" unless="build.jedit.plugin">
+    <echo message="Skipping jedit plugin."/>
+  </target>
+
+  <target name="install-zsidekick-plugin"
+    depends="install-zsidekick-plugin-present,
+             install-zsidekick-plugin-failure"/>
+
+  <target name="install-zsidekick-plugin-present" if="build.zsidekick.plugin"
+    depends="czt.jar"
+    description="install ZSideKick plugin">
+    <ant dir="jedit/ZSideKick" target="install"/>
+    <copy file="${jar.dir}/${zsidekick-jedit-plugin.jar.file}"
+      todir="${plugin.jar.dir}"/>
+    <copy file="${jar.dir}/${czt.jar.file}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-api.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-impl.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-libs.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jax-qname.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${namespace.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${xsdlib.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${relaxngDatatype.jar}" todir="${plugin.jar.dir}"/>
+  </target>
+
+  <target name="install-zsidekick-plugin-failure"
+    unless="build.zsidekick.plugin">
+    <echo message="Skipping ZSideKick plugin."/>
+  </target>
+
+  <target name="install-zlive-plugin"
+    depends="install-zlive-plugin-present, install-zlive-plugin-failure"/>
+
+  <target name="install-zlive-plugin-present" if="build.zlive.plugin"
+    depends="install-jedit">
+    <ant dir="jedit/zlive" target="install"/>
+    <copy file="${jar.dir}/${zlive-jedit-plugin.jar.file}"
+      todir="${plugin.jar.dir}"/>
+  </target>
+
+  <target name="install-zlive-plugin-failure" unless="build.zlive.plugin">
+    <echo message="Skipping zlive plugin."/>
+  </target>
+
+  <target name="api-util"
+    description="build api doc for util">
+    <ant dir="util" target="api"/>
+  </target>
+
+  <target name="api-jaxb" if="jaxb.present"
+    description="build api doc for jaxb generated classes">
+    <ant dir="jaxb" target="api"/>
+  </target>
+
+  <target name="api-corejava" if="corejava.present"
+    description="build api doc for corejava">
+    <ant dir="corejava" target="api"/>
+  </target>
+
+  <target name="api-session" if="session.present"
+    description="build api doc for session">
+    <ant dir="session" target="api"/>
+  </target>
+
+  <target name="api-modeljunit" if="modeljunit.present"
+    description="build api doc for modeljunit">
+    <ant dir="modeljunit" target="api"/>
+  </target>
+
+  <target name="api-parser" if="parser.present"
+    description="build api doc for parser">
+    <ant dir="parser" target="api"/>
+  </target>
+
+  <target name="api-typechecker" if="typechecker.present"
+    description="build api doc for typeckecker">
+    <ant dir="typechecker" target="api"/>
+  </target>
+
+  <target name="api-ui" if="ui.present"
+    description="build api doc for typeckecker">
+    <ant dir="ui" target="api"/>
+  </target>
+
+  <target name="api-zlive" if="zlive.present"
+    description="build api doc for zlive">
+    <ant dir="zlive" target="api"/>
+  </target>
+
+  <target name="api-rules" if="rules.present"
+    description="build api doc for rules">
+    <ant dir="rules" target="api"/>
+  </target>
+
+  <target name="test" description="test subprojects"
+    depends="install-jars">
+    <ant dir="util" target="test"/>
+    <ant dir="corejava" target="test"/>
+    <ant dir="session" target="test"/>
+    <ant dir="modeljunit" target="test"/>
+    <ant dir="parser" target="test"/>
+    <ant dir="typechecker" target="test"/>
+    <ant dir="zlive" target="test"/>
+    <ant dir="rules" target="test"/>
+    <ant dir="." target="test-report"/>
+  </target>
+
+  <target name="test-report">
+    <junitreport todir="tests">
+      <fileset dir=".">
+        <include name="**/build/**/TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="tests"/>
+    </junitreport>
+  </target>
+
+  <target name="changelog"
+    description="generates a changelog report for the last 10 days">
+    <cvschangelog dir="."
+      destfile="changelog.xml"
+      daysinpast="10"/>
+  </target>
+
+  <target name="clean" description="clean up subprojects"
+    depends="clean-gnast, clean-util, clean-jaxb, clean-corejava, clean-session, clean-modeljunit, clean-java_cup, clean-parser, clean-typechecker, clean-ui, clean-zlive, clean-rules, clean-jedit, clean-zsidekick-plugin, clean-zlive-plugin">
+    <delete dir="${jar.dir}"/>
+    <delete file="${unix.settings.file}"/>
+    <delete file="${windows.settings.file}"/>
+  </target>
+
+  <target name="clean-gnast" if="gnast.present"
+    description="clean up corejava">
+    <ant dir="gnast" target="clean"/>
+  </target>
+
+  <target name="clean-util"
+    description="clean up util">
+    <ant dir="util" target="clean"/>
+  </target>
+
+  <target name="clean-jaxb" if="jaxb.present"
+    description="clean up jaxb">
+    <ant dir="jaxb" target="clean"/>
+  </target>
+
+  <target name="clean-corejava" if="corejava.present"
+    description="clean up corejava">
+    <ant dir="corejava" target="clean"/>
+  </target>
+
+  <target name="clean-session" if="session.present"
+    description="clean up session">
+    <ant dir="session" target="clean"/>
+  </target>
+
+  <target name="clean-modeljunit" if="modeljunit.present"
+    description="clean up modeljunit">
+    <ant dir="modeljunit" target="clean"/>
+  </target>
+
+  <target name="clean-java_cup" if="java_cup.present"
+    description="clean up ant task">
+    <ant dir="java_cup" target="clean"/>
+  </target>
+
+  <target name="clean-parser" if="parser.present"
+    description="clean up parser">
+    <ant dir="parser" target="clean"/>
+  </target>
+
+  <target name="clean-typechecker" if="typechecker.present"
+    description="clean up typechecker">
+    <ant dir="typechecker" target="clean"/>
+  </target>
+
+  <target name="clean-ui" if="ui.present"
+    description="clean up user interface">
+    <ant dir="ui" target="clean"/>
+  </target>
+
+  <target name="clean-zlive" if="zlive.present"
+    description="clean up typechecker">
+    <ant dir="zlive" target="clean"/>
+  </target>
+
+  <target name="clean-rules" if="rules.present"
+    description="clean up typechecker">
+    <ant dir="rules" target="clean"/>
+  </target>
+
+  <target name="clean-jedit" if="jedit-plugin.present"
+    description="clean up jedit plugin">
+    <ant dir="jedit/ZCharMap" target="clean"/>
+  </target>
+
+  <target name="clean-zsidekick-plugin" if="zsidekick-plugin.present"
+    description="clean up ZSideKick plugin">
+    <ant dir="jedit/ZSideKick" target="clean"/>
+  </target>
+
+  <target name="clean-zlive-plugin" if="zlive-plugin.present"
+    description="clean up zlive plugin">
+    <ant dir="jedit/zlive" target="clean"/>
+  </target>
+</project>

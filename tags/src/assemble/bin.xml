@@ -1,0 +1,38 @@
+<assembly>
+  <!-- The binary release can be build by first doing a "mvn install"
+       and then calling "mvn -N assembly:directory".
+       This creates a directory target/czt-0.5-bin. -->
+  <id>bin</id>
+  <formats>
+    <format>dir</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>README.txt</include>
+        <include>COPYING.txt</include>
+        <include>LICENSE*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>zml</directory>
+    </fileSet>
+    <fileSet>
+      <directory>fonts</directory>
+    </fileSet>
+    <fileSet>
+      <directory>bin</directory>
+    </fileSet>
+    <fileSet>
+      <directory>jedit</directory>
+      <includes>
+        <include>bin/*</include>
+        <include>*.*</include>
+      </includes>
+      <excludes>
+        <exclude>pom.xml</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+</assembly>

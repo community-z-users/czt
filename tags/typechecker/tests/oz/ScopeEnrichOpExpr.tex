@@ -1,0 +1,21 @@
+\begin{zsection}
+  \SECTION ScopeEnrichOpExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  Op1 \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{B}
+  Op2 \sdef [y? : \power\nat]
+\end{class}
+
+\begin{class}{C}
+  Test1 \sdef [a : A] @ a.Op1\\
+  Test2 \sdef [b : B] @ b.Op2
+\end{class}
+
+\begin{class}{D}
+  Test3 \sdef [a : A] @ [a : A]\\
+  Test4 \sdef [a : A] @ a.Op1 \land [a : A]
+\end{class}

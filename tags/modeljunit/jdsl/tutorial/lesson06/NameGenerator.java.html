@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+<font color=#ff8000>import</font> java.io.*;
+
+<font color=#ff0080>/** 
+ * Utility class that reads names from a file.  The names are returned in a
+ * Sequence.  The class consists of one static method that does all the work.
+ * The file, names.list, contains the  200 most popular last names in the USA.
+ *
+ * @author Lucy Perry (lep)
+ * @version JDSL 2
+*/</font> 
+<font color=#ff8000>class</font> NameGenerator {
+    <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>static</font> <font color=#8000a0>Sequence </font><font color=#0000ff>getNames</font>() {
+        <font color=#8000a0>Sequence </font>ret = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>ArraySequence</font>();
+        <font color=#ff8000>try</font> {
+            <font color=#8000a0>StreamTokenizer </font>in = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>StreamTokenizer</font>(<font color=#ff8000>new</font> <font color=#0000ff>FileReader</font>(<font color=#008000>"names.list"</font>));
+            <font color=#8000a0><font color=#8000a0>String</font> </font>str;
+            <font color=#8000a0><font color=#8000a0>int</font> </font>i=0;
+            <font color=#8000a0><font color=#8000a0>int</font> </font>type;
+            <font color=#ff8000>do</font> {
+                type = in.<font color=#0000ff>nextToken</font>();
+                <font color=#ff8000>if</font><font color=#0000ff> </font>(type==StreamTokenizer.TT_WORD) {
+                    ret.<font color=#0000ff>insertLast</font>(in.sval);
+                    i++;
+                }
+            } <font color=#ff8000>while</font><font color=#0000ff> </font>(type!=StreamTokenizer.TT_EOF);
+        } <font color=#ff8000>catch</font><font color=#0000ff> </font>(IOException e) {}
+        <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+    }
+}
+</dl>
+</body>
+</html>

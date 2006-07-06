@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION TypeMismatchInCompExpr\_CompExpr\_M\_1
+\end{zsection}
+
+\begin{zed}
+  error == [x : \power \nat; y : \nat; z' : \power \nat] \semi [z : \nat]
+\end{zed}

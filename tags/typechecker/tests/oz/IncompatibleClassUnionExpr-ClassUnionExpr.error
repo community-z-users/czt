@@ -1,0 +1,11 @@
+\begin{zsection}
+ \SECTION IncompatibleClassUnion\_ClassUnionExpr
+\end{zsection}
+
+\begin{class}{G[X]}
+\end{class}
+
+\begin{zed}
+  error ==  G[\power \nat] \classuni G[\nat]
+\end{zed}
+

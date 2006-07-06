@@ -1,0 +1,30 @@
+\begin{zsection}
+  \SECTION ProdExpr
+\end{zsection}
+
+\begin{zed}
+  \vdash? \{1\} \cross \power \{1\} = \{(1, \{\}), (1, \{1\})\}
+\end{zed}
+
+\begin{zed}
+  \vdash? \{1\} \cross \power \{1\} \cross \{1\} =
+      \{(1, \{\}, 1), (1, \{1\}, 1)\}
+\end{zed}
+
+Test that if the type of a prod expr is variable when it is still 
+referenced, everything is still handled correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g\\
+  t : g
+\where
+  t \in s\\
+  s = (\nat \cross \nat \cross \power \nat)
+\end{axdef}
+
+\begin{zed} \vdash? t.1 \in \nat \end{zed}
+\begin{zed} \vdash? t.2 \in \nat \end{zed}
+\begin{zed} \vdash? t.3 \in \power \nat \end{zed}

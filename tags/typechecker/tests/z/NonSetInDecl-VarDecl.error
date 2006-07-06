@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSetInDecl\_VarDecl
+\end{zsection}
+
+\begin{axdef}
+  x : 1
+\end{axdef}

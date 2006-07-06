@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>Code Fragment</title>
+</head>
+
+<body text=#000000 bgcolor=#ffffff>
+<center>
+</center><br><br><dl><dd><pre>
+
+<font color=#ff8000>import</font> java.awt.event.*;
+<font color=#ff8000>import</font> jdsl.core.api.*;
+<font color=#ff8000>import</font> jdsl.core.ref.*;
+
+<font color=#ff0080>/**
+ * Simulates an auction in a GUI.
+ * @author Robert Cohen (rfc)
+ * @version JDSL 2
+ */</font>
+<font color=#8000a0>public</font> <font color=#8000a0><font color=#ff8000>class</font> </font>AuctionSimulator <font color=#8000a0><font color=#ff8000>implements</font> </font>CountDownTimerListener, ActionListener
+{
+  <font color=#8000a0><font color=#8000a0>private</font> </font>AuctionFrame frame;
+  <font color=#8000a0><font color=#8000a0>private</font> </font>CountDownTimer clock;
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>String</font> item[]={<font color=#008000>"Car"</font>,<font color=#008000>"Watch"</font>,<font color=#008000>"Elvis Painting"</font>,<font color=#008000>"Computer"</font>,<font color=#008000>"Chair"</font>};
+  <font color=#8000a0><font color=#8000a0>private</font> </font>Position myPos;
+  <font color=#8000a0><font color=#8000a0>private</font> </font>Auction auction;
+  <font color=#8000a0><font color=#8000a0>private</font> </font>java.util.Random rnd = <font color=#8000a0><font color=#ff8000>new</font> </font>java.util.<font color=#0000ff>Random</font>();
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>boolean</font> closed;
+  <font color=#8000a0><font color=#8000a0>private</font> </font>Sequence participants;
+
+  <font color=#ff0080>// running this class just creates a visible AuctionSimulator window  </font>
+  <font color=#8000a0><font color=#8000a0>static</font> </font><font color=#8000a0>public</font> <font color=#8000a0><font color=#8000a0>void</font> </font><font color=#0000ff>main</font>(<font color=#8000a0>String</font> args[]) {
+<font color=#0000ff>    </font>(<font color=#ff8000>new</font> <font color=#0000ff>AuctionSimulator</font>()).frame.<font color=#0000ff>setVisible</font>(true);
+  }
+
+  <font color=#ff0080>// open a window and start things running</font>
+  <font color=#0000ff>AuctionSimulator</font>(){
+    frame = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>AuctionFrame</font>(<font color=#ff8000>this</font>); 
+    clock = frame.clock;
+    <font color=#0000ff>reset</font>();
+  }    
+
+  <font color=#ff0080>// refresh everything, but don't start the countdown</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>reset</font>(){
+    frame.startBtn.<font color=#0000ff>setEnabled</font>(true);
+    frame.withdrawBtn.<font color=#0000ff>setEnabled</font>(false);
+    frame.<font color=#0000ff>setBid</font>(<font color=#008000>""</font>);
+    auction = <font color=#8000a0><font color=#ff8000>new</font> </font><font color=#0000ff>Auction</font>();
+    clock.<font color=#0000ff>reset</font>();
+    frame.<font color=#0000ff>clear</font>();
+    <font color=#0000ff>chooseItem</font>();
+    closed = false;
+    myPos=null;
+    participants=<font color=#ff8000>new</font> <font color=#0000ff>ArraySequence</font>();
+  }
+  
+  <font color=#ff0080>// start the timed auction</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>start</font>(){
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(closed)
+      frame.<font color=#0000ff>setMsg</font>(<font color=#008000>"Auction closed."</font>);
+    <font color=#ff8000>else</font> {
+      frame.startBtn.<font color=#0000ff>setEnabled</font>(false);
+      <font color=#0000ff>myBid</font>();
+      <font color=#0000ff>updateFrame</font>();
+      clock.<font color=#0000ff>start</font>();
+    }
+  }
+
+  <font color=#ff0080>// action when the Withdraw button is clicked</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>withdraw</font>(){
+    frame.withdrawBtn.<font color=#0000ff>setEnabled</font>(false);
+    auction.<font color=#0000ff>quit</font>(myPos);
+    myPos=null;
+    <font color=#0000ff>updateFrame</font>();
+    frame.<font color=#0000ff>setMsg</font>(<font color=#008000>""</font>);
+  }
+
+  <font color=#ff0080>// finish the auction  </font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>close</font>() {
+    closed=true;
+    <font color=#8000a0>Position </font>winner = auction.<font color=#0000ff>close</font>();
+    <font color=#ff8000>if</font><font color=#0000ff>  </font>(winner == null) 
+      frame.<font color=#0000ff>setMsg</font>(<font color=#008000>"Closed with no bidders."</font>);
+    <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(winner == myPos) 
+      frame.<font color=#0000ff>setMsg</font>(<font color=#008000>"You win!!"</font>);
+    <font color=#ff8000>else</font>
+      frame.<font color=#0000ff>setMsg</font>(<font color=#008000>"Auction closed."</font>);
+  }
+  
+  <font color=#ff0080>// receive AWT events and dispatch them to other methods</font>
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>actionPerformed</font>(java.awt.event.ActionEvent event)
+    {
+      <font color=#8000a0>Object </font>object = event.<font color=#0000ff>getSource</font>();
+      <font color=#ff8000>if</font><font color=#0000ff> </font>(object == frame.startBtn) {
+	<font color=#0000ff>start</font>();
+      } 
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(object == frame.withdrawBtn){
+	<font color=#0000ff>withdraw</font>();
+      }
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(object == frame.resetBtn) {
+	<font color=#0000ff>reset</font>();
+      }
+      <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(object == frame.bidField) {
+	<font color=#ff8000>if</font><font color=#0000ff> </font>(closed) {
+	  frame.<font color=#0000ff>setMsg</font>(<font color=#008000>"Bids have closed."</font>);
+	} <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(clock.<font color=#0000ff>isRunning</font>()) {
+	  <font color=#0000ff>myBid</font>();
+	} <font color=#ff8000>else</font> {
+	  <font color=#0000ff>start</font>();
+	}
+      }
+    }
+  
+  <font color=#ff0080>// on clock ticks, possibly end the auction or call a new bid</font>
+  <font color=#8000a0><font color=#8000a0>public</font> </font><font color=#8000a0>void</font> <font color=#0000ff>timerTicked</font>(CountDownTimerEvent e) {
+    <font color=#8000a0><font color=#8000a0>int</font> </font>timeLeft = e.<font color=#0000ff>timeLeft</font>();
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(timeLeft==0) 
+      <font color=#0000ff>close</font>();
+    <font color=#8000a0><font color=#ff8000>else</font> </font><font color=#ff8000>if</font><font color=#0000ff> </font>(timeLeft%5==0)
+      <font color=#0000ff>newBid</font>();
+  }
+
+  <font color=#ff0080>// generate a new bid from a "participant"</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>newBid</font>() {
+    <font color=#8000a0>Position </font>newPos;
+    <font color=#8000a0><font color=#8000a0>int</font> </font>size=participants.<font color=#0000ff>size</font>();
+    <font color=#8000a0><font color=#8000a0>int</font> </font>choice=rnd.<font color=#0000ff>nextInt</font>(size+2)-1;
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(choice &lt 0) <font color=#ff8000>return</font>;
+    <font color=#8000a0><font color=#8000a0>double</font> </font>bidAmount = auction.<font color=#0000ff>highBid</font>()+rnd.<font color=#0000ff>nextInt</font>(50);
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(choice == size)
+      newPos = <font color=#0000ff>bid</font>(null,<font color=#008000>""</font>,bidAmount);
+    <font color=#ff8000>else</font> {
+      <font color=#8000a0>Position </font>pos =<font color=#0000ff> </font>(Position)participants.<font color=#0000ff>atRank</font>(choice);
+      <font color=#8000a0>Position </font>bidder =<font color=#0000ff> </font>(Position)pos.<font color=#0000ff>element</font>();
+      <font color=#8000a0>Position </font>newBidder = <font color=#0000ff>bid</font>(bidder,<font color=#008000>""</font>,bidAmount);
+      participants.<font color=#0000ff>replaceElement</font>(pos,newBidder);
+    }
+  }
+  
+  <font color=#ff0080>// enter the user's bid</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>myBid</font>() {
+    <font color=#8000a0><font color=#8000a0>double</font> </font>bid = frame.<font color=#0000ff>getBid</font>();
+    <font color=#8000a0><font color=#8000a0>String</font> </font>name = frame.<font color=#0000ff>getName</font>();
+    myPos=<font color=#0000ff>bid</font>(myPos,name,bid);
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(myPos != null)
+      frame.withdrawBtn.<font color=#0000ff>setEnabled</font>(true);
+  } 
+
+  <font color=#ff0080>// enter a bid</font>
+  <font color=#8000a0><font color=#8000a0>private</font> </font>Position <font color=#0000ff>bid</font>(Position pos, <font color=#8000a0><font color=#8000a0>String</font> </font>name, <font color=#8000a0><font color=#8000a0>double</font> </font>bid) {
+    <font color=#8000a0>Position </font>ret=pos;
+    <font color=#8000a0><font color=#8000a0>String</font> </font>msg = <font color=#008000>""</font>;
+    <font color=#ff8000>if</font><font color=#0000ff> </font>(bid&gt0) {
+      <font color=#ff8000>if</font><font color=#0000ff> </font>(pos == null) {
+	<font color=#ff8000>try</font> {
+	  ret=auction.<font color=#0000ff>initial</font>(name,bid);
+	} <font color=#ff8000>catch</font><font color=#0000ff> </font>(InvalidBidException e){ 
+	  msg=e.<font color=#0000ff>getMessage</font>();
+	}
+      } <font color=#ff8000>else</font> {
+	<font color=#ff8000>try</font> {
+	  ret=auction.<font color=#0000ff>top</font>(myPos,bid);
+	} <font color=#ff8000>catch</font><font color=#0000ff> </font>(InvalidBidException e){
+	  msg=e.<font color=#0000ff>getMessage</font>();
+	}
+      }
+    }
+    <font color=#0000ff>updateFrame</font>();
+    frame.<font color=#0000ff>setMsg</font>(msg);
+    <font color=#8000a0><font color=#ff8000>return</font> </font>ret;
+  }
+  
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>updateFrame</font>() {
+    frame.<font color=#0000ff>setHighBid</font>(auction.<font color=#0000ff>highBid</font>());
+    frame.<font color=#0000ff>setNumBidders</font>(auction.<font color=#0000ff>numBidders</font>());
+  }
+  <font color=#8000a0><font color=#8000a0>private</font> </font><font color=#8000a0>void</font> <font color=#0000ff>chooseItem</font>(){
+    <font color=#8000a0><font color=#8000a0>int</font> </font>i = rnd.<font color=#0000ff>nextInt</font>(item.length);
+    frame.<font color=#0000ff>setItem</font>(item[i]);
+  }
+}
+
+</dl>
+</body>
+</html>

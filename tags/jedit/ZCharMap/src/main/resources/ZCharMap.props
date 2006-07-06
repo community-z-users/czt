@@ -1,0 +1,18 @@
+# Plugin properties
+
+# Basic plugin information properties
+plugin.CommunityZToolsPlugin.activate=startup
+plugin.CommunityZToolsPlugin.name=Community Z Tools
+plugin.CommunityZToolsPlugin.author=Petra Malik
+plugin.CommunityZToolsPlugin.version=1.0
+plugin.CommunityZToolsPlugin.docs=ZCharMap.html
+
+# Plugin dependency properties
+plugin.CommunityZToolsPlugin.depend.0=jdk 1.5
+plugin.CommunityZToolsPlugin.depend.1=jedit 04.00.04.00
+
+plugin.CommunityZToolsPlugin.menu=czt
+
+# dockable window name
+czt.title=Community Z Tools
+czt.label=Z Character Map

@@ -1,0 +1,51 @@
+\begin{zsection}
+  \SECTION ParallelOpExpr \parents oz\_toolkit
+\end{zsection}
+
+Variable hiding is used to check that names are present in the
+expression. Conjoining the parallel operations with operations
+containing incompatible types are used to check that the variables
+have been hidden.
+
+No base names in common. 
+\begin{class}{A}
+  Op1 \sdef [a : \nat; b? : \nat]\\
+  Op2 \sdef [a : \nat; c? : \nat]\\
+  Test1a \sdef (Op1 \pll Op2) \hide (a, b?, c?)\\
+  Test1b \sdef (Op2 \pll Op1) \hide (a, b?, c?)\\
+\end{class}
+
+Parallel execution of an opertion with itself.
+\begin{class}{B}
+  Op1 \sdef [a? : \nat; b? : \nat; b?! : \nat; a! : \nat]\\
+  Test1 \sdef (Op1 \pll Op1) \hide (a?, b?, b?!, a!)
+\end{class}
+
+All variable have common base names.
+\begin{class}{C}
+  Op1 \sdef [a! : \nat; b'! : \nat; c!!! : \nat]\\
+  Op2 \sdef [a? : \nat; b'? : \nat; c!!? : \nat]\\
+  Test1a \sdef (Op1 \pll Op2) \land [a!~, b'!~, b'?~, c!!!~, c!!? : \power\nat]\\
+  Test1b \sdef (Op2 \pll Op1) \land [a!~, b'!~, b'?~, c!!!~, c!!? : \power\nat]\\
+\end{class}
+
+One base name is common
+\begin{class}{D}
+  Op1 \sdef [a! : \nat; b? : \nat; c' : \nat; d! : \nat]\\
+  Op2 \sdef [a? : \nat; d! : \nat]\\
+  Test1a \sdef (Op1 \pll Op2) \hide (b?, d!, c')\\
+  Test1b \sdef (Op1 \pll Op2) \land [a?, a! : \power \nat]\\
+  Test2a \sdef (Op2 \pll Op1) \hide (b?, d!, c')\\
+  Test2b \sdef (Op2 \pll Op1) \land [a?, a! : \power \nat]\\
+\end{class}
+
+Multiple primed variables hidden.
+Duplicate declaration.
+\begin{class}{E}
+  Op1 \sdef [a! : \nat; b? : \nat; c! : \nat; d! : \nat]\\
+  Op2 \sdef [a? : \nat; d! : \nat; c? : \nat]\\
+  Test1a \sdef (Op1 \pll Op2) \hide (b?, d!)\\
+  Test1b \sdef (Op1 \pll Op2) \land [a?, a!, c?, c! : \power\nat]\\
+  Test2a \sdef (Op2 \pll Op1) \hide (b?, d!)\\
+  Test2b \sdef (Op2 \pll Op1) \land [a?, a!, c?, c! : \power\nat]
+\end{class}

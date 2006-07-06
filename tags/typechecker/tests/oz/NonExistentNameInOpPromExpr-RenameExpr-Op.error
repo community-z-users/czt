@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION NonExistentNameInOpPromExpr\_RenameExpr\_Op \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  a == 1\\
+  b == \{1\}\\
+  \begin{state}
+    m : \nat\\
+    n : \power\nat
+  \end{state}\\
+  Op1 \sdef [x? : \nat]\\
+  Op2 \sdef [y? : \power\nat]
+\end{class}
+
+Check that old components are not in the class signature.
+
+\begin{class}{Test}
+  \begin{state}
+     renamed : A[ra/a,rm/m,rOp1/Op1]
+  \where
+     renamed.ra \in renamed.b\\
+     renamed.rm \in renamed.n
+  \end{state}\\
+  Op1 \sdef renamed.Op1
+\end{class}

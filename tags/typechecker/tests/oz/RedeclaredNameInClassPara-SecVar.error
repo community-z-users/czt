@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_SecVar \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{axdef}
+    a : \nat
+  \end{axdef}\\
+  \begin{state}
+    b : \nat\\
+   \Delta\\
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    a? : \nat
+  \where
+    a = a?
+  \end{op}\\
+\end{class}

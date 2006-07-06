@@ -1,0 +1,207 @@
+\documentclass{article}
+\usepackage{oz}
+\usepackage{alltt}
+\newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
+\newcommand{\V}{\mathcal{V}}
+
+% Simulate some standard Z commands
+\newenvironment{zsection}{\[}{\]}
+\newcommand{\SECTION}{\textbf{section}~}
+\newcommand{\parents}{\mathrel{\textbf{parents}}}
+\newcommand{\relation}{\mathrel{\textbf{relation}}}
+\newcommand{\function}{\mathrel{\textbf{function}}}
+\newcommand{\generic}{\mathrel{\textbf{generic}}}
+\newcommand{\leftassoc}{\mathrel{\textbf{leftassoc}}}
+\newcommand{\rightassoc}{\mathrel{\textbf{rightassoc}}}
+
+
+% Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
+\newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-1ex}\infrule}{\endinfrule}
+\newcommand{\derives}{\derive{}}
+
+\newenvironment{zedjoker}[1]{\par$\bigstar$ #1\ }{}
+
+\newcommand{\Context}{\Gamma}
+\newcommand{\notfreein}{\mathbin{\backslash}}
+\newcommand{\HasType}{\mathbin{:}} % \small\rlap{$\circ$}{\raisebox{1ex}{$\circ$}}}}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+%% Define some extra macros for the Z standard.
+%% These will eventually be defined in a czt.sty file.
+\newcommand{\negate}{\mathop{-}}
+\newcommand{\arithmos}{{A\!\!\!\!A}}   %% TODO: get a proper symbol
+\newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
+\newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
+%       %%Zprechar \proviso U+22C6    % small star, or
+%       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
+
+%% Syntax within provisos
+\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
+
+
+\title{Simple Schema Unfolding Rules in CZT}
+\author{Mark Utting}
+\begin{document}
+\maketitle
+
+NOTE: this document may not be the most up-to-date version.
+The version used by the rules unit tests (rules/src/test/resources/simpleUnfold.tex)
+is the one that is regularly tested and maintained.
+
+This document defines the simplest rules possible for
+unfolding schema inclusions.  It only unfolds one level of simple schema
+inclusions (an undecorated name), does not handle
+schema operators, and does not normalise types to base types.
+
+It uses only one kind of proviso, which is the LookupProviso
+(more precisely, the LookupConstDeclProviso).
+
+\section*{Rule Syntax}
+
+\section*{Stage 1: Unfolding Simple Schema Inclusions}
+
+\begin{zsection}
+  \SECTION SchNorm1 \parents zpattern\_toolkit, standard\_toolkit
+\end{zsection}
+
+Declare the jokers used in these rules.
+
+\begin{zedjoker}{DeclList} D, D1, D2, D3 \end{zedjoker} \\
+\begin{zedjoker}{Pred} P, P1, P2, P3 \end{zedjoker} \\
+\begin{zedjoker}{Expr} E, E1, E2, E3 \end{zedjoker} \\
+\begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
+
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+The first step in the process is to move the predicates into
+the normalised result.
+\begin{zedrule}{startNormalise}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [D1 | P] = [D2 | P2 \land P]
+\end{zedrule}
+
+Now we handle each possible kind of declaration, from left to right.
+
+This rule matches when the first declaration is a VarDecl.
+Note that if the first declaration declares multiple variables,
+like $a,b,c:\nat$, then the matcher should automatically split this
+so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
+becomes the first declaration within $D1$.
+\begin{zedrule}{normaliseVarDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
+\end{zedrule}
+
+This rule handles simple schema inclusions, where the name
+$v$ is directly defined in the specification.  It does not
+recursively unfold the schema after looking it up, but it would
+be easy to change the rule to do that later.  If D1 and D2 are 
+type compatible, then the schemamerge proviso returns their
+union in D3, otherwise it throws an exception.
+
+\begin{zedrule}{normaliseIncludeDecl}
+   \proviso ?~ v == [D1 | P1] \\
+   [D | true] \unfoldsTo [D2 | P2] \\
+   \proviso D3 == [D1] \schemamerge [D2]
+\derives
+   [v; D | true] \unfoldsTo [D3 | P1 \land P2]
+\end{zedrule}
+
+The base case is an empty declaration list, $[|true]$.
+\begin{zedrule}{normaliseEmpty}
+   [~ | true] \unfoldsTo [~ | true]
+\end{zedrule}
+
+
+\section*{Stage 2: Allowing Decorated Schema Names}
+
+\begin{zsection}
+  \SECTION SchNorm2 \parents SchNorm1
+\end{zsection}
+
+This extra rule extends the above rules by handling primed schema
+references.
+
+To implement this rule, we must implement an additional kind of
+proviso: \verb!CalculateProviso!.  This defines a visitor which
+traverses the right-hand-side expression and calculates a few known
+operators, then matches the result against the left-hand-side expression.
+
+For this rule, the only operator we must implement is the
+\verb!visitDecorExpr! method, which adds the given decoration to all the
+declared names within the schema.
+
+\begin{zedrule}{normaliseIncludeDecl}
+   \proviso ?~ v == [D1 | P1] \\
+   \proviso [D2|P2] == [D1|P1]~' \\
+   [D | true] \unfoldsTo [D3 | P3] \\
+   % TODO: check type compatibility later: \proviso [D1;D2] : \power [D3]
+\derives
+   [v~'; D | true] \unfoldsTo [D2;D3 | P2 \land P3]
+\end{zedrule}
+
+
+
+\section*{Examples}
+Here is an example of the results we should get.
+(These could be used as tests for the rules implementation).
+
+If we define a series of simple schemas like this:
+
+\begin{zsection}
+  \SECTION SchExample \parents standard\_toolkit 
+\end{zsection}
+
+\begin{zed}
+  S1 == [x:\nat | x < 10] \\
+  S2 == [S1; y:\nat | y < x] \\
+  S3 == [S1; z:\nat | z < x]
+\end{zed}
+
+
+\begin{zsection}
+  \SECTION SchExample1 \parents SchExample, SchNorm1
+\end{zsection}
+
+Using the $SchNorm1$ rule set, we should be able to
+do the following transformations (maybe with a few
+`true's added to the right hand sides):
+
+\begin{zed}
+\vdash? [S1|true] \unfoldsTo [x:\nat | x<10]
+\end{zed}
+\begin{zed}
+\vdash? [S2|true] \unfoldsTo [S1; y:\nat | y<x]
+\end{zed}
+
+Note that only one level of unfolding was done, so $S1$ was left unfolded.
+
+
+
+\begin{zsection}
+  \SECTION SchExample2 \parents SchExample, SchNorm2
+\end{zsection}
+
+Using Stage 2, we should be able to
+do the following transformations (again maybe with a few
+`true's added to the right hand sides):
+
+\begin{zed}
+\vdash? [S1;S1~'] \unfoldsTo [x:\nat; x':\nat | x<10 \land x'<10]
+\end{zed}
+\begin{zed}
+\vdash? [S2~' | true] \unfoldsTo [S1~'; y':\nat | y'<x']
+\end{zed}
+
+(In fact, this last example is a bit difficult to implement safely,
+because it is not clear just from the syntax whether the CalculateProviso
+should prime the $x$ or not.  The \verb!visitDecorExpr! could perhaps
+use the typechecker to see if $x$ is defined within $S1$ or not, but
+that would be too complex.  I propose that \verb!visitDecorExpr! should
+be quite restrictive, and throw an exception if the schema that it
+is trying to prime is not normalised.
+
+\end{document}

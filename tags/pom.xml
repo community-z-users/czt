@@ -1,0 +1,276 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.sourceforge.czt</groupId>
+  <artifactId>czt</artifactId>
+  <packaging>pom</packaging>
+  <version>0.5</version>
+  <name>Community Z Tools</name>
+  <properties>
+    <czt.groupId>net.sourceforge.czt</czt.groupId>
+    <czt.version>0.5</czt.version>
+  </properties>
+  <description>
+    Set of libraries and tools for editing, typechecking and animating
+    formal specifications written in the Z specification language,
+    with some support for Z extensions such as Object-Z, TCOZ, and
+    Circus.
+  </description>
+  <url>http://czt.sourceforge.net</url>
+  <organization>
+    <name>Community Z Tools Project</name>
+  </organization>
+  <inceptionYear>2003</inceptionYear>
+  <issueManagement>
+    <url>http://sourceforge.net/tracker/?group_id=86250</url>
+  </issueManagement>
+  <mailingLists>
+    <mailingList>
+      <name>CZT-Devel</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-devel</unsubscribe>
+      <post>mailto:czt-devel@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-devel</archive>
+    </mailingList>
+    <mailingList>
+      <name>CZT-Users</name>
+      <subscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</subscribe>
+      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/czt-users</unsubscribe>
+      <post>mailto:czt-users@lists.sourceforge.net</post>
+      <archive>http://sourceforge.net/mailarchive/forum.php?forum=czt-users</archive>
+    </mailingList>
+  </mailingLists>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>COPYING.txt</url>
+    </license>
+  </licenses>
+  <scm>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
+  </scm>
+  <modules>
+    <module>session</module>
+    <module>util</module>
+    <module>jaxb</module>
+    <module>corejava</module>
+    <module>java_cup</module>
+    <module>parser</module>
+    <module>typechecker</module>
+    <module>rules</module>
+    <module>zlive</module>
+    <module>modeljunit</module>
+    <module>ui</module>
+    <module>jedit</module>
+  </modules>
+  <dependencyManagement>
+    <dependencies>
+      <!-- ********* -->
+      <!-- CZT stuff -->
+      <!-- ********* -->
+
+      <!-- CZT Util -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>util</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Jaxb (generated classes) -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>jaxb</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Corejava -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>corejava</artifactId>
+        <version>2.0.0</version>
+      </dependency>
+
+      <!-- CZT Java_Cup -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>java_cup</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Session -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>session</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Parser -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>parser</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Typechecker -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>typechecker</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Rules -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>rules</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT ModelJUnit -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>modeljunit</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT ZLive -->
+      <dependency>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>zlive</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- ************** -->
+      <!-- external stuff -->
+      <!-- ************** -->
+
+      <!-- Ant (for the ant task) -->
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6.5</version>
+        <scope>provided</scope>
+      </dependency>
+
+     <!-- Bsf -->
+      <dependency>
+        <groupId>bsf</groupId>
+        <artifactId>bsf</artifactId>
+        <version>2.2</version>
+      </dependency>
+
+     <!-- JFlex -->
+      <dependency>
+        <groupId>jflex</groupId>
+        <artifactId>jflex</artifactId>
+        <version>1.4.1</version>
+      </dependency>
+
+      <!-- Rhino -->
+      <dependency>
+        <groupId>rhino</groupId>
+        <artifactId>rhino</artifactId>
+        <version>1.5-R3</version>
+      </dependency>
+
+      <!-- Jaxb -->
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-xjc</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>xfire</groupId>
+        <artifactId>jaxb-libs</artifactId>
+        <version>1.0.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml</groupId>
+        <artifactId>relaxngDatatype</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>activesoap</groupId>
+        <artifactId>xsdlib</artifactId>
+        <version>1.5</version>
+      </dependency>
+
+      <!-- JUnit -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>mailing-list</report>
+              <!-- <report>cim</report> -->
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>mailing-list</report>
+             <report>dependencies</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

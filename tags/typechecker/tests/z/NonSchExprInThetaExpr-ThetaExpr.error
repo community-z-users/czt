@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInThetaExpr\_ThetaExpr
+\end{zsection}
+
+\begin{zed}
+  error == \theta 1
+\end{zed}

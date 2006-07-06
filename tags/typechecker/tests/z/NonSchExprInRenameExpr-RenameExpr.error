@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInRenameExpr\_RenameExpr
+\end{zsection}
+
+\begin{zed}
+  error == 1 [a/b]
+\end{zed}

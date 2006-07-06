@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInHideExpr\_HideExpr
+\end{zsection}
+
+\begin{zed}
+  error == 1 \hide (a,b)
+\end{zed}

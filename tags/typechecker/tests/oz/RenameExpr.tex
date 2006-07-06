@@ -1,0 +1,30 @@
+\begin{zsection}
+  \SECTION RenameExpr\_Class\_Expressions \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A[X]}
+  a == X\\
+  b == \{X\}\\
+  \begin{state}
+    m : X\\
+    n : \power X
+  \end{state}\\
+  Op1 \sdef [x? : X]\\
+  Op2 \sdef [y? : \power X]
+\end{class}
+
+\begin{zed}
+  Renamed == A[\nat][ra/a,rm/m,rOp1/Op1]
+\end{zed}
+
+\begin{class}{Test}
+  \begin{state}
+     renamed : Renamed\\
+     old : A
+  \where
+     renamed.ra \in renamed.b\\
+     renamed.rm \in renamed.n\\
+     old.a = \{1\}
+  \end{state}\\
+  Op1 \sdef renamed.rOp1
+\end{class}

@@ -1,0 +1,37 @@
+%\documentstyle[12pt,coz]{article}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+\begin{zed}
+[NAME]
+\end{zed}
+\begin{zed}
+ID == \nat
+\end{zed}
+\begin{zed}
+DEPARTMENT ::= administration | manufacturing | research
+\end{zed}
+\begin{zed}
+EMPLOYEE == ID \cross NAME \cross DEPARTMENT
+\end{zed}
+\begin{axdef}
+Frank, Aki : EMPLOYEE \\
+\where Frank = (12, chen, administration) \\
+Aki = (24, chun, research)
+\end{axdef}
+
+\begin{zed}
+OP ::= plus | minus | times | divide
+\end{zed}
+\begin{zed}
+EXP ::= const \ldata \nat \rdata | binop \ldata OP \cross EXP
+\cross EXP \rdata
+\end{zed}
+\end{document}

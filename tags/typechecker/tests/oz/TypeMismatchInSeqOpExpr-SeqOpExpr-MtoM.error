@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION TypeMismatchInSeqOpExpr\_SeqOpExpr\_MtoM \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  error \sdef [x' : \nat; y : \nat; z' : \power \nat] \semi
+       [x' : \nat; y : \nat; z : \nat]
+\end{class}

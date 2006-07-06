@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSetInPowerExpr\_PowerExpr
+\end{zsection}
+
+\begin{zed}
+  x == \power 1
+\end{zed}

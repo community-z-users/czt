@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonSchExprInSchExpr2\_RightExpr
+\end{zsection}
+
+\begin{zed}
+  error == [x : \nat] \land 1
+\end{zed}

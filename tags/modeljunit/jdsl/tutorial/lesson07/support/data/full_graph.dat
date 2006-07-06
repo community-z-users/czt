@@ -1,0 +1,39 @@
+#Airport/City information - USA
+#Compiled and commented by David Powell (dep)
+#Sun Jan 26 00:35:54 EST 1997
+#
+#Fields:
+# 3 - Airport abbreviation
+# 1 - <padding>
+# 5 - Time Zone (offset from GMT)
+# 1 - <padding>
+# 3 - X coordinate on map
+# 1 - <padding>
+# 3 - Y coordinate on map
+# 1 - <padding>
+# remainder - Name of City/Airport
+#
+#
+ABQ -0800 195 275 Albuquerque, New Mexico
+ATL -0600 470 280 Atlanta, Georgia
+BNA -0700 430 240 Nashville, Tennessee
+BOS -0600 590 100 Boston, Massachusetts
+DCA -0600 540 180 Washington D.C. (National)
+DEN -0800 215 205 Denver, Colorado
+DFW -0700 310 305 Dallas/Fort Worth, Texas
+DTW -0600 445 140 Detroit, Michigan
+HOU -0700 330 355 Houston, Texas(Hobby)
+JFK -0600 565 130 New York (Kennedy)
+LAX -0900  55 270 Los Angeles, California
+MIA -0600 535 390 Miami, Florida
+MSP -0700 340 115 Minneapolis/St Paul, Minnesota
+MSY -0700 405 345 New Orleans, Louisiana
+ORD -0700 410 155 Chicago, Illinois
+PHL -0600 550 155 Philadelphia, Pennsilvania/Wilmington, Delaware
+PHX -0800 120 290 Phoenix, Arizona
+PVD -0600 595 122 Providence/Newport, Rhode Island
+RDU -0600 530 230 Raleigh/Durham, North Carolina
+SEA -0900  55  45 Seattle/Tacoma, Washington
+SFO -0900  10 190 San Francisco, California
+STL -0700 380 210 St Louis, Missouri
+TPA -0600 500 360 Tampa, Florida

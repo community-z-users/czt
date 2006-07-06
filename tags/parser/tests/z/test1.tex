@@ -1,0 +1,56 @@
+%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+\begin{zed}
+[PERSON, DOCUMENT]
+\end{zed}
+
+\begin{axdef}
+permission: DOCUMENT \rel PERSON
+\end{axdef}
+
+\begin{axdef}
+doug, aki, phil : PERSON \\
+spec, design, code : DOCUMENT
+\end{axdef}
+
+\begin{schema}{Documents}
+check\_out: DOCUMENT \pfun PERSON
+\where
+check\_out \subseteq permission
+\end{schema}
+
+\begin{schema}{CheckOut}
+\Delta Documents \\
+p? : PERSON \\
+d? : DOCUMENT
+\where
+d? \notin \dom checked\_out \\
+(d?, p?) \in permission \\
+check\_out' = checked\_out \cup \{(d?, p?)\}
+\end{schema}
+
+\begin{zed}
+CheckedOut == [\Xi Documents; d? : DOCUMENT | d? \in \dom
+check\_out]
+\end{zed}
+
+\begin{schema}{Unauthorized}
+\Xi Documents \\
+p? : PERSON \\
+d? : DOCUMENT \\
+\where (d?, p?) \notin permission
+\end{schema}
+
+\begin{zed}
+T\_CheckOut == CheckOut \lor CheckedOut \lor Unauthorized
+\end{zed}
+\end{document}

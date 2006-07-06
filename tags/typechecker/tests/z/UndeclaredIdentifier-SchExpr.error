@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_SchExpr
+\end{zsection}
+
+\begin{axdef}
+  y : [x : \nat]
+\where
+  y \in [x : \nat]\\
+  x = 1
+\end{axdef}

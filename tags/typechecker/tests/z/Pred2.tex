@@ -1,0 +1,28 @@
+\begin{zsection}
+  \SECTION Pred2
+\end{zsection}
+
+\begin{zed}
+  \vdash? \exists x : \nat @ x = 1 \lor x = 1
+\end{zed}
+
+Test the case when the variable types in the predicate are not fully 
+resolved.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  \exists x : s @ s = \{\} \land
+  \exists x : t @ t = \{\} \land
+  s = t \land
+  s = \power \nat
+\end{axdef}
+
+\begin{zed} \vdash? s = t \end{zed}
+\begin{zed} \vdash? \{1\} \in s \end{zed}
+\begin{zed} \vdash? \{1\} \in t \end{zed}
+

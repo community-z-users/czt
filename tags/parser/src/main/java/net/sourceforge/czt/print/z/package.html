@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
+
+<p>
+Provides classes for printing standard Z specifications in Unicode or
+in the LaTeX mark-up language.
+</p>
+
+<p>
+The Unicode2Latex parser together with the UnicodeScanner can be used
+to transform a Z specification written in unicode into a specification
+in LaTex without building an intermediate AST.  The class
+UnicodeToLatex provides convenience methods and a command line tool
+for doing this.
+</p>
+
+<p>
+An existing AST can be printed using the ZPrintVisitor together with
+the ZmlScanner.  The ZPrintVisitor returns a list of Symbols which is
+tokenized by the ZmlScanner.  The UnicodePrinter can be used to print
+the tokenized specification in unicode, whereas the Unicode2Latex
+parser can be used to print the tokenized specification in LaTex.
+</p>
+
+<p>
+However, in most cases the AST must be preprocessed to get good, or
+even useful, results.  The EqualPredVisitor transforms the default
+representation of equality to a representation via a relational
+operator that can be processed by the ZPrintVisitor.
+</p>
+
+</body>
+</html>

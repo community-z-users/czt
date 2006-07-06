@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION NonRefInPolyExpr\_PolyExpr\_2 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+\end{class}
+
+\begin{axdef}
+  a : \poly \poly A
+\end{axdef}

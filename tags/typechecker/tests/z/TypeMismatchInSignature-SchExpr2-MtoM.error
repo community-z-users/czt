@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION IncompatibleSignatures\_Qnt1Expr\_M\_M
+\end{zsection}
+
+\begin{zed}
+  error == [x : \power \nat; y : \nat; z : \power \nat] \implies 
+       [x : \nat; y : \power \nat; z : \nat]
+\end{zed}

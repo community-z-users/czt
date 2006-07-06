@@ -1,0 +1,25 @@
+\begin{zsection}
+  \SECTION IncompatibleFeatureInClassUnionExpr\_Op \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{op}{Op1}
+    a? : \nat
+  \end{op}\\
+  \begin{op}{Op2}
+    a? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  \begin{op}{Op1}
+    a? : \nat
+  \end{op}\\
+  \begin{op}{Op2}
+    a : \power \nat
+  \end{op}
+\end{class}
+
+\begin{zed}
+   CU == A \classuni B
+\end{zed}
