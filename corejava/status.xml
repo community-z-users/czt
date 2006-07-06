@@ -17,7 +17,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="2.0.0" date="unreleased">
+    <release version="2.0.0" date="July 6, 2006">
       <action dev="Petra" type="apichange">
         Remove interface
         <code>net.sourceforge.czt.base.ast.TermA</code>

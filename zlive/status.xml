@@ -20,7 +20,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="0.1" date="unreleased">
+    <release version="0.5" date="July 6, 2006">
       <action dev="MarkU" type="add">
       	Implemented a simple textual user interface which provides
         eval Expr and evalp Pred commands.

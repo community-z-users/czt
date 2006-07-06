@@ -8,7 +8,7 @@
 
   <changes>
     <!-- Add new releases here -->
-    <release version="0.5" date="unreleased">
+    <release version="0.5" date="July 6, 2006">
       <action dev="Tim" type="fix"
         Corrected bug 1497266 -- Typechecker merges too many DeclName ids.
       </action>
