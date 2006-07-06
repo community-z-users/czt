@@ -1,4 +1,5 @@
 * text=auto !eol
+/CHANGELOG.txt -text
 /COPYING.txt -text
 admin/binary_release/bbook.utf16 -text
 admin/binary_release/screenshot.png -text
