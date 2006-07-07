@@ -1,3 +1,0 @@
-See the individual projects for their changelog
-information.  Note that changelog information is often
-contained in a file called status.xml.
