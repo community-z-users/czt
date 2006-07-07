@@ -7,7 +7,7 @@
   <property name="sf.install.dir" location="/home/groups/c/cz/czt/htdocs"/>
   <property name="build.site.dir" location="build/site"/>
 
-  <target name="install" depends="site"
+  <target name="install"
     description="installs HTML documentation on sourceforge">
     <input message="Sourceforge username: " addproperty="username"/>
     <input message="Sourceforge password (make sure nobody is watching; the password is written to stdout): " addproperty="password"/>

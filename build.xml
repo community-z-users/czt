@@ -1,4 +1,5 @@
-<project name="czt" default="all" basedir=".">
+<project xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+  name="czt" default="all" basedir=".">
   <property file="czt.properties"/>
   <property name="unix.settings.file" location="bin/settings.sh"/>
   <property name="windows.settings.file" location="bin/settings.bat"/>
@@ -641,5 +642,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-zlive-plugin" if="zlive-plugin.present"
     description="clean up zlive plugin">
     <ant dir="jedit/zlive" target="clean"/>
+  </target>
+
+  <target name="foo">
+    <artifact:pom id="project" file="pom.xml"/>
+    <echo>The version is ${project.version}</echo>
+    <echo>The build directory is ${project.build.directory}</echo>
   </target>
 </project>
