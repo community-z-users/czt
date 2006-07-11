@@ -5,7 +5,6 @@ admin/binary_release/screenshot.png -text
 bin/bsh/parseCircus.bsh -text
 corejava/.classpath -text
 corejava/.project -text
-corejava/pom.xml -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
@@ -33,7 +32,6 @@ gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
-gaffe/pom.xml -text
 gaffe/resources/net/sourceforge/czt/animation/gui/beans/ScriptIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/XCursor.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteEventIcon.gif svneol=native#unset
@@ -44,7 +42,6 @@ gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gaffe/src/net/sourceforge/czt/animation/gui/history/ZLiveHistory.java -text
 gaffe/src/net/sourceforge/czt/animation/gui/temp/GaffeFactory.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
-gnast/pom.xml -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/CallProcess.java -text
@@ -54,7 +51,6 @@ gnast/src/vm/QualifiedDeclImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
 java_cup/build.xml -text
-java_cup/pom.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Main.java -text
@@ -97,7 +93,6 @@ jaxb/.classpath -text
 jaxb/.project -text
 jaxb/COPYING.txt -text
 jaxb/build.xml -text
-jaxb/pom.xml -text
 jedit/.classpath -text
 jedit/.project -text
 jedit/ZCharMap/CircusTable.xml -text
@@ -125,7 +120,6 @@ parser/COPYING.txt -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
-parser/pom.xml -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/circus/CircusKeyword.java -text
@@ -147,11 +141,9 @@ parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
 parser/tests/circus/unboxed_circus_steam_boiler.tex -text
-/pom.xml -text
 rules/.classpath -text
 rules/.project -text
 rules/COPYING.txt -text
-rules/pom.xml -text
 session/.classpath -text
 session/.project -text
 session/COPYING.txt -text

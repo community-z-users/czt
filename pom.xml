@@ -3,10 +3,11 @@
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.6-SNAPSHOT</version>
   <name>Community Z Tools</name>
   <properties>
-    <czt.version>0.5-SNAPSHOT</czt.version>
+    <czt.version>0.6-SNAPSHOT</czt.version>
+    <czt.groupId>net.sourceforge.czt</czt.groupId>
   </properties>
   <description>
     Set of libraries and tools for editing, typechecking and animating
@@ -61,6 +62,7 @@
     <module>zlive</module>
     <module>gaffe</module>
     <module>modeljunit</module>
+    <module>ui</module>
   </modules>
   <dependencyManagement>
     <dependencies>
@@ -70,83 +72,83 @@
 
       <!-- CZT GnAST -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>gnast</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>gnast-maven-plugin</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Util -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>util</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Jaxb (generated classes) -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>jaxb</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Corejava -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>corejava</artifactId>
         <version>2.0.0-SNAPSHOT</version>
       </dependency>
 
       <!-- CZT Java_Cup -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>java_cup</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Session -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>session</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Parser -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>parser</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Typechecker -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>typechecker</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT Rules -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>rules</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT ModelJUnit -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>modeljunit</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
       <!-- CZT ZLive -->
       <dependency>
-        <groupId>net.sourceforge.czt</groupId>
+        <groupId>${czt.groupId}</groupId>
         <artifactId>zlive</artifactId>
         <version>${czt.version}</version>
       </dependency>

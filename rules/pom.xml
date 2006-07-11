@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
   </parent>
   <artifactId>rules</artifactId>
   <packaging>jar</packaging>
@@ -14,11 +14,11 @@
   </description>
   <dependencies>
     <dependency>
-      <groupId>net.sourceforge.czt</groupId>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.czt</groupId>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
     </dependency>
     <dependency>

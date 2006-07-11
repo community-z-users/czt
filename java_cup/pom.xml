@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.sourceforge.czt</groupId>
     <artifactId>czt</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
   </parent>
   <artifactId>java_cup</artifactId>
   <packaging>jar</packaging>
@@ -16,6 +16,10 @@
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
     </dependency>
   </dependencies>
 </project>
