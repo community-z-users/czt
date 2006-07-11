@@ -96,11 +96,14 @@ jaxb/build.xml -text
 jedit/.classpath -text
 jedit/.project -text
 jedit/ZCharMap/CircusTable.xml -text
+jedit/ZCharMap/pom.xml -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset
+jedit/pom.xml -text
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
 jedit/src/site/content/xdocs/images/sflogo.png -text
+jedit/zlive/pom.xml -text
 modeljunit/COPYING.txt -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
