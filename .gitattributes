@@ -154,7 +154,6 @@ typechecker/COPYING.txt -text
 typechecker/pom.xml -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
-ui/pom.xml -text
 ui/src/assemble/dep.xml -text
 ui/src/main/java/net/sourceforge/czt/ui/Main.java -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
@@ -162,7 +161,6 @@ util/.classpath -text
 util/.project -text
 util/COPYING.txt -text
 util/build.xml -text
-util/pom.xml -text
 web/cztlogo/cztlogo.xcf -text
 web/cztlogo/czttitle.xcf -text
 web/cztlogo/czttitle3.xcf -text
@@ -178,7 +176,6 @@ zlive/.classpath -text
 zlive/.project -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
-zlive/pom.xml -text
 zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.png svneol=native#unset
