@@ -92,20 +92,18 @@ public class ${class.Name}#if($ImportProject)
     getLogger().entering("${class.Name}", "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
-    List content = new java.util.Vector();
+    List<Object> content = new Vector<Object>();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
-      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-        Object obj = iter.next();
+      for (Object obj : jaxbObject.getContent().getContent()) {
         Object o = dispatch(obj);
         content.add(o);
       }
     }
 #elseif(${prop.isList()})
-    List ${prop.VarName} = new Vector();
-    for (Iterator iter = jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
-      Object obj = iter.next();
-      Object o = dispatch(obj);
+    ${prop.Type.FullName} ${prop.VarName} = new Vector<${prop.ListType.FullName}>();
+    for (Object obj : jaxbObject.${prop.GetterName}()) {
+      ${prop.ListType.FullName} o = (${prop.ListType.FullName}) dispatch(obj);
       ${prop.VarName}.add(o);
     }
 #elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommKind' || $prop.Type.Name == 'CallKind' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'ProcessKind' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType')
@@ -126,8 +124,7 @@ public class ${class.Name}#if($ImportProject)
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
       List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
+      for (Object obj : anyList) {
         Object o = dispatch(obj);
         annsList.add(o);
       }

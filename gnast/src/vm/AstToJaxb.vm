@@ -52,9 +52,10 @@ public class $class.Name
 #if($ImportPackage)
 #set($object = ${ImportProject.getObject("AstToJaxb")})
   extends ${object.Package}.${object.Name}
+#else
+  implements ${visitor.FullName}<Object>,
+             net.sourceforge.czt.base.visitor.TermVisitor<Object>
 #end
-  implements ${visitor.FullName},
-             net.sourceforge.czt.base.visitor.TermVisitor
 {
 #if(!$ImportPackage)
   protected boolean createElement_ = true;
@@ -91,8 +92,7 @@ public class $class.Name
       net.sourceforge.czt.z.jaxb.gen.Term.AnnsType anns =
         annsObjectFactory_.createTermAnnsType();
     List newlist = anns.getany();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Object obj = iter.next();
+    for (Object obj : list) {
       if (obj instanceof Term) {
         Term term = (Term) obj;
         try {
@@ -148,12 +148,9 @@ public class $class.Name
       }
       jaxbObject.setWord((String) zedObject.getWord());
       {
-        List list = zedObject.getStroke();
-        List newlist = jaxbObject.getStroke();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          Object o = term.accept(this);
-          newlist.add(o);
+        List<Stroke> newlist = jaxbObject.getStroke();
+        for (${project.Ast.Package}.Stroke stroke : zedObject.getStroke()) {
+          newlist.add((Stroke) stroke.accept(this));
         }
       }
       getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
