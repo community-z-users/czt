@@ -50,6 +50,7 @@ public class Gaffe extends JFrame
   {
     setSize(300, 300);
     setTitle("GAfFE");
+    setLocation(300,300);
     String iconPath = "net/sourceforge/czt/animation/gui/gaffe.gif";
     setIconImage(getToolkit().getImage(ClassLoader.getSystemResource(iconPath)));
     getContentPane().setLayout(new GridLayout(4, 1));
