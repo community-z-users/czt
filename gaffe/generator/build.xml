@@ -138,11 +138,25 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.generation.Generator $$*
   <target name="-unix-scripts" if="system.isunix">
     <antcall target="unix-scripts"/>
   </target>
+
   <target name="windows-scripts" depends="-init"
           description="Create windows scripts for running GAfFE generator.">
-    <echo>Warning: Windows scripts not implemented.
+    <mkdir dir="${gaffe.generator.bin.path}"/>
+    <pathconvert targetos="windows" property="gaffe.generator.class.path">
+      <path>
+        <pathelement path="${gaffe.generator.jar.path}"/>
+        <path refid="gaffe.generator.class.path"/>
+        <pathelement path="${jwsdp.classpath}"/>
+      </path>
+    </pathconvert>
+    <echo file="${gaffe.generator.bin.path}/gaffe-generate.bat"
+      append="false">@echo off
+set CLASSPATH=${gaffe.generator.class.path}
+java -enableassertions -classpath %CLASSPATH% net.sourceforge.czt.animation.gui.generation.Generator %1 %2 %3 %4 %5 %6 %7 %8 %9
 </echo>
+    <chmod perm="u+x" file="${gaffe.generator.bin.path}/gaffe-generate.bat"/>
   </target>
+
   <target name="-windows-scripts" if="system.iswindows">
     <antcall target="windows-scripts"/>
   </target>
