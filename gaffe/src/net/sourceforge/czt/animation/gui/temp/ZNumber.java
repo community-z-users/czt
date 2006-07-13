@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.gui.temp;
 
 import java.math.BigInteger;
 
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -31,9 +30,9 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZNumber implements ZValue
 {
   //private final long number_;
-  private final NumExpr e;
+  private final NumExpr expr_;
 
-  private static Factory factory;
+  private static Factory factory_;
 
   /**
    * Construct a <code>ZNumber</code> set to a specific value.
@@ -42,17 +41,17 @@ public class ZNumber implements ZValue
   public ZNumber(long number)
   {
     //number_ = number;
-    factory = GaffeFactory.getFactory();
-    e = factory.createNumExpr(BigInteger.valueOf(number));
+    factory_ = GaffeFactory.getFactory();
+    expr_ = factory_.createNumExpr(BigInteger.valueOf(number));
   }
 
   /**
    * Construct a <code>ZNumber</code> set to a NumExpr value.
-   * @param e The Expr to store.
+   * @param expr_ The Expr to store.
    */
-  public ZNumber(NumExpr e)
+  public ZNumber(NumExpr expr)
   {
-    this.e = e;
+    this.expr_ = expr;
   }
 
   /**
@@ -62,7 +61,7 @@ public class ZNumber implements ZValue
   public long getNumber()
   {
     //return number_;
-    return e.getValue().longValue();
+    return expr_.getValue().longValue();
   }
 
   /**
@@ -71,7 +70,7 @@ public class ZNumber implements ZValue
   public String toString()
   {
     //return "" + number_;
-    return e.getValue().toString();
+    return expr_.getValue().toString();
   }
 
   /**
@@ -83,7 +82,7 @@ public class ZNumber implements ZValue
   public boolean equals(Object obj)
   {
     //return obj instanceof ZNumber && ((ZNumber) obj).number_ == number_;
-    return e.equals(((ZValue) obj).getExpr());
+    return expr_.equals(((ZValue) obj).getExpr());
   }
 
   /**
@@ -92,15 +91,15 @@ public class ZNumber implements ZValue
   public int hashCode()
   {
     //return (int) number_;
-    return e.hashCode();
+    return expr_.hashCode();
   }
 
   /**
    * Get the expr type representing the zvalue
    * @return the representing expr
    */
-  public Expr getExpr()
+  public NumExpr getExpr()
   {
-    return e;
+    return expr_;
   }
 }

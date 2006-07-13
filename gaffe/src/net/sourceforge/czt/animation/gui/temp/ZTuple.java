@@ -20,8 +20,8 @@
 package net.sourceforge.czt.animation.gui.temp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
@@ -35,9 +35,9 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZTuple implements ZValue
 {
   //private Vector tuple_;
-  private TupleExpr e;
+  private TupleExpr expr_;
 
-  private static Factory factory;
+  private static Factory factory_;
 
   /**
    * Construct an empty tuple.
@@ -46,8 +46,8 @@ public class ZTuple implements ZValue
   public ZTuple()
   {
     //tuple_ = new Vector();
-    factory = GaffeFactory.getFactory();
-    e = factory.createTupleExpr();
+    factory_ = GaffeFactory.getFactory();
+    expr_ = factory_.createTupleExpr();
   }
 
   /**
@@ -60,8 +60,8 @@ public class ZTuple implements ZValue
     //tuple_ = new Vector();
     //tuple_.add(a);
     //tuple_.add(b);
-    factory = GaffeFactory.getFactory();
-    e = factory.createTupleExpr(a.getExpr(), b.getExpr());
+    factory_ = GaffeFactory.getFactory();
+    expr_ = factory_.createTupleExpr(a.getExpr(), b.getExpr());
   }
 
   /**
@@ -71,34 +71,34 @@ public class ZTuple implements ZValue
   public ZTuple(List<ZValue> tuple)
   {
     //tuple_ = new Vector(tuple);
-    factory = GaffeFactory.getFactory();
+    factory_ = GaffeFactory.getFactory();
     List<Expr> exprTuple = new ArrayList<Expr>();
     for (ZValue zValue : tuple) {
       exprTuple.add(zValue.getExpr());
     }
-    e = factory.createTupleExpr(factory.createZExprList(exprTuple));
+    expr_ = factory_.createTupleExpr(factory_.createZExprList(exprTuple));
   }
 
   /**
    * Construct a <code>ZTuple</code> by a given <code>TupleExpr</code>
-   * @param e The <code>TupleExpr</code> to store
+   * @param expr_ The <code>TupleExpr</code> to store
    */
-  public ZTuple(TupleExpr e)
+  public ZTuple(TupleExpr expr)
   {
-    this.e = e;
+    this.expr_ = expr;
   }
 
   /**
    * Dynamiclly wrapping the memember of Expr to ZValue
    * @author Mark Utting
    */
-  public class ZTupleIterator implements Iterator<ZValue>
+  public class ZTupleIterator implements ListIterator<ZValue>
   {
-    Iterator<Expr> exprs;
+    ListIterator<Expr> exprs;
 
-    public ZTupleIterator(Iterator<Expr> e)
+    public ZTupleIterator(ListIterator<Expr> expr_)
     {
-      this.exprs = e;
+      this.exprs = expr_;
     }
 
     public boolean hasNext()
@@ -117,19 +117,56 @@ public class ZTuple implements ZValue
       return result;
     }
 
+    public boolean hasPrevious()
+    {
+      return exprs.hasPrevious();
+
+    }
+
+    public ZValue previous()
+    {
+      ZValue result = null;
+      try {
+        result = GaffeFactory.zValue(exprs.previous());
+      } catch (UnexpectedTypeException ute) {
+        ute.printStackTrace();
+      }
+      return result;
+    }
+
+    public int nextIndex()
+    {
+      return exprs.nextIndex();
+    }
+
+    public int previousIndex()
+    {
+      return exprs.previousIndex();
+    }
+
+    public void set(ZValue arg0)
+    {
+      exprs.set(arg0.getExpr());
+    }
+
+    public void add(ZValue arg0)
+    {
+      exprs.add(arg0.getExpr());
+    }
+
     public void remove()
     {
-      throw new UnsupportedOperationException();
+      exprs.remove();
     }
   }
 
   /**
    * @return An iterator over the values in the tuple.
    */
-  public Iterator iterator()
+  public ListIterator iterator()
   {
     //return tuple_.iterator();
-    return new ZTupleIterator(e.getZExprList().iterator());
+    return new ZTupleIterator(expr_.getZExprList().listIterator());
   }
 
   /**
@@ -138,7 +175,7 @@ public class ZTuple implements ZValue
   public int size()
   {
     //return tuple_.size();
-    return e.getZExprList().size();
+    return expr_.getZExprList().size();
   }
 
   /**
@@ -151,7 +188,7 @@ public class ZTuple implements ZValue
     //return (ZValue) tuple_.get(index);
     ZValue result = null;
     try {
-      result = GaffeFactory.zValue(e.getZExprList().get(index));
+      result = GaffeFactory.zValue(expr_.getZExprList().get(index));
     } catch (UnexpectedTypeException ute) {
       ute.printStackTrace();
     }
@@ -169,7 +206,7 @@ public class ZTuple implements ZValue
     //while (it.hasNext()) result += " , " + it.next();
     //result += " )";
     //return result;
-    return e.toString();
+    return expr_.toString();
   }
 
   /**
@@ -181,7 +218,7 @@ public class ZTuple implements ZValue
   public boolean equals(Object obj)
   {
     //return obj instanceof ZTuple && ((ZTuple) obj).tuple_.equals(tuple_);
-    return e.equals(((ZValue) obj).getExpr());
+    return expr_.equals(((ZValue) obj).getExpr());
   }
 
   /**
@@ -190,15 +227,15 @@ public class ZTuple implements ZValue
   public int hashCode()
   {
     //return tuple_.hashCode();
-    return e.hashCode();
+    return expr_.hashCode();
   }
 
   /**
    * Get the expr type representing the zvalue
    * @return the representing expr
    */
-  public Expr getExpr()
+  public TupleExpr getExpr()
   {
-    return e;
+    return expr_;
   }
 }

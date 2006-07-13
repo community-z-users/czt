@@ -11,7 +11,7 @@ public final class UnexpectedTypeException extends Exception
   {
     super(message);
   }
-  
+
   /**
    * Unexpected type of expr with message and cause
    * @param message The message ready to show
@@ -21,7 +21,7 @@ public final class UnexpectedTypeException extends Exception
   {
     super(message, cause);
   }
-  
+
   /**
    * Unexpected type of expr with cause
    * @param cause

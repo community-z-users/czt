@@ -20,9 +20,7 @@
 package net.sourceforge.czt.animation.gui.temp;
 
 import net.sourceforge.czt.animation.eval.GivenValue;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
-import net.sourceforge.czt.z.impl.ExprImpl;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -31,9 +29,12 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZGiven implements ZValue
 {
   //private final String value_;
-  private final ZRefName e;
+  private final ZRefName ex_; // Proxy to ZRefName
 
-  private static Factory factory;
+  private final GivenValue expr_;// But ZRefName is not a Expr, so use GivenValue
+
+  // For unique reference, we need to keep it here.
+  private static Factory factory_;
 
   /**
    * Create a new <code>ZGiven</code> with its value set to <code>value</code>.
@@ -42,17 +43,20 @@ public class ZGiven implements ZValue
   public ZGiven(String value)
   {
     //value_ = value;
-    factory = GaffeFactory.getFactory();
-    e = factory.createZRefName(value);
+    factory_ = GaffeFactory.getFactory();
+    ex_ = factory_.createZRefName(value);
+    expr_ = new GivenValue(value);
   }
 
   /**
    * Create a new <code>ZGiven</code> from a <code>ZRefName</code>
-   * @param e the ZRefName used to created the corresponding ZGiven.
+   * @param expr_ the ZRefName used to created the corresponding ZGiven.
    */
-  public ZGiven(GivenValue e)
+  public ZGiven(GivenValue expr)
   {
-    this(e.getValue());
+    factory_ = GaffeFactory.getFactory();
+    ex_ = factory_.createZRefName(expr.getValue());
+    expr_ = expr;
   }
 
   /**
@@ -62,7 +66,7 @@ public class ZGiven implements ZValue
   public String getValue()
   {
     //return value_;
-    return e.getWord();
+    return ex_.getWord();
   }
 
   /**
@@ -73,7 +77,7 @@ public class ZGiven implements ZValue
   public String toString()
   {
     //return value_;
-    return e.getWord();
+    return ex_.getWord();
   }
 
   /**
@@ -85,7 +89,7 @@ public class ZGiven implements ZValue
   public boolean equals(Object obj)
   {
     //return obj instanceof ZGiven && ((ZGiven) obj).value_.equals(value_);
-    return e.toString().equals(((ZValue) obj).toString());
+    return ex_.toString().equals(((ZValue) obj).toString());
   }
 
   /**
@@ -94,16 +98,15 @@ public class ZGiven implements ZValue
   public int hashCode()
   {
     //return value_.hashCode();
-    return e.hashCode();
+    return ex_.hashCode();
   }
 
   /**
    * Get the expr type representing the zvalue
    * @return the representing expr
    */
-  public Expr getExpr()
+  public GivenValue getExpr()
   {
-    ExprImpl ex = new GivenValue(e.getWord());
-    return ex;
+    return expr_;
   }
 }

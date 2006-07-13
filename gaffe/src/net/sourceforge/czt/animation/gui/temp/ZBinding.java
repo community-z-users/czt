@@ -27,7 +27,6 @@ import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DeclList;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.util.Factory;
@@ -38,9 +37,9 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZBinding implements ZValue
 {
   //private Map/*<String,ZValue>*/ binding_;
-  private BindExpr e;
+  private BindExpr expr_;
 
-  private static Factory factory;
+  private static Factory factory_;
 
   /**
    * Creates an empty binding.
@@ -48,8 +47,8 @@ public class ZBinding implements ZValue
   public ZBinding()
   {
     //binding_ = new HashMap();
-    factory = GaffeFactory.getFactory();
-    e = factory.createBindExpr();
+    factory_ = GaffeFactory.getFactory();
+    expr_ = factory_.createBindExpr();
   }
 
   /**
@@ -60,17 +59,17 @@ public class ZBinding implements ZValue
   public ZBinding(Map<String, ZValue> binding)
   {
     //binding_ = new HashMap(binding);
-    factory = GaffeFactory.getFactory();
-    e = factory.createBindExpr(this.mapToDeclList(binding));
+    factory_ = GaffeFactory.getFactory();
+    expr_ = factory_.createBindExpr(this.mapToDeclList(binding));
   }
 
   /**
    * Create a binding from a expr
-   * @param e the BindExpr used to created the binding.
+   * @param expr_ the BindExpr used to created the binding.
    */
-  public ZBinding(BindExpr e)
+  public ZBinding(BindExpr expr)
   {
-    this.e = e;
+    this.expr_ = expr;
   }
 
   /**
@@ -81,7 +80,7 @@ public class ZBinding implements ZValue
   {
     //return binding_.keySet();
     Set<String> result = new HashSet<String>();
-    for (Decl decl : e.getZDeclList()) {
+    for (Decl decl : expr_.getZDeclList()) {
       result.add(((ConstDecl) decl).getDeclName().toString());
     }
     return result;
@@ -95,9 +94,9 @@ public class ZBinding implements ZValue
   public ZValue get(String location)
   {
     //return (ZValue) binding_.get(location);
-    ZDeclName target = factory.createZDeclName(location);
+    ZDeclName target = factory_.createZDeclName(location);
     try {
-      for (Decl decl : e.getZDeclList()) {
+      for (Decl decl : expr_.getZDeclList()) {
         ConstDecl tempDecl = (ConstDecl) decl;
         if (tempDecl.getZDeclName().equals(target)) {
           return GaffeFactory.zValue(tempDecl.getExpr());
@@ -119,7 +118,7 @@ public class ZBinding implements ZValue
   public boolean equals(Object obj)
   {
     //return obj instanceof ZBinding && ((ZBinding) obj).binding_.equals(binding_);
-    return e.equals(((ZValue) obj).getExpr());
+    return expr_.equals(((ZValue) obj).getExpr());
   }
 
   /**
@@ -127,7 +126,7 @@ public class ZBinding implements ZValue
    */
   public int hashCode()
   {
-    return e.hashCode();
+    return expr_.hashCode();
   }
 
   /**
@@ -143,16 +142,16 @@ public class ZBinding implements ZValue
     //}
     //str += "}";
     //return str;
-    return e.toString();
+    return expr_.toString();
   }
 
   /**
    * Get the expr type representing the zvalue
    * @return the representing expr
    */
-  public Expr getExpr()
+  public BindExpr getExpr()
   {
-    return e;
+    return expr_;
   }
 
   /**
@@ -162,16 +161,16 @@ public class ZBinding implements ZValue
    */
   protected DeclList mapToDeclList(Map<String, ZValue> binding)
   {
-    ZDeclList result = factory.createZDeclList();
+    ZDeclList result = factory_.createZDeclList();
     for (String s : binding.keySet()) {
-      ZDeclName name = factory.createZDeclName(s);
+      ZDeclName name = factory_.createZDeclName(s);
       ZValue zValue = binding.get(s);
       if (zValue != null) {
-        result.add((Decl) factory.createConstDecl(name, binding.get(s)
+        result.add((Decl) factory_.createConstDecl(name, binding.get(s)
             .getExpr()));
       }
       else {
-        result.add((Decl) factory.createConstDecl(name, null));
+        result.add((Decl) factory_.createConstDecl(name, null));
       }
     }
     return result;

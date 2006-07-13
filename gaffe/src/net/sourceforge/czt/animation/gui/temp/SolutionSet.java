@@ -33,7 +33,6 @@ public class SolutionSet
   protected final PropertyChangeSupport propertyChangeSupport_ = new PropertyChangeSupport(
       this);
 
-  //c
   private ZSet solutions_;
 
   private ListIterator<ZValue> currentSolution_;
@@ -50,7 +49,6 @@ public class SolutionSet
   public SolutionSet(String schemaName, Set<ZBinding> solutions)
   {
     schemaName_ = schemaName;
-    //c
     solutions_ = new ZSet(solutions);
     currentSolution_ = solutions_.iterator();
   }
@@ -69,7 +67,7 @@ public class SolutionSet
     solutions_ = new ZSet(tempSet);
     currentSolution_ = solutions_.iterator();
   }
-  
+
   /**
    * Getter function for the name of the schema that created this solution set.
    * @return The name of the schema.

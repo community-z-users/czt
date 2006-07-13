@@ -28,10 +28,12 @@ import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.util.Factory;
 
 /**
  * Values in Z that are Sets.
@@ -39,9 +41,11 @@ import net.sourceforge.czt.z.ast.ZRefName;
 public class ZSet implements ZValue
 {
   // private final Vector set_;
-  private final EvalSet e;
+  private final EvalSet expr_;
 
-  private Envir env;
+  private final Factory factory_;
+
+  private Envir env_;
 
   private int i = 0;
 
@@ -65,33 +69,36 @@ public class ZSet implements ZValue
   public ZSet(Set<? extends ZValue> set)
   {
     // set_ = new Vector(set);
-    env = new Envir();
+    env_ = new Envir();
     list = new ArrayList<ZRefName>();
-    ZRefName setName = GaffeFactory.getFactory().createZRefName("NoName");
+    factory_ = GaffeFactory.getFactory();
+    ZRefName setName = factory_.createZRefName("NoName");
     ZRefName tempName = null;
     for (ZValue zValue : set) {
-      tempName = GaffeFactory.getFactory().createZRefName(String.valueOf(i++));
-      env = env.plus(tempName, zValue.getExpr());
+      tempName = factory_.createZRefName(String.valueOf(i++));
+      env_ = env_.plus(tempName, zValue.getExpr());
       list.add(tempName);
     }
-    env = env.plus(setName, null);
+    env_ = env_.plus(setName, null);
     FlatDiscreteSet s = new FlatDiscreteSet(list, setName);
-    Mode m = s.chooseMode(env);
+    s.inferBounds(new Bounds());
+    Mode m = s.chooseMode(env_);
     s.setMode(m);
     s.startEvaluation();
     s.nextEvaluation();
-    e = s;
+    expr_ = s;
   }
 
   /**
    * Construct a <code>ZSet</code> by a <code>EvalSet</code> expr
    * 
-   * @param e
+   * @param expr_
    *            The <code>EvalSet</code> expr to store
    */
-  public ZSet(EvalSet e)
+  public ZSet(EvalSet expr)
   {
-    this.e = e;
+    this.expr_ = expr;
+    factory_ = GaffeFactory.getFactory();
   }
 
   /**
@@ -103,9 +110,9 @@ public class ZSet implements ZValue
   {
     ListIterator<Expr> exprs;
 
-    public ZSetIterator(ListIterator<Expr> e)
+    public ZSetIterator(ListIterator<Expr> expr_)
     {
-      this.exprs = e;
+      this.exprs = expr_;
     }
 
     public boolean hasNext()
@@ -173,7 +180,7 @@ public class ZSet implements ZValue
   public ListIterator<ZValue> iterator()
   {
     // return set_.iterator();
-    return new ZSetIterator(e.listIterator());
+    return new ZSetIterator(expr_.listIterator());
   }
 
   /**
@@ -183,7 +190,7 @@ public class ZSet implements ZValue
   {
     // return set_.size();
     int result = 0;
-    for (Iterator<Expr> it = e.iterator(); it.hasNext();) {
+    for (Iterator<Expr> it = expr_.iterator(); it.hasNext();) {
       it.next();
       result++;
     }
@@ -199,7 +206,7 @@ public class ZSet implements ZValue
   public boolean contains(ZValue value)
   {
     // return set_.contains(value);
-    return e.contains(value.getExpr());
+    return expr_.contains(value.getExpr());
   }
 
   /**
@@ -212,7 +219,7 @@ public class ZSet implements ZValue
     // return (ZValue) set_.get(index);
     ZValue result = null;
     try {
-      result = GaffeFactory.zValue(e.getEnvir().lookup(
+      result = GaffeFactory.zValue(expr_.getEnvir().lookup(
           GaffeFactory.getFactory().createZRefName(String.valueOf(index))));
     } catch (UnexpectedTypeException ute) {
       ute.printStackTrace();
@@ -227,7 +234,7 @@ public class ZSet implements ZValue
   {
     // return new HashSet(set_);
     Set<ZValue> result = new HashSet<ZValue>();
-    for (Iterator<Expr> it = e.iterator(); it.hasNext();) {
+    for (Iterator<Expr> it = expr_.iterator(); it.hasNext();) {
       try {
         result.add(GaffeFactory.zValue(it.next()));
       } catch (UnexpectedTypeException ute) {
@@ -248,7 +255,7 @@ public class ZSet implements ZValue
     // while (it.hasNext()) result += " , " + it.next();
     // result += " }";
     // return result;
-    return e.toString();
+    return expr_.toString();
   }
 
   /**
@@ -262,7 +269,7 @@ public class ZSet implements ZValue
   public boolean equals(Object obj)
   {
     // return obj instanceof ZSet && ((ZSet) obj).set_.equals(set_);
-    return e.equals(((ZValue) obj).getExpr());
+    return expr_.equals(((ZValue) obj).getExpr());
   }
 
   /**
@@ -271,7 +278,7 @@ public class ZSet implements ZValue
   public int hashCode()
   {
     // return set_.hashCode();
-    return e.hashCode();
+    return expr_.hashCode();
   }
 
   /**
@@ -279,8 +286,8 @@ public class ZSet implements ZValue
    * 
    * @return the representing expr
    */
-  public Expr getExpr()
+  public EvalSet getExpr()
   {
-    return e;
+    return expr_;
   }
 }

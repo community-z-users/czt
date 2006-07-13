@@ -18,7 +18,7 @@ import net.sourceforge.czt.z.util.Factory;
 public class GaffeFactory
 {
   /* Initialise the ZLive only once */
-  private static ZLive zLive = new ZLive();
+  private static ZLive zLive_ = new ZLive();
 
   /** No one can create instances of this class. */
   private GaffeFactory()
@@ -31,7 +31,7 @@ public class GaffeFactory
    */
   public static Factory getFactory()
   {
-    return zLive.getFactory();
+    return zLive_.getFactory();
   }
 
   /**
@@ -40,9 +40,9 @@ public class GaffeFactory
    */
   public static ZLive getZLive()
   {
-    return zLive;
+    return zLive_;
   }
-  
+
   /**
    * @param e The expr being transformed
    * @return The ZValue representing the expr
