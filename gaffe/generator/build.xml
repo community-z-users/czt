@@ -31,14 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="gaffe.jar.path" location="${gaffe.jar.dir}/${gaffe.jar.file}"/>
   
-  <property name="corejava.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="util.jar.path" location="${corejava.jar.dir}/${util.jar.file}"/>
-  <property name="corejava.core.jar.path" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
-  <property name="corejava.jaxb.jar.path" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
-  <property name="session.jar.path" location="${corejava.jar.dir}/${session.jar.file}"/>
-  <property name="parser.jar.path" location="${corejava.jar.dir}/${parser.jar.file}"/>
-  <property name="java_cup.jar.path" location="${corejava.jar.dir}/${java_cup.jar.file}"/>
-
   <property name="gaffe.generator.source.path" location="src"/>
   <!-- property name="gaffe.generator.resources.path" location="resources"/ -->
   <property name="gaffe.generator.build.path" location="classes"/>
@@ -82,12 +74,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${gaffe.jar.path}"/>
       <pathelement path="${bsf.jar}"/>
       <pathelement path="${rhino.jar}"/>
-      <pathelement path="${util.jar.path}"/>
-      <pathelement path="${corejava.core.jar.path}"/>
-      <pathelement path="${corejava.jaxb.jar.path}"/>
-      <pathelement path="${session.jar.path}"/>
-      <pathelement path="${parser.jar.path}"/>
-      <pathelement path="${java_cup.jar.path}"/>
+      <fileset dir="${czt.home}/${jar.dir}">
+        <include name="*.jar"/>
+      </fileset>
     </path>
   </target>
 
