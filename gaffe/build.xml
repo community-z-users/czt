@@ -177,13 +177,27 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.Gaffe</echo>
   </target>
   <target name="windows-scripts"
           description="Create windows scripts for running GAfFE.">
-    <echo>Warning: Windows scripts not implemented.
-</echo>
+    <mkdir dir="${gaffe.bin.path}"/>
+    <pathconvert targetos="windows" property="gaffe.class.path">
+      <path>
+        <pathelement path="${gaffe.jar.path}"/>
+        <path refid="gaffe.class.path"/>
+      </path>
+    </pathconvert>
+    <echo file="${gaffe.bin.path}/gaffe.bat"
+        append="false">@echo off
+set CLASSPATH=${gaffe.class.path}
+java -enableassertions -classpath %CLASSPATH% net.sourceforge.czt.animation.gui.Gaffe %1 %2 %3 %4 %5 %6 %7 %8 %9</echo>
+    <chmod perm="u+x">
+      <fileset dir="${gaffe.bin.path}">
+        <include name="gaffe.bat"/>
+      </fileset>
+    </chmod>
   </target>
   <target name="-windows-scripts" if="system.iswindows">
     <antcall target="windows-scripts"/>
   </target>
-    
+
   <target name="-choosescripts">
     <condition property="system.isunix">
       <os family="unix"/>
