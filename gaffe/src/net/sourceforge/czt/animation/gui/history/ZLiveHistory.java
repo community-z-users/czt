@@ -23,9 +23,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
+import net.sourceforge.czt.animation.gui.temp.SolutionSet;
 import net.sourceforge.czt.animation.gui.temp.ZBinding;
+import net.sourceforge.czt.animation.gui.temp.ZSet;
 import net.sourceforge.czt.animation.gui.temp.ZValue;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -33,6 +36,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
@@ -81,8 +85,12 @@ public class ZLiveHistory extends BasicHistory
   
   public void activateSchema(String schema)
   {
+    Expr temp;
     try {
-      zLive_.evalSchema(schema,this.format(this.inputs_).getExpr());
+      temp = zLive_.evalSchema(schema,this.format(this.inputs_).getExpr());
+      ZSet result = new ZSet((EvalSet)temp);
+      this.solutionSets.add(new SolutionSet(schema,result.getSet()));
+      this.currentSolution.next();
     }
     catch (CommandException coex){
       coex.printStackTrace();

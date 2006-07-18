@@ -46,7 +46,7 @@ public class SolutionSet
    * @param solutions The set of solutions to go into this
    *        <code>SolutionSet</code>.
    */
-  public SolutionSet(String schemaName, Set<ZBinding> solutions)
+  public SolutionSet(String schemaName, Set<? extends ZValue> solutions)
   {
     schemaName_ = schemaName;
     solutions_ = new ZSet(solutions);
