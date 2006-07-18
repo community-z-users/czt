@@ -49,8 +49,8 @@ import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.plugins.BeanChooser;
 import net.sourceforge.czt.animation.gui.generation.plugins.BeanInterfaceGenerator;
 import net.sourceforge.czt.animation.gui.generation.plugins.VariableExtractor;
-import net.sourceforge.czt.animation.gui.history.BasicHistory;
 import net.sourceforge.czt.animation.gui.history.History;
+import net.sourceforge.czt.animation.gui.history.ZLiveHistory;
 import net.sourceforge.czt.animation.gui.persistence.GaffeEncoder;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -170,14 +170,14 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator
     GaffeEncoder encoder = new GaffeEncoder(os);
     encoder.setOwner(owner);
     encoder.writeStatement(new Statement(owner, "setHistory",
-        new Object[]{new BasicHistory(stateSchema.getDeclName().toString(),
-            initSchema.getDeclName().toString())}));
+        new Object[]{new ZLiveHistory(stateSchema.getDeclName().toString(),
+            initSchema.getDeclName().toString(),specURL)}));
     encoder
         .writeStatement(new Statement(
             owner,
             "setInitScript",
             new Object[]{"function getScript(url) {"
-                + "  importClass(Packages.org.apache.bsf.util.IOUtils);"
+                + "  importClass(Packages.com.ibm.bsf.util.IOUtils);"
                 + "  importClass(java.io.InputStreamReader);"
                 + "  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));"
                 + "};"

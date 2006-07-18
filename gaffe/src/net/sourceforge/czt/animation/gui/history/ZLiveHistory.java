@@ -20,17 +20,19 @@
 package net.sourceforge.czt.animation.gui.history;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
-import net.sourceforge.czt.parser.util.DefinitionTable;
-import net.sourceforge.czt.parser.util.DefinitionTable.Definition;
+import net.sourceforge.czt.animation.gui.temp.ZBinding;
+import net.sourceforge.czt.animation.gui.temp.ZValue;
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
@@ -40,8 +42,6 @@ public class ZLiveHistory extends BasicHistory
 {
   private ZLive zLive_;
   private SectionManager sectman_;
-  private DefinitionTable dt;
-  private Key key;
   /**
    * 
    */
@@ -71,8 +71,6 @@ public class ZLiveHistory extends BasicHistory
       sectman_.put(new Key("ZLiveHistory",Source.class), spec);
       ZSect sec = (ZSect) sectman_.get(new Key("ZLiveHistory", ZSect.class));
       zLive_.setCurrentSection(sec.getName());
-      key = new Key(sec.getName(), DefinitionTable.class);
-      dt = (DefinitionTable) sectman_.get(key);
       this.activateSchema(initSchema);
     }
     catch (Exception e) {
@@ -83,8 +81,20 @@ public class ZLiveHistory extends BasicHistory
   
   public void activateSchema(String schema)
   {
-    Definition def = dt.lookup(schema);
-    Expr rhs = def.getExpr();
-    zLive_.evalExpr(rhs);
+    try {
+      zLive_.evalSchema(schema,this.format(this.inputs_).getExpr());
+    }
+    catch (CommandException coex){
+      coex.printStackTrace();
+    }
+  }
+  
+  public ZBinding format(Map inputs){
+    Map<String, ZValue> bindMap = new HashMap<String,ZValue>();
+    for (Object key : inputs.keySet()){
+      bindMap.put(key.toString().split("'")[0], (ZValue)inputs.get(key));
+    }
+    ZBinding result = new ZBinding(bindMap);
+    return result;
   }
 }

@@ -41,7 +41,11 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=n
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 gaffe/src/net/sourceforge/czt/animation/gui/history/ZLiveHistory.java -text
 gaffe/src/net/sourceforge/czt/animation/gui/temp/GaffeFactory.java -text
+gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZBindingTest.java -text
+gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZGivenTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
+gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZSetTest.java -text
+gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZTupleTest.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/CallProcess.java -text
