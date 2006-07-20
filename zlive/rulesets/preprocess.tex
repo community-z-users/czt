@@ -4,9 +4,10 @@
 \parindent 0pt
 \parskip 1ex plus 3pt
 
-%% Syntax within provisos (TODO: move these into czt.sty???).
+%% Syntax within provisos.
 
-\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+\newcommand{\sexprUnfoldsTo}{\mathrel{\leadsto_{se}}}
+\newcommand{\declListUnfoldsTo}{\mathrel{\leadsto_d}}
 \newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
 \newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
 
@@ -36,6 +37,35 @@ Declare the jokers used in these rules.
 \begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4 \end{zedjoker}
 
+
+To clearly distinguish our rules for unfolding declaration lists and
+schema expressions from other rules, we introduce two new infix
+operators: $\unfoldsTo$.  
+We do not really need to define their semantics in order to use them within
+rules, but to reassure readers, we define their semantics to be just
+equality.  In fact, the intention is that the right hand argument
+($s2$) will be the unfolded and normalized form of the left hand argument ($s1$).
+
+\begin{verbatim}
+%%Zinword \sexprUnfoldsTo sexprUnfoldsTo
+%%Zinword \declListUnfoldsTo declListUnfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \sexprUnfoldsTo \_ )
+\end{zed}
+\begin{zed}
+  \relation ( \_ \declListUnfoldsTo \_ )
+\end{zed}
+
+
+\begin{gendef}[SCHEMA]
+  \_ \sexprUnfoldsTo \_ : SCHEMA \rel SCHEMA \\
+  \_ \declListUnfoldsTo \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 \sexprUnfoldsTo s2 \iff s1=s2 \\
+  \forall s1,s2:SCHEMA @ s1 \declListUnfoldsTo s2 \iff s1=s2 \\
+\end{gendef}
 
 
 \section{Rules for Unfolding Predicates}
@@ -330,21 +360,56 @@ implement $\dcat$ as a ZLive primitive.
 %\end{zedrule}
 
 
-\section{Unfolding Schemas}
+\section{Unfolding Declaration Lists}
 
-Standalone schema construction expressions are unfolded
-into sets of bindings.
+We use the $\declListUnfoldsTo$ operator for unfolding declaration
+lists.   The left-hand side is always of the form $[DeclList|true]$
+and the right-hand side (which is usually a generated output) is
+a normalized schema with no duplicated names in the signature, and
+all the non-basetype conditions in the predicate part.
 
-\begin{zedrule}{Schema}
-  [D | true] \unfoldsTo [D1 | P2] \\
-  \proviso E == binding [D1 | true]
+The next few rules implement the $\declListUnfoldsTo$ operator,
+which unfolds and normalizes declaration lists.
+
+\begin{zedrule}{VarDecl}
+   \proviso E : \power E2 \\
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-  [D | P] = \{ D1 | P \land P2 @ E \}
+   [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
 \end{zedrule}
 
-\begin{zedrule}{ExistsSchema}
-   E1 \unfoldsTo [D1 | P1] \\
-   E2 \unfoldsTo [D2 | P2] \\
+\begin{zedrule}{IncludeDecl}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   [D | true] \declListUnfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+   [E; D | true] \declListUnfoldsTo [D3 |  P1 \land P2]
+\end{zedrule}
+
+\begin{zedrule}{EmptyDeclList}
+   [~ | true] \declListUnfoldsTo [~ | true]
+\end{zedrule}
+
+
+\section{Unfolding Schema Expressions}
+
+This section defines the unfolding of schema expressions,
+using the $se \sexprUnfoldsTo stext$ operator, where $se$
+is a schema expression and $stext$ is the resulting normalized
+schema construction ($[Decls|Preds]$, where the types in $Decls$
+are only base types).
+
+Top-level schema expressions are unfolded into sets of bindings.
+However, we have a special case for $\exists$, so that we can
+put all the variables into the bound variable list of the
+set comprehension, then create a binding using a subset of
+those variables.  Putting all the variables at the same level
+of scope gives the evaluation optimization algorithms more
+freedom to reorder things later.
+
+\begin{zedrule}{TopLevelExistsSchema}
+   E1 \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
    \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true] \\
    \proviso E == binding ~ [D4|true]
@@ -352,55 +417,43 @@ into sets of bindings.
    (\exists E1 @ E2) = \{D3 | P1 \land P2 @ E\}
 \end{zedrule}
 
-The next few rules implement the $\unfoldsTo$ operator,
-which unfolds and normalizes schema expressions and 
-declaration lists.
-\begin{zedrule}{VarDecl}
-   \proviso E : \power E2 \\
-   [D1 | true] \unfoldsTo [D2 | P2]
+\begin{zedrule}{TopLevelSchemaExpr}
+  E \sexprUnfoldsTo [D1|P1] \\
+  \proviso E2 == binding [D1 | true]
 \derives
-   [v:E; D1 | true] \unfoldsTo [v:E2; D2 |  v \in E \land P2]
+  E = \{ D1 | P1 @ E2 \}
+\end{zedrule}
+
+
+\begin{zedrule}{SchemaConstruction}
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
 \end{zedrule}
 
 \begin{zedrule}{SchemaRef}
   \proviso ?~ v == [D1 | P1] \\
-  [D1 | true] \unfoldsTo [D2 | P2]
+  [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-  v \unfoldsTo [D2 | P1 \land P2]
+  v \sexprUnfoldsTo [D2 | P1 \land P2]
 \end{zedrule}
 
-
-\begin{zedrule}{IncludeDecl}
-   v \unfoldsTo [D1 | P1] \\
-   [D | true] \unfoldsTo [D2 | P2] \\
-   \proviso [D1 | true] \land [D2 | true] : \power [D3]
-\derives
-   [v; D | true] \unfoldsTo [D3 |  P1 \land P2]
-\end{zedrule}
-
-\begin{zedrule}{Empty}
-   [~ | true] \unfoldsTo [~ | true]
-\end{zedrule}
-
-\begin{zedrule}{DecorDecl}
-   v \unfoldsTo [D1 | P1] \\
+\begin{zedrule}{SchemaPrime}
+   E \sexprUnfoldsTo [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
-   [D | true] \unfoldsTo [D3 | P3] \\
-   \proviso [D2 | true] \land [D3 | true] : \power [D4]
 \derives
-   [v~'; D | true] \unfoldsTo [D4 | P2 \land P3]
+   E~' \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
-This rule catches the case where we want to start unfolding a
-literal schema construction that is used within another
-schema expression, so we want to return a schema
-(rather than an set comprehension).  It must come after
-all other $\unfoldsTo$ rules so that it does not cause
-infinite recursion.
-where we want to leave it as 
-\begin{zedrule}{Start}
-   [D1 | true] \unfoldsTo [D2 | P2]
+The type proviso in the ExistsSchema rule checks
+that $D1$ and $D2$ are type compatible.
+\begin{zedrule}{ExistsSchema}
+   E1 \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+   \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
 \derives
-   [D1 | P] \unfoldsTo [D2 | P2 \land P]
+   (\exists E1 @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
+
 \end{document}
