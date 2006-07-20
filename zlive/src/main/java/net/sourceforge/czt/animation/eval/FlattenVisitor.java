@@ -495,7 +495,10 @@ public class FlattenVisitor
   }
 
   public ZRefName visitPowerExpr(PowerExpr e) {
-    return notYet(e);
+    ZRefName result = zlive_.createNewName();
+    ZRefName base = e.getExpr().accept(this);
+    flat_.add(new FlatPowerSet(base,result));
+    return result;
   }
   
   public ZRefName visitSetExpr(SetExpr e) 
