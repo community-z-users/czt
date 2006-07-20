@@ -2,12 +2,30 @@
 \SECTION simple2 \parents zpattern\_toolkit
 \end{zsection}
 
-\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
-
 \begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
 \begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
 \begin{zedjoker}{Expr} E, E2\end{zedjoker} \\
 \begin{zedjoker}{Name} v\end{zedjoker} \\
+
+We define an infix operator for unfolding schemas.
+
+
+\newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{verbatim}
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \unfoldsTo \_ )
+\end{zed}
+
+\begin{gendef}[SCHEMA]
+  \_ \unfoldsTo \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 \unfoldsTo s2 \iff s1=s2
+\end{gendef}
+
 
 \begin{schema}{Foo}
   x:\nat

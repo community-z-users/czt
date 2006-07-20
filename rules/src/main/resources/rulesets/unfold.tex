@@ -1,41 +1,5 @@
 \documentclass{article}
-\usepackage{oz}
-\usepackage{alltt}
-\newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
-\newcommand{\V}{\mathcal{V}}
-
-% Simulate some standard Z commands
-\newenvironment{zsection}{\[}{\]}
-\newcommand{\SECTION}{\textbf{section}~}
-\newcommand{\parents}{\mathrel{\textbf{parents}}}
-\newcommand{\relation}{\mathrel{\textbf{relation}}}
-\newcommand{\function}{\mathrel{\textbf{function}}}
-\newcommand{\generic}{\mathrel{\textbf{generic}}}
-\newcommand{\leftassoc}{\mathrel{\textbf{leftassoc}}}
-\newcommand{\rightassoc}{\mathrel{\textbf{rightassoc}}}
-
-
-% Rule syntax: \begin{zedrule}{Name} Ant1 \\ Ant2 \derive Concl \end{zedrule}
-\newenvironment{zedrule}[1]{\par\textbf{rule }#1\vspace{-1ex}\infrule}{\endinfrule}
-\newcommand{\derives}{\derive{}}
-
-\newenvironment{zedjoker}[1]{\par$\bigstar$ #1\ }{}
-
-\newcommand{\Context}{\Gamma}
-\newcommand{\notfreein}{\mathbin{\backslash}}
-\newcommand{\HasType}{\mathbin{:}} % \small\rlap{$\circ$}{\raisebox{1ex}{$\circ$}}}}
-\parindent 0pt
-\parskip 1ex plus 3pt
-
-%% Define some extra macros for the Z standard.
-%% These will eventually be defined in a czt.sty file.
-\newcommand{\negate}{\mathop{-}}
-\newcommand{\arithmos}{{A\!\!\!\!A}}   %% TODO: get a proper symbol
-\newcommand{\substitute}{\mathrel{\curvearrowleft}}  % U+21B6
-\newcommand{\proviso}{\raisebox{0.5ex}{${}_{\blacktriangleright}\ $}}%%or\star
-%       %%Zprechar \proviso U+22C6    % small star, or
-%       %%Zprechar \proviso U+25B8    % small solid triangle  |> )
-
+\usepackage{czt}
 
 \title{Simple Schema Unfolding Rules in CZT}
 \author{Mark Utting}
@@ -58,6 +22,14 @@ Declare the jokers used in these rules.
 \begin{zedjoker}{Name} v, v1, v2, v3 \end{zedjoker} \\
 
 \newcommand{\unfoldsTo}{\mathrel{\leadsto}}
+
+\begin{verbatim}
+%%Zinword \unfoldsTo unfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \unfoldsTo \_ )
+\end{zed}
 
 The first step in the process is to move the predicates into
 the normalised result.

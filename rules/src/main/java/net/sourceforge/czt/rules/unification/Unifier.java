@@ -43,6 +43,35 @@ public class Unifier
   private boolean provideCause_ = true;
   private Set<Binding> bindings_ = new HashSet<Binding>();
 
+  private OccursCheckVisitor occursCheck = new OccursCheckVisitor();
+  
+  /** Used for debugging/tracing difficult unifications */
+  private List<String> actions = new ArrayList<String>();
+  
+  /** Unifications deeper than this are printed.
+   *  Set it to -1 if you never want to print them.
+   */
+  public int printDepth_ = -1;
+  
+  /** Unifications deeper than this fail!
+   *  This is a convenient way of detecting infinite loops
+   *  in the unification algorithms.
+   *  Set it to -1 to turn off this feature.
+   */
+  public int maxDepth_ = -1;
+  
+  /** Builds a message that describes one unification step.
+   *  This is for debugging.
+   */
+  private boolean logAction(int depth, String msg, Object o1, Object o2, boolean result)
+  {
+    StringBuffer spaces = new StringBuffer();
+    for (; depth > 0; depth--)
+      spaces.append("  ");
+    actions.add(spaces + msg + o1 + " = " + o2 + " -> "+result);
+    return result;
+  }
+
   public Set<Binding> getBindings()
   {
     return bindings_;
@@ -60,51 +89,89 @@ public class Unifier
 
   public boolean unify(Object o1, Object o2)
   {
+    actions.clear();
+    boolean result = unify(o1, o2, 0);
+    if (printDepth_ >= 0 && actions.size() > printDepth_)
+    {
+      System.err.println("UnifyObjects("+o1+", "+o2+") gives "+result);
+      for (int i=actions.size()-1; i>=0; i--)
+        System.err.println(actions.get(i));
+    }
+    return result;
+  }
+  
+  private boolean unify(Object o1, Object o2, int depth)
+  {
     if (o1 == null && o2 == null) {
+      logAction(depth, "both null", o1, o2, true);
       return true;
     }
     if (o1 != null && o2 != null) {
       if (o1 instanceof Term && o2 instanceof Term) {
-        return unify((Term) o1, (Term) o2);
+        return unify((Term) o1, (Term) o2, depth);
       }
       if (! o1.equals(o2)) {
         notEqualObjectsFailure(o1, o2);
+        logAction(depth, "notEqual: ", o1, o2, false);
         return false;
       }
+      logAction(depth, "equal: ", o1, o2, true);
       return true;
     }
     notTermsFailure(o1, o2);
+    logAction(depth, "notTerms: ", o1, o2, false);
     return false;
   }
 
   /**
-   * Unifies two terms (no occur check).
+   * Unifies two terms (with occurs check).
    *
    * @param term1 the first term.
    * @param term2 the second term.
-   * @return <code>true</code> if both term unify,
+   * @return <code>true</code> if both terms unify,
    *         <code>false</code> otherwise.
    */
   public boolean unify(Term term1, Term term2)
   {
+    actions.clear();
+    boolean result = unify(term1, term2, 0);
+    if (printDepth_ >= 0 && actions.size() > maxDepth_)
+    {
+      System.err.println("UnifyTerms("+term1+", "+term2+") gives "+result);
+      for (int i=actions.size()-1; i>=0; i--)
+        System.err.println(actions.get(i));
+    }
+    return result;
+  }
+
+  private boolean unify(Term term1, Term term2, int depth)
+  {
+    if (maxDepth_ >= 0 && depth > maxDepth_)
+    {
+      logAction(depth, "DEPTH "+maxDepth_+" EXCEEDED", term1, term2, false);
+      return false;
+    }
     Packer packer = new Packer();
     term1 = term1.accept(packer);
     term2 = term2.accept(packer);
     if (term1 == term2) {
+      logAction(depth, "== ", term1, term2, true);
       return true;
     }
     if (term1 instanceof Joker) {
-      return handleJoker((Joker) term1, term2);
+      return handleJoker((Joker) term1, term2, depth+1);
     }
     if (term2 instanceof Joker) {
-      return handleJoker((Joker) term2, term1);
+      return handleJoker((Joker) term2, term1, depth+1);
     }
     ChildExtractor visitor = new ChildExtractor();
     Object[] args1 = term1.accept(visitor);
     Object[] args2 = term2.accept(visitor);
     if (args1.length == args2.length) {
       for (int i = 0; i < args1.length; i++) {
-        if (! unify(args1[i], args2[i])) {
+        boolean result = unify(args1[i], args2[i], depth+2);
+        logAction(depth+2, "child "+i+": ", args1[i], args2[i], result);
+        if (! result) {
           childrenFailure(term1, term2, i);
           return false;
         }
@@ -112,26 +179,48 @@ public class Unifier
     }
     else {
       numChildrenFailure(term1, term2);
+      logAction(depth, ""+args1.length+"/="+args2.length, term1, term2, false);
       return false;
     }
+    // logAction(depth, "ok ", term1, term2, true);
     return true;
   }
 
-  private boolean handleJoker(Joker joker, Term term)
+  /** Unifies a joker with a term.
+   *  Does an occurs check to ensure that the joker
+   *  does not already appear inside the term.
+   * @param joker
+   * @param term
+   * @return true if they were unified.
+   */
+  private boolean handleJoker(Joker joker, Term term, int depth)
   {
     Term boundTo = joker.boundTo();
     if (boundTo != null) {
-      return unify(boundTo, term);
+      boolean result = unify(boundTo, term, depth);
+      logAction(depth, joker.toString()+" boundTo ", boundTo, term, result);
+      return result;
     }
     if (term instanceof Wrapper) {
       term = ((Wrapper) term).getContent();
     }
     try {
-      bindings_.add(joker.bind(term));
-      return true;
+      if (occursCheck.contains(term, joker))
+      {
+        logAction(depth, "occursCheckFailed: ", term, joker, false);
+        return false;
+      }
+      else
+      {
+        Binding bind = joker.bind(term); 
+        bindings_.add(bind);
+        logAction(depth, "Bind ", joker, term, true);
+        return true;
+      }
     }
     catch (IllegalArgumentException e) {
       jokerBindingFailure(joker, term, e);
+      logAction(depth, "jokerBindingFailure: ", joker, term, false);
       return false;
     }
   }
