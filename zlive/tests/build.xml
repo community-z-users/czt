@@ -69,7 +69,7 @@
             top-level junit report, since it is for unit tests, whereas
             these user-level tests are more like acceptance tests.
     -->
-    <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
+    <junit fork="no" forkmode="once" reloading="false" printsummary="on">
       <formatter type="plain" usefile="true"/>
       <!-- same order as in UserTest-Statistics.csv, for convenience -->
       <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
