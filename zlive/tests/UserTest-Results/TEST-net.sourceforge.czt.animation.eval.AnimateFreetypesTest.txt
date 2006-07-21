@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 12, Errors: 0, Time elapsed: 1.792 sec
+Tests run: 18, Failures: 12, Errors: 0, Time elapsed: 4.36 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -7,18 +7,19 @@ loaded rule IncludeDecl
 loaded rule domainsubtraction
 loaded rule subset
 loaded rule subseteq
+loaded rule ExistsSchema
 loaded rule inverse
 loaded rule symdiff
 loaded rule prefixdef
 loaded rule reloverride
 loaded rule relcomp
 loaded rule seconddef
+loaded rule EmptyDeclList
 loaded rule infixdef
 loaded rule literalsequence
 loaded rule frontdef
 loaded rule relimage
 loaded rule headdef
-loaded rule Schema
 loaded rule rangerestriction
 loaded rule domainrestriction
 loaded rule genunion
@@ -27,20 +28,22 @@ loaded rule unfolddefn
 loaded rule emptyset
 loaded rule genunion2
 loaded rule VarDecl
+loaded rule TopLevelExistsSchema
 loaded rule funccomp
 loaded rule genintersection
 loaded rule genunion1
 loaded rule filterdef
+loaded rule SchemaConstruction
 loaded rule identity
 loaded rule partitiondef
 loaded rule firstdef
+loaded rule TopLevelSchemaExpr
 loaded rule intersection
 loaded rule disjointdef
 loaded rule dcat0
-loaded rule DecorDecl
 loaded rule dcat1
+loaded rule SchemaPrime
 loaded rule SchemaRef
-loaded rule Empty
 loaded rule suffixdef
 loaded rule rangesubtraction
 loaded rule extractdef
@@ -81,83 +84,84 @@ Passed test:animate_freetypes.tex:64
 GivenSet LETTER.
 GivenSet T.
 GivenSet V.
+GivenSet V.
 ------------- ---------------- ---------------
 
-Testcase: animate_freetypes.tex:46 took 0.049 sec
-Testcase: animate_freetypes.tex:47 took 0.043 sec
-Testcase: animate_freetypes.tex:48 took 0.043 sec
-Testcase: animate_freetypes.tex:49 took 0.073 sec
+Testcase: animate_freetypes.tex:46 took 0.11 sec
+Testcase: animate_freetypes.tex:47 took 0.109 sec
+Testcase: animate_freetypes.tex:48 took 0.094 sec
+Testcase: animate_freetypes.tex:49 took 0.187 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:50 took 0.074 sec
+Testcase: animate_freetypes.tex:50 took 0.172 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:51 took 0.074 sec
+Testcase: animate_freetypes.tex:51 took 0.188 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:52 took 0.107 sec
+Testcase: animate_freetypes.tex:52 took 0.265 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:53 took 0.107 sec
+Testcase: animate_freetypes.tex:53 took 0.266 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:54 took 0.141 sec
+Testcase: animate_freetypes.tex:54 took 0.359 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:55 took 0.155 sec
+Testcase: animate_freetypes.tex:55 took 0.36 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@28baf45b (Red \notin \{ x : Feeling @ x . 2 \})
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@28baf45b (Red \notin \{ x : Feeling @ x . 2 \})
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:58 took 0.094 sec
+Testcase: animate_freetypes.tex:58 took 0.218 sec
 	FAILED
 null
-junit.framework.AssertionFailedError
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:104)
+junit.framework.AssertionFailedError: null
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_freetypes.tex:59 took 0.116 sec
-Testcase: animate_freetypes.tex:60 took 0.101 sec
-Testcase: animate_freetypes.tex:64 took 0.123 sec
-Testcase: animate_freetypes.tex:65 took 0.126 sec
+Testcase: animate_freetypes.tex:59 took 0.297 sec
+Testcase: animate_freetypes.tex:60 took 0.25 sec
+Testcase: animate_freetypes.tex:64 took 0.313 sec
+Testcase: animate_freetypes.tex:65 took 0.281 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN LETTER is too big to iterate through.
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN LETTER is too big to iterate through.
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:66 took 0.118 sec
+Testcase: animate_freetypes.tex:66 took 0.281 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN T is too big to iterate through.
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN T is too big to iterate through.
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:68 took 0.115 sec
+Testcase: animate_freetypes.tex:68 took 0.266 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN V is too big to iterate through.
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: GIVEN V is too big to iterate through.
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
-Testcase: animate_freetypes.tex:69 took 0.129 sec
+Testcase: animate_freetypes.tex:69 took 0.344 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PowerExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PowerExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:107)
+Should not throw exception java.lang.RuntimeException: FlatPowerSet does not implement nextMember yet.
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: FlatPowerSet does not implement nextMember yet.
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
 
