@@ -26,7 +26,14 @@ eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2OldLat
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2UnicodeAction.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2XMLAction.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/latex/ZLatexPairMatcher.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandler.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewCZTProjectWizard.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewCZTProjectWizardPage.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewElementWizard.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewElementWizardPage.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizard.java -text
+eclipse/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizardPage.java -text
 fonts/CZTSans.ttf -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset

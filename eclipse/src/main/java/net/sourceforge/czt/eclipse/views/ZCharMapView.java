@@ -3,8 +3,6 @@ package net.sourceforge.czt.eclipse.views;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZFileType;
-import net.sourceforge.czt.eclipse.util.ZChar;
-import net.sourceforge.czt.eclipse.util.ZCharTable;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
@@ -17,6 +15,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableCursor;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
@@ -33,8 +33,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -59,14 +57,12 @@ public class ZCharMapView extends ViewPart
 
   private TableViewer viewer;
 
-  private Label descriptionLabel;
-
   private TextEditor textEditor;
-  
+
   private FontData fCharMapViewFontData = new FontData();
-  
+
   private Font fCharMapViewFont;
-  
+
   private TableCursor fTableCursor;
 
   //private Action action1;
@@ -163,14 +159,6 @@ public class ZCharMapView extends ViewPart
     FormData formData;
     parent.setLayout(new FormLayout());
 
-    descriptionLabel = new Label(parent, SWT.CENTER);
-    formData = new FormData();
-    formData.top = new FormAttachment(100, -35);
-    formData.left = new FormAttachment(0, 5);
-    formData.right = new FormAttachment(100, -5);
-    formData.bottom = new FormAttachment(100, -5);
-    descriptionLabel.setLayoutData((formData));
-
     charCombo = new Combo(parent, SWT.READ_ONLY);
     charCombo.setItems(new String[]{"Unicode Markup", "Latex Markup",
         "Hex String"});
@@ -193,7 +181,50 @@ public class ZCharMapView extends ViewPart
     table.setFont(fCharMapViewFont);
     fTableCursor = new TableCursor(table, SWT.NULL);
     fTableCursor.setFont(fCharMapViewFont);
-    
+    fTableCursor.addMouseTrackListener(new MouseTrackListener()
+    {
+      public void mouseEnter(MouseEvent event)
+      {
+        table.setToolTipText("");
+      }
+
+      public void mouseExit(MouseEvent event)
+      {
+        fTableCursor.setToolTipText("");
+        table.setToolTipText("");
+      }
+
+      public void mouseHover(MouseEvent event)
+      {
+        fTableCursor.setToolTipText("");
+        table.setToolTipText("");
+
+        ZChar zch = getZCharAtPoint(table, fTableCursor.getLocation());
+        if (zch != null) {
+          String descString = zch.getDescription() + "(Unicode:"
+              + zch.getUnicode() + "; Latex:" + zch.getLatex();
+          fTableCursor.setToolTipText(descString);
+
+        }
+      }
+    });
+    fTableCursor.addKeyListener(new KeyListener()
+    {
+      public void keyPressed(KeyEvent event)
+      {
+
+      }
+
+      public void keyReleased(KeyEvent event)
+      {
+        if (event.character == SWT.CR) {
+          ZChar zch = getZCharAtPoint(table, fTableCursor.getLocation());
+          if (zch != null)
+            insertZChar(zch);
+        }
+      }
+    });
+
     table.setHeaderVisible(false);
     table.setLinesVisible(true);
     table.addMouseListener(new MouseListener()
@@ -259,7 +290,7 @@ public class ZCharMapView extends ViewPart
 
     formData = new FormData();
     formData.top = new FormAttachment(charCombo, 5);
-    formData.bottom = new FormAttachment(descriptionLabel, -5);
+    formData.bottom = new FormAttachment(100, -5);
     formData.left = new FormAttachment(0, 5);
     formData.right = new FormAttachment(100, -5);
     table.setLayoutData((formData));
@@ -305,6 +336,8 @@ public class ZCharMapView extends ViewPart
       String fileType = null;
       String stringInput = null;
       textEditor = (TextEditor) getSite().getPage().getActiveEditor();
+      if (textEditor == null)
+        return;
       IDocumentProvider dp = textEditor.getDocumentProvider();
       IDocument doc = dp.getDocument(textEditor.getEditorInput());
       ITextSelection selection = (ITextSelection) textEditor
@@ -313,15 +346,13 @@ public class ZCharMapView extends ViewPart
       if (textEditor instanceof ZEditor)
         fileType = ((ZEditor) textEditor).getFileType();
 
-      if (fileType == null)
-        stringInput = zch.getLabel();
-      else if (fileType.equalsIgnoreCase(IZFileType.FILETYPE_LATEX))
+      if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(fileType))
         stringInput = zch.getLatex();
-      else if (fileType.equalsIgnoreCase(IZFileType.FILETYPE_UTF8)
-          || fileType.equalsIgnoreCase(IZFileType.FILETYPE_UTF16))
+      else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(fileType)
+          || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(fileType))
         stringInput = zch.getUnicode();
       else
-        stringInput = zch.getHexString();
+        stringInput = zch.getDescription();
 
       doc.replace(selection.getOffset(), selection.getLength(), stringInput);
       getSite().getPage().activate(textEditor);

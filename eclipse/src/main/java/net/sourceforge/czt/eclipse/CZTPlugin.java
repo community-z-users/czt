@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.eclipse.editors.CZTTextTools;
+import net.sourceforge.czt.eclipse.editors.CztUI;
 import net.sourceforge.czt.eclipse.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
@@ -24,6 +25,9 @@ import net.sourceforge.czt.z.ast.Spec;
 
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -124,10 +128,10 @@ public class CZTPlugin extends AbstractUIPlugin
       if (fImageDescriptorRegistry != null)
         fImageDescriptorRegistry.dispose();
 
-      			if (fCZTTextTools != null) {
-      				fCZTTextTools.dispose();
-      				fCZTTextTools= null;
-      			}
+      if (fCZTTextTools != null) {
+        fCZTTextTools.dispose();
+        fCZTTextTools = null;
+      }
 
       //			uninstallPreferenceStoreBackwardsCompatibility();
     } finally {
@@ -379,5 +383,37 @@ public class CZTPlugin extends AbstractUIPlugin
           new IPreferenceStore[]{getPreferenceStore(), generalTextStore});
     }
     return fCombinedPreferenceStore;
+  }
+
+  public static void log(IStatus status)
+  {
+    getDefault().getLog().log(status);
+  }
+
+  public static void logErrorMessage(String message)
+  {
+    log(new Status(IStatus.ERROR, getPluginID(), 1001, message, null));
+  }
+
+  public static void logErrorStatus(String message, IStatus status)
+  {
+    if (status == null) {
+      logErrorMessage(message);
+      return;
+    }
+    MultiStatus multi = new MultiStatus(getPluginID(), 1001, message, null);
+    multi.add(status);
+    log(multi);
+  }
+
+  public static void log(Throwable e)
+  {
+    log(new Status(IStatus.ERROR, getPluginID(), 1001,
+        "CZTUIMessages.JavaPlugin_internal_error", e));
+  }
+
+  public static String getPluginID()
+  {
+    return CztUI.ID_PLUGIN;
   }
 }

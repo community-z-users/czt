@@ -360,5 +360,29 @@
          point="org.eclipse.core.runtime.preferences">
       <initializer class="net.sourceforge.czt.eclipse.preferences.CZTPreferenceInitializer"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="net.sourceforge.czt.eclipse.newwizard"
+            name="%NewWizardCategoryName"/>
+      <wizard
+            category="net.sourceforge.czt.eclipse.newwizard"
+            class="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
+            finalPerspective="net.sourceforge.czt.eclipse.perspectives"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"
+            name="%NewCZTProjectWizard.label"
+            preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
+            project="true"/>
+      <wizard
+            category="net.sourceforge.czt.eclipse.newwizard"
+            class="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
+            finalPerspective="net.sourceforge.czt.eclipse.perspectives"
+            icon="icons/sample.gif"
+            id="net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"
+            name="%NewZSpecificationWizard.label"
+            preferredPerspectives="net.sourceforge.czt.eclipse.perspectives"
+            project="false"/>
+   </extension>
 
 </plugin>

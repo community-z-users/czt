@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package net.sourceforge.czt.eclipse.views;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -32,14 +33,20 @@ import org.eclipse.ui.texteditor.ChainedPreferenceStore;
  */
 public class ZConversionView extends ViewPart
 {
-  
+
   private final String CONVERSION_NOT_AVAILABLE = "A conversion is not performed";
-  IColorManager fColorManager = CZTPlugin.getDefault().getCZTTextTools().getColorManager();
+
+  IColorManager fColorManager = CZTPlugin.getDefault().getCZTTextTools()
+      .getColorManager();
+
   private Label fInformationLabel;
+
   private ZSourceViewer fSourceViewer;
+
   private FormData fDataAreaFormData;
+
   private IDocument fDocument;
-  
+
   /**
    * 
    */
@@ -57,7 +64,7 @@ public class ZConversionView extends ViewPart
     IPreferenceStore generalTextStore = EditorsUI.getPreferenceStore();
     IPreferenceStore store = new ChainedPreferenceStore(new IPreferenceStore[]{
         CZTPlugin.getDefault().getPreferenceStore(), generalTextStore});
-    
+
     FormData formData;
     parent.setLayout(new FormLayout());
     fInformationLabel = new Label(parent, SWT.LEFT);
@@ -67,17 +74,17 @@ public class ZConversionView extends ViewPart
     formData.right = new FormAttachment(100, -5);
     formData.bottom = new FormAttachment(0, 25);
     fInformationLabel.setLayoutData((formData));
-    
+
     formData = new FormData();
     formData.top = new FormAttachment(fInformationLabel, -5);
     formData.left = new FormAttachment(0, 5);
     formData.right = new FormAttachment(100, -5);
     formData.bottom = new FormAttachment(100, -5);
-    
+
     fSourceViewer = new ZSourceViewer(parent, null, null, false, SWT.V_SCROLL
         | SWT.H_SCROLL | SWT.BORDER, store);
     fSourceViewer.getControl().setLayoutData((formData));
-    
+
     SimpleZSourceViewerConfiguration configuration = new SimpleZSourceViewerConfiguration(
         fColorManager, store, null, IZPartitions.Z_PARTITIONING, false);
     fSourceViewer.configure(configuration);
@@ -86,11 +93,11 @@ public class ZConversionView extends ViewPart
     new ZSourcePreviewerUpdater(fSourceViewer, configuration, store);
     fSourceViewer.setEditable(false);
     fDocument = new Document();
-    
+
     CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
         fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
     fSourceViewer.setDocument(fDocument);
-    
+
     fInformationLabel.setText(CONVERSION_NOT_AVAILABLE);
   }
 
@@ -102,24 +109,29 @@ public class ZConversionView extends ViewPart
   {
     fSourceViewer.getControl().setFocus();
   }
-  
-  public void setStatus(String fileName, String sourceMarkup, String targetMarkup) {
-    if (fileName != null && fileName.trim() != null
-        && sourceMarkup != null && sourceMarkup.trim() != null
-        && targetMarkup != null && targetMarkup.trim() != null) {
-      String information = "SOURCE:" + fileName + " -- " + "Original Markup:" + sourceMarkup +
-              " -- " + "Target Markup:" + targetMarkup;
+
+  public void setStatus(String fileName, String sourceMarkup,
+      String targetMarkup)
+  {
+    if (fileName != null && fileName.trim() != null && sourceMarkup != null
+        && sourceMarkup.trim() != null && targetMarkup != null
+        && targetMarkup.trim() != null) {
+      String information = "SOURCE:" + fileName + " -- " + "Original Markup:"
+          + sourceMarkup + " -- " + "Target Markup:" + targetMarkup;
       fInformationLabel.setText(information);
     }
     else
       initStatus();
   }
-  
-  private void initStatus() {
+
+  private void initStatus()
+  {
     fInformationLabel.setText(this.CONVERSION_NOT_AVAILABLE);
   }
-  
-  public void setConversionData(String fileName, String sourceMarkup, String targetMarkup, String data) {
+
+  public void setConversionData(String fileName, String sourceMarkup,
+      String targetMarkup, String data)
+  {
     fDocument.set(data);
   }
 }

@@ -5,7 +5,7 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 
-package net.sourceforge.czt.eclipse.util;
+package net.sourceforge.czt.eclipse.views;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,15 +17,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.views.ZXmlHandler;
 
-import org.apache.xerces.parsers.SAXParser;
 import org.eclipse.core.runtime.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 
 /**
  * @author Chengdong Xu
@@ -115,7 +114,7 @@ public class ZCharTable
           String unicode = item.getAttribute("unicode");
           String latex = item.getAttribute("latex");
           ZChar zch;
-          if (unicode == null)
+          if ((unicode == null) || unicode.equalsIgnoreCase(""))
             zch = new ZChar(name, latex, description);
           else
             zch = new ZChar(name, unicode, latex, description);
@@ -210,7 +209,7 @@ public class ZCharTable
   {
     return null;
   }
-  
+/*  
   public Object[][] getTable() {
     try {
       ZXmlHandler handler = new ZXmlHandler();
@@ -242,4 +241,5 @@ public class ZCharTable
     }
     return new Object[0][];
   }
+*/
 }

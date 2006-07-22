@@ -1,12 +1,11 @@
 /**
  * 
  */
+
 package net.sourceforge.czt.eclipse.views;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sourceforge.czt.eclipse.util.ZChar;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
@@ -17,10 +16,11 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class ZXmlHandler extends DefaultHandler
 {
-  
+
   List<List<Object>> fCharTable = new ArrayList<List<Object>>();
+
   List<Object> fCurrentRow;
-  
+
   /**
    * 
    */
@@ -28,22 +28,26 @@ public class ZXmlHandler extends DefaultHandler
   {
     super();
   }
-  
-  public List<List<Object>> getCharList() {
+
+  public List<List<Object>> getCharList()
+  {
     return fCharTable;
   }
-  
+
   /**
    * @see org.xml.sax.helpers.DefaultHandler#startDocument()
    */
-  public void startDocument() {
+  public void startDocument()
+  {
     System.out.println("startDocument");
   }
-  
+
   /**
    * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
    */
-  public void startElement(String uri, String localName, String rawName, Attributes attributes) {
+  public void startElement(String uri, String localName, String rawName,
+      Attributes attributes)
+  {
     if ("TABLE".equalsIgnoreCase(rawName))
       fCharTable = new ArrayList<List<Object>>();
     else if ("ROW".equalsIgnoreCase(rawName)) {
@@ -60,26 +64,28 @@ public class ZXmlHandler extends DefaultHandler
       fCurrentRow.add(new ZChar(name, unicode, latex, description));
     }
   }
-  
+
   /**
    * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
    */
-  public void endElement(String uri, String localName, String rawName) {
+  public void endElement(String uri, String localName, String rawName)
+  {
     if ("TABLE".equalsIgnoreCase(rawName)) {
-      
+
     }
     else if ("ROW".equalsIgnoreCase(rawName)) {
       fCharTable.add(fCurrentRow);
     }
     else if ("ITEM".equalsIgnoreCase(rawName)) {
-      
+
     }
   }
-  
+
   /**
    * @see org.xml.sax.helpers.DefaultHandler#endDocument()
    */
-  public void endDocument() {
+  public void endDocument()
+  {
     System.out.println("endDocument");
   }
 }

@@ -17,7 +17,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package net.sourceforge.czt.eclipse.util;
+package net.sourceforge.czt.eclipse.views;
 
 /**
  * A Z character/string together with a description.
@@ -49,7 +49,7 @@ public class ZChar
    */
   public ZChar(String character)
   {
-    mUnicode = mLabel = character;
+    mLabel = mLatex = mUnicode = character;
     mDescription = "";
   }
 
@@ -61,7 +61,7 @@ public class ZChar
   {
     if (description == null)
       throw new NullPointerException();
-    mLabel = mUnicode = character;
+    mLabel = mLatex = mUnicode = character;
     mDescription = description;
   }
 

@@ -75,8 +75,10 @@ public class ZContentOutlinePage extends ContentOutlinePage
 
             if (newInput instanceof CztSegment) {
               for (CztSegment child : ((CztSegment) newInput).getChildren()) {
-                document.addPosition(SEGMENTS, child.getRange());
-                fContents.add(child); //$NON-NLS-1$
+                if (child.getRange() != null) {
+                  document.addPosition(SEGMENTS, child.getRange());
+                  fContents.add(child);
+                }
               }
             }
           } catch (BadPositionCategoryException x) {
