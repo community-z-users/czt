@@ -5,10 +5,10 @@ package net.sourceforge.czt.eclipse.editors.actions;
 
 import java.util.ResourceBundle;
 
+import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -57,8 +57,8 @@ public class Convert2LatexAction extends AbstractConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.AbstractConversionAction#getTargetMarkup()
    */
   @Override
-  String getTargetMarkup()
+  String getTargetFileType()
   {
-    return Markup.LATEX.toString();
+    return IZFileType.FILETYPE_LATEX;
   }
 }

@@ -58,9 +58,9 @@ public class Convert2XMLAction extends AbstractConversionAction
    * @see net.sourceforge.czt.eclipse.editors.actions.AbstractConversionAction#getTargetMarkup()
    */
   @Override
-  String getTargetMarkup()
+  String getTargetFileType()
   {
-    return Markup.LATEX.toString();
+    return "XML";
   }
 
 }
