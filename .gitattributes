@@ -155,6 +155,7 @@ parser/tests/circus/unboxed_circus_steam_boiler.tex -text
 rules/.classpath -text
 rules/.project -text
 rules/COPYING.txt -text
+rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 session/.classpath -text
 session/.project -text
 session/COPYING.txt -text
