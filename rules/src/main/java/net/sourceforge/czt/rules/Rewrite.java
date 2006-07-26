@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.rules;
 
-import java.util.Map;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
@@ -28,9 +26,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.jaxb.*;
 import net.sourceforge.czt.zpatt.util.*;
-import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
  * <p>A rewrite engine for Z terms.</p>
@@ -47,11 +43,17 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * @author Petra Malik
  */
 public class Rewrite
-  implements TermVisitor,
-             ExprVisitor,
-             PredVisitor,
-             ZSectVisitor
+  implements TermVisitor<Term>,
+             ExprVisitor<Term>,
+             PredVisitor<Term>,
+             ZSectVisitor<Term>
 {
+  /** Maximum number of rewrites of the same expr/pred.
+   *  If more rules than this are used, we assume that
+   *  there is an infinite loop in the rules.
+   */
+  private int MAX_REWRITES = 20;
+  
   private SectionManager manager_;
 
   private RuleTable rules_;
@@ -64,36 +66,44 @@ public class Rewrite
     rules_ = rules;
   }
 
-  public Object visitZSect(ZSect zSect)
+  public Term visitZSect(ZSect zSect)
   {
     section_ = zSect.getName();
     return VisitorUtils.visitTerm(this, zSect, true);
   }
 
-  public Object visitTerm(Term term)
+  public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, true);
   }
 
-  public Object visitExpr(Expr expr)
+  public Term visitExpr(Expr expr)
   {
     Expr oldExpr = expr;
     // apply rules until no more changes
+    int rewrites = 0;
     do {
       oldExpr = expr;
       expr = (Expr) rewriteOnce(manager_, section_, expr, rules_);
+      rewrites++;
+      if (rewrites > MAX_REWRITES)
+        throw new RuntimeException("Infinite loop in rules on expr "+expr);
     } while (expr != oldExpr);
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, expr, true);
   }
 
-  public Object visitPred(Pred pred)
+  public Term visitPred(Pred pred)
   {
     Pred oldPred = pred;
     // apply rules until no more changes
+    int rewrites = 0;
     do {
       oldPred = pred;
       pred = (Pred) rewriteOnce(manager_, section_, pred, rules_);
+      rewrites++;
+      if (rewrites > MAX_REWRITES)
+        throw new RuntimeException("Infinite loop in rules on pred "+pred);
     } while (pred != oldPred);
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, pred, true);
@@ -106,7 +116,7 @@ public class Rewrite
    * are not rewritten.  If the prover fails, the given expression
    * itself is returned.
    */
-  public static Object rewriteOnce(SectionManager manager,
+  public static Term rewriteOnce(SectionManager manager,
                                String section,
                                Expr expr,
                                RuleTable rules)
@@ -131,7 +141,7 @@ public class Rewrite
    * predicate are not rewritten.  If the prover fails, the given
    * predicate itself is returned.
    */
-  public static Object rewriteOnce(SectionManager manager,
+  public static Term rewriteOnce(SectionManager manager,
                                String section,
                                Pred pred,
                                RuleTable rules)

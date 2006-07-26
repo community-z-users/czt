@@ -148,7 +148,7 @@ public class SimpleProver
    * Returns <code>true</code> if this succeeds,
    * <code>false</code> otherwise.
    */
-  public boolean prove(List sequents)
+  public boolean prove(List<Sequent> sequents)
   {
     for (Iterator<Sequent> i = sequents.iterator(); i.hasNext(); ) {
       Sequent sequent = i.next();

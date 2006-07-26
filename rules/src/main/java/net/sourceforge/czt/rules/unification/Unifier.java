@@ -29,11 +29,12 @@ import net.sourceforge.czt.zpatt.ast.Binding;
 /**
  * <p>Unification of ASTs.</p>
  *
- * <p>Before unification can be applied, the AST containing jokers
- * need to be transformed into a suitable form so that the joker
- * implement the {@link Joker} interface.  It is assumed that, if a
- * joker gets bound to a term, automatically all jokers of the same
- * type and with the same name get bound to that term.</p>
+ * <p>The unify methods in this class assume that all the jokers
+ * in both ASTs implement the {@link Joker} interface.  They also
+ * assume that, if a joker gets bound to a term, automatically all 
+ * jokers of the same type and with the same name get bound to 
+ * that term.  The ProverFactory should be used to ensure these
+ * properties.</p>
  *
  * @author Petra Malik
  */
