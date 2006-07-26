@@ -91,7 +91,17 @@
       	Unfold definitions and rewrite some complex constructs into
       	simpler constructs.  This will be done via CZT rules.
       </action>
-
+      <action context="code" dev="MarkU">
+        Change the FlatSetComp implementation of sets so that members
+	are generated lazily, on demand.  This will allow us to evaluate
+	schemas that have an infinite number of solutions, when we only
+	want to explore the first few solutions.
+      </action>
+      <action context="code" dev="MarkU">
+      	Design and implement a 'FlatOr' class to handle disjunctions.
+      	All branches of the disjunct must have the same mode. 
+      	Other complex predicates should probably be unfolded into disjunctions.
+      </action>
     </release>
   </changes>
 
@@ -112,11 +122,6 @@
 	total, onto etc.)
       </action>
       <action context="code" dev="open">
-      	Design and implement a 'FlatOr' class to handle disjunctions.
-      	All branches of the disjunct must have the same mode. 
-      	Other complex predicates should probably be unfolded into disjunctions.
-      </action>
-      <action context="code" dev="open">
        	Implement a FlatPred implementation of list concatenation,
 	A^B=C.  This is needed to support lots of the sequence operators.
       </action>
@@ -128,11 +133,9 @@
       	This will allow users to generate and customise interfaces for
       	each Z specification.
       </action>
-      <action context="code" dev="MarkU">
-        Change the FlatSetComp implementation of sets so that members
-	are generated lazily, on demand.  This will allow us to evaluate
-	schemas that have an infinite number of solutions, when we only
-	want to explore the first few solutions.
+      <action context="code" dev="open">
+      	Check the handling of tmpNNN variables within the calculation
+      	of free/bound variables.
       </action>
     </actions>
     <actions priority="low">
