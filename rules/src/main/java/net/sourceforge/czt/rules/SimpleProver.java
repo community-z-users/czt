@@ -266,6 +266,6 @@ public class SimpleProver
   public static Term copy(Term term, Factory factory)
   {
     CopyVisitor visitor = new CopyVisitor(factory);
-    return (Term) term.accept(visitor);
+    return term.accept(visitor);
   }
 }
