@@ -1,42 +1,43 @@
-\newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
-\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
+\documentclass[10pt]{article}
+\usepackage{czt}
+
+\title{CZT Z-Pattern Toolkit}
+\author{Mark Utting}
+\begin{document}
+\maketitle
+
+This toolkit is for use with the \emph{Z pattern} extension of Z,
+which is used by CZT to define transformation and reasoning rules
+for Z.  These rulesets are usually defined by tool-builders rather
+than end-users of Z.
+
+\LaTeX\ files that define Z pattern rulesets should use the
+\verb!czt.sty! file, which defines several \LaTeX macros and
+environments for defining Z pattern rules, such as 
+the \verb!zedjoker! environment for declaring
+Z pattern jokers and the \verb!zedrule! environment for defining
+rules.  See the rules/src/test/resources/*.tex files for examples.
 
 \begin{zsection}
   \SECTION zpattern\_toolkit \parents standard\_toolkit
 \end{zsection}
 
 This toolkit section defines any operators or functions used in the
-provisos of rules.  At the moment, it just defines the \LaTeX\ markup
-of the symbols used in the rule syntax.
+provisos of rules.  It also defines the \LaTeX\ and Unicode markup of
+the symbols used in the rule syntax.
 
 \begin{verbatim}
 %%Zinchar \proviso U+25B8
 %%Zinchar \derives U+2500
 \end{verbatim}
 
-To clearly distinguish our partially unfolded schemas from ordinary
-equalities, we introduce a new infix operator called $\unfoldsTo$.  We
-do not really need to define its semantics in order to use it within
-rules, but to reassure readers, we define its semantics to be just
-equality.  In fact, the intention is that the right hand argument
-($s2$) will be the unfolded form of the left hand argument ($s1$).
-
-\begin{verbatim}
-%%Zinword \unfoldsTo unfoldsTo
-\end{verbatim}
-
-\begin{zed}
-  \relation ( \_ \unfoldsTo \_ )
-\end{zed}
-
-We also define some syntax for use within the provisos that manipulate
-schemas and signatures.  The $\schemamerge$ operator calculates
-the union of two DeclLists. 
-
-$[D1] \schemaminus [D2]$ returns the declarations that are in
-$D1$ but not in $D2$.  It has the precondition that $D1$ and $D2$
-must be in normalized form (base types, VarDecls only with one 
-name per VarDecl).
+We define some syntax for use within the provisos that manipulate
+schemas and signatures.  The $[D1|true] \schemamerge [D2|true]$
+operator calculates the union of the two DeclLists. 
+$[D1|true] \schemaminus [D2|true]$ returns the declarations that are in
+$D1$ but not in $D2$.  Both these operators have the precondition that
+$D1$ and $D2$ must be in normalized form (VarDecls only with one name
+per VarDecl, types that are base types, no duplicated names).
 
 \begin{verbatim}
 %%Zinword \schemamerge schemamerge
@@ -47,12 +48,6 @@ name per VarDecl).
   \function 30 \leftassoc ( \_ \schemamerge \_ ) \\
   \function 30 \leftassoc ( \_ \schemaminus \_ )
 \end{zed}
-
-\begin{gendef}[SCHEMA]
-  \_ \unfoldsTo \_ : SCHEMA \rel SCHEMA
-\where
-  \forall s1,s2:SCHEMA @ s1 \unfoldsTo s2 \iff s1=s2
-\end{gendef}
 
 
 This definition captures part of the semantics of
@@ -66,3 +61,5 @@ TODO: add this predicate: $SIG3 = \exists SIG2 @ SIG1$.
 \begin{gendef}[SIG1,SIG2,SIG3]
   \_ \schemaminus \_ : SIG1 \cross SIG2 \fun SIG3
 \end{gendef}
+
+\end{document}
