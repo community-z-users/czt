@@ -40,11 +40,11 @@ Declare the jokers used in these rules.
 
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
-operators: $\unfoldsTo$.  
+operators: $\sexprUnfoldsTo$ and $\declListUnfoldsTo$.  
 We do not really need to define their semantics in order to use them within
 rules, but to reassure readers, we define their semantics to be just
 equality.  In fact, the intention is that the right hand argument
-($s2$) will be the unfolded and normalized form of the left hand argument ($s1$).
+will be the unfolded and normalized form of the left hand argument.
 
 \begin{verbatim}
 %%Zinword \sexprUnfoldsTo sexprUnfoldsTo
