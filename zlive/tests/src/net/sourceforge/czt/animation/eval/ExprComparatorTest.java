@@ -68,8 +68,7 @@ public class ExprComparatorTest extends ZTestCase
     exprs.add(parseExpr("\\lblot a==2, b'==1, c?==1 \\rblot"));  positions.add(527);
     
     // sets (ordered by size, then lexigraphically on sorted members)
-    addset("\\{\\}");  positions.add(600);
-    addset("\\emptyset");  positions.add(600);
+    addset("3 \\upto 1");  positions.add(600);
     addset("\\{ x:0 \\upto 10 | x > 20 \\}");  positions.add(600);
     addset("1 \\upto 3");  positions.add(601);
     addset("\\{ 1, 3, 5 \\}");  positions.add(602);
