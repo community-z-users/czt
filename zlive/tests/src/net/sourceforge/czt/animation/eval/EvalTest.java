@@ -84,7 +84,7 @@ public abstract class EvalTest extends TestCase
     }
     return result;
   }
-  
+
   /** This class tests one predicate */
   static class PredTest extends TestCase
   {
@@ -102,7 +102,9 @@ public abstract class EvalTest extends TestCase
     public void runTest() {
       sLogger.fine("running PredTest("+getName()+")");
       try {
-        assertTrue(animator_.evalPred(pred_) instanceof TruePred);
+        Pred result = animator_.evalPred(pred_);
+        assertNotNull(result);
+        assertTrue(result instanceof TruePred);
         System.out.println("Passed test:" + getName());
       } catch (Exception e) {
         fail("Should not throw exception " + e);
