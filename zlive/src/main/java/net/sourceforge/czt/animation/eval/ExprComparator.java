@@ -182,7 +182,6 @@ public class ExprComparator implements Comparator<Expr>
         case SETEXPR:
           EvalSet set0 = (EvalSet)arg0;
           EvalSet set1 = (EvalSet)arg1;
-          System.out.println("set compare: "+set0+", "+set1);
           result = sign(set0.size() - set1.size());
           if (result == EQUAL) {
             Iterator<Expr> members0 = set0.iterator();
@@ -191,7 +190,6 @@ public class ExprComparator implements Comparator<Expr>
               assert members1.hasNext();
               Expr mem0 = members0.next();
               Expr mem1 = members1.next();
-              System.out.println("set compare members: "+mem0+", "+mem1);
               result = compare(mem0, mem1);
             }
             assert members0.hasNext() == members1.hasNext();

@@ -22,6 +22,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
@@ -37,6 +38,8 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ExistsExpr;
@@ -207,6 +210,18 @@ public class ZLive
     sectName_ = sectName;
   }
 
+  /** Returns the preprocessed form of expr, before evaluation 
+   *  starts.  This is mostly used for debugging
+   */
+  public Expr preprocessExpr(Expr expr)
+  throws EvalException
+  {
+    if (getCurrentSection() == null) {
+      throw new CztException("Must choose a section!");
+    }
+    return (Expr) preprocess_.preprocess(getCurrentSection(), expr);
+  }
+
   /** Evaluate a Pred.
       This throws some kind of EvalException if pred is too difficult
       to evaluate or contains an undefined expression.
@@ -224,7 +239,8 @@ public class ZLive
     // preprocess the predicate, to unfold things.
     pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
     sLogger.finer("After preprocess, pred="+printTerm(pred));
-    
+    // must typecheck, to reestablish the unique-ids invariant.
+    typecheck(pred);
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
@@ -264,7 +280,8 @@ public class ZLive
     // preprocess the expr, to unfold things.
     expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
     sLogger.finer("After preprocess, expr="+printTerm(expr));
-    
+    // must typecheck, to reestablish the unique-ids invariant.
+    typecheck(expr);
     predlist_ = new FlatPredList(this);
     ZRefName resultName = predlist_.addExpr(expr);
     predlist_.inferBounds(new Bounds());
@@ -305,6 +322,26 @@ public class ZLive
     return evalExpr(expr);
   }
 
+  /** Typechecks a term, to check its correctness and to
+   *  reestablish the unique-ids invariant of bound variables.
+   *  (bound vars with the same name and scope must have the same id.)
+   */
+  public void typecheck(Term term)
+  throws EvalException
+  {
+    List<? extends ErrorAnn> errors =
+      TypeCheckUtils.typecheck(term, sectman_, false, getCurrentSection());
+    if (errors.size() > 0) {
+      StringBuffer buf = new StringBuffer();
+      buf.append("Error: unfolded term contains type errors.\n");
+      //print any errors
+      for (ErrorAnn next : errors) {
+        buf.append(next);
+      }
+      throw new EvalException(buf.toString());
+    }
+  }
+  
   public void printCode()
   {
     printCode(writer_);

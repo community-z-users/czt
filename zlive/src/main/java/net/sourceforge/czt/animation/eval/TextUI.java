@@ -140,6 +140,15 @@ public class TextUI {
       else if (cmd.equals("help")) {
         printHelp(output_);
       }
+      else if (cmd.equals("unfold")) {
+        //throws IOException, CommandException
+        String section = zlive_.getCurrentSection();
+        Source src = new StringSource(args);
+        Markup markup = zlive_.getMarkup();
+        src.setMarkup(markup);
+        Expr expr = ParseUtils.parseExpr(src, section, manager);
+        output_.println("Expr = "+zlive_.printTerm(zlive_.preprocessExpr(expr)));
+      } 
       else if (cmd.equals("ver") || cmd.equals("version")) {
         output_.println(ZLive.banner);
       } 
