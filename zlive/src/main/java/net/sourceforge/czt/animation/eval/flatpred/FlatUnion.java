@@ -274,16 +274,7 @@ public class FlatUnion extends FlatEvalSet
     return leftSet_.contains(e) || rightSet_.contains(e);
   }
 
-  /**Tests for the equality of any two sets.
-   Here, the equality is based upon both the sets
-   having the same elements, not taking into consideration
-   the duplication of elements.
-   */
-  public boolean equals(Object obj)
-  {
-    return equalsEvalSet(this, obj);
-  }
-
+  
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

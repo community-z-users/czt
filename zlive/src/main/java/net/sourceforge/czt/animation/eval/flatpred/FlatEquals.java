@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -83,7 +84,8 @@ public class FlatEquals extends FlatPred
       if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
         Expr a = evalMode_.getEnvir().lookup(args_.get(0));
         Expr b = evalMode_.getEnvir().lookup(args_.get(1));
-        if(a.equals(b))
+        ExprComparator comp = ExprComparator.create();
+        if(comp.compare(a,b) == 0)
           result = true;
       }
       else if (evalMode_.isInput(0)) {

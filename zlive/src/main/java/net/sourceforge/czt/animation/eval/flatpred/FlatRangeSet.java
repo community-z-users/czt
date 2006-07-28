@@ -190,6 +190,8 @@ public class FlatRangeSet extends FlatEvalSet
     assert 0 < solutionsReturned_;
     if (lower_ == null || upper_ == null)
       return Integer.MAX_VALUE;
+    else if (upper_.compareTo(lower_) < 0)
+        return 0;
     else
       return upper_.subtract(lower_).add(BigInteger.ONE).intValue();
   }
@@ -269,8 +271,7 @@ public class FlatRangeSet extends FlatEvalSet
   }
 
 
-  /** Iterate through all members of the set.
-  *  It guarantees that there will be no duplicates.
+  /** @inheritDoc
   *
   * @return an Iterator object.
   */
@@ -286,7 +287,14 @@ public class FlatRangeSet extends FlatEvalSet
     return new RangeSetIterator(lower_, upper_);
   }
 
-  /** This uses bounds information about element (if any)
+  public Iterator<Expr> sortedIterator()
+  {
+    return iterator();
+  }
+
+  /** @inheritDoc
+   *  
+   *  This uses bounds information about element (if any)
    *  to reduce the size of the set that is returned.
    *  The set that is returned is guaranteed to be a subset
    *  (or equal to) the true set of elements in the range.
@@ -397,7 +405,7 @@ public class FlatRangeSet extends FlatEvalSet
   }
 
   /** This implementation of equals handles two RangeSets efficiently.
-   *  In other cases, it uses the equalEvalSet method from FlatPred.
+   *  In other cases, it uses the equals method from FlatEvalSet.
    *  This equals method is really only meant to be used after
    *  the sets have been evaluated.  It is not clear what it does
    *  or should do before that.
@@ -449,6 +457,6 @@ public class FlatRangeSet extends FlatEvalSet
             && (upper_ == null || upper_.equals(rset.upper_));
     }
     else
-      return equalsEvalSet(this,(EvalSet)other);
+      return super.equals(other);
   }
 }

@@ -64,17 +64,17 @@ public class FlatSetComp extends FlatEvalSet
    *  of lazily evaluating the members of the set.
    */
   protected Envir outputEnvir_ = null;
-  
+
   /** FlatSetComp(D,P,E,S) implements {D|P@E} = S.
-   * 
+   *
    * @param decls   A list of Decl objects (ConstDecl and VarDecl only).
    * @param pred    The predicate that filters the declarations.
    * @param result  The expression returned by the set.
    * @param set     The variable that the whole set will be equated to.
    */
-  public FlatSetComp(/*@non_null@*/ZLive zlive, 
-		       /*@non_null@*/List<Decl> decls, 
-		       Pred pred, 
+  public FlatSetComp(/*@non_null@*/ZLive zlive,
+		       /*@non_null@*/List<Decl> decls,
+		       Pred pred,
 		       /*@non_null@*/Expr result,
 		       /*@non_null@*/ZRefName set)
   {
@@ -131,7 +131,7 @@ public class FlatSetComp extends FlatEvalSet
 
   /** Returns null for now -- because it is quite complex to calculate
    *  maximum size of a set comprehension.
-   *  
+   *
    *  @czt.todo estimate maximum size.
    */
   public BigInteger maxSize()
@@ -155,8 +155,8 @@ public class FlatSetComp extends FlatEvalSet
     LOG.exiting("FlatSetComp","chooseMode",m);
     return m;
   }
-  
-  /** Estimate the size of the set. 
+
+  /** Estimate the size of the set.
    *  This must only be called after setMode().
    */
   public double estSize(Envir env)
@@ -176,7 +176,7 @@ public class FlatSetComp extends FlatEvalSet
   {
     return estSize(env);
   }
-  
+
   /** Returns members of the set, one by one.
    *  This must only be called after nextEvaluation() has returned true.
   */
@@ -218,11 +218,11 @@ public class FlatSetComp extends FlatEvalSet
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
     boolean result = false;
-    outputEnvir_ = null; // force members to be recalculated
-    ZRefName set = args_.get(args_.size()-1);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
+      outputEnvir_ = null; // force members to be recalculated
+      ZRefName set = args_.get(args_.size()-1);
       resetResult();
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
@@ -279,11 +279,6 @@ public class FlatSetComp extends FlatEvalSet
       return super.accept(visitor);
   }
 
-  /** True iff two EvalSets contain the same elements. */
-  public boolean equals(Object otherSet) {
-    return equalsEvalSet(this,otherSet);
-  }
-  
   /** @czt.todo Change this to a printCode method. */
   public String toString() {
     return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = " + args_.get(args_.size()-1);

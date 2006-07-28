@@ -40,12 +40,15 @@ import net.sourceforge.czt.z.util.PrintVisitor;
  *  such that the inferred equivalence relation is semantic equality
  *  of the Z expressions.  This class uses the singleton pattern,
  *  so use the create() method to get an instance.
+ *  
+ *  TODO: handle members of given types.
+ *  
+ *  TODO: allow infinite sets to be compared against finite ones.
  * 
  * @author marku
  */
 public class ExprComparator implements Comparator<Expr>
 {
-  // TODO: handle members of given types
   private static final int NUMEXPR = 1;
   private static final int GIVENVALUE = 2;
   private static final int GIVENSET = 3;
@@ -182,10 +185,11 @@ public class ExprComparator implements Comparator<Expr>
         case SETEXPR:
           EvalSet set0 = (EvalSet)arg0;
           EvalSet set1 = (EvalSet)arg1;
+          System.out.println("Compare: set sizes "+set0.size()+", "+set1.size());
           result = sign(set0.size() - set1.size());
           if (result == EQUAL) {
-            Iterator<Expr> members0 = set0.iterator();
-            Iterator<Expr> members1 = set1.iterator();
+            Iterator<Expr> members0 = set0.sortedIterator();
+            Iterator<Expr> members1 = set1.sortedIterator();
             while (result == EQUAL && members0.hasNext()) {
               assert members1.hasNext();
               Expr mem0 = members0.next();

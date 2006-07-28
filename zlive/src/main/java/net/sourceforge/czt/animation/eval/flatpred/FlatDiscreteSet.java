@@ -204,9 +204,4 @@ public class FlatDiscreteSet extends FlatEvalSet
     else
       return super.accept(visitor);
   }
-
-  /** True iff two EvalSets contain the same elements. */
-  public boolean equals(Object otherSet) {
-      return equalsEvalSet(this,otherSet);
-  }
 }

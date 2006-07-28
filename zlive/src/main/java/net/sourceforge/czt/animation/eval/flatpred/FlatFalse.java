@@ -24,14 +24,16 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZRefName;
 
-/** FlatPlus implements the var = const predicate. */
+/** FlatFalse implements the false predicate, which causes
+ *  all evaluations to fail.
+ */
 public class FlatFalse extends FlatPred
 {
   public FlatFalse()
-  { 
+  {
     args_ = new ArrayList<ZRefName>();
   }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -43,7 +45,7 @@ public class FlatFalse extends FlatPred
   {
     return false;
   }
-  
+
   public String toString() {
     return ("FlatFalse");
   }
@@ -61,7 +63,7 @@ public class FlatFalse extends FlatPred
   {
     return new FlatFalse();
   }
- 
+
   public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatFalseVisitor)

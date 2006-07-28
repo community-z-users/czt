@@ -46,15 +46,15 @@ import net.sourceforge.czt.z.ast.Expr;
  *  subclasses are free to override those methods and avoid the
  *  lazy evaluation mechanism if they can do it more efficiently
  *  (like FlatRangeSet).
- *  
+ *
  *  TODO: implement hashCode and equals properly.
  */
 public abstract class FlatEvalSet extends FlatPred implements EvalSet
-{  
+{
   /** True iff all members of the set have been evaluated. */
   protected boolean fullyEvaluated = false;
   //@invariant fullyEvaluated ==> memberList != null;
-  
+
   /** The list of known members so far.
    *  This is guaranteed to contain no duplicates.
    *  In some implementations of EvalSet, it will be filled
@@ -63,10 +63,10 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  fullyEvaluated becomes true and there are no iterators using it.
    */
   protected List<Expr> memberList;
-  
-  /** All the known members of the set.  
+
+  /** All the known members of the set.
    *  If memberSet and memberList are both non-null,
-   *  then they contain exactly the same elements.  
+   *  then they contain exactly the same elements.
    *  If memberSet is non-null, but memberList is null,
    *  then memberSet contains the complete set.
    */
@@ -78,7 +78,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  but the interface forces us to have a non-null list.
    */
   private ListTerm<Ann> anns_ = new ListTermImpl<Ann>();
-  
+
   /** Returns the next expression in the set.
    *  This is used during the first evaluation of
    *  the set.  Once this returns null, the set is
@@ -88,7 +88,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    */
   protected abstract Expr nextMember();
 
-  /** Evaluates the next member of the set and inserts it into 
+  /** Evaluates the next member of the set and inserts it into
    *  memberList and memberSet.  Returns true iff it found and
    *  inserted a new member, or false if the set has been
    *  fully evaluated (in which case, fullyEvaluated will have
@@ -114,7 +114,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
       }
     }
   }
-  
+
   /** This ensures that the set is completely evaluated and
    *  stored in the memberSet data structure.
    */
@@ -142,25 +142,25 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    */
   private class EvalSetIterator implements ListIterator<Expr>
   {
-    /** The number of entries in memberList that have already been returned. */
-    int done;
-    
+    /** The entry in memberList that will be returned next. */
+    int position;
+
     public EvalSetIterator()
     {
-      done = 0;
+      position = 0;
     }
 
     public /*synchronized*/ boolean hasNext()
     {
-      return (memberList != null && done < memberList.size())
-        || insertMember();
+      return (memberList != null && position < memberList.size())
+        || (! fullyEvaluated && insertMember());
     }
 
     public Expr next()
     {
-      assert done < memberList.size();
-      Expr result = memberList.get(done);
-      done++;
+      assert position < memberList.size();
+      Expr result = memberList.get(position);
+      position++;
       return result;
     }
 
@@ -172,24 +172,24 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
 
     public boolean hasPrevious()
     {
-      return done > 0;
+      return position > 0;
     }
 
     public Expr previous()
     {
-      assert done > 0;
-      done--;
-      return memberList.get(done);
+      assert position > 0;
+      position--;
+      return memberList.get(position);
     }
 
     public int nextIndex()
     {
-      return done;
+      return position;
     }
 
     public int previousIndex()
     {
-      return done-1;
+      return position-1;
     }
 
     public void set(Expr arg0)
@@ -214,13 +214,9 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *
    * @return an expression iterator.
    */
-  
+
   public ListIterator<Expr> listIterator()
   {
-    //if (fullyEvaluated)
-    //  TODO: could improve this to iterator through in sorted order.
-    //  return memberSet.iterator();
-    //else
     return new EvalSetIterator();
   }
 
@@ -235,10 +231,22 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    */
   public Iterator<Expr> iterator()
   {
-    if (fullyEvaluated)
-      return memberSet.iterator();
-    else
-      return new EvalSetIterator();
+    return new EvalSetIterator();
+  }
+
+  /** @inheritDoc
+   *   Note: this method must only be called AFTER
+   *   nextEvaluation(), because all free variables of the
+   *   set must be instantiated before we can enumerate the members
+   *   of the set.
+   *
+   * @return an Expr iterator.
+   */
+  public Iterator<Expr> sortedIterator()
+  {
+    if ( ! fullyEvaluated )
+      evaluateFully();
+    return memberSet.iterator();
   }
 
   public /*synchronized*/ boolean contains(Object obj)
@@ -265,13 +273,13 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   {
     throw new UnsupportedOperationException();
   }
-  
+
   /** Throws UnsupportedOperationException. */
   public boolean addAll(Collection<? extends Expr> c)
   {
     throw new UnsupportedOperationException();
-  }  
-  
+  }
+
   /** Throws UnsupportedOperationException. */
   public void clear()
   {
@@ -300,7 +308,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   {
     throw new UnsupportedOperationException();
   }
-  
+
   /** Throws UnsupportedOperationException. */
   public boolean removeAll(Collection<?> c)
   {
@@ -339,20 +347,22 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   }
 
   /** Returns an array containing all of the elements in this set.
-   *  The the runtime type of the returned array is that 
+   *  The the runtime type of the returned array is that
    *  of the specified array. */
   public <T> T[] toArray(T[] a)
   {
     evaluateFully();
     return memberSet.toArray(a);
   }
-  
+
   /** Equality of an EvalSet with another EvalSet or Set.
-   *  TODO: implement equals directly.  Allow finite.equals(infinite) etc.
+   *  This is implemented using the ExprComparator class.
+   *  TODO: Allow finite.equals(infinite) to be calculated as false, etc.
    */
-  public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
+  public boolean equals(Object s2)
+  {
     if (s2 instanceof EvalSet)
-      return ExprComparator.create().compare(s1, (EvalSet)s2) == 0;
+      return ExprComparator.create().compare(this, (EvalSet)s2) == 0;
     else
       return false;
   }
@@ -393,7 +403,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     }
     return null;
   }
-  
+
   public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof EvalSetVisitor)

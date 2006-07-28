@@ -77,6 +77,11 @@ public class FlatPredList extends FlatPred
   /** Maximum number of bounds-inference passes done over the list. */
   protected static final int inferPasses_ = 5;
 
+  /** solutionsReturned_ == ALLDONE means that all possible 
+   *  solutions have already been returned.
+   */
+  private final int ALLDONE = -2;
+  
   public static final boolean optimize = false;
 
   /** This stores the list of FlatPreds used in the current evaluation. */
@@ -438,6 +443,8 @@ public class FlatPredList extends FlatPred
     LOG.entering("FlatPredList","nextEvaluation");
     final int end = predlist_.size(); // points just PAST the last flatpred.
     int curr;
+    if (solutionsReturned_ == ALLDONE)
+      return false;
     if (solutionsReturned_ == 0) {
       // start from the beginning of the list
       solutionsReturned_++;
@@ -477,6 +484,8 @@ public class FlatPredList extends FlatPred
      }
     }
     LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
+    if (curr < 0)
+      solutionsReturned_ = ALLDONE;
     return curr == end;
   }
 
