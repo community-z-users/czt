@@ -91,23 +91,25 @@ public final class UnificationUtils
    *  but parses the predicate within the conclusion of a rule,
    *  so that jokers are handled correctly.
    *  This method is mostly used for testing purposes.
-   *  
-   *  @param src The String or File etc. to be parsed.  Must use Latex markup.
-   *  @param section The Z section to parse within (null=zpattern_toolkit).
-   *  @param sectman A section manager to use.  Must be non-null.
+   *  The context of the predicate defines Expr jokers E1..E9,
+   *  Pred jokers P1..P9, DeclList jokers D1..D9 and Name jokers v1..v9.
+   *
+   * @param src The String or File etc. to be parsed.  Must use Latex markup.
+   * @param section The Z section to parse within (null=zpattern_toolkit).
+   * @param sectman A section manager to use.  Must be non-null.
    *
    * @throws IOException if there are errors reading file/url inputs
    * @throws CommandException if the expression cannot be parsed.
    */
   public static Pred parsePred(String term, String section,
-      /*@non_null@*/SectionManager sectman) 
+      SectionManager sectman)
   throws IOException, CommandException
   {
     String parent = section;
     String name = "CZT_zpattern_parse_tmp19580281975";
     if (parent == null)
       parent = "zpattern\\_toolkit";
-    
+
     String contents =
       "\\begin{zsection}\\SECTION "+name+" \\parents zpattern\\_toolkit\n" +
       "\\end{zsection}\n" +
@@ -116,7 +118,7 @@ public final class UnificationUtils
       "\\begin{zedjoker}{Expr} E1, E2, E3, E4, E5, E6, E7, E8, E9 \\end{zedjoker}\n" +
       "\\begin{zedjoker}{Name} v1, v2, v3, v4, v5, v6, v7, v8, v9 \\end{zedjoker}\n" +
       "\\begin{zedrule}{rule1} "+term+" \\end{zedrule}\n";
-    
+
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = (SectionManager)sectman.clone();
@@ -129,13 +131,13 @@ public final class UnificationUtils
     Sequent seq = rule.getSequent().get(0);
     return ((PredSequent)seq).getPred();
   }
-  
+
   /** Finds the first zedrule in the specification. */
   public static Rule firstRule(Spec spec)
   {
     for (Sect sect : spec.getSect())
       if (sect instanceof ZSect)
-        for (Para para : (ZParaList) ((ZSect)sect).getParaList()) 
+        for (Para para : (ZParaList) ((ZSect)sect).getParaList())
           if (para instanceof Rule)
             return (Rule) para;
     throw new RuntimeException("No rules in zpattern specification.");

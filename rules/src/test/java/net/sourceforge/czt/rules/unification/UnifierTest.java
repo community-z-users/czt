@@ -70,19 +70,26 @@ public class UnifierTest extends TestCase
 
     exprs = new ArrayList<Expr>();
     positions = new ArrayList<String>();
-    exprs.add(zpattExpr("0"));  positions.add("num0");
+    exprs.add(zpattExpr("0"));            positions.add("num0");
     exprs.add(zpattExpr("10000000000"));  positions.add("num1"); // > MAXINT
 
-    // tuples 
+    // tuples
     exprs.add(zpattExpr("(1, 1, 1)"));  positions.add("(1,1,1)");
     exprs.add(zpattExpr("(1, 2, 1)"));  positions.add("(1,2,1)");
     exprs.add(zpattExpr("(E1,2, 1)"));  positions.add("(1,2,1)");   // must be 4th one.
     exprs.add(zpattExpr("(1, 2,E2)"));  positions.add("(1,2,1)");
 
+    // set comprehensions, with decllist jokers and pred jokers.
+    exprs.add(zpattExpr("\\{x:E1;D1|x<3\\}"));        positions.add("set_x");
+    exprs.add(zpattExpr("\\{x:E1|x<3\\}"));           positions.add("set_x|x3");
+    exprs.add(zpattExpr("\\{x:E1;y:E2|x<3\\}"));      positions.add("set_x_y|x3");
+    exprs.add(zpattExpr("\\{x:\\nat;y:\\nat|P2\\}")); positions.add("set_x_y|");
+
     // check that instantiated generics unify with non-instantiated generics.
-    exprs.add(zpattExpr("x[\\nat]")); positions.add("refx_nat");
-    exprs.add(zpattExpr("x")); positions.add("refx_");
-    //exprs.add(zpattExpr("x[\\power \\nat]")); positions.add("refx_powernat");
+    exprs.add(zpattExpr("x"));                positions.add("ref_x_");
+    exprs.add(zpattExpr("x[\\nat]"));         positions.add("ref_x_nat");
+    exprs.add(zpattExpr("x[\\power \\nat]")); positions.add("ref_x_powernat");
+    exprs.add(zpattExpr("y[\\nat]"));         positions.add("ref_y_nat");
   }
 
   /** Tests that jokers like E1 are being parsed correctly. */

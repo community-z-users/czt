@@ -21,6 +21,7 @@ package net.sourceforge.czt.rules.unification;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -44,6 +45,11 @@ public class ChildExtractor
              ZRefNameVisitor<Object[]>
 {
   private final String DECLLIST = "DeclList";
+
+  private ProverFactory proverFactory_ = new ProverFactory();
+
+  /** Used to allocate unique joker names. */
+  private static int typeCounter_ = 1;
 
   /**
    * Doesn't return the Mixfix child.
@@ -84,20 +90,28 @@ public class ChildExtractor
     return erg;
   }
 
-  /**
-   * @czt.todo Fix this!
+  /** Returns the name and type parameters of refExpr.
+   *  This ignores the mixfix flag.
+   *  The existing type parameters are returned unchanged (so must unify)
+   *  if refExpr has (a) been typechecked (ie. has a TypeAnn), 
+   *  or (b) has explicit=true
+   *  or (c) does not have an empty list of type parameters.
+   *  Otherwise, the type parameters are assumed to be unknown,
+   *  so the default empty list is replaced by a fresh ExprList joker,
+   *  which allows it to unify with any other list of expressions.
    */
   public Object[] visitRefExpr(RefExpr refExpr)
   {
-    if (refExpr.getMixfix()) {
-      return add("RefExpr", refExpr.getChildren());
-    }
-    // Ignore type expressions when mixfix is false because
-    // expressions in sequents maybe typechecked while expressions
-    // in rules are not so that they may be missing type expressions.
-    // This is a hack!
-    return new Object[] { "RefExpr",
-                          refExpr.getRefName() };
+    TypeAnn typed = refExpr.getAnn(TypeAnn.class);
+    ExprList types = refExpr.getExprList();
+    if (typed == null && ! refExpr.getExplicit().booleanValue()
+        && types instanceof ZExprList 
+        && ((ZExprList)types).isEmpty())
+      types = proverFactory_.createJokerExprList("_T"+(typeCounter_ ++));
+    return new Object[]
+       {"RefExpr",
+        refExpr.getRefName(),
+        types};
   }
 
   public Object[] visitTerm(Term term)
