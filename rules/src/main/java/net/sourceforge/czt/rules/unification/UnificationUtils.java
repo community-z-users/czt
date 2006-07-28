@@ -135,12 +135,9 @@ public final class UnificationUtils
   {
     for (Sect sect : spec.getSect())
       if (sect instanceof ZSect)
-        for (Para para : (ZParaList) ((ZSect)sect).getParaList()) {
-          System.out.println("Looking at para "+para);
-        
+        for (Para para : (ZParaList) ((ZSect)sect).getParaList()) 
           if (para instanceof Rule)
             return (Rule) para;
-        }
     throw new RuntimeException("No rules in zpattern specification.");
   }
 }

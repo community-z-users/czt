@@ -140,6 +140,8 @@
         name="net.sourceforge.czt.rules.SimpleProverTest"/>
       <test toDir="${rules.build.dir}"
         name="net.sourceforge.czt.rules.unification.OccursCheckVisitorTest"/>
+      <test toDir="${rules.build.dir}"
+        name="net.sourceforge.czt.rules.unification.UnifierTest"/>
       <classpath>
         <pathelement location="${jar.file}"/>
         <pathelement location="${test.jar.file}"/>

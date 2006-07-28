@@ -156,6 +156,8 @@ rules/.classpath -text
 rules/.project -text
 rules/COPYING.txt -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
+rules/src/test/java/net/sourceforge/czt/rules/unification/OccursCheckVisitorTest.java -text
+rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java -text
 session/.classpath -text
 session/.project -text
 session/COPYING.txt -text
