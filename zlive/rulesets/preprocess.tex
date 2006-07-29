@@ -8,8 +8,6 @@
 
 \newcommand{\sexprUnfoldsTo}{\mathrel{\leadsto_{se}}}
 \newcommand{\declListUnfoldsTo}{\mathrel{\leadsto_d}}
-\newcommand{\schemamerge}{\mathbin{\textbf{schemamerge}}}
-\newcommand{\schemaminus}{\mathbin{\textbf{schemaminus}}}
 
 
 \title{Unfolding Rules for ZLive}
@@ -82,8 +80,12 @@ will be the unfolded and normalized form of the left hand argument.
 
 \section{Rules from the sets\_toolkit}
 
-\begin{zedrule}{emptyset}
-   \emptyset = \{\}
+We do not unfold $\emptyset$ to $\{\}$, because it is not possible
+to preserve the type information (one cannot write $\{\}[T]$).
+So this rule unfolds it to an easily-evaluated empty set that
+preserves the type information.
+\begin{zedrule}{emptysetTyped}
+   \emptyset[E] = \{x:\{\} | x \in E\}
 \end{zedrule}
 
 TODO: $\power_1$ ?
@@ -219,9 +221,9 @@ otherwise the definition of emptyset in the sets\_toolkit
 gets used instead of our simpler unfold rule).
 
 \begin{zedrule}{unfolddefn}
-  \proviso? ~ v==E
+  \proviso? ~ v==E2
 \derives
-   v = E
+   v = E2
 \end{zedrule}
 
 
