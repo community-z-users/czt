@@ -69,11 +69,11 @@ public class FlattenVisitor
       BindExprVisitor<ZRefName>,
       ZRefNameVisitor<ZRefName>
 {
-  /** A reference to the main animator object, so that we can 
+  /** A reference to the main animator object, so that we can
       access all kinds of settings, tables and section manager etc.
   */
   private ZLive zlive_;
-  
+
   /** A reference to the table of all visible definitions */
   private DefinitionTable table_;
 
@@ -82,7 +82,7 @@ public class FlattenVisitor
 
   /** The set of builtin binary relations handled by ZLive */
   static final Set<String> knownRelations = new HashSet<String>();
-  
+
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
@@ -97,14 +97,14 @@ public class FlattenVisitor
     knownRelations.add(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.NEQ+ZString.ARG_TOK);
-    knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);    
+    knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);
   }
 
   /** True if expr is a given set.
    *  We rely on the type annotations to determine this.
    *  But this is not enough, since x:\power CAR will have
-   *  the same type as CAR.  
-   *  
+   *  the same type as CAR.
+   *
    *  TODO: The best way of identifying given sets would be
    *  to scan all the GivenParas and put those names into
    *  the definition table.  Probably something similar
@@ -124,15 +124,15 @@ public class FlattenVisitor
     GivenType gtype = (GivenType) type;
     if (gtype.getName().getWord().equals(ZString.ARITHMOS))
       return false;
-    
+
     System.out.println("GivenSet "+gtype.getName().getWord()+".");
     return true;
   }
-  
+
   /** True if expr is a member of a given set.
    *  We rely on the type annotations to determine this.
    *  As for isGivenSet, this is not enough, since in \forall x:CAR,
-   *  we want to leave x as a normal variable, rather than 
+   *  we want to leave x as a normal variable, rather than
    *  converting it into a GivenValue.
    *  TODO: only classify global constants like this.
    *      (do this by putting appropriately typed global constants
@@ -150,7 +150,7 @@ public class FlattenVisitor
     GivenType gtype = (GivenType) type;
     if (gtype.getName().getWord().equals(ZString.ARITHMOS))
       return false;
-    
+
     System.out.println("GivenValue "+gtype.getName().getWord()+".");
     return true;
   }
@@ -178,11 +178,11 @@ public class FlattenVisitor
     else
       return null;
   }
-  
+
   /** An auxiliary method for visiting a list of Expr.
    *  @param  elements a list of Expr.
    *  @return an ArrayList of ZRefNames (same size as elements).
-   */ 
+   */
   protected ArrayList<ZRefName> flattenExprList(
 	   /*@non_null@*/List<Expr> elements)
   {
@@ -217,7 +217,7 @@ public class FlattenVisitor
     flat_.add(new FlatOr(left, right));
     return null;
   }
-  
+
   public ZRefName visitImpliesPred(ImpliesPred p) { return notYet(p); }
   public ZRefName visitIffPred(IffPred p) { return notYet(p); }
   public ZRefName visitNegPred(NegPred p) {
@@ -273,7 +273,7 @@ public class FlattenVisitor
         throw new EvalException("ERROR: unknown binary relation "+rel);
       }
     else {
-	  flat_.add(new FlatMember(rhs.accept(this), 
+	  flat_.add(new FlatMember(rhs.accept(this),
 				   lhs.accept(this)));
     }
     sLogger.exiting("Flatten","visitMemPred");
@@ -309,9 +309,17 @@ public class FlattenVisitor
     return null;
   }
 
-  /** Name objects are returned unchanged. */
+  /** Name objects are returned unchanged,
+   *  except for \emptyset, which is unfolded into {}. */
   public ZRefName visitZRefName(ZRefName e)
-  { return e; }
+  {
+    if (e.getWord().equals(ZString.EMPTYSET) && e.getZStrokeList().isEmpty()) {
+      ZRefName emptyset = zlive_.createNewName();
+      flat_.add(new FlatDiscreteSet(new ArrayList<ZRefName>(), emptyset));
+      e = emptyset;
+    }
+    return e;
+  }
 
   /** Simple RefExpr objects are returned unchanged.
    *  We try to unfold non-generic definitions of names.
@@ -367,7 +375,7 @@ public class FlattenVisitor
         def = table_.lookup(e.getZRefName().getWord());
       if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
         Expr newExpr = def.getExpr();
-        result = newExpr.accept(this);      
+        result = newExpr.accept(this);
       }
     }
     return result;
@@ -375,7 +383,7 @@ public class FlattenVisitor
 
   /** NumExpr objects are converted into tmp = Num. */
   public ZRefName visitNumExpr(NumExpr e)
-  {     
+  {
     ZRefName result = zlive_.createNewName();
     flat_.add(new FlatConst(result,e));
     return result;
@@ -397,12 +405,12 @@ public class FlattenVisitor
     if (func instanceof RefExpr
         && ((RefExpr) func).getZRefName().getZStrokeList().size() == 0) {
       String funcname = ((RefExpr) func).getZRefName().getWord();
-      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) 
+      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK))
         flat_.add(new FlatPlus(
             argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            argList.get(1).accept(this),
             result));
-      else if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK)) 
+      else if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK))
         /* a-b=c <=> a=b+c (we could do this via a rewrite rule) */
         flat_.add(new FlatPlus(
             argList.get(1).accept(this),
@@ -411,22 +419,22 @@ public class FlattenVisitor
       else if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK))
         flat_.add(new FlatMult(
             argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            argList.get(1).accept(this),
             result));
       else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
         flat_.add(new FlatDiv(
             argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            argList.get(1).accept(this),
             result));
       else if (funcname.equals(ZString.ARG_TOK + "mod" + ZString.ARG_TOK))
         flat_.add(new FlatMod(
             argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            argList.get(1).accept(this),
             result));
       else if (funcname.equals(ZString.ARG_TOK + ".." + ZString.ARG_TOK))
         flat_.add(new FlatRangeSet(
             argList.get(0).accept(this),
-            argList.get(1).accept(this), 
+            argList.get(1).accept(this),
             result));
       else if (funcname.equals("#" + ZString.ARG_TOK)) {
         ZRefName argVar = arg.accept(this);
@@ -437,16 +445,16 @@ public class FlattenVisitor
         flat_.add(new FlatNegate(argVar, result));
       }
       else if (funcname.equals("succ" + ZString.ARG_TOK)) {
-        /* succ _ = _ + 1; _ + 1 = result using FlatPlus */        
+        /* succ _ = _ + 1; _ + 1 = result using FlatPlus */
         ZRefName argVar = arg.accept(this);
         Expr num1 = zlive_.getFactory().createNumExpr(1);
         ZRefName refForNum1 = num1.accept(this);
-        flat_.add(new FlatPlus(argVar, refForNum1, result));        
-      } 
+        flat_.add(new FlatPlus(argVar, refForNum1, result));
+      }
       else if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
           flat_.add(new FlatUnion(
             (ZRefName) argList.get(0).accept(this),
-            (ZRefName) argList.get(1).accept(this), 
+            (ZRefName) argList.get(1).accept(this),
             result));
       }
       // else if (...)   TODO: add more cases...
@@ -475,7 +483,7 @@ public class FlattenVisitor
       ZSchText stext = factory.createZSchText(decls,pred);
       // create the expr: p.2
       Expr p2 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(2));
-      // create (\mu [p:func | p.1=arg] @ p.2) 
+      // create (\mu [p:func | p.1=arg] @ p.2)
       FlatPredList fp = new FlatPredList(zlive_);
       fp.addSchText(stext);
       result = fp.addExpr(p2);
@@ -500,8 +508,8 @@ public class FlattenVisitor
     flat_.add(new FlatPowerSet(base,result));
     return result;
   }
-  
-  public ZRefName visitSetExpr(SetExpr e) 
+
+  public ZRefName visitSetExpr(SetExpr e)
   {
     ArrayList<ZRefName> refnames = flattenExprList(e.getZExprList());
     ZRefName result = zlive_.createNewName();
@@ -536,7 +544,10 @@ public class FlattenVisitor
   }
 
   public ZRefName visitProdExpr(ProdExpr e) {
-    return notYet(e);
+    ArrayList<ZRefName> refnames = flattenExprList(e.getZExprList());
+    ZRefName result = zlive_.createNewName();
+    flat_.add(new FlatProd(refnames, result));
+    return result;
   }
 
   public ZRefName visitTupleExpr(TupleExpr e) {

@@ -72,6 +72,17 @@ public interface EvalSet extends Expr, Set<Expr> {
    * @return an Iterator object.
    */
   public Iterator<Expr> iterator();
+  
+  /** Iterate through all members of the set in sorted order.
+   *  This means that the set will be fully evaluated before
+   *  the first element is returned.  If you want lazy evaluation,
+   *  you should use the normal iterator() method instead of this.
+   *  It guarantees that there will be no duplicates.
+   *
+   * @return an Iterator object.
+   */
+  public Iterator<Expr> sortedIterator();
+  
   /** Iterate through all members of the set.
    *  It guarantees that there will be no duplicates.
    *

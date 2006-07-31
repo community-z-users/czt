@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import java.util.ListIterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.EvalSetVisitor;
 import net.sourceforge.czt.animation.eval.ExprComparator;
@@ -35,6 +37,7 @@ import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZRefName;
 
 /** FlatEvalSet is a subclass of FlatPred that implements
  *  the EvalSet interface.  It provides default implementations
@@ -46,8 +49,6 @@ import net.sourceforge.czt.z.ast.Expr;
  *  subclasses are free to override those methods and avoid the
  *  lazy evaluation mechanism if they can do it more efficiently
  *  (like FlatRangeSet).
- *
- *  TODO: implement hashCode and equals properly.
  */
 public abstract class FlatEvalSet extends FlatPred implements EvalSet
 {
@@ -235,6 +236,15 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
   }
 
   /** @inheritDoc
+   *  FlatEvalSet provides a default implementation
+   *  that iterates through the whole set.
+   */
+  public Iterator<Expr> subsetIterator(ZRefName element)
+  {
+    return iterator();
+  }
+
+  /** @inheritDoc
    *   Note: this method must only be called AFTER
    *   nextEvaluation(), because all free variables of the
    *   set must be instantiated before we can enumerate the members
@@ -266,6 +276,33 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
       }
     }
     return false;
+  }
+
+  /** @inheritDoc
+   *  FlatEvalSet provides a default implementation
+   *  that always returns null.
+   */
+  public BigInteger getLower()
+  {
+    return null;
+  }
+
+  /** @inheritDoc
+   *  FlatEvalSet provides a default implementation
+   *  that always returns null.
+   */
+  public BigInteger getUpper()
+  {
+    return null;
+  }
+
+  /** @inheritDoc
+   *  FlatEvalSet provides a default implementation
+   *  that always returns null.
+   */
+  public BigInteger maxSize()
+  {
+    return null;
   }
 
   /** Throws UnsupportedOperationException. */
@@ -367,12 +404,38 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
       return false;
   }
 
+  /** This hashCode implementation returns a constant!
+   *  The semantics of EvalSet is that its value depends only
+   *  upon its members, but we do not want to have to evaluate
+   *  all the members before calculating the hashCode, and
+   *  it is not very useful (or desirable) to evaluate just
+   *  a few members.  So try to avoid creating large
+   *  hashsets of EvalSet objects! 
+   */
+  public int hashCode()
+  {
+    return 13;
+  }
+
+  /** @inheritDoc
+   *  FlatEvalSet provides a default implementation that
+   *  calls estSize(evalMode_.getEnvir()).
+   */
   public double estSize()
   {
     assert(evalMode_ != null);
     // TODO: should use the ORIGINAL env here, rather than this
     // output env, which may have a few extra vars added.
     return estSize(evalMode_.getEnvir());
+  }
+
+  /** @inheritDoc
+   *  FlatEvalSet provides a default implementation that
+   *  just calls estSize(env).
+   */
+  public double estSubsetSize(Envir env, ZRefName elem)
+  {
+    return estSize(env);
   }
 
   /** Returns an empty list of children. */
