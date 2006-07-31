@@ -42,9 +42,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.czt.animation.gui.design.BeanLink;
-import net.sourceforge.czt.animation.gui.history.BasicHistory;
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
+import net.sourceforge.czt.animation.gui.history.ZLiveHistory;
 import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 import net.sourceforge.czt.animation.gui.util.Utils;
@@ -100,7 +100,14 @@ public class AnimatorCore
   {
     Beans.setDesignTime(false);
     rootContext = new BeanContextServicesSupport();
-    history = new BasicHistory();
+    try{
+      URL specURL = new URL("file:///E:/czt/zml/examples/z/birthdaybook_unfolded.tex");
+      history = new ZLiveHistory("BirthdayBook","InitBirthdayBook",specURL);
+    }
+    catch (MalformedURLException ex){
+      ex.printStackTrace();
+    }
+    
 
     XMLDecoder decoder;
     decoder = new XMLDecoder(new FileInputStream(file), this);

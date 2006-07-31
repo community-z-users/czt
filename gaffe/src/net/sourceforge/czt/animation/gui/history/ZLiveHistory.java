@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.czt.animation.ZLocator;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
@@ -37,6 +38,9 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
@@ -70,11 +74,22 @@ public class ZLiveHistory extends BasicHistory
     sectman_ = zLive_.getSectionManager();
     sectman_.putCommands("zpatt");
     try {
-      Source spec = new UrlSource(specURL);
-      spec.setMarkup(Markup.LATEX);
-      sectman_.put(new Key("ZLiveHistory",Source.class), spec);
-      ZSect sec = (ZSect) sectman_.get(new Key("ZLiveHistory", ZSect.class));
-      zLive_.setCurrentSection(sec.getName());
+      Source specSource = new UrlSource(specURL);
+      specSource.setMarkup(Markup.LATEX);
+      sectman_.put(new Key("ZLiveHistory",Source.class), specSource);
+      Spec spec = (Spec) sectman_.get(new Key("ZLiveHistory", Spec.class));
+      String sectName = null;
+      for (Sect sect : spec.getSect()) {
+        if (sect instanceof ZSect) {
+          sectName = ((ZSect) sect).getName();
+          //output_.println("Loading section " + sectName);
+          sectman_.get(new Key(sectName, SectTypeEnvAnn.class));
+        }
+      }
+      if (sectName != null) {
+        //output_.println("Setting section to " + sectName);
+        zLive_.setCurrentSection(sectName);
+      }
       this.activateSchema(initSchema);
     }
     catch (Exception e) {
@@ -90,17 +105,22 @@ public class ZLiveHistory extends BasicHistory
       temp = zLive_.evalSchema(schema,this.format(this.inputs_).getExpr());
       ZSet result = new ZSet((EvalSet)temp);
       this.solutionSets.add(new SolutionSet(schema,result.getSet()));
-      this.currentSolution.next();
+      this.nextSolutionSet();  // Calls the listeners
     }
     catch (CommandException coex){
       coex.printStackTrace();
     }
   }
   
-  public ZBinding format(Map inputs){
+  public ZBinding format(Map<ZLocator,ZValue> inputs){
     Map<String, ZValue> bindMap = new HashMap<String,ZValue>();
-    for (Object key : inputs.keySet()){
-      bindMap.put(key.toString().split("'")[0], (ZValue)inputs.get(key));
+    String temp = "";
+    for (ZLocator key : inputs.keySet()){
+      temp = key.toString();
+      if (temp.endsWith("'")){
+        temp = temp.substring(0,temp.length()-1);
+      }
+      bindMap.put(temp, (ZValue)inputs.get(key));
     }
     ZBinding result = new ZBinding(bindMap);
     return result;
