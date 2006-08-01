@@ -19,12 +19,15 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.ZRefNameComparator;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -51,20 +54,22 @@ public class FlatForall extends FlatPred
 
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
     freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
-    sLogger.fine("schText freevars = "+schText_.freeVars());
-    sLogger.fine("schText boundvars = "+schText_.boundVars());
-    sLogger.fine("body freevars = "+body_.freeVars());
+    System.out.println("schText freevars = "+schText_.freeVars());
+    System.out.println("schText boundvars = "+schText_.boundVars());
+    System.out.println("body freevars = "+body_.freeVars());
     Set<ZDeclName> bound = sch.boundVars();
-    for (ZRefName v : body_.freeVars()) {
-      // TODO: implement special free/boundVar sets which can compare
-      //       ZRefName against ZDeclName.
-      // or (hack) ZDeclName dname = factory_.createZDeclName(v);
-      if ( ! bound.contains(v))
-        freeVars_.add(v);
+    for (ZRefName var : body_.freeVars()) {
+      ZDeclName dvar = var.getDecl();
+      if (dvar == null) {
+        System.out.println("Warning: ZRefName is not linked to ZDeclName: "+var);
+        dvar = sch.getFactory().createZDeclName(var.getWord(), var.getStrokeList(), null);
+      }
+      if ( ! bound.contains(dvar))
+        freeVars_.add(var);
     }
-    sLogger.fine("freevars = "+freeVars_);
-    freeVars_ = new HashSet<ZRefName>();  // TODO: remove this when above name comparison works properly
+    System.out.println("freevars = "+freeVars_);
     args_ = new ArrayList<ZRefName>(freeVars_);
+    Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
     solutionsReturned_ = -1;
     sLogger.exiting("FlatForall","FlatForall");
   }
@@ -72,7 +77,7 @@ public class FlatForall extends FlatPred
   /** This currently lets bound information flow into the
    *  quantifier, but not out.  This is because the constraints
    *  on the bound variables can be arbitrarily tight, and these
-   *  should not be allowed influence the bounds of any free variables.
+   *  should not be allowed to influence the bounds of any free variables.
    *  Similarly, bounds information can flow from the bound variables
    *  into the body of the quantifier, but not in the reverse direction.
    */
@@ -137,31 +142,27 @@ public class FlatForall extends FlatPred
     assert( ! submodes.hasNext());
   }
 
-  public void startEvaluation()
-  {
-    sLogger.entering("FlatForAll","startEvaluation");
-    assert(evalMode_ != null);
-    assert(evalMode_ instanceof ModeList);
-    super.startEvaluation();
-    schText_.startEvaluation();
-    // body_ will be started during nextEvaluation()
-    sLogger.exiting("FlatForAll","startEvaluation");
-  }
-
-  /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
     sLogger.entering("FlatForAll","nextEvaluation");
     assert(evalMode_ != null);
-    while (schText_.nextEvaluation()) {
-      body_.startEvaluation();
-      if (!(body_.nextEvaluation())) {
-        sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
-        return false;
+    if (solutionsReturned_ == 0) {
+      // start from the beginning of the list
+      solutionsReturned_++;
+      schText_.startEvaluation();
+      while (schText_.nextEvaluation()) {
+        body_.startEvaluation();
+        // there must be (at least) one true solution from the body part
+        if (!(body_.nextEvaluation())) {
+          sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
+          return false;
+        }
       }
+      sLogger.exiting("FlatForAll","nextEvaluation",Boolean.TRUE);
+      return true;
     }
-    sLogger.exiting("FlatForAll","nextEvaluation",Boolean.TRUE);
-    return true;
+    sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
+    return false;
   }
 
 
