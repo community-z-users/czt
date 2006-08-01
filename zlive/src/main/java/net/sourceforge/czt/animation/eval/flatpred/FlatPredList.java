@@ -64,7 +64,7 @@ import net.sourceforge.czt.z.util.Factory;
  *  if (m == null)
  *    throw new EvalException("Cannot find mode to evaluate " + expr);
  *  predlist.setMode(m);
- *  
+ *
  *  // Stage 3: Evaluation.
  *  predlist.startEvaluation();
  *  while (predlist.nextEvaluation())
@@ -77,16 +77,16 @@ public class FlatPredList extends FlatPred
   /** Maximum number of bounds-inference passes done over the list. */
   protected static final int inferPasses_ = 5;
 
-  /** solutionsReturned_ == ALLDONE means that all possible 
+  /** solutionsReturned_ == ALLDONE means that all possible
    *  solutions have already been returned.
    */
   private final int ALLDONE = -2;
-  
+
   public static final boolean optimize = false;
 
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
-  
+
   /** Records the bound variables in this list
    *  (Ignoring the tmp vars produced by Flatten).
    *  In fact, it contains BOTH the DeclName and RefName form of each bound var.
@@ -94,12 +94,12 @@ public class FlatPredList extends FlatPred
    */
   protected/*@non_null@*/Set<ZDeclName> boundVars_
     = new HashSet<ZDeclName>();
-  
+
   /** The ZLive animator that owns/uses this FlatPred list. */
   private /*@non_null@*/ ZLive zlive_;
-  
+
   /** Creates an empty FlatPred list. */
-  public FlatPredList(ZLive newZLive) 
+  public FlatPredList(ZLive newZLive)
   {
     zlive_ = newZLive;
   }
@@ -135,14 +135,14 @@ public class FlatPredList extends FlatPred
       for (FlatPred flat : predlist_) {
         for (ZRefName var : flat.freeVars()) {
           if ( ! zlive_.isNewName(var)) {
-            ZDeclName dvar = (ZDeclName) var.getDecl(); //TODO: check cast
-            if (dvar == null)
+            ZDeclName dvar = (ZDeclName) var.getDecl();
+            if (dvar == null) {
               // TODO: this should never happen, because all ZRefNames
               // should be linked to a DeclName after typechecking.
-              // For now, we create the corresponding ZDeclName
-              dvar = getFactory().createZDeclName(var.getWord(),
-                  var.getStrokeList(),
-                  null);
+              // However, some unit tests are not typechecked.
+              System.out.println("Warning: ZRefName not bound to ZDeclName: "+var);
+              dvar = getFactory().createZDeclName(var.getWord(), var.getStrokeList(), null);
+            }
             if ( ! boundVars_.contains(dvar))
               freeVars_.add(var);
           }
@@ -168,7 +168,7 @@ public class FlatPredList extends FlatPred
   /** Add one FlatPred to the FlatPred list.
    *  This is a low-level method, and addDecl or addPred
    *  should usually be used in preference to this method.
-   *  This method should be called before chooseMode 
+   *  This method should be called before chooseMode
    *  or freeVars are called.
    *
    * @param flat  the FlatPred to add.
@@ -180,10 +180,10 @@ public class FlatPredList extends FlatPred
   }
 
   /** Adds a whole schema text to the FlatPred list.
-   *  This method should be called before chooseMode 
+   *  This method should be called before chooseMode
    *  or freeVars are called.
    *
-   * @param stext 
+   * @param stext
    */
   public void addSchText(/*@non_null@*/ZSchText stext)
   {
@@ -194,7 +194,7 @@ public class FlatPredList extends FlatPred
     if (p != null)
       addPred(p);
   }
-  
+
   /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
@@ -309,7 +309,7 @@ public class FlatPredList extends FlatPred
   /** Optimises the list and chooses a mode.
    *  Note that inferBounds should usually be done before this,
    *  since it may narrow the search space of chooseMode.
-   *  
+   *
    *  @czt.todo Implement a simple reordering algorithm here.
    *  The current implementation does no reordering.
    */
