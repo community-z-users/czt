@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 24, Failures: 22, Errors: 0, Time elapsed: 30.14 sec
+Tests run: 24, Failures: 17, Errors: 0, Time elapsed: 71.891 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -14,6 +14,7 @@ loaded rule prefixdef
 loaded rule reloverride
 loaded rule relcomp
 loaded rule seconddef
+loaded rule emptysetTyped
 loaded rule EmptyDeclList
 loaded rule infixdef
 loaded rule literalsequence
@@ -25,10 +26,9 @@ loaded rule domainrestriction
 loaded rule genunion
 loaded rule range
 loaded rule unfolddefn
-loaded rule emptyset
 loaded rule genunion2
-loaded rule VarDecl
 loaded rule TopLevelExistsSchema
+loaded rule VarDecl
 loaded rule funccomp
 loaded rule genintersection
 loaded rule genunion1
@@ -44,6 +44,7 @@ loaded rule dcat0
 loaded rule dcat1
 loaded rule SchemaPrime
 loaded rule SchemaRef
+loaded rule squash
 loaded rule suffixdef
 loaded rule rangesubtraction
 loaded rule extractdef
@@ -56,140 +57,241 @@ loaded rule lastdef
 loaded rule num1
 loaded rule maplet
 Passed test:animate_schemas.tex:22
+Passed test:animate_schemas.tex:23
+Passed test:animate_schemas.tex:24
 Passed test:animate_schemas.tex:25
+Passed test:animate_schemas.tex:26
+schText freevars = []
+schText boundvars = [a]
+body freevars = [a]
+freevars = [a]
+schText freevars = []
+schText boundvars = [a]
+body freevars = [a]
+freevars = [a]
+Passed test:animate_schemas.tex:36
+Compare: set sizes 1, 1
+Passed test:animate_schemas.tex:37
+schText freevars = [x]
+schText boundvars = [f]
+body freevars = [f]
+freevars = [f, x]
+schText freevars = [x]
+schText boundvars = [f]
+body freevars = [f]
+freevars = [f, x]
+schText freevars = [x]
+schText boundvars = [f]
+body freevars = [f]
+freevars = [f, x]
+schText freevars = [x]
+schText boundvars = [f]
+body freevars = [f]
+freevars = [f, x]
+schText freevars = [f]
+schText boundvars = [g]
+body freevars = [x, g]
+freevars = [x, f, g]
+schText freevars = []
+schText boundvars = [f]
+body freevars = []
+freevars = []
+schText freevars = [f]
+schText boundvars = [g]
+body freevars = [x, g]
+freevars = [x, f, g]
+schText freevars = []
+schText boundvars = [f]
+body freevars = []
+freevars = []
+schText freevars = [f]
+schText boundvars = [g]
+body freevars = [x, g]
+freevars = [x, f, g]
+schText freevars = []
+schText boundvars = [f]
+body freevars = []
+freevars = []
+schText freevars = [f]
+schText boundvars = [g]
+body freevars = [x, g]
+freevars = [x, f, g]
+schText freevars = []
+schText boundvars = [f]
+body freevars = []
+freevars = []
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+Typeckecking failed:
+["jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 234: Undeclared identifier: X, No location information: Undeclared identifier: X, "jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Undeclared identifier: X, No location information: Undeclared identifier: X, "jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Undeclared identifier: a, "jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Undeclared identifier: x]
 ------------- ---------------- ---------------
 
-Testcase: animate_schemas.tex:22 took 0.14 sec
-Testcase: animate_schemas.tex:23 took 0.235 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
+Testcase: animate_schemas.tex:22 took 0.156 sec
+Testcase: animate_schemas.tex:23 took 0.25 sec
 Testcase: animate_schemas.tex:24 took 0.328 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_schemas.tex:25 took 0.484 sec
-Testcase: animate_schemas.tex:26 took 0.313 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_schemas.tex:27 took 0.39 sec
+Testcase: animate_schemas.tex:25 took 0.532 sec
+Testcase: animate_schemas.tex:26 took 0.312 sec
+Testcase: animate_schemas.tex:27 took 0.391 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:28 took 0.563 sec
+Testcase: animate_schemas.tex:28 took 0.578 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:31 took 0.281 sec
+Testcase: animate_schemas.tex:31 took 0.297 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:32 took 0.281 sec
+Testcase: animate_schemas.tex:32 took 0.297 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:33 took 0.281 sec
+Testcase: animate_schemas.tex:33 took 0.296 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:36 took 0.594 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
-
-Testcase: animate_schemas.tex:37 took 0.656 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
-
-Testcase: animate_schemas.tex:60 took 1.563 sec
+Testcase: animate_schemas.tex:36 took 1.579 sec
+Testcase: animate_schemas.tex:37 took 1.671 sec
+Testcase: animate_schemas.tex:60 took 1.594 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:61 took 1.703 sec
+Testcase: animate_schemas.tex:61 took 1.766 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:63 took 2.766 sec
+Testcase: animate_schemas.tex:63 took 2.906 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:76 took 1.609 sec
+Testcase: animate_schemas.tex:76 took 1.594 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8043)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8043)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12395)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12395)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:77 took 1.156 sec
+Testcase: animate_schemas.tex:77 took 1.203 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:80 took 1.625 sec
+Testcase: animate_schemas.tex:80 took 1.609 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8072)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8072)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12424)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12424)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:82 took 2.11 sec
+Testcase: animate_schemas.tex:82 took 1.985 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8094)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8094)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12446)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12446)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:84 took 2.093 sec
+Testcase: animate_schemas.tex:84 took 2 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8116)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp8116)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12468)
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp12468)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:97 took 1.016 sec
+Testcase: animate_schemas.tex:97 took 1.078 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:124 took 3.734 sec
+Testcase: animate_schemas.tex:124 took 5.14 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:134 took 2.172 sec
+Testcase: animate_schemas.tex:134 took 16.829 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
+"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 19: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 19: Undeclared identifier: YNo location information: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
+	Expression: a \cup \{ x \}
+	Expected type: \power unknown(X) \cross \power unknown(X)
+	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/zlive/tests/build/animatorTest.jar!/tests/z/animate_schemas.tex", line 129: Undeclared identifier: i"jar:file:/E:/marku/czt/trunk/zlive/tests/build/animatorTest.jar!/tests/z/animate_schemas.tex", line 129: Undeclared identifier: iNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
+"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 19: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 19: Undeclared identifier: YNo location information: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
+	Expression: a \cup \{ x \}
+	Expected type: \power unknown(X) \cross \power unknown(X)
+	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared identifier: X"jar:file:/E:/marku/czt/trunk/zlive/tests/build/animatorTest.jar!/tests/z/animate_schemas.tex", line 129: Undeclared identifier: i"jar:file:/E:/marku/czt/trunk/zlive/tests/build/animatorTest.jar!/tests/z/animate_schemas.tex", line 129: Undeclared identifier: iNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_schemas.tex:135 took 4.047 sec
+Testcase: animate_schemas.tex:135 took 27.5 sec
 	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
+No location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: xNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: xNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
+No location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: xNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: xNo location information: Undeclared identifier: unknown(X)"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Implicit parameters not determined
+	Expression: \{ \}"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 87: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/parser.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
+	Predicate: \{ x : \{ \} | x \in X \} \in [ x , x' : 0 \upto 10 ; out! : 0 \upto 20 | x + x' = 10 \\
+ out! = x * x' ]
+	LHS type: \power unknown(X)
+	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x"jar:file:/E:/marku/czt/trunk/lib/zlive.jar!/preprocess.tex", line 144: Undeclared identifier: x
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 

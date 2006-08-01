@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateScopeTest
-Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 11.641 sec
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 12.656 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule taildef
@@ -14,6 +14,7 @@ loaded rule prefixdef
 loaded rule reloverride
 loaded rule relcomp
 loaded rule seconddef
+loaded rule emptysetTyped
 loaded rule EmptyDeclList
 loaded rule infixdef
 loaded rule literalsequence
@@ -25,10 +26,9 @@ loaded rule domainrestriction
 loaded rule genunion
 loaded rule range
 loaded rule unfolddefn
-loaded rule emptyset
 loaded rule genunion2
-loaded rule VarDecl
 loaded rule TopLevelExistsSchema
+loaded rule VarDecl
 loaded rule funccomp
 loaded rule genintersection
 loaded rule genunion1
@@ -44,6 +44,7 @@ loaded rule dcat0
 loaded rule dcat1
 loaded rule SchemaPrime
 loaded rule SchemaRef
+loaded rule squash
 loaded rule suffixdef
 loaded rule rangesubtraction
 loaded rule extractdef
@@ -55,113 +56,137 @@ loaded rule domain
 loaded rule lastdef
 loaded rule num1
 loaded rule maplet
+schText freevars = []
+schText boundvars = [x]
+body freevars = [x]
+freevars = [x]
+schText freevars = []
+schText boundvars = [y, x]
+body freevars = [y, x]
+freevars = [y, x]
+schText freevars = [x]
+schText boundvars = [x, y]
+body freevars = [y, x]
+freevars = [y, x, x]
+schText freevars = []
+schText boundvars = [x]
+body freevars = []
+freevars = []
+schText freevars = [x]
+schText boundvars = [x, y]
+body freevars = [x, y]
+freevars = [x, y, x]
+schText freevars = []
+schText boundvars = [x]
+body freevars = []
+freevars = []
 ------------- ---------------- ---------------
 
-Testcase: animate_scope.tex:21 took 0.469 sec
+Testcase: animate_scope.tex:21 took 0.484 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:22 took 0.609 sec
+Testcase: animate_scope.tex:22 took 0.656 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:25 took 0.484 sec
+Testcase: animate_scope.tex:25 took 0.531 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:26 took 0.484 sec
+Testcase: animate_scope.tex:26 took 0.516 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:28 took 0.969 sec
+Testcase: animate_scope.tex:28 took 1.094 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
 Testcase: animate_scope.tex:33 took 0.203 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:34 took 0.235 sec
+Testcase: animate_scope.tex:34 took 0.25 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:40 took 0.609 sec
+Testcase: animate_scope.tex:40 took 0.656 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:43 took 0.609 sec
+Testcase: animate_scope.tex:43 took 0.641 sec
 	FAILED
 Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
 junit.framework.AssertionFailedError: Should not throw exception java.lang.ClassCastException: net.sourceforge.czt.z.impl.NumExprImpl
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:48 took 0.219 sec
+Testcase: animate_scope.tex:48 took 0.234 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:49 took 0.406 sec
+Testcase: animate_scope.tex:49 took 0.438 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:51 took 0.844 sec
+Testcase: animate_scope.tex:51 took 0.906 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:52 took 0.844 sec
+Testcase: animate_scope.tex:52 took 0.922 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:56 took 0.812 sec
+Testcase: animate_scope.tex:56 took 0.875 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:57 took 0.844 sec
+Testcase: animate_scope.tex:57 took 0.906 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:58 took 0.813 sec
+Testcase: animate_scope.tex:58 took 0.891 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:59 took 0.734 sec
+Testcase: animate_scope.tex:59 took 0.765 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
-Testcase: animate_scope.tex:69 took 1.407 sec
+Testcase: animate_scope.tex:69 took 1.672 sec
 	FAILED
 Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExistsExprImpl yet. 
 junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExistsExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:108)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:110)
 
