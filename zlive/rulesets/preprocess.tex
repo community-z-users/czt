@@ -303,12 +303,17 @@ Similarly for $front$.
 \end{zedrule}
 
 \begin{zedrule}{frontdef}
-   front ~ E = (\# E) \ndres E
+   front ~ E = \{\# E\} \ndres E
 \end{zedrule}
 
 TODO: implement squash as a primitive?
-Because the definition in the standard is quite inefficient as
-an evaluation rule ($O(N^2)$ at least). 
+Because the following definition from the Z standard is quite 
+inefficient as an evaluation rule ($O(N^2)$ at least).  
+Also, this definition is not quite correct, because it does
+not return undefined when $s$ is not a function.
+\begin{zedrule}{squash}
+   squash~E = \{ p:E @ \#\{i:\dom E | i \leq p.1\} \mapsto p.2 \}
+\end{zedrule}
 
 \begin{zedrule}{extractdef}
    E1 \extract E2 = squash(E1 \dres E2)
