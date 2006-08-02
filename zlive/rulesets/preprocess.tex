@@ -385,6 +385,13 @@ which unfolds and normalizes declaration lists.
    [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
 \end{zedrule}
 
+\begin{zedrule}{ConstDecl}
+   \proviso E : E2 \\
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
+\end{zedrule}
+
 \begin{zedrule}{IncludeDecl}
    E \sexprUnfoldsTo [D1 | P1] \\
    [D | true] \declListUnfoldsTo [D2 | P2] \\
@@ -415,13 +422,13 @@ of scope gives the evaluation optimization algorithms more
 freedom to reorder things later.
 
 \begin{zedrule}{TopLevelExistsSchema}
-   E1 \sexprUnfoldsTo [D1 | P1] \\
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
    \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true] \\
    \proviso E == binding ~ [D4|true]
 \derives
-   (\exists E1 @ E2) = \{D3 | P1 \land P2 @ E\}
+   (\exists D | P @ E2) = \{D3 | P1 \land P2 @ E\}
 \end{zedrule}
 
 \begin{zedrule}{TopLevelSchemaExpr}
@@ -455,12 +462,12 @@ freedom to reorder things later.
 The type proviso in the ExistsSchema rule checks
 that $D1$ and $D2$ are type compatible.
 \begin{zedrule}{ExistsSchema}
-   E1 \sexprUnfoldsTo [D1 | P1] \\
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
    \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
 \derives
-   (\exists E1 @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
+   (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
 
 \end{document}
