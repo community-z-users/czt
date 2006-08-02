@@ -20,6 +20,7 @@
 package net.sourceforge.czt.rules.unification;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.ast.*;
@@ -31,8 +32,8 @@ import net.sourceforge.czt.zpatt.ast.Binding;
  *
  * <p>The unify methods in this class assume that all the jokers
  * in both ASTs implement the {@link Joker} interface.  They also
- * assume that, if a joker gets bound to a term, automatically all 
- * jokers of the same type and with the same name get bound to 
+ * assume that, if a joker gets bound to a term, automatically all
+ * jokers of the same type and with the same name get bound to
  * that term.  The ProverFactory should be used to ensure these
  * properties.</p>
  *
@@ -45,22 +46,22 @@ public class Unifier
   private Set<Binding> bindings_ = new HashSet<Binding>();
 
   private OccursCheckVisitor occursCheck = new OccursCheckVisitor();
-  
+
   /** Used for debugging/tracing difficult unifications */
   private List<String> actions = new ArrayList<String>();
-  
+
   /** Unifications deeper than this are printed.
    *  Set it to -1 if you never want to print them.
    */
-  public int printDepth_ = -1;
-  
+  public static int printDepth_ = -1;
+
   /** Unifications deeper than this fail!
    *  This is a convenient way of detecting infinite loops
    *  in the unification algorithms.
    *  Set it to -1 to turn off this feature.
    */
-  public int maxDepth_ = -1;
-  
+  public static int maxDepth_ = -1;
+
   /** Builds a message that describes one unification step.
    *  This is for debugging.
    */
@@ -94,13 +95,14 @@ public class Unifier
     boolean result = unify(o1, o2, 0);
     if (printDepth_ >= 0 && actions.size() > printDepth_)
     {
-      System.err.println("UnifyObjects("+o1+", "+o2+") gives "+result);
+      Logger log = Logger.getLogger(getClass().getName());
+      log.finer("UnifyObjects("+o1+", "+o2+") gives "+result);
       for (int i=actions.size()-1; i>=0; i--)
-        System.err.println(actions.get(i));
+        log.finest(actions.get(i));
     }
     return result;
   }
-  
+
   private boolean unify(Object o1, Object o2, int depth)
   {
     if (o1 == null && o2 == null) {
@@ -138,9 +140,10 @@ public class Unifier
     boolean result = unify(term1, term2, 0);
     if (printDepth_ >= 0 && actions.size() > maxDepth_)
     {
-      System.err.println("UnifyTerms("+term1+", "+term2+") gives "+result);
+      Logger log = Logger.getLogger(getClass().getName());
+      log.finer("UnifyTerms("+term1+", "+term2+") gives "+result);
       for (int i=actions.size()-1; i>=0; i--)
-        System.err.println(actions.get(i));
+        log.finest(actions.get(i));
     }
     return result;
   }
@@ -213,7 +216,7 @@ public class Unifier
       }
       else
       {
-        Binding bind = joker.bind(term); 
+        Binding bind = joker.bind(term);
         bindings_.add(bind);
         logAction(depth, "Bind ", joker, term, true);
         return true;

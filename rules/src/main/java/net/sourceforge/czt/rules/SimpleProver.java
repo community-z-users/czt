@@ -100,18 +100,18 @@ public class SimpleProver
     for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext(); ) {
       Rule rule = iter.next();
       String message = "Trying rule " + rule.getName();
-      getLogger().config(message);
+      getLogger().finer(message);
       try {
         boolean success = apply(rule, predSequent);
         if (success && prove(predSequent.getDeduction())) {
           message = "Rule " + rule.getName() + " succeeded";
-          getLogger().config(message);
+          getLogger().finer(message);
           return true;
         }
         else {
           undo(predSequent);
           message = "Rule " + rule.getName() + " failed";
-          getLogger().config(message);
+          getLogger().finer(message);
        }
       }
       catch (IllegalArgumentException e) {

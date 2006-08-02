@@ -34,8 +34,8 @@ import net.sourceforge.czt.zpatt.util.*;
  * <p>Given a set or rules and a term (AST), this engine rewrites the
  * term using the rules.  It rewrites each level of the term in a
  * top-down fashion.
- * 
- * It tries the rules in the order that they appear in the 
+ *
+ * It tries the rules in the order that they appear in the
  * specification and commits to the first matching rule.
  * If there are no matching rules, the expression is left unchanged.
  * An expression can be rewritten by several rules in succession.
@@ -53,7 +53,7 @@ public class Rewrite
    *  there is an infinite loop in the rules.
    */
   private int MAX_REWRITES = 20;
-  
+
   private SectionManager manager_;
 
   private RuleTable rules_;
