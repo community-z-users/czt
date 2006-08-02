@@ -141,7 +141,8 @@ public abstract class EvalTest extends TestCase
   
   public static Test generateSuite(String filename) {
     ZLive animator = new ZLive();
-    ZFormatter.startLogging("zlive.log", Level.FINEST);
+    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+        "zlive.log", Level.FINEST);
     TestSuite tests = new TestSuite();
     int count = 0;
     Spec spec = null;

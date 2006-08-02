@@ -20,8 +20,11 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import junit.framework.Assert;
+import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -50,7 +53,10 @@ public class ZLiveTest extends ZTestCase
     + "\\end{schema}\n"
     + "\n"
     + "\\begin{schema}{AIncr}\n"
-    + "    a, b, a', b' : 0 \\upto 10\n"
+    + "    a : 0 \\upto 10 \\\\ \n"
+    + "    b : 0 \\upto 10 \\\\ \n"
+    + "    a' : 0 \\upto 10 \\\\ \n"
+    + "    b' : 0 \\upto 10 \\\\ \n"
     + "\\where\n"
     + "    b' = b \\\\ \n"
     + "    a' = a + 1\n"
@@ -101,11 +107,12 @@ public class ZLiveTest extends ZTestCase
   }
 
   /** This tests the evaluation of schema AIncr with a==0 and b==10.
-   *  Not working yet, because \exists is not unfolded properly.
   public void testEvalOperation1()
   throws CommandException
   {
     BindExpr args = (BindExpr) parseExpr("\\lblot a==0, b==10 \\rblot");
+    //ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+    //    "evalSchema.log", Level.FINEST);
     Expr result = zlive_.evalSchema("AIncr", args);
     assertTrue(result instanceof EvalSet);
     EvalSet set = (EvalSet) result;
@@ -114,6 +121,7 @@ public class ZLiveTest extends ZTestCase
     assertTrue(iter.hasNext());
     BindExpr expect = (BindExpr) parseExpr("\\lblot a'==1, b'==10 \\rblot");
     assertEquals(expect, iter.next());
+    //ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
   }
   */
 }
