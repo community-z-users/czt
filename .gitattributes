@@ -192,6 +192,7 @@ zlive/src/documentation/resources/images/project.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.png svneol=native#unset
 zlive/src/documentation/resources/images/sflogo.png svneol=native#unset
 zlive/src/documentation/resources/images/zlive.xcf svneol=native#unset
+zlive/src/main/java/net/sourceforge/czt/animation/eval/EnvirUtils.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSet.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSetVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -text

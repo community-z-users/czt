@@ -32,6 +32,7 @@ import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -278,6 +279,7 @@ public class ZLive
       throw new CztException("Must choose a section!");
     }
     // preprocess the expr, to unfold things.
+    // Unifier.printDepth_ = 7;  // for debugging unifications
     expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
     sLogger.finer("After preprocess, expr="+printTerm(expr));
     // must typecheck, to reestablish the unique-ids invariant.
@@ -319,6 +321,7 @@ public class ZLive
     if (schema == null)
       throw new CztException("Cannot find schema: "+schemaName);
     ExistsExpr expr = factory_.createExistsExpr(schText, schema);
+    sLogger.fine("evalSchema is starting to evaluate: "+printTerm(expr));
     return evalExpr(expr);
   }
 

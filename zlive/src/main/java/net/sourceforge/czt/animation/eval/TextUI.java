@@ -90,7 +90,10 @@ public class TextUI {
     output.println(ZLive.banner);
 
     // save log messages into zlive.log, using our human-readable format
-    ZFormatter.startLogging("zlive.log", Level.FINEST);
+    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+       "zlive.log", Level.FINEST);
+    //ZFormatter.startLogging("net.sourceforge.czt.rules",
+    //    "zlive.log", Level.FINEST);
 
     TextUI ui = new TextUI(new ZLive(), output);
     ui.mainLoop(input);

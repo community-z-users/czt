@@ -45,10 +45,10 @@ public class ZFormatter extends SimpleFormatter {
    *  @param fileName  the name of the log file
    *  @param detail    Eg. Level.FINEST.
    */
-  public static void startLogging(String fileName, Level detail)
+  public static void startLogging(String where, String fileName, Level detail)
   {
     // set up a specific logger with our human-readable format
-    Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
+    Logger logger = Logger.getLogger(where);
     logger.setLevel(detail);
     try {
       handler_ = new FileHandler(fileName);
@@ -63,9 +63,9 @@ public class ZFormatter extends SimpleFormatter {
   }
   
   /** Stop the log messages that were started by startLogging. */
-  public static void stopLogging()
+  public static void stopLogging(String where)
   {
-    Logger logger = Logger.getLogger("net.sourceforge.czt.animation.eval");
+    Logger logger = Logger.getLogger(where);
     logger.removeHandler(handler_);
     handler_ = null;
   }
