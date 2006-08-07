@@ -3158,10 +3158,7 @@ processPara ::=
         {: RESULT = null; :}
         |
         CIRCPROC:cp optFormalParameters:ofp name:n error
-        {: RESULT = null; :}
-        |
-        CIRCPROC:cp optFormalParameters:ofp name:n error
-        {: RESULT = null; :}
+        {: RESULT = null; :}        
         ;        
 
 processDesc ::=
