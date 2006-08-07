@@ -1650,7 +1650,7 @@
           <xs:element ref="Z:ParaList">           
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="StatePara"/>
+                <jaxb:property name="LocalPara"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>        
