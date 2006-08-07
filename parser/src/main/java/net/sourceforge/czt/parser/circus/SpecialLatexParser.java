@@ -153,6 +153,7 @@ public class SpecialLatexParser {
     
     private static final String PRINT_LATEX_EXT = ".print.tex";
     private static final String PRINT_UNICODE_EXT = ".print.utf8";
+    private static final String PRINT_ZML_EXT = ".zml";
     
     public static void printLatex(Term term, String filename, SectionInfo sectInfo) 
       throws IOException {
@@ -168,6 +169,13 @@ public class SpecialLatexParser {
         PrintUtils.printUnicode(term, writer, sectInfo);
     }
     
+    public static void printZML(Term term, String filename) throws IOException {
+      JaxbXmlWriter writer = new net.sourceforge.czt.circus.jaxb.JaxbXmlWriter();
+      FileWriter out = new FileWriter(filename + PRINT_ZML_EXT);                    
+      writer.write(term, out);
+      out.close();                    
+    }
+    
     /**
      * Converts latex to zml.
      */
@@ -180,6 +188,7 @@ public class SpecialLatexParser {
             boolean reparseLatex = false;
             boolean printLatex = false;
             boolean printUnicode = false;
+            boolean printZML = false;
             for (int i = 0; i < args.length; i++) {
                 if ("-in".equals(args[i])) {
                     if (i < args.length) {
@@ -192,6 +201,8 @@ public class SpecialLatexParser {
                    printLatex = true;
                 } else  if ("-printUnicode".equals(args[i])) {
                    printUnicode = true;
+                } else  if ("-printZML".equals(args[i])) {
+                   printZML = true;
                 } else  if ("-reparseLatex".equals(args[i])) {
                    reparseLatex = true;
                 } else {
@@ -258,6 +269,13 @@ public class SpecialLatexParser {
                     printUnicode(term, filename, sm);
                     time = System.currentTimeMillis() - time;
                     System.out.println("----FINISHED UNICODE PRINTING----(" +  time + "msecs)");
+                  }
+                  if (printZML) {
+                    System.out.println("----STARTING ZML PRINTING----");
+                    time = System.currentTimeMillis();
+                    printZML(term, filename);
+                    time = System.currentTimeMillis() - time;
+                    System.out.println("----FINISHED ZML PRINTING----(" +  time + "msecs)");
                   }
                 } catch(CztException f) {                  
                   System.err.println("---PRINTER-ERROR---(" +  time + "msecs)");
