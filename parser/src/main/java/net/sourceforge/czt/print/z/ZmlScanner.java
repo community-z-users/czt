@@ -27,14 +27,9 @@ import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * This Scanner uses the print visitor to tokenize a

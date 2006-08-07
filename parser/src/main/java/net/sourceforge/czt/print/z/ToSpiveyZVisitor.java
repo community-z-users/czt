@@ -23,20 +23,8 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.OpTable;
-import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.util.TokenImpl;
-import net.sourceforge.czt.parser.z.Keyword;
-import net.sourceforge.czt.parser.z.TokenName;
-import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 
 /**

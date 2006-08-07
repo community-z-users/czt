@@ -21,12 +21,8 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * A visitor that computes a {@link DefinitionTable} from a given

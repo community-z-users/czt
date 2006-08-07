@@ -21,8 +21,6 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**

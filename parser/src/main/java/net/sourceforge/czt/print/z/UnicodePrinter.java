@@ -21,22 +21,9 @@ package net.sourceforge.czt.print.z;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Map;
 
-import net.sourceforge.czt.java_cup.runtime.Scanner;
-import net.sourceforge.czt.java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.Token;
-import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
 
 /**
  * Print Z specifications in Unicode.
