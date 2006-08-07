@@ -1420,7 +1420,13 @@
       <xs:extension base="Z:Para">
         <xs:sequence>          
           <!--<xs:element ref="CIRCUS:ChannelDecl" minOccurs="0" maxOccurs="unbounded"/>-->
-          <xs:element name="ChannelDecl" type="Z:DeclList"/>
+          <xs:element ref="Z:DeclList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ChannelDecl"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1431,7 +1437,13 @@
       <xs:extension base="Z:Decl">
         <xs:sequence>
           <!-- Generic types, possibly empty but not null? -->                    
-          <xs:element name="GenFormals" type="Z:DeclNameList"/>          
+          <xs:element ref="Z:DeclNameList">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <!-- List of channel names for channel, or null for channelFrom -->        
           <xs:element ref="Z:DeclNameList"/>          
           <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
@@ -1445,8 +1457,14 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element name="GenFormals" type="Z:DeclNameList"/>
-          <xs:element name="Name" type="Z:DeclName"/>
+          <xs:element ref="Z:DeclNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:DeclName"/>            
           <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
@@ -1468,7 +1486,13 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element name="GenFormals" type="Z:DeclNameList"/>
+          <xs:element ref="Z:DeclNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="CIRCUS:CircusProcess"/>
         </xs:sequence>
       </xs:extension>
@@ -1485,8 +1509,20 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusConjPara">
         <xs:sequence>
-          <xs:element name="Specification" type="CIRCUS:CircusAction"/>
-          <xs:element name="Implementation" type="CIRCUS:CircusAction"/>
+          <xs:element ref="CIRCUS:CircusAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Specification"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:CircusAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Implementation"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>  
         <xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>        
       </xs:extension>
@@ -1600,12 +1636,24 @@
             
             TODO:Make sure typechecker does that!(Check other places where typechecer is mentioned as well).
           -->
-          <xs:element name="StatePara" type="Z:Para"/>          
+          <xs:element ref="Z:Para">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="StatePara"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
           <!-- 
             Contains both Z and Circus paragraphs, where the StatePara
             is annotated with a CircusStateAnn.  
           -->
-          <xs:element name="LocalPara" type="Z:ParaList"/>           
+          <xs:element ref="Z:ParaList">           
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="StatePara"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>        
           <!-- 
             Contains implicitly declared ActionPara or state schema 
             (as ActionPara with SchExprAction). This includes the 
@@ -1616,12 +1664,24 @@
             the state is named "$$defaultSt" and the main action
             "$$mainAction".
            -->          
-          <xs:element name="OnTheFlyPara" type="Z:ParaList"/>                      
+          <xs:element ref="Z:ParaList">                      
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="OnTheFlyPara"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>        
           <!--
             The main action is the action within the ActionPara inside
             OnTheFlyPara. It is annotated with an OnTheFlyDefAnn.
           -->
-          <xs:element name="MainAction" type="CIRCUS:CircusAction"/>
+          <xs:element ref="CIRCUS:CircusAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="MainAction"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1647,8 +1707,20 @@
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
           <!-- CallExpr because it can contain generic actuals -->
-          <xs:element name="CallExpr" type="Z:RefExpr"/>                    
-          <xs:element name="Actuals" type="Z:ExprList"/>          
+          <xs:element ref="Z:RefExpr">                    
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="CallExpr"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+          <xs:element ref="Z:ExprList">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Actuals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>       
         </xs:sequence>
         <xs:attribute name="CallKind" type="CIRCUS:CallKind" use="optional" default="Param"/>
       </xs:extension>
@@ -2116,8 +2188,20 @@
       <xs:extension base="Z:Term">
         <xs:sequence>
           <!-- Channel expression because it can contain generic actuals -->
-          <xs:element name="ChannelExpr" type="Z:RefExpr"/>          
-          <xs:element name="ChanFields" type="CIRCUS:CircusFieldList"/>
+          <xs:element ref="Z:RefExpr">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ChannelExpr"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>       
+          <xs:element ref="CIRCUS:CircusFieldList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ChanFields"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="CommKind" type="CIRCUS:CommKind" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
@@ -2152,7 +2236,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
         <xs:sequence>
-          <xs:element name="Variable" type="Z:RefName"/>
+          <xs:element ref="Z:RefName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Variable"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
@@ -2202,7 +2292,13 @@
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
           <!-- <xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/> -->
-          <xs:element name="Frame" type="Z:RefNameList"/>
+          <xs:element ref="Z:RefNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Frame"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
@@ -2302,8 +2398,20 @@
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element name="Channel" type="Z:RefExpr"/>          
-          <xs:element name="Value" type="Z:Expr"/>            
+          <xs:element ref="Z:RefExpr">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Channel"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+          <xs:element ref="Z:Expr">            
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Value"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2315,7 +2423,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element name="GenFormals" type="Z:DeclNameList"/>
+          <xs:element ref="Z:DeclNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <!-- How to make this possibly empty? -->
           <xs:element ref="Z:Type2">
             <xs:annotation>
@@ -2379,9 +2493,27 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ProcessName" type="Z:DeclName"/>
-          <xs:element name="GenFormals" type="Z:DeclNameList"/>
-          <xs:element name="ParamOrIndexes" type="Z:Signature" minOccurs="0"/>          
+          <xs:element ref="Z:DeclName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ProcessName"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+          <xs:element ref="Z:DeclNameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="GenFormals"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature" minOccurs="0">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ParamOrIndexes"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Kind" type="CIRCUS:ProcessKind" use="optional" default="Parameterised"/>
       </xs:extension>
@@ -2410,7 +2542,13 @@
               For stateless processes, the typechecker must create an empty signature for the SchemaType.
               Moreover, it must also resolve any pending generic actual from either the schema or the process.
               --> 
-              <xs:element name="StateType" type="Z:SchemaType"/>
+              <xs:element ref="Z:SchemaType">
+                <xs:annotation>
+                  <xs:appinfo>
+                    <jaxb:property name="StateType"/>
+                  </xs:appinfo>
+                </xs:annotation>
+              </xs:element>
               <!-- 
               Contains a list of alll local paragraphs that are Z paragraphs.
               This includes the implicitly declared state.
@@ -2430,7 +2568,13 @@
               <!--
               Contains a list of all name set paragraphs of the process.
               -->
-              <xs:element name="NameSet" type="Z:ZRefNameList"/>                
+              <xs:element ref="Z:ZRefNameList">                
+                <xs:annotation>
+                  <xs:appinfo>
+                    <jaxb:property name="NameSet"/>
+                  </xs:appinfo>
+                </xs:annotation>
+              </xs:element>
           </xs:sequence>
       </xs:extension>
     </xs:complexContent>    
@@ -2440,10 +2584,34 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ActionName" type="Z:DeclName"/>          
-          <xs:element name="FormalParams" type="Z:Signature" minOccurs="0"/>            
-          <xs:element name="LocalVars" type="Z:Signature" minOccurs="0"/>
-          <xs:element name="UsedChannels" type="Z:Signature" minOccurs="0"/>
+          <xs:element ref="Z:DeclName">          
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ActionName"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature">            
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="FormalParams"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="LocalVars"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="UsedChannels"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
