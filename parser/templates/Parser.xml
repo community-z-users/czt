@@ -3011,12 +3011,12 @@ channelPara ::=
            RESULT = factory_.createChannelPara(factory_.createZDeclList(cfdl));
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :}   
-        |
+        /*|
         CIRCCHAN:chan error
         {: RESULT = null; :}
         |
         CIRCCHANFROM:chanf error
-        {: RESULT = null; :}
+        {: RESULT = null; :}*/
         ;
         
 channelDeclList ::= 
@@ -3032,12 +3032,12 @@ channelDeclList ::=
            cdl.add(cd);
            RESULT = cdl;
         :}
-        |
+        /*|
         channelDeclList:cdl SEMICOLON NL error
         {: RESULT = null; :}
         |
         channelDeclList:cdl NL error
-        {: RESULT = null; :}        
+        {: RESULT = null; :}     */   
         ;
         
 channelFromDeclList ::= 
@@ -3053,12 +3053,12 @@ channelFromDeclList ::=
            cfdl.add(cfd);
            RESULT = cfdl;
         :}
-        |
+        /*|
         channelFromDeclList:cfdl SEMICOLON NL error
         {: RESULT = null; :}
         |
         channelFromDeclList:cfdl NL error
-        {: RESULT = null; :}        
+        {: RESULT = null; :}    */    
         ;        
         
 /* Removed declWordList and use circusDeclWordList instead as we do not need
@@ -3085,12 +3085,12 @@ channelDecl ::=
            RESULT = factory_.createChannelDecl(factory_.createZDeclNameList(), nl, null);
            addLocAnn(RESULT, getLocation(nl));
 	:} 
-        |
+        /*|
         optFormalParameters:ofp circusDeclWordList:cdwl COLON error
         {: RESULT = null; :}
         |
         optFormalParameters:ofp circusDeclWordList:cdwl error
-        {: RESULT = null; :}        
+        {: RESULT = null; :}       */ 
         ;
         
 /* Channel declaration from schema inclusion MUST have the DeclName list null
@@ -3123,7 +3123,7 @@ channelSetPara ::=
            RESULT = factory_.createChannelSetPara(ofp, n, cs);
            addLocAnn(RESULT, getLocation(ccs, cs));
         :}      
-        |
+      /*  |
         CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error
         {: RESULT = null; :}
         |
@@ -3131,7 +3131,7 @@ channelSetPara ::=
         {: RESULT = null; :}
         |
         CIRCCHANSET:ccs optFormalParameters:ofp error
-        {: RESULT = null; :}        
+        {: RESULT = null; :}       */ 
         ;
         
 channelSet ::=                
@@ -3153,12 +3153,12 @@ processPara ::=
            checkRepeatedStateDecl((ProcessPara)RESULT);
            addLocAnn(RESULT, getLocation(cp, pd));
         :} 
-        |
+        /*|
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error
         {: RESULT = null; :}
         |
         CIRCPROC:cp optFormalParameters:ofp name:n error
-        {: RESULT = null; :}        
+        {: RESULT = null; :}  */      
         ;        
 
 processDesc ::=
