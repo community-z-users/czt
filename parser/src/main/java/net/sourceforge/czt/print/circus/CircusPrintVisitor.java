@@ -151,7 +151,7 @@ public class CircusPrintVisitor
     print(TokenName.ZED);
     print(CircusKeyword.CIRCCHANSET);
     printGenericFormals(term.getGenFormals());
-    visit(term.getName());    
+    visit(term.getDeclName());    
     print(Keyword.DEFEQUAL);    
     visit(term.getChannelSet());
     print(TokenName.END);    
