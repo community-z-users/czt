@@ -19,12 +19,8 @@
 
 package net.sourceforge.czt.rules.ast;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.DeclList;
 import net.sourceforge.czt.z.impl.DeclListImpl;
-import net.sourceforge.czt.zpatt.ast.Binding;
 
 /**
  * An empty decl list
