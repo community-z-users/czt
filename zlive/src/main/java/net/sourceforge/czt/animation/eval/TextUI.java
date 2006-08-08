@@ -35,6 +35,10 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.ProverUtils;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.SimpleProver;
+import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.Key;
@@ -58,6 +62,8 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Rule;
 
 public class TextUI {
   private static Logger LOG 
@@ -217,8 +223,45 @@ public class TextUI {
           output_.println(manager.get(new Key(section, DefinitionTable.class)));
         }
       }
+      else if (cmd.equals("apply")) {
+        if (args == null || "".equals(args)) {
+          output_.println("Invalid command.  Try 'help'");
+        }
+        else {
+          final String parts[] = args.split(" +", 2);
+          if (parts.length > 1) {
+            String section = zlive_.getCurrentSection();
+            Source src = new StringSource(parts[1]);
+            Markup markup = zlive_.getMarkup();
+            src.setMarkup(markup);
+            Expr expr = ParseUtils.parseExpr(src, section, manager);
+            RuleTable rules = (RuleTable)
+              manager.get(new Key("ZLivePreprocess", RuleTable.class));
+            Rule rule = rules.get(parts[0]);
+            if (rule == null) {
+              output_.println("Cannot find rule " + parts[0]);
+            }
+            else {
+              ProverJokerExpr joker = (ProverJokerExpr)
+                ProverUtils.FACTORY.createJokerExpr("_");
+              Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
+              PredSequent predSequent = ProverUtils.createPredSequent(pred);
+              if (SimpleProver.apply(rule, predSequent)) {
+                output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));
+              }
+              else {
+                output_.println("Cannot apply rule " + parts[0] +
+                                " to expr " + zlive_.printTerm(expr));
+              }
+            }
+          }
+          else {
+            output_.println("Command 'apply' requires two arguments.  Try 'help'");
+          }
+        }
+      }
       else {
-        output_.println("Invalid command.  Try 'help'?");
+        output_.println("Invalid command.  Try 'help'");
       }
     }
     catch (SourceLocator.SourceLocatorException e) {
