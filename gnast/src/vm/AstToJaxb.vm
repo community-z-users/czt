@@ -52,6 +52,7 @@ public class $class.Name
 #if($ImportPackage)
 #set($object = ${ImportProject.getObject("AstToJaxb")})
   extends ${object.Package}.${object.Name}
+  implements ${visitor.FullName}<Object>
 #else
   implements ${visitor.FullName}<Object>,
              net.sourceforge.czt.base.visitor.TermVisitor<Object>
