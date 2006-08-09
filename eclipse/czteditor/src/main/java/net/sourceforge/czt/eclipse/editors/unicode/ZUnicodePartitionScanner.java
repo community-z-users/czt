@@ -1,0 +1,111 @@
+
+package net.sourceforge.czt.eclipse.editors.unicode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sourceforge.czt.eclipse.editors.IZPartitions;
+
+import org.eclipse.jface.text.rules.IPredicateRule;
+import org.eclipse.jface.text.rules.IToken;
+import org.eclipse.jface.text.rules.MultiLineRule;
+import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
+import org.eclipse.jface.text.rules.Token;
+
+public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
+{
+
+  public final static String[] Z_PARTITION_TYPES_UNICODE = new String[]{
+    IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
+      IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
+      IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH};
+
+  /**
+   * Detector for empty comments.
+   */
+  //	static class EmptyCommentDetector implements IWordDetector {
+  //
+  //		/* (non-Javadoc)
+  //		* Method declared on IWordDetector
+  //	 	*/
+  //		public boolean isWordStart(char character) {
+  //			return (character == '/');
+  //		}
+  //
+  //		/* (non-Javadoc)
+  //		* Method declared on IWordDetector
+  //	 	*/
+  //		public boolean isWordPart(char character) {
+  //			return (character == '*' || character == '/');
+  //		}
+  //	}
+  /**
+   * 
+   */
+  //	static class WordPredicateRule extends WordRule implements IPredicateRule {
+  //		
+  //		private IToken fSuccessToken;
+  //		
+  //		public WordPredicateRule(IToken successToken) {
+  //			super(new EmptyCommentDetector());
+  //			fSuccessToken= successToken;
+  //			addWord("/**/", fSuccessToken); //$NON-NLS-1$
+  //		}
+  //		
+  //		/*
+  //		 * @see org.eclipse.jface.text.rules.IPredicateRule#evaluate(ICharacterScanner, boolean)
+  //		 */
+  //		public IToken evaluate(ICharacterScanner scanner, boolean resume) {
+  //			return super.evaluate(scanner);
+  //		}
+  //
+  //		/*
+  //		 * @see org.eclipse.jface.text.rules.IPredicateRule#getSuccessToken()
+  //		 */
+  //		public IToken getSuccessToken() {
+  //			return fSuccessToken;
+  //		}
+  //	}
+  /**
+   * Creates the partitioner and sets up the appropriate rules.
+   */
+  public ZUnicodePartitionScanner()
+  {
+    super();
+    List<IPredicateRule> rules = new ArrayList<IPredicateRule>();
+    
+    IToken zParagraphUnicodeZSection = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION);
+    IToken zParagraphUnicodeAxdef = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF);
+    IToken zParagraphUnicodeSchema = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA);
+    IToken zParagraphUnicodeGenAx = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENAX);
+    IToken zParagraphUnicodeGenSch = new Token(
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH);
+
+    // Add special case word rule.
+    // rules.add(new WordPredicateRule(zMultiLineComment));
+
+    //Add rules for multi-line Z paragraphs.
+    
+    rules.add(new MultiLineRule(
+        "\u2500", "\u2029", zParagraphUnicodeZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u2577", "\u2029", zParagraphUnicodeAxdef, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u250C", "\u2029", zParagraphUnicodeSchema, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u2577,\u2550", "\u2029", zParagraphUnicodeGenAx, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(
+        "\u250C,\u2550", "\u2029", zParagraphUnicodeGenSch, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    
+    IPredicateRule[] result = new IPredicateRule[rules.size()];
+    rules.toArray(result);
+
+    setPredicateRules(result);
+  }
+}
