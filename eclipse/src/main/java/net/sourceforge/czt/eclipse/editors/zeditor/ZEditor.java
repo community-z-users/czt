@@ -34,7 +34,9 @@ import net.sourceforge.czt.eclipse.editors.ZCharacter;
 import net.sourceforge.czt.eclipse.editors.ZPairMatcher;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.editors.actions.CZTActionConstants;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
+import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.outline.CztSegment;
@@ -52,7 +54,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
@@ -99,7 +103,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IEditorStatusLine;
@@ -383,7 +389,38 @@ public class ZEditor extends TextEditor
   {
     super();
   }
-
+  
+  /**
+   * @see org.eclipse.ui.texteditor.AbstractTextEditor#createActions()
+   */
+  protected void createActions() {
+    super.createActions();
+/*
+    IAction action = new GoToDeclarationAction(CZTPlugin.getDefault()
+        .getResourceBundle(), "GoToDeclaration.", this); //$NON-NLS-1$
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+    setAction(CZTActionConstants.GO_TO_DECLARATION, action);
+*/
+//    IHandlerService handlerService =
+//      (IHandlerService)getEditorSite().getService(IHandlerService.class);
+//    handlerService.activateHandler(action.getActionDefinitionId(),
+//      new ActionHandler(action));
+//    IAction action = new Convert2LatexAction(CZTPlugin.getDefault()
+//        .getResourceBundle(), "Convert2Latex.", this);
+//    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+//    setAction(CZTActionConstants.CONVERT_TO_LATEX, action); //$NON-NLS-1$
+//    markAsStateDependentAction("AddBlockComment", true); //$NON-NLS-1$
+//    markAsSelectionDependentAction("AddBlockComment", true); //$NON-NLS-1$
+//    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.ADD_BLOCK_COMMENT_ACTION);
+  }
+  
+  /**
+   * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeKeyBindingScopes()
+   */
+  protected void initializeKeyBindingScopes() {
+    setKeyBindingScopes(new String[] { "net.sourceforge.czt.eclipse.ZEditorScope" });  //$NON-NLS-1$
+  }
+  
   /**
    * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
    */

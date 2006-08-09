@@ -97,8 +97,6 @@ public abstract class AbstractConversionAction extends TextEditorAction
                       .getResourceString("CompilerAction.conversionViewOpeningProblem"),
                   e));
     }
-    
-    System.out.println(data);
   }
   
   abstract String process(SectionManager manager) throws CommandException;

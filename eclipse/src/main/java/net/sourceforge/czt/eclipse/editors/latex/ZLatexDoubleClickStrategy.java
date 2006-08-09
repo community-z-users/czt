@@ -123,7 +123,6 @@ public class ZLatexDoubleClickStrategy implements ITextDoubleClickStrategy
       }
 
       fEndPos = pos - 1;
-      System.out.println("start: " + fStartPos + ", end: " + fEndPos);
 
       return true;
 
