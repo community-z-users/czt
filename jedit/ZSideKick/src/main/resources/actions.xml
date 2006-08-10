@@ -38,6 +38,11 @@
       zsidekick.ZSideKickActions.insertTypeForCurrentWff(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.proveCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.prove(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.disableTypechecking">
     <CODE>
       buffer.putBooleanProperty("zsidekick.disable-typechecking",
