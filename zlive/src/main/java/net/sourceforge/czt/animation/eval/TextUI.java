@@ -246,7 +246,8 @@ public class TextUI {
                 ProverUtils.FACTORY.createJokerExpr("_");
               Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
               PredSequent predSequent = ProverUtils.createPredSequent(pred);
-              if (SimpleProver.apply(rule, predSequent)) {
+              SimpleProver prover = new SimpleProver(rules, manager, section);
+              if (SimpleProver.apply2(rule, predSequent) && prover.prove(predSequent.getDeduction())) {
                 output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));
               }
               else {
