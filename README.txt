@@ -105,7 +105,7 @@ Here are the instructions for compiling CZT from the command line.
    The argument increases the Java heap size to 256Mb, which is 
    necessary to build some of the CZT parsers.
    Alternatively, you can set the ANT_OPTS environment variable
-   to -Xms256m before you call ant.
+   to -Xmx256m before you call ant.
 
    By default, ant will build the jar files and install them in 
    the '<CZT_HOME>/lib' directory.  Optionally, you can pass an 
