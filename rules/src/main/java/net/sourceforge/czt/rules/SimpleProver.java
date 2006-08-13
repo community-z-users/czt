@@ -136,37 +136,40 @@ public class SimpleProver
   /**
    * Tries to prove a deduction by proving all its children.
    * Returns <code>true</code> if this succeeds,
-   * <code>false</code> otherwise.
+   * otherwise it returns false.
    */
   public boolean prove(Deduction deduction)
   {
-    return prove(deduction.getSequent());
+    return prove(deduction.getSequent()) < 0;
   }
 
   /**
    * Tries to prove an array of sequents.
-   * Returns <code>true</code> if this succeeds,
-   * <code>false</code> otherwise.
+   * Returns <code>-1</code> if this succeeds,
+   * otherwise it returns the number of the sequent
+   * that failed (from 0 upwards).
    */
-  public boolean prove(List<Sequent> sequents)
+  public int prove(List<Sequent> sequents)
   {
+    int result = -1;
     for (Iterator<Sequent> i = sequents.iterator(); i.hasNext(); ) {
       Sequent sequent = i.next();
+      result++;
       if (sequent instanceof PredSequent) {
-        if (! prove((PredSequent) sequent)) return false;
+        if (! prove((PredSequent) sequent)) return result;
       }
       else if (sequent instanceof ProverProviso) {
         ProverProviso proviso = (ProverProviso) sequent;
         proviso.check(manager_, section_);
         if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
-          return false;
+          return result;
         }
       }
       else {
-        return false;
+        return result;
       }
     }
-    return true;
+    return -1;
   }
 
   /**
