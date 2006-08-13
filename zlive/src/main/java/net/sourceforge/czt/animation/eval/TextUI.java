@@ -38,6 +38,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.ProverUtils;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.SimpleProver;
+import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
@@ -64,6 +65,7 @@ import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.ast.Rule;
+import net.sourceforge.czt.zpatt.util.Factory;
 
 public class TextUI {
   private static Logger LOG 
@@ -96,10 +98,12 @@ public class TextUI {
     output.println(ZLive.banner);
 
     // save log messages into zlive.log, using our human-readable format
-    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-       "zlive.log", Level.FINEST);
-    //ZFormatter.startLogging("net.sourceforge.czt.rules",
-    //    "zlive.log", Level.FINEST);
+    if (args.length > 0 && args[0].equals("-rules"))
+      ZFormatter.startLogging("net.sourceforge.czt.rules",
+          "zlive.log", Level.FINEST);
+    else
+      ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+          "zlive.log", Level.FINEST);
 
     TextUI ui = new TextUI(new ZLive(), output);
     ui.mainLoop(input);
@@ -235,6 +239,9 @@ public class TextUI {
             Markup markup = zlive_.getMarkup();
             src.setMarkup(markup);
             Expr expr = ParseUtils.parseExpr(src, section, manager);
+            List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(expr, manager, false, section);
+            if (errs.size() > 0)
+              output_.println("Type errors: "+errs);
             RuleTable rules = (RuleTable)
               manager.get(new Key("ZLivePreprocess", RuleTable.class));
             Rule rule = rules.get(parts[0]);
@@ -242,13 +249,18 @@ public class TextUI {
               output_.println("Cannot find rule " + parts[0]);
             }
             else {
+              Factory fact = new Factory(new ProverFactory());
               ProverJokerExpr joker = (ProverJokerExpr)
-                ProverUtils.FACTORY.createJokerExpr("_");
+                 fact.createJokerExpr("_");
               Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
               PredSequent predSequent = ProverUtils.createPredSequent(pred);
               SimpleProver prover = new SimpleProver(rules, manager, section);
-              if (SimpleProver.apply2(rule, predSequent) && prover.prove(predSequent.getDeduction())) {
-                output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));
+              if (SimpleProver.apply2(rule, predSequent)) {
+                int proveresult = prover.prove(predSequent.getDeduction().getSequent());
+                if (proveresult < 0)
+                  output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 
+                else
+                  output_.println("Could not prove antecedent "+proveresult);
               }
               else {
                 output_.println("Cannot apply rule " + parts[0] +
