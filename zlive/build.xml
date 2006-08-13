@@ -68,6 +68,16 @@
     </java>
   </target>
 
+  <target name="run-rules" depends="compile, install"
+	      description="run the ZLive Text UI with -rules logging">
+    <java classname="net.sourceforge.czt.animation.eval.TextUI"
+	      fork="true">
+	  <classpath refid="classpath"/>
+	  <assertions> <enable/> </assertions>
+	  <arg value="-rules"/>
+	</java>
+  </target>
+
 
   <target name="doc" depends="api"
     description="build all the documentation"/>
