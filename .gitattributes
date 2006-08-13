@@ -205,6 +205,7 @@ zlive/.classpath -text
 zlive/.project -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
+zlive/examples/calc.czt -text
 zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.png svneol=native#unset
