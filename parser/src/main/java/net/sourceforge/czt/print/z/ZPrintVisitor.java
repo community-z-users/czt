@@ -413,7 +413,10 @@ public class ZPrintVisitor
 
   public Object visitFalsePred(FalsePred falsePred)
   {
+    final boolean braces = falsePred.getAnn(ParenAnn.class) != null;
+    if (braces) print(TokenName.LPAREN);
     print(Keyword.FALSE);
+    if (braces) print(TokenName.RPAREN);
     return null;
   }
 
@@ -1103,7 +1106,10 @@ public class ZPrintVisitor
 
   public Object visitTruePred(TruePred truePred)
   {
+    final boolean braces = truePred.getAnn(ParenAnn.class) != null;
+    if (braces) print(TokenName.LPAREN);
     print(Keyword.TRUE);
+    if (braces) print(TokenName.RPAREN);
     return null;
   }
 
