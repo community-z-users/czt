@@ -67,7 +67,7 @@ public enum ConcreteSyntaxSymbol
   EXIONE_PRED("Unique existential quantification predicate"),
   IFF_PRED("Equivalence predicate"),
   IMPL_PRED("Implication predicate"),
-  OR_PRED("Disjuntion predicate"),
+  OR_PRED("Disjunction predicate"),
   AND_PRED("Conjunction predicate"),
   NEG_PRED("Negation predicate"),
   REL_PRED("Relation operator application predicate"),
