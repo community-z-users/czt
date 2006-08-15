@@ -171,9 +171,13 @@ public class SpecialLatexParser {
     
     public static void printZML(Term term, String filename) throws IOException {
       JaxbXmlWriter writer = new net.sourceforge.czt.circus.jaxb.JaxbXmlWriter();
-      FileWriter out = new FileWriter(filename + PRINT_ZML_EXT);                    
-      writer.write(term, out);
-      out.close();                    
+      System.out.println("Printing ZML of term of to " + filename + PRINT_ZML_EXT);
+      StringWriter stw = new StringWriter();
+      writer.write(term, stw);      
+      stw.close();
+      BufferedWriter out = new BufferedWriter(new FileWriter(filename + PRINT_ZML_EXT));
+      out.write(stw.toString());
+      out.close();   
     }
     
     /**
@@ -181,7 +185,7 @@ public class SpecialLatexParser {
      */
     public static void main(String[] args) {
         String usage = "Usage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
-                + " [ -in <texInputfile>] [ -printLatex] [ -printUnicode] [ -reparseLatex]";
+                + " [ -in <texInputfile>] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
         long time = System.currentTimeMillis();       
         try {
             String filename = null;
@@ -198,13 +202,16 @@ public class SpecialLatexParser {
                         return;
                     }
                 } else  if ("-printLatex".equals(args[i])) {
-                   printLatex = true;
+                   //printLatex = true;
+                  System.out.println("Ignoring LaTeX printing at the moment! (TODO: BasicProcesses)");
                 } else  if ("-printUnicode".equals(args[i])) {
-                   printUnicode = true;
+                   //printUnicode = true;
+                  System.out.println("Ignoring Unicode printing at the moment! (TODO: BasicProcesses)");
                 } else  if ("-printZML".equals(args[i])) {
                    printZML = true;
                 } else  if ("-reparseLatex".equals(args[i])) {
-                   reparseLatex = true;
+                   //reparseLatex = true;
+                   System.out.println("Ignoring reparsing from LaTeX at the moment! (TODO)");
                 } else {
                     System.err.println(usage);
                     return;
