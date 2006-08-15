@@ -46,6 +46,7 @@ public class ProverLookupConstDeclProviso
   public void check(SectionManager manager, String section)
   {
     try {
+      CopyVisitor copyVisitor = new CopyVisitor(new Factory());
       Key key = new Key(section, DefinitionTable.class);
       DefinitionTable table = (DefinitionTable) manager.get(key);
       if (table != null) {
@@ -54,7 +55,7 @@ public class ProverLookupConstDeclProviso
         String word = refName.accept(new GetRefNameWordVisitor());
         DefinitionTable.Definition def = table.lookup(word);
         if (def != null) {
-          unify(def.getExpr(), getRightExpr());
+          unify(def.getExpr().accept(copyVisitor), getRightExpr());
           return;
         }
         else status_ = Status.UNKNOWN;

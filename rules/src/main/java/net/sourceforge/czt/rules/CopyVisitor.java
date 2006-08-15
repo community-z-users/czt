@@ -40,12 +40,15 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * multiple names into variable declarations with just one name,
  * i.e. a,b:E gets rewritten to a:E;b:E.
  *
+ * @czt.todo Doesn't copy annotations.
+ *
  * @author Petra Malik
  */
 public class CopyVisitor
   implements TermVisitor<Term>,
              VarDeclVisitor<Term>,
              ZDeclListVisitor<Term>,
+             ZSchTextVisitor<Term>,
              JokerDeclListVisitor<Term>,
              JokerExprVisitor<Term>,
              JokerDeclNameVisitor<Term>,
@@ -99,6 +102,17 @@ public class CopyVisitor
         result.add((Decl) term);
       }
     }
+    return result;
+  }
+
+  public Term visitZSchText(ZSchText zSchText)
+  {
+    ZSchText result = factory_.createZSchText();
+    result.setDeclList((DeclList) zSchText.getDeclList().accept(this));
+    Pred pred = zSchText.getPred();
+    if (pred != null) pred = (Pred) pred.accept(this);
+    if (pred == null) pred = factory_.createTruePred();
+    result.setPred(pred);
     return result;
   }
 

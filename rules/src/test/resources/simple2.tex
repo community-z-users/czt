@@ -90,6 +90,9 @@ We define an infix operator for unfolding schemas.
            [ x:\nat; y:\nat ; z:\nat | true ]
 \end{zed}
 
+\begin{zed}
+  \vdash?~ [ x, y:\nat | true ] = [ x:\nat; y:\nat | true ]
+\end{zed}
 
 
 \begin{zedrule}{normaliseEmpty}

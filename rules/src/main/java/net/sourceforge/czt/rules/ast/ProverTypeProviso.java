@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.TypeProvisoImpl;
+import net.sourceforge.czt.zpatt.util.Factory;
 
 /**
  * <p>A TypeProviso used by the prover.</p>
@@ -65,6 +66,7 @@ public class ProverTypeProviso
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();
       Term expr2 = (Term) typeAnn.getType().accept(visitor);
+      expr2 = expr2.accept(new CopyVisitor(new Factory()));
       unify(type, expr2);
     }
     else {
