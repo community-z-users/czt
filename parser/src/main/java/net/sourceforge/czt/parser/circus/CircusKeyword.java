@@ -24,7 +24,7 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.util.CircusString;
 
 /**
- * Object-Z keyword spelling for KeywordScanner 
+ * Circus keyword spelling for KeywordScanner 
  *
  * @author Leo Freitas
  */
