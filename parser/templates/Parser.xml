@@ -1620,7 +1620,7 @@ parser code
     }
 
     public void syntax_error(Symbol token)
-    {
+    {            
       report_error("Syntax error", createSyntaxError(token));
     }
 
@@ -2570,10 +2570,14 @@ boxedParagraph ::=
         {: RESULT = c; :}
 </add:oz>
         |
-        error END
-<add:oz>
-        {: resetIsOpExpr(); :}
-</add:oz>
+        error:e END:ed 
+        {: 
+          <add:oz>resetIsOpExpr();</add:oz>          
+          <add:circus>
+          parser.report_error(CircusParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
+            new Object[] { 0, getLocation(eleft, eright) }, getLocation(eleft, eright));
+          </add:circus>
+        :}
         ;
 
 narrParagraph ::=
@@ -2592,12 +2596,16 @@ unboxedParagraphList ::=
            RESULT = uil;
         :}
         |        
-        ZED error END
+        ZED error:e END
         {:
            RESULT = list();
 <add:oz>
            resetIsOpExpr();
-</add:oz>
+</add:oz>        
+          <add:circus>
+          parser.report_error(CircusParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
+            new Object[] { 1, getLocation(eleft, eright) }, getLocation(eleft, eright));
+          </add:circus>
         :}
         ;
 
@@ -3010,13 +3018,13 @@ channelPara ::=
         {:            
            RESULT = factory_.createChannelPara(factory_.createZDeclList(cfdl));
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
-        :}   
+        :} 
         /*|
         CIRCCHAN:chan error
         {: RESULT = null; :}
         |
         CIRCCHANFROM:chanf error
-        {: RESULT = null; :}*/
+        {: RESULT = null; :}   */            
         ;
         
 channelDeclList ::= 
@@ -3031,13 +3039,7 @@ channelDeclList ::=
            assert cd != null &amp;&amp; cdl != null;
            cdl.add(cd);
            RESULT = cdl;
-        :}
-        /*|
-        channelDeclList:cdl SEMICOLON NL error
-        {: RESULT = null; :}
-        |
-        channelDeclList:cdl NL error
-        {: RESULT = null; :}     */   
+        :}      
         ;
         
 channelFromDeclList ::= 
@@ -3052,13 +3054,7 @@ channelFromDeclList ::=
            assert cfd != null &amp;&amp; cfdl != null ;
            cfdl.add(cfd);
            RESULT = cfdl;
-        :}
-        /*|
-        channelFromDeclList:cfdl SEMICOLON NL error
-        {: RESULT = null; :}
-        |
-        channelFromDeclList:cfdl NL error
-        {: RESULT = null; :}    */    
+        :}        
         ;        
         
 /* Removed declWordList and use circusDeclWordList instead as we do not need
@@ -3067,12 +3063,19 @@ channelFromDeclList ::=
  * rather than DECORWORD 
  */         
 channelDecl ::=        
-        /* (Generically defined) typed channels */
-        optFormalParameters:ofp circusDeclWordList:cdwl COLON expression:e
+        /* Generically defined typed channels */
+        formalParameters:ofp circusDeclWordList:cdwl COLON expression:e
         {:                       
            RESULT = factory_.createChannelDecl(ofp, cdwl, e);
            addLocAnn(RESULT, getLocation(ofp, e));
         :}
+        |
+        /* Typed channels */
+        circusDeclWordList:cdwl COLON expression:e
+        {:                       
+           RESULT = factory_.createChannelDecl(factory_.createZDeclNameList(), cdwl, e);
+           addLocAnn(RESULT, getLocation(cdwl.get(0), e));
+        :}    
         |
         /* Synchronisation channels */
         /* 
@@ -3085,12 +3088,40 @@ channelDecl ::=
            RESULT = factory_.createChannelDecl(factory_.createZDeclNameList(), nl, null);
            addLocAnn(RESULT, getLocation(nl));
 	:} 
-        /*|
-        optFormalParameters:ofp circusDeclWordList:cdwl COLON error
-        {: RESULT = null; :}
+        /* Generically defined typed channels with type error */
         |
-        optFormalParameters:ofp circusDeclWordList:cdwl error
-        {: RESULT = null; :}       */ 
+        formalParameters:ofp circusDeclWordList:cdwl COLON:c error:e
+        {: 
+          parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
+                            new Object[0], getLocation(eleft, eright));
+          RESULT = factory_.createChannelDecl(); 
+          addLocAnn(RESULT, getLocation(ofp, getLocation(eleft, eright)));
+        :}
+        |
+        formalParameters:fp circusDeclWordList:cdwl error:e
+        {: 
+          parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
+                            new Object[0], getLocation(eleft, eright));
+          RESULT = factory_.createChannelDecl(); 
+          addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
+        :} 
+        |
+        /* Typec channels with type error */
+        circusDeclWordList:cdwl COLON:c error:e
+        {: 
+          parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
+                            new Object[0], getLocation(eleft, eright));
+          RESULT = factory_.createChannelDecl(); 
+          addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
+        :}
+        |
+        circusDeclWordList:cdwl error:e
+        {: 
+          parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
+                            new Object[0], getLocation(eleft, eright));
+          RESULT = factory_.createChannelDecl(); 
+          addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
+        :}    
         ;
         
 /* Channel declaration from schema inclusion MUST have the DeclName list null
@@ -3102,7 +3133,7 @@ channelFromDecl ::=
         optFormalParameters:ofp DECORWORD:dw genericActuals:ga
         {:  
            RefExpr re = factory_.createRefExpr(createZRefName(dw), ga, Boolean.FALSE, Boolean.TRUE);
-           RESULT = factory_.createChannelDecl(ofp, null, re);
+           RESULT = factory_.createChannelDecl(ofp, factory_.createZDeclNameList(), re);
            addLocAnn(RESULT, getLocation(ofp, ga));
         :}        
         | 
@@ -3110,9 +3141,15 @@ channelFromDecl ::=
         optFormalParameters:ofp DECORWORD:dw
         {:
            RefExpr re = factory_.createRefExpr(createZRefName(dw));/*same as: FALSE, FALSE*/
-           RESULT = factory_.createChannelDecl(ofp, null, re);
+           RESULT = factory_.createChannelDecl(ofp, factory_.createZDeclNameList(), re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
-        :}        
+        :}         
+       /* |
+        optFormalParameters:ofp circusDeclWordList:cdwl error
+        {: RESULT = null; :}       
+        |
+        optFormalParameters:ofp DECORWORD:dw error
+        {: RESULT = null; :}*/
         ; 
 
 /// Channel Set Paragraph ////////////////////////////
