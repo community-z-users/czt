@@ -43,12 +43,10 @@ public class ZXmlHandler extends HandlerBase
    */
   public void startDocument()
   {
-    System.out.println("startDocument");
   }
   
   public void attribute(String name, String value, boolean isSpecified)
   {
-    System.out.println("attribute: " + name + " value: " + value);
     if ("HEADING".equalsIgnoreCase(name)) {
       fCurrentRow = new ArrayList<Object>();
       fCurrentRow.add(value);
@@ -69,7 +67,6 @@ public class ZXmlHandler extends HandlerBase
   public void endElement(String element)
   {
     if ("TABLE".equalsIgnoreCase(element)) {
-      System.out.println("tabel ends: " + element);
     }
     else if ("ROW".equalsIgnoreCase(element)) {
       fCharTable.add(fCurrentRow);
@@ -79,12 +76,10 @@ public class ZXmlHandler extends HandlerBase
         fUnicode = fName;
       fCurrentRow.add(new ZChar(fName, fUnicode, fLatex, fDescription));
       fName = fUnicode = fLatex = fDescription = null;
-      System.out.println("item ends: " + element);
     }
   }
 
   public void endDocument()
   {
-    System.out.println("endDocument");
   }
 }
