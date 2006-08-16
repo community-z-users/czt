@@ -124,6 +124,15 @@ public class ZSideKickActions
     }
   }
 
+  public static Term getSelectedTerm(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      return wffHighlight.getSelectedWff();
+    }
+    return null;
+  }
+
   public static Type getTypeForCurrentWff(View view)
   {
     WffHighlight wffHighlight = getWffHighlight(view);
