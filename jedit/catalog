@@ -9,4 +9,6 @@
 
   <MODE NAME="zpatt" FILE="zed.xml" FILE_NAME_GLOB="*.zpatt{,8,16}"/>
   <MODE NAME="zpattlatex" FILE="latex.xml" FILE_NAME_GLOB="*.{pzed}"/>
+  <MODE NAME="circus" FILE="zed.xml" FILE_NAME_GLOB="*.circus{,8,16}"/>
+  <MODE NAME="circuslatex" FILE="latex.xml" FILE_NAME_GLOB="*.{circus}"/>
 </MODES>
