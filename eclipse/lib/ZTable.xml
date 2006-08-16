@@ -1,4 +1,8 @@
-<table>
+<?xml version="1.0" encoding="UTF-8"?>
+<table xmlns="http://czt.sourceforge.net/ztable"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://czt.sourceforge.net/ztable
+                      http://czt.sourceforge.net/ztable/NotYet.xsd">
   <row heading="Paragraphs">
     <item name="Sect"
           description="Section Header"
@@ -83,9 +87,9 @@
     <item name="&#x2119;"
           description="Power Set"
           latex="\power"/>
-    <item name="&#xD835;&#xDD3D;"
+    <!--item name="&#xD835;&#xDD3D;"
           description="Finite Power Set"
-          latex="\finset"/>
+          latex="\finset"/-->
     <item name="{"
           description="Begin Set"
           latex="\{"/>
@@ -220,9 +224,9 @@
     <item name="&#x2115;"
           description="Natural Numbers"
           latex="\nat"/>
-    <item name="&#xD835;&#xDD38;"
+    <!--item name="&#xD835;&#xDD38;"
           description="All Numbers"
-          latex="\arithmos"/>
+          latex="\arithmos"/-->
     <item name="+"
           description="Binary Plus"
           latex="+"/>

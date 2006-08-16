@@ -36,6 +36,7 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecific
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizardPage.java -text
 eclipse/icons/sample.gif -text
 eclipse/icons/term_highlight.gif -text
+eclipse/lib/ZTable.xsd -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/AbstractConversionAction.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/CZTActionConstants.java -text
 eclipse/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2LatexAction.java -text
