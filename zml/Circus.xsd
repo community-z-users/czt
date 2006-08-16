@@ -164,9 +164,9 @@
         <p>
         The structure of the complex type associated with this class is a follows:
         <ul>
-          <li>Typed  channels = optional generics, nonempty list of declnames, no null Expr. </li>
+          <li>Typed  channels = optional generics, nonempty list of declnames, non-null Expr. </li>
           <li>Synch. channels = empty generics, nonempty list of declnames, null Expr. </li>
-          <li>Schema channels = optional generics, null list of declnames, no null RefExpr. </li>          
+          <li>Schema channels = optional generics, empty list of declnames, non-null RefExpr. </li>          
         </ul>
         This invariant is to be enforced by the parser, and further unfolded by the typechecker.
         That is, channels declared through schemas must be expanded to their typed declaration form.
