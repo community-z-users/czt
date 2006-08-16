@@ -53,7 +53,7 @@ public class ProverCalculateProviso
 
   public void check(SectionManager manager, String section)
   {
-    Factory factory_ = new Factory();
+    Factory factory = new Factory();
     final Expr expr = getRightExpr();
     if (expr instanceof DecorExpr) 
       checkDecorExpr((DecorExpr)expr, manager, section);
@@ -63,7 +63,7 @@ public class ProverCalculateProviso
       if ( ! (left instanceof RefExpr)) {
         final String message = left.getClass() +
         " not supported as left exprssion" +
-        "of ApplExpr by calculate proviso";
+        " of ApplExpr by calculate proviso";
         throw new CztException(message);
       }
       RefExpr refExpr = (RefExpr) left;
@@ -84,11 +84,13 @@ public class ProverCalculateProviso
       String funcName = zRefName.getWord();
       Expr arg = applExpr.getRightExpr();
       if ("binding".equals(funcName))
-        checkBinding(arg, factory_);
+        checkBinding(arg, factory);
       else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
-        checkSchemaMinus(arg, factory_);
+        checkSchemaMinus(arg, factory);
       else if ("print".equals(funcName))
         checkPrint(arg, manager, section);
+      else if (funcName.equals(ZString.ARG_TOK+"unprefix"+ZString.ARG_TOK))
+        checkUnprefix(arg, factory);
       else
       {
         final String message = funcName +
@@ -331,6 +333,47 @@ public class ProverCalculateProviso
     catch(UnificationException e) {
       String message = "ProverCalculateProviso";
       throw new UnificationException(term1, term2, message, e);
+    }
+  }
+
+  private void checkUnprefix(Expr args, Factory factory)
+  {
+    status_ = Status.FAIL;
+    try {
+      args = (Expr) ProverUtils.removeJoker(args);
+    }
+    catch(ProverUtils.UnboundJokerException e) {
+      final String message =
+        "Found unbound joker when checking calculate proviso";
+      System.err.println(message + "\nCause by:\n  " + e.getMessage());
+      status_ = Status.UNKNOWN;
+    }
+    ZExprList argList = null;
+    if ( ! (args instanceof TupleExpr)
+         || (argList=((TupleExpr)args).getZExprList()).size() != 2)
+      throw new CztException("unprefix requires two arguments.");
+    final Expr leftExpr = argList.get(0);
+    final Expr rightExpr = argList.get(1);
+    if (leftExpr instanceof RefExpr && rightExpr instanceof RefExpr) {
+      final ZRefName leftName = ((RefExpr) leftExpr).getZRefName();
+      final ZRefName rightName = ((RefExpr) rightExpr).getZRefName();
+      final String leftWord = leftName.getWord();
+      final String rightWord = rightName.getWord();
+      if (rightWord.startsWith(leftWord)) {
+        final String resultWord =
+          rightWord.substring(leftWord.length(), rightWord.length());
+        final ZRefName resultName =
+          factory.createZRefName(resultWord, rightName.getStrokeList());
+        final RefExpr result =
+          factory.createRefExpr(resultName);
+        unify(result, getLeftExpr()); // unify sets status_
+      }
+    }
+    else {
+      final String message = rightExpr.getClass() +
+      " is not supported by the unprefix function " +
+      "of the calculate proviso";
+      throw new CztException(message);
     }
   }
 

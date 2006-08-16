@@ -42,11 +42,13 @@ per VarDecl, types that are base types, no duplicated names).
 \begin{verbatim}
 %%Zinword \schemamerge schemamerge
 %%Zinword \schemaminus schemaminus
+%%Zinword \unprefix unprefix
 \end{verbatim}
 
 \begin{zed}
   \function 30 \leftassoc ( \_ \schemamerge \_ ) \\
-  \function 30 \leftassoc ( \_ \schemaminus \_ )
+  \function 30 \leftassoc ( \_ \schemaminus \_ ) \\
+  \function 30 \leftassoc ( \_ \unprefix \_ )
 \end{zed}
 
 

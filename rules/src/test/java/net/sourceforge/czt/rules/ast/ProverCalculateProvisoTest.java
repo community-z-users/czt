@@ -102,4 +102,14 @@ public class ProverCalculateProvisoTest extends TestCase
     doCheck("binding ~ [a:\\arithmos~; b:\\nat | true]",
             "\\lblot a == a , b == b \\rblot");
   }
+
+  public void testUnprefix1()
+  {
+    doCheck("S \\unprefix Schema", "chema");
+  }
+
+  public void testUnprefix2()
+  {
+    doCheck("\\Xi \\unprefix \\Xi Schema", "Schema");
+  }
 }
