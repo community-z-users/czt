@@ -286,7 +286,7 @@ public class SectionManager
     catch (ClassNotFoundException e) {
       final String message = "Cannot get class " + name +
         "; class cannot be found";
-      getLogger().info(message);
+      getLogger().config(message);
     }
     return null;
   }
