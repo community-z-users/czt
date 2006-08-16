@@ -528,6 +528,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="test-report">
+    <mkdir dir="tests"/>
     <junitreport todir="tests">
       <fileset dir=".">
         <include name="**/build/**/TEST-*.xml"/>
