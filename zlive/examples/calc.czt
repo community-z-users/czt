@@ -1,5 +1,5 @@
 \begin{schema}{Calc}
-  curr : \nat; prev : \num
+  curr, prev : \nat
 \where
   true
 \end{schema}
