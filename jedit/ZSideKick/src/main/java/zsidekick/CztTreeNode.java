@@ -83,6 +83,8 @@ public class CztTreeNode
         }
         catch(IndexOutOfBoundsException e) {
         }
+        catch(NullPointerException e) {
+        }
       }
     }
     return buffer.createPosition(start);
