@@ -5,42 +5,42 @@
 
 \begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
 
-\begin{zedrule}{true_rule}
+\begin{zedrule}{True}
   true
 \end{zedrule}
 
-\begin{zedrule}{false_rule}
+\begin{zedrule}{False}
   \lnot false
 \end{zedrule}
 
-\begin{zedrule}{not_not_rule}
+\begin{zedrule}{Not}
   P \\
 \derives
   \lnot \lnot P
 \end{zedrule}
 
-\begin{zedrule}{or_not_rule}
+\begin{zedrule}{OrNot}
   P \lor \lnot P
 \end{zedrule}
 
-\begin{zedrule}{not_or_rule}
+\begin{zedrule}{NotOr}
   \lnot P \lor P
 \end{zedrule}
 
-\begin{zedrule}{and_rule}
+\begin{zedrule}{And}
   P1 \\
   P2 \\
 \derives
   P1 \land P2  
 \end {zedrule}
 
-\begin{zedrule}{or1_rule}
+\begin{zedrule}{Or_1}
   P1 \\
 \derives
   P1 \lor P2  
 \end {zedrule}
 
-\begin{zedrule}{or2_rule}
+\begin{zedrule}{Or_2}
   P2 \\
 \derives
   P1 \lor P2  
