@@ -7,19 +7,23 @@ package net.sourceforge.czt.eclipse.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.helpers.DefaultHandler;
+import com.microstar.xml.*;
 
 /**
  * @author Chengdong Xu
  *
  */
-public class ZXmlHandler extends DefaultHandler
+public class ZXmlHandler extends HandlerBase
 {
 
-  List<List<Object>> fCharTable = new ArrayList<List<Object>>();
+  private List<List<Object>> fCharTable = new ArrayList<List<Object>>();
 
-  List<Object> fCurrentRow;
+  private List<Object> fCurrentRow;
+  
+  private String fName;
+  private String fUnicode;
+  private String fLatex;
+  private String fDescription;
 
   /**
    * 
@@ -41,49 +45,44 @@ public class ZXmlHandler extends DefaultHandler
   {
     System.out.println("startDocument");
   }
-
-  /**
-   * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
-   */
-  public void startElement(String uri, String localName, String rawName,
-      Attributes attributes)
+  
+  public void attribute(String name, String value, boolean isSpecified)
   {
-    if ("TABLE".equalsIgnoreCase(rawName))
-      fCharTable = new ArrayList<List<Object>>();
-    else if ("ROW".equalsIgnoreCase(rawName)) {
+    System.out.println("attribute: " + name + " value: " + value);
+    if ("HEADING".equalsIgnoreCase(name)) {
       fCurrentRow = new ArrayList<Object>();
-      fCurrentRow.add(attributes.getValue("heading"));
+      fCurrentRow.add(value);
     }
-    else if ("ITEM".equalsIgnoreCase(rawName)) {
-      String name = attributes.getValue("name");
-      String unicode = attributes.getValue("unicode");
-      String latex = attributes.getValue("latex");
-      String description = attributes.getValue("description");
-      if (unicode == null)
-        unicode = name;
-      fCurrentRow.add(new ZChar(name, unicode, latex, description));
+    else if ("NAME".equalsIgnoreCase(name)) {
+      fName = value;
+    }
+    else if ("UNICODE".equalsIgnoreCase(name)) {
+      fUnicode = value;
+    }
+    else if ("LATEX".equalsIgnoreCase(name)) {
+      fLatex = value;
+    }
+    else if ("DESCRIPTION".equalsIgnoreCase(name)) {
+      fDescription = value;
     }
   }
-
-  /**
-   * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
-   */
-  public void endElement(String uri, String localName, String rawName)
+  public void endElement(String element)
   {
-    if ("TABLE".equalsIgnoreCase(rawName)) {
-
+    if ("TABLE".equalsIgnoreCase(element)) {
+      System.out.println("tabel ends: " + element);
     }
-    else if ("ROW".equalsIgnoreCase(rawName)) {
+    else if ("ROW".equalsIgnoreCase(element)) {
       fCharTable.add(fCurrentRow);
     }
-    else if ("ITEM".equalsIgnoreCase(rawName)) {
-
+    else if ("ITEM".equalsIgnoreCase(element)) {
+      if (fUnicode == null)
+        fUnicode = fName;
+      fCurrentRow.add(new ZChar(fName, fUnicode, fLatex, fDescription));
+      fName = fUnicode = fLatex = fDescription = null;
+      System.out.println("item ends: " + element);
     }
   }
 
-  /**
-   * @see org.xml.sax.helpers.DefaultHandler#endDocument()
-   */
   public void endDocument()
   {
     System.out.println("endDocument");

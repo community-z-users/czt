@@ -158,8 +158,8 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   public static ImageDescriptor getImageDescriptor(String path)
   {
-    return AbstractUIPlugin.imageDescriptorFromPlugin(
-        "net.sourceforge.czt.eclipse", path);
+    return imageDescriptorFromPlugin(
+        CztUI.ID_PLUGIN, path);
   }
 
   public static IWorkspace getWorkspace()

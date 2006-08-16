@@ -4,6 +4,8 @@ package net.sourceforge.czt.eclipse.views;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -51,7 +53,17 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
  */
 public class ZCharMapView extends ViewPart
 {
-  private ZCharTable zchTable = new ZCharTable();
+  // Path of Z character file
+  private final IPath PATH_Z_TABLE = new Path("lib/ZTable.xml");
+  // Path of Object Z character file
+  private final IPath PATH_OBJECT_Z_TABLE = new Path("lib/ObjectZTable.xml");
+  // Path of Circus character file
+  private final IPath PATH_CIRCUS_TABLE = new Path("lib/CircusTable.xml");
+  
+  private ZCharTable fZTable = new ZCharTable(PATH_Z_TABLE);
+  private ZCharTable fObjectZTable = new ZCharTable(PATH_OBJECT_Z_TABLE);
+  private ZCharTable fCircusTable = new ZCharTable(PATH_CIRCUS_TABLE);
+  private ZCharTable fCharTable = fZTable;
 
   private Combo charCombo;
 
@@ -91,7 +103,7 @@ public class ZCharMapView extends ViewPart
 
     public Object[] getElements(Object parent)
     {
-      return zchTable.getZCharTable();
+      return fCharTable.getZCharTable();
     }
   }
 
@@ -100,12 +112,14 @@ public class ZCharMapView extends ViewPart
     public String getColumnText(Object obj, int index)
     {
       //return getText(obj);
-      Object zchar[] = (Object[]) obj;
+      Object zchars[] = (Object[]) obj;
       if (index == 0) {
-        return (String) zchar[0];
+        return (String) zchars[0];
       }
-      else if (index > 0 && index < zchar.length) {
-        ZChar zch = (ZChar) zchar[index];
+      else if (index > 0 && index < zchars.length) {
+        ZChar zch = (ZChar) zchars[index];
+        if (zch == null)
+          return null;
         return zch.getLabel();
       }
       else {
@@ -280,7 +294,7 @@ public class ZCharMapView extends ViewPart
     TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
     tableColumn.setText("");
     tableColumn.setWidth(100);
-    for (int i = 1; i < zchTable.getColumnCount(); i++) {
+    for (int i = 1; i < fCharTable.getColumnCount(); i++) {
       tableColumn = new TableColumn(table, SWT.CENTER);
       tableColumn.setText("");
       tableColumn.setWidth(50);
@@ -298,7 +312,7 @@ public class ZCharMapView extends ViewPart
     viewer.setLabelProvider(new ViewLabelProvider());
     viewer.setContentProvider(new ViewContentProvider());
     //		viewer.setSorter(new NameSorter());
-    viewer.setInput(zchTable.getZCharTable());
+    viewer.setInput(fCharTable.getZCharTable());
   }
 
   private ZChar getZCharAtPoint(final Table table, Point pt)
@@ -314,7 +328,7 @@ public class ZCharMapView extends ViewPart
       for (int i = 1; i < table.getColumnCount(); i++) {
         Rectangle rect = item.getBounds(i);
         if (rect.contains(pt)) {
-          Object ch = zchTable.getValueAt(index, i);
+          Object ch = fCharTable.getValueAt(index, i);
           if (ch instanceof ZChar) {
             return (ZChar) ch;
           }

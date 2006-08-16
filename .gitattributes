@@ -20,6 +20,13 @@ doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
 eclipse/czteditor/icons/sample.gif -text
 eclipse/czteditor/icons/term_highlight.gif -text
+eclipse/czteditor/lib/CircusTable.xml -text
+eclipse/czteditor/lib/ObjectZTable.xml -text
+eclipse/czteditor/lib/ZTable.xsd -text
+eclipse/czteditor/src/main/java/com/microstar/xml/HandlerBase.java -text
+eclipse/czteditor/src/main/java/com/microstar/xml/XmlException.java -text
+eclipse/czteditor/src/main/java/com/microstar/xml/XmlHandler.java -text
+eclipse/czteditor/src/main/java/com/microstar/xml/XmlParser.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/actions/AbstractConversionAction.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2LatexAction.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/actions/Convert2OldLatexAction.java -text

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  targetNamespace="http://czt.sourceforge.net/ztable"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ZT="http://czt.sourceforge.net/ztable"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+  version="1.0">
+  <!-- A table -->
+  <xs:element name="table" type="ZT:table"/>
+  
+  <xs:element name="row" type="ZT:row"/>
+  
+  <xs:element name="item" type="ZT:item"/>
+
+  <xs:complexType name="table">
+        <xs:sequence>
+          <xs:element ref="ZT:row" maxOccurs="unbounded"/>
+        </xs:sequence>
+  </xs:complexType>
+  
+    <xs:complexType name="row">
+        <xs:sequence>
+          <xs:element ref="ZT:item" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="heading" type="xs:string"
+          use="required"/>
+  </xs:complexType>
+
+    <xs:complexType name="item">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="description" type="xs:string" use="required"/>
+        <xs:attribute name="unicode" type="xs:string" use="optional"/>
+        <xs:attribute name="latex" type="xs:string" use="required"/>
+  </xs:complexType>
+
+</xs:schema>

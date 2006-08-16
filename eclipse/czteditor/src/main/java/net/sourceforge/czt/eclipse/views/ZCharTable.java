@@ -7,8 +7,8 @@
 
 package net.sourceforge.czt.eclipse.views;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,51 +18,44 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.microstar.xml.XmlParser;
 
 /**
  * @author Chengdong Xu
  */
 public class ZCharTable
 {
-  private final String ZTABLEFILE = "lib/ZTable.xml";
-
+  // Path of the character file
+  private final IPath fPath;
+  
   /**
    * An array of objects where the first column contains strings
    * (the heading for the corresponding row) and all other columns
    * contain ZChar objects.
    */
-  private Object[][] mTableArray = createZCharTable();
-//  private Object[][] mTableArray = getTable();
+  private final Object[][] mTableArray;
 
-  public ZCharTable()
+  public ZCharTable(IPath path)
   {
+    fPath = path;
+    mTableArray = getTable(path);
   }
 
   /**
    * Returns the Z Char file
    */
-  public File getZCharFile()
+  public IPath getZCharFile()
   {
-    try {
-      return new File(Platform.resolve(
-          CZTPlugin.getDefault().getBundle().getEntry("/")).getFile(),
-          this.ZTABLEFILE);
-    } catch (IOException ie) {
-
-    }
-
-    return null;
-    /*
-     String filepath = getClass().getResource("/ZTable2.xml").getFile();
-     return new File(filepath);
-     */
+    return this.fPath;
   }
 
   /**
@@ -83,10 +76,11 @@ public class ZCharTable
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder builder = factory.newDocumentBuilder();
-      File file = getZCharFile();
-      if (file == null)
+      
+      InputStream stream = FileLocator.openStream(CZTPlugin.getDefault().getBundle(), getZCharFile(), false);
+      if (stream == null)
         return new Object[0][0];
-      Document doc = builder.parse(file);
+      Document doc = builder.parse(stream);
       
       // gets the root of the structure of the XML file
       Element root = doc.getDocumentElement();
@@ -209,14 +203,16 @@ public class ZCharTable
   {
     return null;
   }
-/*  
-  public Object[][] getTable() {
+  
+  public Object[][] getTable(IPath path) {
     try {
+      InputStream stream = FileLocator.openStream(CZTPlugin.getDefault().getBundle(), path, false);
+      if (stream == null)
+        return new Object[0][0];
+      XmlParser parser = new XmlParser();
       ZXmlHandler handler = new ZXmlHandler();
-      SAXParser parser = new SAXParser();
-      parser.setContentHandler(handler);
-      parser.setErrorHandler(handler);
-      parser.parse(getZCharFile().getAbsolutePath());
+      parser.setHandler(handler);
+      parser.parse(null, null, stream, null);
       
       List<List<Object>> lists = handler.getCharList();
       int maxsize = 0;
@@ -241,5 +237,5 @@ public class ZCharTable
     }
     return new Object[0][];
   }
-*/
+
 }
