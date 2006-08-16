@@ -30,7 +30,7 @@ public class CircusParser
 
   public SectionManager getManager()
   {
-    SectionManager manager = new SectionManager();
+    SectionManager manager = new SectionManager("circus");
     setParseProperties(manager);
     return manager;
   }
