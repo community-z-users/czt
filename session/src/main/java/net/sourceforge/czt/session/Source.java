@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.session;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -55,10 +56,10 @@ public abstract class Source
   public Reader getReader()
     throws IOException
   {
-    if (encoding_ != null)
-      return new InputStreamReader(getStream(), encoding_);
-    else
-      return new InputStreamReader(getStream());
+    final InputStreamReader isr = encoding_ != null ?
+      new InputStreamReader(getStream(), encoding_) :
+      new InputStreamReader(getStream());
+    return new BufferedReader(isr);
   }
 
   public String getName()
