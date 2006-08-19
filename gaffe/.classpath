@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="generator/src"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/zlive"/>
+	<classpathentry exported="true" kind="var" path="BSF_HOME/lib/bsf.jar"/>
+	<classpathentry kind="output" path="generator/classes"/>
+</classpath>
