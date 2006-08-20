@@ -19,10 +19,12 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.part.ViewPart;
@@ -91,14 +93,16 @@ public class ZConversionView extends ViewPart
     Font font = JFaceResources.getFont(PreferenceConstants.EDITOR_TEXT_FONT);
     fSourceViewer.getTextWidget().setFont(font);
     new ZSourcePreviewerUpdater(fSourceViewer, configuration, store);
+    FontData fontData = new FontData("CZT", 12, SWT.NORMAL);
+    fSourceViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
     fSourceViewer.setEditable(false);
     fDocument = new Document();
 
-    CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
-        fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
+//    CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+//        fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
     fSourceViewer.setDocument(fDocument);
 
-    fInformationLabel.setText(CONVERSION_NOT_AVAILABLE);
+    initStatus();
   }
 
   /**
@@ -130,8 +134,31 @@ public class ZConversionView extends ViewPart
   }
 
   public void setConversionData(String fileName, String sourceMarkup,
-      String targetMarkup, String data)
+      String targetFileType, String data)
   {
-    fDocument.set(data);
+//    fDocument.set(data);
+    fDocument = new Document(data);
+    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(targetFileType)) {
+      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
+      setStatus(fileName, sourceMarkup, "LaTeX");
+    }
+    else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(targetFileType)) {
+      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
+      setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-8)");
+    }
+    else if (IZFileType.FILETYPE_UTF16.equalsIgnoreCase(targetFileType)) {
+      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+          fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF16);
+      setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-16)");
+    }
+    else {
+      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+          fDocument, null, null);
+      setStatus(fileName, sourceMarkup, targetFileType);
+    }
+    fSourceViewer.setDocument(fDocument);
+
   }
 }

@@ -30,10 +30,8 @@ public class Selector
   {
     init();
     fillTermStack(fAST, position);
-
     if (fTermStack.isEmpty())
       return null;
-
     fSelection = fTermStack.size() - 1;
     return fTermStack.get(fSelection);
   }

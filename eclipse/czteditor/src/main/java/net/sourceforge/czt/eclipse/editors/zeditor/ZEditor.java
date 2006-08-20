@@ -385,6 +385,30 @@ public class ZEditor extends TextEditor
   }
 
   /**
+   * @see org.eclipse.ui.texteditor.AbstractTextEditor#createActions()
+   */
+  protected void createActions() {
+    super.createActions();
+/*
+    IAction action = new GoToDeclarationAction(CZTPlugin.getDefault()
+        .getResourceBundle(), "GoToDeclaration.", this); //$NON-NLS-1$
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+    setAction(CZTActionConstants.GO_TO_DECLARATION, action);
+*/
+//    IHandlerService handlerService =
+//      (IHandlerService)getEditorSite().getService(IHandlerService.class);
+//    handlerService.activateHandler(action.getActionDefinitionId(),
+//      new ActionHandler(action));
+//    IAction action = new Convert2LatexAction(CZTPlugin.getDefault()
+//        .getResourceBundle(), "Convert2Latex.", this);
+//    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+//    setAction(CZTActionConstants.CONVERT_TO_LATEX, action); //$NON-NLS-1$
+//    markAsStateDependentAction("AddBlockComment", true); //$NON-NLS-1$
+//    markAsSelectionDependentAction("AddBlockComment", true); //$NON-NLS-1$
+//    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.ADD_BLOCK_COMMENT_ACTION);
+  }
+    
+  /**
    * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
    */
   protected void initializeEditor()

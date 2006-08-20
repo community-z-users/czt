@@ -9,22 +9,16 @@ package net.sourceforge.czt.eclipse.views;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.microstar.xml.XmlParser;
@@ -48,6 +42,7 @@ public class ZCharTable
   {
     fPath = path;
     mTableArray = getTable(path);
+//    mTableArray = getTableFromFile(path);
   }
 
   /**
@@ -66,71 +61,6 @@ public class ZCharTable
   public Object[][] getZCharTable()
   {
     return this.mTableArray;
-  }
-
-  public Object[][] createZCharTable()
-  {
-    Object[][] table;
-    // to store all z chars
-    List tableList = new ArrayList();
-    try {
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      
-      InputStream stream = FileLocator.openStream(CZTPlugin.getDefault().getBundle(), getZCharFile(), false);
-      if (stream == null)
-        return new Object[0][0];
-      Document doc = builder.parse(stream);
-      
-      // gets the root of the structure of the XML file
-      Element root = doc.getDocumentElement();
-      // gets the list of all items
-      NodeList rows = root.getChildNodes();
-      for (int i = 0; i < rows.getLength(); i++) {
-        Node rowNode = rows.item(i);
-        // continue if the child is not an element, but a whitespace
-        if (!(rowNode instanceof Element))
-          continue;
-        // to store all z chars in a row of the XML file
-        List rowList = new ArrayList();
-        Element row = (Element) rowNode;
-        String heading = row.getAttribute("heading");
-        rowList.add(heading);
-        NodeList items = row.getChildNodes();
-        for (int j = 0; j < items.getLength(); j++) {
-          Node itemNode = items.item(j);
-          // continue if the child is not an element, but a whitespace
-          if (!(itemNode instanceof Element))
-            continue;
-          Element item = (Element) itemNode;
-          String name = item.getAttribute("name");
-          String description = item.getAttribute("description");
-          String unicode = item.getAttribute("unicode");
-          String latex = item.getAttribute("latex");
-          ZChar zch;
-          if ((unicode == null) || unicode.equalsIgnoreCase(""))
-            zch = new ZChar(name, latex, description);
-          else
-            zch = new ZChar(name, unicode, latex, description);
-          rowList.add(zch);
-        }
-
-        Object[] rowArray = new Object[rowList.size()];
-        rowList.toArray(rowArray);
-        tableList.add(rowArray);
-      }
-    } catch (IOException ie) {
-      ie.printStackTrace();
-    } catch (ParserConfigurationException pce) {
-      pce.printStackTrace();
-    } catch (SAXException se) {
-      se.printStackTrace();
-    }
-
-    table = new Object[tableList.size()][];
-    tableList.toArray(table);
-
-    return table;
   }
 
   /**
@@ -237,5 +167,25 @@ public class ZCharTable
     }
     return new Object[0][];
   }
-
+/*  
+  public Object[][] getTableFromFile(IPath path) {
+    try {
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    SAXParser parser = factory.newSAXParser();
+    parser.parse(FileLocator.openStream(CZTPlugin.getDefault().getBundle(), path, false), new CztXmlHandler());
+    } catch(SAXException se) {
+      System.out.println("SAXException-->");
+      se.printStackTrace();
+    } catch(ParserConfigurationException pce) {
+      System.out.println("ParserConfigurationException-->");
+      pce.printStackTrace();
+    } catch(IOException ioe) {
+      System.out.println("Cann't read the file.");
+      ioe.printStackTrace();
+    }
+      
+    
+    return new Object[0][];
+  }
+*/
 }

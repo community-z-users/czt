@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableCursor;
@@ -34,6 +35,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -64,6 +66,8 @@ public class ZCharMapView extends ViewPart
   private ZCharTable fObjectZTable = new ZCharTable(PATH_OBJECT_Z_TABLE);
   private ZCharTable fCircusTable = new ZCharTable(PATH_CIRCUS_TABLE);
   private ZCharTable fCharTable = fZTable;
+  
+  protected Object fInput;
 
   private Combo charCombo;
 
@@ -95,6 +99,8 @@ public class ZCharMapView extends ViewPart
   {
     public void inputChanged(Viewer v, Object oldInput, Object newInput)
     {
+      if (newInput != null && newInput instanceof ZCharTable)
+        fCharTable = (ZCharTable)newInput;
     }
 
     public void dispose()
@@ -174,14 +180,24 @@ public class ZCharMapView extends ViewPart
     parent.setLayout(new FormLayout());
 
     charCombo = new Combo(parent, SWT.READ_ONLY);
-    charCombo.setItems(new String[]{"Unicode Markup", "Latex Markup",
-        "Hex String"});
-    charCombo.select(0);
+    charCombo.setItems(new String[]{"Z", "Object Z",
+        "Circus"});
     charCombo.addSelectionListener(new SelectionAdapter()
     {
       public void widgetSelected(SelectionEvent event)
       {
-
+        if (viewer != null) {
+          switch (charCombo.getSelectionIndex()) {
+            case 0:
+              setInput(fZTable);
+            case 1:
+              setInput(fObjectZTable);
+            case 2:
+              setInput(fCircusTable);
+            default:
+              setInput(fZTable);
+          }
+        }
       }
     });
     formData = new FormData();
@@ -291,6 +307,7 @@ public class ZCharMapView extends ViewPart
       }
     });
 
+    table.setRedraw(false);
     TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
     tableColumn.setText("");
     tableColumn.setWidth(100);
@@ -299,9 +316,11 @@ public class ZCharMapView extends ViewPart
       tableColumn.setText("");
       tableColumn.setWidth(50);
     }
+//    viewer.refresh();
 
-    table.pack();
-
+//    table.pack(true);
+    table.setRedraw(true);
+    
     formData = new FormData();
     formData.top = new FormAttachment(charCombo, 5);
     formData.bottom = new FormAttachment(100, -5);
@@ -312,9 +331,53 @@ public class ZCharMapView extends ViewPart
     viewer.setLabelProvider(new ViewLabelProvider());
     viewer.setContentProvider(new ViewContentProvider());
     //		viewer.setSorter(new NameSorter());
-    viewer.setInput(fCharTable.getZCharTable());
+    viewer.setInput(fZTable);
+    charCombo.select(0);
   }
 
+  /**
+   * Sets the input of the outline page
+   * 
+   * @param input - the input of this outline page
+   */
+
+  /**
+   * Updates the outline page.
+   */
+  public void setInput(final Object input)
+  {
+/*
+    if (viewer != null) {
+      Display.getDefault().asyncExec(new Runnable()
+      {
+        public void run()
+        {
+          final Table table = viewer.getTable();
+          if (table != null && !table.isDisposed()) {
+            table.setRedraw(false);
+            table.removeAll();
+            
+            viewer.setInput(input);
+            TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
+            tableColumn.setText("");
+            tableColumn.setWidth(100);
+            for (int i = 1; i < fCharTable.getColumnCount(); i++) {
+              tableColumn = new TableColumn(table, SWT.CENTER);
+              tableColumn.setText("");
+              tableColumn.setWidth(50);
+            }
+//            viewer.refresh();
+
+//            table.pack(true);
+            table.setRedraw(true);
+          }
+        }
+      });
+    }
+*/
+  }
+
+  
   private ZChar getZCharAtPoint(final Table table, Point pt)
   {
     Rectangle clientArea = table.getClientArea();
@@ -343,7 +406,7 @@ public class ZCharMapView extends ViewPart
     }
     return null;
   }
-
+  
   private void insertZChar(ZChar zch)
   {
     try {

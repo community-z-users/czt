@@ -53,8 +53,9 @@ public class ExpandSelectionAction extends TextEditorAction
     else
       selectedTerm = selector.next();
 
-    if (selectedTerm == null)
+    if (selectedTerm == null) {
       return;
+    }
 
     Position decl_pos = editor.getParsedData().getTermPosition(selectedTerm);
     if (decl_pos != null) {
