@@ -1491,6 +1491,11 @@ parser code
     protected List&lt;CztError&gt; errorList_;
 
     /**
+     * Contains the last token where a syntax error has occured.
+     */
+    private Symbol errorToken_;
+
+    /**
      * True if and only if an error has occured during parsing.
      */
     protected boolean error_ = false;
@@ -1609,25 +1614,21 @@ parser code
     }
 </add:circus>
     
-    /**
-     * @throws ClassCastException if the object is not a CztError
-     */
-    public void report_fatal_error(String message, Object param)
-      throws ParseException
-    {
-      report_error(message, param);
-      done_parsing();
-    }
-
     public void syntax_error(Symbol token)
-    {            
-      report_error("Syntax error", createSyntaxError(token));
+    {
+      errorToken_ = token;
     }
 
     public void unrecovered_syntax_error(Symbol token)
       throws ParseException
     {
-      report_fatal_error("Syntax error", createSyntaxError(token));
+      report_error("Syntax error", createSyntaxError(token));
+      done_parsing();
+    }
+
+    public void report_syntax_error()
+    {
+      report_error("Syntax error", createSyntaxError(errorToken_));
     }
 
     protected CztError createSyntaxError(Symbol token)
@@ -2572,11 +2573,8 @@ boxedParagraph ::=
         |
         error:e END:ed 
         {: 
+          parser.report_syntax_error();
           <add:oz>resetIsOpExpr();</add:oz>          
-          <add:circus>
-          parser.report_error(CircusParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
-            new Object[] { 0, getLocation(eleft, eright) }, getLocation(eleft, eright));
-          </add:circus>
         :}
         ;
 
@@ -2598,6 +2596,7 @@ unboxedParagraphList ::=
         |        
         ZED error:e END
         {:
+           parser.report_syntax_error();
            RESULT = list();
 <add:oz>
            resetIsOpExpr();
