@@ -278,6 +278,8 @@ public class Main
         ParseException parseException = (ParseException)
           manager.get(new Key(source.getName(), ParseException.class));
         if (parseException != null) {
+          System.out.println(parseException.getErrors().size() +
+                             " warnings and errors");
           printErrors(parseException.getErrors());
         }
       }
