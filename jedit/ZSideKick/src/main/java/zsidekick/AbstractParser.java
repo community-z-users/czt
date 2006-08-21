@@ -140,14 +140,19 @@ public abstract class AbstractParser
                              DefaultErrorSource errorSource)
   {
     for (CztError error : errors) {
-      final int startOffset = error.getColumn() >= 0 ?
+      int startOffset = error.getColumn() >= 0 ?
         error.getColumn() : 0;
-      final int endOffset = error.getColumn() >= 0 && error.getLength() >= 0 ?
+      int endOffset = error.getColumn() >= 0 && error.getLength() >= 0 ?
         error.getColumn() + error.getLength() : 0;
+      int line;
+      if ((line=error.getLine()) < 0) {
+        line = buffer.getLineCount();
+        startOffset = endOffset = buffer.getLineLength(line - 1);
+      }
       errorSource.addError(ErrorType.ERROR.equals(error.getErrorType()) ?
                              ErrorSource.ERROR : ErrorSource.WARNING,
                            buffer.getPath(),
-                           error.getLine(),
+                           line,
                            startOffset,
                            endOffset,
                            error.getMessage());
