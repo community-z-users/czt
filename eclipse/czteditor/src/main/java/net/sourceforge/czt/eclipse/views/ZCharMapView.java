@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableCursor;
@@ -35,7 +34,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -69,21 +67,12 @@ public class ZCharMapView extends ViewPart
   
   protected Object fInput;
 
-  private Combo charCombo;
-
+  private Combo fNotationCombo;
   private TableViewer viewer;
-
   private TextEditor textEditor;
-
   private FontData fCharMapViewFontData = new FontData();
-
   private Font fCharMapViewFont;
-
   private TableCursor fTableCursor;
-
-  //private Action action1;
-  //private Action action2;
-  //private Action doubleClickAction;
 
   /*
    * The content provider class is responsible for
@@ -99,8 +88,10 @@ public class ZCharMapView extends ViewPart
   {
     public void inputChanged(Viewer v, Object oldInput, Object newInput)
     {
-      if (newInput != null && newInput instanceof ZCharTable)
+      if (newInput != null && oldInput != newInput && newInput instanceof ZCharTable) {
         fCharTable = (ZCharTable)newInput;
+        v.refresh();
+      }
     }
 
     public void dispose()
@@ -179,23 +170,26 @@ public class ZCharMapView extends ViewPart
     FormData formData;
     parent.setLayout(new FormLayout());
 
-    charCombo = new Combo(parent, SWT.READ_ONLY);
-    charCombo.setItems(new String[]{"Z", "Object Z",
+    fNotationCombo = new Combo(parent, SWT.READ_ONLY);
+    fNotationCombo.setItems(new String[]{"Z", "Object Z",
         "Circus"});
-    charCombo.addSelectionListener(new SelectionAdapter()
+    fNotationCombo.addSelectionListener(new SelectionAdapter()
     {
       public void widgetSelected(SelectionEvent event)
       {
         if (viewer != null) {
-          switch (charCombo.getSelectionIndex()) {
+          switch (fNotationCombo.getSelectionIndex()) {
             case 0:
-              setInput(fZTable);
+              viewer.setInput(fZTable);
+              break;
             case 1:
-              setInput(fObjectZTable);
+              viewer.setInput(fObjectZTable);
+              break;
             case 2:
-              setInput(fCircusTable);
+              viewer.setInput(fCircusTable);
+              break;
             default:
-              setInput(fZTable);
+              viewer.setInput(fZTable);
           }
         }
       }
@@ -203,7 +197,7 @@ public class ZCharMapView extends ViewPart
     formData = new FormData();
     formData.top = new FormAttachment(0, 5);
     formData.left = new FormAttachment(0, 5);
-    charCombo.setLayoutData((formData));
+    fNotationCombo.setLayoutData((formData));
 
     viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
@@ -316,13 +310,12 @@ public class ZCharMapView extends ViewPart
       tableColumn.setText("");
       tableColumn.setWidth(50);
     }
-//    viewer.refresh();
 
-//    table.pack(true);
+    table.pack(true);
     table.setRedraw(true);
     
     formData = new FormData();
-    formData.top = new FormAttachment(charCombo, 5);
+    formData.top = new FormAttachment(fNotationCombo, 5);
     formData.bottom = new FormAttachment(100, -5);
     formData.left = new FormAttachment(0, 5);
     formData.right = new FormAttachment(100, -5);
@@ -332,52 +325,9 @@ public class ZCharMapView extends ViewPart
     viewer.setContentProvider(new ViewContentProvider());
     //		viewer.setSorter(new NameSorter());
     viewer.setInput(fZTable);
-    charCombo.select(0);
+    fNotationCombo.select(0);
   }
-
-  /**
-   * Sets the input of the outline page
-   * 
-   * @param input - the input of this outline page
-   */
-
-  /**
-   * Updates the outline page.
-   */
-  public void setInput(final Object input)
-  {
-/*
-    if (viewer != null) {
-      Display.getDefault().asyncExec(new Runnable()
-      {
-        public void run()
-        {
-          final Table table = viewer.getTable();
-          if (table != null && !table.isDisposed()) {
-            table.setRedraw(false);
-            table.removeAll();
-            
-            viewer.setInput(input);
-            TableColumn tableColumn = new TableColumn(table, SWT.LEFT);
-            tableColumn.setText("");
-            tableColumn.setWidth(100);
-            for (int i = 1; i < fCharTable.getColumnCount(); i++) {
-              tableColumn = new TableColumn(table, SWT.CENTER);
-              tableColumn.setText("");
-              tableColumn.setWidth(50);
-            }
-//            viewer.refresh();
-
-//            table.pack(true);
-            table.setRedraw(true);
-          }
-        }
-      });
-    }
-*/
-  }
-
-  
+ 
   private ZChar getZCharAtPoint(final Table table, Point pt)
   {
     Rectangle clientArea = table.getClientArea();
@@ -454,68 +404,7 @@ public class ZCharMapView extends ViewPart
    viewer.getControl().setMenu(menu);
    getSite().registerContextMenu(menuMgr, viewer);
    }
-
-   private void contributeToActionBars() {
-   IActionBars bars = getViewSite().getActionBars();
-   fillLocalPullDown(bars.getMenuManager());
-   fillLocalToolBar(bars.getToolBarManager());
-   }
-
-   private void fillLocalPullDown(IMenuManager manager) {
-   manager.add(action1);
-   manager.add(new Separator());
-   manager.add(action2);
-   }
-
-   private void fillContextMenu(IMenuManager manager) {
-   manager.add(action1);
-   manager.add(action2);
-   // Other plug-ins can contribute there actions here
-   manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-   }
-   
-   private void fillLocalToolBar(IToolBarManager manager) {
-   manager.add(action1);
-   manager.add(action2);
-   }
-
-   private void makeActions() {
-   action1 = new Action() {
-   public void run() {
-   showMessage("Action 1 executed");
-   }
-   };
-   action1.setText("Action 1");
-   action1.setToolTipText("Action 1 tooltip");
-   action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-   getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-   
-   action2 = new Action() {
-   public void run() {
-   showMessage("Action 2 executed");
-   }
-   };
-   action2.setText("Action 2");
-   action2.setToolTipText("Action 2 tooltip");
-   action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-   getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-   doubleClickAction = new Action() {
-   public void run() {
-   ISelection selection = viewer.getSelection();
-   Object obj = ((IStructuredSelection)selection).getFirstElement();
-   showMessage("Double-click detected on "+obj.toString());
-   }
-   };
-   }
-
-   private void hookDoubleClickAction() {
-   viewer.addDoubleClickListener(new IDoubleClickListener() {
-   public void doubleClick(DoubleClickEvent event) {
-   doubleClickAction.run();
-   }
-   });
-   }
-   */
+ */
   private void showMessage(String message)
   {
     MessageDialog.openInformation(viewer.getControl().getShell(), "Z Char Map",
