@@ -1638,6 +1638,13 @@ parser code
                              getLocation(token));
     }
 
+    public void report_syntax_error(ZParseMessage msg)
+    {
+      report_error(msg,
+                   new Object[] { toObject(errorToken_) },
+                   getLocation(errorToken_));
+    }
+
     protected Object toObject(Symbol symbol)
     {
       if (symbol.value != null &amp;&amp;
@@ -1652,9 +1659,20 @@ parser code
       return source_.toString();
     }
 
-    protected LocInfo getLocation(Symbol token)
+    protected LocInfo getLocation(Symbol symbol)
     {
-      return new LocInfoImpl(getLoc(), token.left, token.right);
+      if (symbol.value instanceof LocInfo) {
+        return (LocInfo) symbol.value;
+      }
+      if (symbol.value instanceof LocString) {
+        LocString s = (LocString) symbol.value;
+        return s.getLocation();
+      }
+      if (symbol.value instanceof LocInt) {
+        LocInt i = (LocInt) symbol.value;
+        return i.getLocation();
+      }
+      return new LocInfoImpl(getLoc(), symbol.left, symbol.right);
     }
 
     protected LocInfo getLocation(Term term)
@@ -4421,6 +4439,12 @@ varDecl ::=
            else {
              addLocAnn(RESULT, getLocation(colon, e));
            }
+        :}
+        |
+        declWordList:dwl COLON:colon error:error
+        {:
+           ZParseMessage msg = ZParseMessage.MSG_SYNTAX_ERROR_IN_VARDECL;
+           parser.report_syntax_error(msg);
         :}
 <add:zpatt>
         |

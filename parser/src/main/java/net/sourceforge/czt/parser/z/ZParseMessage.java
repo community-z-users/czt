@@ -46,7 +46,9 @@ public enum ZParseMessage
   MSG_OPNAME_ERROR ("Cannot parse operator name ({0})"), 
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables ({0})"),
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
-  MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space");
+  MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
+
+  MSG_SYNTAX_ERROR_IN_VARDECL("Syntax error in variable declaration at token {0}; an expression is expected after token COLON");
 
   private final String message_;
   private final String explanation_;
