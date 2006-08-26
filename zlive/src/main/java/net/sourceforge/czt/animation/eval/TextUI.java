@@ -50,6 +50,7 @@ import net.sourceforge.czt.session.SourceLocator;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
@@ -154,14 +155,11 @@ public class TextUI {
         printHelp(output_);
       }
       else if (cmd.equals("unfold")) {
-        //throws IOException, CommandException
-        String section = zlive_.getCurrentSection();
-        Source src = new StringSource(args);
-        Markup markup = zlive_.getMarkup();
-        src.setMarkup(markup);
-        Expr expr = ParseUtils.parseExpr(src, section, manager);
-        output_.println("Expr = "+zlive_.printTerm(zlive_.preprocessExpr(expr)));
-      } 
+        Term term = parseTerm(args, output_);
+        term = unfoldTerm(term);
+        if (term != null)
+          output_.println("Term = "+zlive_.printTerm(term));
+      }
       else if (cmd.equals("ver") || cmd.equals("version")) {
         output_.println(ZLive.banner);
       } 
@@ -295,7 +293,18 @@ public class TextUI {
     output_.flush();
   }
 
-  public void evalExprPred(String args, PrintWriter out)
+  /** Parses and typechecks the string args into a Pred or an Expr.
+   *  The result will be null if args contains parse or type errors.
+   *  Otherwise it will be a Term.  You can use 'instanceof Pred'
+   *  to find out if the result is a predicate or an expression.
+   * 
+   * @param args String containing an expression or predicate
+   * @param out  Where to print error and progress messages.
+   * @return     The typechecked Pred/Expr, or null if it contained errors.
+   * @throws IOException
+   * @throws CommandException
+   */
+  public Term parseTerm(String args, PrintWriter out)
   throws IOException, CommandException
   {
     SectionManager manager = zlive_.getSectionManager();
@@ -304,12 +313,8 @@ public class TextUI {
     Markup markup = zlive_.getMarkup();
     src.setMarkup(markup);
     Term term = ParseUtils.parsePred(src, section, manager);
-    boolean isPred = true;
-    if (term instanceof ExprPred) {
-      // evaluate just the expression.
-      isPred = false;
+    if (term instanceof ExprPred)
       term = ((ExprPred)term).getExpr();
-    }
     List<? extends ErrorAnn> errors =
       TypeCheckUtils.typecheck(term, manager, false, section);
     if (errors.size() > 0) {
@@ -318,39 +323,63 @@ public class TextUI {
       for (ErrorAnn next : errors) {
         out.println(next);
       }
+      return null;
     }
-    else {
-      LOG.fine("Starting to evaluate: " + term);
-      try
-      {
-        Term result = null;
-        if (isPred)
-          result = zlive_.evalPred( (Pred)term );
-        else
-          result = zlive_.evalExpr( (Expr)term );
-        if (result != null)
-          printTerm(out, result, markup);
+    else
+      return term;
+  }
+
+  /** Returns the preprocessed form of a term, before evaluation 
+   *  starts.  This is mostly used for debugging
+   */
+  public Term unfoldTerm(Term term)
+  throws EvalException
+  {
+    if (term == null)
+      return null;
+    String sect = zlive_.getCurrentSection();
+    if (sect == null) {
+      throw new CztException("Must choose a section!");
+    }
+    return zlive_.getPreprocess().preprocess(sect, term);
+  }
+
+  public void evalExprPred(String args, PrintWriter out)
+  throws IOException, CommandException
+  {
+    Term term = parseTerm(args, out);
+    if (term == null)
+      return;
+    LOG.fine("Starting to evaluate: " + term);
+    try
+    {
+      Term result = null;
+      if (term instanceof Pred)
+        result = zlive_.evalPred( (Pred)term );
+      else
+        result = zlive_.evalExpr( (Expr)term );
+      if (result != null)
+        printTerm(out, result, zlive_.getMarkup());
+      out.println();
+    }
+    catch (UndefException ex)
+    {
+      out.println("Undefined!  " + ex.getMessage());
+      if (ex.getTerm() != null) {
+        out.print("    term = ");
+        printTerm(out, ex.getTerm(), zlive_.getMarkup());
         out.println();
       }
-      catch (UndefException ex)
-      {
-        out.println("Undefined!  " + ex.getMessage());
-        if (ex.getTerm() != null) {
-          out.print("    term = ");
-          printTerm(out, ex.getTerm(), markup);
-          out.println();
-        }
-      }
-      catch (EvalException ex)
-      {
+    }
+    catch (EvalException ex)
+    {
+      out.println();
+      out.println("Error: evaluation too difficult/large: "
+          + ex.getMessage());
+      if (ex.getTerm() != null) {
+        out.print("    term = ");
+        printTerm(out, ex.getTerm(), zlive_.getMarkup());
         out.println();
-        out.println("Error: evaluation too difficult/large: "
-            + ex.getMessage());
-        if (ex.getTerm() != null) {
-          out.print("    term = ");
-          printTerm(out, ex.getTerm(), markup);
-          out.println();
-        }
       }
     }
   }

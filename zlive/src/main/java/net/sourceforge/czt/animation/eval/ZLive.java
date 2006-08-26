@@ -152,6 +152,14 @@ public class ZLive
     factory_ = fact;
   }
 
+  /** Get the Preprocess object that is used to unfold terms
+   *  before evaluation.
+   */
+  public Preprocess getPreprocess()
+  {
+    return preprocess_;
+  }
+
   /** Get the current section manager. */
   public SectionManager getSectionManager()
   { return sectman_; }
@@ -209,18 +217,6 @@ public class ZLive
     sectman_.get(new Key(sectName, ZSect.class));
     sectman_.get(new Key(sectName, SectTypeEnvAnn.class));
     sectName_ = sectName;
-  }
-
-  /** Returns the preprocessed form of expr, before evaluation 
-   *  starts.  This is mostly used for debugging
-   */
-  public Expr preprocessExpr(Expr expr)
-  throws EvalException
-  {
-    if (getCurrentSection() == null) {
-      throw new CztException("Must choose a section!");
-    }
-    return (Expr) preprocess_.preprocess(getCurrentSection(), expr);
   }
 
   /** Evaluate a Pred.
