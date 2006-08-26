@@ -362,8 +362,12 @@ public class ProverCalculateProviso
       if (rightWord.startsWith(leftWord)) {
         final String resultWord =
           rightWord.substring(leftWord.length(), rightWord.length());
+        StrokeList strokes = rightName.getStrokeList();
+        // TODO: clean this up.  We need to connect the new RefName to
+        // a DeclName so that unification works.
+        ZDeclName declName = new Factory().createZDeclName(resultWord, strokes, "global_i_hope");
         final ZRefName resultName =
-          factory.createZRefName(resultWord, rightName.getStrokeList());
+          factory.createZRefName(resultWord, strokes, declName);
         final RefExpr result =
           factory.createRefExpr(resultName);
         unify(result, getLeftExpr()); // unify sets status_

@@ -109,6 +109,24 @@ public class Rewrite
     return VisitorUtils.visitTerm(this, pred, true);
   }
 
+  /*
+  public Term visitSchText(SchText schText)
+  {
+    SchText oldSchText = schText;
+    // apply rules until no more changes
+    int rewrites = 0;
+    do {
+      oldSchText = schText;
+      schText = (SchText) rewriteOnce(manager_, section_, schText, rules_);
+      rewrites++;
+      if (rewrites > MAX_REWRITES)
+        throw new RuntimeException("Infinite loop in rules on schema text "+schText);
+    } while (schText != oldSchText);
+    // now recurse into subexpressions
+    return VisitorUtils.visitTerm(this, schText, true);
+  }
+  */
+
   /**
    * Returns a rewritten version of the given expression by trying to
    * prove <code>expr = JokerExpr</code> using the given rules.  Note
