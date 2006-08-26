@@ -1,8 +1,15 @@
 \begin{schema}{Calc}
-  curr, prev : \nat
+  curr, prev : \num
 \where
   true
 \end{schema}
+
+This is a temporary fix to declare \Delta Calc and \Xi Calc so that the
+typechecker links the \Delta Calc RefName to this DeclName.
+Otherwise the unification sees a null id link and fails.
+\begin{axdef}
+  \Delta Calc, \Xi Calc : \power [Calc; Calc~' | true]
+\end{axdef}
 
 \begin{schema}{Init}
   Calc~'

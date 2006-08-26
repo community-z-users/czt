@@ -15,6 +15,10 @@
 \begin{document}
 \maketitle
 
+TODO: I need to add a rule for unfolding $\theta$ expressions, which
+are tricky because of their strange decoration semantics.
+
+
 This document defines some simple rules for unfolding expressions 
 and predicates prior to evaluating them in ZLive.  The rules are
 applied repeatedly to each expression/predicate until no more rules
@@ -366,6 +370,12 @@ implement $\dcat$ as a ZLive primitive.
 %             \ELSE (\dcat (head~E)) \cat (\dcat (tail~E))
 %\end{zedrule}
 
+\begin{zedrule}{mudecls}
+   [D | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   (\mu D | P @ E) = (\mu D2 | P \land P2 @ E)
+\end{zedrule}
+
 
 \section{Unfolding Declaration Lists}
 
@@ -446,10 +456,31 @@ freedom to reorder things later.
 \end{zedrule}
 
 \begin{zedrule}{SchemaRef}
-  \proviso ?~ v == [D1 | P1] \\
-  [D1 | true] \declListUnfoldsTo [D2 | P2]
+  \proviso ?~ v == E2 \\
+  E2 \sexprUnfoldsTo [D2 | P2]
 \derives
-  v \sexprUnfoldsTo [D2 | P1 \land P2]
+  v \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
+This rule unfolds any remaining $\Delta$ schemas.
+If the specification explicitly defined the $\Delta$ schema,
+then the above SchemaRef rule would have unfolded it.
+\begin{zedrule}{DeltaRef}
+  \proviso v2 == \Delta \unprefix v \\
+  [v2; v2~'] \sexprUnfoldsTo [D1|P1]
+\derives
+  v \sexprUnfoldsTo [D1|P1]
+\end{zedrule}
+
+This rule unfolds any remaining $\Xi$ schemas.
+If the specification explicitly defined the $\Xi$ schema,
+then the above SchemaRef rule would have unfolded it.
+\begin{zedrule}{XiRef}
+  \proviso v2 == \Xi \unprefix v \\
+  [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
+  \proviso [v2|true] : \power [D2]
+\derives
+  v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
 \begin{zedrule}{SchemaPrime}
