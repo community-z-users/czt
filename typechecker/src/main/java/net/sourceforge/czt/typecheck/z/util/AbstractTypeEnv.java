@@ -100,6 +100,19 @@ abstract public class AbstractTypeEnv
         else {
           result = newPowerType;
         }
+        
+        // Ensure that zRefName is linked to a ZDeclName,
+        // This is one of the postconditions of the typechecker, that
+        // every ZRefName should be linked to some ZDeclName.
+        // For example, the unification in the rules package relies on this.
+        // These Delta/Xi names are a special case, because there may
+        // not be any corresponding ZDeclName.  So if there is not,
+        // we add a dummy one with a fixed (global) id.
+        if (zRefName.getDecl() == null) {
+          String word = zRefName.getWord();
+          StrokeList strokelist = zRefName.getStrokeList();
+          zRefName.setDecl(factory_.createZDeclName(word, strokelist, "deltaxi"));
+        }
       }
     }
     return result;
