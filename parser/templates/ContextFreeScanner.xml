@@ -173,7 +173,9 @@ DIGIT = {DECIMAL}
 DECIMAL = [:digit:]
 
 /* TODO: What about OTHERLETTER? */
-LETTER = [:letter:]
+ARITHMOS = "\uD835\uDD38"
+FINSET = "\uD835\uDD3D"
+LETTER = [:letter:] | {ARITHMOS} | {FINSET}
 
 SPECIAL =   {STROKECHAR}
           | {WORDGLUE}
