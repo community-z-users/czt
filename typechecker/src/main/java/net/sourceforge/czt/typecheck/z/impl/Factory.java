@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -281,8 +282,8 @@ public class Factory
     ZStrokeList strokes = factory_.createZStrokeList();
     strokes.addAll(zDeclName.getZStrokeList());
     ZDeclName result = factory_.createZDeclName(zDeclName.getWord(),
-						 strokes,
-						 zDeclName.getId());
+						strokes,
+						zDeclName.getId());
     copyLocAnn(zDeclName, result);
     return result;
   }
@@ -404,6 +405,12 @@ public class Factory
   public <E> List<E> list(List<E> list)
   {
     List<E> result = new java.util.ArrayList<E>(list);
+    return result;
+  }
+
+  public <K, V> Map<K, V> hashMap()
+  {
+    Map<K, V> result = new java.util.HashMap<K, V>();
     return result;
   }
 }

@@ -48,8 +48,11 @@ public class SectTypeEnv
   /** A Factory. */
   protected static Factory factory_;
 
-  /** The list of all NameSectTypeTriples add so far. */
-  protected List<NameSectTypeTriple> typeInfo_;
+  /**
+   * A mapping from  Strings, which represent the name, to the
+   * NameSectTypeTriple associated with that name.
+   */
+  protected Map<String, NameSectTypeTriple> typeInfo_;
 
   /** The map of variables and declared in a 2nd pass of a specification. */
   protected List<NameSectTypeTriple> declarations_;
@@ -80,7 +83,7 @@ public class SectTypeEnv
   public SectTypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    typeInfo_ = factory_.list();
+    typeInfo_ = map();
     declarations_ = factory_.list();
     sectionDeclarations_ = factory_.list();
     visibleSections_ = set();
@@ -90,7 +93,7 @@ public class SectTypeEnv
 
   public void overwriteTriples(List<NameSectTypeTriple> triples)
   {
-    typeInfo_ = factory_.list();
+    typeInfo_ = map();
     add(triples);
   }
 
@@ -195,7 +198,7 @@ public class SectTypeEnv
     //if not already declared, add this declaration to the environment
     NameSectTypeTriple existing = getTriple(triple.getZDeclName());
     if (existing == null) {
-      typeInfo_.add(triple);
+      typeInfo_.put(triple.getZDeclName().toString().intern(), triple);
     }
     //otherwise, overwrite the existing declaration, and note that
     //this declaration is a duplicate
@@ -250,10 +253,12 @@ public class SectTypeEnv
   public List<NameSectTypeTriple> getTriple()
   {
     List<NameSectTypeTriple> triples = factory_.list();
-    for (NameSectTypeTriple triple : typeInfo_) {
+    Set<Map.Entry<String, NameSectTypeTriple>> entrySet =
+      typeInfo_.entrySet();
+    for (Map.Entry<String, NameSectTypeTriple> entry : entrySet) {
       if (visibleSections_.contains(section_) ||
-          triple.getSect().equals(PRELUDE)) {
-        triples.add(triple);
+          entry.getValue().getSect().equals(PRELUDE)) {
+        triples.add(entry.getValue());
       }
     }
     return triples;
@@ -270,7 +275,6 @@ public class SectTypeEnv
    */
   public Type getType(ZRefName zRefName)
   {
-    ZDeclName zDeclName = factory_.createZDeclName(zRefName);
     Type result = factory_.createUnknownType();
 
     //get the info for this name
@@ -295,10 +299,12 @@ public class SectTypeEnv
   public void dump()
   {
     System.err.println("typeinfo:");
-    for (NameSectTypeTriple next : typeInfo_) {
-      System.err.print("\t(" + next.getZDeclName());
-      System.err.print(", (" + next.getSect());
-      System.err.println(", (" + next.getType() + ")))");
+    Set<Map.Entry<String, NameSectTypeTriple>> entrySet =
+      typeInfo_.entrySet();
+    for (Map.Entry<String, NameSectTypeTriple> entry : entrySet) {
+      System.err.print("\t(" + entry.getValue().getZDeclName());
+      System.err.print(", (" + entry.getValue().getSect());
+      System.err.println(", (" + entry.getValue().getType() + ")))");
     }
   }
 
@@ -312,16 +318,10 @@ public class SectTypeEnv
   //defined in a currently visible scope.
   private NameSectTypeTriple getTriple(ZDeclName zDeclName)
   {
-    NameSectTypeTriple result = null;
-    for (NameSectTypeTriple triple : typeInfo_) {
-      //we don't use equals() in DeclName so that we can use this
-      //lookup for RefName objects as well
-      if (namesEqual(triple.getZDeclName(), zDeclName) &&
-          (visibleSections_.contains(triple.getSect()) ||
-           triple.getSect().equals(PRELUDE))) {
-        result = triple;
-        break;
-      }
+    String sName = zDeclName.toString().intern();
+    NameSectTypeTriple result = typeInfo_.get(sName);
+    if (result != null && !visibleSections_.contains(result.getSect())) {
+      result = null;
     }
     return result;
   }

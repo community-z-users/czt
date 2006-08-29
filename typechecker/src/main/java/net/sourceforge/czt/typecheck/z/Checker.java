@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.io.Writer;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -572,36 +573,34 @@ abstract public class Checker<R>
                                     List<Term> termList,
                                     String errorMessage)
   {
-    for (int i = 0; i < pairs.size(); i++) {
-      NameTypePair first = pairs.get(i);
-      for (int j = i + 1; j < pairs.size(); j++) {
-        NameTypePair second = pairs.get(j);
-        if (namesEqual(first.getZDeclName(), second.getZDeclName())) {
-          Type2 firstType = unwrapType(first.getType());
-          Type2 secondType = unwrapType(second.getType());
-          UResult unified = unify(firstType, secondType);
-
-          //if the types don't agree, raise an error
-          if (unified == FAIL) {
-            //terms are not printed in some error messages
-            if (termList.size() > 0) {
-              List<Object> params = factory().list();
-              params.add(second.getZDeclName());
-              params.addAll(termList);
-              params.add(firstType);
-              params.add(secondType);
-              error(termList.get(0), errorMessage, params.toArray());
-            }
-            else {
-              Object [] params =
-                new Object [] {second.getZDeclName(), firstType, secondType};
-              error(second.getZDeclName(), errorMessage, params);
-            }
-          }
-          //we don't need the second declaration, so merge the IDs
-          second.getZDeclName().setId(first.getZDeclName().getId());
-        }
+    Map<String, NameTypePair> map =  factory().hashMap();
+    for (NameTypePair first : pairs) {
+      NameTypePair second = map.get(first.getZDeclName().toString());
+      if (second != null) {
+	Type2 firstType = unwrapType(first.getType());
+	Type2 secondType = unwrapType(second.getType());
+	UResult unified = unify(firstType, secondType);
+	
+	//if the types don't agree, raise an error
+	if (unified == FAIL) {
+	  //terms are not printed in some error messages
+	  if (termList.size() > 0) {
+	    List<Object> params = factory().list();
+	    params.add(second.getZDeclName());
+	    params.addAll(termList);
+	    params.add(firstType);
+	    params.add(secondType);
+	    error(termList.get(0), errorMessage, params.toArray());
+	  }
+	  else {
+	    Object [] params =
+	      new Object [] {second.getZDeclName(), firstType, secondType};
+	    error(second.getZDeclName(), errorMessage, params);
+	  }
+	}
+	second.getZDeclName().setId(first.getZDeclName().getId());
       }
+      map.put(first.getZDeclName().toString().intern(), first);
     }
   }
 

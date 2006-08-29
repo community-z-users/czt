@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.z.util;
 import java.io.*;
 import java.util.Stack;
 import java.util.List;
+import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
@@ -43,7 +44,7 @@ public class TypeEnv
   protected Factory factory_;
 
   /** The names and their types. */
-  protected Stack<List<NameTypePair>> typeInfo_;
+  protected Stack<Map<String, NameTypePair>> typeInfo_;
 
   /**
    * The list of current generic parameters. Used for tracking the
@@ -59,13 +60,13 @@ public class TypeEnv
   public TypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    typeInfo_ = new Stack<List<NameTypePair>>();
+    typeInfo_ = new Stack<Map<String, NameTypePair>>();
     parameters_ = new Stack<List<ZDeclName>>();
   }
 
   public void enterScope()
   {
-    List<NameTypePair> info = factory_.list();
+    Map<String, NameTypePair> info = map();//factory_.list();
     typeInfo_.push(info);
     List<ZDeclName> parameters = factory_.list();
     parameters_.push(parameters);
@@ -106,11 +107,11 @@ public class TypeEnv
   public void override(ZDeclName zDeclName, Type type)
   {
     //override if this is in the top scope
-    for (NameTypePair pair : typeInfo_.peek()) {
-      if (namesEqual(zDeclName, pair.getZDeclName())) {
-        pair.setType(type);
-        return;
-      }
+    Map<String, NameTypePair> map = typeInfo_.peek();
+    NameTypePair pair = map.get(zDeclName.toString());
+    if (pair != null) {
+      pair.setType(type);
+      return;
     }
 
     //otherwise, add it to the environment
@@ -119,7 +120,7 @@ public class TypeEnv
 
   public void add(NameTypePair pair)
   {
-    typeInfo_.peek().add(pair);
+    typeInfo_.peek().put(pair.getZDeclName().toString(), pair);
   }
 
   /**
@@ -151,34 +152,14 @@ public class TypeEnv
     return result;
   }
 
-  public List<NameTypePair> getNameTypePair()
-  {
-    return typeInfo_.peek();
-  }
-
-  protected List<NameTypePair> getNameTypePairs()
-  {
-    List<NameTypePair> result = factory_.list();
-    for (List<NameTypePair> list : typeInfo_) {
-      for (NameTypePair pair : list) {
-        NameTypePair existing = findNameTypePair(pair.getZDeclName(), result);
-        if (existing == null) {
-          result.add(pair);
-        }
-      }
-    }
-    return result;
-  }
-
   //gets the pair with the corresponding name
   protected NameTypePair getPair(ZRefName zRefName)
   {
     NameTypePair result = null;
-    for (List<NameTypePair> list : typeInfo_) {
-      for (NameTypePair pair : list) {
-        if (namesEqual(pair.getZDeclName(), zRefName)) {
-          result = pair;
-        }
+    for (Map<String, NameTypePair> map : typeInfo_) {
+      NameTypePair pair = map.get(zRefName.toString());
+      if (pair != null) {
+	result = pair;
       }
     }
     return result;
