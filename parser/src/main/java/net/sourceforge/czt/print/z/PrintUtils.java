@@ -172,8 +172,10 @@ public final class PrintUtils
       throw new CztException(exception);
     }
     ZmlScanner scanner = new ZmlScanner(tree);
-    scanner.prepend(new Symbol(Sym.TOKENSEQ));
-    scanner.append(new Symbol(Sym.TOKENSEQ));
+    if (! (tree instanceof net.sourceforge.czt.z.ast.Para)) {
+      scanner.prepend(new Symbol(Sym.TOKENSEQ));
+      scanner.append(new Symbol(Sym.TOKENSEQ));
+    }
     Unicode2Latex parser = new Unicode2Latex(scanner);
     parser.setSectionInfo(sectInfo, sectionName);
     UnicodePrinter printer = new UnicodePrinter(out);

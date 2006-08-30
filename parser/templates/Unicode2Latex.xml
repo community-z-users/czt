@@ -396,7 +396,7 @@ parser code {:
         "Next token is (" + symbolMap_.get(result.sym) + ", " + 
             (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
                 (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";    
-    CztLogger.getLogger(<class/>.class).finer(logMessage);
+    CztLogger.getLogger(<class/>.class).fine(logMessage);
     return result;
   }
 
@@ -497,10 +497,18 @@ parser code {:
     System.err.println(m);
   }
 
-  public void report_fatal_error(String message, Object info) {
+  public void report_fatal_error(String message, Object info)
+  {
     report_error(message, info);
     done_parsing();
-    throw new UnsupportedOperationException("Parse error: " + String.valueOf(message) + " => " + String.valueOf(info));        
+    throw new UnsupportedOperationException("Parse error: " +
+      String.valueOf(message) + " => " + String.valueOf(info));
+  }
+
+  public void unrecovered_syntax_error(Symbol token)
+  {
+    report_fatal_error("Syntax error at token " + symbolMap_.get(token.sym),
+                       token);
   }
 :};
 
@@ -535,7 +543,7 @@ terminal Decorword DECORWORD;
 /* Non terminals */
 non terminal              input, narrWordList, sectionList, paragraphList;
 non terminal ZSect        sectionHeader;
-non terminal String       markup, para, wordmarkup;
+non terminal String       markup, para, zpara, wordmarkup;
 <add:oz>
 non terminal LatexCommand innerPara;
 </add:oz>
@@ -547,6 +555,11 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              TOKENSEQ tokenSeq:s TOKENSEQ
              {: 
                 if (s != null) parser.write(s.getName());
+                parser.getWriter().flush();
+             :}
+             |
+             zpara:p
+             {:
                 parser.getWriter().flush();
              :}
              ;
@@ -614,7 +627,11 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              TEXT:t
              {: parser.write(t.getString()); :}
              |
-             ZED tokenSeq:s END
+             zpara:z
+             {: RESULT = z; :}
+             ;
+
+   zpara ::= ZED tokenSeq:s END
              {:
                 String result = begin("zed");
                 if (s != null) { result += s.getName(); }
