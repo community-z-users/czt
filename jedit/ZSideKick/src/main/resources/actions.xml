@@ -43,6 +43,11 @@
       zsidekick.ZSideKickActions.prove(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.rewriteCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.rewrite(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.disableTypechecking">
     <CODE>
       buffer.putBooleanProperty("zsidekick.disable-typechecking",

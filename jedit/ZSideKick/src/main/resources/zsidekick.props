@@ -23,6 +23,7 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.gotoDefinition \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.proveCurrentWff \
+                                      zsidekick.rewriteCurrentWff \
                                       - \
                                       zsidekick.disableTypechecking \
                                       zsidekick.showCompleteTree
@@ -37,6 +38,7 @@ zsidekick.nextWff.label=Highlight next wff
 zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
 zsidekick.proveCurrentWff.label=Prove selected predicate
+zsidekick.rewriteCurrentWff.label=Rewrite selected predicate
 zsidekick.disableTypechecking.label=Disable Typechecking
 zsidekick.showCompleteTree.label=Show complete syntax tree
 

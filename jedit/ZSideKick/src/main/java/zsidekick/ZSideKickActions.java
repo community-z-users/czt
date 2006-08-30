@@ -18,7 +18,7 @@
  */
 package zsidekick;
 
-import java.util.Iterator;
+import java.io.StringWriter;
 
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.textarea.*;
@@ -27,6 +27,8 @@ import sidekick.SideKickParsedData;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.Rewrite;
 import net.sourceforge.czt.rules.RuleTable;
 import net.sourceforge.czt.rules.SimpleProver;
 import net.sourceforge.czt.session.*;
@@ -213,13 +215,14 @@ public class ZSideKickActions
           SectionManager manager = parsedData.getManager();
           ZSect zSect = wffHighlight.findZSectForCurrentWff();
           if (zSect != null) {
+            final String section = zSect.getName();
             try {
               RuleTable rules = (RuleTable)
-                manager.get(new Key(zSect.getName(), RuleTable.class));
+                manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
                 SimpleProver prover = new SimpleProver(rules,
                                                        manager,
-                                                       zSect.getName());
+                                                       section);
                 if (prover.prove((Pred) term)) {
                   reportMessage(view, "Selected predicate is true");
                 }
@@ -242,6 +245,62 @@ public class ZSideKickActions
       }
       else {
         reportError(view, "Highlighted term is not a predicate");
+      }
+    }
+  }
+
+  public static void rewrite(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      if (term != null ) {
+        ParsedData parsedData = getParsedData(view);
+        if (parsedData != null) {
+          SectionManager manager = parsedData.getManager();
+          ZSect zSect = wffHighlight.findZSectForCurrentWff();
+          if (zSect != null) {
+            String section = zSect.getName();
+            try {
+              RuleTable rules = (RuleTable)
+                manager.get(new Key(section, RuleTable.class));
+              if (rules != null) {
+                Term result = Rewrite.rewrite(manager, section, term, rules);
+                if (result != null && result != term) {
+                  final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+                  final int start = locAnn.getStart().intValue();
+                  Selection selection =
+                    new Selection.Range(start,
+                                        start + locAnn.getLength().intValue());
+                  StringWriter writer = new StringWriter();
+                  PrintUtils.printLatex(result, writer, manager, section);
+                  final String text = writer.toString();
+                  final JEditTextArea textArea = view.getTextArea();
+                  final int caretPos = textArea.getCaretPosition();
+                  //                  Selection selection =
+                  //                    new Selection.Range(caretPos, caretPos + text.length());
+                  textArea.setSelection(selection);
+                  textArea.setSelectedText(text);
+                  selection = new Selection.Range(start,
+                                                  start + text.length());
+                  textArea.setSelection(selection);
+                }
+                else {
+                  reportError(view, "Rewriting failed");
+                }
+              }
+              else {
+                reportError(view, "Cannot find rules");
+              }
+            }
+            catch (CommandException e) {
+              reportError(view, "Cannot get rule table");
+            }
+          }
+          else {
+            reportError(view, "Cannot find Z section for selected term");
+          }
+        }
       }
     }
   }
