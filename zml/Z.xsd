@@ -105,6 +105,14 @@ more detail.
             <gnast:generate id="convFactory" class="Factory"
               template="Factory.vm"/>
           </gnast:package>
+          <gnast:package id="util" name="util">
+            <gnast:generate id="flyFactory" class="FlyweightFactory"
+              template="FlyweightFactory.vm"/>
+          </gnast:package>
+          <gnast:package id="util" name="util">
+            <gnast:generate id="createVisitor" class="CreateVisitor"
+              template="CreateVisitor.vm"/>
+          </gnast:package>
           <gnast:package id="jaxb" name="jaxb">
             <gnast:generate
               id="AstToJaxb"

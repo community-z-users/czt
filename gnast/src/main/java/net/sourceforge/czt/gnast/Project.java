@@ -155,7 +155,8 @@ public class Project
     }
 
     if (name == null || template == null || packageName == null) {
-      logSevere("Cannot generate class with id " + id);
+      logSevere("Cannot generate class with id " + id +
+                " for project " + getName());
       return;
     }
 
@@ -267,6 +268,8 @@ public class Project
     generate("factory");
     generate("factoryImpl");
     generate("convFactory");
+    generate("flyFactory");
+    generate("createVisitor");
 
     // ******************************
     // Generate Ast Classes and Interfaces

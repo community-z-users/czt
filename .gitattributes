@@ -69,6 +69,8 @@ gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/CallProcess.java -text
 gnast/src/vm/CallProcessImpl.java -text
+gnast/src/vm/CreateVisitor.vm -text
+gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/QualifiedDecl.java -text
 gnast/src/vm/QualifiedDeclImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
