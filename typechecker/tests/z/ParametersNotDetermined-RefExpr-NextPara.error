@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION ParametersNotDetermined\_RefExpr\_NextPara \parents oz\_toolkit
+  \SECTION ParametersNotDetermined\_RefExpr\_NextPara 
 \end{zsection}
 
 This tests that if a subsequent paragraph can be used to determine the
