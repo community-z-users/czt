@@ -53,6 +53,10 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
+                <property name="java_cup"
+                  location="${user.home}/.m2/repository/net/sourceforge/czt/java_cup/0.6-SNAPSHOT/java_cup-0.6-SNAPSHOT.jar"/>
+                <property name="jflex"
+                  location="${user.home}/.m2/repository/jflex/jflex/1.4.1/jflex-1.4.1.jar"/>
                 <ant dir="." target="generate-src"/>
                 <ant dir="." target="z-UnicodeToLatex"/>
                 <ant dir="." target="oldz-UnicodeToLatex"/>
