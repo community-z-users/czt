@@ -19,26 +19,31 @@
 
 package net.sourceforge.czt.rules;
 
-import java.io.*;
+import static net.sourceforge.czt.rules.ProverUtils.collectConjectures;
+
+import java.io.StringWriter;
 import java.net.URL;
-import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import junit.framework.*;
-
+import junit.framework.TestCase;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.parser.zpatt.ParseUtils;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
+import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.util.Factory;
-import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
-
-import static net.sourceforge.czt.rules.ProverUtils.*;
 
 public class SimpleProverTest
   extends TestCase
@@ -85,20 +90,32 @@ public class SimpleProverTest
     manager.get(new Key(sectname, SectTypeEnvAnn.class));
     RuleTable rules =
       (RuleTable) manager.get(new Key(sectname, RuleTable.class));
+    
+    // turn rules logging on
+    Logger LOG = Logger.getLogger("net.sourceforge.czt.rules");
+    LOG.setLevel(Level.FINEST);
+    String logfile = resource.replaceAll("/", "").replaceAll(".tex", ".log");
+    Handler handler = new FileHandler(logfile);
+    handler.setLevel(Level.ALL);
+    handler.setEncoding("utf8");
+    LOG.addHandler(handler);
+    
     for (ConjPara conjPara : collectConjectures(term)) {
       PredSequent sequent = factory_.createPredSequent();
       CopyVisitor visitor = new CopyVisitor(factory_);
       sequent.setPred((Pred) conjPara.getPred().accept(visitor));
       SimpleProver prover =
         new SimpleProver(rules, manager, sectname);
+      StringWriter writer = new StringWriter();
+      PrintUtils.print(conjPara.getPred(),
+                       writer,
+                       manager,
+                       "standard_toolkit",
+                       Markup.LATEX);
+      writer.close();
+      LOG.fine("Starting to prove conjecture: " + resource + ": " + writer.toString());
       if (! prover.prove(sequent)) {
-        StringWriter writer = new StringWriter();
-        PrintUtils.print(conjPara.getPred(),
-                         writer,
-                         manager,
-                         "standard_toolkit",
-                         Markup.LATEX);
-        writer.close();
+        LOG.fine("FAILED conjecture: " + resource + ": " + writer.toString());
         fail("Failed to prove " + writer.toString());
       }
     }

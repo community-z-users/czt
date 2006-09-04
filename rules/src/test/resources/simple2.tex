@@ -105,6 +105,22 @@ We define an infix operator for unfolding schemas.
    [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
 \end{zedrule}
 
+This is a very specific instance of normaliseConstDecl
+that will always fail.  
+This allows us to test that the rule application and the
+unification are undone correctly.
+\begin{zedrule}{normaliseConstDecl42}
+   \proviso [D1 | true] \unfoldsTo [D2 | false \land P2] // will fail
+\derives
+   [v==42; D1 | true] \unfoldsTo [v:\{42\}; D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{normaliseConstDecl}
+   [D1 | true] \unfoldsTo [D2 | P2]
+\derives
+   [v==E; D1 | true] \unfoldsTo [v:\{E\}; D2 | P2]
+\end{zedrule}
+
 \begin{zedrule}{startNormalise}
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
@@ -138,4 +154,16 @@ We define an infix operator for unfolding schemas.
 
 \begin{zed}
   \vdash?~ [ Foo | true ] \unfoldsTo [ x:\nat | true \land true ]
+\end{zed}
+
+
+\begin{zed}
+  \vdash?~ [ x==43 | true ] \unfoldsTo [ x:\{43\} | true ]
+\end{zed}
+
+This conjecture tests that rules are undone correctly when their
+antecedents fail (because normaliseConstDecl42 will fail, then
+normaliseConstDecl will succeed).
+\begin{zed}
+  \vdash?~ [ x==42 | true ] \unfoldsTo [ x:\{42\} | true ]
 \end{zed}

@@ -111,7 +111,7 @@ public class ProverCalculateProviso
     try {
       Term term = ProverUtils.removeJoker(expr);
       StringWriter writer = new StringWriter();
-      PrintUtils.print(term, writer, manager, section, Markup.UNICODE);
+      PrintUtils.print(term, writer, manager, section, Markup.LATEX);
       writer.close();
       System.out.println(writer.toString());
       unify(expr, getLeftExpr());

@@ -48,6 +48,7 @@ public class SimpleProver
   private RuleTable rules_;
   private SectionManager manager_;
   private String section_;
+  private Random rand_ = new Random();  // used just for log messages
 
   public SimpleProver(Session session)
     throws CommandException
@@ -99,23 +100,32 @@ public class SimpleProver
   {
     for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext(); ) {
       Rule rule = iter.next();
-      String message = "Trying rule " + rule.getName();
-      getLogger().finer(message);
       try {
         boolean success = apply(rule, predSequent);
-        if (success && prove(predSequent.getDeduction())) {
-          message = "Rule " + rule.getName() + " succeeded";
-          getLogger().finer(message);
-          return true;
+        if (success) {
+          // we use a random id number in log messages to make it
+          // clearer which rule application each message is talking about.
+          int id = rand_.nextInt(1000);
+          List<Sequent> ants = predSequent.getDeduction().getSequent();
+          String message = "Applied rule " + rule.getName() + "." + id
+                         + ", children=" + ants.size();
+          getLogger().fine(message);
+          int problem = prove(predSequent.getDeduction().getSequent());
+          if (problem < 0) {
+            message = "Finished rule " + rule.getName() + "." + id;
+            getLogger().fine(message);
+            return true;
+          }
+          else {
+            undo(predSequent);
+            message = "Undid rule " + rule.getName() + "." + id
+                    + " because antecedent " + problem + " failed";
+            getLogger().fine(message);
+          }
         }
-        else {
-          undo(predSequent);
-          message = "Rule " + rule.getName() + " failed";
-          getLogger().finer(message);
-       }
       }
       catch (IllegalArgumentException e) {
-        message =
+        String message =
           "PredSequent cannot be applied to rule " + rule.getName() + ": "
           + e.getMessage();
         getLogger().warning(message);
