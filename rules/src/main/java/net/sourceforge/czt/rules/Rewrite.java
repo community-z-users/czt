@@ -24,6 +24,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.*;
@@ -45,6 +46,7 @@ import net.sourceforge.czt.zpatt.util.*;
 public class Rewrite
   implements TermVisitor<Term>,
              ExprVisitor<Term>,
+             SchTextVisitor<Term>,
              PredVisitor<Term>,
              ZSectVisitor<Term>
 {
@@ -60,10 +62,20 @@ public class Rewrite
 
   private String section_;
 
+  /** The name of the schema text equality operator: schemaEquals. */
+  private static RefExpr schemaEqualsRefExpr_;
+
   public Rewrite(SectionManager manager, RuleTable rules)
   {
+    VisitorUtils.checkVisitorRules(this);
     manager_ = manager;
     rules_ = rules;
+    Factory factory = new Factory(new ProverFactory());
+    String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
+    StrokeList noStrokes = factory.createZStrokeList();
+    ZDeclName declName = factory.createZDeclName(schemaEqOp, noStrokes, "global");
+    ZRefName refName = factory.createZRefName(schemaEqOp, noStrokes, declName);
+    schemaEqualsRefExpr_ = factory.createRefExpr(refName);
   }
 
   public Term visitZSect(ZSect zSect)
@@ -109,7 +121,9 @@ public class Rewrite
     return VisitorUtils.visitTerm(this, pred, true);
   }
 
-  /*
+  /** This rewrites schema text, using rules with conclusions
+   *  of the form [D1|P1] \schemaEquals [D2|P2].
+   */
   public Term visitSchText(SchText schText)
   {
     SchText oldSchText = schText;
@@ -125,7 +139,40 @@ public class Rewrite
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, schText, true);
   }
-  */
+
+  /**
+   * Returns a rewritten version of the given schema text by trying to prove
+   * <code>schText schemaEquals result</code> using one of the given rules.
+   * If the prover fails, the original schema text is returned.
+   */
+  public static SchText rewriteOnce(SectionManager manager,
+                               String section,
+                               SchText schText,
+                               RuleTable rules)
+  {
+    Factory factory = new Factory(new ProverFactory());
+    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
+    // now create the predicate: schText \schemaEquals joker
+    System.out.println("Rewriting schtext: "+schText);
+    Expr original = factory.createSchExpr(schText);
+    TupleExpr pair = factory.createTupleExpr(original, joker);
+    Pred pred = factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
+    PredSequent predSequent = factory.createPredSequent();
+    predSequent.setPred(pred);
+    SimpleProver prover =
+      new SimpleProver(rules, manager, section);
+    if (prover.prove(predSequent)) {
+      Expr newExpr = (Expr) ProverUtils.removeJoker(joker.boundTo());
+      if (newExpr instanceof SchExpr) {
+        SchText result = ((SchExpr)newExpr).getSchText(); 
+        System.out.println("Rewrote to "+result);
+        return result;
+      }
+      else
+        throw new RuntimeException("Incorrect schemaEquals rule returned: "+newExpr);
+    }
+    return schText;
+  }
 
   /**
    * Returns a rewritten version of the given expression by trying to
