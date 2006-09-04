@@ -1,6 +1,5 @@
 * text=auto !eol
 /COPYING.txt -text
-/INSTALL.txt -text
 admin/binary_release/bbook.utf16 -text
 admin/binary_release/screenshot.png -text
 bin/bsh/parseCircus.bsh -text
