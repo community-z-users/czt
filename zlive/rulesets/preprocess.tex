@@ -15,8 +15,8 @@
 \begin{document}
 \maketitle
 
-TODO: I need to add a rule for unfolding $\theta$ expressions, which
-are tricky because of their strange decoration semantics.
+TODO: Replace binding primitive by $\theta$ and correctly implement
+the strange decoration semantics of $\theta$.
 
 
 This document defines some simple rules for unfolding expressions 
@@ -370,12 +370,6 @@ implement $\dcat$ as a ZLive primitive.
 %             \ELSE (\dcat (head~E)) \cat (\dcat (tail~E))
 %\end{zedrule}
 
-\begin{zedrule}{mudecls}
-   [D | true] \declListUnfoldsTo [D2 | P2]
-\derives
-   (\mu D | P @ E) = (\mu D2 | P \land P2 @ E)
-\end{zedrule}
-
 
 \section{Unfolding Declaration Lists}
 
@@ -499,6 +493,17 @@ that $D1$ and $D2$ are type compatible.
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
 \derives
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
+\end{zedrule}
+
+This rule applies the above schema unfolding rules to unfolding
+the bound variables of quantifiers, because the rewrite tactics
+transform schema text using the $\schemaEquals$ relation.
+\begin{zedrule}{Quantifiers}
+   \proviso E1 == print [D|P] \\
+   [D|P] \sexprUnfoldsTo [D1|P1] \\
+   \proviso E2 == print [D1|P1]
+\derives
+   [D|P] \schemaEquals [D1|P1]
 \end{zedrule}
 
 \end{document}
