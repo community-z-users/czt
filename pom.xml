@@ -62,6 +62,7 @@
     <module>zlive</module>
     <module>gaffe</module>
     <module>modeljunit</module>
+    <module>jedit</module>
     <module>ui</module>
   </modules>
   <dependencyManagement>
