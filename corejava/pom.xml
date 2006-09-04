@@ -55,8 +55,6 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <ant dir="../util" target="install"/>
-                <ant dir="." target="gen"/>
                 <ant dir="." target="build-src"/>
               </tasks>
               <sourceRoot>${basedir}/build/src</sourceRoot>
