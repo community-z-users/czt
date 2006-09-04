@@ -120,7 +120,7 @@ jaxb/COPYING.txt -text
 jaxb/build.xml -text
 jedit/.classpath -text
 jedit/.project -text
-jedit/ZCharMap/CircusTable.xml -text
+jedit/ZCharMap/src/main/resources/CircusTable.xml -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusLatexParser.java -text
 jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset

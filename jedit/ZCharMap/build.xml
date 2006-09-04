@@ -4,7 +4,7 @@
   <property file="${czt.home}/czt.properties"/>
   <property name="czt.jar" location="${czt.home}/${jar.dir}/${czt.jar.file}"/>
   <property name="jar.name"  value="${plugin.jar.file}"/>
-  <property name="src.dir" value="."/>
+  <property name="src.dir" value="src/main/java"/>
   <property name="build.dir" value="build"/>
   <property name="install.dir" value="${czt.home}/${jar.dir}"/>
   
@@ -49,13 +49,7 @@
     <mkdir dir="${install.dir}"/>
     <jar jarfile="${install.dir}/${jar.name}">
       <fileset dir="${build.dir}"/>
-      <fileset dir="${src.dir}">
-        <include name="actions.xml"/>
-        <include name="dockables.xml"/>
-        <include name="**/*.props"/>
-        <include name="**/*.html"/>
-        <include name="**/*.xml"/>
-      </fileset>
+      <fileset dir="src/main/resources"/>
     </jar>
   </target>
 
