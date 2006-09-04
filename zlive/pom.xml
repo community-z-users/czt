@@ -10,8 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT ZLive</name>
   <description>
-    Provides classes for managing and caching Z sections and other
-    Z-related artifacts.
+    Provides animation and testing facilities for standard Z specifications.
   </description>
   <dependencies>
     <dependency>
