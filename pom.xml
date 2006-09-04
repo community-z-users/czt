@@ -49,6 +49,13 @@
     <developerConnection>scm:svn:https://svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
     <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
   </scm>
+  <repositories>
+    <repository>
+      <id>czt</id>
+      <name>CZT repository</name>
+      <url>http://czt.sourceforge.net/maven/repository/</url>
+    </repository>
+  </repositories>
   <modules>
     <module>session</module>
     <module>util</module>
@@ -210,6 +217,13 @@
         <groupId>activesoap</groupId>
         <artifactId>xsdlib</artifactId>
         <version>1.5</version>
+      </dependency>
+
+      <!-- JFlex -->
+      <dependency>
+        <groupId>jflex</groupId>
+        <artifactId>jflex</artifactId>
+        <version>1.4.1</version>
       </dependency>
 
       <!-- Maven Plugin API -->
