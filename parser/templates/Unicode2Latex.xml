@@ -387,7 +387,8 @@ parser code {:
     if (result.sym == Sym.SECTHEAD) {
       action_obj.setupMarkupTable((ZSect) result.value);
     }
-    else if (result.sym == Sym.TOKENSEQ) {
+    else if (result.sym == Sym.TOKENSEQ ||
+             result.sym == Sym.PARA_START) {
       LatexMarkupFunction table = (LatexMarkupFunction)
         sectInfo_.get(new Key(sectionName_, LatexMarkupFunction.class));
       action_obj.setupMarkupTable(table);
@@ -532,7 +533,8 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                   LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
 </add:circus>         
-                   END_MARKUP, TOKENSEQ;
+                   END_MARKUP,
+                   TOKENSEQ, PARA_START, PARA_END;
 terminal ZSect     SECTHEAD;
 terminal LocInt    NUMERAL, NUMSTROKE;
 terminal LocString TEXT;
@@ -558,7 +560,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.getWriter().flush();
              :}
              |
-             zpara:p
+             PARA_START zpara:p PARA_END
              {:
                 parser.getWriter().flush();
              :}

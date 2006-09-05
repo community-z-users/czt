@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.Para;
 
 /**
  * Utilities for printing Z specifications given as an AST.
@@ -172,7 +173,11 @@ public final class PrintUtils
       throw new CztException(exception);
     }
     ZmlScanner scanner = new ZmlScanner(tree);
-    if (! (tree instanceof net.sourceforge.czt.z.ast.Para)) {
+    if (tree instanceof Para) {
+      scanner.prepend(new Symbol(Sym.PARA_START));
+      scanner.append(new Symbol(Sym.PARA_END));
+    }
+    else {
       scanner.prepend(new Symbol(Sym.TOKENSEQ));
       scanner.append(new Symbol(Sym.TOKENSEQ));
     }
