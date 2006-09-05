@@ -139,7 +139,7 @@ public class Main
               XmlString xml = (XmlString)
                 manager.get(new Key(source.getName(), XmlString.class));
               FileOutputStream stream = new FileOutputStream(output);
-              Writer writer = new OutputStreamWriter(stream);
+              Writer writer = new OutputStreamWriter(stream, "UTF-8");
               writer.write(xml.toString());
               writer.close();
             }
