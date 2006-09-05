@@ -75,6 +75,8 @@ gnast/src/vm/QualifiedDecl.java -text
 gnast/src/vm/QualifiedDeclImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
+java_cup/.classpath -text
+java_cup/.project -text
 java_cup/build.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
