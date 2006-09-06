@@ -22,8 +22,18 @@
       <artifactId>rules</artifactId>
     </dependency>
     <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>modeljunit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser</artifactId>
+      <type>test-jar</type>
     </dependency>
   </dependencies>
   <build>
