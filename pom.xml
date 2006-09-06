@@ -53,7 +53,7 @@
     <repository>
       <id>czt</id>
       <name>CZT repository</name>
-      <url>http://czt.sourceforge.net/maven/repository/</url>
+      <url>http://czt.sourceforge.net/maven/repository</url>
     </repository>
   </repositories>
   <modules>
@@ -131,6 +131,13 @@
         <groupId>${czt.groupId}</groupId>
         <artifactId>parser</artifactId>
         <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
       </dependency>
 
       <!-- CZT Typechecker -->
