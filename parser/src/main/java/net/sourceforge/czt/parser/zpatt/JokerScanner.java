@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.zpatt.ast.JokerType;
 
 /**
- * This is lexer for jokers.
+ * This is a lexer for jokers.
  */
 public class JokerScanner
   implements Scanner
@@ -88,14 +88,13 @@ public class JokerScanner
   protected Symbol localLookup(Symbol symbol)
     throws Exception
   {
-    if (lookup_ == false) {
+    if (lookup_ == false || table_ == null) {
       return symbol;
     }
     Symbol result = null;
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
       Decorword decorword = (Decorword) symbol.value;
       String name = decorword.getName();
-      assert table_ != null;
       JokerType jokertype = table_.getTokenType(name);
       int type = -1;
       if (jokertype != null) {
