@@ -37,6 +37,18 @@
     </dependency>
   </dependencies>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <testFailureIgnore>true</testFailureIgnore>
+          <excludes> <!-- exclude usertests -->
+            <exclude>**/Animate*Test.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
     <resources>
       <resource>
         <directory>rulesets</directory>

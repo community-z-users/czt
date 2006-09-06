@@ -214,7 +214,7 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSet.jav
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSetVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProdVisitor.java -text
+zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
-zlive/tests/src/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zml/examples/z/bbook.utf16 svneol=native#unset
 zml/examples/z/birthdaybook.utf16 -text
