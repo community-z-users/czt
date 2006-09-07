@@ -265,6 +265,7 @@
   </dependencyManagement>
   <build>
     <plugins>
+      <!-- Use the Java 1.5 compiler -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -272,6 +273,19 @@
           <source>1.5</source>
           <target>1.5</target>
         </configuration>
+      </plugin>
+
+      <!-- Create test-jar files -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
