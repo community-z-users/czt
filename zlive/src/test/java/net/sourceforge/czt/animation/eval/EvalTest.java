@@ -30,6 +30,8 @@ import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 
+import net.sourceforge.czt.parser.Examples;
+
 /**
 * A (JUnit) test class for testing the Animator
 *
@@ -39,15 +41,6 @@ public abstract class EvalTest extends TestCase
 {
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
-  protected static URL getTestExample(String name) {
-    Object stupid = new EnvirTest();
-    URL result = stupid.getClass().getResource("/tests/z/" + name);
-    if (result == null) {
-      throw new CztException("Cannot find example " + name);
-    }
-    return result;
-  }
   
   /** Get the LocAnn of a term, or null if it does not have one. */
   public static LocAnn getLocAnn(Term term)
@@ -148,7 +141,7 @@ public abstract class EvalTest extends TestCase
     Spec spec = null;
     try {
       SectionManager sectman = animator.getSectionManager();
-      URL url = getTestExample(filename);
+      URL url = Examples.getTestExample(filename);
       sectman.put(new Key(filename,Source.class),
 		  new UrlSource(url));
       spec = (Spec)sectman.get(new Key(filename,Spec.class));

@@ -1,67 +1,56 @@
 <?xml version="1.0"?>
-<project name="zlive-tests" basedir="." default="usertest_compare">
+<project name="zlive-tests" basedir="." default="usertest_compare"
+  xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+  <artifact:pom id="project" file="../pom.xml"/>
+  <property name="name" value="${project.artifactId}-${project.version}"/>
+  <property name="jar"
+    location="${project.build.directory}/${name}-jar-with-dependencies.jar"/>
+  <property name="test-jar"
+    location="${project.build.directory}/${name}-tests.jar"/>
+  <property name="parser-test-jar"
+    location="${user.home}/.m2/repository/net/sourceforge/czt/parser/${project.version}/parser-${project.version}-tests.jar"/>
+  <available file="${jar}" property="jar.present"/>
+  <available file="${test-jar}" property="test-jar.present"/>
+  <available file="${parser-test-jar}" property="parser-test-jar.present"/>
+  <condition property="jars.present">
+    <and>
+      <isset property="jar.present"/>
+      <isset property="test-jar.present"/>
+    </and>
+  </condition>
+
   <!-- The directory of old 'usertest' results that 'compare' will use. -->
   <property name="latest.usertests" value="UserTest-Results"/>
-  <property name="czt.home" location="../.."/>
-  <property file="${czt.home}/czt.properties"/>
-  <property name="test.build.dir" value="build"/>
-  <property name="test.jar.file" location="${test.build.dir}/animatorTest.jar"/>
 
   <path id="classpath">
-    <pathelement path="${jwsdp.classpath}"/>
-    <fileset dir="${czt.home}/${jar.dir}">
-      <include name="${util.jar.file}"/>
-      <include name="${corejava.core.jar.file}"/>
-      <include name="${corejava.oz.jar.file}"/>
-      <include name="${corejava.zpatt.jar.file}"/>
-      <include name="${corejava.jaxb.jar.file}"/>
-      <include name="${session.jar.file}"/>
-      <include name="${parser.jar.file}"/>
-      <include name="${typechecker.jar.file}"/>
-      <include name="${rules.jar.file}"/>
-      <include name="${java_cup.jar.file}"/>
-      <include name="${modeljunit.jar.file}"/>
-      <include name="${zlive.jar.file}"/>   <!-- gives access to rulesets -->
-    </fileset>
-    <pathelement path="${java.class.path}"/>
-    <pathelement path="${ant.home}/lib/clover.jar"/>
-    <pathelement location="${test.build.dir}"/>
+    <pathelement location="${jar}"/>
+    <pathelement location="${test-jar}"/>
+    <pathelement location="${parser-test-jar}"/>
   </path>
-  
-  <target name="init">
-    <tstamp/>
-    <mkdir dir="${test.build.dir}"/>
-  </target>
-
-  <target name="compile" depends="init" description="compile the tests">
-    <javac srcdir="src" destdir="${test.build.dir}" debug="on"
-      source="1.5">
-      <classpath refid="classpath"/>
-    </javac>
-  </target>
-
-  <target name="install" depends="compile">
-    <jar jarfile="${test.jar.file}">
-      <fileset dir="${test.build.dir}">
-        <exclude name="*.jar"/>
-      </fileset>
-      <fileset dir="../../parser">
-        <include name="tests/z/*.*"/>
-        <include name="tests/oz/*.*"/>
-      </fileset>
-      <fileset dir="../../zml">
-        <include name="examples/z/*.*"/>
-        <include name="examples/oz/*.*"/>
-      </fileset>
-    </jar>
-  </target>
-
 
   <target name="usertest_compare" depends="usertest,compare"
       description="Run user tests, then compare results with older results"/>
 
 
-  <target name="usertest" depends="install"
+
+  <target name="maven-test-jar" unless="test-jar.present">
+    <echo>WARNING: Cannot find ${test-jar},</echo>
+    <echo>please call 'maven install' for this project.</echo>
+  </target>
+
+  <target name="parser-test-jar" unless="parser-test-jar.present">
+    <echo>WARNING: Cannot find ${parser-test-jar},</echo>
+    <echo>please call 'maven install' for the parser project.</echo>
+  </target>
+
+  <target name="maven-jar" unless="jar.present">
+    <echo>WARNING: Cannot find ${jar}</echo>
+    <echo>please call 'mvn assembly:assembly -DdescriptorId=jar-with-dependencies' for this project.</echo>
+  </target>
+
+  <target name="maven" depends="maven-test-jar, parser-test-jar, maven-jar"/>
+
+  <target name="usertest" depends="maven"
       description="Run all user tests, producing TEST-*.txt output files">
     <!-- NOTE: we output TEST-*.txt files, rather than .xml files, because
         (A) the compare target needs text files as input, and
@@ -82,7 +71,6 @@
       <test name="net.sourceforge.czt.animation.eval.AnimateSchemasTest"/>
       <classpath>
         <path refid="classpath"/>
-        <pathelement location="${test.jar.file}"/>
       </classpath>
       <assertions>
         <enable/>
@@ -90,8 +78,7 @@
     </junit>
   </target>
 
-
-  <target name="compare" depends="install"
+  <target name="compare" depends="maven"
       description="Compare usertest output with previous UserTest-Results">
     <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
           fork="true"
@@ -100,14 +87,13 @@
       <arg file="."/>
       <classpath>
         <path refid="classpath"/>
-        <pathelement location="${test.jar.file}"/>
       </classpath>
       <assertions> <enable/> </assertions>
     </java>
   </target>
 
 
-  <target name="test" depends="install" description="Run all unit tests">
+  <target name="test" description="Run all unit tests">
     <junit fork="yes" forkmode="once" reloading="false" printsummary="on">
       <formatter type="xml" usefile="true"/>
       <batchtest>
@@ -119,7 +105,6 @@
       </batchtest>
       <classpath>
         <path refid="classpath"/>
-        <pathelement location="${test.jar.file}"/>
       </classpath>
       <assertions>
         <enable/>
@@ -132,9 +117,5 @@
             refid="classpath">
     </pathconvert>
     <echo message="CLASSPATH = ${tmp.clspath}"/>
-  </target>
-
-  <target name="clean" description="clean up">
-    <delete dir="${test.build.dir}"/>
   </target>
 </project>

@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
+import net.sourceforge.czt.parser.Examples;
 
 /** This program compares two versions of usertest results, to show
  *  the number of tests gained or lost from first to the second version.
@@ -15,15 +16,6 @@ public class CompareUserTests
   private static ArrayList<Integer> gainedTests,lostTests;
   private static PrintStream out;
 
-  protected static URL getTestExample(String name) {
-    Object stupid = new CompareUserTests();
-    URL result = stupid.getClass().getResource("/tests/z/" + name);
-    if (result == null) {
-      throw new RuntimeException("Cannot find filename " + name);
-    }
-    return result;
-  }
-
   /** Returns the number of lost tests. */
   private static int writetoOutputFile(String fileType)
   {
@@ -32,7 +24,8 @@ public class CompareUserTests
     int lostCounter = 0;
     int gainedCounter = 0;
     try {
-      URL fileName = getTestExample("animate_"+fileType.toLowerCase()+".tex");
+      URL fileName =
+        Examples.getTestExample("animate_"+fileType.toLowerCase()+".tex");
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
       out.println("animate_"+fileType.toLowerCase()+".tex");
