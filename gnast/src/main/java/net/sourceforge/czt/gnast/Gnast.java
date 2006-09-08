@@ -304,7 +304,7 @@ public class Gnast implements GlobalProperties
   {
     Project result = (Project) projects_.get(name);
     if (result == null) {
-      result = new Project(name, this);
+      result = new Project(getBaseDir() + "/" + name, this);
       projects_.put(name, result);
     }
     return result;
