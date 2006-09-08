@@ -128,6 +128,8 @@ jedit/ZSideKick/src/main/java/zsidekick/CircusParser.java -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
 jedit/src/site/content/xdocs/images/sflogo.png -text
+maven-gnast-plugin/pom.xml -text
+maven-gnast-plugin/src/main/java/net/sourceforge/czt/gnast/maven/Main.java -text
 modeljunit/COPYING.txt -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
