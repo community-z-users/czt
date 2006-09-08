@@ -82,9 +82,11 @@
   <!-- build source files -->
 
   <target name="build-src"
+    depends="build-charclasses, gen"/>
+
+  <target name="build-charclasses"
     depends="zchar, ozchar, tcozchar, circuschar, zpattchar,
-             zstring, ozstring, tcozstring, circusstring, zpattstring,
-             gen"/>
+             zstring, ozstring, tcozstring, circusstring, zpattstring"/>
 
   <target name="gen" if="gnast.present"
     depends="gen-ast"/>
