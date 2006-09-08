@@ -187,7 +187,7 @@ public class SchemaProject
       // collecting all Ast classes
       nl = xPath_.selectNodeIterator(schemaNode, "xs:element");
       while ((n = nl.nextNode()) != null) {
-        SchemaClass c = new SchemaClass(n);
+        SchemaClass c = new SchemaClass(n, global_);
         map_.put(c.getName(), c);
       }
     }
@@ -640,9 +640,10 @@ public class SchemaProject
      * @param node  The XML Schema node from which all the neccessary
      *              information is extracted.
      */
-    SchemaClass(Node node)
+    SchemaClass(Node node, GlobalProperties global)
       throws XSDException
     {
+      super(global);
       // parsing the name
       name_ = xPath_.getNodeValue(node, "@name");
       if (name_ == null) {

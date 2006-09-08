@@ -1,20 +1,20 @@
-/**
-Copyright 2003 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright 2003, 2006 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.gnast.gen;
@@ -22,6 +22,8 @@ package net.sourceforge.czt.gnast.gen;
 import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
+
+import net.sourceforge.czt.gnast.GlobalProperties;
 
 /**
  * <p>An abstract AST object.  This class provides a skeleton
@@ -41,9 +43,15 @@ import java.util.logging.Logger;
  */
 public abstract class JAstObjectImpl implements JAstObject
 {
+  private GlobalProperties global_;
   private static final String CLASS_NAME = "JAstObjectImpl";
   private static final Logger LOGGER =
     Logger.getLogger("net.sourceforge.czt.gnast.gen." + CLASS_NAME);
+
+  public JAstObjectImpl(GlobalProperties global)
+  {
+    global_ = global;
+  }
 
   public abstract String getName();
 
@@ -157,7 +165,7 @@ public abstract class JAstObjectImpl implements JAstObject
   public String getAdditionalCodeFilename()
   {
     String filename = "src/vm/" + getName() + ".java";
-    File file = new File(filename);
+    File file = new File(global_.getBaseDir() + "/" + filename);
     if (file.exists()) {
       return filename;
     }
@@ -167,7 +175,7 @@ public abstract class JAstObjectImpl implements JAstObject
   public String getAdditionalImplCodeFilename()
   {
     String filename = "src/vm/" + getImplName() + ".java";
-    File file = new File(filename);
+    File file = new File(global_.getBaseDir() + "/" + filename);
     if (file.exists()) {
       return filename;
     }

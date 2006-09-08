@@ -85,4 +85,6 @@ public interface GlobalProperties
    * @return the file name.
    */
   String toFileName(String packageName, String className);
+
+  String getBaseDir();
 }

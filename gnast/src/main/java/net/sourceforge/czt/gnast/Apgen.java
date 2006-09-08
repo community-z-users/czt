@@ -127,6 +127,12 @@ public class Apgen
     addToContext(map);
   }
 
+  public Apgen(Map map, Properties initProps)
+  {
+    init(initProps);
+    addToContext(map);
+  }
+
   // ############################################################
   // ################### (NON-STATIC) METHODS ###################
   // ############################################################
@@ -145,6 +151,16 @@ public class Apgen
   {
     try {
       Velocity.init("velocity.properties");
+    }
+    catch (Exception e) {
+      LOGGER.severe("Cannot initialise velocity.");
+    }
+  }
+
+  private void init(Properties initProps)
+  {
+    try {
+      Velocity.init(initProps);
     }
     catch (Exception e) {
       LOGGER.severe("Cannot initialise velocity.");
@@ -321,7 +337,7 @@ public class Apgen
     }
     catch (ResourceNotFoundException e) {
       LOGGER.log(level, e.getMessage());
-      //      e.printStackTrace();
+      e.printStackTrace();
       success = false;
     }
     catch (IOException e) {

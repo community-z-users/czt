@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005 Petra Malik
+  Copyright 2003, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -87,6 +87,16 @@ public class Gnast implements GlobalProperties
    * <p>Should never be <code>null</code>.
    */
   private String destDir_ = ".";
+
+  /**
+   * <p>The base directory</p>
+   *
+   * <p>It can be set by using the command line option
+   * <code>-b</code>.
+   *
+   * <p>Should never be <code>null</code>.
+   */
+  private String baseDir_ = ".";
 
   /**
    * <p>The name of the Schema file for which code is generated.
@@ -181,6 +191,15 @@ public class Gnast implements GlobalProperties
       else if (arg.equals("-d")) {
         if (i < args.length) {
           destDir_ = args[i++];
+        }
+        else {
+          printUsageMessage(arg + " requires a directory name");
+          return false;
+        }
+      }
+      else if (arg.equals("-b")) {
+        if (i < args.length) {
+          baseDir_ = args[i++];
         }
         else {
           printUsageMessage(arg + " requires a directory name");
@@ -309,6 +328,11 @@ public class Gnast implements GlobalProperties
     return toDirectoryName(packageName)
       + className
       + ".java";
+  }
+
+  public String getBaseDir()
+  {
+    return baseDir_;
   }
 
   // ############################################################

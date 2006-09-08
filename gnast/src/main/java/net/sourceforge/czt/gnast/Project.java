@@ -146,12 +146,12 @@ public class Project
     String name = project_.getClassName(id);
     String template = project_.getTemplate(id);
     String packageName = project_.getPackage(id);
-    String addCodeFilename = "src/vm/" + getBasePackage() + "." + packageName
-      + "." + name + ".java";
-    File addCodeFile = new File(addCodeFilename);
+    String addCodeFilename = "src/vm/"
+      + getBasePackage() + "." + packageName + "." + name + ".java";
+    File addCodeFile = new File(global_.getBaseDir() + "/" + addCodeFilename);
     if (! addCodeFile.exists()) {
       addCodeFilename = "src/vm/" + name + ".java";
-      addCodeFile = new File(addCodeFilename);
+      addCodeFile = new File(global_.getBaseDir() + "/" + addCodeFilename);
     }
 
     if (name == null || template == null || packageName == null) {
@@ -229,8 +229,12 @@ public class Project
     throws Exception
   {
     Map classes = project_.getAstClasses();
-
-    apgen_ = new Apgen(global_.getDefaultContext());
+    Properties initProps = new Properties();
+    initProps.put("velocimacro.library",
+                  "src/vm/macros.vm");
+    initProps.put("file.resource.loader.path",
+                  global_.getBaseDir());
+    apgen_ = new Apgen(global_.getDefaultContext(), initProps);
     if (project_.getImportProject() != null) {
       String projectName = project_.getImportProject();
       Project blubb = global_.getProject(projectName);
