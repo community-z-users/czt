@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/design"/>
+	<classpathentry kind="src" path="src/animation"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CZTLIB"/>
+	<classpathentry kind="lib" path="E:/Java/jwsdp-1.6/jaxb/lib/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="E:/Java/jwsdp-1.6/jaxb/lib/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="E:/Java/jwsdp-1.6/jaxb/lib/jaxb-libs.jar"/>
+	<classpathentry kind="lib" path="E:/Java/jwsdp-1.6/jaxb/lib/jaxb-xjc.jar"/>
+	<classpathentry kind="output" path="build_ouput"/>
+</classpath>
