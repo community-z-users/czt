@@ -61,6 +61,7 @@
     <module>util</module>
     <module>jaxb</module>
     <module>gnast</module>
+    <module>maven-gnast-plugin</module>
     <module>corejava</module>
     <module>java_cup</module>
     <module>parser</module>
@@ -82,12 +83,6 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>gnast</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>gnast-maven-plugin</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
