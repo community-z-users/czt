@@ -55,12 +55,28 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <ant dir="." target="build-src"/>
+                <property name="corejava.build.dir" location="target/build"/>
+                <ant dir="." target="build-charclasses"/>
               </tasks>
-              <sourceRoot>${basedir}/build/src</sourceRoot>
+              <sourceRoot>${basedir}/target/build/src</sourceRoot>
             </configuration>
             <goals>
               <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>maven-gnast-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <gnastdir>${basedir}/../gnast</gnastdir>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
