@@ -49,7 +49,7 @@
   <build>
     <resources>
       <resource>
-        <directory>${basedir}/build/src</directory>
+        <directory>${basedir}/target/src</directory>
       </resource>
     </resources>
     <plugins>
@@ -68,16 +68,75 @@
             <artifactId>ant-trax</artifactId>
             <version>1.6.5</version>
           </dependency>
+          <dependency>
+            <groupId>xfire</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>1.0.5</version>
+          </dependency>
+          <dependency>
+            <groupId>xfire</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>1.0</version>
+          </dependency>
+          <dependency>
+            <groupId>xfire</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>1.0.5</version>
+          </dependency>
+          <dependency>
+            <groupId>xfire</groupId>
+            <artifactId>jaxb-libs</artifactId>
+            <version>1.0.5</version>
+          </dependency>
+          <dependency>
+            <groupId>com.sun.xml</groupId>
+            <artifactId>relaxngDatatype</artifactId>
+            <version>1.0</version>
+          </dependency>
+          <dependency>
+            <groupId>activesoap</groupId>
+            <artifactId>xsdlib</artifactId>
+            <version>1.5</version>
+          </dependency>
+          <dependency>
+            <groupId>${czt.groupId}</groupId>
+            <artifactId>util</artifactId>
+            <version>${czt.version}</version>
+          </dependency>
         </dependencies>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <ant dir="../util" target="install"/>
-                <ant dir="." target="gen"/>
+                <property name="jaxb.build.dir" location="target"/>
+                <property name="jaxb.build.xsd" location="${jaxb.build.dir}/xsd"/>
+                <property name="jaxb.build.src" location="${jaxb.build.dir}/src"/>
+                <xslt basedir="../zml" destdir="${jaxb.build.xsd}"
+                  style="../gnast/src/xsl/annotateJaxbBindings.xsl">
+                  <mapper type="glob" from="*.xsd" to="*.xsd"/>
+                </xslt>
+                <mkdir dir="${jaxb.build.src}"/>
+                <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask"/>
+                <xjc target="${jaxb.build.src}"
+                  extension="true" removeOldOutput="yes">
+                  <schema  dir="${jaxb.build.xsd}" includes="*.xsd"/>
+                  <depends dir="${jaxb.build.xsd}" includes="*.xsd"/>
+                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/z/jaxb/gen"
+                    includes="**"/>
+                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/oz/jaxb/gen"
+                    includes="**"/>
+                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/tcoz/jaxb/gen"
+                    includes="**"/>
+                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/circus/jaxb/gen"
+                    includes="**"/>
+                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/zpatt/jaxb/gen"
+                    includes="**"/>
+                  <produces dir="${jaxb.build.src}/org"
+                    includes="**"/>
+                </xjc>
               </tasks>
-              <sourceRoot>${basedir}/build/src</sourceRoot>
+              <sourceRoot>${basedir}/target/src</sourceRoot>
             </configuration>
             <goals>
               <goal>run</goal>
