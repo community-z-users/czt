@@ -16,10 +16,6 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>gnast</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
       <artifactId>jaxb</artifactId>
     </dependency>
     <dependency>
