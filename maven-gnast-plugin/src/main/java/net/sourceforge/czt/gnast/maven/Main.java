@@ -10,6 +10,8 @@ import net.sourceforge.czt.gnast.Gnast;
 
 /**
  * @goal generate
+ *
+ * @author Petra Malik
  */
 public class Main
   extends AbstractMojo 

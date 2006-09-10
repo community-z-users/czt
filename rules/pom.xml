@@ -29,32 +29,16 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-          </dependency>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-trax</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-        </dependencies>
+        <groupId>net.sourceforge.czt</groupId>
+        <artifactId>maven-gnast-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-sources</phase>
             <configuration>
-              <tasks>
-                <ant dir="." target="run-codegen"/>
-              </tasks>
-              <sourceRoot>${basedir}/build/src</sourceRoot>
-           </configuration>
+              <xsdFile>${basedir}/../zml/ZPattern.xsd</xsdFile>
+            </configuration>
             <goals>
-              <goal>run</goal>
+              <goal>rulecodegen</goal>
             </goals>
           </execution>
         </executions>
