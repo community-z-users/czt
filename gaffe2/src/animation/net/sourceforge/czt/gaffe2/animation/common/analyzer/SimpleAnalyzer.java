@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.util.Factory;
@@ -46,6 +45,7 @@ public class SimpleAnalyzer implements Analyzer
     String name = "";
     Matcher m;
     Pattern p;
+    contentMap.clear();
     try {
       BufferedReader br = new BufferedReader(new FileReader(file));
       p = Pattern
@@ -192,7 +192,7 @@ public class SimpleAnalyzer implements Analyzer
           expr = factory.createBindExpr(factory.createZDeclList());
         }
         else {
-          expr = new GivenValue("");
+          expr = factory.createRefExpr(factory.createZRefName(""));
         }
         result.put(variable.trim(), expr);
       }

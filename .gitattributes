@@ -73,10 +73,11 @@ gaffe2/resource/nextStep.jpg -text
 gaffe2/resource/preResult.jpg -text
 gaffe2/resource/preStep.jpg -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/Adapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/AdapterDefaultImpl.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/AdapterException.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/BindExprAdapter.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/GivenValueAdapter.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/SetExprAdapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/BindExpr_JTableAdapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/RefExpr_JTextFieldAdapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/SetExpr_JListAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/analyzer/Analyzer.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/analyzer/SimpleAnalyzer.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/analyzer/XMLAnalyzer.java -text

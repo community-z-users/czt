@@ -9,6 +9,10 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.gaffe2.animation.view.OutputPane;
+import net.sourceforge.czt.gaffe2.animation.view.StatePane;
+import net.sourceforge.czt.gaffe2.animation.view.ToolBar;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -26,7 +30,7 @@ public class Step extends DefaultMutableTreeNode
   
   private List<HashMap<String, Expr>> results;
   
-  private List<HashMap<String, String>> encodable;
+  private List<HashMap<String, Object>> encodable;
 
   private EvalResult evalResult;
   
@@ -46,10 +50,10 @@ public class Step extends DefaultMutableTreeNode
    */
   public Step(String operation, EvalResult evalResult)
   {
-    this.index = -1;
+    this.index = -1; 
     this.isComplete = false;
     this.operation = operation;
-    this.encodable = new ArrayList<HashMap<String, String>>();
+    this.encodable = new ArrayList<HashMap<String, Object>>();
     this.evalResult = evalResult;
     this.results = new ArrayList<HashMap<String, Expr>>();
     this.pcs = new PropertyChangeSupport(this);
@@ -75,7 +79,7 @@ public class Step extends DefaultMutableTreeNode
   /**
    * @return Returns the encodable.
    */
-  public List<HashMap<String, String>> getEncodable()
+  public List<HashMap<String, Object>> getEncodable()
   {
     return encodable;
   }
@@ -83,9 +87,11 @@ public class Step extends DefaultMutableTreeNode
   /**
    * @param index The index to set.
    */
-  public void setIndex(int index)
+  public void setIndex(int newValue)
   {
-    this.index = index;
+    int oldValue = index;
+    index = newValue;
+    this.firePropertyChange("index", oldValue, newValue);
   }
   
   /**
@@ -107,7 +113,7 @@ public class Step extends DefaultMutableTreeNode
   /**
    * @param encodable The encodable to set.
    */
-  public void setEncodable(List<HashMap<String, String>> encodable)
+  public void setEncodable(List<HashMap<String, Object>> encodable)
   {
     this.encodable = encodable;
   }
@@ -185,7 +191,6 @@ public class Step extends DefaultMutableTreeNode
    */
   public boolean changeIndex(int newValue)
   {
-    int oldValue = index;
     if (newValue < 0 || evalResult==null) {
       return false;
     }
@@ -197,16 +202,31 @@ public class Step extends DefaultMutableTreeNode
       }
       else {
         results.add(result);
-        HashMap<String, String> newMap = new HashMap<String, String>();
+        HashMap<String, Object> newMap = new HashMap<String, Object>();
         for (String key : result.keySet()){
-          newMap.put(key, result.get(key).toString());
+          newMap.put(key, GaffeFactory.encodeExpr(result.get(key)));
         }
         encodable.add(newMap);
       }
     }
-    index = newValue;
     isComplete = !evalResult.hasNext();
-    this.firePropertyChange("index", oldValue, newValue);
+    this.setIndex(newValue);
     return true;
+  }
+
+  public void restore(){
+    HashMap<String, Expr> result;
+    for (HashMap<String, Object> encodedMap:encodable){
+      result = new HashMap<String, Expr>();
+      for (String key : encodedMap.keySet()){
+        Expr expr = GaffeFactory.decodeExpr(encodedMap.get(key));
+        result.put(key, expr );
+      }
+      results.add(result);
+    }
+    this.pcs = new PropertyChangeSupport(this);
+    this.addPropertyChangeListener(StatePane.getCurrentPane());
+    this.addPropertyChangeListener(OutputPane.getCurrentPane());
+    this.addPropertyChangeListener(ToolBar.getCurrentToolBar());
   }
 }

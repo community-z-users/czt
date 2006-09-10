@@ -9,6 +9,10 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class StepTree
 {
+  private static String stateSchemaName = "";
+  
+  private static String initSchemaName  = "";
+  
   private static Step currentStep = new Step("Root",null);
 
   private static DefaultTreeModel stepTree = new DefaultTreeModel(currentStep);
@@ -26,8 +30,7 @@ public class StepTree
   public static void add(Step step)
   {
     currentStep.add(step);
-    currentStep = step;
-    step.firePropertyChange("index", -1, 0);
+    setCurrentStep(step);
   }
 
   /**
@@ -44,6 +47,7 @@ public class StepTree
   public static void setCurrentStep(Step currentStep)
   {
     StepTree.currentStep = currentStep;
+    currentStep.firePropertyChange("index", -1, 0);
   }
 
   /**
@@ -65,16 +69,14 @@ public class StepTree
   public static boolean moveTo(String operation)
   {
     if (operation.equals("back")) {
-      currentStep = (Step) currentStep.getParent();
-      currentStep.firePropertyChange("index", -1, 0);
+      setCurrentStep((Step) currentStep.getParent());
       return true;
     }
     else {
       for (int i = 0; i < currentStep.getChildCount(); i++) {
         Step step = (Step) currentStep.getChildAt(i);
         if (step.getOperation().equals(operation)) {
-          currentStep = step;
-          currentStep.firePropertyChange("index", -1, 0);
+          setCurrentStep(step);
           return true;
         }
       }
@@ -82,6 +84,13 @@ public class StepTree
     }
   }
 
+  /**
+   * 
+   */
+  public static void reset(){
+    currentStep = new Step("Root",null);
+    stepTree = new DefaultTreeModel(currentStep);
+  }
   /**
    * @return
    */
@@ -113,4 +122,38 @@ public class StepTree
   {
     StepTree.stepTree = stepTree;
   }
+
+  /**
+   * @return Returns the initSchemaName.
+   */
+  public static String getInitSchemaName()
+  {
+    return initSchemaName;
+  }
+
+  /**
+   * @param initSchemaName The initSchemaName to set.
+   */
+  public static void setInitSchemaName(String initSchemaName)
+  {
+    StepTree.initSchemaName = initSchemaName;
+  }
+
+  /**
+   * @return Returns the stateSchemaName.
+   */
+  public static String getStateSchemaName()
+  {
+    return stateSchemaName;
+  }
+
+  /**
+   * @param stateSchemaName The stateSchemaName to set.
+   */
+  public static void setStateSchemaName(String stateSchemaName)
+  {
+    StepTree.stateSchemaName = stateSchemaName;
+  }
+
+ 
 }

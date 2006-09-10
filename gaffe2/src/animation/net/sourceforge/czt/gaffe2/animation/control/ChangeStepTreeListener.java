@@ -38,12 +38,12 @@ public class ChangeStepTreeListener extends MouseAdapter
     TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
     if (selRow != -1) {
       if (e.getClickCount() == 1) {
-        //
-      }
-      else if (e.getClickCount() == 2) {
         Step node = (Step) selPath.getLastPathComponent();
         StepTree.setCurrentStep(node);
         node.firePropertyChange("index", -1, 0);
+      }
+      else if (e.getClickCount() == 2) {
+        //
       }
     }
   }

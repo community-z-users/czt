@@ -1,32 +1,30 @@
 
 package net.sourceforge.czt.gaffe2.animation.common.adapter;
 
+import java.util.HashMap;
+
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.czt.animation.eval.GivenValue;
-import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.util.Factory;
 
 /**
  * @author Linan Zhang
  *
  */
-public class BindExprAdapter implements Adapter
+public class BindExpr_JTableAdapter extends AdapterDefaultImpl
 {
-  private Factory factory;
-
-  public BindExprAdapter()
+  public BindExpr_JTableAdapter()
   {
-    factory = GaffeFactory.getFactory();
+    super();
   }
 
   //Retrieve data from input components
@@ -41,7 +39,7 @@ public class BindExprAdapter implements Adapter
       temp = (String) tm.getValueAt(i, 0);
       ZDeclName name = factory.createZDeclName(temp);
       temp = (String) tm.getValueAt(i, 1);
-      GivenValue value = new GivenValue(temp);
+      RefExpr value = factory.createRefExpr(factory.createZRefName(temp));
       result.add((Decl) factory.createConstDecl(name, value));
     }
     return factory.createBindExpr(result);
@@ -64,7 +62,7 @@ public class BindExprAdapter implements Adapter
       for (Decl decl : declList) {
         ConstDecl tempDecl = (ConstDecl) decl;
         dataModel[i][0] = tempDecl.getZDeclName().toString();
-        dataModel[i][1] = ((GivenValue) tempDecl.getExpr()).getValue();
+        dataModel[i][1] = ((RefExpr) tempDecl.getExpr()).getZRefName().getWord();
         i++;
       }
       JTable component = (JTable) origin;
@@ -75,5 +73,43 @@ public class BindExprAdapter implements Adapter
           columnName1, columnName2}));
       return component;
     }
+  }
+
+  /**
+   * @param expr
+   * @return
+   */
+  public Object encodeExpr(Expr expr){
+    BindExpr bindExpr = (BindExpr) expr;
+    ZDeclList declList = bindExpr.getZDeclList();
+    
+    HashMap<String,String> code = new HashMap<String,String>();
+    String key;
+    String value;
+    for (Decl decl : declList) {
+      ConstDecl tempDecl = (ConstDecl) decl;
+      key = tempDecl.getZDeclName().toString();
+      value = ((RefExpr) tempDecl.getExpr()).getZRefName().getWord();
+      code.put(key,value);
+    }
+    return code;
+    
+  }
+  
+  /**
+   * @param value
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public Expr decodeExpr(Object value)
+  {
+    HashMap<String,String> code = (HashMap<String,String>)(value);
+    ZDeclList result = factory.createZDeclList();
+    for (String key : code.keySet()) {
+      ZDeclName name = factory.createZDeclName(key);
+      RefExpr expr = factory.createRefExpr(factory.createZRefName(code.get(key)));
+      result.add((Decl) factory.createConstDecl(name, expr));
+    }
+    return factory.createBindExpr(result);
   }
 }

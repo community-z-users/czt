@@ -1,6 +1,7 @@
 
 package net.sourceforge.czt.gaffe2.animation.common.factory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
@@ -12,9 +13,9 @@ import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.AdapterException;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExprAdapter;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.GivenValueAdapter;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExprAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExpr_JTableAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_JTextFieldAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExpr_JListAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.gaffe2.animation.common.analyzer.SimpleAnalyzer;
 import net.sourceforge.czt.gaffe2.animation.common.evaluator.Evaluator;
@@ -34,11 +35,11 @@ public class GaffeFactory
 {
   private static ZLive zLive = new ZLive();
 
-  private static Adapter givenValue_adapter = new GivenValueAdapter();
+  private static Adapter refExpr_adapter = new RefExpr_JTextFieldAdapter();
 
-  private static Adapter setExpr_adapter = new SetExprAdapter();
+  private static Adapter setExpr_adapter = new SetExpr_JListAdapter();
 
-  private static Adapter bindExpr_adapter = new BindExprAdapter();
+  private static Adapter bindExpr_adapter = new BindExpr_JTableAdapter();
 
   private static Analyzer analyzer = new SimpleAnalyzer();
 
@@ -65,7 +66,7 @@ public class GaffeFactory
         return setExpr_adapter;
       }
       else if (component instanceof JTextField) {
-        return givenValue_adapter;
+        return refExpr_adapter;
       }
       else if (component == null) {
         throw new AdapterException("Null JComponent ");
@@ -80,6 +81,56 @@ public class GaffeFactory
     }
   }
 
+  public static Adapter getAdapter(Expr expr)
+  {
+    try {
+      if (expr instanceof BindExpr) {
+        return bindExpr_adapter;
+      }
+      else if (expr instanceof SetExpr) {
+        return setExpr_adapter;
+      }
+      else if (expr instanceof RefExpr) {
+        return refExpr_adapter;
+      }
+      else if (expr == null) {
+        throw new AdapterException("Null Expr ");
+      }
+      else {
+        throw new AdapterException("Unsupported Expr "
+            + expr.getClass().toString());
+      }
+    } catch (AdapterException adapter_ex) {
+      adapter_ex.printStackTrace();
+      return null;
+    }
+  }
+  
+  public static Adapter getAdapter(Object code)
+  {
+    try {
+      if (code instanceof HashMap) {
+        return bindExpr_adapter;
+      }
+      else if (code instanceof ArrayList) {
+        return setExpr_adapter;
+      }
+      else if (code instanceof String) {
+        return refExpr_adapter;
+      }
+      else if (code == null) {
+        throw new AdapterException("Null Expr ");
+      }
+      else {
+        throw new AdapterException("Unsupported Expr "
+            + code.getClass().toString());
+      }
+    } catch (AdapterException adapter_ex) {
+      adapter_ex.printStackTrace();
+      return null;
+    }
+  }
+  
   /**
    * @param expr
    * @return
@@ -149,7 +200,17 @@ public class GaffeFactory
     }
     return origin;
   }
-
+  
+  public static Object encodeExpr(Expr expr){
+    Adapter adapter = getAdapter(expr);
+    return adapter.encodeExpr(expr);
+  }
+  
+  public static Expr decodeExpr(Object code){
+    Adapter adapter = getAdapter(code);
+    return adapter.decodeExpr(code);
+  }
+  
   /**
    * @return
    */

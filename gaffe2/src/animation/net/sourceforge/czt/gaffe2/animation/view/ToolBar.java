@@ -46,10 +46,7 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
     backResultButton = new JButton(backResultIcon);
     nextResultButton = new JButton(nextResultIcon);
 
-    backStepButton.setEnabled(false);
-    nextStepButton.setEnabled(false);
-    backResultButton.setEnabled(false);
-    nextResultButton.setEnabled(false);
+    reset();
 
     backStepButton.addActionListener(new ChangeStepListener(null));
     nextStepButton.addActionListener(new ChangeStepMenuListener());
@@ -72,6 +69,16 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
     return currentToolBar;
   }
 
+  /**
+   * 
+   */
+  public void reset(){
+    backStepButton.setEnabled(false);
+    nextStepButton.setEnabled(false);
+    backResultButton.setEnabled(false);
+    nextResultButton.setEnabled(false);
+  }
+  
   /* (non-Javadoc)
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */

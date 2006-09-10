@@ -19,6 +19,7 @@ import net.sourceforge.czt.gaffe2.animation.model.Step;
 import net.sourceforge.czt.gaffe2.animation.model.StepTree;
 import net.sourceforge.czt.gaffe2.animation.view.MainFrame;
 import net.sourceforge.czt.gaffe2.animation.view.OperationPane;
+import net.sourceforge.czt.gaffe2.animation.view.OutputPane;
 import net.sourceforge.czt.gaffe2.animation.view.StatePane;
 import net.sourceforge.czt.gaffe2.animation.view.StatusLabel;
 import net.sourceforge.czt.gaffe2.animation.view.ToolBar;
@@ -34,8 +35,6 @@ public class SchemaTypeListener implements ActionListener
 
   private String initSchemaName;
 
-  private MainFrame parent;
-
   private ArrayList<JComboBox> result;
 
   private Analyzer analyzer;
@@ -48,7 +47,6 @@ public class SchemaTypeListener implements ActionListener
   public SchemaTypeListener(ArrayList<JComboBox> result)
   {
     this.result = result;
-    parent = MainFrame.getMainFrame();
     analyzer = GaffeFactory.getAnalyzer();
   }
 
@@ -57,12 +55,16 @@ public class SchemaTypeListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
+    StatePane.getCurrentPane().reset();
+    OutputPane.getCurrentPane().reset();
+    OperationPane.getCurrentPane().reset();
+    ToolBar.getCurrentToolBar().reset();
     this.schemaTree();
     this.initialize();
-    MainFrame.getFrameSplit().setVisible(true);
-    parent.validate();
-    MainFrame.getFrameSplit().setDividerLocation(0.2);
+    MainFrame.getMainFrame().validate();
     MainFrame.getRightSplit().setDividerLocation(0.8);
+    MainFrame.getFrameSplit().setDividerLocation(0.2);
+    MainFrame.getFrameSplit().setVisible(true);
   }
 
   /**
@@ -82,10 +84,12 @@ public class SchemaTypeListener implements ActionListener
       schemaName = choice.getName();
       if (choice.getSelectedItem().equals("State")) {
         stateSchemaName = schemaName;
+        StepTree.setStateSchemaName(schemaName);
         state.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Initial")) {
         initSchemaName = schemaName;
+        StepTree.setInitSchemaName(initSchemaName);
         initial.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Operation")) {
@@ -118,6 +122,7 @@ public class SchemaTypeListener implements ActionListener
     Step step = new Step(initSchemaName,results);
     step.addPropertyChangeListener(statePane);
     step.addPropertyChangeListener(ToolBar.getCurrentToolBar());
+    StepTree.reset();
     StepTree.add(step);
     StatusLabel.setMessage("Result: " + step.getIndex() + "/"
         + (step.size() - 1));

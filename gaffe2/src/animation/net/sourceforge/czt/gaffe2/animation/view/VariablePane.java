@@ -91,6 +91,10 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
     contentPane.validate();
   }
 
+  public void reset(){
+    contentPane.removeAll();
+    componentMap.clear();
+  }
   /**
    * @return Returns the contentPane.
    */

@@ -13,15 +13,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 
-import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
-import net.sourceforge.czt.gaffe2.animation.model.Step;
 import net.sourceforge.czt.gaffe2.animation.model.StepTree;
 import net.sourceforge.czt.gaffe2.animation.view.MainFrame;
-import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.gaffe2.animation.view.OperationPane;
 
 /**
  * @author Linan Zhang
@@ -51,18 +49,29 @@ public class SaveItemListener implements ActionListener
   public void save(File file)
   {
     //  TODO Auto-generated method stub
-    DefaultTreeModel target = StepTree.getStepTree();
+    DefaultTreeModel target_operation = (DefaultTreeModel)((JTree)OperationPane.getCurrentPane().getComponent()).getModel();
+    DefaultTreeModel target_stepTree = StepTree.getStepTree();
     try {
       XMLEncoder e = new XMLEncoder(new BufferedOutputStream(
           new FileOutputStream(file)));
-      e.writeObject(target);
+      //Save specURL
+      e.writeObject(GaffeFactory.getAnalyzer().getSpecURL().getFile());
+      //Save stateSchemaName
+      e.writeObject(StepTree.getStateSchemaName());
+      //Save initSchemaName
+      e.writeObject(StepTree.getInitSchemaName());
+      //Save SchemaTree
+      e.writeObject(target_operation);
+      //Save StepTree
+      e.writeObject(target_stepTree);
       e.close();
     } catch (IOException ioex) {
       ioex.printStackTrace();
     }
   }
-
-  public DefaultTreeModel getEncodableTree(DefaultTreeModel tree){
+  
+  /* Mirror Tree constructor . Not used yet. But works well.
+  public DefaultTreeModel visitTree(DefaultTreeModel tree){
     DefaultMutableTreeNode root = (DefaultMutableTreeNode)tree.getRoot();
     DefaultMutableTreeNode newRoot = visit(root);
     DefaultTreeModel newTree = new DefaultTreeModel(newRoot);
@@ -78,9 +87,5 @@ public class SaveItemListener implements ActionListener
     }
     return newParent;
   }
-  
-  public String toString(Expr expr){
-    ZLive zLive = GaffeFactory.getZLive();
-    return zLive.printTerm(expr);
-  }
+  */
 }

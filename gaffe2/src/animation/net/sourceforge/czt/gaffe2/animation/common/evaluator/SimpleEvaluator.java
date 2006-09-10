@@ -6,14 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.ListModel;
-
-import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalSet;
-import net.sourceforge.czt.animation.eval.GivenValue;
-import net.sourceforge.czt.animation.eval.flatpred.Bounds;
-import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
-import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.gaffe2.animation.model.EvalResult;
 import net.sourceforge.czt.gaffe2.animation.model.SimpleResult;
@@ -21,11 +13,11 @@ import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -73,28 +65,28 @@ public class SimpleEvaluator implements Evaluator
     HashMap<String, Expr> output = new HashMap<String, Expr>();
 
     if (name.equals("AddBirthday")) {
-      String newName = ((GivenValue) input.get("name?")).getValue();
-      String newDate = ((GivenValue) input.get("date?")).getValue();
+      String newName = ((RefExpr) input.get("name?")).getZRefName().getWord();
+      String newDate = ((RefExpr) input.get("date?")).getZRefName().getWord();
       birthday = (BindExpr) input.get("birthday");
       known = (SetExpr) input.get("known");
 
       ZExprList oldList = known.getZExprList();
       ZExprList exprList = factory.createZExprList();
       for (Expr expr : oldList) {
-        GivenValue givenValue = (GivenValue) expr;
-        if (givenValue.getValue().equals(newName)) {
+        RefExpr value = (RefExpr) expr;
+        if (value.getZRefName().getWord().equals(newName)) {
           output.put("known'", known);
           output.put("birthday'", birthday);
           resultList.add(output);
           return new SimpleResult(resultList);
         }
-        exprList.add(givenValue);
+        exprList.add(value);
       }
-      exprList.add(new GivenValue(newName));
+      exprList.add(factory.createRefExpr(factory.createZRefName(newName)));
 
       ZDeclList bindList = factory.createZDeclList(birthday.getZDeclList());
       ZDeclName declname = factory.createZDeclName(newName);
-      GivenValue value = new GivenValue(newDate);
+      RefExpr value = factory.createRefExpr(factory.createZRefName(newDate));
       bindList.add((Decl) factory.createConstDecl(declname, value));
 
       Expr knownPrime = factory.createSetExpr(exprList);
@@ -108,7 +100,7 @@ public class SimpleEvaluator implements Evaluator
       Expr knownPrime2 = factory.createSetExpr(exprList);
       ZDeclList newList2 = factory.createZDeclList(birthday.getZDeclList());
       ZDeclName declname2 = factory.createZDeclName(newName);
-      GivenValue value2 = new GivenValue(newDate + "!!!!!!!");
+      RefExpr value2 = factory.createRefExpr(factory.createZRefName(newDate+"_2"));
       newList2.add((Decl) factory.createConstDecl(declname2, value2));
       Expr birthdayPrime2 = factory.createBindExpr(newList2);
       output2.put("known'", knownPrime2);
@@ -118,8 +110,8 @@ public class SimpleEvaluator implements Evaluator
       return new SimpleResult(resultList);
     }
     else if (name.equals("FindBirthday")) {
-      Expr output_date = new GivenValue("Not found");
-      String input_name = ((GivenValue) input.get("name?")).getValue();
+      Expr output_date = factory.createRefExpr(factory.createZRefName("Not found"));
+      String input_name = ((RefExpr) input.get("name?")).getZRefName().getWord();
       birthday = (BindExpr) input.get("birthday");
       known = (SetExpr) input.get("known");
       ZDeclList declList = birthday.getZDeclList();
@@ -136,15 +128,15 @@ public class SimpleEvaluator implements Evaluator
       return new SimpleResult(resultList);
     }
     else if (name.equals("Remind")) {
-      Expr output_name = new GivenValue("Not found");
-      String input_date = ((GivenValue) input.get("date?")).getValue();
+      Expr output_name = factory.createRefExpr(factory.createZRefName("Not found"));
+      String input_date = ((RefExpr) input.get("date?")).getZRefName().getWord();
       birthday = (BindExpr) input.get("birthday");
       known = (SetExpr) input.get("known");
       ZDeclList declList = birthday.getZDeclList();
       for (Decl decl : declList) {
         ConstDecl constDecl = (ConstDecl) decl;
         if (constDecl.getExpr().toString().equals(input_date)) {
-          output_name = new GivenValue(constDecl.getZDeclName().toString());
+          output_name = factory.createRefExpr(factory.createZRefName(constDecl.getZDeclName()));
         }
       }
       output.put("known'", known);
@@ -157,11 +149,12 @@ public class SimpleEvaluator implements Evaluator
       return null;
     }
   }
-
+  
   /**
    * @param lm
    * @return
    */
+  /*
   public EvalSet listModelToEvalSet(ListModel lm)
   {
     Envir env = new Envir();
@@ -184,5 +177,5 @@ public class SimpleEvaluator implements Evaluator
     s.nextEvaluation();
     return s;
   }
-
+  */
 }

@@ -17,4 +17,9 @@ public interface Adapter
   // Update component with changed data
   public JComponent dataToComponent(JComponent origin, Expr expr);
 
+  // Encode an expr to save into xml form
+  public Object encodeExpr(Expr expr);
+  
+  // Decode an xml formed expr
+  public Expr decodeExpr(Object code);
 }

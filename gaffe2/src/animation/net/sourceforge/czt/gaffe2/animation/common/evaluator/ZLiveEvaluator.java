@@ -27,9 +27,9 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class ZLiveEvaluator implements Evaluator
 {
-  private ZLive zlive_;
+  private static ZLive zlive_;
 
-  private Factory factory_;
+  private static Factory factory_;
 
   /* (non-Javadoc)
    * @see net.sourceforge.czt.gaffe2.animation.common.evaluator.Evaluator#initialize(java.net.URL, java.lang.String)
@@ -38,7 +38,7 @@ public class ZLiveEvaluator implements Evaluator
   {
     // TODO Auto-generated method stub
     try {
-      zlive_ = new ZLive();
+      zlive_ = GaffeFactory.getZLive();
       factory_ = GaffeFactory.getFactory();
       Source src = new FileSource(file.getFile());
       src.setMarkup(Markup.LATEX);

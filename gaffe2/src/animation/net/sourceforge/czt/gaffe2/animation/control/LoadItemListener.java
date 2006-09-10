@@ -11,21 +11,25 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.gaffe2.animation.common.analyzer.Analyzer;
+import net.sourceforge.czt.gaffe2.animation.common.evaluator.Evaluator;
 import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.gaffe2.animation.model.EvalResult;
 import net.sourceforge.czt.gaffe2.animation.model.Step;
 import net.sourceforge.czt.gaffe2.animation.model.StepTree;
 import net.sourceforge.czt.gaffe2.animation.view.MainFrame;
-import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.CommandException;
-import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.session.Source;
-import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.gaffe2.animation.view.OperationPane;
+import net.sourceforge.czt.gaffe2.animation.view.OutputPane;
+import net.sourceforge.czt.gaffe2.animation.view.StatePane;
+import net.sourceforge.czt.gaffe2.animation.view.StatusLabel;
+import net.sourceforge.czt.gaffe2.animation.view.ToolBar;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -34,11 +38,13 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class LoadItemListener implements ActionListener
 {
+  DefaultTreeModel evaluatingTree;
   /**
    * 
    */
   public LoadItemListener()
   {
+    evaluatingTree = new DefaultTreeModel(new Step("Root",null));
   }
 
   /* (non-Javadoc)
@@ -61,32 +67,68 @@ public class LoadItemListener implements ActionListener
     try {
       XMLDecoder e = new XMLDecoder(new BufferedInputStream(
           new FileInputStream(file)));
+ 
+      //ReInitialize Analyzer
+      String specFile = (String)e.readObject();
+      String stateSchemaName = (String)e.readObject();
+      String initSchemaName = (String)e.readObject();
+      Analyzer analyzer = GaffeFactory.getAnalyzer();
+      analyzer.initialize(new File(specFile));
+      
+      //Reset UI
+      StatePane.getCurrentPane().reset();
+      OutputPane.getCurrentPane().reset();
+      OperationPane.getCurrentPane().reset();
+      ToolBar.getCurrentToolBar().reset();
+      MainFrame.getMainFrame().validate();
+      MainFrame.getRightSplit().setDividerLocation(0.8);
+      MainFrame.getFrameSplit().setDividerLocation(0.2);
+      MainFrame.getFrameSplit().setVisible(true);
+      
+      //ReInitialise Evaluator
+      StatePane statePane = StatePane.getCurrentPane();
+      HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
+          "state");
+      state = GaffeFactory.prime(state);
+      statePane.setComponentMap(GaffeFactory.exprMapToComponentMap(null, state));
+      Evaluator evaluator = GaffeFactory.getEvaluator();
+      EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
+          initSchemaName);
+      Step step = new Step(initSchemaName,results);
+      step.addPropertyChangeListener(statePane);
+      step.addPropertyChangeListener(ToolBar.getCurrentToolBar());
+      Step evaluatingRoot = (Step)evaluatingTree.getRoot();
+      evaluatingRoot.add(step);
+      StatusLabel.setMessage("Loading file.. "+file.getName());
+      /*---------------------------------------------*/
+      
+      // Load SchemaTree
+      DefaultTreeModel schemaTree = (DefaultTreeModel) e.readObject();
+      OperationPane.getCurrentPane().add(new JTree(schemaTree));
+      /*---------------------------------------------*/
+      
+      // Load StepTree
       DefaultTreeModel stepTree = (DefaultTreeModel) e.readObject();
       StepTree.setStepTree(stepTree);
-      StepTree.setCurrentStep((Step) stepTree.getRoot());
+      DefaultMutableTreeNode root = (Step) stepTree.getRoot();
+      restore(root);
+      StepTree.setCurrentStep((Step)root.getChildAt(0));
+      /*---------------------------------------------*/
+      
       e.close();
+      StatusLabel.setMessage("File: "+file.getName()+"loaded!");
     } catch (IOException ioex) {
       ioex.printStackTrace();
+      StatusLabel.setMessage("File: "+file.getName()+"not loaded!");
     }
   }
-
-  public Expr toExpr(String value)
-  {
-    Source newSource = new StringSource(value);
-    newSource.setMarkup(Markup.LATEX);
-    ZLive zLive = GaffeFactory.getZLive();
-    SectionManager sectman = zLive.getSectionManager();
-    //String name of section
-    try {
-      Expr expr = ParseUtils.parseExpr(newSource, zLive.getCurrentSection(),
-          sectman);
-      return expr;
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      return null;
-    } catch (CommandException ex) {
-      ex.printStackTrace();
-      return null;
+  
+  public void restore(DefaultMutableTreeNode parent){
+    Step child;
+    for (int i = 0; i<parent.getChildCount();i++){
+      child =  (Step)parent.getChildAt(i);  
+      child.restore();
+      restore(child);
     }
   }
 }

@@ -32,7 +32,7 @@ public class ChangeResultListener implements ActionListener
   {
     Step step = StepTree.getCurrentStep();
     int newValue = step.getIndex() + offset;
-    if (step.changeIndex(newValue)){
+    if (!step.changeIndex(newValue)){
       StatusLabel.setMessage("Change to result " + newValue + " has failed..");
     }
     else {

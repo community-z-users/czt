@@ -7,13 +7,13 @@ package net.sourceforge.czt.gaffe2.animation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sourceforge.czt.gaffe2.animation.model.Step;
 import net.sourceforge.czt.gaffe2.animation.model.StepTree;
 import net.sourceforge.czt.gaffe2.animation.view.MainFrame;
 import net.sourceforge.czt.gaffe2.animation.view.OperationPane;
 import net.sourceforge.czt.gaffe2.animation.view.OutputPane;
 import net.sourceforge.czt.gaffe2.animation.view.StatePane;
 import net.sourceforge.czt.gaffe2.animation.view.StatusLabel;
+import net.sourceforge.czt.gaffe2.animation.view.ToolBar;
 
 /**
  * @author Linan Zhang
@@ -33,10 +33,11 @@ public class CloseItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    StepTree.getStepTree().setRoot(new Step("Root",null));
-    StatePane.getCurrentPane().removeAll();
-    OperationPane.getCurrentPane().removeAll();
-    OutputPane.getCurrentPane().removeAll();
+    StatePane.getCurrentPane().reset();
+    OutputPane.getCurrentPane().reset();
+    OperationPane.getCurrentPane().reset();
+    ToolBar.getCurrentToolBar().reset();
+    StepTree.reset();
     MainFrame.getFrameSplit().setVisible(false);
     StatusLabel.setMessage("Ready");
   }
