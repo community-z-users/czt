@@ -34,6 +34,8 @@
               <descriptors>
                 <descriptor>src/assemble/dep.xml</descriptor>
               </descriptors>
+              <outputDirectory>../lib</outputDirectory>
+              <finalName>czt</finalName>
               <archive>
                 <manifest>
                   <mainClass>net.sourceforge.czt.ui.Main</mainClass>
