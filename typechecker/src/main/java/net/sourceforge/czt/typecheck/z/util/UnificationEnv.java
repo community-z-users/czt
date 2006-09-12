@@ -21,7 +21,8 @@ package net.sourceforge.czt.typecheck.z.util;
 import java.io.*;
 import java.util.Stack;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 import java.util.Iterator;
 
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -80,7 +81,7 @@ public class UnificationEnv
 
   public List<NameTypePair> getPairs()
   {
-    List<NameTypePair> result = new ArrayList<NameTypePair>();
+    List<NameTypePair> result = factory_.list();
     for (List<NameTypePair> pairs : unificationInfo_) {
       result.addAll(pairs);
     }
@@ -151,6 +152,13 @@ public class UnificationEnv
   public UResult unify(Type2 typeA, Type2 typeB)
   {
     UResult result = FAIL;
+
+
+    //if the object IDs are the same, there is no need to
+    //unify. Variable types are a special case
+    if (typeA == typeB && !(typeA instanceof VariableType)) {
+      return SUCC;
+    }
 
     //if either type is unknown, return PARTIAL
     if (isUnknownType(typeA)) {
@@ -291,6 +299,11 @@ public class UnificationEnv
   protected UResult unifySignature(Signature sigA, Signature sigB)
   {
     UResult result = SUCC;
+
+    if (sigA == sigB) {
+      return SUCC;
+    }
+
     if (isVariableSignature(sigA)) {
       result = unifyVariableSignature((VariableSignature) sigA, sigB);
     }
@@ -298,14 +311,49 @@ public class UnificationEnv
       result = unifyVariableSignature((VariableSignature) sigB, sigA);
     }
     else {
-      UResult resultA = unifySignatureAux(sigA, sigB);
-      UResult resultB = unifySignatureAux(sigB, sigA);
+      Map<String, NameTypePair> mapA = factory_.hashMap();
+      Map<String, NameTypePair> mapB = factory_.hashMap();
+      for (NameTypePair pair : sigA.getNameTypePair()) {
+        mapA.put(pair.getZDeclName().toString(), pair);
+      }
+      for (NameTypePair pair : sigB.getNameTypePair()) {
+        mapB.put(pair.getZDeclName().toString(), pair);
+      }
+
+      UResult resultA = unifySignatureAux(mapA, mapB);
+      UResult resultB = unifySignatureAux(mapB, mapA);
       result = UResult.conj(resultA, resultB);
     }
     return result;
   }
 
+  //unify the signature "one-way". Use hashmaps for efficiency
+  protected UResult unifySignatureAux(Map<String, NameTypePair> mapA,
+				      Map<String, NameTypePair> mapB)
+  {
+    UResult result = SUCC;
+    Set<Map.Entry<String, NameTypePair>> entrySet = mapA.entrySet();
+    for (Map.Entry<String, NameTypePair> first : entrySet) {
+      NameTypePair second = mapB.get(first.getKey());
+      if (second == null) {
+        result = FAIL;
+      }
+      else {
+        UResult unified = unify(unwrapType(first.getValue().getType()),
+                                unwrapType(second.getType()));
+        if (unified == FAIL) {
+          result = FAIL;
+        }
+        else if (unified == PARTIAL && result != FAIL) {
+          result = PARTIAL;
+        }
+      }
+    }
+    return result;
+  }
+
   //unify the signature "one-way"
+  /*
   protected UResult unifySignatureAux(Signature sigA, Signature sigB)
   {
     UResult result = SUCC;
@@ -335,6 +383,7 @@ public class UnificationEnv
     }
     return result;
   }
+  */
 
   protected UResult unifyVariableSignature(VariableSignature vSig,
                                            Signature sigB)
