@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
@@ -405,6 +406,19 @@ public class Factory
   public <E> List<E> list(List<E> list)
   {
     List<E> result = new java.util.ArrayList<E>(list);
+    return result;
+  }
+
+  public <E> ListTerm<E> listTerm()
+  {
+    ListTerm<E> result = new ListTermImpl<E>();
+    return result;
+  }
+
+  public <E> ListTerm<E> listTerm(E... elems)
+  {
+    ListTerm<E> result = listTerm();
+    result.addAll(java.util.Arrays.asList(elems));
     return result;
   }
 

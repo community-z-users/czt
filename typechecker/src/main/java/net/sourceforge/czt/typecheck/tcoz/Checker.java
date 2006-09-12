@@ -75,7 +75,7 @@ abstract public class Checker<R>
   {
     Signature signature = factory().createSignature();
     ZDeclName skip = factory().createZDeclName(TcozString.SKIP);
-    addOperation(skip, signature, getSelfSig());
+    addOperation(skip, signature, getSelfType());
   }
 
   protected Type2 instantiate(Type2 type)

@@ -83,8 +83,8 @@ public class OpExprChecker
 
     ZRefName opRefName = assertZRefName(recProExpr.getOpName());
     ZDeclName opName = factory().createZDeclName(opRefName);
-    ClassSig selfSig = getSelfSig();
-    List<NameSignaturePair> opPairs = selfSig.getOperation();
+    ClassType selfType = getSelfType();
+    List<NameSignaturePair> opPairs = selfType.getOperation();
     NameSignaturePair existing = findNameSigPair(opName, opPairs);
     if (existing != null) {
       System.err.println("Name " + opName + " already an operation");

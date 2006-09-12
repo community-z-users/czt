@@ -237,8 +237,8 @@ public class UnificationEnv
   protected UResult weakUnifyClassType(ClassType typeA, ClassType typeB)
   {
     UResult result = FAIL;
-    List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
-    List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
+    List<ClassRef> classRefsA = typeA.getClasses();
+    List<ClassRef> classRefsB = typeB.getClasses();
     if (classRefsA.size() == 0 || classRefsB.size() == 0) {
       result = SUCC;
     }
@@ -262,8 +262,8 @@ public class UnificationEnv
   protected UResult strongUnifyClassType(ClassType typeA, ClassType typeB)
   {
     UResult result = SUCC;
-    List<ClassRef> classRefsA = typeA.getClassSig().getClasses();
-    List<ClassRef> classRefsB = typeB.getClassSig().getClasses();
+    List<ClassRef> classRefsA = typeA.getClasses();
+    List<ClassRef> classRefsB = typeB.getClasses();
     if (classRefsA.size() != classRefsB.size()) {
       result = FAIL;
     }
@@ -332,12 +332,10 @@ public class UnificationEnv
   protected ClassType checkCompatibility(ClassType classTypeA,
                                          ClassType classTypeB)
   {
-    ClassSig cSigA = classTypeA.getClassSig();
-    ClassSig cSigB = classTypeB.getClassSig();
-    List<NameTypePair> attrsA = cSigA.getAttribute();
-    List<NameTypePair> attrsB = cSigB.getAttribute();
-    List<NameTypePair> stateA = cSigA.getState().getNameTypePair();
-    List<NameTypePair> stateB = cSigB.getState().getNameTypePair();
+    List<NameTypePair> attrsA = classTypeA.getAttribute();
+    List<NameTypePair> attrsB = classTypeB.getAttribute();
+    List<NameTypePair> stateA = classTypeA.getState().getNameTypePair();
+    List<NameTypePair> stateB = classTypeB.getState().getNameTypePair();
 
     //check compatibility of attributes and state variables
     List<NameTypePair> attrs = checkCompatibility(attrsA, attrsB, stateB);
@@ -351,8 +349,8 @@ public class UnificationEnv
       return null;
     }
 
-    List<NameSignaturePair> opsA = cSigA.getOperation();
-    List<NameSignaturePair> opsB = cSigB.getOperation();
+    List<NameSignaturePair> opsA = classTypeA.getOperation();
+    List<NameSignaturePair> opsB = classTypeB.getOperation();
     List<NameSignaturePair> ops = checkOpCompatibility(opsA, opsB);
     if (ops == null) {
       return null;
@@ -360,32 +358,30 @@ public class UnificationEnv
 
     //add the class references
     List<ClassRef> classes = factory_.list();
-    for (ClassRef classRef : cSigA.getClasses()) {
+    for (ClassRef classRef : classTypeA.getClasses()) {
       if (!contains(classes, classRef)) {
         classes.add(classRef);
       }
     }
-    for (ClassRef classRef : cSigB.getClasses()) {
+    for (ClassRef classRef : classTypeB.getClasses()) {
       if (!contains(classes, classRef)) {
         classes.add(classRef);
       }
     }
     Signature state = factory_.createSignature(statePairs);
-    ClassSig cSig = factory_.createClassSig(classes, state, attrs, ops);
     ClassType result = null;
     if (classes.size() == 1) {
       result = classTypeA;
     }
     else {
-      result = factory_.createClassUnionType(cSig);
+      result = factory_.createClassUnionType(classes, state, attrs, ops);
     }
     return result;
   }
 
-  protected List<NameTypePair>
-    checkCompatibility(List<NameTypePair> pairsA,
-                       List<NameTypePair> pairsB,
-                       List<NameTypePair> altPairs)
+  protected List<NameTypePair> checkCompatibility(List<NameTypePair> pairsA,
+						  List<NameTypePair> pairsB,
+						  List<NameTypePair> altPairs)
   {
     List<NameTypePair> result = factory_.list();
     //check compatibility of attributes and state variables

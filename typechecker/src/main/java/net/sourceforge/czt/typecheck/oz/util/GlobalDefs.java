@@ -36,12 +36,6 @@ public class GlobalDefs
     return (ClassType) o;
   }
 
-  //non-safe typecast
-  public static VariableClassSig variableClassSig(Object o)
-  {
-    return (VariableClassSig) o;
-  }
-
   //unfold any references to variable class types in a type
   public static Type2 resolveVariableClassType(Type2 type)
   {
@@ -72,8 +66,7 @@ public class GlobalDefs
       }
     }
     else if (result instanceof ClassType) {
-      ClassSig cSig = ((ClassType) result).getClassSig();
-      List<ClassRef> classRefs = cSig.getClasses();
+      List<ClassRef> classRefs = ((ClassType) result).getClasses();
       for (ClassRef classRef : classRefs) {
 	for (int i = 0; i < classRef.getType().size(); i++) {
 	  Type2 resolved = resolveVariableClassType(classRef.getType().get(i));
@@ -137,9 +130,9 @@ public class GlobalDefs
 
   //find a NameSignaturePair in a class signature
   public static NameSignaturePair findOperation(ZDeclName zDeclName, 
-						ClassSig cSig)
+						ClassType classType)
   {
-    NameSignaturePair result = findNameSigPair(zDeclName, cSig.getOperation());
+    NameSignaturePair result = findNameSigPair(zDeclName, classType.getOperation());
     return result;
   }
 

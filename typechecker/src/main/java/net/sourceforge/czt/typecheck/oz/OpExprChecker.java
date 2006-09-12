@@ -84,8 +84,8 @@ public class OpExprChecker
     //enter a new variable scope
     typeEnv().enterScope();
 
-    //get the class signature for "self"
-    ClassSig selfSig = getSelfSig();
+    //get the type for "self"
+    //ClassType selfType = getSelfType();
 
     //check that each name in the delta list is a primary variable
     DeltaList deltaList = opText.getDeltaList();
@@ -137,43 +137,40 @@ public class OpExprChecker
     }
     else if (vClassType.getValue() instanceof ClassType) {
       ClassType classType = (ClassType) vClassType.getValue();
-      ClassSig cSig = classType.getClassSig();
-      if (!instanceOf(cSig, VariableClassSig.class)) {
-        RefName promName = opPromExpr.getRefName();
-        ZRefName zPromName = assertZRefName(promName);
-        NameSignaturePair opDef = findOperation(zPromName, cSig);
+      RefName promName = opPromExpr.getRefName();
+      ZRefName zPromName = assertZRefName(promName);
+      NameSignaturePair opDef = findOperation(zPromName, classType);
 
-        //if the name is not found, and use-before-decl is enabled,
-        //then search for this name in the class
-        if (opDef == null && sectTypeEnv().getSecondTime() &&
-            (expr == null || isSelfExpr(expr))) {
-          List<Operation> ops = classPara().getOperation();
-          for (Operation op : ops) {
-            ZDeclName opName = op.getZDeclName();
-            if (namesEqual(opName, zPromName)) {
-              Signature opSignature = op.accept(paraChecker());
-              opDef =
-                factory().createNameSignaturePair(opName, opSignature);
-            }
-          }
-        }
-
-        //if there is no operation with this name, raise an error
-        if (opDef == null) {
-          Object [] params = {opPromExpr};
-          error(opPromExpr,
-                ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
-                params);
-        }
-        else {
-          signature = opDef.getSignature();
-        }
-
-        //if there is an operation, but it is not visible, raise an error
-        if (opDef != null && !isVisible(zPromName, classType)) {
-          Object [] params = {zPromName, opPromExpr};
-          error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
-        }
+      //if the name is not found, and use-before-decl is enabled,
+      //then search for this name in the class
+      if (opDef == null && sectTypeEnv().getSecondTime() &&
+	  (expr == null || isSelfExpr(expr))) {
+	List<Operation> ops = classPara().getOperation();
+	for (Operation op : ops) {
+	  ZDeclName opName = op.getZDeclName();
+	  if (namesEqual(opName, zPromName)) {
+	    Signature opSignature = op.accept(paraChecker());
+	    opDef =
+	      factory().createNameSignaturePair(opName, opSignature);
+	  }
+	}
+      }
+      
+      //if there is no operation with this name, raise an error
+      if (opDef == null) {
+	Object [] params = {opPromExpr};
+	error(opPromExpr,
+	      ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
+	      params);
+      }
+      else {
+	signature = opDef.getSignature();
+      }
+      
+      //if there is an operation, but it is not visible, raise an error
+      if (opDef != null && !isVisible(zPromName, classType)) {
+	Object [] params = {zPromName, opPromExpr};
+	error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
       }
     }
 

@@ -86,18 +86,19 @@ public class ParaChecker
     List<NameTypePair> attributes = factory().list();
 
     //create the class type from the information so far
-    ClassSig cSig = factory().createClassSig();
-    cSig.setState(factory().createSignature());
-
     ClassRef thisClass = factory().createClassRef(className());
     for (ZDeclName paramName : typeEnv().getParameters()) {
       Type2 gpType = factory().createGenParamType(paramName);
       thisClass.getType().add(gpType);
     }
-    cSig.getClasses().add(thisClass);
+    ListTerm<ClassRef> classes = factory().listTerm(thisClass);
     ClassRefType classType =
-      factory().createClassRefType(cSig, thisClass,
-                                   factory().<ClassRef>list(), null,
+      factory().createClassRefType(classes, factory().createSignature(),
+				   factory().<NameTypePair>list(),
+				   factory().<NameSignaturePair>list(),
+				   thisClass,
+                                   factory().<ClassRef>list(), 
+				   null,
                                    factory().<DeclName>list());
     PowerType powerType = factory().createPowerType(classType);
 
@@ -137,17 +138,17 @@ public class ParaChecker
     }
 
     //add the declarations to the class signature
-    insert(cSig.getAttribute(), attrDecls);
+    insert(classType.getAttribute(), attrDecls);
 
     //check for incompatible overriding
-    checkForDuplicates(cSig.getAttribute(), className(),
+    checkForDuplicates(classType.getAttribute(), className(),
                        ErrorMessage.INCOMPATIBLE_OVERRIDING);
 
     //visit the state
     State state = classPara.getState();
     if (state != null) {
       Signature signature = state.accept(paraChecker());
-      List<NameTypePair> decls = cSig.getState().getNameTypePair();
+      List<NameTypePair> decls = classType.getState().getNameTypePair();
       checkForDuplicates(decls, className(), ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
 
@@ -158,7 +159,7 @@ public class ParaChecker
       typeEnv().enterScope();
 
       //add the types in the state to the type env
-      typeEnv().add(cSig.getState().getNameTypePair());
+      typeEnv().add(classType.getState().getNameTypePair());
 
       //visit the initial state
       initialState.accept(paraChecker());
@@ -170,11 +171,11 @@ public class ParaChecker
     //add the "Init" variable to the state (to use for dereferencing)
     ZDeclName initName = factory().createZDeclName(OzString.INITWORD);
     factory().addDeclNameID(initName);
-    NameTypePair existingInitPair = findNameTypePair(initName, cSig.getState());
+    NameTypePair existingInitPair = findNameTypePair(initName, classType.getState());
     if (existingInitPair == null) {
       Type2 boolType = factory().createBoolType();
       NameTypePair initPair = factory().createNameTypePair(initName, boolType);
-      insert(cSig.getState().getNameTypePair(), initPair);
+      insert(classType.getState().getNameTypePair(), initPair);
     }
 
     //the list of operation names declared by this paragraph
@@ -187,11 +188,11 @@ public class ParaChecker
     List<Operation> operations = classPara.getOperation();
     for (Operation operation : operations) {
       //include the primed and unprimed state variables in a new scope
-      enterOpScope(cSig.getState());
+      enterOpScope(classType.getState());
 
       //visit the operation, and add its definition to the class info
       Signature opSignature = operation.accept(paraChecker());
-      addOperation(operation.getZDeclName(), opSignature, cSig);
+      addOperation(operation.getZDeclName(), opSignature, classType);
 
       //add the name of the operation
       opNames.add(operation.getZDeclName());
@@ -203,9 +204,9 @@ public class ParaChecker
       typeEnv().exitScope();
     }
 
-    //check the class signature for duplicate declaration names
-    checkClassSig(cSig, className(), classPara.getVisibilityList(),
-                  ErrorMessage.REDECLARED_NAME_IN_CLASSPARA);
+    //check the class type for duplicate declaration names
+    checkClass(classType, className(), classPara.getVisibilityList(),
+	       ErrorMessage.REDECLARED_NAME_IN_CLASSPARA);
     checkForDuplicates(opNames);
 
     //add the visibility list to the signature now after the paragraph
@@ -259,8 +260,8 @@ public class ParaChecker
     typeEnv().add(pairs);
 
     //add the pairs to the signature
-    ClassSig selfSig = getSelfSig();
-    insert(selfSig.getState().getNameTypePair(), pairs);
+    ClassType selfType = getSelfType();
+    insert(selfType.getState().getNameTypePair(), pairs);
 
     //typecheck the predicate
     Pred pred = state.getPred();
@@ -309,9 +310,9 @@ public class ParaChecker
 
     //get the variables declared in the superclass's definition of
     //this operation
-    ClassSig selfSig = getSelfSig();
+    ClassType selfType = getSelfType();
     NameSignaturePair superPair =
-      findNameSigPair(opName, selfSig.getOperation());
+      findNameSigPair(opName, selfType.getOperation());
     if (superPair != null) {
       List<NameTypePair> pairs = superPair.getSignature().getNameTypePair();
       typeEnv().add(pairs);
@@ -327,7 +328,7 @@ public class ParaChecker
     else {
       NameSignaturePair temporaryPair =
         factory().createNameSignaturePair(opName, factory().createSignature());
-      List<NameSignaturePair> opPairs = selfSig.getOperation();
+      List<NameSignaturePair> opPairs = selfType.getOperation();
       boolean added = false;
       if (useBeforeDecl()) {
         //before visiting, add this operation temporarily with an empty
@@ -372,8 +373,6 @@ public class ParaChecker
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassRefType current = getSelfType();
-      ClassSig icSig = classRefType.getClassSig();
-      ClassSig cSig = current.getClassSig();
 
       //check whether the nane of the inherited class is actually a
       //class paragraph.
@@ -408,26 +407,24 @@ public class ParaChecker
         currentSuperClasses.add(thisClass);
       }
 
-      if (!instanceOf(icSig, VariableClassSig.class)) {
-        //add the attributes to the subclass's signature and the type env
-        inheritFeature(icSig.getAttribute(), cSig.getAttribute(), expr);
+      //add the attributes to the subclass's signature and the type env
+      inheritFeature(classRefType.getAttribute(), current.getAttribute(), expr);
 
-        //add the decls to the subclass's signature and the type env
-        inheritFeature(icSig.getState().getNameTypePair(),
-                       cSig.getState().getNameTypePair(),
-                       expr);
+      //add the decls to the subclass's signature and the type env
+      inheritFeature(classRefType.getState().getNameTypePair(),
+		     current.getState().getNameTypePair(),
+		     expr);
 
-        //add the primary variable names to the subclass's signature
-        List<DeclName> primaryNames = classRefType.getPrimary();
-        for (DeclName primaryName : primaryNames) {
-          ZDeclName zPrimaryName = assertZDeclName(primaryName);
-          current.getPrimary().add(zPrimaryName);
-          primary().add(zPrimaryName);
-        }
-
-        //add the operations to the subclass's signature and the op env
-        inheritOps(icSig.getOperation(), cSig.getOperation(), expr);
+      //add the primary variable names to the subclass's signature
+      List<DeclName> primaryNames = classRefType.getPrimary();
+      for (DeclName primaryName : primaryNames) {
+	ZDeclName zPrimaryName = assertZDeclName(primaryName);
+	current.getPrimary().add(zPrimaryName);
+	primary().add(zPrimaryName);
       }
+      
+      //add the operations to the subclass's signature and the op env
+      inheritOps(classRefType.getOperation(), current.getOperation(), expr);
     }
   }
 

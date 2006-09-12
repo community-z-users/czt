@@ -79,8 +79,7 @@ public class CarrierSet
 
   public Term visitClassUnionType(ClassUnionType classUnionType)
   {
-    ClassSig classSig = classUnionType.getClassSig();
-    List<ClassRef> classRefs = classSig.getClasses();
+    List<ClassRef> classRefs = classUnionType.getClasses();
 
     assert classRefs.size() != 1;
     Expr result = null;

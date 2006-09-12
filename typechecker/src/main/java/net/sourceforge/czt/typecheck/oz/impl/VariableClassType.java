@@ -20,7 +20,8 @@ package net.sourceforge.czt.typecheck.oz.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -32,50 +33,75 @@ public class VariableClassType
   extends VariableType
   implements ClassType
 {
-  /** The class signature of this class type. */
-  protected ClassSig classSig_ = null;
-
   /** The candidate type of this variable. */
   protected ClassType candidateType_ = null;
 
   protected VariableClassType(Factory factory)
   {
     super(factory);
-    classSig_ = factory.createVariableClassSig();
   }
 
-  protected VariableClassType(ZDeclName zDeclName, ClassSig classSig)
+  protected VariableClassType(ZDeclName zDeclName)
   {
     super(zDeclName);
-    classSig_ = classSig;
   }
 
-  /**
-   * Returns the ClassSig element.
-   *
-   * @return the ClassSig element.
-   */
-  public ClassSig getClassSig()
+  public ListTerm<ClassRef> getClasses()
   {
-    ClassSig result = classSig_;
-    if (value_ instanceof ClassType && value_ != this) {
-      ClassType classType = (ClassType) value_;
-      result = classType.getClassSig();
+    ListTerm<ClassRef> result = new ListTermImpl<ClassRef>();
+    if (getClassValue() != null) {
+      result = getClassValue().getClasses();
     }
-    else if (candidateType_ != null) {
-      result = candidateType_.getClassSig();
+    return result;
+  }
+
+  public Signature getState()
+  {
+    Signature result = null;
+    if (getClassValue() != null) {
+      result = getClassValue().getState();
+    }
+    return result;
+  }
+
+  public void setState(Signature state)
+  {
+    assert false : "Cannot set state of VariableClassType";
+  }
+
+  public ListTerm<NameTypePair> getAttribute()
+  {
+    ListTerm<NameTypePair> result = new ListTermImpl<NameTypePair>();
+    if (getClassValue() != null) {
+      result = getClassValue().getAttribute();
+    }
+    return result;
+  }
+
+  public ListTerm<NameSignaturePair> getOperation()
+  {
+    ListTerm<NameSignaturePair> result = new ListTermImpl<NameSignaturePair>();
+    if (getClassValue() != null) {
+      result = getClassValue().getOperation();
     }
     return result;
   }
 
   /**
-   * Do not use.
-   * @param classSig the ClassSig element.
-   * @see #getClassSig
+   * Returns the value or the candidate type.
+   *
+   * @return the value or the candidate type.
    */
-  public void setClassSig(ClassSig classSig)
+  public ClassType getClassValue()
   {
-    assert false : "Cannot set signature of VariableClassType";
+    ClassType result = null;
+    if (value_ instanceof ClassType && value_ != this) {
+      result = (ClassType) value_;
+    }
+    else if (candidateType_ != null) {
+      result = candidateType_;
+    }
+    return result;
   }
 
   /**
@@ -101,19 +127,19 @@ public class VariableClassType
 
   public Object[] getChildren()
   {
-    Object[] result = { getName(), value_, getCandidateType(), getClassSig()};
+    Object[] result = { getName(), value_, getCandidateType()};
     return result;
   }
 
   public VariableClassType create(Object[] args)
   {
+    assert false : "VariableClassType.create called";
     VariableClassType zedObject = null;
     try {
       ZDeclName zDeclName = (ZDeclName) args[0];
       ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
-      ClassSig classSig = (ClassSig) args[3];
-      zedObject = new VariableClassType(zDeclName, classSig);
+      zedObject = new VariableClassType(zDeclName);
       zedObject.setValue(value);
       zedObject.setCandidateType(type);
     }

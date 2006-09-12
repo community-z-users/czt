@@ -116,12 +116,9 @@ public class ExprChecker
         vrPowerType.getType() instanceof ClassType) {
       ClassType lClassType = (ClassType) vlPowerType.getType();
       ClassType rClassType = (ClassType) vrPowerType.getType();
-      ClassSig lcSig = lClassType.getClassSig();
-      ClassSig rcSig = rClassType.getClassSig();
-      ClassSig cSig = factory().createVariableClassSig();
       //if both signatures are complete
-      if (!instanceOf(lcSig, VariableClassSig.class) &&
-          !instanceOf(rcSig, VariableClassSig.class)) {
+      if (!instanceOf(lClassType, VariableClassType.class) &&
+          !instanceOf(rClassType, VariableClassType.class)) {
         Type2 unioned = unionClasses(classUnionExpr, lClassType, rClassType);
         type = factory().createPowerType(unioned);
       }
@@ -152,66 +149,59 @@ public class ExprChecker
     }
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
-      ClassSig cSig = classRefType.getClassSig();
-      if (!instanceOf(cSig, VariableClassSig.class)) {
-        ClassRef cRef = classRefType.getThisClass();
-        List<ClassRef> subClasses = factory().list(cRef);
+      ClassRef cRef = classRefType.getThisClass();
+      List<ClassRef> subClasses = factory().list(cRef);
+      
+      //find any subclasses
+      List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
+      for (NameSectTypeTriple triple : triples) {
+	Type2 nextType = unwrapType(triple.getType());
+	if (isPowerClassRefType(nextType)) {
+	  ClassRefType subClass =
+	    (ClassRefType) powerType(nextType).getType();
+	  if (contains(subClass.getSuperClass(), cRef)) {
+	    //the subclasses must have the same number of parameters as
+	    //the "top-level" class
+	    final int superSize = cRef.getType().size();
+	    final int subSize = subClass.getThisClass().getType().size();
+	    if (superSize != subSize) {
+	      Object [] params = {cRef.getRefName(), superSize,
+				  subClass.getThisClass().getRefName(),
+				  subSize, polyExpr};
+	      error(polyExpr,
+		    ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
+	    }
+	    
+	    //all visible features must also be visible in the subclass
+	    List<NameTypePair> superAttrs = classRefType.getAttribute();
+	    List<NameTypePair> subAttrs = subClass.getAttribute();
+	    checkVisibility(classRefType, subClass, superAttrs,
+			    subAttrs, polyExpr);
 
-        //find any subclasses
-        List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
-        for (NameSectTypeTriple triple : triples) {
-          Type2 nextType = unwrapType(triple.getType());
-          if (isPowerClassRefType(nextType)) {
-            ClassRefType subClass =
-              (ClassRefType) powerType(nextType).getType();
-            if (contains(subClass.getSuperClass(), cRef)) {
-              //the subclasses must have the same number of parameters as
-              //the "top-level" class
-              final int superSize = cRef.getType().size();
-              final int subSize = subClass.getThisClass().getType().size();
-              if (superSize != subSize) {
-                Object [] params = {cRef.getRefName(), superSize,
-                                    subClass.getThisClass().getRefName(),
-                                    subSize, polyExpr};
-                error(polyExpr,
-                      ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
-              }
+	    List<NameTypePair> superState = classRefType.getState().getNameTypePair();
+	    List<NameTypePair> subState = subClass.getState().getNameTypePair();
+	    checkVisibility(classRefType, subClass, superState, subState, polyExpr);
 
-              //all visible features must also be visible in the subclass
-              ClassSig subCSig = subClass.getClassSig();
-              List<NameTypePair> superAttrs = cSig.getAttribute();
-              List<NameTypePair> subAttrs = subCSig.getAttribute();
-              checkVisibility(classRefType, subClass, superAttrs,
-                              subAttrs, polyExpr);
+	    List<NameSignaturePair> superOps = classRefType.getOperation();
+	    List<NameSignaturePair> subOps = subClass.getOperation();
+	    checkOpVisibility(classRefType, subClass, superOps, subOps, polyExpr);
 
-              List<NameTypePair> superState = cSig.getState().getNameTypePair();
-              List<NameTypePair> subState = subCSig.getState().getNameTypePair();
-              checkVisibility(classRefType, subClass, superState,
-                              subState, polyExpr);
-
-              List<NameSignaturePair> superOps = cSig.getOperation();
-              List<NameSignaturePair> subOps = subCSig.getOperation();
-              checkOpVisibility(classRefType, subClass, superOps,
-                                subOps, polyExpr);
-
-              ClassRef subCRef = factory().createClassRef();
-              subCRef.setRefName(subClass.getThisClass().getRefName());
-              subCRef.getType().addAll(cRef.getType());
-              subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
-              if (!contains(subClasses, subCRef)) {
-                subClasses.add(subCRef);
-              }
-            }
-          }
-        }
-        ClassSig polySig =
-          factory().createClassSig(subClasses, cSig.getState(),
-                                   cSig.getAttribute(),
-                                   cSig.getOperation());
-        ClassPolyType polyClass =
-          factory().createClassPolyType(polySig, classRefType.getThisClass());
-        type = factory().createPowerType(polyClass);
+	    ClassRef subCRef = factory().createClassRef();
+	    subCRef.setRefName(subClass.getThisClass().getRefName());
+	    subCRef.getType().addAll(cRef.getType());
+	    subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
+	    if (!contains(subClasses, subCRef)) {
+	      subClasses.add(subCRef);
+	    }
+	  }
+	}
       }
+      ClassPolyType polyClass =
+	factory().createClassPolyType(subClasses, classRefType.getState(),
+				      classRefType.getAttribute(),
+				      classRefType.getOperation(),
+				      classRefType.getThisClass());
+      type = factory().createPowerType(polyClass);
     }
 
     //add the type annotation
@@ -279,50 +269,48 @@ public class ExprChecker
       }
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
-        ClassSig classSig = classType.getClassSig();
         ZRefName selectName = bindSelExpr.getZRefName();
-        if (!instanceOf(classSig, VariableClassSig.class)) {
-	  //if the selected name is "self", then simply type of this
-	  //is the same as the type of the expression
-	  if (selectName.getWord().equals(OzString.SELF) &&
-	      selectName.getZStrokeList().size() == 0) {
-	    type = classType;
-	  }
-	  else {
-	    //try to find the name in the state signature
-	    Signature signature = classSig.getState();
-	    NameTypePair pair = findNameTypePair(selectName, signature);
-	    
-	    //if it is not found, try the attributes
-	    if (pair == null) {
-	      List<NameTypePair> pairs = classSig.getAttribute();
-	      pair = findNameTypePair(selectName, pairs);
-	    }
-	    
-	    //if it is not in the state or attributes, raise an error
-	    if (pair == null) {
-	      Object [] params = {bindSelExpr};
-	      error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
-	    }
-	    //otherwise, the type is the type of the selection
-	    else {
-	      type = pair.getType();
-	    }
-	  }
 
-	  //if the feature exists, but it is not visible, raise an error
-	  if (!(type instanceof UnknownType) && !isVisible(selectName, exprType)) {
-	    Object [] params = {selectName, bindSelExpr};
-	    error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+	//if the selected name is "self", then simply type of this
+	//is the same as the type of the expression
+	if (selectName.getWord().equals(OzString.SELF) &&
+	    selectName.getZStrokeList().size() == 0) {
+	  type = classType;
+	}
+	else {
+	  //try to find the name in the state signature
+	  Signature signature = classType.getState();
+	  NameTypePair pair = findNameTypePair(selectName, signature);
+	  
+	  //if it is not found, try the attributes
+	  if (pair == null) {
+	    List<NameTypePair> pairs = classType.getAttribute();
+	    pair = findNameTypePair(selectName, pairs);
 	  }
-        }
+	  
+	  //if it is not in the state or attributes, raise an error
+	  if (pair == null) {
+	    Object [] params = {bindSelExpr};
+	    error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+	  }
+	  //otherwise, the type is the type of the selection
+	  else {
+	    type = pair.getType();
+	  }
+	}
+	
+	//if the feature exists, but it is not visible, raise an error
+	if (!(type instanceof UnknownType) && !isVisible(selectName, exprType)) {
+	  Object [] params = {selectName, bindSelExpr};
+	  error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+	}
       }
       else {
         Object [] params = {bindSelExpr, exprType};
         error(bindSelExpr, ErrorMessage.NON_BINDING_IN_BINDSELEXPR, params);
       }
     }
-
+    
     //try to resolve this type if it is unknown
     if (type instanceof Type2) {
       type = resolveUnknownType((Type2) type);
@@ -392,26 +380,11 @@ public class ExprChecker
 
 	//rename the class features
         ClassRefType classRefType = (ClassRefType) vPowerType.getType();
-        ClassSig classSig = classRefType.getClassSig();
-        if (!instanceOf(classSig, VariableClassSig.class)) {
-          String errorMessage =
-            ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-          ClassSig renameClassSig =
-            createRenameClassSig(classSig, renameExpr, errorMessage);
-          ClassRef renameThisClass =
-            renameClassRef(classRefType.getThisClass(),
-                           renameExpr.getZRenameList());
-          List<DeclName> renamePrimary =
-            renamePrimary(classRefType.getPrimary(),
-                          renameExpr.getZRenameList());
-          ClassRefType newRefType =
-            factory().createClassRefType(renameClassSig,
-                                         renameThisClass,
-                                         classRefType.getSuperClass(),
-                                         classRefType.getVisibilityList(),
-                                         renamePrimary);
-          type = factory().createPowerType(newRefType);
-        }
+	String errorMessage =
+	  ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
+	ClassRefType renameClassType =
+	  createRenameClassType(classRefType, renameExpr, errorMessage);
+	type = factory().createPowerType(renameClassType);
       }
       else if (vPowerType.getType() instanceof SchemaType) {
 	type = renameExpr.accept(zExprChecker_);

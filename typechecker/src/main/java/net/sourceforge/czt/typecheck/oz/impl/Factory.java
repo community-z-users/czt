@@ -95,79 +95,61 @@ public class Factory
 
   public ClassRefType createClassRefType()
   {
-    ClassRefType classRefType = ozFactory_.createClassRefType();
-    ClassSig classSig = createVariableClassSig();
-    classRefType.setClassSig(classSig);
-    ClassRefType result = new ClassRefTypeImpl(classRefType);
+    ClassRefType result = ozFactory_.createClassRefType();
     return result;
   }
 
-  public ClassRefType createClassRefType(ClassSig classSig,
-                                         ClassRef thisClass,
-                                         List<ClassRef> superClass,
-                                         VisibilityList visibilityList,
-                                         List<DeclName> primary)
+  public ClassRefType createClassRefType(List<? extends ClassRef> classes,
+					 Signature state,
+					 List<? extends NameTypePair> attribute,
+					 List<? extends NameSignaturePair> operation,
+					 ClassRef thisClass,
+					 List<? extends ClassRef> superClass,
+					 VisibilityList visibilityList,
+					 List<? extends DeclName> primary)
   {
-    ClassRefType classRefType =
-      ozFactory_.createClassRefType(classSig, thisClass,
-                                    superClass, visibilityList, primary);
-    ClassRefType result = new ClassRefTypeImpl(classRefType);
+    ClassRefType result =
+      ozFactory_.createClassRefType(classes, state, attribute, operation,
+				    thisClass, superClass, visibilityList, primary);
     return result;
   }
 
   public ClassPolyType createClassPolyType()
   {
-    ClassSig classSig = createVariableClassSig();
-    ClassPolyType classPolyType = ozFactory_.createClassPolyType();
-    classPolyType.setClassSig(classSig);
-    ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
+    ClassPolyType result = ozFactory_.createClassPolyType();
     return result;
   }
 
-  public ClassPolyType createClassPolyType(ClassSig classSig, ClassRef rootClass)
+  public ClassPolyType createClassPolyType(List<? extends ClassRef> classes,
+					   Signature state,
+					   List<? extends NameTypePair> attribute,
+					   List<? extends NameSignaturePair> operation,
+					   ClassRef rootClass)
   {
-    ClassPolyType classPolyType =
-      ozFactory_.createClassPolyType(classSig, rootClass);
-    ClassPolyType result = new ClassPolyTypeImpl(classPolyType);
+    ClassPolyType result =
+      ozFactory_.createClassPolyType(classes, state, attribute, operation, rootClass);
     return result;
   }
 
   public ClassUnionType createClassUnionType()
   {
-    ClassSig classSig = createClassSig();
-    ClassUnionType result = createClassUnionType(classSig);
+    ClassUnionType result = createClassUnionType();
     return result;
   }
 
-  public ClassUnionType createClassUnionType(ClassSig classSig)
+  public ClassUnionType createClassUnionType(List<? extends ClassRef> classes,
+					     Signature state,
+					     List<? extends NameTypePair> attribute,
+					     List<? extends NameSignaturePair> operation)
   {
-    ClassUnionType classUnionType = ozFactory_.createClassUnionType(classSig);
-    ClassUnionType result = new ClassUnionTypeImpl(classUnionType);
+    ClassUnionType result = 
+      ozFactory_.createClassUnionType(classes, state, attribute, operation);
     return result;
   }
 
   public VariableClassType createVariableClassType()
   {
     return new VariableClassType(this);
-  }
-
-  public VariableClassSig createVariableClassSig()
-  {
-    return new VariableClassSig(this);
-  }
-
-  public ClassSig createClassSig()
-  {
-    return ozFactory_.createClassSig();
-  }
-
-  public ClassSig createClassSig(List<ClassRef> classes,
-                                 Signature state,
-                                 List<NameTypePair> attribute,
-                                 List<NameSignaturePair> operation)
-  {
-    return ozFactory_.createClassSig(classes, state,
-                                     attribute, operation);
   }
 
   public NameSignaturePair createNameSignaturePair(DeclName declName,
@@ -193,8 +175,7 @@ public class Factory
     Signature state = createSignature();
     List<NameTypePair> attrs = list();
     List<NameSignaturePair> ops = list();    
-    ClassSig classSig = createClassSig(classes, state, attrs, ops);
-    ClassUnionType cuType = createClassUnionType(classSig);
+    ClassUnionType cuType = createClassUnionType(classes, state, attrs, ops);
     PowerType result = createPowerType(cuType);
     return result;
   }

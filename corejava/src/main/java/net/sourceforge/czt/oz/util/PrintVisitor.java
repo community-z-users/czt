@@ -28,7 +28,6 @@ import net.sourceforge.czt.oz.visitor.*;
 public class PrintVisitor
   extends net.sourceforge.czt.z.util.PrintVisitor
   implements ClassRefVisitor<String>,
-             ClassSigVisitor<String>,
              ClassTypeVisitor<String>
 {
   public String visitClassRef(ClassRef classRef)
@@ -39,13 +38,8 @@ public class PrintVisitor
       visitList(classRef.getNewOldPair(), "[", ", ", "]");
   }
 
-  public String visitClassSig(ClassSig classSig)
-  {
-    return visitList(classSig.getClasses(), "{", ", ", "}");
-  }
-
   public String visitClassType(ClassType classType)
   {
-    return "CLASSTYPE " + visit(classType.getClassSig());
+    return "CLASSTYPE " + visitList(classType.getClasses(), "{", ", ", "}");
   }
 }
