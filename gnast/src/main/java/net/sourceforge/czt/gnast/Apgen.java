@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005 Petra Malik
+  Copyright 2003, 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -23,9 +23,9 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 
@@ -57,6 +57,11 @@ public class Apgen
    */
   public static final Logger LOGGER =
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + CLASS_NAME);
+
+  /**
+   * The velocity runtime environment.
+   */
+  private RuntimeInstance velocity_ = new RuntimeInstance();
 
   /**
    * The name of the velocity template file.
@@ -150,7 +155,7 @@ public class Apgen
   private void init()
   {
     try {
-      Velocity.init("velocity.properties");
+      velocity_.init("velocity.properties");
     }
     catch (Exception e) {
       LOGGER.severe("Cannot initialise velocity.");
@@ -160,7 +165,7 @@ public class Apgen
   private void init(Properties initProps)
   {
     try {
-      Velocity.init(initProps);
+      velocity_.init(initProps);
     }
     catch (Exception e) {
       LOGGER.severe("Cannot initialise velocity.");
@@ -294,7 +299,7 @@ public class Apgen
     LOGGER.fine("Use template file " + template_ + ".");
     LOGGER.fine("Use context " + context_ + ".");
     LOGGER.fine("Use writer " + writer_ + ".");
-    Template template = Velocity.getTemplate(template_);
+    Template template = velocity_.getTemplate(template_);
     template.merge(context_, writer_);
     writer_.flush();
 
