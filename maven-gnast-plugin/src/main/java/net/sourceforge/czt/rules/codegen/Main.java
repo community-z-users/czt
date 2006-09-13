@@ -29,7 +29,7 @@ import org.w3c.dom.DOMError;
 import org.w3c.dom.DOMErrorHandler;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.VelocityContext;
@@ -101,10 +101,11 @@ public class Main
       config.setParameter("error-handler", errorHandler);
       config.setParameter("validate", Boolean.TRUE);
       XSModel model = schemaLoader.loadURI(xsdFile);
+
+      RuntimeInstance velocity = new RuntimeInstance();
       Properties initProps = new Properties();
-      initProps.put("file.resource.loader.path",
-                    velocimacroDirectory);
-      Velocity.init(initProps);
+      initProps.put("file.resource.loader.path", velocimacroDirectory);
+      velocity.init(initProps);
     
       XSNamedMap map = model.getComponents(XSTypeDefinition.COMPLEX_TYPE);
       Vector jokers = new Vector();
@@ -121,17 +122,17 @@ public class Main
           context.put("isList", name.endsWith("List"));
           String dest = outputDirectory + "/" + PACKAGE_DIR +
             "Prover" + name + ".java";
-          write(dest, "Joker.vm", context);
+          write(velocity, dest, "Joker.vm", context);
           dest = outputDirectory + "/" + PACKAGE_DIR +
             "Prover" + name + "Binding.java";
-          write(dest, "Binding.vm", context);
+          write(velocity, dest, "Binding.vm", context);
         }
       }
       final String dest =
         outputDirectory + "/" + PACKAGE_DIR + "ProverFactory.java";
       VelocityContext context = new VelocityContext();
       context.put("jokers", jokers);
-      write(dest, "Factory.vm", context);
+      write(velocity, dest, "Factory.vm", context);
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -139,7 +140,8 @@ public class Main
     }
   }
 
-  private static void write(String destination,
+  private static void write(RuntimeInstance velocity,
+                            String destination,
                             String templateName,
                             VelocityContext context)
     throws Exception
@@ -149,7 +151,7 @@ public class Main
     System.err.println(dest.getParentFile().mkdirs());
     dest.createNewFile();
     Writer writer = new FileWriter(dest);
-    Template template = Velocity.getTemplate(templateName);
+    Template template = velocity.getTemplate(templateName);
     System.err.println("Writing file " + destination);
     template.merge(context, writer);
     writer.close();
