@@ -126,16 +126,8 @@ public class Rewrite
    */
   public Term visitSchText(SchText schText)
   {
-    SchText oldSchText = schText;
-    // apply rules until no more changes
-    int rewrites = 0;
-    do {
-      oldSchText = schText;
-      schText = (SchText) rewriteOnce(manager_, section_, schText, rules_);
-      rewrites++;
-      if (rewrites > MAX_REWRITES)
-        throw new RuntimeException("Infinite loop in rules on schema text "+schText);
-    } while (schText != oldSchText);
+    // apply the first matching rule just once.
+    schText = (SchText) rewriteOnce(manager_, section_, schText, rules_);
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, schText, true);
   }
@@ -157,6 +149,7 @@ public class Rewrite
     Expr original = factory.createSchExpr(schText);
     TupleExpr pair = factory.createTupleExpr(original, joker);
     Pred pred = factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
+
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
     SimpleProver prover =
