@@ -265,13 +265,6 @@ public abstract class AbstractParserTest
             getTestExample("latexMarkupWithoutNl1.xml"));
   }
 
-  public void testLatexMarkupWithoutNl2()
-    throws Exception
-  {
-    compare(getTestExample("latexMarkupWithoutNl2.tex"),
-            getTestExample("latexMarkupWithoutNl2.xml"));
-  }
-
   private URL getLibFile(String filename)
   {
     return SectionManager.class.getResource("/lib/" + filename);
