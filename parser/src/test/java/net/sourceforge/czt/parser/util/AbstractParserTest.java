@@ -194,6 +194,12 @@ public abstract class AbstractParserTest
     compare(getTestExample("success4.tex"), getTestExample("success4.xml"));
   }
 
+  public void testTest()
+    throws Exception
+  {
+    compare(getTestExample("test.tex"), getTestExample("test.xml"));
+  }
+
   public void test1Test()
     throws Exception
   {
@@ -222,24 +228,6 @@ public abstract class AbstractParserTest
     throws Exception
   {
     compare(getTestExample("test6.tex"), getTestExample("test6.xml"));
-  }
-
-  public void test8Test()
-    throws Exception
-  {
-    compare(getTestExample("test8.tex"), getTestExample("test8.xml"));
-  }
-
-  public void test9Test()
-    throws Exception
-  {
-    compare(getTestExample("test9.tex"), getTestExample("test9.xml"));
-  }
-
-  public void test10Test()
-    throws Exception
-  {
-    compare(getTestExample("test10.tex"), getTestExample("test10.xml"));
   }
 
   public void testTesting()

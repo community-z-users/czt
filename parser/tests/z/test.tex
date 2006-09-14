@@ -1,10 +1,65 @@
+\documentclass{article}
+\usepackage{oz}
+\begin{document}
+
+\begin{zsection}
+\SECTION emptiness\_tests \parents standard\_toolkit
+\end{zsection}
+
+Test schemas with empty declaration parts.
+
+\begin{zed}
+  TRUE == [|true]
+\end{zed}
+
+\begin{schema}{FALSE}
+\where
+  false
+\end{schema}
+
+
+Test axdef with no declarations.
+
+\begin{axdef}
+\where
+   (\exists x:\nat | x < 10 @ x*x = x)
+\end{axdef}
+
+
+Test empty axdef.
+
+\begin{axdef}
+\end{axdef}
+
+
+
+\begin{zsection}
+\SECTION predicate\_tests \parents standard\_toolkit
+\end{zsection}
+
+Test chains together with member predicate.
+
+\begin{schema}{MemberChain}
+\where
+  1 \in \{ 1 \} \in \power \{1\}
+\end{schema}
+
+
+
+\begin{zsection}
+\SECTION nested\_predicate\_tests \parents standard\_toolkit
+\end{zsection}
+
 This tests the parsing of nested predicates that contain newlines
 instead of conjunctions.
+
+\begin{axdef}
+  a, b:\nat
+\end{axdef}
 
 This predicate part of this schema should parse into
 two separate predicates, first the forall, then the $y<a$,
 because the newline conjunction has lower priority than the forall.
-
 \begin{schema}{PredTest1}
    x:\nat \\
    y:\nat
@@ -70,3 +125,6 @@ the operators rather than after).
    \t1   @ x < a
    \t1   ; y < b)
 \end{schema}
+
+
+\end{document}
