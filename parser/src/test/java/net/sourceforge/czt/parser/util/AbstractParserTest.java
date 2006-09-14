@@ -170,70 +170,16 @@ public abstract class AbstractParserTest
             getTestExample("conjectures.xml"));
   }
 
-  public void testCase()
-    throws Exception
-  {
-    compare(getTestExample("case.tex"), getTestExample("case.xml"));
-  }
-
-  public void testSuccess2Test()
-    throws Exception
-  {
-    compare(getTestExample("success2.tex"), getTestExample("success2.xml"));
-  }
-
-  public void testSuccess3Test()
-    throws Exception
-  {
-    compare(getTestExample("success3.tex"), getTestExample("success3.xml"));
-  }
-
-  public void testSuccess4Test()
-    throws Exception
-  {
-    compare(getTestExample("success4.tex"), getTestExample("success4.xml"));
-  }
-
   public void testTest()
     throws Exception
   {
     compare(getTestExample("test.tex"), getTestExample("test.xml"));
   }
 
-  public void test1Test()
+  public void testChunqing()
     throws Exception
   {
-    compare(getTestExample("test1.tex"), getTestExample("test1.xml"));
-  }
-
-  public void test2Test()
-    throws Exception
-  {
-    compare(getTestExample("test2.tex"), getTestExample("test2.xml"));
-  }
-
-  public void test3Test()
-    throws Exception
-  {
-    compare(getTestExample("test3.tex"), getTestExample("test3.xml"));
-  }
-
-  public void test5Test()
-    throws Exception
-  {
-    compare(getTestExample("test5.tex"), getTestExample("test5.xml"));
-  }
-
-  public void test6Test()
-    throws Exception
-  {
-    compare(getTestExample("test6.tex"), getTestExample("test6.xml"));
-  }
-
-  public void testTesting()
-    throws Exception
-  {
-    compare(getTestExample("testing.tex"), getTestExample("testing.xml"));
+    compare(getTestExample("chunqing.tex"), getTestExample("chunqing.xml"));
   }
 
   public void testTwosects1()
