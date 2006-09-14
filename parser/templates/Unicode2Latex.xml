@@ -259,7 +259,9 @@ action code
           parser.sectInfo_.get(new Key(parentName, LatexMarkupFunction.class));
       }
       catch (CommandException exception) {
-        System.err.println("Caught " + exception);
+        String message = "Cannot get latex markup for parent section " +
+          parentName + " caused by " + exception;
+        CztLogger.getLogger(<class/>.class).warning(message);
       }
       if (parentMarkup == null) {
         ZSect parentHeader = (ZSect) sections_.get(parentName);
@@ -285,7 +287,9 @@ action code
         parser.sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
     }
     catch (CommandException exception) {
-      System.err.println("Caught " + exception);
+      String message = "Cannot get latex markup for section " + sectName +
+        " caused by " + exception;
+      CztLogger.getLogger(<class/>.class).warning(message);
     }
     if (table != null) {
       LatexMarkupPara para =
