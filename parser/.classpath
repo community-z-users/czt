@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="build/src"/>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="build/src"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/devtools"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/session"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/corejava"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/java_cup"/>
 	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>
