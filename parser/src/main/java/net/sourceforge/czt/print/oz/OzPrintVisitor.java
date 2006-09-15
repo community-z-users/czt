@@ -492,11 +492,6 @@ public class OzPrintVisitor
     throw new UnsupportedOperationException("Unexpected term NameSignaturePair.");
   }
 
-  public Object visitClassSig(ClassSig classSig)
-  {
-    throw new UnsupportedOperationException("Unexpected term ClassSig.");
-  }
-
   protected void printLPAREN(Term term)
   {
     final boolean braces = term.getAnn(ParenAnn.class) != null;
