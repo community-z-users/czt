@@ -69,7 +69,10 @@
     <module>gnast</module>
     <module>maven-gnast-plugin</module>
     <module>corejava</module>
+    <module>parser-src</module>
     <module>java_cup</module>
+    <module>maven-cup-plugin</module>
+    <module>maven-jflex-plugin</module>
     <module>parser</module>
     <module>typechecker</module>
     <module>rules</module>
@@ -173,7 +176,7 @@
       <!-- external stuff -->
       <!-- ************** -->
 
-      <!-- Ant (for the ant task) -->
+      <!-- Ant -->
       <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
@@ -294,6 +297,17 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- don't execute the tests
+          <skipExec>true</skipExec> -->
+          <!-- ignore failing tests
+          <testFailureIgnore>true</testFailureIgnore> -->
+        </configuration>
       </plugin>
     </plugins>
   </build>

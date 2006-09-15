@@ -193,6 +193,8 @@ modeljunit/jdsl/tutorial/lesson07/support/data/sparse_graph.dat -text svneol=uns
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_flights.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/data/ultrasparse_graph.dat -text svneol=unset#application/octet-stream
 modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
+parser-src/pom.xml -text
+parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser/.classpath -text
 parser/.project -text
 parser/COPYING.txt -text
