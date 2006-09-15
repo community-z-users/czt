@@ -265,7 +265,7 @@ public class Gnast implements GlobalProperties
   public void generate(String[] args)
   {
     parseArguments(args);
-    handleLogging();
+    // handleLogging();
 
     try {
       if ("all".equals(projectName_)) {
