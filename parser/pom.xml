@@ -33,6 +33,11 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -77,25 +82,12 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <configuration>
-              <tasks>
-                <copy todir="${basedir}/src/test/resources">
-                  <fileset dir="../zml" includes="examples/**"/>
-                  <fileset dir="." includes="tests/**"/>
-                </copy>
-              </tasks>
-           </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
+    <testResources>
+      <testResource>
+        <directory>tests</directory>
+        <targetPath>tests</targetPath>
+      </testResource>
+    </testResources>
   </build>
 </project>

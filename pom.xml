@@ -63,6 +63,7 @@
     </repository>
   </repositories>
   <modules>
+    <module>zml</module>
     <module>session</module>
     <module>util</module>
     <module>jaxb</module>
@@ -87,6 +88,13 @@
       <!-- ********* -->
       <!-- CZT stuff -->
       <!-- ********* -->
+
+      <!-- CZT ZML -->
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>zml</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
 
       <!-- CZT GnAST -->
       <dependency>

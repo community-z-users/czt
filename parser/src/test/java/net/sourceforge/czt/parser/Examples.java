@@ -41,7 +41,7 @@ public final class Examples
 
   public static URL getExample(String name)
   {
-    URL result = examples_.getClass().getResource("/examples/z/" + name);
+    URL result = net.sourceforge.czt.zml.Examples.getZExample(name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
@@ -50,7 +50,7 @@ public final class Examples
 
   public static URL getOzExample(String name)
   {
-    URL result = examples_.getClass().getResource("/examples/oz/" + name);
+    URL result = net.sourceforge.czt.zml.Examples.getOzExample(name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
