@@ -3,6 +3,7 @@ package net.sourceforge.czt.java_cup;
 
 import java.util.Enumeration; 
 import java.io.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 
 /** This class serves as the main driver for the JavaCup system.
  *  It accepts user options and coordinates overall control flow.
@@ -77,7 +78,7 @@ public class Main {
   /* Options set by the user */
   /*-------------------------*/
   /** User option -- do we print progress messages. */
-  protected static boolean print_progress   = true;
+  protected static boolean print_progress   = false;
   /** User option -- do we produce a dump of the state machine */
   protected static boolean opt_dump_states  = false;
   /** User option -- do we produce a dump of the parse tables */
@@ -155,6 +156,16 @@ public class Main {
       boolean did_output = false;
 
       start_time = System.currentTimeMillis();
+      
+      /** clean all static members, that contain remaining stuff from earlier calls */
+      terminal.clear();
+      production.clear();
+      action_production.clear();
+      emit.clear();
+      non_terminal.clear();
+      parse_reduce_row.clear();
+      parse_action_row.clear();
+      lalr_state.clear();
 
       /* process user options and arguments */
       parse_args(argv);
@@ -241,7 +252,9 @@ public class Main {
 "  and expects a specification file on standard input if no filename is given.\n" +
 "  Legal options include:\n" +
 "    -package name  specify package generated classes go in [default none]\n" +
+"    -destdir name  specify the destination directory, to store the generated files in\n" +
 "    -parser name   specify parser class name [default \"parser\"]\n" +
+"    -typearg args  specify type arguments for parser class\n" + 
 "    -symbols name  specify name for symbol constant class [default \"sym\"]\n"+
 "    -interface     put symbols in an interface, rather than a class\n" +
 "    -nonterms      put non terminals in symbol constant class\n" + 
@@ -286,6 +299,15 @@ public class Main {
 
 	      /* record the name */
 	      emit.package_name = argv[i];
+	    }
+	  else if (argv[i].equals("-destdir"))
+	    {
+	      /* must have an arg */
+	      if (++i >= len || argv[i].startsWith("-") || 
+				argv[i].endsWith(".cup")) 
+		usage("-destdir must have a name argument");
+	      /* record the name */
+	      Main.dest_dir = new java.io.File(argv[i]);
 	    }
 	  else if (argv[i].equals("-parser"))
 	    {
@@ -347,6 +369,16 @@ public class Main {
 	      System.out.println(version.title_str);
 	      System.exit(1);
 	  }
+      /* TUM changes; suggested by Henning Niss 20050628*/
+ 	  else if (argv[i].equals("-typearg")){
+ 	      if (++i >= len || argv[i].startsWith("-") || 
+              argv[i].endsWith(".cup")) 
+              usage("-symbols must have a name argument");
+          
+ 	      /* record the typearg */
+ 	      emit.class_type_argument = argv[i];
+      }
+
 	  /* CSA 24-Jul-1999; suggestion by Jean Vaucher */
 	  else if (!argv[i].startsWith("-") && i==len-1) {
 	      /* use input from file. */
@@ -378,6 +410,8 @@ public class Main {
   /** Output file for the symbol constant class. */
   protected static PrintWriter symbol_class_file;
 
+  /** Output directory. */
+  protected static File dest_dir = null;
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Open various files used by the system. */
@@ -390,7 +424,7 @@ public class Main {
 
       /* parser class */
       out_name = emit.parser_class_name + ".java";
-      fil = new File(out_name);
+      fil = new File(dest_dir,out_name);
       try {
         parser_class_file = new PrintWriter(
 		 new BufferedOutputStream(new FileOutputStream(fil), 4096));
@@ -401,7 +435,7 @@ public class Main {
 
       /* symbol constants class */
       out_name = emit.symbol_const_class_name + ".java";
-      fil = new File(out_name);
+      fil = new File(dest_dir,out_name);
       try {
         symbol_class_file = new PrintWriter(
 		 new BufferedOutputStream(new FileOutputStream(fil), 4096));
@@ -434,7 +468,8 @@ public class Main {
       parser parser_obj;
 
       /* create a parser and parse with it */
-      parser_obj = new parser();
+      ComplexSymbolFactory csf = new ComplexSymbolFactory();
+      parser_obj = new parser(new Lexer(csf),csf);
       try {
 	if (opt_do_debug)
           parser_obj.debug_parse();

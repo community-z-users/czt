@@ -88,6 +88,13 @@ public class lalr_state {
   /** Collection of all states. */
   public static Enumeration all() {return _all.elements();}
 
+  //Hm Added clear  to clear all static fields
+  public static void clear() {
+      _all.clear();
+      _all_kernels.clear();
+      next_index=0;
+  }
+  
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** Indicate total number of states there are. */

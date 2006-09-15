@@ -66,7 +66,7 @@ public class parse_action_table {
       /* tabulate reductions -- look at every table entry */
       for (int row = 0; row < num_states(); row++)
 	{
-	  for (int col = 0; col < under_state[row].size(); col++)
+	  for (int col = 0; col < parse_action_row.size(); col++)
 	    {
 	      /* look at the action entry to see if its a reduce */
 	      act = under_state[row].under_term[col];
@@ -113,7 +113,7 @@ public class parse_action_table {
 	{
 	  result += "From state #" + row + "\n";
 	  cnt = 0;
-	  for (int col = 0; col < under_state[row].size(); col++)
+	  for (int col = 0; col < parse_action_row.size(); col++)
 	    {
 	      /* if the action is not an error print it */ 
 	      if (under_state[row].under_term[col].kind() != parse_action.ERROR)

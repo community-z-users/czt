@@ -21,10 +21,12 @@
 
 package net.sourceforge.czt.java_cup.anttask;
 
-import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -33,7 +35,7 @@ import java.net.URL;
 
 import net.sourceforge.czt.java_cup.version;
 
-public class CUPTask extends Java 
+public class CUPTask extends Task 
 {
     private String srcfile=null;
     private String parser=null;
@@ -66,51 +68,32 @@ public class CUPTask extends Java
 
     public void execute() throws BuildException 
     {
-
+        List sc = new ArrayList();  // sc = simulated commandline
 	// here, we parse our elements
-	if (parser!=null) {
-            createArg().setValue("-parser");
-            createArg().setValue(parser);
-	}else {
-	    parser="parser"; // set the default name to check actuality
-	}
-	if (_package!=null) {
-            createArg().setValue("-package");
-            createArg().setValue(_package);
-	}
-	if (symbols!=null) {
-            createArg().setValue("-symbols");
-            createArg().setValue(symbols);
-	}else {
-	    symbols="sym";
-	}
-	if (expect!=null) 
-	    {
-		createArg().setValue("-expect");
-		createArg().setValue(expect);
-	    }
-	if (_interface) createArg().setValue("-interface");
-	if (nonterms)  createArg().setValue("-nonterms");
-	if (compact_red) createArg().setValue("-compact_red");
-	if (nowarn) createArg().setValue("-nowarn");
-	if (nosummary) createArg().setValue("-nosummary");
-	if (progress) createArg().setValue("-progress");
-	if (dump_grammar) createArg().setValue("-dump_grammar");
-	if (dump_states) createArg().setValue("-dump_states");
-	if (dump_tables) createArg().setValue("-dump_tables");
-	if (dump) createArg().setValue("-dump");
-	if (time) createArg().setValue("-time");
-	if (debug) createArg().setValue("-debug");
-	if (nopositions) createArg().setValue("-nopositions");
-	if (noscanner) createArg().setValue("-noscanner");
+	if (parser!=null)  { sc.add("-parser"); sc.add(parser);}
+        else parser="parser"; // set the default name to check actuality
+	if (_package!=null){ sc.add("-package"); sc.add(_package); }
+	if (symbols!=null) { sc.add("-symbols"); sc.add(symbols); }
+        else symbols="sym";
+	if (expect!=null)  {  sc.add("-expect"); sc.add(expect); }
+	if (_interface)    {  sc.add("-interface"); }
+	if (nonterms)      {  sc.add("-nonterms"); }
+	if (compact_red)   {  sc.add("-compact_red"); }
+	if (nowarn)        {  sc.add("-nowarn"); }
+	if (nosummary)     {  sc.add("-nosummary");}
+	if (progress)      {  sc.add("-progress"); }
+	if (dump_grammar)  {  sc.add("-dump_grammar"); }
+	if (dump_states)   {  sc.add("-dump_states"); }
+	if (dump_tables)   {  sc.add("-dump_tables"); }
+	if (dump)          {  sc.add("-dump"); }
+	if (time)          {  sc.add("-time"); }
+	if (debug)         {  sc.add("-debug"); }
+	if (nopositions)   {  sc.add("-nopositions"); }
+	if (noscanner)     {  sc.add("-noscanner"); }
 	if (!quiet) log ("This is "+version.title_str);
-    if (!quiet) log ("Authors : "+version.author_str);
+        if (!quiet) log ("Authors : "+version.author_str);
 	if (!quiet) log ("Bugreports to petter@cs.tum.edu");
-	// also catch the not existing input file
-	if (srcfile==null) throw new BuildException("Input file needed: Specify <cup srcfile=\"myfile.cup\"> ");
-	if (!(new File(srcfile)).exists()) throw new BuildException("Input file not found: srcfile=\""+srcfile+"\" ");
-	createArg().setValue(srcfile);
-	
+
 	// look for package name and add to destdir
 	String packagename = inspect(srcfile);
 	
@@ -157,24 +140,41 @@ public class CUPTask extends Java
 		return;
 	    }
 	}
-	setDir(dest);
+        
+	sc.add("-destdir");
+        sc.add(dest.getAbsolutePath());
+        
+        // also catch the not existing input file
+	if (srcfile==null) throw new BuildException("Input file needed: Specify <cup srcfile=\"myfile.cup\"> ");
+	if (!(new File(srcfile)).exists()) throw new BuildException("Input file not found: srcfile=\""+srcfile+"\" ");
+	
+        sc.add(srcfile);
+	String[] args = new String[sc.size()];
+        for (int i=0;i<args.length;i++) args[i]=(String)sc.get(i);
+        
+
+	try {
+            net.sourceforge.czt.java_cup.Main.main(args);
+        }catch(Exception e){
+            log("CUP error occured int CUP task: "+e);
+        }
 	
 	// this is a dirty hack to determine the apropriate class path
-	URL url = CUPTask.class.getResource("/net/sourceforge/czt/java_cup/Main.class");
-	String path = url.getPath().substring(0,url.getPath().length()-20);
-	// if called from a .jar or .zip remove the last "!"
-	if (path.endsWith("!")) path=path.substring(0,path.length()-1);
-	createClasspath().setPath(path);
-
-	setFailonerror(true);
-	setFork(true);
-	
+//	URL url = CUPTask.class.getResource("/net/sourceforge/czt/java_cup/Main.class");
+//	String path = url.getPath().substring(0,url.getPath().length()-20);
+//	// if called from a .jar or .zip remove the last "!"
+//	if (path.endsWith("!")) path=path.substring(0,path.length()-1);
+//	createClasspath().setPath(path);
+//
+//	setFailonerror(true);
+//	setFork(true);
+//	
 
 	// here, we prepare for calling CUP
-	setClassname("net.sourceforge.czt.java_cup.Main");
+//	setClassname("net.sourceforge.czt.java_cup.Main");
 	
 	// let's call CUP
-	super.execute();
+//	super.execute();
 
     }
 

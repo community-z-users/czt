@@ -25,12 +25,12 @@ public class version {
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** The minor version number. */
-  public static final int minor = 10;
+  public static final int minor = 11;
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 
   /** The update letter. */
-  public static final String update = "k TUM Edition 20050516";
+  public static final String update = "a beta 20060608";
 
   /*. . . . . . . . . . . . . . . . . . . . . . . . . . . . . .*/
 

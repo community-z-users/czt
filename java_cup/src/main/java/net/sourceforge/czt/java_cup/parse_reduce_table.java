@@ -65,7 +65,7 @@ public class parse_reduce_table {
 	{
 	  result += "From state #" + row + "\n";
 	  cnt = 0;
-	  for (int col = 0; col < under_state[row].size(); col++)
+	  for (int col = 0; col < parse_reduce_row.size(); col++)
 	    {
 	      /* pull out the table entry */
 	      goto_st = under_state[row].under_non_term[col];

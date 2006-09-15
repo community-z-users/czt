@@ -108,6 +108,9 @@ public class emit {
   /*--- Static (Class) Variables ------------------------------*/
   /*-----------------------------------------------------------*/
 
+  /** TUM changes; proposed by Henning Niss 20050628: Type arguments for class declaration */
+  public static String class_type_argument = null;
+
   /** The prefix placed on names that pollute someone else's name space. */
   public static String prefix = "CUP$";
 
@@ -213,6 +216,29 @@ public class emit {
   /*-----------------------------------------------------------*/
   /*--- General Methods ---------------------------------------*/
   /*-----------------------------------------------------------*/
+
+  public static void clear ()
+  {
+    _lr_values = true;
+    action_code = null;
+    import_list = new Stack();
+    init_code = null;
+    not_reduced = 0;
+    num_conflicts = 0;
+    package_name = null;
+    parser_class_name = "parser";
+    parser_code = null;
+    scan_code = null;
+    start_production = null;
+    symbol_const_class_name = "sym";
+    unused_non_term = 0;
+    unused_term = 0;
+  }
+
+  protected static String typeArgument()
+  {
+    return class_type_argument == null ? "" : "<" + class_type_argument + ">";
+  }
 
   /** Build a string with the standard prefix.
    * @param str string to prefix.
@@ -325,7 +351,7 @@ public class emit {
       out.println(
        "/** Cup generated class to encapsulate user supplied action code.*/"
       );
-      out.println("class " +  pre("actions") + " {");
+      out.println("class " +  pre("actions") + typeArgument() + " {");
 
       /* user supplied code */
       if (action_code != null)
@@ -335,12 +361,12 @@ public class emit {
         }
 
       /* field for parser object */
-      out.println("  private final "+parser_class_name+" parser;");
+      out.println("  private final "+parser_class_name + typeArgument() + " parser;");
 
       /* constructor */
       out.println();
       out.println("  /** Constructor */");
-      out.println("  " + pre("actions") + "("+parser_class_name+" parser) {");
+      out.println("  " + pre("actions") + "("+parser_class_name+typeArgument()+" parser) {");
       out.println("    this.parser = parser;");
       out.println("  }");
 
@@ -434,15 +460,31 @@ public class emit {
           /*make the variable RESULT which will point to the new Symbol (see below)
             and be changed by action code
             6/13/96 frankf */
+
+          /**
+           * TUM 20060608 intermediate result patch
+           */
+          String result = "null";
+          if (prod instanceof action_production) {
+            int lastResult = ((action_production)prod).getIndexOfIntermediateResult();
+            if (lastResult!=-1) {
+              result =  "(" + prod.lhs().the_symbol().stack_type() + ") " +
+                "((net.sourceforge.czt.java_cup.runtime.Symbol) " + emit.pre("stack") +
+                // TUM 20050917
+                ((lastResult==1)?".peek()":(".elementAt(" + emit.pre("top") + "-" + (lastResult-1) + ")"))+
+                ").value";
+            }
+          }
+
           out.println("      net.sourceforge.czt.java_cup.runtime.Symbol " + pre("result") + ";");
           out.println("      " +  prod.lhs().the_symbol().stack_type() +
-                      " RESULT = null;");
+                      " RESULT ="+result+";");
 
           /* Add code to propagate RESULT assignments that occur in
            * action code embedded in a production (ie, non-rightmost
            * action code). 24-Mar-1998 CSA
            */
-          for (int i=0; i<prod.rhs_length(); i++) {
+          for (int i=prod.rhs_length()-1; i>=0; i--) {
             // only interested in non-terminal symbols.
             if (!(prod.rhs(i) instanceof symbol_part)) continue;
             symbol s = ((symbol_part)prod.rhs(i)).the_symbol();
@@ -452,15 +494,18 @@ public class emit {
             if (((non_terminal)s).is_embedded_action == false) continue;
             // OK, it fits.  Make a conditional assignment to RESULT.
             int index = prod.rhs_length() - i - 1; // last rhs is on top.
-            out.println("              " + "// propagate RESULT from " +
-                        s.name());
-            out.println("              " + "if ( " +
-              "((net.sourceforge.czt.java_cup.runtime.Symbol) " + emit.pre("stack") + ".elementAt("
-              + emit.pre("top") + "-" + index + ")).value != null )");
+            out.println("              " + "// propagate RESULT from " +s.name());
+//          out.println("              " + "if ( " +
+//            "((net.sourceforge.czt.java_cup.runtime.Symbol) " + emit.pre("stack") + ".elementAt("
+//              + emit.pre("top") + "-" + index + ")).value != null )");
+            // store the intermediate result into RESULT
             out.println("                " + "RESULT = " +
               "(" + prod.lhs().the_symbol().stack_type() + ") " +
-              "((net.sourceforge.czt.java_cup.runtime.Symbol) " + emit.pre("stack") + ".elementAt("
-              + emit.pre("top") + "-" + index + ")).value;");
+              "((net.sourceforge.czt.java_cup.runtime.Symbol) " + emit.pre("stack") +
+                        // TUM 20050917
+                        ((index==0)?".peek()":(".elementAt(" + emit.pre("top") + "-" + index + ")"))+
+                        ").value;");
+            break;
           }
 
         /* if there is an action string, emit it */
@@ -477,24 +522,26 @@ public class emit {
           if (emit.lr_values()) {
             int loffset;
             String leftstring, rightstring;
-            int roffset = 0;
-            rightstring = "((net.sourceforge.czt.java_cup.runtime.Symbol)" + emit.pre("stack") + ".elementAt(" +
-              emit.pre("top") + "-" + roffset + ")).right";
+            //int roffset = 0;
+            rightstring = "((net.sourceforge.czt.java_cup.runtime.Symbol)" + emit.pre("stack") +
+            //  emit.pre("top") + "-" + roffset + ")).right";
+            ".peek()"+ ")";
             if (prod.rhs_length() == 0)
               leftstring = rightstring;
             else {
               loffset = prod.rhs_length() - 1;
-              leftstring = "((net.sourceforge.czt.java_cup.runtime.Symbol)" + emit.pre("stack") + ".elementAt(" +
-                emit.pre("top") + "-" + loffset + ")).left";
+              leftstring = "((net.sourceforge.czt.java_cup.runtime.Symbol)" + emit.pre("stack") +
+                ((loffset==0)?(".peek()"):(".elementAt(" + emit.pre("top") + "-" + loffset + ")")) +
+                 ")";
             }
-            out.println("      " + pre("result") + " = new net.sourceforge.czt.java_cup.runtime.Symbol(" +
-                        prod.lhs().the_symbol().index() + "/*" +
-                        prod.lhs().the_symbol().name() + "*/" +
+            out.println("              " + pre("result") + " = parser.getSymbolFactory().newSymbol(" +
+                        "\""+         prod.lhs().the_symbol().name() +"\","+
+                        prod.lhs().the_symbol().index()  +
                         ", " + leftstring + ", " + rightstring + ", RESULT);");
           } else {
-            out.println("      " + pre("result") + " = new net.sourceforge.czt.java_cup.runtime.Symbol(" +
-                        prod.lhs().the_symbol().index() + "/*" +
-                        prod.lhs().the_symbol().name() + "*/" +
+            out.println("              " + pre("result") + " = parser.getSymbolFactory().newSymbol(" +
+                        "\""+   prod.lhs().the_symbol().name() +  "\","+
+                        prod.lhs().the_symbol().index() +
                         ", RESULT);");
           }
 
@@ -593,11 +640,11 @@ public class emit {
             row.default_reduce = -1;
 
           /* make temporary table for the row. */
-          short[] temp_table = new short[2*row.size()];
+          short[] temp_table = new short[2*parse_action_row.size()];
           int nentries = 0;
 
           /* do each column */
-          for (int j = 0; j < row.size(); j++)
+          for (int j = 0; j < parse_action_row.size(); j++)
             {
               /* extract the action from the table */
               act = row.under_term[j];
@@ -686,10 +733,10 @@ public class emit {
       for (int i=0; i<red_tab.num_states(); i++)
         {
           /* make temporary table for the row. */
-          short[] temp_table = new short[2*red_tab.under_state[i].size()];
+          short[] temp_table = new short[2*parse_reduce_row.size()];
           int nentries = 0;
           /* do each entry in the row */
-          for (int j=0; j<red_tab.under_state[i].size(); j++)
+          for (int j=0; j<parse_reduce_row.size(); j++)
             {
               /* get the entry */
               goto_st = red_tab.under_state[i].under_non_term[j];
@@ -821,7 +868,7 @@ public class emit {
       out.println("/** "+version.title_str+" generated parser.");
       out.println("  * @version " + new Date());
       out.println("  */");
-      out.println("public class " + parser_class_name +
+      out.println("public class " + parser_class_name + typeArgument() +
                   " extends net.sourceforge.czt.java_cup.runtime.lr_parser {");
 
       /* constructors [CSA/davidm, 24-jul-99] */
@@ -833,6 +880,12 @@ public class emit {
           out.println("  /** Constructor which sets the default scanner. */");
           out.println("  public " + parser_class_name +
                       "(net.sourceforge.czt.java_cup.runtime.Scanner s) {super(s);}");
+          // TUM 20060327 added SymbolFactory aware constructor
+          out.println();
+          out.println("  /** Constructor which sets the default scanner. */");
+          out.println("  public " + parser_class_name +
+                      "(net.sourceforge.czt.java_cup.runtime.Scanner s, net.sourceforge.czt.java_cup.runtime.SymbolFactory sf) {super(s,sf);}");
+
       }
 
       /* emit the various tables */
@@ -849,7 +902,7 @@ public class emit {
       out.println("  /** Action encapsulation object initializer. */");
       out.println("  protected void init_actions()");
       out.println("    {");
-      out.println("      action_obj = new " + pre("actions") + "(this);");
+      out.println("      action_obj = new " + pre("actions") + typeArgument() +"(this);");
       out.println("    }");
       out.println();
 

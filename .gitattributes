@@ -144,7 +144,6 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/lalr_item.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/lalr_item_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/lalr_state.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/lalr_transition.java -text
-java_cup/src/main/java/net/sourceforge/czt/java_cup/lexeralt.javaalt -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/lr_item_core.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/non_terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/nonassoc_action.java -text
