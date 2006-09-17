@@ -81,7 +81,7 @@ public class Plugin
         String packageName = getPackage(file);
         String destdir =
           outputDirectory + System.getProperty("file.separator") +
-          packageName.replaceAll("\\.", System.getProperty("file.separator"));
+          packageName.replace(".", System.getProperty("file.separator"));
         File destDir = new File(destdir);
         if (! destDir.exists()) destDir.mkdirs();
         Main.main(new String[] { "-destdir", destdir,
