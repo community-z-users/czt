@@ -30,11 +30,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
-      <type>test-jar</type>
-    </dependency>
   </dependencies>
   <build>
     <plugins>

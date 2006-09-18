@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
-import net.sourceforge.czt.parser.Examples;
-
 /** This program compares two versions of usertest results, to show
  *  the number of tests gained or lost from first to the second version.
  */
@@ -25,7 +23,7 @@ public class CompareUserTests
     int gainedCounter = 0;
     try {
       URL fileName =
-        Examples.getTestExample("animate_"+fileType.toLowerCase()+".tex");
+        EvalTest.getTestExample("animate_"+fileType.toLowerCase()+".tex");
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
       out.println("animate_"+fileType.toLowerCase()+".tex");

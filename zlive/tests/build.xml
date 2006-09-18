@@ -6,12 +6,9 @@
   <property name="jar"
     location="${project.build.directory}/${name}-jar-with-dependencies.jar"/>
   <property name="test-jar"
-    location="${project.build.directory}/${name}-tests.jar"/>
-  <property name="parser-test-jar"
-    location="${user.home}/.m2/repository/net/sourceforge/czt/parser/${project.version}/parser-${project.version}-tests.jar"/>
+    location="${project.build.directory}/test-classes"/>
   <available file="${jar}" property="jar.present"/>
   <available file="${test-jar}" property="test-jar.present"/>
-  <available file="${parser-test-jar}" property="parser-test-jar.present"/>
   <condition property="jars.present">
     <and>
       <isset property="jar.present"/>
@@ -25,7 +22,6 @@
   <path id="classpath">
     <pathelement location="${jar}"/>
     <pathelement location="${test-jar}"/>
-    <pathelement location="${parser-test-jar}"/>
   </path>
 
   <target name="usertest_compare" depends="usertest,compare"
@@ -38,17 +34,12 @@
     <echo>please call 'maven install' for this project.</echo>
   </target>
 
-  <target name="parser-test-jar" unless="parser-test-jar.present">
-    <echo>WARNING: Cannot find ${parser-test-jar},</echo>
-    <echo>please call 'maven install' for the parser project.</echo>
-  </target>
-
   <target name="maven-jar" unless="jar.present">
     <echo>WARNING: Cannot find ${jar}</echo>
     <echo>please call 'mvn assembly:assembly -DdescriptorId=jar-with-dependencies' for this project.</echo>
   </target>
 
-  <target name="maven" depends="maven-test-jar, parser-test-jar, maven-jar"/>
+  <target name="maven" depends="maven-test-jar, maven-jar"/>
 
   <target name="usertest" depends="maven"
       description="Run all user tests, producing TEST-*.txt output files">

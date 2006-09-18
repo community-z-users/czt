@@ -202,62 +202,6 @@ public abstract class AbstractParserTest
             getTestExample("testOpNameInDecl.xml"));
   }
 
-  public void testAnimateFreetypes()
-    throws Exception
-  {
-    compare(getTestExample("animate_freetypes.tex"),
-            getTestExample("animate_freetypes.xml"));
-  }
-
-  public void testAnimateSets()
-    throws Exception
-  {
-    compare(getTestExample("animate_sets.tex"),
-            getTestExample("animate_sets.xml"));
-  }
-
-  public void testAnimateInts()
-    throws Exception
-  {
-    compare(getTestExample("animate_ints.tex"),
-            getTestExample("animate_ints.xml"));
-  }
-
-  public void testAnimateMisc()
-    throws Exception
-  {
-    compare(getTestExample("animate_misc.tex"),
-            getTestExample("animate_misc.xml"));
-  }
-
-  public void testAnimateRelations()
-    throws Exception
-  {
-    compare(getTestExample("animate_relations.tex"),
-            getTestExample("animate_relations.xml"));
-  }
-
-  public void testAnimateSchemas()
-    throws Exception
-  {
-    compare(getTestExample("animate_schemas.tex"),
-            getTestExample("animate_schemas.xml"));
-  }
-
-  public void testAnimateScope()
-    throws Exception
-  {
-    compare(getTestExample("animate_scope.tex"),
-            getTestExample("animate_scope.xml"));
-  }
-
-  public void testAnimateSequences()
-    throws Exception
-  {
-    compare(getTestExample("animate_sequences.tex"),
-            getTestExample("animate_sequences.xml"));
-  }
-
   public void testLatexMarkupWithoutNl1()
     throws Exception
   {
