@@ -8,8 +8,6 @@ corejava/.project -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
-devtools/.classpath -text
-devtools/.project -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/eclipse-projects.zip -text
