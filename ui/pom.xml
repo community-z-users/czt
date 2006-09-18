@@ -43,7 +43,7 @@
               </archive>
             </configuration>
             <goals>
-              <goal>assembly</goal>
+              <goal>attached</goal>
             </goals>
           </execution>
         </executions>
