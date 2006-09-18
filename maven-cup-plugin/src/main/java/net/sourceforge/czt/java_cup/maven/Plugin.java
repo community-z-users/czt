@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.java_cup.Main;
-import net.sourceforge.czt.java_cup.anttask.CUPTask;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -59,6 +58,7 @@ public class Plugin
   public void execute()
     throws MojoExecutionException
   {
+    final String fileSep = System.getProperty("file.separator");
     if (project != null)
     {
       project.addCompileSourceRoot(outputDirectory);
@@ -69,29 +69,25 @@ public class Plugin
       getLog().info("Processing " + file.getPath());
       String className = file.getName().replaceAll(".cup", "");
       try {
-        /*
-        CUPTask task = new CUPTask();
-        task.init();
-        task.setSrcfile(file.getPath());
-        task.setDestdir(outputDirectory);
-        task.setParser(className);
-        task.setSymbols("Sym");
-        task.execute();
-        */
         String packageName = getPackage(file);
-        String destdir =
-          outputDirectory + System.getProperty("file.separator") +
-          packageName.replace(".", System.getProperty("file.separator"));
+        String destdir = outputDirectory + fileSep +
+          packageName.replace(".", fileSep);
         File destDir = new File(destdir);
-        if (! destDir.exists()) destDir.mkdirs();
-        Main.main(new String[] { "-destdir", destdir,
-                                 "-package", packageName,
-                                 "-parser", className,
-                                 "-symbols", "Sym",
-                                 file.getPath() });
+        File destFile = new File(destDir, className + ".java");
+        if (destFile.exists() &&
+            destFile.lastModified() >= file.lastModified()) {
+          getLog().info("Parser file is up-to-date.");
+        }
+        else {
+          if (! destDir.exists()) destDir.mkdirs();
+          Main.main(new String[] { "-destdir", destdir,
+                                   "-package", packageName,
+                                   "-parser", className,
+                                   "-symbols", "Sym",
+                                   file.getPath() });
+        }
       }
       catch (Exception e) {
-        e.printStackTrace();
         throw new MojoExecutionException("Cup generation failed", e);
       }
     }

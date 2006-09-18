@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.maven;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -288,6 +289,13 @@ public class Plugin
     throws Exception
   {
     final File outFile = new File(output);
+    final URL url = getTemplate(template + ".xml");
+    final URLConnection connection = url.openConnection();
+    if (outFile.exists() &&
+        outFile.lastModified() >= connection.getLastModified()) {
+      getLog().info("File " + output + " is up-to-date.");
+      return;
+    }
     if (! outFile.getParentFile().exists()) {
       outFile.getParentFile().mkdirs();
     }
@@ -296,7 +304,7 @@ public class Plugin
       t.setParameter("class", className);
       t.setParameter("package", packageName);
       t.setParameter("add", addExpr);
-      t.transform(getTemplate(template + ".xml"),
+      t.transform(new StreamSource(connection.getInputStream()),
                   new StreamResult(new FileOutputStream(output)));
     }
     catch (TransformerConfigurationException e) {
@@ -312,7 +320,7 @@ public class Plugin
     return new StreamSource(getClass().getResource(name).openStream());
   }
 
-  public Source getTemplate(String template)
+  public URL getTemplate(String template)
     throws Exception
   {
     final String name = "/templates/" + template;
@@ -320,6 +328,6 @@ public class Plugin
     if (url == null) {
       throw new MojoExecutionException("Cannot find resource " + name);
     }
-    return  new StreamSource(url.openStream());
+    return url;
   }
 }

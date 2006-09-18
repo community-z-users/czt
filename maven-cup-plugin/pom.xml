@@ -23,9 +23,5 @@
       <groupId>net.sourceforge.czt</groupId>
       <artifactId>java_cup</artifactId>
     </dependency>
-    <dependency>
-      <groupId>ant</groupId>
-      <artifactId>ant</artifactId>
-    </dependency>
   </dependencies>
 </project>
