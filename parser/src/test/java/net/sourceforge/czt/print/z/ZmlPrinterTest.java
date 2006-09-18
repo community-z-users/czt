@@ -51,7 +51,7 @@ public class ZmlPrinterTest
     // and print as latex
     PrintUtils.printLatex(spec, writer, manager);
     writer.close();
-    manager = new SectionManager();
+    manager_.reset();
     // reparse newly printed latex
     spec = (Spec)
       ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
@@ -66,6 +66,7 @@ public class ZmlPrinterTest
     PrintUtils.printUnicode(spec, writer, manager);
     writer.close();
     // reparse Unicode and return
+    manager.reset();
     return ParseUtils.parse(new FileSource(tmpUnicodeFile.getAbsolutePath()),
                             manager);
   }
