@@ -34,11 +34,12 @@ import net.sourceforge.czt.session.*;
 public class LatexToUnicodeTest
   extends AbstractLatexToUnicodeTest
 {
-  SectionManager manager_ = new SectionManager();
+  private static SectionManager manager_ = new SectionManager();
 
   private String lex(String string)
     throws Exception
   {
+    manager_.reset();
     LatexToUnicode lexer =
       new LatexToUnicode(new StringSource(string, "'" + string + "'"),
                          manager_,
