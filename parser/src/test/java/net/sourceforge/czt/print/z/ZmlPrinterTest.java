@@ -27,11 +27,14 @@ import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.util.DeleteAnnVisitor;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.print.util.UnicodeString;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 
 /**
- * A (JUnit) test class for testing the zml to latex converter.
+ * A (JUnit) test class for testing the zml to latex and unicode
+ * converter.
  *
  * @author Petra Malik
  */
@@ -41,33 +44,29 @@ public class ZmlPrinterTest
   public Term parse(URL url, SectionManager manager)
     throws Exception
   {
-    File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
-    tmpLatexFile.deleteOnExit();
+    Source source = new UrlSource(url);
+    String name = source.getName();
     // parse
-    Spec spec = (Spec) ParseUtils.parse(new UrlSource(url), manager);
+    manager.put(new Key(name, Source.class), source);
+    Spec spec = (Spec) manager.get(new Key(name, Spec.class));
     DeleteAnnVisitor visitor = new DeleteAnnVisitor();
     spec.accept(visitor);
-    Writer writer = new FileWriter(tmpLatexFile);
-    // and print as latex
-    PrintUtils.printLatex(spec, writer, manager);
-    writer.close();
-    manager_.reset();
-    // reparse newly printed latex
-    spec = (Spec)
-      ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
-                       manager);
+    // print as latex and reparse
+    source = new StringSource(((LatexString)
+      manager.get(new Key(name, LatexString.class))).toString());
+    source.setMarkup(Markup.LATEX);
+    name = source.getName();
+    manager = new SectionManager();
+    manager.put(new Key(name, Source.class), source);
+    spec = (Spec) manager.get(new Key(name, Spec.class));
     spec.accept(visitor);
-    File tmpUnicodeFile =
-      File.createTempFile("cztPrintTest", ".utf8");
-    tmpUnicodeFile.deleteOnExit();
-    writer =
-      new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
-    // print as Unicode
-    PrintUtils.printUnicode(spec, writer, manager);
-    writer.close();
-    // reparse Unicode and return
-    manager.reset();
-    return ParseUtils.parse(new FileSource(tmpUnicodeFile.getAbsolutePath()),
-                            manager);
+    // print as Unicode, reparse, and return
+    source = new StringSource(((UnicodeString)
+      manager.get(new Key(name, UnicodeString.class))).toString());
+    source.setMarkup(Markup.UNICODE);
+    name = source.getName();
+    manager = new SectionManager();
+    manager.put(new Key(name, Source.class), source);
+    return (Spec) manager.get(new Key(name, Spec.class));
   }
 }
