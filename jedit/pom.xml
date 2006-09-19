@@ -57,7 +57,7 @@
             <phase>install</phase>
             <configuration>
               <tasks>
-                <property name="dir" location="../bin"/>
+                <property name="dir" location="../../lib"/>
                 <property name="file"
                   location="${project.build.directory}/${artifactId}-${version}.jar"/>
                 <mkdir dir="${dir}"/>
