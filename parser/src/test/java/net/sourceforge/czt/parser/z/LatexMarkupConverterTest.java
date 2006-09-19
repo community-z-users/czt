@@ -45,6 +45,7 @@ public class LatexMarkupConverterTest
   public Term parse(URL url, SectionManager manager)
     throws Exception
   {
+    manager = new SectionManager();
     File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", ".utf8");
     tmpUnicodeFile.deleteOnExit();
     File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
@@ -60,7 +61,7 @@ public class LatexMarkupConverterTest
       String[] args2 = { "-in", uniFile, "-out", latexFile };
       UnicodeToLatex.main(args2);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
-                              manager_);
+                              manager);
     }
     else if (url.toString().endsWith(".utf8") ||
              url.toString().endsWith(".UTF8")) {
@@ -72,8 +73,8 @@ public class LatexMarkupConverterTest
       String[] args2 = { "-in", latexFile, "-out", uniFile };
       LatexToUnicode.main(args2);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
-                              manager_);
+                              manager);
     }
-    return ParseUtils.parse(new UrlSource(url), manager_);
+    return ParseUtils.parse(new UrlSource(url), manager);
   }
 }
