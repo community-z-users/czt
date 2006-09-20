@@ -337,8 +337,8 @@ public class ModelTestCase
               +" must return boolean or float.");
         }
         else {
-          fsmGuards.add(trPos, m);
-          printProgress("Adding guard "+fsmName+"."+m.getName());
+          fsmGuards.set(trPos, m);
+          printProgress("Setting guard["+trPos+"] := "+fsmName+"."+m.getName());
         }
       }
     }
