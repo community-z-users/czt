@@ -55,6 +55,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
 import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Pred;
@@ -184,12 +185,21 @@ public class TextUI {
           if (sect instanceof ZSect) {
             sectName = ((ZSect) sect).getName();
             output_.println("Loading section " + sectName);
-            manager.get(new Key(sectName, SectTypeEnvAnn.class));
+            Key typekey = new Key(sectName, SectTypeEnvAnn.class);
+            SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(typekey);
           }
         }
         if (sectName != null) {
           output_.println("Setting section to " + sectName);
           zlive_.setCurrentSection(sectName);
+        }
+      }
+      else if (cmd.equals("show")) {
+        String sectName = zlive_.getCurrentSection();
+        SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
+        for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
+          if (triple.getSect().equals(sectName))
+            System.out.println("    "+triple.getZDeclName()+":  "+triple.getType());
         }
       }
       else if (cmd.equals("conjectures")) {
@@ -420,9 +430,10 @@ public class TextUI {
     out.println("why               -- Print out the internal code of the last command");
     out.println("set               -- Print out all settings");
     out.println("set <var> <value> -- Sets <var> to <value>.");
+    out.println("show              -- Show name & type of defns in current section");
     out.println("version           -- Display the version of ZLive");
-    out.println("help              -- Display this help summary.");
-    out.println("conjectures       -- Evaluate all conjectures in the current section.");
+    out.println("help              -- Display this help summary");
+    out.println("conjectures       -- Evaluate all conjectures in the current section");
     out.println("quit              -- Exit the ZLive program");
     out.println();
   }
