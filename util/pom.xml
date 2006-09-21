@@ -12,10 +12,4 @@
   <description>
     Provides utility classes for CZT.
   </description>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-  </dependencies>
 </project>

@@ -18,10 +18,6 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>jaxb</artifactId>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <testResources>

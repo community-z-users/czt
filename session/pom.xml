@@ -14,10 +14,4 @@
     Z-related artifacts.
   </description>
   <url>http://czt.sourceforge.net/session/</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
-  </dependencies>
 </project>
