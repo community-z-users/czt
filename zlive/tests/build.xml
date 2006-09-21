@@ -2,7 +2,7 @@
 <project name="zlive-tests" basedir="." default="usertest_compare"
   xmlns:artifact="antlib:org.apache.maven.artifact.ant">
   <artifact:pom id="project" file="../pom.xml"/>
-  <property name="name" value="${project.artifactId}-${project.version}"/>
+  <property name="name" value="${project.build.finalName}"/>
   <property name="jar"
     location="${project.build.directory}/${name}-jar-with-dependencies.jar"/>
   <property name="test-jar"
