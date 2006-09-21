@@ -13,7 +13,7 @@ Maven will download all other dependencies automatically.
 To build CZT, you need to increase the Java heap size to at least
 256Mb, which is done by setting the MAVEN_OPTS environment variable
 to "-Xmx256m".  Then change into the <CZT_HOME> directory, and call
-  mvn install
+  mvn clean install
 This should compile, test, package, and install all the CZT tools into
 your local maven repository, ready to be used in your own projects.
 
@@ -27,7 +27,7 @@ on how to configure a maven mirror.
 
 Running the CZT tests takes quite a long time.  If you want to skip
 running the unit tests call
-  mvn -Dmaven.test.skip=true install
+  mvn -Dmaven.test.skip=true clean install
 instead.
 
 See also README.txt for information how to use CZT.
