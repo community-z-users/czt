@@ -32,6 +32,7 @@ import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
@@ -39,6 +40,7 @@ import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
@@ -128,8 +130,10 @@ public class ZLive
       e.printStackTrace();
     }
     try {
-        preprocess_ = new Preprocess(sectman_);
-        preprocess_.setRules("/preprocess.tex");
+      Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
+      sectman_.put(new Key("unfold", Source.class), unfoldSource);
+      preprocess_ = new Preprocess(sectman_);
+      preprocess_.setRules("/preprocess.tex");
     } catch (Exception e) {
       System.err.println("ERROR loading rules from preprocess.tex: " + e);
       e.printStackTrace();
