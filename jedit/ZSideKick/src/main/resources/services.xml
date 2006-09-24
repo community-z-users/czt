@@ -4,22 +4,28 @@
 
 <SERVICES>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="z">
-    new zsidekick.ZParser();
+    new zsidekick.GenericParser("z",
+                                net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
-    new zsidekick.OzParser();
+    new zsidekick.GenericParser("oz",
+                                net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="circus">
-    new zsidekick.CircusParser();
+    new zsidekick.GenericParser("circus",
+                                net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
-    new zsidekick.ZLatexParser();
+    new zsidekick.GenericParser("z",
+                                net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
-    new zsidekick.OzLatexParser();
+    new zsidekick.GenericParser("oz",
+                                net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="circuslatex">
-    new zsidekick.CircusLatexParser();
+    new zsidekick.GenericParser("circus",
+                                net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
 
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
