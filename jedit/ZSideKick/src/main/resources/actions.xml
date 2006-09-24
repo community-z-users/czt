@@ -48,6 +48,11 @@
       zsidekick.ZSideKickActions.rewrite(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.unfoldCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.unfold(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.disableTypechecking">
     <CODE>
       buffer.putBooleanProperty("zsidekick.disable-typechecking",

@@ -30,6 +30,7 @@ import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.Rewrite;
 import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.rules.SimpleProver;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
@@ -291,6 +292,72 @@ public class ZSideKickActions
               }
               else {
                 reportError(view, "Cannot find rules");
+              }
+            }
+            catch (CommandException e) {
+              reportError(view, "Cannot get rule table");
+            }
+          }
+          else {
+            reportError(view, "Cannot find Z section for selected term");
+          }
+        }
+      }
+    }
+  }
+
+  public static void unfold(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      if (term != null ) {
+        ParsedData parsedData = getParsedData(view);
+        if (parsedData != null) {
+          SectionManager manager = parsedData.getManager();
+          ZSect zSect = wffHighlight.findZSectForCurrentWff();
+          if (zSect != null) {
+            String section = zSect.getName();
+            try {
+              SectionManager ruleManager = new SectionManager("zpatt");
+              Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
+              ruleManager.put(new Key("unfold", Source.class), unfoldSource);
+              RuleTable rules = (RuleTable)
+                ruleManager.get(new Key("unfold", RuleTable.class));
+              if (rules != null) {
+                Term result =
+                  Rewrite.rewriteOnce(manager, section, (Expr) term, rules);
+                if (result != null && result != term) {
+                  final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+                  final int start = locAnn.getStart().intValue();
+                  Selection selection =
+                    new Selection.Range(start,
+                                        start + locAnn.getLength().intValue());
+                  StringWriter writer = new StringWriter();
+                  try {
+                    PrintUtils.printLatex(result, writer, manager, section);
+                  }
+                  catch (Exception e) {
+                    e.printStackTrace();
+                    net.sourceforge.czt.z.jaxb.JaxbXmlWriter jaxbWriter =
+                      new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+                    jaxbWriter.write(result, writer);
+                  }
+                  final String text = writer.toString();
+                  final JEditTextArea textArea = view.getTextArea();
+                  final int caretPos = textArea.getCaretPosition();
+                  textArea.setSelection(selection);
+                  textArea.setSelectedText(text);
+                  selection = new Selection.Range(start,
+                                                  start + text.length());
+                  textArea.setSelection(selection);
+                }
+                else {
+                  reportError(view, "Unfolding failed");
+                }
+              }
+              else {
+                reportError(view, "Cannot find unfold rules");
               }
             }
             catch (CommandException e) {
