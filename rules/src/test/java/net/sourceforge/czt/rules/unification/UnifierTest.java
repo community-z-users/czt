@@ -100,7 +100,7 @@ public class UnifierTest extends TestCase
     TupleExpr tuple = (TupleExpr)e;
     assertTrue(tuple.getZExprList().size() == 3);
     Expr joker = tuple.getZExprList().get(0);
-    System.out.println("E1 was parsed as a joker: "+joker);
+    //    System.out.println("E1 was parsed as a joker: "+joker);
     assertTrue(joker instanceof Joker);
     assertTrue(joker instanceof JokerExpr);
     assertTrue(joker instanceof ProverJokerExpr);
@@ -118,7 +118,7 @@ public class UnifierTest extends TestCase
         String msg = "unify("+i+","+j+") with positions="
           +positions.get(i)+","+positions.get(j);
         Set<Binding> result = UnificationUtils.unify(exprs.get(i), exprs.get(j));
-        System.out.println(msg+" gives "+result);
+        //        System.out.println(msg+" gives "+result);
         if (positions.get(i).startsWith(positions.get(j))
             || positions.get(j).startsWith(positions.get(i))) {
           assertNotNull(msg, result);
