@@ -40,14 +40,14 @@ public class ErrorAnn
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName,
+                  SectionManager sectInfo, String sectName,
                   LocAnn locAnn, Markup markup)
   {
     this(errorMessage, params, sectInfo, sectName, locAnn, null, markup);
   }
 
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName,
+                  SectionManager sectInfo, String sectName,
                   LocAnn locAnn, Term term, Markup markup)
   {
     super(errorMessage, params, sectInfo, sectName, locAnn, term, markup);
@@ -60,7 +60,7 @@ public class ErrorAnn
 
   protected void print(Term term,
                        Writer writer,
-                       SectionInfo sectInfo,
+                       SectionManager sectInfo,
                        String sectName,
                        Markup markup)
   {

@@ -44,7 +44,7 @@ public class ErrorAnn
   protected String sectName_;
 
   /** The section info. */
-  protected SectionInfo sectInfo_;
+  protected SectionManager manager_;
 
   /** The location information. */
   protected LocAnn locAnn_;
@@ -56,18 +56,18 @@ public class ErrorAnn
   protected Markup markup_;
 
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName,
+                  SectionManager manager, String sectName,
                   LocAnn locAnn, Markup markup)
   {
-    this(errorMessage, params, sectInfo, sectName, locAnn, null, markup);
+    this(errorMessage, params, manager, sectName, locAnn, null, markup);
   }
 
   public ErrorAnn(String errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName,
+                  SectionManager manager, String sectName,
                   LocAnn locAnn, Term term, Markup markup)
   {
     super(errorMessage, params, null);
-    sectInfo_ = sectInfo;
+    manager_ = manager;
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
     term_ = term;
@@ -150,7 +150,7 @@ public class ErrorAnn
     //format the parameters and write into the message
     String formatted [] = new String[params.length];
     for (int i = 0; i < params.length; i++) {
-      formatted[i] = format(params[i], sectInfo_, sectName_);
+      formatted[i] = format(params[i], manager_, sectName_);
     }
     String localised = RESOURCE_BUNDLE.getString(getMessageKey());
     MessageFormat form = new MessageFormat(localised);
@@ -185,13 +185,15 @@ public class ErrorAnn
   }
 
   //converts a Term to a string
-  protected String format(Object object, SectionInfo sectInfo, String sectName)
+  protected String format(Object object,
+                          SectionManager manager,
+                          String sectName)
   {
     if (object instanceof Term) {
       try {
         Term term = (Term) ((Term) object).accept(getCarrierSet());
         StringWriter writer = new StringWriter();
-        print(term, writer, sectInfo, sectName, markup_);
+        print(term, writer, manager, sectName, markup_);
         return writer.toString();
       }
       catch (Exception e) {
@@ -215,10 +217,10 @@ public class ErrorAnn
 
   protected void print(Term term,
                        Writer writer,
-                       SectionInfo sectInfo,
+                       SectionManager manager,
                        String sectName,
                        Markup markup)
   {
-    PrintUtils.print(term, writer, sectInfo, sectName, markup);
+    PrintUtils.print(term, writer, manager, sectName, markup);
   }
 }

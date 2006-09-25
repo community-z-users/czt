@@ -50,7 +50,7 @@ public class TypeChecker
          info.sectInfo_);
   }
 
-  public TypeChecker(SectionInfo sectInfo)
+  public TypeChecker(SectionManager sectInfo)
   {
     this(new ZFactoryImpl(),
          new OzFactoryImpl(),
@@ -61,7 +61,7 @@ public class TypeChecker
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
 		     TcozFactory tcozFactory,
-                     SectionInfo sectInfo)
+                     SectionManager sectInfo)
   {
     this(zFactory, ozFactory, tcozFactory, sectInfo, true, false);
   }
@@ -69,7 +69,7 @@ public class TypeChecker
   public TypeChecker(ZFactory zFactory,
                      OzFactory ozFactory,
 		     TcozFactory tcozFactory,
-                     SectionInfo sectInfo,
+                     SectionManager sectInfo,
                      boolean useBeforeDecl,
                      boolean useStrongTyping)
   {
@@ -85,7 +85,7 @@ public class TypeChecker
     opExprChecker_ = new OpExprChecker(this);
   }
 
-  protected void setPreamble(String sectName, SectionInfo sectInfo)
+  protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     super.setPreamble(sectName, sectInfo);
   }

@@ -220,7 +220,7 @@ abstract public class Checker<R>
 
   protected void print(Term term,
                        Writer writer,
-                       SectionInfo sectInfo,
+                       SectionManager sectInfo,
                        String sectName,
                        Markup markup)
   {
@@ -324,7 +324,7 @@ abstract public class Checker<R>
   }
 
   //a section manager
-  protected SectionInfo sectInfo()
+  protected SectionManager sectInfo()
   {
     return typeChecker_.sectInfo_;
   }

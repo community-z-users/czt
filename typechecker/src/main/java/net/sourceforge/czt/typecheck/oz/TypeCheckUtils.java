@@ -53,11 +53,11 @@ public class TypeCheckUtils
   /**
    * Typecheck and type annotate a file.
    * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param sectInfo the <code>SectionManager</code> object to use.
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo)
+						   SectionManager sectInfo)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, true, false, null);
@@ -66,12 +66,12 @@ public class TypeCheckUtils
   /**
    * Typecheck and type annotate a file.
    * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo,
+						   SectionManager sectInfo,
 						   boolean useBeforeDecl)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
@@ -79,7 +79,7 @@ public class TypeCheckUtils
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo,
+						   SectionManager sectInfo,
 						   boolean useBeforeDecl,
 						   boolean useStrongTyping)
   {
@@ -89,7 +89,7 @@ public class TypeCheckUtils
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionInfo sectInfo,
+						SectionManager sectInfo,
 						boolean useBeforeDecl,
 						String sectName)
   {
@@ -98,7 +98,7 @@ public class TypeCheckUtils
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionInfo sectInfo,
+						SectionManager sectInfo,
 						boolean useBeforeDecl,
 						boolean useStrongTyping,
 						String sectName)
@@ -115,7 +115,7 @@ public class TypeCheckUtils
     return typeChecker.errors();
   }
 
-  protected Term parse(Source src, SectionInfo sectInfo)
+  protected Term parse(Source src, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
            net.sourceforge.czt.base.util.UnmarshalException
   {
@@ -127,7 +127,7 @@ public class TypeCheckUtils
     }
   }
 
-  protected Term parse(String file, SectionInfo sectInfo)
+  protected Term parse(String file, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
            net.sourceforge.czt.base.util.UnmarshalException
   {

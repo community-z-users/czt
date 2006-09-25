@@ -58,11 +58,11 @@ public class TypeCheckUtils
    * Typecheck and type annotate a term, with no default section 
    * and not allowing names to be used before they are declared.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
-   * @param sectInfo the <code>SectionInfo</code> (eg. SectionManager) object to use.
+   * @param sectInfo the <code>SectionManager</code> object to use.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo)
+						   SectionManager sectInfo)
   {
     return typecheck(term, sectInfo, false);
   }
@@ -71,12 +71,12 @@ public class TypeCheckUtils
   /**
    * Typecheck and type annotate a term, with no default section.
    * @param term the <code>Term</code> to typecheck (typically a Spec).
-   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo,
+						   SectionManager sectInfo,
 						   boolean useBeforeDecl)
   {
     return typecheck(term, sectInfo, useBeforeDecl, null);
@@ -85,13 +85,13 @@ public class TypeCheckUtils
   /**
    * Typecheck and type annotate a Term, in the context of a given section.
    * @param term the <code>Term</code> to typecheck.
-   * @param sectInfo the <code>SectionInfo</code> object to use.
+   * @param sectInfo the <code>SectionManager</code> object to use.
    * @param useBeforeDecl allow use of variables before declaration
    * @param sectName the section within which this term should be checked.
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionInfo sectInfo,
+						   SectionManager sectInfo,
 						   boolean useBeforeDecl,
 						   String sectName)
   {
@@ -101,7 +101,7 @@ public class TypeCheckUtils
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionInfo sectInfo,
+						SectionManager sectInfo,
 						boolean useBeforeDecl,
 						String sectName)
   {
@@ -117,10 +117,10 @@ public class TypeCheckUtils
    *  Note that source.setMarkup(...) allows you to specify which markup format
    *  the specification is using: LATEX or UNICODE etc.
    *  @param  source The string or file to be parsed.
-   *  @param  sectInfo The section manager or SectionInfo to use during parsing.
+   *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return A non-typechecked term.
    */
-  protected Term parse(Source source, SectionInfo sectInfo)
+  protected Term parse(Source source, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
       net.sourceforge.czt.base.util.UnmarshalException
   {
@@ -130,10 +130,10 @@ public class TypeCheckUtils
   /** A convenience method for parsing a file.
    *  It uses the file name extension to guess which Z markup to parse.
    *  @param  file The path to the file to be parsed.
-   *  @param  sectInfo The section manager or SectionInfo to use during parsing.
+   *  @param  sectInfo The section manager or SectionManager to use during parsing.
    *  @return a non-typechecked term.
    */
-  protected Term parse(String file, SectionInfo sectInfo)
+  protected Term parse(String file, SectionManager sectInfo)
     throws IOException, net.sourceforge.czt.parser.util.ParseException,
            net.sourceforge.czt.base.util.UnmarshalException
   {

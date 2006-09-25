@@ -69,7 +69,7 @@ public class TypeChecker
   protected CarrierSet carrierSet_;
 
   //a section manager
-  protected SectionInfo sectInfo_;
+  protected SectionManager sectInfo_;
 
   //for storing the name of the current section
   protected StringBuffer sectName_ = new StringBuffer("Specification");
@@ -107,19 +107,19 @@ public class TypeChecker
     this(info.zFactory_.getZFactory(), info.sectInfo_);
   }
 
-  public TypeChecker(SectionInfo sectInfo)
+  public TypeChecker(SectionManager sectInfo)
   {
     this(new ZFactoryImpl(), sectInfo);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectionInfo sectInfo)
+                     SectionManager sectInfo)
   {
     this(zFactory, sectInfo, false);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectionInfo sectInfo,
+                     SectionManager sectInfo,
                      boolean useBeforeDecl)
   {
     zFactory_ = new Factory(zFactory);
@@ -145,7 +145,7 @@ public class TypeChecker
     charTupleChecker_ = new CharTupleChecker(this);
   }
 
-  protected void setPreamble(String sectName, SectionInfo sectInfo)
+  protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     if (sectName != null && sectInfo != null) {
       sectName_.replace(0, sectName_.length(), sectName);
