@@ -62,6 +62,13 @@ public class UnicodePrinter
   public void printToken(Token token)
   {
     print(token.spelling());
-    if (! "TEXT".equals(token.getName())) print(ZString.SPACE);
+    if (! "TEXT".equals(token.getName())) {
+      if ("NL".equals(token.getName())) {
+        print("\n");
+      }
+      else {
+        print(ZString.SPACE);
+      }
+    }
   }
 }
