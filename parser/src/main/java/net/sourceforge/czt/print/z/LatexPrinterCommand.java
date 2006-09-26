@@ -27,7 +27,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.LatexString;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.util.CztException;
 
 public class LatexPrinterCommand
   implements Command
