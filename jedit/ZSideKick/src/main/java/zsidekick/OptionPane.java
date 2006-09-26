@@ -27,12 +27,16 @@ import org.gjt.sp.jedit.*;
 
 public class OptionPane extends AbstractOptionPane
 {
+  private final String PRINT_IDS =
+    ZSideKickPlugin.PROP_PRINT_IDS;
   private final String EXTRACT_COMMA_OR_SEMI =
     ZSideKickPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
   private final String PROP_LABEL_STD_CONFORMANCE =
     ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
+  private final String PROP_LABEL_PRINT_IDS =
+    ZSideKickPlugin.OPTION_PREFIX + "printNameIds";
   private final String PROP_LABEL_EXTRACT_COMMA_OR_SEMI =
     ZSideKickPlugin.OPTION_PREFIX + "extractCommaOrSemi";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
@@ -41,8 +45,8 @@ public class OptionPane extends AbstractOptionPane
     ZSideKickPlugin.OPTION_PREFIX + "resetButton";
 
   private JCheckBox extractCommaOrSemi_;
-  private JCheckBox spaceBeforePunctation_;
   private JCheckBox ignoreUnknownLatexCommands_;
+  private JCheckBox printIds_;
 
   public OptionPane()
   {
@@ -67,6 +71,12 @@ public class OptionPane extends AbstractOptionPane
     ignoreUnknownLatexCommands_.getModel().setSelected(value);
     addComponent(ignoreUnknownLatexCommands_);
 
+    printIds_ =
+      new JCheckBox(jEdit.getProperty(PROP_LABEL_PRINT_IDS));
+    value = jEdit.getBooleanProperty(PRINT_IDS);
+    printIds_.getModel().setSelected(value);
+    addComponent(printIds_);
+
     JButton resetButton =
       new JButton(jEdit.getProperty(PROP_LABEL_RESET));
     resetButton.addActionListener(new ResetHandler());
@@ -79,14 +89,16 @@ public class OptionPane extends AbstractOptionPane
     jEdit.setBooleanProperty(EXTRACT_COMMA_OR_SEMI, value);
     value = ignoreUnknownLatexCommands_.getModel().isSelected();
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+    value = printIds_.getModel().isSelected();
+    jEdit.setBooleanProperty(PRINT_IDS, value);
   }
 
   class ResetHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {
+      printIds_.getModel().setSelected(false);
       extractCommaOrSemi_.getModel().setSelected(false);
-      spaceBeforePunctation_.getModel().setSelected(false);
       ignoreUnknownLatexCommands_.getModel().setSelected(false);
     }
   }

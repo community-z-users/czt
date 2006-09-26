@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
@@ -31,6 +32,7 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
@@ -53,10 +55,12 @@ public class ZPrintVisitor
   implements TermVisitor, ListTermVisitor, ZVisitor,
              ApplicationVisitor, OperatorApplicationVisitor,
              PrintParagraphVisitor,
-             PrintPredicateVisitor, PrintExpressionVisitor
+             PrintPredicateVisitor, PrintExpressionVisitor,
+             PrintPropertiesKeys
 {
-  private boolean zEves_ = false;
+  private Properties properties_;
   private Utils utils_ = new UtilsImpl();
+  private Factory factory_ = new Factory();
 
   /**
    * Creates a new Z print visitor.
@@ -68,10 +72,28 @@ public class ZPrintVisitor
     super(printer);
   }
 
-  public ZPrintVisitor(ZPrinter printer, boolean zEves)
+  public ZPrintVisitor(ZPrinter printer, Properties properties)
   {
     super(printer);
-    zEves_ = zEves;
+    properties_ = properties;
+  }
+
+  private boolean getBooleanProperty(String propertyKey)
+  {
+    if (properties_ == null) {
+      return false;
+    }
+    return "true".equals(properties_.getProperty(propertyKey));
+  }
+
+  private boolean eves()
+  {
+    return getBooleanProperty(PROP_Z_EVES);
+  }
+
+  private boolean ids()
+  {
+    return getBooleanProperty(PROP_PRINT_NAME_IDS);
   }
 
   protected void printGenericFormals(DeclNameList term) {
@@ -303,7 +325,7 @@ public class ZPrintVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-    if (zEves_) {
+    if (eves()) {
       visit(constDecl.getDeclName());
       print(Keyword.COLON);
       print(TokenName.LBRACE);
@@ -322,8 +344,12 @@ public class ZPrintVisitor
   {
     OperatorName op = declName.getOperatorName();
     if (op == null) {
+      String word = declName.getWord();
+      if (ids() && declName.getId() != null) {
+        word += ZString.LL + declName.getId();
+      }
       final Decorword decorword =
-	new Decorword(declName.getWord(), declName.getZStrokeList());
+	new Decorword(word, declName.getZStrokeList());
       printDecorword(decorword);
       return null;
     }
@@ -562,7 +588,7 @@ public class ZPrintVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    final boolean braces = zEves_ || lambdaExpr.getAnn(ParenAnn.class) != null;
+    final boolean braces = eves() || lambdaExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     print(Keyword.LAMBDA);
     visit(lambdaExpr.getSchText());
@@ -574,7 +600,7 @@ public class ZPrintVisitor
 
   public Object visitLetExpr(LetExpr letExpr)
   {
-    final boolean braces = zEves_ || letExpr.getAnn(ParenAnn.class) != null;
+    final boolean braces = eves() || letExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     print(Keyword.LET);
     visit(letExpr.getSchText());
@@ -603,7 +629,7 @@ public class ZPrintVisitor
   public Object visitMuExpr(MuExpr muExpr)
   {
     if (muExpr.getExpr() != null) {
-      final boolean braces = zEves_ || muExpr.getAnn(ParenAnn.class) != null;
+      final boolean braces = eves() || muExpr.getAnn(ParenAnn.class) != null;
       if (braces) print(TokenName.LPAREN);
       print(Keyword.MU);
       visit(muExpr.getSchText());
@@ -987,8 +1013,12 @@ public class ZPrintVisitor
   {
     OperatorName op = refName.getOperatorName();
     if (op == null) {
+      String word = refName.getWord();
+      if (ids() && refName.getDecl() != null) {
+        word += ZString.LL + refName.getDecl().getId();
+      }
       print(TokenName.DECORWORD,
-            new Decorword(refName.getWord(), refName.getZStrokeList()));
+            new Decorword(word, refName.getZStrokeList()));
       return null;
     }
     print(TokenName.LPAREN);

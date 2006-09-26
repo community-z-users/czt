@@ -76,6 +76,7 @@ public class Main
       String extension = "z";
       String output = null;
       boolean syntaxCheckOnly = false;
+      boolean printIds = false;
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-s".equals(args[i])) {
@@ -87,6 +88,9 @@ public class Main
         else if ("-vv".equals(args[i])) {
           verbosityLevel = Level.CONFIG;
           Logger.getLogger("").setLevel(verbosityLevel);
+        }
+        else if ("-ids".equals(args[i])) {
+          printIds = true;
         }
         else if ("-d".equals(args[i])) {
           if (i + 1 < args.length) {
@@ -109,6 +113,10 @@ public class Main
         else {
           setConsoleLogger(verbosityLevel);
           SectionManager manager = new SectionManager(extension);
+          if (printIds) {
+            manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
+                                "true");
+          }
           FileSource source = new FileSource(args[i]);
           if (parse(source, manager, syntaxCheckOnly) && output != null) {
             if (output.endsWith("utf8")) {

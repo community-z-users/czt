@@ -20,11 +20,13 @@
 package net.sourceforge.czt.print.z;
 
 import java.io.Writer;
+import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Para;
@@ -55,12 +57,12 @@ public final class PrintUtils
    * This method may be used for terms like Spec and Sect that contain
    * a section header so that context information can be obtained from
    * the tree itself.  See {@link
-   * #print(Term,Writer,SectionInfo,String,Markup)} for
+   * #print(Term,Writer,SectionManager,String,Markup)} for
    * writing trees that do not contain context information.
    */
   public static void print(Term term,
                            Writer out,
-                           SectionInfo sectInfo,
+                           SectionManager sectInfo,
                            Markup markup)
   {
     if (markup == Markup.LATEX) {
@@ -77,7 +79,7 @@ public final class PrintUtils
 
   public static void print(Term term,
                            Writer out,
-                           SectionInfo sectInfo,
+                           SectionManager sectInfo,
                            String sectName,
                            Markup markup)
   {
@@ -104,14 +106,14 @@ public final class PrintUtils
    * This method may be used for terms like Spec and Sect that contain
    * a section header so that context information can be obtained from
    * the tree itself.  See {@link
-   * #printLatex(Term,Writer,SectionInfo,String)} for
+   * #printLatex(Term,Writer,SectionManager,String)} for
    * writing trees that do not contain context information.
    */
-  public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
+  public static void printLatex(Term term, Writer out, SectionManager sectInfo)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -124,13 +126,16 @@ public final class PrintUtils
     }
   }
 
-  public static void printOldLatex(Term term, Writer out, SectionInfo sectInfo)
+  public static void printOldLatex(Term term, Writer out,
+                                   SectionManager sectInfo)
   {
     term.accept(new ToSpiveyZVisitor());
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     toPrintTree.setOldZ(true);
     Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree, true);
+    Properties props = new Properties(sectInfo.getProperties());
+    props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
+    ZmlScanner scanner = new ZmlScanner(tree, props);
     Unicode2OldLatex parser = new Unicode2OldLatex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -156,12 +161,12 @@ public final class PrintUtils
    * This method may be used for terms like Expr and Pred that do not
    * contain a section header so that context information cannot be
    * obtained from the tree itself.  See
-   * {@link #printLatex(Term,Writer,SectionInfo)} for writing trees that do
+   * {@link #printLatex(Term,Writer,SectionManager)} for writing trees that do
    * contain context information.
    */
   public static void printLatex(Term term,
                                 Writer out,
-                                SectionInfo sectInfo,
+                                SectionManager sectInfo,
                                 String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
@@ -172,7 +177,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     if (tree instanceof Para) {
       scanner.prepend(new Symbol(Sym.PARA_START));
       scanner.append(new Symbol(Sym.PARA_END));
@@ -195,7 +200,7 @@ public final class PrintUtils
 
   public static void printOldLatex(Term term,
                                    Writer out,
-                                   SectionInfo sectInfo,
+                                   SectionManager sectInfo,
                                    String sectionName)
   {
     term.accept(new ToSpiveyZVisitor());
@@ -208,7 +213,9 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree, true);
+    Properties props = new Properties(sectInfo.getProperties());
+    props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
+    ZmlScanner scanner = new ZmlScanner(tree, props);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2OldLatex parser = new Unicode2OldLatex(scanner);
@@ -233,12 +240,12 @@ public final class PrintUtils
    * This method may be used for terms like Spec and Sect that contain
    * a section header so that context information can be obtained from
    * the tree itself.  See
-   * {@link #printUnicode(Term,Writer,SectionInfo,String)} for writing trees
+   * {@link #printUnicode(Term,Writer,SectionManager,String)} for writing trees
    * that do not contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
-                                  SectionInfo sectInfo)
+                                  SectionManager sectInfo)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
@@ -246,7 +253,8 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    ZPrintVisitor visitor = new ZPrintVisitor(printer);
+    Properties props = sectInfo.getProperties();
+    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
     tree.accept(visitor);
   }
 
@@ -261,12 +269,12 @@ public final class PrintUtils
    * This method may be used for terms like Expr and Pred that do not
    * contain a section header so that context information cannot be
    * obtained from the tree itself.  See
-   * {@link #printUnicode(Term,Writer,SectionInfo)} for writing trees that do
+   * {@link #printUnicode(Term,Writer,SectionManager)} for writing trees that do
    * contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
-                                  SectionInfo sectInfo,
+                                  SectionManager sectInfo,
                                   String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
@@ -281,7 +289,8 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    ZPrintVisitor visitor = new ZPrintVisitor(printer);
+    Properties props = sectInfo.getProperties();
+    ZPrintVisitor visitor = new ZPrintVisitor(printer, props);
     tree.accept(visitor);
   }
 }

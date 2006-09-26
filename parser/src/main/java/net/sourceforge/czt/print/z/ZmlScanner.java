@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.z;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Vector;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
@@ -64,13 +65,13 @@ public class ZmlScanner
   /**
    * Creates a new ZML scanner.
    */
-  public ZmlScanner(Term term, boolean zEves)
+  public ZmlScanner(Term term, Properties properties)
   {
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
-    ZPrintVisitor visitor = new ZPrintVisitor(collector, zEves);
+    ZPrintVisitor visitor = new ZPrintVisitor(collector, properties);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }

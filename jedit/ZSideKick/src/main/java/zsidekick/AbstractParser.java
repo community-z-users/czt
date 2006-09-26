@@ -30,6 +30,7 @@ import sidekick.*;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
@@ -37,7 +38,8 @@ import net.sourceforge.czt.z.ast.*;
 
 public abstract class AbstractParser
   extends SideKickParser
-  implements ParsePropertiesKeys
+  implements ParsePropertiesKeys,
+             PrintPropertiesKeys
 {
   WffHighlight wffHighlight_;
 
@@ -179,5 +181,8 @@ public abstract class AbstractParser
     propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
+    propname = ZSideKickPlugin.PROP_PRINT_IDS;
+    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
+    manager.setProperty(PROP_PRINT_NAME_IDS, value);
   }
 }
