@@ -13,18 +13,23 @@ http://sourceforge.net/projects/czt/
 
 NOTE: The jEdit subproject is experimental, and highly subject to change!
 
-Here is a short description of the directories and files contained:
+Here is a short description of the directories and files contained.
+Note that not all of these may be included in a given release.
    Zchars.utf8     A list of all Z unicode characters (UTF8).
    Zchars.utf16    A list of all Z unicode characters (UTF16).
                    (This is useful to see which chars your font supports)
 
    zed.xml         The beginnings of a jEdit syntax-colouring mode for Z.
 
-   catalog         An example catalog file which shows how the
-                   syntax-colouring mode for Z can be installed.
+   catalog         An example catalog file.
 
    ZCharMap/       A jEdit plugin that displays special Z characters
                    and allows you to click on them to insert them.
+
+   ZSideKick/      A jEdit plugin for parsing and typechecking
+                   Z specifications.
+
+   zlive/          A jEdit plugin for the ZLive animator.
 
    z.cliplibrary   An alternative way of inserting Z characters, by using
                    the Clipper plugin.
@@ -39,7 +44,7 @@ Requirements
   http://www.jedit.org
 
 The plugins and extension provided in this directory
-have been tested using jEdit version 4.1final.
+have been tested using jEdit version 4.2final and 4.3pre4.
 
 Installation
 ************
@@ -65,29 +70,34 @@ Please see Chapter 10 of the jEdit User's Guide for complete
 instructions on installing edit modes.
 
 
-b) Installing the Z character map (ZCharMap)
+b) Installing the jEdit plugins
 --------------------------------------------
-A jEdit plugin that displays special Z characters
-and allows you to click on them to insert them.
+Change into <CZT_HOME>, the top level directory of CZT, and
+follow the instructions in INSTALL.txt to install CZT.
+This creates jar files in <CZT_HOME>/lib, including the plugin
+jar files mentioned below.
 
-This seems better than the following approaches, but
-you must edit ZCharMap/ZCharMap.java and rebuild the
-plugin to add new chars.
+To install a jEdit plugin, first make sure to deinstall previous
+versions.
 
-To compile this plugin you need to install
-- Java 2 SDK
-  http://java.sun.com/j2se/
-- Ant
-  http://ant.apache.org/
+To install the ZCharMap plugin you need to:
+  1. copy ZCharMap.jar to SETTINGS_DIR/jars
+  2. restart jEdit to load the new plugin
 
-To build ZCharMap you need to:
-  1. change into directory ZCharMap
-  2. set your jEdit install directory in build.xml
-  3. call ant
+To install the ZSideKick plugin you need to:
+  1. Install the SideKick and ErrorList plugin
+     using jEdit's Plugin manager
+  2. copy ZSideKick.jar to SETTINGS_DIR/jars
+     AND czt-dep.jar to SETTINGS_DIR/jars/czt.jar
+  3. update the catalog file in SETTINGS_DIR/modes
+     (see the catalog file to see how to do this)
+  4. restart jEdit to load the new plugin
 
-To install ZCharMap you need to:
-  4. copy ZCharMap.jar to SETTINGS_DIR/jars
-  5. restart jEdit to load the new plugin
+To install the ZLive plugin you need to:
+  1. Install the Console plugin using jEdit's Plugin manager,
+  2. install the ZSideKick plugin as described above, and
+  3. copy ZLivePlugin.jar to SETTINGS_DIR/jars
+  3. restart jEdit to load the new plugin
 
 
 c) Installing Zed in Clipper
@@ -110,21 +120,13 @@ d) Installing Zed in XInsert
 What next?
 **********
 
-Load one of the example files (some examples are contained in
-<CZT_HOME>/zml/examples/z; for instance bbook.utf16 or bbook.utf8).
+Load one of the example files.
 
 Depending upon which font you use (to change the font, see
 Utilities/Global Options/jEdit/Text Area/Text Font), you may
 see some Z characters as empty boxes, because most fonts do not
-support all unicode characters.  Some Z characters, like partial
-functions, were added to the Unicode standard quite recently, so 
-very few fonts support them yet.  This will change (we hope)...
-One of the best fonts is "Arial Unicode MS" (comes with Microsoft Office)
-but it still does not have the newest Z characters.
-For information on Unicode fonts under Linux or UNIX, see
-Markus Kuhn's Unicode 
-
-    FAQ: http://www.cl.cam.ac.uk/~mgk25/unicode.html
+support all unicode characters.  You should install the CZT font
+to get best results.
 
 If you have the Z mode installed, the Z paragraphs should
 be highlighted differently than the text between them.
@@ -140,5 +142,3 @@ jEdit cannot distinguish UTF8 files from plain-ASCII files (they can
 be identical), so when you load a UTF8 file, you must RIGHT-CLICK on
 the filename in the Open browser, then set the Encoding to UTF8 BEFORE
 Opening it.
-
-

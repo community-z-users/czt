@@ -88,18 +88,14 @@ There are at least two ways of using the CZT tools.
    Unicode markup for Z, template-based insertion of Z constructs for
    LaTeX and Unicode markup, automatic typechecking on each save, a
    SideKick panel that shows the structure of your Z specification and
-   much much more.  See jedit/README.txt for more information.  You
-   will need the jar file <CZT_HOME>/bin/czt-dep.jar (ant users can
-   use <CZT_HOME>/lib/czt.jar but be aware that it doesn't include 3th
-   party libraries) and the various plugin jar files in
-   <CZT_HOME>/jedit/bin (or <CZT_HOME>/lib/jedit).
+   much much more.  See jedit/README.txt for more information.
 
 2. Command line tool.
 
-   The jar file <CZT_HOME>/bin/czt-dep.jar (or <CZT_HOME>/lib/czt.jar)
+   The jar file <CZT_HOME>/lib/czt-dep.jar
    can be executed by calling
      java -jar czt-dep.jar
-     (or java -jar czt.jar correspondingly)
+
    Calling it without arguments as shown here prints usage information.
 
 Example files are located in '<CZT_HOME>/zml/examples'.
