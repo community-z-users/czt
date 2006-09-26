@@ -36,7 +36,7 @@ public class LatexMarkupFunctionVisitor
              ZSectVisitor
 {
   private LatexMarkupFunction table_;
-  private SectionInfo sectInfo_;
+  private SectionManager manager_;
   private Set dependencies_ = new HashSet();
 
   /**
@@ -44,9 +44,9 @@ public class LatexMarkupFunctionVisitor
    * The section information should be able to provide information of type
    * <code>net.sourceforge.czt.parser.util.LatexMarkupFunction.class</code>.
    */
-  public LatexMarkupFunctionVisitor(SectionInfo sectInfo)
+  public LatexMarkupFunctionVisitor(SectionManager manager)
   {
-    sectInfo_ = sectInfo;
+    manager_ = manager;
   }
 
   public Class getInfoType()
@@ -60,8 +60,14 @@ public class LatexMarkupFunctionVisitor
   }
 
   public Object run(ZSect sect)
+    throws CommandException
   {
-    sect.accept(this);
+    try {
+      sect.accept(this);
+    }
+    catch (LatexMarkupException e) {
+      throw new CommandException(e.getCause());
+    }
     return getLatexMarkupFunction();
   }
 
@@ -99,14 +105,13 @@ public class LatexMarkupFunctionVisitor
   public Object visitLatexMarkupPara(LatexMarkupPara para)
   {
     List directives = para.getDirective();
-    for (Iterator iter = directives.iterator(); iter.hasNext(); ) {
-      Directive directive = (Directive) iter.next();
+    for (Directive d : para.getDirective()) {
       try {
-        table_.add(directive);
+        table_.add(d);
       }
       catch (MarkupException e)
       {
-        throw new CztException(e);
+        throw new LatexMarkupException(e);
       }
     }
     return null;
@@ -116,16 +121,19 @@ public class LatexMarkupFunctionVisitor
   {
     final String name = zSect.getName();
     table_ = new LatexMarkupFunction(name);
-    for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-      Parent parent = (Parent) iter.next();
-      LatexMarkupFunction parentTable =
-        (LatexMarkupFunction) get(parent.getWord(), LatexMarkupFunction.class);
+    for (Parent parent : zSect.getParent()) {
       try {
+        LatexMarkupFunction parentTable = (LatexMarkupFunction)
+          manager_.get(new Key(parent.getWord(), LatexMarkupFunction.class));
         table_.add(parentTable);
+      }
+      catch (CommandException e)
+      {
+        throw new LatexMarkupException(e);
       }
       catch (MarkupException e)
       {
-        throw new CztException(e);
+        throw new LatexMarkupException(e);
       }
     }
     visit(zSect.getParaList());
@@ -137,24 +145,12 @@ public class LatexMarkupFunctionVisitor
     term.accept(this);
   }
 
-  /**
-   * <p>Asks the section manager to provide the requested info.</p>
-   *
-   * <p>If the section manager throws a CommandException, this
-   * exception is reported via the logging API and <code>null</code> is returned.
-   */
-  protected Object get(String name, Class type)
+  private static class LatexMarkupException
+    extends RuntimeException
   {
-    Key key = new Key(name, type);
-    getDependencies().add(key);
-    try {
-      return sectInfo_.get(key);
-    }
-    catch (CommandException exception) {
-      String message = "Cannot get " + type + " for " + name
-        + "; try to continue anyway";
-      CztLogger.getLogger(LatexMarkupFunctionVisitor.class).warning(message);
-      return null;
+    private LatexMarkupException(Exception cause)
+    {
+      super(cause);
     }
   }
 }
