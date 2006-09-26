@@ -311,7 +311,7 @@ public class ZSideKickActions
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      if (term != null ) {
+      if (term instanceof Expr) {
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -335,7 +335,14 @@ public class ZSideKickActions
                                         start + locAnn.getLength().intValue());
                   StringWriter writer = new StringWriter();
                   try {
-                    PrintUtils.printLatex(result, writer, manager, section);
+                    String modeName = view.getBuffer().getMode().toString();
+                    if (modeName.endsWith("latex")) {
+                      PrintUtils.printLatex(result, writer, manager, section);
+                    }
+                    else {
+                      PrintUtils.printUnicode(result, writer,
+                                              manager, section);
+                    }
                   }
                   catch (Exception e) {
                     e.printStackTrace();
@@ -368,6 +375,9 @@ public class ZSideKickActions
             reportError(view, "Cannot find Z section for selected term");
           }
         }
+      }
+      else {
+        reportError(view, "Highlighted term is not an expression");
       }
     }
   }
