@@ -46,9 +46,4 @@ public interface EvalResult
    * @return previous result
    */
   public HashMap<String, Expr> previous();
-
-  /**
-   * @return the size of eval result
-   */
-  public int size();
 }

@@ -53,12 +53,12 @@ public class EvaluateListener implements ActionListener
     HashMap<String, JComponent> inputMap = parent.getInputPane()
         .getComponentMap();
     HashMap<String, Expr> last = StepTree.getCurrentStep().getResultSelected();
-    HashMap<String, Expr> input = new HashMap<String, Expr>();
+    HashMap<String, Expr> input = GaffeFactory.getAnalyzer().getVariableMap(schemaName,"input");
     Adapter adapter = null;
     JComponent jc = null;
     for (String key : inputMap.keySet()) {
       jc = inputMap.get(key);
-      adapter = GaffeFactory.getAdapter(jc);
+      adapter = GaffeFactory.getAdapter(input.get(key));
       input.put(key, adapter.componentToData(jc));
     }
     //Remove prime for state variables

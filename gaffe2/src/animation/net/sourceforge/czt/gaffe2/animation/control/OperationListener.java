@@ -57,7 +57,6 @@ public class OperationListener extends MouseAdapter
         id.pack();
         id.setModal(true);
         id.setVisible(true);
-        System.out.println("Evaluate Schema: " + schemaName);
       }
     }
   }

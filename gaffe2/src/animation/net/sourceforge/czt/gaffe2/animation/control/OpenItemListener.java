@@ -42,6 +42,7 @@ public class OpenItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
+    GaffeFactory.getZLive().getSectionManager().reset();
     parent = MainFrame.getMainFrame();
     JFileChooser fileChooser = new JFileChooser("Open a Z specification..");
     if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {

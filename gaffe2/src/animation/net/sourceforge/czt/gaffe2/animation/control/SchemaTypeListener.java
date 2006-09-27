@@ -61,10 +61,10 @@ public class SchemaTypeListener implements ActionListener
     ToolBar.getCurrentToolBar().reset();
     this.schemaTree();
     this.initialize();
+    MainFrame.getFrameSplit().setVisible(true);
     MainFrame.getMainFrame().validate();
     MainFrame.getRightSplit().setDividerLocation(0.8);
     MainFrame.getFrameSplit().setDividerLocation(0.2);
-    MainFrame.getFrameSplit().setVisible(true);
   }
 
   /**

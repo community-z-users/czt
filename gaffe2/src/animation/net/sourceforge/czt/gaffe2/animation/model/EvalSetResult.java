@@ -111,13 +111,7 @@ public class EvalSetResult implements EvalResult
     }
   }
 
-  /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.model.EvalResult#size()
-   */
-  public int size()
-  {
-    return evalSet.size();
-  }
+  
 
   /**
    * @param expr

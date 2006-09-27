@@ -204,7 +204,8 @@ public class Step extends DefaultMutableTreeNode
         results.add(result);
         HashMap<String, Object> newMap = new HashMap<String, Object>();
         for (String key : result.keySet()){
-          newMap.put(key, GaffeFactory.encodeExpr(result.get(key)));
+          Expr expr = result.get(key);
+          newMap.put(key, GaffeFactory.encodeExpr(expr));
         }
         encodable.add(newMap);
       }
@@ -219,7 +220,8 @@ public class Step extends DefaultMutableTreeNode
     for (HashMap<String, Object> encodedMap:encodable){
       result = new HashMap<String, Expr>();
       for (String key : encodedMap.keySet()){
-        Expr expr = GaffeFactory.decodeExpr(encodedMap.get(key));
+        Object code = encodedMap.get(key);
+        Expr expr = GaffeFactory.decodeExpr(code);
         result.put(key, expr );
       }
       results.add(result);

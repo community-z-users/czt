@@ -8,11 +8,8 @@ import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
@@ -67,15 +64,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   {
     JPanel pane = new JPanel(new BorderLayout());
     pane.setBorder(new TitledBorder(key));
-    if (jc instanceof JTextField) {
-      pane.add((JTextField) jc, BorderLayout.CENTER);
-    }
-    else if (jc instanceof JList) {
-      pane.add(new JScrollPane((JList) jc), BorderLayout.CENTER);
-    }
-    else if (jc instanceof JTable) {
-      pane.add(new JScrollPane((JTable) jc), BorderLayout.CENTER);
-    }
+    pane.add(new JScrollPane(jc), BorderLayout.CENTER);
     contentPane.add(pane);
   }
 

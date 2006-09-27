@@ -1,8 +1,6 @@
 
 package net.sourceforge.czt.gaffe2.animation.common.adapter;
 
-import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -17,14 +15,16 @@ import net.sourceforge.czt.z.ast.ZExprList;
  * @author Linan Zhang
  *
  */
-public class SetExpr_JListAdapter extends AdapterDefaultImpl
+public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
 {
   public SetExpr_JListAdapter()
   {
     super();
   }
 
-  //Retrieve data from input components
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#componentToData(javax.swing.JComponent)
+   */
   public Expr componentToData(JComponent jc)
   {
     JList component = (JList) jc;
@@ -38,13 +38,12 @@ public class SetExpr_JListAdapter extends AdapterDefaultImpl
     return factory.createSetExpr(exprList);
   }
 
-  // Update components with changed data
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#dataToComponent(javax.swing.JComponent, net.sourceforge.czt.z.ast.Expr)
+   */
   public JComponent dataToComponent(JComponent origin, Expr expr)
   {
-    if (origin == null) {
-      origin = new JList();
-    }
-    JList component = (JList) origin;
+    JList component = (origin == null)? new JList():(JList) origin;
     SetExpr setExpr = (SetExpr) expr;
     ZExprList exprList = setExpr.getZExprList();
     DefaultListModel model = new DefaultListModel();
@@ -54,26 +53,5 @@ public class SetExpr_JListAdapter extends AdapterDefaultImpl
     }
     component.setModel(model);
     return component;
-  }
-
-  public Object encodeExpr(Expr expr){
-    SetExpr setExpr = (SetExpr) expr;
-    ZExprList exprList = setExpr.getZExprList();
-    ArrayList<String> code = new ArrayList<String>();
-    for (Expr tempExpr : exprList) {
-      RefExpr value = (RefExpr) tempExpr;
-      code.add(value.getZRefName().getWord());
-    }
-    return code;
-  }
-  
-  @SuppressWarnings("unchecked")
-  public Expr decodeExpr(Object code){
-    ZExprList exprList = factory.createZExprList();
-    ArrayList<String> value = (ArrayList<String>)code;
-    for (String temp: value){
-      exprList.add(factory.createRefExpr(factory.createZRefName(temp)));
-    }
-    return factory.createSetExpr(exprList);
   }
 }

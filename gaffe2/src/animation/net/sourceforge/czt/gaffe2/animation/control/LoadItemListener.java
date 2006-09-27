@@ -69,6 +69,7 @@ public class LoadItemListener implements ActionListener
           new FileInputStream(file)));
  
       //ReInitialize Analyzer
+      GaffeFactory.getZLive().getSectionManager().reset();
       String specFile = (String)e.readObject();
       String stateSchemaName = (String)e.readObject();
       String initSchemaName = (String)e.readObject();
@@ -80,10 +81,10 @@ public class LoadItemListener implements ActionListener
       OutputPane.getCurrentPane().reset();
       OperationPane.getCurrentPane().reset();
       ToolBar.getCurrentToolBar().reset();
+      MainFrame.getFrameSplit().setVisible(true);
       MainFrame.getMainFrame().validate();
       MainFrame.getRightSplit().setDividerLocation(0.8);
       MainFrame.getFrameSplit().setDividerLocation(0.2);
-      MainFrame.getFrameSplit().setVisible(true);
       
       //ReInitialise Evaluator
       StatePane statePane = StatePane.getCurrentPane();
@@ -110,6 +111,8 @@ public class LoadItemListener implements ActionListener
       // Load StepTree
       DefaultTreeModel stepTree = (DefaultTreeModel) e.readObject();
       StepTree.setStepTree(stepTree);
+      StepTree.setStateSchemaName(stateSchemaName);
+      StepTree.setInitSchemaName(initSchemaName);
       DefaultMutableTreeNode root = (Step) stepTree.getRoot();
       restore(root);
       StepTree.setCurrentStep((Step)root.getChildAt(0));

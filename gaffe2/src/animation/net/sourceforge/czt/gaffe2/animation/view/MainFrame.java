@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import net.sourceforge.czt.gaffe2.animation.control.CloseItemListener;
+import net.sourceforge.czt.gaffe2.animation.control.DesignItemListener;
 import net.sourceforge.czt.gaffe2.animation.control.ExitItemListener;
 import net.sourceforge.czt.gaffe2.animation.control.LoadItemListener;
 import net.sourceforge.czt.gaffe2.animation.control.OpenItemListener;
@@ -99,6 +100,7 @@ public class MainFrame extends JFrame
     exitItem.addActionListener(new ExitItemListener());
     outputItem.addActionListener(new OutputItemListener());
     stepTreeItem.addActionListener(new StepTreeItemListener());
+    designItem.addActionListener(new DesignItemListener());
 
     this.setJMenuBar(mainMenuBar);
     this.setTitle("Communicate Z Tools -- Gaffe2");

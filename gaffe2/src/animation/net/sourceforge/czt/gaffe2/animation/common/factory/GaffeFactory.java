@@ -1,31 +1,36 @@
 
 package net.sourceforge.czt.gaffe2.animation.common.factory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
-import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.AdapterException;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExpr_JTableAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExpr_JTextAreaAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.NumExpr_JTextFieldAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_JTextAreaAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_JTextFieldAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExpr_JListAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExpr_JTextAreaAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.analyzer.Analyzer;
-import net.sourceforge.czt.gaffe2.animation.common.analyzer.SimpleAnalyzer;
+import net.sourceforge.czt.gaffe2.animation.common.analyzer.ZLiveAnalyzer;
 import net.sourceforge.czt.gaffe2.animation.common.evaluator.Evaluator;
-import net.sourceforge.czt.gaffe2.animation.common.evaluator.SimpleEvaluator;
-import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.gaffe2.animation.common.evaluator.ZLiveEvaluator;
+import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.PowerExpr;
-import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZChar;
 
 /**
  * @author Linan Zhang
@@ -35,135 +40,87 @@ public class GaffeFactory
 {
   private static ZLive zLive = new ZLive();
 
-  private static Adapter refExpr_adapter = new RefExpr_JTextFieldAdapter();
+  private static Analyzer analyzer = new ZLiveAnalyzer();
 
-  private static Adapter setExpr_adapter = new SetExpr_JListAdapter();
+  private static Evaluator evaluator = new ZLiveEvaluator();
 
-  private static Adapter bindExpr_adapter = new BindExpr_JTableAdapter();
-
-  private static Analyzer analyzer = new SimpleAnalyzer();
-
-  private static Evaluator evaluator = new SimpleEvaluator();
-
+  private static Map<String,Adapter> adapterMap = new HashMap<String,Adapter>();
+  
+  private static Map<String,List<Adapter>> availableMap = new HashMap<String,List<Adapter>>();
+  
+  private static GaffeFactory gaffeFactory = new GaffeFactory();
+  
   /**
    * No instance, solid
    */
-  private GaffeFactory()
+  public GaffeFactory()
   {
-  }
-
-  /**
-   * @param component
-   * @return
-   */
-  public static Adapter getAdapter(JComponent component)
-  {
-    try {
-      if (component instanceof JTable) {
-        return bindExpr_adapter;
-      }
-      else if (component instanceof JList) {
-        return setExpr_adapter;
-      }
-      else if (component instanceof JTextField) {
-        return refExpr_adapter;
-      }
-      else if (component == null) {
-        throw new AdapterException("Null JComponent ");
-      }
-      else {
-        throw new AdapterException("Unsupported JComponent "
-            + component.getClass().toString());
-      }
-    } catch (AdapterException adapter_ex) {
-      adapter_ex.printStackTrace();
-      return null;
-    }
-  }
-
-  public static Adapter getAdapter(Expr expr)
-  {
-    try {
-      if (expr instanceof BindExpr) {
-        return bindExpr_adapter;
-      }
-      else if (expr instanceof SetExpr) {
-        return setExpr_adapter;
-      }
-      else if (expr instanceof RefExpr) {
-        return refExpr_adapter;
-      }
-      else if (expr == null) {
-        throw new AdapterException("Null Expr ");
-      }
-      else {
-        throw new AdapterException("Unsupported Expr "
-            + expr.getClass().toString());
-      }
-    } catch (AdapterException adapter_ex) {
-      adapter_ex.printStackTrace();
-      return null;
-    }
-  }
-  
-  public static Adapter getAdapter(Object code)
-  {
-    try {
-      if (code instanceof HashMap) {
-        return bindExpr_adapter;
-      }
-      else if (code instanceof ArrayList) {
-        return setExpr_adapter;
-      }
-      else if (code instanceof String) {
-        return refExpr_adapter;
-      }
-      else if (code == null) {
-        throw new AdapterException("Null Expr ");
-      }
-      else {
-        throw new AdapterException("Unsupported Expr "
-            + code.getClass().toString());
-      }
-    } catch (AdapterException adapter_ex) {
-      adapter_ex.printStackTrace();
-      return null;
-    }
+    System.out.println("GaffeFactory .. Initializing");
+    
+    //Preparation
+    List<Adapter> numExprList = new ArrayList<Adapter>();
+    numExprList.add(new NumExpr_JTextFieldAdapter());
+    
+    List<Adapter> refExprList = new ArrayList<Adapter>();
+    refExprList.add(new RefExpr_JTextFieldAdapter());
+    refExprList.add(new RefExpr_JTextAreaAdapter());
+    
+    List<Adapter> bindExprList = new ArrayList<Adapter>();
+    bindExprList.add(new BindExpr_JTableAdapter());
+    bindExprList.add(new BindExpr_JTextAreaAdapter());
+    
+    List<Adapter> setExprList = new ArrayList<Adapter>();
+    setExprList.add(new SetExpr_JListAdapter());
+    setExprList.add(new SetExpr_JTextAreaAdapter());
+    
+    //Initialize avaiable adapters
+    availableMap.put("NumExprImpl",numExprList);
+    availableMap.put("RefExprImpl",refExprList);
+    availableMap.put("BindExprImpl",bindExprList);
+    availableMap.put("SetExprImpl",setExprList);
+    
+    //Setting default adapter configuration
+    adapterMap.put("NumExprImpl",numExprList.get(0));
+    adapterMap.put("RefExprImpl",refExprList.get(0));
+    adapterMap.put("BindExprImpl",bindExprList.get(0));
+    adapterMap.put("SetExprImpl",setExprList.get(0));
   }
   
   /**
    * @param expr
    * @return
    */
-  public static JComponent createJComponentForExpr(Expr expr)
+  public static Object encodeExpr(Expr expr){
+    return zLive.printTerm(expr, Markup.LATEX);
+  }
+  
+  /**
+   * @param value
+   * @return
+   */
+  public static Expr decodeExpr(Object value)
   {
+    Source newSource = new StringSource(value.toString());
+    System.out.println("someee... " + value.toString());
+    newSource.setMarkup(Markup.LATEX);
+    SectionManager sectman = zLive.getSectionManager();
+    //String name of section
     try {
-      if (expr instanceof BindExpr) {
-        return new JTable();
-      }
-      else if (expr instanceof SetExpr) {
-        return new JList();
-      }
-      else if (expr instanceof PowerExpr) {
-        return new JList();
-      }
-      else if (expr instanceof RefExpr) {
-        return new JTextField();
-      }
-      else if (expr instanceof GivenValue) {
-        return new JTextField();
-      }
-      else if (expr == null) {
-        throw new AdapterException("Null Expr ");
-      }
-      else {
-        System.out.println(expr.toString());
-        throw new AdapterException("Unsupported Expr " + expr.toString());
-      }
-    } catch (AdapterException adapter_ex) {
-      adapter_ex.printStackTrace();
+      Expr expr = ParseUtils.parseExpr(newSource, zLive.getCurrentSection(),
+          sectman);
+      return expr;
+    } catch (IOException ex) {
+      ex.printStackTrace();
+      return null;
+    } catch (CommandException ex) {
+      ex.printStackTrace();
       return null;
     }
+  }
+  
+  public static Adapter getAdapter(Expr expr)
+  {
+    return adapterMap.get(expr.getClass().getSimpleName());
   }
 
   public static HashMap<String, Expr> prime(HashMap<String, Expr> target)
@@ -172,11 +129,11 @@ public class GaffeFactory
     Expr expr;
     for (String key : target.keySet()) {
       expr = target.get(key);
-      result.put(key + "'", expr);
+      result.put(key + ZChar.PRIME, expr);
     }
     return result;
   }
-
+  
   /**
    * @param origin
    * @param result
@@ -191,24 +148,10 @@ public class GaffeFactory
     Adapter adapter;
     for (String key : result.keySet()) {
       Expr expr = result.get(key);
-      JComponent component = origin.get(key);
-      if (component == null) {
-        component = GaffeFactory.createJComponentForExpr(expr);
-      }
-      adapter = GaffeFactory.getAdapter(component);
-      origin.put(key, adapter.dataToComponent(component, expr));
+      adapter = GaffeFactory.getAdapter(expr);
+      origin.put(key, adapter.dataToComponent(origin.get(key), expr));
     }
     return origin;
-  }
-  
-  public static Object encodeExpr(Expr expr){
-    Adapter adapter = getAdapter(expr);
-    return adapter.encodeExpr(expr);
-  }
-  
-  public static Expr decodeExpr(Object code){
-    Adapter adapter = getAdapter(code);
-    return adapter.decodeExpr(code);
   }
   
   /**
@@ -241,5 +184,29 @@ public class GaffeFactory
   public static ZLive getZLive()
   {
     return zLive;
+  }
+
+  /**
+   * @return Returns the gaffeFactory.
+   */
+  public static GaffeFactory getGaffeFactory()
+  {
+    return gaffeFactory;
+  }
+
+  /**
+   * @return Returns the adapterMap.
+   */
+  public static Map<String, Adapter> getAdapterMap()
+  {
+    return adapterMap;
+  }
+
+  /**
+   * @return Returns the availableMap.
+   */
+  public static Map<String, List<Adapter>> getAvailableMap()
+  {
+    return availableMap;
   }
 }
