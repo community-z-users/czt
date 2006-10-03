@@ -208,6 +208,9 @@ public class Plugin
     generateJFlex("ContextFreeScanner",
                  "net.sourceforge.czt.print.circus",
                  "{circus}{print}");
+    generateJFlex("ContextFreeScanner",
+                 "net.sourceforge.czt.print.zpatt",
+                 "{zpatt}{print}");
     generateJava("SectHeadScanner",
                  "net.sourceforge.czt.print.z",
                  "{z}{print}");
@@ -217,6 +220,9 @@ public class Plugin
     generateJava("SectHeadScanner",
                  "net.sourceforge.czt.print.circus",
                  "{circus}{print}");
+    generateJava("SectHeadScanner",
+                 "net.sourceforge.czt.print.zpatt",
+                 "{zpatt}{print}");
   }
 
   private void generatePrintParser()
@@ -228,6 +234,7 @@ public class Plugin
     "Unicode2OldLatex", basePackage + "z", "{oldz}");
     generateCup("Unicode2Latex", basePackage + "oz", "{z}{oz}");
     generateCup("Unicode2Latex", basePackage + "circus", "{z}{circus}");
+    generateCup("Unicode2Latex", basePackage + "zpatt", "{z}{zpatt}");
   }
 
   private void generateJava(String className,

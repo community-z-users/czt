@@ -531,12 +531,15 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
  <add:oz>
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
-<add:circus>                  
-                  CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
-                  LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
-                  LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
-                  LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
-</add:circus>         
+<add:circus>
+                   CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+                   LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+                   LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
+                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME,
+</add:circus>
+<add:zpatt>
+                   JOKER, RULE, RULELINE, PROVISO,
+</add:zpatt>
                    END_MARKUP,
                    TOKENSEQ, PARA_START, PARA_END;
 terminal ZSect     SECTHEAD;
@@ -694,6 +697,24 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
 </add:oz>
+<add:zpatt>
+             |
+             JOKER decorword:w tokenSeq:s END
+             {:
+                String result = begin("zedjoker") + "{" + w.getName() + "}";
+                if (s != null) result += s.getName();
+                result += end("zedjoker");
+                parser.write(result);
+             :}
+             |
+             RULE decorword:w tokenSeq:s END
+             {:
+                String result = begin("rule") + "{" + w.getName() + "}";
+                if (s != null) result += s.getName();
+                result += end("rule");
+                parser.write(result);
+             :}
+</add:zpatt>
              ;
 
   markup ::=
@@ -823,6 +844,18 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 RESULT = new LatexCommand("~~\\circdef~~", CircusString.CIRCDEF, true, true);
              :}             
 </add:circus>
+<add:zpatt>
+             |
+             RULELINE
+             {:
+                RESULT = new LatexCommand("\n\\derives\n", "\u2500", true, true);
+             :}
+             |
+             PROVISO
+             {:
+                RESULT = new LatexCommand("\\proviso", "\u25B8", true, true);
+             :}
+</add:zpatt>
              ;
 
    decorword ::= DECORWORD:s
