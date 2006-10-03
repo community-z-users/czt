@@ -92,6 +92,19 @@ public final class ProverUtils
     return result;
   }
 
+  public static void collectBindings(PredSequent sequent, List<Binding> list)
+  {
+    Deduction ded = sequent.getDeduction();
+    if (ded != null) {
+      list.addAll(ded.getBinding());
+      for (Sequent s : ded.getSequent()) {
+        if (s instanceof PredSequent) {
+          collectBindings((PredSequent) s, list);
+        }
+      }
+    }
+  }
+
 
   /**
    * Throws UnboundJokerException!
