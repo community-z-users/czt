@@ -38,7 +38,7 @@ public class RuleTableCommand
     throws CommandException
   {
     ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-    manager.put(new Key(name, RuleTable.class), getRuleTable(zSect));
+    manager.put(new Key(name, RuleTable.class), getRuleTable(zSect, manager));
     return true;
   }
 
@@ -49,11 +49,17 @@ public class RuleTableCommand
                ZSectVisitor,
                RuleVisitor
   {
-    private List<Rule> rules_ = new ArrayList<Rule>();
+    private RuleTable rules_ = new RuleTable();
+    private SectionManager manager_;
+
+    public RuleTableVisitor(SectionManager manager)
+    {
+      manager_ = manager;
+    }
 
     public RuleTable getRuleTable()
     {
-      return new RuleTable(rules_);
+      return rules_;
     }
 
     public Object visitTerm(Term term)
@@ -71,6 +77,19 @@ public class RuleTableCommand
 
     public Object visitZSect(ZSect zSect)
     {
+      for (Parent p : zSect.getParent()) {
+        try {
+          RuleTable parentRuleTable = (RuleTable)
+            manager_.get(new Key(p.getWord(), RuleTable.class));
+          rules_.addRules(parentRuleTable);
+        }
+        catch (CommandException e) {
+          System.err.println("Cannot get RuleTable for parent " + p.getWord());
+        }
+        catch (RuleTable.RuleTableException e) {
+          throw new VisitorException(e);
+        }
+      }
       zSect.getParaList().accept(this);
       return null;
     }
@@ -85,15 +104,35 @@ public class RuleTableCommand
 
     public Object visitRule(Rule rule)
     {
-      rules_.add(rule);
+      try {
+        rules_.addRule(rule);
+      }
+      catch (RuleTable.RuleTableException e) {
+        throw new VisitorException(e);
+      }
       return null;
     }
   }
 
-  public static RuleTable getRuleTable(Term ast)
+  public static RuleTable getRuleTable(Term ast, SectionManager manager)
+    throws CommandException
   {
-    RuleTableVisitor visitor = new RuleTableVisitor();
-    ast.accept(visitor);
+    RuleTableVisitor visitor = new RuleTableVisitor(manager);
+    try {
+      ast.accept(visitor);
+    }
+    catch (VisitorException e) {
+      throw new CommandException(e.getCause());
+    }
     return visitor.getRuleTable();
+  }
+
+  public static class VisitorException
+    extends RuntimeException
+  {
+    public VisitorException(Exception cause)
+    {
+      super(cause);
+    }
   }
 }

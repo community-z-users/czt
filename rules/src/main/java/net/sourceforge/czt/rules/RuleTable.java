@@ -28,16 +28,35 @@ public class RuleTable
   private Map<String, Rule> map_ = new HashMap();
   private List<Rule> rules_ = new ArrayList();
 
-  public RuleTable(List<Rule> rules)
+  public void addRules(RuleTable table)
+    throws RuleTableException
   {
-    rules_ = rules;
+    addRules(table.rules_);
+  }
+
+  public void addRules(List<Rule> rules)
+    throws RuleTableException
+  {
+    rules_.addAll(rules);
     for (Rule rule : rules) {
       final String rulename = rule.getName();
       if (map_.get(rulename) != null) {
-        System.err.println("WARNING: Overwriting rule " + rulename);
+        throw new RuleTableException("Rule " + rulename + " defined twice");
       }
       map_.put(rulename, rule);
     }
+  }
+
+  public void addRule(Rule rule)
+    throws RuleTableException
+  {
+    final String rulename = rule.getName();
+    rules_.add(rule);
+    if (map_.get(rulename) != null) {
+      final String message = "Rule " + rulename + " defined twice";
+      throw new RuleTableException(message);
+    }
+    map_.put(rulename, rule);
   }
 
   public Iterator<Rule> iterator()
@@ -67,5 +86,14 @@ public class RuleTable
   public String toString()
   {
     return map_.toString();
+  }
+
+  public static class RuleTableException
+    extends Exception
+  {
+    public RuleTableException(String message)
+    {
+      super(message);
+    }
   }
 }
