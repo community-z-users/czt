@@ -27,6 +27,7 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.util.*;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
@@ -76,11 +77,16 @@ public class Main
       String extension = "z";
       String output = null;
       boolean syntaxCheckOnly = false;
+      boolean prove = false;
       boolean printIds = false;
       Level level = Level.WARNING;
       for (int i = 0; i < args.length; i++) {
         if ("-s".equals(args[i])) {
           syntaxCheckOnly = true;
+        }
+        else if ("-p".equals(args[i])) {
+          prove = true;
+          extension = "zpatt";
         }
         else if ("-v".equals(args[i])) {
           verbosityLevel = Level.INFO;
@@ -118,7 +124,8 @@ public class Main
                                 "true");
           }
           FileSource source = new FileSource(args[i]);
-          if (parse(source, manager, syntaxCheckOnly) && output != null) {
+          if (parse(source, manager, syntaxCheckOnly, prove) &&
+              output != null) {
             if (output.endsWith("utf8")) {
               UnicodeString unicode = (UnicodeString)
                 manager.get(new Key(source.getName(), UnicodeString.class));
@@ -252,7 +259,8 @@ public class Main
 
   public static boolean parse(Source source,
                               SectionManager manager,
-                              boolean syntaxCheckOnly)
+                              boolean syntaxCheckOnly,
+                              boolean prove)
     throws CommandException
   {
     Logger logger = CztLogger.getLogger(Main.class);
@@ -267,13 +275,30 @@ public class Main
         for (Sect sect : spec.getSect()) {
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
+            String sectionName = zSect.getName();
             if (zSect.getParaList() instanceof ZParaList &&
                 ((ZParaList) zSect.getParaList()).size() > 0) {
 	      nrOfZSects++;
-	      logger.info("Z Section " + zSect.getName());
-	    }
+	      logger.info("Z Section " + sectionName);
+              if (prove) {
+                RuleTable rules = (RuleTable)
+                  manager.get(new Key(sectionName, RuleTable.class));
+                if (rules != null) {
+                  for (Para p : ((ZParaList) zSect.getParaList())) {
+                    if (p instanceof ConjPara) {
+                      ConjPara conj = (ConjPara) p;
+                      ProofTree.createAndShowGUI(
+                             ProverUtils.createPredSequent(conj.getPred()),
+                             rules,
+                             manager,
+                             sectionName);
+                    }
+                  }
+                }
+              }
+            }
             if (! syntaxCheckOnly) {
-              manager.get(new Key(zSect.getName(),
+              manager.get(new Key(sectionName,
                                   SectTypeEnvAnn.class));
             }
           }
