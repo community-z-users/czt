@@ -101,6 +101,9 @@ public final class ProverUtils
         if (s instanceof PredSequent) {
           collectBindings((PredSequent) s, list);
         }
+        else if (s instanceof ProverProviso) {
+          list.addAll(((ProverProviso) s).getBindings());
+        }
       }
     }
   }
