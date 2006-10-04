@@ -102,7 +102,8 @@ public final class ProverUtils
           collectBindings((PredSequent) s, list);
         }
         else if (s instanceof ProverProviso) {
-          list.addAll(((ProverProviso) s).getBindings());
+          Set<Binding> bindings = ((ProverProviso) s).getBindings();
+          if (bindings != null) list.addAll(bindings);
         }
       }
     }
