@@ -42,6 +42,12 @@ public class ProverLookupConstDeclProviso
   implements ProverProviso
 {
   private Status status_ = Status.UNCHECKED;
+  private Set<Binding> bindings_;
+
+  public Set<Binding> getBindings()
+  {
+    return bindings_;
+  }
 
   public void check(SectionManager manager, String section)
   {
@@ -71,12 +77,11 @@ public class ProverLookupConstDeclProviso
   private void unify(Term term1, Term term2)
   {
     try {
-      Set<Binding> bindings = UnificationUtils.unify(term1, term2);
-      if (bindings != null) {
+      bindings_ = UnificationUtils.unify(term1, term2);
+      if (bindings_ != null) {
         status_ = Status.PASS;
       }
       else {
-        ProverUtils.reset(bindings);
         status_ = Status.FAIL;
       }
     }

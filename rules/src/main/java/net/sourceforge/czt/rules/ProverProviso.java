@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.rules;
 
+import java.util.Set;
+
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.zpatt.ast.*;
 
@@ -37,7 +39,14 @@ public interface ProverProviso
    * @param section
    */
   void check(SectionManager manager, String section);
+
   Status getStatus();
+
+  /**
+   * Returns the set of bindings if status is PASS,
+   * <code>null</code> otherwise.
+   */
+  Set<Binding> getBindings();
 
   enum Status
   {
