@@ -54,7 +54,6 @@ public class ProofTree
     manager_ = manager;
     section_ = section;
 
-    setPreferredSize(new Dimension(500, 300));
     TreeNode rootNode = new ProofNode(sequent);
     setModel(new DefaultTreeModel(rootNode));
     getSelectionModel().setSelectionMode(
@@ -179,6 +178,7 @@ public class ProofTree
                                    manager,
                                    section);
     JScrollPane scrollPane = new JScrollPane(tree);
+    frame.setPreferredSize(new Dimension(500, 300));
     frame.getContentPane().add(scrollPane);
     frame.pack();
     frame.setVisible(true);
@@ -395,6 +395,9 @@ public class ProofTree
         ProofNode node = (ProofNode) value;
         if (node.isClosed()) {
           setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
+        }
+        else if (node.isLeaf()) {
+          setIcon(new ImageIcon(getClass().getResource("images/conjecture.png")));
         }
       }
       return this;
