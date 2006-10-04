@@ -28,10 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.oz.util.*;
 import net.sourceforge.czt.print.util.*;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.rules.Rewrite;
-import net.sourceforge.czt.rules.RuleTable;
-import net.sourceforge.czt.rules.RuleUtils;
-import net.sourceforge.czt.rules.SimpleProver;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 
@@ -211,6 +208,7 @@ public class ZSideKickActions
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
       if (term instanceof Pred) {
+        Pred pred = (Pred) term;
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -221,15 +219,10 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
-                SimpleProver prover = new SimpleProver(rules,
-                                                       manager,
-                                                       section);
-                if (prover.prove((Pred) term)) {
-                  reportMessage(view, "Selected predicate is true");
-                }
-                else {
-                  reportMessage(view, "Selected predicate cannot be proven");
-                }
+                ProofTree.createAndShowGUI(ProverUtils.createPredSequent(pred),
+                                           rules,
+                                           manager,
+                                           section);
               }
               else {
                 reportError(view, "Cannot find rules");
