@@ -332,10 +332,10 @@ public#abstract($class) class ${class.ImplName}
 #end## foreach prop
     }
     catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(e);
     }
     catch (ClassCastException e) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(e);
     }
     return zedObject;
   }
