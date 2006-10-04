@@ -22,9 +22,10 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.nextWff \
                                       zsidekick.gotoDefinition \
                                       zsidekick.insertTypeForCurrentWff \
-                                      zsidekick.proveCurrentWff \
-                                      zsidekick.rewriteCurrentWff \
                                       zsidekick.unfoldCurrentWff \
+                                      zsidekick.rewriteCurrentWff \
+                                      zsidekick.interactiveRewriteCurrentWff \
+                                      zsidekick.proveCurrentWff \
                                       - \
                                       zsidekick.disableTypechecking \
                                       zsidekick.showCompleteTree
@@ -40,6 +41,7 @@ zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
 zsidekick.proveCurrentWff.label=Prove selected predicate
 zsidekick.rewriteCurrentWff.label=Rewrite selected formula
+zsidekick.interactiveRewriteCurrentWff.label=Show proof tree for rewriting selected formula
 zsidekick.unfoldCurrentWff.label=Unfold selected formula
 zsidekick.disableTypechecking.label=Disable Typechecking
 zsidekick.showCompleteTree.label=Show complete syntax tree

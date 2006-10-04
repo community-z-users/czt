@@ -243,12 +243,13 @@ public class ZSideKickActions
     }
   }
 
-  public static void rewrite(View view)
+  public static void interactive_rewrite(View view)
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      if (term != null ) {
+      if (term instanceof Expr) {
+        Expr expr = (Expr) term;
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -259,29 +260,11 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
-                Term result = Rewrite.rewrite(manager, section, term, rules);
-                if (result != null && result != term) {
-                  final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-                  final int start = locAnn.getStart().intValue();
-                  Selection selection =
-                    new Selection.Range(start,
-                                        start + locAnn.getLength().intValue());
-                  StringWriter writer = new StringWriter();
-                  PrintUtils.printLatex(result, writer, manager, section);
-                  final String text = writer.toString();
-                  final JEditTextArea textArea = view.getTextArea();
-                  final int caretPos = textArea.getCaretPosition();
-                  //                  Selection selection =
-                  //                    new Selection.Range(caretPos, caretPos + text.length());
-                  textArea.setSelection(selection);
-                  textArea.setSelectedText(text);
-                  selection = new Selection.Range(start,
-                                                  start + text.length());
-                  textArea.setSelection(selection);
-                }
-                else {
-                  reportError(view, "Rewriting failed");
-                }
+                ProofTree.createAndShowGUI(
+                     ProverUtils.createRewritePredSequent(expr),
+                     rules,
+                     manager,
+                     section);
               }
               else {
                 reportError(view, "Cannot find rules");
@@ -295,6 +278,9 @@ public class ZSideKickActions
             reportError(view, "Cannot find Z section for selected term");
           }
         }
+      }
+      else {
+        reportError(view, "Highlighted term is not an expression");
       }
     }
   }
