@@ -148,7 +148,7 @@ public class Main
   {
     File dest = new File(destination);
     System.err.println(destination);
-    System.err.println(dest.getParentFile().mkdirs());
+    dest.getParentFile().mkdirs();
     dest.createNewFile();
     Writer writer = new FileWriter(dest);
     Template template = velocity.getTemplate(templateName);
