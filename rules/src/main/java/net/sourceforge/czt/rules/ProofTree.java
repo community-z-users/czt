@@ -320,7 +320,7 @@ public class ProofTree
         StringWriter writer = new StringWriter();
         PrintUtils.printUnicode(getSequent().getPred(), writer,
                                 manager_, section_);
-        return writer.toString();
+        return "\u22A2 " + writer.toString();
       }
       catch (Exception e) {
         e.printStackTrace();
@@ -375,6 +375,7 @@ public class ProofTree
                                          expanded, leaf, row,
                                          hasFocus);
       if (value instanceof ProvisoNode) {
+        setToolTipText("Proviso");
         ProvisoNode node = (ProvisoNode) value;
         if (node.isClosed()) {
           setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
@@ -389,11 +390,14 @@ public class ProofTree
         if (sequent.getDeduction() != null) {
           setToolTipText("Rule " + sequent.getDeduction().getName());
         }
+        else {
+          setToolTipText("No rule has been applied to this sequent");
+        }
         if (node.isClosed()) {
-          setIcon(new ImageIcon(getClass().getResource("images/closed.png")));
+          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
         }
         else {
-          setIcon(new ImageIcon(getClass().getResource("images/open.png")));
+          setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
         }
       }
       return this;
