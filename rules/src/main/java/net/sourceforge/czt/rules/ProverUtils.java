@@ -40,10 +40,16 @@ public final class ProverUtils
 {
   public static Factory FACTORY = new Factory(new ProverFactory());
 
+  /**
+   * Copies the given predicate using the CopyVisitor (which makes
+   * sure that unification works) and creates a PredSequent with that
+   * predicate.
+   */
   public static PredSequent createPredSequent(Pred pred)
   {
+    CopyVisitor copyVisitor = new CopyVisitor(FACTORY);
     PredSequent predSequent = FACTORY.createPredSequent();
-    predSequent.setPred(pred);
+    predSequent.setPred((Pred) pred.accept(copyVisitor));
     return predSequent;
   }
 
