@@ -224,7 +224,7 @@ parser/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.java -te
 parser/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
-parser/src/main/resources/tests/circus/unboxed_circus_steam_boiler.tex -text
+parser/src/test/resources/tests/circus/unboxed_circus_steam_boiler.tex -text
 rules/.classpath -text
 rules/.project -text
 rules/COPYING.txt -text
