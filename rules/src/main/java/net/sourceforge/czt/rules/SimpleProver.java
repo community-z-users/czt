@@ -77,10 +77,8 @@ public class SimpleProver
    */
   public boolean prove(Pred pred)
   {
-    Factory factory = new Factory(new ProverFactory());
-    CopyVisitor copyVisitor = new CopyVisitor(factory);
     PredSequent predSequent =
-      ProverUtils.createPredSequent((Pred) pred.accept(copyVisitor));
+      ProverUtils.createPredSequent(pred);
     return prove(predSequent);
   }
 
