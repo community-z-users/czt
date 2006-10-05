@@ -276,6 +276,10 @@ public class Main
           if (sect instanceof ZSect) {
             ZSect zSect = (ZSect) sect;
             String sectionName = zSect.getName();
+            if (! syntaxCheckOnly) {
+              manager.get(new Key(sectionName,
+                                  SectTypeEnvAnn.class));
+            }
             if (zSect.getParaList() instanceof ZParaList &&
                 ((ZParaList) zSect.getParaList()).size() > 0) {
 	      nrOfZSects++;
@@ -296,10 +300,6 @@ public class Main
                   }
                 }
               }
-            }
-            if (! syntaxCheckOnly) {
-              manager.get(new Key(sectionName,
-                                  SectTypeEnvAnn.class));
             }
           }
         }
