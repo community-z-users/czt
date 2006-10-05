@@ -255,46 +255,52 @@ public class ProverCalculateProviso
    */
   private void checkSchemaMinus(Expr args, Factory factory)
   {
-    String op = "\\schemaminus";
-    ZExprList argList = null;
-    if ( ! (args instanceof TupleExpr)
-        || (argList=((TupleExpr)args).getZExprList()).size() != 2)
-      throw new CztException(op+" requires two arguments.");
-    ZDeclList decls1 = getDeclsFromSchema(op, argList.get(0));
-    ZDeclList decls2 = getDeclsFromSchema(op, argList.get(1));
-    // create a map of the names in decls2.
-    Map<String,Expr> map2 = new HashMap<String,Expr>();
-    for (Decl decl : decls2)
-    {
-      VarDecl vdecl = (VarDecl)decl;
-      String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
-      //      System.out.println("map2["+name+"] := "+vdecl.getExpr());
-      map2.put(name,vdecl.getExpr());
-    }
-    // now go through decls1, and filter out any names in map2
-    ZDeclList result = factory.createZDeclList();
-    for (Decl decl : decls1)
-    {
-      VarDecl vdecl = (VarDecl)decl;
-      String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
-      //      System.out.println("checking name:"+name+".");
-      if (map2.containsKey(name)) {
-        assert map2.get(name).equals(vdecl.getExpr());
+    try {
+      String op = "\\schemaminus";
+      ZExprList argList = null;
+      if ( ! (args instanceof TupleExpr)
+           || (argList=((TupleExpr)args).getZExprList()).size() != 2)
+        throw new CztException(op+" requires two arguments.");
+      ZDeclList decls1 = getDeclsFromSchema(op, argList.get(0));
+      ZDeclList decls2 = getDeclsFromSchema(op, argList.get(1));
+      // create a map of the names in decls2.
+      Map<String,Expr> map2 = new HashMap<String,Expr>();
+      for (Decl decl : decls2)
+      {
+        VarDecl vdecl = (VarDecl)decl;
+        String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+        //      System.out.println("map2["+name+"] := "+vdecl.getExpr());
+        map2.put(name,vdecl.getExpr());
       }
-      else {
-        //        System.out.println("added name:"+name+".");
-        result.add(decl);
+      // now go through decls1, and filter out any names in map2
+      ZDeclList result = factory.createZDeclList();
+      for (Decl decl : decls1)
+      {
+        VarDecl vdecl = (VarDecl)decl;
+        String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+        //      System.out.println("checking name:"+name+".");
+        if (map2.containsKey(name)) {
+          assert map2.get(name).equals(vdecl.getExpr());
+        }
+        else {
+          //        System.out.println("added name:"+name+".");
+          result.add(decl);
       }
+      }
+      ZSchText schtext = factory.createZSchText(result, factory.createTruePred()); 
+      unify(factory.createSchExpr(schtext), getLeftExpr());
+      // unify sets status_
     }
-    ZSchText schtext = factory.createZSchText(result, factory.createTruePred()); 
-    unify(factory.createSchExpr(schtext), getLeftExpr());
-    // unify sets status_
+    catch (ProverUtils.UnboundJokerException e) {
+      status_ = Status.UNKNOWN;
+    }
   }
 
   /** Gets the declarations out of a schema expression, with
    *  a few checks to see if schema is in normal form.
    */
   private ZDeclList getDeclsFromSchema(String op, Expr expr)
+    throws ProverUtils.UnboundJokerException
   {
     if ( ! (expr instanceof SchExpr))
       throw new CztException(op+" arguments must be schemas");
