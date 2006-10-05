@@ -18,13 +18,13 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>jaxb</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
-    <testResources>
-      <testResource>
-        <directory>../zml/examples/z</directory>
-      </testResource>
-    </testResources>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
