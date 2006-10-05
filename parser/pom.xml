@@ -75,11 +75,5 @@
         </executions>
       </plugin>
     </plugins>
-    <testResources>
-      <testResource>
-        <directory>tests</directory>
-        <targetPath>tests</targetPath>
-      </testResource>
-    </testResources>
   </build>
 </project>
