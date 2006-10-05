@@ -229,8 +229,10 @@ rules/.classpath -text
 rules/.project -text
 rules/COPYING.txt -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
+rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
 rules/src/main/resources/net/sourceforge/czt/rules/images/fact.jpg -text svneol=unset#image/jpeg
 rules/src/main/resources/net/sourceforge/czt/rules/images/ok.jpg -text svneol=unset#image/jpeg
+rules/src/main/resources/net/sourceforge/czt/rules/images/open.png -text svneol=unset#image/png
 rules/src/main/resources/net/sourceforge/czt/rules/images/question.jpg -text svneol=unset#image/jpeg
 rules/src/test/java/net/sourceforge/czt/rules/unification/OccursCheckVisitorTest.java -text
 rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java -text

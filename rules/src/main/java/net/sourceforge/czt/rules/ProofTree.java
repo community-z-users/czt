@@ -84,26 +84,15 @@ public class ProofTree
   {
     PredSequent sequent = node.getSequent();
     if (apply(rules_.getRule(name), node)) {
-      DefaultMutableTreeNode dedNode =
-        new DefaultMutableTreeNode("Rule " + name);
-      getModel().insertNodeInto(dedNode, node, 0);
-      scrollPathToVisible(new TreePath(dedNode.getPath()));
-      for (Sequent s : sequent.getDeduction().getSequent()) {
-        if (s instanceof PredSequent) {
-          getModel().insertNodeInto(new ProofNode((PredSequent) s),
-                                    dedNode,
-                                    dedNode.getChildCount());
-        }
-        else if (s instanceof ProverProviso) {
-          getModel().insertNodeInto(new ProvisoNode((ProverProviso) s),
-                                    dedNode,
-                                    dedNode.getChildCount());
-        }
-        else {
-          throw new RuntimeException("Unexpted sequent " + s.getClass());
-        }
-      }
+      substituteNode(node, new ProofNode(sequent));
     }
+  }
+
+  private DefaultMutableTreeNode createNode(Sequent s)
+  {
+    if (s instanceof PredSequent) return new ProofNode((PredSequent) s);
+    if (s instanceof ProverProviso) return new ProvisoNode((ProverProviso) s);
+    throw new RuntimeException("Unexpted sequent " + s.getClass());
   }
 
   private void whyNot(String name, ProofNode node)
@@ -141,26 +130,44 @@ public class ProofTree
     SimpleProver prover = new SimpleProver(rules_, manager_, section_);
     PredSequent sequent = node.getSequent();
     if (prover.prove(sequent)) {
-      getModel().insertNodeInto((MutableTreeNode) new ProofNode(sequent).getFirstChild(),
-                                node,
-                                0);
+      substituteNode(node, new ProofNode(sequent));
+    }
+  }
+
+  private void substituteNode(ProofNode node, ProofNode newNode)
+  {
+    DefaultMutableTreeNode parent = (DefaultMutableTreeNode)
+      node.getParent();
+    if (parent != null) {
+      int index = getModel().getIndexOfChild(parent, node);
+      getModel().removeNodeFromParent(node);
+      getModel().insertNodeInto(newNode, parent, index);
+    }
+    else {
+      getModel().setRoot(newNode);
+    }
+    if (newNode.getChildCount() > 0) {
+      DefaultMutableTreeNode n = (DefaultMutableTreeNode)
+        newNode.getChildAt(0);
+      scrollPathToVisible(new TreePath(n.getPath()));
+    }
+  }
+
+  private void reset(PredSequent sequent)
+  {
+    if (sequent.getDeduction() != null) {
+      java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
+      ProverUtils.collectBindings(sequent, bindings);
+      ProverUtils.reset(bindings);
+      sequent.setDeduction(null);
     }
   }
 
   private void reset(ProofNode node)
   {
     PredSequent sequent = node.getSequent();
-    if (sequent.getDeduction() != null) {
-      java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
-      ProverUtils.collectBindings(sequent, bindings);
-      ProverUtils.reset(bindings);
-      sequent.setDeduction(null);
-      if (node.getChildCount() > 0) {
-        DefaultMutableTreeNode child =
-          (DefaultMutableTreeNode) node.getFirstChild();
-        getModel().removeNodeFromParent(child);
-      }
-    }
+    reset(sequent);
+    substituteNode(node, new ProofNode(sequent));
   }
 
 
@@ -177,6 +184,7 @@ public class ProofTree
                                    rules,
                                    manager,
                                    section);
+    ToolTipManager.sharedInstance().registerComponent(tree);
     JScrollPane scrollPane = new JScrollPane(tree);
     frame.setPreferredSize(new Dimension(500, 300));
     frame.getContentPane().add(scrollPane);
@@ -262,7 +270,7 @@ public class ProofTree
             });
           whyNot.add(menuItem);
         }
-        reset(node);
+        reset(sequent);
       }
       return popup;
     }
@@ -276,21 +284,8 @@ public class ProofTree
       super(sequent);
       Deduction ded = sequent.getDeduction();
       if (ded != null) {
-        DefaultMutableTreeNode dedNode =
-          new DefaultMutableTreeNode("Rule " + ded.getName());
-        insert(dedNode, 0);
         for (Sequent s : ded.getSequent()) {
-          if (s instanceof PredSequent) {
-            dedNode.insert(new ProofNode((PredSequent) s),
-                           dedNode.getChildCount());
-          }
-          else if (s instanceof ProverProviso) {
-            dedNode.insert(new ProvisoNode((ProverProviso) s),
-                           dedNode.getChildCount());
-          }
-          else {
-            throw new RuntimeException("Unexpted sequent " + s.getClass());
-          }
+          insert(createNode(s), getChildCount());
         }
       }
     }
@@ -302,9 +297,8 @@ public class ProofTree
 
     public boolean isClosed()
     {
-      if (getChildCount() <= 0) return false;
-      for (Enumeration<TreeNode> e =
-             ((DefaultMutableTreeNode) getFirstChild()).children();
+      if (getSequent().getDeduction() == null) return false;
+      for (Enumeration<TreeNode> e = children();
            e.hasMoreElements() ;) {
         TreeNode node = e.nextElement();
         if (node instanceof ProofNode) {
@@ -379,10 +373,7 @@ public class ProofTree
       super.getTreeCellRendererComponent(tree, value, sel,
                                          expanded, leaf, row,
                                          hasFocus);
-      if (isDeduction(value)) {
-        setIcon(null);
-      }
-      else if (value instanceof ProvisoNode) {
+      if (value instanceof ProvisoNode) {
         ProvisoNode node = (ProvisoNode) value;
         if (node.isClosed()) {
           setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
@@ -393,23 +384,18 @@ public class ProofTree
       }
       else if (value instanceof ProofNode) {
         ProofNode node = (ProofNode) value;
-        if (node.isClosed()) {
-          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
+        PredSequent sequent = node.getSequent();
+        if (sequent.getDeduction() != null) {
+          setToolTipText("Rule " + sequent.getDeduction().getName());
         }
-        else if (node.isLeaf()) {
-          setIcon(new ImageIcon(getClass().getResource("images/conjecture.png")));
+        if (node.isClosed()) {
+          setIcon(new ImageIcon(getClass().getResource("images/closed.png")));
+        }
+        else {
+          setIcon(new ImageIcon(getClass().getResource("images/open.png")));
         }
       }
       return this;
-    }
-
-    private boolean isDeduction(Object value)
-    {
-      DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-      if (node.getUserObject() instanceof String) {
-        return true;
-      }
-      return false;
     }
   }
 }
