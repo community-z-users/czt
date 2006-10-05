@@ -17,9 +17,5 @@
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-    </dependency>
   </dependencies>
 </project>
