@@ -184,6 +184,7 @@ public class ProofTree
                                    rules,
                                    manager,
                                    section);
+    tree.setFont(new Font("CZT", Font.PLAIN, 12));
     ToolTipManager.sharedInstance().registerComponent(tree);
     JScrollPane scrollPane = new JScrollPane(tree);
     frame.setPreferredSize(new Dimension(500, 300));
