@@ -54,7 +54,15 @@ public class AstToPrintTreeVisitor
         zdl = factory_.createZDeclList();
         zdl.addAll(hdl.getZDeclList());
       }
-      zdl.addAll((ZDeclList) visit(((Joker) jdl).boundTo()));
+      Object obj = visit(((Joker) jdl).boundTo());
+      if (obj instanceof ZDeclList) {
+        zdl.addAll((ZDeclList) obj);
+      }
+      else {
+        HeadDeclList hdl2 = (HeadDeclList) obj;
+        zdl.addAll(hdl2.getZDeclList());
+        return factory_.createHeadDeclList(zdl, hdl2.getJokerDeclList());
+      }
       return zdl;
     }
     return super.visitTerm(hdl);
