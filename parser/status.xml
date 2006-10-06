@@ -19,6 +19,11 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="0.6" date="unreleased">
+      <action dev="Petra" type="update">
+        Support the new ENDCHAR character U+2514.
+      </action>
+    </release>
     <release version="0.5" date="July 6, 2006">
       <action dev="Petra" type="update">
         Update to ZML 2.0.
