@@ -282,6 +282,7 @@ public class AstToPrintTreeVisitor
           list.add(visit(declName));
         }
         list.add(TokenName.RSQUARE);
+        list.add(TokenName.NL);
       }
       ZSchText schText = axPara.getZSchText();
       for (Iterator<Decl> iter = schText.getZDeclList().iterator();
@@ -375,6 +376,7 @@ public class AstToPrintTreeVisitor
       }
       list.add(TokenName.RSQUARE);
     }
+    list.add(TokenName.NL);
     SchExpr schExpr = (SchExpr) cdecl.getExpr();
     ZSchText schText = schExpr.getZSchText();
     for (Iterator<Decl> iter = schText.getZDeclList().iterator();

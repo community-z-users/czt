@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -61,9 +62,14 @@ public class UnicodePrinter
 
   public void printToken(Token token)
   {
+    if (token.getSpelling() instanceof WhereWord ||
+        TokenName.END.equals(token)) {
+      print("\n");
+    }
     print(token.spelling());
     if (! "TEXT".equals(token.getName())) {
-      if ("NL".equals(token.getName())) {
+      if (TokenName.NL.equals(token) ||
+          token.getSpelling() instanceof WhereWord) {
         print("\n");
       }
       else {
