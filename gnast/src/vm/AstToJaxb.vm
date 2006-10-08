@@ -188,16 +188,11 @@ public class $class.Name
           jaxbObject.setAnns(visitAnnotations(list));
         }
       }
-      getLogger().finest("Setting Word to " + zedObject.getWord().toString());
       jaxbObject.setWord(zedObject.getWord());
       {
-        List list = zedObject.getStroke();
-        getLogger().finest("Setting strokes " + list.toString());
         List newlist = jaxbObject.getStroke();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          Object o = term.accept(this);
-          newlist.add(o);
+        for (Stroke stroke : zedObject.getStroke()) {
+          newlist.add(stroke.accept(this));
         }
       }
       getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
@@ -235,8 +230,7 @@ public class $class.Name
           AnyType anyType =
             anyTypeObjectFactory_.createAnyType();
           List newlist = anyType.getContent();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Object o = iter.next();
+          for (Object o : list) {
             if (o instanceof Term) {
 #if($prop.isReference())
               createElement_ = true;
@@ -252,10 +246,8 @@ public class $class.Name
       }
 #elseif($prop.isList())
       {
-        List list = zedObject.${prop.GetterName}();
         List newlist = jaxbObject.${prop.GetterName}();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
+        for (Object o : zedObject.${prop.GetterName}()) {
           if (o instanceof Term) {
 #if($prop.isReference())
             createElement_ = true;
