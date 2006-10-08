@@ -480,7 +480,7 @@
 
   <xs:complexType name="Binding">
     <xs:complexContent>
-      <xs:extension base="Z:RefName"/>
+      <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="JokerExprBinding">
