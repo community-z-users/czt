@@ -115,11 +115,11 @@ public class ModelTest extends TestCase
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
 
     // we print this just for interest
-    System.out.println("Action coverage: " + metric.getPercentage());
-    System.out.print("History: ");
-    for (Integer cov : metric.getHistory())
-      System.out.print(cov + ", ");
-    System.out.println();
+    //    System.out.println("Action coverage: " + metric.getPercentage());
+    //    System.out.print("History: ");
+    //    for (Integer cov : metric.getHistory())
+    //      System.out.print(cov + ", ");
+    //    System.out.println();
 
     model.resetCoverageMetrics();
     hist = metric.getHistory();
@@ -181,7 +181,7 @@ public class ModelTest extends TestCase
     model.removeAllCoverageMetrics();
     FSM iut = new FSM();
     model.addCoverageMetric(metric);
-    System.out.println("Testing "+metric.getName());
+    //    System.out.println("Testing "+metric.getName());
     Assert.assertEquals(0, metric.getCoverage());
     Assert.assertEquals(-1, metric.getMaximum());
     model.buildGraph();
@@ -194,8 +194,8 @@ public class ModelTest extends TestCase
 
     for (int i = 0; i < expect.length-1; i += 2) {
       int cov = expect[i+1];
-      System.out.println("After random walk of length "+expect[i]+
-          " we expect "+metric.getName()+" = "+cov);
+      //      System.out.println("After random walk of length "+expect[i]+
+      //          " we expect "+metric.getName()+" = "+cov);
       model.randomWalk(expect[i]);
       Assert.assertEquals(cov, metric.getCoverage());
       Assert.assertEquals(max, metric.getMaximum());
@@ -208,7 +208,7 @@ public class ModelTest extends TestCase
    */
   public void testActionCoverage()
   {
-    System.out.println("Starting testActionCoverage");
+    //    System.out.println("Starting testActionCoverage");
     FsmCoverage(new ActionCoverage(), 4, 
         new int[] {1,1, 3,3, 20,4});
   }
@@ -218,7 +218,7 @@ public class ModelTest extends TestCase
    */
   public void testStateCoverage()
   {
-    System.out.println("Starting testStateCoverage");
+    //    System.out.println("Starting testStateCoverage");
     FsmCoverage(new StateCoverage(), 3, 
         new int[] {1,1, 2,2, 3,3, 20,3});
   }
@@ -228,7 +228,7 @@ public class ModelTest extends TestCase
    */
   public void testTransitionCoverage()
   {
-    System.out.println("Starting testTransitionCoverage");
+    //    System.out.println("Starting testTransitionCoverage");
     FsmCoverage(new TransitionCoverage(), 5, 
         new int[] {1,1, 3,3, 40,5});
   }
@@ -238,7 +238,7 @@ public class ModelTest extends TestCase
    */
   public void testTransitionPairCoverage()
   {
-    System.out.println("Starting testTransitionPairCoverage");
+    //    System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10, 
         new int[] {1,0, 2,1, 3,2, 200,10});
   }

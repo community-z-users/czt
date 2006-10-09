@@ -254,7 +254,7 @@ public class ModelTestCase
    */
   public static void printProgress(String msg)
   {
-    System.out.println(msg);
+    //    System.out.println(msg);
   }
 
   /** Reset all the coverage statistics.

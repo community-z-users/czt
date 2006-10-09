@@ -43,21 +43,21 @@ public class FSM implements FsmModel
   public boolean action0Guard() { return state == 2; }
   public @Action void action0()
   {
-    System.out.println("action0: " + state + " --> 0");
+    //    System.out.println("action0: " + state + " --> 0");
     state = 0;
   }
 
   public boolean action1Guard() { return state == 2; }
   public @Action void action1()
   {
-    System.out.println("action1: " + state + " --> 1");
+    //    System.out.println("action1: " + state + " --> 1");
     state = 1;
   }
   
   public boolean action2Guard() { return state == 0; }
   public @Action void action2()
   {
-    System.out.println("action2: " + state + " --> 2");
+    //    System.out.println("action2: " + state + " --> 2");
     state = 2;
   }
 
@@ -65,6 +65,6 @@ public class FSM implements FsmModel
   public @Action void actionNone()
   {
     // leave state the same.
-    System.out.println("actionNone: " + state + " --> " + state);
+    //    System.out.println("actionNone: " + state + " --> " + state);
   }
 }
