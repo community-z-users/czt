@@ -138,18 +138,18 @@ public class Rewrite
    * If the prover fails, the original schema text is returned.
    */
   public static SchText rewriteOnce(SectionManager manager,
-                               String section,
-                               SchText schText,
-                               RuleTable rules)
+                                    String section,
+                                    SchText schText,
+                                    RuleTable rules)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
     // now create the predicate: schText \schemaEquals joker
-    System.out.println("Rewriting schtext: "+schText);
+    // System.out.println("Rewriting schtext: "+schText);
     Expr original = factory.createSchExpr(schText);
     TupleExpr pair = factory.createTupleExpr(original, joker);
-    Pred pred = factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
-
+    Pred pred =
+      factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
     SimpleProver prover =
@@ -158,11 +158,13 @@ public class Rewrite
       Expr newExpr = (Expr) ProverUtils.removeJoker(joker.boundTo());
       if (newExpr instanceof SchExpr) {
         SchText result = ((SchExpr)newExpr).getSchText(); 
-        System.out.println("Rewrote to "+result);
+        //        System.out.println("Rewrote to "+result);
         return result;
       }
-      else
-        throw new RuntimeException("Incorrect schemaEquals rule returned: "+newExpr);
+      else {
+        final String msg = "Incorrect schemaEquals rule returned: " + newExpr;
+        throw new RuntimeException(msg);
+      }
     }
     return schText;
   }
@@ -175,9 +177,9 @@ public class Rewrite
    * itself is returned.
    */
   public static Term rewriteOnce(SectionManager manager,
-                               String section,
-                               Expr expr,
-                               RuleTable rules)
+                                 String section,
+                                 Expr expr,
+                                 RuleTable rules)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
@@ -200,9 +202,9 @@ public class Rewrite
    * predicate itself is returned.
    */
   public static Term rewriteOnce(SectionManager manager,
-                               String section,
-                               Pred pred,
-                               RuleTable rules)
+                                 String section,
+                                 Pred pred,
+                                 RuleTable rules)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerPred joker = (ProverJokerPred) factory.createJokerPred("_");
