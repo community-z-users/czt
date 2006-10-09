@@ -29,6 +29,7 @@ import net.sourceforge.czt.oz.jaxb.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
@@ -178,5 +179,23 @@ public class ParserTest
     {
       return ParseUtils.parse(new UrlSource(url), manager);
     }
+  }
+
+  public URL getOzExample(String name)
+  {
+    URL result = net.sourceforge.czt.zml.Examples.getOzExample(name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
+  }
+
+  public URL getOzTestExample(String name)
+  {
+    URL result = getClass().getResource("/tests/oz/" + name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
   }
 }

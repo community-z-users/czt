@@ -48,27 +48,9 @@ public final class Examples
     return result;
   }
 
-  public static URL getOzExample(String name)
-  {
-    URL result = net.sourceforge.czt.zml.Examples.getOzExample(name);
-    if (result == null) {
-      throw new CztException("Cannot find example " + name);
-    }
-    return result;
-  }
-
   public static URL getTestExample(String name)
   {
     URL result = examples_.getClass().getResource("/tests/z/" + name);
-    if (result == null) {
-      throw new CztException("Cannot find example " + name);
-    }
-    return result;
-  }
-
-  public static URL getOzTestExample(String name)
-  {
-    URL result = examples_.getClass().getResource("/tests/oz/" + name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
