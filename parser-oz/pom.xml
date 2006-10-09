@@ -6,16 +6,21 @@
     <artifactId>czt</artifactId>
     <version>0.6-SNAPSHOT</version>
   </parent>
-  <artifactId>parser-tcoz</artifactId>
+  <artifactId>parser-oz</artifactId>
   <packaging>jar</packaging>
-  <name>CZT TCOZ Parser</name>
+  <name>CZT Object Z Parser</name>
   <description>
-    Provides classes for parsing and printing TCOZ specifications.
+    Provides classes for parsing and printing Object Z specifications.
   </description>
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-oz</artifactId>
+      <artifactId>parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser</artifactId>
+      <type>test-jar</type>
     </dependency>
   </dependencies>
   <build>
@@ -26,7 +31,7 @@
         <executions>
           <execution>
             <configuration>
-              <dialect>tcoz</dialect>
+              <dialect>oz</dialect>
             </configuration>
             <goals>
               <goal>generate</goal>

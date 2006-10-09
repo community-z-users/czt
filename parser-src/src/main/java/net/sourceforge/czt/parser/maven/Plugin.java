@@ -90,6 +90,10 @@ public class Plugin
         generateCircusParser("net.sourceforge.czt.parser.");
         generateCircusPrinter("net.sourceforge.czt.print.");
       }
+      else if ("oz".equals(dialect)) {
+        generateOzParser("net.sourceforge.czt.parser.");
+        generateOzPrinter("net.sourceforge.czt.print.");
+      }
       else if ("tcoz".equals(dialect)) {
         generateTcozParser("net.sourceforge.czt.parser.");
       }
@@ -122,7 +126,6 @@ public class Plugin
   {
     final String basePackage = "net.sourceforge.czt.parser.";
     generateZParser(basePackage);
-    generateOzParser(basePackage);
   }
 
   private void generateZParser(String basePackage)
@@ -238,7 +241,6 @@ public class Plugin
   {
     final String basePackage = "net.sourceforge.czt.print.";
     generateZPrinter(basePackage);
-    generateOzPrinter(basePackage);
   }
 
   private void generateZPrinter(String basePackage)
