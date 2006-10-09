@@ -92,10 +92,10 @@ public class FlatPredModel implements FsmModel
       Eval eval1, Eval eval2)
   {
     // some debug messages.
-    System.out.print("\n\nIUT = " + toTest + " with names ");
-    for (ZRefName n : names)
-      System.out.print(n + ", ");
-    System.out.println(" and freevars=" + toTest.freeVars());
+    //    System.out.print("\n\nIUT = " + toTest + " with names ");
+    //    for (ZRefName n : names)
+    //      System.out.print(n + ", ");
+    //    System.out.println(" and freevars=" + toTest.freeVars());
     pred_ = toTest;
     names_ = names;
     validModes_ = validModes;

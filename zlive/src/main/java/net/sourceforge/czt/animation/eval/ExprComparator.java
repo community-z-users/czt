@@ -185,7 +185,7 @@ public class ExprComparator implements Comparator<Expr>
         case SETEXPR:
           EvalSet set0 = (EvalSet)arg0;
           EvalSet set1 = (EvalSet)arg1;
-          System.out.println("Compare: set sizes "+set0.size()+", "+set1.size());
+          //          System.out.println("Compare: set sizes "+set0.size()+", "+set1.size());
           result = sign(set0.size() - set1.size());
           if (result == EQUAL) {
             Iterator<Expr> members0 = set0.sortedIterator();

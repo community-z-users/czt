@@ -40,19 +40,19 @@ public class FlatOrTest
   {
     FlatPredList left = new FlatPredList(zlive_);
     left.addPred(parsePred("z=x"));
-    System.out.println("left.args="+left.getArgs());
+    //    System.out.println("left.args="+left.getArgs());
     Assert.assertEquals(2, left.getArgs().size());
     Assert.assertEquals(x, left.getArgs().get(0));
     Assert.assertEquals(z, left.getArgs().get(1));
     FlatPredList right = new FlatPredList(zlive_);
     right.addPred(parsePred("z \\in \\{x+1,y+1\\}"));
-    System.out.println("right.args="+right.getArgs());
+    //    System.out.println("right.args="+right.getArgs());
     Assert.assertEquals(3, right.getArgs().size());
     Assert.assertEquals(x, right.getArgs().get(0));
     Assert.assertEquals(y, right.getArgs().get(1));
     Assert.assertEquals(z, right.getArgs().get(2));
     FlatPred pred = new FlatOr(left, right);
-    System.out.println("pred.args="+pred.getArgs());
+    //    System.out.println("pred.args="+pred.getArgs());
     Assert.assertEquals(3, pred.getArgs().size());
     Assert.assertEquals(x, pred.getArgs().get(0));
     Assert.assertEquals(y, pred.getArgs().get(1));

@@ -75,23 +75,23 @@ public class FlatMultTest
     model.buildGraph();
     int minlen = Integer.MAX_VALUE;
     List<List<Integer>> table = new ArrayList<List<Integer>>();
-    System.out.print("Transitions");
+    //    System.out.print("Transitions");
     for (CoverageMetric cm : model.getCoverageMetrics()) {
       if (cm instanceof CoverageHistory) {
-        System.out.print(","+cm.getName());
+        //        System.out.print(","+cm.getName());
         List<Integer> history = ((CoverageHistory)cm).getHistory();
         table.add(history);
         if (history.size() < minlen)
           minlen = history.size();
       }
     }
-    System.out.println();
-    for (int i=0; i < minlen; i++) {
-      System.out.print(i*interval);
-      for (List<Integer> hist : table)
-        System.out.print(","+hist.get(i));
-      System.out.println();
-    }
+    //    System.out.println();
+    //    for (int i=0; i < minlen; i++) {
+    //      System.out.print(i*interval);
+    //      for (List<Integer> hist : table)
+    //        System.out.print(","+hist.get(i));
+    //      System.out.println();
+    //    }
     //model.printGraphDot("FlatMult.dot");
   }
 
