@@ -25,19 +25,15 @@ package <package/>;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
-import net.sourceforge.czt.java_cup.runtime.*;
-      
-import net.sourceforge.czt.parser.util.CztReader;
-import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.TokenStack;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -58,7 +54,7 @@ public class SectHeadScanner
   implements Scanner
 {
   private TokenStack lookahead_;
-  private ZFactory factory_ = new ZFactoryImpl();
+  private Factory factory_ = new Factory();
   private ZSect sectHead_ = null;
   private static final String ANONYMOUS_SECT_NAME = "Specification";
   private static final String ANONYMOUS_PARENT = "standard_toolkit";
@@ -95,7 +91,7 @@ public class SectHeadScanner
   private ZSect anonymousZSect()
   {
     Parent parent = factory_.createParent(ANONYMOUS_PARENT);
-    List parentlist = new ArrayList();
+    List&lt;Parent&gt; parentlist = new ArrayList&lt;Parent&gt;();
     parentlist.add(parent);
     ZSect result = factory_.createZSect(ANONYMOUS_SECT_NAME, parentlist, null);
     return result;
@@ -126,19 +122,18 @@ public class SectHeadScanner
     assert nametok.value != null;
     final String name = ((Decorword) nametok.value).getName();
     assert name.length() > 0;
-    ZSect result = factory_.createZSect(name, null, null);
+    List&lt;Parent&gt; parentList = new ArrayList&lt;Parent&gt;();
     if (next.sym == Sym.PARENTS) {
-      parseParentList(result.getParent());
+      parseParentList(parentList);
     }
     else if (next.sym != Sym.END) {
       String message = "Parse error (expected PARENTS or END)";
       throw new ParseException(message, next.left, next.right);
     }
-    assert result != null;
-    return result;
+    return factory_.createZSect(name, parentList, null);
   }
 
-  private void parseParentList(List parentList)
+  private void parseParentList(List&lt;Parent&gt; parentList)
     throws Exception
   {
     final Symbol parentName = lookahead_.pop();
