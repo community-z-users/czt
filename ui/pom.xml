@@ -15,6 +15,10 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-circus</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>zlive</artifactId>
     </dependency>
   </dependencies>

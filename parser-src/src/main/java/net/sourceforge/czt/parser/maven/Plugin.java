@@ -44,6 +44,12 @@ public class Plugin
   extends AbstractMojo
 {
   /**
+   * @parameter expression="all"
+   * @required
+   */
+  private String dialect;
+
+  /**
    * @parameter expression="${project.build.directory}/generated-sources/parser-src"
    * @required
    */
@@ -77,7 +83,16 @@ public class Plugin
       project.addCompileSourceRoot(outputDirectory);
     }
     try {
-      generate();
+      if ("all".equals(dialect)) {
+        generate();
+      }
+      else if ("circus".equals(dialect)) {
+        generateCircusParser("net.sourceforge.czt.parser.");
+        generateCircusPrinter("net.sourceforge.czt.print.");
+      }
+      else {
+        throw new MojoExecutionException("Unsupported dialect " + dialect);
+      }
     }
     catch (MojoExecutionException e) {
       throw e;
@@ -103,7 +118,6 @@ public class Plugin
     generateZpattParser(basePackage);
     generateOzParser(basePackage);
     generateTcozParser(basePackage);
-    generateCircusParser(basePackage);
   }
 
   private void generateZParser(String basePackage)
@@ -221,7 +235,6 @@ public class Plugin
     generateZPrinter(basePackage);
     generateZpattPrinter(basePackage);
     generateOzPrinter(basePackage);
-    generateCircusPrinter(basePackage);
   }
 
   private void generateZPrinter(String basePackage)

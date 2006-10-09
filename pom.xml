@@ -75,6 +75,7 @@
     <module>maven-cup-plugin</module>
     <module>maven-jflex-plugin</module>
     <module>parser</module>
+    <module>parser-circus</module>
     <module>typechecker</module>
     <module>rules</module>
     <module>zlive</module>
@@ -150,6 +151,11 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>parser</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-circus</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
