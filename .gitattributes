@@ -211,6 +211,7 @@ parser-circus/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -te
 parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
+parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/.classpath -text
 parser/.project -text
 parser/COPYING.txt -text
@@ -221,7 +222,6 @@ parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
-parser/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
 parser/src/test/resources/tests/circus/unboxed_circus_steam_boiler.tex -text

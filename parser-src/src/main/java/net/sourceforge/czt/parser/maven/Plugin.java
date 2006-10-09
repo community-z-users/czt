@@ -93,6 +93,10 @@ public class Plugin
       else if ("tcoz".equals(dialect)) {
         generateTcozParser("net.sourceforge.czt.parser.");
       }
+      else if ("zpatt".equals(dialect)) {
+        generateZpattParser("net.sourceforge.czt.parser.");
+        generateZpattPrinter("net.sourceforge.czt.print.");
+      }
       else {
         throw new MojoExecutionException("Unsupported dialect " + dialect);
       }
@@ -118,7 +122,6 @@ public class Plugin
   {
     final String basePackage = "net.sourceforge.czt.parser.";
     generateZParser(basePackage);
-    generateZpattParser(basePackage);
     generateOzParser(basePackage);
   }
 
@@ -235,7 +238,6 @@ public class Plugin
   {
     final String basePackage = "net.sourceforge.czt.print.";
     generateZPrinter(basePackage);
-    generateZpattPrinter(basePackage);
     generateOzPrinter(basePackage);
   }
 
