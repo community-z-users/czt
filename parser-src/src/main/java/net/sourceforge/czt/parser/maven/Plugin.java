@@ -90,6 +90,9 @@ public class Plugin
         generateCircusParser("net.sourceforge.czt.parser.");
         generateCircusPrinter("net.sourceforge.czt.print.");
       }
+      else if ("tcoz".equals(dialect)) {
+        generateTcozParser("net.sourceforge.czt.parser.");
+      }
       else {
         throw new MojoExecutionException("Unsupported dialect " + dialect);
       }
@@ -117,7 +120,6 @@ public class Plugin
     generateZParser(basePackage);
     generateZpattParser(basePackage);
     generateOzParser(basePackage);
-    generateTcozParser(basePackage);
   }
 
   private void generateZParser(String basePackage)
