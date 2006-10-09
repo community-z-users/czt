@@ -141,7 +141,6 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Main.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/action_part.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/action_production.java -text
-java_cup/src/main/java/net/sourceforge/czt/java_cup/anttask/CUPTask.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/assoc.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/emit.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/internal_error.java -text
