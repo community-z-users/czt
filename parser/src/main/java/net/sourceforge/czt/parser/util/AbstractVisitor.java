@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ public class AbstractVisitor
     }
   }
 
-  protected Set getDependencies()
+  public Set getDependencies()
   {
     return dependencies_;
   }
