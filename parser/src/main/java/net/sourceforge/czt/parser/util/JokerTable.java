@@ -91,9 +91,24 @@ public class JokerTable
     throws JokerException
   {
     final Jokers existingJokers = jokers_.get(name);
-    if (existingJokers != null) {
+    if (existingJokers != null &&
+        existingJokers.getKind() != jokers.getKind()) {
       String message = "Duplicate joker name " + name;
+      message += " defined as " + jokers.getKind();
       LocAnn locAnn = (LocAnn) jokers.getAnn(LocAnn.class);
+      if (locAnn != null) {
+        if (locAnn.getLine() != null) {
+          message += " at line " + locAnn.getLine();
+        }
+        if (locAnn.getCol() != null) {
+          message += " column " + locAnn.getCol();
+        }
+        if (locAnn.getLoc() != null) {
+          message += " in " + locAnn.getLoc();
+        }
+      }
+      message += " and as " + existingJokers.getKind();
+      locAnn = (LocAnn) existingJokers.getAnn(LocAnn.class);
       if (locAnn != null) {
         if (locAnn.getLine() != null) {
           message += " at line " + locAnn.getLine();
