@@ -66,6 +66,12 @@ public final class ProverUtils
     return createPredSequent(pred);
   }
 
+  public static PredSequent createRewritePredSequent(Pred pred)
+  {
+    ProverJokerPred joker = (ProverJokerPred) FACTORY.createJokerPred("_");
+    return createPredSequent(FACTORY.createIffPred(pred, joker));
+  }
+
   /**
    * Resets all the bindings in the collection.
    *
