@@ -243,13 +243,13 @@ public class ZSideKickActions
     }
   }
 
-  public static void interactive_rewrite(View view)
+  public static void rewrite(View view)
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      if (term instanceof Expr) {
-        Expr expr = (Expr) term;
+      if (term instanceof Expr ||
+          term instanceof Pred) {
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -260,11 +260,18 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
-                ProofTree.createAndShowGUI(
-                     ProverUtils.createRewritePredSequent(expr),
-                     rules,
-                     manager,
-                     section);
+                Term result;
+                if (term instanceof Pred) {
+                  result =
+                    Rewrite.rewriteOnce(manager, section, (Pred) term, rules);
+                }
+                else {
+                   result =
+                     Rewrite.rewriteOnce(manager, section, (Expr) term, rules);
+                }
+                if (! replaceWff(term, result, view, manager, section)) {
+                  reportError(view, "Unfolding failed");
+                }
               }
               else {
                 reportError(view, "Cannot find rules");
@@ -280,9 +287,103 @@ public class ZSideKickActions
         }
       }
       else {
-        reportError(view, "Highlighted term is not an expression");
+        final String msg =
+          "Highlighted term is neither an expression nor a predicate";
+        reportError(view, msg);
       }
     }
+  }
+
+  public static void interactive_rewrite(View view)
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      if (term instanceof Expr ||
+          term instanceof Pred) {
+        ParsedData parsedData = getParsedData(view);
+        if (parsedData != null) {
+          SectionManager manager = parsedData.getManager();
+          ZSect zSect = wffHighlight.findZSectForCurrentWff();
+          if (zSect != null) {
+            String section = zSect.getName();
+            try {
+              RuleTable rules = (RuleTable)
+                manager.get(new Key(section, RuleTable.class));
+              if (rules != null) {
+                if (term instanceof Expr) {
+                  ProofTree.createAndShowGUI(
+                     ProverUtils.createRewritePredSequent((Expr) term),
+                     rules,
+                     manager,
+                     section);
+                }
+                else {
+                  ProofTree.createAndShowGUI(                     
+                     ProverUtils.createRewritePredSequent((Pred) term),
+                     rules,
+                     manager,
+                     section);
+                }
+              }
+              else {
+                reportError(view, "Cannot find rules");
+              }
+            }
+            catch (CommandException e) {
+              reportError(view, "Cannot get rule table");
+            }
+          }
+          else {
+            reportError(view, "Cannot find Z section for selected term");
+          }
+        }
+      }
+      else {
+        final String msg =
+          "Highlighted term is neither an expression nor a predicate";
+        reportError(view, msg);
+      }
+    }
+  }
+
+  public static boolean replaceWff(Term oldTerm, Term newTerm, View view,
+                                   SectionManager manager, String section)
+  {
+    if (newTerm != null && oldTerm != newTerm) {
+      final LocAnn locAnn = (LocAnn) oldTerm.getAnn(LocAnn.class);
+      final int start = locAnn.getStart().intValue();
+      Selection selection =
+        new Selection.Range(start,
+                            start + locAnn.getLength().intValue());
+      StringWriter writer = new StringWriter();
+      try {
+        String modeName = view.getBuffer().getMode().toString();
+        if (modeName.endsWith("latex")) {
+          PrintUtils.printLatex(newTerm, writer, manager, section);
+        }
+        else {
+          PrintUtils.printUnicode(newTerm, writer,
+                                  manager, section);
+        }
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+        net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter jaxbWriter =
+          new net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter();
+        jaxbWriter.write(newTerm, writer);
+      }
+      final String text = writer.toString();
+      final JEditTextArea textArea = view.getTextArea();
+      final int caretPos = textArea.getCaretPosition();
+      textArea.setSelection(selection);
+      textArea.setSelectedText(text);
+      selection = new Selection.Range(start,
+                                      start + text.length());
+      textArea.setSelection(selection);
+      return true;
+    }
+    return false;
   }
 
   public static void unfold(View view)
@@ -306,39 +407,7 @@ public class ZSideKickActions
               if (rules != null) {
                 Term result =
                   Rewrite.rewriteOnce(manager, section, (Expr) term, rules);
-                if (result != null && result != term) {
-                  final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-                  final int start = locAnn.getStart().intValue();
-                  Selection selection =
-                    new Selection.Range(start,
-                                        start + locAnn.getLength().intValue());
-                  StringWriter writer = new StringWriter();
-                  try {
-                    String modeName = view.getBuffer().getMode().toString();
-                    if (modeName.endsWith("latex")) {
-                      PrintUtils.printLatex(result, writer, manager, section);
-                    }
-                    else {
-                      PrintUtils.printUnicode(result, writer,
-                                              manager, section);
-                    }
-                  }
-                  catch (Exception e) {
-                    e.printStackTrace();
-                    net.sourceforge.czt.z.jaxb.JaxbXmlWriter jaxbWriter =
-                      new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
-                    jaxbWriter.write(result, writer);
-                  }
-                  final String text = writer.toString();
-                  final JEditTextArea textArea = view.getTextArea();
-                  final int caretPos = textArea.getCaretPosition();
-                  textArea.setSelection(selection);
-                  textArea.setSelectedText(text);
-                  selection = new Selection.Range(start,
-                                                  start + text.length());
-                  textArea.setSelection(selection);
-                }
-                else {
+                if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
                 }
               }
