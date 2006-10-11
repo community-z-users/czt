@@ -95,7 +95,8 @@ public class Main
           verbosityLevel = Level.CONFIG;
           Logger.getLogger("").setLevel(verbosityLevel);
         }
-        else if ("-ids".equals(args[i])) {
+        else if ("-id".equals(args[i]) ||
+                 "-ids".equals(args[i])) {
           printIds = true;
         }
         else if ("-d".equals(args[i])) {
@@ -178,11 +179,16 @@ public class Main
     return "Usage:\n" +
       "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
-      "Flags:\n  -d   specify the dialect to be used\n" +
+      "Flags:\n"+
+      "  -d   specify the dialect to be used\n" +
       "  -o   specifiy output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
+      "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +
+      "       prints the ids for names as part of the name.\n" +
+      "       Note that this is for debugging purposes.  The output won't\n" +
+      "       typecheck any more.\n" +
       "Dialects:\n  z    Standard Z (default)\n  oz   Object Z\n" +
-      "File ending bingings:\n  tex, zed --> LaTeX Markup\n" +
+      "File ending bingings:\n  tex, zed --> LaTeX mark-up\n" +
       "  xml, zml --> ZML\n" +
       "  utf8     --> Unicode (encoding UTF-8)\n" +
       "  utf16    --> Unicode (encoding UTF-16)\n" +
