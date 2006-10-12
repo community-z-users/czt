@@ -1,50 +1,41 @@
 package net.sourceforge.czt.gaffe2.animation.common.adapter;
 
+import javax.swing.JComponent;
+import javax.swing.JTextField;
+
+import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.Expr;
+
 
 public class BindExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-
+  protected BindExpr expr;
+  private JTextField component = new JTextField("");
+  /**
+   * 
+   */
   public BindExpr_DefaultAdapter()
   {
     super();
-    // TODO Auto-generated constructor stub
+    expr = factory.createBindExpr(factory.createZDeclList());
   }
   
-  /**
-   * @param expr
-   * @return
-   *//*
-  public Object encodeExpr(Expr expr){
-    BindExpr bindExpr = (BindExpr) expr;
-    ZDeclList declList = bindExpr.getZDeclList();
-    
-    HashMap<String,String> code = new HashMap<String,String>();
-    String key;
-    String value;
-    for (Decl decl : declList) {
-      ConstDecl tempDecl = (ConstDecl) decl;
-      key = tempDecl.getZDeclName().toString();
-      value = ((RefExpr) tempDecl.getExpr()).getZRefName().getWord();
-      code.put(key,value);
-    }
-    return code;
-    
-  }
-  
-  *//**
-   * @param value
-   * @return
-   *//*
-  @SuppressWarnings("unchecked")
-  public Expr decodeExpr(Object value)
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getExpr()
+   */
+  public Expr getExpr()
   {
-    HashMap<String,String> code = (HashMap<String,String>)(value);
-    ZDeclList result = factory.createZDeclList();
-    for (String key : code.keySet()) {
-      ZDeclName name = factory.createZDeclName(key);
-      RefExpr expr = factory.createRefExpr(factory.createZRefName(code.get(key)));
-      result.add((Decl) factory.createConstDecl(name, expr));
-    }
-    return factory.createBindExpr(result);
-  }*/
+    expr = (BindExpr)GaffeFactory.decodeExpr(component.getText());
+    return expr;
+  }
+  
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getComponent()
+   */
+  public JComponent getComponent()
+  {
+    component.setText(GaffeFactory.encodeExpr(expr).toString());
+    return component;
+  }
 }

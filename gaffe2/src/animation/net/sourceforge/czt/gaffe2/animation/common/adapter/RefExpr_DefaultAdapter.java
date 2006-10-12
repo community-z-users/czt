@@ -9,42 +9,29 @@ import net.sourceforge.czt.z.ast.RefExpr;
 
 public class RefExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-
+  protected RefExpr expr;
+  private JTextField component = new JTextField("");
+  
   public RefExpr_DefaultAdapter()
   {
     super();
-    // TODO Auto-generated constructor stub
   }
 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#componentToData(javax.swing.JComponent)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getExpr()
    */
-  public Expr componentToData(JComponent jc)
+  public Expr getExpr()
   {
-    JTextField component = (JTextField) jc;
-    return factory.createRefExpr(factory.createZRefName(component.getText()));
+    expr.setRefName(factory.createZRefName(component.getText()));
+    return expr;
   }
-
+  
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#dataToComponent(javax.swing.JComponent, net.sourceforge.czt.z.ast.Expr)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getComponent()
    */
-  public JComponent dataToComponent(JComponent origin, Expr expr)
+  public JComponent getComponent()
   {
-    JTextField component = (origin == null)? new JTextField():(JTextField) origin;
-    RefExpr value = (RefExpr) expr;
-    //ZExprList exprList = value.getZExprList();
-    component.setText(value.getZRefName().getWord());
+    component.setText(expr.getZRefName().getWord());
     return component;
   }
-  
- /* public Object encodeExpr(Expr expr){
-    RefExpr value = (RefExpr) expr;
-    return value.getZRefName().getWord();
-  }
-  
-  public Expr decodeExpr(Object code){
-    String value = (String) code;
-    return factory.createRefExpr(factory.createZRefName(value));
-  }
-  */
 }

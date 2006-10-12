@@ -6,9 +6,8 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.ListModel;
 
+import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.ZExprList;
 
 /**
@@ -17,39 +16,41 @@ import net.sourceforge.czt.z.ast.ZExprList;
  */
 public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
 {
+  private JList component;
+  
   public SetExpr_JListAdapter()
   {
     super();
+    component = new JList();
   }
-
+  
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#componentToData(javax.swing.JComponent)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getExpr()
    */
-  public Expr componentToData(JComponent jc)
+  public Expr getExpr()
   {
-    JList component = (JList) jc;
     ListModel model = component.getModel();
-    ZExprList exprList = factory.createZExprList();
+    ZExprList exprList = expr.getZExprList();
+    exprList.clear();
     String element;
     for (int i = 0; i < model.getSize(); i++) {
       element = (String) model.getElementAt(i);
-      exprList.add(factory.createRefExpr(factory.createZRefName(element)));
+      exprList.add(GaffeFactory.decodeExpr(element));
     }
-    return factory.createSetExpr(exprList);
+    expr.setExprList(exprList);
+    return expr;
   }
 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#dataToComponent(javax.swing.JComponent, net.sourceforge.czt.z.ast.Expr)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getComponent()
    */
-  public JComponent dataToComponent(JComponent origin, Expr expr)
+  public JComponent getComponent()
   {
-    JList component = (origin == null)? new JList():(JList) origin;
-    SetExpr setExpr = (SetExpr) expr;
-    ZExprList exprList = setExpr.getZExprList();
-    DefaultListModel model = new DefaultListModel();
+    ZExprList exprList = expr.getZExprList();
+    DefaultListModel model = (DefaultListModel)component.getModel();
+    model.clear();
     for (Expr tempExpr : exprList) {
-      RefExpr value = (RefExpr) tempExpr;
-      model.addElement(value.getZRefName().getWord());
+      model.addElement(GaffeFactory.encodeExpr(tempExpr));
     }
     component.setModel(model);
     return component;

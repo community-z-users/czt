@@ -76,10 +76,10 @@ gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/Adapter
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/BindExpr_DefaultAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/BindExpr_JTableAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/BindExpr_JTextAreaAdapter.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/NumExpr_JTextFieldAdapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/NumExpr_DefaultAdapter.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/NumExpr_JSpinnerAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/RefExpr_DefaultAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/RefExpr_JTextAreaAdapter.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/RefExpr_JTextFieldAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/SetExpr_DefaultAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/SetExpr_JListAdapter.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/common/adapter/SetExpr_JTextAreaAdapter.java -text
@@ -94,6 +94,7 @@ gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/ChangeStepList
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/ChangeStepMenuListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/ChangeStepTreeListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/CloseItemListener.java -text
+gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/ConfigChangeListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/DesignItemListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/EvaluateListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/ExitItemListener.java -text
@@ -107,7 +108,6 @@ gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/SchemaTypeList
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/control/StepTreeItemListener.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/model/EvalResult.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/model/EvalSetResult.java -text
-gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/model/SimpleResult.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/model/Step.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/model/StepTree.java -text
 gaffe2/src/animation/net/sourceforge/czt/gaffe2/animation/view/DesignDialog.java -text

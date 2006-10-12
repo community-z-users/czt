@@ -40,7 +40,8 @@ public class ChangeStepMenuListener implements ActionListener
       menu.add(item);
     }
     JButton source = (JButton) arg0.getSource();
-    menu.setLocation(source.getLocationOnScreen());
+    menu.setLocation(source.getLocationOnScreen().x
+                    ,source.getLocationOnScreen().y+source.getSize().height);
     menu.setVisible(true);
   }
 

@@ -1,35 +1,38 @@
 package net.sourceforge.czt.gaffe2.animation.common.adapter;
 
 import javax.swing.JComponent;
-import javax.swing.JTextArea;
+import javax.swing.JSpinner;
 
 import net.sourceforge.czt.z.ast.Expr;
 
-public class RefExpr_JTextAreaAdapter extends RefExpr_DefaultAdapter
+/**
+ * @author Linan Zhang
+ *
+ */
+public class NumExpr_JSpinnerAdapter extends NumExpr_DefaultAdapter
 {
-  private JTextArea component;
+  private JSpinner component;
   
-  public RefExpr_JTextAreaAdapter()
+  public NumExpr_JSpinnerAdapter()
   {
     super();
-    component = new JTextArea();
+    component = new JSpinner();
   }
 
   /* (non-Javadoc)
    * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getExpr()
    */
-  public Expr getExpr()
-  {
-    expr.setRefName(factory.createZRefName(component.getText()));
+  public Expr getExpr(){
+    Integer num = Integer.parseInt(component.getValue().toString());
+    expr = factory.createNumExpr(num);
     return expr;
   }
 
   /* (non-Javadoc)
    * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getComponent()
    */
-  public JComponent getComponent()
-  {
-    component.setText(expr.getZRefName().getWord());
+  public JComponent getComponent(){
+    component.setValue(expr.getValue());
     return component;
   }
   

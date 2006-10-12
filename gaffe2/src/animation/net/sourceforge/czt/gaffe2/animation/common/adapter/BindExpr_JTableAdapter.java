@@ -6,11 +6,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.gaffe2.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
 
@@ -20,45 +19,47 @@ import net.sourceforge.czt.z.ast.ZDeclName;
  */
 public class BindExpr_JTableAdapter extends BindExpr_DefaultAdapter
 {
+  private JTable component;
+  
   public BindExpr_JTableAdapter()
   {
     super();
+    component = new JTable();
   }
-
+ 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#componentToData(javax.swing.JComponent)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getExpr()
    */
-  public Expr componentToData(JComponent jc)
+  public Expr getExpr()
   {
-    JTable component = (JTable) jc;
     TableModel tm = component.getModel();
     int i = 0;
     String temp;
-    ZDeclList result = factory.createZDeclList();
+    ZDeclList result = expr.getZDeclList();
+    result.clear();
     for (i = 0; i < tm.getRowCount(); i++) {
       temp = (String) tm.getValueAt(i, 0);
       ZDeclName name = factory.createZDeclName(temp);
       temp = (String) tm.getValueAt(i, 1);
-      RefExpr value = factory.createRefExpr(factory.createZRefName(temp));
+      Expr value = GaffeFactory.decodeExpr(temp);
       result.add((Decl) factory.createConstDecl(name, value));
     }
-    return factory.createBindExpr(result);
+    expr.setDeclList(result);
+    return expr;
   }
 
   /* (non-Javadoc)
-   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#dataToComponent(javax.swing.JComponent, net.sourceforge.czt.z.ast.Expr)
+   * @see net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter#getComponent()
    */
-  public JComponent dataToComponent(JComponent origin, Expr expr)
+  public JComponent getComponent()
   {
-    BindExpr bindExpr = (BindExpr) expr;
-    ZDeclList declList = bindExpr.getZDeclList();
-    JTable component = (origin==null)? new JTable():(JTable)origin;
+    ZDeclList declList = expr.getZDeclList();
     Object[][] dataModel = new Object[declList.size()][2];
     int i = 0;
     for (Decl decl : declList) {
       ConstDecl tempDecl = (ConstDecl) decl;
       dataModel[i][0] = tempDecl.getZDeclName().toString();
-      dataModel[i][1] = ((RefExpr) tempDecl.getExpr()).getZRefName().getWord();
+      dataModel[i][1] = GaffeFactory.encodeExpr(tempDecl.getExpr());
       i++;
     }
     component.setModel(new DefaultTableModel(dataModel, new String[]{

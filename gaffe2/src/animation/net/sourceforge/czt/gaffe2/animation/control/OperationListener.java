@@ -51,8 +51,7 @@ public class OperationListener extends MouseAdapter
         VariablePane inputPane = id.getInputPane();
         HashMap<String, Expr> input = analyzer.getVariableMap(schemaName,
             "input");
-        inputPane.setComponentMap(GaffeFactory.exprMapToComponentMap(null,
-            input));
+        inputPane.setComponentMap(GaffeFactory.createComponentMap(input));
         inputPane.update();
         id.pack();
         id.setModal(true);

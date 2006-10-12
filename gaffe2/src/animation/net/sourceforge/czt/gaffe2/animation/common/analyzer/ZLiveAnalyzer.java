@@ -66,6 +66,7 @@ public class ZLiveAnalyzer implements Analyzer
       ZLive zlive_ = GaffeFactory.getZLive();
       Source src = new FileSource(specFile);
       SectionManager manager = zlive_.getSectionManager();
+      manager.reset();
       manager.put(new Key(specFile.getName(), Source.class), src);
       Spec spec = (Spec) manager.get(new Key(specFile.getName(), Spec.class));
       String sectName = null;
@@ -159,21 +160,22 @@ public class ZLiveAnalyzer implements Analyzer
   {
     HashMap<String, Expr> result = new HashMap<String, Expr>();
     Signature signature = schemaMap.get(schemaName);
-    ZDeclName name;
+    String name;
     Type type;
     Stroke stroke;
     ZStrokeList strokeList;
+    Map<String,Class> customMap = GaffeFactory.getCustomMap(); 
     for (NameTypePair ntp : signature.getNameTypePair()){
-      name = ntp.getZDeclName();
+      name = ntp.getZDeclName().toString();
       type = ntp.getType();
-      strokeList = name.getZStrokeList();
+      strokeList = ntp.getZDeclName().getZStrokeList();
       /*
-       PowerType(Type) "\{..,..,..,..,..\}" SetExpr
-       ProdType(Type)  "(..,..,..,..,..)"   TupleExpr
-       GivenType(ZString.ARITHMOS)   "33"       NumExpr    
-       GivenType(ZString.S)          "fred"       RefExpr(GivenValue)
+       PowerType(Type) "\{..,..,..,..,..\}"         SetExpr
+       ProdType(Type)  "(..,..,..,..,..)"           TupleExpr
+       GivenType(ZString.ARITHMOS)   "33"           NumExpr    
+       GivenType(ZString.S)          "fred"         RefExpr(GivenValue)
        SchemaType(Signature(ListTerm<NameTypePair(DeclName, Type)>)) 
-           "\lblot n1== v1, n2==v2, ...... \rblot" BindExpr
+           "\lblot n1== v1, n2==v2, ...... \rblot"  BindExpr
        */
       if (strokeList.size() == 0 && !variableType.equals("state")){
         continue;
@@ -192,23 +194,26 @@ public class ZLiveAnalyzer implements Analyzer
       }
       if (type instanceof GivenType){
         //GivenType givenType = (GivenType)type;
-        result.put(name.toString(),factory.createNumExpr(0));
+        result.put(name,factory.createNumExpr(0));
       }
       else if (type instanceof PowerType) {
         ZExprList exprList = factory.createZExprList();
-        result.put(name.toString(),factory.createSetExpr(exprList));
+        result.put(name,factory.createSetExpr(exprList));
       }
       else if (type instanceof ProdType) {
         ZExprList exprList = factory.createZExprList();
-        result.put(name.toString(),factory.createTupleExpr(exprList));
+        result.put(name,factory.createTupleExpr(exprList));
       }
       else if (type instanceof SchemaType) {
         ZDeclList declList = factory.createZDeclList();
-        result.put(name.toString(),factory.createBindExpr(declList));
+        result.put(name,factory.createBindExpr(declList));
       }
       else {
         System.out.println("Unknown Type for DeclName: "
             + name+" as Type of "+ type.toString());
+      }
+      if (customMap.get(name)==null){
+        customMap.put(name,GaffeFactory.getAvailableMap().get(result.get(name).getClass().getSimpleName()).get(0));
       }
     }
     return result;

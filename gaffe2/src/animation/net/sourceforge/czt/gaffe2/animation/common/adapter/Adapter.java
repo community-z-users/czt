@@ -11,11 +11,14 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public interface Adapter
 {
-  // Retrieve data from input component
-  public Expr componentToData(JComponent jc);
-
   // Update component with changed data
-  public JComponent dataToComponent(JComponent origin, Expr expr);
+  public void setExpr(Expr expr);
+  
+//Retrieve data from input component
+  public Expr getExpr();
+  
+  // Return the UI for current Data
+  public JComponent getComponent();
   
   // An string representation of this adapter
   public String toString();

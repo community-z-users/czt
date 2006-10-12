@@ -7,15 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JComponent;
-
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.Adapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExpr_JTableAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.BindExpr_JTextAreaAdapter;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.NumExpr_JTextFieldAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.NumExpr_DefaultAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.NumExpr_JSpinnerAdapter;
+import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_DefaultAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_JTextAreaAdapter;
-import net.sourceforge.czt.gaffe2.animation.common.adapter.RefExpr_JTextFieldAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExpr_JListAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.adapter.SetExpr_JTextAreaAdapter;
 import net.sourceforge.czt.gaffe2.animation.common.analyzer.Analyzer;
@@ -29,6 +28,10 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.impl.BindExprImpl;
+import net.sourceforge.czt.z.impl.NumExprImpl;
+import net.sourceforge.czt.z.impl.RefExprImpl;
+import net.sourceforge.czt.z.impl.SetExprImpl;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZChar;
 
@@ -44,9 +47,9 @@ public class GaffeFactory
 
   private static Evaluator evaluator = new ZLiveEvaluator();
 
-  private static Map<String,Adapter> adapterMap = new HashMap<String,Adapter>();
+  private static Map<String,Class> customMap = new HashMap<String,Class>();
   
-  private static Map<String,List<Adapter>> availableMap = new HashMap<String,List<Adapter>>();
+  private static Map<String,List<Class>> availableMap = new HashMap<String,List<Class>>();
   
   private static GaffeFactory gaffeFactory = new GaffeFactory();
   
@@ -58,32 +61,27 @@ public class GaffeFactory
     System.out.println("GaffeFactory .. Initializing");
     
     //Preparation
-    List<Adapter> numExprList = new ArrayList<Adapter>();
-    numExprList.add(new NumExpr_JTextFieldAdapter());
+    List<Class> numExprList = new ArrayList<Class>();
+    numExprList.add(NumExpr_DefaultAdapter.class);
+    numExprList.add(NumExpr_JSpinnerAdapter.class);
     
-    List<Adapter> refExprList = new ArrayList<Adapter>();
-    refExprList.add(new RefExpr_JTextFieldAdapter());
-    refExprList.add(new RefExpr_JTextAreaAdapter());
+    List<Class> refExprList = new ArrayList<Class>();
+    refExprList.add(RefExpr_DefaultAdapter.class);
+    refExprList.add(RefExpr_JTextAreaAdapter.class);
     
-    List<Adapter> bindExprList = new ArrayList<Adapter>();
-    bindExprList.add(new BindExpr_JTableAdapter());
-    bindExprList.add(new BindExpr_JTextAreaAdapter());
+    List<Class> bindExprList = new ArrayList<Class>();
+    bindExprList.add(BindExpr_JTableAdapter.class);
+    bindExprList.add(BindExpr_JTextAreaAdapter.class);
     
-    List<Adapter> setExprList = new ArrayList<Adapter>();
-    setExprList.add(new SetExpr_JListAdapter());
-    setExprList.add(new SetExpr_JTextAreaAdapter());
+    List<Class> setExprList = new ArrayList<Class>();
+    setExprList.add(SetExpr_JListAdapter.class);
+    setExprList.add(SetExpr_JTextAreaAdapter.class);
     
     //Initialize avaiable adapters
-    availableMap.put("NumExprImpl",numExprList);
-    availableMap.put("RefExprImpl",refExprList);
-    availableMap.put("BindExprImpl",bindExprList);
-    availableMap.put("SetExprImpl",setExprList);
-    
-    //Setting default adapter configuration
-    adapterMap.put("NumExprImpl",numExprList.get(0));
-    adapterMap.put("RefExprImpl",refExprList.get(0));
-    adapterMap.put("BindExprImpl",bindExprList.get(0));
-    adapterMap.put("SetExprImpl",setExprList.get(0));
+    availableMap.put(NumExprImpl.class.getSimpleName(),numExprList);
+    availableMap.put(RefExprImpl.class.getSimpleName(),refExprList);
+    availableMap.put(BindExprImpl.class.getSimpleName(),bindExprList);
+    availableMap.put(SetExprImpl.class.getSimpleName(),setExprList);
   }
   
   /**
@@ -104,7 +102,6 @@ public class GaffeFactory
     System.out.println("someee... " + value.toString());
     newSource.setMarkup(Markup.LATEX);
     SectionManager sectman = zLive.getSectionManager();
-    //String name of section
     try {
       Expr expr = ParseUtils.parseExpr(newSource, zLive.getCurrentSection(),
           sectman);
@@ -118,11 +115,6 @@ public class GaffeFactory
     }
   }
   
-  public static Adapter getAdapter(Expr expr)
-  {
-    return adapterMap.get(expr.getClass().getSimpleName());
-  }
-
   public static HashMap<String, Expr> prime(HashMap<String, Expr> target)
   {
     HashMap<String, Expr> result = new HashMap<String, Expr>();
@@ -139,19 +131,24 @@ public class GaffeFactory
    * @param result
    * @return
    */
-  public static HashMap<String, JComponent> exprMapToComponentMap(
-      HashMap<String, JComponent> origin, HashMap<String, Expr> result)
+  public static HashMap<String, Adapter> createComponentMap(HashMap<String, Expr> data)
   {
-    if (origin == null) {
-      origin = new HashMap<String, JComponent>();
-    }
+    HashMap<String, Adapter> result = new HashMap<String, Adapter>();   
     Adapter adapter;
-    for (String key : result.keySet()) {
-      Expr expr = result.get(key);
-      adapter = GaffeFactory.getAdapter(expr);
-      origin.put(key, adapter.dataToComponent(origin.get(key), expr));
+    for (String key : data.keySet()) {
+      try {
+        adapter = (Adapter)customMap.get(key).newInstance();
+        adapter.setExpr(data.get(key));
+        result.put(key,adapter);
+      }
+      catch (InstantiationException instex){
+        instex.printStackTrace();
+      }
+      catch (IllegalAccessException acceex){
+        acceex.printStackTrace();
+      }
     }
-    return origin;
+    return result;
   }
   
   /**
@@ -195,17 +192,17 @@ public class GaffeFactory
   }
 
   /**
-   * @return Returns the adapterMap.
+   * @return Returns the customMap.
    */
-  public static Map<String, Adapter> getAdapterMap()
+  public static Map<String, Class> getCustomMap()
   {
-    return adapterMap;
+    return customMap;
   }
 
   /**
    * @return Returns the availableMap.
    */
-  public static Map<String, List<Adapter>> getAvailableMap()
+  public static Map<String, List<Class>> getAvailableMap()
   {
     return availableMap;
   }

@@ -9,6 +9,9 @@ import net.sourceforge.czt.z.util.Factory;
 
 public class AdapterDefaultImpl implements Adapter
 {
+  protected Expr expr;
+  protected JComponent component;
+  
   protected static Factory factory;
   protected static ZLive zLive;
   
@@ -18,16 +21,19 @@ public class AdapterDefaultImpl implements Adapter
     zLive   = GaffeFactory.getZLive();
   }
 
-  public Expr componentToData(JComponent jc)
+  public void setExpr(Expr expr)
   {
-    // TODO Auto-generated method stub
-    return null;
+    this.expr = expr;
   }
 
-  public JComponent dataToComponent(JComponent origin, Expr expr)
+  public Expr getExpr()
   {
-    // TODO Auto-generated method stub
-    return null;
+    return expr;
+  }
+  
+  public JComponent getComponent()
+  {
+    return component;
   }
   
   public String toString(){

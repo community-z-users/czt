@@ -115,7 +115,7 @@ public class SchemaTypeListener implements ActionListener
     HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
         "state");
     state = GaffeFactory.prime(state);
-    statePane.setComponentMap(GaffeFactory.exprMapToComponentMap(null, state));
+    statePane.setComponentMap(GaffeFactory.createComponentMap(state));
     Evaluator evaluator = GaffeFactory.getEvaluator();
     EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
         initSchemaName);
