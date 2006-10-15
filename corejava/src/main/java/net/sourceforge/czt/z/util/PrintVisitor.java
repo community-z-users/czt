@@ -198,9 +198,25 @@ public class PrintVisitor
   
   public String visitLocAnn(LocAnn loc) {
     StringBuffer result = new StringBuffer();    
-    if (loc.getLine().compareTo(java.math.BigInteger.ZERO) >= 0) result.append("line " + loc.getLine());
-    if (loc.getCol().compareTo(java.math.BigInteger.ZERO) >= 0) result.append(" column " + loc.getCol());
-    if (loc.getLoc() != null) result.append(" in \"" + loc.getLoc() + "\"");    
+    if (loc.getLine() != null &&
+        loc.getLine().compareTo(java.math.BigInteger.ZERO) >= 0) {
+      result.append("line " + loc.getLine());
+    }
+    if (loc.getCol() != null &&
+        loc.getCol().compareTo(java.math.BigInteger.ZERO) >= 0) {
+      result.append(" column " + loc.getCol());
+    }
+    if (loc.getStart() != null &&
+        loc.getStart().compareTo(java.math.BigInteger.ZERO) >= 0) {
+      result.append(" start " + loc.getStart());
+    }
+    if (loc.getLength() != null &&
+        loc.getLength().compareTo(java.math.BigInteger.ZERO) >= 0) {
+      result.append(" length " + loc.getLength());
+    }
+    if (loc.getLoc() != null) {
+      result.append(" in \"" + loc.getLoc() + "\"");
+    }
     return result.toString();
   }
 
