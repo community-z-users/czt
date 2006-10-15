@@ -75,7 +75,7 @@ public class $class.Name
   /**
    * A map that maps id's to the corresponding Object.
    */
-  private Map hash_ = new HashMap();
+  private Map<String,ZDeclName> hash_ = new HashMap<String,ZDeclName>();
 
   private String getClassName()
   {
@@ -105,6 +105,7 @@ public class $class.Name
           String message = "Annotation " + term + " cannot be handled; " +
             "drop it.";
           getLogger().warning(message);
+          throw new CztException(message, e);
         }
       }
     }
@@ -122,15 +123,15 @@ public class $class.Name
 
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-#if($c.Name == "RefName")
+#if($c.Name == "ZRefName")
 
-  public Object visitRefName(${project.AstPackage}.RefName zedObject)
+  public Object visitZRefName(${project.AstPackage}.ZRefName zedObject)
   {
-    getLogger().entering(getClassName(), "visitRefName", zedObject);
+    getLogger().entering(getClassName(), "visitZRefName", zedObject);
     try {
-      RefName jaxbObject = objectFactory_.createRefNameElement();
+      ZRefName jaxbObject = objectFactory_.createZRefNameElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createRefName();
+        jaxbObject = objectFactory_.createZRefName();
       }
       if (zedObject.getDecl() != null) {
         String id = zedObject.getDecl().getId();
@@ -148,38 +149,34 @@ public class $class.Name
         }
       }
       jaxbObject.setWord((String) zedObject.getWord());
-      {
-        List<Stroke> newlist = jaxbObject.getStroke();
-        for (${project.Ast.Package}.Stroke stroke : zedObject.getStroke()) {
-          newlist.add((Stroke) stroke.accept(this));
-        }
-      }
-      getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
+      jaxbObject.setStrokeList((StrokeList)
+                                zedObject.getStrokeList().accept(this));
+      getLogger().exiting(getClassName(), "visitZRefName", jaxbObject);
       createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
       String message = "class AstToJaxb: "
-                       + "Cannot transform a RefName to the corresponding "
+                       + "Cannot transform a ZRefName to the corresponding "
                        + "Jaxb class";
       throw new CztException(message, exception);
     }
   }
-#elseif($c.Name == "DeclName")
-#set($DeclName = "${project.AstPackage}.DeclName")
+#elseif($c.Name == "ZDeclName")
+#set($DeclName = "${project.AstPackage}.ZDeclName")
 
-  public java.lang.Object visitDeclName($DeclName zedObject)
+  public java.lang.Object visitZDeclName($DeclName zedObject)
   {
-    getLogger().entering(getClassName(), "visitDeclName", zedObject);
+    getLogger().entering(getClassName(), "visitZDeclName", zedObject);
     try {
-      DeclName jaxbObject = objectFactory_.createDeclNameElement();
+      ZDeclName jaxbObject = objectFactory_.createZDeclNameElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createDeclName();
+        jaxbObject = objectFactory_.createZDeclName();
       }
       if (zedObject.getId() != null) {
         getLogger().finest("Setting Id to " + zedObject.getId().toString());
         jaxbObject.setId(zedObject.getId());
-        getLogger().finer("Hashing " + zedObject.getId());
+        getLogger().fine("Hashing " + zedObject.getId());
         hash_.put(zedObject.getId(), jaxbObject);
       }
       {
@@ -189,19 +186,15 @@ public class $class.Name
         }
       }
       jaxbObject.setWord(zedObject.getWord());
-      {
-        List newlist = jaxbObject.getStroke();
-        for (Stroke stroke : zedObject.getStroke()) {
-          newlist.add(stroke.accept(this));
-        }
-      }
-      getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
+      jaxbObject.setStrokeList((StrokeList)
+                               zedObject.getStrokeList().accept(this));
+      getLogger().exiting(getClassName(), "visitZDeclName", jaxbObject);
       createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
       String message = "class AstToJaxb: "
-                       + "Cannot transform a DeclName to the corresponding "
+                       + "Cannot transform a ZDeclName to the corresponding "
                        + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -222,6 +215,12 @@ public class $class.Name
 #else
       jaxbObject = objectFactory_.create${c.Name}();
 #end
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
@@ -285,23 +284,6 @@ public class $class.Name
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ${c.Name} to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
     getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
     createElement_ = true;
     return jaxbObject;
