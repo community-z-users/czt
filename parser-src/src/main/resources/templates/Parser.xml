@@ -312,12 +312,6 @@ action code
       return result;
     }
 
-    private ZSchText createZSchText(List&lt;? extends Decl&gt; decl,
-                                    Pred pred)
-    {
-      return factory_.createZSchText(factory_.createZDeclList(decl), pred);
-    }
-
     private ZDeclName createZDeclName(Decorword decorword)
     {
       checkName(decorword);
@@ -4348,10 +4342,17 @@ refines ::=
 
 schemaText ::= 
         optDeclPart:odp BAR predicate:p
-        {: RESULT = factory_.createZSchText(odp, p); :}
+        {:
+           RESULT = factory_.createZSchText(odp, p);
+           addLocAnn(RESULT, getLocation(getLocation(odp),
+                                         getLocation(p)));
+        :}
         |
         optDeclPart:odp
-        {: RESULT = factory_.createZSchText(odp, null); :}
+        {:
+           RESULT = factory_.createZSchText(odp, null);
+           addLocAnn(RESULT, getLocation(odp));
+        :}
         ;
 
 optDeclPart ::=
@@ -4364,7 +4365,11 @@ optDeclPart ::=
 
 declPart ::=
         zDeclList:zdl
-        {: RESULT = zdl; :}
+        {:
+           RESULT = zdl;
+           addLocAnn(zdl, getLocation(getLocation(zdl.get(0)),
+                                      getLocation(zdl.get(zdl.size() - 1))));
+        :}
 <add:zpatt>
         | jokerDeclList:jdl
         {: RESULT = jdl; :}
