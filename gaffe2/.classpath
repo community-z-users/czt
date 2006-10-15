@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry including="**/*.java" kind="src" path="src/design"/>
-	<classpathentry including="**/*.java" kind="src" path="src/animation"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CZTLIB"/>
-	<classpathentry kind="output" path="build"/>
-</classpath>

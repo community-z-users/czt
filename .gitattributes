@@ -3,8 +3,6 @@
 admin/binary_release/bbook.utf16 -text
 admin/binary_release/screenshot.png -text
 bin/bsh/parseCircus.bsh -text
-corejava/.classpath -text
-corejava/.project -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
@@ -43,8 +41,6 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewElementWi
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizard.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/wizards/NewZSpecificationWizardPage.java -text
 fonts/CZTSans.ttf -text
-gaffe/.classpath -text
-gaffe/.project -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
@@ -63,8 +59,6 @@ gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZGivenTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZSetTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZTupleTest.java -text
-gaffe2/.classpath -text
-gaffe2/.project -text
 gaffe2/classpath.bat -text
 gaffe2/resource/nextResult.jpg -text
 gaffe2/resource/nextStep.jpg -text
@@ -133,8 +127,6 @@ gnast/src/vm/QualifiedDecl.java -text
 gnast/src/vm/QualifiedDeclImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
-java_cup/.classpath -text
-java_cup/.project -text
 java_cup/build.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
@@ -172,12 +164,8 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/symbol_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
-jaxb/.classpath -text
-jaxb/.project -text
 jaxb/COPYING.txt -text
 jaxb/build.xml -text
-jedit/.classpath -text
-jedit/.project -text
 jedit/ZCharMap/src/main/resources/CircusTable.xml -text
 jedit/Zchars.utf16 svneol=native#unset
 jedit/src/site/content/xdocs/images/cztlogo.jpg -text
@@ -213,8 +201,6 @@ parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
-parser/.classpath -text
-parser/.project -text
 parser/COPYING.txt -text
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
@@ -224,8 +210,6 @@ parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 parser/src/main/resources/lib/circus.unicode.latb -text
-rules/.classpath -text
-rules/.project -text
 rules/COPYING.txt -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
@@ -235,18 +219,12 @@ rules/src/main/resources/net/sourceforge/czt/rules/images/open.png -text svneol=
 rules/src/main/resources/net/sourceforge/czt/rules/images/question.jpg -text svneol=unset#image/jpeg
 rules/src/test/java/net/sourceforge/czt/rules/unification/OccursCheckVisitorTest.java -text
 rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java -text
-session/.classpath -text
-session/.project -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
-typechecker/.classpath -text
-typechecker/.project -text
 typechecker/COPYING.txt -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
-util/.classpath -text
-util/.project -text
 util/COPYING.txt -text
 util/build.xml -text
 web/cztlogo/cztlogo.xcf -text
@@ -260,8 +238,6 @@ web/src/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
-zlive/.classpath -text
-zlive/.project -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
@@ -277,7 +253,5 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -t
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProdVisitor.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
-zml/.classpath -text
-zml/.project -text
 zml/examples/z/bbook.utf16 svneol=native#unset
 zml/examples/z/birthdaybook.utf16 -text
