@@ -140,7 +140,7 @@ public class FlatPredList extends FlatPred
               // TODO: this should never happen, because all ZRefNames
               // should be linked to a DeclName after typechecking.
               // However, some unit tests are not typechecked.
-              System.out.println("Warning: ZRefName not bound to ZDeclName: "+var);
+              // System.out.println("Warning: ZRefName not bound to ZDeclName: "+var);
               dvar = getFactory().createZDeclName(var.getWord(), var.getStrokeList(), null);
             }
             if ( ! boundVars_.contains(dvar))
