@@ -45,31 +45,34 @@ public final class ProverUtils
    * sure that unification works) and creates a PredSequent with that
    * predicate.
    */
-  public static PredSequent createPredSequent(Pred pred)
+  public static PredSequent createPredSequent(Pred pred, boolean copy)
   {
-    CopyVisitor copyVisitor = new CopyVisitor(FACTORY);
+    if (copy) {
+      CopyVisitor copyVisitor = new CopyVisitor(FACTORY);
+      pred = (Pred) pred.accept(copyVisitor);
+    }
     PredSequent predSequent = FACTORY.createPredSequent();
-    predSequent.setPred((Pred) pred.accept(copyVisitor));
+    predSequent.setPred(pred);
     return predSequent;
   }
 
-  public static PredSequent createPredSequent(Expr expr)
+  public static PredSequent createPredSequent(Expr expr, boolean copy)
   {
     Pred pred = FACTORY.createExprPred(expr);
-    return createPredSequent(pred);
+    return createPredSequent(pred, copy);
   }
 
-  public static PredSequent createRewritePredSequent(Expr expr)
+  public static PredSequent createRewritePredSequent(Expr expr, boolean copy)
   {
     ProverJokerExpr joker = (ProverJokerExpr) FACTORY.createJokerExpr("_");
     Pred pred = FACTORY.createEquality(expr, joker);
-    return createPredSequent(pred);
+    return createPredSequent(pred, copy);
   }
 
-  public static PredSequent createRewritePredSequent(Pred pred)
+  public static PredSequent createRewritePredSequent(Pred pred, boolean copy)
   {
     ProverJokerPred joker = (ProverJokerPred) FACTORY.createJokerPred("_");
-    return createPredSequent(FACTORY.createIffPred(pred, joker));
+    return createPredSequent(FACTORY.createIffPred(pred, joker), copy);
   }
 
   /**

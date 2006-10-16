@@ -261,7 +261,8 @@ public class TextUI {
               ProverJokerExpr joker = (ProverJokerExpr)
                  fact.createJokerExpr("_");
               Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
-              PredSequent predSequent = ProverUtils.createPredSequent(pred);
+              PredSequent predSequent =
+                ProverUtils.createPredSequent(pred, true);
               SimpleProver prover = new SimpleProver(rules, manager, section);
               if (SimpleProver.apply2(rule, predSequent)) {
                 int proveresult = prover.prove(predSequent.getDeduction().getSequent());

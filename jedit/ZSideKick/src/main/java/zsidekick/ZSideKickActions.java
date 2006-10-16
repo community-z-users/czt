@@ -219,10 +219,11 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
-                ProofTree.createAndShowGUI(ProverUtils.createPredSequent(pred),
-                                           rules,
-                                           manager,
-                                           section);
+                ProofTree.createAndShowGUI(
+                  ProverUtils.createPredSequent(pred, true),
+                  rules,
+                  manager,
+                  section);
               }
               else {
                 reportError(view, "Cannot find rules");
@@ -313,14 +314,14 @@ public class ZSideKickActions
               if (rules != null) {
                 if (term instanceof Expr) {
                   ProofTree.createAndShowGUI(
-                     ProverUtils.createRewritePredSequent((Expr) term),
+                     ProverUtils.createRewritePredSequent((Expr) term, true),
                      rules,
                      manager,
                      section);
                 }
                 else {
                   ProofTree.createAndShowGUI(                     
-                     ProverUtils.createRewritePredSequent((Pred) term),
+                     ProverUtils.createRewritePredSequent((Pred) term, true),
                      rules,
                      manager,
                      section);

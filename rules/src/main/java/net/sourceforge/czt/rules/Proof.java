@@ -38,12 +38,12 @@ public class Proof
 
   public Proof(Pred pred)
   {
-    predSequent_ = ProverUtils.createPredSequent(pred);
+    predSequent_ = ProverUtils.createPredSequent(pred, true);
   }
 
   public Proof(Expr expr)
   {
-    predSequent_ = ProverUtils.createPredSequent(expr);
+    predSequent_ = ProverUtils.createPredSequent(expr, true);
   }
 
   public Proof(ConjPara conjPara)

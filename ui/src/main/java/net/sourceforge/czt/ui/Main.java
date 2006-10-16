@@ -298,10 +298,10 @@ public class Main
                     if (p instanceof ConjPara) {
                       ConjPara conj = (ConjPara) p;
                       ProofTree.createAndShowGUI(
-                             ProverUtils.createPredSequent(conj.getPred()),
-                             rules,
-                             manager,
-                             sectionName);
+                        ProverUtils.createPredSequent(conj.getPred(), true),
+                        rules,
+                        manager,
+                        sectionName);
                     }
                   }
                 }

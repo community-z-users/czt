@@ -78,7 +78,7 @@ public class SimpleProver
   public boolean prove(Pred pred)
   {
     PredSequent predSequent =
-      ProverUtils.createPredSequent(pred);
+      ProverUtils.createPredSequent(pred, true);
     return prove(predSequent);
   }
 
