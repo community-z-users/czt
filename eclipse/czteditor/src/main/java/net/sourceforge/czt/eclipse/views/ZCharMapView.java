@@ -19,6 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
@@ -232,6 +233,33 @@ public class ZCharMapView extends ViewPart
         }
       }
     });
+    
+    fTableCursor.addMouseListener(new MouseAdapter() {
+      private Point fMousePos = null;
+
+      private ZChar zch = null;
+
+      public void mouseDown(MouseEvent event)
+      {
+        fMousePos = new Point(event.x, event.y);
+      }
+
+      public void mouseUp(MouseEvent event)
+      {
+        if ((event.x != fMousePos.x) || (event.y != fMousePos.y))
+          return;
+
+        zch = getZCharAtPoint(table, fTableCursor.getLocation());
+        if (zch != null) {
+          insertZChar(zch);
+        }
+      }
+
+      public void mouseDoubleClick(MouseEvent event)
+      {
+      }
+    });
+    
     fTableCursor.addKeyListener(new KeyListener()
     {
       public void keyPressed(KeyEvent event)

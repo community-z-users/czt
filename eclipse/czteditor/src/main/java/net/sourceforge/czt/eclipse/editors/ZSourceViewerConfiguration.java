@@ -309,9 +309,9 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
     return reconciler;
   }
 
-  /**
+  /*
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant(org.eclipse.jface.text.source.ISourceViewer)
-   */
+   */  /*
   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer)
   {
     System.out.println("ZSourceViewerConfiguration.getContentAssistant starts");
@@ -325,7 +325,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
         .println("ZSourceViewerConfiguration.getContentAssistant finishes");
     return assistant;
   }
-
+*/
   /**
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(ISourceViewer)
    */

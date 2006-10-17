@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -34,12 +35,14 @@ import net.sourceforge.czt.eclipse.editors.ZCharacter;
 import net.sourceforge.czt.eclipse.editors.ZPairMatcher;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
+import net.sourceforge.czt.eclipse.editors.ZSpecDecorationSupport;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.outline.CztSegment;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.IZEncoding;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.util.Selector;
@@ -100,6 +103,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditorPreferenceConstants;
+import org.eclipse.ui.texteditor.AnnotationPreference;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.IEditorStatusLine;
@@ -288,11 +292,15 @@ public class ZEditor extends TextEditor
   /**
    * Holds the current projection annotations.
    */
-  private Annotation[] fProjectionAnnotations;
+  private Annotation[] fProjectionAnnotations = null;
+
+  /**
+   * Holds the current schema box annotations
+   */
+  private Annotation[] fSchemaBoxAnnotations = null;
 
   /**
    * Holds the current occurrence annotations.
-   * @since 3.0
    */
   private Annotation[] fOccurrenceAnnotations = null;
 
@@ -335,7 +343,7 @@ public class ZEditor extends TextEditor
    */
   private boolean fMarkOccurrenceAnnotations = true;
 
-  private ProjectionAnnotationModel fAnnotationModel;
+  private ProjectionAnnotationModel fProjectionAnnotationModel;
 
   /** The occurrences finder job */
   private OccurrencesFinderJob fOccurrencesFinderJob;
@@ -350,7 +358,7 @@ public class ZEditor extends TextEditor
   private Selector fTermSelector;
 
   /** The term currently highlighted */
-  private Term fSelectedTerm = null;
+  private Term fHighlightedTerm = null;
 
   /** The styled text */
   private StyledText text;
@@ -378,7 +386,24 @@ public class ZEditor extends TextEditor
    * </p>
    */
   private final Object fReconcilerLock = new Object();
+  
+  /**
+   * Helper for managing the decoration support of this editor's viewer.
+   *
+   * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
+   * compatibility reasons and will be made <code>private</code> soon. Use
+   * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.</p>
+   */
+  protected ZSpecDecorationSupport fZSpecDecorationSupport;
 
+  /**
+   * Helper for managing the decoration support of this editor's viewer.
+   *
+   * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
+   * compatibility reasons and will be made <code>private</code> soon. Use
+   * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.</p>
+   */
+  //  protected SourceViewerDecorationSupport fSourceViewerDecorationSupport;
   public ZEditor()
   {
     super();
@@ -387,27 +412,28 @@ public class ZEditor extends TextEditor
   /**
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#createActions()
    */
-  protected void createActions() {
+  protected void createActions()
+  {
     super.createActions();
-/*
-    IAction action = new GoToDeclarationAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "GoToDeclaration.", this); //$NON-NLS-1$
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
-    setAction(CZTActionConstants.GO_TO_DECLARATION, action);
-*/
-//    IHandlerService handlerService =
-//      (IHandlerService)getEditorSite().getService(IHandlerService.class);
-//    handlerService.activateHandler(action.getActionDefinitionId(),
-//      new ActionHandler(action));
-//    IAction action = new Convert2LatexAction(CZTPlugin.getDefault()
-//        .getResourceBundle(), "Convert2Latex.", this);
-//    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
-//    setAction(CZTActionConstants.CONVERT_TO_LATEX, action); //$NON-NLS-1$
-//    markAsStateDependentAction("AddBlockComment", true); //$NON-NLS-1$
-//    markAsSelectionDependentAction("AddBlockComment", true); //$NON-NLS-1$
-//    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.ADD_BLOCK_COMMENT_ACTION);
+    /*
+     IAction action = new GoToDeclarationAction(CZTPlugin.getDefault()
+     .getResourceBundle(), "GoToDeclaration.", this); //$NON-NLS-1$
+     action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+     setAction(CZTActionConstants.GO_TO_DECLARATION, action);
+     */
+    //    IHandlerService handlerService =
+    //      (IHandlerService)getEditorSite().getService(IHandlerService.class);
+    //    handlerService.activateHandler(action.getActionDefinitionId(),
+    //      new ActionHandler(action));
+    //    IAction action = new Convert2LatexAction(CZTPlugin.getDefault()
+    //        .getResourceBundle(), "Convert2Latex.", this);
+    //    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+    //    setAction(CZTActionConstants.CONVERT_TO_LATEX, action); //$NON-NLS-1$
+    //    markAsStateDependentAction("AddBlockComment", true); //$NON-NLS-1$
+    //    markAsSelectionDependentAction("AddBlockComment", true); //$NON-NLS-1$
+    //    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.ADD_BLOCK_COMMENT_ACTION);
   }
-    
+
   /**
    * @see org.eclipse.ui.editors.text.TextEditor#initializeEditor()
    */
@@ -433,6 +459,10 @@ public class ZEditor extends TextEditor
   {
     super.createPartControl(parent);
     System.out.println("ZEditor.createPartControl starts");
+
+    if (fZSpecDecorationSupport != null)
+      fZSpecDecorationSupport.install(getPreferenceStore());
+
     ProjectionViewer viewer = (ProjectionViewer) getSourceViewer();
     fProjectionSupport = new ProjectionSupport(viewer, getAnnotationAccess(),
         getSharedColors());
@@ -441,7 +471,7 @@ public class ZEditor extends TextEditor
     //turn projection mode on
     viewer.doOperation(ProjectionViewer.TOGGLE);
 
-    this.fAnnotationModel = viewer.getProjectionAnnotationModel();
+    this.fProjectionAnnotationModel = viewer.getProjectionAnnotationModel();
 
     text = getSourceViewer().getTextWidget();
     if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
@@ -487,16 +517,32 @@ public class ZEditor extends TextEditor
   {
     System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
     if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
-      support.setCharacterPairMatcher(new ZLatexPairMatcher(ZCharacter.BRACKETS_LATEX));
+      support.setCharacterPairMatcher(new ZLatexPairMatcher(
+          ZCharacter.BRACKETS_LATEX));
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType()))
-      support.setCharacterPairMatcher(new ZPairMatcher(ZCharacter.BRACKETS_UNICODE));
+      support.setCharacterPairMatcher(new ZPairMatcher(
+          ZCharacter.BRACKETS_UNICODE));
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
-
     super.configureSourceViewerDecorationSupport(support);
-    System.out.println("ZEditor.configureSourceViewerDecorationSupport finishes");
+    System.out
+        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
+  }
+
+  /**
+   * Configures the decoration support for this editor's source viewer. Subclasses may override this
+   * method, but should call their superclass' implementation at some point.
+   *
+   * @param support the decoration support to configure
+   */
+  protected void configureZSpecDecorationSupport(ZSpecDecorationSupport support)
+  {
+    support.setAnnotationPreference(new AnnotationPreference(
+        IZAnnotationType.SCHEMABOX, "net.sourceforge.czt.schemabox.colorkey",
+        "net.sourceforge.czt.schemabox.editorkey",
+        "net.sourceforge.czt.schemabox.overviewRulerKey", 0));
   }
 
   /**
@@ -538,6 +584,8 @@ public class ZEditor extends TextEditor
     //            fProjectionModelUpdater.install(this, projectionViewer);
     // ensure source viewer decoration support has been created and configured
     getSourceViewerDecorationSupport(viewer);
+    //  ensure source viewer decoration support has been created and configured
+    getZSpecDecorationSupport(viewer);
     System.out.println("ZEditor.createSourceViewer finishes");
     return viewer;
   }
@@ -556,6 +604,17 @@ public class ZEditor extends TextEditor
   {
     return new ZSourceViewer(parent, verticalRuler, getOverviewRuler(),
         isOverviewRulerVisible(), styles, store);
+  }
+
+  protected ZSpecDecorationSupport getZSpecDecorationSupport(
+      ISourceViewer viewer)
+  {
+    if (fZSpecDecorationSupport == null) {
+      fZSpecDecorationSupport = new ZSpecDecorationSupport(viewer,
+          getOverviewRuler(), getAnnotationAccess(), getSharedColors());
+      configureZSpecDecorationSupport(fZSpecDecorationSupport);
+    }
+    return fZSpecDecorationSupport;
   }
 
   boolean isFoldingEnabled()
@@ -722,10 +781,52 @@ public class ZEditor extends TextEditor
       annotations[i] = annotation;
     }
 
-    this.fAnnotationModel.modifyAnnotations(fProjectionAnnotations,
+    this.fProjectionAnnotationModel.modifyAnnotations(fProjectionAnnotations,
         newAnnotations, null);
 
     fProjectionAnnotations = annotations;
+  }
+  
+  public Annotation[] getSchemaBoxAnnotations()
+  {
+    return this.fSchemaBoxAnnotations;
+  }
+  
+  public void updateSchemaBoxAnnotations(List<Position> positions)
+  {
+    Annotation[] annotations = new Annotation[positions.size()];
+
+    //this will hold the new annotations along
+    //with their corresponding positions
+    Map<Annotation, Position> newAnnotations = new HashMap<Annotation, Position>();
+
+    for (int i = 0; i < positions.size(); i++) {
+      Annotation annotation = new Annotation(IZAnnotationType.SCHEMABOX, false, "Schema Box");
+
+      newAnnotations.put(annotation, positions.get(i));
+
+      annotations[i] = annotation;
+    }
+    
+    IAnnotationModel annotationModel = this.getDocumentProvider().getAnnotationModel(getEditorInput());
+    if (annotationModel instanceof IAnnotationModelExtension) {
+      ((IAnnotationModelExtension) annotationModel).replaceAnnotations(
+          fSchemaBoxAnnotations, newAnnotations);
+    }
+    else {
+      for (int i = 0; i < fSchemaBoxAnnotations.length; i++)
+        annotationModel.removeAnnotation(fSchemaBoxAnnotations[i]);
+      Iterator iter = newAnnotations.entrySet().iterator();
+      while (iter.hasNext()) {
+        Map.Entry mapEntry = (Map.Entry) iter.next();
+        if (mapEntry.getValue() != null)
+          annotationModel.addAnnotation((Annotation) mapEntry.getKey(),
+              (Position) mapEntry.getValue());
+      }
+      
+      fSchemaBoxAnnotations = (Annotation[]) newAnnotations.keySet().toArray(
+        new Annotation[newAnnotations.keySet().size()]);
+    }
   }
 
   public Annotation[] getOccurrenceAnnotations()
@@ -857,14 +958,6 @@ public class ZEditor extends TextEditor
   public void handleCursorPositionChanged()
   {
     super.handleCursorPositionChanged();
-    //		int offset = getCursorOffset();
-    //		setHighlightRange(offset);
-
-    //		if (this.fOutlinePage != null) {
-    //			this.fOutlinePage.select(offset);
-    //		}
-
-    //		markOccurrenceAnnotations(offset);
   }
 
   public void setHighlightRange(int offset)
@@ -882,8 +975,8 @@ public class ZEditor extends TextEditor
         IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 
         try {
-          partition = extension3.getPartition(IZPartitions.Z_PARTITIONING, offset,
-              false);
+          partition = extension3.getPartition(IZPartitions.Z_PARTITIONING,
+              offset, false);
         } catch (BadPartitioningException be) {
           this.resetHighlightRange();
           return;
@@ -1036,6 +1129,17 @@ public class ZEditor extends TextEditor
       fEditorSelectionChangedListener.uninstall(getSelectionProvider());
       fEditorSelectionChangedListener = null;
     }
+
+    if (fSourceViewerDecorationSupport != null) {
+      fSourceViewerDecorationSupport.dispose();
+      fSourceViewerDecorationSupport = null;
+    }
+
+    if (fZSpecDecorationSupport != null) {
+      fZSpecDecorationSupport.dispose();
+      fZSpecDecorationSupport = null;
+    }
+
     super.dispose();
   }
 
@@ -1580,74 +1684,74 @@ public class ZEditor extends TextEditor
    * Jumps to the matching bracket.
    */
   /*
-  public void gotoMatchingBracket()
-  {
-    ISourceViewer sourceViewer = getSourceViewer();
-    IDocument document = sourceViewer.getDocument();
-    if (document == null)
-      return;
+   public void gotoMatchingBracket()
+   {
+   ISourceViewer sourceViewer = getSourceViewer();
+   IDocument document = sourceViewer.getDocument();
+   if (document == null)
+   return;
 
-    IRegion selection = getSignedSelection(sourceViewer);
+   IRegion selection = getSignedSelection(sourceViewer);
 
-    int selectionLength = Math.abs(selection.getLength());
-    if (selectionLength > 1) {
-      //            setStatusLineErrorMessage(JavaEditorMessages.GotoMatchingBracket_error_invalidSelection);
-      setStatusLineErrorMessage("JavaEditorMessages.GotoMatchingBracket_error_invalidSelection");
-      sourceViewer.getTextWidget().getDisplay().beep();
-      return;
-    }
+   int selectionLength = Math.abs(selection.getLength());
+   if (selectionLength > 1) {
+   //            setStatusLineErrorMessage(JavaEditorMessages.GotoMatchingBracket_error_invalidSelection);
+   setStatusLineErrorMessage("JavaEditorMessages.GotoMatchingBracket_error_invalidSelection");
+   sourceViewer.getTextWidget().getDisplay().beep();
+   return;
+   }
 
-    // #26314
-    int sourceCaretOffset = selection.getOffset() + selection.getLength();
-    if (isSurroundedByBrackets(document, sourceCaretOffset))
-      sourceCaretOffset -= selection.getLength();
+   // #26314
+   int sourceCaretOffset = selection.getOffset() + selection.getLength();
+   if (isSurroundedByBrackets(document, sourceCaretOffset))
+   sourceCaretOffset -= selection.getLength();
 
-    IRegion region = fBracketMatcher.match(document, sourceCaretOffset);
-    if (region == null) {
-      setStatusLineErrorMessage("ZEditorMessages.GotoMatchingBracket_error_noMatchingBracket");
-      sourceViewer.getTextWidget().getDisplay().beep();
-      return;
-    }
+   IRegion region = fBracketMatcher.match(document, sourceCaretOffset);
+   if (region == null) {
+   setStatusLineErrorMessage("ZEditorMessages.GotoMatchingBracket_error_noMatchingBracket");
+   sourceViewer.getTextWidget().getDisplay().beep();
+   return;
+   }
 
-    int offset = region.getOffset();
-    int length = region.getLength();
+   int offset = region.getOffset();
+   int length = region.getLength();
 
-    if (length < 1)
-      return;
+   if (length < 1)
+   return;
 
-    int anchor = fBracketMatcher.getAnchor();
-    // http://dev.eclipse.org/bugs/show_bug.cgi?id=34195
-    int targetOffset = (ICharacterPairMatcher.RIGHT == anchor)
-        ? offset + 1
-        : offset + length;
+   int anchor = fBracketMatcher.getAnchor();
+   // http://dev.eclipse.org/bugs/show_bug.cgi?id=34195
+   int targetOffset = (ICharacterPairMatcher.RIGHT == anchor)
+   ? offset + 1
+   : offset + length;
 
-    boolean visible = false;
-    if (sourceViewer instanceof ITextViewerExtension5) {
-      ITextViewerExtension5 extension = (ITextViewerExtension5) sourceViewer;
-      visible = (extension.modelOffset2WidgetOffset(targetOffset) > -1);
-    }
-    else {
-      IRegion visibleRegion = sourceViewer.getVisibleRegion();
-      // http://dev.eclipse.org/bugs/show_bug.cgi?id=34195
-      visible = (targetOffset >= visibleRegion.getOffset() && targetOffset <= visibleRegion
-          .getOffset()
-          + visibleRegion.getLength());
-    }
+   boolean visible = false;
+   if (sourceViewer instanceof ITextViewerExtension5) {
+   ITextViewerExtension5 extension = (ITextViewerExtension5) sourceViewer;
+   visible = (extension.modelOffset2WidgetOffset(targetOffset) > -1);
+   }
+   else {
+   IRegion visibleRegion = sourceViewer.getVisibleRegion();
+   // http://dev.eclipse.org/bugs/show_bug.cgi?id=34195
+   visible = (targetOffset >= visibleRegion.getOffset() && targetOffset <= visibleRegion
+   .getOffset()
+   + visibleRegion.getLength());
+   }
 
-    if (!visible) {
-      setStatusLineErrorMessage("ZEditorMessages.GotoMatchingBracket_error_bracketOutsideSelectedElement");
-      sourceViewer.getTextWidget().getDisplay().beep();
-      return;
-    }
+   if (!visible) {
+   setStatusLineErrorMessage("ZEditorMessages.GotoMatchingBracket_error_bracketOutsideSelectedElement");
+   sourceViewer.getTextWidget().getDisplay().beep();
+   return;
+   }
 
-    if (selection.getLength() < 0)
-      targetOffset -= selection.getLength();
+   if (selection.getLength() < 0)
+   targetOffset -= selection.getLength();
 
-    sourceViewer.setSelectedRange(targetOffset, selection.getLength());
-    sourceViewer.revealRange(targetOffset, selection.getLength());
-  }
-*/
-  /**
+   sourceViewer.setSelectedRange(targetOffset, selection.getLength());
+   sourceViewer.revealRange(targetOffset, selection.getLength());
+   }
+   */
+  /*
    * Returns the signed current selection.
    * The length will be negative if the resulting selection
    * is right-to-left (RtoL).
@@ -1659,50 +1763,50 @@ public class ZEditor extends TextEditor
    * @return a region denoting the current signed selection, for a resulting RtoL selections length is < 0
    */
   /*
-  protected IRegion getSignedSelection(ISourceViewer sourceViewer)
-  {
-    StyledText text = sourceViewer.getTextWidget();
-    Point selection = text.getSelectionRange();
+   protected IRegion getSignedSelection(ISourceViewer sourceViewer)
+   {
+   StyledText text = sourceViewer.getTextWidget();
+   Point selection = text.getSelectionRange();
 
-    if (text.getCaretOffset() == selection.x) {
-      selection.x = selection.x + selection.y;
-      selection.y = -selection.y;
-    }
+   if (text.getCaretOffset() == selection.x) {
+   selection.x = selection.x + selection.y;
+   selection.y = -selection.y;
+   }
 
-    selection.x = widgetOffset2ModelOffset(sourceViewer, selection.x);
+   selection.x = widgetOffset2ModelOffset(sourceViewer, selection.x);
 
-    return new Region(selection.x, selection.y);
-  }
+   return new Region(selection.x, selection.y);
+   }
 
-  private static boolean isBracket(char character)
-  {
-    if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
-      for (int i = 0; i != BRACKETS.length; ++i)
-        if (character == BRACKETS[i])
-          return true;
-    }
-    else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())
-        || IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
-      for (int i = 0; i != BRACKETS.length; ++i)
-        if (character == BRACKETS[i])
-          return true;
-    }
-    
-    return false;
-  }
+   private static boolean isBracket(char character)
+   {
+   if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
+   for (int i = 0; i != BRACKETS.length; ++i)
+   if (character == BRACKETS[i])
+   return true;
+   }
+   else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())
+   || IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
+   for (int i = 0; i != BRACKETS.length; ++i)
+   if (character == BRACKETS[i])
+   return true;
+   }
+   
+   return false;
+   }
 
-  private static boolean isSurroundedByBrackets(IDocument document, int offset)
-  {
-    if (offset == 0 || offset == document.getLength())
-      return false;
+   private static boolean isSurroundedByBrackets(IDocument document, int offset)
+   {
+   if (offset == 0 || offset == document.getLength())
+   return false;
 
-    try {
-      return isBracket(document.getChar(offset - 1))
-          && isBracket(document.getChar(offset));
+   try {
+   return isBracket(document.getChar(offset - 1))
+   && isBracket(document.getChar(offset));
 
-    } catch (BadLocationException e) {
-      return false;
-    }
-  }
-*/
+   } catch (BadLocationException e) {
+   return false;
+   }
+   }
+   */
 }

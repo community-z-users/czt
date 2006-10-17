@@ -52,4 +52,9 @@ public interface IZAnnotationType
    * CZT term highlight annotation type
    */
   public final String TERMHIGHLIGHT = "net.sourceforge.czt.eclipse.termhighlight";
+  
+  /**
+   * CZT schema box annotation type
+   */
+  public final String SCHEMABOX = "net.sourceforge.czt.eclipse.schemabox";
 }

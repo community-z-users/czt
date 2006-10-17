@@ -8,6 +8,7 @@ import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.DecorExpr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.GivenPara;
@@ -22,6 +23,7 @@ import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZDeclNameList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
@@ -32,6 +34,7 @@ import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.DeclNameVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
@@ -67,6 +70,7 @@ public class NodeNameVisitor
       ConstDeclVisitor<String>,
       VarDeclVisitor<String>,
       ZDeclNameVisitor<String>,
+      DeclNameVisitor<String>,
       RefExprVisitor<String>,
       PowerExprVisitor<String>,
       DecorExprVisitor<String>,
@@ -90,7 +94,7 @@ public class NodeNameVisitor
 
   public String visitAxPara(AxPara axPara)
   {
-    return "AxPara: " + getNames(axPara.getDeclName());
+    return "AxPara: " + getNames(axPara.getZSchText().getZDeclList());
   }
 
   public String visitConjPara(ConjPara conjPara)
@@ -139,12 +143,7 @@ public class NodeNameVisitor
     ZDeclNameList declNameList = varDecl.getDeclName();
     if (declNameList.size() == 0)
       return null;
-    String name;
-    if (declNameList.size() == 1)
-      name = declNameList.get(0).toString();
-    else
-      name = declNameList.toString();
-
+    String name = getNames(declNameList);
     String type = varDecl.getExpr().accept(this);
     return name + " : " + type;
   }
@@ -152,6 +151,11 @@ public class NodeNameVisitor
   public String visitZDeclName(ZDeclName zDeclName)
   {
     return zDeclName.accept(new PrintVisitor());
+  }
+  
+  public String visitDeclName(DeclName declName)
+  {
+    return declName.accept(new PrintVisitor());
   }
 
   public String visitRefExpr(RefExpr refExpr)
@@ -203,13 +207,32 @@ public class NodeNameVisitor
   {
     if (declNames.size() == 0)
       return "";
+    
     if (declNames.size() == 1)
       return declNames.get(0).accept(this);
+    
     String result = "[" + declNames.get(0).accept(this);
     for (int i = 1; i < declNames.size(); i++)
       result = result + ", " + declNames.get(i).accept(this);
     result = result + "]";
+    
+    System.out.println("result" + result);
 
+    return result;
+  }
+  
+  private String getNames(ZDeclList declList) {
+    if (declList.size() == 0)
+      return "";
+    
+    if (declList.size() == 1)
+      return declList.get(0).accept(this);
+    
+    String result = "[" + declList.get(0).accept(this);
+    for (int i=1; i<declList.size(); i++)
+      result = result + ", " + declList.get(i).accept(this);
+    result = result + "]";
+    
     return result;
   }
 }

@@ -48,8 +48,8 @@ public class NewZSpecificationWizard extends NewElementWizard
   public void addPages()
   {
     fMainPage = new NewZSpecificationWizardPage(getSelection());
-    fMainPage.setTitle("New Specification");
-    fMainPage.setDescription("Create a new Z specification");
+    fMainPage.setTitle(WizardsMessages.NewZSpecificationWizard_title);
+    fMainPage.setDescription(WizardsMessages.NewZSpecificationWizard_description);
     addPage(fMainPage);
   }
 
@@ -83,8 +83,8 @@ public class NewZSpecificationWizard extends NewElementWizard
 
   protected void handleFinishException(Shell shell, InvocationTargetException e)
   {
-    String title = "NewWizardMessages.JavaProjectWizard_op_error_title";
-    String message = "NewWizardMessages.JavaProjectWizard_op_error_create_message";
+    String title = WizardsMessages.NewZSpecificationWizard_exception_title;
+    String message = WizardsMessages.NewZSpecificationWizard_exception_message;
     ExceptionHandler.handle(e, getShell(), title, message);
   }
 
@@ -98,7 +98,7 @@ public class NewZSpecificationWizard extends NewElementWizard
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     super.init(workbench, selection);
-    setWindowTitle("Customized Wizard Title");
+    setWindowTitle(WizardsMessages.NewZSpecificationWizard_windowtitle);
     setNeedsProgressMonitor(true);
   }
 

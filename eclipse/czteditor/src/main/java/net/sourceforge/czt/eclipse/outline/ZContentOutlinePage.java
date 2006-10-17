@@ -284,7 +284,10 @@ public class ZContentOutlinePage extends ContentOutlinePage
           if (control != null && !control.isDisposed()) {
             control.setRedraw(false);
             viewer.setInput(fInput);
-            viewer.expandAll();
+            if (fInput != null && fInput instanceof CztSegment) {
+              if (((CztSegment)fInput).getChildren().size() == 1)
+                viewer.expandToLevel(2);
+            }
             control.setRedraw(true);
           }
         }

@@ -4,6 +4,7 @@
 
 package net.sourceforge.czt.eclipse.editors.hover;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.ZDeclName;
 import net.sourceforge.czt.z.ast.ZRefName;
@@ -87,9 +89,15 @@ public class ZTextHover implements ITextHover
    */
   public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion)
   {
-    // TODO Auto-generated method stub
     if (hoverRegion == null)
       return null;
+    
+    // See term highlight info first
+    String termHighlight = getTermHighlightInfo(hoverRegion.getOffset());
+    if (termHighlight != null)
+      return termHighlight;
+    
+    // Display the error/warning annotation info
     List zAnnotations = getZAnnotationsForPoint(this.fSourceViewer, hoverRegion
         .getOffset());
     if (zAnnotations != null) {
@@ -117,12 +125,13 @@ public class ZTextHover implements ITextHover
           return formatMultipleMessages(messages);
       }
     }
+    
+    // Display the type of a name
     String info = getInfoOfTerm(getTermOfRegion(hoverRegion));
     if (info != null)
       return info;
 
-    return formatSingleMessage(getTypeOfWord(textViewer.getDocument(),
-        hoverRegion));
+    return null;
   }
 
   /**
@@ -165,21 +174,32 @@ public class ZTextHover implements ITextHover
 
     return null;
   }
-
-  private String getTypeOfWord(IDocument document, IRegion word)
+  
+  private String getTermHighlightInfo(int offset)
   {
-    String name = null;
-    try {
-      name = document.get(word.getOffset(), word.getLength());
-    } catch (BadLocationException ble) {
-      return null;
-    }
-
     if (getEditor() instanceof ZEditor) {
+      Selector selector = ((ZEditor)getEditor()).getTermSelector();
+      if (selector != null) {
+        Term term = selector.current();
+        if (term == null)
+          return null;
+        LocAnn locAnn = (LocAnn)term.getAnn(LocAnn.class);
+        if (locAnn != null) {
+          BigInteger start = locAnn.getStart();
+          BigInteger length = locAnn.getLength();
+          if ((start != null) && (length != null)) {
+            if ((start.intValue() <= offset)
+                && (start.intValue() + length.intValue() >= offset)) {
+              return term.toString();
+            }
+          }
+        }
+      }
     }
-    return name;
+    
+    return null;
   }
-
+  
   private String getInfoOfTerm(Term term)
   {
     if (term == null)
@@ -198,7 +218,7 @@ public class ZTextHover implements ITextHover
     else if (term instanceof ZRefName) {
       return getInfoOfTerm(((ZRefName) term).getDecl());
     }
-    if (term instanceof Expr) {
+    else if (term instanceof Expr) {
       TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
       if (typeAnn != null) {
         if (typeAnn.getType() != null)
@@ -287,9 +307,10 @@ public class ZTextHover implements ITextHover
 
     while (iterator.hasNext()) {
       Annotation annotation = (Annotation) iterator.next();
-      if (!annotation.getType().equals(IZAnnotationType.ERROR)
-          && !annotation.getType().equals(IZAnnotationType.WARNING)
-          && !annotation.getType().equals(IZAnnotationType.INFO))
+      
+      if (!IZAnnotationType.ERROR.equalsIgnoreCase(annotation.getType())
+          && !IZAnnotationType.WARNING.equalsIgnoreCase(annotation.getType())
+          && !IZAnnotationType.INFO.equalsIgnoreCase(annotation.getType()))
         continue;
       Position position = model.getPosition(annotation);
       if (position == null)

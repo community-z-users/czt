@@ -39,7 +39,10 @@ public class ZReconcilingStrategy
 
   /** holds the calculated positions */
   protected final List<Position> fPositions = new ArrayList<Position>();
-
+  
+  /** holds the calculated schema positions */
+  protected final List<Position> fSchemaPositions = new ArrayList<Position>();
+  
   private IDocument fDocument;
 
   /** The offset of the next character to be read */
@@ -81,11 +84,11 @@ public class ZReconcilingStrategy
   {
     final ITextEditor editor = getEditor();
     if (editor instanceof ZEditor) {
+      foldPositions();
       ZCompiler compiler = ZCompiler.getInstance();
       if (compiler != null) {
         compiler.setEditor((ZEditor) editor);
         final ParsedData data = compiler.parse();
-        foldPositions();
         ((ZEditor) editor).setParsedData(data);
         ((ZEditor) editor).updateOutlinePage(data);
       }
@@ -153,6 +156,7 @@ public class ZReconcilingStrategy
   protected void foldPositions()
   {
     fPositions.clear();
+    fSchemaPositions.clear();
 
     ITypedRegion[] partitions = null;
     try {
@@ -174,13 +178,23 @@ public class ZReconcilingStrategy
         ITypedRegion partition = partitions[i];
         int offset = partition.getOffset();
         int length = partition.getLength();
+        if (IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF.equalsIgnoreCase(partition.getType())
+            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH.equalsIgnoreCase(partition.getType())
+            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(partition.getType())) {
+          /*
+           * The length of the position for a schema annotation is always 1. Then the drawing strategy
+           * will use the editor document to access to the correcponding partition area.
+           * This may be not a good solution, but a working one.
+           */
+          fSchemaPositions.add(new Position(offset, length));
+        }
         while (length > 0) {
           if (!Character.isWhitespace(this.fDocument.getChar(offset)))
             break;
           offset++;
           length--;
         }
-        emitPosition(offset, length);
+        fPositions.add(new Position(offset, length));
       }
     } catch (BadLocationException e) {
     }
@@ -191,12 +205,9 @@ public class ZReconcilingStrategy
       {
         if (fTextEditor instanceof ZEditor)
           ((ZEditor) fTextEditor).updateFoldingStructure(fPositions);
+        if (fTextEditor instanceof ZEditor)
+          ((ZEditor) fTextEditor).updateSchemaBoxAnnotations(fSchemaPositions);
       }
     });
-  }
-
-  protected void emitPosition(int startOffset, int length)
-  {
-    fPositions.add(new Position(startOffset, length));
   }
 }

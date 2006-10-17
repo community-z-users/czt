@@ -54,9 +54,9 @@ public class NewCZTProjectWizard extends NewElementWizard
   {
     super.addPages();
     //      fMainPage = new SampleProjectWizardPage("BasicNewProjectCreationPage");
-    fMainPage = new NewCZTProjectWizardPage("BasicNewProjectCreationPage");
-    fMainPage.setTitle("Project");
-    fMainPage.setDescription("Creat a new CZT project");
+    fMainPage = new NewCZTProjectWizardPage(WizardsMessages.NewCZTProjectWizard_page_name);
+    fMainPage.setTitle(WizardsMessages.NewCZTProjectWizard_page_title);
+    fMainPage.setDescription(WizardsMessages.NewCZTProjectWizard_page_description);
     addPage(fMainPage);
   }
 
@@ -89,8 +89,8 @@ public class NewCZTProjectWizard extends NewElementWizard
 
   protected void handleFinishException(Shell shell, InvocationTargetException e)
   {
-    String title = "NewWizardMessages.CZTProjectWizard_op_error_title";
-    String message = "NewWizardMessages.CZTProjectWizard_op_error_create_message";
+    String title = WizardsMessages.NewCZTProjectWizard_error_title;
+    String message = WizardsMessages.NewCZTProjectWizard_error_create_message;
     ExceptionHandler.handle(e, getShell(), title, message);
   }
 
@@ -104,7 +104,7 @@ public class NewCZTProjectWizard extends NewElementWizard
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     super.init(workbench, selection);
-    setWindowTitle("Customized Wizard Title");
+    setWindowTitle(WizardsMessages.NewCZTProjectWizard_initWindowTitle);
     setNeedsProgressMonitor(true);
   }
 

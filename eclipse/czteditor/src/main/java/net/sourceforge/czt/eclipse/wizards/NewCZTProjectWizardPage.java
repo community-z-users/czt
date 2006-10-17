@@ -53,7 +53,7 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
     if (monitor == null)
       monitor = new NullProgressMonitor();
     try {
-      monitor.beginTask("projectWizardProgressCreating", 12);
+      monitor.beginTask(WizardsMessages.NewCZTProjectWizardPage_progressCreating, 12);
       IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
       String name = getProjectName();
       IProject project = root.getProject(name);
@@ -90,7 +90,7 @@ public class NewCZTProjectWizardPage extends WizardNewProjectCreationPage
       throws CoreException
   {
 
-    monitor.subTask("projectWizardProgressDirectory");
+    monitor.subTask(WizardsMessages.NewCZTProjectWizardPage_progressDirectory);
 
     if (!project.exists()) {
 
