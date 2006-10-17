@@ -56,11 +56,11 @@ public class Rewrite
    */
   private int MAX_REWRITES = 20;
 
+  private Prover prover_;
+
   private SectionManager manager_;
 
   private RuleTable rules_;
-
-  private String section_;
 
   /** The name of the schema text equality operator: schemaEquals. */
   private static RefExpr schemaEqualsRefExpr_;
@@ -78,9 +78,15 @@ public class Rewrite
     schemaEqualsRefExpr_ = factory.createRefExpr(refName);
   }
 
+  public Rewrite(SectionManager manager, RuleTable rules, String section)
+  {
+    this(manager, rules);
+    prover_ = new SimpleProver(rules, manager, section);
+  }
+
   public Term visitZSect(ZSect zSect)
   {
-    section_ = zSect.getName();
+    prover_ = new SimpleProver(rules_, manager_, zSect.getName());
     return VisitorUtils.visitTerm(this, zSect, true);
   }
 
@@ -96,7 +102,7 @@ public class Rewrite
     int rewrites = 0;
     do {
       oldExpr = expr;
-      expr = (Expr) rewriteOnce(manager_, section_, expr, rules_);
+      expr = (Expr) rewriteOnce(expr, prover_);
       rewrites++;
       if (rewrites > MAX_REWRITES)
         throw new RuntimeException("Infinite loop in rules on expr "+expr);
@@ -112,7 +118,7 @@ public class Rewrite
     int rewrites = 0;
     do {
       oldPred = pred;
-      pred = (Pred) rewriteOnce(manager_, section_, pred, rules_);
+      pred = (Pred) rewriteOnce(pred, prover_);
       rewrites++;
       if (rewrites > MAX_REWRITES)
         throw new RuntimeException("Infinite loop in rules on pred "+pred);
@@ -127,20 +133,17 @@ public class Rewrite
   public Term visitSchText(SchText schText)
   {
     // apply the first matching rule just once.
-    schText = (SchText) rewriteOnce(manager_, section_, schText, rules_);
+    schText = (SchText) rewriteOnce(schText, prover_);
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, schText, true);
   }
 
   /**
    * Returns a rewritten version of the given schema text by trying to prove
-   * <code>schText schemaEquals result</code> using one of the given rules.
+   * <code>schText schemaEquals result</code> using the given prover.
    * If the prover fails, the original schema text is returned.
    */
-  public static SchText rewriteOnce(SectionManager manager,
-                                    String section,
-                                    SchText schText,
-                                    RuleTable rules)
+  public static SchText rewriteOnce(SchText schText, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
@@ -152,8 +155,6 @@ public class Rewrite
       factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
-    SimpleProver prover =
-      new SimpleProver(rules, manager, section);
     if (prover.prove(predSequent)) {
       Expr newExpr = (Expr) ProverUtils.removeJoker(joker.boundTo());
       if (newExpr instanceof SchExpr) {
@@ -171,23 +172,18 @@ public class Rewrite
 
   /**
    * Returns a rewritten version of the given expression by trying to
-   * prove <code>expr = JokerExpr</code> using the given rules.  Note
+   * prove <code>expr = JokerExpr</code> using the given prover.  Note
    * that this is not recursive, i.e. the children of the expression
    * are not rewritten.  If the prover fails, the given expression
    * itself is returned.
    */
-  public static Term rewriteOnce(SectionManager manager,
-                                 String section,
-                                 Expr expr,
-                                 RuleTable rules)
+  public static Term rewriteOnce(Expr expr, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
     Pred pred = factory.createEquality(expr, joker);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
-    SimpleProver prover =
-      new SimpleProver(rules, manager, section);
     if (prover.prove(predSequent)) {
       return ProverUtils.removeJoker(joker.boundTo());
     }
@@ -196,22 +192,17 @@ public class Rewrite
 
   /**
    * Returns a rewritten version of the given predicate by trying to
-   * prove <code>pred \iff JokerPred</code> using the given rules.
+   * prove <code>pred \iff JokerPred</code> using the given prover.
    * Note that this is not recursive, i.e. the children of the
    * predicate are not rewritten.  If the prover fails, the given
    * predicate itself is returned.
    */
-  public static Term rewriteOnce(SectionManager manager,
-                                 String section,
-                                 Pred pred,
-                                 RuleTable rules)
+  public static Term rewriteOnce(Pred pred, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerPred joker = (ProverJokerPred) factory.createJokerPred("_");
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(factory.createIffPred(pred, joker));
-    SimpleProver prover =
-      new SimpleProver(rules, manager, section);
     if (prover.prove(predSequent)) {
       return ProverUtils.removeJoker(joker.boundTo());
     }
@@ -243,8 +234,7 @@ public class Rewrite
                              Term term,
                              RuleTable rules)
   {
-    Rewrite visitor = new Rewrite(manager, rules);
-    visitor.section_ = section;
+    Rewrite visitor = new Rewrite(manager, rules, section);
     return (Term) term.accept(visitor);
   }
 }

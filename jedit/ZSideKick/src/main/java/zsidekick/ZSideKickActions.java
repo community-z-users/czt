@@ -261,14 +261,13 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
+                Prover prover = new SimpleProver(rules, manager, section);
                 Term result;
                 if (term instanceof Pred) {
-                  result =
-                    Rewrite.rewriteOnce(manager, section, (Pred) term, rules);
+                  result = Rewrite.rewriteOnce((Pred) term, prover);
                 }
                 else {
-                   result =
-                     Rewrite.rewriteOnce(manager, section, (Expr) term, rules);
+                   result = Rewrite.rewriteOnce((Expr) term, prover);
                 }
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
@@ -406,8 +405,8 @@ public class ZSideKickActions
               RuleTable rules = (RuleTable)
                 ruleManager.get(new Key("unfold", RuleTable.class));
               if (rules != null) {
-                Term result =
-                  Rewrite.rewriteOnce(manager, section, (Expr) term, rules);
+                Prover prover = new SimpleProver(rules, manager, section);
+                Term result = Rewrite.rewriteOnce((Expr) term, prover);
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
                 }
