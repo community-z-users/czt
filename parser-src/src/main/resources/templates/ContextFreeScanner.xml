@@ -175,7 +175,7 @@ DECIMAL = [:digit:]
 /* TODO: What about OTHERLETTER? */
 ARITHMOS = "\uD835\uDD38"
 FINSET = "\uD835\uDD3D"
-LETTER = [:letter:] | {ARITHMOS} | {FINSET}
+LETTER = [:letter:] | {ARITHMOS} | "\uD835\uDD39" | "\uD835\uDD3A" | "\uD835\uDD3B" | "\uD835\uDD3C" | {FINSET} | "\uD835\uDD3E" | "\uD835\uDD40" | "\uD835\uDD41" | "\uD835\uDD42" | "\uD835\uDD43" | "\uD835\uDD44" | "\uD835\uDD45" | "\uD835\uDD46" | "\uD835\uDD47" | "\uD835\uDD48" | "\uD835\uDD49" | "\uD835\uDD4A" | "\uD835\uDD4B" | "\uD835\uDD4C" | "\uD835\uDD4D" | "\uD835\uDD4E" | "\uD835\uDD50" | "\uD835\uDD51"
 
 SPECIAL =   {STROKECHAR}
           | {WORDGLUE}
@@ -188,8 +188,9 @@ SPECIAL =   {STROKECHAR}
 /* NOT_SYMBOL ist only needed to define SYMBOL */
 NOT_SYMBOL = {DIGIT} | {LETTER} | {SPECIAL} | "\t"
 
-/* SYMBOL are all the characters that are not NOT_SYMBOL */
-SYMBOL = !(![^] | {NOT_SYMBOL})
+/* SYMBOL are all the characters that are not NOT_SYMBOL
+   nor a special Unicode symbol */
+SYMBOL = !(![^] | {NOT_SYMBOL} | "\uD835")
 
 /* SPECIAL
    ======= */
@@ -347,8 +348,10 @@ RULE = {RULECHAR}
                 }
 
   .             {
-                   String message = "Unexpected character outside para &lt;" + yytext() + "&gt;";
-                   throw new ScanException(message, getLine(), getColumn());
+                   String msg = "Unexpected character "+ yytext() + "(" +
+                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
+                     ") outside para";
+                   throw new ScanException(msg, getLine(), getColumn());
                 }
 }
 
@@ -439,9 +442,18 @@ RULE = {RULECHAR}
                                  new Decorword(yytext(), getLocation())); }
 
   /* error fallback */
+  "\ud835" .    {
+                   String msg = "Unexpected character "+ yytext() + "(";
+                   for (int i = 0; i &lt; yytext().length(); i++) {
+                     msg += "\\u" + Integer.toString(yytext().charAt(i), 16);
+                   }
+                   msg += ")";
+                   throw new ScanException(msg, getLine(), getColumn());
+                }
   .             {
-                   String message = "Unexpected character &gt;" + yytext() + "&gt;";
-                   throw new ScanException(message, getLine(), getColumn());
+                   String msg = "Unexpected character "+ yytext() + "(" +
+                     "\\u" + Integer.toString(yytext().charAt(0), 16) + ")";
+                   throw new ScanException(msg, getLine(), getColumn());
                 }
 }
 </scanner>
