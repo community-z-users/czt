@@ -110,7 +110,7 @@ public class ModelTest extends TestCase
     Assert.assertEquals(-1, metric.getMaximum()); // unknown.
     List<Integer> hist = metric.getHistory();
     Assert.assertNotNull(hist);
-    Assert.assertEquals("Incorrect history size.", 5, hist.size());
+    Assert.assertEquals("Incorrect history size.", 4, hist.size());
     Assert.assertEquals(new Integer(0), hist.get(0));
     Assert.assertEquals(new Integer(coverage), hist.get(hist.size() - 1));
 
@@ -179,7 +179,6 @@ public class ModelTest extends TestCase
     ModelTestCase model = new ModelTestCase(new FSM());
     // remove old coverage listeners
     model.removeAllCoverageMetrics();
-    FSM iut = new FSM();
     model.addCoverageMetric(metric);
     //    System.out.println("Testing "+metric.getName());
     Assert.assertEquals(0, metric.getCoverage());
@@ -240,6 +239,17 @@ public class ModelTest extends TestCase
   {
     //    System.out.println("Starting testTransitionPairCoverage");
     FsmCoverage(new TransitionPairCoverage(), 10, 
-        new int[] {1,0, 2,1, 3,2, 200,10});
+        new int[] {1,0, 2,1, 3,2, 200,9});
+  }
+  
+  public static void main(String args[])
+  {
+    ModelTestCase model = new ModelTestCase(new FSM());
+    System.out.println("Starting random walk");
+    // remove old coverage listeners
+    model.removeAllCoverageMetrics();
+    model.randomWalk(20);
+    System.out.println("Finish random walk");
+    
   }
 }

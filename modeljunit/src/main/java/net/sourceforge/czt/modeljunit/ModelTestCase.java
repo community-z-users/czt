@@ -84,7 +84,7 @@ public class ModelTestCase
   public static final int PATHLEN = 20;
   
   public static final long FIXEDSEED = 123456789L;
-  
+
   /** Constructs an FSM model from the given FsmModel object.
    * @param model
    */
@@ -92,10 +92,15 @@ public class ModelTestCase
   {
     loadModelClass(model.getClass());
     fsmModel = model;
-    doReset(true);
+    doReset("Initial", true);
     startBuildGraph();
   }
 
+  /** Controls how many progress messages will be printed.
+   *  @see #setVerbosity(int)
+   */
+  private int verbosity = 3;
+  
   /** This class defines the finite state machine model of the system under test.
    *  It is null until fsmLoad() has successfully loaded that class.
    */
@@ -180,6 +185,24 @@ public class ModelTestCase
     return -1;
   }
   
+  /** Says how many progress messages will be printed. */
+  public int getVerbosity()
+  {
+    return verbosity;
+  }
+
+  /** Sets the level of progress messages that will be printed
+   *  as this class builds the FSM graph and generates tests.
+   *  0 means no messages.  1 means statistical summaries only.
+   *  2 means also show each transition taken.  3 means also 
+   *  show progress messages as the FSM graph is built. 
+   * @param verbosity  0..3
+   */
+  public void setVerbosity(int verbosity)
+  {
+    this.verbosity = verbosity;
+  }
+  
   /** Returns the FSM class that is the test model. */
   protected Class getModelClass()
   {
@@ -251,10 +274,12 @@ public class ModelTestCase
    *  and during the actual testing.
    *  By default, this prints messages to System.out.
    *  Subclasses can override this if they to do something different.
+   * @param priority 1..3
    */
-  public static void printProgress(String msg)
+  public void printProgress(int priority, String msg)
   {
-    //    System.out.println(msg);
+    if (priority <= verbosity)
+      System.out.println("ModelJUnit: "+msg);
   }
 
   /** Reset all the coverage statistics.
@@ -300,6 +325,7 @@ public class ModelTestCase
       return;  // done already
     fsmClass = null;
     fsmName = fsm.getName();
+    printProgress(3, "loading model class: "+fsmName);
     fsmActions = new ArrayList<Method>();
     for (Method m : fsm.getMethods()) {
       if (m.isAnnotationPresent(Action.class)) {
@@ -310,8 +336,8 @@ public class ModelTestCase
         if (m.getReturnType() != void.class)
           printWarning("ERROR: @Action method "
               +fsmName+"."+m.getName()+" should be void.");
-        printProgress("Adding method "+fsmName+"."+m.getName()
-            +" to test suite as #"+fsmActions.size());
+        printProgress(3, "added method "+fsmName+"."+m.getName()
+            +" to model as action#"+fsmActions.size());
         fsmActions.add(m);
       }
     }
@@ -338,10 +364,11 @@ public class ModelTestCase
         }
         else {
           fsmGuards.set(trPos, m);
-          printProgress("Setting guard["+trPos+"] := "+fsmName+"."+m.getName());
+          printProgress(3, "set guard["+trPos+"] := "+fsmName+"."+m.getName());
         }
       }
     }
+    printProgress(3, "finished loading model class: "+fsmName);
     // get ready to record coverage statistics.
     resetCoverageMetrics();
     // now set fsmClass, to show that it is a valid FSM class.
@@ -362,7 +389,7 @@ public class ModelTestCase
     // set up the initial state
     Vertex initial = fsmGraph.insertVertex(fsmState);
     assert initial != null;
-    printProgress("Buildgraph: start with vertex for initial state "+fsmState);
+    printProgress(3, "buildgraph: start with vertex for initial state "+fsmState);
     fsmVertex.put(fsmState, initial);
     fsmDone.put(fsmState, new BitSet());
     BitSet enabled = currentEnabledActions();
@@ -394,7 +421,7 @@ public class ModelTestCase
       newVertex = fsmGraph.insertVertex(newState);
       fsmVertex.put(newState, newVertex);
       fsmDone.put(newState, new BitSet());
-      printProgress("Buildgraph: Added vertex for state "+newState);
+      printProgress(3, "buildgraph: Added vertex for state "+newState);
       if ( ! enabled.isEmpty())
         fsmTodo.put(newState, enabled);
     }
@@ -424,7 +451,7 @@ public class ModelTestCase
     if ( ! present) {
       fsmGraph.insertDirectedEdge(oldVertex, newVertex, actionName);
       fsmDone.get(oldState).set(action);
-      printProgress("Buildgraph: Added edge ("+oldState+","
+      printProgress(3, "buildgraph: Added edge ("+oldState+","
           +actionName+","+newState+")");
       
       // See if we can reduce the fsmTodo flags of oldState
@@ -455,7 +482,7 @@ public class ModelTestCase
         Assert.fail("Cannot build graph after 1000 iterations "+fsmGraph.numVertices());
       int action = doRandomAction(rand);
       if (action < 0)
-        doReset(false);
+        doReset("Forced", false);
     }
     for (CoverageMetric cm : fsmCoverage) {
       cm.setModel(fsmGraph, fsmVertex);
@@ -499,18 +526,35 @@ public class ModelTestCase
   }
 
   /** Reset the FSM to its initial state.
-   *  This does the fsmLoad of fsm.class if it has not
-   *  already been done.  It also calls the doneReset(testing)
-   *  method of all the coverage listeners.
-   * @param testing False means we are just exploring the graph, so the
-   *                 fsm object could skip the actual tests if it wants.
+   *  This is equivalent to doReset("User",testing),
+   *  because it corresponds to a user-requested reset.
+   * @param testing
    */
   public void doReset(boolean testing)
   {
+    doReset("User", testing);
+  }
+  
+  /** Reset the FSM to its initial state.
+   *  This does the fsmLoad of fsm.class if it has not
+   *  already been done.  It also calls the doneReset(testing)
+   *  method of all the coverage listeners.
+   * @param reason  Why the reset was performed (an adjective).
+   * @param testing False means we are just exploring the graph, so the
+   *                 fsm object could skip the actual tests if it wants.
+   */
+  public void doReset(String reason, boolean testing)
+  {
+    if (fsmSequence == null)
+      fsmSequence = new ArrayList<Transition>();
+    else
+    {
+      this.printProgress(1, "tested "+fsmSequence.size()+" transitions.  "
+          +reason+" reset from state "+fsmState);
+    }
     try {
+      this.printProgress(2, "reset("+testing+")");
       fsmModel.reset(testing);
-      if (fsmSequence == null)
-        fsmSequence = new ArrayList<Transition>();
       fsmSequence.clear();
       fsmState = fsmModel.getState();
       if (fsmState == null)
@@ -575,7 +619,8 @@ public class ModelTestCase
 	  
 	  Method m = fsmActions.get(index);
 	  try {
-		  m.invoke(fsmModel, fsmNoArgs);
+        this.printProgress(2, "testing action "+m.getName()+ " from state "+fsmState);
+	    m.invoke(fsmModel, fsmNoArgs);
 	  }
 	  catch (InvocationTargetException ex) {
         StringBuffer msg = new StringBuffer();
@@ -681,17 +726,21 @@ public class ModelTestCase
       /*@non_null@*/ Random rand)
   {
 	int totalLength = 0;
-    doReset(true);
+    doReset("Initial", true);
     while (totalLength < length) {
       int taken = -1;
       double prob = rand.nextDouble();
       //System.out.println("random double is "+prob);
-      if (prob >= RESET_PROBABILITY)
-        taken = doRandomAction(rand);
-      if (taken < 0)
-    	doReset(true);
+      if (prob < RESET_PROBABILITY)
+        doReset("Random", true);
       else
-    	totalLength++;
+      {
+        taken = doRandomAction(rand);
+        if (taken < 0)
+          doReset("Forced", true);
+      }
+      totalLength++;
     }
+    this.printProgress(1, "finished randomWalk of "+length+" transitions.");
   }
 }
