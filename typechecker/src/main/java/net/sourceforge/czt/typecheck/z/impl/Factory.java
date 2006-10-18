@@ -40,7 +40,7 @@ public class Factory
   protected net.sourceforge.czt.z.util.Factory factory_;
 
   /** Used for generating unique ids in names. */
-  protected int id_ = 0;
+  protected static int id_ = 0;
 
   public Factory()
   {
