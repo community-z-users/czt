@@ -34,7 +34,7 @@ public class ScanException
    */
   public ScanException(String message, int lineNr, int columnNr)
   {
-    super(message);
+    super(message + " in line " + lineNr + " column " + columnNr);
     lineNr_ = lineNr;
     columnNr_ = columnNr;
   }
