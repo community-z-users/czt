@@ -210,6 +210,18 @@ public class UnicodeScannerTest
     isDecorword("elser");
   }
 
+  public void testArithmos()
+    throws Exception
+  {
+    isDecorword(ARITHMOS);
+    resetLexer(ZED + ARITHMOS + COMMA + END);
+    nextIsZed();
+    nextIsDecorword(ARITHMOS);
+    Assert.assertEquals(Sym.COMMA, lexer_.next_token().sym);
+    nextIsEnd();
+    nextIsEof();
+  }
+
   /**
    * Example 1 from Z Standard chapter 7.3.
    */
