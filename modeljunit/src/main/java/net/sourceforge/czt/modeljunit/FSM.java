@@ -19,6 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.modeljunit;
 
+import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
+import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
+
 /** Simple example of a finite state machine (FSM) for testing.
  */
 public class FSM implements FsmModel
@@ -66,5 +69,32 @@ public class FSM implements FsmModel
   {
     // leave state the same.
     //    System.out.println("actionNone: " + state + " --> " + state);
+  }
+  
+  /** This main method illustrates how we can use ModelJUnit
+   *  to generate a small test suite.
+   *  If we had an implementation of this model that we wanted
+   *  to test, we would extend each of the above methods so that
+   *  they called the methods of the implementation and checked
+   *  the results of those methods.
+   *  
+   *  We also report the transition coverage of the model. */
+  public static void main(String args[])
+  {
+    // set up our favourite coverage metrics
+    CoverageMetric trCoverage = new TransitionCoverage();
+    ModelTestCase.addCoverageMetric(trCoverage);
+    
+    // create our model and get ready to generate tests
+    FSM model = new FSM();
+    ModelTestCase testgen = new ModelTestCase(model);
+    testgen.setVerbosity(2);  // show the generated test sequence
+
+    // generate a test suite of 30 steps
+    testgen.randomWalk(20);
+    // finish building the FSM of our model so that we get
+    // accurate coverage metrics.
+    testgen.buildGraph();
+    System.out.println(trCoverage.getName()+" was "+trCoverage.toString());
   }
 }
