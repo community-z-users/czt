@@ -213,7 +213,8 @@ public class SpecChecker
       sectTypeEnv().addParent(triple.getSect());
       NameSectTypeTriple duplicate = sectTypeEnv().add(triple);
       //raise an error if there are duplicates in merging parents
-      if (duplicate != null) {
+      if (duplicate != null &&
+	  !duplicate.getSect().equals(triple.getSect())) {
         Object [] params = {triple.getZDeclName(), duplicate.getSect(),
                             triple.getSect(), sectName()};
         error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);
