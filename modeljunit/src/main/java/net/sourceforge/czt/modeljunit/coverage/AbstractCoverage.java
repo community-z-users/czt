@@ -40,7 +40,7 @@ import net.sourceforge.czt.modeljunit.Transition;
  *  the FSM graph.  After doing this,
  *  it should also set maxCoverage_ to coverage_.size().
  *  Subclasses must also implement doneTransition (and
- *  perhaps doneInit) so that it calls incrementCount(item)
+ *  perhaps doneReset) so that it calls incrementCount(item)
  *  each time a coverage item is covered.
  *  </p>
  */
@@ -108,8 +108,8 @@ public abstract class AbstractCoverage implements CoverageMetric
   }
 
   /** Increments the count of {@code item} in the {@code coverage_} map.
-   *  This should be called by {@link #doneTransition(Object) doneTransition}
-   *  (and perhaps doneInit) whenever a coverage item is covered.
+   *  This should be called by {@link #doneTransition(Transition) doneTransition}
+   *  (and perhaps doneReset) whenever a coverage item is covered.
    *
    * @param item The object that has just been 'covered'.
    */

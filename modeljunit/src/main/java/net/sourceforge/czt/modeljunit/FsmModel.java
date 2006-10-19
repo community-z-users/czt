@@ -37,7 +37,7 @@ package net.sourceforge.czt.modeljunit;
  *  internal variables to their initial state.  In addition, the
  *  model should contain several `action' methods, like this:
  *  <pre>
- *  @Action public void myAction() {...}
+ *  {@code @}Action public void myAction() {...}
  *  </pre>
  *  which modify the internal state of the FSM.  These correspond
  *  to the transitions (arcs) of the FSM model.  It is also possible
@@ -89,7 +89,7 @@ package net.sourceforge.czt.modeljunit;
  *    So a typical action method with a guard will look like this:
  *    <pre>
  *      public boolean deleteGuard() { return ...; }
- *      @Action public void delete()
+ *      {@code @}Action public void delete()
  *      {
  *        ... perform the SUT test and check results ...
  *        fsmstate = ...new state of FSM...;

@@ -65,6 +65,8 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *  the coverage metrics into separate classes and make the methods 
  *  non-static.</li>
  *      <li> DONE: build the graph *during* the random walk traversal.</li>
+ *      <li> DONE: when a test fails, throw a specific exception 
+ *           containing lots of model information.</li>
  *      <li> add more test generation algorithms, such as greedy random.</li>
  *    </ul>
  *    Acknowledgements: This model-based testing library uses the
@@ -97,9 +99,17 @@ public class ModelTestCase
   }
 
   /** Controls how many progress messages will be printed.
-   *  @see #setVerbosity(int)
+   *  @see #setProgressVerbosity(int)
    */
-  private int verbosity = 3;
+  private int progressVerbosity = 0;
+  
+  /** Controls how much information will be printed when a test fails.
+   *  @see #setFailureVerbosity(int)
+   */
+  private int failureVerbosity = 3;
+  
+  /** Number of failed tests. */
+  private int failedTests = 0;
   
   /** This class defines the finite state machine model of the system under test.
    *  It is null until fsmLoad() has successfully loaded that class.
@@ -185,10 +195,16 @@ public class ModelTestCase
     return -1;
   }
   
+  /** Returns the number of test failures. */
+  public int getFailedTests()
+  {
+    return failedTests;
+  }
+
   /** Says how many progress messages will be printed. */
   public int getVerbosity()
   {
-    return verbosity;
+    return progressVerbosity;
   }
 
   /** Sets the level of progress messages that will be printed
@@ -200,9 +216,27 @@ public class ModelTestCase
    */
   public void setVerbosity(int verbosity)
   {
-    this.verbosity = verbosity;
+    this.progressVerbosity = verbosity;
   }
-  
+
+  /** The amount of information printed when a test fails. */
+  public int getFailureVerbosity()
+  {
+    return failureVerbosity;
+  }
+
+  /** Sets the amount of information printed when tests fail.
+   *  0 means none.  1 means print a statistical summary of the
+   *  number of failed tests.  2 means print a one line summary
+   *  of each failed test.  3 means print more information about
+   *  each failed test.
+   * @param failureVerbosity 0..3
+   */
+  public void setFailureVerbosity(int failureVerbosity)
+  {
+    this.failureVerbosity = failureVerbosity;
+  }
+
   /** Returns the FSM class that is the test model. */
   protected Class getModelClass()
   {
@@ -264,7 +298,7 @@ public class ModelTestCase
    *  By default, this prints warnings to System.out.
    *  Subclasses can override this if they to do something different.
    */
-  public static void printWarning(String msg)
+  public void printWarning(String msg)
   {
     System.out.println(msg);
   }
@@ -278,8 +312,19 @@ public class ModelTestCase
    */
   public void printProgress(int priority, String msg)
   {
-    if (priority <= verbosity)
+    if (priority <= progressVerbosity)
       System.out.println("ModelJUnit: "+msg);
+  }
+
+  /** Print failure messages, when a test/tests fail.
+   *  By default, this prints messages to System.out.
+   *  Subclasses can override this if they to do something different.
+   * @param priority 1..3
+   */
+  public void printFailure(int priority, String msg)
+  {
+    if (priority <= failureVerbosity)
+      System.out.println("FAILURE: "+msg);
   }
 
   /** Reset all the coverage statistics.
@@ -487,6 +532,8 @@ public class ModelTestCase
     for (CoverageMetric cm : fsmCoverage) {
       cm.setModel(fsmGraph, fsmVertex);
     }
+    printProgress(1, "FSM has "+this.fsmGraph.numVertices()
+        +" states and "+this.fsmGraph.numEdges()+" transitions.");
   }
 
   /** Equivalent to buildGraph(FIXEDSEED). */
@@ -623,16 +670,16 @@ public class ModelTestCase
 	    m.invoke(fsmModel, fsmNoArgs);
 	  }
 	  catch (InvocationTargetException ex) {
-        StringBuffer msg = new StringBuffer();
-        msg.append("Error calling "+getModelName()+"."+m.getName()+"()"
-          + " in state "+fsmState);
-        for (int i=1; i<=PATHLEN && i<=fsmSequence.size(); i++) {
-          msg.append("\n\tafter "
-              +fsmSequence.get(fsmSequence.size()-i).toString());
-        }
-        if (PATHLEN < fsmSequence.size())
-          msg.append("\n\t...");
-        
+        String failmsg = "failure in action "+m.getName()
+          +" from state "+this.fsmState;
+        TestFailureException failure = 
+          new TestFailureException(failmsg, ex.getCause());
+        failure.setActionName(m.getName());
+        failure.setModel(this.fsmModel);
+        failure.setModelName(this.getModelName());
+        failure.setSequence(this.fsmSequence);
+        failure.setState(this.fsmState);
+
         /* Here is an alternative which throws just the original exception.
          * However, this does not allow us to add the model path like above.
          
@@ -642,7 +689,15 @@ public class ModelTestCase
           throw origEx;
         }
         */
-		throw new RuntimeException(msg.toString(), ex.getCause());
+        failedTests++;
+        printFailure(2, failmsg);
+        if (3 <= failureVerbosity && this.fsmSequence != null) {
+          // print the sequence in reverse order, like a stacktrace
+          for (int i=this.fsmSequence.size()-1; i>=0; i--)
+            printFailure(3, "  after "+this.fsmSequence.get(i));
+          printFailure(3, "  after reset.");
+        }
+		throw failure;
 	  }
       catch (IllegalAccessException ex) {
         Assert.fail("Error in model.  Non-public actions? "+ex);
@@ -658,7 +713,6 @@ public class ModelTestCase
   }
 
   /** Take any randomly-chosen Action that is enabled.
-   *  TODO: add a probability of doing a reset as well.
    *  Returns the number of the Action taken, -1 if all are disabled.
    * @param rand  The Random number generator that controls the choice.
    * @return      The Action taken, or -1 if none are enabled.
@@ -742,5 +796,7 @@ public class ModelTestCase
       totalLength++;
     }
     this.printProgress(1, "finished randomWalk of "+length+" transitions.");
+    if (failedTests > 0)
+      printFailure(1, ""+failedTests+" tests failed.");
   }
 }
