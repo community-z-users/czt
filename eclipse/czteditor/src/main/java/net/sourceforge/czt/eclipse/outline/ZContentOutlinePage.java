@@ -44,7 +44,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
     protected IPositionUpdater fPositionUpdater = new DefaultPositionUpdater(
         SEGMENTS);
 
-    protected List<CztSegment> fContents = new ArrayList<CztSegment>();
+    protected List<CztTreeNode> fContents = new ArrayList<CztTreeNode>();
 
     /*
      * @see IContentProvider#inputChanged(Viewer, Object, Object)
@@ -73,8 +73,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
             document.addPositionCategory(SEGMENTS);
             document.addPositionUpdater(fPositionUpdater);
 
-            if (newInput instanceof CztSegment) {
-              for (CztSegment child : ((CztSegment) newInput).getChildren()) {
+            if (newInput instanceof CztTreeNode) {
+              for (CztTreeNode child : ((CztTreeNode) newInput).getChildren()) {
                 if (child.getRange() != null) {
                   document.addPosition(SEGMENTS, child.getRange());
                   fContents.add(child);
@@ -88,7 +88,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
       }
     }
 
-    public List<CztSegment> getContents()
+    public List<CztTreeNode> getContents()
     {
       return this.fContents;
     }
@@ -106,8 +106,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
      */
     public boolean hasChildren(Object element)
     {
-      if (element instanceof CztSegment)
-        return ((CztSegment) element).getChildren().size() > 0;
+      if (element instanceof CztTreeNode)
+        return ((CztTreeNode) element).getChildren().size() > 0;
       return false;
     }
 
@@ -116,8 +116,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
      */
     public Object getParent(Object element)
     {
-      if (element instanceof CztSegment)
-        return ((CztSegment) element).getParent();
+      if (element instanceof CztTreeNode)
+        return ((CztTreeNode) element).getParent();
       return null;
     }
 
@@ -126,8 +126,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
      */
     public Object[] getChildren(Object element)
     {
-      if (element instanceof CztSegment)
-        return ((CztSegment) element).getChildren().toArray();
+      if (element instanceof CztTreeNode)
+        return ((CztTreeNode) element).getChildren().toArray();
       return new Object[0];
     }
 
@@ -217,7 +217,7 @@ public class ZContentOutlinePage extends ContentOutlinePage
 
     OutlineContentProvider contentProvider = (OutlineContentProvider) this
         .getTreeViewer().getContentProvider();
-    List<CztSegment> contents = contentProvider.getContents();
+    List<CztTreeNode> contents = contentProvider.getContents();
     Object element = getNodeOfPoint(contentProvider, contents.toArray(), offset);
     if (element == null) {
       this.getTreeViewer().setSelection(null);
@@ -233,8 +233,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
   {
     Object node = null;
     for (Object element : elements) {
-      if (element instanceof CztSegment) {
-        Position pos = ((CztSegment) element).getRange();
+      if (element instanceof CztTreeNode) {
+        Position pos = ((CztTreeNode) element).getRange();
         if ((pos.getOffset() <= offset)
             && (pos.getOffset() + pos.getLength() - 1 >= offset)) {
           node = element;
@@ -284,8 +284,8 @@ public class ZContentOutlinePage extends ContentOutlinePage
           if (control != null && !control.isDisposed()) {
             control.setRedraw(false);
             viewer.setInput(fInput);
-            if (fInput != null && fInput instanceof CztSegment) {
-              if (((CztSegment)fInput).getChildren().size() == 1)
+            if (fInput != null && fInput instanceof CztTreeNode) {
+              if (((CztTreeNode)fInput).getChildren().size() == 1)
                 viewer.expandToLevel(2);
             }
             control.setRedraw(true);

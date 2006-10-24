@@ -114,7 +114,7 @@ public class ZSpecDecorationSupport
           int start_line = document.getLineOfOffset(partition.getOffset());
           int end_line = document.getLineOfOffset(partition.getOffset() + partition.getLength());
           
-          // set the specify color for the schema box
+          // set the preferred color for the schema box
           gc.setForeground(color);
           
           if (annLine == start_line) { // tell whether it is the start line

@@ -1,130 +1,99 @@
 
 package net.sourceforge.czt.eclipse.util;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.osgi.framework.Bundle;
 
 /**
  * Bundle of most images used by the CZT plug-in.
+ * 
  * @author Chengdong Xu
  */
 public class CZTPluginImages
 {
-
-  private static final String NAME_PREFIX = ""; //$NON-NLS-1$
+  //public static final IPath ICONS_PATH= new Path("$nl$/icons/full"); //$NON-NLS-1$
+  public static final IPath ICONS_PATH= new Path("$nl$/icons"); //$NON-NLS-1$
+  
+  private static final String NAME_PREFIX = "net.sourceforge.czt.eclipse."; //$NON-NLS-1$
 
   private static final int NAME_PREFIX_LENGTH = NAME_PREFIX.length();
-
-  private static URL fgIconBaseURL = null;
-
-  // Determine display depth. If depth > 4 then we use high color images. Otherwise low color
-  // images are used
-  static {
-    fgIconBaseURL = CZTPlugin.getDefault().getBundle().getEntry("/icons/"); //$NON-NLS-1$
-  }
-
+  
   // The plug-in registry
   private static ImageRegistry fgImageRegistry = null;
-
   private static HashMap fgAvoidSWTErrorMap = null;
 
   private static final String T_OBJ = "obj16"; //$NON-NLS-1$
-
   private static final String T_OVR = "ovr16"; //$NON-NLS-1$
 
-  private static final String T_WIZBAN = "wizban"; //$NON-NLS-1$
-
-  private static final String T_ELCL = "elcl16"; //$NON-NLS-1$
-
-  private static final String T_DLCL = "dlcl16"; //$NON-NLS-1$
-
-  private static final String T_ETOOL = "etool16"; //$NON-NLS-1$
-
-  private static final String T_EVIEW = "eview16"; //$NON-NLS-1$
 
   /*
-   * Available cached Images in the CZT plug-in image registry.
+   * Keys for images available from the CZT plug-in image registry.
    */
-  public static final String IMG_SPECIFICATION = NAME_PREFIX
-      + "specification.gif"; //$NON-NLS-1$
+  public static final String IMG_ZSECTION = NAME_PREFIX + "zed16.png"; //$NON-NLS-1$
+  public static final String IMG_GIVENPARA = NAME_PREFIX + "given16.png"; //$NON-NLS-1$
+  public static final String IMG_AXPARA_AXBOX = NAME_PREFIX + "axpara16.png"; //$NON-NLS-1$
+  public static final String IMG_AXPARA_OMITBOX = NAME_PREFIX + "def16.png"; //$NON-NLS-1$
+  public static final String IMG_AXPARA_SCHBOX = NAME_PREFIX + "schema16.png"; //$NON-NLS-1$
+  public static final String IMG_CONJPARA = NAME_PREFIX + "conj16.png"; //$NON-NLS-1$
+  public static final String IMG_FREEPARA = NAME_PREFIX + "free16.png"; //$NON-NLS-1$
+  public static final String IMG_OPTEMPPARA = NAME_PREFIX + "optemp16.png"; //$NON-NLS-1$
 
   /*
    * Set of predefined Image Descriptors.
    */
-  public static final ImageDescriptor DESC_OVR_STATIC = create(T_OVR,
-      "static_co.gif"); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_ZSECTION = createManagedFromKey(T_OBJ, IMG_ZSECTION); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_GIVENPARA = createManagedFromKey(T_OBJ, IMG_GIVENPARA); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_AXPARA_AXBOX = createManagedFromKey(T_OBJ, IMG_AXPARA_AXBOX); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_AXPARA_OMITBOX = createManagedFromKey(T_OBJ, IMG_AXPARA_OMITBOX); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_AXPARA_SCHBOX = createManagedFromKey(T_OBJ, IMG_AXPARA_SCHBOX); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_CONJPARA = createManagedFromKey(T_OBJ, IMG_CONJPARA); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_ZFREEPARA = createManagedFromKey(T_OBJ, IMG_FREEPARA); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_OPTEMPPARA = createManagedFromKey(T_OBJ, IMG_OPTEMPPARA); //$NON-NLS-1$
 
-  public static final ImageDescriptor DESC_OVR_FINAL = create(T_OVR,
-      "final_co.gif"); //$NON-NLS-1$
+  public static final ImageDescriptor DESC_OVR_ERROR= createUnManagedCached(T_OVR, "error_ovr.gif");                   //$NON-NLS-1$
+  public static final ImageDescriptor DESC_OVR_WARNING= createUnManagedCached(T_OVR, "warning_ovr.gif");                       //$NON-NLS-1$
+  
+    // Keys for correction proposal. We have to put the image into the registry since "code assist" doesn't
+    // have a life cycle. So no change to dispose icons.
+    
+    public static final String IMG_CORRECTION_ADD= NAME_PREFIX + "add_correction.gif"; //$NON-NLS-1$
+    public static final String IMG_CORRECTION_CAST= NAME_PREFIX + "correction_cast.gif"; //$NON-NLS-1$
 
-  public static final ImageDescriptor DESC_OVR_ABSTRACT = create(T_OVR,
-      "abstract_co.gif"); //$NON-NLS-1$
+    static {
+        createManagedFromKey(T_OBJ, IMG_CORRECTION_ADD);
+        createManagedFromKey(T_OBJ, IMG_CORRECTION_CAST);
+    }
+    
+    private static final class CachedImageDescriptor extends ImageDescriptor {
+        private ImageDescriptor fDescriptor;
+        private ImageData fData;
 
-  public static final ImageDescriptor DESC_OVR_SYNCH = create(T_OVR,
-      "synch_co.gif"); //$NON-NLS-1$
+        public CachedImageDescriptor(ImageDescriptor descriptor) {
+            fDescriptor = descriptor;
+        }
 
-  public static final ImageDescriptor DESC_OVR_RUN = create(T_OVR, "run_co.gif"); //$NON-NLS-1$
+        public ImageData getImageData() {
+            if (fData == null) {
+                fData= fDescriptor.getImageData();
+            }
+            return fData;
+        }
+    }
 
-  public static final ImageDescriptor DESC_OVR_WARNING = create(T_OVR,
-      "warning_co.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_ERROR = create(T_OVR,
-      "error_co.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_OVERRIDES = create(T_OVR,
-      "over_co.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_IMPLEMENTS = create(T_OVR,
-      "implm_co.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_SYNCH_AND_OVERRIDES = create(
-      T_OVR, "sync_over.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_SYNCH_AND_IMPLEMENTS = create(
-      T_OVR, "sync_impl.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_CONSTRUCTOR = create(T_OVR,
-      "constr_ovr.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_DEPRECATED = create(T_OVR,
-      "deprecated.gif"); //$NON-NLS-1$
-
-  public static final ImageDescriptor DESC_OVR_FOCUS = create(T_OVR,
-      "focus_ovr.gif"); //$NON-NLS-1$
-
-  // Keys for correction proposal. We have to put the image into the registry since "code assist" doesn't
-  // have a life cycle. So no change to dispose icons.
-
-  //	public static final String IMG_CORRECTION_CHANGE= NAME_PREFIX + "correction_change.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_MOVE= NAME_PREFIX + "correction_move.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_RENAME= NAME_PREFIX + "correction_rename.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_DELETE_IMPORT= NAME_PREFIX + "correction_delete_import.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_LOCAL= NAME_PREFIX + "localvariable_obj.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_REMOVE= NAME_PREFIX + "remove_correction.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_ADD= NAME_PREFIX + "add_correction.gif"; //$NON-NLS-1$
-  //	public static final String IMG_CORRECTION_CAST= NAME_PREFIX + "correction_cast.gif"; //$NON-NLS-1$
-  /*
-   static {
-   createManaged(T_OBJ, IMG_CORRECTION_CHANGE);
-   createManaged(T_OBJ, IMG_CORRECTION_MOVE);
-   createManaged(T_OBJ, IMG_CORRECTION_RENAME);
-   createManaged(T_OBJ, IMG_CORRECTION_DELETE_IMPORT);
-   createManaged(T_OBJ, IMG_CORRECTION_LOCAL);
-   createManaged(T_OBJ, IMG_CORRECTION_REMOVE);
-   createManaged(T_OBJ, IMG_CORRECTION_ADD);
-   createManaged(T_OBJ, IMG_CORRECTION_CAST);
-   }
-   */
-
+    
   /**
    * Returns the image managed under the given key in this registry.
    * 
@@ -135,20 +104,19 @@ public class CZTPluginImages
   {
     return getImageRegistry().get(key);
   }
-
-  /**
-   * Returns the image descriptor for the given key in this registry. Might be called in a non-UI thread.
-   * 
-   * @param key the image's key
-   * @return the image descriptor for the given key
-   */
-  public static ImageDescriptor getDescriptor(String key)
-  {
-    if (fgImageRegistry == null) {
-      return (ImageDescriptor) fgAvoidSWTErrorMap.get(key);
+  
+    /**
+     * Returns the image descriptor for the given key in this registry. Might be called in a non-UI thread.
+     * 
+     * @param key the image's key
+     * @return the image descriptor for the given key
+     */ 
+    public static ImageDescriptor getDescriptor(String key) {
+        if (fgImageRegistry == null) {
+            return (ImageDescriptor) fgAvoidSWTErrorMap.get(key);
+        }
+        return getImageRegistry().getDescriptor(key);
     }
-    return getImageRegistry().getDescriptor(key);
-  }
 
   /**
    * Sets the three image descriptors for enabled, disabled, and hovered to an action. The actions
@@ -175,40 +143,102 @@ public class CZTPluginImages
   }
 
   /*
-   * Helper method to access the image registry from the JavaPlugin class.
+   * Helper method to access the image registry from the CZTPlugin class.
    */
-  /* package */
-  public static ImageRegistry getImageRegistry()
+  /* package */public static ImageRegistry getImageRegistry()
   {
     if (fgImageRegistry == null) {
-      fgImageRegistry = new ImageRegistry();
+        fgImageRegistry = new ImageRegistry();
+      
       for (Iterator iter = fgAvoidSWTErrorMap.keySet().iterator(); iter
           .hasNext();) {
         String key = (String) iter.next();
         fgImageRegistry.put(key, (ImageDescriptor) fgAvoidSWTErrorMap.get(key));
       }
       fgAvoidSWTErrorMap = null;
+
     }
+    
     return fgImageRegistry;
   }
 
   //---- Helper methods to access icons on the file system --------------------------------------
   private static void setImageDescriptors(IAction action, String type,
       String relPath)
-  {
-    try {
-      ImageDescriptor id = ImageDescriptor.createFromURL(makeIconFileURL(
-          "d" + type, relPath)); //$NON-NLS-1$
-      if (id != null)
+  { 
+    ImageDescriptor id= create("d" + type, relPath, false); //$NON-NLS-1$
+    if (id != null)
         action.setDisabledImageDescriptor(id);
-    } catch (MalformedURLException e) {
-    }
 
-    ImageDescriptor descriptor = create("e" + type, relPath); //$NON-NLS-1$
+    ImageDescriptor descriptor= create("e" + type, relPath, true); //$NON-NLS-1$
     action.setHoverImageDescriptor(descriptor);
     action.setImageDescriptor(descriptor);
   }
 
+    private static ImageDescriptor createManagedFromKey(String prefix, String key) {
+        return createManaged(prefix, key.substring(NAME_PREFIX_LENGTH), key);
+    }
+    
+    private static ImageDescriptor createManaged(String prefix, String name, String key) {
+        ImageDescriptor result= create(prefix, name, true);
+        
+        if (fgAvoidSWTErrorMap == null) {
+            fgAvoidSWTErrorMap= new HashMap();
+        }
+        fgAvoidSWTErrorMap.put(key, result);
+        if (fgImageRegistry != null) {
+            //JavaPlugin.logErrorMessage("Image registry already defined"); //$NON-NLS-1$
+        }
+        return result;
+    }
+    
+    /*
+     * Creates an image descriptor for the given prefix and name in the JDT UI bundle. The path can
+     * contain variables like $NL$.
+     * If no image could be found, <code>useMissingImageDescriptor</code> decides if either
+     * the 'missing image descriptor' is returned or <code>null</code>.
+     * or <code>null</code>.
+     */
+    private static ImageDescriptor create(String prefix, String name, boolean useMissingImageDescriptor) {
+        IPath path= ICONS_PATH.append(prefix).append(name);
+        return createImageDescriptor(CZTPlugin.getDefault().getBundle(), path, useMissingImageDescriptor);
+    }
+    
+    /*
+     * Creates an image descriptor for the given prefix and name in the JDT UI bundle. The path can
+     * contain variables like $NL$.
+     * If no image could be found, the 'missing image descriptor' is returned.
+     */
+    private static ImageDescriptor createUnManaged(String prefix, String name) {
+        return create(prefix, name, true);
+    }
+    
+    /*
+     * Creates an image descriptor for the given prefix and name in the JDT UI bundle and let tye descriptor cache the image data.
+     * If no image could be found, the 'missing image descriptor' is returned.
+     */
+    private static ImageDescriptor createUnManagedCached(String prefix, String name) {
+        return new CachedImageDescriptor(create(prefix, name, true));
+    }
+        
+    /*
+     * Creates an image descriptor for the given path in a bundle. The path can contain variables
+     * like $NL$.
+     * If no image could be found, <code>useMissingImageDescriptor</code> decides if either
+     * the 'missing image descriptor' is returned or <code>null</code>.
+     * Added for 3.1.1.
+     */
+    public static ImageDescriptor createImageDescriptor(Bundle bundle, IPath path, boolean useMissingImageDescriptor) {
+        URL url= FileLocator.find(bundle, path, null);
+        if (url != null) {
+            return ImageDescriptor.createFromURL(url);
+        }
+        if (useMissingImageDescriptor) {
+            return ImageDescriptor.getMissingImageDescriptor();
+        }
+        return null;
+    }
+/*    
   private static URL makeIconFileURL(String prefix, String name)
       throws MalformedURLException
   {
@@ -218,9 +248,8 @@ public class CZTPluginImages
     StringBuffer buffer = new StringBuffer(prefix);
     buffer.append('/');
     buffer.append(name);
-
-    //		return new URL(fgIconBaseURL, buffer.toString());
-    return new URL(fgIconBaseURL, name);
+    
+    return new URL(fgIconBaseURL, buffer.toString());
   }
 
   private static ImageDescriptor create(String prefix, String name)
@@ -231,41 +260,5 @@ public class CZTPluginImages
       return ImageDescriptor.getMissingImageDescriptor();
     }
   }
-
-  private static ImageDescriptor createManaged(String prefix, String name)
-  {
-    try {
-      ImageDescriptor result = ImageDescriptor.createFromURL(makeIconFileURL(
-          prefix, name.substring(NAME_PREFIX_LENGTH)));
-      if (fgAvoidSWTErrorMap == null) {
-        fgAvoidSWTErrorMap = new HashMap();
-      }
-      fgAvoidSWTErrorMap.put(name, result);
-      if (fgImageRegistry != null) {
-        //				CZTPlugin.logErrorMessage("Image registry already defined"); //$NON-NLS-1$
-      }
-      return result;
-    } catch (MalformedURLException e) {
-      return ImageDescriptor.getMissingImageDescriptor();
-    }
-  }
-
-  private static ImageDescriptor createManaged(String prefix, String name,
-      String key)
-  {
-    try {
-      ImageDescriptor result = ImageDescriptor.createFromURL(makeIconFileURL(
-          prefix, name.substring(NAME_PREFIX_LENGTH)));
-      if (fgAvoidSWTErrorMap == null) {
-        fgAvoidSWTErrorMap = new HashMap();
-      }
-      fgAvoidSWTErrorMap.put(key, result);
-      if (fgImageRegistry != null) {
-        //				CZTPlugin.logErrorMessage("Image registry already defined"); //$NON-NLS-1$
-      }
-      return result;
-    } catch (MalformedURLException e) {
-      return ImageDescriptor.getMissingImageDescriptor();
-    }
-  }
+  */
 }

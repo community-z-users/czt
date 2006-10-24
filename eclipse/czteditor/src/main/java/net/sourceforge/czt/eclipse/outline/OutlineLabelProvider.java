@@ -1,6 +1,8 @@
 
 package net.sourceforge.czt.eclipse.outline;
 
+import net.sourceforge.czt.util.Visitor;
+
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -16,10 +18,10 @@ public class OutlineLabelProvider extends LabelProvider
     implements
       IColorProvider
 {
-
-  //	private static final Image SPECIFICATION_ICON= CZTPluginImages.get(CZTPluginImages.IMG_SPECIFICATION);
-  //	private static final Image DEFAULT_ICON = CZTPluginImages.get("sample.gif");
-
+  private static Visitor<String> getNodeNameVisitor_ = new NodeNameVisitor();
+  //private static Visitor<String> getNodeDescriptionVisitor_ = new NodeDescriptionVisitor();
+  private static Visitor<Image> getNodeIconVisitor_ = new NodeIconVisitor();
+  
   public OutlineLabelProvider()
   {
     super();
@@ -30,11 +32,11 @@ public class OutlineLabelProvider extends LabelProvider
    */
   public String getText(Object element)
   {
-    if (!(element instanceof CztSegment))
+    if (!(element instanceof CztTreeNode))
       return super.getText(element);
 
-    CztSegment segment = (CztSegment) element;
-    return segment.getName();
+    CztTreeNode node = (CztTreeNode) element;
+    return node.getTerm().accept(getNodeNameVisitor_);
   }
 
   /**
@@ -42,18 +44,17 @@ public class OutlineLabelProvider extends LabelProvider
    */
   public Image getImage(Object element)
   {
-    //		return null;
-    return PlatformUI.getWorkbench().getSharedImages().getImage(
-        ISharedImages.IMG_OBJ_ELEMENT);
-    //		if (! (element instanceof CztSegment))
-    //			return super.getImage(element);
+    if (!(element instanceof CztTreeNode))
+      return PlatformUI.getWorkbench().getSharedImages().getImage(
+          ISharedImages.IMG_OBJ_ELEMENT);
 
-    //		CztSegment segment = (CztSegment) element;
-
-    //		if (segment instanceof Spec)
-    //			return SPECIFICATION_ICON;
-
-    //		return DEFAULT_ICON;
+    CztTreeNode node = (CztTreeNode) element;
+    
+    Image icon = node.getTerm().accept(getNodeIconVisitor_);
+    if (icon == null)
+      return PlatformUI.getWorkbench().getSharedImages().getImage(
+          ISharedImages.IMG_OBJ_ELEMENT);
+    return icon;
   }
 
   /**

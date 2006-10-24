@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.visitor.NodeNameVisitor;
+import net.sourceforge.czt.eclipse.outline.NodeNameVisitor;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;

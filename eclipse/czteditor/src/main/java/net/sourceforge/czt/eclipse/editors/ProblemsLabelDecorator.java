@@ -10,7 +10,7 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
-import net.sourceforge.czt.eclipse.outline.CztSegment;
+import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.util.CZTPluginImages;
 
 import org.eclipse.core.resources.IMarker;
@@ -163,8 +163,8 @@ public class ProblemsLabelDecorator
   protected int computeAdornmentFlags(Object obj)
   {
     try {
-      if (obj instanceof CztSegment) {
-        Object source = ((CztSegment) obj).getSource();
+      if (obj instanceof CztTreeNode) {
+        Object source = ((CztTreeNode) obj).getSource();
         IAnnotationModel model = null;
         if (source != null && source instanceof ZEditor) {
           ZEditor editor = (ZEditor) source;
@@ -173,12 +173,12 @@ public class ProblemsLabelDecorator
         int result = 0;
         if (model != null) {
           // open in Z editor: look at annotation model
-          result = getErrorTicksFromAnnotationModel(model, (CztSegment) obj);
+          result = getErrorTicksFromAnnotationModel(model, (CztTreeNode) obj);
         }
         else {
           result = getErrorTicksFromMarkers(
               ((FileEditorInput) ((ZEditor) source).getEditorInput()).getFile(),
-              IResource.DEPTH_ONE, (CztSegment) obj);
+              IResource.DEPTH_ONE, (CztTreeNode) obj);
         }
 
         return result;
@@ -204,7 +204,7 @@ public class ProblemsLabelDecorator
   }
 
   private int getErrorTicksFromMarkers(IResource res, int depth,
-      CztSegment sourceElement) throws CoreException
+      CztTreeNode sourceElement) throws CoreException
   {
     if (res == null || !res.isAccessible()) {
       return 0;
@@ -229,7 +229,7 @@ public class ProblemsLabelDecorator
     return info;
   }
 
-  private boolean isMarkerInRange(IMarker marker, CztSegment sourceElement)
+  private boolean isMarkerInRange(IMarker marker, CztTreeNode sourceElement)
       throws CoreException
   {
     if (marker != null && marker.exists()
@@ -247,7 +247,7 @@ public class ProblemsLabelDecorator
   }
 
   private int getErrorTicksFromAnnotationModel(IAnnotationModel model,
-      CztSegment sourceElement) throws CoreException
+      CztTreeNode sourceElement) throws CoreException
   {
     int info = 0;
     Iterator iter = model.getAnnotationIterator();

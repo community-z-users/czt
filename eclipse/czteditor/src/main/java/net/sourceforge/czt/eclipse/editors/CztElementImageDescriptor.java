@@ -163,12 +163,13 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
   protected void drawCompositeImage(int width, int height)
   {
     ImageData bg = getImageData(fBaseImage);
-
+/*
     if ((fFlags & DEPRECATED) != 0) { // over the full image
       Point size = getSize();
       ImageData data = getImageData(CZTPluginImages.DESC_OVR_DEPRECATED);
       drawImage(data, 0, size.y - data.height);
     }
+*/
     drawImage(bg, 0, 0);
 
     drawTopRight();
@@ -189,6 +190,7 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
 
   private void drawTopRight()
   {
+    /*
     int x = getSize().x;
     if ((fFlags & ABSTRACT) != 0) {
       ImageData data = getImageData(CZTPluginImages.DESC_OVR_ABSTRACT);
@@ -210,6 +212,7 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
       x -= data.width;
       drawImage(data, x, 0);
     }
+    */
   }
 
   private void drawBottomRight()
@@ -220,39 +223,13 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
 
     int syncAndOver = SYNCHRONIZED | OVERRIDES;
     int syncAndImpl = SYNCHRONIZED | IMPLEMENTS;
-
-    if ((flags & syncAndOver) == syncAndOver) { // both flags set: merged overlay image
-      ImageData data = getImageData(CZTPluginImages.DESC_OVR_SYNCH_AND_OVERRIDES);
-      x -= data.width;
-      drawImage(data, x, size.y - data.height);
-      flags &= ~syncAndOver; // clear to not render again
-    }
-    else if ((flags & syncAndImpl) == syncAndImpl) { // both flags set: merged overlay image
-      ImageData data = getImageData(CZTPluginImages.DESC_OVR_SYNCH_AND_IMPLEMENTS);
-      x -= data.width;
-      drawImage(data, x, size.y - data.height);
-      flags &= ~syncAndImpl; // clear to not render again
-    }
-    if ((flags & OVERRIDES) != 0) {
-      ImageData data = getImageData(CZTPluginImages.DESC_OVR_OVERRIDES);
-      x -= data.width;
-      drawImage(data, x, size.y - data.height);
-    }
-    if ((flags & IMPLEMENTS) != 0) {
-      ImageData data = getImageData(CZTPluginImages.DESC_OVR_IMPLEMENTS);
-      x -= data.width;
-      drawImage(data, x, size.y - data.height);
-    }
-    if ((flags & SYNCHRONIZED) != 0) {
-      ImageData data = getImageData(CZTPluginImages.DESC_OVR_SYNCH);
-      x -= data.width;
-      drawImage(data, x, size.y - data.height);
-    }
+/*
     if ((flags & RUNNABLE) != 0) {
       ImageData data = getImageData(CZTPluginImages.DESC_OVR_RUN);
       x -= data.width;
       drawImage(data, x, size.y - data.height);
     }
+    */
   }
 
   private void drawBottomLeft()

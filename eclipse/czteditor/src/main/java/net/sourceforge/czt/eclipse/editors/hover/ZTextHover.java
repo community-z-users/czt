@@ -14,11 +14,9 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.ZCharacter;
 import net.sourceforge.czt.eclipse.editors.parser.Triple;
-import net.sourceforge.czt.eclipse.editors.visitor.NodeNameVisitor;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.TypeAnn;
@@ -62,8 +60,6 @@ public class ZTextHover implements ITextHover
   private String fContentType;
 
   private ITextEditor fTextEditor;
-
-  private static Visitor<String> getNodeNameVisitor = new NodeNameVisitor();
 
   public ZTextHover(ISourceViewer sourceViewer, String contentType,
       ITextEditor editor)

@@ -39,7 +39,7 @@ import net.sourceforge.czt.eclipse.editors.ZSpecDecorationSupport;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
-import net.sourceforge.czt.eclipse.outline.CztSegment;
+import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
@@ -843,6 +843,9 @@ public class ZEditor extends TextEditor
       return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
     Position word = findWordOfOffset(document, offset);
+    if (word == null || word.length == 0)
+      System.out.println("null word");
+    
     Term term = fTermSelector.getTerm(word);
     if (term == null)
       return;
@@ -1027,7 +1030,8 @@ public class ZEditor extends TextEditor
 
     int cursorOffset = getCursorOffset();
     setHighlightRange(cursorOffset);
-    markOccurrenceAnnotations(cursorOffset);
+    if (!moveCursor) // avoid Selector repeatedly working
+      markOccurrenceAnnotations(cursorOffset);
 
     if (!moveCursor) {
       boolean EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = true;
@@ -1055,14 +1059,14 @@ public class ZEditor extends TextEditor
   protected void doOutlineSelectionChanged(SelectionChangedEvent event)
   {
 
-    CztSegment segment = null;
+    CztTreeNode segment = null;
 
     ISelection selection = event.getSelection();
     Iterator iter = ((IStructuredSelection) selection).iterator();
     while (iter.hasNext()) {
       Object o = iter.next();
-      if (o instanceof CztSegment) {
-        segment = (CztSegment) o;
+      if (o instanceof CztTreeNode) {
+        segment = (CztTreeNode) o;
         break;
       }
     }
@@ -1072,7 +1076,11 @@ public class ZEditor extends TextEditor
 
     if (segment == null)
       return;
+
     Position position = segment.getNamePosition();
+    if (position == null)
+      return;
+    
     TextSelection textSelection = new TextSelection(position.getOffset(),
         position.getLength());
     setSelection(textSelection, !isActivePart());

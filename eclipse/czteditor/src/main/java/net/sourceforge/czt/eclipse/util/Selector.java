@@ -73,14 +73,16 @@ public class Selector
     this.fSelection = -1;
   }
 
-  private boolean fillTermStack(Object object, Position position)
+  private void fillTermStack(Object object, Position position)
   {
-    if (object == null)
-      return false;
+    if (object == null || position == null)
+      return;
     if (!(object instanceof Term))
-      return false;
-
-    boolean success = false;
+      return;
+    
+    // indicate whether to continue pushing its children
+    boolean success = true;
+    
     Term term = (Term) object;
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null) {
@@ -91,19 +93,19 @@ public class Selector
             && (start.intValue() + length.intValue() >= position.getOffset()
                 + position.getLength())) {
           this.fTermStack.push(term);
-          success = true;
         }
+        else
+          success = false;   
       }
     }
-
+    
+    if (!success)
+      return;
+    
     if (term instanceof ZRefName)
-      return success;
+      return;;
 
-    for (Object child : term.getChildren()) {
-      if (fillTermStack(child, position))
-        return true;
-    }
-
-    return success;
+    for (Object child : term.getChildren())
+      fillTermStack(child, position);
   }
 }

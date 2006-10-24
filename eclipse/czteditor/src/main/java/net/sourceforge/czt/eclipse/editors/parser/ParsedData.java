@@ -9,23 +9,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.visitor.NodeChildrenVisitor;
-import net.sourceforge.czt.eclipse.editors.visitor.NodeDescriptionVisitor;
-import net.sourceforge.czt.eclipse.editors.visitor.NodeNameVisitor;
-import net.sourceforge.czt.eclipse.outline.CztSegment;
-import net.sourceforge.czt.eclipse.outline.Segment;
+import net.sourceforge.czt.eclipse.outline.CztTreeNode;
+import net.sourceforge.czt.eclipse.outline.NodeChildrenVisitor;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.FreePara;
+import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZDeclNameList;
+import net.sourceforge.czt.z.ast.ZFreetypeList;
 import net.sourceforge.czt.z.ast.ZRefName;
 import net.sourceforge.czt.z.ast.ZSect;
 
@@ -41,7 +47,7 @@ public class ParsedData
 
   private Object source_;
 
-  private CztSegment root_;
+  private CztTreeNode root_;
 
   private SectionManager manager_;
 
@@ -53,16 +59,11 @@ public class ParsedData
 
   private List<Triple> triples_ = new ArrayList<Triple>();
 
-  private static Visitor<String> getNodeNameVisitor_ = new NodeNameVisitor();
-
-  private static Visitor<String> getNodeDescriptionVisitor_ = new NodeDescriptionVisitor();
-
   private static Visitor<Term[]> getNodeChildrenVisitor_ = new NodeChildrenVisitor();
 
   public ParsedData(Object source)
   {
     source_ = source;
-    root_ = new CztSegment(source, new Segment(String.valueOf(source)), null);
   }
 
   public void addData(Spec spec, SectionManager manager, IDocument document)
@@ -156,7 +157,7 @@ public class ParsedData
     return this.manager_;
   }
 
-  public CztSegment getRoot()
+  public CztTreeNode getRoot()
   {
     return this.root_;
   }
@@ -193,61 +194,109 @@ public class ParsedData
 
   private void setOutlineTree(Spec spec, IDocument document)
   {
+    root_ = new CztTreeNode(source_, spec);
     root_.addAllChildren(getChildrenNodes(spec, document));
   }
 
-  private List<CztSegment> getChildrenNodes(Term term, IDocument document)
+  private List<CztTreeNode> getChildrenNodes(Term term, IDocument document)
   {
-    List<CztSegment> childrenNodes = new ArrayList<CztSegment>();
-    for (Term child : term.accept(getNodeChildrenVisitor_)) {
-      CztSegment childNode = getTreeNode(child, document);
+    List<CztTreeNode> childrenNodes = new ArrayList<CztTreeNode>();
+    Term[] children = term.accept(getNodeChildrenVisitor_);
+
+    for (Term child : children) {
+      CztTreeNode childNode = createTreeNode(child, document);
       if (childNode == null)
-        childrenNodes.addAll(getChildrenNodes(child, document));
-      else {
-        childNode.addAllChildren(getChildrenNodes(child, document));
-        childrenNodes.add(childNode);
-      }
+        continue;
+      childNode.addAllChildren(getChildrenNodes(child, document));
+      childrenNodes.add(childNode);
     }
     return childrenNodes;
   }
 
-  private CztSegment getTreeNode(Term term, IDocument document)
+  private CztTreeNode createTreeNode(Term term, IDocument document)
   {
     if (term == null)
       return null;
+    
+    if (term instanceof Spec) {
+      // not displayed in Outline, so no Position required
+      return new CztTreeNode(source_, term);
+    }
     if (term instanceof ZSect) {
-      Segment segment = new Segment(term.accept(getNodeNameVisitor_), term
-          .accept(getNodeDescriptionVisitor_));
       Position range = getPosition(term);
-      return new CztSegment(source_, segment, range);
+      return new CztTreeNode(source_, term, range);
     }
     else if (term instanceof GivenPara) {
-      Segment segment = new Segment(term.accept(getNodeNameVisitor_), term
-          .accept(getNodeDescriptionVisitor_));
       Position range = getPosition(term);
       Position namePosition = getNamePosition(((GivenPara) term).getDeclNames());
-      return new CztSegment(source_, segment, range, namePosition);
+      if (namePosition != null)
+        return new CztTreeNode(source_, term, range, namePosition);
+      
+      return new CztTreeNode(source_, term, range, range);
     }
     else if (term instanceof AxPara) {
-      Segment segment = new Segment(term.accept(getNodeNameVisitor_), term
-          .accept(getNodeDescriptionVisitor_));
       Position range = getPosition(term);
-      Position namePosition = getNamePosition(((AxPara) term).getDeclName());
-      return new CztSegment(source_, segment, range, namePosition);
+      AxPara axPara = (AxPara) term;
+      ZDeclList declList = axPara.getZSchText().getZDeclList();
+      Position namePosition = null;
+      for (int i = 0; i < declList.size(); i++) {
+        Decl decl = declList.get(i);
+        if (decl instanceof ConstDecl) {
+          namePosition = getPosition(((ConstDecl)decl).getZDeclName());
+        }
+        else if (decl instanceof VarDecl) {
+          namePosition = getNamePosition(((VarDecl)decl).getDeclName());
+        }
+        if (namePosition != null)
+          return new CztTreeNode(source_, term, range, namePosition);
+      }
+      
+      return new CztTreeNode(source_, term, range, range);
+    }
+    else if (term instanceof FreePara) {
+      Position range = getPosition(term);
+      Position namePosition = null;
+      ZFreetypeList list = (ZFreetypeList)((FreePara)term).getFreetypeList();
+      for (int i = 0; i < list.size(); i++) {
+        Freetype type = list.get(i);
+        namePosition = getPosition(type.getZDeclName());
+        if (namePosition != null)
+          return new CztTreeNode(source_, term, range, namePosition);
+      }
+      
+      return new CztTreeNode(source_, term, range, range);
+    }
+    else if (term instanceof ConjPara) {
+      Position range = getPosition(term);
+      Position namePosition = getNamePosition((ZDeclNameList)((ConjPara)term).getDeclNameList());
+      if (namePosition != null)
+        return new CztTreeNode(source_, term, range, namePosition);
+      
+      return new CztTreeNode(source_, term, range, range);
+    }
+    else if (term instanceof OptempPara) {
+      Position range = getPosition(term);
+      Position namePosition = null;
+      OptempPara optempPara = (OptempPara) term;
+      ListTerm<Oper> operList = optempPara.getOper();
+      for (int i = 0; i < operList.size(); i++) {
+        Oper oper = operList.get(i);
+        namePosition = getPosition(oper);
+        if (namePosition != null)
+          return new CztTreeNode(source_, term, range, namePosition);
+      }
+      
+      return new CztTreeNode(source_, term, range, range);
     }
     else if (term instanceof ConstDecl) {
-      Segment segment = new Segment(term.accept(getNodeNameVisitor_), term
-          .accept(getNodeDescriptionVisitor_));
       Position range = getPosition(term);
       Position namePosition = getPosition(((ConstDecl) term).getZDeclName());
-      return new CztSegment(source_, segment, range, namePosition);
+      return new CztTreeNode(source_, term, range, namePosition);
     }
     else if (term instanceof VarDecl) {
-      Segment segment = new Segment(term.accept(getNodeNameVisitor_), term
-          .accept(getNodeDescriptionVisitor_));
       Position range = getPosition(term);
       Position namePosition = getNamePosition(((VarDecl) term).getDeclName());
-      return new CztSegment(source_, segment, range, namePosition);
+      return new CztTreeNode(source_, term, range, namePosition);
     }
 
     return null;
@@ -285,10 +334,15 @@ public class ParsedData
   {
     if (term == null)
       return null;
+    
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null) {
       BigInteger start = locAnn.getStart();
       BigInteger length = locAnn.getLength();
+      //if (term instanceof ZDeclName) {
+      //  System.out.println("DeclName-----" + ((ZDeclName)term).getWord());
+      //}
+      //System.out.println("Position: ----" + start + ", " + length);
       if ((start != null) && (length != null))
         return new Position(start.intValue(), length.intValue());
     }

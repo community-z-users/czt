@@ -1,5 +1,5 @@
 
-package net.sourceforge.czt.eclipse.editors.visitor;
+package net.sourceforge.czt.eclipse.outline;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,6 +8,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
@@ -15,6 +16,7 @@ import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
@@ -39,6 +41,7 @@ public class NodeChildrenVisitor
 {
   public Term[] visitTerm(Term term)
   {
+    /*
     List<Term> children = new ArrayList<Term>();
     for (Object child : term.getChildren()) {
       if (child != null)
@@ -47,6 +50,8 @@ public class NodeChildrenVisitor
     }
 
     return children.toArray(new Term[0]);
+    */
+    return new Term[0];
   }
 
   public Term[] visitSpec(Spec spec)
@@ -80,7 +85,15 @@ public class NodeChildrenVisitor
   
   public Term[] visitAxPara(AxPara axPara)
   {
-    return axPara.getZSchText().getZDeclList().toArray(new Term[0]);
+    Box box = axPara.getBox();
+    
+    if (box == null || Box.AxBox.equals(box)) {
+      ZDeclList declList = axPara.getZSchText().getZDeclList();
+      if (declList.size() > 1)
+        return declList.toArray(new Term[0]);
+    }
+    
+    return new Term[0];
   }
 
   public Term[] visitSchExpr(SchExpr schExpr)
