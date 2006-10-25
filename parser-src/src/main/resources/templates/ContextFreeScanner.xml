@@ -173,9 +173,7 @@ DIGIT = {DECIMAL}
 DECIMAL = [:digit:]
 
 /* TODO: What about OTHERLETTER? */
-ARITHMOS = "\uD835\uDD38"
-FINSET = "\uD835\uDD3D"
-LETTER = [:letter:] | {ARITHMOS} | "\uD835\uDD39" | "\uD835\uDD3A" | "\uD835\uDD3B" | "\uD835\uDD3C" | {FINSET} | "\uD835\uDD3E" | "\uD835\uDD40" | "\uD835\uDD41" | "\uD835\uDD42" | "\uD835\uDD43" | "\uD835\uDD44" | "\uD835\uDD45" | "\uD835\uDD46" | "\uD835\uDD47" | "\uD835\uDD48" | "\uD835\uDD49" | "\uD835\uDD4A" | "\uD835\uDD4B" | "\uD835\uDD4C" | "\uD835\uDD4D" | "\uD835\uDD4E" | "\uD835\uDD50" | "\uD835\uDD51"
+LETTER = [:letter:] | \uD835 [\uDD38-\uDD51]
 
 SPECIAL =   {STROKECHAR}
           | {WORDGLUE}
