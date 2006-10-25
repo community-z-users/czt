@@ -110,7 +110,7 @@
       <char id="AXCHAR" hex="2577" description="box drawings light down"/>
       <char id="SCHCHAR" hex="250C" description="box drawings light down and right"/>
       <char id="GENCHAR" hex="2550" description="box drawings double horizontal"/>
-      <char id="ENDCHAR" hex="2029" description="paragraph separator"/>
+      <char id="ENDCHAR" hex="2514" description="paragraph separator"/>
     </BOXCHAR>
     <OTHER>
       <char id="NLCHAR" hex="2028" description="line seperator"/>
