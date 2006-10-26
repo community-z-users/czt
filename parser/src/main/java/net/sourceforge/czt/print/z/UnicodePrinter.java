@@ -66,15 +66,15 @@ public class UnicodePrinter
         TokenName.END.equals(token)) {
       print("\n");
     }
-    print(token.spelling());
+    if (TokenName.NL.equals(token)) {
+      print("\n");
+    }
+    else {
+      print(token.spelling());
+    }
     if (! "TEXT".equals(token.getName())) {
-      if (TokenName.NL.equals(token) ||
-          token.getSpelling() instanceof WhereWord) {
-        print("\n");
-      }
-      else {
-        print(ZString.SPACE);
-      }
+      if (token.getSpelling() instanceof WhereWord) print("\n");
+      print(ZString.SPACE);
     }
   }
 }
