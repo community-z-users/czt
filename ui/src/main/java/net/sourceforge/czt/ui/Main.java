@@ -181,7 +181,7 @@ public class Main
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
       "Flags:\n"+
       "  -d   specify the dialect to be used\n" +
-      "  -o   specifiy output file (mark-up is determined by file ending)\n" +
+      "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
       "  -id  if an output in LaTeX or Unicode mark-up is specified,\n" +
       "       prints the ids for names as part of the name.\n" +
