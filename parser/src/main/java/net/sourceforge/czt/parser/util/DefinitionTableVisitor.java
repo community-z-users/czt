@@ -82,14 +82,14 @@ public class DefinitionTableVisitor
 
   public Object visitAxPara(AxPara axPara)
   {
-    List declNames = axPara.getDeclName();
+    List declNames = axPara.getName();
     ZSchText schText = axPara.getZSchText();
     List<Decl> decls = schText.getZDeclList();
     for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) {
       Decl decl = iter.next();
       if (decl instanceof ConstDecl) {
         ConstDecl constDecl = (ConstDecl) decl;
-        DeclName declName = constDecl.getDeclName();
+        Name declName = constDecl.getName();
         String name = declName.accept(new PrintVisitor());
         DefinitionTable.Definition def =
           new DefinitionTable.Definition(declNames, constDecl.getExpr());

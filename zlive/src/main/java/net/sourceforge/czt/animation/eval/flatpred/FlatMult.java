@@ -26,8 +26,8 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.RefName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** FlatMult implements the a*b=c predicate.
@@ -37,9 +37,9 @@ import net.sourceforge.czt.z.util.Factory;
 public class FlatMult extends FlatPred
 {
   private Factory factory_ = new Factory();
-  public FlatMult(ZRefName a, ZRefName b, ZRefName c)
+  public FlatMult(ZName a, ZName b, ZName c)
   {
-    args_ = new ArrayList<ZRefName>(3);
+    args_ = new ArrayList<ZName>(3);
     args_.add(a);
     args_.add(b);
     args_.add(c);
@@ -86,7 +86,7 @@ public class FlatMult extends FlatPred
         Expr c = evalMode_.getEnvir().lookup(args_.get(2));
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args_.get(1));
+          throw new EvalException("Cannot solve multiplication by 0: " + (Name)args_.get(1));
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();

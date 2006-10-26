@@ -30,7 +30,7 @@ import net.sourceforge.czt.z.visitor.*;
  * This simple printer does not handle predicates or expressions,
  * just types, names, numbers, etc.
  * It generally returns human-readable strings (ASCII), but
- * produces some Unicode characters for some ZRefNames/ZDeclNames.
+ * produces some Unicode characters for some ZNames.
  * However, types are printed using ASCII notation.  
  * <p>
  * For more sophisticated printing of arbitrary terms, you
@@ -56,9 +56,8 @@ public class PrintVisitor
              SchemaTypeVisitor<String>,
              SectTypeEnvAnnVisitor<String>,
              SignatureVisitor<String>,
-             ZDeclNameVisitor<String>,
+             ZNameVisitor<String>,
              ZNumeralVisitor<String>,
-             ZRefNameVisitor<String>,
              ZStrokeListVisitor<String>,
              LocAnnVisitor<String>
 {
@@ -66,7 +65,7 @@ public class PrintVisitor
   {
     StringBuilder result = new StringBuilder();
     result.append("[");
-    result.append(visit(genericType.getName()));
+    result.append(visit(genericType.getNameList()));
     result.append("] ");
     result.append(visit(genericType.getType()));
     if (genericType.getOptionalType() != null) {
@@ -93,7 +92,7 @@ public class PrintVisitor
 
   public String visitNameSectTypeTriple(NameSectTypeTriple triple)
   {
-    return visit(triple.getDeclName()) + " : (" + triple.getSect() + ", " +
+    return visit(triple.getName()) + " : (" + triple.getSect() + ", " +
       visit(triple.getType()) + ")";
   }
 
@@ -164,7 +163,7 @@ public class PrintVisitor
     boolean first = true;
     for (NameTypePair pair : signature.getNameTypePair()) {
       if (! first) result.append("; ");
-      result.append(visit(pair.getDeclName()));
+      result.append(visit(pair.getName()));
       result.append(" : ");
       result.append(visit(pair.getType()));
       first = false;
@@ -172,19 +171,14 @@ public class PrintVisitor
     return result.toString();
   }
 
-  public String visitZDeclName(ZDeclName zDeclName)
+  public String visitZName(ZName zName)
   {
-    return zDeclName.getWord() + visit(zDeclName.getStrokeList());
+    return zName.getWord() + visit(zName.getStrokeList());
   }
 
   public String visitZNumeral(ZNumeral zNumeral)
   {
     return zNumeral.getValue().toString();
-  }
-
-  public String visitZRefName(ZRefName zRefName)
-  {
-    return zRefName.getWord() + visit(zRefName.getStrokeList());
   }
 
   public String visitZStrokeList(ZStrokeList zStrokeList)

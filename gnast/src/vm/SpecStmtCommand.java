@@ -1,6 +1,6 @@
   /**
    * This is a convenience method.
-   * It returns the ZRefNameList if RefNameList is an instance of
-   * ZRefNameList or throws an UnsupportedAstClassException otherwise.
+   * It returns the ZNameList if NameList is an instance of
+   * ZNameList or throws an UnsupportedAstClassException otherwise.
    */
-  ZRefNameList getZFrame();
+  ZNameList getZFrame();

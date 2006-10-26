@@ -25,7 +25,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** FlatPlus implements the a+b=c predicate. */
@@ -33,9 +33,9 @@ public class FlatPlus extends FlatPred
 {
   private Factory factory_ = new Factory();
 
-  public FlatPlus(ZRefName a, ZRefName b, ZRefName c)
+  public FlatPlus(ZName a, ZName b, ZName c)
   {
-    args_ = new ArrayList<ZRefName>(3);
+    args_ = new ArrayList<ZName>(3);
     args_.add(a);
     args_.add(b);
     args_.add(c);
@@ -45,9 +45,9 @@ public class FlatPlus extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName a = args_.get(0);
-    ZRefName b = args_.get(1);
-    ZRefName c = args_.get(2);
+    ZName a = args_.get(0);
+    ZName b = args_.get(1);
+    ZName c = args_.get(2);
 
     BigInteger amin = bnds.getLower(a);
     BigInteger amax = bnds.getUpper(a);

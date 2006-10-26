@@ -34,22 +34,22 @@ public class NameTypePairImpl
     super(nameTypePair);
   }
 
-  public void setDeclName(DeclName declName)
+  public void setName(Name declName)
   {
     NameTypePair nameTypePair = (NameTypePair) term_;
-    nameTypePair.setDeclName(declName);
+    nameTypePair.setName(declName);
   }
 
-  public DeclName getDeclName()
+  public Name getName()
   {
     NameTypePair nameTypePair = (NameTypePair) term_;
-    return nameTypePair.getDeclName();
+    return nameTypePair.getName();
   }
 
-  public ZDeclName getZDeclName()
+  public ZName getZName()
   {
     NameTypePair nameTypePair = (NameTypePair) term_;
-    return nameTypePair.getZDeclName();
+    return nameTypePair.getZName();
   }
 
   public void setType(Type type)
@@ -94,7 +94,7 @@ public class NameTypePairImpl
   {
     if (obj instanceof NameTypePair) {
       NameTypePair pair = (NameTypePair) obj;
-      if (!getDeclName().equals(pair.getDeclName()) ||
+      if (!getName().equals(pair.getName()) ||
           !getType().equals(pair.getType())) {
         return false;
       }
@@ -109,8 +109,8 @@ public class NameTypePairImpl
 
     int hashCode = super.hashCode();
     hashCode += "NameTypePairImpl".hashCode();
-    if (getDeclName() != null) {
-      hashCode += constant * getDeclName().hashCode();
+    if (getName() != null) {
+      hashCode += constant * getName().hashCode();
     }
     if (getType() != null) {
       hashCode += constant * getType().hashCode();

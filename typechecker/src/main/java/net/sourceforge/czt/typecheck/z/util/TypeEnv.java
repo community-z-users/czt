@@ -50,7 +50,7 @@ public class TypeEnv
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected Stack<List<ZDeclName>> parameters_;
+  protected Stack<List<ZName>> parameters_;
 
   public TypeEnv()
   {
@@ -61,14 +61,14 @@ public class TypeEnv
   {
     factory_ = new Factory(zFactory);
     typeInfo_ = new Stack<Map<String, NameTypePair>>();
-    parameters_ = new Stack<List<ZDeclName>>();
+    parameters_ = new Stack<List<ZName>>();
   }
 
   public void enterScope()
   {
     Map<String, NameTypePair> info = map();//factory_.list();
     typeInfo_.push(info);
-    List<ZDeclName> parameters = factory_.list();
+    List<ZName> parameters = factory_.list();
     parameters_.push(parameters);
   }
 
@@ -78,24 +78,24 @@ public class TypeEnv
     parameters_.pop();
   }
 
-  public void addParameters(List<DeclName> paramNames)
+  public void addParameters(List<Name> paramNames)
   {
-    for (DeclName paramName : paramNames) {
-      ZDeclName zParamName = assertZDeclName(paramName);
+    for (Name paramName : paramNames) {
+      ZName zParamName = assertZName(paramName);
       parameters_.peek().add(zParamName);
     }
   }
 
-  public List<ZDeclName> getParameters()
+  public List<ZName> getParameters()
   {
-    List<ZDeclName> result = factory_.list();
+    List<ZName> result = factory_.list();
     result.addAll(parameters_.peek());
     return result;
   }
 
-  public void add(ZDeclName zDeclName, Type type)
+  public void add(ZName zName, Type type)
   {
-    NameTypePair pair = factory_.createNameTypePair(zDeclName, type);
+    NameTypePair pair = factory_.createNameTypePair(zName, type);
     add(pair);
   }
 
@@ -104,23 +104,23 @@ public class TypeEnv
    * Add a name into the environment, overriding an existing name in
    * the inner-most variable scope.
    */
-  public void override(ZDeclName zDeclName, Type type)
+  public void override(ZName zName, Type type)
   {
     //override if this is in the top scope
     Map<String, NameTypePair> map = typeInfo_.peek();
-    NameTypePair pair = map.get(zDeclName.toString());
+    NameTypePair pair = map.get(zName.toString());
     if (pair != null) {
       pair.setType(type);
       return;
     }
 
     //otherwise, add it to the environment
-    add(zDeclName, type);
+    add(zName, type);
   }
 
   public void add(NameTypePair pair)
   {
-    typeInfo_.peek().put(pair.getZDeclName().toString(), pair);
+    typeInfo_.peek().put(pair.getZName().toString(), pair);
   }
 
   /**
@@ -133,31 +133,31 @@ public class TypeEnv
     }
   }
 
-  public Type getType(ZRefName zRefName)
+  public Type getType(ZName zName)
   {
     Type result = factory_.createUnknownType();
 
     //get the info for this name
-    NameTypePair pair = getPair(zRefName);
+    NameTypePair pair = getPair(zName);
     if (pair != null) {
       result = pair.getType();
-      zRefName.setDecl(pair.getZDeclName());
+      zName.setId(pair.getZName().getId());
     }
 
     //if the type is unknown, try looking up the Delta or Xi reference
     //of it
     if (pair == null) {
-      result = getDeltaXiType(zRefName, result);
+      result = getDeltaXiType(zName, result);
     }
     return result;
   }
 
   //gets the pair with the corresponding name
-  protected NameTypePair getPair(ZRefName zRefName)
+  protected NameTypePair getPair(ZName zName)
   {
     NameTypePair result = null;
     for (Map<String, NameTypePair> map : typeInfo_) {
-      NameTypePair pair = map.get(zRefName.toString());
+      NameTypePair pair = map.get(zName.toString());
       if (pair != null) {
 	result = pair;
       }

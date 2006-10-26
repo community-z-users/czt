@@ -78,14 +78,14 @@ public class GlobalDefs
   }
 
   //check if a name is in a signature's visibility list
-  public static boolean isVisible(ZRefName zRefName, Type2 type)
+  public static boolean isVisible(ZName zName, Type2 type)
   {
     boolean result = true;
     if (type instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) type;
-      List<ZRefName> list = classRefType.getVisibilityList();
+      List<ZName> list = classRefType.getVisibilityList();
       result = classRefType.getVisibilityList() == null ||
-	containsZRefName(classRefType.getVisibilityList(), zRefName);
+	containsZName(classRefType.getVisibilityList(), zName);
     }
     return result;
   }
@@ -106,7 +106,7 @@ public class GlobalDefs
   {
     boolean result = false;
     for (ClassRef element : list) {
-      if (namesEqual(classRef.getZRefName(), element.getZRefName())) {
+      if (namesEqual(classRef.getZName(), element.getZName())) {
         result = true;
         break;
       }
@@ -114,13 +114,13 @@ public class GlobalDefs
     return result;
   }
 
-  public static NameSignaturePair findNameSigPair(ZDeclName zDeclName,
+  public static NameSignaturePair findNameSigPair(ZName zName,
 						  List<NameSignaturePair> pairs)
   {
     NameSignaturePair result = null;
     //find the pair that has this name
     for(NameSignaturePair pair : pairs) {
-      if (namesEqual(zDeclName, pair.getZDeclName())) {
+      if (namesEqual(zName, pair.getZName())) {
         result = pair;
         break;
       }
@@ -129,10 +129,10 @@ public class GlobalDefs
   }
 
   //find a NameSignaturePair in a class signature
-  public static NameSignaturePair findOperation(ZDeclName zDeclName, 
+  public static NameSignaturePair findOperation(ZName zName, 
 						ClassType classType)
   {
-    NameSignaturePair result = findNameSigPair(zDeclName, classType.getOperation());
+    NameSignaturePair result = findNameSigPair(zName, classType.getOperation());
     return result;
   }
 
@@ -162,10 +162,10 @@ public class GlobalDefs
     return false;
   }
 
-  public static boolean isSelfName(ZDeclName zDeclName)
+  public static boolean isSelfName(ZName zName)
   {
-    boolean result = zDeclName.getWord().equals(OzString.SELF) &&
-      zDeclName.getZStrokeList().size() == 0;
+    boolean result = zName.getWord().equals(OzString.SELF) &&
+      zName.getZStrokeList().size() == 0;
     return result;
   }
 }

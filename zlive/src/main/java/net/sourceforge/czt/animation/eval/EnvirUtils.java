@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *
@@ -25,7 +25,7 @@ public class EnvirUtils {
     }
     
     public static Envir copy(Envir a) {
-        ArrayList<ZRefName> n = new ArrayList<ZRefName>();
+        ArrayList<ZName> n = new ArrayList<ZName>();
         ArrayList<Expr> e = new ArrayList<Expr>();
         Envir result = new Envir();
         Envir env = a;
@@ -40,7 +40,7 @@ public class EnvirUtils {
         for(ListIterator li = n.listIterator(n.size()),
                          lj = e.listIterator(e.size());
                 li.hasPrevious() && lj.hasPrevious(); ) {
-            ZRefName name = (ZRefName)li.previous();
+            ZName name = (ZName)li.previous();
             Expr expr = (Expr)lj.previous();
             result = result.plus(name, expr);
         }
@@ -81,8 +81,8 @@ public class EnvirUtils {
         return true;
     }
     
-    public static Set<ZRefName> names(Envir one) {
-        Set<ZRefName> result = new HashSet<ZRefName>();
+    public static Set<ZName> names(Envir one) {
+        Set<ZName> result = new HashSet<ZName>();
         Envir env = one;
         while (env != null) {
             if (one.name_ != null)

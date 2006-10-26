@@ -26,19 +26,19 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** FlatTupleSel implements the a+b=c predicate. */
 public class FlatTupleSel extends FlatPred
 {
   private Integer selection;
 
-  public FlatTupleSel(ZRefName tuple, Integer i, ZRefName result)
+  public FlatTupleSel(ZName tuple, Integer i, ZName result)
   {
     if (i <= 0)
       throw new CztException("Illegal tuple selection index: " + i);
     selection = i;
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(tuple);
     args_.add(result);
     solutionsReturned_ = -1;

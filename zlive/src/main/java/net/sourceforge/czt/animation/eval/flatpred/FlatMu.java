@@ -27,7 +27,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** This overrides the forall evaluation algorithm. */
 public class FlatMu extends FlatPred
@@ -36,16 +36,16 @@ public class FlatMu extends FlatPred
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected FlatPredList schText_;
-  protected ZRefName resultName_;
+  protected ZName resultName_;
   
-  public FlatMu(FlatPredList sch, ZRefName result)
+  public FlatMu(FlatPredList sch, ZName result)
   {
     sLogger.entering("FlatMu","FlatMu");
     schText_ = sch;
     resultName_ = result;
-    freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
+    freeVars_ = new HashSet<ZName>(schText_.freeVars());
     // HashSet has removed duplicates
-    args_ = new ArrayList<ZRefName>(freeVars_);
+    args_ = new ArrayList<ZName>(freeVars_);
     args_.add(resultName_);
     freeVars_.add(resultName_); // result of the mu is also a free var.
     solutionsReturned_ = -1;

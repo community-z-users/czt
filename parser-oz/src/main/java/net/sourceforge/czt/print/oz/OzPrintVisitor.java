@@ -56,13 +56,14 @@ public class OzPrintVisitor
   public Object visitClassPara(ClassPara classPara)
   {
     //print the header information
+    ref_ = false;
     if (classPara.getFormalParameters().size() == 0) {
       print(OzToken.CLASS);
-      visit(classPara.getDeclName());
+      visit(classPara.getName());
     }
     else {
       print(OzToken.GENCLASS);
-      visit(classPara.getDeclName());
+      visit(classPara.getName());
       print(TokenName.LSQUARE);
       printTermList(classPara.getFormalParameters());
       print(TokenName.RSQUARE);
@@ -141,7 +142,7 @@ public class OzPrintVisitor
     if (visibilityList != null) {
       print(Keyword.ZPROJ);
       print(TokenName.LPAREN);
-      printTermList(visibilityList.getZRefName());
+      printTermList(visibilityList.getZName());
       print(TokenName.RPAREN);
       print(TokenName.NL);
     }
@@ -287,7 +288,8 @@ public class OzPrintVisitor
   {
     printDecorword(OzString.DELTA);
     print(TokenName.LPAREN);
-    printTermList(deltaList.getRefName());
+    ref_ = true;
+    printTermList(deltaList.getName());
     print(TokenName.RPAREN);
     print(TokenName.NL);
     return null;
@@ -336,7 +338,8 @@ public class OzPrintVisitor
       visit(opPromotionExpr.getExpr());
       print(Keyword.DOT);
     }
-    visit(opPromotionExpr.getRefName());
+    ref_ = true;
+    visit(opPromotionExpr.getName());
     printRPAREN(opPromotionExpr);
     return null;
   }
@@ -450,7 +453,8 @@ public class OzPrintVisitor
     visit(hideOpExpr.getOpExpr());
     print(Keyword.ZHIDE);
     print(TokenName.LPAREN);
-    visit(hideOpExpr.getRefNameList());
+    ref_ = true;
+    visit(hideOpExpr.getNameList());
     print(TokenName.RPAREN);
     printRPAREN(hideOpExpr);
     return null;

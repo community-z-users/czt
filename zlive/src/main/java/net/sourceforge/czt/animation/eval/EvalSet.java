@@ -22,7 +22,7 @@ package net.sourceforge.czt.animation.eval;
 import java.util.*;
 import java.math.BigInteger;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  * @author Mark Utting
@@ -64,7 +64,7 @@ public interface EvalSet extends Expr, Set<Expr> {
   /** Estimate the size of {x:this | x=elem} in a given environment.
    *  This allows the bounds of elem to be used to reduce the size of set. 
    */
-  public double estSubsetSize(Envir env, ZRefName elem);
+  public double estSubsetSize(Envir env, ZName elem);
   
   /** Iterate through all members of the set.
    *  It guarantees that there will be no duplicates.
@@ -97,7 +97,7 @@ public interface EvalSet extends Expr, Set<Expr> {
    *
    * @return an Iterator object.
    */
-  public Iterator<Expr> subsetIterator(ZRefName element);
+  public Iterator<Expr> subsetIterator(ZName element);
   
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.

@@ -87,7 +87,7 @@ public class ParaChecker
 
     //create the class type from the information so far
     ClassRef thisClass = factory().createClassRef(className());
-    for (ZDeclName paramName : typeEnv().getParameters()) {
+    for (ZName paramName : typeEnv().getParameters()) {
       Type2 gpType = factory().createGenParamType(paramName);
       thisClass.getType().add(gpType);
     }
@@ -99,12 +99,12 @@ public class ParaChecker
 				   thisClass,
                                    factory().<ClassRef>list(), 
 				   null,
-                                   factory().<DeclName>list());
+                                   factory().<Name>list());
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the pending typing environment
-    ZDeclName self = factory().createZDeclName(OzString.SELF);
-    factory().addDeclNameID(self);
+    ZName self = factory().createZDeclName(OzString.SELF);
+    factory().addNameID(self);
     pending().add(self, addGenerics(classType));
 
     //visit each inherited class
@@ -126,9 +126,9 @@ public class ParaChecker
     
     //check that each attribute is unique within the class
     for (int i = 0; i < attrDecls.size(); i++) {
-      ZDeclName first = attrDecls.get(i).getZDeclName();
+      ZName first = attrDecls.get(i).getZName();
       for (int j = i + 1; j < attrDecls.size(); j++) {
-        ZDeclName second = attrDecls.get(j).getZDeclName();
+        ZName second = attrDecls.get(j).getZName();
         if (namesEqual(first, second) &&
             !idsEqual(first.getId(), second.getId())) {
           Object [] params = {second, className()};
@@ -169,8 +169,8 @@ public class ParaChecker
     }
 
     //add the "Init" variable to the state (to use for dereferencing)
-    ZDeclName initName = factory().createZDeclName(OzString.INITWORD);
-    factory().addDeclNameID(initName);
+    ZName initName = factory().createZDeclName(OzString.INITWORD);
+    factory().addNameID(initName);
     NameTypePair existingInitPair = findNameTypePair(initName, classType.getState());
     if (existingInitPair == null) {
       Type2 boolType = factory().createBoolType();
@@ -179,7 +179,7 @@ public class ParaChecker
     }
 
     //the list of operation names declared by this paragraph
-    List<ZDeclName> opNames = factory().list();
+    List<ZName> opNames = factory().list();
 
     //add implicit operations
     opExprChecker().addImplicitOps();
@@ -192,13 +192,13 @@ public class ParaChecker
 
       //visit the operation, and add its definition to the class info
       Signature opSignature = operation.accept(paraChecker());
-      addOperation(operation.getZDeclName(), opSignature, classType);
+      addOperation(operation.getZName(), opSignature, classType);
 
       //add the name of the operation
-      opNames.add(operation.getZDeclName());
+      opNames.add(operation.getZName());
 
       //add a unique ID to the operation name
-      factory().addDeclNameID(operation.getZDeclName());
+      factory().addNameID(operation.getZName());
 
       //exit the scope
       typeEnv().exitScope();
@@ -250,7 +250,7 @@ public class ParaChecker
     //add the names in the primary decls to the list of primary
     //names
     for (NameTypePair pair : pPairs) {
-      primary().add(pair.getZDeclName());
+      primary().add(pair.getZName());
     }
 
     //check the state for incompatible declarations
@@ -305,7 +305,7 @@ public class ParaChecker
 
   public Signature visitOperation(Operation operation)
   {
-    ZDeclName opName = operation.getZDeclName();
+    ZName opName = operation.getZName();
     Signature signature = factory().createVariableSignature();
 
     //get the variables declared in the superclass's definition of
@@ -377,8 +377,8 @@ public class ParaChecker
       //check whether the nane of the inherited class is actually a
       //class paragraph.
       ClassRef classRef = classRefType.getThisClass();
-      ZDeclName superName = getZDeclName(expr);
-      if (!namesEqual(superName, classRef.getZRefName())) {
+      ZName superName = getZName(expr);
+      if (!namesEqual(superName, classRef.getZName())) {
         Object [] params = {expr};
         error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
       }
@@ -388,7 +388,7 @@ public class ParaChecker
       List<ClassRef> currentSuperClasses = current.getSuperClass();
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
-        ZRefName superClassName = superClass.getZRefName();
+        ZName superClassName = superClass.getZName();
         if (namesEqual(className(), superClassName)) {
           Object [] params = {className()};
           error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
@@ -416,9 +416,9 @@ public class ParaChecker
 		     expr);
 
       //add the primary variable names to the subclass's signature
-      List<DeclName> primaryNames = classRefType.getPrimary();
-      for (DeclName primaryName : primaryNames) {
-	ZDeclName zPrimaryName = assertZDeclName(primaryName);
+      List<Name> primaryNames = classRefType.getPrimary();
+      for (Name primaryName : primaryNames) {
+	ZName zPrimaryName = assertZName(primaryName);
 	current.getPrimary().add(zPrimaryName);
 	primary().add(zPrimaryName);
       }
@@ -437,8 +437,8 @@ public class ParaChecker
     //variables into the environment
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
-      ZDeclName unprimed = pair.getZDeclName();
-      ZDeclName primed = factory().createZDeclName(unprimed);
+      ZName unprimed = pair.getZName();
+      ZName primed = factory().createZDeclName(unprimed, true);
       primed.getZStrokeList().add(factory().createNextStroke());
       typeEnv().add(unprimed, pair.getType());
       typeEnv().add(primed, pair.getType());

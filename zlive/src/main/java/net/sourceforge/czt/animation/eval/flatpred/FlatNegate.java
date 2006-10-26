@@ -25,7 +25,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** FlatNegate implements the -a = b predicate. */
@@ -33,9 +33,9 @@ public class FlatNegate extends FlatPred
 {
   private Factory factory_ = new Factory();
 
-  public FlatNegate(ZRefName a, ZRefName b)
+  public FlatNegate(ZName a, ZName b)
   {
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(a);
     args_.add(b);
     solutionsReturned_ = -1;
@@ -44,8 +44,8 @@ public class FlatNegate extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName a = args_.get(0);
-    ZRefName b = args_.get(1);
+    ZName a = args_.get(0);
+    ZName b = args_.get(1);
 
     BigInteger aLower = bnds.getLower(a);
     BigInteger aUpper = bnds.getUpper(a);

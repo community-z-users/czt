@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.EvalSet;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** Maintains lower and upper bounds for integer variables.
  *  This is a helper class for the range-inference pass of
@@ -45,17 +45,17 @@ public class Bounds implements Cloneable
   private static final Logger sLogger
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
-  private HashMap<ZRefName, BigInteger> lowerBound_;
-  private HashMap<ZRefName, BigInteger> upperBound_;
-  private HashMap<ZRefName, EvalSet> set_;
+  private HashMap<ZName, BigInteger> lowerBound_;
+  private HashMap<ZName, BigInteger> upperBound_;
+  private HashMap<ZName, EvalSet> set_;
 
   /** Create a fresh Bounds object with no bounds values.
    */
   public Bounds()
   {
-    lowerBound_ = new HashMap<ZRefName, BigInteger>();
-    upperBound_ = new HashMap<ZRefName, BigInteger>();
-    set_        = new HashMap<ZRefName, EvalSet>();
+    lowerBound_ = new HashMap<ZName, BigInteger>();
+    upperBound_ = new HashMap<ZName, BigInteger>();
+    set_        = new HashMap<ZName, EvalSet>();
   }
   
   public String toString()
@@ -72,9 +72,9 @@ public class Bounds implements Cloneable
   {
     try {
       Bounds b = (Bounds) super.clone();
-      lowerBound_ = (HashMap<ZRefName, BigInteger>)lowerBound_.clone();
-      upperBound_ = (HashMap<ZRefName, BigInteger>)upperBound_.clone();
-      set_ = (HashMap<ZRefName, EvalSet>)set_.clone();
+      lowerBound_ = (HashMap<ZName, BigInteger>)lowerBound_.clone();
+      upperBound_ = (HashMap<ZName, BigInteger>)upperBound_.clone();
+      set_ = (HashMap<ZName, EvalSet>)set_.clone();
       return b;
     }
     catch (java.lang.CloneNotSupportedException e) {
@@ -87,7 +87,7 @@ public class Bounds implements Cloneable
    * @param var  The name of an integer variable.
    * @return     The EvalSet (null means unknown).
    */
-  public EvalSet getEvalSet(ZRefName var)
+  public EvalSet getEvalSet(ZName var)
   {
     return set_.get(var);
   }
@@ -97,7 +97,7 @@ public class Bounds implements Cloneable
    * @param var  The name of an integer variable.
    * @param set  The EvalSet.
    */
-  public boolean setEvalSet(/*@non_null@*/ZRefName var, /*@non_null@*/EvalSet set)
+  public boolean setEvalSet(/*@non_null@*/ZName var, /*@non_null@*/EvalSet set)
   {
     EvalSet old = set_.get(var);
     set_.put(var,set);
@@ -109,7 +109,7 @@ public class Bounds implements Cloneable
    * @param var  The name of an integer variable.
    * @return     The lower bound (null means -infinity).
    */
-  public BigInteger getLower(ZRefName var)
+  public BigInteger getLower(ZName var)
   {
     return lowerBound_.get(var);
   }
@@ -119,7 +119,7 @@ public class Bounds implements Cloneable
    * @param var  The name of an integer variable.
    * @return     The upper bound (null means -infinity).
    */
-  public BigInteger getUpper(ZRefName var)
+  public BigInteger getUpper(ZName var)
   {
     return upperBound_.get(var);
   }
@@ -133,7 +133,7 @@ public class Bounds implements Cloneable
    * @param lower The lower bound (must be non-null).
    * @return      true iff the bound has changed (ie. is tighter).
    */
-  public boolean addLower(ZRefName var, /*@non_null@*/BigInteger lower)
+  public boolean addLower(ZName var, /*@non_null@*/BigInteger lower)
   {
     assert lower != null;
     BigInteger old = lowerBound_.get(var);
@@ -155,7 +155,7 @@ public class Bounds implements Cloneable
    * @param upper The upper bound (must be non-null).
    * @return      true iff the bound has changed (ie. is tighter).
    */
-  public boolean addUpper(ZRefName var, /*@non_null@*/BigInteger upper)
+  public boolean addUpper(ZName var, /*@non_null@*/BigInteger upper)
   {
     assert upper != null;
     BigInteger old = upperBound_.get(var);

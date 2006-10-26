@@ -28,7 +28,7 @@ import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -38,7 +38,7 @@ import net.sourceforge.czt.z.util.Factory;
  * This class defines a large collection of convenient Z AST
  * values for use within tests.  For example, NumExprs from
  * -10 upto 30 (called in10, in9, ... i0, i1, ... i30),
- * the empty Envir (called empty) and ZRefNames x, y and z.
+ * the empty Envir (called empty) and ZNames x, y and z.
  *
  * @author Mark Utting
  */
@@ -54,10 +54,10 @@ public class ZTestCase extends TestCase
   /** An empty environment. */
   protected Envir empty = new Envir();
   
-  // Some ZRefNames.
-  protected ZRefName x = factory_.createZRefName("x");
-  protected ZRefName y = factory_.createZRefName("y");
-  protected ZRefName z = factory_.createZRefName("z");
+  // Some ZNames.
+  protected ZName x = factory_.createZName("x");
+  protected ZName y = factory_.createZName("y");
+  protected ZName z = factory_.createZName("z");
   
   // convenient names for numbers -10 .. 30
   // some negative numbers

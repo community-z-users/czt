@@ -75,17 +75,17 @@ public class GlobalDefs
   }
 
   /**
-   * Find a pair with a specified ZDeclName in a list of NameTypePair.
-   * @param zDeclName the name to search for in the list.
+   * Find a pair with a specified ZName in a list of NameTypePair.
+   * @param zName the name to search for in the list.
    * @param pairs the list of NameTypePair to search.
    * @return the first pair with the corresponding name.
    */
-  public static NameTypePair findNameTypePair(ZDeclName zDeclName,
+  public static NameTypePair findNameTypePair(ZName zName,
                                               List<NameTypePair> pairs)
   {
     NameTypePair result = null;
     for (NameTypePair pair : pairs) {
-      if (namesEqual(pair.getZDeclName(), zDeclName)) {
+      if (namesEqual(pair.getZName(), zName)) {
         result = pair;
         break;
       }
@@ -94,16 +94,16 @@ public class GlobalDefs
   }
 
   /**
-   * Find a pair with a specified ZDeclName in a Signature.
-   * @param zDeclName the name to search for in the list.
+   * Find a pair with a specified ZName in a Signature.
+   * @param zName the name to search for in the list.
    * @param signature the signature to search.
    * @return the first pair with the corresponding name.
    */
-  public static NameTypePair findNameTypePair(ZDeclName zDeclName,
+  public static NameTypePair findNameTypePair(ZName zName,
                                               Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
-    NameTypePair result = findNameTypePair(zDeclName, pairs);
+    NameTypePair result = findNameTypePair(zName, pairs);
     return result;
   }
 
@@ -237,17 +237,17 @@ public class GlobalDefs
   }
 
   /**
-   * Test whether a list contains a ZDeclName.
+   * Test whether a list contains a ZName.
    * @param list the list to search.
-   * @param zDeclName the ZDeclName to search for.
+   * @param zName the ZName to search for.
    * @return true if and only if the name is in the list.
    */
-  public static boolean containsZDeclName(List<ZDeclName> list,
-                                          ZDeclName zDeclName)
+  public static boolean containsZName(List<ZName> list,
+                                      ZName zName)
   {
     boolean result = false;
-    for (ZDeclName next : list) {
-      if (namesEqual(next, zDeclName)) {
+    for (ZName next : list) {
+      if (namesEqual(next, zName)) {
         result = true;
         break;
       }
@@ -256,36 +256,17 @@ public class GlobalDefs
   }
 
   /**
-   * Test whether a list contains a ZDeclName with the same ID
+   * Test whether a list contains a ZName with the same ID
    * @param list the list to search.
-   * @param zDeclName the ZDeclName to search for.
+   * @param zName the ZName to search for.
    * @return true if and only if the name is in the list.
    */
-  public static boolean containsID(List<ZDeclName> list,
-                                   ZDeclName zDeclName)
+  public static boolean containsID(List<ZName> list,
+                                   ZName zName)
   {
     boolean result = false;
-    for (ZDeclName next : list) {
-      if (next.getId().equals(zDeclName.getId())) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Test whether a list contains a ZRefame.
-   * @param list the list to search.
-   * @param zRefName the ZRefName to search for.
-   * @return true if and only if the name is in the list.
-   */
-  public static boolean containsZRefName(List<ZRefName> list,
-					 ZRefName zRefName)
-  {
-    boolean result = false;
-    for (ZRefName next : list) {
-      if (namesEqual(next, zRefName)) {
+    for (ZName next : list) {
+      if (next.getId().equals(zName.getId())) {
         result = true;
         break;
       }
@@ -309,72 +290,26 @@ public class GlobalDefs
   }
 
   /**
-   * Test whether the base name and strokes of two ZDeclNames are equal.
+   * Test whether the base name and strokes of two ZNames are equal.
    */
-  public static boolean namesEqual(ZDeclName zDeclName1, ZDeclName zDeclName2)
+  public static boolean namesEqual(ZName zName1, ZName zName2)
   {
-    boolean result = zDeclName1.getWord().equals(zDeclName2.getWord()) &&
-      zDeclName1.getStrokeList().equals(zDeclName2.getStrokeList());
+    boolean result = zName1.getWord().equals(zName2.getWord()) &&
+      zName1.getStrokeList().equals(zName2.getStrokeList());
     return result;
   }
 
   /**
-   * Test whether the base name and strokes of two DeclNames are equal.
+   * Test whether the base name and strokes of two Names are equal.
    */
-  public static boolean namesEqual(DeclName declName1, DeclName declName2)
+  public static boolean namesEqual(Name name1, Name name2)
   {
     boolean result = false;
-    if (declName1 instanceof ZDeclName && declName2 instanceof ZDeclName) {
-      result = namesEqual((ZDeclName) declName1, (ZDeclName) declName2);
+    if (name1 instanceof ZName && name2 instanceof ZName) {
+      result = namesEqual((ZName) name1, (ZName) name2);
     }
     return result;
   }
-
-  /**
-   * Test whether the base name and strokes of a DeclName and RefName are equal.
-   */
-  public static boolean namesEqual(ZDeclName zDeclName, ZRefName zRefName)
-  {
-    boolean result = zDeclName.getWord().equals(zRefName.getWord()) &&
-      zDeclName.getStrokeList().equals(zRefName.getStrokeList());
-    return result;
-  }
-
-  /**
-   * Test whether the base name and strokes of two RefNames are equal.
-   */
-  public static boolean namesEqual(ZRefName zRefName1, ZRefName zRefName2)
-  {
-    boolean result = zRefName1.getWord().equals(zRefName2.getWord()) &&
-      zRefName1.getStrokeList().equals(zRefName2.getStrokeList());
-    return result;
-  }
-
-  /**
-   * Test whether the base name and strokes of two RefNames are equal.
-   */
-  public static boolean namesEqual(RefName refName1, RefName refName2)
-  {
-    boolean result = false;
-    if (refName1 instanceof ZRefName && refName2 instanceof ZRefName) {
-      result = namesEqual((ZRefName) refName1, (ZRefName) refName2);
-    }
-    return result;
-  }
-
-  /**
-   * Test whether the base name and strokes of a DeclName and RefName are equal.
-   */
-  public static boolean namesEqual(DeclName declName, RefName refName)
-  {
-    boolean result = false;
-    if (declName instanceof ZDeclName && refName instanceof ZRefName) {
-      result = namesEqual((ZDeclName) declName, (ZRefName) refName);
-    }
-    return result;
-  }
-
-
 
   public static boolean idsEqual(String id1, String id2)
   {
@@ -393,8 +328,8 @@ public class GlobalDefs
     for (int j = 1; j < pairs.size(); j++) {
       NameTypePair pair = pairs.get(j);
       int i = j - 1;
-      while (i >= 0 && compareTo(pairs.get(i).getZDeclName(),
-                                 pair.getZDeclName()) > 0) {
+      while (i >= 0 && compareTo(pairs.get(i).getZName(),
+                                 pair.getZName()) > 0) {
         pairs.set(i + 1, pairs.get(i));
         i--;
       }
@@ -416,23 +351,23 @@ public class GlobalDefs
   {
     int i = 0;
     while (i < pairs.size() &&
-           compareTo(pairs.get(i).getZDeclName(), pair.getZDeclName()) < 0) {
+           compareTo(pairs.get(i).getZName(), pair.getZName()) < 0) {
       i++;
     }
     pairs.add(i, pair);
   }
 
-  public static int compareTo(ZDeclName zDeclName1, ZDeclName zDeclName2)
+  public static int compareTo(ZName zName1, ZName zName2)
   {
-    String word1 = zDeclName1.getWord();
-    String word2 = zDeclName2.getWord();
+    String word1 = zName1.getWord();
+    String word2 = zName2.getWord();
     int compareWord = word1.compareTo(word2);
     if (compareWord != 0) {
       return compareWord;
     }
     else {
-      ZStrokeList strokes1 = zDeclName1.getZStrokeList();
-      ZStrokeList strokes2 = zDeclName2.getZStrokeList();
+      ZStrokeList strokes1 = zName1.getZStrokeList();
+      ZStrokeList strokes2 = zName2.getZStrokeList();
       int lengthDiff = strokes1.size() - strokes2.size();
       if (lengthDiff != 0) {
         return lengthDiff;

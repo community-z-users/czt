@@ -40,10 +40,10 @@ public class NameSectTypeTripleImpl
     triple.setSect(section);
   }
 
-  public void setDeclName(DeclName declName)
+  public void setName(Name declName)
   {
     NameSectTypeTriple triple = (NameSectTypeTriple) term_;
-    triple.setDeclName(declName);
+    triple.setName(declName);
   }
 
   public void setType(Type type)
@@ -58,16 +58,16 @@ public class NameSectTypeTripleImpl
     return triple.getSect();
   }
 
-  public DeclName getDeclName()
+  public Name getName()
   {
     NameSectTypeTriple triple = (NameSectTypeTriple) term_;
-    return triple.getDeclName();
+    return triple.getName();
   }
 
-  public ZDeclName getZDeclName()
+  public ZName getZName()
   {
     NameSectTypeTriple triple = (NameSectTypeTriple) term_;
-    return triple.getZDeclName();
+    return triple.getZName();
   }
 
   public Type getType()
@@ -107,7 +107,7 @@ public class NameSectTypeTripleImpl
     if (obj instanceof NameSectTypeTriple) {
       NameSectTypeTriple triple = (NameSectTypeTriple) obj;
       if (!getSect().equals(triple.getSect()) ||
-          !getDeclName().equals(triple.getDeclName()) ||
+          !getName().equals(triple.getName()) ||
           !getType().equals(triple.getType())) {
         return false;
       }
@@ -122,8 +122,8 @@ public class NameSectTypeTripleImpl
 
     int hashCode = super.hashCode();
     hashCode += "NameSectTypeTripleImpl".hashCode();
-    if (getDeclName() != null) {
-      hashCode += constant * getDeclName().hashCode();
+    if (getName() != null) {
+      hashCode += constant * getName().hashCode();
     }
     if (getSect() != null) {
       hashCode += constant * getSect().hashCode();

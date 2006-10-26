@@ -81,8 +81,8 @@ public class OpExprChecker
   {
     Signature signature = factory().createSignature();
 
-    ZRefName opRefName = assertZRefName(recProExpr.getOpName());
-    ZDeclName opName = factory().createZDeclName(opRefName);
+    ZName opRefName = assertZName(recProExpr.getOpName());
+    ZName opName = factory().createZDeclName(opRefName, false);
     ClassType selfType = getSelfType();
     List<NameSignaturePair> opPairs = selfType.getOperation();
     NameSignaturePair existing = findNameSigPair(opName, opPairs);
@@ -114,9 +114,9 @@ public class OpExprChecker
 
   public Signature visitEvent(Event event)
   {
-    ZRefName channelName = assertZRefName(event.getChannelName());
+    ZName channelName = assertZName(event.getChannelName());
     LocAnn locAnn = (LocAnn) channelName.getAnn(LocAnn.class);
-    ZRefName baseChannelName = factory().createZRefName(channelName.getWord());
+    ZName baseChannelName = factory().createZRefName(channelName.getWord());
     addAnn(baseChannelName, locAnn);
     RefExpr channelRef = factory().createRefExpr(baseChannelName);
     Type2 channelRefType = (Type2) channelRef.accept(exprChecker());
@@ -124,7 +124,7 @@ public class OpExprChecker
     Type2 chanType = factory().createChannelType();
     UResult result = unify(channelRefType, chanType);
     if (result == FAIL) {
-      System.err.println("Name " + channelRef.getRefName() + " not a channel");
+      System.err.println("Name " + channelRef.getName() + " not a channel");
     }
     
     Expr expr = event.getExpr();

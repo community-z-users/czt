@@ -21,7 +21,7 @@
 
       $Id$
       
-      Copyright (C) 2003, 2005 Mark Utting
+      Copyright (C) 2003, 2005, 2006 Mark Utting
       This file is part of the Community Z Tools (CZT) project.
       
       The CZT project contains free software; you can
@@ -112,8 +112,7 @@
   <xs:element name="JokerPred"     type="P:JokerPred"     substitutionGroup="Z:Pred"/>
   <xs:element name="JokerDeclList" type="P:JokerDeclList" substitutionGroup="Z:DeclList"/>
   <xs:element name="HeadDeclList"  type="P:HeadDeclList" substitutionGroup="Z:DeclList"/>
-  <xs:element name="JokerDeclName" type="P:JokerDeclName" substitutionGroup="Z:DeclName"/>
-  <xs:element name="JokerRefName"  type="P:JokerRefName"  substitutionGroup="Z:RefName"/>
+  <xs:element name="JokerName" type="P:JokerName" substitutionGroup="Z:Name"/>
 
   <xs:element name="Binding" type="P:Binding" abstract="true">
     <xs:annotation>
@@ -127,8 +126,7 @@
   <xs:element name="JokerExprListBinding" type="P:JokerExprListBinding" substitutionGroup="P:Binding"/>
   <xs:element name="JokerPredBinding"     type="P:JokerPredBinding"     substitutionGroup="P:Binding"/>
   <xs:element name="JokerDeclListBinding" type="P:JokerDeclListBinding" substitutionGroup="P:Binding"/>
-  <xs:element name="JokerDeclNameBinding" type="P:JokerDeclNameBinding" substitutionGroup="P:Binding"/>
-  <xs:element name="JokerRefNameBinding"  type="P:JokerRefNameBinding"  substitutionGroup="P:Binding"/>
+  <xs:element name="JokerNameBinding" type="P:JokerNameBinding" substitutionGroup="P:Binding"/>
 
   <xs:element name="SequentContext" type="P:SequentContext">
     <xs:annotation>
@@ -463,16 +461,9 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="JokerDeclName">
+  <xs:complexType name="JokerName">
     <xs:complexContent>
-      <xs:extension base="Z:DeclName">
-        <xs:attribute name="Name" type="xs:string"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="JokerRefName">
-    <xs:complexContent>
-      <xs:extension base="Z:RefName">
+      <xs:extension base="Z:Name">
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
@@ -523,22 +514,12 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="JokerDeclNameBinding">
+  <xs:complexType name="JokerNameBinding">
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerDeclName"/>
-          <xs:element ref="Z:DeclName"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="JokerRefNameBinding">
-    <xs:complexContent>
-      <xs:extension base="P:Binding">
-        <xs:sequence>
-          <xs:element ref="P:JokerRefName"/>
-          <xs:element ref="Z:RefName"/>
+          <xs:element ref="P:JokerName"/>
+          <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

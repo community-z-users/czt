@@ -1,1 +1,1 @@
-  ZDeclNameList getDeclName();
+  ZNameList getName();

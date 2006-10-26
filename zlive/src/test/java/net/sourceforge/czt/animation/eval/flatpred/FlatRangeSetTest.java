@@ -24,7 +24,7 @@ import java.math.BigInteger;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -54,7 +54,7 @@ public class FlatRangeSetTest
   }
 
   /** A helper function for constructing and evaluating FlatRangeSets. */
-  private FlatRangeSet range(ZRefName lo, ZRefName hi, Envir env)
+  private FlatRangeSet range(ZName lo, ZName hi, Envir env)
   {
     FlatRangeSet flat1 = new FlatRangeSet(lo,hi,s);
     Mode m1 = flat1.chooseMode(env);

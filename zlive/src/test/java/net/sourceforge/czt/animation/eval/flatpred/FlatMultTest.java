@@ -34,7 +34,7 @@ import net.sourceforge.czt.modeljunit.coverage.StateCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionCoverage;
 import net.sourceforge.czt.modeljunit.coverage.TransitionPairCoverage;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -53,7 +53,7 @@ public class FlatMultTest
   throws FileNotFoundException
   {
     int interval = 2;
-    FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
+    FlatPredModel iut = new FlatPredModel(pred, new ZName[] {x,y,z},
                             "OII,IOI,IIO,III",
                             new Eval(1, "???", i3, i4, i12),
                             new Eval(0, "I?I", i2, i5, i11) // 11 is prime

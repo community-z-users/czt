@@ -68,15 +68,15 @@ public class DeclChecker
 
   public List<NameTypePair> visitConstDecl(ConstDecl constDecl)
   {
-    //get the DeclName
-    ZDeclName constName = constDecl.getZDeclName();
+    //get the Name
+    ZName constName = constDecl.getZName();
 
     //get and visit the expression
     Expr expr = constDecl.getExpr();
     Type2 exprType = expr.accept(exprChecker());
 
     //add a unique ID to this name
-    factory().addDeclNameID(constName);
+    factory().addNameID(constName);
 
     //create the NameTypePair and the list of decls (only 1 element)
     NameTypePair pair = factory().createNameTypePair(constName, exprType);
@@ -111,12 +111,11 @@ public class DeclChecker
       List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
       for (NameTypePair pair : lPairs) {
 	//copy the name
-	ZDeclName oldName = pair.getZDeclName();
-	ZDeclName newName = 
-	  factory().createZDeclName(oldName.getWord(),
-				    oldName.getStrokeList());
+	ZName oldName = pair.getZName();
+	ZName newName = factory().createZDeclName(oldName.getWord(),
+                                                  oldName.getStrokeList());
 	//add a unique ID to this name
-	factory().addDeclNameID(newName);
+	factory().addNameID(newName);
 
         addAnn(newName, locAnn);
 	NameTypePair newPair =

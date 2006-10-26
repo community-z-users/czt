@@ -25,7 +25,7 @@ import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -35,16 +35,16 @@ import net.sourceforge.czt.z.ast.ZRefName;
 public class FlatCardTest
   extends ZTestCase
 {
-  private ZRefName l = factory_.createZRefName("l");
-  private ZRefName m = factory_.createZRefName("m");
-  private ZRefName n = factory_.createZRefName("n");
-  private ZRefName o = factory_.createZRefName("o");
-  private ZRefName p = factory_.createZRefName("p");
-  private ZRefName q = factory_.createZRefName("q");
+  private ZName l = factory_.createZName("l");
+  private ZName m = factory_.createZName("m");
+  private ZName n = factory_.createZName("n");
+  private ZName o = factory_.createZName("o");
+  private ZName p = factory_.createZName("p");
+  private ZName q = factory_.createZName("q");
 
-  private ZRefName s = factory_.createZRefName("s");
+  private ZName s = factory_.createZName("s");
 
-  private ZRefName w = factory_.createZRefName("w");
+  private ZName w = factory_.createZName("w");
 
   protected FlatPred pred;
 
@@ -98,7 +98,7 @@ public class FlatCardTest
     envLMNOPQ = envLMNOPQ.plus(o,i13);
     envLMNOPQ = envLMNOPQ.plus(p,i14);
     envLMNOPQ = envLMNOPQ.plus(q,i15);
-    ArrayList<ZRefName> tempArgsList = new ArrayList<ZRefName>();
+    ArrayList<ZName> tempArgsList = new ArrayList<ZName>();
     tempArgsList.add(l);
     tempArgsList.add(m);
     tempArgsList.add(n);
@@ -167,7 +167,7 @@ public class FlatCardTest
     envLMNOPQ = envLMNOPQ.plus(o,i13);
     envLMNOPQ = envLMNOPQ.plus(p,i14);
     envLMNOPQ = envLMNOPQ.plus(q,i15);
-    ArrayList<ZRefName> tempArgsList = new ArrayList<ZRefName>();
+    ArrayList<ZName> tempArgsList = new ArrayList<ZName>();
     tempArgsList.add(l);
     tempArgsList.add(m);
     tempArgsList.add(n);

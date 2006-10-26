@@ -20,7 +20,7 @@ package net.sourceforge.czt.animation.eval;
 
 import java.util.Comparator;
 
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A comparator for evaluated Z expressions.
@@ -31,7 +31,7 @@ import net.sourceforge.czt.z.util.PrintVisitor;
  * 
  * @author marku
  */
-public class ZRefNameComparator implements Comparator<ZRefName>
+public class ZRefNameComparator implements Comparator<ZName>
 {
   private static ZRefNameComparator singleton_ = new ZRefNameComparator();
   
@@ -40,12 +40,12 @@ public class ZRefNameComparator implements Comparator<ZRefName>
     return singleton_;
   }
 
-  /* This orders ZRefNames alphabetically.
+  /* This orders ZNames alphabetically.
    * More precisely, it turns each name into a string, 
    * then compares those strings.
    * @see java.util.Comparator#compare(T, T)
    */
-  public int compare(ZRefName var0, ZRefName var1)
+  public int compare(ZName var0, ZName var1)
   {
     PrintVisitor printVisitor = new PrintVisitor();
     String name0 = var0.accept(printVisitor);

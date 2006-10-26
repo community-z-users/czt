@@ -196,15 +196,15 @@ public class SectTypeEnv
     NameSectTypeTriple result = null;
 
     //if not already declared, add this declaration to the environment
-    NameSectTypeTriple existing = getTriple(triple.getZDeclName());
+    NameSectTypeTriple existing = getTriple(triple.getZName());
     if (existing == null) {
-      typeInfo_.put(triple.getZDeclName().toString().intern(), triple);
+      typeInfo_.put(triple.getZName().toString().intern(), triple);
     }
     //otherwise, overwrite the existing declaration, and note that
     //this declaration is a duplicate
     else {
       existing.setType(triple.getType());
-      if (!existing.getZDeclName().equals(triple.getZDeclName())) {
+      if (!existing.getZName().equals(triple.getZName())) {
         result = existing;
       }
     }
@@ -212,8 +212,8 @@ public class SectTypeEnv
     if (secondTime_) {
       result = null;
       for (NameSectTypeTriple declaration : declarations_) {
-        if (namesEqual(declaration.getZDeclName(), triple.getZDeclName()) &&
-            !declaration.getZDeclName().equals(triple.getZDeclName()) &&
+        if (namesEqual(declaration.getZName(), triple.getZName()) &&
+            !declaration.getZName().equals(triple.getZName()) &&
             visibleSections_.contains(declaration.getSect())) {
           result = declaration;
           break;
@@ -238,13 +238,13 @@ public class SectTypeEnv
    */
   public NameSectTypeTriple add(NameTypePair nameTypePair)
   {
-    return add(nameTypePair.getZDeclName(), nameTypePair.getType());
+    return add(nameTypePair.getZName(), nameTypePair.getType());
   }
 
-  public NameSectTypeTriple add(ZDeclName zDeclName, Type type)
+  public NameSectTypeTriple add(ZName zName, Type type)
   {
     NameSectTypeTriple insert =
-      factory_.createNameSectTypeTriple(zDeclName, section_, type);
+      factory_.createNameSectTypeTriple(zName, section_, type);
     NameSectTypeTriple result = add(insert);
     return result;
   }
@@ -273,21 +273,21 @@ public class SectTypeEnv
   /**
    * Return the type of the variable.
    */
-  public Type getType(ZRefName zRefName)
+  public Type getType(ZName zName)
   {
     Type result = factory_.createUnknownType();
 
     //get the info for this name
-    NameSectTypeTriple triple = getTriple(zRefName);
+    NameSectTypeTriple triple = getTriple(zName);
     if (triple != null && visibleSections_.contains(triple.getSect())) {
       result = triple.getType();
-      zRefName.setDecl(triple.getZDeclName());
+      zName.setId(triple.getZName().getId());
     }
 
     //if the type is unknown, try looking up the Delta or Xi reference
     //of it
     if (result instanceof UnknownType) {
-      result = getDeltaXiType(zRefName, result);
+      result = getDeltaXiType(zName, result);
     }
 
     return result;
@@ -302,23 +302,17 @@ public class SectTypeEnv
     Set<Map.Entry<String, NameSectTypeTriple>> entrySet =
       typeInfo_.entrySet();
     for (Map.Entry<String, NameSectTypeTriple> entry : entrySet) {
-      System.err.print("\t(" + entry.getValue().getZDeclName());
+      System.err.print("\t(" + entry.getValue().getZName());
       System.err.print(", (" + entry.getValue().getSect());
       System.err.println(", (" + entry.getValue().getType() + ")))");
     }
   }
 
-  private NameSectTypeTriple getTriple(ZRefName zRefName)
-  {
-    ZDeclName zDeclName = factory_.createZDeclName(zRefName);
-    return getTriple(zDeclName);
-  }
-
   //get a triple whose name matches a specified name and it
   //defined in a currently visible scope.
-  private NameSectTypeTriple getTriple(ZDeclName zDeclName)
+  private NameSectTypeTriple getTriple(ZName zName)
   {
-    String sName = zDeclName.toString().intern();
+    String sName = zName.toString().intern();
     NameSectTypeTriple result = typeInfo_.get(sName);
     if (result != null && !visibleSections_.contains(result.getSect())) {
       result = null;

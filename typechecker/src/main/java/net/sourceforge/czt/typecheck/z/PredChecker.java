@@ -229,22 +229,22 @@ public class PredChecker
 	List<NameTypePair> pairs = signature.getNameTypePair();
         for (int i = 0; i < pairs.size(); i++ ) {
           NameTypePair pair = pairs.get(i);
-          ZRefName zRefName = factory().createZRefName(pair.getZDeclName());
+          ZName zName = factory().createZRefName(pair.getZName(), false);
 
 	  //lookup the type of this name in the environment
-	  Type envType = getType(zRefName);
+	  Type envType = getType(zName);
 
-          Object undecAnn = zRefName.getAnn(UndeclaredAnn.class);
+          Object undecAnn = zName.getAnn(UndeclaredAnn.class);
           //if the name is undeclared, copy the annotation to the name
           //in the signature
           if (undecAnn != null) {
-            pair.getZDeclName().getAnns().add(undecAnn);
+            pair.getZName().getAnns().add(undecAnn);
             if (!containsObject(paraErrors(), exprPred)) {
               paraErrors().add(exprPred);
             }
           }
 	  else {
-	    removeAnn(pair.getZDeclName(), UndeclaredAnn.class);
+	    removeAnn(pair.getZName(), UndeclaredAnn.class);
 	  }
 
 	  //if the type of the name in the current environment does
@@ -254,7 +254,7 @@ public class PredChecker
 	  UResult unified = unify(typeA, typeB);
 	  result = UResult.conj(result, unified);
 	  if (unified == FAIL) {
-	    Object [] params = {zRefName, typeA, typeB};
+	    Object [] params = {zName, typeA, typeB};
 	    error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
 	  }
 	}

@@ -291,7 +291,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element name="OpName" type="Z:RefName"/>
+          <xs:element name="OpName" type="Z:Name"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
@@ -310,9 +310,9 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="LeftProcess" type="Z:RefName" maxOccurs="unbounded"/>
-          <xs:element name="RightProcess" type="Z:RefName" maxOccurs="unbounded"/>
-          <xs:element name="Channels" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element name="LeftProcess" type="Z:Name" maxOccurs="unbounded"/>
+          <xs:element name="RightProcess" type="Z:Name" maxOccurs="unbounded"/>
+          <xs:element name="Channels" type="Z:Name" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -321,7 +321,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ChannelName" type="Z:RefName"/>
+          <xs:element name="ChannelName" type="Z:Name"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>

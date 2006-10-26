@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -39,34 +39,6 @@ public class ${classname}
   implements Joker
 {
   private ${typename}Binding binding_;
-#if(${classname} == 'ProverJokerRefName')
-
-  private ProverJokerDeclName jokerDeclName_;
-
-  protected void setJokerDeclName(ProverJokerDeclName jokerDeclName)
-  {
-    jokerDeclName_ = jokerDeclName;
-  }
-
-  protected ProverJokerDeclName getJokerDeclName()
-  {
-    return jokerDeclName_;
-  }
-#end
-#if(${classname} == 'ProverJokerDeclName')
-
-  private ProverJokerRefName jokerRefName_;
-
-  protected void setJokerRefName(ProverJokerRefName jokerRefName)
-  {
-    jokerRefName_ = jokerRefName;
-  }
-
-  protected ProverJokerRefName getJokerRefName()
-  {
-    return jokerRefName_;
-  }
-#end
 
   protected ${classname}(String name)
   {
@@ -79,19 +51,6 @@ public class ${classname}
     return getBinding().get${typebase}();
   }
 
-#if(${classname} == 'ProverJokerDeclName' || ${classname} == 'ProverJokerRefName' )
-  protected Binding bind2(Term term)
-  {
-    if (! (term instanceof ${typebase})) {
-      String message = "Cannot bind " + term + " to a ${typename}";
-      throw new IllegalArgumentException(message);
-    }
-    ${typebase} v${typebase} = (${typebase}) term;
-    getBinding().set${typebase}(v${typebase});
-    return getBinding();
-  }
-
-#end
   public Binding bind(Term term)
   {
     if (! (term instanceof ${typebase})) {
@@ -100,38 +59,6 @@ public class ${classname}
     }
     ${typebase} v${typebase} = (${typebase}) term;
     getBinding().set${typebase}(v${typebase});
-#if(${classname} == 'ProverJokerDeclName')
-    if (v${typebase} instanceof JokerDeclName) {
-      ProverJokerRefName assoc = getJokerRefName();
-      assoc.bind2(((ProverJokerDeclName) v${typebase}).getJokerRefName());
-    }
-    else if (v${typebase} instanceof ZDeclName) {
-      ZDeclName zDeclName = (ZDeclName) v${typebase};
-      ZFactory factory = new ZFactoryImpl();
-      ZRefName zRefName = factory.createZRefName(zDeclName.getWord(),
-                                                 zDeclName.getStrokeList(),
-                                                 zDeclName);
-      getJokerRefName().bind2(zRefName);
-    }
-    else {
-      String message = "Cannot bind " + term + " to a ${typename}";
-      throw new IllegalArgumentException(message);
-    }
-#end
-#if(${classname} == 'ProverJokerRefName')
-    if (v${typebase} instanceof JokerRefName) {
-      ProverJokerDeclName assoc = getJokerDeclName();
-      assoc.bind2(((ProverJokerRefName) v${typebase}).getJokerDeclName());
-    }
-    else if (v${typebase} instanceof ZRefName) {
-      ZRefName zRefName = (ZRefName) v${typebase};
-      getJokerDeclName().bind2(zRefName.getDecl());
-    }
-    else {
-      String message = "Cannot bind " + term + " to a ${typename}";
-      throw new IllegalArgumentException(message);
-    }
-#end
     return getBinding();
   }
 

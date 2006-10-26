@@ -26,9 +26,10 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * Calculates the carrier set of types.
@@ -95,29 +96,27 @@ public class CarrierSet
 
   public Term visitGenParamType(GenParamType genParamType)
   {
+    ZName genParamName = ZUtils.assertZName(genParamType.getName());
     ZStrokeList strokes = zFactory_.createZStrokeList();
-    strokes.addAll(genParamType.getName().getZStrokeList());
-    ZRefName zRefName =
-      zFactory_.createZRefName(genParamType.getName().getWord(),
-                               strokes,
-                               null);
+    strokes.addAll(genParamName.getZStrokeList());
+    ZName zName =
+      zFactory_.createZName(genParamName.getWord(), strokes, null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+      zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
     return result;
   }
 
   public Term visitGivenType(GivenType givenType)
   {
+    ZName givenTypeName = ZUtils.assertZName(givenType.getName());
     ZStrokeList strokes = zFactory_.createZStrokeList();
-    strokes.addAll(givenType.getName().getZStrokeList());
-    ZRefName zRefName =
-      zFactory_.createZRefName(givenType.getName().getWord(),
-			       strokes,
-                               null);
+    strokes.addAll(givenTypeName.getZStrokeList());
+    ZName zName =
+      zFactory_.createZName(givenTypeName.getWord(), strokes, null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+      zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
     return result;
   }
 
@@ -135,8 +134,8 @@ public class CarrierSet
     List<Decl> decls = factory_.list();
     for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
-      ZDeclNameList zdnl = zFactory_.createZDeclNameList();
-      zdnl.add(pair.getDeclName());
+      ZNameList zdnl = zFactory_.createZNameList();
+      zdnl.add(pair.getName());
       VarDecl varDecl = zFactory_.createVarDecl(zdnl, expr);
       decls.add(varDecl);
     }
@@ -163,12 +162,12 @@ public class CarrierSet
   public Term visitUnknownType(UnknownType unknownType)
   {
     StrokeList strokes = zFactory_.createZStrokeList();
-    ZRefName zRefName =
-      zFactory_.createZRefName("unknown(" + unknownType.getZRefName() + ")",
-                               strokes, null);
+    ZName zName =
+      zFactory_.createZName("unknown(" + unknownType.getZName() + ")",
+                            strokes, null);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
-      zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+      zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
     return result;
   }
 
@@ -180,10 +179,10 @@ public class CarrierSet
       }
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(vType.getName().getZStrokeList());
-      ZRefName zRefName = zFactory_.createZRefName("??", strokes, null);
+      ZName zName = zFactory_.createZName("??", strokes, null);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr result =
-        zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+        zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
       return result;
     }
     return vType.getValue().accept(this);
@@ -197,11 +196,11 @@ public class CarrierSet
       }
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(vSig.getName().getZStrokeList());
-      ZRefName zRefName =
-        zFactory_.createZRefName("??", strokes, null);
+      ZName zName =
+        zFactory_.createZName("??", strokes, null);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr refExpr =
-        zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+        zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
       InclDecl inclDecl = zFactory_.createInclDecl(refExpr);
       ZDeclList zDeclList =
         zFactory_.createZDeclList(factory_.<Decl>list(inclDecl));

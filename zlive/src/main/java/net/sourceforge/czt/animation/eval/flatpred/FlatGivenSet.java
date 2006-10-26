@@ -32,7 +32,7 @@ import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** An extensible set of 'unknown' values (represented by strings).
  * @author Mark Utting
@@ -54,9 +54,9 @@ public class FlatGivenSet extends FlatEvalSet
   /** Number of members returned by nextMember() */
   private int membersReturned_;
   
-  public FlatGivenSet(ZRefName set, String name, ZLive zlive)
+  public FlatGivenSet(ZName set, String name, ZLive zlive)
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
     args_.add(set);
     name_ = name;
     zlive_ = zlive;
@@ -125,12 +125,12 @@ public class FlatGivenSet extends FlatEvalSet
     throw new EvalException("GIVEN "+name_+" has unknown size.");
   }
 
-  public double estSubsetSize(Envir env, ZRefName elem)
+  public double estSubsetSize(Envir env, ZName elem)
   {
     return zlive_.getGivenSetSize();
   }
 
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     return iterator();
   }
@@ -162,7 +162,7 @@ public class FlatGivenSet extends FlatEvalSet
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
     boolean result = false;
-    ZRefName set = args_.get(args_.size()-1);
+    ZName set = args_.get(args_.size()-1);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;

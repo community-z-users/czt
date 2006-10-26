@@ -20,7 +20,7 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
                                       zsidekick.nextWff \
-                                      zsidekick.gotoDefinition \
+#                                      zsidekick.gotoDefinition \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.unfoldCurrentWff \
                                       zsidekick.rewriteCurrentWff \
@@ -37,7 +37,7 @@ zsidekick.toOldLatex.label=Convert to old Latex mark-up
 zsidekick.toUnicode.label=Convert to Unicode mark-up
 zsidekick.toXml.label=Convert to XML
 zsidekick.nextWff.label=Highlight next wff
-zsidekick.gotoDefinition.label=Goto definition of selected referencing name
+#zsidekick.gotoDefinition.label=Goto definition of selected referencing name
 zsidekick.insertTypeForCurrentWff.label=Insert type of selected formula
 zsidekick.proveCurrentWff.label=Prove selected predicate
 zsidekick.rewriteCurrentWff.label=Rewrite selected formula

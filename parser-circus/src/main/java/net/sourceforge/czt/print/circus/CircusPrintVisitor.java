@@ -70,7 +70,7 @@ public class CircusPrintVisitor
   }
   
   protected boolean isChannelFromDecl(ChannelDecl term) {
-    return (term.getDeclNameList() == null && term.getExpr() instanceof RefExpr);
+    return (term.getNameList() == null && term.getExpr() instanceof RefExpr);
   }
   
   private boolean isOnTheFly(Term term) {
@@ -134,7 +134,7 @@ public class CircusPrintVisitor
     } else {  
       print(CircusKeyword.CIRCCHAN);
       printGenericFormals(term.getGenFormals());
-      visit(term.getDeclNameList());      
+      visit(term.getNameList());      
       if (term.getExpr() != null) {
         print(Keyword.COLON);
         visit(term.getExpr());
@@ -151,7 +151,7 @@ public class CircusPrintVisitor
     print(TokenName.ZED);
     print(CircusKeyword.CIRCCHANSET);
     printGenericFormals(term.getGenFormals());
-    visit(term.getDeclName());    
+    visit(term.getName());    
     print(Keyword.DEFEQUAL);    
     visit(term.getChannelSet());
     print(TokenName.END);    
@@ -391,7 +391,7 @@ public class CircusPrintVisitor
    ***********************************************************/
   
   public Object visitActionPara(ActionPara term) {
-    visit(term.getDeclName());
+    visit(term.getName());
     print(CircusKeyword.CIRCDEF);
     visit(term.getCircusAction());    
     return null;
@@ -430,7 +430,7 @@ public class CircusPrintVisitor
   public Object visitMuAction(MuAction term) {
     printLPAREN(term);
     print(CircusKeyword.CIRCMU);
-    visit(term.getDeclName());
+    visit(term.getName());
     print(Keyword.SPOT);
     visit(term.getCircusAction());
     printRPAREN(term);
@@ -440,7 +440,7 @@ public class CircusPrintVisitor
   public Object visitCallAction(CallAction term) {
     printLPAREN(term);
     if (!isOnTheFly(term)) {
-      visit(term.getRefName());                  
+      visit(term.getName());                  
       printActualParams(term.getZExprList(), false);//not indexes
     } else {
       throw new PrintException("On-the-fly action calls must be processed by the AstToPrintTreeVisitor.");
@@ -809,9 +809,9 @@ public class CircusPrintVisitor
     } else if (ParamQualifier.ValueResult.equals(term.getParamQualifier())) {      
       print(CircusKeyword.CIRCVRES);
     } /* else must be by value, so just don't put it */
-    if (ZUtils.assertZDeclNameList(term.getDeclNameList()).isEmpty())
+    if (ZUtils.assertZNameList(term.getNameList()).isEmpty())
       throw new PrintException("Empty list of qualified variables/parameters");
-    visit(term.getDeclNameList());
+    visit(term.getNameList());
     print(Keyword.COLON);
     visit(term.getExpr());
     return null;
@@ -837,7 +837,7 @@ public class CircusPrintVisitor
 
   public Object visitNameSetPara(NameSetPara term) {
     /* Hum... need to know if it is boxed or not... */
-    visit(term.getDeclName());
+    visit(term.getName());
     print(Keyword.DEFEQUAL);
     visit(term.getNameSet());
     return null;

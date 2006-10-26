@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
             <LocAnn Col="0" Length="518" Line="0" Loc="birthdaybook_simple.tex" Start="0"/>
@@ -32,7 +32,7 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                 <Anns>
                     <LocAnn Col="0" Length="42" Line="14" Loc="birthdaybook_simple.tex" Start="537"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <Anns>
                         <LocAnn Col="3" Length="17" Line="15" Loc="birthdaybook_simple.tex" Start="552"/>
@@ -42,13 +42,13 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                             <Anns>
                                 <LocAnn Col="8" Length="17" Line="15" Loc="birthdaybook_simple.tex" Start="552"/>
                             </Anns>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="3" Length="4" Line="15" Loc="birthdaybook_simple.tex" Start="552"/>
                                 </Anns>
                                 <Word>NAME</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="13" Length="9" Line="15" Loc="birthdaybook_simple.tex" Start="560"/>
@@ -57,13 +57,13 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                                     <Anns>
                                         <LocAnn Col="13" Length="5" Line="15" Loc="birthdaybook_simple.tex" Start="562"/>
                                     </Anns>
-                                    <ZRefName>
+                                    <ZName>
                                         <Anns>
                                             <LocAnn Col="13" Length="5" Line="15" Loc="birthdaybook_simple.tex" Start="562"/>
                                         </Anns>
                                         <Word> _ .. _ </Word>
                                         <ZStrokeList/>
-                                    </ZRefName>
+                                    </ZName>
                                     <ZExprList/>
                                 </RefExpr>
                                 <TupleExpr>
@@ -106,7 +106,7 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                 <Anns>
                     <LocAnn Col="0" Length="44" Line="17" Loc="birthdaybook_simple.tex" Start="580"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <Anns>
                         <LocAnn Col="3" Length="19" Line="18" Loc="birthdaybook_simple.tex" Start="595"/>
@@ -116,13 +116,13 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                             <Anns>
                                 <LocAnn Col="8" Length="19" Line="18" Loc="birthdaybook_simple.tex" Start="595"/>
                             </Anns>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="3" Length="4" Line="18" Loc="birthdaybook_simple.tex" Start="595"/>
                                 </Anns>
                                 <Word>DATE</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <ApplExpr Mixfix="true">
                                 <Anns>
                                     <LocAnn Col="14" Length="11" Line="18" Loc="birthdaybook_simple.tex" Start="603"/>
@@ -131,13 +131,13 @@ by adding an extra operation, $RemindOne$, that is non-deterministic.
                                     <Anns>
                                         <LocAnn Col="14" Length="5" Line="18" Loc="birthdaybook_simple.tex" Start="606"/>
                                     </Anns>
-                                    <ZRefName>
+                                    <ZName>
                                         <Anns>
                                             <LocAnn Col="14" Length="5" Line="18" Loc="birthdaybook_simple.tex" Start="606"/>
                                         </Anns>
                                         <Word> _ .. _ </Word>
                                         <ZStrokeList/>
-                                    </ZRefName>
+                                    </ZName>
                                     <ZExprList/>
                                 </RefExpr>
                                 <TupleExpr>
@@ -184,17 +184,17 @@ the birthday book system.
                 <Anns>
                     <LocAnn Col="0" Length="128" Line="24" Loc="birthdaybook_simple.tex" Start="715"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="12" Line="24" Loc="birthdaybook_simple.tex" Start="730"/>
                                 </Anns>
                                 <Word>BirthdayBook</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -202,15 +202,15 @@ the birthday book system.
                                             <Anns>
                                                 <LocAnn Col="9" Length="18" Line="25" Loc="birthdaybook_simple.tex" Start="748"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="25" Loc="birthdaybook_simple.tex" Start="748"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="11" Length="11" Line="25" Loc="birthdaybook_simple.tex" Start="755"/>
@@ -219,13 +219,13 @@ the birthday book system.
                                                     <Anns>
                                                         <LocAnn Col="18" Length="4" Line="25" Loc="birthdaybook_simple.tex" Start="762"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="18" Length="4" Line="25" Loc="birthdaybook_simple.tex" Start="762"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -234,51 +234,51 @@ the birthday book system.
                                             <Anns>
                                                 <LocAnn Col="12" Length="25" Line="26" Loc="birthdaybook_simple.tex" Start="774"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="26" Loc="birthdaybook_simple.tex" Start="774"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="19" Length="15" Line="26" Loc="birthdaybook_simple.tex" Start="784"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="19" Length="5" Line="26" Loc="birthdaybook_simple.tex" Start="789"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="14" Length="4" Line="26" Loc="birthdaybook_simple.tex" Start="784"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="4" Line="26" Loc="birthdaybook_simple.tex" Start="784"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="26" Loc="birthdaybook_simple.tex" Start="795"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="26" Loc="birthdaybook_simple.tex" Start="795"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -293,13 +293,13 @@ the birthday book system.
                                             <Anns>
                                                 <LocAnn Col="4" Length="5" Line="28" Loc="birthdaybook_simple.tex" Start="811"/>
                                             </Anns>
-                                            <ZRefName>
+                                            <ZName>
                                                 <Anns>
                                                     <LocAnn Col="4" Length="5" Line="28" Loc="birthdaybook_simple.tex" Start="811"/>
                                                 </Anns>
                                                 <Word>known</Word>
                                                 <ZStrokeList/>
-                                            </ZRefName>
+                                            </ZName>
                                             <ZExprList/>
                                         </RefExpr>
                                         <SetExpr>
@@ -312,26 +312,26 @@ the birthday book system.
                                                         <Anns>
                                                             <LocAnn Col="10" Length="4" Line="28" Loc="birthdaybook_simple.tex" Start="817"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="10" Length="4" Line="28" Loc="birthdaybook_simple.tex" Start="817"/>
                                                             </Anns>
                                                             <Word>dom</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="15" Length="8" Line="28" Loc="birthdaybook_simple.tex" Start="822"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="15" Length="8" Line="28" Loc="birthdaybook_simple.tex" Start="822"/>
                                                             </Anns>
                                                             <Word>birthday</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ApplExpr>
@@ -361,17 +361,17 @@ is empty.
                 <Anns>
                     <LocAnn Col="0" Length="154" Line="36" Loc="birthdaybook_simple.tex" Start="1033"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="16" Line="36" Loc="birthdaybook_simple.tex" Start="1048"/>
                                 </Anns>
                                 <Word>InitBirthdayBook</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -379,15 +379,15 @@ is empty.
                                             <Anns>
                                                 <LocAnn Col="9" Length="18" Line="37" Loc="birthdaybook_simple.tex" Start="1070"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="37" Loc="birthdaybook_simple.tex" Start="1070"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="11" Length="11" Line="37" Loc="birthdaybook_simple.tex" Start="1077"/>
@@ -396,13 +396,13 @@ is empty.
                                                     <Anns>
                                                         <LocAnn Col="18" Length="4" Line="37" Loc="birthdaybook_simple.tex" Start="1084"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="18" Length="4" Line="37" Loc="birthdaybook_simple.tex" Start="1084"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -411,51 +411,51 @@ is empty.
                                             <Anns>
                                                 <LocAnn Col="12" Length="25" Line="38" Loc="birthdaybook_simple.tex" Start="1096"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="38" Loc="birthdaybook_simple.tex" Start="1096"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="19" Length="15" Line="38" Loc="birthdaybook_simple.tex" Start="1106"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="19" Length="5" Line="38" Loc="birthdaybook_simple.tex" Start="1111"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="14" Length="4" Line="38" Loc="birthdaybook_simple.tex" Start="1106"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="14" Length="4" Line="38" Loc="birthdaybook_simple.tex" Start="1106"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="38" Loc="birthdaybook_simple.tex" Start="1117"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="38" Loc="birthdaybook_simple.tex" Start="1117"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -474,13 +474,13 @@ is empty.
                                                 <Anns>
                                                     <LocAnn Col="4" Length="5" Line="40" Loc="birthdaybook_simple.tex" Start="1133"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="40" Loc="birthdaybook_simple.tex" Start="1133"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
@@ -493,26 +493,26 @@ is empty.
                                                             <Anns>
                                                                 <LocAnn Col="11" Length="4" Line="40" Loc="birthdaybook_simple.tex" Start="1140"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="11" Length="4" Line="40" Loc="birthdaybook_simple.tex" Start="1140"/>
                                                                 </Anns>
                                                                 <Word>dom</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="16" Length="8" Line="40" Loc="birthdaybook_simple.tex" Start="1145"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="16" Length="8" Line="40" Loc="birthdaybook_simple.tex" Start="1145"/>
                                                                 </Anns>
                                                                 <Word>birthday</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                     </ApplExpr>
@@ -527,13 +527,13 @@ is empty.
                                                 <Anns>
                                                     <LocAnn Col="4" Length="5" Line="41" Loc="birthdaybook_simple.tex" Start="1161"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="41" Loc="birthdaybook_simple.tex" Start="1161"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
@@ -569,17 +569,17 @@ behaviour of the system.
                 <Anns>
                     <LocAnn Col="0" Length="300" Line="47" Loc="birthdaybook_simple.tex" Start="1287"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="11" Line="47" Loc="birthdaybook_simple.tex" Start="1302"/>
                                 </Anns>
                                 <Word>AddBirthday</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -587,15 +587,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="17" Length="26" Line="48" Loc="birthdaybook_simple.tex" Start="1319"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="48" Loc="birthdaybook_simple.tex" Start="1319"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="6" Line="48" Loc="birthdaybook_simple.tex" Start="1326"/>
                                                     </Anns>
@@ -603,8 +603,8 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="19" Length="11" Line="48" Loc="birthdaybook_simple.tex" Start="1334"/>
@@ -613,13 +613,13 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="26" Length="4" Line="48" Loc="birthdaybook_simple.tex" Start="1341"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="26" Length="4" Line="48" Loc="birthdaybook_simple.tex" Start="1341"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -628,15 +628,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="23" Length="36" Line="49" Loc="birthdaybook_simple.tex" Start="1353"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="49" Loc="birthdaybook_simple.tex" Start="1353"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="49" Loc="birthdaybook_simple.tex" Start="1363"/>
                                                     </Anns>
@@ -644,44 +644,44 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="30" Length="15" Line="49" Loc="birthdaybook_simple.tex" Start="1374"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="30" Length="5" Line="49" Loc="birthdaybook_simple.tex" Start="1379"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="49" Loc="birthdaybook_simple.tex" Start="1374"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="49" Loc="birthdaybook_simple.tex" Start="1374"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="36" Length="4" Line="49" Loc="birthdaybook_simple.tex" Start="1385"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="36" Length="4" Line="49" Loc="birthdaybook_simple.tex" Start="1385"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -691,8 +691,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="9" Length="11" Line="50" Loc="birthdaybook_simple.tex" Start="1397"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="50" Loc="birthdaybook_simple.tex" Start="1397"/>
                                                     </Anns>
@@ -700,19 +700,19 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <InStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="11" Length="4" Line="50" Loc="birthdaybook_simple.tex" Start="1404"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="50" Loc="birthdaybook_simple.tex" Start="1404"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -720,8 +720,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="9" Length="11" Line="51" Loc="birthdaybook_simple.tex" Start="1416"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="51" Loc="birthdaybook_simple.tex" Start="1416"/>
                                                     </Anns>
@@ -729,19 +729,19 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <InStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="11" Length="4" Line="51" Loc="birthdaybook_simple.tex" Start="1423"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="51" Loc="birthdaybook_simple.tex" Start="1423"/>
                                                     </Anns>
                                                     <Word>DATE</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -766,13 +766,13 @@ behaviour of the system.
                                                         <Anns>
                                                             <LocAnn Col="4" Length="5" Line="53" Loc="birthdaybook_simple.tex" Start="1439"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="5" Line="53" Loc="birthdaybook_simple.tex" Start="1439"/>
                                                             </Anns>
                                                             <Word>known</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <SetExpr>
@@ -785,26 +785,26 @@ behaviour of the system.
                                                                     <Anns>
                                                                         <LocAnn Col="12" Length="4" Line="53" Loc="birthdaybook_simple.tex" Start="1447"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="12" Length="4" Line="53" Loc="birthdaybook_simple.tex" Start="1447"/>
                                                                         </Anns>
                                                                         <Word>dom</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="17" Length="8" Line="53" Loc="birthdaybook_simple.tex" Start="1452"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="17" Length="8" Line="53" Loc="birthdaybook_simple.tex" Start="1452"/>
                                                                         </Anns>
                                                                         <Word>birthday</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ApplExpr>
@@ -819,7 +819,7 @@ behaviour of the system.
                                                         <Anns>
                                                             <LocAnn Col="4" Length="6" Line="54" Loc="birthdaybook_simple.tex" Start="1468"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="6" Line="54" Loc="birthdaybook_simple.tex" Start="1468"/>
                                                             </Anns>
@@ -827,7 +827,7 @@ behaviour of the system.
                                                             <ZStrokeList>
                                                                 <NextStroke/>
                                                             </ZStrokeList>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <SetExpr>
@@ -840,20 +840,20 @@ behaviour of the system.
                                                                     <Anns>
                                                                         <LocAnn Col="13" Length="4" Line="54" Loc="birthdaybook_simple.tex" Start="1477"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="13" Length="4" Line="54" Loc="birthdaybook_simple.tex" Start="1477"/>
                                                                         </Anns>
                                                                         <Word>dom</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                                 <RefExpr Explicit="false" Mixfix="false">
                                                                     <Anns>
                                                                         <LocAnn Col="18" Length="9" Line="54" Loc="birthdaybook_simple.tex" Start="1482"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="18" Length="9" Line="54" Loc="birthdaybook_simple.tex" Start="1482"/>
                                                                         </Anns>
@@ -861,7 +861,7 @@ behaviour of the system.
                                                                         <ZStrokeList>
                                                                             <NextStroke/>
                                                                         </ZStrokeList>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ApplExpr>
@@ -879,7 +879,7 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="5" Line="55" Loc="birthdaybook_simple.tex" Start="1499"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="5" Line="55" Loc="birthdaybook_simple.tex" Start="1499"/>
                                                                 </Anns>
@@ -887,20 +887,20 @@ behaviour of the system.
                                                                 <ZStrokeList>
                                                                     <InStroke/>
                                                                 </ZStrokeList>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <RefExpr Explicit="false" Mixfix="false">
                                                             <Anns>
                                                                 <LocAnn Col="17" Length="5" Line="55" Loc="birthdaybook_simple.tex" Start="1512"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="17" Length="5" Line="55" Loc="birthdaybook_simple.tex" Start="1512"/>
                                                                 </Anns>
                                                                 <Word>known</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                     </ZExprList>
@@ -909,13 +909,13 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="10" Length="6" Line="55" Loc="birthdaybook_simple.tex" Start="1505"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="10" Length="6" Line="55" Loc="birthdaybook_simple.tex" Start="1505"/>
                                                         </Anns>
                                                         <Word> _ ∉ _ </Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
@@ -928,7 +928,7 @@ behaviour of the system.
                                                 <Anns>
                                                     <LocAnn Col="4" Length="9" Line="57" Loc="birthdaybook_simple.tex" Start="1525"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="9" Line="57" Loc="birthdaybook_simple.tex" Start="1525"/>
                                                     </Anns>
@@ -936,7 +936,7 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
@@ -949,13 +949,13 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="57" Loc="birthdaybook_simple.tex" Start="1546"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="25" Length="4" Line="57" Loc="birthdaybook_simple.tex" Start="1546"/>
                                                                 </Anns>
                                                                 <Word> _ ∪ _ </Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <TupleExpr>
@@ -964,13 +964,13 @@ behaviour of the system.
                                                                     <Anns>
                                                                         <LocAnn Col="16" Length="8" Line="57" Loc="birthdaybook_simple.tex" Start="1537"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="16" Length="8" Line="57" Loc="birthdaybook_simple.tex" Start="1537"/>
                                                                         </Anns>
                                                                         <Word>birthday</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                                 <SetExpr>
@@ -986,13 +986,13 @@ behaviour of the system.
                                                                                 <Anns>
                                                                                     <LocAnn Col="38" Length="7" Line="57" Loc="birthdaybook_simple.tex" Start="1559"/>
                                                                                 </Anns>
-                                                                                <ZRefName>
+                                                                                <ZName>
                                                                                     <Anns>
                                                                                         <LocAnn Col="38" Length="7" Line="57" Loc="birthdaybook_simple.tex" Start="1559"/>
                                                                                     </Anns>
                                                                                     <Word> _ ↦ _ </Word>
                                                                                     <ZStrokeList/>
-                                                                                </ZRefName>
+                                                                                </ZName>
                                                                                 <ZExprList/>
                                                                             </RefExpr>
                                                                             <TupleExpr>
@@ -1001,7 +1001,7 @@ behaviour of the system.
                                                                                         <Anns>
                                                                                             <LocAnn Col="32" Length="5" Line="57" Loc="birthdaybook_simple.tex" Start="1553"/>
                                                                                         </Anns>
-                                                                                        <ZRefName>
+                                                                                        <ZName>
                                                                                             <Anns>
                                                                                                 <LocAnn Col="32" Length="5" Line="57" Loc="birthdaybook_simple.tex" Start="1553"/>
                                                                                             </Anns>
@@ -1009,14 +1009,14 @@ behaviour of the system.
                                                                                             <ZStrokeList>
                                                                                                 <InStroke/>
                                                                                             </ZStrokeList>
-                                                                                        </ZRefName>
+                                                                                        </ZName>
                                                                                         <ZExprList/>
                                                                                     </RefExpr>
                                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                                         <Anns>
                                                                                             <LocAnn Col="46" Length="5" Line="57" Loc="birthdaybook_simple.tex" Start="1567"/>
                                                                                         </Anns>
-                                                                                        <ZRefName>
+                                                                                        <ZName>
                                                                                             <Anns>
                                                                                                 <LocAnn Col="46" Length="5" Line="57" Loc="birthdaybook_simple.tex" Start="1567"/>
                                                                                             </Anns>
@@ -1024,7 +1024,7 @@ behaviour of the system.
                                                                                             <ZStrokeList>
                                                                                                 <InStroke/>
                                                                                             </ZStrokeList>
-                                                                                        </ZRefName>
+                                                                                        </ZName>
                                                                                         <ZExprList/>
                                                                                     </RefExpr>
                                                                                 </ZExprList>
@@ -1057,17 +1057,17 @@ behaviour of the system.
                 <Anns>
                     <LocAnn Col="0" Length="323" Line="60" Loc="birthdaybook_simple.tex" Start="1589"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="12" Line="60" Loc="birthdaybook_simple.tex" Start="1604"/>
                                 </Anns>
                                 <Word>FindBirthday</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -1075,15 +1075,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="17" Length="26" Line="61" Loc="birthdaybook_simple.tex" Start="1622"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="61" Loc="birthdaybook_simple.tex" Start="1622"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="6" Line="61" Loc="birthdaybook_simple.tex" Start="1629"/>
                                                     </Anns>
@@ -1091,8 +1091,8 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="19" Length="11" Line="61" Loc="birthdaybook_simple.tex" Start="1637"/>
@@ -1101,13 +1101,13 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="26" Length="4" Line="61" Loc="birthdaybook_simple.tex" Start="1644"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="26" Length="4" Line="61" Loc="birthdaybook_simple.tex" Start="1644"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -1116,15 +1116,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="23" Length="36" Line="62" Loc="birthdaybook_simple.tex" Start="1656"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="62" Loc="birthdaybook_simple.tex" Start="1656"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="62" Loc="birthdaybook_simple.tex" Start="1666"/>
                                                     </Anns>
@@ -1132,44 +1132,44 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="30" Length="15" Line="62" Loc="birthdaybook_simple.tex" Start="1677"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="30" Length="5" Line="62" Loc="birthdaybook_simple.tex" Start="1682"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="62" Loc="birthdaybook_simple.tex" Start="1677"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="62" Loc="birthdaybook_simple.tex" Start="1677"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="36" Length="4" Line="62" Loc="birthdaybook_simple.tex" Start="1688"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="36" Length="4" Line="62" Loc="birthdaybook_simple.tex" Start="1688"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -1179,8 +1179,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="9" Length="11" Line="63" Loc="birthdaybook_simple.tex" Start="1700"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="63" Loc="birthdaybook_simple.tex" Start="1700"/>
                                                     </Anns>
@@ -1188,19 +1188,19 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <InStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="11" Length="4" Line="63" Loc="birthdaybook_simple.tex" Start="1707"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="63" Loc="birthdaybook_simple.tex" Start="1707"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -1208,8 +1208,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="9" Length="11" Line="64" Loc="birthdaybook_simple.tex" Start="1719"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="64" Loc="birthdaybook_simple.tex" Start="1719"/>
                                                     </Anns>
@@ -1217,19 +1217,19 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <OutStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="11" Length="4" Line="64" Loc="birthdaybook_simple.tex" Start="1726"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="64" Loc="birthdaybook_simple.tex" Start="1726"/>
                                                     </Anns>
                                                     <Word>DATE</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -1262,13 +1262,13 @@ behaviour of the system.
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="5" Line="66" Loc="birthdaybook_simple.tex" Start="1743"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="4" Length="5" Line="66" Loc="birthdaybook_simple.tex" Start="1743"/>
                                                                     </Anns>
                                                                     <Word>known</Word>
                                                                     <ZStrokeList/>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                             <SetExpr>
@@ -1281,26 +1281,26 @@ behaviour of the system.
                                                                             <Anns>
                                                                                 <LocAnn Col="12" Length="4" Line="66" Loc="birthdaybook_simple.tex" Start="1751"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="12" Length="4" Line="66" Loc="birthdaybook_simple.tex" Start="1751"/>
                                                                                 </Anns>
                                                                                 <Word>dom</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="17" Length="8" Line="66" Loc="birthdaybook_simple.tex" Start="1756"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="17" Length="8" Line="66" Loc="birthdaybook_simple.tex" Start="1756"/>
                                                                                 </Anns>
                                                                                 <Word>birthday</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                     </ApplExpr>
@@ -1315,7 +1315,7 @@ behaviour of the system.
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="6" Line="67" Loc="birthdaybook_simple.tex" Start="1772"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="4" Length="6" Line="67" Loc="birthdaybook_simple.tex" Start="1772"/>
                                                                     </Anns>
@@ -1323,7 +1323,7 @@ behaviour of the system.
                                                                     <ZStrokeList>
                                                                         <NextStroke/>
                                                                     </ZStrokeList>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                             <SetExpr>
@@ -1336,20 +1336,20 @@ behaviour of the system.
                                                                             <Anns>
                                                                                 <LocAnn Col="13" Length="4" Line="67" Loc="birthdaybook_simple.tex" Start="1781"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="13" Length="4" Line="67" Loc="birthdaybook_simple.tex" Start="1781"/>
                                                                                 </Anns>
                                                                                 <Word>dom</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="18" Length="9" Line="67" Loc="birthdaybook_simple.tex" Start="1786"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="18" Length="9" Line="67" Loc="birthdaybook_simple.tex" Start="1786"/>
                                                                                 </Anns>
@@ -1357,7 +1357,7 @@ behaviour of the system.
                                                                                 <ZStrokeList>
                                                                                     <NextStroke/>
                                                                                 </ZStrokeList>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                     </ApplExpr>
@@ -1373,7 +1373,7 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="6" Line="68" Loc="birthdaybook_simple.tex" Start="1803"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="6" Line="68" Loc="birthdaybook_simple.tex" Start="1803"/>
                                                                 </Anns>
@@ -1381,7 +1381,7 @@ behaviour of the system.
                                                                 <ZStrokeList>
                                                                     <NextStroke/>
                                                                 </ZStrokeList>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <SetExpr>
@@ -1390,13 +1390,13 @@ behaviour of the system.
                                                                     <Anns>
                                                                         <LocAnn Col="13" Length="5" Line="68" Loc="birthdaybook_simple.tex" Start="1812"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="13" Length="5" Line="68" Loc="birthdaybook_simple.tex" Start="1812"/>
                                                                         </Anns>
                                                                         <Word>known</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ZExprList>
@@ -1411,7 +1411,7 @@ behaviour of the system.
                                                         <Anns>
                                                             <LocAnn Col="4" Length="9" Line="69" Loc="birthdaybook_simple.tex" Start="1825"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="9" Line="69" Loc="birthdaybook_simple.tex" Start="1825"/>
                                                             </Anns>
@@ -1419,7 +1419,7 @@ behaviour of the system.
                                                             <ZStrokeList>
                                                                 <NextStroke/>
                                                             </ZStrokeList>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <SetExpr>
@@ -1428,13 +1428,13 @@ behaviour of the system.
                                                                 <Anns>
                                                                     <LocAnn Col="16" Length="8" Line="69" Loc="birthdaybook_simple.tex" Start="1837"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="16" Length="8" Line="69" Loc="birthdaybook_simple.tex" Start="1837"/>
                                                                     </Anns>
                                                                     <Word>birthday</Word>
                                                                     <ZStrokeList/>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                         </ZExprList>
@@ -1449,7 +1449,7 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="70" Loc="birthdaybook_simple.tex" Start="1853"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="4" Length="5" Line="70" Loc="birthdaybook_simple.tex" Start="1853"/>
                                                         </Anns>
@@ -1457,20 +1457,20 @@ behaviour of the system.
                                                         <ZStrokeList>
                                                             <InStroke/>
                                                         </ZStrokeList>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="14" Length="5" Line="70" Loc="birthdaybook_simple.tex" Start="1863"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="14" Length="5" Line="70" Loc="birthdaybook_simple.tex" Start="1863"/>
                                                         </Anns>
                                                         <Word>known</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
@@ -1483,7 +1483,7 @@ behaviour of the system.
                                                 <Anns>
                                                     <LocAnn Col="4" Length="5" Line="72" Loc="birthdaybook_simple.tex" Start="1876"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="72" Loc="birthdaybook_simple.tex" Start="1876"/>
                                                     </Anns>
@@ -1491,7 +1491,7 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <OutStroke/>
                                                     </ZStrokeList>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
@@ -1504,13 +1504,13 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="12" Length="8" Line="72" Loc="birthdaybook_simple.tex" Start="1884"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="12" Length="8" Line="72" Loc="birthdaybook_simple.tex" Start="1884"/>
                                                                 </Anns>
                                                                 <Word>birthday</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <RefExpr Explicit="false" Mixfix="false">
@@ -1522,7 +1522,7 @@ behaviour of the system.
                                                                     </Anns>
                                                                 </ParenAnn>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="21" Length="5" Line="72" Loc="birthdaybook_simple.tex" Start="1893"/>
                                                                 </Anns>
@@ -1530,7 +1530,7 @@ behaviour of the system.
                                                                 <ZStrokeList>
                                                                     <InStroke/>
                                                                 </ZStrokeList>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                     </ApplExpr>
@@ -1556,17 +1556,17 @@ behaviour of the system.
                 <Anns>
                     <LocAnn Col="0" Length="325" Line="75" Loc="birthdaybook_simple.tex" Start="1914"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="6" Line="75" Loc="birthdaybook_simple.tex" Start="1929"/>
                                 </Anns>
                                 <Word>Remind</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -1574,15 +1574,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="17" Length="26" Line="76" Loc="birthdaybook_simple.tex" Start="1941"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="76" Loc="birthdaybook_simple.tex" Start="1941"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="6" Line="76" Loc="birthdaybook_simple.tex" Start="1948"/>
                                                     </Anns>
@@ -1590,8 +1590,8 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="19" Length="11" Line="76" Loc="birthdaybook_simple.tex" Start="1956"/>
@@ -1600,13 +1600,13 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="26" Length="4" Line="76" Loc="birthdaybook_simple.tex" Start="1963"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="26" Length="4" Line="76" Loc="birthdaybook_simple.tex" Start="1963"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -1615,15 +1615,15 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="23" Length="36" Line="77" Loc="birthdaybook_simple.tex" Start="1975"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="77" Loc="birthdaybook_simple.tex" Start="1975"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="77" Loc="birthdaybook_simple.tex" Start="1985"/>
                                                     </Anns>
@@ -1631,44 +1631,44 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="30" Length="15" Line="77" Loc="birthdaybook_simple.tex" Start="1996"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="30" Length="5" Line="77" Loc="birthdaybook_simple.tex" Start="2001"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="77" Loc="birthdaybook_simple.tex" Start="1996"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="77" Loc="birthdaybook_simple.tex" Start="1996"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="36" Length="4" Line="77" Loc="birthdaybook_simple.tex" Start="2007"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="36" Length="4" Line="77" Loc="birthdaybook_simple.tex" Start="2007"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -1678,8 +1678,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="10" Length="12" Line="78" Loc="birthdaybook_simple.tex" Start="2019"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="6" Line="78" Loc="birthdaybook_simple.tex" Start="2019"/>
                                                     </Anns>
@@ -1687,19 +1687,19 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <InStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="12" Length="4" Line="78" Loc="birthdaybook_simple.tex" Start="2027"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="12" Length="4" Line="78" Loc="birthdaybook_simple.tex" Start="2027"/>
                                                     </Anns>
                                                     <Word>DATE</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -1707,8 +1707,8 @@ behaviour of the system.
                                             <Anns>
                                                 <LocAnn Col="10" Length="19" Line="79" Loc="birthdaybook_simple.tex" Start="2039"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="6" Line="79" Loc="birthdaybook_simple.tex" Start="2039"/>
                                                     </Anns>
@@ -1716,8 +1716,8 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <OutStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="12" Length="11" Line="79" Loc="birthdaybook_simple.tex" Start="2047"/>
@@ -1726,13 +1726,13 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="19" Length="4" Line="79" Loc="birthdaybook_simple.tex" Start="2054"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="19" Length="4" Line="79" Loc="birthdaybook_simple.tex" Start="2054"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -1762,13 +1762,13 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="5" Line="81" Loc="birthdaybook_simple.tex" Start="2070"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="5" Line="81" Loc="birthdaybook_simple.tex" Start="2070"/>
                                                                 </Anns>
                                                                 <Word>known</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <SetExpr>
@@ -1781,26 +1781,26 @@ behaviour of the system.
                                                                         <Anns>
                                                                             <LocAnn Col="12" Length="4" Line="81" Loc="birthdaybook_simple.tex" Start="2078"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="12" Length="4" Line="81" Loc="birthdaybook_simple.tex" Start="2078"/>
                                                                             </Anns>
                                                                             <Word>dom</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="17" Length="8" Line="81" Loc="birthdaybook_simple.tex" Start="2083"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="17" Length="8" Line="81" Loc="birthdaybook_simple.tex" Start="2083"/>
                                                                             </Anns>
                                                                             <Word>birthday</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                 </ApplExpr>
@@ -1815,7 +1815,7 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="6" Line="82" Loc="birthdaybook_simple.tex" Start="2099"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="6" Line="82" Loc="birthdaybook_simple.tex" Start="2099"/>
                                                                 </Anns>
@@ -1823,7 +1823,7 @@ behaviour of the system.
                                                                 <ZStrokeList>
                                                                     <NextStroke/>
                                                                 </ZStrokeList>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <SetExpr>
@@ -1836,20 +1836,20 @@ behaviour of the system.
                                                                         <Anns>
                                                                             <LocAnn Col="13" Length="4" Line="82" Loc="birthdaybook_simple.tex" Start="2108"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="13" Length="4" Line="82" Loc="birthdaybook_simple.tex" Start="2108"/>
                                                                             </Anns>
                                                                             <Word>dom</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="18" Length="9" Line="82" Loc="birthdaybook_simple.tex" Start="2113"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="18" Length="9" Line="82" Loc="birthdaybook_simple.tex" Start="2113"/>
                                                                             </Anns>
@@ -1857,7 +1857,7 @@ behaviour of the system.
                                                                             <ZStrokeList>
                                                                                 <NextStroke/>
                                                                             </ZStrokeList>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                 </ApplExpr>
@@ -1873,7 +1873,7 @@ behaviour of the system.
                                                         <Anns>
                                                             <LocAnn Col="4" Length="6" Line="83" Loc="birthdaybook_simple.tex" Start="2130"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="6" Line="83" Loc="birthdaybook_simple.tex" Start="2130"/>
                                                             </Anns>
@@ -1881,7 +1881,7 @@ behaviour of the system.
                                                             <ZStrokeList>
                                                                 <NextStroke/>
                                                             </ZStrokeList>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <SetExpr>
@@ -1890,13 +1890,13 @@ behaviour of the system.
                                                                 <Anns>
                                                                     <LocAnn Col="13" Length="5" Line="83" Loc="birthdaybook_simple.tex" Start="2139"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="13" Length="5" Line="83" Loc="birthdaybook_simple.tex" Start="2139"/>
                                                                     </Anns>
                                                                     <Word>known</Word>
                                                                     <ZStrokeList/>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                         </ZExprList>
@@ -1911,7 +1911,7 @@ behaviour of the system.
                                                     <Anns>
                                                         <LocAnn Col="4" Length="9" Line="84" Loc="birthdaybook_simple.tex" Start="2152"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="4" Length="9" Line="84" Loc="birthdaybook_simple.tex" Start="2152"/>
                                                         </Anns>
@@ -1919,7 +1919,7 @@ behaviour of the system.
                                                         <ZStrokeList>
                                                             <NextStroke/>
                                                         </ZStrokeList>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <SetExpr>
@@ -1928,13 +1928,13 @@ behaviour of the system.
                                                             <Anns>
                                                                 <LocAnn Col="16" Length="8" Line="84" Loc="birthdaybook_simple.tex" Start="2164"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="16" Length="8" Line="84" Loc="birthdaybook_simple.tex" Start="2164"/>
                                                                 </Anns>
                                                                 <Word>birthday</Word>
                                                                 <ZStrokeList/>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                     </ZExprList>
@@ -1949,7 +1949,7 @@ behaviour of the system.
                                                 <Anns>
                                                     <LocAnn Col="4" Length="6" Line="85" Loc="birthdaybook_simple.tex" Start="2180"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="6" Line="85" Loc="birthdaybook_simple.tex" Start="2180"/>
                                                     </Anns>
@@ -1957,7 +1957,7 @@ behaviour of the system.
                                                     <ZStrokeList>
                                                         <OutStroke/>
                                                     </ZStrokeList>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                             <SetExpr>
@@ -1972,26 +1972,26 @@ behaviour of the system.
                                                                     <Anns>
                                                                         <LocAnn Col="17" Length="8" Line="85" Loc="birthdaybook_simple.tex" Start="2192"/>
                                                                     </Anns>
-                                                                    <ZDeclNameList>
-                                                                        <ZDeclName>
+                                                                    <ZNameList>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="16" Length="1" Line="85" Loc="birthdaybook_simple.tex" Start="2192"/>
                                                                             </Anns>
                                                                             <Word>n</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZDeclName>
-                                                                    </ZDeclNameList>
+                                                                        </ZName>
+                                                                    </ZNameList>
                                                                     <RefExpr Explicit="false" Mixfix="false">
                                                                         <Anns>
                                                                             <LocAnn Col="19" Length="5" Line="85" Loc="birthdaybook_simple.tex" Start="2195"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="19" Length="5" Line="85" Loc="birthdaybook_simple.tex" Start="2195"/>
                                                                             </Anns>
                                                                             <Word>known</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                 </VarDecl>
@@ -2008,13 +2008,13 @@ behaviour of the system.
                                                                         <Anns>
                                                                             <LocAnn Col="27" Length="8" Line="85" Loc="birthdaybook_simple.tex" Start="2203"/>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="27" Length="8" Line="85" Loc="birthdaybook_simple.tex" Start="2203"/>
                                                                             </Anns>
                                                                             <Word>birthday</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                     <RefExpr Explicit="false" Mixfix="false">
@@ -2026,13 +2026,13 @@ behaviour of the system.
                                                                                 </Anns>
                                                                             </ParenAnn>
                                                                         </Anns>
-                                                                        <ZRefName>
+                                                                        <ZName>
                                                                             <Anns>
                                                                                 <LocAnn Col="36" Length="1" Line="85" Loc="birthdaybook_simple.tex" Start="2212"/>
                                                                             </Anns>
                                                                             <Word>n</Word>
                                                                             <ZStrokeList/>
-                                                                        </ZRefName>
+                                                                        </ZName>
                                                                         <ZExprList/>
                                                                     </RefExpr>
                                                                 </ApplExpr>
@@ -2042,7 +2042,7 @@ behaviour of the system.
                                                                             <Anns>
                                                                                 <LocAnn Col="41" Length="6" Line="85" Loc="birthdaybook_simple.tex" Start="2217"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="41" Length="6" Line="85" Loc="birthdaybook_simple.tex" Start="2217"/>
                                                                                 </Anns>
@@ -2050,7 +2050,7 @@ behaviour of the system.
                                                                                 <ZStrokeList>
                                                                                     <InStroke/>
                                                                                 </ZStrokeList>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                     </ZExprList>
@@ -2084,17 +2084,17 @@ day.
                 <Anns>
                     <LocAnn Col="0" Length="322" Line="92" Loc="birthdaybook_simple.tex" Start="2434"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ZSchText>
                     <ZDeclList>
                         <ConstDecl>
-                            <ZDeclName>
+                            <ZName>
                                 <Anns>
                                     <LocAnn Col="15" Length="9" Line="92" Loc="birthdaybook_simple.tex" Start="2449"/>
                                 </Anns>
                                 <Word>RemindOne</Word>
                                 <ZStrokeList/>
-                            </ZDeclName>
+                            </ZName>
                             <SchExpr>
                                 <ZSchText>
                                     <ZDeclList>
@@ -2102,15 +2102,15 @@ day.
                                             <Anns>
                                                 <LocAnn Col="17" Length="26" Line="93" Loc="birthdaybook_simple.tex" Start="2464"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="93" Loc="birthdaybook_simple.tex" Start="2464"/>
                                                     </Anns>
                                                     <Word>known</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="6" Line="93" Loc="birthdaybook_simple.tex" Start="2471"/>
                                                     </Anns>
@@ -2118,8 +2118,8 @@ day.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <PowerExpr>
                                                 <Anns>
                                                     <LocAnn Col="19" Length="11" Line="93" Loc="birthdaybook_simple.tex" Start="2479"/>
@@ -2128,13 +2128,13 @@ day.
                                                     <Anns>
                                                         <LocAnn Col="26" Length="4" Line="93" Loc="birthdaybook_simple.tex" Start="2486"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="26" Length="4" Line="93" Loc="birthdaybook_simple.tex" Start="2486"/>
                                                         </Anns>
                                                         <Word>NAME</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </PowerExpr>
@@ -2143,15 +2143,15 @@ day.
                                             <Anns>
                                                 <LocAnn Col="23" Length="36" Line="94" Loc="birthdaybook_simple.tex" Start="2498"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="94" Loc="birthdaybook_simple.tex" Start="2498"/>
                                                     </Anns>
                                                     <Word>birthday</Word>
                                                     <ZStrokeList/>
-                                                </ZDeclName>
-                                                <ZDeclName>
+                                                </ZName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="14" Length="9" Line="94" Loc="birthdaybook_simple.tex" Start="2508"/>
                                                     </Anns>
@@ -2159,44 +2159,44 @@ day.
                                                     <ZStrokeList>
                                                         <NextStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="true" Mixfix="true">
                                                 <Anns>
                                                     <LocAnn Col="30" Length="15" Line="94" Loc="birthdaybook_simple.tex" Start="2519"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="30" Length="5" Line="94" Loc="birthdaybook_simple.tex" Start="2524"/>
                                                     </Anns>
                                                     <Word> _ ⇸ _ </Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="25" Length="4" Line="94" Loc="birthdaybook_simple.tex" Start="2519"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="25" Length="4" Line="94" Loc="birthdaybook_simple.tex" Start="2519"/>
                                                             </Anns>
                                                             <Word>NAME</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <RefExpr Explicit="false" Mixfix="false">
                                                         <Anns>
                                                             <LocAnn Col="36" Length="4" Line="94" Loc="birthdaybook_simple.tex" Start="2530"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="36" Length="4" Line="94" Loc="birthdaybook_simple.tex" Start="2530"/>
                                                             </Anns>
                                                             <Word>DATE</Word>
                                                             <ZStrokeList/>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>
@@ -2206,8 +2206,8 @@ day.
                                             <Anns>
                                                 <LocAnn Col="10" Length="12" Line="95" Loc="birthdaybook_simple.tex" Start="2542"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="6" Line="95" Loc="birthdaybook_simple.tex" Start="2542"/>
                                                     </Anns>
@@ -2215,19 +2215,19 @@ day.
                                                     <ZStrokeList>
                                                         <InStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="12" Length="4" Line="95" Loc="birthdaybook_simple.tex" Start="2550"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="12" Length="4" Line="95" Loc="birthdaybook_simple.tex" Start="2550"/>
                                                     </Anns>
                                                     <Word>DATE</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -2235,8 +2235,8 @@ day.
                                             <Anns>
                                                 <LocAnn Col="9" Length="11" Line="96" Loc="birthdaybook_simple.tex" Start="2562"/>
                                             </Anns>
-                                            <ZDeclNameList>
-                                                <ZDeclName>
+                                            <ZNameList>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="96" Loc="birthdaybook_simple.tex" Start="2562"/>
                                                     </Anns>
@@ -2244,19 +2244,19 @@ day.
                                                     <ZStrokeList>
                                                         <OutStroke/>
                                                     </ZStrokeList>
-                                                </ZDeclName>
-                                            </ZDeclNameList>
+                                                </ZName>
+                                            </ZNameList>
                                             <RefExpr Explicit="false" Mixfix="false">
                                                 <Anns>
                                                     <LocAnn Col="11" Length="4" Line="96" Loc="birthdaybook_simple.tex" Start="2569"/>
                                                 </Anns>
-                                                <ZRefName>
+                                                <ZName>
                                                     <Anns>
                                                         <LocAnn Col="11" Length="4" Line="96" Loc="birthdaybook_simple.tex" Start="2569"/>
                                                     </Anns>
                                                     <Word>NAME</Word>
                                                     <ZStrokeList/>
-                                                </ZRefName>
+                                                </ZName>
                                                 <ZExprList/>
                                             </RefExpr>
                                         </VarDecl>
@@ -2289,13 +2289,13 @@ day.
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="5" Line="98" Loc="birthdaybook_simple.tex" Start="2585"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="4" Length="5" Line="98" Loc="birthdaybook_simple.tex" Start="2585"/>
                                                                     </Anns>
                                                                     <Word>known</Word>
                                                                     <ZStrokeList/>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                             <SetExpr>
@@ -2308,26 +2308,26 @@ day.
                                                                             <Anns>
                                                                                 <LocAnn Col="12" Length="4" Line="98" Loc="birthdaybook_simple.tex" Start="2593"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="12" Length="4" Line="98" Loc="birthdaybook_simple.tex" Start="2593"/>
                                                                                 </Anns>
                                                                                 <Word>dom</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="17" Length="8" Line="98" Loc="birthdaybook_simple.tex" Start="2598"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="17" Length="8" Line="98" Loc="birthdaybook_simple.tex" Start="2598"/>
                                                                                 </Anns>
                                                                                 <Word>birthday</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                     </ApplExpr>
@@ -2342,7 +2342,7 @@ day.
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="6" Line="99" Loc="birthdaybook_simple.tex" Start="2614"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="4" Length="6" Line="99" Loc="birthdaybook_simple.tex" Start="2614"/>
                                                                     </Anns>
@@ -2350,7 +2350,7 @@ day.
                                                                     <ZStrokeList>
                                                                         <NextStroke/>
                                                                     </ZStrokeList>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                             <SetExpr>
@@ -2363,20 +2363,20 @@ day.
                                                                             <Anns>
                                                                                 <LocAnn Col="13" Length="4" Line="99" Loc="birthdaybook_simple.tex" Start="2623"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="13" Length="4" Line="99" Loc="birthdaybook_simple.tex" Start="2623"/>
                                                                                 </Anns>
                                                                                 <Word>dom</Word>
                                                                                 <ZStrokeList/>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                         <RefExpr Explicit="false" Mixfix="false">
                                                                             <Anns>
                                                                                 <LocAnn Col="18" Length="9" Line="99" Loc="birthdaybook_simple.tex" Start="2628"/>
                                                                             </Anns>
-                                                                            <ZRefName>
+                                                                            <ZName>
                                                                                 <Anns>
                                                                                     <LocAnn Col="18" Length="9" Line="99" Loc="birthdaybook_simple.tex" Start="2628"/>
                                                                                 </Anns>
@@ -2384,7 +2384,7 @@ day.
                                                                                 <ZStrokeList>
                                                                                     <NextStroke/>
                                                                                 </ZStrokeList>
-                                                                            </ZRefName>
+                                                                            </ZName>
                                                                             <ZExprList/>
                                                                         </RefExpr>
                                                                     </ApplExpr>
@@ -2400,7 +2400,7 @@ day.
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="6" Line="100" Loc="birthdaybook_simple.tex" Start="2645"/>
                                                             </Anns>
-                                                            <ZRefName>
+                                                            <ZName>
                                                                 <Anns>
                                                                     <LocAnn Col="4" Length="6" Line="100" Loc="birthdaybook_simple.tex" Start="2645"/>
                                                                 </Anns>
@@ -2408,7 +2408,7 @@ day.
                                                                 <ZStrokeList>
                                                                     <NextStroke/>
                                                                 </ZStrokeList>
-                                                            </ZRefName>
+                                                            </ZName>
                                                             <ZExprList/>
                                                         </RefExpr>
                                                         <SetExpr>
@@ -2417,13 +2417,13 @@ day.
                                                                     <Anns>
                                                                         <LocAnn Col="13" Length="5" Line="100" Loc="birthdaybook_simple.tex" Start="2654"/>
                                                                     </Anns>
-                                                                    <ZRefName>
+                                                                    <ZName>
                                                                         <Anns>
                                                                             <LocAnn Col="13" Length="5" Line="100" Loc="birthdaybook_simple.tex" Start="2654"/>
                                                                         </Anns>
                                                                         <Word>known</Word>
                                                                         <ZStrokeList/>
-                                                                    </ZRefName>
+                                                                    </ZName>
                                                                     <ZExprList/>
                                                                 </RefExpr>
                                                             </ZExprList>
@@ -2438,7 +2438,7 @@ day.
                                                         <Anns>
                                                             <LocAnn Col="4" Length="9" Line="101" Loc="birthdaybook_simple.tex" Start="2667"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="4" Length="9" Line="101" Loc="birthdaybook_simple.tex" Start="2667"/>
                                                             </Anns>
@@ -2446,7 +2446,7 @@ day.
                                                             <ZStrokeList>
                                                                 <NextStroke/>
                                                             </ZStrokeList>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                     <SetExpr>
@@ -2455,13 +2455,13 @@ day.
                                                                 <Anns>
                                                                     <LocAnn Col="16" Length="8" Line="101" Loc="birthdaybook_simple.tex" Start="2679"/>
                                                                 </Anns>
-                                                                <ZRefName>
+                                                                <ZName>
                                                                     <Anns>
                                                                         <LocAnn Col="16" Length="8" Line="101" Loc="birthdaybook_simple.tex" Start="2679"/>
                                                                     </Anns>
                                                                     <Word>birthday</Word>
                                                                     <ZStrokeList/>
-                                                                </ZRefName>
+                                                                </ZName>
                                                                 <ZExprList/>
                                                             </RefExpr>
                                                         </ZExprList>
@@ -2476,7 +2476,7 @@ day.
                                                     <Anns>
                                                         <LocAnn Col="4" Length="5" Line="102" Loc="birthdaybook_simple.tex" Start="2695"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="4" Length="5" Line="102" Loc="birthdaybook_simple.tex" Start="2695"/>
                                                         </Anns>
@@ -2484,20 +2484,20 @@ day.
                                                         <ZStrokeList>
                                                             <OutStroke/>
                                                         </ZStrokeList>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="14" Length="5" Line="102" Loc="birthdaybook_simple.tex" Start="2705"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="14" Length="5" Line="102" Loc="birthdaybook_simple.tex" Start="2705"/>
                                                         </Anns>
                                                         <Word>known</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </MemPred>
@@ -2514,20 +2514,20 @@ day.
                                                     <Anns>
                                                         <LocAnn Col="4" Length="8" Line="103" Loc="birthdaybook_simple.tex" Start="2718"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="4" Length="8" Line="103" Loc="birthdaybook_simple.tex" Start="2718"/>
                                                         </Anns>
                                                         <Word>birthday</Word>
                                                         <ZStrokeList/>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                                 <RefExpr Explicit="false" Mixfix="false">
                                                     <Anns>
                                                         <LocAnn Col="15" Length="5" Line="103" Loc="birthdaybook_simple.tex" Start="2729"/>
                                                     </Anns>
-                                                    <ZRefName>
+                                                    <ZName>
                                                         <Anns>
                                                             <LocAnn Col="15" Length="5" Line="103" Loc="birthdaybook_simple.tex" Start="2729"/>
                                                         </Anns>
@@ -2535,7 +2535,7 @@ day.
                                                         <ZStrokeList>
                                                             <OutStroke/>
                                                         </ZStrokeList>
-                                                    </ZRefName>
+                                                    </ZName>
                                                     <ZExprList/>
                                                 </RefExpr>
                                             </ApplExpr>
@@ -2545,7 +2545,7 @@ day.
                                                         <Anns>
                                                             <LocAnn Col="23" Length="6" Line="103" Loc="birthdaybook_simple.tex" Start="2737"/>
                                                         </Anns>
-                                                        <ZRefName>
+                                                        <ZName>
                                                             <Anns>
                                                                 <LocAnn Col="23" Length="6" Line="103" Loc="birthdaybook_simple.tex" Start="2737"/>
                                                             </Anns>
@@ -2553,7 +2553,7 @@ day.
                                                             <ZStrokeList>
                                                                 <InStroke/>
                                                             </ZStrokeList>
-                                                        </ZRefName>
+                                                        </ZName>
                                                         <ZExprList/>
                                                     </RefExpr>
                                                 </ZExprList>

@@ -110,7 +110,7 @@
         </p>
         <p>
         It represents the <b>channelset</b> <code>N == CSExpression</code> grammar rule, 
-        where <code>N</code> is a <code>DeclName</code>
+        where <code>N</code> is a <code>Name</code>
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -393,7 +393,7 @@
   <!-- DESIGN DECISION: 
   
     As Circus allows calls over definitions given on-the-fly, we need a more powerful approach for a call,
-    rather than a simple RefName. There are two approaches for the implementation of process/action calls.
+    rather than a simple Name. There are two approaches for the implementation of process/action calls.
     We have taken the first one in order to simplify the implementation of visitor of different tools.
     
     The first demands specialised CallKind attribute on CallProcess, whereas the second introduces specialised classes      
@@ -688,7 +688,7 @@
         </p>
         <p>
         This element represents the <code>N == ParAction</code> grammar rule, where,
-        where <code>N</code> is a <code>DeclName</code>.
+        where <code>N</code> is a <code>Name</code>.
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -704,7 +704,7 @@
         </p>
         <p>
         It represents the <b>nameset</b> <code>N == NSExpression</code> grammar rule, 
-        where <code>N</code> is a <code>DeclName</code>
+        where <code>N</code> is a <code>Name</code>
         </p>
       </xs:documentation>
     </xs:annotation>
@@ -1122,7 +1122,7 @@
         A CSP communication that is part of a prefixing process or action. 
         If the communicating channel has been declared with generic types, the communication 
         must carry the generic actual expressions, hence we have a <code>RefExpr</code> rather than
-        a <code>RefName</code>. It represents the <b>Communication</b> grammar rule.
+        a <code>Name</code>. It represents the <b>Communication</b> grammar rule.
         </p>
         <p>
         A communication can be either a communication for synchronisation, input, output, or mixed.
@@ -1197,7 +1197,7 @@
   <xs:element name="QualifiedDecl" type="CIRCUS:QualifiedDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
       <xs:documentation>
-        This is like <code>VarDecl</code>, but it includes qualifier attributes for each <code>DeclName</code>.
+        This is like <code>VarDecl</code>, but it includes qualifier attributes for each <code>Name</code>.
       </xs:documentation>
     </xs:annotation>
   </xs:element>      
@@ -1393,7 +1393,7 @@
   
   <!-- Lists used by Circus elements -->
   
-  <!-- the RefNameList hierarchy -->
+  <!-- the FieldList hierarchy -->
   <xs:element name="FieldList" type="CIRCUS:FieldList" abstract="true">
     <xs:annotation>
       <xs:documentation>
@@ -1437,7 +1437,7 @@
       <xs:extension base="Z:Decl">
         <xs:sequence>
           <!-- Generic types, possibly empty but not null? -->                    
-          <xs:element ref="Z:DeclNameList">          
+          <xs:element ref="Z:NameList">          
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
@@ -1445,7 +1445,7 @@
             </xs:annotation>
           </xs:element>
           <!-- List of channel names for channel, or null for channelFrom -->        
-          <xs:element ref="Z:DeclNameList"/>          
+          <xs:element ref="Z:NameList"/>          
           <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
@@ -1457,14 +1457,14 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList">
+          <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:DeclName"/>            
+          <xs:element ref="Z:Name"/>            
           <xs:element ref="CIRCUS:ChannelSet"/>
         </xs:sequence>
       </xs:extension>
@@ -1479,14 +1479,14 @@
                I couldn't figure out how to put the generics before the
                name without causing an ambiguity complaint by the XML
                validator :( -->
-          <xs:element ref="Z:DeclName">
+          <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="ProcessName"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:DeclNameList">
+          <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
@@ -1755,8 +1755,8 @@
       <xs:extension base="CIRCUS:Process1">
         <xs:sequence>                   
           <!-- Accommodate Z.xsd changes: RenameList 
-          <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>                      
-          <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="OldNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>                      
+          <xs:element name="NewNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
           -->
           <xs:element ref="CIRCUS:AssignmentPairs"/>
         </xs:sequence>
@@ -1768,8 +1768,8 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-            <!-- <xs:element ref="Z:RefName" minOccurs="1" maxOccurs="unbounded"> -->
-            <xs:element ref="Z:RefNameList">
+            <!-- <xs:element ref="Z:Name" minOccurs="1" maxOccurs="unbounded"> -->
+            <xs:element ref="Z:NameList">
               <xs:annotation>
                 <xs:appinfo>
                   <jaxb:property name="LHS"/>
@@ -1897,7 +1897,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="CIRCUS:NameSet"/>
         </xs:sequence>
       </xs:extension>
@@ -1908,7 +1908,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="CIRCUS:CircusAction"/>
         </xs:sequence>
       </xs:extension>
@@ -2011,7 +2011,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusAction">
         <xs:sequence>
-          <xs:element ref="Z:RefName"/>
+          <xs:element ref="Z:Name"/>
           <!-- Accommodate Z.xsd changes to use ExprList (Z Standard 12.2.12) 
           <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>                  
           -->
@@ -2046,7 +2046,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2083,8 +2083,8 @@
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>                   
           <!-- Accommodate Z.xsd changes:
-          <xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
-          <xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="OldNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element name="NewNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
           -->
           <xs:element ref="Z:RenameList"/>
         </xs:sequence>
@@ -2236,7 +2236,7 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Field">
         <xs:sequence>
-          <xs:element ref="Z:RefName">
+          <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="Variable"/>
@@ -2271,7 +2271,7 @@
       <xs:extension base="Z:Decl">
         <xs:sequence>
           <!-- Parser must inforce that minOccurs="1"! -->
-          <xs:element ref="Z:DeclNameList"/>
+          <xs:element ref="Z:NameList"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
         <xs:attribute name="ParamQualifier" type="CIRCUS:ParamQualifier" use="optional" default="Value"/>
@@ -2291,8 +2291,8 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>
-          <!-- <xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/> -->
-          <xs:element ref="Z:RefNameList">
+          <!-- <xs:element name="Frame" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/> -->
+          <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="Frame"/>
@@ -2423,7 +2423,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList">
+          <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
@@ -2493,14 +2493,14 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName">
+          <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="ProcessName"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
-          <xs:element ref="Z:DeclNameList">
+          <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="GenFormals"/>
@@ -2568,7 +2568,7 @@
               <!--
               Contains a list of all name set paragraphs of the process.
               -->
-              <xs:element ref="Z:ZRefNameList">                
+              <xs:element ref="Z:ZNameList">                
                 <xs:annotation>
                   <xs:appinfo>
                     <jaxb:property name="NameSet"/>
@@ -2584,7 +2584,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName">          
+          <xs:element ref="Z:Name">          
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="ActionName"/>

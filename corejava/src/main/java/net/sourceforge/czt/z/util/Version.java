@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.util;
 public interface Version
 {
   String Z_MAJOR_VERSION_NUMBER = "2";
-  String Z_MINOR_VERSION_NUMBER = "0";
+  String Z_MINOR_VERSION_NUMBER = "1";
 
   String ZML_VERSION =
     Z_MAJOR_VERSION_NUMBER + "." + Z_MINOR_VERSION_NUMBER;

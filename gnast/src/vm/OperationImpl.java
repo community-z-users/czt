@@ -1,13 +1,9 @@
-  /**
-   * This is a convenience method.
-   * It returns the ZDeclName if DeclName is an instance of
-   * ZDeclName and throws an UnsupportedAstClassException otherwise.
-   */
-  public ZDeclName getZDeclName()
+
+  public ZName getZName()
   {
-    DeclName declName = getOpName();
-    if (declName instanceof ZDeclName) {
-      return (ZDeclName) declName;
+    Name name = getOpName();
+    if (name instanceof ZName) {
+      return (ZName) name;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

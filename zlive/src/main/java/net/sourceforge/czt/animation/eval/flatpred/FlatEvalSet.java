@@ -37,7 +37,7 @@ import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** FlatEvalSet is a subclass of FlatPred that implements
  *  the EvalSet interface.  It provides default implementations
@@ -239,7 +239,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  FlatEvalSet provides a default implementation
    *  that iterates through the whole set.
    */
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     return iterator();
   }
@@ -433,7 +433,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
    *  FlatEvalSet provides a default implementation that
    *  just calls estSize(env).
    */
-  public double estSubsetSize(Envir env, ZRefName elem)
+  public double estSubsetSize(Envir env, ZName elem)
   {
     return estSize(env);
   }

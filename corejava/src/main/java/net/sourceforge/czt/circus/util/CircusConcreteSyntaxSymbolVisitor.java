@@ -13,7 +13,7 @@ import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
 
 import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.util.IsEmptyDeclNameList;
+import net.sourceforge.czt.z.util.IsEmptyNameList;
 import net.sourceforge.czt.z.util.StandardZ;
 
 /**
@@ -113,7 +113,7 @@ public class CircusConcreteSyntaxSymbolVisitor
     public CircusConcreteSyntaxSymbol visitChannelDecl(ChannelDecl term) {
         if (term.getExpr() == null)
             return CircusConcreteSyntaxSymbol.SYNCH_CHANNEL_DECL;
-        else if ((term.getExpr() instanceof RefExpr) && term.getDeclNameList() == null)
+        else if ((term.getExpr() instanceof RefExpr) && term.getNameList() == null)
             return CircusConcreteSyntaxSymbol.SCH_CHANNEL_DECL;
         else
             return CircusConcreteSyntaxSymbol.TYPED_CHANNEL_DECL;
@@ -304,7 +304,7 @@ public class CircusConcreteSyntaxSymbolVisitor
     }
     
     public interface Utils
-            extends IsEmptyDeclNameList {
+            extends IsEmptyNameList {
     }
     
     public static class UtilsImpl

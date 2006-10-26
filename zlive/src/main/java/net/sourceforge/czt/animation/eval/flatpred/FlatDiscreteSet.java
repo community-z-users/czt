@@ -29,7 +29,7 @@ import java.util.Set;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -47,17 +47,17 @@ public class FlatDiscreteSet extends FlatEvalSet
   /** The number of expressions returned by nextMember() */
   private int membersReturned;
 
-  public FlatDiscreteSet(List<ZRefName> elements, ZRefName set)
+  public FlatDiscreteSet(List<ZName> elements, ZName set)
   {
-    // remove duplicate ZRefNames
-    Set<ZRefName> noDups = new HashSet<ZRefName>(elements);
-    args_ = new ArrayList<ZRefName>(noDups);
+    // remove duplicate ZNames
+    Set<ZName> noDups = new HashSet<ZName>(elements);
+    args_ = new ArrayList<ZName>(noDups);
     args_.add(set);
     solutionsReturned_ = -1;
   }
 
   //@ requires newargs.size() >= 1;
-  public FlatDiscreteSet(List<ZRefName> newargs)
+  public FlatDiscreteSet(List<ZName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),
         newargs.get(newargs.size()-1));
@@ -145,14 +145,14 @@ public class FlatDiscreteSet extends FlatEvalSet
   }
 
   /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
-  public double estSubsetSize(Envir env, ZRefName elem)
+  public double estSubsetSize(Envir env, ZName elem)
   {
     assert bounds_ != null; // inferBounds should have been called.
     return estSize(env);
   }
 
   /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     assert bounds_ != null; // inferBounds should have been called.
     return iterator();
@@ -164,7 +164,7 @@ public class FlatDiscreteSet extends FlatEvalSet
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
     boolean result = false;
-    ZRefName set = args_.get(args_.size()-1);
+    ZName set = args_.get(args_.size()-1);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
@@ -189,7 +189,7 @@ public class FlatDiscreteSet extends FlatEvalSet
     if (membersReturned == numExprs)
       return null;
     Envir env = evalMode_.getEnvir();
-    ZRefName var = args_.get(membersReturned);
+    ZName var = args_.get(membersReturned);
     Expr result = env.lookup(var);
     membersReturned++;
     return result;

@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -60,7 +60,7 @@ public class FlatOrTest
 
     FlatPredModel iut =
       new FlatPredModel(pred,
-        new ZRefName[] {x,y,z},
+        new ZName[] {x,y,z},
         "IIO,III", // these are the only modes that should work
         new Eval(1, "III", i2, i3, i2),  // only z=x is true
         new Eval(3, "IIO", i2, i4, i0)   // ie. x in {2,3,5}

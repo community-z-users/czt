@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** A Mode object contains information about one way of executing a FlatPred.
@@ -59,7 +59,7 @@ public class Mode
    *  These are just saved for convenience, so that we
    *  can provide the isInput(int) method.
    */
-  protected List<ZRefName> args_;
+  protected List<ZName> args_;
 
   /** The number of output variables. */
   protected int outputs_ = 0;
@@ -70,14 +70,14 @@ public class Mode
   //@ requires solns > 0.0;
   public Mode(/*@non_null@*/FlatPred parent,
               /*@non_null@*/Envir preEnv,
-              /*@non_null@*/List<ZRefName> args,
+              /*@non_null@*/List<ZName> args,
                double solns) {
     parent_ = parent;
     preEnvir_ = preEnv;
     postEnvir_ = preEnv;
     solutions_ = solns;
     args_ = args;
-    for (ZRefName name : args) {
+    for (ZName name : args) {
       if ( ! preEnvir_.isDefined(name)) {
         outputs_++;
         if ( ! postEnvir_.isDefinedSince(preEnvir_, name))
@@ -93,7 +93,7 @@ public class Mode
   }
 
   /** Is the given argument an input? */
-  public /*@pure@*/ boolean isInput(ZRefName arg)
+  public /*@pure@*/ boolean isInput(ZName arg)
   {
     return preEnvir_.isDefined(arg)
       && ! postEnvir_.isDefinedSince(preEnvir_, arg);
@@ -108,7 +108,7 @@ public class Mode
   }
 
   /** Is the given argument an output? */
-  public /*@pure@*/ boolean isOutput(ZRefName arg)
+  public /*@pure@*/ boolean isOutput(ZName arg)
   {
     return postEnvir_.isDefinedSince(preEnvir_, arg);
   }
@@ -145,7 +145,7 @@ public class Mode
   { return postEnvir_; }
 
   /** Gives the variables added to the environment by this mode. */
-  public /*@pure@*/ Set<ZRefName> getOutputs()
+  public /*@pure@*/ Set<ZName> getOutputs()
   {
     return postEnvir_.definedSince(preEnvir_);
   }
@@ -161,7 +161,7 @@ public class Mode
     StringBuffer result = new StringBuffer();
     result.append("Mode{");
     PrintVisitor printVisitor =  new PrintVisitor();
-    for (ZRefName name : postEnvir_.definedSince(preEnvir_)) {
+    for (ZName name : postEnvir_.definedSince(preEnvir_)) {
       result.append(name.accept(printVisitor));
       result.append(" ");
     }

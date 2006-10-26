@@ -20,7 +20,7 @@
 package net.sourceforge.czt.animation.gui.temp;
 
 import net.sourceforge.czt.animation.eval.GivenValue;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -29,9 +29,9 @@ import net.sourceforge.czt.z.util.Factory;
 public class ZGiven implements ZValue
 {
   //private final String value_;
-  private final ZRefName ex_; // Proxy to ZRefName
+  private final ZName ex_; // Proxy to ZName
 
-  private final GivenValue expr_;// But ZRefName is not a Expr, so use GivenValue
+  private final GivenValue expr_;// But ZName is not a Expr, so use GivenValue
 
   // For unique reference, we need to keep it here.
   private static Factory factory_;
@@ -44,18 +44,18 @@ public class ZGiven implements ZValue
   {
     //value_ = value;
     factory_ = GaffeFactory.getFactory();
-    ex_ = factory_.createZRefName(value);
+    ex_ = factory_.createZName(value);
     expr_ = new GivenValue(value);
   }
 
   /**
-   * Create a new <code>ZGiven</code> from a <code>ZRefName</code>
-   * @param expr_ the ZRefName used to created the corresponding ZGiven.
+   * Create a new <code>ZGiven</code> from a <code>ZName</code>
+   * @param expr_ the ZName used to created the corresponding ZGiven.
    */
   public ZGiven(GivenValue expr)
   {
     factory_ = GaffeFactory.getFactory();
-    ex_ = factory_.createZRefName(expr.getValue());
+    ex_ = factory_.createZName(expr.getValue());
     expr_ = expr;
   }
 

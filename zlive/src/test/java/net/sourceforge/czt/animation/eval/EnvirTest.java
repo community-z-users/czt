@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import junit.framework.Assert;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -58,7 +58,7 @@ public class EnvirTest
   
   public void testDefinedSince()
   {
-    Set<ZRefName> result = new HashSet<ZRefName>();
+    Set<ZName> result = new HashSet<ZName>();
     result.add(y);
     Assert.assertEquals(result, x10y20.definedSince(x10));
   }

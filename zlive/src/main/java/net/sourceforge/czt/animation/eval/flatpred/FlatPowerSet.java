@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
 * @author Mark Utting
@@ -49,9 +49,9 @@ public class FlatPowerSet extends FlatEvalSet
    * @param baseSet  the underlying set, from which all subsets will be taken.
    * @param set      the name of the resulting set of subsets.
    */
-  public FlatPowerSet(ZRefName baseSet, ZRefName set)
+  public FlatPowerSet(ZName baseSet, ZName set)
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
     args_.add(baseSet);
     args_.add(set);
     solutionsReturned_ = -1;
@@ -121,7 +121,7 @@ public class FlatPowerSet extends FlatEvalSet
   }
 
   /** TODO: see if we can reduce size estimates using cardinality? */
-  public double estSubsetSize(Envir env, ZRefName element)
+  public double estSubsetSize(Envir env, ZName element)
   {
     return estSize(env);
   }
@@ -165,7 +165,7 @@ public class FlatPowerSet extends FlatEvalSet
     Envir env = evalMode_.getEnvir();
     base_ = (EvalSet) env.lookup(args_.get(0));
     boolean result = false;
-    ZRefName setName = getLastArg();
+    ZName setName = getLastArg();
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
@@ -221,7 +221,7 @@ public class FlatPowerSet extends FlatEvalSet
       return super.accept(visitor);
   }
 
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     // TODO Auto-generated method stub
     return null;

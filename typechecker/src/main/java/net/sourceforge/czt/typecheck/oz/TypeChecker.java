@@ -51,7 +51,7 @@ public class TypeChecker
   protected ClassPara classPara_;
 
   //the list of primary state variables in the current class
-  protected List<ZDeclName> primary_;  
+  protected List<ZName> primary_;  
 
   public TypeChecker(TypeChecker info)
   {

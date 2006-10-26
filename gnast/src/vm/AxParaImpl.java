@@ -13,11 +13,11 @@
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
-  public ZDeclNameList getDeclName()
+  public ZNameList getName()
   {
-    DeclNameList dnl = getDeclNameList();
-    if (dnl instanceof ZDeclNameList) {
-      return (ZDeclNameList) dnl;
+    NameList dnl = getNameList();
+    if (dnl instanceof ZNameList) {
+      return (ZNameList) dnl;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

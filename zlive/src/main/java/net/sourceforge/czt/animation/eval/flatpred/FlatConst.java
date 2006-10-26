@@ -26,7 +26,7 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZNumeral;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPlus implements the var = const predicate. */
@@ -34,9 +34,9 @@ public class FlatConst extends FlatPred
 {
   protected Expr constant_;
   
-  public FlatConst(ZRefName a, Expr b)
+  public FlatConst(ZName a, Expr b)
   {
-    args_ = new ArrayList<ZRefName>(1);
+    args_ = new ArrayList<ZName>(1);
     args_.add(a);
     constant_ = b;
     solutionsReturned_ = -1;
@@ -47,7 +47,7 @@ public class FlatConst extends FlatPred
     boolean changed = false;
     if (constant_ instanceof NumExpr) {
       BigInteger val = ((NumExpr)constant_).getValue();
-      ZRefName name = args_.get(0);
+      ZName name = args_.get(0);
       changed |= bnds.addLower(name,val);
       changed |= bnds.addUpper(name,val);
     }
@@ -116,7 +116,7 @@ public class FlatConst extends FlatPred
 
   public /*@non_null@*/ FlatConst create(/*@non_null@*/ Object[] newargs)
   {
-    return new FlatConst((ZRefName)newargs[0], (Expr)newargs[1]);
+    return new FlatConst((ZName)newargs[0], (Expr)newargs[1]);
   }
  
   public <R> R accept(Visitor<R> visitor)

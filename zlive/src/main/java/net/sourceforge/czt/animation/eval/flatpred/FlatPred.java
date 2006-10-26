@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
  Each flattened predicate can be evaluated in one or more different
@@ -65,7 +65,7 @@ public abstract class FlatPred
   /** Records the free variables used within this predicate.
    *  This is calculated and cached by the freeVars() method.
    */
-  protected Set<ZRefName> freeVars_;
+  protected Set<ZName> freeVars_;
 
   /** The mode that will be used during evaluation.
    *  This is usually set by an explicit call to setMode().
@@ -75,7 +75,7 @@ public abstract class FlatPred
   /** The list of arguments to this FlatPred.
    *  If the FlatPred corresponds to a function, the output is args[last].
    */
-  protected/*@non_null@*/ArrayList<ZRefName> args_;
+  protected/*@non_null@*/ArrayList<ZName> args_;
 
   /** The number of solutions that have been returned by nextEvaluation().
    *  This is -1 before startEvaluation() is called and 0 immediately
@@ -86,7 +86,7 @@ public abstract class FlatPred
   /** Default constructor for subclasses to call. */
   protected FlatPred()
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
   }
 
   /** Get the list of variables that this predicate directly
@@ -94,7 +94,7 @@ public abstract class FlatPred
    *  as the freeVars set, but this list may contain duplicates. 
    *  This should be treated as a read-only list.
    */
-  public List<ZRefName> getArgs()
+  public List<ZName> getArgs()
   {
     return args_;
   }
@@ -102,9 +102,9 @@ public abstract class FlatPred
   /** Get the variable at the end of getArgs().
    *  This is usually the output' of this FlatPred.
    */
-  public ZRefName getLastArg()
+  public ZName getLastArg()
   {
-    List<ZRefName> args = getArgs();
+    List<ZName> args = getArgs();
     return args.get(args.size() - 1);
   }
 
@@ -129,10 +129,10 @@ public abstract class FlatPred
   /** Returns the free variables that appear in the predicate.
    *  The default implementation returns all the variables in args.
    */
-  public Set<ZRefName> freeVars()
+  public Set<ZName> freeVars()
   {
     if (freeVars_ == null) {
-      freeVars_ = new HashSet<ZRefName>(args_);
+      freeVars_ = new HashSet<ZName>(args_);
     }
     return freeVars_;
   }

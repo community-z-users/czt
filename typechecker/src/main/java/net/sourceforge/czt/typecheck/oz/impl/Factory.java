@@ -67,24 +67,24 @@ public class Factory
     return result;
   }
 
-  public ClassRef createClassRef(ZDeclName zDeclName,
+  public ClassRef createClassRef(ZName zName,
 				 List<Type2> type,
 				 List<NewOldPair> pairs)
   {
-    RefName refName = createZRefName(zDeclName);
+    Name refName = createZRefName(zName, false);
     ClassRef result = createClassRef(refName, type, pairs);
     return result;
   }
 
-  public ClassRef createClassRef(ZDeclName zDeclName)
+  public ClassRef createClassRef(ZName zName)
   {
-    ClassRef result = createClassRef(zDeclName,
+    ClassRef result = createClassRef(zName,
 				     this.<Type2>list(),
 				     this.<NewOldPair>list());
     return result;
   }
 
-  public ClassRef createClassRef(RefName refName,
+  public ClassRef createClassRef(Name refName,
 				 List<Type2> type,
 				 List<NewOldPair> pairs)
   {
@@ -106,7 +106,7 @@ public class Factory
 					 ClassRef thisClass,
 					 List<? extends ClassRef> superClass,
 					 VisibilityList visibilityList,
-					 List<? extends DeclName> primary)
+					 List<? extends Name> primary)
   {
     ClassRefType result =
       ozFactory_.createClassRefType(classes, state, attribute, operation,
@@ -152,7 +152,7 @@ public class Factory
     return new VariableClassType(this);
   }
 
-  public NameSignaturePair createNameSignaturePair(DeclName declName,
+  public NameSignaturePair createNameSignaturePair(Name declName,
                                                    Signature signature)
   {
     NameSignaturePair pair =

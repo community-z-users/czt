@@ -117,7 +117,7 @@ public class ToSpiveyZVisitor
 
   protected AxPara createSchema(String name, SchExpr schExpr)
   {
-    DeclName declName = factory_.createZDeclName(name);
+    Name declName = factory_.createZName(name);
     return factory_.createSchema(declName, schExpr.getSchText());
   }
 }

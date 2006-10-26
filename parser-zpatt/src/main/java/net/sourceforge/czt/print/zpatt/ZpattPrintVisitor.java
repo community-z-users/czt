@@ -85,20 +85,6 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerDeclName(JokerDeclName joker)
-  {
-    printDecorword(joker.getName());
-    return null;
-  }
-
-  public Object visitJokerDeclNameBinding(JokerDeclNameBinding binding)
-  {
-    visit(binding.getJokerDeclName());
-    printDecorword("\u219D");
-    visit(binding.getDeclName());
-    return null;
-  }
-
   public Object visitJokerExpr(JokerExpr joker)
   {
     printDecorword(joker.getName());
@@ -141,17 +127,17 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitJokerRefName(JokerRefName joker)
+  public Object visitJokerName(JokerName joker)
   {
     printDecorword(joker.getName());
     return null;
   }
 
-  public Object visitJokerRefNameBinding(JokerRefNameBinding binding)
+  public Object visitJokerNameBinding(JokerNameBinding binding)
   {
-    visit(binding.getJokerRefName());
+    visit(binding.getJokerName());
     printDecorword("\u219D");
-    visit(binding.getRefName());
+    visit(binding.getName());
     return null;
   }
 

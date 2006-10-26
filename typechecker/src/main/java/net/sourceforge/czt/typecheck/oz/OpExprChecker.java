@@ -90,11 +90,11 @@ public class OpExprChecker
     //check that each name in the delta list is a primary variable
     DeltaList deltaList = opText.getDeltaList();
     if (deltaList != null) {
-      List<RefName> deltaNames = deltaList.getRefName();
-      for (RefName deltaName : deltaNames) {
-        ZRefName zDeltaName = assertZRefName(deltaName);
-        ZDeclName deltaDeclName = factory().createZDeclName(zDeltaName);
-        if (!containsZDeclName(primary(), deltaDeclName)) {
+      List<Name> deltaNames = deltaList.getName();
+      for (Name deltaName : deltaNames) {
+        ZName zDeltaName = assertZName(deltaName);
+        if (!containsZName(primary(),
+                           factory().createZDeclName(zDeltaName, false))) {
           Object [] params = {zDeltaName};
           error(deltaName, ErrorMessage.NON_PRIMDECL_IN_DELTALIST, params);
         }
@@ -137,8 +137,8 @@ public class OpExprChecker
     }
     else if (vClassType.getValue() instanceof ClassType) {
       ClassType classType = (ClassType) vClassType.getValue();
-      RefName promName = opPromExpr.getRefName();
-      ZRefName zPromName = assertZRefName(promName);
+      Name promName = opPromExpr.getName();
+      ZName zPromName = assertZName(promName);
       NameSignaturePair opDef = findOperation(zPromName, classType);
 
       //if the name is not found, and use-before-decl is enabled,
@@ -147,7 +147,7 @@ public class OpExprChecker
 	  (expr == null || isSelfExpr(expr))) {
 	List<Operation> ops = classPara().getOperation();
 	for (Operation op : ops) {
-	  ZDeclName opName = op.getZDeclName();
+	  ZName opName = op.getZName();
 	  if (namesEqual(opName, zPromName)) {
 	    Signature opSignature = op.accept(paraChecker());
 	    opDef =
@@ -326,7 +326,7 @@ public class OpExprChecker
     Signature renameSig = opExpr.accept(opExprChecker());
 
     //add declname IDs to the new names
-    addDeclNameIDs(renameOpExpr.getZRenameList());
+    addNameIDs(renameOpExpr.getZRenameList());
 
     //hide the declarations
     String errorMessage =
@@ -396,7 +396,7 @@ public class OpExprChecker
     //operator declarations and the op expr declarations
     List<NameTypePair> distPairs = distSig.getNameTypePair();
     for (NameTypePair distPair : distPairs) {
-      ZDeclName distName = distPair.getZDeclName();
+      ZName distName = distPair.getZName();
       NameTypePair opExprPair = findNameTypePair(distName, signature);
       if (opExprPair != null) {
         Object [] params = {distName, distOpExpr};
@@ -409,14 +409,14 @@ public class OpExprChecker
     //simplifies things somewhat
     if (distOpExpr instanceof DistSeqOpExpr) {
       for (NameTypePair distPair : distPairs) {
-        ZDeclName distName = distPair.getZDeclName();
+        ZName distName = distPair.getZName();
         ZStrokeList strokes = factory().getZFactory().createZStrokeList();
 	strokes.addAll(distName.getZStrokeList());
         int size = strokes.size();
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);
-          ZDeclName baseName = factory().createZDeclName(distName.getWord(),
-                                                         strokes, null);
+          ZName baseName =
+            factory().createZDeclName(distName.getWord(), strokes, null);
           NameTypePair opExprPair = findNameTypePair(baseName, signature);
           if (opExprPair != null) {
             Object [] params = {distName, baseName, distOpExpr};

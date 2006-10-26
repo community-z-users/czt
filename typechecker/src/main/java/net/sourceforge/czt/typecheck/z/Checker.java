@@ -472,7 +472,7 @@ abstract public class Checker<R>
       //terms are not printed in some error messages
       if (termList.size() > 0) {
         List<Object> params = factory().list();
-        params.add(second.getZDeclName());
+        params.add(second.getZName());
         params.addAll(termList);
         params.add(firstType);
         params.add(secondType);
@@ -480,8 +480,8 @@ abstract public class Checker<R>
       }
       else {
         Object [] params =
-          new Object [] {second.getZDeclName(), firstType, secondType};
-        error(second.getZDeclName(), errorMessage, params);
+          new Object [] {second.getZName(), firstType, secondType};
+        error(second.getZName(), errorMessage, params);
       }
     }
     return result;
@@ -498,7 +498,7 @@ abstract public class Checker<R>
   protected void insertUnsort(List<NameTypePair> pairsA, NameTypePair pair)
   {
     for (NameTypePair pairA : pairsA) {
-      if (namesEqual(pairA.getZDeclName(), pair.getZDeclName())) {
+      if (namesEqual(pairA.getZName(), pair.getZName())) {
         checkPair(pairA, pair, factory().<Term>list(),
                   ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE.toString());
         return;
@@ -535,11 +535,11 @@ abstract public class Checker<R>
   {
     int i = 0;
     while (i < pairs.size() &&
-           compareTo(pairs.get(i).getZDeclName(), pair.getZDeclName()) < 0) {
+           compareTo(pairs.get(i).getZName(), pair.getZName()) < 0) {
       i++;
     }
 
-    if (namesEqual(pairs.get(i).getZDeclName(), pair.getZDeclName())) {
+    if (namesEqual(pairs.get(i).getZName(), pair.getZName())) {
       checkPair(pairs.get(i), pair, termList, errorMessage);
     }
     else {
@@ -575,7 +575,7 @@ abstract public class Checker<R>
   {
     Map<String, NameTypePair> map =  factory().hashMap();
     for (NameTypePair first : pairs) {
-      NameTypePair second = map.get(first.getZDeclName().toString());
+      NameTypePair second = map.get(first.getZName().toString());
       if (second != null) {
 	Type2 firstType = unwrapType(first.getType());
 	Type2 secondType = unwrapType(second.getType());
@@ -586,7 +586,7 @@ abstract public class Checker<R>
 	  //terms are not printed in some error messages
 	  if (termList.size() > 0) {
 	    List<Object> params = factory().list();
-	    params.add(second.getZDeclName());
+	    params.add(second.getZName());
 	    params.addAll(termList);
 	    params.add(firstType);
 	    params.add(secondType);
@@ -594,13 +594,13 @@ abstract public class Checker<R>
 	  }
 	  else {
 	    Object [] params =
-	      new Object [] {second.getZDeclName(), firstType, secondType};
-	    error(second.getZDeclName(), errorMessage, params);
+	      new Object [] {second.getZName(), firstType, secondType};
+	    error(second.getZName(), errorMessage, params);
 	  }
 	}
-	second.getZDeclName().setId(first.getZDeclName().getId());
+	second.getZName().setId(first.getZName().getId());
       }
-      map.put(first.getZDeclName().toString().intern(), first);
+      map.put(first.getZName().toString().intern(), first);
     }
   }
 
@@ -627,7 +627,7 @@ abstract public class Checker<R>
       //then set IsMem to true
       if (useBeforeDecl() && exprType instanceof UnknownType){
         UnknownType uType = (UnknownType) exprType;
-        if (uType.getZRefName() != null) {
+        if (uType.getZName() != null) {
           uType.setIsMem(true);
         }
         baseType = uType;
@@ -637,11 +637,11 @@ abstract public class Checker<R>
         baseType = vPowerType.getType();
       }
 
-      //get the DeclNames
-      List<DeclName> declNames = varDecl.getDeclName();
-      for (DeclName declName : declNames) {
+      //get the Names
+      List<Name> declNames = varDecl.getName();
+      for (Name declName : declNames) {
         //add a unique ID to this name
-        factory().addDeclNameID(declName);
+        factory().addNameID(declName);
 
         //add the name and its type to the list of NameTypePairs
         NameTypePair pair = factory().createNameTypePair(declName, baseType);
@@ -660,7 +660,7 @@ abstract public class Checker<R>
     List<NameTypePair> b4Pairs = factory().list(rSig.getNameTypePair());
     List<NameTypePair> rPairs = rSig.getNameTypePair();
     for (NameTypePair rPair : rPairs) {
-      ZDeclName rName = rPair.getZDeclName();
+      ZName rName = rPair.getZName();
 
       //if the name + nextstoke is in lSig, remove it from b3, and
       //remove name from b4
@@ -668,7 +668,7 @@ abstract public class Checker<R>
       strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
       strokes.add(factory().createNextStroke());
-      ZDeclName sName = factory().createZDeclName(rName.getWord(), strokes);
+      ZName sName = factory().createZDeclName(rName.getWord(), strokes);
       NameTypePair foundPair = findNameTypePair(sName, lSig);
       if (foundPair != null) {
         Type2 fType = unwrapType(foundPair.getType());
@@ -696,14 +696,14 @@ abstract public class Checker<R>
     List<NameTypePair> b4Pairs = factory().list(rSig.getNameTypePair());
     List<NameTypePair> rPairs = rSig.getNameTypePair();
     for (NameTypePair rPair : rPairs) {
-      ZDeclName rName = rPair.getZDeclName();
+      ZName rName = rPair.getZName();
       ZStrokeList strokes = factory().getZFactory().createZStrokeList();
       strokes.addAll(rName.getZStrokeList());
       int size = strokes.size();
       if (size > 0 && strokes.get(size - 1) instanceof InStroke) {
         OutStroke out = factory().createOutStroke();
         strokes.set(size - 1, out);
-        ZDeclName sName = factory().createZDeclName(rName.getWord(), strokes);
+        ZName sName = factory().createZDeclName(rName.getWord(), strokes);
         NameTypePair foundPair = findNameTypePair(sName, lSig);
         if (foundPair != null) {
           Type2 fType = unwrapType(foundPair.getType());
@@ -725,21 +725,20 @@ abstract public class Checker<R>
   }
 
   protected Signature createHideSig(Signature signature,
-                                    List<RefName> refNames, Term term)
+                                    List<Name> names, Term term)
   {
     //create a new name/type pair list
     List<NameTypePair> pairs = signature.getNameTypePair();
     List<NameTypePair> newPairs = factory().list(pairs);
 
     //iterate over every name, removing it from the signature
-    for (RefName refName : refNames) {
-      ZRefName zRefName = assertZRefName(refName);
-      ZDeclName zDeclName = factory().createZDeclName(zRefName);
-      NameTypePair rPair = findNameTypePair(zDeclName, signature);
+    for (Name name : names) {
+      ZName zName = factory().createZDeclName(assertZName(name), false);
+      NameTypePair rPair = findNameTypePair(zName, signature);
 
       //if this is name is not in the schema, raise an error
       if (rPair == null) {
-        Object [] params = {term, zDeclName};
+        Object [] params = {term, zName};
         error(term, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
       }
       //if it is in the schema, remove it
@@ -761,9 +760,9 @@ abstract public class Checker<R>
                                           Term term, String errorMessage)
   {
     //first check for duplicate renames
-    List<ZRefName> oldNames = factory().list();
+    List<ZName> oldNames = factory().list();
     for (NewOldPair pair : renamePairs) {
-      ZRefName oldName = pair.getZRefName();
+      ZName oldName = pair.getZRefName();
       //if the old name is duplicated, raise an error
       if (oldNames.contains(oldName)) {
         Object [] params = {term, oldName};
@@ -786,8 +785,8 @@ abstract public class Checker<R>
     for (NewOldPair source : sources) {
       boolean renamed = false;
       for (NewOldPair target : result) {
-        DeclName targetNewName = target.getNewName();
-        RefName sourceOldName = source.getOldName();
+        Name targetNewName = target.getNewName();
+        Name sourceOldName = source.getOldName();
         if (namesEqual(targetNewName, sourceOldName)) {
           target.setNewName(source.getNewName());
           renamed = true;
@@ -801,10 +800,10 @@ abstract public class Checker<R>
   }
 
   //add IDs to each new name in a list of renaming pairs
-  protected void addDeclNameIDs(List<NewOldPair> pairs)
+  protected void addNameIDs(List<NewOldPair> pairs)
   {
     for (NewOldPair pair : pairs) {
-      factory().addDeclNameID(pair.getNewName());
+      factory().addNameID(pair.getNewName());
     }
   }
 
@@ -824,9 +823,9 @@ abstract public class Checker<R>
     List<NameTypePair> newPairs = factory().list();
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
-      NewOldPair namePair = findNewOldPair(pair.getZDeclName(), renamePairs);
+      NewOldPair namePair = findNewOldPair(pair.getZName(), renamePairs);
       if (namePair != null) {
-        ZDeclName newName = namePair.getZDeclName();
+        ZName newName = namePair.getZDeclName();
         NameTypePair newPair =
           factory().createNameTypePair(newName, pair.getType());
         newPairs.add(newPair);
@@ -957,12 +956,12 @@ abstract public class Checker<R>
   protected GenericType instantiate(GenericType gType)
   {
     assert gType.getOptionalType() == null;
-    List<ZDeclName> zDeclNames = gType.getName();
+    NameList names = gType.getNameList();
     Type2 firstType = gType.getType();
     Type2 optionalType =
       exprChecker().instantiate(gType.getType());
     GenericType result =
-      factory().createGenericType(zDeclNames, firstType, optionalType);
+      factory().createGenericType(names, firstType, optionalType);
     return result;
   }
 
@@ -971,7 +970,7 @@ abstract public class Checker<R>
     Type2 result = factory().createUnknownType();
     if (type instanceof GenParamType) {
       GenParamType genParamType = (GenParamType) type;
-      ZDeclName genName = genParamType.getName();
+      ZName genName = assertZName(genParamType.getName());
 
       //try to get the type from the UnificationEnv
       Type unificationEnvType = unificationEnv().getType(genName);
@@ -981,7 +980,7 @@ abstract public class Checker<R>
         result = type;
       }
       else if (unificationEnvType instanceof UnknownType &&
-               unknownType(unificationEnvType).getZRefName() == null) {
+               unknownType(unificationEnvType).getZName() == null) {
         VariableType vType = factory().createVariableType();
         result = vType;
         unificationEnv().addGenName(genName, result);
@@ -1024,7 +1023,7 @@ abstract public class Checker<R>
     }
     else if (type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      ZRefName uTypeName = uType.getZRefName();
+      ZName uTypeName = uType.getZName();
       if (uTypeName != null) {
         ParameterAnn pAnn = (ParameterAnn) uTypeName.getAnn(ParameterAnn.class);
         List<Type2> types = uType.getType();
@@ -1063,7 +1062,7 @@ abstract public class Checker<R>
         Type replaced =
           exprChecker().instantiate(unwrapType(pair.getType()));
         NameTypePair newPair =
-          factory().createNameTypePair(pair.getZDeclName(), replaced);
+          factory().createNameTypePair(pair.getZName(), replaced);
         newPairs.add(newPair);
       }
     }
@@ -1084,29 +1083,29 @@ abstract public class Checker<R>
   //GenericType with this Type2 as the type
   protected Type addGenerics(Type2 type)
   {
-    List<ZDeclName> params = typeEnv().getParameters();
+    List<ZName> params = typeEnv().getParameters();
     Type result = params.size() == 0
       ? type
-      : factory().createGenericType(params, type, null);
+      : factory().createGenericType(factory().createZNameList(params), type, null);
     return result;
   }
 
-  //add generic types from a list of DeclNames to the TypeEnv
-  public void addGenParamTypes(List<DeclName> declNames)
+  //add generic types from a list of Names to the TypeEnv
+  public void addGenParamTypes(List<Name> declNames)
   {
     typeEnv().addParameters(declNames);
 
-    //add each DeclName and its type
-    List<ZDeclName> names = factory().list();
-    for (DeclName paramName : declNames) {
-      ZDeclName zParamName = assertZDeclName(paramName);
-      factory().addDeclNameID(zParamName);
+    //add each Name and its type
+    List<ZName> names = factory().list();
+    for (Name paramName : declNames) {
+      ZName zParamName = assertZName(paramName);
+      factory().addNameID(zParamName);
 
       GenParamType genParamType = factory().createGenParamType(zParamName);
       PowerType powerType = factory().createPowerType(genParamType);
 
       //check if a generic parameter type is redeclared
-      if (containsZDeclName(names, zParamName)) {
+      if (containsZName(names, zParamName)) {
         Object [] params = {zParamName};
         error(zParamName, ErrorMessage.REDECLARED_GEN, params);
       }
@@ -1125,20 +1124,20 @@ abstract public class Checker<R>
   }
 
   //gets the type of the expression represented by a name
-  protected Type getType(ZRefName zRefName)
+  protected Type getType(ZName zName)
   {
     setIsPending(false);
 
     //get the type from the TypeEnv
-    Type type = typeEnv().getType(zRefName);
+    Type type = typeEnv().getType(zName);
 
     //if the type environment did not know of this expression.
     //then ask the pending env
     if (type instanceof UnknownType) {
-      type = pending().getType(zRefName);
+      type = pending().getType(zName);
       if (!(type instanceof UnknownType) ||
           ((type instanceof UnknownType) &&
-           unknownType(type).getZRefName() != null) ){
+           unknownType(type).getZName() != null) ){
         setIsPending(true);
       }
     }
@@ -1146,14 +1145,14 @@ abstract public class Checker<R>
     //if the pending environment did not know of this expression,
     //then ask the SectTypeEnv
     if (type instanceof UnknownType) {
-      Type sectTypeEnvType = sectTypeEnv().getType(zRefName);
+      Type sectTypeEnvType = sectTypeEnv().getType(zName);
       if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
         type = sectTypeEnvType;
       }
       else {
         UnknownType uType = (UnknownType) sectTypeEnvType;
-        ZRefName uTypeName = uType.getZRefName();
-        if (uTypeName != null && !zRefName.equals(uTypeName)) {
+        ZName uTypeName = uType.getZName();
+        if (uTypeName != null && !zName.equals(uTypeName)) {
           type = exprChecker().resolveUnknownType(uType);
         }
       }
@@ -1162,14 +1161,14 @@ abstract public class Checker<R>
     //if not in any of the environments, return a variable type with the
     //specified name
     if (type instanceof UnknownType &&
-        unknownType(type).getZRefName() == null) {
+        unknownType(type).getZName() == null) {
       //add an UndeclaredAnn
       UndeclaredAnn ann = new UndeclaredAnn();
-      zRefName.getAnns().add(ann);
+      zName.getAnns().add(ann);
     }
     else {
       //remove an UndeclaredAnn if there is one
-      removeAnn(zRefName, UndeclaredAnn.class);
+      removeAnn(zName, UndeclaredAnn.class);
     }
 
     return type;
@@ -1180,11 +1179,12 @@ abstract public class Checker<R>
     Type2 result = type;
     if (sectTypeEnv().getSecondTime() && type instanceof UnknownType) {
       UnknownType uType = (UnknownType) type;
-      ZRefName uTypeName = uType.getZRefName();
+      ZName uTypeName = uType.getZName();
       if (uTypeName != null) {
         Type refType = getType(uTypeName);
         if (refType instanceof GenericType) {
-          List<ZDeclName> genNames = genericType(refType).getName();
+          ZNameList genNames =
+            assertZNameList(genericType(refType).getNameList());
           List<Type2> types = uType.getType();
           unificationEnv().enterScope();
           if (genNames.size() == types.size()) {
@@ -1243,34 +1243,20 @@ abstract public class Checker<R>
 
   //get a name/type pair corresponding with a particular name
   //return null if this name is not in the signature
-  protected NameTypePair findNameTypePair(ZDeclName zDeclName,
+  protected NameTypePair findNameTypePair(ZName zName,
                                           Signature signature)
   {
     List<NameTypePair> pairs = signature.getNameTypePair();
-    NameTypePair result = findNameTypePair(zDeclName, pairs);
+    NameTypePair result = findNameTypePair(zName, pairs);
     return result;
   }
 
-  protected NameTypePair findNameTypePair(ZRefName zRefName,
-                                          Signature signature)
-  {
-    ZDeclName zDeclName = factory().createZDeclName(zRefName);
-    return findNameTypePair(zDeclName, signature);
-  }
-
-  protected NewOldPair findNewOldPair(ZDeclName zDeclName,
-                                      List<NewOldPair> pairs)
-  {
-    ZRefName zRefName = factory().createZRefName(zDeclName);
-    return findNewOldPair(zRefName, pairs);
-  }
-
-  protected NewOldPair findNewOldPair(ZRefName zRefName,
+  protected NewOldPair findNewOldPair(ZName zName,
                                       List<NewOldPair> pairs)
   {
     NewOldPair result = null;
     for (NewOldPair pair : pairs) {
-      if (namesEqual(pair.getZRefName(), zRefName)) {
+      if (namesEqual(pair.getZRefName(), zName)) {
         result = pair;
         break;
       }
@@ -1278,18 +1264,11 @@ abstract public class Checker<R>
     return result;
   }
 
-  protected NameTypePair findNameTypePair(ZDeclName zDeclName,
+  protected NameTypePair findNameTypePair(ZName zName,
                                           List<NameTypePair> pairs)
   {
     //problem with static import from GlobalDefs
-    return GlobalDefs.findNameTypePair(zDeclName, pairs);
-  }
-
-  protected NameTypePair findNameTypePair(ZRefName zRefName,
-                                          List<NameTypePair> pairs)
-  {
-    ZDeclName zDeclName = factory().createZDeclName(zRefName);
-    return findNameTypePair(zDeclName, pairs);
+    return GlobalDefs.findNameTypePair(zName, pairs);
   }
 
   protected void removeTypeAnns(Term term)

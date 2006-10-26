@@ -78,13 +78,13 @@ public class ConcreteSyntaxSymbolVisitor
   {
     final Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
-      if (utils_.isEmpty(axPara.getDeclNameList())) {
+      if (utils_.isEmpty(axPara.getNameList())) {
         return ConcreteSyntaxSymbol.AX_PARA;
       }
       return ConcreteSyntaxSymbol.GENAX_PARA;
     }
     else if (Box.SchBox.equals(box)) {
-      if (utils_.isEmpty(axPara.getDeclNameList())) {
+      if (utils_.isEmpty(axPara.getNameList())) {
         return ConcreteSyntaxSymbol.SCH_PARA;
       }
       return ConcreteSyntaxSymbol.GENSCH_PARA;
@@ -92,12 +92,12 @@ public class ConcreteSyntaxSymbolVisitor
     else if (Box.OmitBox.equals(box)) {
       final ConstDecl constDecl =
         (ConstDecl) axPara.getZSchText().getZDeclList().get(0);
-      final ZDeclName declName = constDecl.getZDeclName();
+      final ZName declName = constDecl.getZName();
       final OperatorName operatorName = declName.getOperatorName();
       if (operatorName != null) {
         return ConcreteSyntaxSymbol.OPDEF_PARA;
       }
-      if (utils_.isEmpty(axPara.getDeclName())) {
+      if (utils_.isEmpty(axPara.getName())) {
         return ConcreteSyntaxSymbol.DEF_PARA;
       }
       return ConcreteSyntaxSymbol.GENDEF_PARA;
@@ -137,7 +137,7 @@ public class ConcreteSyntaxSymbolVisitor
 
   public ConcreteSyntaxSymbol visitConjPara(ConjPara conjPara)
   {
-    if (utils_.isEmpty(conjPara.getDeclNameList())) {
+    if (utils_.isEmpty(conjPara.getNameList())) {
       return ConcreteSyntaxSymbol.CONJ_PARA;
     }
     return ConcreteSyntaxSymbol.GENCONJ_PARA;
@@ -520,16 +520,6 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.DECL_LIST;
   }
 
-  public ConcreteSyntaxSymbol visitZDeclName(ZDeclName term)
-  {
-    return ConcreteSyntaxSymbol.DECL_NAME;
-  }
-
-  public ConcreteSyntaxSymbol visitZDeclNameList(ZDeclNameList term)
-  {
-    return ConcreteSyntaxSymbol.DECLNAME_LIST;
-  }
-
   public ConcreteSyntaxSymbol visitZExprList(ZExprList term)
   {
     return ConcreteSyntaxSymbol.EXPR_LIST;
@@ -545,19 +535,19 @@ public class ConcreteSyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.NUMERAL;
   }
 
+  public ConcreteSyntaxSymbol visitZName(ZName term)
+  {
+    return ConcreteSyntaxSymbol.NAME;
+  }
+
+  public ConcreteSyntaxSymbol visitZNameList(ZNameList term)
+  {
+    return ConcreteSyntaxSymbol.NAME_LIST;
+  }
+
   public ConcreteSyntaxSymbol visitZParaList(ZParaList term)
   {
     return ConcreteSyntaxSymbol.PARA_LIST;
-  }
-
-  public ConcreteSyntaxSymbol visitZRefName(ZRefName term)
-  {
-    return ConcreteSyntaxSymbol.REF_NAME;
-  }
-
-  public ConcreteSyntaxSymbol visitZRefNameList(ZRefNameList term)
-  {
-    return ConcreteSyntaxSymbol.REFNAME_LIST;
   }
 
   public ConcreteSyntaxSymbol visitZRenameList(ZRenameList term)
@@ -581,7 +571,7 @@ public class ConcreteSyntaxSymbolVisitor
   }
 
   public interface Utils
-    extends IsEmptyDeclNameList
+    extends IsEmptyNameList
   {
   }
 

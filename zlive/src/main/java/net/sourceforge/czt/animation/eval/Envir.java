@@ -22,10 +22,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** An Environment is conceptually a mapping from variable names
-    (ZRefName) to values (Expr).
+    (ZName) to values (Expr).
     However, it can also contain additional information about each
     name, such as type information.  This data structure is designed
     to allow environments to be extended in a non-destructive way.
@@ -38,7 +38,7 @@ public class Envir
 {
   protected Envir nextEnv;
   // An empty environment always has name==null && term==null;
-  protected ZRefName name_;
+  protected ZName name_;
   protected Expr expr_;
 
   /** Create an empty Envir */
@@ -50,7 +50,7 @@ public class Envir
      @return The value may be null.
   */
   //@ requires isDefined(want);
-  public/*@pure@*/Expr lookup(/*@non_null@*/ZRefName want) {
+  public/*@pure@*/Expr lookup(/*@non_null@*/ZName want) {
     Envir env = this;
     while (env != null) {
       if (sameName(want, env.name_))
@@ -60,7 +60,7 @@ public class Envir
     throw new EvalException("Missing name in envir: " + want);
   }
 
-  protected boolean sameName(/*@non_null@*/ZRefName a, ZRefName b) {
+  protected boolean sameName(/*@non_null@*/ZName a, ZName b) {
     // TODO make this equals test more elegant.  
     // Must avoid differences just because of the decl_ field.
     return b != null 
@@ -69,9 +69,9 @@ public class Envir
   }
 
   /** Return the set of newly defined names. */
-  public /*@pure@*/ Set<ZRefName> definedSince(/*@non_null@*/Envir env0)
+  public /*@pure@*/ Set<ZName> definedSince(/*@non_null@*/Envir env0)
   {
-    Set<ZRefName> result = new HashSet<ZRefName>();
+    Set<ZName> result = new HashSet<ZName>();
     Envir env = this;
     while (env != null && env != env0) {
       if (env.name_ != null)
@@ -87,7 +87,7 @@ public class Envir
    */
   public /*@pure@*/ boolean isDefinedSince(
       /*@non_null@*/Envir env0,
-      /*@non_null@*/ZRefName want) {
+      /*@non_null@*/ZName want) {
     Envir env = this;
     while (env != null && env != env0) {
       if (sameName(want, env.name_))
@@ -100,7 +100,7 @@ public class Envir
   /** See if a name is defined in the Environment. 
   @return true if the name exists, false if it does not exist.
   */
- public/*@pure@*/boolean isDefined(/*@non_null@*/ZRefName want) {
+ public/*@pure@*/boolean isDefined(/*@non_null@*/ZName want) {
    Envir env = this;
    while (env != null) {
      if (sameName(want, env.name_))
@@ -117,7 +117,7 @@ public class Envir
      @param newvalue The new value for name.
   */
  //@ requires isDefined(name); 
-  public void setValue(/*@non_null@*/ZRefName name,
+  public void setValue(/*@non_null@*/ZName name,
       				   /*@non_null@*/Expr newvalue) {
     Envir env = this;
     while (env != null) {
@@ -142,7 +142,7 @@ public class Envir
    *  @param  value The value to which name will be bound.  Can be null.
    *  @return The new extended environment
   */
-  public Envir plus(/*@non_null@*/ZRefName name, Expr value)
+  public Envir plus(/*@non_null@*/ZName name, Expr value)
   {
     Envir result = new Envir();
     result.nextEnv = this;

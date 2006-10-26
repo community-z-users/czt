@@ -77,12 +77,7 @@ public class OperatorName
    * @throws OperatorNameException if the given name does not
    *         represent an operator name.
    */
-  public OperatorName(ZDeclName name)
-    throws OperatorNameException
-  {
-    this(name.getWord(), name.getStrokeList());
-  }
-  public OperatorName(ZRefName name)
+  public OperatorName(ZName name)
     throws OperatorNameException
   {
     this(name.getWord(), name.getStrokeList());

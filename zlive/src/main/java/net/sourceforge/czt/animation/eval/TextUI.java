@@ -199,7 +199,7 @@ public class TextUI {
         SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
         for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
           if (triple.getSect().equals(sectName))
-            System.out.println("    "+triple.getZDeclName()+":  "+triple.getType());
+            System.out.println("    "+triple.getZName()+":  "+triple.getType());
         }
       }
       else if (cmd.equals("conjectures")) {

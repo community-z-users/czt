@@ -108,7 +108,7 @@ public class PrecedenceHandlingVisitor
 
   protected Expr createExpr(WrappedExpr wrappedExpr)
   {
-    final RefName refName = wrappedExpr.getRefName();
+    final Name refName = wrappedExpr.getName();
     final ZExprList zExprList = factory_.createZExprList();
     if (wrappedExpr.getExpr() instanceof ApplExpr) {
       RefExpr refExpr =
@@ -268,7 +268,7 @@ public class PrecedenceHandlingVisitor
       result = PRODEXPR_PRECEDENCE;
     }
     else {
-      ZRefName refName = wrappedExpr.getRefName();
+      ZName refName = wrappedExpr.getName();
       String first = getFirstInfixName(refName);
       if (first != null) {
         result = table_.getPrec(first);
@@ -287,7 +287,7 @@ public class PrecedenceHandlingVisitor
       assoc = Assoc.Right;
     }
     else {
-      String first = getFirstInfixName(wrappedExpr.getRefName());
+      String first = getFirstInfixName(wrappedExpr.getName());
       if (first != null) {
         assoc = table_.getAssoc(first);
       }
@@ -295,7 +295,7 @@ public class PrecedenceHandlingVisitor
     return assoc;
   }
 
-  private String getFirstInfixName(ZRefName refName)
+  private String getFirstInfixName(ZName refName)
   {
     String result = null;
     String name = refName.getWord();
@@ -423,18 +423,18 @@ class WrappedExpr
     return result;
   }
 
-  public ZRefName getRefName()
+  public ZName getName()
   {
-    ZRefName result = null;
+    ZName result = null;
 
     if (refExpr_ != null) {
-      result = refExpr_.getZRefName();
+      result = refExpr_.getZName();
     }
     else if (prodExpr_ != null) {
       result = null;
     }
     else {
-      result = ((RefExpr) applExpr_.getLeftExpr()).getZRefName();
+      result = ((RefExpr) applExpr_.getLeftExpr()).getZName();
     }
     return result;
   }

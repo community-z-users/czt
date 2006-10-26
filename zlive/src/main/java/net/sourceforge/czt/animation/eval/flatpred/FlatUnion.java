@@ -25,7 +25,7 @@ import java.math.BigInteger;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.animation.eval.EvalSet;
 
 /**
@@ -57,9 +57,9 @@ public class FlatUnion extends FlatEvalSet
   private int membersFrom_ = 0;
 
   /** Creates a new instance of FlatUnion */
-  public FlatUnion(ZRefName a, ZRefName b, ZRefName s)
+  public FlatUnion(ZName a, ZName b, ZName s)
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
     args_.add(a);
     args_.add(b);
     args_.add(s);
@@ -136,8 +136,8 @@ public class FlatUnion extends FlatEvalSet
   public BigInteger getLower()
   {
     BigInteger result = null;
-    ZRefName a = args_.get(0);
-    ZRefName b = args_.get(1);
+    ZName a = args_.get(0);
+    ZName b = args_.get(1);
     EvalSet left = (EvalSet) bounds_.getEvalSet(a);
     EvalSet right = (EvalSet) bounds_.getEvalSet(b);
     if (left != null && right != null) {
@@ -153,8 +153,8 @@ public class FlatUnion extends FlatEvalSet
   public BigInteger getUpper()
   {
     BigInteger result = null;
-    ZRefName a = args_.get(0);
-    ZRefName b = args_.get(1);
+    ZName a = args_.get(0);
+    ZName b = args_.get(1);
     EvalSet left = (EvalSet) bounds_.getEvalSet(a);
     EvalSet right = (EvalSet) bounds_.getEvalSet(b);
     if (left != null && right != null) {
@@ -210,7 +210,7 @@ public class FlatUnion extends FlatEvalSet
   /** Estimate the size of {x:this | x=elem} in a given environment.
    *  This allows the bounds of elem to be used to reduce the size of set. 
    */
-  public double estSubsetSize(Envir env, ZRefName elem)
+  public double estSubsetSize(Envir env, ZName elem)
   {
     assert bounds_ != null; // inferBounds should have been called.
     EvalSet left = (EvalSet) env.lookup(args_.get(0));
@@ -247,7 +247,7 @@ public class FlatUnion extends FlatEvalSet
    *
    * @return an Iterator object.
    */
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     assert bounds_ != null; // inferBounds should have been called.
     assert solutionsReturned_ > 0; // nextEvaluation() must have succeeded.

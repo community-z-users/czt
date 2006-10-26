@@ -27,25 +27,25 @@ import java.util.Set;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 public class ModeTest extends ZTestCase
 {
   Envir x10;
-  List<ZRefName> xy;
+  List<ZName> xy;
   Mode modey;
   
   public void setUp()
   {
     x10 = new Envir().plus(x,i10);
-    xy = new ArrayList<ZRefName>();
+    xy = new ArrayList<ZName>();
     xy.add(x);
     xy.add(y);
     modey = new Mode(null, x10, xy, 5.0);
   }
 
   /*
-   * Test method for 'net.sourceforge.czt.animation.eval.flatpred.Mode.isInput(ZRefName)'
+   * Test method for 'net.sourceforge.czt.animation.eval.flatpred.Mode.isInput(ZName)'
    */
   public void testIsInput()
   {
@@ -55,7 +55,7 @@ public class ModeTest extends ZTestCase
   }
 
   /*
-   * Test method for 'net.sourceforge.czt.animation.eval.flatpred.Mode.isOutput(ZRefName)'
+   * Test method for 'net.sourceforge.czt.animation.eval.flatpred.Mode.isOutput(ZName)'
    */
   public void testIsOutput()
   {
@@ -111,7 +111,7 @@ public class ModeTest extends ZTestCase
    */
   public void testGetOutputs()
   {
-    Set<ZRefName> result = new HashSet<ZRefName>();
+    Set<ZName> result = new HashSet<ZName>();
     result.add(y);
     Assert.assertEquals(result, modey.getOutputs());
   }

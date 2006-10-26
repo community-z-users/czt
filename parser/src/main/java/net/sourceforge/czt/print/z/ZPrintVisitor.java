@@ -61,6 +61,7 @@ public class ZPrintVisitor
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
   private Factory factory_ = new Factory();
+  protected boolean ref_ = false;
 
   /**
    * Creates a new Z print visitor.
@@ -96,7 +97,7 @@ public class ZPrintVisitor
     return getBooleanProperty(PROP_PRINT_NAME_IDS);
   }
 
-  protected void printGenericFormals(DeclNameList term) {
+  protected void printGenericFormals(NameList term) {
     if (term != null && !utils_.isEmpty(term)) {
       print(TokenName.LSQUARE);
       visit(term);
@@ -211,7 +212,7 @@ public class ZPrintVisitor
   private String getBinOperatorName(RefExpr refExpr)
   {
     String result = null;
-    String word = refExpr.getZRefName().getWord();
+    String word = refExpr.getZName().getWord();
     String[] split = word.split(" ");
     final int expectedLength = 4;
     final int third = 3;
@@ -266,14 +267,16 @@ public class ZPrintVisitor
     if (braces) print(TokenName.LPAREN);
     visit(bindSelExpr.getExpr());
     print(Keyword.DOT);
-    visit(bindSelExpr.getRefName());
+    ref_ = true;
+    visit(bindSelExpr.getName());
     if (braces) print(TokenName.RPAREN);
     return null;
   }
 
   public Object visitBranch(Branch branch)
   {
-    visit(branch.getDeclName());
+    ref_ = false;
+    visit(branch.getName());
     if (branch.getExpr() != null) {
       print(TokenName.LDATA);
       visit(branch.getExpr());
@@ -316,7 +319,7 @@ public class ZPrintVisitor
   public Object visitConjPara(ConjPara conjPara)
   {
     print(TokenName.ZED);
-    printGenericFormals(conjPara.getDeclNameList());    
+    printGenericFormals(conjPara.getNameList());    
     print(Keyword.CONJECTURE);
     visit(conjPara.getPred());
     print(TokenName.END);
@@ -325,41 +328,18 @@ public class ZPrintVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
+    ref_ = false;
     if (eves()) {
-      visit(constDecl.getDeclName());
+      visit(constDecl.getName());
       print(Keyword.COLON);
       print(TokenName.LBRACE);
       visit(constDecl.getExpr());
       print(TokenName.RBRACE);
     }
     else {
-      visit(constDecl.getDeclName());
+      visit(constDecl.getName());
       print(Keyword.DEFEQUAL);
       visit(constDecl.getExpr());
-    }
-    return null;
-  }
-
-  public Object visitZDeclName(ZDeclName declName)
-  {
-    OperatorName op = declName.getOperatorName();
-    if (op == null) {
-      String word = declName.getWord();
-      if (ids() && declName.getId() != null) {
-        word += ZString.LL + declName.getId();
-      }
-      final Decorword decorword =
-	new Decorword(word, declName.getZStrokeList());
-      printDecorword(decorword);
-      return null;
-    }
-    for (String wordPart : op.getWords()) {
-      if (wordPart.equals(ZString.LISTARG) || wordPart.equals(ZString.ARG)) {
-        printDecorword(wordPart);
-      }
-      else {
-        printDecorword(new Decorword(wordPart, (ZStrokeList) op.getStrokes()));
-      }
     }
     return null;
   }
@@ -486,7 +466,8 @@ public class ZPrintVisitor
 
   public Object visitFreetype(Freetype freetype)
   {
-    visit(freetype.getDeclName());
+    ref_ = false;
+    visit(freetype.getName());
     print(Keyword.DEFFREE);
     visit(freetype.getBranchList());
     return null;
@@ -504,9 +485,10 @@ public class ZPrintVisitor
 
   public Object visitGivenPara(GivenPara givenPara)
   {
+    ref_ = false;
     print(TokenName.ZED);
     print(TokenName.LSQUARE);
-    printTermList(givenPara.getDeclNames());
+    printTermList(givenPara.getNames());
     print(TokenName.RSQUARE);
     print(TokenName.END);
     return null;
@@ -524,7 +506,8 @@ public class ZPrintVisitor
     visit(hideExpr.getExpr());
     print(Keyword.ZHIDE);
     print(TokenName.LPAREN);
-    printTermList(hideExpr.getZRefNameList());
+    ref_ = false;
+    printTermList(hideExpr.getZNameList());
     print(TokenName.RPAREN);
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -883,6 +866,7 @@ public class ZPrintVisitor
         visitPrintParagraph((PrintParagraph) o);
       }
     }
+    ref_ = false;
     Object[] array = printParagraph.getChildren();
     for (int i = 0; i < array.length; i++) {
       Object object = array[i];
@@ -974,7 +958,8 @@ public class ZPrintVisitor
       throw new CztException(message);
     }
     else { // Mixfix == false
-      visit(refExpr.getRefName());
+      ref_ = true;
+      visit(refExpr.getName());
       if (refExpr.getZExprList().size() > 0 && refExpr.getExplicit()) {
         print(TokenName.LSQUARE);
         printTermList(refExpr.getZExprList());
@@ -993,35 +978,31 @@ public class ZPrintVisitor
 
   public Object visitZRenameList(ZRenameList zRenameList)
   {
+    ref_ = false;
     printTermList(zRenameList.getNewOldPair());
     return null;
   }
 
-  public Object visitZDeclNameList(ZDeclNameList zDeclNameList)
+  public Object visitZNameList(ZNameList nameList)
   {
-    printTermList(zDeclNameList);
+    printTermList(nameList);
     return null;
   }
 
-  public Object visitZRefNameList(ZRefNameList zRefNameList)
+  public Object visitZName(ZName name)
   {
-    printTermList(zRefNameList.getRefName());
-    return null;
-  }
-
-  public Object visitZRefName(ZRefName refName)
-  {
-    OperatorName op = refName.getOperatorName();
+    final boolean braces = name.getAnn(ParenAnn.class) != null;
+    OperatorName op = name.getOperatorName();
     if (op == null) {
-      String word = refName.getWord();
-      if (ids() && refName.getDecl() != null) {
-        word += ZString.LL + refName.getDecl().getId();
+      String word = name.getWord();
+      if (ids() && name.getId() != null) {
+        word += ZString.LL + name.getId();
       }
       print(TokenName.DECORWORD,
-            new Decorword(word, refName.getZStrokeList()));
+            new Decorword(word, name.getZStrokeList()));
       return null;
     }
-    print(TokenName.LPAREN);
+    if (braces || ref_) print(TokenName.LPAREN);
     for (String wordPart : op.getWords()) {
       if (wordPart.equals(ZString.LISTARG) || wordPart.equals(ZString.ARG)) {
         printDecorword(wordPart);
@@ -1030,7 +1011,7 @@ public class ZPrintVisitor
         printDecorword(new Decorword(wordPart, (ZStrokeList) op.getStrokes()));
       }
     }
-    print(TokenName.RPAREN);
+    if (braces || ref_) print(TokenName.RPAREN);
     return null;
   }
 
@@ -1186,7 +1167,8 @@ public class ZPrintVisitor
 
   public Object visitVarDecl(VarDecl varDecl)
   {
-    printTermList(varDecl.getDeclName());
+    ref_ = false;
+    printTermList(varDecl.getName());
     print(Keyword.COLON);
     visit(varDecl.getExpr());
     return null;
@@ -1243,10 +1225,10 @@ public class ZPrintVisitor
     RefExpr ref = (RefExpr) operator;
     OperatorName op = null;
     try {
-      op = new OperatorName(ref.getZRefName());
+      op = new OperatorName(ref.getZName());
     }
     catch (OperatorName.OperatorNameException e) {
-      return "Unexpected operator " + ref.getZRefName().getWord();
+      return "Unexpected operator " + ref.getZName().getWord();
     }
     assert op != null;
     return printOperator(op, arguments);
@@ -1328,7 +1310,7 @@ public class ZPrintVisitor
   }
 
   public interface Utils
-    extends IsEmptyDeclNameList
+    extends IsEmptyNameList
   {
   }
 

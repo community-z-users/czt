@@ -87,13 +87,13 @@ public final class ZUtils
    * If the given paragraph <code>isSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
    */
-  public static DeclName getSchemaName(Para para)  
+  public static Name getSchemaName(Para para)  
   {
-    DeclName result = null;
+    Name result = null;
     if (isSchema(para)) {
       AxPara axp = (AxPara)para;
       assert isAxParaSchemaValid(axp);
-      result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getDeclName();
+      result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getName();
     }
     return result;
   } 
@@ -108,23 +108,13 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
 
-  public static ZDeclName assertZDeclName(Term term)
+  public static ZName assertZName(Term term)
   {
-    if (term instanceof ZDeclName) {
-      return (ZDeclName) term;
+    if (term instanceof ZName) {
+      return (ZName) term;
     }
     final String message =
-      "Expected a ZDeclName but found " + String.valueOf(term);
-    throw new UnsupportedAstClassException(message);
-  }
-
-  public static ZRefName assertZRefName(Term term)
-  {
-    if (term instanceof ZRefName) {
-      return (ZRefName) term;
-    }
-    final String message =
-      "Expected a ZRefName but found " + String.valueOf(term);
+      "Expected a ZName but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -158,13 +148,13 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
 
-  public static ZDeclNameList assertZDeclNameList(Term term)
+  public static ZNameList assertZNameList(Term term)
   {
-    if (term instanceof ZDeclNameList) {
-      return (ZDeclNameList) term;
+    if (term instanceof ZNameList) {
+      return (ZNameList) term;
     }
     final String message =
-      "Expected a ZDeclNameList but found " + String.valueOf(term);
+      "Expected a ZNameList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 
@@ -185,16 +175,6 @@ public final class ZUtils
     }
     final String message =
       "Expected a ZFreetypeList but found " + String.valueOf(term);
-    throw new UnsupportedAstClassException(message);
-  }
-
-  public static ZRefNameList assertZRefNameList(Term term)
-  {
-    if (term instanceof ZRefNameList) {
-      return (ZRefNameList) term;
-    }
-    final String message =
-      "Expected a ZRefNameList but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
   }
 

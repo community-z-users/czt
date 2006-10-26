@@ -224,7 +224,7 @@ public class AstToPrintTreeVisitor
       applExpr.getMixfix().booleanValue();
     if (isFunctionApplication) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
-      OperatorName opName = refExpr.getZRefName().getOperatorName();
+      OperatorName opName = refExpr.getZName().getOperatorName();
       Expr args = (Expr) applExpr.getRightExpr().accept(this);
       List argList = new ArrayList();
       if (opName.isUnary()) {
@@ -276,7 +276,7 @@ public class AstToPrintTreeVisitor
         list.add(TokenName.GENAX);
         list.add(TokenName.LSQUARE);
         boolean first = true;
-        for (DeclName declName : axPara.getDeclName()) {
+        for (Name declName : axPara.getName()) {
           if (first) first = false;
           else list.add(ZString.COMMA);
           list.add(visit(declName));
@@ -298,12 +298,12 @@ public class AstToPrintTreeVisitor
     }
     else if (Box.OmitBox.equals(box)) {
       list.add(TokenName.ZED);
-      final List declNameList = axPara.getDeclName();
+      final List declNameList = axPara.getName();
       final SchText schText = axPara.getSchText();
       final List<Decl> decls = axPara.getZSchText().getZDeclList();
       for (Decl decl : decls) {
         final ConstDecl constDecl = (ConstDecl) decl;
-        final ZDeclName declName = constDecl.getZDeclName();
+        final ZName declName = constDecl.getZName();
         final OperatorName operatorName = declName.getOperatorName();
         final OpTable.OpInfo opInfo = operatorName == null ? null :
           opTable_.lookup(operatorName);
@@ -317,7 +317,7 @@ public class AstToPrintTreeVisitor
           list.add(visit(declName));
           if (declNameList.size() > 0) {
             list.add(TokenName.LSQUARE);
-            for (Iterator<DeclName> iter = declNameList.iterator();
+            for (Iterator<Name> iter = declNameList.iterator();
                  iter.hasNext();) {
               list.add(visit(iter.next()));
               if (iter.hasNext()) list.add(ZString.COMMA);
@@ -364,12 +364,12 @@ public class AstToPrintTreeVisitor
     }
     List<Decl> decls = axPara.getZSchText().getZDeclList();
     ConstDecl cdecl = (ConstDecl) decls.get(0);
-    String declName = cdecl.getZDeclName().getWord();
+    String declName = cdecl.getZName().getWord();
     if (declName == null) throw new CztException();
     list.add(declName);
     if (isGeneric(axPara)) {
       list.add(TokenName.LSQUARE);
-      for (Iterator<DeclName> iter = axPara.getDeclName().iterator();
+      for (Iterator<Name> iter = axPara.getName().iterator();
            iter.hasNext();) {
         list.add(visit(iter.next()));
         if (iter.hasNext()) list.add(ZString.COMMA);
@@ -398,7 +398,7 @@ public class AstToPrintTreeVisitor
    */
   private boolean isGeneric(AxPara axPara)
   {
-    return ! axPara.getDeclName().isEmpty();
+    return ! axPara.getName().isEmpty();
   }
 
   public Term visitMemPred(MemPred memPred)
@@ -429,7 +429,7 @@ public class AstToPrintTreeVisitor
       try {
         Expr operand = memPred.getLeftExpr();
         RefExpr operator = (RefExpr) memPred.getRightExpr();
-        OperatorName op = new OperatorName(operator.getZRefName());
+        OperatorName op = new OperatorName(operator.getZName());
         return printFactory_.createPrintPredicate(printOperator(op, operand),
                                                   precedence,
                                                   null);
@@ -460,7 +460,7 @@ public class AstToPrintTreeVisitor
     final boolean isGenericOperatorApplication =
       refExpr.getMixfix().booleanValue();
     if (isGenericOperatorApplication) {
-      final OperatorName opName = refExpr.getZRefName().getOperatorName();
+      final OperatorName opName = refExpr.getZName().getOperatorName();
       final ZExprList argList =
         (ZExprList) refExpr.getZExprList().accept(this);
       final Precedence precedence =

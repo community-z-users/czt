@@ -244,7 +244,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getZRefName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getZName(), classRefsB);
         if (classRefB != null) {
           UResult unified = instantiations(classRefA, classRefB);
           if (SUCC.equals(unified)) {
@@ -269,7 +269,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getZRefName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getZName(), classRefsB);
         if (classRefB == null) {
           result = FAIL;
           break;
@@ -305,7 +305,7 @@ public class UnificationEnv
     return result;
   }
 
-  protected NewOldPair findPair(ZRefName oldName, ClassRef classRef)
+  protected NewOldPair findPair(ZName oldName, ClassRef classRef)
   {
     NewOldPair result = null;
     List<NewOldPair> pairs = classRef.getNewOldPair();
@@ -318,11 +318,11 @@ public class UnificationEnv
     return result;
   }
 
-  protected ClassRef findRef(ZRefName zRefName, List<ClassRef> classRefs)
+  protected ClassRef findRef(ZName zName, List<ClassRef> classRefs)
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (namesEqual(zRefName, classRef.getZRefName())) {
+      if (namesEqual(zName, classRef.getZName())) {
         result = classRef;
       }
     }
@@ -386,7 +386,7 @@ public class UnificationEnv
     List<NameTypePair> result = factory_.list();
     //check compatibility of attributes and state variables
     for (NameTypePair first : pairsA) {
-      ZDeclName firstName = first.getZDeclName();
+      ZName firstName = first.getZName();
       if (!isSelfName(firstName)) {
         NameTypePair second = findNameTypePair(firstName, pairsB);
         if (second != null) {
@@ -422,7 +422,7 @@ public class UnificationEnv
   {
     List<NameSignaturePair> result = factory_.list();
     for (NameSignaturePair first : pairsA) {
-      ZDeclName firstName = first.getZDeclName();
+      ZName firstName = first.getZName();
       NameSignaturePair second = findNameSigPair(firstName, pairsB);
       if (second != null) {
         Signature lSig = first.getSignature();

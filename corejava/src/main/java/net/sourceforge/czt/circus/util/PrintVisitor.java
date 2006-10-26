@@ -55,7 +55,7 @@ public class PrintVisitor
 {
     public String visitChannelType(ChannelType term) {
         StringBuffer result =  new StringBuffer("CHANNEL_TYPE ");        
-        result.append(visitList(ZUtils.assertZDeclNameList(term.getGenFormals()), "[", ", ", "]"));
+        result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ", ", "]"));
         if (term.getResolvedType() != null)
             result.append(visit(term.getResolvedType()));
         else if (term.getDeclaredType() != null)
@@ -93,7 +93,7 @@ public class PrintVisitor
         final String sep = "\n\t";
         result.append(visitList(term.getZSignature(), "ZDeclSig : ["+ sep, sep, "]\n"));//List<Signature>
         result.append(visitList(term.getActionSignature(), "ActionSig: ["+ sep, sep, "]\n"));//List<Signature>
-        result.append(visitList(term.getNameSet(), "NameSet  : [", ", ", "]\n"));//ZRefNameList          
+        result.append(visitList(term.getNameSet(), "NameSet  : [", ", ", "]\n"));//ZNameList          
         return result.toString();
     }
     
@@ -122,7 +122,7 @@ public class PrintVisitor
     protected String visitProcess(ProcessSignature term) {
         StringBuffer result = new StringBuffer("Name: ");
         result.append(visit(term.getProcessName()));
-        result.append(visitList(ZUtils.assertZDeclNameList(term.getGenFormals()), "[", ",", "]"));        
+        result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));        
         // Print parameters or indexes signature if they exist
         if (term.getParamOrIndexes() != null && !term.getParamOrIndexes().getNameTypePair().isEmpty()) {
             result.append(term.getKind().equals(ProcessKind.Parameterised) ? "P [" : "I [");

@@ -14,13 +14,12 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -42,7 +41,7 @@ public class FlatSetCompNew extends FlatSetComp {
             /*@non_null@*/List<Decl> decls,
             Pred pred,
             /*@non_null@*/Expr result,
-            /*@non_null@*/ZRefName set) {
+            /*@non_null@*/ZName set) {
         super(zlive, decls, pred, result, set);
         flatten_ = zlive.getFlatten();
         factory_ = zlive.getFactory();
@@ -69,23 +68,23 @@ public class FlatSetCompNew extends FlatSetComp {
         if (decl instanceof VarDecl) {
             VarDecl vdecl = (VarDecl) decl;
             Expr type = vdecl.getExpr();
-            // Or lets just assume simple (ZRefName) types at the moment?
-            //ZRefName typeName = flatten_.flattenExpr(type, predsDecls_.predlist_);
+            // Or lets just assume simple (ZName) types at the moment?
+            //ZName typeName = flatten_.flattenExpr(type, predsDecls_.predlist_);
             //declsEnv_ = declsEnv_.add(typeName, null);
             //RefExpr typeExpr = factory_.createRefExpr(typeName);
             //declsEnv_ = declsEnv_.add(typeName, typeExpr);
-            for (DeclName d : vdecl.getDeclName()) {
-                ZDeclName dvar = (ZDeclName) d;
-                ZRefName varref = factory_.createZRefName(dvar);
+            for (Name d : vdecl.getName()) {
+                ZName dvar = (ZName) d;
+                ZName varref = factory_.createZName(dvar);
                 //unflattened expresion type?
                 declsEnv_ = declsEnv_.plus(varref, type);
             }
         } //        else if (decl instanceof ConstDecl) {
         //            ConstDecl cdecl = (ConstDecl) decl;
-        //            ZDeclName var = cdecl.getDeclName();
+        //            ZName var = cdecl.getName();
         //            boundVars_.add(var);
         //            Expr expr = cdecl.getExpr();
-        //            ZRefName varref = factory_.createZRefName(var);
+        //            ZName varref = factory_.createZName(var);
         //            boundVars_.add(varref);
         //            flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
         //        }

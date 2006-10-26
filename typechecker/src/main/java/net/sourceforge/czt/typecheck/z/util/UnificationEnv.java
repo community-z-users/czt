@@ -73,9 +73,9 @@ public class UnificationEnv
   /**
    * Add a gen name and type to this unificiation  environment.
    */
-  public void addGenName(ZDeclName zDeclName, Type2 type2)
+  public void addGenName(Name name, Type2 type2)
   {
-    NameTypePair pair = factory_.createNameTypePair(zDeclName, type2);
+    NameTypePair pair = factory_.createNameTypePair(name, type2);
     peek().add(pair);
   }
 
@@ -88,14 +88,14 @@ public class UnificationEnv
     return result;
   }
 
-  public Type2 getType(ZDeclName zDeclName)
+  public Type2 getType(ZName zName)
   {
     Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
     for (NameTypePair pair : peek()) {
       //use object ID to counter nested generic environments
-      if (zDeclName == pair.getZDeclName()) {
+      if (zName == pair.getZName()) {
         result = (Type2) pair.getType();
         break;
       }
@@ -194,7 +194,7 @@ public class UnificationEnv
 
   protected UResult unifyUnknownType(UnknownType uType, Type2 type2)
   {
-    ZRefName uTypeName = uType.getZRefName();
+    ZName uTypeName = uType.getZName();
     if (isVariableType(type2) && uTypeName != null) {
       unifyVariableType(variableType(type2), uType);
     }
@@ -314,10 +314,10 @@ public class UnificationEnv
       Map<String, NameTypePair> mapA = factory_.hashMap();
       Map<String, NameTypePair> mapB = factory_.hashMap();
       for (NameTypePair pair : sigA.getNameTypePair()) {
-        mapA.put(pair.getZDeclName().toString(), pair);
+        mapA.put(pair.getZName().toString(), pair);
       }
       for (NameTypePair pair : sigB.getNameTypePair()) {
-        mapB.put(pair.getZDeclName().toString(), pair);
+        mapB.put(pair.getZName().toString(), pair);
       }
 
       UResult resultA = unifySignatureAux(mapA, mapB);
@@ -364,7 +364,7 @@ public class UnificationEnv
     //the other signature
     for (int i = 0; i < listA.size(); i++) {
       NameTypePair pairA = listA.get(i);
-      NameTypePair pairB = findNameTypePair(pairA.getZDeclName(), sigB);
+      NameTypePair pairB = findNameTypePair(pairA.getZName(), sigB);
       //NameTypePair pairB = listB.get(i);
       //if the pair in not in the signature, then fail
       if (pairB == null) {

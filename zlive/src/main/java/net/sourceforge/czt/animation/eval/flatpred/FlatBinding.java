@@ -42,24 +42,24 @@ public class FlatBinding extends FlatPred
 {
   protected Factory factory_ = new Factory();
 
-  private List<ZDeclName> bindNames;
+  private List<ZName> bindNames;
 
   /** Constructs a FlatBinding FlatPred.
    @param names The list of names in the binding (name1,name2,...nameN). (no duplicates)
    @param exprs The list of expressions (e1,e2,...,eN).
    @param bind  The name of the BindExpr \lblot name1==e1, ... nameN==eN \rblot.
    */
-  public FlatBinding(List<ZDeclName> names, List<ZRefName> exprs,
-      ZRefName bind)
+  public FlatBinding(List<ZName> names, List<ZName> exprs,
+      ZName bind)
   {
     assert names.size() == exprs.size();
 
-    if ((new HashSet<ZDeclName>(names)).size() != names.size())
+    if ((new HashSet<ZName>(names)).size() != names.size())
       throw new IllegalArgumentException(
           "FlatBinding contains duplicate names: " + names);
 
     bindNames = names;
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
     args_.addAll(exprs);
     args_.add(bind);
     solutionsReturned_ = -1;
@@ -90,8 +90,8 @@ public class FlatBinding extends FlatPred
     assert (assertInputArgs());
     boolean result = false;
     if (solutionsReturned_ == 0) {
-      //bindName contains the ZRefName which refers to the bind Expression in the env
-      ZRefName bindName = args_.get(args_.size() - 1);
+      //bindName contains the ZName which refers to the bind Expression in the env
+      ZName bindName = args_.get(args_.size() - 1);
 
       solutionsReturned_++;
       Envir env = evalMode_.getEnvir();
@@ -106,15 +106,15 @@ public class FlatBinding extends FlatPred
               +bindingsList.size()+" and "+bindNames.size());
         result = true;  // we start optimistic
         for (int i = 0; i < bindNames.size(); i++) {
-          ZRefName exprName = args_.get(i);
-          ZDeclName boundName = bindNames.get(i);
+          ZName exprName = args_.get(i);
+          ZName boundName = bindNames.get(i);
           // find the corresponding boundName in bindingsList
           // TODO: this is O(N^2) in the length of the binding lists.
           //       It would be more efficient to sort both lists first,
           //       then do one pass over them.
           ConstDecl cdecl = null;
           for (Decl decl : bindingsList) {
-            if (((ConstDecl)decl).getDeclName().equals(boundName)) {
+            if (((ConstDecl)decl).getName().equals(boundName)) {
               cdecl = (ConstDecl) decl;
               break;
             }

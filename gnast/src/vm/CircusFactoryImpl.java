@@ -1,11 +1,11 @@
 
     /** Creates a parameterless call action. This is a convenience method */
-    public CallAction createCallAction(RefName name) {
+    public CallAction createCallAction(Name name) {
       return createCallAction(name, createZExprList());
     }
 
     /** Creates a parameterless call process with empty generic actuals. This is a convenience method */
-    public CallProcess createCallProcess(RefName name) {
+    public CallProcess createCallProcess(Name name) {
       return createCallProcess(createRefExpr(name, createZExprList(), Boolean.FALSE, Boolean.TRUE), 
 		createZExprList(), CallKind.Param);
     }

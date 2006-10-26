@@ -22,10 +22,10 @@ package net.sourceforge.czt.z.util;
 import net.sourceforge.czt.z.ast.*;
 
 public class StandardZ
-  implements IsEmptyDeclNameList
+  implements IsEmptyNameList
 {
-  public boolean isEmpty(DeclNameList declNameList)
+  public boolean isEmpty(NameList nameList)
   {
-    return ZUtils.assertZDeclNameList(declNameList).isEmpty();
+    return ZUtils.assertZNameList(nameList).isEmpty();
   }
 }

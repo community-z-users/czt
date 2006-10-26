@@ -1,7 +1,7 @@
 
   /**
    * This is a convenience method.
-   * It returns the ZRefExpr if RefExpr is an instance of
-   * ZRefExpr and throws an UnsupportedAstClassException otherwise.
+   * It returns the ZName if Name is an instance of
+   * ZName and throws an UnsupportedAstClassException otherwise.
    */
-  ZRefName getZRefName();
+  ZName getZName();

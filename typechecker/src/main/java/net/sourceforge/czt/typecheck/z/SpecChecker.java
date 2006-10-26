@@ -174,12 +174,12 @@ public class SpecChecker
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
-        ZDeclName zDeclName = pair.getZDeclName();
+        ZName zName = pair.getZName();
         NameSectTypeTriple duplicate =
-          sectTypeEnv().add(zDeclName, pair.getType());
+          sectTypeEnv().add(zName, pair.getType());
         if (duplicate != null) {
-          Object [] params = {zDeclName};
-          error(zDeclName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
+          Object [] params = {zName};
+          error(zName, ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
 
@@ -215,7 +215,7 @@ public class SpecChecker
       //raise an error if there are duplicates in merging parents
       if (duplicate != null &&
 	  !duplicate.getSect().equals(triple.getSect())) {
-        Object [] params = {triple.getZDeclName(), duplicate.getSect(),
+        Object [] params = {triple.getZName(), duplicate.getSect(),
                             triple.getSect(), sectName()};
         error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);
       }

@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.MuExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 
 
@@ -47,12 +47,12 @@ public class FlatMuTest
 
     FlatPredList sch = new FlatPredList(zlive_);
     sch.addSchText(mu.getZSchText());
-    ZRefName resultName = sch.addExpr(mu.getExpr());
+    ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
 
     FlatPredModel iut =
       new FlatPredModel(pred,
-        new ZRefName[] {x,y,resultName},
+        new ZName[] {x,y,resultName},
         "IIO,III", // these are the only modes that should work
         new Eval(1, "II?", i2, i2, i4),
         new Eval(-1, "II?", i2, i1, i4)   // should throw undef
@@ -70,12 +70,12 @@ public class FlatMuTest
 
     FlatPredList sch = new FlatPredList(zlive_);
     sch.addSchText(mu.getZSchText());
-    ZRefName resultName = sch.addExpr(mu.getExpr());
+    ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
 
     FlatPredModel iut =
       new FlatPredModel(pred,
-        new ZRefName[] {x,y,resultName},
+        new ZName[] {x,y,resultName},
         "IIO,III", // these are the only modes that should work
         new Eval(1, "II?", i2, i3, i1),   // ok, because 2/2 = 3/2.
         new Eval(-1, "IIO", i2, i4, i1)   // should throw undef
@@ -100,12 +100,12 @@ public class FlatMuTest
     Expr expr = mu.getExpr();
     if (expr == null)
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
-    ZRefName resultName = sch.addExpr(expr);
+    ZName resultName = sch.addExpr(expr);
     FlatMu pred = new FlatMu(sch, resultName);
 
     FlatPredModel iut =
       new FlatPredModel(pred,
-        new ZRefName[] {y,resultName},
+        new ZName[] {y,resultName},
         "IIO,III,IOI", // these are the modes that should work (IOI=II)
         new Eval(1, "I?", i5, pair),
         new Eval(-1, "IO", i20, pair)  // should throw undef

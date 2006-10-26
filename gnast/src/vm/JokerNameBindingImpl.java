@@ -1,5 +1,5 @@
 
   public void reset()
   {
-    setDeclName(null);
+    setName(null);
   }

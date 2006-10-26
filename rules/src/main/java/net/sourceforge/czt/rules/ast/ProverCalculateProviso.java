@@ -73,21 +73,21 @@ public class ProverCalculateProviso
         throw new CztException(message);
       }
       RefExpr refExpr = (RefExpr) left;
-      RefName refName = refExpr.getRefName();
-      if ( ! (refName instanceof ZRefName)) {
+      Name refName = refExpr.getName();
+      if ( ! (refName instanceof ZName)) {
         final String message = refName.getClass() +
-        " is not a supported RefName " +
+        " is not a supported Name " +
         " for the calculate proviso";
         throw new CztException(message);
       }
-      ZRefName zRefName = (ZRefName) refName;
-      if (zRefName.getZStrokeList().size() != 0) {
-        final String message = zRefName +
-        " with decorations is not a supported RefName " +
+      ZName zName = (ZName) refName;
+      if (zName.getZStrokeList().size() != 0) {
+        final String message = zName +
+        " with decorations is not a supported Name " +
         " for the calculate proviso";
         throw new CztException(message);
       }
-      String funcName = zRefName.getWord();
+      String funcName = zName.getWord();
       Expr arg = applExpr.getRightExpr();
       if ("binding".equals(funcName))
         checkBinding(arg, factory);
@@ -204,21 +204,13 @@ public class ProverCalculateProviso
         for (Decl decl : zDeclList) {
           if (decl instanceof VarDecl) {
             VarDecl varDecl = (VarDecl) decl;
-            for (DeclName declName : varDecl.getDeclName()) {
-              ZDeclName zDeclName =
-                declName.accept(new GetZDeclName());
-              ZDeclName newZDeclName =
-                factory.createZDeclName(zDeclName.getWord(),
-                    zDeclName.getStrokeList());
-              ZRefName newZRefName =
-                factory.createZRefName(zDeclName.getWord(),
-                    zDeclName.getStrokeList(),
-                    zDeclName);
-              RefExpr newRefExpr =
-                factory.createRefExpr(newZRefName);
-              ConstDecl constDecl =
-                factory.createConstDecl(newZDeclName,
-                    newRefExpr);
+            for (Name declName : varDecl.getName()) {
+              ZName zName = declName.accept(new GetZName());
+              ZName newZName = factory.createZName(zName.getWord(),
+                                                   zName.getStrokeList());
+              RefExpr newRefExpr = factory.createRefExpr(newZName);
+              ConstDecl constDecl = factory.createConstDecl(newZName,
+                                                            newRefExpr);
               newZDeclList.add(constDecl);
             }
           }
@@ -268,7 +260,7 @@ public class ProverCalculateProviso
       for (Decl decl : decls2)
       {
         VarDecl vdecl = (VarDecl)decl;
-        String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+        String name = vdecl.getName().get(0).accept(new PrintVisitor());
         //      System.out.println("map2["+name+"] := "+vdecl.getExpr());
         map2.put(name,vdecl.getExpr());
       }
@@ -277,7 +269,7 @@ public class ProverCalculateProviso
       for (Decl decl : decls1)
       {
         VarDecl vdecl = (VarDecl)decl;
-        String name = vdecl.getDeclName().get(0).accept(new PrintVisitor());
+        String name = vdecl.getName().get(0).accept(new PrintVisitor());
         //      System.out.println("checking name:"+name+".");
         if (map2.containsKey(name)) {
           assert map2.get(name).equals(vdecl.getExpr());
@@ -313,7 +305,7 @@ public class ProverCalculateProviso
       if ( ! (decl instanceof VarDecl))
         throw new CztException(op+" arguments must contain only VarDecls");
       VarDecl vdecl = (VarDecl)decl;
-      if (vdecl.getDeclName().size() != 1)
+      if (vdecl.getName().size() != 1)
         throw new CztException(op+" arguments must be in normal form");
     }
     return decls;
@@ -367,19 +359,17 @@ public class ProverCalculateProviso
     final Expr leftExpr = argList.get(0);
     final Expr rightExpr = argList.get(1);
     if (leftExpr instanceof RefExpr && rightExpr instanceof RefExpr) {
-      final ZRefName leftName = ((RefExpr) leftExpr).getZRefName();
-      final ZRefName rightName = ((RefExpr) rightExpr).getZRefName();
+      final ZName leftName = ((RefExpr) leftExpr).getZName();
+      final ZName rightName = ((RefExpr) rightExpr).getZName();
       final String leftWord = leftName.getWord();
       final String rightWord = rightName.getWord();
       if (rightWord.startsWith(leftWord)) {
         final String resultWord =
           rightWord.substring(leftWord.length(), rightWord.length());
         StrokeList strokes = rightName.getStrokeList();
-        // TODO: clean this up.  We need to connect the new RefName to
-        // a DeclName so that unification works.
-        ZDeclName declName = new Factory().createZDeclName(resultWord, strokes, "global_i_hope");
-        final ZRefName resultName =
-          factory.createZRefName(resultWord, strokes, declName);
+        // TODO: clean this up.
+        final ZName resultName =
+          factory.createZName(resultWord, strokes, "global_i_hope");
         final RefExpr result =
           factory.createRefExpr(resultName);
         unify(result, getLeftExpr()); // unify sets status_
@@ -462,35 +452,35 @@ public class ProverCalculateProviso
     }
   }
 
-  public static class GetZDeclName
-    implements TermVisitor<ZDeclName>,
-               JokerDeclNameVisitor<ZDeclName>,
-               ZDeclNameVisitor<ZDeclName>
+  public static class GetZName
+    implements TermVisitor<ZName>,
+               JokerNameVisitor<ZName>,
+               ZNameVisitor<ZName>
   {
-    public ZDeclName visitTerm(Term term)
+    public ZName visitTerm(Term term)
     {
       final String message = term.getClass() +
-        " is not a supported DeclName " +
+        " is not a supported Name " +
         " for the calculate proviso";
       throw new CztException(message);
     }
 
-    public ZDeclName visitJokerDeclName(JokerDeclName jokerDeclName)
+    public ZName visitJokerName(JokerName jokerName)
     {
-      if (jokerDeclName instanceof ProverJokerDeclName) {
-        Joker joker = (Joker) jokerDeclName;
+      if (jokerName instanceof ProverJokerName) {
+        Joker joker = (Joker) jokerName;
         Term boundTo = joker.boundTo();
         if (boundTo != null) return boundTo.accept(this);
       }
-      final String message = jokerDeclName.getClass() +
-        " is not a supported JokerDeclName " +
+      final String message = jokerName.getClass() +
+        " is not a supported JokerName " +
         " for the calculate proviso";
       throw new CztException(message);
     }
 
-    public ZDeclName visitZDeclName(ZDeclName zDeclName)
+    public ZName visitZName(ZName zName)
     {
-      return zDeclName;
+      return zName;
     }
   }
 
@@ -502,9 +492,9 @@ public class ProverCalculateProviso
                JokerDeclListVisitor,
                ZDeclListVisitor
   {
-    private Set<DeclName> variables_ = new HashSet<DeclName>();
+    private Set<Name> variables_ = new HashSet<Name>();
 
-    public Set<DeclName> getVariables()
+    public Set<Name> getVariables()
     {
       return variables_;
     }
@@ -526,7 +516,7 @@ public class ProverCalculateProviso
 
     public Object visitVarDecl(VarDecl varDecl)
     {
-      for (DeclName declName : varDecl.getDeclName()) {
+      for (Name declName : varDecl.getName()) {
         variables_.add(declName);
       }
       return null;
@@ -534,7 +524,7 @@ public class ProverCalculateProviso
 
     public Object visitConstDecl(ConstDecl constDecl)
     {
-      variables_.add(constDecl.getDeclName());
+      variables_.add(constDecl.getName());
       return null;
     }
 
@@ -562,10 +552,9 @@ public class ProverCalculateProviso
   public static class DecorateNamesVisitor
     implements InclDeclVisitor<Term>,
                TermVisitor<Term>,
-               ZDeclNameVisitor<Term>,
-               ZRefNameVisitor<Term>
+               ZNameVisitor<Term>
   {
-    private Set<DeclName> declNames_;
+    private Set<Name> declNames_;
     private Factory factory_ = new Factory(new ProverFactory());
 
     /**
@@ -573,7 +562,7 @@ public class ProverCalculateProviso
      */
     private Stroke stroke_;
 
-    public DecorateNamesVisitor(Set<DeclName> declNames, Stroke stroke)
+    public DecorateNamesVisitor(Set<Name> declNames, Stroke stroke)
     {
       declNames_ = declNames;
       stroke_ = stroke;
@@ -601,34 +590,16 @@ public class ProverCalculateProviso
       return (Term) VisitorUtils.visitTerm(this, term, true);
     }
 
-    public Term visitZDeclName(ZDeclName zDeclName)
+    public Term visitZName(ZName zName)
     {
-      Object[] children = zDeclName.getChildren();
+      Object[] children = zName.getChildren();
       for (int i = 0; i < children.length; i++) {
         if (children[i] instanceof Term) {
           children[i] = ((Term) children[i]).accept(this);
         }
       }
-      ZDeclName newName = (ZDeclName) zDeclName.create(children);
-      if (declNames_.contains(zDeclName)) {
-	ZStrokeList strokes = factory_.createZStrokeList();
-	strokes.addAll(newName.getZStrokeList());
-	strokes.add(stroke_);
-        newName.setStrokeList(strokes);
-      }
-      return newName;
-    }
-
-    public Term visitZRefName(ZRefName zRefName)
-    {
-      Object[] children = zRefName.getChildren();
-      for (int i = 0; i < children.length; i++) {
-        if (children[i] instanceof Term) {
-          children[i] = ((Term) children[i]).accept(this);
-        }
-      }
-      ZRefName newName = (ZRefName) zRefName.create(children);
-      if (declNames_.contains(zRefName.getDecl())) {
+      ZName newName = (ZName) zName.create(children);
+      if (declNames_.contains(zName)) {
 	ZStrokeList strokes = factory_.createZStrokeList();
 	strokes.addAll(newName.getZStrokeList());
 	strokes.add(stroke_);

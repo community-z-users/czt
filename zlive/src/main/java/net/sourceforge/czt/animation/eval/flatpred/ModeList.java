@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** A subclass of Mode that records modes for compound structures.
  *  In addition to the usual mode information, it records a list
@@ -40,7 +40,7 @@ public class ModeList extends Mode
   //@ requires solns > 0.0;
   public ModeList(/*@non_null@*/FlatPred parent,
                   /*@non_null@*/Envir env0,
-		  /*@non_null@*/List<ZRefName> args,
+		  /*@non_null@*/List<ZName> args,
 		  double solns,
 		  /*@non_null@*/List<Mode> subModes)
   {

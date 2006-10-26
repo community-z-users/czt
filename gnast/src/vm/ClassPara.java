@@ -1,9 +1,9 @@
   /**
    * This is a convenience method.
-   * It returns the ZDeclName if DeclName is an instance of
-   * ZDeclName and throws an UnsupportedAstClassException otherwise.
+   * It returns the ZName if Name is an instance of
+   * ZName and throws an UnsupportedAstClassException otherwise.
    */
-  ZDeclName getClassName();
+  ZName getClassName();
 
   /**
    * This is a convenience method.

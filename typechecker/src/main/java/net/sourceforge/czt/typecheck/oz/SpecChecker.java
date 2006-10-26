@@ -48,7 +48,7 @@ public class SpecChecker
       new net.sourceforge.czt.typecheck.z.SpecChecker(typeChecker);
 
     //add the type for \oid
-    ZDeclName oidName = factory().createZDeclName(OzString.OID);
+    ZName oidName = factory().createZDeclName(OzString.OID);
     PowerType oidType = factory().createOIDType();
     NameSectTypeTriple triple =
       factory().createNameSectTypeTriple(oidName, OZ_TOOLKIT, oidType);

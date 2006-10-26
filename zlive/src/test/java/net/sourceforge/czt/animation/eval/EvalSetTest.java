@@ -33,7 +33,7 @@ import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -45,12 +45,12 @@ public class EvalSetTest
   extends ZTestCase
 {
   // names for integer variables
-  protected ZRefName i = factory_.createZRefName("i");
-  protected ZRefName j = factory_.createZRefName("j");
-  protected ZRefName k = factory_.createZRefName("k");
+  protected ZName i = factory_.createZName("i");
+  protected ZName j = factory_.createZName("j");
+  protected ZName k = factory_.createZName("k");
   // names for set variables
-  protected ZRefName s = factory_.createZRefName("s");
-  protected ZRefName t = factory_.createZRefName("t");
+  protected ZName s = factory_.createZName("s");
+  protected ZName t = factory_.createZName("t");
 
   // several environments used during testing.
   protected Envir envEmpty = new Envir();
@@ -80,7 +80,7 @@ public class EvalSetTest
     set.inferBounds(new Bounds());
 
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),s));
     emptySet.inferBounds(new Bounds());
   }
 

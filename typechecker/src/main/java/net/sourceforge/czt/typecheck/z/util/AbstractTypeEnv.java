@@ -47,27 +47,27 @@ abstract public class AbstractTypeEnv
     factory_ = new Factory(zFactory);
   }
 
-  abstract public Type getType(ZRefName zRefName);
+  abstract public Type getType(ZName zName);
 
   /**
    * Lookup the base name of a delta or xi reference, returning the
    * parameter 'type' if the base name is not found, or is not a
    * schema
    */
-  protected Type getDeltaXiType(ZRefName zRefName, Type type)
+  protected Type getDeltaXiType(ZName zName, Type type)
   {
     Type result = type;
 
     //if the type is unknown and the name starts with delta or xi, try
     //looking up the base name
-    if (zRefName.getWord().startsWith(ZString.DELTA) ||
-        zRefName.getWord().startsWith(ZString.XI)) {
+    if (zName.getWord().startsWith(ZString.DELTA) ||
+        zName.getWord().startsWith(ZString.XI)) {
 
       final int size = (ZString.DELTA).length();
-      String baseWord = zRefName.getWord().substring(size);
+      String baseWord = zName.getWord().substring(size);
       ZStrokeList strokes = factory_.getZFactory().createZStrokeList();
-      strokes.addAll(zRefName.getZStrokeList());
-      ZRefName baseName =
+      strokes.addAll(zName.getZStrokeList());
+      ZName baseName =
         factory_.createZRefName(baseWord, strokes, null);
       Type baseType = getType(baseName);
 
@@ -79,7 +79,7 @@ abstract public class AbstractTypeEnv
 
         List<NameTypePair> newPairs = factory_.list();
         for (NameTypePair pair : signature.getNameTypePair()) {
-          ZDeclName primedName = factory_.createZDeclName(pair.getZDeclName());
+          ZName primedName = factory_.createZDeclName(pair.getZName(), true);
           primedName.getZStrokeList().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());
@@ -94,25 +94,22 @@ abstract public class AbstractTypeEnv
 
         if (baseType instanceof GenericType) {
           GenericType gType = (GenericType) baseType;
-          result =
-            factory_.createGenericType(gType.getName(), newPowerType, null);
+          result = factory_.createGenericType(gType.getNameList(),
+                                              newPowerType,
+                                              null);
         }
         else {
           result = newPowerType;
         }
         
-        // Ensure that zRefName is linked to a ZDeclName,
+        // Ensure that zName is linked to a ZName,
         // This is one of the postconditions of the typechecker, that
-        // every ZRefName should be linked to some ZDeclName.
+        // every ZName should be linked to some ZName.
         // For example, the unification in the rules package relies on this.
         // These Delta/Xi names are a special case, because there may
-        // not be any corresponding ZDeclName.  So if there is not,
-        // we add a dummy one with a fixed (global) id.
-        if (zRefName.getDecl() == null) {
-          String word = zRefName.getWord();
-          StrokeList strokelist = zRefName.getStrokeList();
-          zRefName.setDecl(factory_.createZDeclName(word, strokelist, "deltaxi"));
-        }
+        // not be any corresponding ZName.  So if there is not,
+        // we add a fixed (global) id.
+        if (zName.getId() == null) zName.setId("deltaxi");
       }
     }
     return result;

@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.oz;
 import java.util.List;
 
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
+import static net.sourceforge.czt.z.util.ZUtils.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -72,11 +73,11 @@ public class ExprChecker
     Type2 type = refExpr.accept(zExprChecker_);
 
     //get the type of this name
-    ZRefName zRefName = refExpr.getZRefName();
+    ZName zName = refExpr.getZName();
 
     if (className() != null &&
-	zRefName.getWord().equals(OzString.SELF) &&
-	zRefName.getZStrokeList().size() == 0) {
+	zName.getWord().equals(OzString.SELF) &&
+	zName.getZStrokeList().size() == 0) {
       type  = getSelfType();
     }
     return type;
@@ -165,8 +166,8 @@ public class ExprChecker
 	    final int superSize = cRef.getType().size();
 	    final int subSize = subClass.getThisClass().getType().size();
 	    if (superSize != subSize) {
-	      Object [] params = {cRef.getRefName(), superSize,
-				  subClass.getThisClass().getRefName(),
+	      Object [] params = {cRef.getName(), superSize,
+				  subClass.getThisClass().getName(),
 				  subSize, polyExpr};
 	      error(polyExpr,
 		    ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
@@ -187,7 +188,7 @@ public class ExprChecker
 	    checkOpVisibility(classRefType, subClass, superOps, subOps, polyExpr);
 
 	    ClassRef subCRef = factory().createClassRef();
-	    subCRef.setRefName(subClass.getThisClass().getRefName());
+	    subCRef.setName(subClass.getThisClass().getName());
 	    subCRef.getType().addAll(cRef.getType());
 	    subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
 	    if (!contains(subClasses, subCRef)) {
@@ -269,7 +270,7 @@ public class ExprChecker
       }
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
-        ZRefName selectName = bindSelExpr.getZRefName();
+        ZName selectName = bindSelExpr.getZName();
 
 	//if the selected name is "self", then simply type of this
 	//is the same as the type of the expression
@@ -326,8 +327,8 @@ public class ExprChecker
       unificationEnv().enterScope();
 
       //add new vtypes for the (missing) parameters
-      List<ZDeclName> paramNames = gType.getName();
-      for (ZDeclName paramName : paramNames) {
+      ZNameList paramNames = assertZNameList(gType.getNameList());
+      for (Name paramName : paramNames) {
         //add a variable type corresponding to this name
         VariableType vType = factory().createVariableType();
         unificationEnv().addGenName(paramName, vType);
@@ -376,7 +377,7 @@ public class ExprChecker
     else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
       if (vPowerType.getType() instanceof ClassRefType) {
 	//add declname IDs to the new names
-	addDeclNameIDs(renameExpr.getZRenameList());
+	addNameIDs(renameExpr.getZRenameList());
 
 	//rename the class features
         ClassRefType classRefType = (ClassRefType) vPowerType.getType();
@@ -395,7 +396,7 @@ public class ExprChecker
 
         if (vPowerType.getType() instanceof UnknownType) {
           UnknownType uType = (UnknownType) vPowerType.getType();
-          if (uType.getZRefName() != null) {
+          if (uType.getZName() != null) {
             List<NewOldPair> newPairs =
               mergeRenamePairs(uType.getPairs(), renameExpr.getZRenameList());
             uType.getPairs().clear();

@@ -27,7 +27,6 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.zpatt.ast.JokerType;
 

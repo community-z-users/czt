@@ -28,7 +28,7 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.z.ast.ForallPred;
 import net.sourceforge.czt.z.ast.SchExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -44,7 +44,7 @@ public class FlatForallTest
   @Override public void setUp()
   {
     // We put the forall into a context so that we can typecheck it.
-    // We have to typecheck it, so that ZRefNames are bound to ZDeclNames.
+    // We have to typecheck it, so that ZNames are bound to ZDeclNames.
     SchExpr e = (SchExpr) parseExpr("[x,y,z:\nat | \\forall i:x \\upto y @ i > z]");
     TypeCheckUtils.typecheck(e, new SectionManager());
     ForallPred all = (ForallPred) e.getZSchText().getPred();
@@ -65,7 +65,7 @@ public class FlatForallTest
   {
     FlatPredModel iut =
       new FlatPredModel(sut_,
-        new ZRefName[] {x,y,z},
+        new ZName[] {x,y,z},
         "III", // this is the only mode that should work
         new Eval(1, "III", i2, i4, i1), // i:2..4 @ i>1
         new Eval(0, "III", i2, i4, i2)  // i:2..4 @ i>2
@@ -79,7 +79,7 @@ public class FlatForallTest
   {
     FlatPredModel iut =
       new FlatPredModel(sut_,
-        new ZRefName[] {x,y,z},
+        new ZName[] {x,y,z},
         "III", // this is the only mode that should work
         new Eval(1, "III", i2, i1, i0), // i:2..1 is empty
         new Eval(1, "III", i2, i0, i4)  // i:2..0 @ i>4

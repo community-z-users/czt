@@ -27,7 +27,7 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZExprList;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -39,15 +39,15 @@ public class FlatTuple extends FlatPred
 {
   protected Factory factory_ = new Factory();
   
-  public FlatTuple(List<ZRefName> elements, ZRefName tuple)
+  public FlatTuple(List<ZName> elements, ZName tuple)
   {
-    args_ = new ArrayList<ZRefName>(elements);
+    args_ = new ArrayList<ZName>(elements);
     args_.add(tuple);
     solutionsReturned_ = -1;
   }
   
   //@ requires newargs.size() >= 1;
-  public FlatTuple(List<ZRefName> newargs)
+  public FlatTuple(List<ZName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));
   }
@@ -69,8 +69,8 @@ public class FlatTuple extends FlatPred
         assert (evalMode_.isInput(i));
     }
     boolean result = false;
-    //tupleName contains the ZRefName which refers to the tuple Expression in the env
-    ZRefName tupleName = args_.get(args_.size()-1);
+    //tupleName contains the ZName which refers to the tuple Expression in the env
+    ZName tupleName = args_.get(args_.size()-1);
     if(solutionsReturned_==0) {
       solutionsReturned_++;
       //The case where the tuple itself is an input
@@ -81,7 +81,7 @@ public class FlatTuple extends FlatPred
         if(memberList.size() == args_.size()-1) {
           boolean flag = true;
           for(int i=0;i<memberList.size();i++) {
-	    ZRefName elem = args_.get(i);
+	    ZName elem = args_.get(i);
 	    Object value = evalMode_.getEnvir().lookup(elem);
             //if value of elem is unknown (null), we do envir(elem) := value from tuple
             if(value == null) {

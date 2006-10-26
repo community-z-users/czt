@@ -29,8 +29,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZRefNameComparator;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 public class FlatForall extends FlatPred
 {
@@ -53,22 +52,20 @@ public class FlatForall extends FlatPred
     body_ = body;
 
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
-    freeVars_ = new HashSet<ZRefName>(schText_.freeVars());
+    freeVars_ = new HashSet<ZName>(schText_.freeVars());
     System.out.println("schText freevars = "+schText_.freeVars());
     System.out.println("schText boundvars = "+schText_.boundVars());
     System.out.println("body freevars = "+body_.freeVars());
-    Set<ZDeclName> bound = sch.boundVars();
-    for (ZRefName var : body_.freeVars()) {
-      ZDeclName dvar = var.getDecl();
-      if (dvar == null) {
-        System.out.println("Warning: ZRefName is not linked to ZDeclName: "+var);
-        dvar = sch.getFactory().createZDeclName(var.getWord(), var.getStrokeList(), null);
+    Set<ZName> bound = sch.boundVars();
+    for (ZName var : body_.freeVars()) {
+      if (var.getId() == null) {
+        System.out.println("Warning: ZName doesn't have id.");
       }
-      if ( ! bound.contains(dvar))
+      if ( ! bound.contains(var))
         freeVars_.add(var);
     }
     System.out.println("freevars = "+freeVars_);
-    args_ = new ArrayList<ZRefName>(freeVars_);
+    args_ = new ArrayList<ZName>(freeVars_);
     Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
     solutionsReturned_ = -1;
     sLogger.exiting("FlatForall","FlatForall");
@@ -129,7 +126,7 @@ public class FlatForall extends FlatPred
     return result;
   }
 
-  public Set<ZRefName> freeVars()
+  public Set<ZName> freeVars()
   { return freeVars_; }
 
   //@ requires mode instanceof ModeList;

@@ -26,8 +26,7 @@ import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -41,11 +40,11 @@ public class FlatBindingTest
   public void testEmpty()
   {
     BindExpr bind = (BindExpr) this.parseExpr("\\lblot \\rblot");
-    List<ZDeclName>  names = new ArrayList<ZDeclName>();
-    List<ZRefName> exprs = new ArrayList<ZRefName>();
+    List<ZName>  names = new ArrayList<ZName>();
+    List<ZName> exprs = new ArrayList<ZName>();
     FlatPred pred = new FlatBinding(names,exprs,z);
 
-    FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {z},
+    FlatPredModel iut = new FlatPredModel(pred, new ZName[] {z},
                             "OOO,OII,IOI,IIO,III",
                             new Eval(1, "O", bind),
                             new Eval(1, "I", bind)
@@ -57,15 +56,15 @@ public class FlatBindingTest
   public void testMBT()
   {
     BindExpr bind = (BindExpr) this.parseExpr("\\lblot x==3, y==4 \\rblot");
-    List<ZDeclName>  names = new ArrayList<ZDeclName>();
-    names.add( ((ConstDecl) bind.getZDeclList().get(0)).getZDeclName());
-    names.add( ((ConstDecl) bind.getZDeclList().get(1)).getZDeclName());
-    List<ZRefName> exprs = new ArrayList<ZRefName>();
+    List<ZName>  names = new ArrayList<ZName>();
+    names.add( ((ConstDecl) bind.getZDeclList().get(0)).getZName());
+    names.add( ((ConstDecl) bind.getZDeclList().get(1)).getZName());
+    List<ZName> exprs = new ArrayList<ZName>();
     exprs.add(x);
     exprs.add(y);
     FlatPred pred = new FlatBinding(names,exprs,z);
 
-    FlatPredModel iut = new FlatPredModel(pred, new ZRefName[] {x,y,z},
+    FlatPredModel iut = new FlatPredModel(pred, new ZName[] {x,y,z},
                             "OII,IOI,IIO,III",
                             new Eval(1, "???", i3, i4, bind),
                             new Eval(0, "I?I", i2, i5, bind)

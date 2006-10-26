@@ -28,7 +28,7 @@ import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.DeclList;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -81,7 +81,7 @@ public class ZBinding implements ZValue
     //return binding_.keySet();
     Set<String> result = new HashSet<String>();
     for (Decl decl : expr_.getZDeclList()) {
-      result.add(((ConstDecl) decl).getDeclName().toString());
+      result.add(((ConstDecl) decl).getName().toString());
     }
     return result;
   }
@@ -94,11 +94,11 @@ public class ZBinding implements ZValue
   public ZValue get(String location)
   {
     //return (ZValue) binding_.get(location);
-    ZDeclName target = factory_.createZDeclName(location);
+    ZName target = factory_.createZName(location);
     try {
       for (Decl decl : expr_.getZDeclList()) {
         ConstDecl tempDecl = (ConstDecl) decl;
-        if (tempDecl.getZDeclName().equals(target)) {
+        if (tempDecl.getZName().equals(target)) {
           return GaffeFactory.zValue(tempDecl.getExpr());
         }
       }
@@ -163,7 +163,7 @@ public class ZBinding implements ZValue
   {
     ZDeclList result = factory_.createZDeclList();
     for (String s : binding.keySet()) {
-      ZDeclName name = factory_.createZDeclName(s);
+      ZName name = factory_.createZName(s);
       ZValue zValue = binding.get(s);
       if (zValue != null) {
         result.add((Decl) factory_.createConstDecl(name, binding.get(s)

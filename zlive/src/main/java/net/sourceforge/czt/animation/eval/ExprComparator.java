@@ -82,8 +82,8 @@ public class ExprComparator implements Comparator<Expr>
     public int compare(ConstDecl cdecl0, ConstDecl cdecl1)
     {
       PrintVisitor printVisitor = new PrintVisitor();
-      String name0 = cdecl0.getZDeclName().accept(printVisitor);
-      String name1 = cdecl1.getZDeclName().accept(printVisitor);
+      String name0 = cdecl0.getZName().accept(printVisitor);
+      String name1 = cdecl1.getZName().accept(printVisitor);
       return name0.compareTo(name1);
     }
   }
@@ -134,8 +134,8 @@ public class ExprComparator implements Comparator<Expr>
         case FREETYPE1:
           Branch free0 = (Branch)arg0;
           Branch free1 = (Branch)arg1;
-          String name0 = free0.getZDeclName().accept(printVisitor);
-          String name1 = free1.getZDeclName().accept(printVisitor);
+          String name0 = free0.getZName().accept(printVisitor);
+          String name1 = free1.getZName().accept(printVisitor);
           result = sign(name0.compareTo(name1));
           if (result == EQUAL && type0 == FREETYPE1)
             result = compare(free0.getExpr(), free1.getExpr());
@@ -170,8 +170,8 @@ public class ExprComparator implements Comparator<Expr>
             
             // compare all the names
             for (int i=0; result==EQUAL && i<size; i++) {
-              String n0 = binding0.get(i).getZDeclName().accept(printVisitor);
-              String n1 = binding1.get(i).getZDeclName().accept(printVisitor);
+              String n0 = binding0.get(i).getZName().accept(printVisitor);
+              String n1 = binding1.get(i).getZName().accept(printVisitor);
               result = sign(n0.compareTo(n1));
             }
             

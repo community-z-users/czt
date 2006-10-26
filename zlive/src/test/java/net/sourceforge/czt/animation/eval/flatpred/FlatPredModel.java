@@ -25,7 +25,7 @@ import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -41,7 +41,7 @@ public class FlatPredModel implements FsmModel
   private FlatPred pred_;
 
   /** The names of all the free variables of the FlatPred. */
-  private ZRefName[] names_;
+  private ZName[] names_;
 
   /** A comma-separated list of the valid mode triples.
    *  Eg. "OOO,IIO,III".  This controls whether the various
@@ -88,12 +88,12 @@ public class FlatPredModel implements FsmModel
    */
   //@requires names.length == eval1.args.length;
   //@requires names.length == eval2.args.length;
-  public FlatPredModel(FlatPred toTest, ZRefName[] names, String validModes,
+  public FlatPredModel(FlatPred toTest, ZName[] names, String validModes,
       Eval eval1, Eval eval2)
   {
     // some debug messages.
     //    System.out.print("\n\nIUT = " + toTest + " with names ");
-    //    for (ZRefName n : names)
+    //    for (ZName n : names)
     //      System.out.print(n + ", ");
     //    System.out.println(" and freevars=" + toTest.freeVars());
     pred_ = toTest;

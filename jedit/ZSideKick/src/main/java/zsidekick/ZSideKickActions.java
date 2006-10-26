@@ -162,12 +162,13 @@ public class ZSideKickActions
     }
   }
 
+  /*
   public static void gotoDefinition(View view)
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      if (term instanceof ZRefName) {
+      if (term instanceof ZName) {
         ZRefName refName = (ZRefName) term;
         DeclName declName = refName.getDecl();
         if (declName != null) {
@@ -201,6 +202,7 @@ public class ZSideKickActions
       }
     }
   }
+  */
 
   public static void prove(View view)
   {

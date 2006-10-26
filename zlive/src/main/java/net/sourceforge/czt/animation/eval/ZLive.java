@@ -52,7 +52,7 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.ZNumeral;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
 
@@ -86,7 +86,7 @@ public class ZLive
   private int givenSetSize_ = Integer.MAX_VALUE;
 
   /** Generates a fresh temporary name. */
-  public ZRefName createNewName()
+  public ZName createNewName()
   {
     // This is a temporary debugging aid, to detect some infinite loops.
     // Once we start evaluating larger terms it will need to be removed
@@ -97,11 +97,11 @@ public class ZLive
       e.printStackTrace(new PrintWriter(w));
       sLogger.fine("Stack dump: "+w.toString());
     }
-    return factory_.createZRefName("tmp"+(newNameNum++));
+    return factory_.createZName("tmp"+(newNameNum++));
   }
 
-  /** Recognises the RefNames produced by createNewName. */
-  public /*@pure@*/ boolean isNewName(/*@non_null@*/ ZRefName name) {
+  /** Recognises the Names produced by createNewName. */
+  public /*@pure@*/ boolean isNewName(/*@non_null@*/ ZName name) {
     String word = name.getWord();
     return word.matches("tmp[0-9]+");
   }
@@ -285,7 +285,7 @@ public class ZLive
     // must typecheck, to reestablish the unique-ids invariant.
     typecheck(expr);
     predlist_ = new FlatPredList(this);
-    ZRefName resultName = predlist_.addExpr(expr);
+    ZName resultName = predlist_.addExpr(expr);
     predlist_.inferBounds(new Bounds());
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);

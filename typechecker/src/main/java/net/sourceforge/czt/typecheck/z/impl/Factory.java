@@ -130,27 +130,35 @@ public class Factory
     return result;
   }
 
-  public GenericType createGenericType(List<ZDeclName> zDeclName,
+  public GenericType createGenericType(NameList nameList,
                                        Type2 type,
                                        Type2 optionalType)
   {
     GenericType genericType =
-      factory_.createGenericType(zDeclName, type, optionalType);
+      factory_.createGenericType(nameList, type, optionalType);
     GenericType result = new GenericTypeImpl(genericType);
     return result;
   }
 
-  public GenParamType createGenParamType(ZDeclName zDeclName)
+  public GenericType createGenericType(List<ZName> nameList,
+                                       Type2 type,
+                                       Type2 optionalType)
+  {
+    ZNameList list = factory_.createZNameList(nameList);
+    return createGenericType(list, type, optionalType);
+  }
+
+  public GenParamType createGenParamType(ZName zDeclName)
   {
     return factory_.createGenParamType(zDeclName);
   }
 
-  public GivenType createGivenType(ZDeclName zDeclName)
+  public GivenType createGivenType(ZName zDeclName)
   {
     return factory_.createGivenType(zDeclName);
   }
 
-  public NewOldPair createNewOldPair(DeclName declName, RefName refName)
+  public NewOldPair createNewOldPair(Name declName, Name refName)
   {
     NewOldPair result = factory_.createNewOldPair(declName, refName);
     return result;
@@ -158,20 +166,20 @@ public class Factory
 
   public NewOldPair createNewOldPair(NewOldPair newOldPair)
   {
-    DeclName newName = newOldPair.getNewName();
-    RefName oldName = newOldPair.getOldName();
+    Name newName = newOldPair.getNewName();
+    Name oldName = newOldPair.getOldName();
     NewOldPair result = createNewOldPair(newName, oldName);
     return result;
   }
 
-  public NameTypePair createNameTypePair(DeclName declName, Type type)
+  public NameTypePair createNameTypePair(Name declName, Type type)
   {
     NameTypePair pair = factory_.createNameTypePair(declName, type);
     NameTypePair result = new NameTypePairImpl(pair);
     return result;
   }
 
-  public NameSectTypeTriple createNameSectTypeTriple(DeclName declName,
+  public NameSectTypeTriple createNameSectTypeTriple(Name declName,
                                                      String section,
                                                      Type type)
   {
@@ -202,7 +210,7 @@ public class Factory
     return new VariableType(this);
   }
 
-  public VariableType createVariableType(ZDeclName zDeclName)
+  public VariableType createVariableType(ZName zDeclName)
   {
     return new VariableType(zDeclName);
   }
@@ -212,24 +220,24 @@ public class Factory
     return new UnknownType();
   }
 
-  public UnknownType createUnknownType(ZRefName zRefName)
+  public UnknownType createUnknownType(ZName zRefName)
   {
     return new UnknownType(zRefName);
   }
 
-  public UnknownType createUnknownType(ZRefName zRefName, boolean isMem)
+  public UnknownType createUnknownType(ZName zRefName, boolean isMem)
   {
     return new UnknownType(zRefName, isMem);
   }
 
-  public UnknownType createUnknownType(ZRefName zRefName,
+  public UnknownType createUnknownType(ZName zRefName,
                                        boolean isMem,
                                        List<Type2> types)
   {
     return new UnknownType(zRefName, isMem, types);
   }
 
-  public UnknownType createUnknownType(ZRefName zRefName,
+  public UnknownType createUnknownType(ZName zRefName,
                                        boolean isMem,
                                        List<Type2> types,
                                        List<NewOldPair> pairs)
@@ -261,82 +269,67 @@ public class Factory
     return factory_.createSectTypeEnvAnn(triples);
   }
 
-  public ZDeclName createZDeclName(String word)
+  public ZName createZDeclName(String word)
   {
     return createZDeclName(word, factory_.createZStrokeList());
   }
 
-  public ZDeclName createZDeclName(String word, StrokeList strokes)
+  public ZName createZDeclName(String word, StrokeList strokes)
   {
     return createZDeclName(word, strokes, null);
   }
 
-  public ZDeclName createZDeclName(String word, StrokeList strokes, String id)
+  public ZName createZDeclName(String word, StrokeList strokes, String id)
   {
-    ZDeclName result = factory_.createZDeclName(word, strokes, id);
-    addDeclNameID(result);
+    ZName result = factory_.createZName(word, strokes, id);
+    addNameID(result);
     return result;
   }
 
-  public ZDeclName createZDeclName(ZDeclName zDeclName)
-  {
-    ZStrokeList strokes = factory_.createZStrokeList();
-    strokes.addAll(zDeclName.getZStrokeList());
-    ZDeclName result = factory_.createZDeclName(zDeclName.getWord(),
-						strokes,
-						zDeclName.getId());
-    copyLocAnn(zDeclName, result);
-    return result;
-  }
-
-  public ZDeclName createZDeclName(ZRefName zRefName)
+  public ZName createZDeclName(ZName zName, boolean copyId)
   {
     ZStrokeList strokes = factory_.createZStrokeList();
-    strokes.addAll(zRefName.getZStrokeList());
-    ZDeclName result =
-       createZDeclName(zRefName.getWord(), strokes, null);
-    copyLocAnn(zRefName, result);
+    strokes.addAll(zName.getZStrokeList());
+    String id = copyId ? zName.getId() : null;
+    ZName result = factory_.createZName(zName.getWord(), strokes, id);
+    copyLocAnn(zName, result);
     return result;
   }
 
-  public ZRefName createZRefName(String word)
+  public ZName createZRefName(String word)
   {
     return createZRefName(word, factory_.createZStrokeList(), null);
   }
 
-  public ZRefName createZRefName(String word,
-                                 StrokeList strokes,
-                                 ZDeclName declName)
+  public ZName createZRefName(String word,
+                              StrokeList strokes,
+                              ZName declName)
   {
-    return factory_.createZRefName(word, strokes, declName);
+    String id = declName != null ? declName.getId() : null;
+    return factory_.createZName(word, strokes, id);
   }
 
-  public ZRefName createZRefName(ZRefName zRefName)
+  public ZName createZRefName(ZName zName, boolean copyId)
   {
     ZStrokeList strokes = factory_.createZStrokeList();
-    strokes.addAll(zRefName.getZStrokeList());
-    ZRefName result =  createZRefName(zRefName.getWord(),
-				      strokes,
-				      zRefName.getDecl());
-    copyLocAnn(zRefName, result);
+    strokes.addAll(zName.getZStrokeList());
+    ZName declName = copyId ? zName : null;
+    ZName result =  createZRefName(zName.getWord(), strokes, declName);
+    if (copyId) copyLocAnn(zName, result);
     return result;
   }
 
-  public ZRefName createZRefName(ZDeclName zDeclName)
+  public ZNameList createZNameList(List<? extends Name> list)
   {
-    ZStrokeList strokes = factory_.createZStrokeList();
-    strokes.addAll(zDeclName.getZStrokeList());
-    return createZRefName(zDeclName.getWord(),
-			  strokes,
-			  null);
+    return factory_.createZNameList(list);
   }
 
-  public RefExpr createRefExpr(RefName refName)
+  public RefExpr createRefExpr(Name refName)
   {
     return createRefExpr(refName, this.<Expr>list(), Boolean.FALSE);
   }
 
-  public RefExpr createRefExpr(RefName refName,
+  public RefExpr createRefExpr(Name refName,
                                List<Expr> expr,
                                Boolean mixfix)
   {
@@ -369,11 +362,11 @@ public class Factory
     return factory_.createZRenameList(pairs);
   }
 
-  public void addDeclNameID(DeclName declName)
+  public void addNameID(Name declName)
   {
-    if (declName instanceof ZDeclName) {
-      ZDeclName zDeclName = (ZDeclName) declName;
-      zDeclName.setId(freshId().toString());
+    if (declName instanceof ZName) {
+      ZName zName = (ZName) declName;
+      zName.setId(freshId().toString());
     }
   }
 

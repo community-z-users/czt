@@ -41,9 +41,9 @@ public class VariableClassType
     super(factory);
   }
 
-  protected VariableClassType(ZDeclName zDeclName)
+  protected VariableClassType(ZName zName)
   {
-    super(zDeclName);
+    super(zName);
   }
 
   public ListTerm<ClassRef> getClasses()
@@ -136,10 +136,10 @@ public class VariableClassType
     assert false : "VariableClassType.create called";
     VariableClassType zedObject = null;
     try {
-      ZDeclName zDeclName = (ZDeclName) args[0];
+      ZName zName = (ZName) args[0];
       ClassType type = (ClassType) args[1];
       Type2 value = (Type2) args[2];
-      zedObject = new VariableClassType(zDeclName);
+      zedObject = new VariableClassType(zName);
       zedObject.setValue(value);
       zedObject.setCandidateType(type);
     }

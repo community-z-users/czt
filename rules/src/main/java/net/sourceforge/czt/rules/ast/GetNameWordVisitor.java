@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,31 +19,31 @@
 
 package net.sourceforge.czt.rules.ast;
 
-import net.sourceforge.czt.z.ast.RefName;
-import net.sourceforge.czt.z.ast.ZRefName;
-import net.sourceforge.czt.z.visitor.RefNameVisitor;
-import net.sourceforge.czt.z.visitor.ZRefNameVisitor;
-import net.sourceforge.czt.zpatt.ast.JokerRefName;
-import net.sourceforge.czt.zpatt.visitor.JokerRefNameVisitor;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.visitor.NameVisitor;
+import net.sourceforge.czt.z.visitor.ZNameVisitor;
+import net.sourceforge.czt.zpatt.ast.JokerName;
+import net.sourceforge.czt.zpatt.visitor.JokerNameVisitor;
 
-public class GetRefNameWordVisitor
-  implements ZRefNameVisitor<String>,
-	     JokerRefNameVisitor<String>
+public class GetNameWordVisitor
+  implements ZNameVisitor<String>,
+	     JokerNameVisitor<String>
 {
-  public String visitRefName(RefName refName)
+  public String visitName(Name name)
   {
     return null;
   }
 
-  public String visitZRefName(ZRefName zRefName)
+  public String visitZName(ZName zName)
   {
-    return zRefName.getWord();
+    return zName.getWord();
   }
 
-  public String visitJokerRefName(JokerRefName joker)
+  public String visitJokerName(JokerName joker)
   {
-    if (joker instanceof ProverJokerRefName) {
-      return ((ProverJokerRefName) joker).boundTo().accept(this);
+    if (joker instanceof ProverJokerName) {
+      return ((ProverJokerName) joker).boundTo().accept(this);
     }
     return null;
   }

@@ -25,7 +25,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** This implements the a < b predicate. */
@@ -34,9 +34,9 @@ public class FlatLessThan extends FlatPred
   protected BigInteger next = null;
   private Factory factory_ = new Factory();
   
-  public FlatLessThan(ZRefName a, ZRefName b)
+  public FlatLessThan(ZName a, ZName b)
   {
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(a);
     args_.add(b);
     solutionsReturned_ = -1;
@@ -45,8 +45,8 @@ public class FlatLessThan extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName left = args_.get(0);
-    ZRefName right = args_.get(1);
+    ZName left = args_.get(0);
+    ZName right = args_.get(1);
 
     // propagate upper bound from right to left.
     BigInteger rmax = bnds.getUpper(right);

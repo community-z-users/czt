@@ -25,7 +25,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -48,11 +48,11 @@ public class FlatUnionTest
   
   public void setUp()
   {
-    ZRefName s1 = zlive_.createNewName();
-    ZRefName s2 = zlive_.createNewName();
+    ZName s1 = zlive_.createNewName();
+    ZName s2 = zlive_.createNewName();
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,j,s1));   // 10..11
-    List<ZRefName> jk = new ArrayList<ZRefName>();
+    List<ZName> jk = new ArrayList<ZName>();
     jk.add(j);
     jk.add(k);
     jk.add(j);
@@ -63,7 +63,7 @@ public class FlatUnionTest
     
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatRangeSet(k,j,s1));   // 12..11
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(), s2));
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(), s2));
     emptyUnion = new FlatUnion(s1,s2,s);
     emptySet.add(emptyUnion);
     emptySet.inferBounds(new Bounds());

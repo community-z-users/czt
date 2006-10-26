@@ -18,7 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.oz.util;
 
-import net.sourceforge.czt.z.ast.ZDeclName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  * An annotation for recording in which class a new GivenType is
@@ -27,14 +27,14 @@ import net.sourceforge.czt.z.ast.ZDeclName;
 public class ClassDeclAnn
 {
   /** The class name. */
-  protected ZDeclName className_;
+  protected ZName className_;
 
-  public ClassDeclAnn(ZDeclName className)
+  public ClassDeclAnn(ZName className)
   {
     className_ = className;
   }
 
-  public ZDeclName getClassName()
+  public ZName getClassName()
   {
     return className_;
   }

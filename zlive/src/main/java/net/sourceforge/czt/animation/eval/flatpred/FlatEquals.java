@@ -25,14 +25,14 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** FlatEquals implements the a = b predicate. */
 public class FlatEquals extends FlatPred
 {
-  public FlatEquals(ZRefName a, ZRefName b)
+  public FlatEquals(ZName a, ZName b)
   {
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(a);
     args_.add(b);
     solutionsReturned_ = -1;
@@ -42,8 +42,8 @@ public class FlatEquals extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     boolean changed = false;
-    ZRefName left = args_.get(0);
-    ZRefName right = args_.get(1);
+    ZName left = args_.get(0);
+    ZName right = args_.get(1);
 
     // get all existing bounds, BEFORE we start adding bounds.
     BigInteger lmin = bnds.getLower(left);

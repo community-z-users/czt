@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -58,7 +58,7 @@ public class JokerClass
 
   public String getTypeName()
   {
-    if (name_.equals("JokerName")) return "DeclName";
+    if (name_.equals("JokerName")) return "Name";
     String result = name_.substring(5, name_.length());
     if (result.endsWith("List")) {
       result = result.substring(0, result.length() - 4);

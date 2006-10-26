@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.0" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
             <LocAnn Col="0" Length="113" Line="0" Loc="tests/z/conjectures.tex" Start="0"/>
@@ -23,7 +23,7 @@ the conjecture conjoined using a newline.
                 <Anns>
                     <LocAnn Col="0" Length="44" Line="3" Loc="tests/z/conjectures.tex" Start="113"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <AndPred And="NL">
                     <Anns>
                         <LocAnn Col="15" Length="12" Line="4" Loc="tests/z/conjectures.tex" Start="135"/>
@@ -52,7 +52,7 @@ the conjecture conjoined using a newline.
                 <Anns>
                     <LocAnn Col="0" Length="53" Line="7" Loc="tests/z/conjectures.tex" Start="159"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <AndPred And="NL">
                     <Anns>
                         <LocAnn Col="15" Length="21" Line="8" Loc="tests/z/conjectures.tex" Start="181"/>
@@ -76,33 +76,33 @@ the conjecture conjoined using a newline.
                                         <Anns>
                                             <LocAnn Col="24" Length="11" Line="8" Loc="tests/z/conjectures.tex" Start="190"/>
                                         </Anns>
-                                        <ZDeclNameList>
-                                            <ZDeclName>
+                                        <ZNameList>
+                                            <ZName>
                                                 <Anns>
                                                     <LocAnn Col="19" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="190"/>
                                                 </Anns>
                                                 <Word>X</Word>
                                                 <ZStrokeList/>
-                                            </ZDeclName>
-                                            <ZDeclName>
+                                            </ZName>
+                                            <ZName>
                                                 <Anns>
                                                     <LocAnn Col="22" Length="1" Line="8" Loc="tests/z/conjectures.tex" Start="193"/>
                                                 </Anns>
                                                 <Word>Y</Word>
                                                 <ZStrokeList/>
-                                            </ZDeclName>
-                                        </ZDeclNameList>
+                                            </ZName>
+                                        </ZNameList>
                                         <RefExpr Explicit="false" Mixfix="false">
                                             <Anns>
                                                 <LocAnn Col="26" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="197"/>
                                             </Anns>
-                                            <ZRefName>
+                                            <ZName>
                                                 <Anns>
                                                     <LocAnn Col="26" Length="4" Line="8" Loc="tests/z/conjectures.tex" Start="197"/>
                                                 </Anns>
                                                 <Word>ℕ</Word>
                                                 <ZStrokeList/>
-                                            </ZRefName>
+                                            </ZName>
                                             <ZExprList/>
                                         </RefExpr>
                                     </VarDecl>
@@ -126,7 +126,7 @@ Bug report 1234527 (parsing of empty schema text):
                 <Anns>
                     <LocAnn Col="0" Length="60" Line="13" Loc="tests/z/conjectures.tex" Start="266"/>
                 </Anns>
-                <ZDeclNameList/>
+                <ZNameList/>
                 <ForallPred>
                     <Anns>
                         <LocAnn Col="10" Length="28" Line="14" Loc="tests/z/conjectures.tex" Start="288"/>
@@ -137,15 +137,15 @@ Bug report 1234527 (parsing of empty schema text):
                                 <Anns>
                                     <LocAnn Col="19" Length="13" Line="14" Loc="tests/z/conjectures.tex" Start="296"/>
                                 </Anns>
-                                <ZDeclNameList>
-                                    <ZDeclName>
+                                <ZNameList>
+                                    <ZName>
                                         <Anns>
                                             <LocAnn Col="18" Length="1" Line="14" Loc="tests/z/conjectures.tex" Start="296"/>
                                         </Anns>
                                         <Word>p</Word>
                                         <ZStrokeList/>
-                                    </ZDeclName>
-                                </ZDeclNameList>
+                                    </ZName>
+                                </ZNameList>
                                 <PowerExpr>
                                     <Anns>
                                         <LocAnn Col="21" Length="10" Line="14" Loc="tests/z/conjectures.tex" Start="299"/>

@@ -1,13 +1,13 @@
   /**
    * This is a convenience method.
-   * It returns the ZRefName if RefName is an instance of
-   * ZRefName and throws an UnsupportedAstClassException otherwise.
+   * It returns the ZName if Name is an instance of
+   * ZName and throws an UnsupportedAstClassException otherwise.
    */
-  public ZRefName getZRefName()
+  public ZName getZName()
   {
-    RefName refName = getRefName();
-    if (refName instanceof ZRefName) {
-      return (ZRefName) refName;
+    Name refName = getName();
+    if (refName instanceof ZName) {
+      return (ZName) refName;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

@@ -6,4 +6,4 @@
    */
   ZSchText getZSchText();
 
-  ZDeclNameList getDeclName();
+  ZNameList getName();

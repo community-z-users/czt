@@ -70,7 +70,7 @@ public abstract class EvalTest extends TestCase
         if (exprList.size() == 1) {
           Expr refExpr = exprList.get(0);
           if (refExpr instanceof RefExpr) {
-            ZRefName refName = ((RefExpr) refExpr).getZRefName();
+            ZName refName = ((RefExpr) refExpr).getZName();
             if ((refName.getWord()).equals("undefnum")) {
               result = leftExpr;
             }

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /** FlatFalse implements the false predicate, which causes
  *  all evaluations to fail.
@@ -31,7 +31,7 @@ public class FlatFalse extends FlatPred
 {
   public FlatFalse()
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/

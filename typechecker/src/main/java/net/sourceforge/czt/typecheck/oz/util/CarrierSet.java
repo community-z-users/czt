@@ -85,10 +85,10 @@ public class CarrierSet
     Expr result = null;
     //if 0, then we have the set \oid
     if (classRefs.size() == 0) {
-      ZRefName oidName =
-	ozFactory_.createZRefName(OzString.OID,
-				  factory_.getZFactory().createZStrokeList(),
-				  null);
+      ZName oidName =
+	ozFactory_.createZName(OzString.OID,
+                               factory_.getZFactory().createZStrokeList(),
+                               null);
       ZExprList zExprList = ozFactory_.createZExprList();
       result = ozFactory_.createRefExpr(oidName,
 					zExprList,
@@ -128,7 +128,7 @@ public class CarrierSet
     }
     ZExprList zExprList = ozFactory_.createZExprList();
     Expr result =
-      zFactory_.createRefExpr(classRef.getRefName(), zExprList, Boolean.FALSE);
+      zFactory_.createRefExpr(classRef.getName(), zExprList, Boolean.FALSE);
     if (classRef.getNewOldPair().size() > 0) {
       ZRenameList zRenameList =
 	zFactory_.createZRenameList(classRef.getNewOldPair());
@@ -145,12 +145,12 @@ public class CarrierSet
       if (!allowVariableTypes_) {
         throw new UndeterminedTypeException();
       }
-      ZRefName zRefName =
-	zFactory_.createZRefName("?class?",
-				 factory_.getZFactory().createZStrokeList(),
-				 null);
+      ZName zName =
+	zFactory_.createZName("?class?",
+                              factory_.getZFactory().createZStrokeList(),
+                              null);
       ZExprList zExprList = zFactory_.createZExprList();
-      result = zFactory_.createRefExpr(zRefName, zExprList, Boolean.FALSE);
+      result = zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
     }
     else if (vClassType.getCandidateType() == null) {
       Type2 type = vClassType.getValue();
@@ -170,17 +170,15 @@ public class CarrierSet
     Expr result = refExpr;
     ClassDeclAnn classDeclAnn = (ClassDeclAnn) givenType.getAnn(ClassDeclAnn.class);
     if (classDeclAnn != null) {
-      ZDeclName className = classDeclAnn.getClassName();
+      ZName className = classDeclAnn.getClassName();
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(className.getZStrokeList());
-      ZRefName classRefName =
-	zFactory_.createZRefName(className.getWord(),
-				 strokes,
-				 className);
+      ZName classRefName =
+	zFactory_.createZName(className.getWord(), strokes, className.getId());
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr classRefExpr = 
 	zFactory_.createRefExpr(classRefName, zExprList, Boolean.FALSE);
-      result = zFactory_.createBindSelExpr(classRefExpr, refExpr.getZRefName());
+      result = zFactory_.createBindSelExpr(classRefExpr, refExpr.getZName());
     }
     return result;
   }

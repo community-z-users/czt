@@ -1,13 +1,9 @@
-  /**
-   * This is a convenience method.
-   * It returns the list of RefName if the RefNameList is an instance of
-   * ZRefNameList and throws an UnsupportedAstClassException otherwise.
-   */
-  public ZRefNameList getName()
+
+  public ZNameList getName()
   {
-    RefNameList refNameList = getRefNameList();
-    if (refNameList instanceof ZRefNameList) {
-      return ((ZRefNameList) refNameList).getRefName();
+    NameList refNameList = getNameList();
+    if (refNameList instanceof ZNameList) {
+      return ((ZNameList) refNameList).getName();
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

@@ -29,7 +29,7 @@ import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -73,9 +73,9 @@ public class FlatRangeSet extends FlatEvalSet
    * @param upperBound  an upper bound expression, or null for no bound.
    * @param set         the name of the resulting set of integers.
    */
-  public FlatRangeSet(ZRefName lowerBound, ZRefName upperBound, ZRefName set)
+  public FlatRangeSet(ZName lowerBound, ZName upperBound, ZName set)
   {
-    args_ = new ArrayList<ZRefName>();
+    args_ = new ArrayList<ZName>();
     if (lowerBound != null) {
       lowerArg_ = args_.size();
       args_.add(lowerBound);
@@ -158,7 +158,7 @@ public class FlatRangeSet extends FlatEvalSet
   {
     if (boundArg < 0)
       return null;
-    ZRefName bound = args_.get(boundArg);
+    ZName bound = args_.get(boundArg);
     BigInteger result = null;
     Expr e = null;
     if (env != null)
@@ -218,7 +218,7 @@ public class FlatRangeSet extends FlatEvalSet
     return setSize(lower_, upper_);
   }
 
-  public double estSubsetSize(Envir env, ZRefName element)
+  public double estSubsetSize(Envir env, ZName element)
   {
     assert bounds_ != null; // inferBounds should have been called.
     BigInteger low = getBound(env, lowerArg_);
@@ -301,7 +301,7 @@ public class FlatRangeSet extends FlatEvalSet
    *  This methods has no side-effects, so does not change the
    *  set returned by the usual members() method.
    */
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     assert evalMode_ != null;
     assert bounds_ != null; // inferBounds should have been called.
@@ -336,7 +336,7 @@ public class FlatRangeSet extends FlatEvalSet
     boolean result = false;
     lower_ = getBound(env, lowerArg_);
     upper_ = getBound(env, upperArg_);
-    ZRefName setName = args_.get(setArg_);
+    ZName setName = args_.get(setArg_);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;

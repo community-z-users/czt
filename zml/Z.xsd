@@ -278,37 +278,19 @@ more detail.
     </xs:annotation>
   </xs:element>
 
-  <!-- the decoratable-declnames hierarchy -->
-  <xs:element name="DeclName" type="Z:DeclName" abstract="true">
+  <!-- the decoratable-names hierarchy -->
+  <xs:element name="Name" type="Z:Name" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        An abstract declaring name.
+        An abstract name.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZDeclName" type="Z:ZDeclName"
-    substitutionGroup="Z:DeclName">
+  <xs:element name="ZName" type="Z:ZName"
+    substitutionGroup="Z:Name">
     <xs:annotation>
       <xs:documentation>
-        A Z declaring name.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <!-- the decoratable-refnames hierarchy -->
-  <xs:element name="RefName" type="Z:RefName" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract referencing name.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="ZRefName" type="Z:ZRefName" substitutionGroup="Z:RefName">
-    <xs:annotation>
-      <xs:documentation>
-        A Z referencing name.
-        The Decl attribute of type IDREF points to the matching declaring name
-        (DeclName), which may not be the nearest enclosing one.
+        A Z name.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -510,7 +492,7 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A schema hiding expression (C.6.16).
-	The schema does not check that the RefNameList is non-empty, but
+	The schema does not check that the NameList is non-empty, but
         code should.
       </xs:documentation>
     </xs:annotation>
@@ -760,36 +742,19 @@ more detail.
     </xs:annotation>
   </xs:element>
 
-  <!-- the DeclNameList hierarchy -->
-  <xs:element name="DeclNameList" type="Z:DeclNameList" abstract="true">
+  <!-- the NameList hierarchy -->
+  <xs:element name="NameList" type="Z:NameList" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        An abstract declaring name list.
+        An abstract name list.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ZDeclNameList" type="Z:ZDeclNameList"
-    substitutionGroup="Z:DeclNameList">
+  <xs:element name="ZNameList" type="Z:ZNameList"
+    substitutionGroup="Z:NameList">
     <xs:annotation>
       <xs:documentation>
-        A declaring name list.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <!-- the RefNameList hierarchy -->
-  <xs:element name="RefNameList" type="Z:RefNameList" abstract="true">
-    <xs:annotation>
-      <xs:documentation>
-        An abstract referencing name list.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="ZRefNameList" type="Z:ZRefNameList"
-    substitutionGroup="Z:RefNameList">
-    <xs:annotation>
-      <xs:documentation>
-        A referencing name list.
+        A name list.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1343,7 +1308,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList"/>
+          <xs:element ref="Z:NameList"/>
           <xs:element ref="Z:SchText"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="AxBox"/>
@@ -1361,7 +1326,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList"/>
+          <xs:element ref="Z:NameList"/>
           <xs:element ref="Z:Pred"/>
         </xs:sequence>
       </xs:extension>
@@ -1380,7 +1345,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList"/>
+          <xs:element ref="Z:NameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1469,7 +1434,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
@@ -1488,41 +1453,25 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <xs:element ref="Z:DeclNameList"/>
+          <xs:element ref="Z:NameList"/>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="DeclName">
+  <xs:complexType name="Name">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="ZDeclName">
+  <xs:complexType name="ZName">
     <xs:complexContent>
-      <xs:extension base="Z:DeclName">
+      <xs:extension base="Z:Name">
         <xs:sequence>
           <xs:element name="Word" type="xs:string"/>
           <xs:element ref="Z:StrokeList"/>
         </xs:sequence>
-        <xs:attribute name="Id" type="xs:ID" use="optional"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="RefName">
-    <xs:complexContent>
-      <xs:extension base="Z:Term"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ZRefName">
-    <xs:complexContent>
-      <xs:extension base="Z:RefName">
-        <xs:sequence>
-          <xs:element name="Word" type="xs:string"/>
-          <xs:element ref="Z:StrokeList"/>
-        </xs:sequence>
-        <xs:attribute name="Decl" type="xs:IDREF" use="optional"/>
+        <xs:attribute name="Id" type="xs:string" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1679,7 +1628,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element ref="Z:RefName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:ExprList"/>
         </xs:sequence>
         <xs:attribute name="Mixfix" type="xs:boolean"
@@ -1702,7 +1651,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element ref="Z:RefName"/>
+          <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1720,7 +1669,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element ref="Z:RefNameList"/>
+          <xs:element ref="Z:NameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1802,30 +1751,16 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="DeclNameList">
+  <xs:complexType name="NameList">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="ZDeclNameList">
+  <xs:complexType name="ZNameList">
     <xs:complexContent>
-      <xs:extension base="Z:DeclNameList">
+      <xs:extension base="Z:NameList">
         <xs:sequence>
-          <xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="RefNameList">
-    <xs:complexContent>
-      <xs:extension base="Z:Term"/>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="ZRefNameList">
-    <xs:complexContent>
-      <xs:extension base="Z:RefNameList">
-        <xs:sequence>
-          <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2013,7 +1948,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:BranchList"/>
         </xs:sequence>
       </xs:extension>
@@ -2023,7 +1958,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -2092,7 +2027,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element name="Name" type="Z:ZDeclName" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NameList"/>
           <xs:element ref="Z:Type2">
             <xs:annotation>
               <xs:appinfo>
@@ -2115,7 +2050,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Name" type="Z:ZDeclName"/>
+          <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2124,7 +2059,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Name" type="Z:ZDeclName"/>
+          <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2203,7 +2138,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Type"/>
         </xs:sequence>
       </xs:extension>
@@ -2213,7 +2148,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Name"/>
           <xs:element name="Sect" type="xs:string"/>
           <xs:element ref="Z:Type"/>
         </xs:sequence>
@@ -2224,14 +2159,14 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:DeclName">
+          <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="NewName"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:RefName">
+          <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="OldName"/>

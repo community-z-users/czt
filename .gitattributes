@@ -141,8 +141,6 @@ gnast/src/vm/CallProcess.java -text
 gnast/src/vm/CallProcessImpl.java -text
 gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
-gnast/src/vm/QualifiedDecl.java -text
-gnast/src/vm/QualifiedDeclImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
 java_cup/build.xml -text

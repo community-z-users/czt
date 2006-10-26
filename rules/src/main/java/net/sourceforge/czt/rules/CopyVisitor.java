@@ -51,8 +51,7 @@ public class CopyVisitor
              ZSchTextVisitor<Term>,
              JokerDeclListVisitor<Term>,
              JokerExprVisitor<Term>,
-             JokerDeclNameVisitor<Term>,
-             JokerRefNameVisitor<Term>,
+             JokerNameVisitor<Term>,
              JokerPredVisitor<Term>,
              LookupConstDeclProvisoVisitor<Term>,
              CalculateProvisoVisitor<Term>,
@@ -72,15 +71,15 @@ public class CopyVisitor
 
   public Term visitVarDecl(VarDecl varDecl)
   {
-    DeclNameList declNameList = (DeclNameList)
-      varDecl.getDeclNameList().accept(this);
+    NameList declNameList = (NameList)
+      varDecl.getNameList().accept(this);
     Expr expr = (Expr) varDecl.getExpr().accept(this);
-    if (declNameList instanceof ZDeclNameList) {
-      ZDeclNameList zdnl = (ZDeclNameList) declNameList;
+    if (declNameList instanceof ZNameList) {
+      ZNameList zdnl = (ZNameList) declNameList;
       if (zdnl.size() > 1) {
         ZDeclList zDeclList = factory_.createZDeclList();
-        for (DeclName declName : zdnl) {
-          ZDeclNameList list = factory_.createZDeclNameList();
+        for (Name declName : zdnl) {
+          ZNameList list = factory_.createZNameList();
           list.add(declName);
           zDeclList.add(factory_.createVarDecl(list, expr));
         }
@@ -126,14 +125,9 @@ public class CopyVisitor
     return factory_.createJokerExpr(joker.getName());
   }
 
-  public Term visitJokerDeclName(JokerDeclName joker)
+  public Term visitJokerName(JokerName joker)
   {
-    return factory_.createJokerDeclName(joker.getName());
-  }
-
-  public Term visitJokerRefName(JokerRefName joker)
-  {
-    return factory_.createJokerRefName(joker.getName());
+    return factory_.createJokerName(joker.getName());
   }
 
   public Term visitJokerPred(JokerPred joker)

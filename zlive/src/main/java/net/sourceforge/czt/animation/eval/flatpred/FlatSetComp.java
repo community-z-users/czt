@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
 * @author Mark Utting
@@ -51,13 +51,13 @@ public class FlatSetComp extends FlatEvalSet
 
   /** This FlatPredList is used to check membership of ONE given value.
       Its first entry is resultNNN=value, where resultNNN is a fresh
-      ZRefName (see resultName) and value is initially unknown, but will
+      ZName (see resultName) and value is initially unknown, but will
       be set within the contains method before this FlatPredList is evaluated.
   */
   protected FlatPredList predsOne_;
 
-  /** The fresh ZRefName which will be bound to a member of the set. */
-  protected ZRefName resultName_;
+  /** The fresh ZName which will be bound to a member of the set. */
+  protected ZName resultName_;
 
   /** The generated environment that contains the output values.
    *  When this is non-null, it means that we are in the process
@@ -76,7 +76,7 @@ public class FlatSetComp extends FlatEvalSet
 		       /*@non_null@*/List<Decl> decls,
 		       Pred pred,
 		       /*@non_null@*/Expr result,
-		       /*@non_null@*/ZRefName set)
+		       /*@non_null@*/ZName set)
   {
     predsAll_ = new FlatPredList(zlive);
     predsOne_ = new FlatPredList(zlive);
@@ -98,7 +98,7 @@ public class FlatSetComp extends FlatEvalSet
     predsOne_.addPred(eq);
 
     // Calculate free vars of preds_.
-    args_ = new ArrayList<ZRefName>(predsAll_.freeVars());
+    args_ = new ArrayList<ZName>(predsAll_.freeVars());
     args_.add(set);  // TODO: could set already be in args?
     solutionsReturned_ = -1;
   }
@@ -172,7 +172,7 @@ public class FlatSetComp extends FlatEvalSet
   /** @czt.todo try and get a better size estimate by equating
    *  elem to the result of the set before estimating its size?
    */
-  public double estSubsetSize(Envir env, ZRefName elem)
+  public double estSubsetSize(Envir env, ZName elem)
   {
     return estSize(env);
   }
@@ -201,7 +201,7 @@ public class FlatSetComp extends FlatEvalSet
   /** @czt.todo see if we can use bounds information about element
    *  to reduce the size of the subset that we return?
    */
-  public Iterator<Expr> subsetIterator(ZRefName element)
+  public Iterator<Expr> subsetIterator(ZName element)
   {
     assert bounds_ != null; // inferBounds should have been called.
     return iterator();
@@ -222,7 +222,7 @@ public class FlatSetComp extends FlatEvalSet
     {
       solutionsReturned_++;
       outputEnvir_ = null; // force members to be recalculated
-      ZRefName set = args_.get(args_.size()-1);
+      ZName set = args_.get(args_.size()-1);
       resetResult();
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);

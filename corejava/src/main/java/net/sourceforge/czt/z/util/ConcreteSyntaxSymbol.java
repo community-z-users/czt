@@ -123,8 +123,7 @@ public enum ConcreteSyntaxSymbol
   VAR_DECL("Variable declaration"),
   INCL_DECL("Include declaration"),
 
-  DECL_NAME("Declaring name"),
-  REF_NAME("Referencing name"),
+  NAME("Name"),
 
   /* CZT specific symbols */
   UNPARSED_Z_SECT("Unparsed Z section"),
@@ -146,11 +145,10 @@ public enum ConcreteSyntaxSymbol
 
   BRANCH_LIST("List of branches"),
   DECL_LIST("List of declarations"),
-  DECLNAME_LIST("List of declaring names"),
+  NAME_LIST("List of names"),
   EXPR_LIST("List of expressions"),
   FREETYPE_LIST("List of freetypes"),
   PARA_LIST("List of paragraphs"),
-  REFNAME_LIST("List of referencing names"),
   RENAME_LIST("List of pairs of names"),
   STROKE_LIST("List of strokes");
 

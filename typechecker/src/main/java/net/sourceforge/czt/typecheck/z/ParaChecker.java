@@ -64,12 +64,12 @@ public class ParaChecker
     //the list of NameTypePairs for this paras signature
     List<NameTypePair> pairs = factory().list();
 
-    //get each ZDeclName
-    List<DeclName> givenNames = givenPara.getDeclNames();
-    for (DeclName givenName : givenNames) {
+    //get each ZName
+    List<Name> givenNames = givenPara.getNames();
+    for (Name givenName : givenNames) {
       //create the type
-      ZDeclName zGivenName = assertZDeclName(givenName);
-      factory().addDeclNameID(zGivenName);
+      ZName zGivenName = assertZName(givenName);
+      factory().addNameID(zGivenName);
       GivenType givenType = factory().createGivenType(zGivenName);
       PowerType powerType = factory().createPowerType(givenType);
       paraChecker().addContext(givenType);
@@ -93,7 +93,7 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //add the names to the local type env
-    addGenParamTypes(assertZDeclNameList(axPara.getDeclNameList()));
+    addGenParamTypes(assertZNameList(axPara.getNameList()));
 
     //get and visit the SchText
     SchText schText = axPara.getSchText();
@@ -119,10 +119,10 @@ public class ParaChecker
     //for each free type in this paragraph, first add the left side
     ZFreetypeList freetypes = assertZFreetypeList(freePara.getFreetypeList());
     for (Freetype freetype : freetypes) {
-      //the type of the Freetype's ZDeclName is a powerset of the
+      //the type of the Freetype's ZName is a powerset of the
       //given type of itself
-      ZDeclName freeTypeName = freetype.getZDeclName();
-      factory().addDeclNameID(freeTypeName);
+      ZName freeTypeName = freetype.getZName();
+      factory().addNameID(freeTypeName);
       GivenType freeTypeGiven = factory().createGivenType(freeTypeName);
       PowerType powerTypeGiven = factory().createPowerType(freeTypeGiven);
       paraChecker().addContext(freeTypeGiven);
@@ -159,14 +159,14 @@ public class ParaChecker
 
     //create the type of the left side to compose the types of the
     //branches
-    ZDeclName freeTypeName = freetype.getZDeclName();
-    factory().addDeclNameID(freeTypeName);
+    ZName freeTypeName = freetype.getZName();
+    factory().addNameID(freeTypeName);
     GivenType givenType = factory().createGivenType(freeTypeName);
     PowerType powerType = factory().createPowerType(givenType);
     paraChecker().addContext(givenType);
 
     //we don't visit the branches with their a "proper" visit method
-    //because we need to pass the type of the ZDeclName
+    //because we need to pass the type of the ZName
     ZBranchList branches = assertZBranchList(freetype.getBranchList());
     for (Branch branch : branches) {
       NameTypePair pair = localVisitBranch(branch, givenType);
@@ -183,13 +183,13 @@ public class ParaChecker
 
   //"visit" a freetype branch. We don't visit the branches with their
   //a "proper" visit method because we need to pass the type of the
-  //DeclName. This method returns the name of the declaration with its
+  //Name. This method returns the name of the declaration with its
   //type
   protected NameTypePair localVisitBranch(Branch branch, GivenType givenType)
   {
     NameTypePair pair = null;
-    ZDeclName branchName = branch.getZDeclName();
-    factory().addDeclNameID(branchName);
+    ZName branchName = branch.getZName();
+    factory().addNameID(branchName);
 
     //if there is an expression, then get its type and make the type of
     //this branch PowerType of the cross product of 'givenType' and the
@@ -231,7 +231,7 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //add the (optional) generic types
-    addGenParamTypes(assertZDeclNameList(conjPara.getDeclNameList()));
+    addGenParamTypes(assertZNameList(conjPara.getNameList()));
 
     //visit the predicate
     Pred pred = conjPara.getPred();
@@ -262,7 +262,7 @@ public class ParaChecker
     DeclList declList = zSchText.getDeclList();
     List<NameTypePair> pairs = declList.accept(declChecker());
     for (NameTypePair pair : pairs) {
-      ZDeclName gName = pair.getZDeclName();
+      ZName gName = pair.getZName();
       Type gType = addGenerics((Type2) pair.getType());
       NameTypePair gPair = factory().createNameTypePair(gName, gType);
       gPairs.add(gPair);

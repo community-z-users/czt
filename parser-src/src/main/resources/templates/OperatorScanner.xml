@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2004 Tim Miller, Petra Malik
+     Copyright (C) 2004 Tim Miller
+     Copyright (C) 2004, 2006 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -30,7 +31,6 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.DeclName;
 
 /**
  * &lt;p&gt;This is an operator lexer

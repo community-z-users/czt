@@ -370,7 +370,7 @@ public#abstract($class) class ${class.ImplName}
   {
     ${prop.MemVarName} = ${prop.VarName};
   }
-#if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'RefNameList' || ${prop.Type.Name} == 'DeclList')
+#if(${prop.Type.Name} == 'ExprList' || ${prop.Type.Name} == 'RenameList' || ${prop.Type.Name} == 'NameList' || ${prop.Type.Name} == 'DeclList')
 #if(${prop.GetterName} == "get${prop.Type.Name}")
   /**
    * This is a convenience method.

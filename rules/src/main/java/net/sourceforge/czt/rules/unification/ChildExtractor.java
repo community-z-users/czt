@@ -41,8 +41,7 @@ public class ChildExtractor
              RefExprVisitor<Object[]>,
              TermVisitor<Object[]>,
              ZDeclListVisitor<Object[]>,
-             ZDeclNameVisitor<Object[]>,
-             ZRefNameVisitor<Object[]>
+             ZNameVisitor<Object[]>
 {
   private final String DECLLIST = "DeclList";
 
@@ -69,7 +68,7 @@ public class ChildExtractor
 
   {
     Object[] erg = { "AxPara",
-                     axPara.getDeclName(),
+                     axPara.getName(),
                      axPara.getSchText() };
     return erg;
   }
@@ -110,7 +109,7 @@ public class ChildExtractor
       types = proverFactory_.createJokerExprList("_T"+(typeCounter_ ++));
     return new Object[]
        {"RefExpr",
-        refExpr.getRefName(),
+        refExpr.getName(),
         types};
   }
 
@@ -130,20 +129,14 @@ public class ChildExtractor
     return new Object[] { DECLLIST, zDeclList };
   }
 
-  public Object[] visitZDeclName(ZDeclName zDeclName)
-  {
-    Object[] children = { zDeclName.getWord(), zDeclName.getStrokeList() };
-    return children;
-  }
-
   /**
    * Doesn't return the Decl child.
    */
-  public Object[] visitZRefName(ZRefName zRefName)
+  public Object[] visitZName(ZName zName)
   {
-    return new Object[] { "ZRefName",
-                          zRefName.getWord(),
-                          zRefName.getStrokeList() };
+    return new Object[] { "ZName",
+                          zName.getWord(),
+                          zName.getStrokeList() };
   }
 
   private Object[] add(String name, Object[] children)

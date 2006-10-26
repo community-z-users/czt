@@ -23,7 +23,7 @@ import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -35,7 +35,7 @@ public class FlatMemberTest
   extends ZTestCase
 {
   private NumExpr i40 = factory_.createNumExpr(40);
-  private ZRefName w = factory_.createZRefName("w");
+  private ZName w = factory_.createZName("w");
   
   private FlatRangeSet set;
   private FlatMember mem;

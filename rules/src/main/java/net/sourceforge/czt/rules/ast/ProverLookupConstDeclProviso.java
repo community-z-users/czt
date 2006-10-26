@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2006 Mark Utting, Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -57,8 +57,8 @@ public class ProverLookupConstDeclProviso
       DefinitionTable table = (DefinitionTable) manager.get(key);
       if (table != null) {
         RefExpr ref = (RefExpr) getLeftExpr();
-        RefName refName = ref.getRefName();
-        String word = refName.accept(new GetRefNameWordVisitor());
+        Name refName = ref.getName();
+        String word = refName.accept(new GetNameWordVisitor());
         DefinitionTable.Definition def = table.lookup(word);
         if (def != null) {
           unify(def.getExpr().accept(copyVisitor), getRightExpr());

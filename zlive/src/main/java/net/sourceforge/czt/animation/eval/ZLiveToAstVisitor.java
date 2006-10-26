@@ -37,7 +37,7 @@ import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
@@ -66,7 +66,7 @@ public class ZLiveToAstVisitor
 
   public Object visitFlatConst(FlatConst flatConst)
   {
-    List<ZRefName> children = flatConst.getArgs();
+    List<ZName> children = flatConst.getArgs();
     Expr leftExpr = factory_.createRefExpr(children.get(0));
     Expr rightExpr = (Expr) children.get(1);
     return factory_.createEquality(leftExpr, rightExpr);
@@ -74,7 +74,7 @@ public class ZLiveToAstVisitor
 
   public Object visitFlatEquals(FlatEquals flatEquals)
   {
-    List<ZRefName> children = flatEquals.getArgs();
+    List<ZName> children = flatEquals.getArgs();
     Expr leftExpr = factory_.createRefExpr(children.get(0));
     Expr rightExpr = factory_.createRefExpr(children.get(1));
     return factory_.createEquality(leftExpr, rightExpr);
@@ -83,12 +83,12 @@ public class ZLiveToAstVisitor
   public Object visitFlatLessThan(FlatLessThan less)
   {
     try {
-      List<ZRefName> children = less.getArgs();
-      ZRefName a = children.get(0);
-      ZRefName b = children.get(1);
+      List<ZName> children = less.getArgs();
+      ZName a = children.get(0);
+      ZName b = children.get(1);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LESS, null, infix);
-      ZRefName refName = factory_.createZRefName(opName.getWord(), null);
+      ZName refName = factory_.createZName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       return factory_.createFunOpAppl(refName, pair);
@@ -101,12 +101,12 @@ public class ZLiveToAstVisitor
   public Object visitFlatLessThanEquals(FlatLessThanEquals lt)
   {
     try {
-      List<ZRefName> children = lt.getArgs();
-      ZRefName a = children.get(0);
-      ZRefName b = children.get(1);
+      List<ZName> children = lt.getArgs();
+      ZName a = children.get(0);
+      ZName b = children.get(1);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LEQ, null, infix);
-      ZRefName refName = factory_.createZRefName(opName.getWord(), null);
+      ZName refName = factory_.createZName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       return factory_.createFunOpAppl(refName, pair);
@@ -119,13 +119,13 @@ public class ZLiveToAstVisitor
   public Object visitFlatMult(FlatMult flatMult)
   {
     try {
-      List<ZRefName> children = flatMult.getArgs();
-      ZRefName a = children.get(0);
-      ZRefName b = children.get(1);
-      ZRefName c = children.get(2);
+      List<ZName> children = flatMult.getArgs();
+      ZName a = children.get(0);
+      ZName b = children.get(1);
+      ZName c = children.get(2);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.MULT, null, infix);
-      ZRefName refName = factory_.createZRefName(opName.getWord(), null);
+      ZName refName = factory_.createZName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);
@@ -140,12 +140,12 @@ public class ZLiveToAstVisitor
   public Object visitFlatNegate(FlatNegate flatNegate)
   {
     try {
-      List<ZRefName> children = flatNegate.getArgs();
-      ZRefName a = children.get(0);
-      ZRefName b = children.get(1);
+      List<ZName> children = flatNegate.getArgs();
+      ZName a = children.get(0);
+      ZName b = children.get(1);
       final OperatorName.Fixity fix = OperatorName.Fixity.PREFIX;
       OperatorName opName = new OperatorName(ZString.NEG, null, fix);
-      ZRefName refName = factory_.createZRefName(opName.getWord(), null);
+      ZName refName = factory_.createZName(opName.getWord(), null);
       Expr leftExpr = factory_.createFunOpAppl(refName,
                                                factory_.createRefExpr(a));
       RefExpr rightExpr = factory_.createRefExpr(b);
@@ -159,13 +159,13 @@ public class ZLiveToAstVisitor
   public Object visitFlatPlus(FlatPlus flatPlus)
   {
     try {
-      List<ZRefName> children = flatPlus.getArgs();
-      ZRefName a = children.get(0);
-      ZRefName b = children.get(1);
-      ZRefName c = children.get(2);
+      List<ZName> children = flatPlus.getArgs();
+      ZName a = children.get(0);
+      ZName b = children.get(1);
+      ZName c = children.get(2);
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.PLUS, null, infix);
-      ZRefName refName = factory_.createZRefName(opName.getWord(), null);
+      ZName refName = factory_.createZName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);

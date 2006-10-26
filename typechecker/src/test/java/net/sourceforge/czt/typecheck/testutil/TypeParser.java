@@ -166,18 +166,18 @@ public class TypeParser
 
     if ("GIVEN".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token);
-      result = factory_.createGivenType(zDeclName);
+      ZName zName = factory_.createZDeclName(token);
+      result = factory_.createGivenType(zName);
     }
     else if ("VARTYPE".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token);
-      result = createVariableType(zDeclName);
+      ZName zName = factory_.createZDeclName(token);
+      result = createVariableType(zName);
     }
     else if ("GENTYPE".equals(token)) {
       token = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(token);
-      result = factory_.createGenParamType(zDeclName);
+      ZName zName = factory_.createZDeclName(token);
+      result = factory_.createGenParamType(zName);
     }
     else if ("(".equals(token)) {
       result = parseType2();
@@ -200,11 +200,11 @@ public class TypeParser
     String nextToken = nextToken();  //consume "\\["
 
     //parse the list of names
-    List names = list();
+    ZNameList names = factory_.createZNameList(list());
     while (!"\\]".equals(nextToken)) {
       String word = nextToken();
-      ZDeclName zDeclName = factory_.createZDeclName(word);
-      names.add(zDeclName);
+      ZName zName = factory_.createZDeclName(word);
+      names.add(zName);
 
       nextToken = nextToken();
     }
@@ -279,12 +279,12 @@ public class TypeParser
       String nextToken = null;
       while (!"]".equals(nextToken)) {
         String word = nextToken();
-        ZDeclName zDeclName = factory_.createZDeclName(word);
+        ZName zName = factory_.createZDeclName(word);
         nextToken();   //consume the ":"
 
         Type type = parseType();
         NameTypePair nameTypePair =
-          factory_.createNameTypePair(zDeclName, type);
+          factory_.createNameTypePair(zName, type);
         pairs.add(nameTypePair);
         nextToken = nextToken();   //consume the ";" or "]"
       }
@@ -294,15 +294,15 @@ public class TypeParser
     return signature;
   }
 
-  protected VariableType createVariableType(ZDeclName zDeclName)
+  protected VariableType createVariableType(ZName zName)
   {
     for (Iterator iter = vTypes_.iterator(); iter.hasNext(); ) {
       VariableType vType = (VariableType) iter.next();
-      if (vType.getName().equals(zDeclName)) {
+      if (vType.getName().equals(zName)) {
         return vType;
       }
     }
-    VariableType result = factory_.createVariableType(zDeclName);
+    VariableType result = factory_.createVariableType(zName);
     vTypes_.add(result);
     return result;
   }

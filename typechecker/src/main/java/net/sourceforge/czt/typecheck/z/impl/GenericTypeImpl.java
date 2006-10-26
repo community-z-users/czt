@@ -34,10 +34,22 @@ public class GenericTypeImpl
     super(genericType);
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm<ZDeclName> getName()
+  public NameList getNameList()
   {
     GenericType genericType = (GenericType) term_;
-    return genericType.getName();
+    return genericType.getNameList();
+  }
+
+  public ZNameList getZNameList()
+  {
+    GenericType genericType = (GenericType) term_;
+    return genericType.getZNameList();
+  }
+
+  public void setNameList(NameList list)
+  {
+    GenericType genericType = (GenericType) term_;
+    genericType.setNameList(list);
   }
 
   public Type2 getType()
@@ -100,7 +112,7 @@ public class GenericTypeImpl
   {
     if (obj instanceof GenericType) {
       GenericType gType = (GenericType) obj;
-      if (!getName().equals(gType.getName()) ||
+      if (!getNameList().equals(gType.getNameList()) ||
           !getType().equals(gType.getType())) {
         return false;
       }
@@ -121,8 +133,8 @@ public class GenericTypeImpl
 
     int hashCode = super.hashCode();
     hashCode += "GenericTypeImpl".hashCode();
-    if (getName() != null) {
-      hashCode += constant * getName().hashCode();
+    if (getNameList() != null) {
+      hashCode += constant * getNameList().hashCode();
     }
     if (getType() != null) {
       hashCode += constant * getType().hashCode();

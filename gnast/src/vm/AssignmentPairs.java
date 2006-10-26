@@ -1,9 +1,9 @@
   /**
    * This is a convenience method.
-   * It returns the ZRefNameList if RefNameList (LHS) is an instance of
-   * ZRefNameList and throws an UnsupportedAstClassException otherwise.
+   * It returns the ZNameList if NameList (LHS) is an instance of
+   * ZNameList and throws an UnsupportedAstClassException otherwise.
    */
-  ZRefNameList getZLHS();
+  ZNameList getZLHS();
 
   /**
    * This is a convenience method.

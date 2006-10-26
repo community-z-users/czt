@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -45,7 +45,7 @@ public class FlatDiscreteSetTest
 
   public void setUp()
   {
-    ArrayList<ZRefName> argsList = new ArrayList<ZRefName>();
+    ArrayList<ZName> argsList = new ArrayList<ZName>();
     argsList.add(i);
     argsList.add(k);
     argsList.add(j);
@@ -55,7 +55,7 @@ public class FlatDiscreteSetTest
     set.inferBounds(new Bounds());
 
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZRefName>(),s));
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),s));
     emptySet.inferBounds(new Bounds());
   }
 

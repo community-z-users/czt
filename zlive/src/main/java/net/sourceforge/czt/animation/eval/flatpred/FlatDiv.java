@@ -27,7 +27,7 @@ import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** FlatMult implements the a/b=c predicate. */
@@ -35,9 +35,9 @@ public class FlatDiv extends FlatPred
 {
   private Factory factory_ = new Factory();
 
-  public FlatDiv(ZRefName a, ZRefName b, ZRefName c)
+  public FlatDiv(ZName a, ZName b, ZName c)
   {
-    args_ = new ArrayList<ZRefName>(3);
+    args_ = new ArrayList<ZName>(3);
     args_.add(a);
     args_.add(b);
     args_.add(c);

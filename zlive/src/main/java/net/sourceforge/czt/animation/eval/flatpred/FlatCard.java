@@ -27,7 +27,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -40,9 +40,9 @@ extends FlatPred
 {
   protected Factory factory_ = new Factory();
   
-  public FlatCard(ZRefName set, ZRefName size)
+  public FlatCard(ZName set, ZName size)
   {
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(set);
     args_.add(size);
     solutionsReturned_ = -1;
@@ -51,8 +51,8 @@ extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
 	boolean changed = false;
-	ZRefName setName = args_.get(0);
-	ZRefName sizeName = args_.get(1);
+	ZName setName = args_.get(0);
+	ZName sizeName = args_.get(1);
 	EvalSet set = bnds.getEvalSet(setName);
 	if (set != null) {
       BigInteger maxSize = set.maxSize();
@@ -76,7 +76,7 @@ extends FlatPred
     assert solutionsReturned_ >= 0;
     assert evalMode_.isInput(args_.get(0));
     boolean result = false;
-    ZRefName setName = args_.get(0);
+    ZName setName = args_.get(0);
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;

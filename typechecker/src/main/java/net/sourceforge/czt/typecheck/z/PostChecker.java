@@ -60,9 +60,9 @@ public class PostChecker
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name is not in the environment, raise an error
-        Object undecAnn = pair.getZDeclName().getAnn(UndeclaredAnn.class);
+        Object undecAnn = pair.getZName().getAnn(UndeclaredAnn.class);
         if (undecAnn != null) {
-          ZDeclName decorName = factory().createZDeclName(pair.getZDeclName());
+          ZName decorName = factory().createZDeclName(pair.getZName(), true);
           decorName.getZStrokeList().addAll(thetaExpr.getZStrokeList());
           Object [] params = {decorName, thetaExpr};
           ErrorAnn errorAnn =
@@ -93,9 +93,9 @@ public class PostChecker
       List<NameTypePair> pairs = signature.getNameTypePair();
       for (NameTypePair pair : pairs) {
         //if the name is not in the environment, raise an error
-        Object undecAnn = pair.getZDeclName().getAnn(UndeclaredAnn.class);
+        Object undecAnn = pair.getZName().getAnn(UndeclaredAnn.class);
         if (undecAnn != null) {
-          Object [] params = {pair.getZDeclName(), exprPred};
+          Object [] params = {pair.getZName(), exprPred};
           ErrorAnn errorAnn =
             errorAnn(exprPred,
                      ErrorMessage.UNDECLARED_IDENTIFIER_IN_EXPR,
@@ -113,26 +113,26 @@ public class PostChecker
 
   public ErrorAnn visitRefExpr(RefExpr refExpr)
   {
-    ZRefName zRefName = refExpr.getZRefName();
-    UndeclaredAnn uAnn = (UndeclaredAnn) zRefName.getAnn(UndeclaredAnn.class);
+    ZName zName = refExpr.getZName();
+    UndeclaredAnn uAnn = (UndeclaredAnn) zName.getAnn(UndeclaredAnn.class);
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
 
     //check if this name is undeclared
     if (uAnn != null) {
-      Object [] params = {zRefName};
+      Object [] params = {zName};
         ErrorAnn errorAnn =
-          errorAnn(zRefName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
-      removeAnn(zRefName, uAnn);
+          errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
+      removeAnn(zName, uAnn);
 
       //if this ref expr was created for an ExprPred
-      ExprPred exprPred = (ExprPred) zRefName.getAnn(ExprPred.class);
+      ExprPred exprPred = (ExprPred) zName.getAnn(ExprPred.class);
       boolean added = false;
       if (exprPred == null) {
-        added = addErrorAnn(zRefName, errorAnn);
+        added = addErrorAnn(zName, errorAnn);
       }
       else {
         added = addErrorAnn(exprPred, errorAnn);
-        removeAnn(zRefName, exprPred);
+        removeAnn(zName, exprPred);
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
       }

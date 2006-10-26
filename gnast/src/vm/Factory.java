@@ -25,34 +25,33 @@
    * that is an ApplExpr with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public ApplExpr createApplication(RefName refName, Expr expr)
+  public ApplExpr createApplication(Name refName, Expr expr)
   {
     return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
   }
 
   /**
-   * Creates a ZDeclName with the given word and strokes and
+   * Creates a ZName with the given word and strokes and
    * id set to <code>null</code>.
    * This is a convenience method.
    */
-  public ZDeclName createZDeclName(String word,
-                                   StrokeList strokes)
+  public ZName createZName(String word, StrokeList strokes)
   {
-    return createZDeclName(word, strokes, null);
+    return createZName(word, strokes, null);
   }
 
   /**
-   * Creates a ZDeclName from a decorword, that is a string that
+   * Creates a ZName from a decorword, that is a string that
    * may contain strokes at the end.
    * The strokes are extracted from the end and the resulting
    * name is returned.
    * This is a convenience method.
    */
-  public ZDeclName createZDeclName(String decorword)
+  public ZName createZName(String decorword)
   {
     ZStrokeList strokes = createZStrokeList();
     final String word = getWordAndStrokes(decorword, strokes);
-    return createZDeclName(word, strokes, null);
+    return createZName(word, strokes, null);
   }
 
   public String getWordAndStrokes(String decorword,
@@ -109,7 +108,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public ApplExpr createFunOpAppl(RefName refName, Expr expr)
+  public ApplExpr createFunOpAppl(Name refName, Expr expr)
   {
     return createApplExpr(createRefExpr(refName), expr, Boolean.TRUE);
   }
@@ -119,7 +118,7 @@
    * with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenInst(RefName refName,
+  public RefExpr createGenInst(Name refName,
                                java.util.List<? extends Expr> exprs)
   {
     ZExprList zExprList = createZExprList(exprs);
@@ -131,7 +130,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public RefExpr createGenOpApp(RefName refName,
+  public RefExpr createGenOpApp(Name refName,
                                 java.util.List<? extends Expr> exprs)
   {
     ZExprList zExprList = createZExprList(exprs);
@@ -147,7 +146,7 @@
    * @param declName name of the schema.
    * @param expr an expression.
    */
-  public AxPara createHorizontalDef(DeclName declName, Expr expr)
+  public AxPara createHorizontalDef(Name declName, Expr expr)
   {
     return createHorizontalDef(declName, null, expr);
   }
@@ -159,14 +158,14 @@
    * This is a convenience method.
    *
    * @param declName name of the schema.
-   * @param formals a list of DeclName, the formal parameters.
+   * @param formals a list of Name, the formal parameters.
    * @param expr an expression.
    */
-  public AxPara createHorizontalDef(DeclName declName,
-                                    java.util.List<? extends DeclName> formals,
+  public AxPara createHorizontalDef(Name declName,
+                                    java.util.List<? extends Name> formals,
                                     Expr expr)
   {
-    ZDeclNameList zdnl = createZDeclNameList();
+    ZNameList zdnl = createZNameList();
     if (formals != null) {
       zdnl.addAll(formals);
     }
@@ -180,7 +179,7 @@
    * an expression, that is a MemPred with mixfix set to <code>false</code>.
    * This is a convenience method.
    */
-  public MemPred createMemPred(RefName refName, Expr expr)
+  public MemPred createMemPred(Name refName, Expr expr)
   {
     return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
   }
@@ -217,7 +216,7 @@
     return createProdExpr(createZExprList(list(left, right)));
   }
 
-  public RefExpr createRefExpr(RefName refName,
+  public RefExpr createRefExpr(Name refName,
                                ZExprList zExprList,
                                Boolean mixfix)
   {
@@ -230,46 +229,21 @@
    * is <code>false</code> and the list of expressions is empty.
    * This is a convenience method.
    */
-  public RefExpr createRefExpr(RefName refName)
+  public RefExpr createRefExpr(Name refName)
   {
     return createRefExpr(refName, createZExprList(), Boolean.FALSE);
   }
 
   /**
-   * Creates a ZRefName with the given word and strokes and
-   * decl set to <code>null</code>.
-   * This is a convenience method.
-   */
-  public ZRefName createZRefName(String word,
-                                 StrokeList strokes)
-  {
-    return createZRefName(word, strokes, null);
-  }
-
-  /**
-   * Creates a ZRefName from a decorword, that is a string that
-   * may contain strokes at the end.
-   * The strokes are extracted from the end and the resulting
-   * name is returned.
-   * This is a convenience method.
-   */
-  public ZRefName createZRefName(String decorword)
-  {
-    ZStrokeList strokes = createZStrokeList();
-    final String word = getWordAndStrokes(decorword, strokes);
-    return createZRefName(word, strokes, null);
-  }
-
-  /**
    * Creates a referencing name that refers to the given
-   * declaring name.
+   * declaring name, i.e., just copies the given ZName.
    * This is a convenience method.
    */
-  public ZRefName createZRefName(ZDeclName declName)
+  public ZName createZName(ZName declName)
   {
-    return createZRefName(declName.getWord(),
-			  declName.getStrokeList(),
-			  declName);
+    return createZName(declName.getWord(),
+                       declName.getStrokeList(),
+                       declName.getId());
   }
 
   /**
@@ -277,7 +251,7 @@
    * with mixfix set to <code>true</code>.
    * This is a convenience method.
    */
-  public MemPred createRelOpAppl(Expr expr, RefName refName)
+  public MemPred createRelOpAppl(Expr expr, Name refName)
   {
     return createMemPred(expr, createRefExpr(refName), Boolean.TRUE);
   }
@@ -291,7 +265,7 @@
    * @param declName name of the schema.
    * @param schemaText the schema text.
    */
-  public AxPara createSchema(DeclName declName, SchText schemaText)
+  public AxPara createSchema(Name declName, SchText schemaText)
   {
     return createSchema(declName, null, schemaText);
   }
@@ -302,15 +276,15 @@
    * schema text and with Box set to SchBox.
    * This is a convenience method.
    *
-   * @param formals a list of DeclName, the formal parameters.
+   * @param formals a list of Name, the formal parameters.
    * @param declName name of the schema.
    * @param schemaText the schema text.
    */
-  public AxPara createSchema(DeclName declName,
-                             java.util.List<? extends DeclName> formals,
+  public AxPara createSchema(Name declName,
+                             java.util.List<? extends Name> formals,
                              SchText schemaText)
   {
-    ZDeclNameList zdnl = createZDeclNameList();
+    ZNameList zdnl = createZNameList();
     if (formals != null) {
       zdnl.addAll(formals);
     }

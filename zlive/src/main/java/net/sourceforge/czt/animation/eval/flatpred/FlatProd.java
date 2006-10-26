@@ -27,7 +27,7 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.animation.eval.EvalSet;
 
 /**
@@ -50,9 +50,9 @@ public class FlatProd extends FlatEvalSet
   private List<Iterator<Expr>> iterators_ = null;
 
   /** Creates a new instance of FlatUnion */
-  public FlatProd(List<ZRefName> baseSets, ZRefName s)
+  public FlatProd(List<ZName> baseSets, ZName s)
   {
-    args_ = new ArrayList<ZRefName>(baseSets);
+    args_ = new ArrayList<ZName>(baseSets);
     args_.add(s);
     solutionsReturned_ = -1;
   }
@@ -73,7 +73,7 @@ public class FlatProd extends FlatEvalSet
     if (solutionsReturned_ == 0) {
       solutionsReturned_++;
       resetResult();
-      ZRefName set = getLastArg();
+      ZName set = getLastArg();
       Envir env = evalMode_.getEnvir();
       baseSets_ = findSets(env);
       if (baseSets_ == null)

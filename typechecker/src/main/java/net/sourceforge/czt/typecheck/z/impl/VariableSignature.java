@@ -42,7 +42,7 @@ public class VariableSignature
   protected static int serial_ = 0;
 
   /** The name of this variable. */
-  protected ZDeclName zDeclName_ = null;
+  protected ZName zName_ = null;
 
   /** The unified value of this signature. */
   protected Signature value_ = null;
@@ -51,12 +51,12 @@ public class VariableSignature
   {
     ZStrokeList strokes = factory.getZFactory().createZStrokeList();
     //    strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    zDeclName_ = factory.createZDeclName(BETA, strokes, null);
+    zName_ = factory.createZDeclName(BETA, strokes, null);
   }
 
-  protected VariableSignature(ZDeclName zDeclName)
+  protected VariableSignature(ZName zName)
   {
-    zDeclName_ = zDeclName;
+    zName_ = zName;
   }
 
   /**
@@ -89,17 +89,17 @@ public class VariableSignature
   /**
    * Get the variable name associated with this type.
    */
-  public ZDeclName getName()
+  public ZName getName()
   {
-    return zDeclName_;
+    return zName_;
   }
 
   /**
    * Set the variable name associated with this type.
    */
-  public void setName(ZDeclName zDeclName)
+  public void setName(ZName zName)
   {
-    zDeclName_ = zDeclName;
+    zName_ = zName;
   }
 
   public Object[] getChildren()
@@ -132,8 +132,8 @@ public class VariableSignature
   {
     VariableSignature zedObject = null;
     try {
-      ZDeclName zDeclName = (ZDeclName) args[0];
-      zedObject = new VariableSignature(zDeclName);
+      ZName zName = (ZName) args[0];
+      zedObject = new VariableSignature(zName);
       Signature value = (Signature) args[1];
       zedObject.setValue(value);
       List<NameTypePair> pairs = (List<NameTypePair>) args[2];
@@ -155,11 +155,11 @@ public class VariableSignature
     if (value_ != null) {
       result += value_.toString();
     }
-    else if (zDeclName_.getWord().indexOf(BETA) >= 0) {
-      result += zDeclName_.toString();
+    else if (zName_.getWord().indexOf(BETA) >= 0) {
+      result += zName_.toString();
     }
     else {
-      result += "VSIG(" + zDeclName_.toString() + ")";
+      result += "VSIG(" + zName_.toString() + ")";
     }
 
     return result;
@@ -171,7 +171,7 @@ public class VariableSignature
 
     if (o instanceof VariableSignature) {
       VariableSignature variableSignature = (VariableSignature) o;
-      if (zDeclName_.equals(variableSignature.getName())) {
+      if (zName_.equals(variableSignature.getName())) {
         result = true;
       }
     }
@@ -185,8 +185,8 @@ public class VariableSignature
 
     int hashCode = super.hashCode();
     hashCode += "VariableSignature".hashCode();
-    if (zDeclName_ != null) {
-      hashCode += constant * zDeclName_.hashCode();
+    if (zName_ != null) {
+      hashCode += constant * zName_.hashCode();
     }
     return hashCode;
   }

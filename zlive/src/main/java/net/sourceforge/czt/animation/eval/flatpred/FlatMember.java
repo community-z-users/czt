@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
 * @author Mark Utting
@@ -52,9 +52,9 @@ public class FlatMember extends FlatPred
    * @param set      Must evaluate to an EvalSet object.
    * @param element  The member of the set.
    */
-  public FlatMember(ZRefName set, ZRefName element)
+  public FlatMember(ZName set, ZName element)
   {
-    args_ = new ArrayList<ZRefName>(2);
+    args_ = new ArrayList<ZName>(2);
     args_.add(set);
     args_.add(element);
     solutionsReturned_ = -1;
@@ -63,8 +63,8 @@ public class FlatMember extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
 	LOG.entering("FlatMember", "inferBounds", bnds);
-	ZRefName setName = args_.get(0);
-	ZRefName elemName = args_.get(1);
+	ZName setName = args_.get(0);
+	ZName elemName = args_.get(1);
 	EvalSet set = bnds.getEvalSet(setName);
 	boolean changed = false;
 	if (set != null) {
@@ -83,8 +83,8 @@ public class FlatMember extends FlatPred
   public Mode chooseMode(Envir env)
   {
     // the set must be defined in env.
-    ZRefName setName = args_.get(0);
-    ZRefName elemName = args_.get(1);
+    ZName setName = args_.get(0);
+    ZName elemName = args_.get(1);
     Mode result = new Mode(this, env, args_, Mode.MAYBE_ONE_SOLUTION);
     // is the set an input?
     if (result.isInput(setName)) {
@@ -119,7 +119,7 @@ public class FlatMember extends FlatPred
     assert solutionsReturned_ >= 0;
     assert set_ != null;
     boolean result = false;
-    ZRefName element = args_.get(1);
+    ZName element = args_.get(1);
     if (evalMode_.isInput(1)) {
       // do a membership test
       current_ = null;
@@ -154,7 +154,7 @@ public class FlatMember extends FlatPred
     StringBuffer result = new StringBuffer();
     result.append(super.toString());
     result.deleteCharAt(result.length()-1);  // delete the last ']'
-    ZRefName setName = args_.get(0);
+    ZName setName = args_.get(0);
     EvalSet set = null;
     if (bounds_ != null && (set=bounds_.getEvalSet(setName)) != null) {
       result.append("::");

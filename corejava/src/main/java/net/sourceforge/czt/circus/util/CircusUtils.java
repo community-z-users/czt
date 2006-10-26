@@ -12,7 +12,7 @@ package net.sourceforge.czt.circus.util;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.Para;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.SchExprAction;
@@ -32,10 +32,10 @@ public final class CircusUtils {
   
   /**
    * Returns true if the <code>ActionPara</code> is indeed a schema expression action 
-   * with a non-null <code>DeclName</code>.
+   * with a non-null <code>Name</code>.
    */
   public static boolean isActionParaSchemaValid(ActionPara ap) {    
-    return (ap.getDeclName() != null) && 
+    return (ap.getName() != null) && 
            (ap.getCircusAction() instanceof SchExprAction);
   }
   
@@ -59,14 +59,14 @@ public final class CircusUtils {
    * If the given paragraph <code>isSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
    */
-  public static DeclName getSchemaName(Para para)  {
-    DeclName result = null;
+  public static Name getSchemaName(Para para)  {
+    Name result = null;
     if (isSchema(para)) {
       result = ZUtils.getSchemaName(para);
       if (result == null) {
         ActionPara ap = (ActionPara)para;
         assert isActionParaSchemaValid(ap);
-        result = ap.getDeclName();
+        result = ap.getName();
       }
     }
     return result;

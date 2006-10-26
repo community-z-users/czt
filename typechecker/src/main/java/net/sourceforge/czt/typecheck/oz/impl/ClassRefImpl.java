@@ -37,23 +37,23 @@ public class ClassRefImpl
     super(classRef);
   }
 
-  public void setRefName(RefName refName)
+  public void setName(Name name)
   {
     ClassRef classRef = (ClassRef) term_;
-    classRef.setRefName(refName);
+    classRef.setName(name);
   }
 
-  public RefName getRefName()
+  public Name getName()
   {
     ClassRef classRef = (ClassRef) term_;
-    RefName result = classRef.getRefName();
+    Name result = classRef.getName();
     return result;
   }
 
-  public ZRefName getZRefName()
+  public ZName getZName()
   {
     ClassRef classRef = (ClassRef) term_;
-    ZRefName result = classRef.getZRefName();
+    ZName result = classRef.getZName();
     return result;
   }
 
@@ -111,13 +111,13 @@ public class ClassRefImpl
     if (obj != null) {
       if (obj instanceof ClassRef) {
         ClassRef classRef = (ClassRef) obj;
-        if (getRefName() != null) {
-          if (!getRefName().equals(classRef.getRefName())) {
+        if (getName() != null) {
+          if (!getName().equals(classRef.getName())) {
             return false;
           }
         }
         else {
-          if (classRef.getRefName() != null) {
+          if (classRef.getName() != null) {
             return false;
           }
         }

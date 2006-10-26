@@ -35,7 +35,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
  *  The visit* methods add subclasses of Pred or Expr into the list flat_.
- *  Each visit*Expr method returns a RefName, which is the name of the
+ *  Each visit*Expr method returns a Name, which is the name of the
  *  variable that will contain the result of the expression after evaulation.
  *  Each visit*Pred method returns null.
  *  <p>
@@ -74,7 +74,7 @@ public class Flatten
    *  @return The name of the variable that will contain the result,
    *          after evaluation.
    */
-  public ZRefName flattenExpr(Expr toFlatten, List<FlatPred> destination)
+  public ZName flattenExpr(Expr toFlatten, List<FlatPred> destination)
     throws CommandException
   {
     String currSect = zlive_.getCurrentSection();
@@ -93,18 +93,18 @@ public class Flatten
   public static Expr charTuple(Factory factory, List<Decl> decls)
   {
     Expr expr = null;
-    List<ZDeclName> names = declNames(decls);
+    List<ZName> names = declNames(decls);
     if (names.size() == 0)
       throw new EvalException("empty set comprehension!");
     else if (names.size() == 1) {
-      ZRefName refName = factory.createZRefName(names.get(0));
+      ZName refName = factory.createZName(names.get(0));
       expr = factory.createRefExpr(refName);
     }
     else {
       // Make a real tuple!
       ZExprList refExprs = factory.createZExprList();
-      for (ZDeclName name : names) {
-        ZRefName tmpName = factory.createZRefName(name);
+      for (ZName name : names) {
+        ZName tmpName = factory.createZName(name);
         refExprs.add(factory.createRefExpr(tmpName));
       }
       expr = factory.createTupleExpr(refExprs);
@@ -113,21 +113,21 @@ public class Flatten
   }
 
   /** An auxiliary method for getting all the names in a list of Decl. */
-  public static List<ZDeclName> declNames(List<Decl> decls) {
-    List<ZDeclName> result = new ArrayList<ZDeclName>();
+  public static List<ZName> declNames(List<Decl> decls) {
+    List<ZName> result = new ArrayList<ZName>();
     for (Decl decl : decls) {
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
-        for (DeclName name : vdecl.getDeclName()) {
-          if (name instanceof ZDeclName)
-            result.add((ZDeclName)name);
+        for (Name name : vdecl.getName()) {
+          if (name instanceof ZName)
+            result.add((ZName)name);
           else
-            throw new UnsupportedAstClassException("illegal DeclName " + name);
+            throw new UnsupportedAstClassException("illegal Name " + name);
         }
       }
       else if (decl instanceof ConstDecl) {
         ConstDecl cdecl = (ConstDecl) decl;
-        ZDeclName name = cdecl.getZDeclName();
+        ZName name = cdecl.getZName();
         result.add(name);
       }
       else {

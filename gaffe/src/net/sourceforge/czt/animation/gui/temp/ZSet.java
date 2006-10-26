@@ -32,7 +32,7 @@ import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -49,7 +49,7 @@ public class ZSet implements ZValue
 
   private int i = 0;
 
-  private List<ZRefName> list;
+  private List<ZName> list;
 
   // private static Factory factory;
   /**
@@ -70,12 +70,12 @@ public class ZSet implements ZValue
   {
     // set_ = new Vector(set);
     env_ = new Envir();
-    list = new ArrayList<ZRefName>();
+    list = new ArrayList<ZName>();
     factory_ = GaffeFactory.getFactory();
-    ZRefName setName = factory_.createZRefName("NoName");
-    ZRefName tempName = null;
+    ZName setName = factory_.createZName("NoName");
+    ZName tempName = null;
     for (ZValue zValue : set) {
-      tempName = factory_.createZRefName(String.valueOf(i++));
+      tempName = factory_.createZName(String.valueOf(i++));
       env_ = env_.plus(tempName, zValue.getExpr());
       list.add(tempName);
     }
@@ -220,7 +220,7 @@ public class ZSet implements ZValue
     ZValue result = null;
     try {
       result = GaffeFactory.zValue(expr_.getEnvir().lookup(
-          GaffeFactory.getFactory().createZRefName(String.valueOf(index))));
+          GaffeFactory.getFactory().createZName(String.valueOf(index))));
     } catch (UnexpectedTypeException ute) {
       ute.printStackTrace();
     }

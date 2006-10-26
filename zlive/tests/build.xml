@@ -22,6 +22,7 @@
   <path id="classpath">
     <pathelement location="${jar}"/>
     <pathelement location="${test-jar}"/>
+    <pathelement location="/usr/share/junit/lib/junit.jar"/>
   </path>
 
   <target name="usertest_compare" depends="usertest,compare"

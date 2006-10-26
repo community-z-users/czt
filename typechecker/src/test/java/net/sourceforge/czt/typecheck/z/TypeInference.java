@@ -227,13 +227,13 @@ public class TypeInference
   //lookup a type from the SectTypeEnv
   protected Type getType(String word)
   {
-    ZDeclName zDeclName = factory_.createZDeclName(word);
+    ZName zName = factory_.createZName(word);
     ZSect zSect = (ZSect) spec_.getSect().get(0);
     SectTypeEnvAnn ann = (SectTypeEnvAnn) zSect.getAnn(SectTypeEnvAnn.class);
     List triples = ann.getNameSectTypeTriple();
     for (Iterator iter = triples.iterator(); iter.hasNext(); ) {
       NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
-      if (zDeclName.equals(triple.getDeclName())) {
+      if (zName.equals(triple.getName())) {
         return triple.getType();
       }
     }

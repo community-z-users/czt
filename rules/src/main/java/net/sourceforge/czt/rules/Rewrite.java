@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2006 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -73,9 +73,8 @@ public class Rewrite
     Factory factory = new Factory(new ProverFactory());
     String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
     StrokeList noStrokes = factory.createZStrokeList();
-    ZDeclName declName = factory.createZDeclName(schemaEqOp, noStrokes, "global");
-    ZRefName refName = factory.createZRefName(schemaEqOp, noStrokes, declName);
-    schemaEqualsRefExpr_ = factory.createRefExpr(refName);
+    ZName name = factory.createZName(schemaEqOp, noStrokes, "global");
+    schemaEqualsRefExpr_ = factory.createRefExpr(name);
   }
 
   public Rewrite(SectionManager manager, RuleTable rules, String section)

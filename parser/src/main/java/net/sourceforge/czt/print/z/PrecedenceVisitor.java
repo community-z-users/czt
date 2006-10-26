@@ -126,7 +126,7 @@ public class PrecedenceVisitor
       term.getMixfix().booleanValue();
     if (isFunctionApplication) {
       RefExpr refExpr = (RefExpr) term.getLeftExpr();
-      OperatorName opName = refExpr.getZRefName().getOperatorName();
+      OperatorName opName = refExpr.getZName().getOperatorName();
       return getPrecedence(opName);
     }
     return Precedence.precedence(210);
@@ -137,7 +137,7 @@ public class PrecedenceVisitor
     final boolean isGenericOperatorApplication =
       refExpr.getMixfix().booleanValue();
     if (isGenericOperatorApplication) {
-      final OperatorName opName = refExpr.getZRefName().getOperatorName();
+      final OperatorName opName = refExpr.getZName().getOperatorName();
       return getPrecedence(opName);
     }
     return null;

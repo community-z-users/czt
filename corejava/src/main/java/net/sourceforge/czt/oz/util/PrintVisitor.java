@@ -33,7 +33,7 @@ public class PrintVisitor
   public String visitClassRef(ClassRef classRef)
   {
     return
-      visit(classRef.getRefName()) +
+      visit(classRef.getName()) +
       visitList(classRef.getType(), "[", ", ", "]") +
       visitList(classRef.getNewOldPair(), "[", ", ", "]");
   }

@@ -19,9 +19,9 @@
 
 package net.sourceforge.czt.z.util;
 
-import net.sourceforge.czt.z.ast.DeclNameList;
+import net.sourceforge.czt.z.ast.NameList;
 
-public interface IsEmptyDeclNameList
+public interface IsEmptyNameList
 {
-  boolean isEmpty(DeclNameList declNameList);
+  boolean isEmpty(NameList nameList);
 }

@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 
 /**
@@ -39,25 +39,25 @@ import net.sourceforge.czt.z.ast.ZRefName;
 public class FlatTupleTest
   extends ZTestCase
 {
-  private ZRefName w = factory_.createZRefName("w");
+  private ZName w = factory_.createZName("w");
   
-  private ZRefName l = factory_.createZRefName("l");
-  private ZRefName m = factory_.createZRefName("m");
-  private ZRefName n = factory_.createZRefName("n");
-  private ZRefName o = factory_.createZRefName("o");
-  private ZRefName p = factory_.createZRefName("p");
+  private ZName l = factory_.createZName("l");
+  private ZName m = factory_.createZName("m");
+  private ZName n = factory_.createZName("n");
+  private ZName o = factory_.createZName("o");
+  private ZName p = factory_.createZName("p");
   
-  private ZRefName a = factory_.createZRefName("a");
-  private ZRefName b = factory_.createZRefName("b");
-  private ZRefName c = factory_.createZRefName("c");
-  private ZRefName d = factory_.createZRefName("d");
-  private ZRefName e = factory_.createZRefName("e");
+  private ZName a = factory_.createZName("a");
+  private ZName b = factory_.createZName("b");
+  private ZName c = factory_.createZName("c");
+  private ZName d = factory_.createZName("d");
+  private ZName e = factory_.createZName("e");
 
   private FlatPred pred;
 
   public FlatTupleTest()
   {
-    ArrayList<ZRefName> tupleList = new ArrayList<ZRefName>();
+    ArrayList<ZName> tupleList = new ArrayList<ZName>();
     tupleList.add(l);
     tupleList.add(m);
     tupleList.add(n);
@@ -113,7 +113,7 @@ public class FlatTupleTest
   {
     Envir envABCDE = empty.plus(a,i10).plus(b,i11).plus(c,i12).plus(d,i13).plus(e,i14);
     Mode mode = null;
-    ArrayList<ZRefName> tempList = new ArrayList<ZRefName>();
+    ArrayList<ZName> tempList = new ArrayList<ZName>();
     tempList.add(a);
     tempList.add(b);
     tempList.add(c);
@@ -158,7 +158,7 @@ public class FlatTupleTest
   {
     Envir envABCDE = empty.plus(a,i10).plus(b,i11).plus(c,i12).plus(d,i13).plus(e,i14);
     Mode mode = null;
-    ArrayList<ZRefName> tempList = new ArrayList<ZRefName>();
+    ArrayList<ZName> tempList = new ArrayList<ZName>();
     tempList.add(a);
     tempList.add(b);
     tempList.add(c);
@@ -173,7 +173,7 @@ public class FlatTupleTest
     Assert.assertTrue(tempMode.getEnvir().lookup(w) instanceof TupleExpr);
     //Adding z to the Envir with its value as the temporary tuple created above
     Envir envABCDEZ = envABCDE.plus(z,tempMode.getEnvir().lookup(w));
-    //Adding the ZRefName m to the envir, which is compliant with its corresponding value in the tuple
+    //Adding the ZName m to the envir, which is compliant with its corresponding value in the tuple
     Envir envABCDEZM = envABCDEZ.plus(m,i11);
     mode = pred.chooseMode(envABCDEZM);
     Assert.assertTrue(mode != null);
@@ -200,7 +200,7 @@ public class FlatTupleTest
     Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));
     Assert.assertFalse(pred.nextEvaluation());
     
-    //Adding the ZRefName m to the envir, which is NOT compliant with its corresponding value in the tuple
+    //Adding the ZName m to the envir, which is NOT compliant with its corresponding value in the tuple
     Envir envABCDEZMN = envABCDEZM.plus(n,i13);
     mode = null;
     mode = pred.chooseMode(envABCDEZMN);
