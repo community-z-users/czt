@@ -1,11 +1,9 @@
 
-package net.sourceforge.czt.eclipse.util;
+package net.sourceforge.czt.eclipse;
 
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import net.sourceforge.czt.eclipse.CZTPlugin;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -145,7 +143,7 @@ public class CZTPluginImages
   /*
    * Helper method to access the image registry from the CZTPlugin class.
    */
-  /* package */public static ImageRegistry getImageRegistry()
+  /* package */static ImageRegistry getImageRegistry()
   {
     if (fgImageRegistry == null) {
         fgImageRegistry = new ImageRegistry();

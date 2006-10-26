@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.editors;
 
-import net.sourceforge.czt.eclipse.util.CZTPluginImages;
+import net.sourceforge.czt.eclipse.CZTPluginImages;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;

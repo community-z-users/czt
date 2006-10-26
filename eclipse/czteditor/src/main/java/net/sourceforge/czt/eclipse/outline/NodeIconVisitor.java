@@ -5,7 +5,7 @@ package net.sourceforge.czt.eclipse.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
-import net.sourceforge.czt.eclipse.util.CZTPluginImages;
+import net.sourceforge.czt.eclipse.CZTPluginImages;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.ConjPara;

@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.CZTPluginImages;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
-import net.sourceforge.czt.eclipse.util.CZTPluginImages;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;

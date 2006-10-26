@@ -1,9 +1,9 @@
 
 package net.sourceforge.czt.eclipse.outline;
 
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -16,6 +16,7 @@ import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Oper;
+import net.sourceforge.czt.z.ast.Operand;
 import net.sourceforge.czt.z.ast.Operator;
 import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.OrExpr;
@@ -63,13 +64,13 @@ public class NodeNameVisitor
     implements
       TermVisitor<String>,
       ZSectVisitor<String>,
+      NarrSectVisitor<String>,
       GivenParaVisitor<String>,
       AxParaVisitor<String>,
       ConjParaVisitor<String>,
       FreeParaVisitor<String>,
-      NarrParaVisitor<String>,
-      NarrSectVisitor<String>,
       OptempParaVisitor<String>,
+      NarrParaVisitor<String>,
       UnparsedParaVisitor<String>,
       ConstDeclVisitor<String>,
       VarDeclVisitor<String>,
@@ -89,14 +90,19 @@ public class NodeNameVisitor
 
   public String visitTerm(Term term)
   {
-    return String.valueOf(term);
+    return term.getClass().getSimpleName();
   }
   
   public String visitZSect(ZSect zSect)
   {
     return zSect.getName();
   }
-
+  
+  public String visitNarrSect(NarrSect narrSect)
+  {
+    return "Narrative Sect";
+  }
+  
   public String visitGivenPara(GivenPara givenPara)
   {
     return getNames(givenPara.getDeclNames());
@@ -118,39 +124,16 @@ public class NodeNameVisitor
     return list.get(0).getDeclName().accept(new PrintVisitor());
   }
 
-  public String visitNarrPara(NarrPara narrPara)
-  {
-    return "Narrative Para";
-  }
-
-  public String visitNarrSect(NarrSect narrSect)
-  {
-    return "Narrative Sect";
-  }
-
   public String visitOptempPara(OptempPara optempPara)
   {
-    /*
-    ListTerm<Oper> operList = optempPara.getOper();
-    
-    if (operList.size() == 0)
-      return "";
-    
-    if (operList.size() == 1)
-      return operList.get(0).accept(this);
-    
-    String result = "[" + operList.get(0).accept(this);
-    
-    for (int i=1; i<operList.size(); i++)
-      result = result + ", " + operList.get(i).accept(this);
-    
-    result = result + "]";
-    
-    return result;
-    */
-    return "Optemp Para";
+    return OpTable.getOpNameWithoutStrokes(optempPara.getOper());
   }
 
+  public String visitNarrPara(NarrPara narrPara)
+  {
+    return "NarrPara";
+  }
+  
   public String visitUnparsedPara(UnparsedPara unparsedPara)
   {
     return "UnparsedPara";
@@ -229,7 +212,12 @@ public class NodeNameVisitor
   
   public String visitOper(Oper oper)
   {
-    return oper.toString();
+    if (oper instanceof Operator)
+      return ((Operator) oper).getWord();
+    else if (oper instanceof Operand)
+      return "OPERAND";
+    
+    return "OPER";
   }
 
   private String getNames(ZDeclNameList declNames)
