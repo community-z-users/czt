@@ -99,8 +99,9 @@ public class CarrierSet
     ZName genParamName = ZUtils.assertZName(genParamType.getName());
     ZStrokeList strokes = zFactory_.createZStrokeList();
     strokes.addAll(genParamName.getZStrokeList());
+    String id = genParamName.getId();
     ZName zName =
-      zFactory_.createZName(genParamName.getWord(), strokes, null);
+      zFactory_.createZName(genParamName.getWord(), strokes, id);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
@@ -112,8 +113,9 @@ public class CarrierSet
     ZName givenTypeName = ZUtils.assertZName(givenType.getName());
     ZStrokeList strokes = zFactory_.createZStrokeList();
     strokes.addAll(givenTypeName.getZStrokeList());
+    String id = givenTypeName.getId();
     ZName zName =
-      zFactory_.createZName(givenTypeName.getWord(), strokes, null);
+      zFactory_.createZName(givenTypeName.getWord(), strokes, id);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
