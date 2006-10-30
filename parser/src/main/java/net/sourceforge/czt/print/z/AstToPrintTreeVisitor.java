@@ -96,6 +96,8 @@ public class AstToPrintTreeVisitor
    */
   private OpTable opTable_;
 
+  private PrecedenceVisitor prec_;
+
   /**
    * Provides the operator table for sections.
    */
@@ -115,7 +117,7 @@ public class AstToPrintTreeVisitor
     throws CommandException
   {
     ZSect zSect = (ZSect) sectInfo_.get(new Key(sectionName, ZSect.class));
-    return (Term) zSect.accept(this);
+    return zSect.accept(this);
   }
 
   /**
@@ -130,6 +132,7 @@ public class AstToPrintTreeVisitor
   public Term run(Term term, OpTable opTable)
   {
     opTable_ = opTable;
+    prec_ = new PrecedenceVisitor(opTable_);
     return (Term) term.accept(this);
   }
 
@@ -146,6 +149,7 @@ public class AstToPrintTreeVisitor
     throws CommandException
   {
     opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
+    prec_ = new PrecedenceVisitor(opTable_);
     return (Term) term.accept(this);
   }
 
@@ -202,7 +206,7 @@ public class AstToPrintTreeVisitor
     else {
       throw new CztException("Unexpected Op");
     }
-    final Precedence prec = andPred.accept(new PrecedenceVisitor());
+    final Precedence prec = getPrec(andPred);
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, prec, null);
     if (andPred.getAnn(ParenAnn.class) != null) {
@@ -225,7 +229,7 @@ public class AstToPrintTreeVisitor
     if (isFunctionApplication) {
       RefExpr refExpr = (RefExpr) applExpr.getLeftExpr();
       OperatorName opName = refExpr.getZName().getOperatorName();
-      Expr args = (Expr) applExpr.getRightExpr().accept(this);
+      Expr args = (Expr) visit(applExpr.getRightExpr());
       List argList = new ArrayList();
       if (opName.isUnary()) {
         argList.add(args);
@@ -234,15 +238,14 @@ public class AstToPrintTreeVisitor
         TupleExpr tuple = (TupleExpr) args;
         argList.addAll(tuple.getZExprList());
       }
-      final Precedence precedence =
-        applExpr.accept(new PrecedenceVisitor(opTable_));
+      final Precedence precedence = getPrec(applExpr);
       OperatorApplication result =
         createOperatorApplication(opName, argList, precedence);
       result.getAnns().addAll(applExpr.getAnns());
       return result;
     }
-    final Expr leftExpr = (Expr) applExpr.getLeftExpr().accept(this);
-    final Expr rightExpr = (Expr) applExpr.getRightExpr().accept(this);
+    final Expr leftExpr = (Expr) visit(applExpr.getLeftExpr());
+    final Expr rightExpr = (Expr) visit(applExpr.getRightExpr());
     Application appl = printFactory_.createApplication();
     appl.setLeftExpr(leftExpr);
     appl.setRightExpr(rightExpr);
@@ -403,7 +406,7 @@ public class AstToPrintTreeVisitor
 
   public Term visitMemPred(MemPred memPred)
   {
-    final Precedence precedence = memPred.accept(new PrecedenceVisitor());
+    final Precedence precedence = getPrec(memPred);
     Expr firstExpr = (Expr) visit(memPred.getLeftExpr());
     Expr secondExpr = (Expr) visit(memPred.getRightExpr());
     boolean mixfix = memPred.getMixfix().booleanValue();
@@ -461,10 +464,8 @@ public class AstToPrintTreeVisitor
       refExpr.getMixfix().booleanValue();
     if (isGenericOperatorApplication) {
       final OperatorName opName = refExpr.getZName().getOperatorName();
-      final ZExprList argList =
-        (ZExprList) refExpr.getZExprList().accept(this);
-      final Precedence precedence =
-        refExpr.accept(new PrecedenceVisitor(opTable_));
+      final ZExprList argList = (ZExprList) visit(refExpr.getZExprList());
+      final Precedence precedence = getPrec(refExpr);
       OperatorApplication result =
         createOperatorApplication(opName, argList, precedence);
       result.getAnns().addAll(refExpr.getAnns());
@@ -504,6 +505,7 @@ public class AstToPrintTreeVisitor
         }
       }
     }
+    prec_ = new PrecedenceVisitor(opTable_);
     return visitTerm(zSect);
   }
 
@@ -570,6 +572,11 @@ public class AstToPrintTreeVisitor
   protected Term visit(Term term)
   {
     return term.accept(this);
+  }
+
+  protected Precedence getPrec(Term term)
+  {
+    return term.accept(prec_);
   }
 
   public static class CannotPrintAstException
