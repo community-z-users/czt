@@ -217,13 +217,14 @@ public class CztElementImageDescriptor extends CompositeImageDescriptor
 
   private void drawBottomRight()
   {
+    /*
     Point size = getSize();
     int x = size.x;
     int flags = fFlags;
 
     int syncAndOver = SYNCHRONIZED | OVERRIDES;
     int syncAndImpl = SYNCHRONIZED | IMPLEMENTS;
-/*
+    
     if ((flags & RUNNABLE) != 0) {
       ImageData data = getImageData(CZTPluginImages.DESC_OVR_RUN);
       x -= data.width;

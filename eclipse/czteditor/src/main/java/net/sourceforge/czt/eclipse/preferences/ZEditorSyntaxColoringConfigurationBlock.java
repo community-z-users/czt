@@ -931,7 +931,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     String content = loadPreviewContentFromFile("ColorSettingPreviewCode.txt"); //$NON-NLS-1$
     IDocument document = new Document(content);
-    CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+    CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
         document, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
     fPreviewViewer.setDocument(document);
 

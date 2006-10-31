@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sourceforge.czt.z.util.ZString;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.text.BadLocationException;
@@ -80,101 +82,119 @@ public class ZSpecDecorationSupport
         fgIBeamStrategy.draw(annotation, gc, textWidget, offset, length, color);
         return;
       }
-      
+
       if (gc != null) {
         IDocument document = fSourceViewer.getDocument();
-        final int start_line_end_height = 2;
         int boxWidth = textWidget.getClientArea().width - 10;
         int lineHeight = textWidget.getLineHeight(offset);
-        
+
         try {
           // the line containing the annotation
           int annLine = document.getLineOfOffset(offset);
           Point left = textWidget.getLocationAtOffset(offset);
           ITypedRegion partition = null;
-          
+
           try {
             if (document instanceof IDocumentExtension3) {
               IDocumentExtension3 extension3 = (IDocumentExtension3) document;
-              partition = extension3.getPartition(IZPartitions.Z_PARTITIONING, offset, false);
+              partition = extension3.getPartition(IZPartitions.Z_PARTITIONING,
+                  offset, false);
             }
             else {
               partition = document.getPartition(offset);
             }
-            
+
           } catch (BadPartitioningException bpe) {
             partition = null;
           }
-          
+
           if (partition == null)
             return;
-          
+
           String schema_type = partition.getType();
-          
+
           int start_line = document.getLineOfOffset(partition.getOffset());
-          int end_line = document.getLineOfOffset(partition.getOffset() + partition.getLength());
-          
+          int end_line = document.getLineOfOffset(partition.getOffset()
+              + partition.getLength());
+
           // set the preferred color for the schema box
           gc.setForeground(color);
-          
+
           if (annLine == start_line) { // tell whether it is the start line
             Point line_end = textWidget.getLocationAtOffset(offset + length);
-            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(schema_type)) {
+            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+                .equalsIgnoreCase(schema_type)) {
               // draw the left line
-              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y + lineHeight);
+              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
+                  + lineHeight);
               // draw the horizontal line
               Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
-              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x, line_end.y + lineHeight - 1);
-              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth, line_end.y + lineHeight - 1);
-              gc.drawLine(boxWidth, line_end.y + lineHeight - 1 - start_line_end_height, boxWidth, line_end.y + lineHeight - 1);
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
             }
-            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH.equalsIgnoreCase(schema_type)) {
+            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+                .equalsIgnoreCase(schema_type)) {
               // draw the left line
-              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y + lineHeight);
+              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
+                  + lineHeight);
               // draw the horizontal line
               Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
-              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x, line_end.y + lineHeight - 1);
-              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth, line_end.y + lineHeight - 1);
-              gc.drawLine(boxWidth, line_end.y + lineHeight - 1, boxWidth, line_end.y + lineHeight - 1 + start_line_end_height);
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
             }
-            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENAX.equalsIgnoreCase(schema_type)) {
+            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+                .equalsIgnoreCase(schema_type)) {
               // draw the left line
-              gc.drawLine(left.x, left.y + lineHeight / 2, left.x, left.y + lineHeight - 1);
+              gc.drawLine(left.x, left.y + lineHeight / 2, left.x, left.y
+                  + lineHeight - 1);
               // draw the first line
               Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
-              gc.drawLine(left.x, line_end.y + lineHeight / 2, left_line_end.x, line_end.y + lineHeight / 2);
-              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth, line_end.y + lineHeight / 2);
-              gc.drawLine(boxWidth, line_end.y + lineHeight / 2, boxWidth, line_end.y + lineHeight / 2 + start_line_end_height);
+              gc.drawLine(left.x, line_end.y + lineHeight / 2, left_line_end.x,
+                  line_end.y + lineHeight / 2);
+              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
+                  line_end.y + lineHeight / 2);
               // draw the second line
-              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x, line_end.y + lineHeight - 1);
-              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth, line_end.y + lineHeight - 1);
-              gc.drawLine(boxWidth, line_end.y + lineHeight - 1, boxWidth, line_end.y + lineHeight - 1 + start_line_end_height);
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
             }
-            
+
             return;
           }
           else if (annLine == end_line) { // tell whether it is the end line
             Point line_end = textWidget.getLocationAtOffset(offset + length);
-            gc.drawLine(left.x, left.y, left.x, left.y + lineHeight/2);
-            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(schema_type)
-                || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH.equalsIgnoreCase(schema_type)
-                || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX.equalsIgnoreCase(schema_type))
-              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth, line_end.y + lineHeight / 2);
+            gc.drawLine(left.x, left.y, left.x, left.y + lineHeight / 2);
+            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+                .equalsIgnoreCase(schema_type)
+                || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+                    .equalsIgnoreCase(schema_type)
+                || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+                    .equalsIgnoreCase(schema_type))
+              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
+                  line_end.y + lineHeight / 2);
             return;
           }
           else { // draw middle lines
-            for (int startOffset=offset; startOffset < offset + length; startOffset++) {
-              if ('\u007C' == document.getChar(startOffset)) { // draw the predicate line
+            for (int startOffset = offset; startOffset < offset + length; startOffset++) {
+              if (ZString.VL.equalsIgnoreCase(String.valueOf(document
+                  .getChar(startOffset)))) { // draw the predicate line
                 Point predicate = textWidget.getLocationAtOffset(startOffset);
                 if (boxWidth > predicate.x)
-                  gc.drawLine(predicate.x, predicate.y + lineHeight / 2, predicate.x + (boxWidth - predicate.x) / 2, predicate.y + lineHeight / 2);
+                  gc.drawLine(predicate.x, predicate.y + lineHeight / 2,
+                      predicate.x + (boxWidth - predicate.x) / 2, predicate.y
+                          + lineHeight / 2);
                 break;
               }
             }
             // draw the left line
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
           }
-        } catch(BadLocationException ble) {
+        } catch (BadLocationException ble) {
           return;
         }
       }
@@ -250,7 +270,7 @@ public class ZSpecDecorationSupport
    * The schema box drawing strategy.
    */
   private static IDrawingStrategy fgSchemaBoxStrategy = new SchemaBoxDrawingStrategy();
-  
+
   /**
    * The null drawing strategy.
    * @since 3.0

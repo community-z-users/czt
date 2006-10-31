@@ -3,8 +3,6 @@
  */
 package net.sourceforge.czt.eclipse.wizards;
 
-import net.sourceforge.czt.eclipse.preferences.PreferencesMessages;
-
 import org.eclipse.osgi.util.NLS;
 
 /**

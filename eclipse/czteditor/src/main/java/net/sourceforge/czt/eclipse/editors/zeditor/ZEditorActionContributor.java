@@ -13,8 +13,7 @@ import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
 import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -47,7 +46,7 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   
   protected AbstractConversionAction convert2UnicodeAction;
   
-//  protected AbstractConversionAction convert2XMLAction;
+  protected AbstractConversionAction convert2XMLAction;
 
   protected ITextEditor editor;
 
@@ -77,9 +76,9 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     convert2UnicodeAction = new Convert2UnicodeAction(CZTPlugin.getDefault()
         .getResourceBundle(), "Convert2Unicode.", null);
     convert2UnicodeAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
-//    convert2XMLAction = new Convert2XMLAction(CZTPlugin.getDefault()
-//        .getResourceBundle(), "Convert2XML.", null);
-//    convert2XMLAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
+    convert2XMLAction = new Convert2XMLAction(CZTPlugin.getDefault()
+        .getResourceBundle(), "Convert2XML.", null);
+    convert2XMLAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
   }
 
   /**
@@ -103,7 +102,7 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
       editMenu.add(convert2LatexAction);
       editMenu.add(convert2OldLatexAction);
       editMenu.add(convert2UnicodeAction);
-//      editMenu.add(convert2XMLAction);
+      editMenu.add(convert2XMLAction);
 
       editMenu.add(new Separator());
       editMenu.addMenuListener(new IMenuListener()
@@ -126,16 +125,17 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
         .getLength()));
     
     goToDeclarationAction.setEnabled((term != null)
-        && ((term instanceof DeclName) || (term instanceof ZRefName)));
+//        && ((term instanceof DeclName) || (term instanceof ZRefName)));
+        && (term instanceof ZName));
     expandSelectionAction.setEnabled(true);
 //    contractSelectionAction.setEnabled(true);
     convert2LatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.editor).getMarkup()));
     convert2OldLatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.editor).getMarkup()));
     convert2UnicodeAction.setEnabled(!Markup.UNICODE.equals(((ZEditor)this.editor).getMarkup()));
-//    convert2XMLAction.setEnabled(true);
+    convert2XMLAction.setEnabled(true);
   }
 
-  /* (non-Javadoc)
+  /**
    * Method declared on EditorActionBarContributor
    */
   public void contributeToToolBar(IToolBarManager toolBarManager)
@@ -144,7 +144,7 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     toolBarManager.add(new Separator());
   }
 
-  /* (non-Javadoc)
+  /**
    * Method declared on EditorActionBarContributor
    */
   public void setActiveEditor(IEditorPart part)
@@ -159,7 +159,7 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     convert2LatexAction.setEditor(this.editor);
     convert2OldLatexAction.setEditor(this.editor);
     convert2UnicodeAction.setEditor(this.editor);
-//    convert2XMLAction.setEditor(this.editor);
+    convert2XMLAction.setEditor(this.editor);
     
     
     IHandlerService handlerService =
@@ -176,8 +176,8 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
         new ActionHandler(convert2OldLatexAction));
     handlerService.activateHandler(convert2UnicodeAction.getActionDefinitionId(),
         new ActionHandler(convert2UnicodeAction));
-//    handlerService.activateHandler(convert2XMLAction.getActionDefinitionId(),
-//        new ActionHandler(convert2XMLAction));
+    handlerService.activateHandler(convert2XMLAction.getActionDefinitionId(),
+        new ActionHandler(convert2XMLAction));
 //    IActionBars bars = getActionBars();
 //    bars.setGlobalActionHandler(CZTActionConstants.CONVERT_TO_LATEX, getAction(this.editor, "Convert2Latex"));
   }

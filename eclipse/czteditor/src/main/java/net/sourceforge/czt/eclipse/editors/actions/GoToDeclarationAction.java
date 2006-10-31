@@ -7,8 +7,10 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.Selector;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
@@ -47,13 +49,11 @@ public class GoToDeclarationAction extends TextEditorAction
         .getLength()));
     if (term == null)
       return;
-    Position decl_pos = null;
-    if (term instanceof DeclName)
-      decl_pos = editor.getParsedData().getTermPosition(term);
-    else if (term instanceof ZRefName)
-      decl_pos = editor.getParsedData().getTermPosition(
-          ((ZRefName) term).getDecl());
-
+    if (!(term instanceof ZName))
+      return;
+    ZName decl_term = getDecl(editor.getParsedData().getSpec(), (ZName)term);
+    Position decl_pos = editor.getParsedData().getTermPosition(decl_term);
+    
     if (decl_pos != null) {
       IWorkbenchPage page = CZTPlugin.getActivePage();
       if (page != null) {
@@ -61,5 +61,34 @@ public class GoToDeclarationAction extends TextEditorAction
         editor.selectAndReveal(decl_pos.getOffset(), decl_pos.getLength());
       }
     }
+  }
+  
+  private ZName getDecl(Term root, ZName ref)
+  {
+    if ((root == null) || (ref == null))
+      return null;
+    if ((ref.getId() == null) || (ref.getWord() == null))
+      return null;
+    
+    if (root instanceof VarDecl) {
+      ZNameList nameList = ((VarDecl)root).getName();
+      for (Name name : nameList) {
+        if (name instanceof ZName) {
+          ZName zName = (ZName)name;
+          if (ref.getId().equals(zName.getId()) && ref.getWord().equals(zName.getWord()))
+            return zName;
+        }
+      }
+    }
+    
+    for (Object child : root.getChildren()) {
+      if (child instanceof Term) {
+        ZName result = getDecl((Term)child, ref);
+        if (result != null)
+          return result;
+      }
+    }
+    
+    return null;
   }
 }

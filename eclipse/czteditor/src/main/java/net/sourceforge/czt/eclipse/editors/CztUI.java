@@ -3,28 +3,6 @@
  */
 package net.sourceforge.czt.eclipse.editors;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.core.runtime.IPath;
-
-import org.eclipse.core.resources.IProject;
-
-import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.widgets.Shell;
-
-import org.eclipse.jface.operation.IRunnableContext;
-import org.eclipse.jface.util.Assert;
-
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.dialogs.SelectionDialog;
-import org.eclipse.ui.texteditor.IDocumentProvider;
-
 /**
  * Central access point for the CZT plug-in (id <code>"net.sourceforge.czt.eclipse"</code>).
  * This class provides static methods for:

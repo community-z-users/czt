@@ -16,11 +16,11 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
 {
 
   public final static String[] Z_PARTITION_TYPES_UNICODE = new String[]{
-    IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
+      IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION,
       IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF,
       IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
       IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
-      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH};
+      IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,};
 
   /**
    * Detector for empty comments.
@@ -75,7 +75,7 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
   {
     super();
     List<IPredicateRule> rules = new ArrayList<IPredicateRule>();
-    
+
     IToken zParagraphUnicodeZSection = new Token(
         IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION);
     IToken zParagraphUnicodeAxdef = new Token(
@@ -90,19 +90,28 @@ public class ZUnicodePartitionScanner extends RuleBasedPartitionScanner
     // Add special case word rule.
     // rules.add(new WordPredicateRule(zMultiLineComment));
 
-    //Add rules for multi-line Z paragraphs.
-    
+    //Add rules for multi-line Z paragraphs. Remain the old EndChar(\u2029) for backward-compatibility
     rules.add(new MultiLineRule(
-        "\u2500", "\u2029", zParagraphUnicodeZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u2577", "\u2029", zParagraphUnicodeAxdef, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u250C", "\u2029", zParagraphUnicodeSchema, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u2577,\u2550", "\u2029", zParagraphUnicodeGenAx, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\u250C,\u2550", "\u2029", zParagraphUnicodeGenSch, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    
+        IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION_END,
+        zParagraphUnicodeZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_END, zParagraphUnicodeAxdef,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_END, zParagraphUnicodeSchema,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_GENAX_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENAX_END, zParagraphUnicodeGenAx,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_START,
+        IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_END, zParagraphUnicodeGenSch,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+
     IPredicateRule[] result = new IPredicateRule[rules.size()];
     rules.toArray(result);
 

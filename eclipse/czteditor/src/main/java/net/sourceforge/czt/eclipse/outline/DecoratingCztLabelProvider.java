@@ -63,7 +63,7 @@ public class DecoratingCztLabelProvider extends DecoratingLabelProvider
    */
   public Color getForeground(Object element)
   {
-    // label provider is a JavaUILabelProvider
+    // label provider is a OutlineLabelProvider
     return ((IColorProvider) getLabelProvider()).getForeground(element);
   }
 
@@ -72,7 +72,7 @@ public class DecoratingCztLabelProvider extends DecoratingLabelProvider
    */
   public Color getBackground(Object element)
   {
-    // label provider is a JavaUILabelProvider
+    // label provider is a OutlineLabelProvider
     return ((IColorProvider) getLabelProvider()).getBackground(element);
   }
 }

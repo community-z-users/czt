@@ -180,7 +180,10 @@ public class ZReconcilingStrategy
         int length = partition.getLength();
         if (IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF.equalsIgnoreCase(partition.getType())
             || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(partition.getType())) {
+            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(partition.getType())
+            || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_OLD.equalsIgnoreCase(partition.getType())
+            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_OLD.equalsIgnoreCase(partition.getType())
+            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_OLD.equalsIgnoreCase(partition.getType())) {
           /*
            * The length of the position for a schema annotation is always 1. Then the drawing strategy
            * will use the editor document to access to the correcponding partition area.

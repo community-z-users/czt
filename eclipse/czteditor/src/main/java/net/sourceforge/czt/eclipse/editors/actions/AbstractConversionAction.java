@@ -78,8 +78,7 @@ public abstract class AbstractConversionAction extends TextEditorAction
           .getActiveWorkbenchWindow().getActivePage();
       if (page == null)
         return;
-      String id = "net.sourceforge.czt.eclipse.views.ZConversionView";
-      ZConversionView view = (ZConversionView) page.showView(id);
+      ZConversionView view = (ZConversionView) page.showView(CztUI.ID_CONVERSIONVIEW);
       view.setConversionData(fileName, sourceFileType, targetFileType, data);
     } catch (PartInitException e) {
       CZTPlugin

@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.LocAnn;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.jface.text.Position;
 
@@ -101,10 +101,13 @@ public class Selector
     
     if (!success)
       return;
-    
+/*    
     if (term instanceof ZRefName)
-      return;;
-
+      return;
+*/
+    if (term instanceof ZName)
+      return;
+    
     for (Object child : term.getChildren())
       fillTermStack(child, position);
   }

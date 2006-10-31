@@ -30,9 +30,9 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZDeclNameList;
 import net.sourceforge.czt.z.ast.ZFreetypeList;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -228,7 +228,7 @@ public class ParsedData
     }
     else if (term instanceof GivenPara) {
       Position range = getPosition(term);
-      Position namePosition = getNamePosition(((GivenPara) term).getDeclNames());
+      Position namePosition = getNamePosition(((GivenPara) term).getNames());
       if (namePosition != null)
         return new CztTreeNode(source_, term, range, namePosition);
       
@@ -242,10 +242,10 @@ public class ParsedData
       for (int i = 0; i < declList.size(); i++) {
         Decl decl = declList.get(i);
         if (decl instanceof ConstDecl) {
-          namePosition = getPosition(((ConstDecl)decl).getZDeclName());
+          namePosition = getPosition(((ConstDecl)decl).getZName());
         }
         else if (decl instanceof VarDecl) {
-          namePosition = getNamePosition(((VarDecl)decl).getDeclName());
+          namePosition = getNamePosition(((VarDecl)decl).getName());
         }
         if (namePosition != null)
           return new CztTreeNode(source_, term, range, namePosition);
@@ -259,7 +259,7 @@ public class ParsedData
       ZFreetypeList list = (ZFreetypeList)((FreePara)term).getFreetypeList();
       for (int i = 0; i < list.size(); i++) {
         Freetype type = list.get(i);
-        namePosition = getPosition(type.getZDeclName());
+        namePosition = getPosition(type.getZName());
         if (namePosition != null)
           return new CztTreeNode(source_, term, range, namePosition);
       }
@@ -268,7 +268,7 @@ public class ParsedData
     }
     else if (term instanceof ConjPara) {
       Position range = getPosition(term);
-      Position namePosition = getNamePosition((ZDeclNameList)((ConjPara)term).getDeclNameList());
+      Position namePosition = getNamePosition(((ConjPara)term).getZNameList());
       if (namePosition != null)
         return new CztTreeNode(source_, term, range, namePosition);
       
@@ -290,19 +290,19 @@ public class ParsedData
     }
     else if (term instanceof ConstDecl) {
       Position range = getPosition(term);
-      Position namePosition = getPosition(((ConstDecl) term).getZDeclName());
+      Position namePosition = getPosition(((ConstDecl) term).getZName());
       return new CztTreeNode(source_, term, range, namePosition);
     }
     else if (term instanceof VarDecl) {
       Position range = getPosition(term);
-      Position namePosition = getNamePosition(((VarDecl) term).getDeclName());
+      Position namePosition = getNamePosition(((VarDecl) term).getName());
       return new CztTreeNode(source_, term, range, namePosition);
     }
 
     return null;
   }
 
-  private Position getNamePosition(ZDeclNameList nameList)
+  private Position getNamePosition(ZNameList nameList)
   {
     int start = -1;
     int end = -1;
@@ -384,7 +384,8 @@ public class ParsedData
           //					System.out.println("Position: (" + range.getOffset() + ", " + (range.getOffset() + range.getLength() - 1) + ")");
           map.put((Term) terms[current], range);
           nextStart = range.getOffset() + range.getLength();
-          if (!(terms[current] instanceof ZRefName)) {
+          //if (!(terms[current] instanceof ZRefName)) {
+          if (!(terms[current] instanceof ZName)) {
             map.putAll(getTermPositionMapFromChildren(((Term) terms[current])
                 .getChildren(), document, range.getOffset(), range.getOffset()
                 + range.getLength() - 1));
@@ -450,7 +451,8 @@ public class ParsedData
             map
                 .put((Term) terms[current],
                     new Position(start, end - start + 1));
-            if (!(terms[current] instanceof ZRefName)) {
+            //if (!(terms[current] instanceof ZRefName)) {
+            if (!(terms[current] instanceof ZName)) {  
               map.putAll(getTermPositionMapFromChildren(((Term) terms[current])
                   .getChildren(), document, start, end));
             }
@@ -496,14 +498,17 @@ public class ParsedData
       }
 
       try {
-        int line = locAnn.getLine().intValue();
-        int column = locAnn.getCol().intValue();
+        if ((locAnn.getLine() != null) && (locAnn.getCol() != null)) {
+          int line = locAnn.getLine().intValue();
+          int column = locAnn.getCol().intValue();
 
-        //				System.out.println("line: " + line);
-        //				System.out.println("column: " + column);
-        //				System.out.println("lineoffset: " + document.getLineOffset(line));
-        return document.getLineOffset(line) + column;
+          //				System.out.println("line: " + line);
+          //				System.out.println("column: " + column);
+          //				System.out.println("lineoffset: " + document.getLineOffset(line));
+          return document.getLineOffset(line) + column;
+        }
       } catch (BadLocationException ble) {
+        return -1;
       }
     }
     else {

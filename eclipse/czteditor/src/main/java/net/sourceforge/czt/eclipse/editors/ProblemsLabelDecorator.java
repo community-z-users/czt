@@ -322,6 +322,7 @@ public class ProblemsLabelDecorator
     }
   }
 
+  /*
   private void fireProblemsChanged(IResource[] changedResources,
       boolean isMarkerChange)
   {
@@ -333,7 +334,7 @@ public class ProblemsLabelDecorator
       }
     }
   }
-
+  */
   /**
    * @see org.eclipse.jface.viewers.ILightweightLabelDecorator#decorate(java.lang.Object, org.eclipse.jface.viewers.IDecoration)
    */

@@ -173,8 +173,8 @@ public class ZReconciler extends MonoReconciler
    */
   protected void aboutToBeReconciled()
   {
-    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    //		strategy.aboutToBeReconciled();
+    //    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+    //    strategy.aboutToBeReconciled();
   }
 
   /**
@@ -245,8 +245,8 @@ public class ZReconciler extends MonoReconciler
       return;
 
     super.forceReconciling();
-    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    //		strategy.notifyListeners(false);
+    //    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+    //    strategy.notifyListeners(false);
   }
 
   /**
@@ -258,25 +258,25 @@ public class ZReconciler extends MonoReconciler
     super.uninstall();
   }
 
-  /**
-   * Tells whether this reconciler's editor is active.
-   *
-   * @return <code>true</code> iff the editor is active
-   * @since 3.1
-   */
-  private synchronized boolean isEditorActive()
-  {
-    return fIsEditorActive;
-  }
-
-  /**
-   * Sets whether this reconciler's editor is active.
-   *
-   * @param state <code>true</code> iff the editor is active
-   * @since 3.1
-   */
-  private synchronized void setEditorActive(boolean state)
-  {
-    fIsEditorActive = state;
-  }
+  //  /**
+  //   * Tells whether this reconciler's editor is active.
+  //   *
+  //   * @return <code>true</code> iff the editor is active
+  //   * @since 3.1
+  //   */
+  //  private synchronized boolean isEditorActive()
+  //  {
+  //    return fIsEditorActive;
+  //  }
+  //
+  //  /**
+  //   * Sets whether this reconciler's editor is active.
+  //   *
+  //   * @param state <code>true</code> iff the editor is active
+  //   * @since 3.1
+  //   */
+  //  private synchronized void setEditorActive(boolean state)
+  //  {
+  //    fIsEditorActive = state;
+  //  }
 }

@@ -40,8 +40,7 @@ public class ZLatexPartitionScanner extends RuleBasedPartitionScanner
 
     IToken zParagraphLatexZChar = new Token(
         IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR);
-    IToken zParagraphLatexZed = new Token(
-        IZPartitions.Z_PARAGRAPH_LATEX_ZED);
+    IToken zParagraphLatexZed = new Token(IZPartitions.Z_PARAGRAPH_LATEX_ZED);
     IToken zParagraphLatexZSection = new Token(
         IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION);
     IToken zParagraphLatexAxdef = new Token(
@@ -52,19 +51,25 @@ public class ZLatexPartitionScanner extends RuleBasedPartitionScanner
         IZPartitions.Z_PARAGRAPH_LATEX_GENAX);
 
     // Add rule for single line Z char conversion
-    rules.add(new EndOfLineRule("%%zchar", zParagraphLatexZChar)); //$NON-NLS-1$
+    rules.add(new EndOfLineRule(IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR_START,
+        zParagraphLatexZChar)); //$NON-NLS-1$
 
     // Add rules for multi-line Z paragraphs.
-    rules.add(new MultiLineRule(
-        "\\begin{zed}", "\\end{zed}", zParagraphLatexZed, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\\begin{zsection}", "\\end{zsection}", zParagraphLatexZSection, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\\begin{axdef}", "\\end{axdef}", zParagraphLatexAxdef, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\\begin{schema}", "\\end{schema}", zParagraphLatexSchema, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
-    rules.add(new MultiLineRule(
-        "\\begin{gendef}", "\\end{gendef}", zParagraphLatexGenAx, (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_ZED_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_ZED_END, zParagraphLatexZed, (char) 0,
+        true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION_END, zParagraphLatexZSection,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_AXDEF_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_AXDEF_END, zParagraphLatexAxdef,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA_END, zParagraphLatexSchema,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
+    rules.add(new MultiLineRule(IZPartitions.Z_PARAGRAPH_LATEX_GENAX_START,
+        IZPartitions.Z_PARAGRAPH_LATEX_GENAX_END, zParagraphLatexGenAx,
+        (char) 0, true)); //$NON-NLS-1$ //$NON-NLS-2$
 
     IPredicateRule[] result = new IPredicateRule[rules.size()];
     rules.toArray(result);

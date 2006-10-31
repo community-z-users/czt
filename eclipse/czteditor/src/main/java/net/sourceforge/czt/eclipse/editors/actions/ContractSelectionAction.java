@@ -1,18 +1,20 @@
 
 package net.sourceforge.czt.eclipse.editors.actions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
-import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
-import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.jface.text.source.IAnnotationModelExtension;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.TextEditorAction;
 
@@ -37,25 +39,36 @@ public class ContractSelectionAction extends TextEditorAction
       return;
 
     ZEditor editor = (ZEditor) getTextEditor();
-    Selector selector = editor.getParsedData().getTermSelector();
-    ITextSelection selection = (ITextSelection) editor.getSelectionProvider()
-        .getSelection();
-    Term term = selector.getTerm(new Position(selection.getOffset(), selection
-        .getLength()));
-    if (term == null)
+    if (editor.getTermSelector() == null)
+      editor.setTermSelector(new Selector(editor.getParsedData().getSpec()));
+    Selector selector = editor.getTermSelector();
+    Term selectedTerm = selector.previous();
+    
+    if (selectedTerm == null)
       return;
+    
     Position decl_pos = null;
-    if (term instanceof DeclName)
-      decl_pos = editor.getParsedData().getTermPosition(term);
-    else if (term instanceof ZRefName)
-      decl_pos = editor.getParsedData().getTermPosition(
-          ((ZRefName) term).getDecl());
-
+    if (selectedTerm instanceof ZName)
+      decl_pos = editor.getParsedData().getTermPosition(selectedTerm);
+    
     if (decl_pos != null) {
-      IWorkbenchPage page = CZTPlugin.getActivePage();
-      if (page != null) {
-        page.activate(editor);
-        editor.selectAndReveal(decl_pos.getOffset(), decl_pos.getLength());
+      IAnnotationModel annotationModel = editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());
+      if (annotationModel == null)
+        return;
+
+      Annotation annotation = new Annotation(IZAnnotationType.TERMHIGHLIGHT, false, String.valueOf(selectedTerm));
+
+      synchronized (editor.getAnnotationLock(annotationModel)) {
+        if (annotationModel instanceof IAnnotationModelExtension) {
+          Map<Annotation, Position> map = new HashMap<Annotation, Position>();
+          map.put(annotation, decl_pos);
+          ((IAnnotationModelExtension) annotationModel).replaceAnnotations(new Annotation[]{editor.getTermHighlightAnnotation()}, map);
+        }
+        else {
+          editor.removeTermHighlightAnnotation();
+          annotationModel.addAnnotation(annotation, decl_pos);
+        }
+        editor.setTermHighlightAnnotation(annotation);
       }
     }
   }

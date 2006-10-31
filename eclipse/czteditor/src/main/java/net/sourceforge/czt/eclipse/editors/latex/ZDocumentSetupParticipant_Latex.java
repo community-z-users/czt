@@ -33,7 +33,7 @@ public class ZDocumentSetupParticipant_Latex
    */
   public void setup(IDocument document)
   {
-    System.out.println("ZDocumentSetupParticipant_Latex.setup starts");
+//    System.out.println("ZDocumentSetupParticipant_Latex.setup starts");
     if (document instanceof IDocumentExtension3) {
       IDocumentExtension3 extension3 = (IDocumentExtension3) document;
       IDocumentPartitioner partitioner = new FastPartitioner(CZTPlugin

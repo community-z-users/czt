@@ -47,8 +47,7 @@ import net.sourceforge.czt.eclipse.util.IZEncoding;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -440,7 +439,7 @@ public class ZEditor extends TextEditor
   protected void initializeEditor()
   {
     super.initializeEditor();
-    System.out.println("ZEditor.initializeEditor starts");
+//    System.out.println("ZEditor.initializeEditor starts");
     IPreferenceStore store = createCombinedPreferenceStore(null);
     setPreferenceStore(store);
     CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
@@ -458,7 +457,7 @@ public class ZEditor extends TextEditor
   public void createPartControl(Composite parent)
   {
     super.createPartControl(parent);
-    System.out.println("ZEditor.createPartControl starts");
+//    System.out.println("ZEditor.createPartControl starts");
 
     if (fZSpecDecorationSupport != null)
       fZSpecDecorationSupport.install(getPreferenceStore());
@@ -509,13 +508,13 @@ public class ZEditor extends TextEditor
     //			installSemanticHighlighting();
 
     PlatformUI.getWorkbench().addWindowListener(fActivationListener);
-    System.out.println("ZEditor.createPartControl finishes");
+//    System.out.println("ZEditor.createPartControl finishes");
   }
 
   protected void configureSourceViewerDecorationSupport(
       SourceViewerDecorationSupport support)
   {
-    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
+//    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
     if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
       support.setCharacterPairMatcher(new ZLatexPairMatcher(
           ZCharacter.BRACKETS_LATEX));
@@ -527,8 +526,8 @@ public class ZEditor extends TextEditor
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
     super.configureSourceViewerDecorationSupport(support);
-    System.out
-        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
+//    System.out
+//        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
   }
 
   /**
@@ -552,7 +551,7 @@ public class ZEditor extends TextEditor
   protected final ISourceViewer createSourceViewer(Composite parent,
       IVerticalRuler verticalRuler, int styles)
   {
-    System.out.println("ZEditor.createSourceViewer starts");
+//    System.out.println("ZEditor.createSourceViewer starts");
     IPreferenceStore store = getPreferenceStore();
     ISourceViewer viewer = createZSourceViewer(parent, verticalRuler,
         getOverviewRuler(), isOverviewRulerVisible(), styles, store);
@@ -586,7 +585,7 @@ public class ZEditor extends TextEditor
     getSourceViewerDecorationSupport(viewer);
     //  ensure source viewer decoration support has been created and configured
     getZSpecDecorationSupport(viewer);
-    System.out.println("ZEditor.createSourceViewer finishes");
+//    System.out.println("ZEditor.createSourceViewer finishes");
     return viewer;
   }
 
@@ -843,12 +842,13 @@ public class ZEditor extends TextEditor
       return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
     Position word = findWordOfOffset(document, offset);
-    if (word == null || word.length == 0)
-      System.out.println("null word");
+//    if (word == null || word.length == 0)
+//      System.out.println("null word");
     
     Term term = fTermSelector.getTerm(word);
     if (term == null)
       return;
+    /*
     else if (term instanceof ZDeclName)
       fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
     else if (term instanceof ZRefName) {
@@ -857,6 +857,9 @@ public class ZEditor extends TextEditor
         return;
       fOccurrencesFinderJob = new OccurrencesFinderJob(this, declName);
     }
+    */
+    else if (term instanceof ZName)
+      fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
     else
       return;
 
@@ -1284,7 +1287,7 @@ public class ZEditor extends TextEditor
    */
   private void setFileType(IEditorInput input)
   {
-    System.out.println("ZEditor.setFileType");
+//    System.out.println("ZEditor.setFileType");
     if (input instanceof IFileEditorInput) {
       IFile file = ((IFileEditorInput) input).getFile();
       if (file != null)

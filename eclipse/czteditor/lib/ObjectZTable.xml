@@ -2,52 +2,52 @@
   <row heading="Paragraphs">
     <item name="Sect"
           description="Section Header"
-          unicode="&#x2500; section NAME parents standard_toolkit &#x2029;&#xA;"
+          unicode="&#x2500; section NAME parents standard_toolkit &#x2514;&#xA;"
           latex="\begin{zsection}&#xA;  \SECTION NAME \parents
           standard\_toolkit&#xA;\end{zsection}&#xA;"/>
     <item name="Class"
           description="Class Paragraph"
-          unicode="&#x250C; class NAME&#xA; &#xA;&#x2029;&#xA;"
+          unicode="&#x250C; class NAME&#xA; &#xA;&#x2514;&#xA;"
           latex="\begin{class}{NAME}&#xA;\end{class}&#xA;"/>
     <item name="Gen Class"
           description="Generic Class Paragraph"
-          unicode="&#x250C; genclass NAME [ TYPE ]&#xA; &#xA;&#x2029;&#xA;"
+          unicode="&#x250C; genclass NAME [ TYPE ]&#xA; &#xA;&#x2514;&#xA;"
           latex="\begin{class}{NAME} [ TYPE ]&#xA;\end{class}&#xA;"/>
     <item name="Op"
           description="Operator Template"
-          unicode="&#x2500;&#xA;  function 42 leftassoc ( _ OPERATOR _ )&#xA;&#x2029;&#xA;"
+          unicode="&#x2500;&#xA;  function 42 leftassoc ( _ OPERATOR _ )&#xA;&#x2514;&#xA;"
           latex="\begin{zed}&#xA;  \function 42 \leftassoc ( \varg OPERATOR \varg )&#xA;\end{zed}&#xA;"/>
     <item name="[G]"
           description="Given Set"
-          unicode="&#x2500; [ TYPE ] &#x2029;&#xA;"
+          unicode="&#x2500; [ TYPE ] &#x2514;&#xA;"
           latex="\begin{zed}&#xA;  [ TYPE ]&#xA;\end{zed}&#xA;"/>
     <item name="Ax"
           description="Axiomatic Definition"
-          unicode="&#x2577;&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2029;&#xA;"
+          unicode="&#x2577;&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
           latex="\begin{axdef}&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{axdef}&#xA;"/>
     <item name="Ax[]"
           description="Generic Axiomatic Definition"
-          unicode="&#x2577;&#x2550;[ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2029;&#xA;"
+          unicode="&#x2577;&#x2550;[ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
           latex="\begin{gendef}[ TYPE ]&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{gendef}&#xA;"/>
      <item name="::="
            description="Freetype Definition"
-           unicode="&#x2500;&#xA;  TYPE ::= NAME | NAME &#x27EA; TYPE &#x27EB;&#xA;&#x2029;&#xA;"
+           unicode="&#x2500;&#xA;  TYPE ::= NAME | NAME &#x27EA; TYPE &#x27EB;&#xA;&#x2514;&#xA;"
            latex="\begin{zed}&#xA;  TYPE ::= NAME | NAME \ldata TYPE \rdata&#xA;\end{zed}&#xA;"/>
      <item name="=="
            description="Horizontal Definition"
-           unicode="&#x2500;&#xA;  NAME == EXPR&#xA;&#x2029;&#xA;"
+           unicode="&#x2500;&#xA;  NAME == EXPR&#xA;&#x2514;&#xA;"
            latex="\begin{zed}&#xA;  NAME == EXPR&#xA;\end{zed}&#xA;"/>
      <item name="Sch"
            description="Schema Definition"
-           unicode="&#x250C; NAME&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2029;&#xA;"
+           unicode="&#x250C; NAME&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
            latex="\begin{schema}{NAME}&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{schema}&#xA;"/>
      <item name="Sch[]"
 	   description="Generic Schema Definition"
-           unicode="&#x250C;&#x2550; NAME [ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2029;&#xA;"
+           unicode="&#x250C;&#x2550; NAME [ TYPE ]&#xA;  DECLS&#xA;|&#xA;  PREDS&#xA;&#x2514;&#xA;"
            latex="\begin{schema}{NAME}[ TYPE ]&#xA;  DECLS&#xA;\where&#xA;  PREDS&#xA;\end{schema}&#xA;"/>
      <item name="&#x22A2;?"
            description="Conjecture"
-           unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2029;&#xA;"
+           unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
            latex="\begin{zed}&#xA;  \vdash? PRED&#xA;\end{zed}&#xA;"/>
   </row>
   <row heading="SubParas">
@@ -69,15 +69,15 @@
            latex="TYPE ::= NAME | NAME \ldata TYPE \rdata\\&#xA;"/>
      <item name="State"
            description="State Schema"
-           unicode="&#x250C;&#x2500;&#xA;  PRIMARYDECLS&#xA;&#x0394;&#xA;  SECONDARYDECLS&#xA; |&#xA;  PRED&#xA;&#x2029;&#xA;"
+           unicode="&#x250C;&#x2500;&#xA;  PRIMARYDECLS&#xA;&#x0394;&#xA;  SECONDARYDECLS&#xA; |&#xA;  PRED&#xA;&#x2514;&#xA;"
            latex="\begin{state}&#xA;  PRIMARYDECLS\\&#xA;\Delta\\&#xA;  SECONDARYDECLS&#xA;\where&#xA;  PREDS&#xA;\end{state}&#xA;"/>
      <item name="Init"
            description="Initial Predicate"
-           unicode="&#x250C; Init &#xA;  PRED&#xA;  &#x2029;&#xA;"
+           unicode="&#x250C; Init &#xA;  PRED&#xA;  &#x2514;&#xA;"
            latex="\begin{init}&#xA;  PRED&#xA;\end{init}&#xA;"/>
      <item name="Op Box"
            description="Operation Box"
-           unicode="&#x250C; op &#xA;  ;&#x0394; ( NAME , NAME )&#xA;  DECLS&#xA; | PRED&#xA;&#x2029;&#xA;"
+           unicode="&#x250C; op &#xA;  ;&#x0394; ( NAME , NAME )&#xA;  DECLS&#xA; | PRED&#xA;&#x2514;&#xA;"
            latex="\begin{op}{NAME}&#xA;  \Delta ( NAME , NAME )\\&#xA;  DECLS&#xA; \where&#xA;  PRED&#xA;\end{op}"/>
      <item name="Op &#x2259;"
            description="Horizontal Operation"
@@ -385,8 +385,8 @@
     <item name="&#x2981;"
           description="Scope Enrichment"
           latex="@"/>
-    <item name="&#x2029;"
-          unicode="&#x2029;"
+    <item name="&#x2514;"
+          unicode="&#x2514;"
           description="END"
           latex="end"/>
   </row>

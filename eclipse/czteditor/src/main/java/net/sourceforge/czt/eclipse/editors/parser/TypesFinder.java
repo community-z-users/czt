@@ -11,12 +11,13 @@ import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
 
 /**
@@ -50,7 +51,8 @@ public class TypesFinder
       ListTerm nstTriples = steAnn.getNameSectTypeTriple();
       for (int i = 0; i < nstTriples.size(); i++) {
         NameSectTypeTriple triple = (NameSectTypeTriple) nstTriples.get(i);
-        DeclName name = triple.getZDeclName();
+        //DeclName name = triple.getZDeclName();
+        ZName name = triple.getZName();
         String type = triple.getType().accept(getNodeNameVisitor_);
         triples.add(new Triple(name, section, type));
       }
@@ -69,8 +71,9 @@ public class TypesFinder
     if (term != null) {
       if (term instanceof VarDecl) {
         String type = ((VarDecl) term).getExpr().accept(getNodeNameVisitor_);
-        for (DeclName name : ((VarDecl) term).getDeclName()) {
-          triples.add(new Triple(name, section, type));
+//        for (DeclName name : ((VarDecl) term).getDeclName()) {
+        for (Name name : ((VarDecl) term).getName()) {  
+          triples.add(new Triple((ZName)name, section, type));
         }
       }
       triples.addAll(visitChildrenOfTerm(term, section));

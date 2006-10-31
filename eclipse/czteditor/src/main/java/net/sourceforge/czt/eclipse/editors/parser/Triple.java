@@ -1,7 +1,7 @@
 
 package net.sourceforge.czt.eclipse.editors.parser;
 
-import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  * @author Chengdong Xu
@@ -9,25 +9,25 @@ import net.sourceforge.czt.z.ast.DeclName;
 public class Triple
 {
 
-  private DeclName name_;
+  private ZName name_;
 
   private String section_;
 
   private String type_;
 
-  public Triple(DeclName name, String section, String type)
+  public Triple(ZName name, String section, String type)
   {
     name_ = name;
     section_ = section;
     type_ = type;
   }
 
-  public DeclName getDeclName()
+  public ZName getDeclName()
   {
     return name_;
   }
 
-  public void setDeclName(DeclName name)
+  public void setDeclName(ZName name)
   {
     name_ = name;
   }

@@ -553,9 +553,9 @@ public class ZSourceViewer extends ProjectionViewer
       return null;
 
     IRegion line = document.getLineInformationOfOffset(lineOffset);
-    ITypedRegion[] linePartitioning = TextUtilities.computePartitioning(
-        document, IZPartitions.Z_PARTITIONING, lineOffset, line.getLength(),
-        false);
+//    ITypedRegion[] linePartitioning = TextUtilities.computePartitioning(
+//        document, IZPartitions.Z_PARTITIONING, lineOffset, line.getLength(),
+//        false);
 
     List segmentation = new ArrayList();
     //    for (int i = 0; i < linePartitioning.length; i++) {

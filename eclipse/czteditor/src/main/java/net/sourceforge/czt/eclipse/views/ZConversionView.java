@@ -45,8 +45,6 @@ public class ZConversionView extends ViewPart
 
   private ZSourceViewer fSourceViewer;
 
-  private FormData fDataAreaFormData;
-
   private IDocument fDocument;
 
   /**
@@ -97,9 +95,6 @@ public class ZConversionView extends ViewPart
     fSourceViewer.getTextWidget().setFont(new Font(Display.getDefault(), fontData));
     fSourceViewer.setEditable(false);
     fDocument = new Document();
-
-//    CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
-//        fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
     fSourceViewer.setDocument(fDocument);
 
     initStatus();
@@ -139,23 +134,23 @@ public class ZConversionView extends ViewPart
 //    fDocument.set(data);
     fDocument = new Document(data);
     if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
           fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
       setStatus(fileName, sourceMarkup, "LaTeX");
     }
     else if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
           fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
       setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-8)");
     }
     else if (IZFileType.FILETYPE_UTF16.equalsIgnoreCase(targetFileType)) {
-      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
+      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
           fDocument, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF16);
       setStatus(fileName, sourceMarkup, "Unicode (encoded as UTF-16)");
     }
     else {
-      CZTPlugin.getDefault().getCZTTextTools().setupJavaDocumentPartitioner(
-          fDocument, null, null);
+      CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(
+          fDocument, null);
       setStatus(fileName, sourceMarkup, targetFileType);
     }
     fSourceViewer.setDocument(fDocument);

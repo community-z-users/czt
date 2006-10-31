@@ -29,7 +29,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -416,10 +415,10 @@ public class NewZSpecificationWizardPage extends WizardPage
   {
     if (fMarkupButtons[0].getSelection())
       return getClass().getResourceAsStream(fSampleFiles[0]);
-    else if (fMarkupButtons[1].getSelection())
-      return getClass().getResourceAsStream(fSampleFiles[1]);
-    else if (fMarkupButtons[2].getSelection())
-      return getClass().getResourceAsStream(fSampleFiles[2]);
+//    else if (fMarkupButtons[1].getSelection())
+//      return getClass().getResourceAsStream(fSampleFiles[1]);
+//    else if (fMarkupButtons[2].getSelection())
+//      return getClass().getResourceAsStream(fSampleFiles[2]);
     
     return null;
   }

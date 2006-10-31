@@ -54,6 +54,13 @@ public class CZTTextTools
       IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA,
       IZPartitions.Z_PARAGRAPH_UNICODE_GENAX,
       IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH,};
+  
+  /**
+   * Array with legai default content types.
+   */
+  private static final String[] LEGAL_CONTENT_TYPES_DEFAULT = new String[] {
+    
+  };
 
   /**
    * This tools' preference listener.
@@ -279,7 +286,7 @@ public class CZTTextTools
         || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(fileType))
       return new FastPartitioner(fZUnicodePartitionScanner, LEGAL_CONTENT_TYPES_UNICODE);
     else
-      return new FastPartitioner(fZDefaultPartitionScanner, LEGAL_CONTENT_TYPES_LATEX);
+      return new FastPartitioner(fZDefaultPartitionScanner, LEGAL_CONTENT_TYPES_DEFAULT);
   }
   
   /**
@@ -288,9 +295,9 @@ public class CZTTextTools
    * @param document the document to be set up
    * @since 3.0
    */
-  public void setupJavaDocumentPartitioner(IDocument document, String fileType)
+  public void setupCZTDocumentPartitioner(IDocument document, String fileType)
   {
-    setupJavaDocumentPartitioner(document,
+    setupCZTDocumentPartitioner(document,
         IDocumentExtension3.DEFAULT_PARTITIONING, fileType);
   }
 
@@ -301,7 +308,7 @@ public class CZTTextTools
    * @param partitioning the document partitioning
    * @since 3.0
    */
-  public void setupJavaDocumentPartitioner(IDocument document,
+  public void setupCZTDocumentPartitioner(IDocument document,
       String partitioning, String fileType)
   {
     IDocumentPartitioner partitioner = createDocumentPartitioner(fileType);

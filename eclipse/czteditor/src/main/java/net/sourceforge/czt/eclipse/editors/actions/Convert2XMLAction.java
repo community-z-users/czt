@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import net.sourceforge.czt.print.util.XmlString;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
-import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.SectionManager;
 
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -28,7 +27,6 @@ public class Convert2XMLAction extends AbstractConversionAction
       ITextEditor editor)
   {
     super(bundle, prefix, editor);
-    // TODO Auto-generated constructor stub
   }
 
   /**

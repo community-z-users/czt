@@ -11,8 +11,7 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
-import net.sourceforge.czt.z.ast.ZDeclName;
-import net.sourceforge.czt.z.ast.ZRefName;
+import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -109,10 +108,12 @@ public class OccurrencesFinderJob extends Job
     // Finds all occurrences mark annotations
     Map<Annotation, Position> annotationMap = new HashMap<Annotation, Position>();
     String message = null;
-    if (fSelectedTerm instanceof ZDeclName)
-      message = ((ZDeclName) fSelectedTerm).getWord();
+    if (fSelectedTerm instanceof ZName)
+      message = ((ZName) fSelectedTerm).getWord();
+    /*
     else if (fSelectedTerm instanceof ZRefName)
-      message = ((ZRefName) fSelectedTerm).getWord();
+      message = ((ZRefName)fSelectedTerm).getDecl().getWord;
+    */
     else
       message = null;
 
@@ -147,7 +148,7 @@ public class OccurrencesFinderJob extends Job
   private void computeOccurrenceAnnotations(Map<Annotation, Position> map,
       Term term, Term selected, String message)
   {
-    if (term == null)
+    if (term == null || selected == null)
       return;
     //		String annotationType = "net.sourceforge.czt.eclipse.occurrence";
 
@@ -155,14 +156,21 @@ public class OccurrencesFinderJob extends Job
       if (child == null)
         continue;
       if (child instanceof Term) {
-        if (child.equals(selected)) {
-          map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
-              fEditor.getParsedData().getTermPosition((Term) child));
-        }
-        else if (child instanceof ZRefName) {
-          if (selected.equals(((ZRefName) child).getDecl())) {
-            map.put(
-                new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
+        if ((child instanceof ZName) && (selected instanceof ZName)) {
+          ZName name = (ZName)child;
+          ZName select = (ZName)selected;
+          if (name.getId() == null) {
+            System.out.println("null ID with the Name: " + name.getWord());
+            return;
+          }
+          if (name.getWord() == null) {
+            System.out.println("null word with the ID: " + name.getId());
+            return;
+          }
+          
+          // check both id and word are identical
+          if (name.getId().equals(select.getId()) && name.getWord().equals(select.getWord())) {
+            map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
                 fEditor.getParsedData().getTermPosition((Term) child));
           }
         }
