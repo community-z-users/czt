@@ -179,17 +179,16 @@ public class ZSpecDecorationSupport
                   line_end.y + lineHeight / 2);
             return;
           }
-          else { // draw middle lines
-            for (int startOffset = offset; startOffset < offset + length; startOffset++) {
-              if (ZString.VL.equalsIgnoreCase(String.valueOf(document
-                  .getChar(startOffset)))) { // draw the predicate line
-                Point predicate = textWidget.getLocationAtOffset(startOffset);
-                if (boxWidth > predicate.x)
-                  gc.drawLine(predicate.x, predicate.y + lineHeight / 2,
-                      predicate.x + (boxWidth - predicate.x) / 2, predicate.y
-                          + lineHeight / 2);
-                break;
-              }
+          else { 
+            // draw middle lines
+            if (ZString.VL.equalsIgnoreCase(String.valueOf(document
+                .getChar(offset)))) { 
+              // draw the predicate line
+              Point predicate = textWidget.getLocationAtOffset(offset);
+              if (boxWidth > predicate.x)
+                gc.drawLine(predicate.x, predicate.y + lineHeight / 2,
+                    predicate.x + (boxWidth - predicate.x) / 2, predicate.y
+                    + lineHeight / 2);
             }
             // draw the left line
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
