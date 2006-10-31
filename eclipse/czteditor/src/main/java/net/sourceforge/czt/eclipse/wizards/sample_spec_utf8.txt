@@ -1,7 +1,4 @@
-﻿\documentclass{article}
-\usepackage{oz}   % oz or z-eves or fuzz styles
+﻿─ section MYSPEC parents standard_toolkit
+└
 
-\begin{document}
-%Specification contents
-
-\end{document}
+This specification describes ...

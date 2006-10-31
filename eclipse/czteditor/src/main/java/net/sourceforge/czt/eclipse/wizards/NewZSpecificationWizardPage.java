@@ -380,7 +380,7 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   private void createSpecification(String containerName, String fileName,
       IProgressMonitor monitor) throws CoreException
-  {
+      {
     monitor.beginTask(WizardsMessages.bind(WizardsMessages.NewZSpecificationWizardPage_specWizard_specCreating, fileName), 2);
     IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
     IResource resource = root.findMember(new Path(containerName));
@@ -406,7 +406,7 @@ public class NewZSpecificationWizardPage extends WizardPage
     monitor.worked(1);
 
     fNewFile = file;
-  }
+      }
 
   /**
    * Initialize file contents with a sample text.
@@ -415,10 +415,10 @@ public class NewZSpecificationWizardPage extends WizardPage
   {
     if (fMarkupButtons[0].getSelection())
       return getClass().getResourceAsStream(fSampleFiles[0]);
-//    else if (fMarkupButtons[1].getSelection())
-//      return getClass().getResourceAsStream(fSampleFiles[1]);
-//    else if (fMarkupButtons[2].getSelection())
-//      return getClass().getResourceAsStream(fSampleFiles[2]);
+    else if (fMarkupButtons[1].getSelection())
+      return getClass().getResourceAsStream(fSampleFiles[1]);
+    else if (fMarkupButtons[2].getSelection())
+      return getClass().getResourceAsStream(fSampleFiles[2]);
     
     return null;
   }

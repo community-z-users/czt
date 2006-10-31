@@ -1,7 +1,13 @@
 \documentclass{article}
-\usepackage{oz}   % oz or z-eves or fuzz styles
+\usepackage{czt}
 
 \begin{document}
-%Specification contents
+\begin{zsection}
+  \SECTION MYSPEC \parents standard\_toolkit
+\end{zsection}
+
+This specification describes ...
+
+
 
 \end{document}
