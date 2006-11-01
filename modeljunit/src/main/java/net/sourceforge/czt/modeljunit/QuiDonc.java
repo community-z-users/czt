@@ -51,7 +51,7 @@ public class QuiDonc implements FsmModel
   public String INFO     = "Press 1 to spell the name, press 2 to hear the address, or press star for a new search.";
   public String NAME     = "The number 03 81 12 34 56 corresponds to Renard, K. J.  "+INFO;
   public String SPELL    = "Renard is spelt R, E, N, A, R, D.  "+INFO;
-  public String ADDR     = "The address of Renard, K. J. is 45 rue de Vesoul, Besançon.  "+INFO; 
+  public String ADDR     = "The address of Renard, K. J. is 45 rue de Vesoul, Besan\u00E7on.  "+INFO; 
   public String BYE      = "Thank you for using the Qui-Donc service.";
   
   public QuiDonc()
@@ -177,7 +177,8 @@ public class QuiDonc implements FsmModel
     InputStreamReader isr = new InputStreamReader(System.in);
     BufferedReader input = new BufferedReader(isr);
 
-    out.println("The following inputs are possible:");
+    out.println("This program allows you to explore the QuiDonc model interactively.");
+    out.println("The following inputs are possible (or type 'graph' to generate the FSM):");
     out.println("  dial,*,1,2,wait,18#,0381111111#,0381222222#,...");
     // Read and print lines in a loop.
     // Terminate with control-Z (Windows) or control-D (other)
@@ -186,7 +187,15 @@ public class QuiDonc implements FsmModel
       String line = input.readLine();
       if (line == null)
         break;
-      if (line.equals("dial")) {
+      if (line.equals("graph")) {
+        out.println("Building FSM graph...");
+        ModelTestCase tester = new ModelTestCase(quidonc);
+        tester.buildGraph();
+        tester.printGraphDot("QuiDonc.dot");
+        out.println("Printed FSM graph to QuiDonc.dot.");
+        out.println("Use dotty or dot from http://www.graphviz.org to view/transform the graph.");
+      }
+      else if (line.equals("dial")) {
         checkGuard(quidonc.dialGuard());
         quidonc.dial();
       }
