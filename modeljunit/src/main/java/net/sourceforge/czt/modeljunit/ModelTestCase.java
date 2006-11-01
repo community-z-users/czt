@@ -307,7 +307,7 @@ public class ModelTestCase
    *  This prints progress messages during the FSM analysis stages
    *  and during the actual testing.
    *  By default, this prints messages to System.out.
-   *  Subclasses can override this if they to do something different.
+   *  Subclasses can override this if they want to do something different.
    * @param priority 1..3
    */
   public void printProgress(int priority, String msg)
