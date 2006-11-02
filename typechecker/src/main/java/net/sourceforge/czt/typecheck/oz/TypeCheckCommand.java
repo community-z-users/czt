@@ -31,9 +31,14 @@ import net.sourceforge.czt.typecheck.z.ErrorAnn;
  */
 public class TypeCheckCommand
   extends net.sourceforge.czt.typecheck.z.TypeCheckCommand
+  implements TypecheckPropertiesKeys
 {
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager) {
-    return TypeCheckUtils.typecheck(term, manager);
+    boolean useBeforeDecl =
+      getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
+    boolean strong =
+      getBooleanProperty(manager, PROP_TYPECHECK_USE_STRONG_TYPING);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl, strong);
   }
 }

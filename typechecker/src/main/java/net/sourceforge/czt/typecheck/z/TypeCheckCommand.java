@@ -34,12 +34,15 @@ import net.sourceforge.czt.z.ast.ZSect;
  * A command to compute the SectTypeInfo of a Z section.
  */
 public class TypeCheckCommand
-  implements Command
+  implements Command,
+             TypecheckPropertiesKeys
 {
   protected List<? extends ErrorAnn> typecheck(Term term,
                                                SectionManager manager)
   {
-    return TypeCheckUtils.typecheck(term, manager);
+    boolean useBeforeDecl =
+      getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl);
   }
 
   public boolean compute(String name, SectionManager manager)
@@ -64,5 +67,11 @@ public class TypeCheckCommand
       }
     }
     return true;
+  }
+
+  protected boolean getBooleanProperty(SectionManager manager,
+                                       String propertyKey)
+  {
+    return "true".equals(manager.getProperty(propertyKey));
   }
 }
