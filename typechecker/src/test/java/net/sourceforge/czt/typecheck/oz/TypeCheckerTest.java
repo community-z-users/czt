@@ -55,27 +55,16 @@ public class TypeCheckerTest
     return suite;
   }
 
-  protected void setUp()
+  protected SectionManager getManager()
   {
-    super.setUp();
-    manager_.putCommand(ZSect.class, ParseUtils.getCommand());
-    manager_.putCommand(LatexMarkupFunction.class, ParseUtils.getCommand());
-    manager_.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
+    return new SectionManager("oz");
   }
 
-  protected Term parse(String file)
-    throws Exception
-  {
-    Source source = new FileSource(file);
-    source.setMarkup(Markup.LATEX);
-    return ParseUtils.parse(source, manager_);
-  }
-
-  protected List typecheck(Term term)
+  protected List typecheck(Term term, SectionManager manager)
     throws Exception
   {
     return TypeCheckUtils.typecheck(term,
-                                    manager_,
+                                    manager,
                                     useBeforeDecl_,
                                     useStrongTyping_);
   }

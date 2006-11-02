@@ -54,7 +54,7 @@ public class TypeCheckerTest
   extends TestCase
 {
   //the section manager
-  protected SectionManager manager_;
+  protected SectionManager manager_ = getManager();
 
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
@@ -66,16 +66,14 @@ public class TypeCheckerTest
     return suite;
   }
 
-  protected void setUp()
+  protected SectionManager getManager()
   {
-    manager_ = new SectionManager();
-    manager_.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
-    CztLogger.getLogger(manager_.getClass()).setLevel(Level.OFF);
+    return new SectionManager();
   }
 
-  protected void tearDown()
+  protected void setUp()
   {
-    //do nothing?
+    CztLogger.getLogger(manager_.getClass()).setLevel(Level.OFF);
   }
 
   public void testZ()
@@ -125,26 +123,27 @@ public class TypeCheckerTest
     }
   }
 
-  protected Term parse(String file)
+  protected Term parse(String file, SectionManager manager)
     throws Exception
   {
     Source source = new FileSource(file);
     source.setMarkup(Markup.LATEX);
-    return ParseUtils.parse(source, manager_);
+    manager.put(new Key(file, Source.class), source);
+    return (Term) manager.get(new Key(file, Spec.class));
   }
 
-  protected List typecheck(Term term)
+  protected List typecheck(Term term, SectionManager manager)
     throws Exception
   {
-    return TypeCheckUtils.typecheck(term, manager_, useBeforeDecl_);
+    return TypeCheckUtils.typecheck(term, manager, useBeforeDecl_);
   }
 
   protected void handleNormal(String file)
   {
     List<ErrorAnn> errors = new java.util.ArrayList<ErrorAnn>();
     try {
-      Term term = parse(file);
-      errors = typecheck(term);
+      Term term = parse(file, manager_);
+      errors = typecheck(term, manager_);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
@@ -172,12 +171,12 @@ public class TypeCheckerTest
     Throwable throwable = null;
     List<ErrorAnn> errors = new java.util.ArrayList();
     try {
-      Term term = parse(file);
+      Term term = parse(file, manager_);
       if (term == null) {
         fail("Parser returned null");
       }
       else {
-        errors = typecheck(term);
+        errors = typecheck(term, manager_);
       }
     }
     catch (RuntimeException e) {
