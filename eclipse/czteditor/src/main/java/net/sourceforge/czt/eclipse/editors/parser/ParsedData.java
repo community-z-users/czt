@@ -57,7 +57,7 @@ public class ParsedData
 
   private Selector fTermSelector;
 
-  private List<Triple> triples_ = new ArrayList<Triple>();
+  private List<NameInfo> fNameInfoList = new ArrayList<NameInfo>();
 
   private static Visitor<Term[]> getNodeChildrenVisitor_ = new NodeChildrenVisitor();
 
@@ -76,7 +76,7 @@ public class ParsedData
     //		outputMap(this.fTermPositionMap);
     //		outputTypeAnns(spec);
     setOutlineTree(spec, document);
-    triples_ = TypesFinder.getTypes(spec, manager);
+    fNameInfoList = NameInfoResolver.resolve(spec, manager);
   }
 
   /**
@@ -172,9 +172,9 @@ public class ParsedData
     return this.spec_;
   }
 
-  public List<Triple> getNameSectTypeTriples()
+  public List<NameInfo> getNameInfoList()
   {
-    return this.triples_;
+    return this.fNameInfoList;
   }
 
   public Map<Term, Position> getTermPositionMap()

@@ -1033,10 +1033,9 @@ public class ZEditor extends TextEditor
 
     int cursorOffset = getCursorOffset();
     setHighlightRange(cursorOffset);
-    if (!moveCursor) // avoid Selector repeatedly working
-      markOccurrenceAnnotations(cursorOffset);
 
-    if (!moveCursor) {
+    if (!moveCursor) { // avoid Selector repeatedly working
+      markOccurrenceAnnotations(cursorOffset);
       boolean EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = true;
       //			EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE);
       if (EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE) {
@@ -1357,13 +1356,21 @@ public class ZEditor extends TextEditor
     int line;
     int lineStart, lineEnd;
     try {
-      if (!ZCharacter.isZWordPart(document.getChar(offset))) {
-        return new Position(offset, 1);
-      }
-
       line = document.getLineOfOffset(offset);
       lineStart = document.getLineOffset(line);
       lineEnd = lineStart + document.getLineLength(line) - 1;
+      
+      char curr = document.getChar(offset);
+      
+      if (!ZCharacter.isZWordPart(curr)) {
+        if (offset > lineStart && ZCharacter.isZWordPart(document.getChar(offset - 1)))
+          return findWordOfOffset(document, offset - 1);
+        else if (offset < lineEnd && (curr == ' ' || curr == '\t'))
+          return findWordOfOffset(document, offset + 1);
+        else
+          return new Position(offset, 1);
+      }
+      
       for (; regionStart >= lineStart; regionStart--)
         if (!ZCharacter.isZWordPart(document.getChar(regionStart)))
           break;

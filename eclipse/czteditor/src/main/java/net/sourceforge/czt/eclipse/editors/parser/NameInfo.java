@@ -6,7 +6,7 @@ import net.sourceforge.czt.z.ast.ZName;
 /**
  * @author Chengdong Xu
  */
-public class Triple
+public class NameInfo
 {
 
   private ZName name_;
@@ -14,20 +14,23 @@ public class Triple
   private String section_;
 
   private String type_;
+  
+  private boolean isLocal_;
 
-  public Triple(ZName name, String section, String type)
+  public NameInfo(ZName name, String section, String type, boolean isLocal)
   {
     name_ = name;
     section_ = section;
     type_ = type;
+    isLocal_ = isLocal;
   }
 
-  public ZName getDeclName()
+  public ZName getName()
   {
     return name_;
   }
 
-  public void setDeclName(ZName name)
+  public void setName(ZName name)
   {
     name_ = name;
   }
@@ -50,6 +53,16 @@ public class Triple
   public void setType(String type)
   {
     type_ = type;
+  }
+  
+  public boolean isLocal()
+  {
+    return isLocal_;
+  }
+  
+  public void setLocal(boolean isLocal)
+  {
+    isLocal_ = isLocal;
   }
 
   public String toString()

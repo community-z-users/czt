@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.editors.parser.Triple;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
@@ -212,27 +213,20 @@ public class ZTextHover implements ITextHover
       return null;
 
     if (term instanceof ZName) {
-      List<Triple> triples = ((ZEditor) getEditor()).getParsedData()
-          .getNameSectTypeTriples();
-      Triple triple = null;
-      for (int index = 0; index < triples.size(); index++) {
-        triple = triples.get(index);
-        if (term.equals(triple.getDeclName()))
-          return triple.getType();
-      }
+      List<NameInfo> nameInfoList = ((ZEditor) getEditor()).getParsedData()
+          .getNameInfoList();
+      NameInfo info = NameInfoResolver.findInfo(nameInfoList, (ZName)term);
+      if (info != null)
+        return info.getType();
     }
-    /*
-     else if (term instanceof ZRefName) {
-     return getInfoOfTerm(((ZRefName) term).getDecl());
-     }
-     */
-    else if (term instanceof Expr) {
-      TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-      if (typeAnn != null) {
-        if (typeAnn.getType() != null)
-          return typeAnn.getType().accept(new PrintVisitor());
-      }
-    }
+//    
+//    else if (term instanceof Expr) {
+//      TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+//      if (typeAnn != null) {
+//        if (typeAnn.getType() != null)
+//          return typeAnn.getType().accept(new PrintVisitor());
+//      }
+//    }
 
     return null;
   }

@@ -9,9 +9,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -110,12 +113,8 @@ public class OccurrencesFinderJob extends Job
     String message = null;
     if (fSelectedTerm instanceof ZName)
       message = ((ZName) fSelectedTerm).getWord();
-    /*
-    else if (fSelectedTerm instanceof ZRefName)
-      message = ((ZRefName)fSelectedTerm).getDecl().getWord;
-    */
     else
-      message = null;
+      message = fSelectedTerm.accept(new PrintVisitor());
 
     computeOccurrenceAnnotations(annotationMap, fEditor.getParsedData()
         .getSpec(), fSelectedTerm, message);
@@ -150,7 +149,6 @@ public class OccurrencesFinderJob extends Job
   {
     if (term == null || selected == null)
       return;
-    //		String annotationType = "net.sourceforge.czt.eclipse.occurrence";
 
     for (Object child : term.getChildren()) {
       if (child == null)
@@ -172,6 +170,37 @@ public class OccurrencesFinderJob extends Job
           if (name.getId().equals(select.getId()) && name.getWord().equals(select.getWord())) {
             map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
                 fEditor.getParsedData().getTermPosition((Term) child));
+          }
+          else {
+            NameInfo nameInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), name);
+            NameInfo selectInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), select);
+            if (nameInfo == null) {
+              System.out.println("null name info");
+              continue;
+            }
+            if (selectInfo == null) {
+              System.out.println("null select info");
+              continue;
+            }
+            if (nameInfo.getName() == null) {
+              System.out.println("null name info name");
+              continue;
+            }
+            if (selectInfo.getName() == null) {
+              System.out.println("null select info name");
+              continue;
+            }
+            if (nameInfo.getName().getId() == null) {
+              System.out.println("null name info name id");
+              continue;
+            }
+            if (nameInfo.getName().getId() == null) {
+              System.out.println("null select info name id");
+              continue;
+            }
+            if (nameInfo.equals(selectInfo))
+              map.put(new Annotation(IZAnnotationType.OCCURRENCE, false, message), //$NON-NLS-1$
+                  fEditor.getParsedData().getTermPosition((Term) child));
           }
         }
         else

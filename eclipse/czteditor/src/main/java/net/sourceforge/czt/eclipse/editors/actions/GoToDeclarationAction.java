@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
+import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
+import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.z.ast.Name;
@@ -51,7 +54,7 @@ public class GoToDeclarationAction extends TextEditorAction
       return;
     if (!(term instanceof ZName))
       return;
-    ZName decl_term = getDecl(editor.getParsedData().getSpec(), (ZName)term);
+    ZName decl_term = getDecl(editor.getParsedData(), (ZName)term);
     Position decl_pos = editor.getParsedData().getTermPosition(decl_term);
     
     if (decl_pos != null) {
@@ -61,6 +64,18 @@ public class GoToDeclarationAction extends TextEditorAction
         editor.selectAndReveal(decl_pos.getOffset(), decl_pos.getLength());
       }
     }
+  }
+  
+  private ZName getDecl(ParsedData data, ZName ref)
+  {
+    if (data == null || ref == null)
+      return null;
+    
+    NameInfo info = NameInfoResolver.findInfo(data.getNameInfoList(), ref);
+    if (info != null)
+      return info.getName();
+    
+    return getDecl(data.getSpec(), ref);
   }
   
   private ZName getDecl(Term root, ZName ref)
