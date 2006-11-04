@@ -19,12 +19,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.oz;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
@@ -50,9 +53,36 @@ public class TypeCheckerTest
 
   public static Test suite()
   {
+    CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(TypeCheckerTest.class);
+
+    // Weak
+    TypeCheckerTest checkerTest = new TypeCheckerTest(false, false);
+    checkerTest.collectTests(suite, "oz/");
+
+    // Strong
+    checkerTest = new TypeCheckerTest(false, true);
+    checkerTest.collectTests(suite, "oz/");
+
+    // UseBeforeDecl
+    checkerTest = new TypeCheckerTest(true, false);
+    checkerTest.collectTests(suite, "oz/useBeforeDecl/");
+
+    // StrongOnly
+    checkerTest = new TypeCheckerTest(false, true);
+    checkerTest.collectTests(suite, "oz/strong/");
+
+    // WeakOnly
+    checkerTest = new TypeCheckerTest(false, false);
+    checkerTest.collectTests(suite, "oz/weak/");
+
     return suite;
+  }
+
+  public TypeCheckerTest(boolean useBeforeDecl, boolean useStrongTyping)
+  {
+    super(useBeforeDecl);
+    useStrongTyping_ = useStrongTyping;
   }
 
   protected SectionManager getManager()
@@ -67,39 +97,5 @@ public class TypeCheckerTest
                                     manager,
                                     useBeforeDecl_,
                                     useStrongTyping_);
-  }
-
-  public void testOZWeak()
-  {
-    useStrongTyping_ = false;
-    useBeforeDecl_ = false;
-    testDirectory("oz/");
-  }
-
-  public void testOZStrong()
-  {
-    useStrongTyping_ = true;
-    testDirectory("oz/");
-  }
-
-  public void testOZUseBeforeDecl()
-  {
-    useStrongTyping_ = false;
-    useBeforeDecl_ = true;
-    testDirectory("oz/useBeforeDecl/");
-  }
-
-  public void testOZStrongOnly()
-  {
-    useStrongTyping_ = true;
-    useBeforeDecl_ = false;
-    testDirectory("oz/strong/");
-  }
-
-  public void testOZWeakOnly()
-  {
-    useStrongTyping_ = false;
-    useBeforeDecl_ = false;
-    testDirectory("oz/weak/");
   }
 }
