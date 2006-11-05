@@ -71,7 +71,7 @@ public class NameInfoResolver
       while ((word != null) && (word.startsWith(DELTA) || word.startsWith(XI)))
       {
         word = word.substring(1);
-        if (word != null) {
+        if ((word != null) && word.length() > 0) {
           for (NameInfo info :nameInfoList)
             if(!info.isLocal() && word.equals(info.getName().getWord()))
               return info;

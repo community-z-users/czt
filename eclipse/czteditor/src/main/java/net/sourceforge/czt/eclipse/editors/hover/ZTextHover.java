@@ -18,7 +18,6 @@ import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.ZName;
@@ -139,43 +138,8 @@ public class ZTextHover implements ITextHover
   public IRegion getHoverRegion(ITextViewer textViewer, int offset)
   {
     return new Region(offset, 1);
-    //    return findWordOfOffset(textViewer.getDocument(), offset);
   }
-
-  //
-  //  private IRegion findWordOfOffset(IDocument document, int offset)
-  //  {
-  //    int regionStart = offset, regionEnd = offset;
-  //    int line;
-  //    int lineStart, lineEnd;
-  //    try {
-  //      if (!ZCharacter.isZWordPart(document.getChar(offset))) {
-  //        return new Region(offset, 1);
-  //      }
-  //
-  //      line = document.getLineOfOffset(offset);
-  //      lineStart = document.getLineOffset(line);
-  //      lineEnd = lineStart + document.getLineLength(line) - 1;
-  //      for (; regionStart >= lineStart; regionStart--)
-  //        if (!ZCharacter.isZWordPart(document.getChar(regionStart))) {
-  //          break;
-  //        }
-  //      regionStart++;
-  //
-  //      for (; regionEnd <= lineEnd; regionEnd++)
-  //        if (!ZCharacter.isZWordPart(document.getChar(regionEnd))) {
-  //          break;
-  //        }
-  //      regionEnd--;
-  //
-  //      return new Region(regionStart, regionEnd - regionStart + 1);
-  //
-  //    } catch (BadLocationException ble) {
-  //    }
-  //
-  //    return null;
-  //  }
-  //  
+  
   private String getTermHighlightInfo(int offset)
   {
     if (getEditor() instanceof ZEditor) {
@@ -183,7 +147,7 @@ public class ZTextHover implements ITextHover
       if (editor.getTermHighlightAnnotation() == null)
         return null;
 
-      Selector selector = ((ZEditor) getEditor()).getTermSelector();
+      Selector selector = ((ZEditor) getEditor()).getTermHighlightSelector();
       if (selector == null)
         return null;
 
@@ -216,17 +180,17 @@ public class ZTextHover implements ITextHover
       List<NameInfo> nameInfoList = ((ZEditor) getEditor()).getParsedData()
           .getNameInfoList();
       NameInfo info = NameInfoResolver.findInfo(nameInfoList, (ZName)term);
-      if (info != null)
+      if (info != null) {
         return info.getType();
+      }
     }
-//    
-//    else if (term instanceof Expr) {
-//      TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-//      if (typeAnn != null) {
-//        if (typeAnn.getType() != null)
-//          return typeAnn.getType().accept(new PrintVisitor());
-//      }
-//    }
+
+    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+    if (typeAnn != null) {
+      if (typeAnn.getType() != null) {
+        return typeAnn.getType().accept(new PrintVisitor());
+      }
+    }
 
     return null;
   }
@@ -234,8 +198,7 @@ public class ZTextHover implements ITextHover
   private Term getTermOfRegion(IRegion region)
   {
     if (getEditor() instanceof ZEditor) {
-      Selector selector = new Selector(((ZEditor) getEditor()).getParsedData()
-          .getSpec());
+      Selector selector = ((ZEditor) getEditor()).getParsedData().createTermSelector();
       if (selector != null) {
         int offset = region.getOffset();
         int length = region.getLength();

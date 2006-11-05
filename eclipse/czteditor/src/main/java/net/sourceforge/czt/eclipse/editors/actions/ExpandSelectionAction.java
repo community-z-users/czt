@@ -39,19 +39,20 @@ public class ExpandSelectionAction extends TextEditorAction
       return;
 
     ZEditor editor = (ZEditor) getTextEditor();
-    if (editor.getTermSelector() == null)
-      editor.setTermSelector(new Selector(editor.getParsedData().getSpec()));
+    if (editor.getTermHighlightSelector() == null)
+      editor.setTermHighlightSelector(new Selector(editor.getParsedData().getSpec()));
 
-    Selector selector = editor.getTermSelector();
-    Term selectedTerm = selector.current();
-    if (selectedTerm == null) {
+    Selector selector = editor.getTermHighlightSelector();
+    Term selectedTerm = null;
+    if (selector.current() == null) {
       ITextSelection selection = (ITextSelection) editor.getSelectionProvider()
           .getSelection();
-      selectedTerm = selector.getTerm(new Position(selection.getOffset(),
+      // force to re-generate the Term Stack
+      selector.getTerm(new Position(selection.getOffset(),
           selection.getLength()));
     }
-    else
-      selectedTerm = selector.next();
+    
+    selectedTerm = selector.next();
 
     if (selectedTerm == null) {
       return;

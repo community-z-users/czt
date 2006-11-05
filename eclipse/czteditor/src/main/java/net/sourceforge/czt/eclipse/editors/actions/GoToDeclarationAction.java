@@ -45,9 +45,9 @@ public class GoToDeclarationAction extends TextEditorAction
       return;
 
     ZEditor editor = (ZEditor) getTextEditor();
-    Selector selector = editor.getParsedData().getTermSelector();
     ITextSelection selection = (ITextSelection) editor.getSelectionProvider()
         .getSelection();
+    Selector selector = editor.getParsedData().createTermSelector();
     Term term = selector.getTerm(new Position(selection.getOffset(), selection
         .getLength()));
     if (term == null)

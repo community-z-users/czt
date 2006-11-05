@@ -2,6 +2,8 @@
 package net.sourceforge.czt.eclipse.views;
 
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 
 import org.eclipse.core.runtime.IPath;
@@ -25,6 +27,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -89,9 +92,13 @@ public class ZCharMapView extends ViewPart
   {
     public void inputChanged(Viewer v, Object oldInput, Object newInput)
     {
+//      System.out.println("input changed");
       if (newInput != null && oldInput != newInput && newInput instanceof ZCharTable) {
         fCharTable = (ZCharTable)newInput;
         v.refresh();
+//        ((TableViewer)v).getTable().pack(true);
+//        v.getControl().update();
+//        v.getControl().getParent().pack(true);  
       }
     }
 
@@ -201,8 +208,9 @@ public class ZCharMapView extends ViewPart
     fNotationCombo.setLayoutData((formData));
 
     viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-
     final Table table = viewer.getTable();
+    CZTColorManager manager = new CZTColorManager();
+    Color color = manager.getColor(IZColorConstants.SCHEMA);
     table.setFont(fCharMapViewFont);
     fTableCursor = new TableCursor(table, SWT.NULL);
     fTableCursor.setFont(fCharMapViewFont);
@@ -235,23 +243,25 @@ public class ZCharMapView extends ViewPart
     });
     
     fTableCursor.addMouseListener(new MouseAdapter() {
-      private Point fMousePos = null;
-
       private ZChar zch = null;
+      private boolean mousedown = false;
 
       public void mouseDown(MouseEvent event)
       {
-        fMousePos = new Point(event.x, event.y);
+        mousedown = true;
       }
 
       public void mouseUp(MouseEvent event)
       {
-        if ((event.x != fMousePos.x) || (event.y != fMousePos.y))
-          return;
-
-        zch = getZCharAtPoint(table, fTableCursor.getLocation());
-        if (zch != null) {
-          insertZChar(zch);
+        if (mousedown) {
+          mousedown = false;
+          Rectangle rect = fTableCursor.getBounds();
+          if (!fTableCursor.getBounds().contains(rect.x + event.x, rect.y + event.y))
+            return;
+          zch = getZCharAtPoint(table, fTableCursor.getLocation());
+          if (zch != null) {
+            insertZChar(zch);
+          }
         }
       }
 
@@ -281,23 +291,26 @@ public class ZCharMapView extends ViewPart
     table.setLinesVisible(true);
     table.addMouseListener(new MouseListener()
     {
-      private Point fMousePos = null;
-
-      private ZChar zch = null;
+      private ZChar fDownChar = null;
+      private ZChar fUpChar = null;
+      private boolean mousedown = false;
 
       public void mouseDown(MouseEvent event)
       {
-        fMousePos = new Point(event.x, event.y);
+        mousedown = true;
+        Point p = new Point(event.x, event.y);
+        fDownChar = getZCharAtPoint(table, p);
       }
 
       public void mouseUp(MouseEvent event)
       {
-        if ((event.x != fMousePos.x) || (event.y != fMousePos.y))
-          return;
-
-        zch = getZCharAtPoint(table, fMousePos);
-        if (zch != null) {
-          insertZChar(zch);
+        if (mousedown) {
+          mousedown = false;
+          Point p = new Point(event.x, event.y);
+          fUpChar = getZCharAtPoint(table, p);
+          if (fUpChar != null && fUpChar.equals(fDownChar)) {
+            insertZChar(fUpChar);
+          }
         }
       }
 
@@ -338,7 +351,7 @@ public class ZCharMapView extends ViewPart
       tableColumn.setText("");
       tableColumn.setWidth(50);
     }
-
+    
     table.pack(true);
     table.setRedraw(true);
     

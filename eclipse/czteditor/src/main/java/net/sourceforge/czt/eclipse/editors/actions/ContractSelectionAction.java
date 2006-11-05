@@ -11,6 +11,7 @@ import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.z.ast.ZName;
 
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
@@ -39,11 +40,19 @@ public class ContractSelectionAction extends TextEditorAction
       return;
 
     ZEditor editor = (ZEditor) getTextEditor();
-    if (editor.getTermSelector() == null)
-      editor.setTermSelector(new Selector(editor.getParsedData().getSpec()));
-    Selector selector = editor.getTermSelector();
-    Term selectedTerm = selector.previous();
+    if (editor.getTermHighlightSelector() == null)
+      editor.setTermHighlightSelector(editor.getParsedData().createTermSelector());
+    Selector selector = editor.getTermHighlightSelector();
+    Term selectedTerm = null;
+    if (selector.current() == null) {
+      ITextSelection selection = (ITextSelection) editor.getSelectionProvider()
+          .getSelection();
+      // force to re-generate the Term Stack
+      selector.getTerm(new Position(selection.getOffset(),
+          selection.getLength()));
+    }
     
+    selectedTerm = selector.previous();
     if (selectedTerm == null)
       return;
     

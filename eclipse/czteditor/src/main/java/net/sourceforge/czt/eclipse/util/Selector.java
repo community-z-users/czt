@@ -32,19 +32,30 @@ public class Selector
     fillTermStack(fAST, position);
     if (fTermStack.isEmpty())
       return null;
-    fSelection = fTermStack.size() - 1;
-    return fTermStack.get(fSelection);
+//    fSelection = fTermStack.size() - 1;
+    fSelection = -1;
+    return fTermStack.get(fTermStack.size() - 1);
+  }
+  
+  public Term top()
+  {
+    if (fTermStack.isEmpty())
+      return null;
+    return fTermStack.get(fTermStack.size() - 1);
   }
 
   public Term previous()
   {
     if (fTermStack.isEmpty())
       return null;
-    fSelection++;
-    if (fSelection > fTermStack.size())
-      fSelection--;
-    if (fSelection == fTermStack.size())
+    // initial state
+    if (fSelection < 0)
       return null;
+    fSelection++;
+    // reach the top
+    if (fSelection == fTermStack.size())
+      fSelection--;
+    
     return fTermStack.get(fSelection);
   }
 
@@ -59,11 +70,13 @@ public class Selector
   {
     if (fTermStack.isEmpty())
       return null;
-    fSelection--;
-    if (fSelection == -1)
-      return null;
-    if (fSelection < -1)
+    // initial state
+    if (fSelection < 0)
       fSelection = fTermStack.size() - 1;
+    // not reach the bottom
+    else if (fSelection > 0)
+      fSelection--;
+    
     return fTermStack.get(fSelection);
   }
 

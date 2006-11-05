@@ -158,13 +158,17 @@ public class OccurrencesFinderJob extends Job
           ZName name = (ZName)child;
           ZName select = (ZName)selected;
           if (name.getId() == null) {
-            System.out.println("null ID with the Name: " + name.getWord());
+//            System.out.println("null ID with the Name: " + name.getWord());
             return;
           }
+          
           if (name.getWord() == null) {
-            System.out.println("null word with the ID: " + name.getId());
+//            System.out.println("null word with the ID: " + name.getId());
             return;
           }
+          
+//          System.out.println("Selection ID with the name - " + select.accept(new PrintVisitor()) + " : " + select.getId());
+//          System.out.println("Selection Word with the ID - " + select.getId() + " : " + select.accept(new PrintVisitor()));
           
           // check both id and word are identical
           if (name.getId().equals(select.getId()) && name.getWord().equals(select.getWord())) {
@@ -175,27 +179,27 @@ public class OccurrencesFinderJob extends Job
             NameInfo nameInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), name);
             NameInfo selectInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), select);
             if (nameInfo == null) {
-              System.out.println("null name info");
+//              System.out.println("null name info");
               continue;
             }
             if (selectInfo == null) {
-              System.out.println("null select info");
+//              System.out.println("null select info");
               continue;
             }
             if (nameInfo.getName() == null) {
-              System.out.println("null name info name");
+//              System.out.println("null name info name");
               continue;
             }
             if (selectInfo.getName() == null) {
-              System.out.println("null select info name");
+//              System.out.println("null select info name");
               continue;
             }
             if (nameInfo.getName().getId() == null) {
-              System.out.println("null name info name id");
+//              System.out.println("null name info name id");
               continue;
             }
             if (nameInfo.getName().getId() == null) {
-              System.out.println("null select info name id");
+//              System.out.println("null select info name id");
               continue;
             }
             if (nameInfo.equals(selectInfo))

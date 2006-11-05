@@ -354,7 +354,7 @@ public class ZEditor extends TextEditor
   private ParsedData fParsedData;
 
   /** The term selector */
-  private Selector fTermSelector;
+  private Selector fTermHighlightSelector;
 
   /** The term currently highlighted */
   private Term fHighlightedTerm = null;
@@ -837,15 +837,15 @@ public class ZEditor extends TextEditor
   {
     if (this.fParsedData == null)
       return;
-    fTermSelector = this.fParsedData.getTermSelector();
-    if (fTermSelector == null)
+    Selector termSelector = this.fParsedData.createTermSelector();
+    if (termSelector == null)
       return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
     Position word = findWordOfOffset(document, offset);
 //    if (word == null || word.length == 0)
 //      System.out.println("null word");
     
-    Term term = fTermSelector.getTerm(word);
+    Term term = termSelector.getTerm(word);
     if (term == null)
       return;
     /*
@@ -1011,6 +1011,7 @@ public class ZEditor extends TextEditor
       TextSelection textSelection = (TextSelection) getSelectionProvider()
           .getSelection();
       removeTermHighlightAnnotation();
+      fTermHighlightSelector = null;
       removeOccurrenceAnnotations();
       // PR 39995: [navigation] Forward history cleared after going back in navigation history:
       // mark only in navigation history if the cursor is being moved (which it isn't if
@@ -1390,14 +1391,14 @@ public class ZEditor extends TextEditor
     return null;
   }
 
-  public void setTermSelector(Selector selector)
+  public void setTermHighlightSelector(Selector selector)
   {
-    this.fTermSelector = selector;
+    this.fTermHighlightSelector = selector;
   }
 
-  public Selector getTermSelector()
+  public Selector getTermHighlightSelector()
   {
-    return this.fTermSelector;
+    return this.fTermHighlightSelector;
   }
 
   /*

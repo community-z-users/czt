@@ -184,7 +184,15 @@ public class ParsedData
 
   public Selector getTermSelector()
   {
+    if (fTermSelector == null)
+      fTermSelector = new Selector(spec_);
+    
     return this.fTermSelector;
+  }
+  
+  public Selector createTermSelector()
+  {
+    return new Selector(spec_);
   }
 
   public Position getTermPosition(Term term)

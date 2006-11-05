@@ -139,7 +139,7 @@
             label="%TermHighlightAnnotation.label"
             overviewRulerPreferenceKey="termHighlightIndicationInOverviewRuller"
             overviewRulerPreferenceValue="false"
-            presentationLayer="4"
+            presentationLayer="6"
             showInNextPrevDropdownToolbarAction="true"
             showInNextPrevDropdownToolbarActionKey="showTermHighlightInNextPrevDropdownToolbarAction"
             symbolicIcon="info"
