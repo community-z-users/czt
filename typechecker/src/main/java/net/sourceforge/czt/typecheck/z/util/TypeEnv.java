@@ -141,7 +141,7 @@ public class TypeEnv
     NameTypePair pair = getPair(zName);
     if (pair != null) {
       result = pair.getType();
-      zName.setId(pair.getZName().getId());
+      factory_.merge(zName, pair.getZName());
     }
 
     //if the type is unknown, try looking up the Delta or Xi reference

@@ -598,7 +598,7 @@ abstract public class Checker<R>
 	    error(second.getZName(), errorMessage, params);
 	  }
 	}
-	second.getZName().setId(first.getZName().getId());
+        factory().merge(second.getZName(), first.getZName());
       }
       map.put(first.getZName().toString().intern(), first);
     }

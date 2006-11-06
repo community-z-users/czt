@@ -108,7 +108,7 @@ abstract public class AbstractTypeEnv
         // These Delta/Xi names are a special case, because there may
         // not be any corresponding ZName.  So if there is not,
         // we add a fixed (global) id.
-        if (zName.getId() == null) zName.setId("deltaxi");
+        if (zName.getId() == null) factory_.setId(zName, "deltaxi");
       }
     }
     return result;

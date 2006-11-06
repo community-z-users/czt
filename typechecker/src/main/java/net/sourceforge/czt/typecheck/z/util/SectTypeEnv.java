@@ -281,7 +281,7 @@ public class SectTypeEnv
     NameSectTypeTriple triple = getTriple(zName);
     if (triple != null && visibleSections_.contains(triple.getSect())) {
       result = triple.getType();
-      zName.setId(triple.getZName().getId());
+      factory_.merge(zName, triple.getZName());
     }
 
     //if the type is unknown, try looking up the Delta or Xi reference

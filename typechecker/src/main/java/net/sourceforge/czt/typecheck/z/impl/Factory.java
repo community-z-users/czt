@@ -348,13 +348,23 @@ public class Factory
   {
     if (declName instanceof ZName) {
       ZName zName = (ZName) declName;
-      zName.setId(freshId().toString());
+      setId(zName, freshId().toString());
     }
   }
 
   public Integer freshId()
   {
     return new Integer(id_++);
+  }
+
+  public void merge(ZName name1, ZName name2)
+  {
+    setId(name1, name2.getId());
+  }
+
+  public void setId(ZName zName, String id)
+  {
+    zName.setId(id);
   }
 
   public void copyLocAnn(Term src, Term dest)
