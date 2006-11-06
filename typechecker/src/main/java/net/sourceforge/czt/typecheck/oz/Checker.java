@@ -236,7 +236,7 @@ abstract public class Checker<R>
     else if (expr instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) expr;
       ZName zRefName = refExpr.getZName();
-      result = factory().createZDeclName(zRefName, false);
+      result = factory().createZName(zRefName, false);
     }
     else {
       assert false;
@@ -542,7 +542,7 @@ abstract public class Checker<R>
                                  PolyExpr polyExpr)
   {
     for (NameTypePair superPair : superPairs) {
-      ZName superName = factory().createZRefName(superPair.getZName(), false);
+      ZName superName = factory().createZName(superPair.getZName(), false);
       if (isVisible(superName, superClass)) {
         //if this feature is visible in the super class, it must be visible
         //in the subclass as well
@@ -566,7 +566,7 @@ abstract public class Checker<R>
                                    PolyExpr polyExpr)
   {
     for (NameSignaturePair superPair : superPairs) {
-      ZName superName = factory().createZRefName(superPair.getZName(), false);
+      ZName superName = factory().createZName(superPair.getZName(), false);
       if (isVisible(superName, superClass)) {
         NameSignaturePair subPair = findNameSigPair(superName, subPairs);
         //if this operation is visible in the super class, it must be

@@ -79,7 +79,7 @@ abstract public class AbstractTypeEnv
 
         List<NameTypePair> newPairs = factory_.list();
         for (NameTypePair pair : signature.getNameTypePair()) {
-          ZName primedName = factory_.createZDeclName(pair.getZName(), true);
+          ZName primedName = factory_.createZName(pair.getZName(), true);
           primedName.getZStrokeList().add(factory_.createNextStroke());
           NameTypePair newPair =
             factory_.createNameTypePair(primedName, pair.getType());

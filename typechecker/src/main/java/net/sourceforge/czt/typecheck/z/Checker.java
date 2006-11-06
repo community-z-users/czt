@@ -733,7 +733,7 @@ abstract public class Checker<R>
 
     //iterate over every name, removing it from the signature
     for (Name name : names) {
-      ZName zName = factory().createZDeclName(assertZName(name), false);
+      ZName zName = factory().createZName(assertZName(name), false);
       NameTypePair rPair = findNameTypePair(zName, signature);
 
       //if this is name is not in the schema, raise an error

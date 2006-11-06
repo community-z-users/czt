@@ -281,7 +281,7 @@ public class Factory
     return result;
   }
 
-  public ZName createZDeclName(ZName zName, boolean copyId)
+  public ZName createZName(ZName zName, boolean copyId)
   {
     ZStrokeList strokes = factory_.createZStrokeList();
     strokes.addAll(zName.getZStrokeList());
@@ -302,16 +302,6 @@ public class Factory
   {
     String id = declName != null ? declName.getId() : null;
     return factory_.createZName(word, strokes, id);
-  }
-
-  public ZName createZRefName(ZName zName, boolean copyId)
-  {
-    ZStrokeList strokes = factory_.createZStrokeList();
-    strokes.addAll(zName.getZStrokeList());
-    ZName declName = copyId ? zName : null;
-    ZName result =  createZRefName(zName.getWord(), strokes, declName);
-    if (copyId) copyLocAnn(zName, result);
-    return result;
   }
 
   public ZNameList createZNameList(List<? extends Name> list)

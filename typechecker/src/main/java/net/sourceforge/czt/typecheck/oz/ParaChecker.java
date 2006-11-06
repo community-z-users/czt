@@ -438,7 +438,7 @@ public class ParaChecker
     List<NameTypePair> pairs = signature.getNameTypePair();
     for (NameTypePair pair : pairs) {
       ZName unprimed = pair.getZName();
-      ZName primed = factory().createZDeclName(unprimed, true);
+      ZName primed = factory().createZName(unprimed, true);
       primed.getZStrokeList().add(factory().createNextStroke());
       typeEnv().add(unprimed, pair.getType());
       typeEnv().add(primed, pair.getType());

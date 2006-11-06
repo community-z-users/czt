@@ -71,7 +71,7 @@ public class Factory
 				 List<Type2> type,
 				 List<NewOldPair> pairs)
   {
-    Name refName = createZRefName(zName, false);
+    Name refName = createZName(zName, false);
     ClassRef result = createClassRef(refName, type, pairs);
     return result;
   }

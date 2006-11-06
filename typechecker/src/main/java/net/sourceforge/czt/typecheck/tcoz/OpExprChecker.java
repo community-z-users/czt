@@ -82,7 +82,7 @@ public class OpExprChecker
     Signature signature = factory().createSignature();
 
     ZName opRefName = assertZName(recProExpr.getOpName());
-    ZName opName = factory().createZDeclName(opRefName, false);
+    ZName opName = factory().createZName(opRefName, false);
     ClassType selfType = getSelfType();
     List<NameSignaturePair> opPairs = selfType.getOperation();
     NameSignaturePair existing = findNameSigPair(opName, opPairs);

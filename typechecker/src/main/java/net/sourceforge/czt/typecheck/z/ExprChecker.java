@@ -1016,7 +1016,7 @@ public class ExprChecker
         List<NameTypePair> pairs = signature.getNameTypePair();
         for (NameTypePair pair : pairs) {
           //add the strokes to the name
-          ZName name = factory().createZRefName(pair.getZName(), false);
+          ZName name = factory().createZName(pair.getZName(), false);
           name.getZStrokeList().addAll(thetaExpr.getZStrokeList());
 
           //lookup the name in the environment
@@ -1269,7 +1269,7 @@ public class ExprChecker
     List<NameTypePair> oldPairs = lSig.getNameTypePair();
     for (NameTypePair pair : oldPairs) {
       //create a ZName with which to search the list of names
-      ZName zName = factory().createZRefName(pair.getZName(), false);
+      ZName zName = factory().createZName(pair.getZName(), false);
 
       //only add the pair to the new signature if the name is not
       //being hidden

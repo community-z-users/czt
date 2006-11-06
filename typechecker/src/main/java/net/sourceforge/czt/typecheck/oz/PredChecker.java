@@ -96,7 +96,7 @@ public class PredChecker
         UResult unified = weakUnify(leftType, classType);
         if (unified != FAIL && !(leftType instanceof UnknownType)) {
 	  //override, as long as the name is already in the environment
-          ZName zName = factory().createZDeclName(refExpr.getZName(), false);
+          ZName zName = factory().createZName(refExpr.getZName(), false);
           typeEnv().override(zName, classType);
           //remove any type mismatch errors
           String message =

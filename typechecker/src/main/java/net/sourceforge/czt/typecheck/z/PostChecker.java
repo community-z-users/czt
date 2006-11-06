@@ -62,7 +62,7 @@ public class PostChecker
         //if the name is not in the environment, raise an error
         Object undecAnn = pair.getZName().getAnn(UndeclaredAnn.class);
         if (undecAnn != null) {
-          ZName decorName = factory().createZDeclName(pair.getZName(), true);
+          ZName decorName = factory().createZName(pair.getZName(), true);
           decorName.getZStrokeList().addAll(thetaExpr.getZStrokeList());
           Object [] params = {decorName, thetaExpr};
           ErrorAnn errorAnn =
