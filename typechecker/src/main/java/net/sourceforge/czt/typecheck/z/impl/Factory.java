@@ -276,12 +276,7 @@ public class Factory
 
   public ZName createZDeclName(String word, StrokeList strokes)
   {
-    return createZDeclName(word, strokes, null);
-  }
-
-  public ZName createZDeclName(String word, StrokeList strokes, String id)
-  {
-    ZName result = factory_.createZName(word, strokes, id);
+    ZName result = factory_.createZName(word, strokes);
     addNameID(result);
     return result;
   }

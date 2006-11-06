@@ -51,7 +51,7 @@ public class VariableType
     super(null);
     ZStrokeList strokes = factory.getZFactory().createZStrokeList();
     //    strokes.add(factory.createNumStroke(new Integer(serial_++)));
-    zName_ = factory.createZDeclName(ALPHA, strokes, null);
+    zName_ = factory.createZDeclName(ALPHA, strokes);
   }
 
   protected VariableType(ZName zName)

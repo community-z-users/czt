@@ -416,7 +416,7 @@ public class OpExprChecker
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);
           ZName baseName =
-            factory().createZDeclName(distName.getWord(), strokes, null);
+            factory().createZDeclName(distName.getWord(), strokes);
           NameTypePair opExprPair = findNameTypePair(baseName, signature);
           if (opExprPair != null) {
             Object [] params = {distName, baseName, distOpExpr};
