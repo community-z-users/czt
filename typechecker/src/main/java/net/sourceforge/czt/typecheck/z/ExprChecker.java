@@ -325,7 +325,7 @@ public class ExprChecker
   public Type2 visitNumExpr(NumExpr numExpr)
   {
     //the type of a NumExpr is the given type arithmos
-    ZName arithmos = factory().createZRefName(ZString.ARITHMOS);
+    ZName arithmos = factory().createZName(ZString.ARITHMOS);
     PowerType arithType = (PowerType) sectTypeEnv().getType(arithmos);
     Type2 type = arithType.getType();
 

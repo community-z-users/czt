@@ -67,8 +67,7 @@ abstract public class AbstractTypeEnv
       String baseWord = zName.getWord().substring(size);
       ZStrokeList strokes = factory_.getZFactory().createZStrokeList();
       strokes.addAll(zName.getZStrokeList());
-      ZName baseName =
-        factory_.createZRefName(baseWord, strokes, null);
+      ZName baseName = factory_.createZName(baseWord, strokes);
       Type baseType = getType(baseName);
 
       //if this is a schema, determine and add the delta/xi type

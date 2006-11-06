@@ -353,7 +353,7 @@ abstract public class Checker<R>
   //get the type of "self"
   protected ClassRefType getSelfType()
   {
-    ZName zName = factory().createZRefName(OzString.SELF);
+    ZName zName = factory().createZName(OzString.SELF);
     RefExpr refExpr = factory().createRefExpr(zName);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
     assert selfType instanceof ClassRefType;

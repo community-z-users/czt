@@ -291,17 +291,14 @@ public class Factory
     return result;
   }
 
-  public ZName createZRefName(String word)
+  public ZName createZName(String word)
   {
-    return createZRefName(word, factory_.createZStrokeList(), null);
+    return createZName(word, factory_.createZStrokeList());
   }
 
-  public ZName createZRefName(String word,
-                              StrokeList strokes,
-                              ZName declName)
+  public ZName createZName(String word, StrokeList strokes)
   {
-    String id = declName != null ? declName.getId() : null;
-    return factory_.createZName(word, strokes, id);
+    return factory_.createZName(word, strokes);
   }
 
   public ZNameList createZNameList(List<? extends Name> list)

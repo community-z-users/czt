@@ -116,7 +116,7 @@ public class OpExprChecker
   {
     ZName channelName = assertZName(event.getChannelName());
     LocAnn locAnn = (LocAnn) channelName.getAnn(LocAnn.class);
-    ZName baseChannelName = factory().createZRefName(channelName.getWord());
+    ZName baseChannelName = factory().createZName(channelName.getWord());
     addAnn(baseChannelName, locAnn);
     RefExpr channelRef = factory().createRefExpr(baseChannelName);
     Type2 channelRefType = (Type2) channelRef.accept(exprChecker());
