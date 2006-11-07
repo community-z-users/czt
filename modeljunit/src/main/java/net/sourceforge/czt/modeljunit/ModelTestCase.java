@@ -68,6 +68,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *      <li> DONE: when a test fails, throw a specific exception 
  *           containing lots of model information.</li>
  *      <li> add more test generation algorithms, such as greedy random.</li>
+ *      <li> make reset probability and buildGraph timeout user-settable.</li>
  *    </ul>
  *    Acknowledgements: This model-based testing library uses the
  *    JDSL (Java Data Structure Library, see http://www.jdsl.org) graph 
@@ -517,14 +518,13 @@ public class ModelTestCase
    *  some transitions are non-deterministic. 
    *  
    *  @param rand  A random generator to choose the exploration path.
+   *  @return true if the graph seems to be completely built.
    */
-  public void buildGraph(Random rand)
+  public boolean buildGraph(Random rand, int maxTransitions)
   {
-    int maxLen = 1000;
-    while (fsmTodo.size() > 0) {
+    int maxLen = maxTransitions;
+    while (fsmTodo.size() > 0 && maxLen > 0) {
       maxLen--;
-      if (maxLen <= 0)
-        Assert.fail("Cannot build graph after 1000 iterations "+fsmGraph.numVertices());
       int action = doRandomAction(rand);
       if (action < 0)
         doReset("Forced", false);
@@ -532,14 +532,30 @@ public class ModelTestCase
     for (CoverageMetric cm : fsmCoverage) {
       cm.setModel(fsmGraph, fsmVertex);
     }
-    printProgress(1, "FSM has "+this.fsmGraph.numVertices()
-        +" states and "+this.fsmGraph.numEdges()+" transitions.");
+    if (fsmTodo.size() == 0) {
+      // we seem to have explored all paths
+      printProgress(1, "FSM has "+this.fsmGraph.numVertices()
+          +" states and "+this.fsmGraph.numEdges()+" transitions.");
+      return true;
+    }
+    else {
+        printProgress(1, "BuildGraph still has " + fsmTodo.size()
+            + " unexplored paths after " + maxTransitions
+            + " transitions.  FSM too big?");
+        return false;
+    }
   }
 
-  /** Equivalent to buildGraph(FIXEDSEED). */
-  public void buildGraph()
+  /** Equivalent to buildGraph(new Random(FIXEDSEED), 1000000). */
+  public boolean buildGraph(Random rand)
   {
-    buildGraph(new Random(FIXEDSEED));
+    return buildGraph(new Random(FIXEDSEED), 1000000);
+  }
+
+  /** Equivalent to buildGraph(new Random(FIXEDSEED)). */
+  public boolean buildGraph()
+  {
+    return buildGraph(new Random(FIXEDSEED));
   }
 
   /** Saves the FSM graph into the given file, in DOT format.
@@ -728,11 +744,10 @@ public class ModelTestCase
         index = rand.nextInt(nTrans);
         //System.out.println("random RETRY gives "+index);
       }
-      tried.set(index); // we have tried this one.
+      tried.set(index); // mark this one as having been tried.
       if (doAction(index)) {
         return index;
       }
-      Method m = fsmActions.get(index);
     }
     return -1;
   }
