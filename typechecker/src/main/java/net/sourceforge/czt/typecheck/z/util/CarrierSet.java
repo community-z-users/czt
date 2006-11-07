@@ -97,11 +97,7 @@ public class CarrierSet
   public Term visitGenParamType(GenParamType genParamType)
   {
     ZName genParamName = ZUtils.assertZName(genParamType.getName());
-    ZStrokeList strokes = zFactory_.createZStrokeList();
-    strokes.addAll(genParamName.getZStrokeList());
-    String id = genParamName.getId();
-    ZName zName =
-      zFactory_.createZName(genParamName.getWord(), strokes, id);
+    ZName zName = factory_.createZName(genParamName, true);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
@@ -111,11 +107,7 @@ public class CarrierSet
   public Term visitGivenType(GivenType givenType)
   {
     ZName givenTypeName = ZUtils.assertZName(givenType.getName());
-    ZStrokeList strokes = zFactory_.createZStrokeList();
-    strokes.addAll(givenTypeName.getZStrokeList());
-    String id = givenTypeName.getId();
-    ZName zName =
-      zFactory_.createZName(givenTypeName.getWord(), strokes, id);
+    ZName zName = factory_.createZName(givenTypeName, true);
     ZExprList zExprList = zFactory_.createZExprList();
     RefExpr result =
       zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
@@ -163,13 +155,10 @@ public class CarrierSet
 
   public Term visitUnknownType(UnknownType unknownType)
   {
-    StrokeList strokes = zFactory_.createZStrokeList();
-    ZName zName =
-      zFactory_.createZName("unknown(" + unknownType.getZName() + ")",
-                            strokes, null);
+    String word = "unknown(" + unknownType.getZName() + ")";
+    ZName zName = factory_.createZName(word);
     ZExprList zExprList = zFactory_.createZExprList();
-    RefExpr result =
-      zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
+    RefExpr result = zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
     return result;
   }
 
@@ -181,7 +170,7 @@ public class CarrierSet
       }
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(vType.getName().getZStrokeList());
-      ZName zName = zFactory_.createZName("??", strokes, null);
+      ZName zName = factory_.createZName("??", strokes);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr result =
         zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
@@ -198,8 +187,7 @@ public class CarrierSet
       }
       ZStrokeList strokes = zFactory_.createZStrokeList();
       strokes.addAll(vSig.getName().getZStrokeList());
-      ZName zName =
-        zFactory_.createZName("??", strokes, null);
+      ZName zName = factory_.createZName("??", strokes);
       ZExprList zExprList = zFactory_.createZExprList();
       RefExpr refExpr =
         zFactory_.createRefExpr(zName, zExprList, Boolean.FALSE);
