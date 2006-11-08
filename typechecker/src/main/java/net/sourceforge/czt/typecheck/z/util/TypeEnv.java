@@ -52,23 +52,23 @@ public class TypeEnv
    */
   protected Stack<List<ZName>> parameters_;
 
-  public TypeEnv()
+  public TypeEnv(Factory factory)
   {
-    this(new ZFactoryImpl());
-  }
-
-  public TypeEnv(ZFactory zFactory)
-  {
-    factory_ = new Factory(zFactory);
+    factory_ = factory;
     typeInfo_ = new Stack<Map<String, NameTypePair>>();
     parameters_ = new Stack<List<ZName>>();
+  }
+
+  public Factory getFactory()
+  {
+    return factory_;
   }
 
   public void enterScope()
   {
     Map<String, NameTypePair> info = map();//factory_.list();
     typeInfo_.push(info);
-    List<ZName> parameters = factory_.list();
+    List<ZName> parameters = getFactory().list();
     parameters_.push(parameters);
   }
 
@@ -88,14 +88,14 @@ public class TypeEnv
 
   public List<ZName> getParameters()
   {
-    List<ZName> result = factory_.list();
+    List<ZName> result = getFactory().list();
     result.addAll(parameters_.peek());
     return result;
   }
 
   public void add(ZName zName, Type type)
   {
-    NameTypePair pair = factory_.createNameTypePair(zName, type);
+    NameTypePair pair = getFactory().createNameTypePair(zName, type);
     add(pair);
   }
 
@@ -135,13 +135,13 @@ public class TypeEnv
 
   public Type getType(ZName zName)
   {
-    Type result = factory_.createUnknownType();
+    Type result = getFactory().createUnknownType();
 
     //get the info for this name
     NameTypePair pair = getPair(zName);
     if (pair != null) {
       result = pair.getType();
-      factory_.merge(zName, pair.getZName());
+      getFactory().merge(zName, pair.getZName());
     }
 
     //if the type is unknown, try looking up the Delta or Xi reference

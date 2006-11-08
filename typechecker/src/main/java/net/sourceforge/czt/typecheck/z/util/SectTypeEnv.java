@@ -30,7 +30,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.Section;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
@@ -46,7 +45,7 @@ public class SectTypeEnv
   public static final String PRELUDE = Section.PRELUDE.getName();
 
   /** A Factory. */
-  protected static Factory factory_;
+  private Factory factory_;
 
   /**
    * A mapping from  Strings, which represent the name, to the
@@ -75,14 +74,9 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents. */
   protected Map<String, Set<String>> parents_;
 
-  public SectTypeEnv()
+  public SectTypeEnv(Factory factory)
   {
-    this(new ZFactoryImpl());
-  }
-
-  public SectTypeEnv(ZFactory zFactory)
-  {
-    factory_ = new Factory(zFactory);
+    factory_ = factory;
     typeInfo_ = map();
     declarations_ = factory_.list();
     sectionDeclarations_ = factory_.list();

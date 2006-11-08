@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
@@ -38,6 +39,7 @@ public class Factory
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
   protected net.sourceforge.czt.z.util.Factory factory_;
+  private Map<String,List<ZName>> ids_ = new HashMap<String,List<ZName>>();
 
   /** Used for generating unique ids in names. */
   protected static int id_ = 0;
@@ -285,8 +287,8 @@ public class Factory
   {
     ZStrokeList strokes = factory_.createZStrokeList();
     strokes.addAll(zName.getZStrokeList());
-    String id = copyId ? zName.getId() : null;
-    ZName result = factory_.createZName(zName.getWord(), strokes, id);
+    ZName result = factory_.createZName(zName.getWord(), strokes);
+    if (copyId) setId(result, zName.getId());
     copyLocAnn(zName, result);
     return result;
   }
@@ -348,7 +350,8 @@ public class Factory
   {
     if (declName instanceof ZName) {
       ZName zName = (ZName) declName;
-      setId(zName, freshId().toString());
+      String id = freshId().toString();
+      setId(zName, id);
     }
   }
 
@@ -359,12 +362,31 @@ public class Factory
 
   public void merge(ZName name1, ZName name2)
   {
-    setId(name1, name2.getId());
+    if (name1.getId() == null && name2.getId() == null) return;
+    if (name1.getId() != null && name1.getId().equals(name2.getId())) return;
+    String newId = name2.getId();
+    String oldId = name1.getId();
+    List<ZName> list = ids_.get(oldId);
+    if (list != null) {
+      for (ZName zName : list) {
+        setId(zName, newId);
+      }
+      ids_.remove(oldId);
+    }
+    setId(name1, newId);
   }
 
   public void setId(ZName zName, String id)
   {
     zName.setId(id);
+    if (id != null) {
+      List<ZName> list = ids_.get(id);
+      if (list == null) {
+        list = list();
+      }
+      list.add(zName);
+      ids_.put(id, list);
+    }
   }
 
   public void copyLocAnn(Term src, Term dest)

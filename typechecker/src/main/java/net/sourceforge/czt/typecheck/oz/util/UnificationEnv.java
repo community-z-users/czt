@@ -36,23 +36,18 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 public class UnificationEnv
   extends net.sourceforge.czt.typecheck.z.util.UnificationEnv
 {
-  /** A Factory. */
-  protected Factory factory_ = null;
-
   //true if and only if strong unification is to be used
   protected boolean strong_;
 
   public UnificationEnv(Factory factory, boolean strong)
   {
     super(factory);
-    factory_ = factory;
     strong_ = strong;
   }
 
   public UnificationEnv(Factory factory)
   {
     this(factory, false);
-    factory_ = factory;
   }
 
   public void setStrong(boolean strong)
@@ -126,7 +121,7 @@ public class UnificationEnv
       //then create a variable class type with 'type' as its candidate
       if (!strong_ && type instanceof ClassType) {
         ClassType classType = (ClassType) type;
-        VariableClassType vClassType = factory_.createVariableClassType();
+        VariableClassType vClassType = getFactory().createVariableClassType();
         vClassType.setCandidateType(classType);
         vType.setValue(vClassType);
         result = PARTIAL;
@@ -357,7 +352,7 @@ public class UnificationEnv
     }
 
     //add the class references
-    List<ClassRef> classes = factory_.list();
+    List<ClassRef> classes = getFactory().list();
     for (ClassRef classRef : classTypeA.getClasses()) {
       if (!contains(classes, classRef)) {
         classes.add(classRef);
@@ -368,13 +363,13 @@ public class UnificationEnv
         classes.add(classRef);
       }
     }
-    Signature state = factory_.createSignature(statePairs);
+    Signature state = getFactory().createSignature(statePairs);
     ClassType result = null;
     if (classes.size() == 1) {
       result = classTypeA;
     }
     else {
-      result = factory_.createClassUnionType(classes, state, attrs, ops);
+      result = getFactory().createClassUnionType(classes, state, attrs, ops);
     }
     return result;
   }
@@ -383,7 +378,7 @@ public class UnificationEnv
 						  List<NameTypePair> pairsB,
 						  List<NameTypePair> altPairs)
   {
-    List<NameTypePair> result = factory_.list();
+    List<NameTypePair> result = getFactory().list();
     //check compatibility of attributes and state variables
     for (NameTypePair first : pairsA) {
       ZName firstName = first.getZName();
@@ -420,7 +415,7 @@ public class UnificationEnv
     checkOpCompatibility(List<NameSignaturePair> pairsA,
                          List<NameSignaturePair> pairsB)
   {
-    List<NameSignaturePair> result = factory_.list();
+    List<NameSignaturePair> result = getFactory().list();
     for (NameSignaturePair first : pairsA) {
       ZName firstName = first.getZName();
       NameSignaturePair second = findNameSigPair(firstName, pairsB);
@@ -453,4 +448,10 @@ public class UnificationEnv
     }
     return super.contains(term, o, preTerms);
   }
+
+  protected Factory getFactory()
+  {
+    return (Factory) factory_;
+  }
+
 }

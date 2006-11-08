@@ -28,7 +28,6 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.util.CztLogger;
@@ -45,9 +44,6 @@ public class TypeChecker
 {
   //print debuging info
   protected static boolean debug_ = false;
-
-  //a Factory for creating Z terms
-  protected Factory zFactory_;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -102,37 +98,26 @@ public class TypeChecker
   protected Checker<ErrorAnn> postChecker_ = null;
   protected Checker<List<Type2>> charTupleChecker_ = null;
 
-  public TypeChecker(TypeChecker info)
-  {
-    this(info.zFactory_.getZFactory(), info.sectInfo_);
-  }
-
-  public TypeChecker(SectionManager sectInfo)
-  {
-    this(new ZFactoryImpl(), sectInfo);
-  }
-
-  public TypeChecker(ZFactory zFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(zFactory, sectInfo, false);
+    this(factory, sectInfo, false);
   }
 
-  public TypeChecker(ZFactory zFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl)
   {
-    zFactory_ = new Factory(zFactory);
     sectInfo_ = sectInfo;
-    sectTypeEnv_ = new SectTypeEnv(zFactory);
-    typeEnv_ = new TypeEnv(zFactory);
-    pending_ = new TypeEnv(zFactory);
+    sectTypeEnv_ = new SectTypeEnv(factory);
+    typeEnv_ = new TypeEnv(factory);
+    pending_ = new TypeEnv(factory);
     isPending_ = false;
-    unificationEnv_ = new UnificationEnv(zFactory_);
+    unificationEnv_ = new UnificationEnv(factory);
     markup_ = Markup.LATEX;
     carrierSet_ = new CarrierSet();
-    errors_ = zFactory_.list();
-    paraErrors_ = zFactory_.list();
+    errors_ = factory.list();
+    paraErrors_ = factory.list();
     useBeforeDecl_ = useBeforeDecl;
     id_ = 0;
     specChecker_ = new SpecChecker(this);
@@ -167,6 +152,11 @@ public class TypeChecker
 	}
       }
     }
+  }
+
+  public Factory getFactory()
+  {
+    return sectTypeEnv_.getFactory();
   }
 
   public Object visitTerm(Term term)

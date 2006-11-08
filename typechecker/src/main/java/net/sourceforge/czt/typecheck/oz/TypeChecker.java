@@ -25,8 +25,6 @@ import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.typecheck.z.util.TypeEnv;
 import net.sourceforge.czt.typecheck.oz.util.*;
 import net.sourceforge.czt.typecheck.oz.impl.*;
@@ -37,9 +35,6 @@ import net.sourceforge.czt.typecheck.oz.impl.*;
 public class TypeChecker
   extends net.sourceforge.czt.typecheck.z.TypeChecker
 {
-  //a factory for object types
-  protected Factory ozFactory_;
-
   //operation expr typechecker
   protected Checker<Signature> opExprChecker_;
 
@@ -53,37 +48,20 @@ public class TypeChecker
   //the list of primary state variables in the current class
   protected List<ZName> primary_;  
 
-  public TypeChecker(TypeChecker info)
-  {
-    this(info.zFactory_.getZFactory(),
-         info.ozFactory_.getOzFactory(),
-         info.sectInfo_);
-  }
-
-  public TypeChecker(SectionManager sectInfo)
-  {
-    this(new ZFactoryImpl(),
-         new OzFactoryImpl(),
-         sectInfo);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(zFactory, ozFactory, sectInfo, true, false);
+    this(factory, sectInfo, true, false);
   }
 
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl,
                      boolean useStrongTyping)
   {
-    super(zFactory, sectInfo, useBeforeDecl);
-    ozFactory_ = new Factory(zFactory, ozFactory);
+    super(factory, sectInfo, useBeforeDecl);
     sectInfo_ = sectInfo;
-    unificationEnv_ = new UnificationEnv(ozFactory_, useStrongTyping);
+    unificationEnv_ = new UnificationEnv(factory, useStrongTyping);
     carrierSet_ = new CarrierSet();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
@@ -93,9 +71,14 @@ public class TypeChecker
     schTextChecker_ = new SchTextChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
-    downcastEnv_ = new TypeEnv();
+    downcastEnv_ = new TypeEnv(getFactory());
     classPara_ = null;
-    primary_ = zFactory_.list();
+    primary_ = getFactory().list();
+  }
+
+  public Factory getFactory()
+  {
+    return (Factory) super.getFactory();
   }
 
   protected void setPreamble(String sectName, SectionManager sectInfo)

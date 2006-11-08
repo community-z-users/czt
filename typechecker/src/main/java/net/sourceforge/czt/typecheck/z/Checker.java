@@ -284,7 +284,7 @@ abstract public class Checker<R>
   //a Factory for creating Z terms
   protected Factory factory()
   {
-    return typeChecker_.zFactory_;
+    return typeChecker_.getFactory();
   }
 
   //the SectTypeEnv for all parent specifications

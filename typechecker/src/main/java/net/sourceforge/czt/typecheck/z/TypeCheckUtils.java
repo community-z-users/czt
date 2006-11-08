@@ -34,6 +34,7 @@ import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.typecheck.z.impl.Factory;
 import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
@@ -107,7 +108,7 @@ public class TypeCheckUtils
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
-      new TypeChecker(zFactory, sectInfo, useBeforeDecl);
+      new TypeChecker(new Factory(zFactory), sectInfo, useBeforeDecl);
     typeChecker.setPreamble(sectName, sectInfo);
     term.accept(typeChecker);
     return typeChecker.errors();

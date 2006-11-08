@@ -32,6 +32,7 @@ import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.parser.oz.*;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.typecheck.oz.impl.Factory;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 
@@ -105,8 +106,7 @@ public class TypeCheckUtils
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
-    TypeChecker typeChecker = new TypeChecker(zFactory,
-					      ozFactory,
+    TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, ozFactory),
 					      sectInfo,
 					      useBeforeDecl,
 					      useStrongTyping);

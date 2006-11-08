@@ -55,7 +55,7 @@ abstract public class Checker<R>
   //a Factory for creating Object-Z terms
   protected Factory factory()
   {
-    return typeChecker_.ozFactory_;
+    return typeChecker_.getFactory();
   }
 
   //the operation expr checker

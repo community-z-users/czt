@@ -26,7 +26,6 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.tcoz.impl.TcozFactoryImpl;
 import net.sourceforge.czt.typecheck.oz.*;
@@ -42,40 +41,19 @@ public class TypeChecker
   //a factory for TCOZ
   protected Factory tcozFactory_;
 
-  public TypeChecker(TypeChecker info)
-  {
-    this(info.zFactory_.getZFactory(),
-         info.ozFactory_.getOzFactory(),
-         info.tcozFactory_.getTcozFactory(),
-         info.sectInfo_);
-  }
-
-  public TypeChecker(SectionManager sectInfo)
-  {
-    this(new ZFactoryImpl(),
-         new OzFactoryImpl(),
-	 new TcozFactoryImpl(),
-         sectInfo);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
-		     TcozFactory tcozFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo)
   {
-    this(zFactory, ozFactory, tcozFactory, sectInfo, true, false);
+    this(factory, sectInfo, true, false);
   }
 
-  public TypeChecker(ZFactory zFactory,
-                     OzFactory ozFactory,
-		     TcozFactory tcozFactory,
+  public TypeChecker(Factory factory,
                      SectionManager sectInfo,
                      boolean useBeforeDecl,
                      boolean useStrongTyping)
   {
-    super(zFactory, ozFactory, sectInfo, useBeforeDecl, useStrongTyping);
-    tcozFactory_ = new Factory(zFactory, ozFactory, tcozFactory);
-    unificationEnv_ = new UnificationEnv(tcozFactory_, useStrongTyping);
+    super(factory, sectInfo, useBeforeDecl, useStrongTyping);
+    unificationEnv_ = new UnificationEnv(factory, useStrongTyping);
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);
@@ -83,6 +61,11 @@ public class TypeChecker
     predChecker_ = new PredChecker(this);
     postChecker_ = new PostChecker(this);
     opExprChecker_ = new OpExprChecker(this);
+  }
+
+  public Factory getFactory()
+  {
+    return (Factory) super.getFactory();
   }
 
   protected void setPreamble(String sectName, SectionManager sectInfo)

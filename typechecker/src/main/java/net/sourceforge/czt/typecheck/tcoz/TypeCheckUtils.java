@@ -33,6 +33,7 @@ import net.sourceforge.czt.tcoz.ast.TcozFactory;
 import net.sourceforge.czt.tcoz.impl.TcozFactoryImpl;
 import net.sourceforge.czt.parser.tcoz.*;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.typecheck.tcoz.impl.Factory;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 
 /**
@@ -105,9 +106,8 @@ public class TypeCheckUtils
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TcozFactory tcozFactory = new TcozFactoryImpl();
-    TypeChecker typeChecker = new TypeChecker(zFactory,
-                                              ozFactory,
-					      tcozFactory,
+    Factory factory = new Factory(zFactory, ozFactory, tcozFactory);
+    TypeChecker typeChecker = new TypeChecker(factory,
                                               sectInfo,
                                               useBeforeDecl,
                                               useStrongTyping);
