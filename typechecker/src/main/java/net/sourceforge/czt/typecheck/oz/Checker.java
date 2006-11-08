@@ -479,9 +479,9 @@ abstract public class Checker<R>
   //check for duplicates in a class paragraph, and that names in the
   //visibility list are names of features in the class
   protected void checkClass(ClassType classType,
-			    Term term,
-			    VisibilityList visibilityList,
-			    ErrorMessage errorMessage)
+                            Term term,
+                            VisibilityList visibilityList,
+                            ErrorMessage errorMessage)
   {
     List<ZName> declNames = factory().list(className());
 
@@ -690,8 +690,8 @@ abstract public class Checker<R>
 
   //rename the features in a class
   protected ClassRefType createRenameClassType(ClassRefType classType,
-					       RenameExpr renameExpr,
-					       String errorMessage)
+                                               RenameExpr renameExpr,
+                                               String errorMessage)
   {
     List<NewOldPair> renamePairs = renameExpr.getZRenameList();
     checkForDuplicateRenames(renamePairs, renameExpr,  errorMessage);
@@ -716,8 +716,8 @@ abstract public class Checker<R>
       renamePrimary(classType.getPrimary(), renameExpr.getZRenameList());
     ClassRefType result =
       factory().createClassRefType(newClassRefs, newState, newAttrs, newOps,
-				   newThisClass, classType.getSuperClass(),
-				   classType.getVisibilityList(), newPrimary);
+                                   newThisClass, classType.getSuperClass(),
+                                   classType.getVisibilityList(), newPrimary);
     checkClass(result, renameExpr, null, ErrorMessage.REDECLARED_NAME_IN_RENAMEEXPR);
     return result;
   }
@@ -735,11 +735,11 @@ abstract public class Checker<R>
         if (state != null) {
           newState = instantiate(state);
         }
-	
+
         //instantiate the attributes
         List<NameTypePair> attrs = classType.getAttribute();
         List<NameTypePair> newAttrs = instantiatePairs(attrs);
-	
+
         //instantiate the operations
         List<NameSignaturePair> ops = classType.getOperation();
         List<NameSignaturePair> newOps = factory().list();
@@ -749,7 +749,7 @@ abstract public class Checker<R>
             factory().createNameSignaturePair(pair.getZName(), signature);
           newOps.add(newPair);
         }
-	
+
         //instaniate the class references
         List<ClassRef> classRefs = classType.getClasses();
         List<ClassRef> newClassRefs = factory().list();
@@ -761,26 +761,26 @@ abstract public class Checker<R>
           newClassRefs.add(newClassRef);
         }
 
-	if (type instanceof ClassRefType) {
-	  ClassRefType classRefType = (ClassRefType) type;
-	  ClassRef newThisClass = instantiate(classRefType.getThisClass());
-	  result = factory().createClassRefType(newClassRefs, newState, newAttrs,
-						newOps, newThisClass,
-						classRefType.getSuperClass(),
-						classRefType.getVisibilityList(),
-						classRefType.getPrimary());
-	}
-	else if (type instanceof ClassPolyType) {
-	  ClassPolyType classPolyType = (ClassPolyType) type;
-	  ClassRef newRootClass = instantiate(classPolyType.getRootClass());
-	  result = factory().createClassPolyType(newClassRefs, newState, newAttrs,
-						 newOps, newRootClass);
-	}
-	else if (type instanceof ClassUnionType) {
-	  ClassUnionType classUnionType = (ClassUnionType) type;
-	  result = factory().createClassUnionType(newClassRefs, newState, 
-						  newAttrs, newOps);
-	}
+        if (type instanceof ClassRefType) {
+          ClassRefType classRefType = (ClassRefType) type;
+          ClassRef newThisClass = instantiate(classRefType.getThisClass());
+          result = factory().createClassRefType(newClassRefs, newState, newAttrs,
+                                                newOps, newThisClass,
+                                                classRefType.getSuperClass(),
+                                                classRefType.getVisibilityList(),
+                                                classRefType.getPrimary());
+        }
+        else if (type instanceof ClassPolyType) {
+          ClassPolyType classPolyType = (ClassPolyType) type;
+          ClassRef newRootClass = instantiate(classPolyType.getRootClass());
+          result = factory().createClassPolyType(newClassRefs, newState, newAttrs,
+                                                 newOps, newRootClass);
+        }
+        else if (type instanceof ClassUnionType) {
+          ClassUnionType classUnionType = (ClassUnionType) type;
+          result = factory().createClassUnionType(newClassRefs, newState, 
+                                                  newAttrs, newOps);
+        }
       }
       else if (type instanceof VariableClassType) {
         VariableClassType vcType = (VariableClassType) type;
@@ -890,10 +890,10 @@ abstract public class Checker<R>
       List<NameSignaturePair> newOps = renameOps(ops, pairs);
 
       result = factory().createClassRefType(newClassRefs, newState, newAttrs, newOps,
-					    classRefType.getThisClass(),
-					    classRefType.getSuperClass(),
-					    classRefType.getVisibilityList(),
-					    classRefType.getPrimary());
+                                            classRefType.getThisClass(),
+                                            classRefType.getSuperClass(),
+                                            classRefType.getVisibilityList(),
+                                            classRefType.getPrimary());
     }
     return result;
   }
@@ -1153,7 +1153,7 @@ abstract public class Checker<R>
       result = classRefTypeToString(ctype);
     }
     else if (type instanceof ClassUnionType ||
-	     type instanceof ClassPolyType)
+             type instanceof ClassPolyType)
     {
       ClassType cType = (ClassType) type;
       result += type.toString();
