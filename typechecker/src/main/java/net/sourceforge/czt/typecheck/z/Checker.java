@@ -1056,7 +1056,7 @@ abstract public class Checker<R>
     List<NameTypePair> newPairs = factory().list();
     for (NameTypePair pair : pairs) {
       if (pair.getType() instanceof GenericType) {
-	newPairs.add(pair);
+        newPairs.add(pair);
       }
       else {
         Type replaced =
@@ -1221,21 +1221,21 @@ abstract public class Checker<R>
     }
     else if (sectTypeEnv().getSecondTime()) {
       if (type instanceof VariableType) {
-	result = type;
+        result = type;
       }
       else {
-	Object [] newChildren = new Object [type.getChildren().length];
-	for (int i = 0; i < type.getChildren().length; i++) {
-	  Object child = type.getChildren()[i];
-	  if (child instanceof Type2) {
-	    newChildren[i] = resolveUnknownType((Type2) child);
-	  }
-	  else {
-	    newChildren[i] = child;
-	  }
-	}
-	result = (Type2) type.create(newChildren);
-	copyAnns(type, result);
+        Object [] newChildren = new Object [type.getChildren().length];
+        for (int i = 0; i < type.getChildren().length; i++) {
+          Object child = type.getChildren()[i];
+          if (child instanceof Type2) {
+            newChildren[i] = resolveUnknownType((Type2) child);
+          }
+          else {
+            newChildren[i] = child;
+          }
+        }
+        result = (Type2) type.create(newChildren);
+        copyAnns(type, result);
       }
     }
     return result;
