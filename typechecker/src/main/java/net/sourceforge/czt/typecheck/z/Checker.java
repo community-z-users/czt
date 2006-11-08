@@ -570,34 +570,34 @@ abstract public class Checker<R>
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-                                    List<Term> termList,
-                                    String errorMessage)
+      List<Term> termList,
+      String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
     for (NameTypePair first : pairs) {
       NameTypePair second = map.get(first.getZName().toString());
       if (second != null) {
-	Type2 firstType = unwrapType(first.getType());
-	Type2 secondType = unwrapType(second.getType());
-	UResult unified = unify(firstType, secondType);
-	
-	//if the types don't agree, raise an error
-	if (unified == FAIL) {
-	  //terms are not printed in some error messages
-	  if (termList.size() > 0) {
-	    List<Object> params = factory().list();
-	    params.add(second.getZName());
-	    params.addAll(termList);
-	    params.add(firstType);
-	    params.add(secondType);
-	    error(termList.get(0), errorMessage, params.toArray());
-	  }
-	  else {
-	    Object [] params =
-	      new Object [] {second.getZName(), firstType, secondType};
-	    error(second.getZName(), errorMessage, params);
-	  }
-	}
+        Type2 firstType = unwrapType(first.getType());
+        Type2 secondType = unwrapType(second.getType());
+        UResult unified = unify(firstType, secondType);
+
+        //if the types don't agree, raise an error
+        if (unified == FAIL) {
+          //terms are not printed in some error messages
+          if (termList.size() > 0) {
+            List<Object> params = factory().list();
+            params.add(second.getZName());
+            params.addAll(termList);
+            params.add(firstType);
+            params.add(secondType);
+            error(termList.get(0), errorMessage, params.toArray());
+          }
+          else {
+            Object [] params =
+              new Object [] {second.getZName(), firstType, secondType};
+            error(second.getZName(), errorMessage, params);
+          }
+        }
         factory().merge(second.getZName(), first.getZName());
       }
       map.put(first.getZName().toString().intern(), first);

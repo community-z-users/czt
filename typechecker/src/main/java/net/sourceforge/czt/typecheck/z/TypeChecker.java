@@ -184,7 +184,7 @@ public class TypeChecker
   public Object visitPred(Pred pred)
   {
     UResult solved = (UResult) pred.accept(predChecker_);
-    //if the are unsolved unifications in this predicate,
+    //if there are unsolved unifications in this predicate,
     //visit it again
     if (solved == UResult.PARTIAL) {
       pred.accept(predChecker_);
