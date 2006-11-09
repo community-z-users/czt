@@ -226,13 +226,13 @@ public class PredChecker
       SchemaType schemaType = (SchemaType) vPowerType.getType();
       Signature signature = schemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
-	List<NameTypePair> pairs = signature.getNameTypePair();
+        List<NameTypePair> pairs = signature.getNameTypePair();
         for (int i = 0; i < pairs.size(); i++ ) {
           NameTypePair pair = pairs.get(i);
           ZName zName = factory().createZName(pair.getZName(), false);
 
-	  //lookup the type of this name in the environment
-	  Type envType = getType(zName);
+          //lookup the type of this name in the environment
+          Type envType = getType(zName);
 
           Object undecAnn = zName.getAnn(UndeclaredAnn.class);
           //if the name is undeclared, copy the annotation to the name
@@ -243,21 +243,21 @@ public class PredChecker
               paraErrors().add(exprPred);
             }
           }
-	  else {
-	    removeAnn(pair.getZName(), UndeclaredAnn.class);
-	  }
+          else {
+            removeAnn(pair.getZName(), UndeclaredAnn.class);
+          }
 
-	  //if the type of the name in the current environment does
-	  //not unify with the type in the expr, raise an error
-	  Type2 typeA = unwrapType(envType);
-	  Type2 typeB = unwrapType(pair.getType());
-	  UResult unified = unify(typeA, typeB);
-	  result = UResult.conj(result, unified);
-	  if (unified == FAIL) {
-	    Object [] params = {zName, typeA, typeB};
-	    error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
-	  }
-	}
+          //if the type of the name in the current environment does
+          //not unify with the type in the expr, raise an error
+          Type2 typeA = unwrapType(envType);
+          Type2 typeB = unwrapType(pair.getType());
+          UResult unified = unify(typeA, typeB);
+          result = UResult.conj(result, unified);
+          if (unified == FAIL) {
+            Object [] params = {zName, typeA, typeB};
+            error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
+          }
+        }
       }
     }
 
