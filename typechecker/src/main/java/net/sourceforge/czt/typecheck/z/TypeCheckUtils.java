@@ -63,7 +63,7 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo)
+                                                   SectionManager sectInfo)
   {
     return typecheck(term, sectInfo, false);
   }
@@ -77,8 +77,8 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo,
-						   boolean useBeforeDecl)
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl)
   {
     return typecheck(term, sectInfo, useBeforeDecl, null);
   }
@@ -92,9 +92,9 @@ public class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo,
-						   boolean useBeforeDecl,
-						   String sectName)
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   String sectName)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, sectName);
@@ -102,9 +102,9 @@ public class TypeCheckUtils
   
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionManager sectInfo,
-						boolean useBeforeDecl,
-						String sectName)
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
@@ -186,12 +186,12 @@ public class TypeCheckUtils
     String prevSect = "";
     for (NameSectTypeTriple triple : triples) {
       if (!toolkits().contains(triple.getSect())) {
-	if (!prevSect.equals(triple.getSect())) {
-	  System.out.println("section " + triple.getSect());
-	}
-	System.out.println("\t" + triple.getZName() +
-			   " : " + triple.getType());
-	prevSect = triple.getSect();
+        if (!prevSect.equals(triple.getSect())) {
+          System.out.println("section " + triple.getSect());
+        }
+        System.out.println("\t" + triple.getZName() +
+                           " : " + triple.getType());
+        prevSect = triple.getSect();
       }
     }
   }
@@ -275,7 +275,7 @@ public class TypeCheckUtils
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
         List<? extends ErrorAnn> errors =
-	  this.lTypecheck(term, manager, useBeforeDecl, null);
+          this.lTypecheck(term, manager, useBeforeDecl, null);
 
         //print any errors
         for (Object next : errors) {
@@ -285,25 +285,25 @@ public class TypeCheckUtils
         }
 
         if (printTypes) {
-	  SectTypeEnvAnn sectTypeEnvAnn =
-	    (SectTypeEnvAnn) term.getAnn(SectTypeEnvAnn.class);
-	  if (sectTypeEnvAnn != null) {
-	    printTypes(sectTypeEnvAnn);
-	  }
-	  else {
-	    System.err.println("No type information available");
-	  }
+          SectTypeEnvAnn sectTypeEnvAnn =
+            (SectTypeEnvAnn) term.getAnn(SectTypeEnvAnn.class);
+          if (sectTypeEnvAnn != null) {
+            printTypes(sectTypeEnvAnn);
+          }
+          else {
+            System.err.println("No type information available");
+          }
         }
       }
 
       if (term != null && printZml) {
-	try {
-	  JaxbXmlWriter writer = getJaxbXmlWriter();
-	  writer.write(term, System.err);
-	}
-	catch (MarshalException e) {
-	  e.printStackTrace();
-	}
+        try {
+          JaxbXmlWriter writer = getJaxbXmlWriter();
+          writer.write(term, System.err);
+        }
+        catch (MarshalException e) {
+          e.printStackTrace();
+        }
       }
     }
 
