@@ -48,7 +48,7 @@ public class PredChecker
              MemPredVisitor<UResult>,
              AndPredVisitor<UResult>,
              OrPredVisitor<UResult>,
-	     IffPredVisitor<UResult>,
+             IffPredVisitor<UResult>,
              PredVisitor<UResult>
 {
   //a Z pred checker
@@ -95,7 +95,7 @@ public class PredChecker
         //added for the Z typechecker.
         UResult unified = weakUnify(leftType, classType);
         if (unified != FAIL && !(leftType instanceof UnknownType)) {
-	  //override, as long as the name is already in the environment
+          //override, as long as the name is already in the environment
           ZName zName = factory().createZName(refExpr.getZName(), false);
           typeEnv().override(zName, classType);
           //remove any type mismatch errors
