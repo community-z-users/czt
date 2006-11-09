@@ -177,6 +177,23 @@ public class SectionManager
   }
 
   /**
+   * <p>Sets a whole bunch of properties to the given values.
+   * This sets all the properties defined by <code>props</code>
+   * including its default properties (if it has any).</p>
+   *
+   * <p>Properties are used to store persistant global settings
+   * for the commands.</p>
+   */
+  public void setProperties(Properties props)
+  {
+    Enumeration e = props.propertyNames();
+    while (e.hasMoreElements()) {
+      String key = (String) e.nextElement();
+      properties_.setProperty(key, props.getProperty(key));
+    }
+  }
+
+  /**
    * Adds the default commands to the command map.
    */
   public void putCommands(String extension)
