@@ -159,7 +159,7 @@ public class TypeEnv
     for (Map<String, NameTypePair> map : typeInfo_) {
       NameTypePair pair = map.get(zName.toString());
       if (pair != null) {
-	result = pair;
+        result = pair;
       }
     }
     return result;
