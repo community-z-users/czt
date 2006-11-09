@@ -58,7 +58,7 @@ public class TypeCheckUtils
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo)
+                                                   SectionManager sectInfo)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, true, false, null);
@@ -72,17 +72,17 @@ public class TypeCheckUtils
    * returns the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo,
-						   boolean useBeforeDecl)
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, null);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
-						   SectionManager sectInfo,
-						   boolean useBeforeDecl,
-						   boolean useStrongTyping)
+                                                   SectionManager sectInfo,
+                                                   boolean useBeforeDecl,
+                                                   boolean useStrongTyping)
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, useStrongTyping, null);
@@ -90,26 +90,26 @@ public class TypeCheckUtils
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionManager sectInfo,
-						boolean useBeforeDecl,
-						String sectName)
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                String sectName)
   {
     return lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
   }
 
   /** An internal method of the typechecker. */
   protected List<? extends ErrorAnn> lTypecheck(Term term,
-						SectionManager sectInfo,
-						boolean useBeforeDecl,
-						boolean useStrongTyping,
-						String sectName)
+                                                SectionManager sectInfo,
+                                                boolean useBeforeDecl,
+                                                boolean useStrongTyping,
+                                                String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
     OzFactory ozFactory = new OzFactoryImpl();
     TypeChecker typeChecker = new TypeChecker(new Factory(zFactory, ozFactory),
-					      sectInfo,
-					      useBeforeDecl,
-					      useStrongTyping);
+                                              sectInfo,
+                                              useBeforeDecl,
+                                              useStrongTyping);
     typeChecker.setPreamble(sectName, sectInfo);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
@@ -157,7 +157,7 @@ public class TypeCheckUtils
     sectionManager.putCommand(Spec.class, ParseUtils.getCommand());
     sectionManager.putCommand(ZSect.class, ParseUtils.getCommand());
     sectionManager.putCommand(LatexMarkupFunction.class,
-			      ParseUtils.getCommand());
+                              ParseUtils.getCommand());
     sectionManager.putCommand(SectTypeEnvAnn.class, TypeCheckUtils.getCommand());
     return sectionManager;
   }
