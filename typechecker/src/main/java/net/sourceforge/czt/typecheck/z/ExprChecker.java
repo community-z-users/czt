@@ -104,7 +104,6 @@ public class ExprChecker
           pairs.add(factory().createNameTypePair(newName, pair.getType()));
         }
         Signature sig = factory().createSignature(pairs);
-        schType.setSignature(sig);
         SchemaType newSchemaType = factory().createSchemaType(sig);
         type = factory().createPowerType(newSchemaType);
       }
