@@ -82,11 +82,8 @@ public class IdTest
     Source source = new StringSource(spec);
     source.setMarkup(Markup.LATEX);
     manager_.put(new Key(source.getName(), Source.class), source);
-    System.out.println("Foo");
     Term term = (Term) manager_.get(new Key(source.getName(), Spec.class));
-    System.out.println("Bar");
     manager_.get(new Key("Specification", SectTypeEnvAnn.class));
-    System.out.println("Done");
     return term;
   }
 
@@ -138,8 +135,9 @@ public class IdTest
     public Object visitTerm(Term term)
     {
       if (term instanceof AxPara) {
-        System.out.println(((SignatureAnn) term.getAnn(SignatureAnn.class)).getSignature());
+        list_.add("new AxPara");
         VisitorUtils.visitTerm(this, term.getAnn(SignatureAnn.class));
+        list_.add("end Signature");
       }
       VisitorUtils.visitTerm(this, term);
       return null;
