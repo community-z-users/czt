@@ -89,6 +89,26 @@ public class ExprChecker
     ZName zName = refExpr.getZName();
     Type type = exprChecker().getType(zName);
 
+    /* Petra 2/11/2006: code added to try and give schema types new Ids.
+    if (type instanceof PowerType &&
+        ((PowerType) type).getType() instanceof SchemaType) {
+      SchemaType schType = (SchemaType) ((PowerType) type).getType();
+      List<NameTypePair> pairs = factory().list();
+      List<NameTypePair> oldPairs = schType.getSignature().getNameTypePair();
+      for (NameTypePair pair : oldPairs) {
+	ZName oldName = pair.getZName();
+	ZName newName = factory().createZDeclName(oldName.getWord(),
+                                                  oldName.getStrokeList());
+	//add a unique ID to this name
+	factory().addNameID(newName);
+        pairs.add(factory().createNameTypePair(newName, pair.getType()));
+      }
+      Signature sig = factory().createSignature(pairs);
+      SchemaType newSchemaType = factory().createSchemaType(sig);
+      type = factory().createPowerType(newSchemaType);
+    }
+    */
+
     //add this reference for post checking
     if (!containsObject(paraErrors(), refExpr)) {
       paraErrors().add(refExpr);
