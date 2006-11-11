@@ -41,6 +41,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.AnnotationPreference;
 
 /**
@@ -198,6 +199,26 @@ public class ZSpecDecorationSupport
         }
       }
       else {
+        // force the AnnotationPainter to redraw the non-text part of the box.
+        final int contentLength = textWidget.getCharCount();
+        if (offset >= contentLength) {
+          textWidget.redraw();
+          return;
+        }
+        
+        int nextLine = textWidget.getLineAtOffset(offset) + 1;
+        if (nextLine >= textWidget.getLineCount()) {
+          /*
+           * Panic code: should not happen, as offset is not the last offset,
+           * and there is a delimiter character at offset.
+           */
+          textWidget.redraw();
+          return;
+        }
+        
+        int nextLineOffset = textWidget.getOffsetAtLine(nextLine);
+        length = nextLineOffset - offset;
+        
         textWidget.redrawRange(offset, length, true);
       }
     }
@@ -614,7 +635,7 @@ public class ZSpecDecorationSupport
      if (info != null)
      return getColor(info.getColorPreferenceKey());
      return null;*/
-    return new Color(null, 255, 100, 100);
+    return new Color(Display.getCurrent(), 255, 100, 100);
   }
 
   /**

@@ -385,7 +385,7 @@ public class ZEditor extends TextEditor
    * </p>
    */
   private final Object fReconcilerLock = new Object();
-  
+
   /**
    * Helper for managing the decoration support of this editor's viewer.
    *
@@ -439,7 +439,7 @@ public class ZEditor extends TextEditor
   protected void initializeEditor()
   {
     super.initializeEditor();
-//    System.out.println("ZEditor.initializeEditor starts");
+    //    System.out.println("ZEditor.initializeEditor starts");
     IPreferenceStore store = createCombinedPreferenceStore(null);
     setPreferenceStore(store);
     CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
@@ -452,12 +452,20 @@ public class ZEditor extends TextEditor
   }
 
   /**
+   * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#initializeKeyBindingScopes()
+   */
+  protected void initializeKeyBindingScopes()
+  {
+    setKeyBindingScopes(new String[]{"net.sourceforge.czt.eclipse.ZEditorScope"}); //$NON-NLS-1$
+  }
+
+  /**
    * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createPartControl(org.eclipse.swt.widgets.Composite)
    */
   public void createPartControl(Composite parent)
   {
     super.createPartControl(parent);
-//    System.out.println("ZEditor.createPartControl starts");
+    //    System.out.println("ZEditor.createPartControl starts");
 
     if (fZSpecDecorationSupport != null)
       fZSpecDecorationSupport.install(getPreferenceStore());
@@ -484,8 +492,6 @@ public class ZEditor extends TextEditor
     }
 
     fOccurrencesFinderJobCanceler = new OccurrencesFinderJobCanceler(this);
-    //		text.addLineBackgroundListener(this.fLineBackgroundListener);
-
     //		IInformationControlCreator informationControlCreator= new IInformationControlCreator() {
     //			public IInformationControl createInformationControl(Shell shell) {
     //				boolean cutDown= false;
@@ -508,13 +514,13 @@ public class ZEditor extends TextEditor
     //			installSemanticHighlighting();
 
     PlatformUI.getWorkbench().addWindowListener(fActivationListener);
-//    System.out.println("ZEditor.createPartControl finishes");
+    //    System.out.println("ZEditor.createPartControl finishes");
   }
 
   protected void configureSourceViewerDecorationSupport(
       SourceViewerDecorationSupport support)
   {
-//    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
+    //    System.out.println("ZEditor.configureSourceViewerDecorationSupport starts");
     if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(getFileType())) {
       support.setCharacterPairMatcher(new ZLatexPairMatcher(
           ZCharacter.BRACKETS_LATEX));
@@ -526,8 +532,8 @@ public class ZEditor extends TextEditor
     support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS,
         MATCHING_BRACKETS_COLOR);
     super.configureSourceViewerDecorationSupport(support);
-//    System.out
-//        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
+    //    System.out
+    //        .println("ZEditor.configureSourceViewerDecorationSupport finishes");
   }
 
   /**
@@ -551,7 +557,7 @@ public class ZEditor extends TextEditor
   protected final ISourceViewer createSourceViewer(Composite parent,
       IVerticalRuler verticalRuler, int styles)
   {
-//    System.out.println("ZEditor.createSourceViewer starts");
+    //    System.out.println("ZEditor.createSourceViewer starts");
     IPreferenceStore store = getPreferenceStore();
     ISourceViewer viewer = createZSourceViewer(parent, verticalRuler,
         getOverviewRuler(), isOverviewRulerVisible(), styles, store);
@@ -585,7 +591,7 @@ public class ZEditor extends TextEditor
     getSourceViewerDecorationSupport(viewer);
     //  ensure source viewer decoration support has been created and configured
     getZSpecDecorationSupport(viewer);
-//    System.out.println("ZEditor.createSourceViewer finishes");
+    //    System.out.println("ZEditor.createSourceViewer finishes");
     return viewer;
   }
 
@@ -628,7 +634,7 @@ public class ZEditor extends TextEditor
    */
   public int getOrientation()
   {
-    return SWT.LEFT_TO_RIGHT; //Java editors are always left to right by default
+    return SWT.LEFT_TO_RIGHT; //Z editors are always left to right by default
   }
 
   /**
@@ -785,12 +791,12 @@ public class ZEditor extends TextEditor
 
     fProjectionAnnotations = annotations;
   }
-  
+
   public Annotation[] getSchemaBoxAnnotations()
   {
     return this.fSchemaBoxAnnotations;
   }
-  
+
   public void updateSchemaBoxAnnotations(List<Position> positions)
   {
     Annotation[] annotations = new Annotation[positions.size()];
@@ -800,14 +806,16 @@ public class ZEditor extends TextEditor
     Map<Annotation, Position> newAnnotations = new HashMap<Annotation, Position>();
 
     for (int i = 0; i < positions.size(); i++) {
-      Annotation annotation = new Annotation(IZAnnotationType.SCHEMABOX, false, "Schema Box");
+      Annotation annotation = new Annotation(IZAnnotationType.SCHEMABOX, false,
+          "Schema Box");
 
       newAnnotations.put(annotation, positions.get(i));
 
       annotations[i] = annotation;
     }
-    
-    IAnnotationModel annotationModel = this.getDocumentProvider().getAnnotationModel(getEditorInput());
+
+    IAnnotationModel annotationModel = this.getDocumentProvider()
+        .getAnnotationModel(getEditorInput());
     if (annotationModel instanceof IAnnotationModelExtension) {
       ((IAnnotationModelExtension) annotationModel).replaceAnnotations(
           fSchemaBoxAnnotations, newAnnotations);
@@ -822,9 +830,9 @@ public class ZEditor extends TextEditor
           annotationModel.addAnnotation((Annotation) mapEntry.getKey(),
               (Position) mapEntry.getValue());
       }
-      
+
       fSchemaBoxAnnotations = (Annotation[]) newAnnotations.keySet().toArray(
-        new Annotation[newAnnotations.keySet().size()]);
+          new Annotation[newAnnotations.keySet().size()]);
     }
   }
 
@@ -842,22 +850,22 @@ public class ZEditor extends TextEditor
       return;
     IDocument document = getDocumentProvider().getDocument(getEditorInput());
     Position word = findWordOfOffset(document, offset);
-//    if (word == null || word.length == 0)
-//      System.out.println("null word");
-    
+    //    if (word == null || word.length == 0)
+    //      System.out.println("null word");
+
     Term term = termSelector.getTerm(word);
     if (term == null)
       return;
     /*
-    else if (term instanceof ZDeclName)
-      fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
-    else if (term instanceof ZRefName) {
-      ZDeclName declName = ((ZRefName) term).getDecl();
-      if (declName == null)
-        return;
-      fOccurrencesFinderJob = new OccurrencesFinderJob(this, declName);
-    }
-    */
+     else if (term instanceof ZDeclName)
+     fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
+     else if (term instanceof ZRefName) {
+     ZDeclName declName = ((ZRefName) term).getDecl();
+     if (declName == null)
+     return;
+     fOccurrencesFinderJob = new OccurrencesFinderJob(this, declName);
+     }
+     */
     else if (term instanceof ZName)
       fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
     else
@@ -1083,7 +1091,7 @@ public class ZEditor extends TextEditor
     Position position = segment.getNamePosition();
     if (position == null)
       return;
-    
+
     TextSelection textSelection = new TextSelection(position.getOffset(),
         position.getLength());
     setSelection(textSelection, !isActivePart());
@@ -1287,7 +1295,7 @@ public class ZEditor extends TextEditor
    */
   private void setFileType(IEditorInput input)
   {
-//    System.out.println("ZEditor.setFileType");
+    //    System.out.println("ZEditor.setFileType");
     if (input instanceof IFileEditorInput) {
       IFile file = ((IFileEditorInput) input).getFile();
       if (file != null)
@@ -1360,18 +1368,19 @@ public class ZEditor extends TextEditor
       line = document.getLineOfOffset(offset);
       lineStart = document.getLineOffset(line);
       lineEnd = lineStart + document.getLineLength(line) - 1;
-      
+
       char curr = document.getChar(offset);
-      
+
       if (!ZCharacter.isZWordPart(curr)) {
-        if (offset > lineStart && ZCharacter.isZWordPart(document.getChar(offset - 1)))
+        if (offset > lineStart
+            && ZCharacter.isZWordPart(document.getChar(offset - 1)))
           return findWordOfOffset(document, offset - 1);
         else if (offset < lineEnd && (curr == ' ' || curr == '\t'))
           return findWordOfOffset(document, offset + 1);
         else
           return new Position(offset, 1);
       }
-      
+
       for (; regionStart >= lineStart; regionStart--)
         if (!ZCharacter.isZWordPart(document.getChar(regionStart)))
           break;

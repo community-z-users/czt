@@ -322,6 +322,8 @@ public class NewZSpecificationWizardPage extends WizardPage
             containerPath);
         if (container != null && container.exists()) {
           IResource file = container.getFile(getFileName());
+          if (file == null)
+            System.out.println("null file");
           if (file != null && file.exists()) {
             this.setErrorMessage(WizardsMessages.NewZSpecificationWizardPage_fileAlreadyExists);
             result = true;
@@ -341,9 +343,6 @@ public class NewZSpecificationWizardPage extends WizardPage
         }
       }
     }
-
-    //        if (!result)
-    //            ((CSharpFileWizard) this.getWizard()).setFileName(fFileText.getText().trim());
 
     return result;
   }
