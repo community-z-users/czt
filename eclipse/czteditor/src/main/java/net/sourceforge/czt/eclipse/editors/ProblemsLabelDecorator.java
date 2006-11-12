@@ -172,7 +172,7 @@ public class ProblemsLabelDecorator
         }
         int result = 0;
         if (model != null) {
-          // open in Z editor: look at annotation model
+          // open in Z fEditor: look at annotation model
           result = getErrorTicksFromAnnotationModel(model, (CztTreeNode) obj);
         }
         else {

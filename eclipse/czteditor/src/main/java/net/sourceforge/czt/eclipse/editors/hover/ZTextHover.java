@@ -38,7 +38,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
  * The ZTextHover provides the text hover support for Z editors.
- * Provides a hover popup which appears on top of an editor with relevant
+ * Provides a hover popup which appears on top of an fEditor with relevant
  * display information. If the text hover does not provide information no
  * hover popup is shown.
  * <p>

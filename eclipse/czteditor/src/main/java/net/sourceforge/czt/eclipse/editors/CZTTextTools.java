@@ -22,7 +22,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 
 /**
- * Tools required to configure a Z editor.
+ * Tools required to configure a Z fEditor.
  * The color manager and all scanner exist only one time, i.e.
  * the same instances are returned to all clients. Thus, clients
  * share those tools.

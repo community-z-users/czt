@@ -186,7 +186,7 @@ public class ZReconcilingStrategy
             || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_OLD.equalsIgnoreCase(partition.getType())) {
           /*
            * The length of the position for a schema annotation is always 1. Then the drawing strategy
-           * will use the editor document to access to the correcponding partition area.
+           * will use the fEditor document to access to the correcponding partition area.
            * This may be not a good solution, but a working one.
            */
           fSchemaPositions.add(new Position(offset, length));

@@ -44,21 +44,15 @@ public class ContractSelectionAction extends TextEditorAction
       editor.setTermHighlightSelector(editor.getParsedData().createTermSelector());
     Selector selector = editor.getTermHighlightSelector();
     Term selectedTerm = null;
-    if (selector.current() == null) {
-      ITextSelection selection = (ITextSelection) editor.getSelectionProvider()
-          .getSelection();
-      // force to re-generate the Term Stack
-      selector.getTerm(new Position(selection.getOffset(),
-          selection.getLength()));
-    }
+    if (selector.current() == null)
+      return;
     
     selectedTerm = selector.previous();
+    
     if (selectedTerm == null)
       return;
     
-    Position decl_pos = null;
-    if (selectedTerm instanceof ZName)
-      decl_pos = editor.getParsedData().getTermPosition(selectedTerm);
+    Position decl_pos = editor.getParsedData().getTermPosition(selectedTerm);
     
     if (decl_pos != null) {
       IAnnotationModel annotationModel = editor.getDocumentProvider().getAnnotationModel(editor.getEditorInput());

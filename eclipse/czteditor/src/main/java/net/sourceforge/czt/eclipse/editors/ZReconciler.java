@@ -33,7 +33,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 public class ZReconciler extends MonoReconciler
 {
 
-  /** The reconciler's editor */
+  /** The reconciler's fEditor */
   private ITextEditor fTextEditor;
 
   /**
@@ -42,7 +42,7 @@ public class ZReconciler extends MonoReconciler
    */
   //	private volatile boolean fHasZModelChanged= true;
   /**
-   * Tells whether this reconciler's editor is active.
+   * Tells whether this reconciler's fEditor is active.
    * @since 3.1
    */
   private volatile boolean fIsEditorActive = true;
@@ -61,14 +61,14 @@ public class ZReconciler extends MonoReconciler
   private boolean fIninitalProcessDone = false;
 
   /**
-   * The mutex that keeps us from running multiple reconcilers on one editor.
+   * The mutex that keeps us from running multiple reconcilers on one fEditor.
    */
   private Object fMutex;
 
   /**
    * Creates a new reconciler that uses the same reconciling strategy to reconcile its document 
    * independent of the type of the document's contents.
-   * @param editor the text editor the reconciler is installed on
+   * @param fEditor the text fEditor the reconciler is installed on
    * @param strategy the reconciling strategy to be used
    * @param isIncremental the indication whether strategy is incremental or not
    */
@@ -83,11 +83,11 @@ public class ZReconciler extends MonoReconciler
     // and the old one uninstalled. However, the old reconciler may still be
     // running.
     // To avoid having to reconcilers calling CompilationUnitEditor.reconciled,
-    // we synchronized on a lock object provided by the editor.
+    // we synchronized on a lock object provided by the fEditor.
     // The critical section is really the entire run() method of the reconciler
     // thread, but synchronizing process() only will keep JavaReconcilingStrategy
-    // from running concurrently on the same editor.
-    // TODO remove once we have ensured that there is only one reconciler per editor.
+    // from running concurrently on the same fEditor.
+    // TODO remove once we have ensured that there is only one reconciler per fEditor.
     if (editor instanceof ZEditor)
       fMutex = ((ZEditor) editor).getReconcilerLock();
     else
@@ -259,9 +259,9 @@ public class ZReconciler extends MonoReconciler
   }
 
   //  /**
-  //   * Tells whether this reconciler's editor is active.
+  //   * Tells whether this reconciler's fEditor is active.
   //   *
-  //   * @return <code>true</code> iff the editor is active
+  //   * @return <code>true</code> iff the fEditor is active
   //   * @since 3.1
   //   */
   //  private synchronized boolean isEditorActive()
@@ -270,9 +270,9 @@ public class ZReconciler extends MonoReconciler
   //  }
   //
   //  /**
-  //   * Sets whether this reconciler's editor is active.
+  //   * Sets whether this reconciler's fEditor is active.
   //   *
-  //   * @param state <code>true</code> iff the editor is active
+  //   * @param state <code>true</code> iff the fEditor is active
   //   * @since 3.1
   //   */
   //  private synchronized void setEditorActive(boolean state)

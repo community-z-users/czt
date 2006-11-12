@@ -26,7 +26,6 @@ import org.eclipse.ui.texteditor.TextEditorAction;
  */
 public class GoToDeclarationAction extends TextEditorAction
 {
-
   public GoToDeclarationAction(ResourceBundle bundle, String prefix,
       ITextEditor editor)
   {
@@ -54,9 +53,9 @@ public class GoToDeclarationAction extends TextEditorAction
       return;
     if (!(term instanceof ZName))
       return;
-    ZName decl_term = getDecl(editor.getParsedData(), (ZName)term);
+    ZName decl_term = getDecl(editor.getParsedData(), (ZName) term);
     Position decl_pos = editor.getParsedData().getTermPosition(decl_term);
-    
+
     if (decl_pos != null) {
       IWorkbenchPage page = CZTPlugin.getActivePage();
       if (page != null) {
@@ -65,45 +64,46 @@ public class GoToDeclarationAction extends TextEditorAction
       }
     }
   }
-  
+
   private ZName getDecl(ParsedData data, ZName ref)
   {
     if (data == null || ref == null)
       return null;
-    
+
     NameInfo info = NameInfoResolver.findInfo(data.getNameInfoList(), ref);
     if (info != null)
       return info.getName();
-    
+
     return getDecl(data.getSpec(), ref);
   }
-  
+
   private ZName getDecl(Term root, ZName ref)
   {
     if ((root == null) || (ref == null))
       return null;
     if ((ref.getId() == null) || (ref.getWord() == null))
       return null;
-    
+
     if (root instanceof VarDecl) {
-      ZNameList nameList = ((VarDecl)root).getName();
+      ZNameList nameList = ((VarDecl) root).getName();
       for (Name name : nameList) {
         if (name instanceof ZName) {
-          ZName zName = (ZName)name;
-          if (ref.getId().equals(zName.getId()) && ref.getWord().equals(zName.getWord()))
+          ZName zName = (ZName) name;
+          if (ref.getId().equals(zName.getId())
+              && ref.getWord().equals(zName.getWord()))
             return zName;
         }
       }
     }
-    
+
     for (Object child : root.getChildren()) {
       if (child instanceof Term) {
-        ZName result = getDecl((Term)child, ref);
+        ZName result = getDecl((Term) child, ref);
         if (result != null)
           return result;
       }
     }
-    
+
     return null;
   }
 }

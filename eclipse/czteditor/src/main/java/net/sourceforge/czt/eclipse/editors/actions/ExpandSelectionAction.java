@@ -40,7 +40,7 @@ public class ExpandSelectionAction extends TextEditorAction
 
     ZEditor editor = (ZEditor) getTextEditor();
     if (editor.getTermHighlightSelector() == null)
-      editor.setTermHighlightSelector(new Selector(editor.getParsedData().getSpec()));
+      editor.setTermHighlightSelector(editor.getParsedData().createTermSelector());
 
     Selector selector = editor.getTermHighlightSelector();
     Term selectedTerm = null;

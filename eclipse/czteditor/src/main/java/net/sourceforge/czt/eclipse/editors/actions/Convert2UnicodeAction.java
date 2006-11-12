@@ -16,13 +16,13 @@ import org.eclipse.ui.texteditor.ITextEditor;
 /**
  * @author Chengdong Xu
  */
-public class Convert2UnicodeAction extends AbstractConversionAction
+public class Convert2UnicodeAction extends ConversionAction
 {
 
   /**
    * @param bundle
    * @param prefix
-   * @param editor
+   * @param fEditor
    */
   public Convert2UnicodeAction(ResourceBundle bundle, String prefix,
       ITextEditor editor)
@@ -34,7 +34,7 @@ public class Convert2UnicodeAction extends AbstractConversionAction
   /**
    * @param bundle
    * @param prefix
-   * @param editor
+   * @param fEditor
    * @param style
    */
   public Convert2UnicodeAction(ResourceBundle bundle, String prefix,
@@ -44,7 +44,7 @@ public class Convert2UnicodeAction extends AbstractConversionAction
   }
 
   /**
-   * @see net.sourceforge.czt.eclipse.editors.actions.AbstractConversionAction#process(net.sourceforge.czt.session.SectionManager)
+   * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#process(net.sourceforge.czt.session.SectionManager)
    */
   @Override
   String process(SectionManager manager) throws CommandException
@@ -55,7 +55,7 @@ public class Convert2UnicodeAction extends AbstractConversionAction
   }
 
   /**
-   * @see net.sourceforge.czt.eclipse.editors.actions.AbstractConversionAction#getTargetMarkup()
+   * @see net.sourceforge.czt.eclipse.editors.actions.ConversionAction#getTargetMarkup()
    */
   @Override
   String getTargetFileType()

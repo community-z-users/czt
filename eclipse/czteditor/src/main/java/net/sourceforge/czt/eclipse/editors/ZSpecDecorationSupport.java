@@ -317,7 +317,7 @@ public class ZSpecDecorationSupport
   /** The shared color manager */
   private ISharedTextColors fSharedTextColors;
 
-  /** The editor's annotation painter */
+  /** The fEditor's annotation painter */
   private AnnotationPainter fAnnotationPainter;
 
   /** Map with annotation type preference per annotation type */

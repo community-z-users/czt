@@ -24,15 +24,15 @@ import org.eclipse.ui.texteditor.TextEditorAction;
 /**
  * @author Chengdong Xu
  */
-public abstract class AbstractConversionAction extends TextEditorAction
+public abstract class ConversionAction extends TextEditorAction
 {
 
   /**
    * @param bundle
    * @param prefix
-   * @param editor
+   * @param fEditor
    */
-  public AbstractConversionAction(ResourceBundle bundle, String prefix,
+  public ConversionAction(ResourceBundle bundle, String prefix,
       ITextEditor editor)
   {
     super(bundle, prefix, editor);
@@ -41,10 +41,10 @@ public abstract class AbstractConversionAction extends TextEditorAction
   /**
    * @param bundle
    * @param prefix
-   * @param editor
+   * @param fEditor
    * @param style
    */
-  public AbstractConversionAction(ResourceBundle bundle, String prefix,
+  public ConversionAction(ResourceBundle bundle, String prefix,
       ITextEditor editor, int style)
   {
     super(bundle, prefix, editor, style);

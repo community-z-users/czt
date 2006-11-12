@@ -58,7 +58,7 @@ public class ZCompiler
   }
 
   /**
-   * Parse the input in an editor
+   * Parse the input in an fEditor
    */
   public ParsedData parse()
   {

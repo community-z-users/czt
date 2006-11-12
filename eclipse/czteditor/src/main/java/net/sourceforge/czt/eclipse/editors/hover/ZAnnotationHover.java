@@ -24,7 +24,7 @@ import org.eclipse.ui.texteditor.AnnotationPreference;
 
 /** 
  * The ZAnnotationHover provides the hover support for Z editors
- * Provides a hover popup which appears on top of a Z editor with relevant
+ * Provides a hover popup which appears on top of a Z fEditor with relevant
  * display information. If the annotation hover does not provide information no
  * hover popup is shown.
  * <p>

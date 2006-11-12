@@ -68,7 +68,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   private String fDocumentPartitioning;
 
   /**
-   * Creates a new Z source viewer configuration for viewers in the given editor
+   * Creates a new Z source viewer configuration for viewers in the given fEditor
    * using the given preference store, the color manager and the specified document partitioning.
    * <p>
    * Creates a Z source viewer configuration in the new setup without text tools. Clients are
@@ -79,7 +79,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    *
    * @param colorManager the color manager
    * @param preferenceStore the preference store, can be read-only
-   * @param editor the editor in which the configured viewer(s) will reside, or <code>null</code> if none
+   * @param fEditor the fEditor in which the configured viewer(s) will reside, or <code>null</code> if none
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
    */
   public ZSourceViewerConfiguration(IColorManager colorManager,
@@ -348,9 +348,9 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   }
 
   /**
-   * Returns the editor in which the configured viewer(s) will reside.
+   * Returns the fEditor in which the configured viewer(s) will reside.
    *
-   * @return the enclosing editor
+   * @return the enclosing fEditor
    */
   protected ITextEditor getEditor()
   {
@@ -358,7 +358,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   }
 
   /**
-   * Sets the editor in which the configured viewer(s) will reside.
+   * Sets the fEditor in which the configured viewer(s) will reside.
    */
   protected void setEditor(ITextEditor editor)
   {
