@@ -570,11 +570,12 @@ abstract public class Checker<R>
   //check for type mismatches in a list of decls. Add an ErrorAnn to
   //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs,
-      List<Term> termList,
-      String errorMessage)
+                                    List<Term> termList,
+                                    String errorMessage)
   {
     Map<String, NameTypePair> map =  factory().hashMap();
-    for (NameTypePair first : pairs) {
+    for (Iterator<NameTypePair> iter = pairs.iterator(); iter.hasNext(); ) {
+      NameTypePair first = iter.next();
       NameTypePair second = map.get(first.getZName().toString());
       if (second != null) {
         Type2 firstType = unwrapType(first.getType());
@@ -598,7 +599,9 @@ abstract public class Checker<R>
             error(second.getZName(), errorMessage, params);
           }
         }
+        //merge the ids of the 2 names, and remove the duplicate
         factory().merge(second.getZName(), first.getZName());
+        iter.remove();
       }
       map.put(first.getZName().toString().intern(), first);
     }
