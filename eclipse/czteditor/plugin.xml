@@ -173,19 +173,19 @@
             name="%category.source.name"/>
       <command
             categoryId="net.sourceforge.czt.eclipse.category.source"
-            description="Go to declaration of a term"
+            description="Go to the declaration of a term"
             id="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
             name="Go To Declaration"/>
       <command
             categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Expand current selection to the enclosing element"
             id="net.sourceforge.czt.eclipse.editoraction.expandselection"
-            name="Expand Selection"/>
+            name="Highlight Enclosing Term"/>
       <command
             categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Restore last expansion"
             id="net.sourceforge.czt.eclipse.editoraction.contractselection"
-            name="Contract Selection"/>
+            name="Restore Last Highlight"/>
       <command
             categoryId="net.sourceforge.czt.eclipse.category.source"
             description="Convert current specification to latex markup"

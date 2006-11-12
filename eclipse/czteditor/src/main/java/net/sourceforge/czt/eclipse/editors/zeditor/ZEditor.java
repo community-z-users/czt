@@ -391,20 +391,9 @@ public class ZEditor extends TextEditor
   /**
    * Helper for managing the decoration support of this fEditor's viewer.
    *
-   * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
-   * compatibility reasons and will be made <code>private</code> soon. Use
-   * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.</p>
    */
-  protected ZSpecDecorationSupport fZSpecDecorationSupport;
+  private ZSpecDecorationSupport fZSpecDecorationSupport;
 
-  /**
-   * Helper for managing the decoration support of this fEditor's viewer.
-   *
-   * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
-   * compatibility reasons and will be made <code>private</code> soon. Use
-   * {@link #getSourceViewerDecorationSupport(ISourceViewer)} instead.</p>
-   */
-  //  protected SourceViewerDecorationSupport fSourceViewerDecorationSupport;
   public ZEditor()
   {
     super();
@@ -551,7 +540,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Configures the decoration support for this fEditor's source viewer. Subclasses may override this
+   * Configures the decoration support for this Z Editor's source viewer. Subclasses may override this
    * method, but should call their superclass' implementation at some point.
    *
    * @param support the decoration support to configure

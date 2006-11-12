@@ -69,7 +69,7 @@ public class ZSpecDecorationSupport
    *
    * @since 3.0
    */
-  private static final class SchemaBoxDrawingStrategy
+  private final class SchemaBoxDrawingStrategy
       implements
         IDrawingStrategy
   {
@@ -109,8 +109,9 @@ public class ZSpecDecorationSupport
             partition = null;
           }
 
-          if (partition == null)
+          if (partition == null) {
             return;
+          }
 
           String schema_type = partition.getType();
 
@@ -180,7 +181,7 @@ public class ZSpecDecorationSupport
                   line_end.y + lineHeight / 2);
             return;
           }
-          else { 
+          else {
             // draw middle lines
             if (ZString.VL.equalsIgnoreCase(String.valueOf(document
                 .getChar(offset)))) { 
@@ -195,6 +196,7 @@ public class ZSpecDecorationSupport
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
           }
         } catch (BadLocationException ble) {
+          ble.printStackTrace();
           return;
         }
       }
@@ -289,7 +291,7 @@ public class ZSpecDecorationSupport
   /**
    * The schema box drawing strategy.
    */
-  private static IDrawingStrategy fgSchemaBoxStrategy = new SchemaBoxDrawingStrategy();
+  private IDrawingStrategy fgSchemaBoxStrategy = new SchemaBoxDrawingStrategy();
 
   /**
    * The null drawing strategy.
@@ -306,7 +308,7 @@ public class ZSpecDecorationSupport
   private Object SCHEMA_BOX = new Object();
 
   /** The viewer */
-  private static ISourceViewer fSourceViewer;
+  private ISourceViewer fSourceViewer;
 
   /** The viewer's overview ruler */
   private IOverviewRuler fOverviewRuler;
