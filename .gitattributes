@@ -79,10 +79,6 @@ gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZSetTest.java -text
 gaffe/tests/src/net/sourceforge/czt/animation/gui/temp/ZTupleTest.java -text
 gaffe2/classpath.bat -text
-gaffe2/resource/nextResult.jpg -text
-gaffe2/resource/nextStep.jpg -text
-gaffe2/resource/preResult.jpg -text
-gaffe2/resource/preStep.jpg -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/CallProcess.java -text
