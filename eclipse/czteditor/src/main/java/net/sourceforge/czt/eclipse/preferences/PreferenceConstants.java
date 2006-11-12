@@ -69,7 +69,7 @@ public class PreferenceConstants
   public static final String EDITOR_UNDERLINE_SUFFIX = "_underline"; //$NON-NLS-1$
 
   /**
-   * The symbolic font name for the Java editor text font 
+   * The symbolic font name for the Java fEditor text font 
    * (value <code>"org.eclipse.jdt.ui.editors.textfont"</code>).
    * 
    * @since 2.1
@@ -828,7 +828,7 @@ public class PreferenceConstants
 
   /**
    * A named preference that controls whether Z outline view update its presentation while editing or when saving the
-   * content of an editor. 
+   * content of an fEditor. 
    * <p>
    * Value is of type <code>String</code>: possible values are <code>
    * UPDATE_ON_SAVE</code> or <code>
@@ -865,7 +865,7 @@ public class PreferenceConstants
   public final static String EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = "ZEditor.SyncOutlineOnCursorMove"; //$NON-NLS-1$
 
   /**
-   * A named preference that controls whether hover tool tips in the editor are turned on or off.
+   * A named preference that controls whether hover tool tips in the fEditor are turned on or off.
    * <p>
    * Value is of type <code>Boolean</code>.
    * </p>
@@ -873,7 +873,7 @@ public class PreferenceConstants
   public static final String EDITOR_SHOW_HOVER = "org.eclipse.jdt.ui.editor.showHover"; //$NON-NLS-1$
 
   /**
-   * A named preference that controls whether occurrences are marked in the editor.
+   * A named preference that controls whether occurrences are marked in the fEditor.
    * <p>
    * Value is of type <code>Boolean</code>.
    * </p>
@@ -883,7 +883,7 @@ public class PreferenceConstants
   public static final String EDITOR_MARK_OCCURRENCES = "MarkOccurrences"; //$NON-NLS-1$
 
   /**
-   * A named preference that controls whether occurrences are marked in the editor.
+   * A named preference that controls whether occurrences are marked in the fEditor.
    * <p>
    * Value is of type <code>Boolean</code>.
    * </p>
@@ -893,7 +893,7 @@ public class PreferenceConstants
   public static final String EDITOR_MARK_OCCURRENCES_WHEN_EXPANSION = "MarkOccurrencesWhenExpansion"; //$NON-NLS-1$
 
   /**
-   * A named preference that controls whether occurrences are sticky in the editor.
+   * A named preference that controls whether occurrences are sticky in the fEditor.
    * <p>
    * Value is of type <code>Boolean</code>.
    * </p>
@@ -914,7 +914,7 @@ public class PreferenceConstants
   public static final String EDITOR_ANNOTATION_ROLL_OVER = "editor_annotation_roll_over"; //$NON-NLS-1$
 
   /**
-   * A named preference that controls whether folding is enabled in the Z editor.
+   * A named preference that controls whether folding is enabled in the Z fEditor.
    * <p>
    * Value is of type <code>Boolean</code>.
    * </p>
@@ -1054,7 +1054,7 @@ public class PreferenceConstants
     // work in progress
     //		WorkInProgressPreferencePage.initDefaults(store);
 
-    // reset preferences that are not settable by editor any longer
+    // reset preferences that are not settable by fEditor any longer
     // see AbstractDecoratedTextEditorPreferenceConstants
     //		store.setToDefault(EDITOR_LINE_NUMBER_RULER); // global
     //		store.setToDefault(EDITOR_LINE_NUMBER_RULER_COLOR); // global

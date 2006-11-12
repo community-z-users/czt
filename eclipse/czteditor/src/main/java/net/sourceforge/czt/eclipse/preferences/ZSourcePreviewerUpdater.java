@@ -14,7 +14,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Font;
 
 /**
- * Handles Z editor font changes for Z source preview viewers.
+ * Handles Z fEditor font changes for Z source preview viewers.
  * 
  * @since 3.0
  * 

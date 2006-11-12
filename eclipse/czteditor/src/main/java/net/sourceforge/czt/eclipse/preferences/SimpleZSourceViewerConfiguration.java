@@ -39,12 +39,12 @@ public class SimpleZSourceViewerConfiguration
   private boolean fConfigureFormatter;
 
   /**
-   * Creates a new Z source viewer configuration for viewers in the given editor
+   * Creates a new Z source viewer configuration for viewers in the given fEditor
    * using the given preference store, the color manager and the specified document partitioning.
    *
    * @param colorManager the color manager
    * @param preferenceStore the preference store, can be read-only
-   * @param editor the editor in which the configured viewer(s) will reside, or <code>null</code> if none
+   * @param fEditor the fEditor in which the configured viewer(s) will reside, or <code>null</code> if none
    * @param partitioning the document partitioning for this configuration, or <code>null</code> for the default partitioning
    * @param configureFormatter <code>true</code> if a content formatter should be configured
    */

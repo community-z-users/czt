@@ -374,7 +374,7 @@ public class NewZSpecificationWizardPage extends WizardPage
   /**
    * The worker method. It will find the container, create the
    * file if missing or just replace its contents, and open
-   * the editor on the newly created file.
+   * the fEditor on the newly created file.
    */
 
   private void createSpecification(String containerName, String fileName,

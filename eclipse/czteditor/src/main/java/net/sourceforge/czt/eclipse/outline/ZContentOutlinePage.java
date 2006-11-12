@@ -159,12 +159,12 @@ public class ZContentOutlinePage extends ContentOutlinePage
 
   /**
    * Creates a content outline page using the given provider and the given
-   * editor.
+   * fEditor.
    * 
    * @param provider
    *            the document provider
-   * @param editor
-   *            the editor
+   * @param fEditor
+   *            the fEditor
    */
   public ZContentOutlinePage(String contextMenuId, ITextEditor editor)
   {

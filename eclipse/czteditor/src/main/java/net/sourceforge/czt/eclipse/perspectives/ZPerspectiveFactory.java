@@ -35,18 +35,19 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
 
   public void createInitialLayout(IPageLayout layout)
   {
-    // Get the editor area.
+    // Get the fEditor area.
     String editorArea = layout.getEditorArea();
 
     // Put the navigate view on the left.
     layout.addView(IPageLayout.ID_RES_NAV, IPageLayout.LEFT, 0.25f, editorArea);
 
-    /* Put the Z Character Map view on the bottom with
-     * the Problems view, Tasks view, bookmarks view and
-     * the console view. */
+    /* Put the Z Character Map view on the bottom with the Conversion view,
+     * Problems view, Tasks view, bookmarks view and the console view.
+     */
     IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM,
         0.75f, editorArea);
     bottom.addView(CztUI.ID_CHARMAP); //$NON-NLS-1$
+    bottom.addView(CztUI.ID_CONVERSIONVIEW); //$NON-NLS-1$
     bottom.addView(IPageLayout.ID_PROBLEM_VIEW); //$NON-NLS-1$
     bottom.addPlaceholder(ID_CONSOLE_VIEW); //$NON-NLS-1$
 

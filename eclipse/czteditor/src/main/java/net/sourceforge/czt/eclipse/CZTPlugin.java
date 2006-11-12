@@ -200,9 +200,9 @@ public class CZTPlugin extends AbstractUIPlugin
 
   /**
    * Returns an array of all editors that have an unsaved content. If the identical content is 
-   * presented in more than one editor, only one of those editor parts is part of the result.
+   * presented in more than one fEditor, only one of those fEditor parts is part of the result.
    * 
-   * @return an array of all dirty editor parts.
+   * @return an array of all dirty fEditor parts.
    */
   //	public static IEditorPart[] getDirtyEditors() {
   //		Set inputs= new HashSet();
@@ -238,9 +238,9 @@ public class CZTPlugin extends AbstractUIPlugin
   //			for (int pageIndex= 0; pageIndex < pages.length; pageIndex++) {
   //				IEditorReference[] references= pages[pageIndex].getEditorReferences();
   //				for (int refIndex= 0; refIndex < references.length; refIndex++) {
-  //					IEditorPart editor= references[refIndex].getEditor(false);
-  //					if (editor != null)
-  //						result.add(editor);
+  //					IEditorPart fEditor= references[refIndex].getEditor(false);
+  //					if (fEditor != null)
+  //						result.add(fEditor);
   //				}
   //			}
   //		}
