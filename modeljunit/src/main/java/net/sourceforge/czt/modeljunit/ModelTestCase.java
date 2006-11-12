@@ -77,7 +77,7 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  */
 public class ModelTestCase
 {
-  /** During random walk (including fsmBuildGraph), this is the
+  /** During random walk (including buildGraph), this is the
    *  probability of doing reset() rather than choosing a random
    *  transition.  This must be non-zero in order to break out of
    *  cycles that do not have any path to the initial state.
@@ -251,7 +251,8 @@ public class ModelTestCase
   }
 
   /** Returns the graph of the FSM model.
-   *  This will return null until after fsmBuildGraph has been called.
+   *  Note that the graph may be incomplete 
+   *  (call buildGraph to explore the graph thoroughly).
    */
   public InspectableGraph getGraph()
   {
@@ -515,7 +516,17 @@ public class ModelTestCase
    *  all reachable states that have explored.
    *  Of course, this may not have built ALL the graph if some
    *  guards are enabled sporadically in a given state, or if
-   *  some transitions are non-deterministic. 
+   *  some transitions are non-deterministic.
+   *  
+   *  <p>
+   *  Note that this method traverses the graph as it explores its
+   *  shape, and this traversal is likely to increase any coverage 
+   *  statistics that are being recorded.  For example, transition
+   *  coverage will normally be 100% after this method returns.
+   *  If you want to measure the coverage of a short traversal,
+   *  you should call this method to explore the graph, then reset 
+   *  the coverage measures to zero <em>before</em> doing the traversal.
+   *  </p>
    *  
    *  @param rand  A random generator to choose the exploration path.
    *  @return true if the graph seems to be completely built.
