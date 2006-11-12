@@ -1,15 +1,10 @@
 
 package net.sourceforge.czt.eclipse.editors.zeditor;
 
+import java.util.ResourceBundle;
+
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.editors.actions.AbstractConversionAction;
-import net.sourceforge.czt.eclipse.editors.actions.Convert2LatexAction;
-import net.sourceforge.czt.eclipse.editors.actions.Convert2OldLatexAction;
-import net.sourceforge.czt.eclipse.editors.actions.Convert2UnicodeAction;
-import net.sourceforge.czt.eclipse.editors.actions.Convert2XMLAction;
-import net.sourceforge.czt.eclipse.editors.actions.ExpandSelectionAction;
-import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
+import net.sourceforge.czt.eclipse.editors.actions.CZTActionConstants;
 import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.Markup;
@@ -18,15 +13,15 @@ import net.sourceforge.czt.z.ast.ZName;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.texteditor.RetargetTextEditorAction;
 
 /**
  * @author Chengdong Xu
@@ -34,21 +29,15 @@ import org.eclipse.ui.texteditor.ITextEditor;
 public class ZEditorActionContributor extends BasicTextEditorActionContributor
 {
 
-  protected GoToDeclarationAction goToDeclarationAction;
-
-  protected ExpandSelectionAction expandSelectionAction;
-
-//  protected ContractSelectionAction contractSelectionAction;
+  protected ITextEditor fEditor;
   
-  protected AbstractConversionAction convert2LatexAction;
-  
-  protected AbstractConversionAction convert2OldLatexAction;
-  
-  protected AbstractConversionAction convert2UnicodeAction;
-  
-  protected AbstractConversionAction convert2XMLAction;
-
-  protected ITextEditor editor;
+  private RetargetTextEditorAction fGotoDeclarationAction;
+  private RetargetTextEditorAction fHighlightEnclosingTermAction;
+  private RetargetTextEditorAction fRestoreLastHighlightAction;
+  private RetargetTextEditorAction fConvert2LatexAction;  
+  private RetargetTextEditorAction fConvert2OldLatexAction;  
+  private RetargetTextEditorAction fConvert2UnicodeAction;  
+  private RetargetTextEditorAction fConvert2XMLAction;
 
   /**
    * Default constructor.
@@ -56,29 +45,30 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   public ZEditorActionContributor()
   {
     super();
-
-    goToDeclarationAction = new GoToDeclarationAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "GoToDeclaration.", null); //$NON-NLS-1$
-    goToDeclarationAction.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
-    expandSelectionAction = new ExpandSelectionAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "ExpandSelection.", null); //$NON-NLS-1$
-    expandSelectionAction.setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
-//    contractSelectionAction = new ContractSelectionAction(CZTPlugin
-//        .getDefault().getResourceBundle(), "ContractSelection.", null); //$NON-NLS-1$
-//    contractSelectionAction
-//        .setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
-    convert2LatexAction = new Convert2LatexAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "Convert2Latex.", null);
-    convert2LatexAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
-    convert2OldLatexAction = new Convert2OldLatexAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "Convert2OldLatex.", null);
-    convert2OldLatexAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
-    convert2UnicodeAction = new Convert2UnicodeAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "Convert2Unicode.", null);
-    convert2UnicodeAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
-    convert2XMLAction = new Convert2XMLAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "Convert2XML.", null);
-    convert2XMLAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
+    
+    ResourceBundle b= ZEditorMessages.getBundleForActionKeys();
+    
+    fGotoDeclarationAction = new RetargetTextEditorAction(b, "GotoDeclaration."); //$NON-NLS-1$
+    fGotoDeclarationAction.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+    
+    fHighlightEnclosingTermAction = new RetargetTextEditorAction(b, "HighlightEnclosing."); //$NON-NLS-1$
+    fHighlightEnclosingTermAction.setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
+    
+    fRestoreLastHighlightAction = new RetargetTextEditorAction(b, "RestoreLastHighlight."); //$NON-NLS-1$
+    fRestoreLastHighlightAction.setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
+    
+    fConvert2LatexAction = new RetargetTextEditorAction(b, "Convert2LaTeX."); //$NON-NLS-1$
+    fConvert2LatexAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+    
+    fConvert2OldLatexAction = new RetargetTextEditorAction(b, "Convert2OldLaTeX."); //$NON-NLS-1$
+    fConvert2OldLatexAction .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
+    
+    fConvert2UnicodeAction = new RetargetTextEditorAction(b, "Convert2Unicode."); //$NON-NLS-1$
+    fConvert2UnicodeAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
+    
+    fConvert2XMLAction = new RetargetTextEditorAction(b, "Convert2XML."); //$NON-NLS-1$
+    fConvert2XMLAction.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
+    
   }
 
   /**
@@ -91,20 +81,23 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
         .findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);
 
     if (editMenu != null) {
-//      IContributionItem item = editMenu.find(GoToDeclarationAction_ID);
-//      if (item != null)
-//        item.setVisible(false);
+      editMenu.add(fGotoDeclarationAction);
       
-      editMenu.add(goToDeclarationAction);
-      editMenu.add(goToDeclarationAction);
-      editMenu.add(expandSelectionAction);
-      //            editMenu.add(contractSelectionAction);
-      editMenu.add(convert2LatexAction);
-      editMenu.add(convert2OldLatexAction);
-      editMenu.add(convert2UnicodeAction);
-      editMenu.add(convert2XMLAction);
-
+      MenuManager highlight = new MenuManager(ZEditorMessages.Editor_HighlightMenu_label, "highlight"); //$NON-NLS-1$
+//      editMenu.insertAfter(ActionFactory.SELECT_ALL.getId(), highlight);
+      editMenu.add(highlight);
+      highlight.add(fHighlightEnclosingTermAction);
+      highlight.add(fRestoreLastHighlightAction);
+      
+      MenuManager convert = new MenuManager(ZEditorMessages.Editor_ConvertMenu_label, "convert");
+      editMenu.add(convert);
+      convert.add(fConvert2LatexAction);
+      convert.add(fConvert2OldLatexAction);
+      convert.add(fConvert2UnicodeAction);
+      convert.add(fConvert2XMLAction);
+      
       editMenu.add(new Separator());
+      
       editMenu.addMenuListener(new IMenuListener()
       {
         public void menuAboutToShow(IMenuManager m)
@@ -117,22 +110,21 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
 
   public void fillContextMenu(IMenuManager menuMgr)
   {
-    ITextSelection selection = (ITextSelection) this.editor
+    ITextSelection selection = (ITextSelection) this.fEditor
         .getSelectionProvider().getSelection();
-    Selector selector = new Selector(((ZEditor) this.editor).getParsedData()
-        .getSpec());
+    Selector selector = ((ZEditor) this.fEditor).getParsedData().createTermSelector();
     Term term = selector.getTerm(new Position(selection.getOffset(), selection
         .getLength()));
     
-    goToDeclarationAction.setEnabled((term != null)
-//        && ((term instanceof DeclName) || (term instanceof ZRefName)));
-        && (term instanceof ZName));
-    expandSelectionAction.setEnabled(true);
-//    contractSelectionAction.setEnabled(true);
-    convert2LatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.editor).getMarkup()));
-    convert2OldLatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.editor).getMarkup()));
-    convert2UnicodeAction.setEnabled(!Markup.UNICODE.equals(((ZEditor)this.editor).getMarkup()));
-    convert2XMLAction.setEnabled(true);
+    fGotoDeclarationAction.setEnabled((term != null) && (term instanceof ZName));
+    
+    fHighlightEnclosingTermAction.setEnabled(true);
+    fRestoreLastHighlightAction.setEnabled(((ZEditor) this.fEditor).getTermHighlightAnnotation() != null);
+    
+    fConvert2LatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.fEditor).getMarkup()));
+    fConvert2OldLatexAction.setEnabled(!Markup.LATEX.equals(((ZEditor)this.fEditor).getMarkup()));
+    fConvert2UnicodeAction.setEnabled(!Markup.UNICODE.equals(((ZEditor)this.fEditor).getMarkup()));
+    fConvert2XMLAction.setEnabled(true);
   }
 
   /**
@@ -151,19 +143,23 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   {
     super.setActiveEditor(part);
     if (part instanceof ITextEditor)
-      this.editor = (ITextEditor) part;
+      this.fEditor = (ITextEditor) part;
     
-    goToDeclarationAction.setEditor(this.editor);
-    expandSelectionAction.setEditor(this.editor);
-//    contractSelectionAction.setEditor(this.editor);
-    convert2LatexAction.setEditor(this.editor);
-    convert2OldLatexAction.setEditor(this.editor);
-    convert2UnicodeAction.setEditor(this.editor);
-    convert2XMLAction.setEditor(this.editor);
+    fGotoDeclarationAction.setAction(getAction(fEditor, CZTActionConstants.GO_TO_DECLARATION));
     
+    fHighlightEnclosingTermAction.setAction(getAction(fEditor, CZTActionConstants.HIGHLIGHT_ENCLOSING));
+    fRestoreLastHighlightAction.setAction(getAction(fEditor, CZTActionConstants.RESTORE_LAST));
     
+    fConvert2LatexAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_LATEX));
+    fConvert2OldLatexAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_OLD_LATEX));
+    fConvert2UnicodeAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_UNICODE));
+    fConvert2XMLAction.setAction(getAction(fEditor, CZTActionConstants.CONVERT_TO_XML));
+    
+//    convert2XMLAction.setEditor(this.editor);
+    
+/*    
     IHandlerService handlerService =
-      (IHandlerService)editor.getSite().getService(IHandlerService.class);
+      (IHandlerService)fEditor.getSite().getService(IHandlerService.class);
     handlerService.activateHandler(goToDeclarationAction.getActionDefinitionId(),
       new ActionHandler(goToDeclarationAction));
     handlerService.activateHandler(expandSelectionAction.getActionDefinitionId(),
@@ -180,5 +176,6 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
         new ActionHandler(convert2XMLAction));
 //    IActionBars bars = getActionBars();
 //    bars.setGlobalActionHandler(CZTActionConstants.CONVERT_TO_LATEX, getAction(this.editor, "Convert2Latex"));
+  */
   }
 }

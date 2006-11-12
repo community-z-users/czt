@@ -36,7 +36,15 @@ import net.sourceforge.czt.eclipse.editors.ZPairMatcher;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewer;
 import net.sourceforge.czt.eclipse.editors.ZSourceViewerConfiguration;
 import net.sourceforge.czt.eclipse.editors.ZSpecDecorationSupport;
+import net.sourceforge.czt.eclipse.editors.actions.CZTActionConstants;
+import net.sourceforge.czt.eclipse.editors.actions.ContractSelectionAction;
+import net.sourceforge.czt.eclipse.editors.actions.Convert2LatexAction;
+import net.sourceforge.czt.eclipse.editors.actions.Convert2OldLatexAction;
+import net.sourceforge.czt.eclipse.editors.actions.Convert2UnicodeAction;
+import net.sourceforge.czt.eclipse.editors.actions.Convert2XMLAction;
+import net.sourceforge.czt.eclipse.editors.actions.ExpandSelectionAction;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
+import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
@@ -54,6 +62,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
@@ -63,7 +72,6 @@ import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISynchronizable;
-import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
@@ -168,7 +176,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Updates the Z outline page selection and this editor's range indicator.
+   * Updates the Z outline page selection and this fEditor's range indicator.
    *
    * @since 3.0
    */
@@ -187,7 +195,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Updates the selection in the editor's widget with the selection of the outline page.
+   * Updates the selection in the fEditor's widget with the selection of the outline page.
    */
   private class OutlineSelectionChangedListener
       extends
@@ -273,7 +281,7 @@ public class ZEditor extends TextEditor
   private ProjectionSupport fProjectionSupport;
 
   /**
-   * The editor selection changed listener.
+   * The fEditor selection changed listener.
    *
    * @since 3.0
    */
@@ -337,7 +345,7 @@ public class ZEditor extends TextEditor
   /**
    * Tells whether all occurrences of the element at the
    * current caret location are automatically marked in
-   * this editor.
+   * this fEditor.
    * @since 3.0
    */
   private boolean fMarkOccurrenceAnnotations = true;
@@ -362,19 +370,13 @@ public class ZEditor extends TextEditor
   /** The styled text */
   private StyledText text;
 
-  //	private ZLineBackgroundListener fLineBackgroundListener = new ZLineBackgroundListener(this);
-
-  protected GoToDeclarationAction goToDeclarationAction;
-
-  protected String GoToDeclarationAction_ID = "net.sourceforge.czt.eclipse.editors.actions.GoToDeclaration";
-
   /** Preference key for matching brackets */
   protected final static String MATCHING_BRACKETS = PreferenceConstants.EDITOR_MATCHING_BRACKETS;
 
   /** Preference key for matching brackets color */
   protected final static String MATCHING_BRACKETS_COLOR = PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
 
-  /** The editor's bracket matcher */
+  /** The fEditor's bracket matcher */
   protected ZPairMatcher fBracketMatcher;
 
   /**
@@ -387,7 +389,7 @@ public class ZEditor extends TextEditor
   private final Object fReconcilerLock = new Object();
 
   /**
-   * Helper for managing the decoration support of this editor's viewer.
+   * Helper for managing the decoration support of this fEditor's viewer.
    *
    * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
    * compatibility reasons and will be made <code>private</code> soon. Use
@@ -396,7 +398,7 @@ public class ZEditor extends TextEditor
   protected ZSpecDecorationSupport fZSpecDecorationSupport;
 
   /**
-   * Helper for managing the decoration support of this editor's viewer.
+   * Helper for managing the decoration support of this fEditor's viewer.
    *
    * <p>This field should not be referenced by subclasses. It is <code>protected</code> for API
    * compatibility reasons and will be made <code>private</code> soon. Use
@@ -414,23 +416,38 @@ public class ZEditor extends TextEditor
   protected void createActions()
   {
     super.createActions();
-    /*
-     IAction action = new GoToDeclarationAction(CZTPlugin.getDefault()
-     .getResourceBundle(), "GoToDeclaration.", this); //$NON-NLS-1$
-     action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
-     setAction(CZTActionConstants.GO_TO_DECLARATION, action);
-     */
-    //    IHandlerService handlerService =
-    //      (IHandlerService)getEditorSite().getService(IHandlerService.class);
-    //    handlerService.activateHandler(action.getActionDefinitionId(),
-    //      new ActionHandler(action));
-    //    IAction action = new Convert2LatexAction(CZTPlugin.getDefault()
-    //        .getResourceBundle(), "Convert2Latex.", this);
-    //    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
-    //    setAction(CZTActionConstants.CONVERT_TO_LATEX, action); //$NON-NLS-1$
-    //    markAsStateDependentAction("AddBlockComment", true); //$NON-NLS-1$
-    //    markAsSelectionDependentAction("AddBlockComment", true); //$NON-NLS-1$
-    //    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.ADD_BLOCK_COMMENT_ACTION);
+    
+    IAction action = new GoToDeclarationAction(ZEditorMessages.getBundleForActionKeys(), "GotoDeclaration.", this); //$NON-NLS-1$
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
+    setAction(CZTActionConstants.GO_TO_DECLARATION, action);
+        
+    action= new ExpandSelectionAction(ZEditorMessages.getBundleForActionKeys(), "HighlightEnclosing.", this);;
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
+    setAction(CZTActionConstants.HIGHLIGHT_ENCLOSING, action);
+
+    action= new ContractSelectionAction(ZEditorMessages.getBundleForActionKeys(), "RestoreLastHighlight.", this);
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
+    setAction(CZTActionConstants.RESTORE_LAST, action);
+    
+    action= new Convert2LatexAction(ZEditorMessages.getBundleForActionKeys(), "Convert2LaTeX.", this);
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
+    setAction(CZTActionConstants.CONVERT_TO_LATEX, action);
+    
+    action= new Convert2OldLatexAction(ZEditorMessages.getBundleForActionKeys(), "Convert2OldLaTeX.", this);
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
+    setAction(CZTActionConstants.CONVERT_TO_OLD_LATEX, action);
+    
+    action= new Convert2UnicodeAction(ZEditorMessages.getBundleForActionKeys(), "Convert2Unicode.", this);
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
+    setAction(CZTActionConstants.CONVERT_TO_UNICODE, action);
+    
+    action= new Convert2XMLAction(ZEditorMessages.getBundleForActionKeys(), "Convert2XML.", this);
+    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
+    setAction(CZTActionConstants.CONVERT_TO_XML, action);
+    
+    //    markAsStateDependentAction("HighlightEnclosing", true); //$NON-NLS-1$
+    //    markAsSelectionDependentAction("HighlightEnclosing", true); //$NON-NLS-1$
+    //    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.HIGHLIGHT_ENCLOSING_ACTION);
   }
 
   /**
@@ -446,9 +463,6 @@ public class ZEditor extends TextEditor
     setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
         .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
     //        fMarkOccurrenceAnnotations= store.getBoolean(PreferenceConstants.EDITOR_MARK_OCCURRENCES);
-    goToDeclarationAction = new GoToDeclarationAction(CZTPlugin.getDefault()
-        .getResourceBundle(), "GoToDeclaration.", null); //$NON-NLS-1$
-    goToDeclarationAction.setActionDefinitionId(this.GoToDeclarationAction_ID);
   }
 
   /**
@@ -537,7 +551,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Configures the decoration support for this editor's source viewer. Subclasses may override this
+   * Configures the decoration support for this fEditor's source viewer. Subclasses may override this
    * method, but should call their superclass' implementation at some point.
    *
    * @param support the decoration support to configure
@@ -648,9 +662,7 @@ public class ZEditor extends TextEditor
 
   public void fillContextMenu(IMenuManager menuMgr)
   {
-    ITextSelection selection = (ITextSelection) getSelectionProvider()
-        .getSelection();
-    goToDeclarationAction.setEnabled(selection.getLength() > 0);
+    
   }
 
   /**
@@ -664,7 +676,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Creates the outline page used with this editor.
+   * Creates the outline page used with this fEditor.
    *
    * @return the created Java outline page
    */
@@ -678,7 +690,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Informs the editor that its outliner has been closed.
+   * Informs the fEditor that its outliner has been closed.
    */
   public void outlinePageClosed()
   {
@@ -691,7 +703,7 @@ public class ZEditor extends TextEditor
 
   /**
    * Synchronizes the outliner selection with the given element
-   * position in the editor.
+   * position in the fEditor.
    *
    * @param element the java element to select
    */
@@ -702,7 +714,7 @@ public class ZEditor extends TextEditor
 
   /**
    * Synchronizes the outliner selection with the given element
-   * position in the editor.
+   * position in the fEditor.
    *
    * @param element the java element to select
    * @param checkIfOutlinePageActive <code>true</code> if check for active outline page needs to be done
@@ -720,7 +732,7 @@ public class ZEditor extends TextEditor
 
   /**
    * Synchronizes the outliner selection with the actual cursor
-   * position in the editor.
+   * position in the fEditor.
    */
   public void synchronizeOutlinePageSelection()
   {
@@ -1099,7 +1111,7 @@ public class ZEditor extends TextEditor
 
   /** The <code>ZEditor</code> implementation of this 
    * <code>AbstractTextEditor</code> method performs any extra 
-   * disposal actions required by the Z editor.
+   * disposal actions required by the Z fEditor.
    */
   public void dispose()
   {
@@ -1164,7 +1176,7 @@ public class ZEditor extends TextEditor
 
   /** The <code>ZEditor</code> implementation of this 
    * <code>AbstractTextEditor</code> method performs any extra 
-   * revert behavior required by the Z editor.
+   * revert behavior required by the Z fEditor.
    */
   public void doRevertToSaved()
   {
@@ -1173,7 +1185,7 @@ public class ZEditor extends TextEditor
 
   /** The <code>ZEditor</code> implementation of this 
    * <code>AbstractTextEditor</code> method performs any extra 
-   * save behavior required by the Z editor.
+   * save behavior required by the Z fEditor.
    * 
    * @param progressMonitor the progress monitor
    */
@@ -1184,7 +1196,7 @@ public class ZEditor extends TextEditor
 
   /** The <code>ZEditor</code> implementation of this 
    * <code>AbstractTextEditor</code> method performs any extra 
-   * save as behavior required by the Z editor.
+   * save as behavior required by the Z fEditor.
    */
   public void doSaveAs()
   {
@@ -1195,7 +1207,7 @@ public class ZEditor extends TextEditor
    * <code>AbstractTextEditor</code> method performs sets the 
    * input of the outline page after AbstractTextEditor has set input.
    * 
-   * @param input the editor input
+   * @param input the fEditor input
    * @throws CoreException in case the input can not be set
    */
   public void doSetInput(IEditorInput input) throws CoreException
@@ -1283,7 +1295,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Returns the file type for the editor input
+   * Returns the file type for the fEditor input
    */
   public String getFileType()
   {
@@ -1291,7 +1303,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Sets the file type for the editor input
+   * Sets the file type for the fEditor input
    */
   private void setFileType(IEditorInput input)
   {
@@ -1316,7 +1328,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Returns the markup of the editor input
+   * Returns the markup of the fEditor input
    */
   public Markup getMarkup()
   {
@@ -1324,7 +1336,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Set the markup of the editor input
+   * Set the markup of the fEditor input
    */
   private void setMarkup(Markup markup)
   {
@@ -1332,7 +1344,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Returns the encoding of the editor input
+   * Returns the encoding of the fEditor input
    */
   public String getEncoding()
   {
@@ -1340,7 +1352,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Set the encoding of the editor input
+   * Set the encoding of the fEditor input
    */
   private void setEncoding(String encoding)
   {
@@ -1588,7 +1600,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Sets the given message as error message to this editor's status line.
+   * Sets the given message as error message to this fEditor's status line.
    *
    * @param msg message to be set
    */
@@ -1600,7 +1612,7 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Sets the given message as message to this editor's status line.
+   * Sets the given message as message to this fEditor's status line.
    *
    * @param msg message to be set
    * @since 3.0
@@ -1652,10 +1664,10 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Creates and returns the preference store for this Java editor with the given input.
+   * Creates and returns the preference store for this Java fEditor with the given input.
    *
-   * @param input The editor input for which to create the preference store
-   * @return the preference store for this editor
+   * @param input The fEditor input for which to create the preference store
+   * @return the preference store for this fEditor
    *
    * @since 3.0
    */
