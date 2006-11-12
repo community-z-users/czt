@@ -103,7 +103,7 @@ public class MainFrame extends JFrame
     designItem.addActionListener(new DesignItemListener());
 
     this.setJMenuBar(mainMenuBar);
-    this.setTitle("Communicate Z Tools -- Gaffe2");
+    this.setTitle("Community Z Tools -- Gaffe2");
     this.setSize(800, 600);
     this.setLocation(80, 60);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
