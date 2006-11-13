@@ -28,6 +28,12 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
 
   private static final String ID_SEARCH_VIEW = NewSearchUI.SEARCH_VIEW_ID;
 
+  private static final String ID_NEW_FOLDER_WIZARD = "org.eclipse.ui.wizards.new.folder";
+
+  private static final String ID_NEW_FILE_WIZARD = "org.eclipse.ui.wizards.new.file";
+
+  private static final String ID_NEW_UNTITLED_TEXTFILE_WIZARD = "org.eclipse.ui.editors.wizards.UntitledTextFileWizard";
+
   public ZPerspectiveFactory()
   {
     super();
@@ -77,9 +83,10 @@ public class ZPerspectiveFactory implements IPerspectiveFactory
     layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET); //$NON-NLS-1$
 
     // Add shortcuts for new wizards
-    layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder"); //$NON-NLS-1$
-    layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file"); //$NON-NLS-1$
-    layout
-        .addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard"); //$NON-NLS-1$
+    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_PROJECT_WIZARD);
+    layout.addNewWizardShortcut(CztUI.ID_NEW_CZT_SPECIFICATION_WIZARD);
+    layout.addNewWizardShortcut(ID_NEW_FOLDER_WIZARD); //$NON-NLS-1$
+    layout.addNewWizardShortcut(ID_NEW_FILE_WIZARD); //$NON-NLS-1$
+    layout.addNewWizardShortcut(ID_NEW_UNTITLED_TEXTFILE_WIZARD); //$NON-NLS-1$
   }
 }

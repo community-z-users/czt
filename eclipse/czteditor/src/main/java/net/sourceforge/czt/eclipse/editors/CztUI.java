@@ -52,6 +52,18 @@ public final class CztUI
     public static final String ID_CONVERSIONVIEW = "net.sourceforge.czt.eclipse.views.ZConversionView";
     
     /**
+     * The id of the new CZT project wizard
+     * (value <code>"net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard"</code>.
+     */
+    public static final String ID_NEW_CZT_PROJECT_WIZARD = "net.sourceforge.czt.eclipse.wizards.NewCZTProjectWizard";
+    
+    /**
+     * The id of the new CZT project wizard
+     * (value <code>"net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard"</code>.
+     */
+    public static final String ID_NEW_CZT_SPECIFICATION_WIZARD = "net.sourceforge.czt.eclipse.wizards.NewZSpecificationWizard";
+    
+    /**
      * Returns the shared images for the CZT UI.
      *
      * @return the shared images manager

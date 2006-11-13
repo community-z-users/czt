@@ -4,8 +4,10 @@
 
 package net.sourceforge.czt.eclipse.wizards;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -59,11 +61,15 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   private Button[] fMarkupButtons = new Button[NUM_OF_MARKUPS];
 
-  private String[] fMarkupLabels = new String[]{WizardsMessages.NewZSpecificationWizardPage_markupLaTeX, WizardsMessages.NewZSpecificationWizardPage_markupUTF8, WizardsMessages.NewZSpecificationWizardPage_markupUTF16};
+  private String[] fMarkupLabels = new String[]{
+      WizardsMessages.NewZSpecificationWizardPage_markupLaTeX,
+      WizardsMessages.NewZSpecificationWizardPage_markupUTF8,
+      WizardsMessages.NewZSpecificationWizardPage_markupUTF16};
 
   private String[] fExtensions = new String[]{".tex", ".utf8", ".utf16"};
-  
-  private String[] fSampleFiles = new String[]{"sample_spec_latex.txt", "sample_spec_utf8.txt", "sample_spec_utf16.txt"};
+
+  private String[] fSampleFiles = new String[]{"sample_spec_latex.txt",
+      "sample_spec_utf8.txt", "sample_spec_utf16.txt"};
 
   private IStructuredSelection fSelection;
 
@@ -109,14 +115,16 @@ public class NewZSpecificationWizardPage extends WizardPage
     FormData formData;
 
     Label containerLabel = new Label(container, SWT.NULL);
-    containerLabel.setText(WizardsMessages.NewZSpecificationWizardPage_containerLabel);
+    containerLabel
+        .setText(WizardsMessages.NewZSpecificationWizardPage_containerLabel);
     formData = new FormData();
     formData.top = new FormAttachment(0, 5);
     formData.left = new FormAttachment(0, 5);
     containerLabel.setLayoutData(formData);
 
     Button browseButton = new Button(container, SWT.PUSH);
-    browseButton.setText(WizardsMessages.NewZSpecificationWizardPage_browseButtonText);
+    browseButton
+        .setText(WizardsMessages.NewZSpecificationWizardPage_browseButtonText);
     formData = new FormData();
     formData.top = new FormAttachment(0, 5);
     formData.right = new FormAttachment(100, -5);
@@ -173,22 +181,28 @@ public class NewZSpecificationWizardPage extends WizardPage
 
     fMarkupButtons[0] = new Button(group, SWT.RADIO);
     fMarkupButtons[0].setText(fMarkupLabels[0]);
-    fMarkupButtons[0].addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent se) {
+    fMarkupButtons[0].addSelectionListener(new SelectionAdapter()
+    {
+      public void widgetSelected(SelectionEvent se)
+      {
         validate();
       }
     });
     fMarkupButtons[1] = new Button(group, SWT.RADIO);
     fMarkupButtons[1].setText(fMarkupLabels[1]);
-    fMarkupButtons[1].addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent se) {
+    fMarkupButtons[1].addSelectionListener(new SelectionAdapter()
+    {
+      public void widgetSelected(SelectionEvent se)
+      {
         validate();
       }
     });
     fMarkupButtons[2] = new Button(group, SWT.RADIO);
     fMarkupButtons[2].setText(fMarkupLabels[2]);
-    fMarkupButtons[2].addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent se) {
+    fMarkupButtons[2].addSelectionListener(new SelectionAdapter()
+    {
+      public void widgetSelected(SelectionEvent se)
+      {
         validate();
       }
     });
@@ -227,7 +241,8 @@ public class NewZSpecificationWizardPage extends WizardPage
           container = (IContainer) obj;
         else
           container = ((IResource) obj).getParent();
-        fContainerText.setText(container.getFullPath().removeTrailingSeparator().toString());
+        fContainerText.setText(container.getFullPath()
+            .removeTrailingSeparator().toString());
       }
     }
     fFileText.setText(WizardsMessages.NewZSpecificationWizardPage_initSpecName);
@@ -240,8 +255,10 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   private void handleBrowse()
   {
-    ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(),
-        ResourcesPlugin.getWorkspace().getRoot(), false,
+    ContainerSelectionDialog dialog = new ContainerSelectionDialog(
+        getShell(),
+        ResourcesPlugin.getWorkspace().getRoot(),
+        false,
         WizardsMessages.NewZSpecificationWizardPage_selectNewFileContainterTitle);
     if (dialog.open() == ContainerSelectionDialog.OK) {
       Object[] result = dialog.getResult();
@@ -313,6 +330,8 @@ public class NewZSpecificationWizardPage extends WizardPage
    */
   protected boolean checkFolderForExistingFile()
   {
+    IResource file = null;
+
     boolean result = false;
 
     if (fContainerText.getText() != null) {
@@ -320,24 +339,28 @@ public class NewZSpecificationWizardPage extends WizardPage
       if (containerPath.segmentCount() > 1) {
         IFolder container = ResourcesPlugin.getWorkspace().getRoot().getFolder(
             containerPath);
-        if (container != null && container.exists()) {
-          IResource file = container.getFile(getFileName());
-          if (file == null)
-            System.out.println("null file");
-          if (file != null && file.exists()) {
-            this.setErrorMessage(WizardsMessages.NewZSpecificationWizardPage_fileAlreadyExists);
-            result = true;
-          }
-        }
+        if (container != null && container.exists())
+          file = container.getFile(getFileName());
       }
       else {
         // this is a project
         IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
             fContainerText.getText().trim());
-        if (project != null && project.exists()) {
-          IResource file = project.getFile(getFileName());
-          if (file != null && file.exists()) {
-            this.setErrorMessage(WizardsMessages.NewZSpecificationWizardPage_fileAlreadyExists);
+        if (project != null && project.exists())
+          file = project.getFile(getFileName());
+      }
+
+      if (file != null) {
+        if (file.exists()) {
+          setErrorMessage(WizardsMessages.NewZSpecificationWizardPage_fileAlreadyExists);
+          result = true;
+        }
+        // check the local file system (without the need of refresh
+        else {
+          URI uri = file.getRawLocationURI();
+          File localFile = new File(uri);
+          if (localFile.exists()) {
+            setErrorMessage(WizardsMessages.NewZSpecificationWizardPage_fileAlreadyExists);
             result = true;
           }
         }
@@ -352,7 +375,10 @@ public class NewZSpecificationWizardPage extends WizardPage
     if (monitor == null)
       monitor = new NullProgressMonitor();
     try {
-      monitor.beginTask(WizardsMessages.NewZSpecificationWizardPage_specWizard_progressCreating, 5);
+      monitor
+          .beginTask(
+              WizardsMessages.NewZSpecificationWizardPage_specWizard_progressCreating,
+              5);
       final String containerName = getContainerName();
       final String fileName = getFileName();
       monitor.worked(1);
@@ -379,8 +405,10 @@ public class NewZSpecificationWizardPage extends WizardPage
 
   private void createSpecification(String containerName, String fileName,
       IProgressMonitor monitor) throws CoreException
-      {
-    monitor.beginTask(WizardsMessages.bind(WizardsMessages.NewZSpecificationWizardPage_specWizard_specCreating, fileName), 2);
+  {
+    monitor.beginTask(WizardsMessages.bind(
+        WizardsMessages.NewZSpecificationWizardPage_specWizard_specCreating,
+        fileName), 2);
     IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
     IResource resource = root.findMember(new Path(containerName));
     if (!resource.exists() || !(resource instanceof IContainer)) {
@@ -401,11 +429,12 @@ public class NewZSpecificationWizardPage extends WizardPage
     } catch (IOException e) {
     }
     monitor.worked(1);
-    monitor.setTaskName((WizardsMessages.NewZSpecificationWizardPage_openingFile));
+    monitor
+        .setTaskName((WizardsMessages.NewZSpecificationWizardPage_openingFile));
     monitor.worked(1);
 
     fNewFile = file;
-      }
+  }
 
   /**
    * Initialize file contents with a sample text.
@@ -418,7 +447,7 @@ public class NewZSpecificationWizardPage extends WizardPage
       return getClass().getResourceAsStream(fSampleFiles[1]);
     else if (fMarkupButtons[2].getSelection())
       return getClass().getResourceAsStream(fSampleFiles[2]);
-    
+
     return null;
   }
 
