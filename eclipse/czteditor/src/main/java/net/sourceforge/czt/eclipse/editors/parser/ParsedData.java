@@ -486,7 +486,7 @@ public class ParsedData
     if (locAnn != null) {
       BigInteger rangeStart = locAnn.getStart();
       BigInteger rangeLength = locAnn.getLength();
-      if ((rangeStart != null) || (rangeLength != null))
+      if ((rangeStart != null) && (rangeLength != null))
         return new Position(rangeStart.intValue(), rangeLength.intValue());
     }
 
