@@ -18,9 +18,6 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.util.Visitor;

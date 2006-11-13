@@ -186,7 +186,7 @@ public class TextUI {
             sectName = ((ZSect) sect).getName();
             output_.println("Loading section " + sectName);
             Key typekey = new Key(sectName, SectTypeEnvAnn.class);
-            SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(typekey);
+            /* ignore the result */  manager.get(typekey);
           }
         }
         if (sectName != null) {

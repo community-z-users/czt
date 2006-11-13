@@ -19,19 +19,23 @@
 // TODO: change pred methods to be type void.
 package net.sourceforge.czt.animation.eval;
 
-import java.util.*;
-import java.util.logging.*;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.z.util.ZString;
+import java.util.ArrayList;
+import java.util.List;
 
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
+import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.Factory;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
  *  The visit* methods add subclasses of Pred or Expr into the list flat_.

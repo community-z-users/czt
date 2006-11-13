@@ -33,7 +33,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleUtils;
-import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -44,16 +43,7 @@ import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.ast.BindExpr;
-import net.sourceforge.czt.z.ast.ExistsExpr;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.SchText;
-import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
-import net.sourceforge.czt.z.ast.ZNumeral;
-import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 
 public class ZLive

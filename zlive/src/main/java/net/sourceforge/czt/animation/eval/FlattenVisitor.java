@@ -19,19 +19,22 @@
 // TODO: change pred methods to be type void.
 package net.sourceforge.czt.animation.eval;
 
-import java.util.*;
-import java.util.logging.*;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.z.util.ZString;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.base.ast.Digit;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.z.visitor.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
  *  The visit* methods add subclasses of Pred or Expr into the list flat_.

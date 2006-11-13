@@ -27,14 +27,13 @@ import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.Flatten;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZRefNameComparator;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
-import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
