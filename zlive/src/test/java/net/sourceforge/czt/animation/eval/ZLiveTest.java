@@ -20,11 +20,8 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import junit.framework.Assert;
-import net.sourceforge.czt.rules.unification.Unifier;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
@@ -124,4 +121,19 @@ public class ZLiveTest extends ZTestCase
     //ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
   }
   */
+
+  
+  public void testReset()
+  {
+    zlive_.reset();
+    Assert.assertEquals("ZLiveDefault", zlive_.getCurrentSection());
+    Key key = new Key("eg1", Spec.class);
+    try {
+      Object result = zlive_.getSectionManager().get(key);
+      Assert.fail("section manager should be empty, but eg1="+result);
+    }
+    catch (CommandException ex) {
+      // good!  We should get this exception.
+    }
+  }
 }

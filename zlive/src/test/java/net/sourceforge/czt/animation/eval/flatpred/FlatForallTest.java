@@ -19,9 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.io.FileNotFoundException;
-
-import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.session.SectionManager;
