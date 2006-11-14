@@ -194,6 +194,10 @@ public class TextUI {
           zlive_.setCurrentSection(sectName);
         }
       }
+      else if (cmd.equals("reset")) {
+        zlive_.reset();
+        System.out.println("All specifications cleared...");
+      }
       else if (cmd.equals("show")) {
         String sectName = zlive_.getCurrentSection();
         SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
@@ -435,6 +439,7 @@ public class TextUI {
     out.println("version           -- Display the version of ZLive");
     out.println("help              -- Display this help summary");
     out.println("conjectures       -- Evaluate all conjectures in the current section");
+    out.println("reset             -- Remove all loaded specifications");
     out.println("quit              -- Exit the ZLive program");
     out.println();
   }

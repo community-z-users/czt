@@ -102,32 +102,7 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
-    final String name = "ZLiveDefault";
-    try {
-      Source specSource = new StringSource("\\begin{zsection} "
-                                           + "\\SECTION " + name + " "
-                                           + "\\parents standard\\_toolkit "
-                                           + "\\end{zsection}",
-                                           name);
-      specSource.setMarkup(Markup.LATEX);
-      sectman_.put(new Key(name ,Source.class), specSource);
-      // This parses the above specification
-      ZSect sec = (ZSect) sectman_.get(new Key(name, ZSect.class));
-      setCurrentSection(sec.getName());
-    }
-    catch (Exception e) {
-      System.err.println("ERROR creating " + name + " section: " + e);
-      e.printStackTrace();
-    }
-    try {
-      Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
-      sectman_.put(new Key("unfold", Source.class), unfoldSource);
-      preprocess_ = new Preprocess(sectman_);
-      preprocess_.setRules("/preprocess.tex");
-    } catch (Exception e) {
-      System.err.println("ERROR loading rules from preprocess.tex: " + e);
-      e.printStackTrace();
-    }
+    this.reset();
   }
 
   /**
@@ -158,10 +133,44 @@ public class ZLive
   public SectionManager getSectionManager()
   { return sectman_; }
 
-   /** Set the section manager which will be used during evaluation. */
+   /** Set the section manager that will be used during evaluation. */
   //@ requires sm != null;
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }
+
+  /** Reset the section manager that will be used during evaluation. 
+   *  This clears all the specifications that have been loaded.
+   */
+  public void reset()
+  { 
+    sectman_.reset();
+    final String name = "ZLiveDefault";
+    try {
+      Source specSource = new StringSource("\\begin{zsection} "
+                                           + "\\SECTION " + name + " "
+                                           + "\\parents standard\\_toolkit "
+                                           + "\\end{zsection}",
+                                           name);
+      specSource.setMarkup(Markup.LATEX);
+      sectman_.put(new Key(name ,Source.class), specSource);
+      this.setCurrentSection(name);
+    }
+    catch (Exception e) {
+      System.err.println("ERROR creating " + name + " section: " + e);
+      e.printStackTrace();
+    }
+    
+    // now load the ZLive preprocessing rules.
+    try {
+      Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
+      sectman_.put(new Key("unfold", Source.class), unfoldSource);
+      preprocess_ = new Preprocess(sectman_);
+      preprocess_.setRules("/preprocess.tex");
+    } catch (Exception e) {
+      System.err.println("ERROR loading rules from preprocess.tex: " + e);
+      e.printStackTrace();
+    }
+  }
 
   /** Get a flatten visitor. */
   public Flatten getFlatten()
@@ -206,11 +215,16 @@ public class ZLive
   }
 
   public void setCurrentSection(String sectName)
-    throws CommandException
+  throws CommandException
   {
-    sectman_.get(new Key(sectName, ZSect.class));
-    sectman_.get(new Key(sectName, SectTypeEnvAnn.class));
-    sectName_ = sectName;
+    if (sectName != null && sectName.length() > 0) {
+      sectman_.get(new Key(sectName, ZSect.class));          // parse it
+      sectman_.get(new Key(sectName, SectTypeEnvAnn.class)); // typecheck it
+      sectName_ = sectName;
+    }
+    else {
+      this.reset();
+    }
   }
 
   /** Evaluate a Pred.
