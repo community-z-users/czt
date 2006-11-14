@@ -45,8 +45,8 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
       "\\in", "\\hide", "\\project", "\\semi", "\\pipe"};
 
   private static String[] fgTokenProperties = {
-      IZColorConstants.CZT_SINGLE_LINE_COMMENT, IZColorConstants.CZT_KEYWORD,
-      IZColorConstants.CZT_OPERATOR, IZColorConstants.CZT_DEFAULT,};
+      IZColorConstants.CZT_KEYWORD, IZColorConstants.CZT_OPERATOR,
+      IZColorConstants.CZT_DEFAULT, IZColorConstants.CZT_COMMENT, };
 
   /**
    * Creates a Z unicode code scanner
@@ -76,7 +76,7 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
     List<IRule> rules = new ArrayList<IRule>();
 
     IToken keywordToken = getToken(IZColorConstants.CZT_KEYWORD);
-    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_SINGLE_LINE_COMMENT);
+    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_COMMENT);
     IToken defaultToken = getToken(IZColorConstants.CZT_DEFAULT);
 
     // Add rule for single line comments.
@@ -102,6 +102,8 @@ public class ZUnicodeCodeScanner extends AbstractZCodeScanner
       wordRule.addWord(fgSymbolCharacters[i], keywordToken);
 
     rules.add(wordRule);
+    
+    setDefaultReturnToken(defaultToken);
 
     return rules;
   }

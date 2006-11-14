@@ -62,6 +62,11 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
   private Map<String, Token> fTokenMap = new HashMap<String, Token>();
 
   /**
+   * Property names
+   */
+  private String[] fPropertyNames;
+
+  /**
    * Preference keys for foreground color preferences.
    */
   private String[] fPropertyNamesForeground;
@@ -136,8 +141,9 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
    */
   public final void initialize()
   {
-    fPropertyNamesForeground = getTokenProperties();
-    int length = fPropertyNamesForeground.length;
+    fPropertyNames = getTokenProperties();
+    int length = fPropertyNames.length;
+    fPropertyNamesForeground = new String[length];
     fPropertyNamesBold = new String[length];
     fPropertyNamesItalic = new String[length];
     fPropertyNamesStrikethrough = new String[length];
@@ -146,20 +152,22 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
     fNeedsLazyColorLoading = Display.getCurrent() == null;
 
     for (int i = 0; i < length; i++) {
-      fPropertyNamesBold[i] = fPropertyNamesForeground[i]
+      fPropertyNamesForeground[i] = fPropertyNames[i]
+          + PreferenceConstants.EDITOR_FOREGROUND_SUFFIX;
+      fPropertyNamesBold[i] = fPropertyNames[i]
           + PreferenceConstants.EDITOR_BOLD_SUFFIX;
-      fPropertyNamesItalic[i] = fPropertyNamesForeground[i]
+      fPropertyNamesItalic[i] = fPropertyNames[i]
           + PreferenceConstants.EDITOR_ITALIC_SUFFIX;
-      fPropertyNamesStrikethrough[i] = fPropertyNamesForeground[i]
+      fPropertyNamesStrikethrough[i] = fPropertyNames[i]
           + PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX;
-      fPropertyNamesUnderline[i] = fPropertyNamesForeground[i]
+      fPropertyNamesUnderline[i] = fPropertyNames[i]
           + PreferenceConstants.EDITOR_UNDERLINE_SUFFIX;
       if (fNeedsLazyColorLoading)
-        addTokenWithProxyAttribute(fPropertyNamesForeground[i],
+        addTokenWithProxyAttribute(fPropertyNames[i], fPropertyNamesForeground[i],
             fPropertyNamesBold[i], fPropertyNamesItalic[i],
             fPropertyNamesStrikethrough[i], fPropertyNamesUnderline[i]);
       else
-        addToken(fPropertyNamesForeground[i], fPropertyNamesBold[i],
+        addToken(fPropertyNames[i], fPropertyNamesForeground[i], fPropertyNamesBold[i],
             fPropertyNamesItalic[i], fPropertyNamesStrikethrough[i],
             fPropertyNamesUnderline[i]);
     }
@@ -180,8 +188,8 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
   private void resolveProxyAttributes()
   {
     if (fNeedsLazyColorLoading && Display.getCurrent() != null) {
-      for (int i = 0; i < fPropertyNamesForeground.length; i++) {
-        addToken(fPropertyNamesForeground[i], fPropertyNamesBold[i],
+      for (int i = 0; i < fPropertyNames.length; i++) {
+        addToken(fPropertyNames[i], fPropertyNamesForeground[i], fPropertyNamesBold[i],
             fPropertyNamesItalic[i], fPropertyNamesStrikethrough[i],
             fPropertyNamesUnderline[i]);
       }
@@ -189,14 +197,14 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
     }
   }
 
-  private void addTokenWithProxyAttribute(String foregroundKey, String boldKey,
+  private void addTokenWithProxyAttribute(String name, String foregroundKey, String boldKey,
       String italicKey, String strikethroughKey, String underlineKey)
   {
-    fTokenMap.put(foregroundKey, new Token(createTextAttribute(null, boldKey,
+    fTokenMap.put(name, new Token(createTextAttribute(null, boldKey,
         italicKey, strikethroughKey, underlineKey)));
   }
 
-  private void addToken(String foregroundKey, String boldKey, String italicKey,
+  private void addToken(String name, String foregroundKey, String boldKey, String italicKey,
       String strikethroughKey, String underlineKey)
   {
     if (fColorManager != null && foregroundKey != null
@@ -207,10 +215,10 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
     }
 
     if (!fNeedsLazyColorLoading)
-      fTokenMap.put(foregroundKey, new Token(createTextAttribute(foregroundKey,
+      fTokenMap.put(name, new Token(createTextAttribute(foregroundKey,
           boldKey, italicKey, strikethroughKey, underlineKey)));
     else {
-      Token token = fTokenMap.get(foregroundKey);
+      Token token = fTokenMap.get(name);
       if (token != null)
         token.setData(createTextAttribute(foregroundKey, boldKey, italicKey,
             strikethroughKey, underlineKey));
@@ -270,7 +278,7 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
   private int indexOf(String property)
   {
     if (property != null) {
-      int length = fPropertyNamesForeground.length;
+      int length = fPropertyNames.length;
       for (int i = 0; i < length; i++) {
         if (property.equals(fPropertyNamesForeground[i])
             || property.equals(fPropertyNamesBold[i])
@@ -292,7 +300,7 @@ public abstract class AbstractZCodeScanner extends BufferedRuleBasedScanner
   {
     String p = event.getProperty();
     int index = indexOf(p);
-    Token token = getToken(fPropertyNamesForeground[index]);
+    Token token = getToken(fPropertyNames[index]);
     if (fPropertyNamesForeground[index].equals(p))
       adaptToColorChange(token, event);
     else if (fPropertyNamesBold[index].equals(p))

@@ -48,51 +48,6 @@ public interface IZColorConstants
    */
   String PREFIX = "czt_"; //$NON-NLS-1$
 
-  /**
-   * The color key for narrative paragraph
-   */
-  String CZT_NARRATIVE_PARAGRAPH = "czt_narr_para";
-
-  /**
-   * The color key for zchar paragraph
-   */
-  String CZT_ZCHAR_PARAGRAPH = "czt_zchar_para";
-
-  /**
-   * The color key for section paragraph
-   */
-  String CZT_SECTION_PARAGRAPH = "czt_section_para";
-
-  /**
-   * The color key for zed paragraph
-   */
-  String CZT_ZED_PARAGRAPH = "czt_zed_para";
-
-  /**
-   * The color key for schema definition paragraph
-   */
-  String CZT_SCHEMA_PARAGRAPH = "czt_schema_para";
-
-  /**
-   * The color key for axiomatic description paragraph
-   */
-  String CZT_AX_PARAGRAPH = "czt_ax_para";
-
-  /**
-   * The color key for generic schema definition paragraph
-   */
-  String CZT_GEN_PARAGRAPH = "czt_gen_para";
-
-  /** The color key for multi-line comments in Z code
-   * (value <code>"czt_multi_line_comment"</code>).
-   */
-  String CZT_MULTI_LINE_COMMENT = "czt_multi_line_comment"; //$NON-NLS-1$
-
-  /** The color key for single-line comments in Z code
-   * (value <code>"czt_single_line_comment"</code>).
-   */
-  String CZT_SINGLE_LINE_COMMENT = "czt_single_line_comment"; //$NON-NLS-1$
-
   /** The color key for Java keywords in Z code
    * (value <code>"czt_keyword"</code>).
    */
@@ -108,5 +63,15 @@ public interface IZColorConstants
    * (value <code>"czt_default"</code>).
    */
   String CZT_DEFAULT = "czt_default"; //$NON-NLS-1$
-
+  
+  /** The color key for comments in Z code
+   * (value <code>"czt_comment"</code>).
+   */
+  String CZT_COMMENT = "czt_comment"; //$NON-NLS-1$
+  
+  /**
+   * The color key for narrative section or paragraph
+   * (value <code>"czt_narrative"</code>).
+   */
+  String CZT_NARRATIVE = "czt_narrative";
 }

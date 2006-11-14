@@ -100,7 +100,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   private void initializeScanners()
   {
     fNarrativeCodeScanner = new ZCommentScanner(getColorManager(),
-        fPreferenceStore, IZColorConstants.CZT_NARRATIVE_PARAGRAPH);
+        fPreferenceStore, IZColorConstants.CZT_NARRATIVE);
     fZCharScanner = new ZCharCodeScanner(getColorManager(), fPreferenceStore);
   }
 
@@ -407,7 +407,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   {
     if (fNarrativeCodeScanner == null)
       fNarrativeCodeScanner = new ZCommentScanner(getColorManager(),
-          fPreferenceStore, IZColorConstants.CZT_MULTI_LINE_COMMENT);
+          fPreferenceStore, IZColorConstants.CZT_NARRATIVE);
 
     return fNarrativeCodeScanner;
   }

@@ -24,10 +24,7 @@ public class ZCharCodeScanner extends AbstractZCodeScanner
 
   private static String[] fgZCharKeywords = {};
 
-  private static String[] fgTokenProperties = {
-  //    IZColorConstants.CZT_KEYWORD,
-  //    IZColorConstants.CZT_DEFAULT,
-  IZColorConstants.CZT_SINGLE_LINE_COMMENT,};
+  private static String[] fgTokenProperties = {IZColorConstants.CZT_COMMENT,};
 
   /**
    * Create a ZCHAR code scanner
@@ -62,7 +59,7 @@ public class ZCharCodeScanner extends AbstractZCodeScanner
 
     //        IToken keywordToken = getToken(IZColorConstants.CZT_KEYWORD);
     //        IToken defaultToken = getToken(IZColorConstants.CZT_DEFAULT);
-    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_SINGLE_LINE_COMMENT);
+    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_COMMENT);
 
     // Add generic whitespace rule.
     //        rules.add(new WhitespaceRule(new ZLatexWhitespaceDetector()));
@@ -74,7 +71,8 @@ public class ZCharCodeScanner extends AbstractZCodeScanner
     //            wordRule.addWord(fgZCharKeywords[i], keywordToken);
 
     ///        rules.add(wordRule);
-    super.setDefaultReturnToken(singleLineCommentToken);
+    
+    setDefaultReturnToken(singleLineCommentToken);
 
     return rules;
   }

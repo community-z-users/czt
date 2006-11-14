@@ -40,43 +40,36 @@ public final class PreferencesMessages extends NLS
 
   public static String MarkOccurrencesConfigurationBlock_markOccurrencesWhenExpansion;
 
+  /*
+   * Titles related information in syntax coloring preference page
+   */
   public static String ZEditorColoringConfigurationBlock_link;
 
   public static String ZEditorPreferencePage_colors;
 
   public static String ZEditorPreferencePage_coloring_element;
-
+  
+  /*
+   * Token names in syntax coloring preference page
+   */
   public static String ZEditorPreferencePage_coloring_category_code;
 
   public static String ZEditorPreferencePage_keywords;
 
   public static String ZEditorPreferencePage_operators;
-
-  public static String ZEditorPreferencePage_singleLineComment;
-
+  
   public static String ZEditorPreferencePage_default;
 
-  public static String ZEditorPreferencePage_coloring_category_paragraph;
-
-  public static String ZEditorPreferencePage_narrativeParagraph;
-
-  public static String ZEditorPreferencePage_zcharParagraph;
-
-  public static String ZEditorPreferencePage_sectionParagraph;
-
-  public static String ZEditorPreferencePage_zedParagraph;
-
-  public static String ZEditorPreferencePage_schemaParagraph;
-
-  public static String ZEditorPreferencePage_axiomaticParagraph;
-
-  public static String ZEditorPreferencePage_genericParagraph;
-
+  public static String ZEditorPreferencePage_comments;
+  
+  public static String ZEditorPreferencePage_narratives;
+  
+  /*
+   * Labels in syntax coloring preference page
+   */
   public static String ZEditorPreferencePage_enable;
 
   public static String ZEditorPreferencePage_foreground;
-
-  public static String ZEditorPreferencePage_background;
 
   public static String ZEditorPreferencePage_bold;
 
@@ -87,6 +80,10 @@ public final class PreferencesMessages extends NLS
   public static String ZEditorPreferencePage_underline;
 
   public static String ZEditorPreferencePage_preview;
+  
+  /*
+   * Error information in editor preference pages
+   */
 
   public static String ZEditorPreferencePage_empty_input;
 

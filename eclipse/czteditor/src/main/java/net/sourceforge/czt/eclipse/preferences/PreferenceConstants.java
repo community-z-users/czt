@@ -35,11 +35,8 @@ public class PreferenceConstants
   /**
    * Preference key suffix for foreground text color preference keys
    */
-  //    public static final String EDITOR_FOREGROUND_SUFFIX = "_foreground";
-  /**
-   * Preference key suffix for foreground text color preference keys
-   */
-  //    public static final String EDITOR_BACKGROUND_SUFFIX = "_background";
+  public static final String EDITOR_FOREGROUND_SUFFIX = "_foreground";
+
   /**
    * Preference key suffix for bold text style preference keys.
    * 
@@ -86,19 +83,8 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_NARRATIVE_PARA_FOREGROUND = IZColorConstants.CZT_NARRATIVE_PARAGRAPH;
+  public final static String EDITOR_Z_NARRATIVE_FOREGROUND = IZColorConstants.CZT_NARRATIVE + EDITOR_FOREGROUND_SUFFIX;
 
-  /**
-   * A named preference that holds the color used to render narrative paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_NARRATIVE_PARA_BACKGROUND = IZColorConstants.CZT_NARRATIVE_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
   /**
    * A named preference that controls whether narrative paragraphs are rendered in bold.
    * <p>
@@ -106,8 +92,7 @@ public class PreferenceConstants
    * in bold. If <code>false</code> the are rendered using no font style attribute.
    * </p>
    */
-  public final static String EDITOR_NARRATIVE_PARA_BOLD = IZColorConstants.CZT_NARRATIVE_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
+  public final static String EDITOR_Z_NARRATIVE_BOLD = IZColorConstants.CZT_NARRATIVE + EDITOR_BOLD_SUFFIX;
 
   /**
    * A named preference that controls whether narrative paragraphs are rendered in italic.
@@ -118,8 +103,7 @@ public class PreferenceConstants
    * 
    * @since 3.0
    */
-  public final static String EDITOR_NARRATIVE_PARA_ITALIC = IZColorConstants.CZT_NARRATIVE_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
+  public final static String EDITOR_Z_NARRATIVE_ITALIC = IZColorConstants.CZT_NARRATIVE + EDITOR_ITALIC_SUFFIX;
 
   /**
    * A named preference that controls whether narrative paragraphs are rendered in strikethrough.
@@ -130,8 +114,7 @@ public class PreferenceConstants
    * 
    * @since 3.1
    */
-  public final static String EDITOR_NARRATIVE_PARA_STRIKETHROUGH = IZColorConstants.CZT_NARRATIVE_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
+  public final static String EDITOR_Z_NARRATIVE_STRIKETHROUGH = IZColorConstants.CZT_NARRATIVE + EDITOR_STRIKETHROUGH_SUFFIX;
 
   /**
    * A named preference that controls whether narrative paragraphs are rendered in underline.
@@ -142,422 +125,7 @@ public class PreferenceConstants
    * 
    * @since 3.1
    */
-  public final static String EDITOR_NARRATIVE_PARA_UNDERLINE = IZColorConstants.CZT_NARRATIVE_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render zchar paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_ZCHAR_PARA_FOREGROUND = IZColorConstants.CZT_ZCHAR_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render zchar paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_ZCHAR_PARA_BACKGROUND = IZColorConstants.CZT_ZCHAR_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether zchar paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_ZCHAR_PARA_BOLD = IZColorConstants.CZT_ZCHAR_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether zchar paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_ZCHAR_PARA_ITALIC = IZColorConstants.CZT_ZCHAR_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether zchar paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_ZCHAR_PARA_STRIKETHROUGH = IZColorConstants.CZT_ZCHAR_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether zchar paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_ZCHAR_PARA_UNDERLINE = IZColorConstants.CZT_ZCHAR_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render section paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_SECTION_PARA_FOREGROUND = IZColorConstants.CZT_SECTION_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render section paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_SECTION_PARA_BACKGROUND = IZColorConstants.CZT_SECTION_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether section paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_SECTION_PARA_BOLD = IZColorConstants.CZT_SECTION_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether section paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_SECTION_PARA_ITALIC = IZColorConstants.CZT_SECTION_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether section paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_SECTION_PARA_STRIKETHROUGH = IZColorConstants.CZT_SECTION_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether section paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_SECTION_PARA_UNDERLINE = IZColorConstants.CZT_SECTION_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render zed paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_ZED_PARA_FOREGROUND = IZColorConstants.CZT_ZED_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render zed paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_ZED_PARA_BACKGROUND = IZColorConstants.CZT_ZED_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether zed paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_ZED_PARA_BOLD = IZColorConstants.CZT_ZED_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether zed paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_ZED_PARA_ITALIC = IZColorConstants.CZT_ZED_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether zed paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_ZED_PARA_STRIKETHROUGH = IZColorConstants.CZT_ZED_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether zed paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_ZED_PARA_UNDERLINE = IZColorConstants.CZT_ZED_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render axiomatic paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_AX_PARA_FOREGROUND = IZColorConstants.CZT_AX_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render axiomatic paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_AX_PARA_BACKGROUND = IZColorConstants.CZT_AX_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether axiomatic paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_AX_PARA_BOLD = IZColorConstants.CZT_AX_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether axiomatic paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_AX_PARA_ITALIC = IZColorConstants.CZT_AX_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether axiomatic paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_AX_PARA_STRIKETHROUGH = IZColorConstants.CZT_AX_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether axiomatic paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_AX_PARA_UNDERLINE = IZColorConstants.CZT_AX_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render schema definition paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_SCHEMA_PARA_FOREGROUND = IZColorConstants.CZT_SCHEMA_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render schema definition paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_SCHEMA_PARA_BACKGROUND = IZColorConstants.CZT_ZCHAR_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether schema definition paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_SCHEMA_PARA_BOLD = IZColorConstants.CZT_SCHEMA_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether schema definition paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_SCHEMA_PARA_ITALIC = IZColorConstants.CZT_SCHEMA_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether schema definition paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_SCHEMA_PARA_STRIKETHROUGH = IZColorConstants.CZT_SCHEMA_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether schema definition paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_SCHEMA_PARA_UNDERLINE = IZColorConstants.CZT_SCHEMA_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
-
-  /**
-   * A named preference that holds the color used to render generic schema definition paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  public final static String EDITOR_GEN_PARA_FOREGROUND = IZColorConstants.CZT_GEN_PARAGRAPH;
-
-  /**
-   * A named preference that holds the color used to render generic schema definition paragraphs.
-   * <p>
-   * Value is of type <code>String</code>. A RGB color value encoded as a string
-   * using class <code>PreferenceConverter</code>
-   * </p>
-   * 
-   * @see org.eclipse.jface.resource.StringConverter
-   * @see org.eclipse.jface.preference.PreferenceConverter
-   */
-  //    public final static String EDITOR_GEN_PARA_BACKGROUND = IZColorConstants.CZT_GEN_PARAGRAPH + EDITOR_BACKGROUND_SUFFIX;
-  /**
-   * A named preference that controls whether generic schema definition paragraphs are rendered in bold.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in bold. If <code>false</code> the are rendered using no font style attribute.
-   * </p>
-   */
-  public final static String EDITOR_GEN_PARA_BOLD = IZColorConstants.CZT_GEN_PARAGRAPH
-      + EDITOR_BOLD_SUFFIX;
-
-  /**
-   * A named preference that controls whether generic schema definition paragraphs are rendered in italic.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in italic. If <code>false</code> the are rendered using no italic font style attribute.
-   * </p>
-   * 
-   * @since 3.0
-   */
-  public final static String EDITOR_GEN_PARA_ITALIC = IZColorConstants.CZT_GEN_PARAGRAPH
-      + EDITOR_ITALIC_SUFFIX;
-
-  /**
-   * A named preference that controls whether generic schema definition paragraphs are rendered in strikethrough.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in strikethrough. If <code>false</code> the are rendered using no strikethrough font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_GEN_PARA_STRIKETHROUGH = IZColorConstants.CZT_GEN_PARAGRAPH
-      + EDITOR_STRIKETHROUGH_SUFFIX;
-
-  /**
-   * A named preference that controls whether generic schema definition paragraphs are rendered in underline.
-   * <p>
-   * Value is of type <code>Boolean</code>. If <code>true</code> multi-line comments are rendered
-   * in underline. If <code>false</code> the are rendered using no underline font style attribute.
-   * </p>
-   * 
-   * @since 3.1
-   */
-  public final static String EDITOR_GEN_PARA_UNDERLINE = IZColorConstants.CZT_GEN_PARAGRAPH
-      + EDITOR_UNDERLINE_SUFFIX;
+  public final static String EDITOR_Z_NARRATIVE_UNDERLINE = IZColorConstants.CZT_NARRATIVE + EDITOR_UNDERLINE_SUFFIX;
 
   /**
    * A named preference that holds the color used to render single-line comments foreground.
@@ -569,7 +137,8 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_SINGLE_LINE_COMMENT_FOREGROUND = IZColorConstants.CZT_SINGLE_LINE_COMMENT;
+  public final static String EDITOR_Z_COMMENT_FOREGROUND = IZColorConstants.CZT_COMMENT
+      + EDITOR_FOREGROUND_SUFFIX;
 
   /**
    * A named preference that controls whether single-line comments are rendered in bold.
@@ -578,7 +147,7 @@ public class PreferenceConstants
    * in bold. If <code>false</code> the are rendered using no font style attribute.
    * </p>
    */
-  public final static String EDITOR_SINGLE_LINE_COMMENT_BOLD = IZColorConstants.CZT_SINGLE_LINE_COMMENT
+  public final static String EDITOR_Z_COMMENT_BOLD = IZColorConstants.CZT_COMMENT
       + EDITOR_BOLD_SUFFIX;
 
   /**
@@ -590,7 +159,7 @@ public class PreferenceConstants
    * 
    * @since 3.0
    */
-  public final static String EDITOR_SINGLE_LINE_COMMENT_ITALIC = IZColorConstants.CZT_SINGLE_LINE_COMMENT
+  public final static String EDITOR_Z_COMMENT_ITALIC = IZColorConstants.CZT_COMMENT
       + EDITOR_ITALIC_SUFFIX;
 
   /**
@@ -602,7 +171,7 @@ public class PreferenceConstants
    * 
    * @since 3.1
    */
-  public final static String EDITOR_SINGLE_LINE_COMMENT_STRIKETHROUGH = IZColorConstants.CZT_SINGLE_LINE_COMMENT
+  public final static String EDITOR_Z_COMMENT_STRIKETHROUGH = IZColorConstants.CZT_COMMENT
       + EDITOR_STRIKETHROUGH_SUFFIX;
 
   /**
@@ -614,7 +183,7 @@ public class PreferenceConstants
    * 
    * @since 3.1
    */
-  public final static String EDITOR_SINGLE_LINE_COMMENT_UNDERLINE = IZColorConstants.CZT_SINGLE_LINE_COMMENT
+  public final static String EDITOR_Z_COMMENT_UNDERLINE = IZColorConstants.CZT_COMMENT
       + EDITOR_UNDERLINE_SUFFIX;
 
   /**
@@ -627,7 +196,8 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_Z_KEYWORD_FOREGROUND = IZColorConstants.CZT_KEYWORD;
+  public final static String EDITOR_Z_KEYWORD_FOREGROUND = IZColorConstants.CZT_KEYWORD
+      + EDITOR_FOREGROUND_SUFFIX;
 
   /**
    * A named preference that controls whether keywords are rendered in bold.
@@ -681,7 +251,8 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_Z_OPERATOR_FOREGROUND = IZColorConstants.CZT_OPERATOR;
+  public final static String EDITOR_Z_OPERATOR_FOREGROUND = IZColorConstants.CZT_OPERATOR
+      + EDITOR_FOREGROUND_SUFFIX;
 
   /**
    * A named preference that controls whether operators are rendered in bold.
@@ -735,7 +306,8 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_Z_DEFAULT_FOREGROUND = IZColorConstants.CZT_DEFAULT;
+  public final static String EDITOR_Z_DEFAULT_FOREGROUND = IZColorConstants.CZT_DEFAULT
+      + EDITOR_FOREGROUND_SUFFIX;
 
   /**
    * A named preference that controls whether Z default text is rendered in bold.
@@ -968,56 +540,17 @@ public class PreferenceConstants
     //		PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_LINKED_POSITION_COLOR, new RGB(121, 121, 121));
 
     PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_NARRATIVE_PARA_FOREGROUND,
+        PreferenceConstants.EDITOR_Z_NARRATIVE_FOREGROUND,
         new RGB(128, 0, 0));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_NARRATIVE_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_NARRATIVE_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_NARRATIVE_PARA_ITALIC, false);
+    store.setDefault(PreferenceConstants.EDITOR_Z_NARRATIVE_BOLD, false);
+    store.setDefault(PreferenceConstants.EDITOR_Z_NARRATIVE_ITALIC, false);
 
     PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_ZCHAR_PARA_FOREGROUND, new RGB(128, 128, 0));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_ZCHAR_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_ZCHAR_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_ZCHAR_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_SECTION_PARA_FOREGROUND, new RGB(128, 128,
-            128));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_SECTION_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_SECTION_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_SECTION_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_ZED_PARA_FOREGROUND, new RGB(128, 128, 128));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_ZED_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_ZED_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_ZED_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_SCHEMA_PARA_FOREGROUND, new RGB(128, 128,
-            128));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_SCHEMA_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_SCHEMA_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_SCHEMA_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_AX_PARA_FOREGROUND, new RGB(128, 128, 128));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_AX_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_AX_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_AX_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_GEN_PARA_FOREGROUND, new RGB(128, 128, 128));
-    //        PreferenceConverter.setDefault(store, PreferenceConstants.EDITOR_GEN_PARA_BACKGROUND, new RGB(0, 0, 0));
-    store.setDefault(PreferenceConstants.EDITOR_GEN_PARA_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_GEN_PARA_ITALIC, false);
-
-    PreferenceConverter.setDefault(store,
-        PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_FOREGROUND, new RGB(128,
+        PreferenceConstants.EDITOR_Z_COMMENT_FOREGROUND, new RGB(128,
             128, 0));
     store
-        .setDefault(PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_BOLD, false);
-    store.setDefault(PreferenceConstants.EDITOR_SINGLE_LINE_COMMENT_ITALIC,
+        .setDefault(PreferenceConstants.EDITOR_Z_COMMENT_BOLD, false);
+    store.setDefault(PreferenceConstants.EDITOR_Z_COMMENT_ITALIC,
         false);
 
     PreferenceConverter.setDefault(store,
@@ -1032,7 +565,7 @@ public class PreferenceConstants
 
     PreferenceConverter
         .setDefault(store, PreferenceConstants.EDITOR_Z_DEFAULT_FOREGROUND,
-            new RGB(128, 128, 128));
+            new RGB(0, 0, 0));
     store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_BOLD, false);
     store.setDefault(PreferenceConstants.EDITOR_Z_DEFAULT_ITALIC, false);
 

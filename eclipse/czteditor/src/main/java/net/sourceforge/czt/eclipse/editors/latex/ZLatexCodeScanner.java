@@ -21,9 +21,9 @@ import org.eclipse.jface.text.rules.WordRule;
 public class ZLatexCodeScanner extends AbstractZCodeScanner
 {
 
-  private static String[] fgAlphabeticKeywords = {"\\begin", "\\end", "else", "false", "function",
-      "generic", "if", "leftassoc", "let", "IP", "parents", "pre", "relation",
-      "rightassoc", "section", "then", "true"};
+  private static String[] fgAlphabeticKeywords = {"\\begin", "\\end", "else",
+      "false", "function", "generic", "if", "leftassoc", "let", "IP",
+      "parents", "pre", "relation", "rightassoc", "section", "then", "true"};
 
   private static String[] fgSymbolicKeywords = {":", "==", ",", "::=", "|",
       "&", "\\", "/", ".", ";", "-", ",,", "=", ""};
@@ -48,9 +48,9 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
       "\\implies", "\\iff", "\\lnot", "\\forall", "\\exists", "\\cross",
       "\\in", "\\hide", "\\project", "\\semi", "\\pipe"};
 
-  private static String[] fgTokenProperties = {
-      IZColorConstants.CZT_SINGLE_LINE_COMMENT, IZColorConstants.CZT_KEYWORD,
-      IZColorConstants.CZT_OPERATOR, IZColorConstants.CZT_DEFAULT,};
+  private static String[] fgTokenProperties = { IZColorConstants.CZT_KEYWORD,
+      IZColorConstants.CZT_OPERATOR, IZColorConstants.CZT_DEFAULT,
+      IZColorConstants.CZT_COMMENT };
 
   /**
    * Creates a Z latex code scanner
@@ -81,7 +81,7 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
     List<IRule> rules = new ArrayList<IRule>();
 
     IToken keywordToken = getToken(IZColorConstants.CZT_KEYWORD);
-    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_SINGLE_LINE_COMMENT);
+    IToken singleLineCommentToken = getToken(IZColorConstants.CZT_COMMENT);
     IToken defaultToken = getToken(IZColorConstants.CZT_DEFAULT);
 
     // Add rule for single line comments.
@@ -112,6 +112,8 @@ public class ZLatexCodeScanner extends AbstractZCodeScanner
       wordRule.addWord(fgSymbolCharacters[i], keywordToken);
 
     rules.add(wordRule);
+    
+    setDefaultReturnToken(defaultToken);
 
     return rules;
   }

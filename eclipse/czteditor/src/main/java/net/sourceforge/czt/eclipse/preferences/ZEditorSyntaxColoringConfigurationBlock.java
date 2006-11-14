@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
@@ -68,8 +69,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
   /**
    * Item in the highlighting color list.
-   * 
-   * @since 3.0
    */
   private static class HighlightingColorListItem
   {
@@ -79,8 +78,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
     /** Foreground preference key */
     private String fForegroundKey;
 
-    /** Background preference key */
-    //    private String fBackgroundKey;
     /** Bold preference key */
     private String fBoldKey;
 
@@ -89,12 +86,11 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     /**
      * Strikethrough preference key.
-     * @since 3.1
      */
     private String fStrikethroughKey;
 
-    /** Underline preference key.
-     * @since 3.1
+    /**
+     * Underline preference key.
      */
     private String fUnderlineKey;
 
@@ -113,7 +109,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
     {
       fDisplayName = displayName;
       fForegroundKey = foregroundKey;
-      //      fBackgroundKey = backgroundKey;
       fBoldKey = boldKey;
       fItalicKey = italicKey;
       fStrikethroughKey = strikethroughKey;
@@ -137,13 +132,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
     }
 
     /**
-     * @return the background preference key
-     */
-    //    public String getBackgroundKey()
-    //    {
-    //      return fBackgroundKey;
-    //    }
-    /**
      * @return the bold preference key
      */
     public String getBoldKey()
@@ -161,7 +149,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     /**
      * @return the strikethrough preference key
-     * @since 3.1
      */
     public String getStrikethroughKey()
     {
@@ -170,7 +157,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     /**
      * @return the underline preference key
-     * @since 3.1
      */
     public String getUnderlineKey()
     {
@@ -178,6 +164,9 @@ public class ZEditorSyntaxColoringConfigurationBlock
     }
   }
 
+  /**
+   * Iterm in the semantic highlighting color list
+   */
   private static class SemanticHighlightingColorListItem
       extends
         HighlightingColorListItem
@@ -216,8 +205,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
   /**
    * Color list label provider.
-   * 
-   * @since 3.0
    */
   private class ColorListLabelProvider extends LabelProvider
   {
@@ -226,16 +213,15 @@ public class ZEditorSyntaxColoringConfigurationBlock
      */
     public String getText(Object element)
     {
-      if (element instanceof String)
-        return (String) element;
-      return ((HighlightingColorListItem) element).getDisplayName();
+      if (element instanceof HighlightingColorListItem)
+        return ((HighlightingColorListItem) element).getDisplayName();
+      
+      return (String) element;
     }
   }
 
   /**
    * Color list content provider.
-   * 
-   * @since 3.0
    */
   private class ColorListContentProvider implements ITreeContentProvider
   {
@@ -245,7 +231,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
      */
     public Object[] getElements(Object inputElement)
     {
-      return new String[]{fZCodeCategory, fZParagraphsCategory};
+      return new Object[]{ fZCodeCategory, fListModel.get(3), fListModel.get(4) };
     }
 
     /*
@@ -267,10 +253,9 @@ public class ZEditorSyntaxColoringConfigurationBlock
       if (parentElement instanceof String) {
         String entry = (String) parentElement;
         if (fZCodeCategory.equals(entry))
-          return fListModel.subList(0, 4).toArray();
-        if (fZParagraphsCategory.equals(entry))
-          return fListModel.subList(4, fListModel.size()).toArray();
+          return fListModel.subList(0, 3).toArray();
       }
+      
       return new Object[0];
     }
 
@@ -278,10 +263,12 @@ public class ZEditorSyntaxColoringConfigurationBlock
     {
       if (element instanceof String)
         return null;
+      
       int index = fListModel.indexOf(element);
-      if (index < 4)
+      if (index < 3)
         return fZCodeCategory;
-      return fZParagraphsCategory;
+      
+      return null;
     }
 
     public boolean hasChildren(Object element)
@@ -292,35 +279,26 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
   /**
    * Preference key suffix for foreground preferences.
-   * @since  3.0
    */
-  //  private static final String FOREGROUND = PreferenceConstants.EDITOR_FOREGROUND_SUFFIX;
-  /**
-   * Preference key suffix for background preferences.
-   * @since  3.0
-   */
-  //  private static final String BACKGROUND = PreferenceConstants.EDITOR_BACKGROUND_SUFFIX;
+  private static final String FOREGROUND = PreferenceConstants.EDITOR_FOREGROUND_SUFFIX;
+  
   /**
    * Preference key suffix for bold preferences.
-   * @since  3.0
    */
   private static final String BOLD = PreferenceConstants.EDITOR_BOLD_SUFFIX;
 
   /**
    * Preference key suffix for italic preferences.
-   * @since  3.0
    */
   private static final String ITALIC = PreferenceConstants.EDITOR_ITALIC_SUFFIX;
 
   /**
    * Preference key suffix for strikethrough preferences.
-   * @since  3.1
    */
   private static final String STRIKETHROUGH = PreferenceConstants.EDITOR_STRIKETHROUGH_SUFFIX;
 
   /**
    * Preference key suffix for underline preferences.
-   * @since  3.1
    */
   private static final String UNDERLINE = PreferenceConstants.EDITOR_UNDERLINE_SUFFIX;
 
@@ -332,91 +310,77 @@ public class ZEditorSyntaxColoringConfigurationBlock
           IZColorConstants.CZT_KEYWORD},
       {PreferencesMessages.ZEditorPreferencePage_operators,
           IZColorConstants.CZT_OPERATOR},
-      {PreferencesMessages.ZEditorPreferencePage_singleLineComment,
-          IZColorConstants.CZT_SINGLE_LINE_COMMENT},
       {PreferencesMessages.ZEditorPreferencePage_default,
           IZColorConstants.CZT_DEFAULT},
-      {PreferencesMessages.ZEditorPreferencePage_narrativeParagraph,
-          IZColorConstants.CZT_NARRATIVE_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_zcharParagraph,
-          IZColorConstants.CZT_ZCHAR_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_sectionParagraph,
-          IZColorConstants.CZT_SECTION_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_zedParagraph,
-          IZColorConstants.CZT_ZED_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_schemaParagraph,
-          IZColorConstants.CZT_SCHEMA_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_axiomaticParagraph,
-          IZColorConstants.CZT_AX_PARAGRAPH},
-      {PreferencesMessages.ZEditorPreferencePage_genericParagraph,
-          IZColorConstants.CZT_GEN_PARAGRAPH},};
+      {PreferencesMessages.ZEditorPreferencePage_comments,
+          IZColorConstants.CZT_COMMENT},
+      {PreferencesMessages.ZEditorPreferencePage_narratives,
+          IZColorConstants.CZT_NARRATIVE},};
 
   private final String fZCodeCategory = PreferencesMessages.ZEditorPreferencePage_coloring_category_code;
 
-  private final String fZParagraphsCategory = PreferencesMessages.ZEditorPreferencePage_coloring_category_paragraph;
-
-  private ColorSelector fSyntaxForegroundColorEditor;
-
-  //  private ColorSelector fSyntaxBackgroundColorEditor;
-
-  private Label fForegroundColorEditorLabel;
-
-  //  private Label fBackgroundColorEditorLabel;
-
-  private Button fBoldCheckBox;
-
+  /**
+   * Check box for enable preference.
+   */
   private Button fEnableCheckbox;
+  
+  /**
+   * Label for foreground preference
+   */
+  private Label fForegroundColorEditorLabel;
+  
+  /**
+   * Color selector for foreground preference
+   */
+  private ColorSelector fSyntaxForegroundColorEditor;
+  
+  /**
+   * Check box for bold preference.
+   */
+  private Button fBoldCheckBox;
 
   /**
    * Check box for italic preference.
-   * @since  3.0
    */
   private Button fItalicCheckBox;
 
   /**
    * Check box for strikethrough preference.
-   * @since  3.1
    */
   private Button fStrikethroughCheckBox;
 
   /**
    * Check box for underline preference.
-   * @since  3.1
    */
   private Button fUnderlineCheckBox;
 
   /**
    * Highlighting color list
-   * @since  3.0
    */
   private final java.util.List<HighlightingColorListItem> fListModel = new ArrayList<HighlightingColorListItem>();
 
   /**
    * Highlighting color list viewer
-   * @since  3.0
    */
   private StructuredViewer fListViewer;
 
   /**
    * The previewer.
-   * @since 3.0
    */
   private ZSourceViewer fPreviewViewer;
 
   /**
    * The color manager.
-   * @since 3.1
    */
   private CZTColorManager fColorManager;
 
   /**
    * The font metrics.
-   * @since 3.1
    */
   private FontMetrics fFontMetrics;
 
   /**
-   * @param store
+   * @param store the overlay preference store
    */
   public ZEditorSyntaxColoringConfigurationBlock(OverlayPreferenceStore store)
   {
@@ -426,7 +390,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
 
     for (int i = 0, n = fSyntaxColorListModel.length; i < n; i++)
       fListModel.add(new HighlightingColorListItem(fSyntaxColorListModel[i][0],
-          fSyntaxColorListModel[i][1], fSyntaxColorListModel[i][1] + BOLD,
+          fSyntaxColorListModel[i][1] + FOREGROUND, fSyntaxColorListModel[i][1] + BOLD,
           fSyntaxColorListModel[i][1] + ITALIC, fSyntaxColorListModel[i][1]
               + STRIKETHROUGH, fSyntaxColorListModel[i][1] + UNDERLINE));
 
@@ -436,15 +400,13 @@ public class ZEditorSyntaxColoringConfigurationBlock
   private OverlayPreferenceStore.OverlayKey[] createOverlayStoreKeys()
   {
 
-    java.util.List<OverlayPreferenceStore.OverlayKey> overlayKeys = new ArrayList<OverlayPreferenceStore.OverlayKey>();
+    List<OverlayPreferenceStore.OverlayKey> overlayKeys = new ArrayList<OverlayPreferenceStore.OverlayKey>();
 
     for (int i = 0, n = fListModel.size(); i < n; i++) {
       HighlightingColorListItem item = (HighlightingColorListItem) fListModel
           .get(i);
       overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
           OverlayPreferenceStore.STRING, item.getForegroundKey()));
-      //      overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-      //          OverlayPreferenceStore.STRING, item.getBackgroundKey()));
       overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
           OverlayPreferenceStore.BOOLEAN, item.getBoldKey()));
       overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
@@ -563,9 +525,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
       fEnableCheckbox.setEnabled(false);
       fForegroundColorEditorLabel.setEnabled(false);
       fSyntaxForegroundColorEditor.getButton().setEnabled(false);
-
-      //      fBackgroundColorEditorLabel.setEnabled(false);
-      //      fSyntaxBackgroundColorEditor.getButton().setEnabled(false);
       fBoldCheckBox.setEnabled(false);
       fItalicCheckBox.setEnabled(false);
       fStrikethroughCheckBox.setEnabled(false);
@@ -593,8 +552,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
       fEnableCheckbox.setSelection(enable);
       fForegroundColorEditorLabel.setEnabled(enable);
       fSyntaxForegroundColorEditor.getButton().setEnabled(enable);
-      //      fBackgroundColorEditorLabel.setEnabled(enable);
-      //      fSyntaxBackgroundColorEditor.getButton().setEnabled(enable);
       fBoldCheckBox.setEnabled(enable);
       fItalicCheckBox.setEnabled(enable);
       fStrikethroughCheckBox.setEnabled(enable);
@@ -603,8 +560,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
     else {
       fForegroundColorEditorLabel.setEnabled(true);
       fSyntaxForegroundColorEditor.getButton().setEnabled(true);
-      //      fBackgroundColorEditorLabel.setEnabled(true);
-      //      fSyntaxBackgroundColorEditor.getButton().setEnabled(true);
       fBoldCheckBox.setEnabled(true);
       fItalicCheckBox.setEnabled(true);
       fStrikethroughCheckBox.setEnabled(true);
@@ -668,8 +623,11 @@ public class ZEditorSyntaxColoringConfigurationBlock
         // don't sort the top level categories
         if (fZCodeCategory.equals(element))
           return 0;
-        if (fZParagraphsCategory.equals(element))
-          return 1;
+        
+//      to sort semantic settings after partition based ones:
+//      if (element instanceof SemanticHighlightingColorListItem)
+//          return 1;
+        
         return 0;
       }
     });
@@ -714,19 +672,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
     Button foregroundColorButton = fSyntaxForegroundColorEditor.getButton();
     gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
     foregroundColorButton.setLayoutData(gd);
-    /*
-     fBackgroundColorEditorLabel = new Label(stylesComposite, SWT.LEFT);
-     fBackgroundColorEditorLabel
-     .setText(PreferencesMessages.ZEditorPreferencePage_background);
-     gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-     gd.horizontalIndent = 20;
-     fBackgroundColorEditorLabel.setLayoutData(gd);
-
-     fSyntaxBackgroundColorEditor = new ColorSelector(stylesComposite);
-     Button backgroundColorButton = fSyntaxForegroundColorEditor.getButton();
-     gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-     backgroundColorButton.setLayoutData(gd);
-     */
+    
     fBoldCheckBox = new Button(stylesComposite, SWT.CHECK);
     fBoldCheckBox.setText(PreferencesMessages.ZEditorPreferencePage_bold);
     gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -789,22 +735,7 @@ public class ZEditorSyntaxColoringConfigurationBlock
             .getForegroundKey(), fSyntaxForegroundColorEditor.getColorValue());
       }
     });
-    /*
-     backgroundColorButton.addSelectionListener(new SelectionListener()
-     {
-     public void widgetDefaultSelected(SelectionEvent e)
-     {
-     // do nothing
-     }
-
-     public void widgetSelected(SelectionEvent e)
-     {
-     HighlightingColorListItem item = getHighlightingColorListItem();
-     PreferenceConverter.setValue(getPreferenceStore(), item.getBackgroundKey(),
-     fSyntaxBackgroundColorEditor.getColorValue());
-     }
-     });
-     */
+    
     fBoldCheckBox.addSelectionListener(new SelectionListener()
     {
       public void widgetDefaultSelected(SelectionEvent e)
@@ -883,8 +814,6 @@ public class ZEditorSyntaxColoringConfigurationBlock
           fEnableCheckbox.setSelection(enable);
           fForegroundColorEditorLabel.setEnabled(enable);
           fSyntaxForegroundColorEditor.getButton().setEnabled(enable);
-          //          fBackgroundColorEditorLabel.setEnabled(enable);
-          //          fSyntaxBackgroundColorEditor.getButton().setEnabled(enable);
           fBoldCheckBox.setEnabled(enable);
           fItalicCheckBox.setEnabled(enable);
           fStrikethroughCheckBox.setEnabled(enable);
