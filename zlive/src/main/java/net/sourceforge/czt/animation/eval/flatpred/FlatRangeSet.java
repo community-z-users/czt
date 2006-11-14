@@ -101,25 +101,21 @@ public class FlatRangeSet extends FlatEvalSet
 
   public BigInteger getLower()
   {
-    LOG.entering("FlatRangeSet", "getLower");
     BigInteger result = null;
     if (lower_ != null)
       result = lower_;
     else if (lowerArg_ >= 0 && bounds_ != null)
       result = bounds_.getLower(args_.get(lowerArg_));
-	LOG.exiting("FlatRangeSet", "getLower", result);
     return result;
   }
 
   public BigInteger getUpper()
   {
-    LOG.entering("FlatRangeSet", "getUpper");
 	BigInteger result = null;
     if (upper_ != null)
       result = upper_;
     if (upperArg_ >= 0 && bounds_ != null)
       result = bounds_.getUpper(args_.get(upperArg_));
-	LOG.exiting("FlatRangeSet", "getUpper", result);
     return result;
   }
 

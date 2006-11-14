@@ -231,7 +231,6 @@ public class FlattenVisitor
   }
 
   public ZName visitMemPred(MemPred p) {
-    sLogger.entering("Flatten","visitMemPred");
     Factory factory = zlive_.getFactory();
     Expr lhs = p.getLeftExpr();
     Expr rhs = p.getRightExpr();
@@ -241,7 +240,6 @@ public class FlattenVisitor
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getZExprList().get(0);
       flat_.add(new FlatEquals(lhs.accept(this), rhs.accept(this)));
-      sLogger.exiting("Flatten","visitMemPred","=");
       return null;
     }
     else if ((rel=binaryRelation(rhs)) != null
@@ -279,10 +277,8 @@ public class FlattenVisitor
 	  flat_.add(new FlatMember(rhs.accept(this),
 				   lhs.accept(this)));
     }
-    sLogger.exiting("Flatten","visitMemPred");
     return null;
   }
-
 
   public ZName visitFalsePred(FalsePred p) {
    flat_.add(new FlatFalse());
