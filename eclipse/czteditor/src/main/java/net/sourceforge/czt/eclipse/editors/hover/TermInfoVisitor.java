@@ -19,10 +19,13 @@ import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DecorExpr;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.InclDecl;
+import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Oper;
@@ -31,11 +34,15 @@ import net.sourceforge.czt.z.ast.Operator;
 import net.sourceforge.czt.z.ast.OptempPara;
 import net.sourceforge.czt.z.ast.OrExpr;
 import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.TupleSelExpr;
+import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
@@ -50,10 +57,12 @@ import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
 import net.sourceforge.czt.z.visitor.DecorExprVisitor;
+import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
+import net.sourceforge.czt.z.visitor.InclDeclVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.OperVisitor;
@@ -92,19 +101,21 @@ public class TermInfoVisitor
       UnparsedParaVisitor<String>,
       ConstDeclVisitor<String>,
       VarDeclVisitor<String>,
+//      InclDeclVisitor<String>,
       ZDeclListVisitor<String>,
       ZNameVisitor<String>,
       ZNameListVisitor<String>,
-      RefExprVisitor<String>,
-      PowerExprVisitor<String>,
-      DecorExprVisitor<String>,
-      SchExprVisitor<String>,
-      SetExprVisitor<String>,
-      TupleExprVisitor<String>,
-      TupleSelExprVisitor<String>,
-      ApplExprVisitor<String>,
-      AndExprVisitor<String>,
-      OrExprVisitor<String>,
+      ExprVisitor<String>,
+//      RefExprVisitor<String>,
+//      PowerExprVisitor<String>,
+//      DecorExprVisitor<String>,
+//      SchExprVisitor<String>,
+//      SetExprVisitor<String>,
+//      TupleExprVisitor<String>,
+//      TupleSelExprVisitor<String>,
+//      ApplExprVisitor<String>,
+//      AndExprVisitor<String>,
+//      OrExprVisitor<String>,
       OperVisitor<String>,
       GivenTypeVisitor<String>,
       ZFreetypeListVisitor<String>,
@@ -219,7 +230,26 @@ public class TermInfoVisitor
     String type = constDecl.getExpr().accept(getTermNameVisitor_);
     return result + "\nNAME ---> " + name + "\nTYPE ---> " + type;
   }
-
+/*  
+  public String visitInclDecl(InclDecl expr)
+  {
+    String info = "unknown";
+    // EXAMPLE OF GETTING TYPES FROM SCHEMA INCLUSIONS
+    TypeAnn typeann = expr.getAnn(TypeAnn.class);
+    if (typeann.getType() instanceof PowerType) {
+      PowerType powertype = (PowerType) typeann.getType();
+      if (powertype instanceof SchemaType) {
+        Signature sig = ((SchemaType)powertype).getSignature();
+        for (NameTypePair pair : sig.getNameTypePair()) {
+          // TODO insertIntoTable(pair.getZName(), pair.getType());
+        }
+      }
+    }
+    // TODO visit children of expr
+    return info;
+  }
+*/
+  
   /**
    * @see net.sourceforge.czt.z.visitor.VarDeclVisitor#visitVarDecl(net.sourceforge.czt.z.ast.VarDecl)
    */
@@ -285,107 +315,132 @@ public class TermInfoVisitor
   /**
    * @see net.sourceforge.czt.z.visitor.RefExprVisitor#visitRefExpr(net.sourceforge.czt.z.ast.RefExpr)
    */
-  public String visitRefExpr(RefExpr refExpr)
+  public String visitExpr(Expr expr)
   {
-    String result = "Highlight - RefExpr";
-    ZName name = refExpr.getZName();
-    result = result.concat("\nNAME ---> " + name.accept(new PrintVisitor()));
-    String type = getTypeOfZName(name);
+    String result = "Highlight - " + expr.getClass().getSimpleName();
+    TypeAnn typeann = expr.getAnn(TypeAnn.class);
+    String type = null;
+    if (typeann != null)
+      type = typeann.getType().accept(new PrintVisitor());
+//    ZName name = expr.getZName();
+//    result = result.concat("\nNAME ---> " + name.accept(new PrintVisitor()));
+//    if (type == null)
+//      type = getTypeOfZName(name);
     if(type != null)
-      result = result.concat("\nTYPE ---> " + type);
+      result = result.concat("\nIts type is " + type);
     
     return result;
   }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.PowerExprVisitor#visitPowerExpr(net.sourceforge.czt.z.ast.PowerExpr)
-   */
-  public String visitPowerExpr(PowerExpr powerExpr)
-  {
-    String result = "Highlight - PowerExpr";
-    String name = powerExpr.getExpr().accept(getTermNameVisitor_);
-    return result + "\nExpr ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.DecorExprVisitor#visitDecorExpr(net.sourceforge.czt.z.ast.DecorExpr)
-   */
-  public String visitDecorExpr(DecorExpr decorExpr)
-  {
-    String result = "Highlight - DecorExpr";
-    String name = decorExpr.getExpr().accept(getTermNameVisitor_);
-    return result + "\nExpr ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.SchExprVisitor#visitSchExpr(net.sourceforge.czt.z.ast.SchExpr)
-   */
-  public String visitSchExpr(SchExpr schExpr)
-  {
-    String result = "Highlight - SchExpr";
-    String name = schExpr.getZSchText().getPred().accept(getTermNameVisitor_);
-    return result + "\nPredicate ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.SetExprVisitor#visitSetExpr(net.sourceforge.czt.z.ast.SetExpr)
-   */
-  public String visitSetExpr(SetExpr setExpr)
-  {
-    String result = "Highlight - SetExpr";
-    String name = setExpr.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.TupleExprVisitor#visitTupleExpr(net.sourceforge.czt.z.ast.TupleExpr)
-   */
-  public String visitTupleExpr(TupleExpr tupleExpr)
-  {
-    String result = "Highlight - TupleExpr";
-    String name = tupleExpr.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.TupleSelExprVisitor#visitTupleSelExpr(net.sourceforge.czt.z.ast.TupleSelExpr)
-   */
-  public String visitTupleSelExpr(TupleSelExpr tupleSelExpr)
-  {
-    String result = "Highlight - TupleSelExpr";
-    String name = tupleSelExpr.getExpr().accept(getTermNameVisitor_);
-    return result + "\nExpr ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.ApplExprVisitor#visitApplExpr(net.sourceforge.czt.z.ast.ApplExpr)
-   */
-  public String visitApplExpr(ApplExpr applExpr)
-  {
-    String result = "Highlight - ApplExpr";
-    String name = applExpr.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.AndExprVisitor#visitAndExpr(net.sourceforge.czt.z.ast.AndExpr)
-   */
-  public String visitAndExpr(AndExpr andExpr)
-  {
-    String result = "Highlight - AndExpr";
-    String name = andExpr.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
-  }
-
-  /**
-   * @see net.sourceforge.czt.z.visitor.OrExprVisitor#visitOrExpr(net.sourceforge.czt.z.ast.OrExpr)
-   */
-  public String visitOrExpr(OrExpr orExpr)
-  {
-    String result = "Highlight - OrExpr";
-    String name = orExpr.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
-  }
+  
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.RefExprVisitor#visitRefExpr(net.sourceforge.czt.z.ast.RefExpr)
+//   */
+//  public String visitRefExpr(RefExpr refExpr)
+//  {
+//    String result = "Highlight - RefExpr";
+//    TypeAnn typeann = refExpr.getAnn(TypeAnn.class);
+//    String type = null;
+//    if (typeann != null)
+//      type = typeann.getType().accept(new PrintVisitor());
+//    ZName name = refExpr.getZName();
+//    result = result.concat("\nNAME ---> " + name.accept(new PrintVisitor()));
+//    if (type == null)
+//      type = getTypeOfZName(name);
+//    if(type != null)
+//      result = result.concat("\nTYPE ---> " + type);
+//    
+//    return result;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.PowerExprVisitor#visitPowerExpr(net.sourceforge.czt.z.ast.PowerExpr)
+//   */
+//  public String visitPowerExpr(PowerExpr powerExpr)
+//  {
+//    String result = "Highlight - PowerExpr";
+//    String name = powerExpr.getExpr().accept(getTermNameVisitor_);
+//    return result + "\nExpr ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.DecorExprVisitor#visitDecorExpr(net.sourceforge.czt.z.ast.DecorExpr)
+//   */
+//  public String visitDecorExpr(DecorExpr decorExpr)
+//  {
+//    String result = "Highlight - DecorExpr";
+//    String name = decorExpr.getExpr().accept(getTermNameVisitor_);
+//    return result + "\nExpr ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.SchExprVisitor#visitSchExpr(net.sourceforge.czt.z.ast.SchExpr)
+//   */
+//  public String visitSchExpr(SchExpr schExpr)
+//  {
+//    String result = "Highlight - SchExpr";
+//    String name = schExpr.getZSchText().getPred().accept(getTermNameVisitor_);
+//    return result + "\nPredicate ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.SetExprVisitor#visitSetExpr(net.sourceforge.czt.z.ast.SetExpr)
+//   */
+//  public String visitSetExpr(SetExpr setExpr)
+//  {
+//    String result = "Highlight - SetExpr";
+//    String name = setExpr.accept(getTermNameVisitor_);
+//    return result + "\nNAME ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.TupleExprVisitor#visitTupleExpr(net.sourceforge.czt.z.ast.TupleExpr)
+//   */
+//  public String visitTupleExpr(TupleExpr tupleExpr)
+//  {
+//    String result = "Highlight - TupleExpr";
+//    String name = tupleExpr.accept(getTermNameVisitor_);
+//    return result + "\nNAME ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.TupleSelExprVisitor#visitTupleSelExpr(net.sourceforge.czt.z.ast.TupleSelExpr)
+//   */
+//  public String visitTupleSelExpr(TupleSelExpr tupleSelExpr)
+//  {
+//    String result = "Highlight - TupleSelExpr";
+//    String name = tupleSelExpr.getExpr().accept(getTermNameVisitor_);
+//    return result + "\nExpr ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.ApplExprVisitor#visitApplExpr(net.sourceforge.czt.z.ast.ApplExpr)
+//   */
+//  public String visitApplExpr(ApplExpr applExpr)
+//  {
+//    String result = "Highlight - ApplExpr";
+//    String name = applExpr.accept(getTermNameVisitor_);
+//    return result + "\nNAME ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.AndExprVisitor#visitAndExpr(net.sourceforge.czt.z.ast.AndExpr)
+//   */
+//  public String visitAndExpr(AndExpr andExpr)
+//  {
+//    String result = "Highlight - AndExpr";
+//    String name = andExpr.accept(getTermNameVisitor_);
+//    return result + "\nNAME ---> " + name;
+//  }
+//
+//  /**
+//   * @see net.sourceforge.czt.z.visitor.OrExprVisitor#visitOrExpr(net.sourceforge.czt.z.ast.OrExpr)
+//   */
+//  public String visitOrExpr(OrExpr orExpr)
+//  {
+//    String result = "Highlight - OrExpr";
+//    String name = orExpr.accept(getTermNameVisitor_);
+//    return result + "\nNAME ---> " + name;
+//  }
 
   /**
    * @see net.sourceforge.czt.z.visitor.OperVisitor#visitOper(net.sourceforge.czt.z.ast.Oper)
