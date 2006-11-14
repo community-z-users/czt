@@ -10,6 +10,7 @@ import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.EvalSetResult;
+import net.sourceforge.czt.animation.view.MessageDialog;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -58,20 +59,24 @@ public class ZLiveEvaluator implements Evaluator
       System.out.println("\nReady to evaluate schema: " + name);
       System.out.println("Input: " + zlive_.printTerm(inputExpr));
       System.out
-          .println("******************ZLIVE BEGIN**********************************");
+          .println("******************Evaluation BEGIN!**********************************");
       EvalSet result = (EvalSet) zlive_.evalSchema(name, inputExpr);
       System.out
-          .println("******************ZLIVE   END**********************************");
+          .println("******************Evaluation SUCCESS!********************************");
       System.out
           .println("Whether has a result: " + result.iterator().hasNext());
       System.out.println("Output: "
           + zlive_.printTerm(result.iterator().next()));
       return new EvalSetResult(result);
     } catch (CommandException commex) {
-      commex.printStackTrace();
+      System.out
+          .println("******************Evaluation Failed!*********************************");
+      new MessageDialog(commex);
       return null;
     } catch (EvalException evalex) {
-      evalex.printStackTrace();
+      System.out
+          .println("******************Evaluation Failed!*********************************");
+      new MessageDialog(evalex);
       return null;
     }
   }

@@ -30,6 +30,7 @@ public class SchemaTypeDialog extends JDialog
    */
   public SchemaTypeDialog(MainFrame parent)
   {
+    super(parent);
     result = new ArrayList<JComboBox>();
     schemaTypePane = new JPanel();
     JPanel buttonPane = new JPanel();

@@ -2,6 +2,7 @@
 package net.sourceforge.czt.animation.view;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -102,12 +103,12 @@ public class MainFrame extends JFrame
     stepTreeItem.addActionListener(new StepTreeItemListener());
     designItem.addActionListener(new DesignItemListener());
 
+    GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    this.setBounds(env.getMaximumWindowBounds());
     this.setJMenuBar(mainMenuBar);
     this.setTitle("Community Z Tools -- Gaffe2");
-    this.setSize(800, 600);
-    this.setLocation(80, 60);
+    this.setLocation(0, 0);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     mainFrame = this;
   }
 

@@ -250,6 +250,10 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   {
     Step source = (Step) arg0.getSource();
     HashMap<String, Expr> result = source.getResultSelected();
+    if (result == null) {
+      new MessageDialog("No results found!");
+      return;
+    }
     contentPane.removeAll();
     Adapter adapter = null;
     for (String key : componentMap.keySet()) {

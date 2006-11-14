@@ -57,8 +57,12 @@ public class Step extends DefaultMutableTreeNode
     this.evalResult = evalResult;
     this.results = new ArrayList<HashMap<String, Expr>>();
     this.pcs = new PropertyChangeSupport(this);
-    if (evalResult != null)
+    if (evalResult != null){
       this.changeIndex(0);
+    }
+    else {
+      this.isComplete = true;
+    }
   }
 
   /**
@@ -175,6 +179,7 @@ public class Step extends DefaultMutableTreeNode
    */
   public HashMap<String, Expr> getResultSelected()
   {
+    if (index == -1) return null;
     return results.get(index);
   }
 

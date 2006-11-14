@@ -4,8 +4,9 @@
 
 package net.sourceforge.czt.animation.control;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -80,8 +81,9 @@ public class OpenItemListener implements ActionListener
     scd.validate();
     scd.pack();
     scd.setTitle(file.getName());
-    Point position = parent.getLocation();
-    scd.setLocation(position.x + 80, position.y + 60);
+    Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension dim2 = scd.getSize();
+    scd.setLocation((dim1.width-dim2.width)/2,(dim1.height-dim2.height)/2);
     scd.setModal(true);
     scd.setVisible(true);
   }

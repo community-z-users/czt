@@ -1,19 +1,16 @@
 
 package net.sourceforge.czt.animation.view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import net.sourceforge.czt.animation.control.ChangeResultListener;
 import net.sourceforge.czt.animation.control.ChangeStepListener;
+import net.sourceforge.czt.animation.control.ChangeStepMenuListener;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.animation.model.StepTree;
 
@@ -31,8 +28,6 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
   private JButton backResultButton;
 
   private JButton nextResultButton;
-
-  private JPopupMenu menu;
 
   private static ToolBar currentToolBar;
 
@@ -55,27 +50,10 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
 
     reset();
 
-    menu = new JPopupMenu();
-
     backResultButton.addActionListener(new ChangeResultListener(-1));
     nextResultButton.addActionListener(new ChangeResultListener(+1));
     backStepButton.addActionListener(new ChangeStepListener(null));
-    nextStepButton.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent arg0)
-      {
-        // TODO Auto-generated method stub
-        menu.removeAll();
-        ChangeStepListener csl = new ChangeStepListener(menu);
-        for (String operation : StepTree.getAvailableOperations()) {
-          JMenuItem item = new JMenuItem(operation);
-          item.addActionListener(csl);
-          menu.add(item);
-        }
-        JButton source = (JButton) arg0.getSource();
-        menu.show(source, 0, source.getSize().height);
-      }
-    });
+    nextStepButton.addActionListener(new ChangeStepMenuListener());
 
     this.add(backStepButton);
     this.add(backResultButton);

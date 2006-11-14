@@ -42,14 +42,14 @@ public class InputDialog extends JDialog
     buttonPane.add(evalButton);
     buttonPane.add(cancelButton);
 
-    Dimension position = Toolkit.getDefaultToolkit().getScreenSize();
     this.setLayout(new BorderLayout());
     this.add(inputPane, BorderLayout.CENTER);
     this.add(buttonPane, BorderLayout.SOUTH);
     this.setTitle(schemaName + " ... Input");
     this.pack();
-    this.setLocation((int) (position.getWidth() / 2 - 150), (int) (position
-        .getHeight() / 2 - 100));
+    Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension dim2 = this.getSize();
+    this.setLocation((dim1.width-dim2.width)/2,(dim1.height-dim2.height)/2);
   }
 
   /**
