@@ -1,49 +1,120 @@
-An Example Z Specification: The Birthday Book
-Author:  Mark Utting,  marku@cs.waikato.ac.nz
+This is the BirthdayBook specification, from Spivey.  We extend it slightly
+by adding an extra operation, RemindOne, that is non-deterministic.
 
-First we introduce the set of all names and the set of all dates
-as basic types of the specification.
+─[NAME,  DATE]
+└
 
-Note that almost every Z paragraph must start with
-a special ZEDCHAR (\u2500, BOX DRAWINGS LIGHT HORIZONTAL)
-and finish with ENDCHAR (\u2029, PARAGRAPH SEPARATOR)
-─
-[ NAME, DATE ]
- 
+The BirthdayBook schema defines the \emph{state space} of 
+the birthday book system. 
+
+┌BirthdayBook
+  known : ℙ NAME
+  birthday : NAME ⇸ DATE
+| 
+  known = dom birthday
+└
 
 
-Now we specify the state of the birthday book system.
-(my unicode fonts do not have partial function yet)
+This InitBirthdayBook specifies the initial state
+of the birthday book system.  It does not say explicitly that
+birthday' is empty, but that is implicit, because its domain
+is empty.
 
-┌ BirthdayBook
-    known : ℙ NAME
-    birthday : NAME ⇸ DATE
- |
-    known = dom birthday
- 
-
-Note, each Z construct ends with an invisible ENDCHAR, 0x2029!
-But you CAN see these in JEdit if you load the WhiteSpace plugin
-and turn on the "Show Other Whitespaces" option
-
-┌ AddBirthday
-    ΔBirthday
-    name? : NAME
-    date? : DATE
- |
-    name? ∉ known
-    birthday' = birthday ∪ {name? ↦ date?}
- 
-
-Here is an axiomatic definition of a date comparison relation.
-╷
-    before : DATE ↔ DATE
+┌InitBirthdayBook
+  BirthdayBook ′ 
 |
-    (∀ a,b,c:DATE ⦁ 
-        ((a,b) ∈ before ∧ (b,c) ∈ before ⇒ (a,c) ∈ before) ∧
-	(a,a) ∉ before ∧
-	((a,b) ∈ before ⇒ (b,a) ∉ before)
-    )
- 
+  known′ = {}
+└
 
+
+Next we have several operation schemas to define the normal (non-error)
+behaviour of the system.
+
+┌AddBirthday
+  ΔBirthdayBook
+  name? : NAME
+  date? : DATE
+| 
+  name? ∉ known
+  birthday′ = birthday ∪ {name? ↦ date?}
+└
+
+┌FindBirthday
+  ΞBirthdayBook
+  name? : NAME
+  date! : DATE
+|
+  name? ∈ known
+  date! = birthday(name?)
+└
+
+┌Remind
+  ΞBirthdayBook
+  today? : DATE
+  cards! : ℙ NAME
+|
+  cards! = {n : known | birthday(n) = today?}
+└
+
+This RemindOne schema does not appear in Spivey, but is
+included to show how non-deterministic schemas can be animated.
+It reminds us of just one person who has a birthday on the given 
+day.
+┌RemindOne
+  ΞBirthdayBook
+  today? : DATE
+  card! : NAME
+|
+  card! ∈ known
+  birthday card! = today?
+└
+
+
+Now we strengthen the specification by adding error handling.
+
+─REPORT ::= ok | already_known | not_known└
+
+First we define auxiliary schemas that capture various success
+and error cases.
+
+┌Success
+  result! : REPORT
+|
+  result! = ok
+└
+
+┌AlreadyKnown
+  ΞBirthdayBook
+  name? : NAME
+  result! : REPORT
+|
+  name? ∈ known
+  result! = already_known
+└
+
+
+┌NotKnown
+  ΞBirthdayBook
+  name? : NAME
+  result! : REPORT
+|
+  name? ∉ known
+  result! = not_known
+└
+
+Finally, we define robust versions of all the operations
+by specifying how errors are handled.  
+For illustration purposes, we leave the $RemindOne$ operation non-robust.
+
+─
+RAddBirthday == (AddBirthday ∧ Success) ∨ AlreadyKnown
+RFindBirthday == (FindBirthday ∧ Success) ∨ NotKnown
+RRemind == Remind ∧ Success
+└
+
+
+J. Michael Spivey.
+The Z Notation: A Reference Manual.
+International Series in Computer Science. 
+Prentice-Hall International (UK) Ltd, second edition, 1992.
 
