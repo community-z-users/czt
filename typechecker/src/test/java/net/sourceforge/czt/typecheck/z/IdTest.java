@@ -30,6 +30,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.parser.z.ParseUtils;
 
@@ -98,7 +99,25 @@ public class IdTest
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");
     term.accept(visitor);
-    System.out.println(visitor.getResult());
+    List<String> list = visitor.getResult();
+    assertEquals(6, list.size());
+    String firstSig = list.get(0);
+    String firstDeclName = list.get(1);
+    String firstRefName = list.get(2);
+    assertTrue(firstSig.equals(firstDeclName));
+    assertTrue(firstSig.equals(firstRefName));
+    String secondSig = list.get(3);
+    String secondDeclName = list.get(4);
+    String secondRefName = list.get(5);
+    assertTrue(secondSig.equals(secondDeclName));
+    assertTrue(secondSig.equals(secondRefName));
+    assertFalse(firstSig.equals(secondSig));
+    visitor = new NameCollector("S");
+    term.accept(visitor);
+    list = visitor.getResult();
+    assertEquals(3, list.size());
+    assertTrue(list.get(0).equals(list.get(1)));
+    assertTrue(list.get(1).equals(list.get(2)));
   }
 
   public void test2()
@@ -107,12 +126,41 @@ public class IdTest
     String spec =
       "\\begin{zed}" +
       "  S == [ x : \\nat | x < 4 ] \\\\" +
-      "  T == [S | S]" +
+      "  T == [S | x = 1]" +
       "\\end{zed}";
     Term term = parseAndTypecheck(spec);
     NameCollector visitor = new NameCollector("x");
     term.accept(visitor);
-    System.out.println(visitor.getResult());
+    List<String> list = visitor.getResult();
+    assertEquals(5, list.size());
+    String firstSig = list.get(0);
+    String firstDeclName = list.get(1);
+    String firstRefName = list.get(2);
+    assertTrue(firstSig.equals(firstDeclName));
+    assertTrue(firstSig.equals(firstRefName));
+    String secondSig = list.get(3);
+    String secondRefName = list.get(4);
+    assertTrue(secondSig.equals(secondRefName));
+    assertFalse(firstSig.equals(secondSig));
+  }
+
+  public void test3()
+    throws Exception
+  {
+    String spec =
+      "\\begin{zed}" +
+      "   F[\\arithmos] == (\\arithmos, 3)" +
+      "\\end{zed}";
+    Term term = parseAndTypecheck(spec);
+    NameCollector visitor = new NameCollector(ZString.ARITHMOS);
+    term.accept(visitor);
+    List<String> list = visitor.getResult();
+    assertEquals(5, list.size());
+    String first = list.get(0);
+    assertTrue(first.equals(list.get(1)));
+    assertFalse(first.equals(list.get(2)));
+    assertTrue(first.equals(list.get(3)));
+    assertTrue(first.equals(list.get(4)));
   }
 
   public static class NameCollector
@@ -135,9 +183,7 @@ public class IdTest
     public Object visitTerm(Term term)
     {
       if (term instanceof AxPara) {
-        list_.add("new AxPara");
         VisitorUtils.visitTerm(this, term.getAnn(SignatureAnn.class));
-        list_.add("end Signature");
       }
       VisitorUtils.visitTerm(this, term);
       return null;
