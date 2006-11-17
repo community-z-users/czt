@@ -9,15 +9,15 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import net.sourceforge.czt.animation.control.CancelListener;
-import net.sourceforge.czt.animation.control.SchemaTypeListener;
+import net.sourceforge.czt.animation.control.DisposeDialogListener;
+import net.sourceforge.czt.animation.control.InitializeListener;
 
 /**
  * @author Linan Zhang
  *
  */
 @SuppressWarnings("serial")
-public class SchemaTypeDialog extends JDialog
+public class SchemaDialog extends JDialog
 {
   //For dynamical genenation
   private JPanel schemaTypePane;
@@ -28,15 +28,14 @@ public class SchemaTypeDialog extends JDialog
   /**
    * @param parent
    */
-  public SchemaTypeDialog(MainFrame parent)
+  public SchemaDialog()
   {
-    super(parent);
     result = new ArrayList<JComboBox>();
     schemaTypePane = new JPanel();
     JPanel buttonPane = new JPanel();
     JButton confirmButton = new JButton("OK");
-    confirmButton.addActionListener(new SchemaTypeListener(result));
-    confirmButton.addActionListener(new CancelListener(this));
+    confirmButton.addActionListener(new InitializeListener(result));
+    confirmButton.addActionListener(new DisposeDialogListener(this));
     buttonPane.add(confirmButton);
     this.setLayout(new BorderLayout());
     this.add(schemaTypePane, BorderLayout.CENTER);

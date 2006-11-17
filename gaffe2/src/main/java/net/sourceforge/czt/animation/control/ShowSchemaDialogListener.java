@@ -20,21 +20,20 @@ import javax.swing.JPanel;
 
 import net.sourceforge.czt.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
-import net.sourceforge.czt.animation.view.MainFrame;
-import net.sourceforge.czt.animation.view.SchemaTypeDialog;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
+import net.sourceforge.czt.animation.model.StepTree;
+import net.sourceforge.czt.animation.view.SchemaDialog;
 
 /**
  * @author Linan Zhang
  *
  */
-public class OpenItemListener implements ActionListener
+public class ShowSchemaDialogListener implements ActionListener
 {
-  MainFrame parent;
-
   /**
    * 
    */
-  public OpenItemListener()
+  public ShowSchemaDialogListener()
   {
   }
 
@@ -43,9 +42,8 @@ public class OpenItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    parent = MainFrame.getMainFrame();
     JFileChooser fileChooser = new JFileChooser("Open a Z specification..");
-    if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
       this.generateSchemaDialog(fileChooser.getSelectedFile());
     }
   }
@@ -56,9 +54,10 @@ public class OpenItemListener implements ActionListener
   private void generateSchemaDialog(File file)
   {
     Analyzer analyzer = GaffeFactory.getAnalyzer();
-    SchemaTypeDialog scd = new SchemaTypeDialog(parent);
+    SchemaDialog scd = new SchemaDialog();
     JPanel contentPane = scd.getSchemaPane();
     analyzer.initialize(file);
+    GaffeUtil.addStepTree(file.getName(), new StepTree());
     Set<String> nameSet = analyzer.getSchemaNames();
     contentPane.setLayout(new GridLayout(nameSet.size(), 2));
     int i = 0;
@@ -83,7 +82,8 @@ public class OpenItemListener implements ActionListener
     scd.setTitle(file.getName());
     Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension dim2 = scd.getSize();
-    scd.setLocation((dim1.width-dim2.width)/2,(dim1.height-dim2.height)/2);
+    scd.setLocation((dim1.width - dim2.width) / 2,
+        (dim1.height - dim2.height) / 2);
     scd.setModal(true);
     scd.setVisible(true);
   }

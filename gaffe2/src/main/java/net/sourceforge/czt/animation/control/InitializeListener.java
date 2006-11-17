@@ -14,22 +14,23 @@ import javax.swing.tree.DefaultTreeModel;
 import net.sourceforge.czt.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.animation.common.evaluator.Evaluator;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.animation.model.StepTree;
 import net.sourceforge.czt.animation.view.MainFrame;
 import net.sourceforge.czt.animation.view.OperationPane;
-import net.sourceforge.czt.animation.view.OutputPane;
-import net.sourceforge.czt.animation.view.StatePane;
 import net.sourceforge.czt.animation.view.StatusLabel;
 import net.sourceforge.czt.animation.view.ToolBar;
+import net.sourceforge.czt.animation.view.VariablePane;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
  * @author Linan Zhang
  *
  */
-public class SchemaTypeListener implements ActionListener
+public class InitializeListener implements ActionListener
 {
   private String stateSchemaName;
 
@@ -44,7 +45,7 @@ public class SchemaTypeListener implements ActionListener
    * @param source
    * @param result
    */
-  public SchemaTypeListener(ArrayList<JComboBox> result)
+  public InitializeListener(ArrayList<JComboBox> result)
   {
     this.result = result;
     analyzer = GaffeFactory.getAnalyzer();
@@ -55,16 +56,11 @@ public class SchemaTypeListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    StatePane.getCurrentPane().reset();
-    OutputPane.getCurrentPane().reset();
-    OperationPane.getCurrentPane().reset();
-    ToolBar.getCurrentToolBar().reset();
+    GaffeUI.resetAll();
     this.schemaTree();
     this.initialize();
-    MainFrame.getFrameSplit().setVisible(true);
-    MainFrame.getMainFrame().validate();
-    MainFrame.getRightSplit().setDividerLocation(0.8);
-    MainFrame.getFrameSplit().setDividerLocation(0.2);
+    MainFrame frame = GaffeUI.getMainFrame();
+    frame.reset();
   }
 
   /**
@@ -72,7 +68,8 @@ public class SchemaTypeListener implements ActionListener
    */
   private void schemaTree()
   {
-    OperationPane operationPane = OperationPane.getCurrentPane();
+    OperationPane operationPane = GaffeUI.getOperationPane();
+    StepTree tree = GaffeUtil.getStepTree();
     String schemaName = "";
     DefaultMutableTreeNode root = new DefaultMutableTreeNode(analyzer
         .getSpecURL().getFile());
@@ -84,12 +81,12 @@ public class SchemaTypeListener implements ActionListener
       schemaName = choice.getName();
       if (choice.getSelectedItem().equals("State")) {
         stateSchemaName = schemaName;
-        StepTree.setStateSchemaName(schemaName);
+        tree.setStateSchemaName(schemaName);
         state.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Initial")) {
         initSchemaName = schemaName;
-        StepTree.setInitSchemaName(initSchemaName);
+        tree.setInitSchemaName(initSchemaName);
         initial.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Operation")) {
@@ -111,20 +108,23 @@ public class SchemaTypeListener implements ActionListener
    */
   private void initialize()
   {
-    StatePane statePane = StatePane.getCurrentPane();
+    VariablePane statePane = GaffeUI.getStatePane();
+    VariablePane outputPane = GaffeUI.getOutputPane();
+    ToolBar toolBar = GaffeUI.getToolBar();
+    StatusLabel statusLabel = GaffeUI.getStatusLabel();
+
     HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
         "state");
-    state = GaffeFactory.prime(state);
-    statePane.setComponentMap(GaffeFactory.createComponentMap(state));
+    state = GaffeUtil.prime(state);
+    statePane.setComponentMap(GaffeUtil.createComponentMap(state));
     Evaluator evaluator = GaffeFactory.getEvaluator();
     EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
         initSchemaName);
     Step step = new Step(initSchemaName, results);
-    step.addPropertyChangeListener(statePane);
-    step.addPropertyChangeListener(ToolBar.getCurrentToolBar());
-    StepTree.reset();
-    StepTree.add(step);
-    StatusLabel.setMessage("Result: " + step.getIndex() + "/"
-        + (step.size() - 1));
+    StepTree tree = new StepTree(step);
+    tree.addPropertyChangeListener(statePane);
+    tree.addPropertyChangeListener(outputPane);
+    tree.addPropertyChangeListener(toolBar);
+    tree.addPropertyChangeListener(statusLabel);
   }
 }

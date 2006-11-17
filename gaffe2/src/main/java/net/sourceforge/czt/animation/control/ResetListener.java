@@ -1,21 +1,25 @@
+/**
+ * 
+ */
 
 package net.sourceforge.czt.animation.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sourceforge.czt.animation.view.MainFrame;
+import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
 
 /**
  * @author Linan Zhang
  *
  */
-public class ExitItemListener implements ActionListener
+public class ResetListener implements ActionListener
 {
   /**
-   * @param parent
+   * 
    */
-  public ExitItemListener()
+  public ResetListener()
   {
   }
 
@@ -24,8 +28,8 @@ public class ExitItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    MainFrame.getMainFrame().dispose();
-    System.exit(0);
+    GaffeUI.resetAll();
+    GaffeFactory.getZLive().getSectionManager().reset();
   }
 
 }

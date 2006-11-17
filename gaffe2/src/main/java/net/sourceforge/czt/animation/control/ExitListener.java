@@ -4,29 +4,28 @@ package net.sourceforge.czt.animation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JDialog;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
 
 /**
  * @author Linan Zhang
  *
  */
-public class CancelListener implements ActionListener
+public class ExitListener implements ActionListener
 {
-  JDialog source;
-
   /**
-   * @param source
+   * @param parent
    */
-  public CancelListener(JDialog source)
+  public ExitListener()
   {
-    this.source = source;
   }
 
   /* (non-Javadoc)
    * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
    */
-  public void actionPerformed(ActionEvent ae)
+  public void actionPerformed(ActionEvent arg0)
   {
-    source.dispose();
+    GaffeUI.getMainFrame().dispose();
+    System.exit(0);
   }
+
 }

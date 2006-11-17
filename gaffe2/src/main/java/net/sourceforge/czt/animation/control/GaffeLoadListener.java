@@ -21,29 +21,26 @@ import javax.swing.tree.DefaultTreeModel;
 import net.sourceforge.czt.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.animation.common.evaluator.Evaluator;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.animation.model.StepTree;
-import net.sourceforge.czt.animation.view.MainFrame;
-import net.sourceforge.czt.animation.view.OperationPane;
-import net.sourceforge.czt.animation.view.OutputPane;
-import net.sourceforge.czt.animation.view.StatePane;
-import net.sourceforge.czt.animation.view.StatusLabel;
-import net.sourceforge.czt.animation.view.ToolBar;
+import net.sourceforge.czt.animation.view.VariablePane;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
  * @author Linan Zhang
  *
  */
-public class LoadItemListener implements ActionListener
+public class GaffeLoadListener implements ActionListener
 {
   DefaultTreeModel evaluatingTree;
 
   /**
    * 
    */
-  public LoadItemListener()
+  public GaffeLoadListener()
   {
     evaluatingTree = new DefaultTreeModel(new Step("Root", null));
   }
@@ -53,9 +50,8 @@ public class LoadItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    MainFrame parent = MainFrame.getMainFrame();
     JFileChooser fileChooser = new JFileChooser("load ..");
-    if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
       this.load(fileChooser.getSelectedFile());
     }
   }
@@ -77,52 +73,45 @@ public class LoadItemListener implements ActionListener
       analyzer.initialize(new File(specFile));
 
       //Reset UI
-      StatePane.getCurrentPane().reset();
-      OutputPane.getCurrentPane().reset();
-      OperationPane.getCurrentPane().reset();
-      ToolBar.getCurrentToolBar().reset();
-      MainFrame.getFrameSplit().setVisible(true);
-      MainFrame.getMainFrame().validate();
-      MainFrame.getRightSplit().setDividerLocation(0.8);
-      MainFrame.getFrameSplit().setDividerLocation(0.2);
+      GaffeUI.resetAll();
 
       //ReInitialise Evaluator
-      StatePane statePane = StatePane.getCurrentPane();
+      VariablePane statePane = GaffeUI.getStatePane();
       HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
           "state");
-      state = GaffeFactory.prime(state);
-      statePane.setComponentMap(GaffeFactory.createComponentMap(state));
+      state = GaffeUtil.prime(state);
+      statePane.setComponentMap(GaffeUtil.createComponentMap(state));
       Evaluator evaluator = GaffeFactory.getEvaluator();
       EvalResult results = evaluator.initialize(analyzer.getSpecURL(),
           initSchemaName);
       Step step = new Step(initSchemaName, results);
-      step.addPropertyChangeListener(statePane);
-      step.addPropertyChangeListener(ToolBar.getCurrentToolBar());
       Step evaluatingRoot = (Step) evaluatingTree.getRoot();
       evaluatingRoot.add(step);
-      StatusLabel.setMessage("Loading file.. " + file.getName());
+      System.out.println("Loading file.. " + file.getName());
       /*---------------------------------------------*/
 
       // Load SchemaTree
       DefaultTreeModel schemaTree = (DefaultTreeModel) e.readObject();
-      OperationPane.getCurrentPane().add(new JTree(schemaTree));
+      GaffeUI.getOperationPane().add(new JTree(schemaTree));
       /*---------------------------------------------*/
 
       // Load StepTree
-      DefaultTreeModel stepTree = (DefaultTreeModel) e.readObject();
-      StepTree.setStepTree(stepTree);
-      StepTree.setStateSchemaName(stateSchemaName);
-      StepTree.setInitSchemaName(initSchemaName);
-      DefaultMutableTreeNode root = (Step) stepTree.getRoot();
+      StepTree tree = (StepTree) e.readObject();
+      GaffeUtil.addStepTree("default", tree);
+      tree.setStateSchemaName(stateSchemaName);
+      tree.setInitSchemaName(initSchemaName);
+      tree.addPropertyChangeListener(statePane);
+      tree.addPropertyChangeListener(GaffeUI.getToolBar());
+      Step root = (Step) tree.getRoot();
       restore(root);
-      StepTree.setCurrentStep((Step) root.getChildAt(0));
+      tree.setStep((Step) root.getChildAt(0));
       /*---------------------------------------------*/
 
       e.close();
-      StatusLabel.setMessage("File: " + file.getName() + "loaded!");
+      System.out.println("File: " + file.getName() + "loaded!");
     } catch (IOException ioex) {
       ioex.printStackTrace();
-      StatusLabel.setMessage("File: " + file.getName() + "not loaded!");
+      System.out.println("File: " + file.getName() + "load failed!");
     }
   }
 

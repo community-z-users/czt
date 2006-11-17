@@ -2,6 +2,8 @@
 package net.sourceforge.czt.animation.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +18,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
-import net.sourceforge.czt.animation.control.CancelListener;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.control.ConfigChangeListener;
+import net.sourceforge.czt.animation.control.DisposeDialogListener;
 
 @SuppressWarnings("serial")
-public class DesignDialog extends JDialog
+public class ConfigDialog extends JDialog
 {
   private ArrayList<DefaultCellEditor> editors = new ArrayList<DefaultCellEditor>(
       3);
@@ -32,13 +34,13 @@ public class DesignDialog extends JDialog
 
   private static Map<String, List<Class>> availableMap;
 
-  public DesignDialog()
+  public ConfigDialog()
   {
     super();
 
     // Preparing adapter mapping table
-    customMap = GaffeFactory.getCustomMap();
-    availableMap = GaffeFactory.getAvailableMap();
+    customMap = GaffeUtil.getCustomMap();
+    availableMap = GaffeUtil.getAvailableMap();
     final int rowCount = customMap.keySet().size();
     final int colCount = 2;
     DefaultTableModel model = new DefaultTableModel(rowCount, colCount);
@@ -80,7 +82,7 @@ public class DesignDialog extends JDialog
 
     // Preparing cancel button
     JButton cancelButton = new JButton("Cancel");
-    cancelButton.addActionListener(new CancelListener(this));
+    cancelButton.addActionListener(new DisposeDialogListener(this));
 
     // Preparing action panel
     JPanel buttonPane = new JPanel();
@@ -92,6 +94,11 @@ public class DesignDialog extends JDialog
     this.add(customMapPane, BorderLayout.CENTER);
     this.add(buttonPane, BorderLayout.SOUTH);
     this.pack();
+    Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension dim2 = this.getSize();
+    this.setLocation((dim1.width - dim2.width) / 2,
+        (dim1.height - dim2.height) / 2);
+    this.setVisible(true);
   }
 
   /**

@@ -11,6 +11,7 @@ import javax.swing.tree.TreePath;
 
 import net.sourceforge.czt.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.view.InputDialog;
 import net.sourceforge.czt.animation.view.VariablePane;
 import net.sourceforge.czt.z.ast.Expr;
@@ -19,7 +20,7 @@ import net.sourceforge.czt.z.ast.Expr;
  * @author Linan Zhang
  *
  */
-public class OperationListener extends MouseAdapter
+public class ShowInputDialogListener extends MouseAdapter
 {
   private JTree tree;
 
@@ -27,7 +28,7 @@ public class OperationListener extends MouseAdapter
    * @param schemaName
    * @param parent
    */
-  public OperationListener(JComponent component)
+  public ShowInputDialogListener(JComponent component)
   {
     tree = (JTree) component;
   }
@@ -51,7 +52,7 @@ public class OperationListener extends MouseAdapter
         VariablePane inputPane = id.getInputPane();
         HashMap<String, Expr> input = analyzer.getVariableMap(schemaName,
             "input");
-        inputPane.setComponentMap(GaffeFactory.createComponentMap(input));
+        inputPane.setComponentMap(GaffeUtil.createComponentMap(input));
         inputPane.update();
         id.pack();
         id.setModal(true);

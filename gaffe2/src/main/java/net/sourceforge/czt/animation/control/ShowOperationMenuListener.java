@@ -8,20 +8,20 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.sourceforge.czt.animation.model.StepTree;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 
 /**
  * @author Linan Zhang
  *
  */
-public class ChangeStepMenuListener implements ActionListener
+public class ShowOperationMenuListener implements ActionListener
 {
   private JPopupMenu menu;
 
   /**
    * 
    */
-  public ChangeStepMenuListener()
+  public ShowOperationMenuListener()
   {
     menu = new JPopupMenu();
   }
@@ -34,7 +34,7 @@ public class ChangeStepMenuListener implements ActionListener
     // TODO Auto-generated method stub
     menu.removeAll();
     ChangeStepListener csl = new ChangeStepListener(menu);
-    for (String operation : StepTree.getAvailableOperations()) {
+    for (String operation : GaffeUtil.getStepTree().getAvailableOperations()) {
       JMenuItem item = new JMenuItem(operation);
       item.addActionListener(csl);
       menu.add(item);

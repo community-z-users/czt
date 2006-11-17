@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.animation.model.StepTree;
 
@@ -15,7 +16,7 @@ import net.sourceforge.czt.animation.model.StepTree;
  * @author Linan Zhang
  *
  */
-public class ChangeStepTreeListener extends MouseAdapter
+public class ChangeNodeListener extends MouseAdapter
 {
   private JTree tree;
 
@@ -23,7 +24,7 @@ public class ChangeStepTreeListener extends MouseAdapter
    * @param schemaName
    * @param parent
    */
-  public ChangeStepTreeListener(JComponent component)
+  public ChangeNodeListener(JComponent component)
   {
     tree = (JTree) component;
   }
@@ -39,8 +40,8 @@ public class ChangeStepTreeListener extends MouseAdapter
     if (selRow != -1) {
       if (e.getClickCount() == 1) {
         Step node = (Step) selPath.getLastPathComponent();
-        StepTree.setCurrentStep(node);
-        node.firePropertyChange("index", -1, 0);
+        StepTree tree = GaffeUtil.getStepTree();
+        tree.setStep(node);
       }
       else if (e.getClickCount() == 2) {
         //

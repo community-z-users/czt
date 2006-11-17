@@ -17,20 +17,20 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.StepTree;
-import net.sourceforge.czt.animation.view.MainFrame;
-import net.sourceforge.czt.animation.view.OperationPane;
 
 /**
  * @author Linan Zhang
  *
  */
-public class SaveItemListener implements ActionListener
+public class GaffeSaveListener implements ActionListener
 {
   /**
    * 
    */
-  public SaveItemListener()
+  public GaffeSaveListener()
   {
   }
 
@@ -39,9 +39,8 @@ public class SaveItemListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
-    MainFrame parent = MainFrame.getMainFrame();
     JFileChooser fileChooser = new JFileChooser("Save ..");
-    if (fileChooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+    if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
       this.save(fileChooser.getSelectedFile());
     }
   }
@@ -49,18 +48,18 @@ public class SaveItemListener implements ActionListener
   public void save(File file)
   {
     //  TODO Auto-generated method stub
-    DefaultTreeModel target_operation = (DefaultTreeModel) ((JTree) OperationPane
-        .getCurrentPane().getComponent()).getModel();
-    DefaultTreeModel target_stepTree = StepTree.getStepTree();
+    DefaultTreeModel target_operation = (DefaultTreeModel) ((JTree) GaffeUI
+        .getOperationPane().getComponent()).getModel();
+    StepTree target_stepTree = GaffeUtil.getStepTree();
     try {
       XMLEncoder e = new XMLEncoder(new BufferedOutputStream(
           new FileOutputStream(file)));
       //Save specURL
       e.writeObject(GaffeFactory.getAnalyzer().getSpecURL().getFile());
       //Save stateSchemaName
-      e.writeObject(StepTree.getStateSchemaName());
+      e.writeObject(target_stepTree.getStateSchemaName());
       //Save initSchemaName
-      e.writeObject(StepTree.getInitSchemaName());
+      e.writeObject(target_stepTree.getInitSchemaName());
       //Save SchemaTree
       e.writeObject(target_operation);
       //Save StepTree
