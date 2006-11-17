@@ -10,15 +10,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.border.TitledBorder;
 
-import net.sourceforge.czt.animation.control.CloseItemListener;
-import net.sourceforge.czt.animation.control.DesignItemListener;
-import net.sourceforge.czt.animation.control.ExitItemListener;
-import net.sourceforge.czt.animation.control.LoadItemListener;
-import net.sourceforge.czt.animation.control.OpenItemListener;
-import net.sourceforge.czt.animation.control.OutputItemListener;
-import net.sourceforge.czt.animation.control.SaveItemListener;
-import net.sourceforge.czt.animation.control.StepTreeItemListener;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
+import net.sourceforge.czt.animation.control.ExitListener;
+import net.sourceforge.czt.animation.control.GaffeLoadListener;
+import net.sourceforge.czt.animation.control.GaffeSaveListener;
+import net.sourceforge.czt.animation.control.ResetListener;
+import net.sourceforge.czt.animation.control.ShowConfigDialogListener;
+import net.sourceforge.czt.animation.control.ShowOutputDialogListener;
+import net.sourceforge.czt.animation.control.ShowSchemaDialogListener;
+import net.sourceforge.czt.animation.control.ShowStepTreeDialogListener;
 
 /**
  * @author Linan Zhang
@@ -27,11 +30,9 @@ import net.sourceforge.czt.animation.control.StepTreeItemListener;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame
 {
-  private static JSplitPane frameSplit;
+  private JSplitPane rightSplit;
 
-  private static JSplitPane rightSplit;
-
-  private static MainFrame mainFrame;
+  private JSplitPane frameSplit;
 
   /**
    * 
@@ -73,10 +74,20 @@ public class MainFrame extends JFrame
     mainMenuBar.add(toolMenu);
     mainMenuBar.add(helpMenu);
 
-    StatePane statePane = new StatePane();
+    VariablePane statePane = new VariablePane();
+    statePane.setBorder(new TitledBorder("state"));
     OperationPane operationPane = new OperationPane();
     OutputPane outputPane = new OutputPane();
     ToolBar toolBar = new ToolBar();
+    StepTreePane stp = new StepTreePane();
+    StatusLabel statusLabel = new StatusLabel("Ready");
+
+    GaffeUI.setStepTreePane(stp);
+    GaffeUI.setToolBar(toolBar);
+    GaffeUI.setOutputPane(outputPane);
+    GaffeUI.setStatePane(statePane);
+    GaffeUI.setOperationPane(operationPane);
+    GaffeUI.setStatusLabel(statusLabel);
 
     rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     rightSplit.setTopComponent(statePane);
@@ -90,18 +101,16 @@ public class MainFrame extends JFrame
     contentPane.setLayout(new BorderLayout());
     contentPane.add(frameSplit, BorderLayout.CENTER);
     contentPane.add(toolBar, BorderLayout.NORTH);
-    contentPane.add(new StatusLabel(), BorderLayout.SOUTH);
+    contentPane.add(new StatusLabel("Ready"), BorderLayout.SOUTH);
 
-    StatusLabel.setMessage("Ready");
-
-    openItem.addActionListener(new OpenItemListener());
-    loadItem.addActionListener(new LoadItemListener());
-    saveItem.addActionListener(new SaveItemListener());
-    closeItem.addActionListener(new CloseItemListener());
-    exitItem.addActionListener(new ExitItemListener());
-    outputItem.addActionListener(new OutputItemListener());
-    stepTreeItem.addActionListener(new StepTreeItemListener());
-    designItem.addActionListener(new DesignItemListener());
+    openItem.addActionListener(new ShowSchemaDialogListener());
+    loadItem.addActionListener(new GaffeLoadListener());
+    saveItem.addActionListener(new GaffeSaveListener());
+    closeItem.addActionListener(new ResetListener());
+    exitItem.addActionListener(new ExitListener());
+    outputItem.addActionListener(new ShowOutputDialogListener());
+    stepTreeItem.addActionListener(new ShowStepTreeDialogListener());
+    designItem.addActionListener(new ShowConfigDialogListener());
 
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     this.setBounds(env.getMaximumWindowBounds());
@@ -109,31 +118,16 @@ public class MainFrame extends JFrame
     this.setTitle("Community Z Tools -- Gaffe2");
     this.setLocation(0, 0);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    mainFrame = this;
+
+    GaffeUI.setMainFrame(this);
   }
 
-  /**
-   * @return Returns the splitPane.
-   */
-  public static JSplitPane getFrameSplit()
+  public void reset()
   {
-    return frameSplit;
-  }
-
-  /**
-   * @return Returns the rightSplit.
-   */
-  public static JSplitPane getRightSplit()
-  {
-    return rightSplit;
-  }
-
-  /**
-   * @return Returns the mainFrame.
-   */
-  public static MainFrame getMainFrame()
-  {
-    return mainFrame;
+    frameSplit.setVisible(true);
+    validate();
+    rightSplit.setDividerLocation(0.8);
+    frameSplit.setDividerLocation(0.2);
   }
 
   /**
@@ -141,6 +135,7 @@ public class MainFrame extends JFrame
    */
   public static void main(String[] args)
   {
+    GaffeUtil.loadExprMap();
     MainFrame mf = new MainFrame();
     mf.setVisible(true);
   }

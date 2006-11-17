@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
@@ -41,7 +41,7 @@ public class BindExpr_JTableAdapter extends BindExpr_DefaultAdapter
       temp = (String) tm.getValueAt(i, 0);
       ZName name = factory.createZName(temp);
       temp = (String) tm.getValueAt(i, 1);
-      Expr value = GaffeFactory.decodeExpr(temp);
+      Expr value = GaffeUtil.decodeExpr(temp);
       result.add((Decl) factory.createConstDecl(name, value));
     }
     expr.setDeclList(result);
@@ -59,7 +59,7 @@ public class BindExpr_JTableAdapter extends BindExpr_DefaultAdapter
     for (Decl decl : declList) {
       ConstDecl tempDecl = (ConstDecl) decl;
       dataModel[i][0] = tempDecl.getZName().toString();
-      dataModel[i][1] = GaffeFactory.encodeExpr(tempDecl.getExpr());
+      dataModel[i][1] = GaffeUtil.encodeExpr(tempDecl.getExpr());
       i++;
     }
     component.setModel(new DefaultTableModel(dataModel, new String[]{"Key",

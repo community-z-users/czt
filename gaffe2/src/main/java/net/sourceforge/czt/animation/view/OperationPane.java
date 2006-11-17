@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.czt.animation.control.OperationListener;
+import net.sourceforge.czt.animation.control.ShowInputDialogListener;
 
 /**
  * @author Linan Zhang
@@ -20,8 +20,6 @@ public class OperationPane extends JScrollPane
 
   private JComponent component;
 
-  private static OperationPane currentPane;
-
   /**
    * 
    */
@@ -29,7 +27,6 @@ public class OperationPane extends JScrollPane
   {
     contentPane = new JPanel(new BorderLayout());
     this.getViewport().setView(contentPane);
-    currentPane = this;
   }
 
   /**
@@ -38,21 +35,13 @@ public class OperationPane extends JScrollPane
   public void add(JComponent component)
   {
     this.component = component;
-    component.addMouseListener(new OperationListener(component));
+    component.addMouseListener(new ShowInputDialogListener(component));
     contentPane.add(component, BorderLayout.CENTER);
   }
 
   public void reset()
   {
     contentPane.removeAll();
-  }
-
-  /**
-   * @return Returns the currentOperationPane.
-   */
-  public static OperationPane getCurrentPane()
-  {
-    return currentPane;
   }
 
   /**

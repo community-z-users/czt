@@ -7,21 +7,21 @@ import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
-import net.sourceforge.czt.animation.view.DesignDialog;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
+import net.sourceforge.czt.animation.view.ConfigDialog;
 
 public class ConfigChangeListener implements java.awt.event.ActionListener
 {
-  private DesignDialog designDialog;
+  private ConfigDialog designDialog;
 
-  public ConfigChangeListener(DesignDialog dd)
+  public ConfigChangeListener(ConfigDialog dd)
   {
     designDialog = dd;
   }
 
   public void actionPerformed(ActionEvent arg0)
   {
-    Map<String, Class> customMap = GaffeFactory.getCustomMap();
+    Map<String, Class> customMap = GaffeUtil.getCustomMap();
     JTable customMapTable = designDialog.getCustomMapTable();
     designDialog.setVisible(false);
     String key = "";

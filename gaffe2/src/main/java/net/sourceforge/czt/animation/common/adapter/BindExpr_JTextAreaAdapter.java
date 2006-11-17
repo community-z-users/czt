@@ -4,7 +4,7 @@ package net.sourceforge.czt.animation.common.adapter;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
@@ -36,7 +36,7 @@ public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
     for (i = 0; i < r.length; i++) {
       temp = r[i].split(ZString.MAPSTO);
       ZName name = factory.createZName(temp[0]);
-      Expr value = (temp.length > 1) ? GaffeFactory.decodeExpr(temp[1]) : null;
+      Expr value = (temp.length > 1) ? GaffeUtil.decodeExpr(temp[1]) : null;
       result.add((Decl) factory.createConstDecl(name, value));
     }
     expr.setDeclList(result);
@@ -56,7 +56,7 @@ public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
       ConstDecl tempDecl = (ConstDecl) decl;
       temp = tempDecl.getZName().toString();
       temp += ZString.MAPSTO;
-      temp += GaffeFactory.encodeExpr(tempDecl.getExpr());
+      temp += GaffeUtil.encodeExpr(tempDecl.getExpr());
       temp += System.getProperty("line.separator");
       component.append(temp);
       i++;

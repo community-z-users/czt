@@ -7,9 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import net.sourceforge.czt.animation.model.Step;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.StepTree;
-import net.sourceforge.czt.animation.view.StatusLabel;
 
 /**
  * @author Linan Zhang
@@ -33,6 +32,7 @@ public class ChangeStepListener implements ActionListener
    */
   public void actionPerformed(ActionEvent arg0)
   {
+    StepTree tree = GaffeUtil.getStepTree();
     String operation = "";
     if (arg0.getSource() instanceof JMenuItem) {
       JMenuItem item = (JMenuItem) arg0.getSource();
@@ -42,13 +42,8 @@ public class ChangeStepListener implements ActionListener
     else {
       operation = "back";
     }
-    if (!StepTree.moveTo(operation)) {
-      StatusLabel.setMessage("Change to step " + operation + " has failed..");
-    }
-    else {
-      Step step = StepTree.getCurrentStep();
-      StatusLabel.setMessage("Result: " + step.getIndex() + "/"
-          + (step.size() - 1));
+    if (!tree.moveTo(operation)) {
+      System.out.println("Change to step " + operation + " has failed..");
     }
   }
 }

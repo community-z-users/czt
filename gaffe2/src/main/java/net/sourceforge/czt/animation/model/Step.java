@@ -1,18 +1,13 @@
 
 package net.sourceforge.czt.animation.model;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
-import net.sourceforge.czt.animation.view.OutputPane;
-import net.sourceforge.czt.animation.view.StatePane;
-import net.sourceforge.czt.animation.view.ToolBar;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -30,11 +25,9 @@ public class Step extends DefaultMutableTreeNode
 
   private List<HashMap<String, Expr>> results;
 
-  private List<HashMap<String, Object>> encodable;
+  private List<HashMap<String, Object>> mirror;
 
   private EvalResult evalResult;
-
-  private PropertyChangeSupport pcs;
 
   /**
    * 
@@ -48,16 +41,15 @@ public class Step extends DefaultMutableTreeNode
    * @param operation
    * @param evalResult
    */
-  public Step(String operation, EvalResult evalResult)
+  public Step(String oper, EvalResult result)
   {
-    this.index = -1;
-    this.isComplete = false;
-    this.operation = operation;
-    this.encodable = new ArrayList<HashMap<String, Object>>();
-    this.evalResult = evalResult;
-    this.results = new ArrayList<HashMap<String, Expr>>();
-    this.pcs = new PropertyChangeSupport(this);
-    if (evalResult != null){
+    index = -1;
+    isComplete = false;
+    operation = oper;
+    mirror = new ArrayList<HashMap<String, Object>>();
+    evalResult = result;
+    results = new ArrayList<HashMap<String, Expr>>();
+    if (evalResult != null) {
       this.changeIndex(0);
     }
     else {
@@ -65,6 +57,82 @@ public class Step extends DefaultMutableTreeNode
     }
   }
 
+  /**
+   * @return size
+   */
+  public int size()
+  {
+    return results.size();
+  }
+
+  /**
+   * @param index The index to set.
+   */
+  public boolean changeIndex(int newValue)
+  {
+    if (newValue < 0) {
+      return false;
+    }
+    while (newValue >= results.size()) {
+      HashMap<String, Expr> result = evalResult.next();
+      if (result == null) {
+        isComplete = true;
+        return false;
+      }
+      else {
+        results.add(result);
+        HashMap<String, Object> newMap = new HashMap<String, Object>();
+        for (String key : result.keySet()) {
+          Expr expr = result.get(key);
+          newMap.put(key, GaffeUtil.encodeExpr(expr));
+        }
+        mirror.add(newMap);
+      }
+    }
+    isComplete = !evalResult.hasNext();
+    setIndex(newValue);
+    return true;
+  }
+
+  /**
+   * @return The selected Result
+   */
+  public HashMap<String, Expr> getResultSelected()
+  {
+    if (index == -1)
+      return null;
+    return results.get(index);
+  }
+
+  /**
+   * @param i
+   * @return indexed result
+   */
+  public HashMap<String, Expr> getResultByIndex(int i)
+  {
+    assert (i < results.size());
+    return results.get(i);
+  }
+
+  /**
+   * restore the mirror to expr map
+   */
+  public void restore()
+  {
+    HashMap<String, Expr> result;
+    for (HashMap<String, Object> encodedMap : mirror) {
+      result = new HashMap<String, Expr>();
+      for (String key : encodedMap.keySet()) {
+        Object code = encodedMap.get(key);
+        Expr expr = GaffeUtil.decodeExpr(code);
+        result.put(key, expr);
+      }
+      results.add(result);
+    }
+  }
+
+  /*--------------------------------------------------------------------------*/
+  // Getter and Setters
   /**
    * @return Returns the index.
    */
@@ -74,29 +142,19 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * @return Returns the operation.
+   * @param index
    */
-  public String getOperation()
+  public void setIndex(int index)
   {
-    return operation;
+    this.index = index;
   }
 
   /**
-   * @return Returns the encodable.
+   * @return Returns the isComplete.
    */
-  public List<HashMap<String, Object>> getEncodable()
+  public boolean isComplete()
   {
-    return encodable;
-  }
-
-  /**
-   * @param index The index to set.
-   */
-  public void setIndex(int newValue)
-  {
-    int oldValue = index;
-    index = newValue;
-    this.firePropertyChange("index", oldValue, newValue);
+    return isComplete;
   }
 
   /**
@@ -108,6 +166,14 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * @return Returns the operation.
+   */
+  public String getOperation()
+  {
+    return operation;
+  }
+
+  /**
    * @param operation The operation to set.
    */
   public void setOperation(String operation)
@@ -116,28 +182,22 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * @param encodable The encodable to set.
+   * @return Returns the mirror.
    */
-  public void setEncodable(List<HashMap<String, Object>> encodable)
+  public List<HashMap<String, Object>> getMirror()
   {
-    this.encodable = encodable;
+    return mirror;
   }
 
-  /* (non-Javadoc)
-   * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+  /**
+   * @param mirror The mirror to set.
    */
-  public void addPropertyChangeListener(PropertyChangeListener arg0)
+  public void setMirror(List<HashMap<String, Object>> mirror)
   {
-    pcs.addPropertyChangeListener(arg0);
+    this.mirror = mirror;
   }
 
-  /* (non-Javadoc)
-   * @see java.beans.PropertyChangeSupport#firePropertyChange(java.lang.String, int, int)
-   */
-  public void firePropertyChange(String arg0, int arg1, int arg2)
-  {
-    pcs.firePropertyChange(arg0, arg1, arg2);
-  }
+  /*--------------------------------------------------------------------------*/
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -156,87 +216,5 @@ public class Step extends DefaultMutableTreeNode
     for (String key : result.keySet()) {
       System.out.println(key + ": " + result.get(key).toString());
     }
-  }
-
-  /**
-   * @return size
-   */
-  public int size()
-  {
-    return results.size();
-  }
-
-  /**
-   * @return Returns the isComplete.
-   */
-  public boolean isComplete()
-  {
-    return isComplete;
-  }
-
-  /**
-   * @return The selected Result
-   */
-  public HashMap<String, Expr> getResultSelected()
-  {
-    if (index == -1) return null;
-    return results.get(index);
-  }
-
-  /**
-   * @param i
-   * @return indexed result
-   */
-  public HashMap<String, Expr> getResultByIndex(int i)
-  {
-    assert (i < results.size());
-    return results.get(i);
-  }
-
-  /**
-   * @param index The index to set.
-   */
-  public boolean changeIndex(int newValue)
-  {
-    if (newValue < 0 || evalResult == null) {
-      return false;
-    }
-    while (newValue >= results.size()) {
-      HashMap<String, Expr> result = evalResult.next();
-      if (result == null) {
-        isComplete = true;
-        return false;
-      }
-      else {
-        results.add(result);
-        HashMap<String, Object> newMap = new HashMap<String, Object>();
-        for (String key : result.keySet()) {
-          Expr expr = result.get(key);
-          newMap.put(key, GaffeFactory.encodeExpr(expr));
-        }
-        encodable.add(newMap);
-      }
-    }
-    isComplete = !evalResult.hasNext();
-    this.setIndex(newValue);
-    return true;
-  }
-
-  public void restore()
-  {
-    HashMap<String, Expr> result;
-    for (HashMap<String, Object> encodedMap : encodable) {
-      result = new HashMap<String, Expr>();
-      for (String key : encodedMap.keySet()) {
-        Object code = encodedMap.get(key);
-        Expr expr = GaffeFactory.decodeExpr(code);
-        result.put(key, expr);
-      }
-      results.add(result);
-    }
-    this.pcs = new PropertyChangeSupport(this);
-    this.addPropertyChangeListener(StatePane.getCurrentPane());
-    this.addPropertyChangeListener(OutputPane.getCurrentPane());
-    this.addPropertyChangeListener(ToolBar.getCurrentToolBar());
   }
 }

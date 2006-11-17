@@ -4,7 +4,7 @@ package net.sourceforge.czt.animation.common.adapter;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.SetExpr;
 
@@ -27,7 +27,7 @@ public class SetExpr_DefaultAdapter extends AdapterDefaultImpl
    */
   public Expr getExpr()
   {
-    expr = (SetExpr) GaffeFactory.decodeExpr(component.getText());
+    expr = (SetExpr) GaffeUtil.decodeExpr(component.getText());
     return expr;
   }
 
@@ -36,7 +36,7 @@ public class SetExpr_DefaultAdapter extends AdapterDefaultImpl
    */
   public JComponent getComponent()
   {
-    component.setText(GaffeFactory.encodeExpr(expr).toString());
+    component.setText(GaffeUtil.encodeExpr(expr).toString());
     return component;
   }
 }

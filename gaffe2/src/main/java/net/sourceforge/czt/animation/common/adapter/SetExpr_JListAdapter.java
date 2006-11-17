@@ -6,7 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.ListModel;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZExprList;
 
@@ -35,7 +35,7 @@ public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
     String element;
     for (int i = 0; i < model.getSize(); i++) {
       element = (String) model.getElementAt(i);
-      exprList.add(GaffeFactory.decodeExpr(element));
+      exprList.add(GaffeUtil.decodeExpr(element));
     }
     expr.setExprList(exprList);
     return expr;
@@ -50,7 +50,7 @@ public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
     DefaultListModel model = (DefaultListModel) component.getModel();
     model.clear();
     for (Expr tempExpr : exprList) {
-      model.addElement(GaffeFactory.encodeExpr(tempExpr));
+      model.addElement(GaffeUtil.encodeExpr(tempExpr));
     }
     component.setModel(model);
     return component;

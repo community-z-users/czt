@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import net.sourceforge.czt.animation.control.CancelListener;
+import net.sourceforge.czt.animation.control.DisposeDialogListener;
 import net.sourceforge.czt.animation.control.EvaluateListener;
 
 /**
@@ -22,22 +22,20 @@ public class InputDialog extends JDialog
 {
   private VariablePane inputPane;
 
-  private String schemaName;
-
   /**
    * @param schemaName
-   * @param parent
    */
   public InputDialog(String schemaName)
   {
-    this.schemaName = schemaName;
     inputPane = new VariablePane();
+    inputPane.setName(schemaName);
 
     JPanel buttonPane = new JPanel();
     JButton evalButton = new JButton("Evaluate");
     JButton cancelButton = new JButton("Cancel  ");
-    evalButton.addActionListener(new EvaluateListener(this));
-    cancelButton.addActionListener(new CancelListener(this));
+    evalButton.addActionListener(new EvaluateListener());
+    evalButton.addActionListener(new DisposeDialogListener(this));
+    cancelButton.addActionListener(new DisposeDialogListener(this));
     buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
     buttonPane.add(evalButton);
     buttonPane.add(cancelButton);
@@ -49,19 +47,12 @@ public class InputDialog extends JDialog
     this.pack();
     Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension dim2 = this.getSize();
-    this.setLocation((dim1.width-dim2.width)/2,(dim1.height-dim2.height)/2);
+    this.setLocation((dim1.width - dim2.width) / 2,
+        (dim1.height - dim2.height) / 2);
   }
 
   /**
-   * @return
-   */
-  public String getSchemaName()
-  {
-    return schemaName;
-  }
-
-  /**
-   * @return
+   * @return Returns the inputPane.
    */
   public VariablePane getInputPane()
   {

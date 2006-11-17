@@ -34,7 +34,8 @@ import javax.swing.border.TitledBorder;
 
 import net.sourceforge.czt.animation.common.adapter.Adapter;
 import net.sourceforge.czt.animation.common.adapter.NumExpr_JSpinnerAdapter;
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.z.ast.Expr;
 
@@ -189,7 +190,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
             cardLayout.next(contentPane);
           }
         });
-        ToolBar toolBar = ToolBar.getCurrentToolBar();
+        ToolBar toolBar = GaffeUI.getToolBar();
         toolBar.addSeparator();
         toolBar.add(preButton);
         toolBar.add(nextButton);
@@ -271,8 +272,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
    */
   public void add(String key)
   {
-    final Map<String, List<Class>> availableMap = GaffeFactory
-        .getAvailableMap();
+    final Map<String, List<Class>> availableMap = GaffeUtil.getAvailableMap();
     final String name = key;
     final Expr expr = componentMap.get(key).getExpr();
     final List<Class> adapterList = availableMap.get(componentMap.get(key)

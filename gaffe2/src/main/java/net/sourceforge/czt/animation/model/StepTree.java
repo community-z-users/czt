@@ -1,82 +1,65 @@
 
 package net.sourceforge.czt.animation.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 import javax.swing.tree.DefaultTreeModel;
 
 /**
  * @author Linan Zhang
  *
  */
-public class StepTree
+@SuppressWarnings("serial")
+public class StepTree extends DefaultTreeModel
 {
-  private static String stateSchemaName = "";
+  private String stateSchemaName;
 
-  private static String initSchemaName = "";
+  private String initSchemaName;
 
-  private static Step currentStep = new Step("Root", null);
+  private Step step;
 
-  private static DefaultTreeModel stepTree = new DefaultTreeModel(currentStep);
+  private PropertyChangeSupport pcs;
 
   /**
-   * 
+   * constructor
    */
-  private StepTree()
+  public StepTree()
   {
+    this(new Step("Root", null));
+  }
+
+  public StepTree(Step root)
+  {
+    super(root);
+    stateSchemaName = "";
+    initSchemaName = "";
+    pcs = new PropertyChangeSupport(this);
   }
 
   /**
    * @param step
    */
-  public static void add(Step step)
+  public void add(Step child)
   {
-    currentStep.add(step);
-    setCurrentStep(step);
+    step.add(child);
+    setStep(child);
   }
 
   /**
-   * @return The selected Step
+   * @param
    */
-  public static Step getCurrentStep()
-  {
-    return currentStep;
-  }
-
-  /**
-   * @param currentStep The currentStep to set.
-   */
-  public static void setCurrentStep(Step currentStep)
-  {
-    StepTree.currentStep = currentStep;
-    currentStep.firePropertyChange("index", -1, 0);
-  }
-
-  /**
-   * @return the available Operations
-   */
-  public static String[] getAvailableOperations()
-  {
-    String[] result = new String[currentStep.getChildCount()];
-    for (int i = 0; i < currentStep.getChildCount(); i++) {
-      Step step = (Step) currentStep.getChildAt(i);
-      result[i] = step.getOperation();
-    }
-    return result;
-  }
-
-  /**
-   * @param index The index to set.
-   */
-  public static boolean moveTo(String operation)
+  public boolean moveTo(String operation)
   {
     if (operation.equals("back")) {
-      setCurrentStep((Step) currentStep.getParent());
+      setStep((Step) step.getParent());
       return true;
     }
     else {
-      for (int i = 0; i < currentStep.getChildCount(); i++) {
-        Step step = (Step) currentStep.getChildAt(i);
-        if (step.getOperation().equals(operation)) {
-          setCurrentStep(step);
+      for (int i = 0; i < step.getChildCount(); i++) {
+        Step child = (Step) step.getChildAt(i);
+        if (child.getOperation().equals(operation)) {
+          setStep(child);
           return true;
         }
       }
@@ -85,66 +68,85 @@ public class StepTree
   }
 
   /**
+   * @param index The index to set.
+   */
+  public boolean changeIndex(int newValue)
+  {
+    int oldValue = step.getIndex();
+    boolean success = step.changeIndex(newValue);
+    if (success) {
+      firePropertyChange("index", oldValue, newValue);
+    }
+    return success;
+  }
+
+  /**
+   * @return the available Operations
+   */
+  public String[] getAvailableOperations()
+  {
+    String[] result = new String[step.getChildCount()];
+    for (int i = 0; i < step.getChildCount(); i++) {
+      Step child = (Step) step.getChildAt(i);
+      result[i] = child.getOperation();
+    }
+    return result;
+  }
+
+  /**
+   * @return
+   */
+  public boolean hasPrevious()
+  {
+    return step.getLevel() > 1;
+  }
+
+  /**
+   * @return
+   */
+  public boolean hasNext()
+  {
+    return !step.isLeaf();
+  }
+
+  /**
    * 
    */
-  public static void reset()
+  public void reset()
   {
-    currentStep = new Step("Root", null);
-    stepTree = new DefaultTreeModel(currentStep);
+    setRoot(new Step("Root", null));
+  }
+
+  /**
+   * return teh current selected step index;
+   */
+  public int getIndex()
+  {
+    return step.getIndex();
+  }
+
+  /**
+   * return the current selected step size
+   */
+  public int size()
+  {
+    return step.size();
   }
 
   /**
    * @return
    */
-  public static boolean hasPrevious()
+  public boolean isComplete()
   {
-    return currentStep.getLevel() > 1;
+    return step.isComplete();
   }
 
-  /**
-   * @return
-   */
-  public static boolean hasNext()
-  {
-    return !currentStep.isLeaf();
-  }
-
-  /**
-   * @return Returns the stepTree.
-   */
-  public static DefaultTreeModel getStepTree()
-  {
-    return stepTree;
-  }
-
-  /**
-   * @param stepTree The stepTree to set.
-   */
-  public static void setStepTree(DefaultTreeModel stepTree)
-  {
-    StepTree.stepTree = stepTree;
-  }
-
-  /**
-   * @return Returns the initSchemaName.
-   */
-  public static String getInitSchemaName()
-  {
-    return initSchemaName;
-  }
-
-  /**
-   * @param initSchemaName The initSchemaName to set.
-   */
-  public static void setInitSchemaName(String initSchemaName)
-  {
-    StepTree.initSchemaName = initSchemaName;
-  }
-
+  /*--------------------------------------------------------------------------*/
+  // Getter and Setters
   /**
    * @return Returns the stateSchemaName.
    */
-  public static String getStateSchemaName()
+  public String getStateSchemaName()
   {
     return stateSchemaName;
   }
@@ -152,9 +154,60 @@ public class StepTree
   /**
    * @param stateSchemaName The stateSchemaName to set.
    */
-  public static void setStateSchemaName(String stateSchemaName)
+  public void setStateSchemaName(String stateSchemaName)
   {
-    StepTree.stateSchemaName = stateSchemaName;
+    this.stateSchemaName = stateSchemaName;
+  }
+
+  /**
+   * @return Returns the initSchemaName.
+   */
+  public String getInitSchemaName()
+  {
+    return initSchemaName;
+  }
+
+  /**
+   * @param initSchemaName The initSchemaName to set.
+   */
+  public void setInitSchemaName(String initSchemaName)
+  {
+    this.initSchemaName = initSchemaName;
+  }
+
+  /**
+   * @return The selected Step
+   */
+  public Step getStep()
+  {
+    return step;
+  }
+
+  /**
+   * @param currentStep The currentStep to set.
+   */
+  public void setStep(Step step)
+  {
+    this.step = step;
+    firePropertyChange("step", -1, 0);
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  /* (non-Javadoc)
+   * @see java.beans.PropertyChangeSupport#addPropertyChangeListener(java.beans.PropertyChangeListener)
+   */
+  public void addPropertyChangeListener(PropertyChangeListener arg0)
+  {
+    pcs.addPropertyChangeListener(arg0);
+  }
+
+  /* (non-Javadoc)
+   * @see java.beans.PropertyChangeSupport#firePropertyChange(java.lang.String, int, int)
+   */
+  public void firePropertyChange(String arg0, int arg1, int arg2)
+  {
+    pcs.firePropertyChange(arg0, arg1, arg2);
   }
 
 }

@@ -4,7 +4,7 @@ package net.sourceforge.czt.animation.common.adapter;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
 
-import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZExprList;
 
@@ -31,7 +31,7 @@ public class SetExpr_JTextAreaAdapter extends SetExpr_DefaultAdapter
     result.clear();
     for (i = 0; i < r.length; i++) {
       temp = r[i];
-      Expr value = (temp != null) ? GaffeFactory.decodeExpr(temp) : null;
+      Expr value = (temp != null) ? GaffeUtil.decodeExpr(temp) : null;
       result.add(value);
     }
     expr.setExprList(result);
@@ -48,7 +48,7 @@ public class SetExpr_JTextAreaAdapter extends SetExpr_DefaultAdapter
     String temp = "";
     int i = 0;
     for (Expr exprElem : exprList) {
-      temp += GaffeFactory.encodeExpr(exprElem);
+      temp += GaffeUtil.encodeExpr(exprElem);
       temp += System.getProperty("line.separator");
       component.append(temp);
       i++;

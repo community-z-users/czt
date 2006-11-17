@@ -8,14 +8,12 @@ import java.util.HashMap;
 import net.sourceforge.czt.animation.common.adapter.Adapter;
 import net.sourceforge.czt.animation.common.evaluator.Evaluator;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.Step;
 import net.sourceforge.czt.animation.model.StepTree;
-import net.sourceforge.czt.animation.view.InputDialog;
-import net.sourceforge.czt.animation.view.OutputPane;
-import net.sourceforge.czt.animation.view.StatePane;
-import net.sourceforge.czt.animation.view.StatusLabel;
-import net.sourceforge.czt.animation.view.ToolBar;
+import net.sourceforge.czt.animation.view.VariablePane;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -24,18 +22,12 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class EvaluateListener implements ActionListener
 {
-  private String schemaName;
-
-  private InputDialog parent;
-
   /**
    * @param parent
    * @param ancestor
    */
-  public EvaluateListener(InputDialog parent)
+  public EvaluateListener()
   {
-    this.parent = parent;
-    schemaName = parent.getSchemaName();
   }
 
   /* (non-Javadoc)
@@ -44,12 +36,12 @@ public class EvaluateListener implements ActionListener
   public void actionPerformed(ActionEvent arg0)
   {
     Evaluator evaluator = GaffeFactory.getEvaluator();
-    StatePane statePane = StatePane.getCurrentPane();
-    OutputPane outputPane = OutputPane.getCurrentPane();
-    ToolBar toolBar = ToolBar.getCurrentToolBar();
+    StepTree tree = GaffeUtil.getStepTree();
+    VariablePane inputPane = GaffeUI.getInputPane();
+    String schemaName = inputPane.getName();
 
-    HashMap<String, Adapter> inputMap = parent.getInputPane().getComponentMap();
-    HashMap<String, Expr> last = StepTree.getCurrentStep().getResultSelected();
+    HashMap<String, Adapter> inputMap = inputPane.getComponentMap();
+    HashMap<String, Expr> last = tree.getStep().getResultSelected();
     HashMap<String, Expr> input = GaffeFactory.getAnalyzer().getVariableMap(
         schemaName, "input");
 
@@ -60,7 +52,7 @@ public class EvaluateListener implements ActionListener
     }
     //Remove prime for state variables
     Expr expr;
-    for (String key : statePane.getComponentMap().keySet()) {
+    for (String key : GaffeUI.getStatePane().getComponentMap().keySet()) {
       expr = last.get(key);
       input.put(key.substring(0, key.length() - 1), expr);
     }
@@ -69,13 +61,6 @@ public class EvaluateListener implements ActionListener
     EvalResult results = evaluator.activateSchema(schemaName, input);
     /***************************************/
 
-    Step step = new Step(schemaName, results);
-    step.addPropertyChangeListener(statePane);
-    step.addPropertyChangeListener(outputPane);
-    step.addPropertyChangeListener(toolBar);
-    StepTree.add(step);
-    parent.dispose();
-    StatusLabel.setMessage("Result: " + step.getIndex() + "/"
-        + (step.size() - 1));
+    tree.add(new Step(schemaName, results));
   }
 }

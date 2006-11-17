@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.FileSource;
@@ -164,7 +165,7 @@ public class ZLiveAnalyzer implements Analyzer
     Type type;
     Stroke stroke;
     ZStrokeList strokeList;
-    Map<String, Class> customMap = GaffeFactory.getCustomMap();
+    Map<String, Class> customMap = GaffeUtil.getCustomMap();
     for (NameTypePair ntp : signature.getNameTypePair()) {
       name = ntp.getZName().toString();
       type = ntp.getType();
@@ -213,7 +214,7 @@ public class ZLiveAnalyzer implements Analyzer
             + " as Type of " + type.toString());
       }
       if (customMap.get(name) == null) {
-        customMap.put(name, GaffeFactory.getAvailableMap().get(
+        customMap.put(name, GaffeUtil.getAvailableMap().get(
             result.get(name).getClass().getSimpleName()).get(0));
       }
     }

@@ -21,15 +21,12 @@ import net.sourceforge.czt.z.util.ZString;
 @SuppressWarnings("serial")
 public class OutputPane extends VariablePane
 {
-  private static OutputPane currentPane;
-
   /**
    * 
    */
   public OutputPane()
   {
     super();
-    currentPane = this;
     this.setBorder(new TitledBorder("Output"));
   }
 
@@ -53,13 +50,4 @@ public class OutputPane extends VariablePane
     contentPane.validate();
     this.repaint();
   }
-
-  /**
-   * @return Returns the currentPane.
-   */
-  public static OutputPane getCurrentPane()
-  {
-    return currentPane;
-  }
-
 }
