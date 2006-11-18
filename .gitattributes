@@ -49,6 +49,11 @@ eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEdi
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/editors/zeditor/ZEditorMessages.properties -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/outline/CztTreeNode.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/outline/NodeIconVisitor.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/CZTBasePreferencePage.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/CompilerPreferencePage.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorAnnotationConfigurationBlock.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorAnnotationPreferencePage.java -text
+eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/preferences/ZEditorBaseConfigurationBlock.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/util/ExceptionHandler.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/CztXmlHandler.java -text
 eclipse/czteditor/src/main/java/net/sourceforge/czt/eclipse/views/ZConversionView.java -text

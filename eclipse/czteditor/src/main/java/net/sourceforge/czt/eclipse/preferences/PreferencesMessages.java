@@ -20,26 +20,93 @@ public final class PreferencesMessages extends NLS
   }
 
   /*
-   * Basic preferences settings for CZT development
+   * Titles related information in basic preferences page for CZT development
    */
   public static String CZTBasePreferencePage_description;
 
+  /*
+   * Titles related information in appearance preferences page
+   */
   public static String AppearancePreferencePage_description;
 
-  public static String ZEditorPreferencePage_selectionBackgroundColor;
+  /*
+   * Titles related information in compiler preferences page
+   */
+  public static String CompilerPreferencePage_description;
+  public static String CompilerPreferencePage_properties;
+  public static String CompilerPreferencePage_extract_comma_or_semi_from_decorwords;
+  public static String CompilerPreferencePage_extract_comma_or_semi_from_decorwords_tooltip;
+  public static String CompilerPreferencePage_ignore_unknown_latex_commands;
+  public static String CompilerPreferencePage_ignore_unknown_latex_commands_tooltip;
+  public static String CompilerPreferencePage_typecheck_use_before_decl;
+  public static String CompilerPreferencePage_typecheck_use_before_decl_tooltip;
+  public static String CompilerPreferencePage_typecheck_use_strong_typing;
+  public static String CompilerPreferencePage_typecheck_use_strong_typing_tooltip;
+  
+  
+  /*
+   * Titles related information in basic editor preferences page
+   */
+  public static String ZEditorBasePreferencePage_description;
+  public static String ZEditorBasePreferencePage_note_link;
+  public static String ZEditorBasePreferencePage_note_link_tooltip;
+  public static String ZEditorBasePreferencePage_parsing_enable;
+  public static String ZEditorBasePreferencePage_parsing_enable_tooltip;
+  public static String ZEditorBasePreferencePage_report_problems_on_save;
+  public static String ZEditorBasePreferencePage_report_problems_while_editing;
+  public static String ZEditorBasePreferencePage_compiler_link;
+  public static String ZEditorBasePreferencePage_compiler_link_tooltip;
+  public static String ZEditorBasePreferencePage_matching_brackets;
+  public static String ZEditorBasePreferencePage_matching_brackets_color;
+  public static String ZEditorBasePreferencePage_sync_outline_on_cursor_move;
+  
+  /*
+   * Editor hover preferences settings
+   */
+  public static String ZEditorBasePreferencePage_show_text_hover;
+  
+  /*
+   * Titles related information for marking occurrences settings
+   */
+  public static String ZEditorBasePreferencePage_mark_occurrences;
+  public static String ZEditorBasePreferencePage_sticky_occurrences;
+  public static String ZEditorBasePreferencePage_mark_occurrences_when_highlight;
+  
+  //  public static String ZEditorPreferencePage_selectionBackgroundColor;
 
-  public static String ZEditorPreferencePage_selectionForegroundColor;
-
-  public static String ZEditorPreferencePage_folding_title;
-
-  public static String MarkOccurrencesConfigurationBlock_title;
-
-  public static String MarkOccurrencesConfigurationBlock_markOccurrences;
-
-  public static String MarkOccurrencesConfigurationBlock_stickyOccurrences;
-
-  public static String MarkOccurrencesConfigurationBlock_markOccurrencesWhenExpansion;
-
+  //  public static String ZEditorPreferencePage_selectionForegroundColor;
+  
+  
+  /*
+   * Titles related information in annotation preference page
+   */ 
+  public static String ZEditorPreferencePage_annotation_description;
+  public static String ZEditorPreferencePage_annotation_note_link;
+  public static String ZEditorPreferencePage_annotation_note_link_tooltip;
+  public static String ZEditorPreferencePage_annotation_schema_box;
+  public static String ZEditorPreferencePage_annotation_schema_box_enable;
+  public static String ZEditorPreferencePage_annotation_schema_box_style;
+  public static String ZEditorPreferencePage_annotation_schema_box_style_1;
+  public static String ZEditorPreferencePage_annotation_schema_box_style_2;
+  public static String ZEditorPreferencePage_annotation_schema_box_line_color;
+  public static String ZEditorPreferencePage_annotation_schema_box_line_width;
+  
+  /*
+   * Titles related information in folding preferences page
+   */
+  public static String ZEditorPreferencePage_folding_description;
+  public static String ZEditorPreferencePage_folding_enable;
+  public static String ZEditorPreferencePage_folding_enable_tooltip;
+  public static String ZEditorPreferencePage_folding_enable_elements;
+  public static String ZEditorPreferencePage_folding_element_narrative;
+  public static String ZEditorPreferencePage_folding_element_directive;
+  public static String ZEditorPreferencePage_folding_element_zed;
+  public static String ZEditorPreferencePage_folding_element_section;
+  public static String ZEditorPreferencePage_folding_element_ax;
+  public static String ZEditorPreferencePage_folding_element_sch;
+  public static String ZEditorPreferencePage_folding_element_genax;
+  public static String ZEditorPreferencePage_folding_element_gensch;
+  
   /*
    * Titles related information in syntax coloring preference page
    */
@@ -80,6 +147,8 @@ public final class PreferencesMessages extends NLS
   public static String ZEditorPreferencePage_underline;
 
   public static String ZEditorPreferencePage_preview;
+
+  
   
   /*
    * Error information in editor preference pages
@@ -88,36 +157,14 @@ public final class PreferencesMessages extends NLS
   public static String ZEditorPreferencePage_empty_input;
 
   public static String ZEditorPreferencePage_invalid_input;
+  
   /*    
    public static String JavaBasePreferencePage_doubleclick_action;
    public static String JavaBasePreferencePage_doubleclick_gointo;
    public static String JavaBasePreferencePage_doubleclick_expand;
-   public static String JavaBasePreferencePage_refactoring_title;
-   public static String JavaBasePreferencePage_refactoring_auto_save;
-   public static String JavaBasePreferencePage_search;
-   public static String JavaBasePreferencePage_search_small_menu;
-   public static String NewJavaProjectPreferencePage_title;
-   public static String NewJavaProjectPreferencePage_description;
-   public static String NewJavaProjectPreferencePage_sourcefolder_label;
-   public static String NewJavaProjectPreferencePage_sourcefolder_project;
-   public static String NewJavaProjectPreferencePage_sourcefolder_folder;
-   public static String NewJavaProjectPreferencePage_folders_src;
-   public static String NewJavaProjectPreferencePage_folders_bin;
-   public static String NewJavaProjectPreferencePage_folders_error_namesempty;
-   public static String NewJavaProjectPreferencePage_folders_error_invalidsrcname;
-   public static String NewJavaProjectPreferencePage_folders_error_invalidbinname;
-   public static String NewJavaProjectPreferencePage_folders_error_invalidcp;
-   public static String NewJavaProjectPreferencePage_error_decode;
    public static String JavaEditorPreferencePage_showOverviewRuler;
    public static String JavaEditorPreferencePage_highlightMatchingBrackets;
    public static String JavaEditorPreferencePage_highlightCurrentLine;
-   public static String JavaEditorPreferencePage_enableAutoActivation;
-   public static String JavaEditorPreferencePage_automaticallyAddImportInsteadOfQualifiedName;
-   public static String JavaEditorPreferencePage_completionInserts;
-   public static String JavaEditorPreferencePage_completionOverwrites;
-   public static String JavaEditorPreferencePage_completionToggleHint;
-   public static String JavaEditorPreferencePage_autoActivationDelay;
-   public static String JavaEditorPreferencePage_autoActivationTriggersForJava;
    public static String JavaEditorPreferencePage_general;
    public static String ZEditorPreferencePage_colors;
    
@@ -131,17 +178,8 @@ public final class PreferencesMessages extends NLS
    public static String FoldingConfigurationBlock_combo_caption;
    public static String FoldingConfigurationBlock_info_no_preferences;
    public static String FoldingConfigurationBlock_error_not_exist;
-   public static String ProjectSelectionDialog_title;
-   public static String ProjectSelectionDialog_desciption;
-   public static String ProjectSelectionDialog_filter;
    */
   static {
     NLS.initializeMessages(BUNDLE_NAME, PreferencesMessages.class);
   }
-
-  public static String ProblemSeveritiesConfigurationBlock_pb_unhandled_surpresswarning_tokens;
-
-  public static String ProblemSeveritiesConfigurationBlock_pb_enable_surpresswarning_annotation;
-
-  public static String EditTemplateDialog_autoinsert;
 }

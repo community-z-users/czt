@@ -226,7 +226,7 @@ public abstract class AbstractConfigurationBlock
 
   private OverlayPreferenceStore fStore;
 
-  private Map fCheckBoxes = new HashMap();
+  private Map<Button, String> fCheckBoxes = new HashMap<Button, String>();
 
   private SelectionListener fCheckBoxListener = new SelectionListener()
   {
@@ -238,6 +238,24 @@ public abstract class AbstractConfigurationBlock
     {
       Button button = (Button) e.widget;
       fStore.setValue((String) fCheckBoxes.get(button), button.getSelection());
+    }
+  };
+  
+  private Map<Button, String[]> fRadioButtons = new HashMap<Button, String[]>();
+  
+  private SelectionListener fRadioButtonListener = new SelectionListener()
+  {
+    public void widgetDefaultSelected(SelectionEvent e)
+    {
+    }
+    
+    public void widgetSelected(SelectionEvent e)
+    {
+      Button button = (Button) e.widget;
+      if (button.getSelection()) {
+        String[] info = fRadioButtons.get(button);
+        fStore.setValue(info[0], info[1]);
+      }
     }
   };
 
@@ -268,7 +286,7 @@ public abstract class AbstractConfigurationBlock
    * @see #createDependency(Button, Control)
    * @since 3.0
    */
-  private ArrayList fMasterSlaveListeners = new ArrayList();
+  private ArrayList<SelectionListener> fMasterSlaveListeners = new ArrayList<SelectionListener>();
 
   private StatusInfo fStatus;
 
@@ -353,6 +371,24 @@ public abstract class AbstractConfigurationBlock
 
     return checkBox;
   }
+  
+  protected Button addRadioButton(Composite parent, String label, String key,
+      String value, int indentation)
+  {
+    Button radioButton = new Button(parent, SWT.RADIO);
+    radioButton.setText(label);
+
+    GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+    gd.horizontalIndent = indentation;
+    gd.horizontalSpan = 2;
+    radioButton.setLayoutData(gd);
+    radioButton.addSelectionListener(fRadioButtonListener);
+    makeScrollableCompositeAware(radioButton);
+
+    fRadioButtons.put(radioButton, new String[]{key, value});
+
+    return radioButton;
+  }
 
   /**
    * Returns an array of size 2:
@@ -405,7 +441,8 @@ public abstract class AbstractConfigurationBlock
   protected void createDependency(final Button master, final Control[] slaves)
   {
     Assert.isTrue(slaves.length > 0);
-    indent(slaves[0]);
+    for (Control slave : slaves)
+      indent(slave);
     SelectionListener listener = new SelectionListener()
     {
       public void widgetSelected(SelectionEvent e)
@@ -455,7 +492,14 @@ public abstract class AbstractConfigurationBlock
       String key = (String) fCheckBoxes.get(b);
       b.setSelection(fStore.getBoolean(key));
     }
-
+    
+    iter = fRadioButtons.keySet().iterator();
+    while (iter.hasNext()) {
+      Button b = (Button) iter.next();
+      String[] info = fRadioButtons.get(b);
+      b.setSelection(info[1].equals(fStore.getString(info[0])));
+    }
+    
     iter = fTextFields.keySet().iterator();
     while (iter.hasNext()) {
       Text t = (Text) iter.next();

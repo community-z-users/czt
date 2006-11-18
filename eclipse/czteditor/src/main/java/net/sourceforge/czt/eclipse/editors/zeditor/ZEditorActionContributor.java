@@ -12,9 +12,11 @@ import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Position;
 import org.eclipse.ui.IEditorPart;
@@ -22,6 +24,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.RetargetTextEditorAction;
+import org.eclipse.ui.texteditor.StatusLineContributionItem;
 
 /**
  * @author Chengdong Xu
@@ -134,6 +137,15 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   {
     super.contributeToToolBar(toolBarManager);
     toolBarManager.add(new Separator());
+  }
+  
+  public void contributeToStatusLine(IStatusLineManager statusLineManager)
+  {
+    super.contributeToStatusLine(statusLineManager);
+    StatusLineContributionItem statusItem = new StatusLineContributionItem("itemid");
+    statusLineManager.prependToGroup(StatusLineManager.MIDDLE_GROUP, statusItem);
+    statusLineManager.add(new Separator());
+    statusItem.setText("my status line item");
   }
 
   /**

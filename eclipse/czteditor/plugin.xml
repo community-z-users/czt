@@ -217,11 +217,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
-      <scheme
-            description="CZT Editor Scheme"
-            id="net.sourceforge.czt.eclipse.schemes.editor"
-            name="CZT Editor Scheme"
-            />
       <key
             commandId="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
             contextId="net.sourceforge.czt.eclipse.ZEditorScope"
@@ -284,37 +279,30 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.CZTBasePreferencePage"
             id="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
             name="%CztBasePreferencePageName">
          <keywordReference id="net.sourceforge.czt.eclipse.ui.general"/>
       </page>
       <page
             category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
-            class="net.sourceforge.czt.eclipse.preferences.AppearancePreferencePage"
-            id="net.sourceforge.czt.eclipse.preferences.AppearancePreferencePage"
-            name="%AppearancePreferencePageName">
-         <keywordReference id="net.sourceforge.czt.eclipse.ui.appearance"/>
+            class="net.sourceforge.czt.eclipse.preferences.CompilerPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.CompilerPreferencePage"
+            name="%CompilerPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.compiler"/>
       </page> <page
             category="net.sourceforge.czt.eclipse.preferences.CztBasePreferencePage"
-            class="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorBasePreferencePage"
             id="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
-            name="%ZEditorPreferencePageName">
-                 <keywordReference id="net.sourceforge.czt.eclipse.ui.zeditor"/>
+            name="%ZEditorBasePreferencePageName">
+                 <keywordReference id="net.sourceforge.czt.eclipse.ui.editor"/>
       </page>
       <page
             category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
-            class="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
-            id="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
-            name="%ZEditorHoverPreferencePageName">
-         <keywordReference id="net.sourceforge.czt.eclipse.ui.hover"/>
-      </page>
-      <page
-            category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
-            class="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
-            id="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
-            name="%ZEditorSyntaxColoringPreferencePageName">
-         <keywordReference id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"/>
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorAnnotationPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.AppearancePreferencePage"
+            name="%ZEditorAnnotationPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.annotation"/>
       </page>
      
       <page
@@ -326,10 +314,10 @@
       </page>
       <page
             category="net.sourceforge.czt.eclipse.preferences.ZEditorPreferencePage"
-            class="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
-            id="net.sourceforge.czt.eclipse.preferences.ZEditorHoverPreferencePage"
-            name="%ZEditorMarkOccurrancesPreferencePageName">
-         <keywordReference id="net.sourceforge.czt.eclipse.ui.markoccurrences"/>
+            class="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
+            id="net.sourceforge.czt.eclipse.preferences.ZEditorSyntaxColoringPreferencePage"
+            name="%ZEditorSyntaxColoringPreferencePageName">
+         <keywordReference id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"/>
       </page>
    </extension>
    <extension
@@ -338,23 +326,20 @@
             id="net.sourceforge.czt.eclipse.ui.general"
             label="%PreferenceKeywords.general"/>
       <keyword
-            id="net.sourceforge.czt.eclipse.ui.appearance"
-            label="%PreferenceKeywords.appearance"/>
+            id="net.sourceforge.czt.eclipse.ui.compiler"
+            label="%PreferenceKeywords.compiler"/>
       <keyword
-            id="net.sourceforge.czt.eclipse.ui.zeditor"
-            label="%PreferenceKeywords.zeditor"/>
+            id="net.sourceforge.czt.eclipse.ui.editor"
+            label="%PreferenceKeywords.editor"/>
       <keyword
-            id="net.sourceforge.czt.eclipse.ui.hover"
-            label="%PreferenceKeywords.hover"/>
-      <keyword
-            id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"
-            label="%PreferenceKeywords.syntaxcoloring"/>
+            id="net.sourceforge.czt.eclipse.ui.annotation"
+            label="%PreferenceKeywords.annotation"/>
       <keyword
             id="net.sourceforge.czt.eclipse.ui.folding"
             label="%PreferenceKeywords.folding"/>
       <keyword
-            id="net.sourceforge.czt.eclipse.ui.markoccurrences"
-            label="%PreferenceKeywords.markoccurrences"/>
+            id="net.sourceforge.czt.eclipse.ui.syntaxcoloring"
+            label="%PreferenceKeywords.syntaxcoloring"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

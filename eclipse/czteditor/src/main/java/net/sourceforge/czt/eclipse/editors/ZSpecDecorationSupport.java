@@ -80,7 +80,9 @@ public class ZSpecDecorationSupport
         int offset, int length, Color color)
     {
       if (length == 0) {
+        gc.setLineWidth(4);
         fgIBeamStrategy.draw(annotation, gc, textWidget, offset, length, color);
+        gc.setLineWidth(0);
         return;
       }
 
@@ -121,6 +123,7 @@ public class ZSpecDecorationSupport
 
           // set the preferred color for the schema box
           gc.setForeground(color);
+          gc.setLineWidth(5);
 
           if (annLine == start_line) { // tell whether it is the start line
             Point line_end = textWidget.getLocationAtOffset(offset + length);
@@ -165,7 +168,7 @@ public class ZSpecDecorationSupport
               gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
                   line_end.y + lineHeight - 1);
             }
-
+            gc.setLineWidth(0);
             return;
           }
           else if (annLine == end_line) { // tell whether it is the end line
@@ -179,6 +182,7 @@ public class ZSpecDecorationSupport
                     .equalsIgnoreCase(schema_type))
               gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
                   line_end.y + lineHeight / 2);
+            gc.setLineWidth(0);
             return;
           }
           else {
@@ -194,6 +198,7 @@ public class ZSpecDecorationSupport
             }
             // draw the left line
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
+            gc.setLineWidth(0);
           }
         } catch (BadLocationException ble) {
           ble.printStackTrace();
