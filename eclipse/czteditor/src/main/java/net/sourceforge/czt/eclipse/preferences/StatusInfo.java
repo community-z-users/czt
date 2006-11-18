@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.preferences;
 
-import net.sourceforge.czt.eclipse.editors.CztUI;
+import net.sourceforge.czt.eclipse.util.CztUI;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.util.Assert;

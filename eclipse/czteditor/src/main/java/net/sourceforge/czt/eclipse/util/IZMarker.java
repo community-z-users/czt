@@ -4,7 +4,6 @@
 
 package net.sourceforge.czt.eclipse.util;
 
-import net.sourceforge.czt.eclipse.editors.CztUI;
 
 import org.eclipse.core.resources.IMarker;
 

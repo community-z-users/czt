@@ -8,11 +8,11 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.eclipse.editors.CZTTextTools;
-import net.sourceforge.czt.eclipse.editors.CztUI;
 import net.sourceforge.czt.eclipse.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
+import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZFileType;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;

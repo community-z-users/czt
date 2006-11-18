@@ -6,8 +6,8 @@ package net.sourceforge.czt.eclipse.editors.actions;
 import java.util.ResourceBundle;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
-import net.sourceforge.czt.eclipse.editors.CztUI;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.views.ZConversionView;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;

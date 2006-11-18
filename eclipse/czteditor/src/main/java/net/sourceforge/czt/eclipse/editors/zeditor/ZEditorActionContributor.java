@@ -6,10 +6,14 @@ import java.util.ResourceBundle;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.editors.actions.CZTActionConstants;
 import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
+import net.sourceforge.czt.eclipse.util.CztUI;
+import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.eclipse.util.IZMode;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.ZName;
 
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -31,7 +35,9 @@ import org.eclipse.ui.texteditor.StatusLineContributionItem;
  */
 public class ZEditorActionContributor extends BasicTextEditorActionContributor
 {
-
+  // Display the editor editing mode here
+  private StatusLineContributionItem fEditModeArea;
+  
   protected ITextEditor fEditor;
   
   private RetargetTextEditorAction fGotoDeclarationAction;
@@ -75,7 +81,7 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
   }
 
   /**
-   * Method declared on EditorActionBarContributor
+   * @see org.eclipse.ui.texteditor.BasicTextEditorActionContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
    */
   public void contributeToMenu(IMenuManager menuManager)
   {
@@ -130,8 +136,9 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     fConvert2XMLAction.setEnabled(true);
   }
 
+  
   /**
-   * Method declared on EditorActionBarContributor
+   * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
    */
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
@@ -139,23 +146,29 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
     toolBarManager.add(new Separator());
   }
   
+  /**
+   * @see org.eclipse.ui.texteditor.BasicTextEditorActionContributor#contributeToStatusLine(org.eclipse.jface.action.IStatusLineManager)
+   */
   public void contributeToStatusLine(IStatusLineManager statusLineManager)
   {
     super.contributeToStatusLine(statusLineManager);
-    StatusLineContributionItem statusItem = new StatusLineContributionItem("itemid");
-    statusLineManager.prependToGroup(StatusLineManager.MIDDLE_GROUP, statusItem);
-    statusLineManager.add(new Separator());
-    statusItem.setText("my status line item");
+    statusLineManager.insertBefore(StatusLineManager.MIDDLE_GROUP, new GroupMarker(CztUI.STATUS_LINE_GROUP));
+    fEditModeArea = new StatusLineContributionItem(CztUI.ID_STATUS_LINE_EDIT_MODE);
+    statusLineManager.appendToGroup(CztUI.STATUS_LINE_GROUP, fEditModeArea);
+    statusLineManager.insertAfter(CztUI.ID_STATUS_LINE_EDIT_MODE, new Separator());
+//    statusLineManager.prependToGroup(StatusLineManager.MIDDLE_GROUP, statusItem);
+//    statusLineManager.add(new Separator());
+//    statusItem.setText("my status line item");
   }
-
+  
   /**
-   * Method declared on EditorActionBarContributor
+   * @see org.eclipse.ui.texteditor.BasicTextEditorActionContributor#setActiveEditor(org.eclipse.ui.IEditorPart)
    */
   public void setActiveEditor(IEditorPart part)
   {
     super.setActiveEditor(part);
     if (part instanceof ITextEditor)
-      this.fEditor = (ITextEditor) part;
+      fEditor = (ITextEditor) part;
     
     fGotoDeclarationAction.setAction(getAction(fEditor, CZTActionConstants.GO_TO_DECLARATION));
     
@@ -189,5 +202,27 @@ public class ZEditorActionContributor extends BasicTextEditorActionContributor
 //    IActionBars bars = getActionBars();
 //    bars.setGlobalActionHandler(CZTActionConstants.CONVERT_TO_LATEX, getAction(this.editor, "Convert2Latex"));
   */
+    
+    setEditMode();
+  }
+  
+  private void setEditMode(){
+    fEditModeArea.setText(null);
+    fEditModeArea.setToolTipText(null);
+    if (fEditor == null)
+      return;
+    if (!(fEditor instanceof ZEditor))
+      return;
+    String fileType = ((ZEditor)fEditor).getFileType();
+    String mode = null;
+    if (IZFileType.FILETYPE_LATEX.equals(fileType))
+      mode = IZMode.MODE_Z_LATEX;
+    else
+      mode = IZMode.MODE_Z_UNICODE;
+    
+    if (mode != null) {
+      fEditModeArea.setText(mode);
+      fEditModeArea.setToolTipText("The current editing mode is: " + mode);
+    }
   }
 }
