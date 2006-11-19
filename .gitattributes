@@ -222,6 +222,7 @@ modeljunit/jdsl/tutorial/lesson07/support/images/map.gif -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.java -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
+modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
 parser-circus/src/main/java/net/sourceforge/czt/parser/circus/CircusKeyword.java -text
 parser-circus/src/main/java/net/sourceforge/czt/parser/circus/CircusToken.java -text
 parser-circus/src/main/java/net/sourceforge/czt/print/circus/AstToPrintTreeVisitor.java -text

@@ -170,8 +170,12 @@ public class ModelTestCase
     = new ArrayList<CoverageMetric>();
 
   /** The current state of the implementation under test. */
-  //@invariant fsmState == null <==> fsmModel == null;
+  //@invariant fsmState != null ==> fsmModel != null;
   private Object fsmState = null;
+  
+  /** The initial state of the implementation under test. */
+  //@invariant fsmInitialState == null <==> fsmState == null;
+  private Object fsmInitialState = null;
   
   /** Current test sequence */
   //@invariant fsmSequence == null <==> fsmModel == null;
@@ -260,7 +264,7 @@ public class ModelTestCase
   }
 
   /** Maps a state to a vertex object of the FSM graph.
-   *  This will return null until after fsmBuildGraph has been called.
+   *  This may return null until after buildGraph has been called.
    */
   public Vertex getVertex(Object state)
   {
@@ -557,10 +561,10 @@ public class ModelTestCase
     }
   }
 
-  /** Equivalent to buildGraph(new Random(FIXEDSEED), 1000000). */
+  /** Equivalent to buildGraph(new Random(FIXEDSEED), 10000). */
   public boolean buildGraph(Random rand)
   {
-    return buildGraph(new Random(FIXEDSEED), 1000000);
+    return buildGraph(new Random(FIXEDSEED), 10000);
   }
 
   /** Equivalent to buildGraph(new Random(FIXEDSEED)). */
@@ -617,7 +621,7 @@ public class ModelTestCase
    * @param testing False means we are just exploring the graph, so the
    *                 fsm object could skip the actual tests if it wants.
    */
-  public void doReset(String reason, boolean testing)
+  protected void doReset(String reason, boolean testing)
   {
     if (fsmSequence == null)
       fsmSequence = new ArrayList<Transition>();
@@ -631,8 +635,13 @@ public class ModelTestCase
       fsmModel.reset(testing);
       fsmSequence.clear();
       fsmState = fsmModel.getState();
-      if (fsmState == null)
-        Assert.fail(getModelName()+".getState() returned null");
+      Assert.assertNotNull("Model Error: getState() must be non-null", fsmState);
+      if (fsmInitialState == null)
+        fsmInitialState = fsmState;
+      else {
+        Assert.assertEquals("Model error: reset did not return to the initial state", 
+            fsmInitialState, fsmState);
+      }
       for (CoverageMetric cm : fsmCoverage)
         cm.doneReset(testing);
     } catch (Exception ex) {
@@ -727,12 +736,13 @@ public class ModelTestCase
 		throw failure;
 	  }
       catch (IllegalAccessException ex) {
-        Assert.fail("Error in model.  Non-public actions? "+ex);
+        Assert.fail("Model Error: Non-public actions? "+ex);
       }
       Object newState = fsmModel.getState();
       Transition done = new Transition(fsmState, m.getName(), newState);
       fsmSequence.add(done);
       fsmState = newState;
+      Assert.assertNotNull("Model Error: getState() must be non-null", fsmState);
       continueBuildGraph(done, index);
 	  for (CoverageMetric cm : fsmCoverage)
         cm.doneTransition(done);
