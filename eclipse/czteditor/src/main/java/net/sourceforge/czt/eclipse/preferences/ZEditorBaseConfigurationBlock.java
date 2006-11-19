@@ -67,6 +67,15 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
         PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE));
+    overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+        OverlayPreferenceStore.BOOLEAN,
+        PreferenceConstants.EDITOR_SHOW_HOVER));
+    overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+        OverlayPreferenceStore.BOOLEAN,
+        PreferenceConstants.EDITOR_MARK_OCCURRENCES));
+    overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
+        OverlayPreferenceStore.BOOLEAN,
+        PreferenceConstants.EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM));
 
     OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
         .size()];

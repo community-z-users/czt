@@ -102,9 +102,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWindowListener;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
@@ -223,6 +227,8 @@ public class ZEditor extends TextEditor
       if (window == getEditorSite().getWorkbenchWindow()
           && fMarkOccurrenceAnnotations && isActivePart()) {
         fForcedMarkOccurrencesSelection = getSelectionProvider().getSelection();
+        markOccurrenceAnnotations(((TextSelection) fForcedMarkOccurrencesSelection)
+            .getOffset());
         //				SelectionListenerWithASTManager.getDefault().forceSelectionChange(ZEditor.this, (ITextSelection)fForcedMarkOccurrencesSelection);
       }
     }
@@ -251,6 +257,129 @@ public class ZEditor extends TextEditor
      * @since 3.1
      */
     public void windowOpened(IWorkbenchWindow window)
+    {
+    }
+  }
+
+  /**
+   * Runner that will toggle folding either instantly (if the editor is
+   * visible) or the next time it becomes visible. If a runner is started when
+   * there is already one registered, the registered one is canceled as
+   * toggling folding twice is a no-op.
+   * <p>
+   * The access to the fFoldingRunner field is not thread-safe, it is assumed
+   * that <code>runWhenNextVisible</code> is only called from the UI thread.
+   * </p>
+   *
+   * @since 3.1
+   */
+  private final class ToggleFoldingRunner implements IPartListener2
+  {
+    /**
+     * The workbench page we registered the part listener with, or
+     * <code>null</code>.
+     */
+    private IWorkbenchPage fPage;
+
+    /**
+     * Does the actual toggling of projection.
+     */
+    private void toggleFolding()
+    {
+      ISourceViewer sourceViewer = getSourceViewer();
+      if (sourceViewer instanceof ProjectionViewer) {
+        ProjectionViewer pv = (ProjectionViewer) sourceViewer;
+        if (pv.isProjectionMode() != isFoldingEnabled()) {
+          if (pv.canDoOperation(ProjectionViewer.TOGGLE))
+            pv.doOperation(ProjectionViewer.TOGGLE);
+        }
+      }
+    }
+
+    /**
+     * Makes sure that the editor's folding state is correct the next time
+     * it becomes visible. If it already is visible, it toggles the folding
+     * state. If not, it either registers a part listener to toggle folding
+     * when the editor becomes visible, or cancels an already registered
+     * runner.
+     */
+    public void runWhenNextVisible()
+    {
+      // if there is one already: toggling twice is the identity
+      if (fFoldingRunner != null) {
+        fFoldingRunner.cancel();
+        return;
+      }
+      IWorkbenchPartSite site = getSite();
+      if (site != null) {
+        IWorkbenchPage page = site.getPage();
+        if (!page.isPartVisible(ZEditor.this)) {
+          // if we're not visible - defer until visible
+          fPage = page;
+          fFoldingRunner = this;
+          page.addPartListener(this);
+          return;
+        }
+      }
+      // we're visible - run now
+      toggleFolding();
+    }
+
+    /**
+     * Remove the listener and clear the field.
+     */
+    private void cancel()
+    {
+      if (fPage != null) {
+        fPage.removePartListener(this);
+        fPage = null;
+      }
+      if (fFoldingRunner == this)
+        fFoldingRunner = null;
+    }
+
+    /*
+     * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
+     */
+    public void partVisible(IWorkbenchPartReference partRef)
+    {
+      if (ZEditor.this.equals(partRef.getPart(false))) {
+        cancel();
+        toggleFolding();
+      }
+    }
+
+    /*
+     * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
+     */
+    public void partClosed(IWorkbenchPartReference partRef)
+    {
+      if (ZEditor.this.equals(partRef.getPart(false))) {
+        cancel();
+      }
+    }
+
+    public void partActivated(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partBroughtToTop(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partDeactivated(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partOpened(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partHidden(IWorkbenchPartReference partRef)
+    {
+    }
+
+    public void partInputChanged(IWorkbenchPartReference partRef)
     {
     }
   }
@@ -316,13 +445,6 @@ public class ZEditor extends TextEditor
 
   /**
    * The document modification stamp at the time when the last
-   * occurrence marking took place.
-   * @since 3.1
-   */
-  private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
-
-  /**
-   * The document modification stamp at the time when the last
    * term highlight marking took place.
    * @since 3.1
    */
@@ -338,7 +460,6 @@ public class ZEditor extends TextEditor
   /**
    * The region of the word under the caret used to when
    * computing the current occurrence markings.
-   * @since 3.1
    */
   private IRegion fMarkOccurrenceTargetRegion;
 
@@ -348,7 +469,13 @@ public class ZEditor extends TextEditor
    * this fEditor.
    * @since 3.0
    */
-  private boolean fMarkOccurrenceAnnotations = true;
+  private boolean fMarkOccurrenceAnnotations;
+
+  /**
+   * The document modification stamp at the time when the last
+   * occurrence marking took place.
+   */
+  private long fMarkOccurrenceModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 
   private ProjectionAnnotationModel fProjectionAnnotationModel;
 
@@ -357,6 +484,11 @@ public class ZEditor extends TextEditor
 
   /** The occurrences finder job canceler */
   private OccurrencesFinderJobCanceler fOccurrencesFinderJobCanceler;
+
+  /**
+   * The folding runner.
+   */
+  private ToggleFoldingRunner fFoldingRunner;
 
   /** The parsed tree */
   private ParsedData fParsedData;
@@ -405,35 +537,46 @@ public class ZEditor extends TextEditor
   protected void createActions()
   {
     super.createActions();
-    
-    IAction action = new GoToDeclarationAction(ZEditorMessages.getBundleForActionKeys(), "GotoDeclaration.", this); //$NON-NLS-1$
+
+    IAction action = new GoToDeclarationAction(ZEditorMessages
+        .getBundleForActionKeys(), "GotoDeclaration.", this); //$NON-NLS-1$
     action.setActionDefinitionId(IZEditorActionDefinitionIds.GO_TO_DECLARATION);
     setAction(CZTActionConstants.GO_TO_DECLARATION, action);
-        
-    action= new ExpandSelectionAction(ZEditorMessages.getBundleForActionKeys(), "HighlightEnclosing.", this);;
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
+
+    action = new ExpandSelectionAction(
+        ZEditorMessages.getBundleForActionKeys(), "HighlightEnclosing.", this);;
+    action
+        .setActionDefinitionId(IZEditorActionDefinitionIds.HIGHLIGHT_ENCLOSING_ELEMENT);
     setAction(CZTActionConstants.HIGHLIGHT_ENCLOSING, action);
 
-    action= new ContractSelectionAction(ZEditorMessages.getBundleForActionKeys(), "RestoreLastHighlight.", this);
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
+    action = new ContractSelectionAction(ZEditorMessages
+        .getBundleForActionKeys(), "RestoreLastHighlight.", this);
+    action
+        .setActionDefinitionId(IZEditorActionDefinitionIds.RESTORE_LAST_HIGHLIGHT);
     setAction(CZTActionConstants.RESTORE_LAST, action);
-    
-    action= new Convert2LatexAction(ZEditorMessages.getBundleForActionKeys(), "Convert2LaTeX.", this);
+
+    action = new Convert2LatexAction(ZEditorMessages.getBundleForActionKeys(),
+        "Convert2LaTeX.", this);
     action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_LATEX);
     setAction(CZTActionConstants.CONVERT_TO_LATEX, action);
-    
-    action= new Convert2OldLatexAction(ZEditorMessages.getBundleForActionKeys(), "Convert2OldLaTeX.", this);
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
+
+    action = new Convert2OldLatexAction(ZEditorMessages
+        .getBundleForActionKeys(), "Convert2OldLaTeX.", this);
+    action
+        .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_OLD_LATEX);
     setAction(CZTActionConstants.CONVERT_TO_OLD_LATEX, action);
-    
-    action= new Convert2UnicodeAction(ZEditorMessages.getBundleForActionKeys(), "Convert2Unicode.", this);
-    action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
+
+    action = new Convert2UnicodeAction(
+        ZEditorMessages.getBundleForActionKeys(), "Convert2Unicode.", this);
+    action
+        .setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_UNICODE);
     setAction(CZTActionConstants.CONVERT_TO_UNICODE, action);
-    
-    action= new Convert2XMLAction(ZEditorMessages.getBundleForActionKeys(), "Convert2XML.", this);
+
+    action = new Convert2XMLAction(ZEditorMessages.getBundleForActionKeys(),
+        "Convert2XML.", this);
     action.setActionDefinitionId(IZEditorActionDefinitionIds.CONVERT_TO_XML);
     setAction(CZTActionConstants.CONVERT_TO_XML, action);
-    
+
     //    markAsStateDependentAction("HighlightEnclosing", true); //$NON-NLS-1$
     //    markAsSelectionDependentAction("HighlightEnclosing", true); //$NON-NLS-1$
     //    PlatformUI.getWorkbench().getHelpSystem().setHelp(action, IZHelpContextIds.HIGHLIGHT_ENCLOSING_ACTION);
@@ -451,7 +594,8 @@ public class ZEditor extends TextEditor
     CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
     setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
         .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
-    //        fMarkOccurrenceAnnotations= store.getBoolean(PreferenceConstants.EDITOR_MARK_OCCURRENCES);
+    fMarkOccurrenceAnnotations = store
+        .getBoolean(PreferenceConstants.EDITOR_MARK_OCCURRENCES);
   }
 
   /**
@@ -494,7 +638,6 @@ public class ZEditor extends TextEditor
       text.setFont(cztUnicodeFont);
     }
 
-    fOccurrencesFinderJobCanceler = new OccurrencesFinderJobCanceler(this);
     //		IInformationControlCreator informationControlCreator= new IInformationControlCreator() {
     //			public IInformationControl createInformationControl(Shell shell) {
     //				boolean cutDown= false;
@@ -510,8 +653,8 @@ public class ZEditor extends TextEditor
     fEditorSelectionChangedListener = new EditorSelectionChangedListener();
     fEditorSelectionChangedListener.install(getSelectionProvider());
 
-    //		if (fMarkOccurrenceAnnotations)
-    //			installOccurrencesFinder();
+    if (fMarkOccurrenceAnnotations)
+      installOccurrencesFinder(true);
 
     //		if (isSemanticHighlightingEnabled())
     //			installSemanticHighlighting();
@@ -627,8 +770,8 @@ public class ZEditor extends TextEditor
 
   boolean isFoldingEnabled()
   {
-    return true;
-    //        return CZTPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_FOLDING_ENABLED);
+    return CZTPlugin.getDefault().getPreferenceStore().getBoolean(
+        PreferenceConstants.EDITOR_FOLDING_ENABLED);
   }
 
   /*
@@ -651,7 +794,7 @@ public class ZEditor extends TextEditor
 
   public void fillContextMenu(IMenuManager menuMgr)
   {
-    
+
   }
 
   /**
@@ -844,6 +987,12 @@ public class ZEditor extends TextEditor
 
   public void markOccurrenceAnnotations(int offset)
   {
+    if (fOccurrencesFinderJob != null)
+      fOccurrencesFinderJob.cancel();
+
+    if (!fMarkOccurrenceAnnotations)
+      return;
+
     if (this.fParsedData == null)
       return;
     Selector termSelector = this.fParsedData.createTermSelector();
@@ -857,22 +1006,50 @@ public class ZEditor extends TextEditor
     Term term = termSelector.getTerm(word);
     if (term == null)
       return;
-    /*
-     else if (term instanceof ZDeclName)
-     fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
-     else if (term instanceof ZRefName) {
-     ZDeclName declName = ((ZRefName) term).getDecl();
-     if (declName == null)
-     return;
-     fOccurrencesFinderJob = new OccurrencesFinderJob(this, declName);
-     }
-     */
     else if (term instanceof ZName)
       fOccurrencesFinderJob = new OccurrencesFinderJob(this, term);
     else
       return;
 
     fOccurrencesFinderJob.run(new NullProgressMonitor());
+  }
+
+  protected void installOccurrencesFinder(boolean forceUpdate)
+  {
+    fMarkOccurrenceAnnotations = true;
+
+    if (forceUpdate && getSelectionProvider() != null) {
+      fForcedMarkOccurrencesSelection = getSelectionProvider().getSelection();
+      markOccurrenceAnnotations(((TextSelection) fForcedMarkOccurrencesSelection)
+          .getOffset());
+    }
+
+    if (fOccurrencesFinderJobCanceler == null) {
+      fOccurrencesFinderJobCanceler = new OccurrencesFinderJobCanceler(this);
+      fOccurrencesFinderJobCanceler.install();
+    }
+  }
+
+  protected void uninstallOccurrencesFinder()
+  {
+    fMarkOccurrenceAnnotations = false;
+
+    if (fOccurrencesFinderJob != null) {
+      fOccurrencesFinderJob.cancel();
+      fOccurrencesFinderJob = null;
+    }
+
+    if (fOccurrencesFinderJobCanceler != null) {
+      fOccurrencesFinderJobCanceler.uninstall();
+      fOccurrencesFinderJobCanceler = null;
+    }
+
+    removeOccurrenceAnnotations();
+  }
+
+  protected boolean isMarkingOccurrences()
+  {
+    return fMarkOccurrenceAnnotations;
   }
 
   public void setOccurrenceAnnotations(Annotation[] occurrenceAnnotations)
@@ -1016,9 +1193,9 @@ public class ZEditor extends TextEditor
   {
     if (getSelectionProvider() == null)
       return;
-    if (getSelectionProvider().getSelection() instanceof TextSelection) {
-      TextSelection textSelection = (TextSelection) getSelectionProvider()
-          .getSelection();
+    ISelection selection = getSelectionProvider().getSelection();
+    if (selection instanceof TextSelection) {
+      TextSelection textSelection = (TextSelection) selection;
       removeTermHighlightAnnotation();
       fTermHighlightSelector = null;
       removeOccurrenceAnnotations();
@@ -1039,6 +1216,8 @@ public class ZEditor extends TextEditor
     if (moveCursor) {
       this.selectAndReveal(selection.getOffset(), selection.getLength(),
           selection.getOffset(), 0);
+      fForcedMarkOccurrencesSelection = selection;
+      markOccurrenceAnnotations(selection.getOffset());
     }
 
     int cursorOffset = getCursorOffset();
@@ -1046,9 +1225,8 @@ public class ZEditor extends TextEditor
 
     if (!moveCursor) { // avoid Selector repeatedly working
       markOccurrenceAnnotations(cursorOffset);
-      boolean EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = true;
-      //			EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE);
-      if (EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE) {
+      if (getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE)) {
         synchronizeOutlinePage(cursorOffset);
       }
     }
@@ -1119,7 +1297,7 @@ public class ZEditor extends TextEditor
 
     // cancel possible running computation
     fMarkOccurrenceAnnotations = false;
-    //		uninstallOccurrencesFinder();
+    uninstallOccurrencesFinder();
 
     //		uninstallOverrideIndicator();
 
@@ -1419,6 +1597,8 @@ public class ZEditor extends TextEditor
 
     String property = event.getProperty();
 
+    System.out.println("Property: " + property);
+
     if (AbstractDecoratedTextEditorPreferenceConstants.EDITOR_TAB_WIDTH
         .equals(property)) {
       /*
@@ -1449,53 +1629,20 @@ public class ZEditor extends TextEditor
           selectionChanged();
         return;
       }
+
+      if (PreferenceConstants.EDITOR_MARK_OCCURRENCES.equals(property)) {
+        System.out.println("Old: " + fMarkOccurrenceAnnotations);
+        System.out.println("New: " + newBooleanValue);
+        if (newBooleanValue != fMarkOccurrenceAnnotations) {
+          fMarkOccurrenceAnnotations = newBooleanValue;
+          if (!fMarkOccurrenceAnnotations)
+            uninstallOccurrencesFinder();
+          else
+            installOccurrencesFinder(true);
+        }
+        return;
+      }
       /*
-       if (PreferenceConstants.EDITOR_MARK_OCCURRENCES.equals(property)) {
-       if (newBooleanValue != fMarkOccurrenceAnnotations) {
-       fMarkOccurrenceAnnotations= newBooleanValue;
-       if (!fMarkOccurrenceAnnotations)
-       uninstallOccurrencesFinder();
-       else
-       installOccurrencesFinder();
-       }
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_TYPE_OCCURRENCES.equals(property)) {
-       fMarkTypeOccurrences= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_METHOD_OCCURRENCES.equals(property)) {
-       fMarkMethodOccurrences= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_CONSTANT_OCCURRENCES.equals(property)) {
-       fMarkConstantOccurrences= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_FIELD_OCCURRENCES.equals(property)) {
-       fMarkFieldOccurrences= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_LOCAL_VARIABLE_OCCURRENCES.equals(property)) {
-       fMarkLocalVariableypeOccurrences= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_EXCEPTION_OCCURRENCES.equals(property)) {
-       fMarkExceptions= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_METHOD_EXIT_POINTS.equals(property)) {
-       fMarkMethodExitPoints= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_MARK_IMPLEMENTORS.equals(property)) {
-       fMarkImplementors= newBooleanValue;
-       return;
-       }
-       if (PreferenceConstants.EDITOR_STICKY_OCCURRENCES.equals(property)) {
-       fStickyOccurrenceAnnotations= newBooleanValue;
-       return;
-       }
        if (SemanticHighlightings.affectsEnablement(getPreferenceStore(), event)) {
        if (isSemanticHighlightingEnabled())
        installSemanticHighlighting();
@@ -1547,14 +1694,13 @@ public class ZEditor extends TextEditor
        textWidget.setTabs(tabWidth);
        return;
        }
-
-       if (PreferenceConstants.EDITOR_FOLDING_ENABLED.equals(property)) {
-       if (sourceViewer instanceof ProjectionViewer) {
-       new ToggleFoldingRunner().runWhenNextVisible();
-       }
-       return;
-       }
        */
+      if (PreferenceConstants.EDITOR_FOLDING_ENABLED.equals(property)) {
+        if (sourceViewer instanceof ProjectionViewer) {
+          new ToggleFoldingRunner().runWhenNextVisible();
+        }
+        return;
+      }
     } finally {
       super.handlePreferenceStoreChanged(event);
     }
@@ -1679,7 +1825,6 @@ public class ZEditor extends TextEditor
 
   /*
    * @see org.eclipse.ui.texteditor.AbstractTextEditor#setPreferenceStore(org.eclipse.jface.preference.IPreferenceStore)
-   * @since 3.0
    */
   protected void setPreferenceStore(IPreferenceStore store)
   {

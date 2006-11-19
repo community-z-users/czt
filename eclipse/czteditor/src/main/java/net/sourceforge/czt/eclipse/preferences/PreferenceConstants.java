@@ -94,7 +94,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_PARSING_ENABLED = "editor_parsing_enabled"; //$NON-NLS-1$
+  public static final String EDITOR_PARSING_ENABLED = "net.sourceforge.czt.eclipse.editor.parsing_enabled"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the editor reports problems from parsing
@@ -109,21 +109,21 @@ public class PreferenceConstants
    * @see #EDITOR_REPORT_PROBLEMS_ON_SAVE
    * @see #EDITOR_REPORT_PROBLEMS_WHILE_EDITING
    */
-  public static final String EDITOR_REPORT_PROBLEMS = "editor.report.problems"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS = "net.sourceforge.czt.eclipse.editor.report.problems"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>EDITOR_REPORT_PROBLEMS</code>
    * 
    * @see #EDITOR_REPORT_PROBLEMS
    */
-  public static final String EDITOR_REPORT_PROBLEMS_ON_SAVE = "editor.report.problems.OnSave"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS_ON_SAVE = "net.sourceforge.czt.eclipse.editor.report.problems.OnSave"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>EDITOR_REPORT_PROBLEMS</code>
    * 
    * @see #EDITOR_REPORT_PROBLEMS
    */
-  public static final String EDITOR_REPORT_PROBLEMS_WHILE_EDITING = "editor.report.problems.WhileEditing"; //$NON-NLS-1$
+  public static final String EDITOR_REPORT_PROBLEMS_WHILE_EDITING = "net.sourceforge.czt.eclipse.editor.report.problems.WhileEditing"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether bracket matching highlighting is turned on or off.
@@ -131,7 +131,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_MATCHING_BRACKETS = "MatchingBrackets"; //$NON-NLS-1$
+  public final static String EDITOR_MATCHING_BRACKETS = "net.sourceforge.czt.eclipse.editor.MatchingBrackets"; //$NON-NLS-1$
 
   /**
    * A named preference that holds the color used to highlight matching brackets.
@@ -143,7 +143,7 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_MATCHING_BRACKETS_COLOR = "MatchingBracketsColor"; //$NON-NLS-1$
+  public final static String EDITOR_MATCHING_BRACKETS_COLOR = "net.sourceforge.czt.eclipse.editor.MatchingBracketsColor"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether the outline view selection
@@ -152,7 +152,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = "editor.SyncOutlineOnCursorMove"; //$NON-NLS-1$
+  public final static String EDITOR_SYNC_OUTLINE_ON_CURSOR_MOVE = "net.sourceforge.czt.eclipse.editor.SyncOutlineOnCursorMove"; //$NON-NLS-1$
   
   /*
    * Hover preference keys
@@ -163,7 +163,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_SHOW_HOVER = "org.eclipse.jdt.ui.editor.showHover"; //$NON-NLS-1$
+  public static final String EDITOR_SHOW_HOVER = "net.sourceforge.czt.eclipse.editor.showHover"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether annotation roll over is used or not.
@@ -172,7 +172,7 @@ public class PreferenceConstants
    * uses a roll over to display multiple annotations
    * </p>
    */
-  public static final String EDITOR_ANNOTATION_ROLL_OVER = "editor_annotation_roll_over"; //$NON-NLS-1$
+  public static final String EDITOR_ANNOTATION_ROLL_OVER = "net.sourceforge.czt.eclipse.editor.annotation.rollover"; //$NON-NLS-1$
 
   /*
    * Mark occurrence preference keys
@@ -183,7 +183,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_MARK_OCCURRENCES = "MarkOccurrences"; //$NON-NLS-1$
+  public static final String EDITOR_MARK_OCCURRENCES = "net.sourceforge.czt.eclipse.editor.MarkOccurrences"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether occurrences are sticky in the CZT editor.
@@ -191,7 +191,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_STICKY_OCCURRENCES = "StickyOccurrences"; //$NON-NLS-1$
+  public static final String EDITOR_STICKY_OCCURRENCES = "net.sourceforge.czt.eclipse.editor.StickyOccurrences"; //$NON-NLS-1$
 
   /**
    * A named preference that controls whether occurrences are marked
@@ -200,7 +200,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM = "MarkOccurrencesWhenExpansion"; //$NON-NLS-1$
+  public static final String EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM = "net.sourceforge.czt.eclipse.editor.MarkOccurrencesWhenExpansion"; //$NON-NLS-1$
 
   /*
    * Annotation preference keys
@@ -211,7 +211,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_ENABLE = "editor_annotation_schemabox_enable";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_ENABLE = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.enable";
   
   /**
    * A named preference that controls the style that the editor uses to draw the schema boxes. 
@@ -224,21 +224,21 @@ public class PreferenceConstants
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE_1
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE_2
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE = "editor_annotation_schemabox_style";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style";
   
   /**
    * A string value used by the named preference <code>EDITOR_ANNOTATION_SCHEMABOX_STYLE</code>
    * 
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_1 = "editor_annotation_schemabox_style_1";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_1 = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style_1";
   
   /**
    * A string value used by the named preference <code>EDITOR_ANNOTATION_SCHEMABOX_STYLE</code>
    * 
    * @see #EDITOR_ANNOTATION_SCHEMABOX_STYLE
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_2 = "editor_annotation_schemabox_style_2";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_STYLE_2 = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.style_2";
   
   /**
    * A named preference that holds the color used to draw schema boxes.
@@ -250,7 +250,7 @@ public class PreferenceConstants
    * @see org.eclipse.jface.resource.StringConverter
    * @see org.eclipse.jface.preference.PreferenceConverter
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR = "editor_annotation_schemabox_line_color";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.line_color";
   
   /**
    * A named preference that holds the width used to draw schema boxes.
@@ -258,7 +258,7 @@ public class PreferenceConstants
    * Value is of type <code>int</code>.
    * </p>
    */
-  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH = "editor_annotation_schemabox_line_width";
+  public final static String EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH = "net.sourceforge.czt.eclipse.editor.annotation.schemabox.line_width";
   
   /*
    * Folding preference keys
@@ -269,7 +269,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ENABLED = "editor_folding_enabled"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ENABLED = "net.sourceforge.czt.eclipse.editor.folding.enabled"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -278,7 +278,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_NARRATIVE = "editor_folding_narrative"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_NARRATIVE = "net.sourceforge.czt.eclipse.editor.folding_narrative"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -287,7 +287,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZCHAR = "editor_folding_ZCHAR"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZCHAR = "net.sourceforge.czt.eclipse.editor.folding_ZCHAR"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -296,7 +296,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZED = "editor_folding_zed"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZED = "net.sourceforge.czt.eclipse.editor.folding_zed"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -305,7 +305,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_ZSECTION = "editor_folding_zsection"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_ZSECTION = "net.sourceforge.czt.eclipse.editor.folding_zsection"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -314,7 +314,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_AX = "editor_folding_ax"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_AX = "net.sourceforge.czt.eclipse.editor.folding_ax"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -323,7 +323,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_SCH = "editor_folding_sch"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_SCH = "net.sourceforge.czt.eclipse.editor.folding_sch"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -332,7 +332,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_GENAX = "editor_folding_genax"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_GENAX = "net.sourceforge.czt.eclipse.editor.folding_genax"; //$NON-NLS-1$
   
   /**
    * A named preference that controls whether the editor folds the element - 
@@ -341,7 +341,7 @@ public class PreferenceConstants
    * Value is of type <code>Boolean</code>.
    * </p>
    */
-  public static final String EDITOR_FOLDING_GENSCH = "editor_folding_gensch"; //$NON-NLS-1$
+  public static final String EDITOR_FOLDING_GENSCH = "net.sourceforge.czt.eclipse.editor.folding_gensch"; //$NON-NLS-1$
   
   /*
    * Syntax coloring preference keys
@@ -645,21 +645,21 @@ public class PreferenceConstants
    * @see #DOUBLE_CLICK_EXPANDS
    * @see #DOUBLE_CLICK_GOES_INTO
    */
-  public static final String INSERT_ZCHAR = "charmapview.InsertZChar"; //$NON-NLS-1$
+  public static final String INSERT_ZCHAR = "net.sourceforge.czt.eclipse.charmapview.InsertZChar"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>SINGLE_CLICK</code>.
    * 
    * @see #CLICK
    */
-  public static final String INSERT_ZCHAR_BY_CLICK = "charmapview.SingleClick"; //$NON-NLS-1$
+  public static final String INSERT_ZCHAR_BY_CLICK = "net.sourceforge.czt.eclipse.charmapview.SingleClick"; //$NON-NLS-1$
 
   /**
    * A string value used by the named preference <code>DOUBLE_CLICK</code>.
    * 
    * @see #DOUBLE_CLICK
    */
-  public static final String INSERT_ZCHAR_BY_DOUBLE_CLICK = "charmapview.DoubleClick"; //$NON-NLS-1$
+  public static final String INSERT_ZCHAR_BY_DOUBLE_CLICK = "net.sourceforge.czt.eclipse.charmapview.DoubleClick"; //$NON-NLS-1$
 
   /**
    * Initializes the given preference store with the default values.
