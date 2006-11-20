@@ -14,7 +14,7 @@ public interface Adapter
   // Update component with changed data
   public void setExpr(Expr expr);
 
-  //Retrieve data from input component
+  // Retrieve data from input component
   public Expr getExpr();
 
   // Return the UI for current Data

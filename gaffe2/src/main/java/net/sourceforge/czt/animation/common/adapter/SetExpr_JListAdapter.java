@@ -16,7 +16,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
  */
 public class SetExpr_JListAdapter extends SetExpr_DefaultAdapter
 {
-  private JList component;  // Display the SetExpr as a JList
+  private JList component;                      // Display the SetExpr as a JList
 
   /**
    * Constructor

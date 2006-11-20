@@ -14,7 +14,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
  */
 public class SetExpr_JTextAreaAdapter extends SetExpr_DefaultAdapter
 {
-  private JTextArea component;  // Display SetExpr as TextArea
+  private JTextArea component;               // Display SetExpr as TextArea
 
   /**
    * Constructor

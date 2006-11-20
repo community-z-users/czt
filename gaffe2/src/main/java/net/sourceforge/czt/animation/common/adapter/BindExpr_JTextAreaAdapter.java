@@ -18,7 +18,7 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
 {
-  private JTextArea component; // Display the BindExpr as a TextArea
+  private JTextArea component;              // Display the BindExpr as a TextArea
 
   /**
    * Constructor

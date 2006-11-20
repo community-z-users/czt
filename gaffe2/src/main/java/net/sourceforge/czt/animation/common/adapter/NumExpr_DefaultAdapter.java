@@ -17,7 +17,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
  */
 public class NumExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected NumExpr expr; // Default expr ref for NumExpr   
+  protected NumExpr expr;                            // Default expr ref for NumExpr   
 
   private JTextField component = new JTextField(""); // Default displayed as TextField
 
@@ -57,7 +57,7 @@ public class NumExpr_DefaultAdapter extends AdapterDefaultImpl
   }
 
   /**
-   * @return Returns the color.
+   * @return the color.
    */
   public Color getBackground()
   {
@@ -73,7 +73,7 @@ public class NumExpr_DefaultAdapter extends AdapterDefaultImpl
   }
 
   /**
-   * @return Returns the font.
+   * @return the font.
    */
   public Font getFont()
   {

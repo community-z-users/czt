@@ -43,6 +43,7 @@ public class MainFrame extends JFrame
    */
   public MainFrame()
   {
+    // Initial Menus
     JMenuBar mainMenuBar = new JMenuBar();
     JMenu fileMenu = new JMenu("File");
     JMenu viewMenu = new JMenu("View");
@@ -78,9 +79,11 @@ public class MainFrame extends JFrame
     mainMenuBar.add(toolMenu);
     mainMenuBar.add(helpMenu);
 
+    // Initial tabbed panes
     tabPaneRT = new JTabbedPane();
     tabPaneRB = new JTabbedPane();
     
+    // Initial main UI components
     OperationPane operationPane = new OperationPane();
     OutputPane outputPane = new OutputPane();
     ToolBar toolBar = new ToolBar();
@@ -89,12 +92,15 @@ public class MainFrame extends JFrame
 
     tabPaneRB.add(outputPane);
     
+    // Keep main components ref staticly
     GaffeUI.setStepTreePane(stp);
     GaffeUI.setToolBar(toolBar);
     GaffeUI.setOutputPane(outputPane);
     GaffeUI.setOperationPane(operationPane);
     GaffeUI.setStatusLabel(statusLabel);
+    GaffeUI.setMainFrame(this);
 
+    // Set some UI properties
     rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
     rightSplit.setTopComponent   (tabPaneRT);
     rightSplit.setBottomComponent(tabPaneRB);
@@ -109,6 +115,7 @@ public class MainFrame extends JFrame
     contentPane.add(toolBar, BorderLayout.NORTH);
     contentPane.add(new StatusLabel("Ready"), BorderLayout.SOUTH);
 
+    // Register menu listeners
     openItem.addActionListener(new ShowSchemaDialogListener());
     loadItem.addActionListener(new GaffeLoadListener());
     saveItem.addActionListener(new GaffeSaveListener());
@@ -118,18 +125,17 @@ public class MainFrame extends JFrame
     stepTreeItem.addActionListener(new ShowStepTreeDialogListener());
     designItem.addActionListener(new ShowConfigDialogListener());
 
+    // Config MainFrame position and size
     GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
     this.setBounds(env.getMaximumWindowBounds());
     this.setJMenuBar(mainMenuBar);
     this.setTitle("Community Z Tools -- Gaffe2");
     this.setLocation(0, 0);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    GaffeUI.setMainFrame(this);
   }
 
   /**
-   * 
+   * Reset the split bar postion
    */
   public void reset()
   {

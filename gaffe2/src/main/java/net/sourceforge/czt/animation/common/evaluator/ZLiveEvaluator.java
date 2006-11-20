@@ -27,9 +27,9 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class ZLiveEvaluator implements Evaluator
 {
-  private static ZLive zlive_;
+  private static ZLive zlive_;                     // The ZLive unique ref
 
-  private static Factory factory_;
+  private static Factory factory_;                 // The factory from ZLive
 
   /* (non-Javadoc)
    * @see net.sourceforge.czt.gaffe2.animation.common.evaluator.Evaluator#initialize(java.net.URL, java.lang.String)

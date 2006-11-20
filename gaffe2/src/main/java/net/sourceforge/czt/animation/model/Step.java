@@ -17,20 +17,20 @@ import net.sourceforge.czt.z.ast.Expr;
 @SuppressWarnings("serial")
 public class Step extends DefaultMutableTreeNode
 {
-  private int index;
+  private int index;                                  // The index of current result
 
-  private boolean isComplete;
+  private boolean isComplete;                         // Whether the evaluation is completed
 
-  private String operation;
+  private String operation;                           // The operation produced this step
 
-  private List<HashMap<String, Expr>> results;
+  private List<HashMap<String, Expr>> results;        // The results already evaluated
 
-  private List<HashMap<String, Object>> mirror;
+  private List<HashMap<String, Object>> mirror;       // A mirror copy of the results evaluated, but encodable
 
-  private EvalResult evalResult;
+  private EvalResult evalResult;                      // The evaluated result
 
   /**
-   * Empty Constructor
+   * Empty Constructor, for encoding purpose
    */
   public Step()
   {
@@ -38,6 +38,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * Constructor with the producing operation and a result set
    * @param operation
    * @param evalResult
    */
@@ -58,6 +59,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * Get the number of evaluated Results
    * @return size
    */
   public int size()
@@ -66,6 +68,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * Select a new result by index
    * @param index The index to set.
    */
   public boolean changeIndex(int newValue)
@@ -95,6 +98,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * Get the result selected
    * @return The selected Result
    */
   public HashMap<String, Expr> getResultSelected()
@@ -105,6 +109,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
+   * Get a result selected by index
    * @param i
    * @return indexed result
    */
@@ -134,7 +139,7 @@ public class Step extends DefaultMutableTreeNode
   /*--------------------------------------------------------------------------*/
   // Getter and Setters
   /**
-   * @return Returns the index.
+   * @return the index.
    */
   public int getIndex()
   {
@@ -150,7 +155,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * @return Returns the isComplete.
+   * @return the isComplete.
    */
   public boolean isComplete()
   {
@@ -166,7 +171,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * @return Returns the operation.
+   * @return the operation.
    */
   public String getOperation()
   {
@@ -182,7 +187,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * @return Returns the mirror.
+   * @return the mirror.
    */
   public List<HashMap<String, Object>> getMirror()
   {
@@ -199,7 +204,9 @@ public class Step extends DefaultMutableTreeNode
 
   /*--------------------------------------------------------------------------*/
 
-  /* (non-Javadoc)
+  /*
+   *  overides DefaultTreeNode.toString() to print the right representation of this step
+   *  (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   public String toString()
@@ -208,7 +215,7 @@ public class Step extends DefaultMutableTreeNode
   }
 
   /**
-   * For debug
+   * For debug purpose
    */
   public void print()
   {

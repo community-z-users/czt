@@ -14,7 +14,7 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class BindExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected BindExpr expr; // Default expr ref for all BindExpr adapters 
+  protected BindExpr expr;                           // Default expr ref for all BindExpr adapters 
 
   private JTextField component = new JTextField(""); // Default displayed as TextField
 

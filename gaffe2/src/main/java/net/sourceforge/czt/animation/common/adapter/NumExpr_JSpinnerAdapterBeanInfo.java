@@ -15,7 +15,7 @@ import sun.beans.editors.FontEditor;
  */
 public class NumExpr_JSpinnerAdapterBeanInfo extends SimpleBeanInfo
 {
-  PropertyDescriptor[] pds = new PropertyDescriptor[2]; // Bean Property Descriptor
+  PropertyDescriptor[] pds = new PropertyDescriptor[2];     // Bean Property Descriptor
 
   /**
    * Constructor

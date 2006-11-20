@@ -47,11 +47,11 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class ZLiveAnalyzer implements Analyzer
 {
-  private URL specURL;
+  private URL specURL;                              // The specification URL
 
-  private Map<String, Signature> schemaMap;
+  private Map<String, Signature> schemaMap;         // The schema name -> content map
 
-  private Factory factory;
+  private Factory factory;                          // The factory from ZLive
 
   /* (non-Javadoc)
    * @see net.sourceforge.czt.gaffe2.animation.common.analyzer.Analyzer#initialize(java.io.File)

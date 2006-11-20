@@ -12,7 +12,7 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class RefExpr_JTextAreaAdapter extends RefExpr_DefaultAdapter
 {
-  private JTextArea component; // Display RefExpr as TextArea
+  private JTextArea component;                  // Display RefExpr as TextArea
 
   /**
    * Constructor

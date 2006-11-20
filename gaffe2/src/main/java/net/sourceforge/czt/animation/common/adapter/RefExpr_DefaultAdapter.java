@@ -13,7 +13,7 @@ import net.sourceforge.czt.z.ast.RefExpr;
  */
 public class RefExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected RefExpr expr;  // The RefExpr holds a String based Expr
+  protected RefExpr expr;                            // The RefExpr holds a String based Expr
 
   private JTextField component = new JTextField(""); // Default UI for RefExpr is TextField
 
