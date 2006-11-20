@@ -138,4 +138,49 @@ public class ResetTest extends TestCase
       Assert.assertTrue(ex.getMessage().startsWith("Model Error: getState() must be non-null"));
     }
   }
+  
+  /** Test the getting/setting of reset probability */
+  public static void testResetProbability()
+  {
+    ModelTestCase model = new ModelTestCase(new StrangeModel());
+    Assert.assertEquals(0.05, model.getResetProbability());
+    model.setResetProbability(0.0);
+    Assert.assertEquals(0.0, model.getResetProbability());
+    model.setResetProbability(0.99);
+    Assert.assertEquals(0.99, model.getResetProbability());
+
+    try {
+      model.setResetProbability(-0.1);
+      Assert.fail("negative reset probability should be illegal");
+    }
+    catch (IllegalArgumentException ex) {
+      // correct
+      // check that it is unchanged
+      Assert.assertEquals(0.99, model.getResetProbability());
+    }
+    
+    try {
+      model.setResetProbability(1.0);
+      Assert.fail("reset probability >= 1.0 should be illegal");
+    }
+    catch (IllegalArgumentException ex) {
+      // correct
+      // check that it is unchanged
+      Assert.assertEquals(0.99, model.getResetProbability());
+    }
+  }
+  
+  /** Test the effect of reset probability. */
+  public static void testResetHigh()
+  {
+    ModelTestCase model = new ModelTestCase(new FSM());
+    model.buildGraph();
+    model.setResetProbability(0.9);
+    CoverageMetric trCover = new TransitionCoverage();
+    model.addCoverageMetric(trCover);
+    model.randomWalk(40);
+    // the random walk should choose reset almost all the time
+    // so should not get past the first transition.
+    Assert.assertEquals(1, trCover.getCoverage());
+  }
 }

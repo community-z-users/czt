@@ -67,8 +67,11 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
  *      <li> DONE: build the graph *during* the random walk traversal.</li>
  *      <li> DONE: when a test fails, throw a specific exception 
  *           containing lots of model information.</li>
+ *      <li> DONE: make reset probability and buildGraph timeout user-settable.</li>
  *      <li> add more test generation algorithms, such as greedy random.</li>
- *      <li> make reset probability and buildGraph timeout user-settable.</li>
+ *      <li> add support for Actions with parameters.</li>
+ *      <li> extend doRandomAction(_) to take into account a state-based
+ *           probability for each Action.  (i.e., Markov chains).
  *    </ul>
  *    Acknowledgements: This model-based testing library uses the
  *    JDSL (Java Data Structure Library, see http://www.jdsl.org) graph 
@@ -78,14 +81,11 @@ import net.sourceforge.czt.modeljunit.coverage.CoverageMetric;
 public class ModelTestCase
 {
   /** During random walk (including buildGraph), this is the
-   *  probability of doing reset() rather than choosing a random
-   *  transition.  This must be non-zero in order to break out of
-   *  cycles that do not have any path to the initial state.
+   *  default probability of doing reset() rather than choosing 
+   *  a random transition.
    */
-  public static final double RESET_PROBABILITY = 0.05;
+  public static final double DEFAULT_RESET_PROBABILITY = 0.05;
 
-  public static final int PATHLEN = 20;
-  
   public static final long FIXEDSEED = 123456789L;
 
   /** Constructs an FSM model from the given FsmModel object.
@@ -111,6 +111,9 @@ public class ModelTestCase
   
   /** Number of failed tests. */
   private int failedTests = 0;
+  
+  /** The probability that doRandomAction does a reset. */
+  private double resetProbability = DEFAULT_RESET_PROBABILITY;
   
   /** This class defines the finite state machine model of the system under test.
    *  It is null until fsmLoad() has successfully loaded that class.
@@ -204,6 +207,41 @@ public class ModelTestCase
   public int getFailedTests()
   {
     return failedTests;
+  }
+
+  /** The probability of spontaneously doing a reset rather than 
+   * a normal transition during random walks etc. 
+   * @return the reset probability
+   */
+  public double getResetProbability()
+  {
+    return resetProbability;
+  }
+
+  /**
+   * Set the probability of doing a reset during random walks. 
+   * Note that the average length of each test sequence will be 
+   * roughly proportional to the inverse of this probability.
+   * <p>
+   * If this is set to 0.0, then resets will only be done when
+   * we reach a dead-end state (no enabled actions).  This means
+   * that if the FSM contains a loop that does not have a path 
+   * back to the initial state, then the random walks may get
+   * caught in that loop forever.  For this reason, a non-zero
+   * probability is recommended.  
+   * </p>
+   * <p>
+   * The default probability is {@link #DEFAULT_RESET_PROBABILITY}.
+   * </p>
+   * 
+   * @param prob    Must be at least 0.0 and less than 1.0.
+   */
+  public void setResetProbability(double prob)
+  {
+    if (0.0 <= prob && prob < 1.0)
+      resetProbability = prob;
+    else
+      throw new IllegalArgumentException("illegal reset probability: "+prob);
   }
 
   /** Says how many progress messages will be printed. */
@@ -540,9 +578,7 @@ public class ModelTestCase
     int maxLen = maxTransitions;
     while (fsmTodo.size() > 0 && maxLen > 0) {
       maxLen--;
-      int action = doRandomAction(rand);
-      if (action < 0)
-        doReset("Forced", false);
+      doRandomActionOrReset(rand, false);
     }
     for (CoverageMetric cm : fsmCoverage) {
       cm.setModel(fsmGraph, fsmVertex);
@@ -773,6 +809,26 @@ public class ModelTestCase
     return -1;
   }
 
+  /** Randomly take an enabled transition, or do a reset
+   * with a certain probability (see {@link #getResetProbability()}).
+   * 
+   * @param rand The Random number generator that controls the choice.
+   * @return   The number of the transition taken, or -1 for a reset.
+   */
+  public int doRandomActionOrReset(Random rand, boolean testing)
+  {
+    int taken = -1;
+    double prob = rand.nextDouble();
+    if (prob < resetProbability)
+      doReset("Random", testing);
+    else
+    {
+      taken = doRandomAction(rand);
+      if (taken < 0)
+        doReset("Forced", testing);
+    }
+    return taken;
+  }
 
   /* Greedy random code
           int action = enabled.nextSetBit(0);
@@ -818,17 +874,7 @@ public class ModelTestCase
 	int totalLength = 0;
     doReset("Initial", true);
     while (totalLength < length) {
-      int taken = -1;
-      double prob = rand.nextDouble();
-      //System.out.println("random double is "+prob);
-      if (prob < RESET_PROBABILITY)
-        doReset("Random", true);
-      else
-      {
-        taken = doRandomAction(rand);
-        if (taken < 0)
-          doReset("Forced", true);
-      }
+      doRandomActionOrReset(rand, true);
       totalLength++;
     }
     this.printProgress(1, "finished randomWalk of "+length+" transitions.");
