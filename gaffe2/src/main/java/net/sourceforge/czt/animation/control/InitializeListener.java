@@ -32,15 +32,16 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class InitializeListener implements ActionListener
 {
-  private String stateSchemaName;
+  private String stateSchemaName;            // The state SchemaName
 
-  private String initSchemaName;
+  private String initSchemaName;             // The init SchemaName
 
-  private ArrayList<JComboBox> result;
+  private ArrayList<JComboBox> result;       // The result schmaTypes chosed by user
 
-  private Analyzer analyzer;
+  private Analyzer analyzer;                 // Hold the analyzer ref
 
   /**
+   * Constructor
    * @param parent
    * @param source
    * @param result
@@ -64,7 +65,7 @@ public class InitializeListener implements ActionListener
   }
 
   /**
-   * 
+   * Generating the SchemaTree, for user to select an operation and trigger them
    */
   private void schemaTree()
   {
@@ -104,7 +105,8 @@ public class InitializeListener implements ActionListener
   }
 
   /**
-   * 
+   * Initialize main state variable panes, initialize StepTree.
+   * The initializaion is done by Evaluator, it acts as a Schema Operation
    */
   private void initialize()
   {

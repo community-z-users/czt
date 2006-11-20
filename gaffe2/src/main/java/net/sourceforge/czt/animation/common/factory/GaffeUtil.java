@@ -31,20 +31,28 @@ import net.sourceforge.czt.z.impl.RefExprImpl;
 import net.sourceforge.czt.z.impl.SetExprImpl;
 import net.sourceforge.czt.z.util.ZChar;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class GaffeUtil
 {
-  private static String name;
+  private static String name;                                                                // The current session Name
 
-  private static Map<String, StepTree> sessionMap = new HashMap<String, StepTree>();
+  private static Map<String, StepTree> sessionMap = new HashMap<String, StepTree>();         // The seesion Map hold Name - > StepTree binding
 
-  private static Map<String, Class> customMap = new HashMap<String, Class>();
+  private static Map<String, Class> customMap = new HashMap<String, Class>();                // The customer specified UI Map (VariableName-->Adapter)
 
-  private static Map<String, List<Class>> availableMap = new HashMap<String, List<Class>>();
+  private static Map<String, List<Class>> availableMap = new HashMap<String, List<Class>>(); // The avaiable UI Map           (VariableName-->Available Adapter List>
 
+  // No instance, solid
   private GaffeUtil()
   {
   }
 
+  /**
+   * Load all adapters at the application begins. ? better way of doing this, any suggestion?
+   */
   public static void loadExprMap()
   {
     //Preparation
@@ -72,6 +80,7 @@ public class GaffeUtil
   }
 
   /**
+   * Encode the expr to a String
    * @param expr
    * @return
    */
@@ -81,6 +90,7 @@ public class GaffeUtil
   }
 
   /**
+   * Decode the String back to a Expr
    * @param value
    * @return
    */
@@ -104,6 +114,11 @@ public class GaffeUtil
     }
   }
 
+  /**
+   * Add "'" after each variable in the target Map given. Then they are "primed"
+   * @param target
+   * @return
+   */
   public static HashMap<String, Expr> prime(HashMap<String, Expr> target)
   {
     HashMap<String, Expr> result = new HashMap<String, Expr>();
@@ -116,6 +131,7 @@ public class GaffeUtil
   }
 
   /**
+   * Initialize the component Map which holds all the variables being displayed
    * @param origin
    * @param result
    * @return
@@ -140,7 +156,8 @@ public class GaffeUtil
   }
 
   /**
-   * @return Returns the customMap.
+   * Get the customer specified UI component Adapter for Exprs
+   * @return the customMap.
    */
   public static Map<String, Class> getCustomMap()
   {
@@ -148,7 +165,8 @@ public class GaffeUtil
   }
 
   /**
-   * @return Returns the availableMap.
+   * Get the Available UI component adpaters Map for Exprs
+   * @return the availableMap.
    */
   public static Map<String, List<Class>> getAvailableMap()
   {
@@ -156,6 +174,7 @@ public class GaffeUtil
   }
 
   /**
+   * Get the current session based StepTree
    * @param name
    * @return the stepTree selected
    */
@@ -165,6 +184,7 @@ public class GaffeUtil
   }
 
   /**
+   * Add a new StepTree session based
    * @param name
    * @param stepTree
    */
@@ -175,7 +195,8 @@ public class GaffeUtil
   }
 
   /**
-   * @return Returns the name.
+   * Get the current session Name
+   * @return the name.
    */
   public static String getName()
   {
@@ -183,6 +204,7 @@ public class GaffeUtil
   }
 
   /**
+   * Set the current session Name
    * @param name The name to set.
    */
   public static void setName(String name)

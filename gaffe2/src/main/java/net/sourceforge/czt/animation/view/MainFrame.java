@@ -4,13 +4,14 @@ package net.sourceforge.czt.animation.view;
 import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.border.TitledBorder;
+import javax.swing.JTabbedPane;
 
 import net.sourceforge.czt.animation.common.factory.GaffeUI;
 import net.sourceforge.czt.animation.common.factory.GaffeUtil;
@@ -34,8 +35,11 @@ public class MainFrame extends JFrame
 
   private JSplitPane frameSplit;
 
+  private JTabbedPane tabPaneRT;
+  
+  private JTabbedPane tabPaneRB;
   /**
-   * 
+   * Constructor
    */
   public MainFrame()
   {
@@ -74,24 +78,26 @@ public class MainFrame extends JFrame
     mainMenuBar.add(toolMenu);
     mainMenuBar.add(helpMenu);
 
-    VariablePane statePane = new VariablePane();
-    statePane.setBorder(new TitledBorder("state"));
+    tabPaneRT = new JTabbedPane();
+    tabPaneRB = new JTabbedPane();
+    
     OperationPane operationPane = new OperationPane();
     OutputPane outputPane = new OutputPane();
     ToolBar toolBar = new ToolBar();
     StepTreePane stp = new StepTreePane();
     StatusLabel statusLabel = new StatusLabel("Ready");
 
+    tabPaneRB.add(outputPane);
+    
     GaffeUI.setStepTreePane(stp);
     GaffeUI.setToolBar(toolBar);
     GaffeUI.setOutputPane(outputPane);
-    GaffeUI.setStatePane(statePane);
     GaffeUI.setOperationPane(operationPane);
     GaffeUI.setStatusLabel(statusLabel);
 
     rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-    rightSplit.setTopComponent(statePane);
-    rightSplit.setBottomComponent(outputPane);
+    rightSplit.setTopComponent   (tabPaneRT);
+    rightSplit.setBottomComponent(tabPaneRB);
     rightSplit.setDividerLocation(0.2);
     frameSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     frameSplit.setLeftComponent(operationPane);
@@ -122,6 +128,9 @@ public class MainFrame extends JFrame
     GaffeUI.setMainFrame(this);
   }
 
+  /**
+   * 
+   */
   public void reset()
   {
     frameSplit.setVisible(true);
@@ -131,6 +140,20 @@ public class MainFrame extends JFrame
   }
 
   /**
+   * Tab teh pane into the frame
+   * @param target
+   * @param location
+   */
+  public void tab(JComponent target, String location){
+    if (location.equals("RT")){
+      tabPaneRT.addTab(target.getName(),target);
+    }
+    else if (location.equals("RB")){
+      tabPaneRB.addTab(target.getName(),target);
+    }
+  }
+  /**
+   * Main Entrance for Application
    * @param args
    */
   public static void main(String[] args)
@@ -138,5 +161,23 @@ public class MainFrame extends JFrame
     GaffeUtil.loadExprMap();
     MainFrame mf = new MainFrame();
     mf.setVisible(true);
+  }
+
+  /**
+   * Get the tabPane on Right Bottom
+   * @return Returns the tabPaneRB.
+   */
+  public JTabbedPane getTabPaneRB()
+  {
+    return tabPaneRB;
+  }
+
+  /**
+   * Get the tabPane on Right Top
+   * @return Returns the tabPaneRT.
+   */
+  public JTabbedPane getTabPaneRT()
+  {
+    return tabPaneRT;
   }
 }

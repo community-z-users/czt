@@ -8,10 +8,17 @@ import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZExprList;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class SetExpr_JTextAreaAdapter extends SetExpr_DefaultAdapter
 {
-  private JTextArea component;
+  private JTextArea component;  // Display SetExpr as TextArea
 
+  /**
+   * Constructor
+   */
   public SetExpr_JTextAreaAdapter()
   {
     super();

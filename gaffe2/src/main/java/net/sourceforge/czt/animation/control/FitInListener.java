@@ -4,8 +4,10 @@ package net.sourceforge.czt.animation.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.sourceforge.czt.animation.view.OutputDialog;
-import net.sourceforge.czt.animation.view.VariablePane;
+import javax.swing.JComponent;
+
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
+import net.sourceforge.czt.animation.view.WrapperDialog;
 
 /**
  * @author Linan Zhang
@@ -13,18 +15,25 @@ import net.sourceforge.czt.animation.view.VariablePane;
  */
 public class FitInListener implements ActionListener
 {
-  OutputDialog od;
+  private WrapperDialog od;          // The dialog acts as the wrapper for the pane inside.
 
-  public FitInListener(OutputDialog od)
+  /**
+   * Constructor
+   * @param od
+   */
+  public FitInListener(WrapperDialog od)
   {
     this.od = od;
   }
 
+  /* (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
   public void actionPerformed(ActionEvent arg0)
   {
-    VariablePane vp = od.getOutputPane();
-    //MainFrame.getRightSplit().setBottomComponent(vp);
-    //MainFrame.getRightSplit().setDividerLocation(0.8);
+    JComponent vp = od.getTarget();
+    // Release the target back into MainFrame as a tabbed Pane.
+    GaffeUI.getMainFrame().tab(vp,"RT");
     od.remove(vp);
     od.dispose();
   }

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sourceforge.czt.animation.common.factory.GaffeUI;
-import net.sourceforge.czt.animation.view.OutputDialog;
+import net.sourceforge.czt.animation.view.WrapperDialog;
 
 /**
  * @author Linan Zhang
@@ -13,13 +13,19 @@ import net.sourceforge.czt.animation.view.OutputDialog;
  */
 public class ShowOutputDialogListener implements ActionListener
 {
+  /**
+   * Constructor
+   */
   public ShowOutputDialogListener()
   {
   }
 
+  /* (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
   public void actionPerformed(ActionEvent arg0)
   {
-    OutputDialog od = new OutputDialog(GaffeUI.getOutputPane());
+    WrapperDialog od = new WrapperDialog(GaffeUI.getOutputPane());
     od.pack();
     od.setAlwaysOnTop(true);
     od.setLocationRelativeTo(GaffeUI.getMainFrame());

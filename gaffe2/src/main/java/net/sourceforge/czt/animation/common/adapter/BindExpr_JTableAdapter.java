@@ -19,8 +19,11 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class BindExpr_JTableAdapter extends BindExpr_DefaultAdapter
 {
-  private JTable component;
+  private JTable component; // Display the bindExpr as a Table
 
+  /**
+   * Constructor
+   */
   public BindExpr_JTableAdapter()
   {
     super();

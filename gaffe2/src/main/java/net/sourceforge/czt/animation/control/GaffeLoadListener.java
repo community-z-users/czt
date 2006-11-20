@@ -38,7 +38,7 @@ public class GaffeLoadListener implements ActionListener
   DefaultTreeModel evaluatingTree;
 
   /**
-   * 
+   * Constructor
    */
   public GaffeLoadListener()
   {
@@ -57,6 +57,7 @@ public class GaffeLoadListener implements ActionListener
   }
 
   /**
+   * Load a saved Gaffe File
    * @param file
    */
   public void load(File file)
@@ -115,6 +116,10 @@ public class GaffeLoadListener implements ActionListener
     }
   }
 
+  /**
+   * Restore all steps information by navigation through the tree
+   * @param parent
+   */
   public void restore(DefaultMutableTreeNode parent)
   {
     Step child;

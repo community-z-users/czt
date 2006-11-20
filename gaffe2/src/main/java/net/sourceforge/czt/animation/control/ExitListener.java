@@ -13,6 +13,7 @@ import net.sourceforge.czt.animation.common.factory.GaffeUI;
 public class ExitListener implements ActionListener
 {
   /**
+   * Constructor
    * @param parent
    */
   public ExitListener()

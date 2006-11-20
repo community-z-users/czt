@@ -24,7 +24,7 @@ public class StepTreePane extends JScrollPane
   private JTree component;
 
   /**
-   * 
+   * Constructor
    */
   public StepTreePane()
   {
@@ -33,6 +33,7 @@ public class StepTreePane extends JScrollPane
     contentPane = new JPanel(new BorderLayout());
     contentPane.add(component, BorderLayout.CENTER);
     this.getViewport().setView(contentPane);
+    this.setName("StepTree");
   }
 
   /* (non-Javadoc)

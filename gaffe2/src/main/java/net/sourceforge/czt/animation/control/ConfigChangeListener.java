@@ -10,15 +10,26 @@ import javax.swing.table.TableCellEditor;
 import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.view.ConfigDialog;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class ConfigChangeListener implements java.awt.event.ActionListener
 {
-  private ConfigDialog designDialog;
+  private ConfigDialog designDialog;                 // The config Dialog for customer UI Mapping
 
+  /**
+   * Constructor
+   * @param dd
+   */
   public ConfigChangeListener(ConfigDialog dd)
   {
     designDialog = dd;
   }
 
+  /* (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
   public void actionPerformed(ActionEvent arg0)
   {
     Map<String, Class> customMap = GaffeUtil.getCustomMap();

@@ -14,8 +14,11 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class NumExpr_JSpinnerAdapter extends NumExpr_DefaultAdapter
 {
-  private JSpinner component;
+  private JSpinner component;  // Display Number as JSpinner
 
+  /**
+   * Constructor
+   */
   public NumExpr_JSpinnerAdapter()
   {
     super();

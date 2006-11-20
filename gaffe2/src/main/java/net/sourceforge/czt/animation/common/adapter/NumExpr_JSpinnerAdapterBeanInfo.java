@@ -9,16 +9,25 @@ import java.beans.SimpleBeanInfo;
 import sun.beans.editors.ColorEditor;
 import sun.beans.editors.FontEditor;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class NumExpr_JSpinnerAdapterBeanInfo extends SimpleBeanInfo
 {
-  PropertyDescriptor[] pds = new PropertyDescriptor[2];
+  PropertyDescriptor[] pds = new PropertyDescriptor[2]; // Bean Property Descriptor
 
+  /**
+   * Constructor
+   */
   public NumExpr_JSpinnerAdapterBeanInfo()
   {
     super();
-    // TODO Auto-generated constructor stub
   }
 
+  /* (non-Javadoc)
+   * @see java.beans.BeanInfo#getPropertyDescriptors()
+   */
   public PropertyDescriptor[] getPropertyDescriptors()
   {
     try {
@@ -37,6 +46,9 @@ public class NumExpr_JSpinnerAdapterBeanInfo extends SimpleBeanInfo
     }
   }
 
+  /* (non-Javadoc)
+   * @see java.beans.BeanInfo#getBeanDescriptor()
+   */
   public BeanDescriptor getBeanDescriptor()
   {
     return new BeanDescriptor(NumExpr_JSpinnerAdapter.class);

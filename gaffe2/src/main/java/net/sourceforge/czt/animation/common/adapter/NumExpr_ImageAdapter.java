@@ -8,14 +8,20 @@ import javax.swing.ImageIcon;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class NumExpr_ImageAdapter extends NumExpr_DefaultAdapter
 {
-  private ImageIcon imageIcon;
+  private ImageIcon imageIcon;  // The imageIcon to display number
 
+  /**
+   * Constructor
+   */
   public NumExpr_ImageAdapter()
   {
     super();
-    // TODO Auto-generated constructor stub
     imageIcon = new ImageIcon();
   }
 

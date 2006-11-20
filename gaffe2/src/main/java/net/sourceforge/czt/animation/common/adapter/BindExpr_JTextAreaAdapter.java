@@ -12,10 +12,17 @@ import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.ZString;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class BindExpr_JTextAreaAdapter extends BindExpr_DefaultAdapter
 {
-  private JTextArea component;
+  private JTextArea component; // Display the BindExpr as a TextArea
 
+  /**
+   * Constructor
+   */
   public BindExpr_JTextAreaAdapter()
   {
     super();

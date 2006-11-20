@@ -17,7 +17,7 @@ import net.sourceforge.czt.animation.common.factory.GaffeUI;
 public class ResetListener implements ActionListener
 {
   /**
-   * 
+   * Constructor
    */
   public ResetListener()
   {
@@ -29,6 +29,7 @@ public class ResetListener implements ActionListener
   public void actionPerformed(ActionEvent arg0)
   {
     GaffeUI.resetAll();
+    GaffeUI.getMainFrame().reset();
     GaffeFactory.getZLive().getSectionManager().reset();
   }
 

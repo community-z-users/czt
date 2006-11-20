@@ -10,14 +10,15 @@ import javax.swing.JDialog;
  * @author Linan Zhang
  *
  */
-public class DisposeDialogListener implements ActionListener
+public class CloseDialogListener implements ActionListener
 {
-  JDialog source;
+  private JDialog source;            // The source dialog going to be disposed
 
   /**
+   * Constructor
    * @param source
    */
-  public DisposeDialogListener(JDialog source)
+  public CloseDialogListener(JDialog source)
   {
     this.source = source;
   }

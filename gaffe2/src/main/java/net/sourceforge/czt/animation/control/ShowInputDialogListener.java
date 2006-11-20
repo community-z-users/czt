@@ -22,9 +22,10 @@ import net.sourceforge.czt.z.ast.Expr;
  */
 public class ShowInputDialogListener extends MouseAdapter
 {
-  private JTree tree;
+  private JTree tree;                    // The Schema Tree for user to choose operations
 
   /**
+   * Constructor
    * @param schemaName
    * @param parent
    */
@@ -49,7 +50,7 @@ public class ShowInputDialogListener extends MouseAdapter
       else if (e.getClickCount() == 2) {
         String schemaName = selPath.getLastPathComponent().toString();
         InputDialog id = new InputDialog(schemaName);
-        VariablePane inputPane = id.getInputPane();
+        VariablePane inputPane = (VariablePane)id.getTarget();
         HashMap<String, Expr> input = analyzer.getVariableMap(schemaName,
             "input");
         inputPane.setComponentMap(GaffeUtil.createComponentMap(input));

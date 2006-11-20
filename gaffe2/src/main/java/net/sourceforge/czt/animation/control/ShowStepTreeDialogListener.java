@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.sourceforge.czt.animation.common.factory.GaffeUI;
-import net.sourceforge.czt.animation.view.StepTreeDialog;
+import net.sourceforge.czt.animation.view.WrapperDialog;
 
 /**
  * @author Linan Zhang
@@ -15,13 +15,19 @@ import net.sourceforge.czt.animation.view.StepTreeDialog;
  */
 public class ShowStepTreeDialogListener implements ActionListener
 {
+  /**
+   * Constructor
+   */
   public ShowStepTreeDialogListener()
   {
   }
 
+  /* (non-Javadoc)
+   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   */
   public void actionPerformed(ActionEvent arg0)
   {
-    StepTreeDialog std = new StepTreeDialog(GaffeUI.getStepTreePane());
+    WrapperDialog std = new WrapperDialog(GaffeUI.getStepTreePane());
     std.setAlwaysOnTop(true);
     Dimension dim1 = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension dim2 = std.getSize();

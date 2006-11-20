@@ -18,7 +18,7 @@ import net.sourceforge.czt.animation.model.StepTree;
  */
 public class ChangeNodeListener extends MouseAdapter
 {
-  private JTree tree;
+  private JTree tree;           // The UI displaying StepTree
 
   /**
    * @param schemaName
@@ -44,7 +44,7 @@ public class ChangeNodeListener extends MouseAdapter
         tree.setStep(node);
       }
       else if (e.getClickCount() == 2) {
-        //
+        // Nothing to do
       }
     }
   }

@@ -8,14 +8,18 @@ import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.SetExpr;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class SetExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected SetExpr expr;
+  protected SetExpr expr;                            // The SetExpr ref hold by all SetExpr Adapters
 
-  private JTextField component = new JTextField("");
+  private JTextField component = new JTextField(""); // Display SefExpr as a TextField
 
   /**
-   * 
+   * Constructor
    */
   public SetExpr_DefaultAdapter()
   {

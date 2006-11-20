@@ -10,7 +10,7 @@ public class AdapterException extends Exception
 {
 
   /**
-   * 
+   * Empty Exception
    */
   public AdapterException()
   {
@@ -18,6 +18,7 @@ public class AdapterException extends Exception
   }
 
   /**
+   * Exception with a String messsage
    * @param arg0
    */
   public AdapterException(String arg0)
@@ -26,6 +27,7 @@ public class AdapterException extends Exception
   }
 
   /**
+   * Exception with a Message and a Throwable 
    * @param arg0
    * @param arg1
    */
@@ -35,6 +37,7 @@ public class AdapterException extends Exception
   }
 
   /**
+   * Excpetion with only the Throwable
    * @param arg0
    */
   public AdapterException(Throwable arg0)

@@ -8,11 +8,15 @@ import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class BindExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected BindExpr expr;
+  protected BindExpr expr; // Default expr ref for all BindExpr adapters 
 
-  private JTextField component = new JTextField("");
+  private JTextField component = new JTextField(""); // Default displayed as TextField
 
   /**
    * 

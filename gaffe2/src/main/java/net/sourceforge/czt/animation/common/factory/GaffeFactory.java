@@ -14,11 +14,11 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class GaffeFactory
 {
-  private static ZLive zLive = new ZLive();
+  private static ZLive zLive = new ZLive();                    // Hold the ZLive Ref
 
-  private static Analyzer analyzer = new ZLiveAnalyzer();
+  private static Analyzer analyzer = new ZLiveAnalyzer();      // Hold the Analyzer Ref
 
-  private static Evaluator evaluator = new ZLiveEvaluator();
+  private static Evaluator evaluator = new ZLiveEvaluator();   // Hold the Evaluator Ref
 
   /**
    * No instance, solid
@@ -28,7 +28,7 @@ public class GaffeFactory
   }
 
   /**
-   * @return
+   * @return an selected implementation of Analyzer
    */
   public static Analyzer getAnalyzer()
   {
@@ -36,7 +36,7 @@ public class GaffeFactory
   }
 
   /**
-   * @return
+   * @return an selected implementation of Evaluator
    */
   public static Evaluator getEvaluator()
   {
@@ -44,7 +44,7 @@ public class GaffeFactory
   }
 
   /**
-   * @return
+   * @return the factory inside ZLive
    */
   public static Factory getFactory()
   {
@@ -52,7 +52,7 @@ public class GaffeFactory
   }
 
   /**
-   * @return Returns the zLive.
+   * @return the zLive ref uniquely
    */
   public static ZLive getZLive()
   {

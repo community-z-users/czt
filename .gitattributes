@@ -112,6 +112,7 @@ gaffe2/src/main/java/net/sourceforge/czt/animation/common/adapter/SetExpr_JTextA
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/analyzer/Analyzer.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/analyzer/ZLiveAnalyzer.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/evaluator/Evaluator.java -text
+gaffe2/src/main/java/net/sourceforge/czt/animation/common/evaluator/ManualEvaluator.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/evaluator/ZLiveEvaluator.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/factory/GaffeFactory.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/common/factory/GaffeUI.java -text
@@ -119,8 +120,8 @@ gaffe2/src/main/java/net/sourceforge/czt/animation/common/factory/GaffeUtil.java
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/ChangeNodeListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/ChangeResultListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/ChangeStepListener.java -text
+gaffe2/src/main/java/net/sourceforge/czt/animation/control/CloseDialogListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/ConfigChangeListener.java -text
-gaffe2/src/main/java/net/sourceforge/czt/animation/control/DisposeDialogListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/EvaluateListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/ExitListener.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/control/FitInListener.java -text
@@ -141,16 +142,15 @@ gaffe2/src/main/java/net/sourceforge/czt/animation/model/StepTree.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/ConfigDialog.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/InputDialog.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/MainFrame.java -text
-gaffe2/src/main/java/net/sourceforge/czt/animation/view/MessageDialog.java -text
+gaffe2/src/main/java/net/sourceforge/czt/animation/view/MessagePane.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/OperationPane.java -text
-gaffe2/src/main/java/net/sourceforge/czt/animation/view/OutputDialog.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/OutputPane.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/SchemaDialog.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/StatusLabel.java -text
-gaffe2/src/main/java/net/sourceforge/czt/animation/view/StepTreeDialog.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/StepTreePane.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/ToolBar.java -text
 gaffe2/src/main/java/net/sourceforge/czt/animation/view/VariablePane.java -text
+gaffe2/src/main/java/net/sourceforge/czt/animation/view/WrapperDialog.java -text
 gaffe2/src/main/resources/nextResult.jpg -text
 gaffe2/src/main/resources/nextStep.jpg -text
 gaffe2/src/main/resources/preResult.jpg -text

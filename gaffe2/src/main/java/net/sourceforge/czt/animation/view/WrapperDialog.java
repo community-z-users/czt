@@ -7,9 +7,11 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import net.sourceforge.czt.animation.control.CloseDialogListener;
 import net.sourceforge.czt.animation.control.FitInListener;
 
 /**
@@ -17,38 +19,40 @@ import net.sourceforge.czt.animation.control.FitInListener;
  *
  */
 @SuppressWarnings("serial")
-public class OutputDialog extends JDialog
+public class WrapperDialog extends JDialog
 {
-  private VariablePane outputPane;
-
+  protected JComponent target;
+  protected JButton okButton;
+  protected JButton clButton;
   /**
+   * Constructor
    * @param schemaName
    * @param parent
    */
-  public OutputDialog(VariablePane vp)
+  public WrapperDialog(JComponent tar)
   {
-    outputPane = vp;
-
+    target = tar;
     JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    JButton okButton = new JButton("OK      ");
+    okButton = new JButton("Tab..");
+    clButton = new JButton("Close");
     okButton.addActionListener(new FitInListener(this));
+    clButton.addActionListener(new CloseDialogListener(this));
     buttonPane.add(okButton);
-
+    buttonPane.add(clButton);
     Dimension position = Toolkit.getDefaultToolkit().getScreenSize();
-    this.setLocation((int) (position.getWidth() / 2 - 150), (int) (position
-        .getHeight() / 2 - 100));
+    this.setLocation((int)(position.getWidth()/2 -150),(int)(position.getHeight()/2-100));
     this.setLayout(new BorderLayout());
-    this.add(outputPane, BorderLayout.CENTER);
+    this.add(target, BorderLayout.CENTER);
     this.add(buttonPane, BorderLayout.SOUTH);
-    this.setTitle("Output");
+    this.setTitle(target.getName());
     this.pack();
   }
 
   /**
-   * @return Returns the outputPane.
+   * @return the target wrapped in.
    */
-  public VariablePane getOutputPane()
+  public JComponent getTarget()
   {
-    return outputPane;
+    return target;
   }
 }

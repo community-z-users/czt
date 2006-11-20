@@ -29,7 +29,7 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
   private JButton nextResultButton;
 
   /**
-   * 
+   * Constructor
    */
   public ToolBar()
   {
@@ -59,7 +59,7 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
   }
 
   /**
-   * 
+   * Reset all the buttons to initial state
    */
   public void reset()
   {

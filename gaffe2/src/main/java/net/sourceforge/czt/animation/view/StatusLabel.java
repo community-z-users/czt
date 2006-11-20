@@ -19,6 +19,10 @@ import net.sourceforge.czt.animation.model.StepTree;
 @SuppressWarnings("serial")
 public class StatusLabel extends JLabel implements PropertyChangeListener
 {
+  /**
+   * Constructor
+   * @param message
+   */
   public StatusLabel(String message)
   {
     super(message);

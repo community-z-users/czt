@@ -11,12 +11,19 @@ import javax.swing.JTextField;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class NumExpr_DefaultAdapter extends AdapterDefaultImpl
 {
-  protected NumExpr expr;
+  protected NumExpr expr; // Default expr ref for NumExpr   
 
-  private JTextField component = new JTextField("");
+  private JTextField component = new JTextField(""); // Default displayed as TextField
 
+  /**
+   * Constructor
+   */
   public NumExpr_DefaultAdapter()
   {
     super();

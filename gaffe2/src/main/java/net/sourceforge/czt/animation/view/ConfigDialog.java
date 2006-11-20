@@ -20,8 +20,12 @@ import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.control.ConfigChangeListener;
-import net.sourceforge.czt.animation.control.DisposeDialogListener;
+import net.sourceforge.czt.animation.control.CloseDialogListener;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 @SuppressWarnings("serial")
 public class ConfigDialog extends JDialog
 {
@@ -34,6 +38,9 @@ public class ConfigDialog extends JDialog
 
   private static Map<String, List<Class>> availableMap;
 
+  /**
+   * Constructor
+   */
   public ConfigDialog()
   {
     super();
@@ -82,7 +89,7 @@ public class ConfigDialog extends JDialog
 
     // Preparing cancel button
     JButton cancelButton = new JButton("Cancel");
-    cancelButton.addActionListener(new DisposeDialogListener(this));
+    cancelButton.addActionListener(new CloseDialogListener(this));
 
     // Preparing action panel
     JPanel buttonPane = new JPanel();
@@ -102,7 +109,7 @@ public class ConfigDialog extends JDialog
   }
 
   /**
-   * @return Returns the customMapTable.
+   * @return the customMapTable.
    */
   public JTable getCustomMapTable()
   {

@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import net.sourceforge.czt.animation.control.DisposeDialogListener;
+import net.sourceforge.czt.animation.control.CloseDialogListener;
 import net.sourceforge.czt.animation.control.InitializeListener;
 
 /**
@@ -35,7 +35,7 @@ public class SchemaDialog extends JDialog
     JPanel buttonPane = new JPanel();
     JButton confirmButton = new JButton("OK");
     confirmButton.addActionListener(new InitializeListener(result));
-    confirmButton.addActionListener(new DisposeDialogListener(this));
+    confirmButton.addActionListener(new CloseDialogListener(this));
     buttonPane.add(confirmButton);
     this.setLayout(new BorderLayout());
     this.add(schemaTypePane, BorderLayout.CENTER);
@@ -43,7 +43,7 @@ public class SchemaDialog extends JDialog
   }
 
   /**
-   * @return
+   * @return the pane for generating UI dynamicly inside.
    */
   public JPanel getSchemaPane()
   {
@@ -51,7 +51,7 @@ public class SchemaDialog extends JDialog
   }
 
   /**
-   * @return
+   * @return the result selected by user
    */
   public ArrayList<JComboBox> getResult()
   {

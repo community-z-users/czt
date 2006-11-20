@@ -16,10 +16,10 @@ import net.sourceforge.czt.animation.common.factory.GaffeUtil;
  */
 public class ShowOperationMenuListener implements ActionListener
 {
-  private JPopupMenu menu;
+  private JPopupMenu menu;               // The available operation menu
 
   /**
-   * 
+   * Constructor
    */
   public ShowOperationMenuListener()
   {

@@ -16,9 +16,10 @@ import net.sourceforge.czt.animation.model.StepTree;
  */
 public class ChangeStepListener implements ActionListener
 {
-  private JPopupMenu source;
+  private JPopupMenu source;      // The popupMenu displaying available operations
 
   /**
+   * Constructor
    * @param parent
    * @param action
    */

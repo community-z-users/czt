@@ -6,10 +6,17 @@ import javax.swing.JTextArea;
 
 import net.sourceforge.czt.z.ast.Expr;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class RefExpr_JTextAreaAdapter extends RefExpr_DefaultAdapter
 {
-  private JTextArea component;
+  private JTextArea component; // Display RefExpr as TextArea
 
+  /**
+   * Constructor
+   */
   public RefExpr_JTextAreaAdapter()
   {
     super();

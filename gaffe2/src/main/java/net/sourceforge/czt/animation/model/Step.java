@@ -30,7 +30,7 @@ public class Step extends DefaultMutableTreeNode
   private EvalResult evalResult;
 
   /**
-   * 
+   * Empty Constructor
    */
   public Step()
   {

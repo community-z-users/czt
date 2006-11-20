@@ -3,6 +3,7 @@ package net.sourceforge.czt.animation.common.evaluator;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.animation.eval.EvalException;
@@ -10,7 +11,8 @@ import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.EvalSetResult;
-import net.sourceforge.czt.animation.view.MessageDialog;
+import net.sourceforge.czt.animation.view.MessagePane;
+import net.sourceforge.czt.animation.view.WrapperDialog;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -71,12 +73,18 @@ public class ZLiveEvaluator implements Evaluator
     } catch (CommandException commex) {
       System.out
           .println("******************Evaluation Failed!*********************************");
-      new MessageDialog(commex);
+      new WrapperDialog(new MessagePane(commex));
       return null;
     } catch (EvalException evalex) {
       System.out
           .println("******************Evaluation Failed!*********************************");
-      new MessageDialog(evalex);
+      new WrapperDialog(new MessagePane(evalex));
+      System.out.println("\n Would like to use manual Evaluator to proceed? 'y' or 'n'");
+      Scanner scanner = new Scanner(System.in);
+      if (scanner.nextByte()=='Y') {
+        //
+      }
+      scanner.close();
       return null;
     }
   }

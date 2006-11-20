@@ -5,6 +5,7 @@
 package net.sourceforge.czt.animation.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.czt.animation.eval.EvalSet;
@@ -21,11 +22,19 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class EvalSetResult implements EvalResult
 {
-  private EvalSet evalSet;
+  private EvalSet evalSet;                   // The EvalSet Expr 
 
-  private ListIterator<Expr> iterator;
+  private ListIterator<Expr> iterator;       // The iterator for exploring the EvalSet
 
   /**
+   * For manual evaluator
+   */
+  public EvalSetResult(List<Expr> list){
+    iterator = list.listIterator();
+  }
+  
+  /**
+   * For zlive evaluator
    * @param evalSet
    */
   public EvalSetResult(EvalSet evalSet)
@@ -40,7 +49,8 @@ public class EvalSetResult implements EvalResult
   public boolean isFinite()
   {
     // How to know whether the evalResult is finite or not
-    return (evalSet.estSize() != Double.MAX_VALUE);
+    if (evalSet == null) return true;
+    else return (evalSet.estSize() != Double.MAX_VALUE);
   }
 
   /* (non-Javadoc)
@@ -48,7 +58,7 @@ public class EvalSetResult implements EvalResult
    */
   public boolean hasNext()
   {
-    return this.iterator.hasNext();
+    return iterator.hasNext();
   }
 
   /* (non-Javadoc)
@@ -56,7 +66,7 @@ public class EvalSetResult implements EvalResult
    */
   public boolean hasPrevious()
   {
-    return this.iterator.hasPrevious();
+    return iterator.hasPrevious();
   }
 
   /* (non-Javadoc)
@@ -65,7 +75,7 @@ public class EvalSetResult implements EvalResult
   public HashMap<String, Expr> first()
   {
     BindExpr bindExpr = null;
-    while (this.iterator.hasPrevious()) {
+    while (iterator.hasPrevious()) {
       bindExpr = (BindExpr) iterator.previous();
     }
     return bindExprToHashMap(bindExpr);
@@ -77,7 +87,7 @@ public class EvalSetResult implements EvalResult
   public HashMap<String, Expr> last()
   {
     BindExpr bindExpr = null;
-    while (this.iterator.hasNext()) {
+    while (iterator.hasNext()) {
       bindExpr = (BindExpr) iterator.next();
     }
     return bindExprToHashMap(bindExpr);
@@ -89,7 +99,7 @@ public class EvalSetResult implements EvalResult
   public HashMap<String, Expr> next()
   {
     if (hasNext()) {
-      BindExpr bindExpr = (BindExpr) this.iterator.next();
+      BindExpr bindExpr = (BindExpr) iterator.next();
       return bindExprToHashMap(bindExpr);
     }
     else {
@@ -103,7 +113,7 @@ public class EvalSetResult implements EvalResult
   public HashMap<String, Expr> previous()
   {
     if (hasPrevious()) {
-      BindExpr bindExpr = (BindExpr) this.iterator.previous();
+      BindExpr bindExpr = (BindExpr) iterator.previous();
       return bindExprToHashMap(bindExpr);
     }
     else {
@@ -112,6 +122,7 @@ public class EvalSetResult implements EvalResult
   }
 
   /**
+   * Transfer a bindExpr to a hashMap. Should be a static method?
    * @param expr
    * @return
    */

@@ -3,7 +3,6 @@
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="E:/czt/zlive/target/zlive-0.6-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="E:/czt/lib/czt-dep.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

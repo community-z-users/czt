@@ -13,9 +13,10 @@ import net.sourceforge.czt.animation.model.StepTree;
  */
 public class ChangeResultListener implements ActionListener
 {
-  private int offset;
+  private int offset;              // How many steps be back(-) or forward(+)
 
   /**
+   * Constructor
    * @param parent
    * @param action
    */

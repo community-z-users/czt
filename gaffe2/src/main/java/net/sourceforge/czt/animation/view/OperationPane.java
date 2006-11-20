@@ -21,7 +21,7 @@ public class OperationPane extends JScrollPane
   private JComponent component;
 
   /**
-   * 
+   * Constructor
    */
   public OperationPane()
   {
@@ -39,6 +39,9 @@ public class OperationPane extends JScrollPane
     contentPane.add(component, BorderLayout.CENTER);
   }
 
+  /**
+   * Reset the content pane.
+   */
   public void reset()
   {
     contentPane.removeAll();

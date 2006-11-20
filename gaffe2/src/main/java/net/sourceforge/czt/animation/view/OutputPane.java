@@ -22,12 +22,13 @@ import net.sourceforge.czt.z.util.ZString;
 public class OutputPane extends VariablePane
 {
   /**
-   * 
+   * Constructor
    */
   public OutputPane()
   {
     super();
     this.setBorder(new TitledBorder("Output"));
+    this.setName("Output");
   }
 
   /* (non-Javadoc)

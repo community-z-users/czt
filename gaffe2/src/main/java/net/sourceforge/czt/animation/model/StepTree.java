@@ -13,22 +13,26 @@ import javax.swing.tree.DefaultTreeModel;
 @SuppressWarnings("serial")
 public class StepTree extends DefaultTreeModel
 {
-  private String stateSchemaName;
+  private String stateSchemaName;        // The state schema Name
 
-  private String initSchemaName;
+  private String initSchemaName;         // The init  schema Name
+ 
+  private Step step;                     // The current step
 
-  private Step step;
-
-  private PropertyChangeSupport pcs;
+  private PropertyChangeSupport pcs;     // The bean property support, listens any property change and updates UI
 
   /**
-   * constructor
+   * Constructor with an empty root
    */
   public StepTree()
   {
     this(new Step("Root", null));
   }
 
+  /**
+   * Constructor with a given root
+   * @param root
+   */
   public StepTree(Step root)
   {
     super(root);
@@ -38,6 +42,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Add a new child step node to current step node
    * @param step
    */
   public void add(Step child)
@@ -47,6 +52,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Move to a specified child step node
    * @param
    */
   public boolean moveTo(String operation)
@@ -68,6 +74,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Change the current result index inside the current step node, acts as proxy to Step
    * @param index The index to set.
    */
   public boolean changeIndex(int newValue)
@@ -81,6 +88,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Get the available operations for the current step node. (The operations user has performed)
    * @return the available Operations
    */
   public String[] getAvailableOperations()
@@ -94,6 +102,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Whether this step have a parent step node
    * @return
    */
   public boolean hasPrevious()
@@ -102,6 +111,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
+   * Whether this step has a child step node
    * @return
    */
   public boolean hasNext()
@@ -110,7 +120,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
-   * 
+   * Reset the root step node
    */
   public void reset()
   {
@@ -134,7 +144,7 @@ public class StepTree extends DefaultTreeModel
   }
 
   /**
-   * @return
+   * @return whether the evalSet is completed
    */
   public boolean isComplete()
   {

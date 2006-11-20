@@ -28,7 +28,7 @@ import net.sourceforge.czt.animation.model.StepTree;
 public class GaffeSaveListener implements ActionListener
 {
   /**
-   * 
+   * Constructor
    */
   public GaffeSaveListener()
   {
@@ -45,6 +45,10 @@ public class GaffeSaveListener implements ActionListener
     }
   }
 
+  /**
+   * Save the current StepTree into a Gaffe File
+   * @param file
+   */
   public void save(File file)
   {
     //  TODO Auto-generated method stub

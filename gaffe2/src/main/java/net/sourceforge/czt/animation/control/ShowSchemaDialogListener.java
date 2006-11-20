@@ -17,12 +17,15 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import net.sourceforge.czt.animation.common.analyzer.Analyzer;
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
 import net.sourceforge.czt.animation.common.factory.GaffeUtil;
 import net.sourceforge.czt.animation.model.StepTree;
 import net.sourceforge.czt.animation.view.SchemaDialog;
+import net.sourceforge.czt.animation.view.VariablePane;
 
 /**
  * @author Linan Zhang
@@ -31,7 +34,7 @@ import net.sourceforge.czt.animation.view.SchemaDialog;
 public class ShowSchemaDialogListener implements ActionListener
 {
   /**
-   * 
+   * Constructor
    */
   public ShowSchemaDialogListener()
   {
@@ -49,6 +52,7 @@ public class ShowSchemaDialogListener implements ActionListener
   }
 
   /**
+   * Generate a dialog for user to confirm each schema types.
    * @param file
    */
   private void generateSchemaDialog(File file)
@@ -58,6 +62,11 @@ public class ShowSchemaDialogListener implements ActionListener
     JPanel contentPane = scd.getSchemaPane();
     analyzer.initialize(file);
     GaffeUtil.addStepTree(file.getName(), new StepTree());
+    VariablePane statePane = new VariablePane();
+    statePane.setBorder(new TitledBorder("state"));
+    statePane.setName(file.getName());
+    GaffeUI.getMainFrame().tab(statePane,"RT");
+    GaffeUI.setStatePane(statePane);
     Set<String> nameSet = analyzer.getSchemaNames();
     contentPane.setLayout(new GridLayout(nameSet.size(), 2));
     int i = 0;

@@ -8,6 +8,10 @@ import net.sourceforge.czt.animation.view.StepTreePane;
 import net.sourceforge.czt.animation.view.ToolBar;
 import net.sourceforge.czt.animation.view.VariablePane;
 
+/**
+ * @author Linan Zhang
+ *
+ */
 public class GaffeUI
 {
   private static MainFrame mainFrame;
@@ -25,7 +29,10 @@ public class GaffeUI
   private static ToolBar toolBar;
 
   private static StatusLabel statusLabel;
-
+  
+  /**
+   * No instance,solid
+   */
   private GaffeUI()
   {
   }
@@ -95,7 +102,7 @@ public class GaffeUI
   }
 
   /**
-   * 
+   * reset all ui to original state
    */
   public static void resetAll()
   {
@@ -104,7 +111,7 @@ public class GaffeUI
     operationPane.reset();
     toolBar.reset();
   }
-
+  
   /**
    * @param inputPane The inputPane to set.
    */

@@ -51,7 +51,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   protected HashMap<String, Adapter> componentMap;
 
   /**
-   * 
+   * Constructor
    */
   public VariablePane()
   {
@@ -252,7 +252,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
     Step source = (Step) arg0.getSource();
     HashMap<String, Expr> result = source.getResultSelected();
     if (result == null) {
-      new MessageDialog("No results found!");
+      new WrapperDialog(new MessagePane("No results found!"));
       return;
     }
     contentPane.removeAll();
@@ -267,6 +267,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   }
 
   /**
+   * Add a new variable into the pane
    * @param key
    * @param jc
    */
@@ -351,7 +352,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   }
 
   /**
-   * 
+   * remove a variable from a existing pane
    */
   public void remove(String key)
   {
@@ -360,7 +361,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   }
 
   /**
-   * 
+   * update all the variables displayed
    */
   public void update()
   {
@@ -371,6 +372,9 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
     contentPane.validate();
   }
 
+  /**
+   * reset the container into empty state
+   */
   public void reset()
   {
     contentPane.removeAll();
@@ -378,7 +382,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   }
 
   /**
-   * @return Returns the contentPane.
+   * @return the contentPane. the container itself
    */
   public JPanel getContentPane()
   {
@@ -386,7 +390,7 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
   }
 
   /**
-   * @return Returns the componentMap.
+   * @return the componentMap.
    */
   public HashMap<String, Adapter> getComponentMap()
   {
@@ -401,6 +405,9 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
     this.componentMap = componentMap;
   }
 
+  /**
+   * add a new Variable.
+   */
   public class AddVariableListener implements ActionListener
   {
     VariablePane vp;
@@ -418,6 +425,9 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
     }
   }
 
+  /**
+   * remove an existing variable
+   */
   public class RemVariableListener implements ActionListener
   {
     VariablePane vp;
