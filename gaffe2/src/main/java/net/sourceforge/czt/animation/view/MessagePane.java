@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 @SuppressWarnings("serial")
 public class MessagePane extends JScrollPane
 {
-  private JTextArea messageText;
+  private JTextArea messageText;      // The text displayed as message
 
   /**
    * Constructor
@@ -30,6 +30,7 @@ public class MessagePane extends JScrollPane
   }
 
   /**
+   * Construct a message pane with a given message
    * @param message
    */
   public MessagePane(String message)
@@ -40,6 +41,7 @@ public class MessagePane extends JScrollPane
   }
 
   /**
+   * Construct a message pane with a throwed exception
    * @param ex
    */
   public MessagePane(Exception ex)
@@ -53,6 +55,7 @@ public class MessagePane extends JScrollPane
   }
 
   /**
+   * Set the message for display
    * @param message
    */
   public void setMessage(String message)

@@ -30,6 +30,7 @@ public class OperationPane extends JScrollPane
   }
 
   /**
+   * Add a new component into the Pane.
    * @param component
    */
   public void add(JComponent component)
@@ -48,7 +49,7 @@ public class OperationPane extends JScrollPane
   }
 
   /**
-   * @return Returns the contentPane.
+   * @return the contentPane.
    */
   public JComponent getComponent()
   {

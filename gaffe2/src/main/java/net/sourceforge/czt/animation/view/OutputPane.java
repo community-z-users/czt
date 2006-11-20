@@ -42,6 +42,7 @@ public class OutputPane extends VariablePane
     componentMap.clear();
     Adapter adapter = null;
     for (String key : result.keySet()) {
+      // Filtering the variables with the "!" as the tail
       if (key.endsWith(ZString.OUTSTROKE)) {
         adapter = componentMap.get(key);
         adapter.setExpr(result.get(key));
