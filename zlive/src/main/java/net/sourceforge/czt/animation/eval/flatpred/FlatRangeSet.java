@@ -111,24 +111,24 @@ public class FlatRangeSet extends FlatEvalSet
 
   public BigInteger getUpper()
   {
-	BigInteger result = null;
+    BigInteger result = null;
     if (upper_ != null)
       result = upper_;
-    if (upperArg_ >= 0 && bounds_ != null)
+    else if (upperArg_ >= 0 && bounds_ != null)
       result = bounds_.getUpper(args_.get(upperArg_));
     return result;
   }
 
   public BigInteger maxSize()
   {
-	BigInteger low = getLower();
-	BigInteger high = getUpper();
-	if (low == null || high == null)
-	  return null;
-	else if(high.compareTo(low)<0)
-	  return new BigInteger("0");
-	else
-	  return high.subtract(low).add(BigInteger.ONE);
+    BigInteger low = getLower();
+    BigInteger high = getUpper();
+    if (low == null || high == null)
+      return null;
+    else if (high.compareTo(low)<0)
+      return new BigInteger("0");
+    else
+      return high.subtract(low).add(BigInteger.ONE);
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
