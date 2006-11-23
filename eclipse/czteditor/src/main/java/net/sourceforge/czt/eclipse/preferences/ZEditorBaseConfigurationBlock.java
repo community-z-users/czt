@@ -73,9 +73,6 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
         OverlayPreferenceStore.BOOLEAN,
         PreferenceConstants.EDITOR_MARK_OCCURRENCES));
-    overlayKeys.add(new OverlayPreferenceStore.OverlayKey(
-        OverlayPreferenceStore.BOOLEAN,
-        PreferenceConstants.EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM));
 
     OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys
         .size()];
@@ -282,14 +279,8 @@ public class ZEditorBaseConfigurationBlock extends AbstractConfigurationBlock
     l.setLayoutData(gd);
     
     label = PreferencesMessages.ZEditorBasePreferencePage_mark_occurrences;
-    Button markOccBtn = addCheckBox(appearanceComposite, label,
+    addCheckBox(appearanceComposite, label,
         PreferenceConstants.EDITOR_MARK_OCCURRENCES, 0);
-    
-    label = PreferencesMessages.ZEditorBasePreferencePage_mark_occurrences_when_highlight;
-    Button markOccWhenHilitBtn = addCheckBox(appearanceComposite, label,
-        PreferenceConstants.EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM, 0);
-    
-    createDependency(markOccBtn, markOccWhenHilitBtn);
     
     return appearanceComposite;
   }

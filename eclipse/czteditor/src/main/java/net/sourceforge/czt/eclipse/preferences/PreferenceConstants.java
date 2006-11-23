@@ -193,15 +193,6 @@ public class PreferenceConstants
    */
   public static final String EDITOR_STICKY_OCCURRENCES = "net.sourceforge.czt.eclipse.editor.StickyOccurrences"; //$NON-NLS-1$
 
-  /**
-   * A named preference that controls whether occurrences are marked
-   * when a term is highlighted in the editor .
-   * <p>
-   * Value is of type <code>Boolean</code>.
-   * </p>
-   */
-  public static final String EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM = "net.sourceforge.czt.eclipse.editor.MarkOccurrencesWhenExpansion"; //$NON-NLS-1$
-
   /*
    * Annotation preference keys
    */
@@ -705,9 +696,6 @@ public class PreferenceConstants
 //    store.setDefault(PreferenceConstants.EDITOR_ANNOTATION_ROLL_OVER, true);
     store.setDefault(PreferenceConstants.EDITOR_MARK_OCCURRENCES, true);
 //    store.setDefault(PreferenceConstants.EDITOR_STICKY_OCCURRENCES, true);
-    store.setDefault(
-        PreferenceConstants.EDITOR_MARK_OCCURRENCES_WHEN_HIGHLIGHTING_TERM,
-        true);
     
     // Editor annotation preference page
     store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_ENABLE, true);

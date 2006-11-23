@@ -70,7 +70,6 @@ public final class PreferencesMessages extends NLS
    */
   public static String ZEditorBasePreferencePage_mark_occurrences;
   public static String ZEditorBasePreferencePage_sticky_occurrences;
-  public static String ZEditorBasePreferencePage_mark_occurrences_when_highlight;
   
   //  public static String ZEditorPreferencePage_selectionBackgroundColor;
 
