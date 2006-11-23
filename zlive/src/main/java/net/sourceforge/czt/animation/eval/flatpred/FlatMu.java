@@ -62,16 +62,19 @@ public class FlatMu extends FlatPred
   }
 
   /** Allows functional modes (IIO and III).
-   *  TODO: prove that Flatten will never use the III mode
-   *    or disallow it in some way.  Because (\mu x:0..10 @ x) = 3
-   *    will give the wrong results if it is transformed into
-   *    (\mu x:0..10 @ 3).  So the III mode may not be sound.
    */
   public Mode chooseMode(/*@non_null@*/ Envir env0)
   {
     sLogger.entering("FlatMu","chooseMode",env0);
     Mode mode = this.modeFunction(env0);
     if (mode != null) {
+      if (mode.isInput(resultName_)) {
+        // Note: we disallow the III mode.
+        // For example, (\mu x:0..10 @ x) = 3
+        // will give the wrong results if it is transformed into
+        // (\mu x:0..10 @ 3).  So the III mode is not sound.
+        return null;
+      }
       // Now check if the bound vars are finite enough to enumerate
       Mode schmode = schText_.chooseMode(env0);
       sLogger.fine("schema text gives mode = " + mode);

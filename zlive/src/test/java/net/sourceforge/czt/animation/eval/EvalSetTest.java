@@ -49,6 +49,7 @@ public class EvalSetTest
   protected ZName j = factory_.createZName("j");
   protected ZName k = factory_.createZName("k");
   // names for set variables
+  protected ZName es = factory_.createZName("es"); // empty set
   protected ZName s = factory_.createZName("s");
   protected ZName t = factory_.createZName("t");
 
@@ -73,28 +74,30 @@ public class EvalSetTest
    */
   protected FlatPredList emptySet;
 
+  protected Bounds bounds_;
+  
   public void setUp()
   {
+    bounds_ = new Bounds(); // starts empty
+    
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,k,s));
-    set.inferBounds(new Bounds());
+    set.inferBoundsFixPoint(bounds_);
 
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),s));
-    emptySet.inferBounds(new Bounds());
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),es));
+    emptySet.inferBoundsFixPoint(bounds_);
   }
 
-  /** @return Bounds for i,j,k only. */
-  protected Bounds getBounds()
+  /** Sets the Bounds for i,j,k to 10,11,12, respectively. */
+  protected void setIJKBounds()
   {
-    Bounds bnds = new Bounds();
-    bnds.addLower(i,new BigInteger("10"));
-    bnds.addUpper(i,new BigInteger("10"));
-    bnds.addLower(j,new BigInteger("11"));
-    bnds.addUpper(j,new BigInteger("11"));
-    bnds.addLower(k,new BigInteger("12"));
-    bnds.addUpper(k,new BigInteger("12"));
-    return bnds;
+    bounds_.addLower(i,new BigInteger("10"));
+    bounds_.addUpper(i,new BigInteger("10"));
+    bounds_.addLower(j,new BigInteger("11"));
+    bounds_.addUpper(j,new BigInteger("11"));
+    bounds_.addLower(k,new BigInteger("12"));
+    bounds_.addUpper(k,new BigInteger("12"));
   }
 
   public void testEmpty()
@@ -122,7 +125,7 @@ public class EvalSetTest
     emptySet.setMode(m);
     emptySet.startEvaluation();
     Assert.assertTrue(emptySet.nextEvaluation());
-    EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
+    EvalSet resultSet = (EvalSet) m.getEnvir().lookup(es);
     Assert.assertTrue(resultSet != null);
     Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
     Iterator it = resultSet.iterator();
@@ -180,7 +183,8 @@ public class EvalSetTest
   {
     EvalSet tempRangeSet = new FlatRangeSet(i,k,t);
     FlatPred tempFlat = (FlatPred)tempRangeSet;
-    tempFlat.inferBounds(new Bounds());
+    Assert.assertNotNull(bounds_);
+    tempFlat.inferBounds(bounds_); // bounds_ is empty
     Mode tempMode = tempFlat.chooseMode(envIJK);
     tempFlat.setMode(tempMode);
     tempFlat.startEvaluation();

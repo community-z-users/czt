@@ -45,6 +45,7 @@ public class FlatDiscreteSetTest
 
   public void setUp()
   {
+    super.setUp();
     ArrayList<ZName> argsList = new ArrayList<ZName>();
     argsList.add(i);
     argsList.add(k);
@@ -52,11 +53,11 @@ public class FlatDiscreteSetTest
     argsList.add(i);
     set = new FlatPredList(zlive_);
     set.add(new FlatDiscreteSet(argsList,s));
-    set.inferBounds(new Bounds());
+    set.inferBoundsFixPoint(bounds_);
 
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),s));
-    emptySet.inferBounds(new Bounds());
+    emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(),es));
+    emptySet.inferBoundsFixPoint(bounds_);
   }
 
   public void testMaxSize()

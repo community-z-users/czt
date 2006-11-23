@@ -44,19 +44,21 @@ public class FlatRangeSetTest
 
   public void setUp()
   {
+    super.setUp();
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,k,s));   // 10..12
-    set.inferBounds(new Bounds());
+    set.inferBoundsFixPoint(bounds_);
 
     emptySet = new FlatPredList(zlive_);
-    emptySet.add(new FlatRangeSet(k,j,s));   // 12..11
-    emptySet.inferBounds(new Bounds());
+    emptySet.add(new FlatRangeSet(k,j,es));   // 12..11
+    emptySet.inferBoundsFixPoint(bounds_);
   }
 
   /** A helper function for constructing and evaluating FlatRangeSets. */
   private FlatRangeSet range(ZName lo, ZName hi, Envir env)
   {
     FlatRangeSet flat1 = new FlatRangeSet(lo,hi,s);
+    flat1.inferBounds(new Bounds());  // empty bounds
     Mode m1 = flat1.chooseMode(env);
     Assert.assertNotNull(m1);
     flat1.setMode(m1);

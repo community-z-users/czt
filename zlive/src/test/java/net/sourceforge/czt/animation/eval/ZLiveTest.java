@@ -34,8 +34,6 @@ import net.sourceforge.czt.z.ast.Spec;
 
 public class ZLiveTest extends ZTestCase
 {
-  ZLive zlive_ = new ZLive();
-
   String spec = "\\begin{zsection} \\SECTION eg1 \\parents standard\\_toolkit \\end{zsection}\n"
     + "A simple Z specification for testing ZLive schema evaluation.\n"
     + "\\begin{schema}{State}\n"

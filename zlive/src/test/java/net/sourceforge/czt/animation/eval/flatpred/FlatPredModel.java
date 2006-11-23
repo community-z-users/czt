@@ -22,6 +22,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.UndefException;
+import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.z.ast.Expr;
@@ -71,6 +72,7 @@ public class FlatPredModel implements FsmModel
   //@invariant data_ != null <==> state_==Started;
   private Eval data_;
 
+  
   /** Create a test harness for a FlatPred subclass.
    *  For example, if toTest represents the constraint a*b=c,
    *  then names should contain {a,b,c} and eval1 and eval2 might contain
@@ -138,9 +140,14 @@ public class FlatPredModel implements FsmModel
   }
 
   public boolean inferBoundsGuard() {return state_ == State.Init; }
+  /** Infers as precise a fixed point as possible. */
   @Action public void inferBounds()
   {
-    pred_.inferBounds(new Bounds());
+    Bounds bnds = new Bounds();
+    boolean progress = true;
+    while ( progress ) {
+      progress = pred_.inferBounds(bnds);
+    }
     state_ = State.NoMode;
   }
 

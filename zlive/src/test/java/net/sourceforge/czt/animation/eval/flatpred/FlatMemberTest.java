@@ -51,7 +51,7 @@ public class FlatMemberTest
     predlist = new FlatPredList(zlive_);
     predlist.add(set);
     predlist.add(mem);
-    predlist.inferBounds(new Bounds());
+    predlist.inferBoundsFixPoint(new Bounds());
   }
   
   public void testEmpty()

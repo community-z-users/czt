@@ -72,9 +72,6 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class FlatPredList extends FlatPred
 {
-  /** Maximum number of bounds-inference passes done over the list. */
-  protected static final int inferPasses_ = 5;
-
   /** solutionsReturned_ == ALLDONE means that all possible
    *  solutions have already been returned.
    */
@@ -286,7 +283,51 @@ public class FlatPredList extends FlatPred
     boolean anyChange = false;
     // bnds has changed during most recent pass of predlist_
     boolean recentChange = true;
-    for (int i = 0; recentChange && i < inferPasses_; i++) {
+    for (int i = 0; recentChange && i < 5; i++) {
+      LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
+      recentChange = false;
+      for (FlatPred pred : predlist_) {
+        if (pred.inferBounds(bnds)) {
+          LOG.finer("changed bounds of "+pred);
+          recentChange = true;
+        }
+      }
+      anyChange |= recentChange;
+    }
+    LOG.exiting("FlatPredList","inferBounds",anyChange);
+    return anyChange;
+  }
+
+  /** Equivalent to inferBoundsFixPoint(bnds, 5). 
+   *  That is, this does a default (maximum) number of
+   *  static inference iterations.
+   */
+  public boolean inferBoundsFixPoint(Bounds bnds)
+  {
+    return inferBoundsFixPoint(bnds, 5);
+  }
+
+  /** Infer bounds for any integer variables.
+   *  See FlatPred.inferBounds(Bounds bnds);
+   *  <p>
+   *  This does upto maxPasses passes over all the predicates
+   *  in the list.  It stops earlier than maxPasses if a fixed 
+   *  point is reached.  That is, if the bounds are not getting
+   *  any tighter on each pass over the list.
+   *  </p>
+   *  @param bnds  The database of lower and upper bounds for integer variables.
+   *  @param maxPasses The maximum number of iterations done.  Must be > 0.
+   *  @return      true iff the bnds database has been changed at all.
+   */
+  public boolean inferBoundsFixPoint(Bounds bnds, int maxPasses)
+  {
+    assert maxPasses > 0;
+    LOG.entering("FlatPredList","inferBounds",bnds);
+    // bnds has changed during this method
+    boolean anyChange = false;
+    // bnds has changed during most recent pass of predlist_
+    boolean recentChange = true;
+    for (int i = 0; recentChange && i < maxPasses; i++) {
       LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
       recentChange = false;
       for (FlatPred pred : predlist_) {

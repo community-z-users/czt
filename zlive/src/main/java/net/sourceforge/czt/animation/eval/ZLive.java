@@ -48,6 +48,12 @@ import net.sourceforge.czt.z.util.Factory;
 
 public class ZLive
 {
+  /** The maximum number of static inference passes done
+   *  prior to mode checking and evaluation.
+   *  @see FlatPredList.inferBoundsFixPoint(Bounds,int)
+   */
+  public static final int INFER_PASSES = 5;
+  
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
 
@@ -249,7 +255,7 @@ public class ZLive
     predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
-    predlist_.inferBounds(new Bounds());
+    predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
     Mode m = predlist_.chooseMode(env0);
     if (m == null) {
       final String message =
@@ -290,7 +296,7 @@ public class ZLive
     typecheck(expr);
     predlist_ = new FlatPredList(this);
     ZName resultName = predlist_.addExpr(expr);
-    predlist_.inferBounds(new Bounds());
+    predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
     if (m == null) {

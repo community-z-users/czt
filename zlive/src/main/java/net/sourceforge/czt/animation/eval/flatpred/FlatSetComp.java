@@ -260,7 +260,7 @@ public class FlatSetComp extends FlatEvalSet
       bnds.addLower(resultName_,val);
       bnds.addUpper(resultName_,val);
     }
-    predsOne_.inferBounds(bnds);
+    predsOne_.inferBoundsFixPoint(bnds);
     Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);

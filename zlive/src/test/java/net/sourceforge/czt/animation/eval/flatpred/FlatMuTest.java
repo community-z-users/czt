@@ -21,7 +21,9 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.io.FileNotFoundException;
 
+import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.Flatten;
+import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.Expr;
@@ -38,6 +40,7 @@ import net.sourceforge.czt.z.ast.ZSchText;
 public class FlatMuTest
   extends ZTestCase
 {
+  /*
   public void testMu1()
   throws FileNotFoundException
   {
@@ -51,9 +54,9 @@ public class FlatMuTest
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {x,y,resultName},
-        "IIO,III", // these are the only modes that should work
-        new Eval(1, "II?", i2, i2, i4),
-        new Eval(-1, "II?", i2, i1, i4)   // should throw undef
+        "IIO", // these are the only modes that should work
+        new Eval(1, "IIO", i2, i2, i4),
+        new Eval(-1, "IIO", i2, i1, i4)   // should throw undef
     );
     ModelTestCase model = new ModelTestCase(iut);
     model.randomWalk(200);
@@ -74,8 +77,8 @@ public class FlatMuTest
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {x,y,resultName},
-        "IIO,III", // these are the only modes that should work
-        new Eval(1, "II?", i2, i3, i1),   // ok, because 2/2 = 3/2.
+        "IIO", // these are the only modes that should work
+        new Eval(1, "IIO", i2, i3, i1),   // ok, because 2/2 = 3/2.
         new Eval(-1, "IIO", i2, i4, i1)   // should throw undef
     );
     ModelTestCase model = new ModelTestCase(iut);
@@ -84,6 +87,42 @@ public class FlatMuTest
     //model.printGraphDot("FlatMu2.dot");
   }
 
+  public void testMuBad()
+  throws FileNotFoundException
+  {
+    MuExpr mu = (MuExpr) parseExpr("(\\mu a,b:x \\upto y @ a \\div 2)");
+
+    FlatPredList sch = new FlatPredList(zlive_);
+    sch.addSchText(mu.getZSchText());
+    ZName resultName = sch.addExpr(mu.getExpr());
+    FlatMu pred = new FlatMu(sch, resultName);
+
+    Bounds bnds = new Bounds();
+    pred.inferBounds(bnds);
+    Envir env = new Envir();
+    Envir env2 = env.plus(x, i2);
+    Envir env3 = env2.plus(y, i3);
+    Mode mode = pred.chooseMode(env3);
+    assertNotNull(mode);
+    pred.setMode(mode);
+    pred.startEvaluation();
+    assertTrue(pred.nextEvaluation());
+    mode = pred.chooseMode(env2);
+    assertNull(mode);
+    env3 = env2.plus(y, i4);
+    mode = pred.chooseMode(env3);
+    assertNotNull(mode);
+    pred.startEvaluation();
+    try {
+      pred.nextEvaluation();
+      fail("should throw Undef exception 2: "+pred);
+    }
+    catch (UndefException ex)
+    {
+      System.out.println("Good 2....");
+    }
+  }
+*/
   public void testMuImplicit()
   throws FileNotFoundException
   {
@@ -104,8 +143,8 @@ public class FlatMuTest
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {y,resultName},
-        "IIO,III,IOI", // these are the modes that should work (IOI=II)
-        new Eval(1, "I?", i5, pair),
+        "IIO", // these are the modes that should work
+        new Eval(1, "IO", i5, pair),
         new Eval(-1, "IO", i20, pair)  // should throw undef
     );
     ModelTestCase model = new ModelTestCase(iut);
