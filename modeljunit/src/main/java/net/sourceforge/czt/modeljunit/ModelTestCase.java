@@ -733,56 +733,58 @@ public class ModelTestCase
    */
   protected boolean doAction(int index)
   {
-	  if (enabled(index) <= 0.0)
-		  return false;
-	  
-	  Method m = fsmActions.get(index);
-	  try {
-        this.printProgress(2, "testing action "+m.getName()+ " from state "+fsmState);
-	    m.invoke(fsmModel, fsmNoArgs);
-	  }
-	  catch (InvocationTargetException ex) {
-        String failmsg = "failure in action "+m.getName()
-          +" from state "+this.fsmState;
-        TestFailureException failure = 
-          new TestFailureException(failmsg, ex.getCause());
-        failure.setActionName(m.getName());
-        failure.setModel(this.fsmModel);
-        failure.setModelName(this.getModelName());
-        failure.setSequence(this.fsmSequence);
-        failure.setState(this.fsmState);
+    if (enabled(index) <= 0.0)
+      return false;
 
-        /* Here is an alternative which throws just the original exception.
-         * However, this does not allow us to add the model path like above.
-         
+    Method m = fsmActions.get(index);
+    try {
+      this.printProgress(2, "testing action "+m.getName()+ " from state "+fsmState);
+      m.invoke(fsmModel, fsmNoArgs);
+    }
+    catch (InvocationTargetException ex) {
+      String failmsg = "failure in action "+m.getName()
+      +" from state "+this.fsmState+" due to "+ex.getCause();
+      // TODO: find out why setting the cause here is not enough
+      //     to make the cause's stack trace appear in the junit output.
+      TestFailureException failure = 
+        new TestFailureException(failmsg, ex.getCause());
+      failure.setActionName(m.getName());
+      failure.setModel(this.fsmModel);
+      failure.setModelName(this.getModelName());
+      failure.setSequence(this.fsmSequence);
+      failure.setState(this.fsmState);
+
+      /* Here is an alternative which throws just the original exception.
+       * However, this does not allow us to add the model path like above.
+
         if (ex.getCause() != null
             && ex.getCause() instanceof AssertionFailedError) {
           AssertionFailedError origEx = (AssertionFailedError) ex.getCause();
           throw origEx;
         }
-        */
-        failedTests++;
-        printFailure(2, failmsg);
-        if (3 <= failureVerbosity && this.fsmSequence != null) {
-          // print the sequence in reverse order, like a stacktrace
-          for (int i=this.fsmSequence.size()-1; i>=0; i--)
-            printFailure(3, "  after "+this.fsmSequence.get(i));
-          printFailure(3, "  after reset.");
-        }
-		throw failure;
-	  }
-      catch (IllegalAccessException ex) {
-        Assert.fail("Model Error: Non-public actions? "+ex);
+       */
+      failedTests++;
+      printFailure(2, failmsg);
+      if (3 <= failureVerbosity && this.fsmSequence != null) {
+        // print the sequence in reverse order, like a stacktrace
+        for (int i=this.fsmSequence.size()-1; i>=0; i--)
+          printFailure(3, "  after "+this.fsmSequence.get(i));
+        printFailure(3, "  after reset.");
       }
-      Object newState = fsmModel.getState();
-      Transition done = new Transition(fsmState, m.getName(), newState);
-      fsmSequence.add(done);
-      fsmState = newState;
-      Assert.assertNotNull("Model Error: getState() must be non-null", fsmState);
-      continueBuildGraph(done, index);
-	  for (CoverageMetric cm : fsmCoverage)
-        cm.doneTransition(done);
-	  return true;
+      throw failure;
+    }
+    catch (IllegalAccessException ex) {
+      Assert.fail("Model Error: Non-public actions? "+ex);
+    }
+    Object newState = fsmModel.getState();
+    Transition done = new Transition(fsmState, m.getName(), newState);
+    fsmSequence.add(done);
+    fsmState = newState;
+    Assert.assertNotNull("Model Error: getState() must be non-null", fsmState);
+    continueBuildGraph(done, index);
+    for (CoverageMetric cm : fsmCoverage)
+      cm.doneTransition(done);
+    return true;
   }
 
   /** Take any randomly-chosen Action that is enabled.
