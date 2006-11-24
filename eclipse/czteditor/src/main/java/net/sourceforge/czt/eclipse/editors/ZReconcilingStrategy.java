@@ -2,7 +2,9 @@
 package net.sourceforge.czt.eclipse.editors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
@@ -38,7 +40,7 @@ public class ZReconcilingStrategy
   private ITextEditor fTextEditor;
 
   /** holds the calculated positions */
-  protected final List<Position> fPositions = new ArrayList<Position>();
+  protected final Map<Position, String> fFoldingPositions = new HashMap<Position, String>();
   
   /** holds the calculated schema positions */
   protected final List<Position> fSchemaPositions = new ArrayList<Position>();
@@ -155,7 +157,7 @@ public class ZReconcilingStrategy
    */
   protected void foldPositions()
   {
-    fPositions.clear();
+    fFoldingPositions.clear();
     fSchemaPositions.clear();
 
     ITypedRegion[] partitions = null;
@@ -197,7 +199,8 @@ public class ZReconcilingStrategy
           offset++;
           length--;
         }
-        fPositions.add(new Position(offset, length));
+        if (length > 0)
+          fFoldingPositions.put(new Position(offset, length), partition.getType());
       }
     } catch (BadLocationException e) {
     }
@@ -207,7 +210,7 @@ public class ZReconcilingStrategy
       public void run()
       {
         if (fTextEditor instanceof ZEditor)
-          ((ZEditor) fTextEditor).updateFoldingStructure(fPositions);
+          ((ZEditor) fTextEditor).updateFoldingStructure(fFoldingPositions);
         if (fTextEditor instanceof ZEditor)
           ((ZEditor) fTextEditor).updateSchemaBoxAnnotations(fSchemaPositions);
       }

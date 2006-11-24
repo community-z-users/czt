@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @author Chengdong Xu
  *
  */
-public class BasePreferencePage extends PreferencePage
+public class CZTBasePreferencePage extends PreferencePage
     implements
       IWorkbenchPreferencePage
 {
@@ -26,7 +26,7 @@ public class BasePreferencePage extends PreferencePage
   /**
    * 
    */
-  public BasePreferencePage()
+  public CZTBasePreferencePage()
   {
     super();
     setPreferenceStore(CZTPlugin.getDefault().getPreferenceStore());

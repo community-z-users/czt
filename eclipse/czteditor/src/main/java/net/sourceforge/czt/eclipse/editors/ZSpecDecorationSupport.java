@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.z.util.ZString;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -41,7 +43,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.AnnotationPreference;
 
 /**
@@ -65,13 +66,9 @@ public class ZSpecDecorationSupport
 {
 
   /**
-   * Draws a Z schema box around a schema.
-   *
-   * @since 3.0
+   * Draws a Z schema box around a schema using the first box rendering style.
    */
-  private final class SchemaBoxDrawingStrategy
-      implements
-        IDrawingStrategy
+  private final class FirstBoxRenderingStrategy implements IDrawingStrategy
   {
     /*
      * @see org.eclipse.jface.text.source.AnnotationPainter.IDrawingStrategy#draw(org.eclipse.jface.text.source.Annotation, org.eclipse.swt.graphics.GC, org.eclipse.swt.custom.StyledText, int, int, org.eclipse.swt.graphics.Color)
@@ -79,10 +76,201 @@ public class ZSpecDecorationSupport
     public void draw(Annotation annotation, GC gc, StyledText textWidget,
         int offset, int length, Color color)
     {
+      int lineWidth = getSchemaBoxLineWidth();
+
       if (length == 0) {
-        gc.setLineWidth(4);
+        if (gc != null)
+          gc.setLineWidth(lineWidth);
         fgIBeamStrategy.draw(annotation, gc, textWidget, offset, length, color);
-        gc.setLineWidth(0);
+        // reset the line width for other decoration
+        if (gc != null)
+          gc.setLineWidth(0);
+        return;
+      }
+
+      if (gc != null) {
+        IDocument document = fSourceViewer.getDocument();
+        int boxWidth = textWidget.getClientArea().width - 10;
+        int lineHeight = textWidget.getLineHeight(offset);
+        int endHeight = 10; // the length of the right vertical line.
+
+        try {
+          // the line containing the annotation
+          int annLine = document.getLineOfOffset(offset);
+          Point left = textWidget.getLocationAtOffset(offset);
+          ITypedRegion partition = null;
+
+          try {
+            if (document instanceof IDocumentExtension3) {
+              IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+              partition = extension3.getPartition(IZPartitions.Z_PARTITIONING,
+                  offset, false);
+            }
+            else {
+              partition = document.getPartition(offset);
+            }
+
+          } catch (BadPartitioningException bpe) {
+            partition = null;
+          }
+
+          if (partition == null) {
+            return;
+          }
+
+          String schema_type = partition.getType();
+
+          int start_line = document.getLineOfOffset(partition.getOffset());
+          int end_line = document.getLineOfOffset(partition.getOffset()
+              + partition.getLength());
+
+          // set the preferred color for the schema box
+          gc.setForeground(color);
+          gc.setLineWidth(lineWidth);
+
+          if (annLine == start_line) { // tell whether it is the start line
+            Point line_end = textWidget.getLocationAtOffset(offset + length);
+            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+                .equalsIgnoreCase(schema_type)) {
+              // draw the left line
+              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
+                  + lineHeight);
+              // draw the horizontal line
+              Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
+              // draw the end vertical line
+              gc.drawLine(boxWidth - lineWidth + 1,
+                  line_end.y + lineHeight - 1, boxWidth - lineWidth + 1,
+                  line_end.y + lineHeight - 1 + endHeight);
+
+            }
+            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+                .equalsIgnoreCase(schema_type)) {
+              // draw the left line
+              gc.drawLine(left.x, left.y + lineHeight / 2, left.x, left.y
+                  + lineHeight - 1);
+              // draw the first line
+              Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
+              gc.drawLine(left.x, line_end.y + lineHeight / 2, left_line_end.x,
+                  line_end.y + lineHeight / 2);
+              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
+                  line_end.y + lineHeight / 2);
+              // draw the second line
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
+            }
+            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+                .equalsIgnoreCase(schema_type)) {
+              // draw the left line
+              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
+                  + lineHeight);
+              // draw the first line
+              Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
+              gc.drawLine(left.x, line_end.y + lineHeight / 2, left_line_end.x,
+                  line_end.y + lineHeight / 2);
+              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
+                  line_end.y + lineHeight / 2);
+              // draw the second line
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
+              // draw the end vertical line
+              gc.drawLine(boxWidth - lineWidth + 1,
+                  line_end.y + lineHeight / 2, boxWidth - lineWidth + 1,
+                  line_end.y + lineHeight - 1 + endHeight);
+            }
+          }
+          else if (annLine == end_line) { // tell whether it is the end line
+            Point line_end = textWidget.getLocationAtOffset(offset + length);
+            gc.drawLine(left.x, left.y, left.x, left.y + lineHeight / 2);
+            if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+                .equalsIgnoreCase(schema_type)
+                || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+                    .equalsIgnoreCase(schema_type)) {
+              // draw the line from the start of the line using left.x, otherwise use line_end.x
+              gc.drawLine(left.x, line_end.y + lineHeight / 2, boxWidth,
+                  line_end.y + lineHeight / 2);
+              // draw the end vertical line
+              gc.drawLine(boxWidth - lineWidth + 1, line_end.y + lineHeight / 2
+                  - endHeight, boxWidth - lineWidth + 1, line_end.y
+                  + lineHeight / 2);
+            }
+          }
+          else {
+            // draw middle lines
+            if (ZString.VL.equalsIgnoreCase(String.valueOf(document
+                .getChar(offset)))) {
+              // draw the predicate line
+              Point predicate = textWidget.getLocationAtOffset(offset);
+              if (boxWidth > predicate.x)
+                gc.drawLine(predicate.x, predicate.y + lineHeight / 2,
+                    predicate.x + (boxWidth - predicate.x) / 2, predicate.y
+                        + lineHeight / 2);
+            }
+            // draw the left line
+            gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
+          }
+
+          gc.setLineWidth(0);
+
+        } catch (BadLocationException ble) {
+          ble.printStackTrace();
+          return;
+        }
+      }
+      else {
+        // force the AnnotationPainter to redraw the non-text part of the box.
+        final int contentLength = textWidget.getCharCount();
+        if (offset >= contentLength) {
+          textWidget.redraw();
+          return;
+        }
+
+        int endOfRedrawnLine = textWidget.getLineAtOffset(offset) + 2;
+        if (endOfRedrawnLine >= textWidget.getLineCount()) {
+          /*
+           * Panic code: should not happen, as offset is not the last offset,
+           * and there is a delimiter character at offset.
+           */
+          textWidget.redraw();
+          return;
+        }
+
+        int endOfRedrawnLineOffset = textWidget
+            .getOffsetAtLine(endOfRedrawnLine);
+        length = endOfRedrawnLineOffset - offset;
+
+        textWidget.redrawRange(offset, length, true);
+      }
+    }
+  }
+
+  /**
+   * Draws a Z schema box around a schema using the second box rending style.
+   */
+  private final class SecondBoxRenderingStrategy implements IDrawingStrategy
+  {
+    /*
+     * @see org.eclipse.jface.text.source.AnnotationPainter.IDrawingStrategy#draw(org.eclipse.jface.text.source.Annotation, org.eclipse.swt.graphics.GC, org.eclipse.swt.custom.StyledText, int, int, org.eclipse.swt.graphics.Color)
+     */
+    public void draw(Annotation annotation, GC gc, StyledText textWidget,
+        int offset, int length, Color color)
+    {
+      int lineWidth = getSchemaBoxLineWidth();
+
+      if (length == 0) {
+        if (gc != null)
+          gc.setLineWidth(lineWidth);
+        fgIBeamStrategy.draw(annotation, gc, textWidget, offset, length, color);
+        // reset the line width for other decoration
+        if (gc != null)
+          gc.setLineWidth(0);
         return;
       }
 
@@ -123,23 +311,11 @@ public class ZSpecDecorationSupport
 
           // set the preferred color for the schema box
           gc.setForeground(color);
-          gc.setLineWidth(5);
+          gc.setLineWidth(lineWidth);
 
           if (annLine == start_line) { // tell whether it is the start line
             Point line_end = textWidget.getLocationAtOffset(offset + length);
             if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
-                .equalsIgnoreCase(schema_type)) {
-              // draw the left line
-              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
-                  + lineHeight);
-              // draw the horizontal line
-              Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
-              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
-                  line_end.y + lineHeight - 1);
-              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
-                  line_end.y + lineHeight - 1);
-            }
-            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
                 .equalsIgnoreCase(schema_type)) {
               // draw the left line
               gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
@@ -168,38 +344,49 @@ public class ZSpecDecorationSupport
               gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
                   line_end.y + lineHeight - 1);
             }
-            gc.setLineWidth(0);
-            return;
+            else if (IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+                .equalsIgnoreCase(schema_type)) {
+              // draw the left line
+              gc.drawLine(left.x, left.y + lineHeight - 1, left.x, left.y
+                  + lineHeight);
+              // draw the horizontal line
+              Point left_line_end = textWidget.getLocationAtOffset(offset + 1);
+              gc.drawLine(left.x, line_end.y + lineHeight - 1, left_line_end.x,
+                  line_end.y + lineHeight - 1);
+              gc.drawLine(line_end.x, line_end.y + lineHeight - 1, boxWidth,
+                  line_end.y + lineHeight - 1);
+            }
           }
           else if (annLine == end_line) { // tell whether it is the end line
             Point line_end = textWidget.getLocationAtOffset(offset + length);
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight / 2);
             if (IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
                 .equalsIgnoreCase(schema_type)
-                || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
-                    .equalsIgnoreCase(schema_type)
                 || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+                    .equalsIgnoreCase(schema_type)
+                || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
                     .equalsIgnoreCase(schema_type))
-              gc.drawLine(line_end.x, line_end.y + lineHeight / 2, boxWidth,
+              // draw the line from the start of the line using left.x, otherwise use line_end.x
+              gc.drawLine(left.x, line_end.y + lineHeight / 2, boxWidth,
                   line_end.y + lineHeight / 2);
-            gc.setLineWidth(0);
-            return;
           }
           else {
             // draw middle lines
             if (ZString.VL.equalsIgnoreCase(String.valueOf(document
-                .getChar(offset)))) { 
+                .getChar(offset)))) {
               // draw the predicate line
               Point predicate = textWidget.getLocationAtOffset(offset);
               if (boxWidth > predicate.x)
                 gc.drawLine(predicate.x, predicate.y + lineHeight / 2,
                     predicate.x + (boxWidth - predicate.x) / 2, predicate.y
-                    + lineHeight / 2);
+                        + lineHeight / 2);
             }
             // draw the left line
             gc.drawLine(left.x, left.y, left.x, left.y + lineHeight);
-            gc.setLineWidth(0);
           }
+
+          gc.setLineWidth(0);
+
         } catch (BadLocationException ble) {
           ble.printStackTrace();
           return;
@@ -212,9 +399,9 @@ public class ZSpecDecorationSupport
           textWidget.redraw();
           return;
         }
-        
-        int nextLine = textWidget.getLineAtOffset(offset) + 1;
-        if (nextLine >= textWidget.getLineCount()) {
+
+        int endOfRedrawnLine = textWidget.getLineAtOffset(offset) + 2;
+        if (endOfRedrawnLine >= textWidget.getLineCount()) {
           /*
            * Panic code: should not happen, as offset is not the last offset,
            * and there is a delimiter character at offset.
@@ -222,10 +409,11 @@ public class ZSpecDecorationSupport
           textWidget.redraw();
           return;
         }
-        
-        int nextLineOffset = textWidget.getOffsetAtLine(nextLine);
-        length = nextLineOffset - offset;
-        
+
+        int endOfRedrawnLineOffset = textWidget
+            .getOffsetAtLine(endOfRedrawnLine);
+        length = endOfRedrawnLineOffset - offset;
+
         textWidget.redrawRange(offset, length, true);
       }
     }
@@ -294,11 +482,6 @@ public class ZSpecDecorationSupport
   }
 
   /**
-   * The schema box drawing strategy.
-   */
-  private IDrawingStrategy fgSchemaBoxStrategy = new SchemaBoxDrawingStrategy();
-
-  /**
    * The null drawing strategy.
    * @since 3.0
    */
@@ -310,7 +493,15 @@ public class ZSpecDecorationSupport
    */
   private static IDrawingStrategy fgIBeamStrategy = new IBeamStrategy();
 
-  private Object SCHEMA_BOX = new Object();
+  /**
+   * The schema box drawing strategy.
+   */
+  private IDrawingStrategy fgSchemaBoxStyle1Strategy = new FirstBoxRenderingStrategy();
+
+  /**
+   * The schema box drawing strategy.
+   */
+  private IDrawingStrategy fgSchemaBoxStyle2Strategy = new SecondBoxRenderingStrategy();
 
   /** The viewer */
   private ISourceViewer fSourceViewer;
@@ -330,11 +521,11 @@ public class ZSpecDecorationSupport
   /** Map with annotation type preference per annotation type */
   private Map fAnnotationTypeKeyMap = new HashMap();
 
-  /** Preference key for the schema box painter */
-  private String fSchemaBoxEnableKey;
+  /** Preference key for the schema box painter line width */
+  private String fSchemaBoxLineWidthKey;
 
-  /** Preference key for the matching character painter color */
-  private String fSchemaBoxColorKey;
+  /** Preference value for the schema box painter line width */
+  private int fSchemaBoxLineWidth = 0;
 
   /** The property change listener */
   private IPropertyChangeListener fPropertyChangeListener;
@@ -420,23 +611,17 @@ public class ZSpecDecorationSupport
    */
   private Object getAnnotationDecorationType(Object annotationType)
   {
-    /*
-     if (areAnnotationsShown(annotationType) && fPreferenceStore != null) {
-     AnnotationPreference info= (AnnotationPreference) fAnnotationTypeKeyMap.get(annotationType);
-     if (info != null) {
-     String key= info.getTextStylePreferenceKey();
-     if (key != null)
-     return fPreferenceStore.getString(key);
-     // legacy
-     return AnnotationPreference.STYLE_SQUIGGLES;
-     }
-     
-     if (annotationType.equals(SCHEMA_BOX_ANNOTATION))
-     return SCHEMA_BOX;
-     }
-     return AnnotationPreference.STYLE_NONE;
-     */
-    return SCHEMA_BOX;
+    if (areAnnotationsShown(annotationType) && fPreferenceStore != null) {
+      AnnotationPreference info = (AnnotationPreference) fAnnotationTypeKeyMap
+          .get(annotationType);
+      if (info != null) {
+        String key = info.getTextStylePreferenceKey();
+        if (key != null)
+          return fPreferenceStore.getString(key);
+      }
+    }
+
+    return AnnotationPreference.STYLE_NONE;
   }
 
   /**
@@ -518,15 +703,13 @@ public class ZSpecDecorationSupport
     fAnnotationTypeKeyMap.put(info.getAnnotationType(), info);
   }
 
-  /**
-   * Sets the preference keys for the schema box painter.
-   * @param enableKey the preference key for the schema boxes
-   * @param colorKey the preference key for the color used by the schema box painter
-   */
-  public void setSchemaBoxPreferenceKeys(String enableKey, String colorKey)
+  private int getSchemaBoxLineWidth()
   {
-    fSchemaBoxEnableKey = enableKey;
-    fSchemaBoxColorKey = colorKey;
+    if (fPreferenceStore != null) {
+      return fPreferenceStore
+          .getInt(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH);
+    }
+    return 0;
   }
 
   /**
@@ -553,9 +736,14 @@ public class ZSpecDecorationSupport
   {
     String p = event.getProperty();
 
+    if (PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH.equals(p)) {
+      if (fAnnotationPainter != null)
+        fAnnotationPainter.paint(IPainter.CONFIGURATION);
+      return;
+    }
+
     AnnotationPreference info = getAnnotationPreferenceInfo(p);
     if (info != null) {
-
       if (info.getColorPreferenceKey().equals(p)) {
         Color color = getColor(info.getColorPreferenceKey());
         if (fAnnotationPainter != null) {
@@ -601,7 +789,6 @@ public class ZSpecDecorationSupport
         return;
       }
     }
-
   }
 
   /**
@@ -638,11 +825,11 @@ public class ZSpecDecorationSupport
    */
   private Color getAnnotationTypeColor(Object annotationType)
   {
-    /*        AnnotationPreference info= (AnnotationPreference) fAnnotationTypeKeyMap.get(annotationType);
-     if (info != null)
-     return getColor(info.getColorPreferenceKey());
-     return null;*/
-    return new Color(Display.getCurrent(), 255, 100, 100);
+    AnnotationPreference info = (AnnotationPreference) fAnnotationTypeKeyMap
+        .get(annotationType);
+    if (info != null)
+      return getColor(info.getColorPreferenceKey());
+    return null;
   }
 
   /**
@@ -708,7 +895,12 @@ public class ZSpecDecorationSupport
     painter.addDrawingStrategy(AnnotationPreference.STYLE_NONE, fgNullStrategy);
     painter.addDrawingStrategy(AnnotationPreference.STYLE_IBEAM,
         fgIBeamStrategy);
-    painter.addDrawingStrategy(SCHEMA_BOX, fgSchemaBoxStrategy);
+    painter.addDrawingStrategy(
+        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_1,
+        fgSchemaBoxStyle1Strategy);
+    painter.addDrawingStrategy(
+        PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2,
+        fgSchemaBoxStyle2Strategy);
 
     return painter;
   }
@@ -769,19 +961,16 @@ public class ZSpecDecorationSupport
    */
   private boolean areAnnotationsShown(Object annotationType)
   {
-    /*
-     if (fPreferenceStore != null) {
-     AnnotationPreference info= (AnnotationPreference) fAnnotationTypeKeyMap.get(annotationType);
-     if (info != null) {
-     String key= info.getTextPreferenceKey();
-     return key != null && fPreferenceStore.getBoolean(key);
-     }
-     if(annotationType.equals(this.SCHEMA_BOX_ANNOTATION))
-     return true;
-     }
-     return false;
-     */
-    return true;
+    if (fPreferenceStore != null) {
+      AnnotationPreference info = (AnnotationPreference) fAnnotationTypeKeyMap
+          .get(annotationType);
+      if (info != null) {
+        String key = info.getTextPreferenceKey();
+        return key != null && fPreferenceStore.getBoolean(key);
+      }
+    }
+
+    return false;
   }
 
   /**

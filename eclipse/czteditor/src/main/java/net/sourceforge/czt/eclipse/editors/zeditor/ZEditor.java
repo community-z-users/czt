@@ -21,9 +21,11 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
@@ -64,17 +66,22 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.internal.text.link.contentassist.HTMLTextPresenter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPartitioningException;
+import org.eclipse.jface.text.DefaultInformationControl;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.IDocumentExtension4;
+import org.eclipse.jface.text.IInformationControl;
+import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.text.information.InformationPresenter;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelExtension;
@@ -100,6 +107,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener2;
@@ -401,43 +409,31 @@ public class ZEditor extends TextEditor
   /** The content outline page */
   private ZContentOutlinePage fOutlinePage;
 
-  /**
-   * The outline page context menu id
-   */
+  /** The outline page context menu id */
   private String fOutlinerContextMenuId;
 
-  /** The projection support */
-  private ProjectionSupport fProjectionSupport;
-
-  /**
-   * The fEditor selection changed listener.
-   *
-   * @since 3.0
-   */
+  /** The fEditor selection changed listener. */
   private EditorSelectionChangedListener fEditorSelectionChangedListener;
 
   /** The selection changed listener */
   protected AbstractSelectionChangedListener fOutlineSelectionChangedListener = new OutlineSelectionChangedListener();
 
-  /**
-   * The internal shell activation listener for updating occurrences.
-   * @since 3.0
-   */
+  /** The internal shell activation listener for updating occurrences. */
   private ActivationListener fActivationListener = new ActivationListener();
 
-  /**
-   * Holds the current projection annotations.
-   */
+  /** Holds the current projection annotations. */
   private Annotation[] fProjectionAnnotations = null;
 
-  /**
-   * Holds the current schema box annotations
-   */
+  /** Holds the folded projection annotations. */
+  private Map<Annotation, Position> fFoldedProjectionAnnotations = new HashMap<Annotation, Position>();
+
+  /** Holds the unfolded projection annotations. */
+  private Map<Annotation, Position> fUnfoldedProjectionAnnotations = new HashMap<Annotation, Position>();
+
+  /** Holds the current schema box annotations */
   private Annotation[] fSchemaBoxAnnotations = null;
 
-  /**
-   * Holds the current occurrence annotations.
-   */
+  /** Holds the current occurrence annotations. */
   private Annotation[] fOccurrenceAnnotations = null;
 
   /** The term highlight annotation */
@@ -446,14 +442,12 @@ public class ZEditor extends TextEditor
   /**
    * The document modification stamp at the time when the last
    * term highlight marking took place.
-   * @since 3.1
    */
   private long fMarkTermHighlightModificationStamp = IDocumentExtension4.UNKNOWN_MODIFICATION_STAMP;
 
   /**
    * The selection used when forcing occurrence marking
    * through code.
-   * @since 3.0
    */
   private ISelection fForcedMarkOccurrencesSelection;
 
@@ -466,8 +460,7 @@ public class ZEditor extends TextEditor
   /**
    * Tells whether all occurrences of the element at the
    * current caret location are automatically marked in
-   * this fEditor.
-   * @since 3.0
+   * this editor.
    */
   private boolean fMarkOccurrenceAnnotations;
 
@@ -485,10 +478,11 @@ public class ZEditor extends TextEditor
   /** The occurrences finder job canceler */
   private OccurrencesFinderJobCanceler fOccurrencesFinderJobCanceler;
 
-  /**
-   * The folding runner.
-   */
+  /** The folding runner. */
   private ToggleFoldingRunner fFoldingRunner;
+
+  /** The projection support */
+  private ProjectionSupport fProjectionSupport;
 
   /** The parsed tree */
   private ParsedData fParsedData;
@@ -525,6 +519,9 @@ public class ZEditor extends TextEditor
    *
    */
   private ZSpecDecorationSupport fZSpecDecorationSupport;
+
+  /** The information presenter. */
+  private InformationPresenter fInformationPresenter;
 
   public ZEditor()
   {
@@ -612,20 +609,29 @@ public class ZEditor extends TextEditor
   public void createPartControl(Composite parent)
   {
     super.createPartControl(parent);
-    //    System.out.println("ZEditor.createPartControl starts");
 
     if (fZSpecDecorationSupport != null)
       fZSpecDecorationSupport.install(getPreferenceStore());
 
-    ProjectionViewer viewer = (ProjectionViewer) getSourceViewer();
-    fProjectionSupport = new ProjectionSupport(viewer, getAnnotationAccess(),
-        getSharedColors());
+    ProjectionViewer projectionViewer = (ProjectionViewer) getSourceViewer();;
+    fProjectionSupport = new ProjectionSupport(projectionViewer,
+        getAnnotationAccess(), getSharedColors());
+    fProjectionSupport
+        .addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.error"); //$NON-NLS-1$
+    fProjectionSupport
+        .addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning"); //$NON-NLS-1$
+    //    fProjectionSupport.setHoverControlCreator(new IInformationControlCreator() {
+    //        public IInformationControl createInformationControl(Shell shell) {
+    //            return new SourceViewerInformationControl(shell, SWT.TOOL | SWT.NO_TRIM | getOrientation(), SWT.NONE);
+    //        }
+    //    });
     fProjectionSupport.install();
 
     //turn projection mode on
-    viewer.doOperation(ProjectionViewer.TOGGLE);
+    projectionViewer.doOperation(ProjectionViewer.TOGGLE);
 
-    this.fProjectionAnnotationModel = viewer.getProjectionAnnotationModel();
+    fProjectionAnnotationModel = projectionViewer
+        .getProjectionAnnotationModel();
 
     text = getSourceViewer().getTextWidget();
     if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
@@ -638,17 +644,21 @@ public class ZEditor extends TextEditor
       text.setFont(cztUnicodeFont);
     }
 
-    //		IInformationControlCreator informationControlCreator= new IInformationControlCreator() {
-    //			public IInformationControl createInformationControl(Shell shell) {
-    //				boolean cutDown= false;
-    //				int style= cutDown ? SWT.NONE : (SWT.V_SCROLL | SWT.H_SCROLL);
-    //				return new DefaultInformationControl(shell, SWT.RESIZE | SWT.TOOL, style, new HTMLTextPresenter(cutDown));
-    //			}
-    //		};
+    IInformationControlCreator informationControlCreator = new IInformationControlCreator()
+    {
+      public IInformationControl createInformationControl(Shell shell)
+      {
+        boolean cutDown = false;
+        int style = cutDown ? SWT.NONE : (SWT.V_SCROLL | SWT.H_SCROLL);
+        return new DefaultInformationControl(shell, SWT.RESIZE | SWT.TOOL,
+            style, new HTMLTextPresenter(cutDown));
+      }
+    };
 
-    //		fInformationPresenter= new InformationPresenter(informationControlCreator);
-    //		fInformationPresenter.setSizeConstraints(60, 10, true, true);
-    //		fInformationPresenter.install(getSourceViewer());
+    fInformationPresenter = new InformationPresenter(informationControlCreator);
+    fInformationPresenter.setSizeConstraints(60, 10, true, true);
+    fInformationPresenter.install(getSourceViewer());
+    fInformationPresenter.setDocumentPartitioning(IZPartitions.Z_PARTITIONING);
 
     fEditorSelectionChangedListener = new EditorSelectionChangedListener();
     fEditorSelectionChangedListener.install(getSelectionProvider());
@@ -660,7 +670,6 @@ public class ZEditor extends TextEditor
     //			installSemanticHighlighting();
 
     PlatformUI.getWorkbench().addWindowListener(fActivationListener);
-    //    System.out.println("ZEditor.createPartControl finishes");
   }
 
   protected void configureSourceViewerDecorationSupport(
@@ -690,10 +699,16 @@ public class ZEditor extends TextEditor
    */
   protected void configureZSpecDecorationSupport(ZSpecDecorationSupport support)
   {
-    support.setAnnotationPreference(new AnnotationPreference(
-        IZAnnotationType.SCHEMABOX, "net.sourceforge.czt.schemabox.colorkey",
-        "net.sourceforge.czt.schemabox.editorkey",
-        "net.sourceforge.czt.schemabox.overviewRulerKey", 0));
+    AnnotationPreference schemaboxInfo = new AnnotationPreference();
+    schemaboxInfo.setAnnotationType(IZAnnotationType.SCHEMABOX);
+    schemaboxInfo
+        .setColorPreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR);
+    schemaboxInfo
+        .setTextPreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_ENABLE);
+    schemaboxInfo
+        .setTextStylePreferenceKey(PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE);
+    schemaboxInfo.setPresentationLayer(0);
+    support.setAnnotationPreference(schemaboxInfo);
   }
 
   /**
@@ -703,7 +718,6 @@ public class ZEditor extends TextEditor
   protected final ISourceViewer createSourceViewer(Composite parent,
       IVerticalRuler verticalRuler, int styles)
   {
-    //    System.out.println("ZEditor.createSourceViewer starts");
     IPreferenceStore store = getPreferenceStore();
     ISourceViewer viewer = createZSourceViewer(parent, verticalRuler,
         getOverviewRuler(), isOverviewRulerVisible(), styles, store);
@@ -714,25 +728,6 @@ public class ZEditor extends TextEditor
     if (viewer instanceof ZSourceViewer)
       zSourceViewer = (ZSourceViewer) viewer;
 
-    /*
-     * This is a performance optimization to reduce the computation of
-     * the text presentation triggered by {@link #setVisibleDocument(IDocument)}
-     */
-    //        if (zSourceViewer != null && isFoldingEnabled() && (store == null || !store.getBoolean(PreferenceConstants.EDITOR_SHOW_SEGMENTS)))
-    //            zSourceViewer.prepareDelayedProjection();
-    //        ProjectionViewer projectionViewer= (ProjectionViewer)viewer;
-    //        fProjectionSupport= new ProjectionSupport(projectionViewer, getAnnotationAccess(), getSharedColors());
-    //        fProjectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.error"); //$NON-NLS-1$
-    //        fProjectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning"); //$NON-NLS-1$
-    //        fProjectionSupport.setHoverControlCreator(new IInformationControlCreator() {
-    //            public IInformationControl createInformationControl(Shell shell) {
-    //                return new CustomSourceInformationControl(shell, IDocument.DEFAULT_CONTENT_TYPE, getFileType());
-    //            }
-    //        });
-    //        fProjectionSupport.install();
-    //        fProjectionModelUpdater= CZTPlugin.getDefault().getFoldingStructureProviderRegistry().getCurrentFoldingProvider();
-    //        if (fProjectionModelUpdater != null)
-    //            fProjectionModelUpdater.install(this, projectionViewer);
     // ensure source viewer decoration support has been created and configured
     getSourceViewerDecorationSupport(viewer);
     //  ensure source viewer decoration support has been created and configured
@@ -914,26 +909,174 @@ public class ZEditor extends TextEditor
     return offset;
   }
 
-  public void updateFoldingStructure(List<Position> positions)
+  public void updateFoldingStructure(Map<Position, String> positions)
   {
-    Annotation[] annotations = new Annotation[positions.size()];
+    Annotation[] oldAnnotations = fFoldedProjectionAnnotations.keySet()
+        .toArray(new Annotation[fFoldedProjectionAnnotations.size()]);
 
-    //this will hold the new annotations along
-    //with their corresponding positions
-    HashMap<Annotation, Position> newAnnotations = new HashMap<Annotation, Position>();
+    fFoldedProjectionAnnotations.clear();
+    fUnfoldedProjectionAnnotations.clear();
 
-    for (int i = 0; i < positions.size(); i++) {
+    Set<Position> keySet = positions.keySet();
+    String type;
+    for (Position p : keySet) {
       ProjectionAnnotation annotation = new ProjectionAnnotation();
-
-      newAnnotations.put(annotation, positions.get(i));
-
-      annotations[i] = annotation;
+      type = positions.get(p);
+      annotation.setText(positions.get(p));
+      if (isFolded(type))
+        fFoldedProjectionAnnotations.put(annotation, p);
+      else
+        fUnfoldedProjectionAnnotations.put(annotation, p);
     }
 
-    this.fProjectionAnnotationModel.modifyAnnotations(fProjectionAnnotations,
-        newAnnotations, null);
+    if (isFoldingEnabled())
+      fProjectionAnnotationModel.modifyAnnotations(oldAnnotations,
+          fFoldedProjectionAnnotations, null);
+  }
 
-    fProjectionAnnotations = annotations;
+  // check whether it is folding type property
+  private boolean isFoldingProperty(String property)
+  {
+    return PreferenceConstants.EDITOR_FOLDING_NARRATIVE.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_ZCHAR.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_ZED.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_ZSECTION.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_AX.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_SCH.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_GENAX.equals(property)
+        || PreferenceConstants.EDITOR_FOLDING_GENSCH.equals(property);
+  }
+
+  private boolean isFolded(String type)
+  {
+    if (IDocument.DEFAULT_CONTENT_TYPE.equals(type))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_NARRATIVE);
+
+    if (IZPartitions.Z_PARAGRAPH_LATEX_ZED.equals(type))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_ZED);
+
+    if (IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR.equals(type))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_ZCHAR);
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION
+        .equals(type)))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_ZSECTION);
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_AXDEF.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF
+        .equals(type)))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_AX);
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+        .equals(type)))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_SCH);
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_GENAX.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+        .equals(type)))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_GENAX);
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+        .equals(type)))
+      return getPreferenceStore().getBoolean(
+          PreferenceConstants.EDITOR_FOLDING_GENSCH);
+
+    return false;
+  }
+  
+  private String getPropertyOfType(String type)
+  {
+    if (IDocument.DEFAULT_CONTENT_TYPE.equals(type))
+      return PreferenceConstants.EDITOR_FOLDING_NARRATIVE;
+
+    if (IZPartitions.Z_PARAGRAPH_LATEX_ZED.equals(type))
+      return PreferenceConstants.EDITOR_FOLDING_ZED;
+
+    if (IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR.equals(type))
+      return PreferenceConstants.EDITOR_FOLDING_ZCHAR;
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_ZSECTION.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_ZSECTION
+        .equals(type)))
+      return PreferenceConstants.EDITOR_FOLDING_ZSECTION;
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_AXDEF.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF
+        .equals(type)))
+      return PreferenceConstants.EDITOR_FOLDING_AX;
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA
+        .equals(type)))
+      return PreferenceConstants.EDITOR_FOLDING_SCH;
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_GENAX.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENAX
+        .equals(type)))
+      return PreferenceConstants.EDITOR_FOLDING_GENAX;
+
+    if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
+        .equals(type)))
+      return PreferenceConstants.EDITOR_FOLDING_GENSCH;
+    
+    return null;
+  }
+  
+  // Response to property changes
+  private void updateFoldingState()
+  {
+    if (isFoldingEnabled())
+      fProjectionAnnotationModel.modifyAnnotations(null,
+          fFoldedProjectionAnnotations, null);
+    else
+      fProjectionAnnotationModel.modifyAnnotations(fFoldedProjectionAnnotations
+          .keySet()
+          .toArray(new Annotation[fFoldedProjectionAnnotations.size()]), null,
+          null);
+  }
+
+  //Response to property changes
+  private void updateFoldingType(String property, boolean newState)
+  {
+    if (fProjectionAnnotationModel == null)
+      return;
+    
+    if (newState) {
+      HashMap<Annotation, Position> additions = new HashMap<Annotation, Position>();
+      Set<Annotation> unfolded = fUnfoldedProjectionAnnotations.keySet();
+      for (Annotation ann : unfolded) {
+        if (property.equals(getPropertyOfType(ann.getText()))) {
+          additions.put(ann, fUnfoldedProjectionAnnotations.get(ann));
+          fFoldedProjectionAnnotations.put(ann, fUnfoldedProjectionAnnotations
+              .get(ann));
+        }
+      }
+      
+      for (Annotation ann : additions.keySet())
+        fUnfoldedProjectionAnnotations.remove(ann);
+
+      if (isFoldingEnabled())
+        fProjectionAnnotationModel.modifyAnnotations(null, additions, null);
+    }
+    else {
+      List<Annotation> deletions = new ArrayList<Annotation>();
+      Set<Annotation> unfolded = fFoldedProjectionAnnotations.keySet();
+      for (Annotation ann : unfolded) {
+        if (property.equals(getPropertyOfType(ann.getText()))) {
+          deletions.add(ann);
+          fUnfoldedProjectionAnnotations.put(ann, fFoldedProjectionAnnotations
+              .get(ann));
+        }
+      }
+      
+      for (Annotation ann : deletions)
+        fFoldedProjectionAnnotations.remove(ann);
+
+      if (isFoldingEnabled())
+        fProjectionAnnotationModel.modifyAnnotations(deletions
+            .toArray(new Annotation[deletions.size()]), null, null);
+    }
   }
 
   public Annotation[] getSchemaBoxAnnotations()
@@ -1631,8 +1774,6 @@ public class ZEditor extends TextEditor
       }
 
       if (PreferenceConstants.EDITOR_MARK_OCCURRENCES.equals(property)) {
-        System.out.println("Old: " + fMarkOccurrenceAnnotations);
-        System.out.println("New: " + newBooleanValue);
         if (newBooleanValue != fMarkOccurrenceAnnotations) {
           fMarkOccurrenceAnnotations = newBooleanValue;
           if (!fMarkOccurrenceAnnotations)
@@ -1696,10 +1837,14 @@ public class ZEditor extends TextEditor
        }
        */
       if (PreferenceConstants.EDITOR_FOLDING_ENABLED.equals(property)) {
-        if (sourceViewer instanceof ProjectionViewer) {
-          new ToggleFoldingRunner().runWhenNextVisible();
-        }
+        //        if (sourceViewer instanceof ProjectionViewer) {
+        //          new ToggleFoldingRunner().runWhenNextVisible();         
+        //        }
+        updateFoldingState();
         return;
+      }
+      if (isFoldingProperty(property)) {
+        updateFoldingType(property, newBooleanValue);
       }
     } finally {
       super.handlePreferenceStoreChanged(event);
