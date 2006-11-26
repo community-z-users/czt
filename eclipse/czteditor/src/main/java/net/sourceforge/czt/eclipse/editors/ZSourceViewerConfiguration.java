@@ -91,7 +91,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
     fDocumentPartitioning = partitioning;
     fPreferenceStore = preferenceStore;
     initializeScanners();
-//    System.out.println("ZSourceViewerConfiguration constructor");
+    //    System.out.println("ZSourceViewerConfiguration constructor");
   }
 
   /*
@@ -109,8 +109,8 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    */
   public String getConfiguredDocumentPartitioning(ISourceViewer sourceViewer)
   {
-//    System.out
-//        .println("ZSourceViewerConfiguration.getConfiguredDocumentPartitioning");
+    //    System.out
+    //        .println("ZSourceViewerConfiguration.getConfiguredDocumentPartitioning");
     if (fDocumentPartitioning != null)
       return fDocumentPartitioning;
 
@@ -122,7 +122,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    */
   public String[] getConfiguredContentTypes(ISourceViewer sourceViewer)
   {
-//    System.out.println("ZSourceViewerConfiguration.getConfiguredContentTypes");
+    //    System.out.println("ZSourceViewerConfiguration.getConfiguredContentTypes");
     String sourceFileType = getSourceFileType();
 
     List<String> contentTypes = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
    */
   public String getDefaultPrefix(ISourceViewer sourceViewer, String contentType)
   {
-//    System.out.println("ZSourceViewerConfiguration.getDefaultPrefix");
+    //    System.out.println("ZSourceViewerConfiguration.getDefaultPrefix");
     super.getDefaultPrefixes(sourceViewer, contentType);
     return (IDocument.DEFAULT_CONTENT_TYPE.equals(contentType) ? "//" : null); //$NON-NLS-1$
   }
@@ -253,23 +253,23 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
   public IPresentationReconciler getPresentationReconciler(
       ISourceViewer sourceViewer)
   {
-//    System.out
-//        .println("ZSourceViewerConfiguration.getPresentationReconciler starts");
+    //    System.out
+    //        .println("ZSourceViewerConfiguration.getPresentationReconciler starts");
     PresentationReconciler reconciler = new PresentationReconciler();
-    reconciler.setDocumentPartitioning(
-        getConfiguredDocumentPartitioning(sourceViewer));
+    reconciler
+        .setDocumentPartitioning(getConfiguredDocumentPartitioning(sourceViewer));
 
     String sourceFileType = getSourceFileType();
-//    System.out.println("SourceFileType: " + sourceFileType);
+    //    System.out.println("SourceFileType: " + sourceFileType);
     DefaultDamagerRepairer dr;
     if ((sourceFileType == null) || sourceFileType.equals("")) {
-//      System.out.println("null file type");
+      //      System.out.println("null file type");
     }
     else if (IZFileType.FILETYPE_LATEX.equalsIgnoreCase(sourceFileType)) {
       dr = new DefaultDamagerRepairer(getZCharScanner());
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZCHAR);
-      
+
       dr = new DefaultDamagerRepairer(getCodeScanner());
       reconciler.setDamager(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
       reconciler.setRepairer(dr, IZPartitions.Z_PARAGRAPH_LATEX_ZED);
@@ -301,48 +301,49 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
     dr = new DefaultDamagerRepairer(getNarrativeCodeScanner());
     reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
     reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-//    System.out
-//        .println("ZSourceViewerConfiguration.getPresentationReconciler finishes");
+    //    System.out
+    //        .println("ZSourceViewerConfiguration.getPresentationReconciler finishes");
     return reconciler;
   }
 
   /*
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant(org.eclipse.jface.text.source.ISourceViewer)
-   */  /*
-  public IContentAssistant getContentAssistant(ISourceViewer sourceViewer)
-  {
-    System.out.println("ZSourceViewerConfiguration.getContentAssistant starts");
-    ContentAssistant assistant = new ContentAssistant();
-    assistant.setContentAssistProcessor(new ZCompletionProcessor(),
-        IDocument.DEFAULT_CONTENT_TYPE);
-    assistant.enableAutoActivation(true);
-    assistant.setAutoActivationDelay(500);
-    assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
-    System.out
-        .println("ZSourceViewerConfiguration.getContentAssistant finishes");
-    return assistant;
-  }
-*/
+   *//*
+   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer)
+   {
+   System.out.println("ZSourceViewerConfiguration.getContentAssistant starts");
+   ContentAssistant assistant = new ContentAssistant();
+   assistant.setContentAssistProcessor(new ZCompletionProcessor(),
+   IDocument.DEFAULT_CONTENT_TYPE);
+   assistant.enableAutoActivation(true);
+   assistant.setAutoActivationDelay(500);
+   assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
+   System.out
+   .println("ZSourceViewerConfiguration.getContentAssistant finishes");
+   return assistant;
+   }
+   */
   /**
    * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(ISourceViewer)
    */
 
   public IReconciler getReconciler(ISourceViewer sourceViewer)
   {
-//    System.out.println("ZSourceViewerConfiguration.getReconciler starts");
+    //    System.out.println("ZSourceViewerConfiguration.getReconciler starts");
     final ITextEditor editor = getEditor();
 
     if (editor != null && editor.isEditable()) {
-      ZReconcilingStrategy strategy = new ZReconcilingStrategy();
+      CZTCompositeReconcilingStrategy strategy = new CZTCompositeReconcilingStrategy(
+          editor, getConfiguredDocumentPartitioning(sourceViewer));
       ZReconciler reconciler = new ZReconciler(editor, strategy, false);
       reconciler.setIsIncrementalReconciler(false);
       reconciler.setProgressMonitor(new NullProgressMonitor());
       reconciler.setDelay(500);
-//      System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
+      //      System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
       return reconciler;
     }
 
-//    System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
+    //    System.out.println("ZSourceViewerConfiguration.getReconciler finishes");
 
     return null;
   }
@@ -367,7 +368,7 @@ public class ZSourceViewerConfiguration extends TextSourceViewerConfiguration
 
   public String getSourceFileType()
   {
-//    System.out.println("ZSourceViewerConfiguration.getSourceFileType");
+    //    System.out.println("ZSourceViewerConfiguration.getSourceFileType");
     ITextEditor editor = getEditor();
     if ((editor != null) && (editor instanceof ZEditor))
       return ((ZEditor) editor).getFileType();

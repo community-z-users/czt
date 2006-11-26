@@ -14,6 +14,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.NodeChildrenVisitor;
 import net.sourceforge.czt.eclipse.util.Selector;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -44,8 +45,9 @@ import org.eclipse.jface.text.Position;
  */
 public class ParsedData
 {
-
   private Object source_;
+  
+  private List<CztError> fErrorList = new ArrayList<CztError>();
 
   private CztTreeNode root_;
 
@@ -78,7 +80,17 @@ public class ParsedData
     setOutlineTree(spec, document);
     fNameInfoList = NameInfoResolver.resolve(spec, manager);
   }
-
+  
+  public void setErrors(List<CztError> errors)
+  {
+    fErrorList = errors;
+  }
+  
+  public List<CztError> getErrors()
+  {
+    return fErrorList;
+  }
+  
   /**
    * for testing only
    * @param term

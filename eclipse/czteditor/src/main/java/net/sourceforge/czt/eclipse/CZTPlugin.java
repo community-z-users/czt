@@ -4,6 +4,8 @@
 
 package net.sourceforge.czt.eclipse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -11,6 +13,7 @@ import net.sourceforge.czt.eclipse.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.editors.ImageDescriptorRegistry;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPartitionScanner;
 import net.sourceforge.czt.eclipse.editors.unicode.ZUnicodePartitionScanner;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZFileType;
@@ -32,8 +35,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.editors.text.EditorsUI;
@@ -69,8 +75,6 @@ public class CZTPlugin extends AbstractUIPlugin
 
   /**
    * Property change listener on this plugin's preference store.
-   * 
-   * @since 3.0
    */
   private IPropertyChangeListener fPropertyChangeListener;
 
@@ -78,7 +82,6 @@ public class CZTPlugin extends AbstractUIPlugin
 
   /**
    * The combined preference store.
-   * @since 3.0
    */
   private IPreferenceStore fCombinedPreferenceStore;
 
@@ -115,7 +118,20 @@ public class CZTPlugin extends AbstractUIPlugin
   public void start(BundleContext context) throws Exception
   {
     super.start(context);
-    this.fSectionManager = createSectionManager();
+    fSectionManager = createSectionManager();
+    
+    fPropertyChangeListener= new IPropertyChangeListener() {
+      public void propertyChange(PropertyChangeEvent event) {
+        String property = event.getProperty();
+        if (PreferenceConstants.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS.equals(property) ||
+            PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS.equals(property) ||
+            PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL.equals(property) ||
+            PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING.equals(property)) {
+          fSectionManager.setProperty(property, String.valueOf(event.getNewValue()));
+        }
+      }
+    };
+    getPreferenceStore().addPropertyChangeListener(fPropertyChangeListener);
   }
 
   /**
@@ -157,8 +173,7 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   public static ImageDescriptor getImageDescriptor(String path)
   {
-    return imageDescriptorFromPlugin(
-        CztUI.ID_PLUGIN, path);
+    return imageDescriptorFromPlugin(CztUI.ID_PLUGIN, path);
   }
 
   public static IWorkspace getWorkspace()
@@ -200,7 +215,7 @@ public class CZTPlugin extends AbstractUIPlugin
 
   /**
    * Returns an array of all editors that have an unsaved content. If the identical content is 
-   * presented in more than one fEditor, only one of those fEditor parts is part of the result.
+   * presented in more than one fEditor, only one of those editor parts is part of the result.
    * 
    * @return an array of all dirty fEditor parts.
    */
@@ -229,23 +244,25 @@ public class CZTPlugin extends AbstractUIPlugin
    * Returns an array of all instanciated editors.
    * @return the list of instantiated editors
    */
-  //	public static IEditorPart[] getInstanciatedEditors() {
-  //		List result= new ArrayList(0);
-  //		IWorkbench workbench= getDefault().getWorkbench();
-  //		IWorkbenchWindow[] windows= workbench.getWorkbenchWindows();
-  //		for (int windowIndex= 0; windowIndex < windows.length; windowIndex++) {
-  //			IWorkbenchPage[] pages= windows[windowIndex].getPages();
-  //			for (int pageIndex= 0; pageIndex < pages.length; pageIndex++) {
-  //				IEditorReference[] references= pages[pageIndex].getEditorReferences();
-  //				for (int refIndex= 0; refIndex < references.length; refIndex++) {
-  //					IEditorPart fEditor= references[refIndex].getEditor(false);
-  //					if (fEditor != null)
-  //						result.add(fEditor);
-  //				}
-  //			}
-  //		}
-  //		return (IEditorPart[])result.toArray(new IEditorPart[result.size()]);
-  //	}
+  public static IEditorPart[] getInstanciatedEditors()
+  {
+    List result = new ArrayList(0);
+    IWorkbench workbench = getDefault().getWorkbench();
+    IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+    for (int windowIndex = 0; windowIndex < windows.length; windowIndex++) {
+      IWorkbenchPage[] pages = windows[windowIndex].getPages();
+      for (int pageIndex = 0; pageIndex < pages.length; pageIndex++) {
+        IEditorReference[] references = pages[pageIndex].getEditorReferences();
+        for (int refIndex = 0; refIndex < references.length; refIndex++) {
+          IEditorPart fEditor = references[refIndex].getEditor(false);
+          if (fEditor != null)
+            result.add(fEditor);
+        }
+      }
+    }
+    return (IEditorPart[]) result.toArray(new IEditorPart[result.size()]);
+  }
+
   /**
    * Returns the string from the plugin's resource bundle,
    * or 'key' if not found.
@@ -316,18 +333,25 @@ public class CZTPlugin extends AbstractUIPlugin
    */
   public SectionManager getSectionManager()
   {
-    if (this.fSectionManager == null) {
-      System.out.println("Create a new section manager");
-      this.fSectionManager = createSectionManager();
+    if (fSectionManager == null) {
+      fSectionManager = createSectionManager();
     }
-    //		this.fSectionManager.reset();
-    //		return this.fSectionManager;
-    return (SectionManager) this.fSectionManager.clone();
+    return (SectionManager) fSectionManager.clone();
   }
 
   private SectionManager createSectionManager()
   {
     SectionManager sectManager = new SectionManager();
+    
+    IPreferenceStore store = getPreferenceStore();
+    /**
+     * Sets the properties of the section manager
+     */
+    sectManager.setProperty(PreferenceConstants.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS, String.valueOf(store.getBoolean(PreferenceConstants.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)));
+    sectManager.setProperty(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, String.valueOf(store.getBoolean(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)));
+    sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL)));
+    sectManager.setProperty(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING, String.valueOf(store.getBoolean(PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING)));
+    
     /**
      * Initialize the section manager
      */

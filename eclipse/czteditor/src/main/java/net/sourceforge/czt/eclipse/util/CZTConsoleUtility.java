@@ -101,6 +101,4 @@ public class CZTConsoleUtility
 
     return newConsole;
   }
-
 }
-

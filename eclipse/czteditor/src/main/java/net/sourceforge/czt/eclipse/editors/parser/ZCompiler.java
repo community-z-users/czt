@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.CztErrorList;
@@ -31,8 +32,6 @@ public class ZCompiler
 {
   private static ZCompiler fInstance;
 
-  private ZCompilerMessageParser fCompMsgParser;
-
   private ZEditor fEditor = null;
 
   private final String DEFAULT_SECTION_NAME = "NEWSECTION";
@@ -46,7 +45,6 @@ public class ZCompiler
    */
   private ZCompiler()
   {
-    fCompMsgParser = new ZCompilerMessageParser();
     fInstance = this;
   }
 
@@ -65,11 +63,12 @@ public class ZCompiler
     ZEditor editor = getEditor();
     IDocument document = editor.getDocumentProvider().getDocument(
         editor.getEditorInput());
-    this.fParsedData = new ParsedData(editor);
+    fParsedData = new ParsedData(editor);
     Spec parsed = null;
     List<CztError> errors = new ArrayList<CztError>();
     
     SectionManager sectMan = CZTPlugin.getDefault().getSectionManager();
+    
     final String name = ((IFileEditorInput) editor
         .getEditorInput()).getFile().getName();
     final Source source = new StringSource(document.get(), name);
@@ -84,7 +83,7 @@ public class ZCompiler
         errors.addAll(TypeCheckUtils.typecheck(parsed, sectMan));
 
       if (parsed.getSect().size() > 0) {
-        this.fParsedData.addData(parsed, sectMan, document);
+        fParsedData.addData(parsed, sectMan, document);
       }
       
       try {
@@ -127,46 +126,10 @@ public class ZCompiler
         System.out.println(otherError);
       }
     }
-
-    // now display any parse errors or typecheck errors.
-    //		StringBuffer out = new StringBuffer();
-    //		out.append(message);
-
-    //		if (errors != null && errors.size() > 0) {
-    //append each error
-    //			for (int i=0; i<errors.size(); i++)
-    //				out.append("\n" + errors.get(i).toString());
-    //		}
-
-    // prints out the information
-    //CZTConsoleUtilities.outputToConsole(out.toString());
-    //		System.out.println(out.toString());
-
-    // parse the buffer to find the errors and create markers
-    try {
-      createMarkers(errors, ((IFileEditorInput) editor.getEditorInput())
-          .getFile(), editor.getDocumentProvider().getDocument(
-          editor.getEditorInput()));
-      //			createMarkers(errors, (IResource)source);
-    } catch (CoreException ce) {
-      ce.printStackTrace();
-    }
-
-    this.fEditor.setParsedData(this.fParsedData);
-    return this.fParsedData;
-  }
-
-  /**
-   * Create markers according to the compiler output
-   */
-  protected void createMarkers(List<CztError> errors, IResource resource,
-      IDocument document) throws CoreException
-  {
-    // first delete all the previous markers
-    resource.deleteMarkers(IZMarker.PROBLEM, false, 0);
-
-    ZCompilerMessageParser compMsgParser = getZCompilerMessageParser();
-    compMsgParser.parseCompilerMessage(document, resource, errors);
+    
+    fParsedData.setErrors(errors);
+    
+    return fParsedData;
   }
 
   /** Which section evaluations are being done in. */
@@ -183,14 +146,6 @@ public class ZCompiler
       this.sectionName_ = this.DEFAULT_SECTION_NAME;
     else
       this.sectionName_ = sectName;
-  }
-
-  private ZCompilerMessageParser getZCompilerMessageParser()
-  {
-    if (this.fCompMsgParser == null)
-      this.fCompMsgParser = new ZCompilerMessageParser();
-
-    return this.fCompMsgParser;
   }
 
   public ZEditor getEditor()

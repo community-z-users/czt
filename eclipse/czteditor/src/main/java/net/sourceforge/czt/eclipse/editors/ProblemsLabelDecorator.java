@@ -236,7 +236,7 @@ public class ProblemsLabelDecorator
         && marker.isSubtypeOf(IMarker.PROBLEM)) {
       Integer start = (Integer) marker.getAttribute(IMarker.CHAR_START);
       Integer end = (Integer) marker.getAttribute(IMarker.CHAR_END);
-      if (start != null && end != null) {
+      if (start != null && end != null && sourceElement != null && sourceElement.getRange() != null) {
         if (sourceElement.getRange().overlapsWith(start, end - start + 1)) {
           return true;
         }

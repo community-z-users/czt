@@ -21,7 +21,6 @@ package net.sourceforge.czt.eclipse.editors.zeditor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.CZTTextTools;
 import net.sourceforge.czt.eclipse.editors.IZPartitions;
+import net.sourceforge.czt.eclipse.editors.IZReconcilingListener;
 import net.sourceforge.czt.eclipse.editors.OccurrencesFinderJob;
 import net.sourceforge.czt.eclipse.editors.OccurrencesFinderJobCanceler;
 import net.sourceforge.czt.eclipse.editors.ZCharacter;
@@ -47,23 +47,32 @@ import net.sourceforge.czt.eclipse.editors.actions.Convert2XMLAction;
 import net.sourceforge.czt.eclipse.editors.actions.ExpandSelectionAction;
 import net.sourceforge.czt.eclipse.editors.actions.GoToDeclarationAction;
 import net.sourceforge.czt.eclipse.editors.actions.IZEditorActionDefinitionIds;
+import net.sourceforge.czt.eclipse.editors.hover.SourceViewerInformationControl;
+import net.sourceforge.czt.eclipse.editors.hover.UnicodeSourceViewerInformationControl;
 import net.sourceforge.czt.eclipse.editors.latex.ZLatexPairMatcher;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
+import net.sourceforge.czt.eclipse.editors.parser.ZCompilerMessageParser;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.ZContentOutlinePage;
 import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.util.CztUI;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.IZEncoding;
 import net.sourceforge.czt.eclipse.util.IZFileType;
+import net.sourceforge.czt.eclipse.util.IZMarker;
 import net.sourceforge.czt.eclipse.util.Selector;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.ZName;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.internal.text.link.contentassist.HTMLTextPresenter;
@@ -133,7 +142,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 /**
  * @author Chengdong Xu
  */
-public class ZEditor extends TextEditor
+public class ZEditor extends TextEditor implements IZReconcilingListener
 {
 
   /**
@@ -505,6 +514,10 @@ public class ZEditor extends TextEditor
   /** The fEditor's bracket matcher */
   protected ZPairMatcher fBracketMatcher;
 
+  /** Reconciling listeners. */
+  private ListenerList fReconcilingListeners = new ListenerList(
+      ListenerList.IDENTITY);
+
   /**
    * Mutex for the reconciler. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=63898
    * for a description of the problem.
@@ -522,10 +535,17 @@ public class ZEditor extends TextEditor
 
   /** The information presenter. */
   private InformationPresenter fInformationPresenter;
+  
+  private boolean fParsingEnabled;
+
+  private boolean fReportProblemsWhileEditing;
 
   public ZEditor()
   {
     super();
+    setEditorContextMenuId("#CZTEditorContext"); //$NON-NLS-1$
+    setRulerContextMenuId("#CZTRulerContext"); //$NON-NLS-1$
+    setOutlinerContextMenuId("#CZTOutlinerContext"); //$NON-NLS-1$
   }
 
   /**
@@ -591,8 +611,12 @@ public class ZEditor extends TextEditor
     CZTTextTools textTools = CZTPlugin.getDefault().getCZTTextTools();
     setSourceViewerConfiguration(new ZSourceViewerConfiguration(textTools
         .getColorManager(), store, this, IZPartitions.Z_PARTITIONING));
+    fParsingEnabled = store.getBoolean(PreferenceConstants.EDITOR_PARSING_ENABLED);
     fMarkOccurrenceAnnotations = store
         .getBoolean(PreferenceConstants.EDITOR_MARK_OCCURRENCES);
+    fReportProblemsWhileEditing = store.getString(
+        PreferenceConstants.EDITOR_REPORT_PROBLEMS).equals(
+        PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING);
   }
 
   /**
@@ -620,11 +644,20 @@ public class ZEditor extends TextEditor
         .addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.error"); //$NON-NLS-1$
     fProjectionSupport
         .addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning"); //$NON-NLS-1$
-    //    fProjectionSupport.setHoverControlCreator(new IInformationControlCreator() {
-    //        public IInformationControl createInformationControl(Shell shell) {
-    //            return new SourceViewerInformationControl(shell, SWT.TOOL | SWT.NO_TRIM | getOrientation(), SWT.NONE);
-    //        }
-    //    });
+    fProjectionSupport.setHoverControlCreator(new IInformationControlCreator()
+    {
+      public IInformationControl createInformationControl(Shell shell)
+      {
+        if (IZFileType.FILETYPE_UTF8.equalsIgnoreCase(getFileType())
+            || IZFileType.FILETYPE_UTF16.equalsIgnoreCase(getFileType())) {
+          return new UnicodeSourceViewerInformationControl(shell, SWT.TOOL
+              | SWT.NO_TRIM | getOrientation(), SWT.NONE);
+        }
+        else
+          return new SourceViewerInformationControl(shell, SWT.TOOL
+              | SWT.NO_TRIM | getOrientation(), SWT.NONE);
+      }
+    });
     fProjectionSupport.install();
 
     //turn projection mode on
@@ -988,7 +1021,7 @@ public class ZEditor extends TextEditor
 
     return false;
   }
-  
+
   private String getPropertyOfType(String type)
   {
     if (IDocument.DEFAULT_CONTENT_TYPE.equals(type))
@@ -1019,10 +1052,10 @@ public class ZEditor extends TextEditor
     if ((IZPartitions.Z_PARAGRAPH_LATEX_SCHEMA.equals(type) || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH
         .equals(type)))
       return PreferenceConstants.EDITOR_FOLDING_GENSCH;
-    
+
     return null;
   }
-  
+
   // Response to property changes
   private void updateFoldingState()
   {
@@ -1041,7 +1074,7 @@ public class ZEditor extends TextEditor
   {
     if (fProjectionAnnotationModel == null)
       return;
-    
+
     if (newState) {
       HashMap<Annotation, Position> additions = new HashMap<Annotation, Position>();
       Set<Annotation> unfolded = fUnfoldedProjectionAnnotations.keySet();
@@ -1052,7 +1085,7 @@ public class ZEditor extends TextEditor
               .get(ann));
         }
       }
-      
+
       for (Annotation ann : additions.keySet())
         fUnfoldedProjectionAnnotations.remove(ann);
 
@@ -1069,7 +1102,7 @@ public class ZEditor extends TextEditor
               .get(ann));
         }
       }
-      
+
       for (Annotation ann : deletions)
         fFoldedProjectionAnnotations.remove(ann);
 
@@ -1491,6 +1524,12 @@ public class ZEditor extends TextEditor
   public void doRevertToSaved()
   {
     super.doRevertToSaved();
+    if (!fReportProblemsWhileEditing) {
+      createMarkers(fParsedData.getErrors(),
+        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+            .getDocument(getEditorInput()));
+      updateOutlinePage(fParsedData);
+    }
   }
 
   /** The <code>ZEditor</code> implementation of this 
@@ -1502,6 +1541,12 @@ public class ZEditor extends TextEditor
   public void doSave(IProgressMonitor progressMonitor)
   {
     super.doSave(progressMonitor);
+    if (!fReportProblemsWhileEditing) {
+      createMarkers(fParsedData.getErrors(),
+        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+            .getDocument(getEditorInput()));
+      updateOutlinePage(fParsedData);
+    }
   }
 
   /** The <code>ZEditor</code> implementation of this 
@@ -1511,6 +1556,12 @@ public class ZEditor extends TextEditor
   public void doSaveAs()
   {
     super.doSaveAs();
+    if (!fReportProblemsWhileEditing) {
+      createMarkers(fParsedData.getErrors(),
+        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+            .getDocument(getEditorInput()));
+      updateOutlinePage(fParsedData);
+    }
   }
 
   /** The <code>JavaEditor</code> implementation of this 
@@ -1846,6 +1897,16 @@ public class ZEditor extends TextEditor
       if (isFoldingProperty(property)) {
         updateFoldingType(property, newBooleanValue);
       }
+      
+      if (PreferenceConstants.EDITOR_PARSING_ENABLED.equals(property)) {
+        fParsingEnabled = newBooleanValue;
+      }
+        
+
+      if (PreferenceConstants.EDITOR_REPORT_PROBLEMS.equals(property)) {
+        fReportProblemsWhileEditing = PreferenceConstants.EDITOR_REPORT_PROBLEMS_WHILE_EDITING
+            .equals(newValue);
+      }
     } finally {
       super.handlePreferenceStoreChanged(event);
     }
@@ -1944,10 +2005,10 @@ public class ZEditor extends TextEditor
   }
 
   /**
-   * Creates and returns the preference store for this Java fEditor with the given input.
+   * Creates and returns the preference store for this editor with the given input.
    *
-   * @param input The fEditor input for which to create the preference store
-   * @return the preference store for this fEditor
+   * @param input The editor input for which to create the preference store
+   * @return the preference store for this editor
    *
    * @since 3.0
    */
@@ -1983,9 +2044,8 @@ public class ZEditor extends TextEditor
       ((ZSourceViewer) getSourceViewer()).setPreferenceStore(store);
   }
 
-  /**
-   * @see 
-   * @return
+  /* 
+   * @see org.eclipse.ui.texteditor.AbstractTextEditor#affectsTextPresentation(org.eclipse.jface.util.PropertyChangeEvent)
    */
   public boolean affectsTextPresentation(PropertyChangeEvent event)
   {
@@ -2128,4 +2188,105 @@ public class ZEditor extends TextEditor
    }
    }
    */
+
+  /*
+   * @see net.sourceforge.czt.eclipse.editors.IZReconcilingListener#aboutToBeReconciled()
+   */
+  
+  public boolean isParsingEnabled()
+  {
+    return fParsingEnabled;
+  }
+
+  /**
+   * Create markers according to the compiler output
+   */
+  protected void createMarkers(List<CztError> errors, IResource resource,
+      IDocument document)
+  {
+    try {
+      // first delete all the previous markers
+      resource.deleteMarkers(IZMarker.PROBLEM, false, 0);
+
+      ZCompilerMessageParser compMsgParser = new ZCompilerMessageParser();
+
+      compMsgParser.parseCompilerMessage(document, resource, errors);
+    } catch (CoreException ce) {
+      CZTPlugin.getDefault().getLog().log(
+          new Status(IStatus.ERROR, CztUI.ID_PLUGIN, 0, CZTPlugin
+              .getResourceString("Error occurred when creating markers"), ce));
+    } finally {
+
+    }
+  }
+
+  public void aboutToBeReconciled()
+  {
+    // Notify listeners
+    Object[] listeners = fReconcilingListeners.getListeners();
+    for (int i = 0, length = listeners.length; i < length; ++i)
+      ((IZReconcilingListener) listeners[i]).aboutToBeReconciled();
+  }
+
+  /*
+   * @see net.sourceforge.czt.eclipse.editors.IZReconcilingListener#reconciled(net.sourceforge.czt.eclipse.editors.parser.ParsedData, boolean, org.eclipse.core.runtime.IProgressMonitor)
+   */
+  public void reconciled(ParsedData parsedData, boolean forced,
+      IProgressMonitor progressMonitor)
+  {
+    fParsedData = parsedData;
+    if (fReportProblemsWhileEditing || !this.isDirty())
+      createMarkers(fParsedData.getErrors(),
+        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+            .getDocument(getEditorInput()));
+    updateOutlinePage(fParsedData);
+
+    // Notify listeners
+    Object[] listeners = fReconcilingListeners.getListeners();
+    for (int i = 0, length = listeners.length; i < length; ++i)
+      ((IZReconcilingListener) listeners[i]).reconciled(parsedData, forced,
+          progressMonitor);
+
+    // Update Java Outline page selection
+//    if (!forced && !progressMonitor.isCanceled()) {
+//      Shell shell = getSite().getShell();
+//      if (shell != null && !shell.isDisposed()) {
+//        shell.getDisplay().asyncExec(new Runnable()
+//        {
+//          public void run()
+//          {
+//            selectionChanged();
+//          }
+//        });
+//      }
+//    }
+  }
+
+  /**
+   * Adds the given listener.
+   * Has no effect if an identical listener was not already registered.
+   *
+   * @param listener  The reconcile listener to be added
+   * @since 3.0
+   */
+  final void addReconcileListener(IZReconcilingListener listener)
+  {
+    synchronized (fReconcilingListeners) {
+      fReconcilingListeners.add(listener);
+    }
+  }
+
+  /**
+   * Removes the given listener.
+   * Has no effect if an identical listener was not already registered.
+   *
+   * @param listener  the reconcile listener to be removed
+   * @since 3.0
+   */
+  final void removeReconcileListener(IZReconcilingListener listener)
+  {
+    synchronized (fReconcilingListeners) {
+      fReconcilingListeners.remove(listener);
+    }
+  }
 }

@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfo;
 import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.IZAnnotationType;
 import net.sourceforge.czt.eclipse.util.Selector;
 import net.sourceforge.czt.util.Visitor;
@@ -137,6 +139,9 @@ public class ZTextHover implements ITextHover
    */
   public IRegion getHoverRegion(ITextViewer textViewer, int offset)
   {
+    if (!CZTPlugin.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.EDITOR_SHOW_HOVER))
+      return null;
+    
     return new Region(offset, 1);
   }
   

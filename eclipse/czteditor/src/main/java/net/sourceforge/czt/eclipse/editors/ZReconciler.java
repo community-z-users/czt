@@ -38,30 +38,27 @@ public class ZReconciler extends MonoReconciler
 
   /**
    * Tells whether the Z model sent out a changed event.
-   * @since 3.0
    */
-  //	private volatile boolean fHasZModelChanged= true;
+  private volatile boolean fHasZModelChanged= true;
+  
   /**
    * Tells whether this reconciler's fEditor is active.
-   * @since 3.1
    */
   private volatile boolean fIsEditorActive = true;
 
   /**
    * The resource change listener.
-   * @since 3.0
    */
   //	private IResourceChangeListener fResourceChangeListener;
   /**
    * Tells whether a reconcile is in progress.
-   * @since 3.1
    */
   private volatile boolean fIsReconciling = false;
 
   private boolean fIninitalProcessDone = false;
 
   /**
-   * The mutex that keeps us from running multiple reconcilers on one fEditor.
+   * The mutex that keeps us from running multiple reconcilers on one editor.
    */
   private Object fMutex;
 
@@ -72,8 +69,8 @@ public class ZReconciler extends MonoReconciler
    * @param strategy the reconciling strategy to be used
    * @param isIncremental the indication whether strategy is incremental or not
    */
-  public ZReconciler(ITextEditor editor, IReconcilingStrategy strategy,
-      boolean isIncremental)
+  public ZReconciler(ITextEditor editor,
+      CZTCompositeReconcilingStrategy strategy, boolean isIncremental)
   {
     super(strategy, isIncremental);
     fTextEditor = editor;
@@ -127,6 +124,15 @@ public class ZReconciler extends MonoReconciler
   }
 
   /**
+   * Removes the reconciler from the text viewer it has previously been installed on.
+   * @see org.eclipse.jface.text.reconciler.IReconciler#uninstall()
+   */
+  public void uninstall()
+  {
+    super.uninstall();
+  }
+
+  /**
    * Hook called when the document whose contents should be reconciled has been changed,
    * i.e., the input document of the text viewer this reconciler is installed on.
    * Usually, subclasses use this hook to inform all their reconciling strategies about the change.
@@ -138,8 +144,8 @@ public class ZReconciler extends MonoReconciler
   {
     super.reconcilerDocumentChanged(newDocument);
 
-    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    strategy.setEditor(this.fTextEditor);
+//    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+//    strategy.setEditor(this.fTextEditor);
 
   }
 
@@ -173,8 +179,8 @@ public class ZReconciler extends MonoReconciler
    */
   protected void aboutToBeReconciled()
   {
-    //    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    //    strategy.aboutToBeReconciled();
+    CZTCompositeReconcilingStrategy strategy = (CZTCompositeReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+    strategy.aboutToBeReconciled();
   }
 
   /**
@@ -196,8 +202,8 @@ public class ZReconciler extends MonoReconciler
   protected void reconcilerReset()
   {
     super.reconcilerReset();
-    //        ZReconcilingStrategy strategy= (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    //		strategy.notifyListeners(true);
+    CZTCompositeReconcilingStrategy strategy = (CZTCompositeReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+    strategy.notifyListeners(true);
   }
 
   /**
@@ -245,38 +251,50 @@ public class ZReconciler extends MonoReconciler
       return;
 
     super.forceReconciling();
-    //    ZReconcilingStrategy strategy = (ZReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
-    //    strategy.notifyListeners(false);
+    CZTCompositeReconcilingStrategy strategy = (CZTCompositeReconcilingStrategy) getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
+    strategy.notifyListeners(false);
   }
 
   /**
-   * Removes the reconciler from the text viewer it has previously been installed on.
-   * @see org.eclipse.jface.text.reconciler.IReconciler#uninstall()
+     * Tells whether the Z Model has changed or not.
+     *
+     * @return <code>true</code> iff the Z Model has changed
+     * @since 3.0
+     */
+    private synchronized boolean hasJavaModelChanged() {
+        return fHasZModelChanged;
+    }
+
+    /**
+     * Sets whether the Z Model has changed or not.
+     *
+     * @param state <code>true</code> iff the Z model has changed
+     * @since 3.0
+     */
+    private synchronized void setJavaModelChanged(boolean state) {
+        fHasZModelChanged= state;
+    }
+    
+    
+  /**
+   * Tells whether this reconciler's fEditor is active.
+   *
+   * @return <code>true</code> iff the fEditor is active
+   * @since 3.1
    */
-  public void uninstall()
+  private synchronized boolean isEditorActive()
   {
-    super.uninstall();
+    return fIsEditorActive;
   }
 
-  //  /**
-  //   * Tells whether this reconciler's fEditor is active.
-  //   *
-  //   * @return <code>true</code> iff the fEditor is active
-  //   * @since 3.1
-  //   */
-  //  private synchronized boolean isEditorActive()
-  //  {
-  //    return fIsEditorActive;
-  //  }
-  //
-  //  /**
-  //   * Sets whether this reconciler's fEditor is active.
-  //   *
-  //   * @param state <code>true</code> iff the fEditor is active
-  //   * @since 3.1
-  //   */
-  //  private synchronized void setEditorActive(boolean state)
-  //  {
-  //    fIsEditorActive = state;
-  //  }
+  /**
+   * Sets whether this reconciler's fEditor is active.
+   *
+   * @param state <code>true</code> iff the fEditor is active
+   * @since 3.1
+   */
+  private synchronized void setEditorActive(boolean state)
+  {
+    fIsEditorActive = state;
+  }
 }

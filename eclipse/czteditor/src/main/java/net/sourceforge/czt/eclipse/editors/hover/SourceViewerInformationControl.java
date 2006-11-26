@@ -256,7 +256,7 @@ public class SourceViewerInformationControl
   }
 
   IDocument doc= new Document(information);
-  CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_UTF8);
+  CZTPlugin.getDefault().getCZTTextTools().setupCZTDocumentPartitioner(doc, IZPartitions.Z_PARTITIONING, IZFileType.FILETYPE_LATEX);
   fViewer.setInput(doc);
   }
 

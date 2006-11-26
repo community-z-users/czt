@@ -1,34 +1,29 @@
 
 package net.sourceforge.czt.eclipse.editors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.parser.ParsedData;
 import net.sourceforge.czt.eclipse.editors.parser.ZCompiler;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
+import net.sourceforge.czt.eclipse.util.CztUI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.BadPartitioningException;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentExtension3;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.ITypedRegion;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
- * A reconciling strategy consisting of a sequence of internal reconciling strategies.
- * By default, all requests are passed on to the contained strategies.
- *
- * @since 3.0
+ * A reconciling strategy for parsing Z specifications.
+ * 
  * @author Chengdong Xu
  */
 public class ZReconcilingStrategy
@@ -36,31 +31,28 @@ public class ZReconcilingStrategy
       IReconcilingStrategy,
       IReconcilingStrategyExtension
 {
+  private ITextEditor fEditor;
 
-  private ITextEditor fTextEditor;
-
-  /** holds the calculated positions */
-  protected final Map<Position, String> fFoldingPositions = new HashMap<Position, String>();
-  
-  /** holds the calculated schema positions */
-  protected final List<Position> fSchemaPositions = new ArrayList<Position>();
-  
   private IDocument fDocument;
 
-  /** The offset of the next character to be read */
-  protected int fOffset;
+  private IProgressMonitor fProgressMonitor;
 
-  /** The end offset of the range to be scanned */
-  protected int fRangeEnd;
+  private boolean fNotify = true;
 
-  protected IReconcilingStrategy[] fStrategies;
+  private IZReconcilingListener fZReconcilingListener;
+
+  private boolean fIsZReconcilingListener;
 
   /**
    * Creates a new, empty composite reconciling strategy.
    */
-  public ZReconcilingStrategy()
+  public ZReconcilingStrategy(ITextEditor editor)
   {
     super();
+    fEditor = editor;
+    fIsZReconcilingListener = fEditor instanceof IZReconcilingListener;
+    if (fIsZReconcilingListener)
+      fZReconcilingListener = (IZReconcilingListener) fEditor;
   }
 
   /**
@@ -68,7 +60,7 @@ public class ZReconcilingStrategy
    */
   public void setProgressMonitor(IProgressMonitor monitor)
   {
-    //		setProgressMonitor(monitor);
+    fProgressMonitor = monitor;
   }
 
   /**
@@ -76,7 +68,7 @@ public class ZReconcilingStrategy
    */
   public void setDocument(IDocument document)
   {
-    this.fDocument = document;
+    fDocument = document;
   }
 
   /**
@@ -84,18 +76,7 @@ public class ZReconcilingStrategy
    */
   public void initialReconcile()
   {
-    final ITextEditor editor = getEditor();
-    if (editor instanceof ZEditor) {
-      foldPositions();
-      ZCompiler compiler = ZCompiler.getInstance();
-      if (compiler != null) {
-        compiler.setEditor((ZEditor) editor);
-        final ParsedData data = compiler.parse();
-        ((ZEditor) editor).setParsedData(data);
-        ((ZEditor) editor).updateOutlinePage(data);
-      }
-
-    }
+    reconcile(true);
   }
 
   /**
@@ -103,7 +84,7 @@ public class ZReconcilingStrategy
    */
   public void reconcile(DirtyRegion dirtyRegion, IRegion subRegion)
   {
-    initialReconcile();
+    reconcile(false);
   }
 
   /**
@@ -111,109 +92,71 @@ public class ZReconcilingStrategy
    */
   public void reconcile(IRegion partition)
   {
-    initialReconcile();
+    reconcile(false);
   }
 
   /**
-   * Sets the reconciling strategies for this composite strategy.
+   * Tells this strategy whether to inform its listeners.
    *
-   * @param strategies the strategies to be set or <code>null</code>
+   * @param notify <code>true</code> if listeners should be notified
    */
-  public void setReconcilingStrategies(IReconcilingStrategy[] strategies)
+  public void notifyListeners(boolean notify)
   {
-    fStrategies = strategies;
+    fNotify = notify;
   }
 
   /**
-   * Returns the previously set stratgies or <code>null</code>.
+   * Called before reconciling is started.
    *
-   * @return the contained strategies or <code>null</code>
+   * @since 3.0
    */
-  public IReconcilingStrategy[] getReconcilingStrategies()
+  public void aboutToBeReconciled()
   {
-    return fStrategies;
+    if (fIsZReconcilingListener)
+      fZReconcilingListener.aboutToBeReconciled();
   }
 
-  public ITextEditor getEditor()
+  private void reconcile(final boolean initialReconcile)
   {
-    return this.fTextEditor;
-  }
+    if (!(fEditor instanceof ZEditor))
+      return;
+    
+    if (!((ZEditor)fEditor).isParsingEnabled())
+      return;
 
-  public void setEditor(ITextEditor editor)
-  {
-    this.fTextEditor = editor;
-  }
-
-  /**
-   * next character position - used locally and only valid while
-   * {@link #foldPositions()} is in progress.
-   */
-  protected int cNextPos = 0;
-
-  /**
-   * uses {@link #fDocument}, {@link #fOffset} and {@link #fRangeEnd} to
-   * calculate {@link #fPositions}. About syntax errors: this method is not a
-   * validator, it is useful.
-   */
-  protected void foldPositions()
-  {
-    fFoldingPositions.clear();
-    fSchemaPositions.clear();
-
-    ITypedRegion[] partitions = null;
+    final ParsedData[] data = new ParsedData[1];
     try {
-      if (this.fDocument instanceof IDocumentExtension3) {
-        IDocumentExtension3 extension3 = (IDocumentExtension3) this.fDocument;
-        partitions = extension3.computePartitioning(IZPartitions.Z_PARTITIONING,
-            0, this.fDocument.getLength(), false);
-      }
-      else {
-        partitions = this.fDocument.computePartitioning(0, this.fDocument
-            .getLength());
-      }
-    } catch (BadLocationException ble) {
-    } catch (BadPartitioningException bpe) {
-    }
+        SafeRunner.run(new ISafeRunnable()
+        {
+          public void run()
+          {
 
-    try {
-      for (int i = 0; i < partitions.length; i++) {
-        ITypedRegion partition = partitions[i];
-        int offset = partition.getOffset();
-        int length = partition.getLength();
-        if (IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_AXDEF_OLD.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_GENSCH_OLD.equalsIgnoreCase(partition.getType())
-            || IZPartitions.Z_PARAGRAPH_UNICODE_SCHEMA_OLD.equalsIgnoreCase(partition.getType())) {
-          /*
-           * The length of the position for a schema annotation is always 1. Then the drawing strategy
-           * will use the fEditor document to access to the correcponding partition area.
-           * This may be not a good solution, but a working one.
-           */
-          fSchemaPositions.add(new Position(offset, length));
-        }
-        while (length > 0) {
-          if (!Character.isWhitespace(this.fDocument.getChar(offset)))
-            break;
-          offset++;
-          length--;
-        }
-        if (length > 0)
-          fFoldingPositions.put(new Position(offset, length), partition.getType());
-      }
-    } catch (BadLocationException e) {
-    }
+            ZCompiler compiler = ZCompiler.getInstance();
+            if (compiler != null) {
+              compiler.setEditor((ZEditor) fEditor);
+              data[0] = compiler.parse();
+            }
+          }
 
-    Display.getDefault().asyncExec(new Runnable()
-    {
-      public void run()
-      {
-        if (fTextEditor instanceof ZEditor)
-          ((ZEditor) fTextEditor).updateFoldingStructure(fFoldingPositions);
-        if (fTextEditor instanceof ZEditor)
-          ((ZEditor) fTextEditor).updateSchemaBoxAnnotations(fSchemaPositions);
+          public void handleException(Throwable ex)
+          {
+            IStatus status = new Status(IStatus.ERROR, CztUI.ID_PLUGIN,
+                IStatus.OK, "Error in CZT during reconcile", ex); //$NON-NLS-1$
+            CZTPlugin.getDefault().getLog().log(status);
+          }
+        });
+    } finally {
+      // Always notify listeners, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=55969 for the final solution
+      try {
+        if (fIsZReconcilingListener) {
+          IProgressMonitor pm = fProgressMonitor;
+          if (pm == null)
+            pm = new NullProgressMonitor();
+          fZReconcilingListener.reconciled(data[0], !fNotify, pm);
+        }
+      } finally {
+        fNotify = true;
       }
-    });
+    }
   }
 }
