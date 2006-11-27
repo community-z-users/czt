@@ -151,6 +151,11 @@ public class FlatSetComp extends FlatEvalSet
     assert bounds_ != null; // inferBounds should have been called.
     super.chooseMode(env);
     Mode m = modeFunction(env);
+    // TODO: could also check that predsOne_ has a usable mode.
+    //    (we could check predsAll_ too, but we do not know if this
+    //     set will be asked to enumerate its members, so predsAll_
+    //     may not be needed).
+
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
       m.getEnvir().setValue(args_.get(args_.size()-1), this);
@@ -185,8 +190,7 @@ public class FlatSetComp extends FlatEvalSet
   public Expr nextMember()
   {
     if (outputEnvir_ == null) {
-      // TODO: use the ORIGINAL env, not this one which has 'set' added.
-      Envir env0 = evalMode_.getEnvir();
+      Envir env0 = evalMode_.getEnvir0();
       Mode m = predsAll_.chooseMode(env0);
       if (m == null)
         throw new EvalException("Cannot generate members of SetComp: " + this);
