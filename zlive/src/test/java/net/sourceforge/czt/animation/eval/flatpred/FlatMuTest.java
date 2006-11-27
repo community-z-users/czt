@@ -40,7 +40,6 @@ import net.sourceforge.czt.z.ast.ZSchText;
 public class FlatMuTest
   extends ZTestCase
 {
-  /*
   public void testMu1()
   throws FileNotFoundException
   {
@@ -82,11 +81,11 @@ public class FlatMuTest
         new Eval(-1, "IIO", i2, i4, i1)   // should throw undef
     );
     ModelTestCase model = new ModelTestCase(iut);
-    model.randomWalk(200);
+    model.randomWalk(800);
     //model.buildGraph();
     //model.printGraphDot("FlatMu2.dot");
   }
-
+/*
   public void testMuBad()
   throws FileNotFoundException
   {
@@ -98,15 +97,25 @@ public class FlatMuTest
     FlatMu pred = new FlatMu(sch, resultName);
 
     Bounds bnds = new Bounds();
+    System.out.println("BAD bounds0 = "+bnds);
+    System.out.println("BAD pred0 = "+pred);
     pred.inferBounds(bnds);
     Envir env = new Envir();
     Envir env2 = env.plus(x, i2);
     Envir env3 = env2.plus(y, i3);
     Mode mode = pred.chooseMode(env3);
+    System.out.println("BAD bounds2 = "+bnds);
+    System.out.println("BAD pred2 = "+pred);
     assertNotNull(mode);
     pred.setMode(mode);
+    System.out.println("BAD bounds3 = "+bnds);
+    System.out.println("BAD pred3 = "+pred);
     pred.startEvaluation();
+    System.out.println("BAD bounds4 = "+bnds);
+    System.out.println("BAD pred4 = "+pred);
     assertTrue(pred.nextEvaluation());
+    System.out.println("BAD bounds5 = "+bnds);
+    System.out.println("BAD pred5 = "+pred);
     mode = pred.chooseMode(env2);
     assertNull(mode);
     env3 = env2.plus(y, i4);
@@ -114,6 +123,8 @@ public class FlatMuTest
     assertNotNull(mode);
     pred.startEvaluation();
     try {
+      System.out.println("BAD bounds6 = "+bnds);
+      System.out.println("BAD pred6 = "+pred);
       pred.nextEvaluation();
       fail("should throw Undef exception 2: "+pred);
     }

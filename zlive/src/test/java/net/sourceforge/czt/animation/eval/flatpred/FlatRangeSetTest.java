@@ -71,7 +71,9 @@ public class FlatRangeSetTest
   {
     FlatRangeSet set = range(null,null,envIJK);
     Assert.assertTrue(set.equals(range(null, null, envI)));
-    Assert.assertFalse(set.equals(range(i,null,envIJK)));
+    FlatRangeSet other = range(i,null,envIJK);
+    boolean result = set.equals(other);
+    Assert.assertFalse(result);
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(i,j,envIJK)));
     Assert.assertNull(set.maxSize());

@@ -71,6 +71,7 @@ public class FlatUnion extends FlatEvalSet
   public Mode chooseMode(Envir env)
   {
     assert bounds_ != null; // inferBounds should have been called.
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     return m;
   }

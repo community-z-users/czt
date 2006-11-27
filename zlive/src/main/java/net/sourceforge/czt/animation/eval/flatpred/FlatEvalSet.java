@@ -417,7 +417,7 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     return 13;
   }
 
-  /** @inheritDoc
+  /** {@inheritDoc}
    *  FlatEvalSet provides a default implementation that
    *  calls estSize(evalMode_.getEnvir()).
    */
@@ -429,13 +429,33 @@ public abstract class FlatEvalSet extends FlatPred implements EvalSet
     return estSize(evalMode_.getEnvir());
   }
 
-  /** @inheritDoc
+  /** {@inheritDoc}
    *  FlatEvalSet provides a default implementation that
    *  just calls estSize(env).
    */
   public double estSubsetSize(Envir env, ZName elem)
   {
     return estSize(env);
+  }
+
+  /** {@inheritDoc}
+   *  FlatEvalSet provides a default implementation that
+   *  resets some internal variables, but always returns null.
+   *  This must be overridden (and called) by subclasses.
+   */
+  public Mode chooseMode( /*@non_null@*/Envir env)
+  {
+    this.resetResult();
+    return null;
+  }
+  
+  /** {@inheritDoc}
+   *  FlatEvalSet overrides this so that it also calls resetResult().
+   */
+  public void startEvaluation()
+  {
+    super.startEvaluation();
+    this.resetResult();
   }
 
   /** Returns an empty list of children. */

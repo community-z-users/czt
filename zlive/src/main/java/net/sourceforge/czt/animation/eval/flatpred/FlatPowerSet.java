@@ -92,6 +92,7 @@ public class FlatPowerSet extends FlatEvalSet
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)

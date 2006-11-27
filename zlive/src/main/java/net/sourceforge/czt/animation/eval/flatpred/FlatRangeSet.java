@@ -131,9 +131,18 @@ public class FlatRangeSet extends FlatEvalSet
       return high.subtract(low).add(BigInteger.ONE);
   }
 
-  /** Chooses the mode in which the predicate can be evaluated.*/
-  public Mode chooseMode(/*@non_null@*/ Envir env)
+  @Override public void resetResult()
   {
+    super.resetResult();
+    // reset any limits from previous evaluations.
+    lower_ = null;
+    upper_ = null;
+  }
+
+  /** Chooses the mode in which the predicate can be evaluated.*/
+  @Override public Mode chooseMode(/*@non_null@*/ Envir env)
+  {
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
@@ -207,10 +216,9 @@ public class FlatRangeSet extends FlatEvalSet
   }
 
   /** Estimate the size of the set in the given environment. */
-  public double estSize(Envir env) {
-    lower_ = getBound(env, lowerArg_);
-    upper_ = getBound(env, upperArg_);
-    return setSize(lower_, upper_);
+  public double estSize(Envir env)
+  {
+    return setSize(getBound(env, lowerArg_), getBound(env, upperArg_));
   }
 
   public double estSubsetSize(Envir env, ZName element)
@@ -275,11 +283,11 @@ public class FlatRangeSet extends FlatEvalSet
   {
     assert(evalMode_ != null);
     Envir env = evalMode_.getEnvir();
-    lower_ = getBound(env, lowerArg_);
-    upper_ = getBound(env, upperArg_);
-    if (lower_ == null || upper_ == null)
+    BigInteger low = getBound(env, lowerArg_);
+    BigInteger high = getBound(env, upperArg_);
+    if (low == null || high == null)
       throw new EvalException("Unbounded integer range "+this);
-    return new RangeSetIterator(lower_, upper_);
+    return new RangeSetIterator(low, high);
   }
 
   public Iterator<Expr> sortedIterator()
@@ -329,12 +337,11 @@ public class FlatRangeSet extends FlatEvalSet
     assert solutionsReturned_ >= 0;
     Envir env = evalMode_.getEnvir();
     boolean result = false;
-    lower_ = getBound(env, lowerArg_);
-    upper_ = getBound(env, upperArg_);
-    ZName setName = args_.get(setArg_);
-    if(solutionsReturned_==0)
-    {
+    if(solutionsReturned_==0) {
       solutionsReturned_++;
+      lower_ = getBound(env, lowerArg_);
+      upper_ = getBound(env, upperArg_);
+      ZName setName = args_.get(setArg_);
       resetResult();
       if (evalMode_.isInput(setArg_)) {
         Expr otherSet = env.lookup(setName);
@@ -365,10 +372,10 @@ public class FlatRangeSet extends FlatEvalSet
     if ( !(e instanceof NumExpr))
       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
     BigInteger i = ((NumExpr)e).getValue();
-    lower_ = getBound(env, lowerArg_);
-    upper_ = getBound(env, upperArg_);
-    return (lower_ == null || lower_.compareTo(i) <= 0)
-        && (upper_ == null || upper_.compareTo(i) >= 0);
+    BigInteger low = getBound(env, lowerArg_);
+    BigInteger high = getBound(env, upperArg_);
+    return (low == null || low.compareTo(i) <= 0)
+        && (high == null || high.compareTo(i) >= 0);
   }
 
   public String toString()

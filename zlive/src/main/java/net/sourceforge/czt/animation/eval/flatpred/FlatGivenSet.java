@@ -149,6 +149,7 @@ public class FlatGivenSet extends FlatEvalSet
   @Override
   public Mode chooseMode(Envir env)
   {
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)

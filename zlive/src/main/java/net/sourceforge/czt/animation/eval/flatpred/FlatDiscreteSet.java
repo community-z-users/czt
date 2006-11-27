@@ -123,6 +123,7 @@ public class FlatDiscreteSet extends FlatEvalSet
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     assert bounds_ != null; // inferBounds should have been called.
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)

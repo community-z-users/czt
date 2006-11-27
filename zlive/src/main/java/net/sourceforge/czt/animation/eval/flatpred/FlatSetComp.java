@@ -109,8 +109,9 @@ public class FlatSetComp extends FlatEvalSet
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds.clone();
-    predsAll_.inferBounds(bounds_);
-    return bnds.setEvalSet(getLastArg(), this);
+    boolean result = predsAll_.inferBounds(bounds_);
+    result |= bnds.setEvalSet(getLastArg(), this);
+    return result;
   }
 
   public BigInteger getLower()
@@ -148,6 +149,7 @@ public class FlatSetComp extends FlatEvalSet
     LOG.entering("FlatSetComp","chooseMode",env);
     LOG.fine("args = "+args_+" freevars="+this.freeVars_);
     assert bounds_ != null; // inferBounds should have been called.
+    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
@@ -252,8 +254,8 @@ public class FlatSetComp extends FlatEvalSet
     // This allows the predicates inside the set to CHECK the result
     // rather than generating all possible results.
     env = env.plus(resultName_, (Expr)e);
-    // now do some static inference for this member.
-    Bounds bnds = new Bounds();
+    // now do some additional static inference for this member.
+    Bounds bnds = bounds_.clone();
     if (e instanceof NumExpr) {
       // TODO: make this code common with FlatConst.
       BigInteger val = ((NumExpr)e).getValue();
