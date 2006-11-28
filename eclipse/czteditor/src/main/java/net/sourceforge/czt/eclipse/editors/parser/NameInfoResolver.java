@@ -4,21 +4,29 @@ package net.sourceforge.czt.eclipse.editors.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.outline.NodeNameVisitor;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.GenericType;
+import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -43,6 +51,137 @@ public class NameInfoResolver
       }
     }
     
+    return nameInfoList;
+  }
+
+  private static List<NameInfo> visitZSect(ZSect zSect, SectionManager manager)
+  {
+    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
+    String section = zSect.getName();
+
+    try {
+      SectTypeEnvAnn steAnn = (SectTypeEnvAnn) manager.get(new Key(section,
+          SectTypeEnvAnn.class));
+      if (steAnn != null) {
+        for (NameSectTypeTriple triple : steAnn.getNameSectTypeTriple()) {
+          ZName name = triple.getZName();
+          Type type = triple.getType();
+          nameInfoList.add(new NameInfo(name, triple.getSect(), type.accept(new PrintVisitor()), false));
+          nameInfoList.addAll(visitType(type, triple.getSect()));
+        }
+      }
+      
+    } catch (CommandException e) {
+      System.out.println("CommandException");
+    }
+    
+    // add local variables
+//    nameInfoList.addAll((visitChildrenOfTerm(zSect, zSect.getName())));
+    
+    return nameInfoList;
+  }
+  
+  private static List<NameInfo> visitType (Type type, String section)
+  {
+    if (type == null)
+      return new ArrayList<NameInfo>();
+    
+    if (type instanceof GenericType)
+      return visitGenericType((GenericType) type, section);
+    
+    if (type instanceof PowerType) {
+      Type pt = ((PowerType)type).getType();
+      if (pt != null && pt instanceof SchemaType)
+        return visitSchemaType((SchemaType)pt, section);
+    }
+    
+    
+    return new ArrayList<NameInfo>();
+  }
+  
+  private static List<NameInfo> visitSchemaType (SchemaType schemaType, String section)
+  {
+    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
+    
+    if (schemaType == null)
+      return nameInfoList; 
+    
+    Signature sig = ((SchemaType) schemaType).getSignature();
+    
+    if (sig == null)
+      return nameInfoList;
+    
+    for (NameTypePair pair : sig.getNameTypePair()) {
+      ZName name = pair.getZName();
+      Type type = pair.getType();
+      nameInfoList.add(new NameInfo(name, section, type.accept(new PrintVisitor()), false));
+      nameInfoList.addAll(visitType(type, section));
+    }
+    
+    return nameInfoList;
+  }
+  
+  private static List<NameInfo> visitGenericType (GenericType genericType, String section)
+  {
+    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
+    if (genericType == null)
+      return nameInfoList;
+    ZNameList nameList = genericType.getZNameList();
+    Type type = genericType.getType();
+    if (nameList == null || type == null)
+      return nameInfoList;
+    String t = type.accept(new PrintVisitor());
+    for (Name name : nameList) {
+      nameInfoList.add(new NameInfo((ZName)name, section, t, false));
+      nameInfoList.addAll(visitType(type, section));
+    }
+    
+    return nameInfoList;
+  }
+
+  private static List<NameInfo> visitTerm(Term term, String section)
+  {
+    List<NameInfo> triples = new ArrayList<NameInfo>();
+    if (term != null) {
+//      if (term instanceof InclDecl) {
+//        InclDecl inclDecl = (InclDecl) term;
+//        TypeAnn typeann = inclDecl.getAnn(TypeAnn.class);
+//        if (typeann.getType() instanceof PowerType) {
+//          PowerType powertype = (PowerType) typeann.getType();
+//          if (powertype instanceof SchemaType) {
+//            Signature sig = ((SchemaType)powertype).getSignature();
+//            for (NameTypePair pair : sig.getNameTypePair()) {
+//              // TODO insertIntoTable(pair.getZName(), pair.getType());
+//              triples.add(new NameInfo(pair.getZName(), section, pair.getType().accept(new PrintVisitor()), false));
+//            }
+//          }
+//        }
+//        // TODO visit children of expr
+//        return info;
+//      }
+      InclDecl decl;
+      if (term instanceof VarDecl) {
+        String type = ((VarDecl) term).getExpr().accept(getTypeNameVisitor_);
+        for (Name name : ((VarDecl) term).getName()) {  
+          triples.add(new NameInfo((ZName)name, section, type, true));
+        }
+      }
+      
+      triples.addAll(visitChildrenOfTerm(term, section));
+    }
+
+    return triples;
+  }
+
+  private static List<NameInfo> visitChildrenOfTerm(Term term, String section)
+  {
+    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
+    for (Object child : term.getChildren()) {
+      if (child != null)
+        if (child instanceof Term)
+          nameInfoList.addAll(visitTerm((Term) child, section));
+    }
+
     return nameInfoList;
   }
   
@@ -85,59 +224,5 @@ public class NameInfoResolver
     }
     
     return null;
-  }
-
-  private static List<NameInfo> visitZSect(ZSect zSect, SectionManager manager)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    String section = zSect.getName();
-
-    try {
-      SectTypeEnvAnn steAnn = (SectTypeEnvAnn) manager.get(new Key(section,
-          SectTypeEnvAnn.class));
-      if (steAnn != null) {
-        for (NameSectTypeTriple triple : steAnn.getNameSectTypeTriple()) {
-          ZName name = triple.getZName();
-          String type = triple.getType().accept(getTypeNameVisitor_);
-          nameInfoList.add(new NameInfo(name, section, type, false));
-        }
-      }
-    } catch (CommandException e) {
-      System.out.println("CommandException");
-    }
-    
-    // add local variables
-    nameInfoList.addAll((visitChildrenOfTerm(zSect, zSect.getName())));
-    
-    return nameInfoList;
-  }
-
-  private static List<NameInfo> visitTerm(Term term, String section)
-  {
-    List<NameInfo> triples = new ArrayList<NameInfo>();
-    if (term != null) {
-      if (term instanceof VarDecl) {
-        String type = ((VarDecl) term).getExpr().accept(getTypeNameVisitor_);
-        for (Name name : ((VarDecl) term).getName()) {  
-          triples.add(new NameInfo((ZName)name, section, type, true));
-        }
-      }
-      
-      triples.addAll(visitChildrenOfTerm(term, section));
-    }
-
-    return triples;
-  }
-
-  private static List<NameInfo> visitChildrenOfTerm(Term term, String section)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    for (Object child : term.getChildren()) {
-      if (child != null)
-        if (child instanceof Term)
-          nameInfoList.addAll(visitTerm((Term) child, section));
-    }
-
-    return nameInfoList;
   }
 }

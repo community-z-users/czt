@@ -101,30 +101,20 @@ public class TermInfoVisitor
       UnparsedParaVisitor<String>,
       ConstDeclVisitor<String>,
       VarDeclVisitor<String>,
-//      InclDeclVisitor<String>,
       ZDeclListVisitor<String>,
       ZNameVisitor<String>,
       ZNameListVisitor<String>,
       ExprVisitor<String>,
-//      RefExprVisitor<String>,
-//      PowerExprVisitor<String>,
-//      DecorExprVisitor<String>,
-//      SchExprVisitor<String>,
-//      SetExprVisitor<String>,
-//      TupleExprVisitor<String>,
-//      TupleSelExprVisitor<String>,
-//      ApplExprVisitor<String>,
-//      AndExprVisitor<String>,
-//      OrExprVisitor<String>,
       OperVisitor<String>,
       GivenTypeVisitor<String>,
       ZFreetypeListVisitor<String>,
       FreetypeVisitor<String>
 {
-  
+
   ITextEditor fEditor = null;
+
   private static NodeNameVisitor getTermNameVisitor_ = new NodeNameVisitor();
-  
+
   public TermInfoVisitor(ITextEditor textEditor)
   {
     fEditor = textEditor;
@@ -135,7 +125,7 @@ public class TermInfoVisitor
    */
   public String visitTerm(Term term)
   {
-    return "Highlight - " + term.accept(getTermNameVisitor_);
+    return "The highlighted term is a " + term.accept(getTermNameVisitor_);
   }
 
   /**
@@ -143,7 +133,8 @@ public class TermInfoVisitor
    */
   public String visitZSect(ZSect zSect)
   {
-    return "Highlight - Z Section" + "\nNAME ---> " + zSect.getName();
+    return "The highlighted term is a Z section paragraph." + "\nIts name is "
+        + zSect.getName() + ".";
   }
 
   /**
@@ -151,7 +142,7 @@ public class TermInfoVisitor
    */
   public String visitNarrSect(NarrSect narrPara)
   {
-    return "Highlight - Narrative Section";
+    return "The highlighted term is a narrative section.";
   }
 
   /**
@@ -159,9 +150,9 @@ public class TermInfoVisitor
    */
   public String visitGivenPara(GivenPara givenPara)
   {
-    String result = "Highlight - Given Paragraph";
+    String result = "The highlighted term is a given Paragraph.";
     String name = givenPara.getNames().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    return result + "\nIts name is " + name + ".";
   }
 
   /**
@@ -169,9 +160,10 @@ public class TermInfoVisitor
    */
   public String visitAxPara(AxPara axPara)
   {
-    String result = "Highlight - Axiomatic Paragraph";
-    String name = axPara.getZSchText().getZDeclList().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    String result = "The highlighted term is an axiomatic paragraph.";
+    String name = axPara.getZSchText().getZDeclList().accept(
+        getTermNameVisitor_);
+    return result + "\nIts name is " + name + ".";
   }
 
   /**
@@ -179,9 +171,9 @@ public class TermInfoVisitor
    */
   public String visitConjPara(ConjPara conjPara)
   {
-    String result = "Highlight - Conjecture Paragraph";
+    String result = "The highlighted term is a conjecture paragraph.";
     String name = conjPara.getZNameList().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    return result + "\nIts name is " + name + ".";
   }
 
   /**
@@ -189,9 +181,10 @@ public class TermInfoVisitor
    */
   public String visitFreePara(FreePara freePara)
   {
-    String result = "Highlight - Free Types Paragraph";
-    String name = ((ZFreetypeList)freePara.getFreetypeList()).accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    String result = "The highlighted term is a free types paragraph.";
+    String name = ((ZFreetypeList) freePara.getFreetypeList())
+        .accept(getTermNameVisitor_);
+    return result + "\nIts name is " + name + ".";
   }
 
   /**
@@ -199,9 +192,9 @@ public class TermInfoVisitor
    */
   public String visitOptempPara(OptempPara optempPara)
   {
-    String result = "Highlight - Operator Template Parargraph";
+    String result = "The highlighted term is an operator template parargraph.";
     String name = OpTable.getOpNameWithoutStrokes(optempPara.getOper());
-    return result + "\nOP ---> " + name;
+    return result + "\nOperators: " + name;
   }
 
   /**
@@ -209,7 +202,7 @@ public class TermInfoVisitor
    */
   public String visitNarrPara(NarrPara narrPara)
   {
-    return "Highlight - Narrative Paragraph";
+    return "The highlighted term is a narrative paragraph.";
   }
 
   /**
@@ -217,7 +210,7 @@ public class TermInfoVisitor
    */
   public String visitUnparsedPara(UnparsedPara unparsedPara)
   {
-    return "Highlight - Unparsed Paragraph";
+    return "The highlighted paragraph is not parsed";
   }
 
   /**
@@ -225,41 +218,19 @@ public class TermInfoVisitor
    */
   public String visitConstDecl(ConstDecl constDecl)
   {
-    String result = "Highlight - ConstDecl";
-    String name = constDecl.getZName().accept(getTermNameVisitor_);
+    String result = "The highlighted term is a ConstDecl";
     String type = constDecl.getExpr().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name + "\nTYPE ---> " + type;
+    return result + "\nIts type is " + type + ".";
   }
-/*  
-  public String visitInclDecl(InclDecl expr)
-  {
-    String info = "unknown";
-    // EXAMPLE OF GETTING TYPES FROM SCHEMA INCLUSIONS
-    TypeAnn typeann = expr.getAnn(TypeAnn.class);
-    if (typeann.getType() instanceof PowerType) {
-      PowerType powertype = (PowerType) typeann.getType();
-      if (powertype instanceof SchemaType) {
-        Signature sig = ((SchemaType)powertype).getSignature();
-        for (NameTypePair pair : sig.getNameTypePair()) {
-          // TODO insertIntoTable(pair.getZName(), pair.getType());
-        }
-      }
-    }
-    // TODO visit children of expr
-    return info;
-  }
-*/
-  
+
   /**
    * @see net.sourceforge.czt.z.visitor.VarDeclVisitor#visitVarDecl(net.sourceforge.czt.z.ast.VarDecl)
    */
   public String visitVarDecl(VarDecl varDecl)
   {
-    String result = "Highlight - VarDecl";
-    ZNameList declNameList = varDecl.getName();
-    String name = declNameList.accept(getTermNameVisitor_);
+    String result = "The highlighted term is a variable declaration.";
     String type = varDecl.getExpr().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name + "\nTYPE ---> " + type;
+    return result + "\nThe type of the variable(s) is " + type + ".";
   }
 
   /**
@@ -267,10 +238,7 @@ public class TermInfoVisitor
    */
   public String visitZDeclList(ZDeclList zDeclList)
   {
-    String result = "Highlight - ZDeclList";
-    String name = zDeclList.accept(getTermNameVisitor_);
-
-    return result + "\nNAME ---> " + name;
+    return "This highlighted term is a declaration list.";
   }
 
   /**
@@ -278,12 +246,11 @@ public class TermInfoVisitor
    */
   public String visitZName(ZName zName)
   {
-    String result = "Highlight - ZName";
-    result = result.concat("\nNAME ---> " + zName.accept(new PrintVisitor()));
+    String result = "The highlighted term is a Z name.";
     String type = getTypeOfZName(zName);
-    if(type != null)
-      result = result.concat("\nTYPE ---> " + type);
-    
+    if (type != null)
+      result = result.concat("\nIts type is " + type + ".");
+
     return result;
   }
 
@@ -294,21 +261,12 @@ public class TermInfoVisitor
   {
     if (zNameList.size() == 0)
       return null;
-    
-    String result = "Highlight - ZNameList";
-    String name = zNameList.get(0).accept(new PrintVisitor());
-    
-    if (zNameList.size() > 1) {
-      for (int i = 1; i < zNameList.size(); i++)
-        name = name.concat(", " + zNameList.get(i).accept(new PrintVisitor()));
-      name = "[" + name + "]";
-    }
-    result = result.concat("\nNAME ---> " + name);
-    
-    String type = getTypeOfZName((ZName)zNameList.get(0));
+
+    String result = "The highlighted term is a Z name list";
+    String type = getTypeOfZName((ZName) zNameList.get(0));
     if (type != null)
-      result = result.concat("\nTYPE ---> " + type);
-    
+      result = result.concat("\nThe type of the name(s) is " + type + ".");
+
     return result;
   }
 
@@ -317,130 +275,17 @@ public class TermInfoVisitor
    */
   public String visitExpr(Expr expr)
   {
-    String result = "Highlight - " + expr.getClass().getSimpleName();
+    String result = "The highlighted term is an expression - "
+        + expr.accept(getTermNameVisitor_) + ".";
     TypeAnn typeann = expr.getAnn(TypeAnn.class);
     String type = null;
     if (typeann != null)
       type = typeann.getType().accept(new PrintVisitor());
-//    ZName name = expr.getZName();
-//    result = result.concat("\nNAME ---> " + name.accept(new PrintVisitor()));
-//    if (type == null)
-//      type = getTypeOfZName(name);
-    if(type != null)
+    if (type != null)
       result = result.concat("\nIts type is " + type);
-    
+
     return result;
   }
-  
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.RefExprVisitor#visitRefExpr(net.sourceforge.czt.z.ast.RefExpr)
-//   */
-//  public String visitRefExpr(RefExpr refExpr)
-//  {
-//    String result = "Highlight - RefExpr";
-//    TypeAnn typeann = refExpr.getAnn(TypeAnn.class);
-//    String type = null;
-//    if (typeann != null)
-//      type = typeann.getType().accept(new PrintVisitor());
-//    ZName name = refExpr.getZName();
-//    result = result.concat("\nNAME ---> " + name.accept(new PrintVisitor()));
-//    if (type == null)
-//      type = getTypeOfZName(name);
-//    if(type != null)
-//      result = result.concat("\nTYPE ---> " + type);
-//    
-//    return result;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.PowerExprVisitor#visitPowerExpr(net.sourceforge.czt.z.ast.PowerExpr)
-//   */
-//  public String visitPowerExpr(PowerExpr powerExpr)
-//  {
-//    String result = "Highlight - PowerExpr";
-//    String name = powerExpr.getExpr().accept(getTermNameVisitor_);
-//    return result + "\nExpr ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.DecorExprVisitor#visitDecorExpr(net.sourceforge.czt.z.ast.DecorExpr)
-//   */
-//  public String visitDecorExpr(DecorExpr decorExpr)
-//  {
-//    String result = "Highlight - DecorExpr";
-//    String name = decorExpr.getExpr().accept(getTermNameVisitor_);
-//    return result + "\nExpr ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.SchExprVisitor#visitSchExpr(net.sourceforge.czt.z.ast.SchExpr)
-//   */
-//  public String visitSchExpr(SchExpr schExpr)
-//  {
-//    String result = "Highlight - SchExpr";
-//    String name = schExpr.getZSchText().getPred().accept(getTermNameVisitor_);
-//    return result + "\nPredicate ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.SetExprVisitor#visitSetExpr(net.sourceforge.czt.z.ast.SetExpr)
-//   */
-//  public String visitSetExpr(SetExpr setExpr)
-//  {
-//    String result = "Highlight - SetExpr";
-//    String name = setExpr.accept(getTermNameVisitor_);
-//    return result + "\nNAME ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.TupleExprVisitor#visitTupleExpr(net.sourceforge.czt.z.ast.TupleExpr)
-//   */
-//  public String visitTupleExpr(TupleExpr tupleExpr)
-//  {
-//    String result = "Highlight - TupleExpr";
-//    String name = tupleExpr.accept(getTermNameVisitor_);
-//    return result + "\nNAME ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.TupleSelExprVisitor#visitTupleSelExpr(net.sourceforge.czt.z.ast.TupleSelExpr)
-//   */
-//  public String visitTupleSelExpr(TupleSelExpr tupleSelExpr)
-//  {
-//    String result = "Highlight - TupleSelExpr";
-//    String name = tupleSelExpr.getExpr().accept(getTermNameVisitor_);
-//    return result + "\nExpr ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.ApplExprVisitor#visitApplExpr(net.sourceforge.czt.z.ast.ApplExpr)
-//   */
-//  public String visitApplExpr(ApplExpr applExpr)
-//  {
-//    String result = "Highlight - ApplExpr";
-//    String name = applExpr.accept(getTermNameVisitor_);
-//    return result + "\nNAME ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.AndExprVisitor#visitAndExpr(net.sourceforge.czt.z.ast.AndExpr)
-//   */
-//  public String visitAndExpr(AndExpr andExpr)
-//  {
-//    String result = "Highlight - AndExpr";
-//    String name = andExpr.accept(getTermNameVisitor_);
-//    return result + "\nNAME ---> " + name;
-//  }
-//
-//  /**
-//   * @see net.sourceforge.czt.z.visitor.OrExprVisitor#visitOrExpr(net.sourceforge.czt.z.ast.OrExpr)
-//   */
-//  public String visitOrExpr(OrExpr orExpr)
-//  {
-//    String result = "Highlight - OrExpr";
-//    String name = orExpr.accept(getTermNameVisitor_);
-//    return result + "\nNAME ---> " + name;
-//  }
 
   /**
    * @see net.sourceforge.czt.z.visitor.OperVisitor#visitOper(net.sourceforge.czt.z.ast.Oper)
@@ -448,11 +293,11 @@ public class TermInfoVisitor
   public String visitOper(Oper oper)
   {
     if (oper instanceof Operator)
-      return "OPERATOR - " + ((Operator) oper).getWord();
+      return "The highlighted term is an operator.";
     else if (oper instanceof Operand)
-      return "OPERAND";
+      return "The highlighted term is an operand.";
 
-    return "OPER";
+    return null;
   }
 
   /**
@@ -460,9 +305,7 @@ public class TermInfoVisitor
    */
   public String visitGivenType(GivenType givenType)
   {
-    String result = "Highlight - GivenType";
-    String name = givenType.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    return "The highlighted term is a given type.";
   }
 
   /**
@@ -470,9 +313,7 @@ public class TermInfoVisitor
    */
   public String visitZFreetypeList(ZFreetypeList zFreetypeList)
   {
-    String result = "Highlight - ZFreetypeList";
-    String name = zFreetypeList.accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    return "The highlighted term is a Z free types list.";
   }
 
   /**
@@ -480,20 +321,20 @@ public class TermInfoVisitor
    */
   public String visitFreetype(Freetype freetype)
   {
-    String result = "Highlight - Freetype";
-    String name = freetype.getZName().accept(getTermNameVisitor_);
-    return result + "\nNAME ---> " + name;
+    return "The highlighted term is a Z free type.";
   }
-  
-  private String getTypeOfZName(ZName zName) {
+
+  private String getTypeOfZName(ZName zName)
+  {
     if (fEditor == null || !(fEditor instanceof ZEditor))
       return null;
-    
-    List<NameInfo> nameInfoList = ((ZEditor) fEditor).getParsedData().getNameInfoList();
+
+    List<NameInfo> nameInfoList = ((ZEditor) fEditor).getParsedData()
+        .getNameInfoList();
     NameInfo info = NameInfoResolver.findInfo(nameInfoList, zName);
     if (info != null)
       return info.getType();
-    
+
     return null;
   }
 }

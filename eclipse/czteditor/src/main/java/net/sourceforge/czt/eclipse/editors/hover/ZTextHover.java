@@ -188,6 +188,7 @@ public class ZTextHover implements ITextHover
       if (info != null) {
         return info.getType();
       }
+      return ((ZName)term).getId();
     }
 
     TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
