@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 import net.sourceforge.czt.animation.common.factory.GaffeFactory;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.model.EvalResult;
 import net.sourceforge.czt.animation.model.EvalSetResult;
 import net.sourceforge.czt.animation.view.MessagePane;

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
