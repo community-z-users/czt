@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Branch;
 import net.sourceforge.czt.z.ast.ConstDecl;

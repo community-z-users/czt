@@ -1,0 +1,269 @@
+/**
+Copyright (C) 2006 Mark Utting
+This file is part of the CZT project.
+
+The CZT project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The CZT project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CZT; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+package net.sourceforge.czt.animation.eval.result;
+
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.TreeSet;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.ExprComparator;
+import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.Factory;
+
+/** A simple implementation of lo..hi.
+ *  However, one or both of the bounds may be missing,
+ *  in which case they are negative/positive infinity.
+ *
+ * @author marku
+ *
+ */
+public class RangeSet extends EvalSet
+{
+  /** The exact value of the lower bound, or null if not known. */
+  protected BigInteger lower_;
+
+  /** The exact value of the upper bound, or null if not known. */
+  protected BigInteger upper_;
+
+  protected Factory factory_ = new Factory();
+
+  public RangeSet(BigInteger lo, BigInteger up)
+  {
+    lower_ = lo;
+    upper_ = up;
+  }
+
+  @Override
+  public int size()
+  {
+    if (lower_ == null || upper_ == null)
+      return Integer.MAX_VALUE;
+    BigInteger size = maxSize();
+    if (size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
+      return Integer.MAX_VALUE;
+    else
+      return size.intValue();
+  }
+
+  @Override
+  public BigInteger maxSize()
+  {
+    if (lower_ == null || upper_ == null)
+      return null;
+    if (upper_.compareTo(lower_) < 0)
+      return BigInteger.ZERO;
+    else
+      return upper_.subtract(lower_).add(BigInteger.ONE);
+  }
+
+  @Override
+  public double estSize()
+  {
+    BigInteger size = maxSize();
+    if (size == null)
+      return Double.POSITIVE_INFINITY;
+    else
+      return size.doubleValue();
+  }
+
+  @Override
+  public boolean contains(Object e)
+  {
+     if ( !(e instanceof NumExpr))
+       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
+     BigInteger i = ((NumExpr)e).getValue();
+     return (lower_ == null || lower_.compareTo(i) <= 0)
+         && (upper_ == null || upper_.compareTo(i) >= 0);
+   }
+
+  @Override
+  public Iterator<Expr> iterator()
+  {
+    if (lower_ == null || upper_ == null)
+      throw new EvalException("Unbounded integer range "+this);
+    return new RangeSetIterator(lower_, upper_);
+  }
+
+  @Override
+  public ListIterator<Expr> listIterator()
+  {
+    throw new RuntimeException("RangeSet.listIterator not implemented yet.");
+  }
+
+  @Override
+  public Iterator<Expr> sortedIterator()
+  {
+    return iterator();
+  }
+
+  /** @inheritDoc
+   *
+   *  This uses bounds information about element (if any)
+   *  to reduce the size of the set that is returned.
+   *  The set that is returned is guaranteed to be a subset
+   *  (or equal to) the true set of elements in the range.
+   *  This methods has no side-effects, so does not change the
+   *  set returned by the usual members() method.
+   */
+  /* TODO: this calculates the intersection of two ranges...
+  public Iterator<Expr> subsetIterator(ZName element)
+  {
+    assert bounds_ != null; // inferBounds should have been called.
+    Envir env = evalMode_.getEnvir();
+    BigInteger low = getBound(env, lowerArg_);
+    BigInteger high = getBound(env, upperArg_);
+    BigInteger elemLow = bounds_.getLower(element);
+    BigInteger elemHigh = bounds_.getUpper(element);
+
+    if (low != null && elemLow != null)
+      low = low.max(elemLow);  // take the tighter of the two bounds.
+    else if (lowerArg_ < 0)
+      low = elemLow; // real lower bound is infinite, so use elemLow.
+
+    if (high != null && elemHigh != null)
+      high = high.min(elemHigh);  // take the tighter of the two bounds.
+    else if (upperArg_ < 0)
+      high = elemHigh; // real upper bound is infinite, so use elemHigh.
+
+    if (low == null || high == null)
+      throw new EvalException("Unbounded integer "+element+" in "+this);
+
+    return new RangeSetIterator(low, high);
+  }
+  */
+
+  @Override
+  protected void evaluateFully()
+  {
+    // already fully evaluated
+  }
+
+  @Override
+  public BigInteger getLower()
+  {
+    return lower_;
+  }
+
+  @Override
+  public BigInteger getUpper()
+  {
+    return upper_;
+  }
+
+  @Override
+  protected Expr nextMember()
+  {
+    // if this is called, then we forgot to override the calling method.
+    throw new RuntimeException("DiscreteSet.nextMember should never be called");
+  }
+
+  private class RangeSetIterator implements Iterator<Expr>
+  {
+    protected BigInteger current_;
+    protected BigInteger highest_;
+
+    public RangeSetIterator(BigInteger low, BigInteger high)
+    {
+      assert(low != null);
+      assert(high != null);
+      current_ = low;
+      highest_ = high;
+    }
+    public boolean hasNext()
+    {
+      return (current_.compareTo(highest_) <= 0);
+    }
+    public Expr next()
+    {
+      BigInteger temp = current_;
+      current_ = current_.add(BigInteger.ONE);
+      return factory_.createNumExpr(temp);
+    }
+    public void remove()
+    {
+      throw new UnsupportedOperationException(
+          "The Remove Operation is not supported");
+    }
+  }
+
+  /** This implementation of equals handles two RangeSets efficiently.
+   *  In other cases, it uses the equals method from FlatEvalSet.
+   *  This equals method is really only meant to be used after
+   *  the sets have been evaluated.  It is not clear what it does
+   *  or should do before that.
+   */
+  public boolean equals(Object other) {
+    if (other instanceof RangeSet) {
+      RangeSet rset = (RangeSet)other;
+      /* An alternative equality test, which is less elegant.
+      // handle the no-bounds at all case.
+      if (lower_ == null && upper_ == null) {
+        return rset.lower_ == null && rset.upper_ == null;
+      }
+      // handle the no lower bound case.
+      if (lower_ == null) {
+        // we know that upper_ != null;
+        return rset.lower_ == null
+            && rset.upper_ != null
+            && upper_.compareTo(rset.upper_) == 0;
+      }
+      // handle the no upper bound case.
+      if (upper_ == null) {
+        // we know that lower_ != null;
+        return rset.lower_ != null
+            && rset.upper_ == null
+            && lower_.compareTo(rset.lower_) == 0;
+      }
+      // now we know that lower_ != null and upper_ != null
+      if (rset.lower_ == null || rset.upper_ == null)
+        return false;
+      // now we know that rset.lower_ != null and rset.upper_ != null
+      // handle the empty range case (lower_ > upper_) specially.
+      if (lower_.compareTo(upper_)>0) {
+        return rset.lower_.compareTo(rset.upper_) > 0;
+      }
+      return lower_.equals(rset.lower_)
+          && upper_.equals(rset.upper_);
+      */
+      if ((lower_ == null) != (rset.lower_ == null))
+        return false;
+      if ((upper_ == null) != (rset.upper_ == null))
+        return false;
+      // handle the empty range case (lower_ > upper_) specially.
+      if (lower_ != null && upper_ != null
+          && lower_.compareTo(upper_)>0) {
+        return rset.lower_.compareTo(rset.upper_) > 0;
+      }
+      else
+        return (lower_ == null || lower_.equals(rset.lower_))
+            && (upper_ == null || upper_.equals(rset.upper_));
+    }
+    else
+      return super.equals(other);
+  }
+}

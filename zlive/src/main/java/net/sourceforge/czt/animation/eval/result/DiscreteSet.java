@@ -1,0 +1,163 @@
+/**
+Copyright (C) 2006 Mark Utting
+This file is part of the CZT project.
+
+The CZT project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The CZT project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CZT; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+
+package net.sourceforge.czt.animation.eval.result;
+
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.TreeSet;
+
+import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ExprComparator;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.ZName;
+
+/** A simple implementation of {e1,e2,e3,...,eN}.
+ *  A typical usage is to create it, add ALL the members,
+ *  then release it to be used in other expressions.
+ *  (If other expressions see it before all members are
+ *  added, then the size and lower/upper bounds will be wrong).
+ *
+ * @author marku
+ *
+ */
+public class DiscreteSet extends EvalSet
+{
+  protected Set<Expr> contents_ = new TreeSet<Expr>(ExprComparator.create());
+
+  @Override
+  public int size()
+  {
+    return contents_.size();
+  }
+
+  @Override
+  public BigInteger maxSize()
+  {
+    return BigInteger.valueOf(contents_.size());
+  }
+
+  @Override
+  public double estSize()
+  {
+    return contents_.size();
+  }
+
+  @Override
+  public boolean contains(Object obj)
+  {
+    return contents_.contains(obj);
+  }
+
+  @Override
+  public Iterator<Expr> iterator()
+  {
+    return contents_.iterator();
+  }
+
+  @Override
+  public ListIterator<Expr> listIterator()
+  {
+    throw new RuntimeException("DiscreteSet.listIterator not implemented yet.");
+  }
+
+  @Override
+  public Iterator<Expr> sortedIterator()
+  {
+    return contents_.iterator();
+  }
+
+  @Override
+  protected void evaluateFully()
+  {
+    // already fully evaluated
+  }
+
+  /** Calculates minimum of all the elements.
+   *  Returns null if the set does not contain integers,
+   *  or if it is empty.
+   */
+  @Override
+  public BigInteger getLower()
+  {
+    Iterator<Expr> iter = contents_.iterator();
+    if ( ! iter.hasNext())
+      return null;
+    Expr expr = iter.next();
+    if ( ! (expr instanceof NumExpr))
+      return null;
+    // find the smallest of the integers (they should all be integers)
+    NumExpr num = (NumExpr) expr;
+    BigInteger result = num.getValue();
+    while (iter.hasNext()) {
+      num = (NumExpr) expr;
+      result = result.min(num.getValue());
+    }
+    return result;
+  }
+
+  /** Calculates maximum of all the elements.
+   *  Returns null if the set does not contain integers,
+   *  or if it is empty.
+   *  TODO: return a very negative number if set is empty.
+   */
+  @Override
+  public BigInteger getUpper()
+  {
+    Iterator<Expr> iter = contents_.iterator();
+    if ( ! iter.hasNext())
+      return null;
+    Expr expr = iter.next();
+    if ( ! (expr instanceof NumExpr))
+      return null;
+    // find the smallest of the integers
+    NumExpr num = (NumExpr) expr;
+    BigInteger result = num.getValue();
+    while (iter.hasNext()) {
+      num = (NumExpr) expr;
+      result = result.max(num.getValue());
+    }
+    return result;
+  }
+
+  @Override
+  protected Expr nextMember()
+  {
+    // if this is called, then we forgot to override the calling method.
+    throw new RuntimeException("DiscreteSet.nextMember should never be called");
+  }
+
+  @Override
+  public boolean add(Expr e)
+  {
+    return contents_.add(e);
+  }
+
+  public boolean addAll(Collection<? extends Expr> coll)
+  {
+    boolean changed = false;
+    for (Expr e : coll)
+      changed |= add(e);
+    return changed;
+  }
+}

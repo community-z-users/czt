@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -39,7 +39,7 @@ import net.sourceforge.czt.z.ast.ZName;
 * and of generating all elements of the powerset when the
 * base set is small (<= 30).
 */
-public class FlatPowerSet extends FlatEvalSet
+public class FlatPowerSet extends FlatPred
 {
   /** The value of the base set, if known. */
   private EvalSet base_;
@@ -62,7 +62,7 @@ public class FlatPowerSet extends FlatEvalSet
   public boolean inferBounds(Bounds bnds)
   {
     base_ = bnds.getEvalSet(args_.get(0));
-    return bnds.setEvalSet(getLastArg(),this);
+    return bnds.setEvalSet(getLastArg(),null); // TODO
   }
 
   /** TODO: extend lower/upper bounds to talk about the elements IN the set? */
@@ -92,11 +92,10 @@ public class FlatPowerSet extends FlatEvalSet
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(getLastArg(), this);
+      m.getEnvir().setValue(getLastArg(), null); // TODO
     return m;
   }
 
@@ -118,7 +117,7 @@ public class FlatPowerSet extends FlatEvalSet
   public double estSize(Envir env) {
     if (base_ != null)
       return Math.pow(2.0, base_.estSize());
-    return UNKNOWN_SIZE;
+    return EvalSet.UNKNOWN_SIZE;
   }
 
   /** TODO: see if we can reduce size estimates using cardinality? */
@@ -126,37 +125,6 @@ public class FlatPowerSet extends FlatEvalSet
   {
     return estSize(env);
   }
-
-/*
-  private class RangeSetIterator implements Iterator<Expr>
-  {
-    protected BigInteger current_;
-    protected BigInteger highest_;
-
-    public RangeSetIterator(BigInteger low, BigInteger high)
-    {
-      assert(low != null);
-      assert(high != null);
-      current_ = low;
-      highest_ = high;
-    }
-    public boolean hasNext()
-    {
-      return (current_.compareTo(highest_) <= 0);
-    }
-    public Expr next()
-    {
-      BigInteger temp = current_;
-      current_ = current_.add(BigInteger.ONE);
-      return factory_.createNumExpr(temp);
-    }
-    public void remove()
-    {
-      throw new UnsupportedOperationException(
-          "The Remove Operation is not supported");
-    }
-  }
-*/
   
   /** Does the actual evaluation */
   public boolean nextEvaluation()
@@ -170,13 +138,12 @@ public class FlatPowerSet extends FlatEvalSet
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
-      resetResult();
       if (evalMode_.isInput(setName)) {
         Expr otherSet = env.lookup(setName);
         result = this.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        env.setValue(setName, this);
+        env.setValue(setName, null); // TODO
         result = true;
       }
     }

@@ -22,7 +22,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** Maintains lower and upper bounds for integer variables.

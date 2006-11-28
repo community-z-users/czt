@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2004 Mark Utting
+  Copyright 2006 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval;
+package net.sourceforge.czt.animation.eval.result;
 
 import net.sourceforge.czt.util.Visitor;
 

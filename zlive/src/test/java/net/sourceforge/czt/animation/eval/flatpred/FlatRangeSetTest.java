@@ -24,6 +24,9 @@ import java.math.BigInteger;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.RangeSet;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -54,8 +57,8 @@ public class FlatRangeSetTest
     emptySet.inferBoundsFixPoint(bounds_);
   }
 
-  /** A helper function for constructing and evaluating FlatRangeSets. */
-  private FlatRangeSet range(ZName lo, ZName hi, Envir env)
+  /** A helper function for constructing and evaluating RangeSets. */
+  private EvalSet range(ZName lo, ZName hi, Envir env)
   {
     FlatRangeSet flat1 = new FlatRangeSet(lo,hi,s);
     flat1.inferBounds(new Bounds());  // empty bounds
@@ -64,48 +67,48 @@ public class FlatRangeSetTest
     flat1.setMode(m1);
     flat1.startEvaluation();
     Assert.assertTrue(flat1.nextEvaluation());
-    return flat1;
+    Expr e = flat1.getEnvir().lookup(s);
+    assertNotNull(e);
+    assertTrue(e instanceof RangeSet);
+    return (RangeSet) e;
   }
 
   public void testNoBoundEquality()
   {
-    FlatRangeSet set = range(null,null,envIJK);
+    EvalSet set = range(null,null,envIJK);
     Assert.assertTrue(set.equals(range(null, null, envI)));
-    FlatRangeSet other = range(i,null,envIJK);
+    EvalSet other = range(i,null,envIJK);
     boolean result = set.equals(other);
     Assert.assertFalse(result);
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(i,j,envIJK)));
-    Assert.assertNull(set.maxSize());
   }
 
   public void testLowerBoundEquality()
   {
-    FlatRangeSet set = range(j,null,envIJK); // 11..infinity
+    EvalSet set = range(j,null,envIJK); // 11..infinity
     Assert.assertTrue(set.equals(range(j,null,envJ)));
     Assert.assertFalse(set.equals(range(i,null,envIJK)));
     Assert.assertFalse(set.equals(range(k,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
-    Assert.assertNull(set.maxSize());
   }
 
   public void testUpperBoundEquality()
   {
-    FlatRangeSet set = range(null,j,envIJK); // -infinity..11
+    EvalSet set = range(null,j,envIJK); // -infinity..11
     Assert.assertTrue(set.equals(range(null,j,envJ)));
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
     Assert.assertFalse(set.equals(range(null,k,envIJK)));
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(j,null,envIJK)));
     Assert.assertFalse(set.equals(range(j,k,envIJK)));
-    Assert.assertNull(set.maxSize());
   }
 
   public void testEmptyEquality()
   {
-    FlatRangeSet set = range(j,i,envIJK); // 11..10
+    EvalSet set = range(j,i,envIJK); // 11..10
     Assert.assertTrue(set.equals(range(k,j,envIJK)));  // 12..11
     Assert.assertFalse(set.equals(range(j,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,i,envIJK)));
@@ -113,19 +116,19 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
     Assert.assertFalse(set.equals(range(j,j,envIJK))); // 11..11
     Assert.assertFalse(set.equals(range(i,i,envIJK))); // 10..10
-    Assert.assertEquals(new BigInteger("0"), set.maxSize());
+    Assert.assertEquals(BigInteger.valueOf(0), set.maxSize());
   }
 
   public void testOrdinaryEquality()
   {
-    FlatRangeSet set = range(i,k,envIJK); // 10..12
+    EvalSet set = range(i,k,envIJK); // 10..12
     Assert.assertTrue(set.equals(range(i,k,envIJK)));
     Assert.assertFalse(set.equals(range(i,null,envIJK)));
     Assert.assertFalse(set.equals(range(null,k,envIJK)));
     Assert.assertFalse(set.equals(range(null,null,envIJK)));
     Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
     Assert.assertFalse(set.equals(range(j,k,envIJK))); // 11..12
-    Assert.assertEquals(new BigInteger("3"), set.maxSize());
+    Assert.assertEquals(BigInteger.valueOf(3), set.maxSize());
   }
 }
 

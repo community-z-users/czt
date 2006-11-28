@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.base.ast.Digit;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;

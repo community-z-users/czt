@@ -23,8 +23,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -60,18 +61,27 @@ public class FlatDiscreteSetTest
     emptySet.inferBoundsFixPoint(bounds_);
   }
 
+  /** Tests the static bounds inference. */
   public void testMaxSize()
   {
-    EvalSet resultSet = (EvalSet) set.iterator().next();
+    EvalSet resultSet = bounds_.getEvalSet(s);
     Assert.assertNotNull(resultSet);
-
-    System.out.println("resultSet type = " + resultSet.getClass());
-
-    Assert.assertTrue(resultSet instanceof FlatDiscreteSet);
-
-    Assert.assertEquals(new BigInteger("3"), resultSet.maxSize());
-    resultSet = (EvalSet) emptySet.iterator().next();
-    Assert.assertEquals(new BigInteger("0"), resultSet.maxSize());
+    Assert.assertTrue(resultSet instanceof FuzzySet);
+    Assert.assertEquals(BigInteger.valueOf(3), resultSet.maxSize());
+    Assert.assertEquals(3.0, resultSet.estSize(), ACCURACY);
+    Assert.assertEquals(null, resultSet.getLower());
+    Assert.assertEquals(null, resultSet.getUpper());
+    
+    // now with tighter bounds
+    setIJKBounds();
+    set.inferBoundsFixPoint(bounds_);
+    resultSet = bounds_.getEvalSet(s);
+    Assert.assertNotNull(resultSet);
+    Assert.assertTrue(resultSet instanceof FuzzySet);
+    Assert.assertEquals(BigInteger.valueOf(3), resultSet.maxSize());
+    Assert.assertEquals(3.0, resultSet.estSize(), ACCURACY);
+    Assert.assertEquals(BigInteger.valueOf(10), resultSet.getLower());
+    Assert.assertEquals(BigInteger.valueOf(12), resultSet.getUpper());
   }
 }
 

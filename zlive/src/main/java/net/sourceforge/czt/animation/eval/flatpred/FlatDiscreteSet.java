@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.result.DiscreteSet;
+import net.sourceforge.czt.animation.eval.result.FuzzySet;
+import net.sourceforge.czt.animation.eval.result.FuzzySetException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -37,15 +40,12 @@ import net.sourceforge.czt.z.util.Factory;
 *
 * FlatDiscreteSet(A,s) implements {Elements of ArrayList A} = s
 */
-public class FlatDiscreteSet extends FlatEvalSet
+public class FlatDiscreteSet extends FlatPred
 {
   protected Factory factory_ = new Factory();
 
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
-
-  /** The number of expressions returned by nextMember() */
-  private int membersReturned;
 
   public FlatDiscreteSet(List<ZName> elements, ZName set)
   {
@@ -68,95 +68,35 @@ public class FlatDiscreteSet extends FlatEvalSet
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds;
-    return bnds.setEvalSet(args_.get(args_.size()-1), this);
-  }
-
-  /** Calculates minimum of the lower bounds of all the elements.
-   *  Returns null if the set does not contain integers,
-   *  or if it is empty, or if some of the elements do not
-   *  have any lower bound.
-   */
-  public BigInteger getLower()
-  {
-    if (bounds_ == null)
-      return null;
     int numElems = args_.size()-1;
-    if (numElems <= 0)
-      return null;
-    // calculate min of all the elements (null = -infinity).
-    BigInteger result = bounds_.getLower(args_.get(0));
-    for (int i=1; result != null && i < numElems; i++) {
-      BigInteger tmp = bounds_.getLower(args_.get(i));
-      if (tmp == null)
-	result = tmp;
-      else
-	result = result.min(tmp);
+    FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), numElems, BigInteger.valueOf(numElems));
+    // now find max and max of the bounds of the elements (null=infinity)
+    BigInteger lo = null;
+    BigInteger hi = null;
+    if (numElems > 0) {
+      lo = bounds_.getLower(args_.get(0));
+      hi = bounds_.getUpper(args_.get(0));
+      for (int i=1; (lo != null || hi != null) && i < numElems; i++) {
+        BigInteger tmp = bounds_.getLower(args_.get(i));
+        lo = (tmp == null) ? null : lo.min(tmp);
+        tmp = bounds_.getUpper(args_.get(i));
+        hi = (tmp == null) ? null : hi.max(tmp);
+      }
     }
-    return result;
-  }
-
-  /** Calculates maximum of the upper bounds of all the elements.
-   *  Returns null if the set does not contain integers,
-   *  or if it is empty, or if some of the elements do not
-   *  have any upper bound.
-   */
-  public BigInteger getUpper()
-  {
-    if (bounds_ == null)
-      return null;
-    int numElems = args_.size()-1;
-    if (numElems <= 0)
-      return null;
-    // calculate max of all the elements (null = infinity).
-    BigInteger result = bounds_.getUpper(args_.get(0));
-    for (int i=1; result != null && i < numElems; i++) {
-      BigInteger tmp = bounds_.getUpper(args_.get(i));
-      if (tmp == null)
-	result = tmp;
-      else
-	result = result.max(tmp);
-    }
-    return result;
+    fuzzy.setLower(lo);
+    fuzzy.setUpper(hi);
+    return bnds.setEvalSet(args_.get(args_.size()-1), fuzzy);
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     assert bounds_ != null; // inferBounds should have been called.
-    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args_.get(args_.size()-1), this);
+      m.getEnvir().setValue(getLastArg(), bounds_.getEvalSet(getLastArg()));
     return m;
-  }
-
-  /** The maximum size of the set is the number of distinct expressions.
-   */
-  public BigInteger maxSize()
-  {
-    return BigInteger.valueOf(args_.size()-1);
-  }
-
-  /** Estimate the size of the set. */
-  public double estSize(Envir env)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    return (double) (args_.size() - 1);
-  }
-
-  /** For FlatDiscreteSet, the estSubsetSize is the same as estSize. */
-  public double estSubsetSize(Envir env, ZName elem)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    return estSize(env);
-  }
-
-  /** For FlatDiscreteSet, subsetMembers(...) is the same as members(). */
-  public Iterator<Expr> subsetIterator(ZName element)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    return iterator();
   }
 
   /** Does the actual evaluation. */
@@ -165,34 +105,25 @@ public class FlatDiscreteSet extends FlatEvalSet
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
     boolean result = false;
-    ZName set = args_.get(args_.size()-1);
+    ZName set = getLastArg();
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
-      resetResult();
+      Envir env = evalMode_.getEnvir();
+      DiscreteSet newset = new DiscreteSet();
+      for (ZName name : args_) {
+        if (name != getLastArg())
+          newset.add(env.lookup(name));
+      }
       if (evalMode_.isInput(getLastArg())) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
-        result = equals(otherSet);
+        result = newset.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue(set, this);
+        evalMode_.getEnvir().setValue(set, newset);
         result = true;
       }
     }
-    membersReturned = 0;
-    return result;
-  }
-
-  protected Expr nextMember()
-  {
-    assert solutionsReturned_ > 0;
-    int numExprs = args_.size() - 1;
-    if (membersReturned == numExprs)
-      return null;
-    Envir env = evalMode_.getEnvir();
-    ZName var = args_.get(membersReturned);
-    Expr result = env.lookup(var);
-    membersReturned++;
     return result;
   }
 

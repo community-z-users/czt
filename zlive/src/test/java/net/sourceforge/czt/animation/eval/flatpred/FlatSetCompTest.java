@@ -48,6 +48,7 @@ public class FlatSetCompTest
   public void setUp()
   {
     super.setUp();
+    setIJKBounds();
     SetCompExpr setComp = (SetCompExpr) parseExpr(setCompStr);
     SetCompExpr emptySetComp = (SetCompExpr) parseExpr(emptySetCompStr);
     ZSchText text = setComp.getZSchText();

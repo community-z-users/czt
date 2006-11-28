@@ -38,14 +38,14 @@ public class FlatUnionTest
 {
   FlatUnion union;
   FlatUnion emptyUnion;
-  
+
   /** This overrides set and emptySet to be FlatUnionSet objects.
    *  set = {i,k,j,i} and emptySet = {}.
    */
   public FlatUnionTest()
   {
   }
-  
+
   public void setUp()
   {
     super.setUp();
@@ -61,7 +61,7 @@ public class FlatUnionTest
     union = new FlatUnion(s1,s2,s);
     set.add(union);
     set.inferBoundsFixPoint(bounds_);
-    
+
     emptySet = new FlatPredList(zlive_);
     emptySet.add(new FlatRangeSet(k,j,s1));   // 12..11
     emptySet.add(new FlatDiscreteSet(new ArrayList<ZName>(), s2));
@@ -69,7 +69,7 @@ public class FlatUnionTest
     emptySet.add(emptyUnion);
     emptySet.inferBoundsFixPoint(bounds_);
   }
-  
+
   public void testEmptyBounds()
   {
     // set some real bounds on i,j,k.
@@ -80,7 +80,7 @@ public class FlatUnionTest
     Assert.assertNull(emptyUnion.getLower());
     Assert.assertNull(emptyUnion.getUpper());
   }
-  
+
   public void testBounds()
   {
     // set some real bounds on i,j,k.

@@ -23,9 +23,10 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 
@@ -68,16 +69,22 @@ public class FlatCardTest
     Assert.assertNull(m);
   }
 
+  protected Expr createRange(FlatPred range, Envir env)
+  {
+    range.inferBounds(new Bounds()); // empty bounds
+    Mode rangeMode = range.chooseMode(env);
+    range.setMode(rangeMode);
+    range.startEvaluation();
+    range.nextEvaluation();
+    return range.getMode().getEnvir().lookup(range.getLastArg());
+  }
+
   public void testRangeSetIO()
   {
     Envir envX = empty.plus(x,i10);
     Envir envXY = envX.plus(y,i15);
-    EvalSet tempRangeSet = new FlatRangeSet(x,y,w);
-    Mode tempMode = ((FlatPred)tempRangeSet).chooseMode(envXY);
-    ((FlatPred)tempRangeSet).setMode(tempMode);
-    ((FlatPred)tempRangeSet).startEvaluation();
-    ((FlatPred)tempRangeSet).nextEvaluation();
-    Envir envXYZ = envXY.plus(z,(EvalSet)(((FlatPred)tempRangeSet).getMode().getEnvir().lookup(w)));
+    Expr value = createRange(new FlatRangeSet(x,y,w), envXY);
+    Envir envXYZ = envXY.plus(z,value);
     Mode mode = pred.chooseMode(envXYZ);
     Assert.assertTrue(mode != null);
     Assert.assertEquals(true, mode.isInput(0));
@@ -106,14 +113,9 @@ public class FlatCardTest
     tempArgsList.add(o);
     tempArgsList.add(p);
     tempArgsList.add(q);
-    EvalSet tempDiscreteSet = new FlatDiscreteSet(tempArgsList,w);
-    ((FlatPred)tempDiscreteSet).inferBounds(new Bounds()); // empty bounds
-    Mode tempMode = ((FlatPred)tempDiscreteSet).chooseMode(envLMNOPQ);
-    Assert.assertTrue(tempMode != null);
-    ((FlatPred)tempDiscreteSet).setMode(tempMode);
-    ((FlatPred)tempDiscreteSet).startEvaluation();
-    ((FlatPred)tempDiscreteSet).nextEvaluation();
-    Envir envLMNOPQZ = envLMNOPQ.plus(z,(EvalSet)(((FlatPred)tempDiscreteSet).getMode().getEnvir().lookup(w)));
+    FlatPred range = new FlatDiscreteSet(tempArgsList,w);
+    Expr value = createRange(range, envLMNOPQ);
+    Envir envLMNOPQZ = envLMNOPQ.plus(z,value);
     Mode mode = pred.chooseMode(envLMNOPQZ);
     Assert.assertTrue(mode != null);
     Assert.assertEquals(true, mode.isInput(0));
@@ -126,9 +128,11 @@ public class FlatCardTest
     Assert.assertTrue(mode == pred.getMode());
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
+    // now reevaluate the 'range' set with q=11 (its size becomes 5).
     mode.getEnvir().setValue(q,i11);
-    ((FlatPred)tempDiscreteSet).startEvaluation();
-    ((FlatPred)tempDiscreteSet).nextEvaluation();
+    range.startEvaluation();
+    range.nextEvaluation();
+    envLMNOPQZ.setValue(z, range.getMode().getEnvir().lookup(w));
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i5, mode.getEnvir().lookup(s));
@@ -140,13 +144,8 @@ public class FlatCardTest
     // create and evaluate: w = x..y
     Envir envX = empty.plus(x,i10);
     Envir envXY = envX.plus(y,i15);
-    EvalSet tempRangeSet = new FlatRangeSet(x,y,w);
-    ((FlatPred)tempRangeSet).inferBounds(new Bounds()); // no bounds
-    Mode tempMode = ((FlatPred)tempRangeSet).chooseMode(envXY);
-    ((FlatPred)tempRangeSet).setMode(tempMode);
-    ((FlatPred)tempRangeSet).startEvaluation();
-    ((FlatPred)tempRangeSet).nextEvaluation();
-    Envir envXYZ = envXY.plus(z,(EvalSet)(((FlatPred)tempRangeSet).getMode().getEnvir().lookup(w)));
+    Expr value = createRange(new FlatRangeSet(x,y,w), envXY);
+    Envir envXYZ = envXY.plus(z,value);
     
     // now check #w = 6
     Envir envXYZS = envXYZ.plus(s,i6);
@@ -179,14 +178,8 @@ public class FlatCardTest
     tempArgsList.add(o);
     tempArgsList.add(p);
     tempArgsList.add(q);
-    EvalSet tempDiscreteSet = new FlatDiscreteSet(tempArgsList,w);
-    ((FlatPred)tempDiscreteSet).inferBounds(new Bounds()); // empty bounds
-    Mode tempMode = ((FlatPred)tempDiscreteSet).chooseMode(envLMNOPQ);
-    Assert.assertTrue(tempMode != null);
-    ((FlatPred)tempDiscreteSet).setMode(tempMode);
-    ((FlatPred)tempDiscreteSet).startEvaluation();
-    ((FlatPred)tempDiscreteSet).nextEvaluation();
-    Envir envLMNOPQZ = envLMNOPQ.plus(z,(EvalSet)(((FlatPred)tempDiscreteSet).getMode().getEnvir().lookup(w)));
+    Expr value = createRange(new FlatDiscreteSet(tempArgsList,w), envLMNOPQ);
+    Envir envLMNOPQZ = envLMNOPQ.plus(z,value);
     
     // now check that #w = 6.
     Envir envLMNOPQZS = envLMNOPQZ.plus(s,i6);

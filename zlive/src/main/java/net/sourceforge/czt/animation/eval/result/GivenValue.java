@@ -17,7 +17,7 @@ along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.animation.eval;
+package net.sourceforge.czt.animation.eval.result;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.impl.ExprImpl;
@@ -28,7 +28,7 @@ import net.sourceforge.czt.z.impl.ExprImpl;
  * 
  * @see net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet
  */
-public class GivenValue extends ExprImpl
+public class GivenValue extends EvalResult
 {
   private String value_;
   
@@ -40,16 +40,6 @@ public class GivenValue extends ExprImpl
   public String getValue()
   {
     return value_;
-  }
-
-  public Object[] getChildren()
-  {
-    return new Object[0];
-  }
-
-  public Term create(Object[] args)
-  {
-    throw new UnsupportedOperationException("GivenValue.create(...)");
   }
 
   public int hashCode()

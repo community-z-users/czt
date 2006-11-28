@@ -26,8 +26,9 @@ import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.SetComp;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
@@ -41,7 +42,7 @@ import net.sourceforge.czt.z.ast.ZName;
 *
 * FlatSetComp(decls,pred,expr) implements {decls|pred@expr}
 */
-public class FlatSetComp extends FlatEvalSet
+public class FlatSetComp extends FlatPred
 {
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
@@ -59,12 +60,6 @@ public class FlatSetComp extends FlatEvalSet
   /** The fresh ZName which will be bound to a member of the set. */
   protected ZName resultName_;
 
-  /** The generated environment that contains the output values.
-   *  When this is non-null, it means that we are in the process
-   *  of lazily evaluating the members of the set.
-   */
-  protected Envir outputEnvir_ = null;
-
   /** FlatSetComp(D,P,E,S) implements {D|P@E} = S.
    *
    * @param decls   A list of Decl objects (ConstDecl and VarDecl only).
@@ -81,7 +76,6 @@ public class FlatSetComp extends FlatEvalSet
     predsAll_ = new FlatPredList(zlive);
     predsOne_ = new FlatPredList(zlive);
     resultName_ = zlive.createNewName();
-    // TODO: not needed now: predsOne_.add(new FlatConst(resultName_,null));
     for (Iterator i = decls.iterator(); i.hasNext(); ) {
       Decl decl = (Decl)i.next();
       predsAll_.addDecl(decl);
@@ -110,7 +104,7 @@ public class FlatSetComp extends FlatEvalSet
   {
     bounds_ = bnds.clone();
     boolean result = predsAll_.inferBounds(bounds_);
-    result |= bnds.setEvalSet(getLastArg(), this);
+    // result |= bnds.setEvalSet(getLastArg(), null); // TODO
     return result;
   }
 
@@ -149,7 +143,6 @@ public class FlatSetComp extends FlatEvalSet
     LOG.entering("FlatSetComp","chooseMode",env);
     LOG.fine("args = "+args_+" freevars="+this.freeVars_);
     assert bounds_ != null; // inferBounds should have been called.
-    super.chooseMode(env);
     Mode m = modeFunction(env);
     // TODO: could also check that predsOne_ has a usable mode.
     //    (we could check predsAll_ too, but we do not know if this
@@ -158,7 +151,7 @@ public class FlatSetComp extends FlatEvalSet
 
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args_.get(args_.size()-1), this);
+      m.getEnvir().setValue(args_.get(args_.size()-1), null);  // TODO
     LOG.exiting("FlatSetComp","chooseMode",m);
     return m;
   }
@@ -176,43 +169,6 @@ public class FlatSetComp extends FlatEvalSet
     return est;
   }
 
-  /** @czt.todo try and get a better size estimate by equating
-   *  elem to the result of the set before estimating its size?
-   */
-  public double estSubsetSize(Envir env, ZName elem)
-  {
-    return estSize(env);
-  }
-
-  /** Returns members of the set, one by one.
-   *  This must only be called after nextEvaluation() has returned true.
-  */
-  public Expr nextMember()
-  {
-    if (outputEnvir_ == null) {
-      Envir env0 = evalMode_.getEnvir0();
-      Mode m = predsAll_.chooseMode(env0);
-      if (m == null)
-        throw new EvalException("Cannot generate members of SetComp: " + this);
-      predsAll_.setMode(m);
-      predsAll_.startEvaluation();
-      outputEnvir_ = predsAll_.getOutputEnvir();
-    }
-    if (predsAll_.nextEvaluation())
-      return outputEnvir_.lookup(resultName_);
-    else
-      return null;
-  }
-
-  /** @czt.todo see if we can use bounds information about element
-   *  to reduce the size of the subset that we return?
-   */
-  public Iterator<Expr> subsetIterator(ZName element)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    return iterator();
-  }
-
   /** Does the actual evaluation.
    *  In fact, in output mode this is lazy -- it just assigns
    *  itself to the output variable, so that the members of
@@ -227,52 +183,18 @@ public class FlatSetComp extends FlatEvalSet
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
-      outputEnvir_ = null; // force members to be recalculated
-      ZName set = args_.get(args_.size()-1);
-      resetResult();
+      ZName setName = getLastArg();
+      SetComp set = new SetComp(predsAll_, predsOne_, resultName_, evalMode_.getEnvir0());
       if (evalMode_.isInput(args_.size()-1)) {
-        Expr otherSet = evalMode_.getEnvir().lookup(set);
-        result = equals(otherSet);
+        Expr otherSet = evalMode_.getEnvir().lookup(setName);
+        result = set.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue(set, this);
+        evalMode_.getEnvir().setValue(setName, set);
         result = true;
       }
     }
     return result;
-  }
-
-  /** Tests for membership of the set.
-  * @param e  The fully evaluated expression.
-  * @return   true iff e is a member of the set.
-  */
-  //@ requires evalMode_ != null;
-  public boolean contains(Object e)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    assert(evalMode_ != null);
-    if ( ! (e instanceof Expr))
-      throw new RuntimeException("illegal non-Expr object "+e+" cannot be in "+this);
-    Envir env = evalMode_.getEnvir();
-    // Add the expected answer to the environment.
-    // This allows the predicates inside the set to CHECK the result
-    // rather than generating all possible results.
-    env = env.plus(resultName_, (Expr)e);
-    // now do some additional static inference for this member.
-    Bounds bnds = bounds_.clone();
-    if (e instanceof NumExpr) {
-      // TODO: make this code common with FlatConst.
-      BigInteger val = ((NumExpr)e).getValue();
-      bnds.addLower(resultName_,val);
-      bnds.addUpper(resultName_,val);
-    }
-    predsOne_.inferBoundsFixPoint(bnds);
-    Mode m = predsOne_.chooseMode(env);
-    if (m == null)
-      throw new EvalException("Cannot even test member of SetComp: " + this);
-    predsOne_.setMode(m);
-    predsOne_.startEvaluation();
-    return predsOne_.nextEvaluation();
   }
 
   ///////////////////////// Pred methods ///////////////////////

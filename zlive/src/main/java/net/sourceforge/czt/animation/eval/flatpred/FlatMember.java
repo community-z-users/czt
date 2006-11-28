@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -35,19 +35,19 @@ import net.sourceforge.czt.z.ast.ZName;
 * FlatMember(s,e) implements e \in s, where s can be any kind of
 * set that implements the EvalSet interface.
 */
-public class FlatMember extends FlatPred 
+public class FlatMember extends FlatPred
 {
   /** The most recent variable bounds information. */
   protected Bounds bounds_;
-  
+
   /** This is non_null during evaluation */
   protected EvalSet set_;
-  
+
   /** This is for iterating through set_ */
   protected Iterator current_;
 
   /** Membership of a set.
-   * 
+   *
    * @param set      Must evaluate to an EvalSet object.
    * @param element  The member of the set.
    */
@@ -104,7 +104,7 @@ public class FlatMember extends FlatPred
     }
     return result;
   }
- 
+
   public void startEvaluation()
   {
     super.startEvaluation();
@@ -112,7 +112,7 @@ public class FlatMember extends FlatPred
     set_ = (EvalSet)evalMode_.getEnvir().lookup(args_.get(0));
     assert(set_ != null);
   }
-  
+
   public boolean nextEvaluation() {
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;

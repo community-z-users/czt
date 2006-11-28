@@ -29,15 +29,15 @@ import java.util.TreeSet;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** An extensible set of 'unknown' values (represented by strings).
  * @author Mark Utting
  */
-public class FlatGivenSet extends FlatEvalSet
+public class FlatGivenSet extends FlatPred
 {
   /** We need to call zlive_.getGivenSetSize(). */
   private ZLive zlive_;
@@ -120,7 +120,7 @@ public class FlatGivenSet extends FlatEvalSet
   }
   
   /** Always throws an exception, since the size of given sets is unknown. */
-  @Override public int size()
+  public int size()
   {
     throw new EvalException("GIVEN "+name_+" has unknown size.");
   }
@@ -130,11 +130,6 @@ public class FlatGivenSet extends FlatEvalSet
     return zlive_.getGivenSetSize();
   }
 
-  public Iterator<Expr> subsetIterator(ZName element)
-  {
-    return iterator();
-  }
-  
   /** To given sets are equal iff they are the same set.
    *  That is, they have the same name.
    */
@@ -149,11 +144,10 @@ public class FlatGivenSet extends FlatEvalSet
   @Override
   public Mode chooseMode(Envir env)
   {
-    super.chooseMode(env);
     Mode m = modeFunction(env);
     // bind (set |-> this), so that size estimates work better.
     if (m != null)
-      m.getEnvir().setValue(args_.get(0), this);
+      m.getEnvir().setValue(args_.get(0), null);   // TODO
     return m;
   }
 
@@ -167,13 +161,12 @@ public class FlatGivenSet extends FlatEvalSet
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
-      resetResult();
       if (evalMode_.isInput(getLastArg())) {
         Expr otherSet = evalMode_.getEnvir().lookup(set);
         result = equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue(set, this);
+        evalMode_.getEnvir().setValue(set, null);   // TODO
         result = true;
       }
     }

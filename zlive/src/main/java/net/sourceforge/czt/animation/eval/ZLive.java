@@ -29,6 +29,7 @@ import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.print.z.PrintUtils;

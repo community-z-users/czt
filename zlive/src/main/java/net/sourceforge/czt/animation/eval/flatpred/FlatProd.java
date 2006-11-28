@@ -28,7 +28,7 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 
 /**
  * FlatProd([a,b,c...], s) implements a \cross b \cross c... = s.
@@ -38,7 +38,7 @@ import net.sourceforge.czt.animation.eval.EvalSet;
  *
  * @author marku
  */
-public class FlatProd extends FlatEvalSet
+public class FlatProd extends FlatPred
 {
   /** The most recent bounds information. */
   protected Bounds bounds_;
@@ -57,11 +57,18 @@ public class FlatProd extends FlatEvalSet
     solutionsReturned_ = -1;
   }
 
+  /** TODO: perform bounds propagation similar to multiplication.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    bounds_ = bnds;
+    return bnds.setEvalSet(getLastArg(), null); // TODO
+  }
+
   /** TODO: implement the reverse mode as well. */
   public Mode chooseMode(Envir env)
   {
     assert bounds_ != null; // inferBounds should have been called.
-    super.chooseMode(env);
     Mode m = modeFunction(env);
     return m;
   }
@@ -73,7 +80,6 @@ public class FlatProd extends FlatEvalSet
     boolean result = false;
     if (solutionsReturned_ == 0) {
       solutionsReturned_++;
-      resetResult();
       ZName set = getLastArg();
       Envir env = evalMode_.getEnvir();
       baseSets_ = findSets(env);
@@ -84,7 +90,7 @@ public class FlatProd extends FlatEvalSet
         result = this.equals(env.lookup(set));
       }
       else {
-        env.setValue(set, this);
+        env.setValue(set, null); // TODO
         result = true;
       }
 
@@ -108,54 +114,6 @@ public class FlatProd extends FlatEvalSet
           return null;
       }
       return sets;
-  }
-
-  ///////////////////////////////////////////////////////////
-  //  Methods inherited from EvalSet
-  ///////////////////////////////////////////////////////////
-
-  /** TODO: perform bounds propagation similar to multiplication.
-   */
-  public boolean inferBounds(Bounds bnds)
-  {
-    bounds_ = bnds;
-    return bnds.setEvalSet(getLastArg(), this);
-  }
-
-  /** TODO: implement more accurate maxSize().
-   */
-  @Override public BigInteger maxSize()
-  {
-    return super.maxSize();
-  }
-
-  /** TODO: implement more accurate estSize(...).
-   */
-  public double estSize(Envir env)
-  {
-    return Double.MAX_VALUE;
-  }
-
-  /** TODO: implement nextMember properly */
-  protected Expr nextMember()
-  {
-    throw new EvalException("FlatProd does not implement nextMember yet.");
-    /*
-    assert solutionsReturned_ > 0; // nextEvaluation() must have succeeded.
-    while (memberIterator_ != null) {
-      if (memberIterator_.hasNext())
-        return memberIterator_.next();
-      else if (membersFrom_ == 1) {
-        memberIterator_ = rightSet_.iterator();
-        membersFrom_++;
-      }
-      else {
-        memberIterator_ = null;
-        membersFrom_++;
-      }
-    }
-    return null;
-    */
   }
 
   //@ requires solutionsReturned > 0;

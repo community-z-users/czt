@@ -30,6 +30,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
