@@ -20,17 +20,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZName;
 
 /** A simple implementation of {e1,e2,e3,...,eN}.
  *  A typical usage is to create it, add ALL the members,
@@ -43,8 +44,17 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class DiscreteSet extends EvalSet
 {
+  /** The elements of this set. */
   protected Set<Expr> contents_ = new TreeSet<Expr>(ExprComparator.create());
 
+  /** This is a copy of the elements of this set.
+   *  It exists only to allow us to iterate in both directions
+   *  (listIterator).  It is created from contents_ automatically
+   *  when listIterator() is called and it is an error to try to
+   *  add more elements after that point.
+   */
+  protected List<Expr> listContents_ = null;
+  
   @Override
   public int size()
   {
@@ -54,13 +64,13 @@ public class DiscreteSet extends EvalSet
   @Override
   public BigInteger maxSize()
   {
-    return BigInteger.valueOf(contents_.size());
+    return BigInteger.valueOf(size());
   }
 
   @Override
   public double estSize()
   {
-    return contents_.size();
+    return size();
   }
 
   @Override
@@ -72,13 +82,18 @@ public class DiscreteSet extends EvalSet
   @Override
   public Iterator<Expr> iterator()
   {
+    // We could return an unmodifiable iterator here...
     return contents_.iterator();
   }
 
   @Override
   public ListIterator<Expr> listIterator()
   {
-    throw new RuntimeException("DiscreteSet.listIterator not implemented yet.");
+    if (listContents_ == null)
+      // create a sorted no-duplicates list of elements.
+      listContents_ = new ArrayList<Expr>(contents_);
+    // We could return an unmodifiable iterator here...
+    return listContents_.listIterator();
   }
 
   @Override
@@ -150,6 +165,8 @@ public class DiscreteSet extends EvalSet
   @Override
   public boolean add(Expr e)
   {
+    if (listContents_ != null)
+      throw new RuntimeException("DiscreteSet is closed");
     return contents_.add(e);
   }
 
