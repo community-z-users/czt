@@ -27,7 +27,8 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.DiscreteSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
@@ -68,25 +69,14 @@ public class ZSet implements ZValue
    */
   public ZSet(Set<? extends ZValue> set)
   {
+    expr_ = new DiscreteSet();
+    for (ZValue v : set)
+      expr_.add(v.getExpr());
+    
     // set_ = new Vector(set);
     env_ = new Envir();
     list = new ArrayList<ZName>();
     factory_ = GaffeFactory.getFactory();
-    ZName setName = factory_.createZName("NoName");
-    ZName tempName = null;
-    for (ZValue zValue : set) {
-      tempName = factory_.createZName(String.valueOf(i++));
-      env_ = env_.plus(tempName, zValue.getExpr());
-      list.add(tempName);
-    }
-    env_ = env_.plus(setName, null);
-    FlatDiscreteSet s = new FlatDiscreteSet(list, setName);
-    s.inferBounds(new Bounds());
-    Mode m = s.chooseMode(env_);
-    s.setMode(m);
-    s.startEvaluation();
-    s.nextEvaluation();
-    expr_ = s;
   }
 
   /**
@@ -188,13 +178,7 @@ public class ZSet implements ZValue
    */
   public int size()
   {
-    // return set_.size();
-    int result = 0;
-    for (Iterator<Expr> it = expr_.iterator(); it.hasNext();) {
-      it.next();
-      result++;
-    }
-    return result;
+    return expr_.size();
   }
 
   /**
@@ -216,15 +200,20 @@ public class ZSet implements ZValue
    */
   public ZValue get(int index)
   {
-    // return (ZValue) set_.get(index);
-    ZValue result = null;
-    try {
-      result = GaffeFactory.zValue(expr_.getEnvir().lookup(
-          GaffeFactory.getFactory().createZName(String.valueOf(index))));
-    } catch (UnexpectedTypeException ute) {
-      ute.printStackTrace();
+    Iterator<Expr> iter = expr_.iterator();
+    Expr result = null;
+    for (int i=index; i>=0; i--) {
+      if ( ! iter.hasNext())
+        throw new RuntimeException("set does not contain "+index+" elements.");
+      result = iter.next();
     }
-    return result;
+    try {
+      return GaffeFactory.zValue(result);
+    } catch (UnexpectedTypeException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      return null;
+    }
   }
 
   /**

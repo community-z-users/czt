@@ -1,9 +1,9 @@
 
 package net.sourceforge.czt.animation.gui.temp;
 
-import net.sourceforge.czt.animation.eval.EvalSet;
-import net.sourceforge.czt.animation.eval.GivenValue;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;

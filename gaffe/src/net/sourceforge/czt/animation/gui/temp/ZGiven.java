@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.animation.gui.temp;
 
-import net.sourceforge.czt.animation.eval.GivenValue;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 

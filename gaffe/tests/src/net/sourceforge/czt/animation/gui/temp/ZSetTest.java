@@ -5,7 +5,7 @@ import java.util.ListIterator;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import net.sourceforge.czt.animation.eval.EvalSet;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.Expr;
 
 public class ZSetTest extends TestCase

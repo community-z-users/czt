@@ -2,7 +2,7 @@ package net.sourceforge.czt.animation.gui.temp;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import net.sourceforge.czt.animation.eval.GivenValue;
+import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.z.ast.Expr;
 
 public class ZGivenTest extends TestCase

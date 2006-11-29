@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.animation.ZLocator;
-import net.sourceforge.czt.animation.eval.EvalSet;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.gui.temp.GaffeFactory;
 import net.sourceforge.czt.animation.gui.temp.SolutionSet;
 import net.sourceforge.czt.animation.gui.temp.ZBinding;
