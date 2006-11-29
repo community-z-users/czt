@@ -41,7 +41,6 @@
             <exclude>**/ZTestCase.java</exclude>
             <!-- TODO: find out why those are failing -->
             <exclude>**/ExprComparatorTest.java</exclude>
-            <exclude>**/FlatSetCompTest.java</exclude>
           </excludes>
         </configuration>
       </plugin>

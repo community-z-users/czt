@@ -36,11 +36,9 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
-/** A simple implementation of {e1,e2,e3,...,eN}.
- *  A typical usage is to create it, add ALL the members,
- *  then release it to be used in other expressions.
- *  (If other expressions see it before all members are
- *  added, then the size and lower/upper bounds will be wrong).
+/** A simple implementation of a set comprehension.
+ *  When this is created, the precise values of all 
+ *  free variables are known and are in the given environment.
  *
  * @author marku
  *
@@ -57,6 +55,7 @@ public class SetComp extends EvalSet
   */
   protected FlatPredList predsOne_;
 
+  
   /** This is the environment that defines all the free variables
    *  of this set comprehension.
    */
@@ -73,7 +72,8 @@ public class SetComp extends EvalSet
   /** The fresh ZName which will be bound to a member of the set. */
   protected ZName resultName_;
   
-  public SetComp(FlatPredList predsAll, FlatPredList predsOne, ZName resultName, Envir env0)
+  public SetComp(FlatPredList predsAll, FlatPredList predsOne, 
+       ZName resultName, Envir env0)
   {
     predsAll_ = predsAll;
     predsOne_ = predsOne;

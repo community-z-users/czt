@@ -25,6 +25,7 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.util.Visitor;
@@ -122,11 +123,14 @@ public class FlatRangeSet extends FlatPred
   /** Chooses the mode in which the predicate can be evaluated.*/
   @Override public Mode chooseMode(/*@non_null@*/ Envir env)
   {
+    assert bounds_ != null;
     Mode m = modeFunction(env);
     // bind (set |-> fuzzyset), so that size estimates work better.
-    if (m != null)
-      m.getEnvir().setValue(args_.get(setArg_), 
-                            bounds_.getEvalSet(args_.get(setArg_)));
+    if (m != null) {
+      EvalSet set = bounds_.getEvalSet(args_.get(setArg_));
+      if (set != null)
+        m.getEnvir().setValue(args_.get(setArg_), set);
+    }
     return m;
   }
 

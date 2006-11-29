@@ -130,11 +130,7 @@ public class EvalSetTest
     Assert.assertTrue(emptySet.nextEvaluation());
     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(es);
     Assert.assertTrue(resultSet != null);
-    if (resultSet instanceof SetComp)
-      // it is hard to get accurate estimates for these...
-      Assert.assertTrue(resultSet.estSize() <= 3.0);
-    else
-      Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
+    Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
     Iterator it = resultSet.iterator();
     Assert.assertTrue(it != null);
     Assert.assertFalse(it.hasNext());

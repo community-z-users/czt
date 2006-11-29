@@ -104,6 +104,7 @@ public class FlatSetComp extends FlatPred
   {
     bounds_ = bnds.clone();
     boolean result = predsAll_.inferBounds(bounds_);
+    predsOne_.inferBounds(bounds_);  // give it the same information.
     // result |= bnds.setEvalSet(getLastArg(), null); // TODO
     return result;
   }

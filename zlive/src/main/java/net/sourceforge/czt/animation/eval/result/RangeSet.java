@@ -20,19 +20,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Set;
-import java.util.TreeSet;
 
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
 
 /** A simple implementation of lo..hi.
@@ -58,29 +51,52 @@ public class RangeSet extends EvalSet
     upper_ = up;
   }
 
+  /** true iff there is a lower bound and an upper bound. */
+  public boolean isFinite()
+  {
+    return lower_ != null && upper_ != null;
+  }
+  
+  /** true iff this range is empty.  
+   *  That is, if lower and upper bounds are both known
+   *  (not infinite) and upper < lower.
+   */
+  public boolean isEmpty()
+  {
+    return isFinite() && upper_.compareTo(lower_) < 0;
+  }
+
+  /** Returns the exact size of the set,
+   *  or MAX_VALUE if the set is infinite or 
+   *  has cardinality greater than MAX_VALUE.
+   */
   @Override
   public int size()
   {
-    if (lower_ == null || upper_ == null)
-      return Integer.MAX_VALUE;
     BigInteger size = maxSize();
-    if (size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
+    if (size == null || size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0)
       return Integer.MAX_VALUE;
     else
       return size.intValue();
   }
 
+  /** Returns the exact size of the set, or
+   *  null if it is infinite.
+   */
   @Override
   public BigInteger maxSize()
   {
-    if (lower_ == null || upper_ == null)
+    if (! isFinite())
       return null;
-    if (upper_.compareTo(lower_) < 0)
+    if (isEmpty())
       return BigInteger.ZERO;
     else
       return upper_.subtract(lower_).add(BigInteger.ONE);
   }
 
+  /** This is the same as maxSize(), but converted to a double.
+   *  So maxSize()==null gives Double.POSITIVE_INFINITY here.
+   */
   @Override
   public double estSize()
   {
@@ -265,5 +281,100 @@ public class RangeSet extends EvalSet
     }
     else
       return super.equals(other);
+  }
+  
+
+  /** Calculates the minimum of two optional numbers,
+   *  with null interpreted as being negative infinity.
+   * @param i1  null means negative infinity
+   * @param i2  null means negative infinity
+   * @return
+   */
+  public static BigInteger minNeg(BigInteger i1, BigInteger i2)
+  {
+    if (i1 == null || i2 == null)
+      return null;
+    else
+      return i1.min(i2);
+  }
+
+  /** Calculates the minimum of two optional numbers,
+   *  with null interpreted as being positive infinity.
+   * @param i1  null means positive infinity
+   * @param i2  null means positive infinity
+   * @return
+   */
+  public static BigInteger minPos(BigInteger i1, BigInteger i2)
+  {
+    if (i1 == null)
+      return i2;
+    else if (i2 == null)
+      return i1;
+    else
+      return i1.min(i2);
+  }
+
+  /** Calculates the maximum of two optional numbers,
+   *  with null interpreted as being negative infinity.
+   * @param i1  null means negative infinity
+   * @param i2  null means negative infinity
+   * @return
+   */
+  public static BigInteger maxNeg(BigInteger i1, BigInteger i2)
+  {
+    if (i1 == null)
+      return i2;
+    else if (i2 == null)
+      return i1;
+    else
+      return i1.max(i2);
+  }
+
+  /** Calculates the maximum of two optional numbers,
+   *  with null interpreted as being positive infinity.
+   * @param i1  null means positive infinity
+   * @param i2  null means positive infinity
+   * @return
+   */
+  public static BigInteger maxPos(BigInteger i1, BigInteger i2)
+  {
+    if (i1 == null || i2 == null)
+      return null;
+    else
+      return i1.max(i2);
+  }
+
+  /** Calculates the union of two ranges. */
+  public RangeSet union(RangeSet other)
+  {
+    return new RangeSet(minNeg(lower_, other.getLower()),
+                        maxPos(upper_, other.getUpper()));
+  }
+
+  /** Calculates the union of this range with (lo..up).
+   *  Note that lo==null means negative infinity
+   *  and up=null means positive infinity.
+   */
+  public RangeSet union(BigInteger lo, BigInteger up)
+  {
+    return new RangeSet(minNeg(lower_, lo),
+                        maxPos(upper_, up));
+  }
+
+  /** Calculates the intersection of two ranges. */
+  public RangeSet intersect(RangeSet other)
+  {
+    return new RangeSet(maxNeg(lower_, other.getLower()),
+                        minPos(upper_, other.getUpper()));
+  }
+  
+  /** Calculates the intersection of this range with (lo..up).
+   *  Note that lo==null means negative infinity
+   *  and up=null means positive infinity.
+   */
+  public RangeSet intersect(BigInteger lo, BigInteger up)
+  {
+    return new RangeSet(maxNeg(lower_, lo),
+                        minPos(upper_, up));
   }
 }

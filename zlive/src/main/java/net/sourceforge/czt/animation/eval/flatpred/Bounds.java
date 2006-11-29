@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** Maintains lower and upper bounds for integer variables.
@@ -124,6 +125,12 @@ public class Bounds implements Cloneable
     return upperBound_.get(var);
   }
 
+  /** Returns the lower and upper bounds. */
+  public RangeSet getRange(ZName var)
+  {
+    return new RangeSet(getLower(var), getUpper(var));
+  }
+
   /** Adds another lower bound for var.
    *  The new lower bound is ignored if it is weaker than any 
    *  existing lower bound, otherwise it supercedes the old bound.
@@ -166,5 +173,22 @@ public class Bounds implements Cloneable
     }
     else
       return false;
+  }
+
+  /**
+   * Calculates the minimum of two optional lower bounds.
+   * If either of the inputs is null, then the result will
+   * also be null, which means negative infinity.
+   * 
+   * @param lower  null means negative infinity
+   * @param lower2 null means negative infinity
+   * @return the maximum of lower and lower2
+   */
+  public static BigInteger lower(BigInteger lower, BigInteger lower2)
+  {
+    if (lower == null || lower2 == null)
+      return null;
+    else
+      return lower.min(lower2);
   }
 }

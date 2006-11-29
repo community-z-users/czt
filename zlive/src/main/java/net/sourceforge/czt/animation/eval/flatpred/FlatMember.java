@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
@@ -25,16 +25,17 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
-* @author Mark Utting
-*
-* FlatMember(s,e) implements e \in s, where s can be any kind of
-* set that implements the EvalSet interface.
-*/
+ * @author Mark Utting
+ *
+ * FlatMember(s,e) implements e \in s, where s can be any kind of
+ * set that implements the EvalSet interface.
+ */
 public class FlatMember extends FlatPred
 {
   /** The most recent variable bounds information. */
@@ -61,26 +62,27 @@ public class FlatMember extends FlatPred
 
   public boolean inferBounds(Bounds bnds)
   {
-	LOG.entering("FlatMember", "inferBounds", bnds);
-	ZName setName = args_.get(0);
-	ZName elemName = args_.get(1);
-	EvalSet set = bnds.getEvalSet(setName);
-	boolean changed = false;
-	if (set != null) {
+    LOG.entering("FlatMember", "inferBounds", bnds);
+    ZName setName = args_.get(0);
+    ZName elemName = args_.get(1);
+    EvalSet set = bnds.getEvalSet(setName);
+    boolean changed = false;
+    if (set != null) {
       BigInteger lo = set.getLower();
       if (lo != null)
-	    changed |= bnds.addLower(elemName, lo);
+        changed |= bnds.addLower(elemName, lo);
       BigInteger hi = set.getUpper();
-	  if (hi != null)
-		changed |= bnds.addUpper(elemName, hi);
-	}
+      if (hi != null)
+        changed |= bnds.addUpper(elemName, hi);
+    }
     bounds_ = bnds;
-	LOG.exiting("FlatMember", "inferBounds", changed);
-	return changed;
+    LOG.exiting("FlatMember", "inferBounds", changed);
+    return changed;
   }
 
   public Mode chooseMode(Envir env)
   {
+    assert bounds_ != null;
     // the set must be defined in env.
     ZName setName = args_.get(0);
     ZName elemName = args_.get(1);
@@ -93,10 +95,17 @@ public class FlatMember extends FlatPred
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
         Expr e = env.lookup(setName);
-        if (e != null && e instanceof EvalSet)
-          result.setSolutions(((EvalSet)e).estSubsetSize(env, elemName));
-        else
-          result.setSolutions(Double.POSITIVE_INFINITY);
+        result.setSolutions(Double.POSITIVE_INFINITY);
+        if (e != null && e instanceof EvalSet) {
+          EvalSet set = (EvalSet) e;
+          RangeSet range = bounds_.getRange(elemName);
+          range = range.intersect(set.getLower(), set.getUpper());
+          BigInteger size = range.maxSize();
+          // the size of the set is another limit on the number of solutions
+          size = RangeSet.minPos(size, set.maxSize());
+          if (size != null)
+            result.setSolutions(size.doubleValue());
+        }
       }
     }
     else {
