@@ -20,21 +20,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Set;
-import java.util.TreeSet;
 
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZName;
 
 /** A partially-known set.
  *  This records some approximate details about the size and
  *  bounds of another set, but it cannot be used to iterate
- *  through the members of the set etc.
+ *  through the members of the set etc.  
+ *  It can be used to record information about sets in Bounds, 
+ *  but should never be put into an Envir, because there it would
+ *  masquerade as the real solution. 
  *
  * @author marku
  *
@@ -91,7 +88,7 @@ public class FuzzySet extends EvalSet
   }
 
   @Override
-  public Iterator<Expr> subsetIterator(ZName element)
+  public Iterator<Expr> subsetIterator(EvalSet other)
   {
     throw new FuzzySetException("subsetIterator called too early on set: "+name_);
   }
@@ -151,5 +148,24 @@ public class FuzzySet extends EvalSet
   public void setUpper(BigInteger upper)
   {
     this.upper_ = upper;
+  }
+
+  /** Outputs "set(estSize,maxSize)", or
+   *  "set(estSize,maxSize,Range)" if integer bounds information is known.
+   */
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("set(");
+    result.append(estSize());
+    result.append(",");
+    result.append(maxSize_);
+    if (lower_ != null || upper_ != null) {
+      result.append(",");
+      result.append(new RangeSet(lower_, upper_).toString());
+    }
+    result.append(")");
+    return result.toString();
   }
 }

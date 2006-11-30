@@ -138,6 +138,15 @@ public class RangeSet extends EvalSet
     return iterator();
   }
 
+  @Override
+  public Iterator<Expr> subsetIterator(EvalSet otherSet)
+  {
+    if (otherSet instanceof RangeSet)
+      return intersect( (RangeSet)otherSet ).iterator();
+    else
+      return super.subsetIterator(otherSet);
+  }
+
   /** @inheritDoc
    *
    *  This uses bounds information about element (if any)
@@ -391,12 +400,16 @@ public class RangeSet extends EvalSet
    *  For example, the generous union of 0..3 and 10..12 is
    *  0..12, which includes numbers that are not in either set.
    *  So the generous union will always be a superset 
-   *  of the real union (or equal to it). 
+   *  of the real union (or equal to it).
+   *  If other==null, then this is returned. 
    */
   public RangeSet union(RangeSet other)
   {
-    return new RangeSet(minNeg(lower_, other.getLower()),
-                        maxPos(upper_, other.getUpper()));
+    if (other==null)
+      return this;
+    else
+      return new RangeSet(minNeg(lower_, other.getLower()),
+                          maxPos(upper_, other.getUpper()));
   }
 
   /** Calculates the 'generous union' of this range with (lo..up).
@@ -409,11 +422,16 @@ public class RangeSet extends EvalSet
                         maxPos(upper_, up));
   }
 
-  /** Calculates the exact intersection of two ranges. */
+  /** Calculates the exact intersection of two ranges.
+   *  If other==null, then this is returned.
+   */
   public RangeSet intersect(RangeSet other)
   {
-    return new RangeSet(maxNeg(lower_, other.getLower()),
-                        minPos(upper_, other.getUpper()));
+    if (other == null)
+      return this;
+    else
+      return new RangeSet(maxNeg(lower_, other.getLower()),
+                          minPos(upper_, other.getUpper()));
   }
   
   /** Calculates the exact intersection of this range with (lo..up).

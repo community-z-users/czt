@@ -136,4 +136,16 @@ public class SetComp extends EvalSet
     else
       return null;
   }
+  
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("{ ");
+    result.append(predsAll_.toString());
+    result.append(" @ ");
+    result.append(resultName_.toString());
+    result.append(" }");
+    return result.toString();
+  }
 }

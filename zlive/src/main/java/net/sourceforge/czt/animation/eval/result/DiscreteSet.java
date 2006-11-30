@@ -177,4 +177,17 @@ public class DiscreteSet extends EvalSet
       changed |= add(e);
     return changed;
   }
+  
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("{");
+    for (Expr e : contents_) {
+      result.append(e.toString());
+      result.append(",");
+    }
+    result.append("}");
+    return result.toString();
+  }
 }
