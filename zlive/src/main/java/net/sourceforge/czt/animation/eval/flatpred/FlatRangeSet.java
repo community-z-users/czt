@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
@@ -125,12 +124,6 @@ public class FlatRangeSet extends FlatPred
   {
     assert bounds_ != null;
     Mode m = modeFunction(env);
-    // bind (set |-> fuzzyset), so that size estimates work better.
-    if (m != null) {
-      EvalSet set = bounds_.getEvalSet(args_.get(setArg_));
-      if (set != null)
-        m.getEnvir().setValue(args_.get(setArg_), set);
-    }
     return m;
   }
 
@@ -253,7 +246,7 @@ public class FlatRangeSet extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append("FlatRangeSet(");
+    result.append("FlatRangeSet[");
     if (lowerArg_ < 0)
       result.append("-");
     else
@@ -265,7 +258,14 @@ public class FlatRangeSet extends FlatPred
       result.append(args_.get(upperArg_));
     result.append(",");
     result.append(args_.get(setArg_));
-    result.append(")");
+    result.append("]");
+    EvalSet range = null;
+    if (bounds_ != null)
+      range = bounds_.getEvalSet(args_.get(setArg_));
+    if (range != null) {
+      result.append("::");
+      result.append(range.toString());
+    }
     return result.toString();
   }
   ///////////////////////// Pred methods ///////////////////////

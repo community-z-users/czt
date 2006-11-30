@@ -25,14 +25,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.SetComp;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -98,14 +97,23 @@ public class FlatSetComp extends FlatPred
   }
 
   /** This does local bounds inference.
-   *  So bounds information flows into the set, but not out.
+   *  So bounds information flows into the set, but only
+   *  information about the whole set flows out.
    */
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds.clone();
     boolean result = predsAll_.inferBounds(bounds_);
     predsOne_.inferBounds(bounds_);  // give it the same information.
-    // result |= bnds.setEvalSet(getLastArg(), null); // TODO
+
+    String name = getLastArg().toString();
+    // TODO: it would be nice to get a better size estimate here,
+    // but we do not know the values of the free variables yet,
+    // so it is difficult to use chooseMode on predsAll_.
+    FuzzySet fuzzy = new FuzzySet(name, EvalSet.UNKNOWN_SIZE, null);
+    fuzzy.setLower(bounds_.getLower(resultName_));
+    fuzzy.setUpper(bounds_.getUpper(resultName_));
+    result |= bnds.setEvalSet(getLastArg(), fuzzy);
     return result;
   }
 
@@ -128,7 +136,7 @@ public class FlatSetComp extends FlatPred
   /** Returns null for now -- because it is quite complex to calculate
    *  maximum size of a set comprehension.
    *
-   *  @czt.todo estimate maximum size.
+   *  @czt.todo calculate an upper bound of the size.
    */
   public BigInteger maxSize()
   {
@@ -150,24 +158,29 @@ public class FlatSetComp extends FlatPred
     //     set will be asked to enumerate its members, so predsAll_
     //     may not be needed).
 
-    // bind (set |-> this), so that size estimates work better.
-    if (m != null)
-      m.getEnvir().setValue(args_.get(args_.size()-1), null);  // TODO
+    // bind (set |-> fuzzy), so that size estimates work better.
+    /* TODO: it would be nice to add more precise bounds
+     *  information here, since we now know the free vars
+     *  of this set.  But we cannot add a fuzzy set to the
+     *  environment, because it will be mistaken for the actual
+     *  solution.  Is there a nice way of adding it to bounds
+     *  but still leaving chooseMode to be side-effect-free?
+     
+    Mode all = predsAll_.chooseMode(env);
+    if (m != null && all != null) {
+      FuzzySet fuzzy = new FuzzySet(getLastArg().toString(),
+                              all.getSolutions(), null);
+      BigInteger lo = bounds_.getLower(resultName_);
+      if (lo != null)
+        fuzzy.setLower(lo);
+      BigInteger up = bounds_.getUpper(resultName_);
+      if (up != null)
+        fuzzy.setUpper(up);
+      m.getEnvir().setValue(getLastArg(), fuzzy);
+    }
+    */
     LOG.exiting("FlatSetComp","chooseMode",m);
     return m;
-  }
-
-  /** Estimate the size of the set.
-   *  This must only be called after setMode().
-   */
-  public double estSize(Envir env)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    double est = EvalSet.UNKNOWN_SIZE;
-    Mode m = predsAll_.chooseMode(env);
-    if (m != null)
-      est = m.getSolutions();
-    return est;
   }
 
   /** Does the actual evaluation.
@@ -185,7 +198,8 @@ public class FlatSetComp extends FlatPred
     {
       solutionsReturned_++;
       ZName setName = getLastArg();
-      SetComp set = new SetComp(predsAll_, predsOne_, resultName_, evalMode_.getEnvir0());
+      SetComp set = new SetComp(predsAll_, predsOne_, resultName_,
+                                evalMode_.getEnvir0());
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(setName);
         result = set.equals(otherSet);
@@ -210,6 +224,7 @@ public class FlatSetComp extends FlatPred
 
   /** @czt.todo Change this to a printCode method. */
   public String toString() {
-    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = " + args_.get(args_.size()-1);
+    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = "
+      + getLastArg();
   }
 }

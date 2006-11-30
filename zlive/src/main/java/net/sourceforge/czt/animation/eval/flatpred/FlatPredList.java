@@ -283,7 +283,7 @@ public class FlatPredList extends FlatPred
     boolean anyChange = false;
     // bnds has changed during most recent pass of predlist_
     boolean recentChange = true;
-    for (int i = 0; recentChange && i < 5; i++) {
+    for (int i = 0; /* recentChange && */ i < 5; i++) {
       LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
       recentChange = false;
       for (FlatPred pred : predlist_) {

@@ -93,9 +93,6 @@ public class FlatDiscreteSet extends FlatPred
   {
     assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
-    // bind (set |-> this), so that size estimates work better.
-    if (m != null)
-      m.getEnvir().setValue(getLastArg(), bounds_.getEvalSet(getLastArg()));
     return m;
   }
 

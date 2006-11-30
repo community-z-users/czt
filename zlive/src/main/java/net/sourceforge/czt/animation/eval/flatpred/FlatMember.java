@@ -99,7 +99,10 @@ public class FlatMember extends FlatPred
         if (e != null && e instanceof EvalSet) {
           EvalSet set = (EvalSet) e;
           RangeSet range = bounds_.getRange(elemName);
-          range = range.intersect(set.getLower(), set.getUpper());
+          if (range == null)
+            range = new RangeSet(set.getLower(), set.getUpper());
+          else
+            range = range.intersect(set.getLower(), set.getUpper());
           BigInteger size = range.maxSize();
           // the size of the set is another limit on the number of solutions
           size = RangeSet.minPos(size, set.maxSize());
@@ -143,7 +146,7 @@ public class FlatMember extends FlatPred
       // iterate through the members of set_
       if (solutionsReturned_ == 0) {
         // set up the iterator...
-        current_ = set_.subsetIterator(element);
+        current_ = set_.subsetIterator(bounds_.getRange(element));
       }
       assert current_ != null;
       solutionsReturned_++;
@@ -161,20 +164,29 @@ public class FlatMember extends FlatPred
   {
     StringBuffer result = new StringBuffer();
     result.append(super.toString());
-    result.deleteCharAt(result.length()-1);  // delete the last ']'
     ZName setName = args_.get(0);
     EvalSet set = null;
-    if (bounds_ != null && (set=bounds_.getEvalSet(setName)) != null) {
-      result.append("::");
-      BigInteger lo = set.getLower();
-      if (lo != null)
-        result.append(lo.toString());
-      result.append("..");
-      BigInteger hi = set.getUpper();
-      if (hi != null)
-        result.append(hi.toString());
+    RangeSet range = null;
+    if (bounds_ != null) {
+      set = bounds_.getEvalSet(setName);
+      range = bounds_.getRange(getLastArg());
     }
-    result.append("]");
+    if (set != null || range != null) {
+      result.append("::");
+      if (set != null)
+        result.append(set.estSize());
+      BigInteger lo = set.getLower();
+      BigInteger hi = set.getUpper();
+      RangeSet elemRange = null;
+      if (lo != null || hi != null)
+        elemRange = new RangeSet(lo,hi);
+      if (range != null)
+        range = range.intersect(elemRange);
+      else
+        range = elemRange;
+      if (range != null)
+        result.append(range.toString());
+    }
     return result.toString();
   }
 

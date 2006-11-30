@@ -81,9 +81,6 @@ public class FlatUnion extends FlatEvalSet
   {
     assert bounds_ != null; // inferBounds should have been called.
     Mode m = modeFunction(env);
-    EvalSet set = bounds_.getEvalSet(getLastArg());
-    if (m != null && set != null)
-      m.getEnvir().setValue(getLastArg(), set);
     return m;
   }
 
