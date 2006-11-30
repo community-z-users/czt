@@ -125,10 +125,17 @@ public class Bounds implements Cloneable
     return upperBound_.get(var);
   }
 
-  /** Returns the lower and upper bounds. */
+  /** Returns the lower and/or upper bounds of an integer
+   *  variable (if known), or null otherwise.
+   */
   public RangeSet getRange(ZName var)
   {
-    return new RangeSet(getLower(var), getUpper(var));
+    BigInteger lo = getLower(var);
+    BigInteger hi = getUpper(var);
+    if (lo == null && hi == null)
+      return null;
+    else
+      return new RangeSet(lo,hi);
   }
 
   /** Adds another lower bound for var.
