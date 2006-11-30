@@ -22,6 +22,7 @@ package net.sourceforge.czt.animation.eval.result;
 import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.z.ast.Expr;
@@ -120,15 +121,15 @@ public class RangeSet extends EvalSet
   @Override
   public Iterator<Expr> iterator()
   {
-    if (lower_ == null || upper_ == null)
-      throw new EvalException("Unbounded integer range "+this);
-    return new RangeSetIterator(lower_, upper_);
+    return listIterator();
   }
 
   @Override
   public ListIterator<Expr> listIterator()
   {
-    throw new RuntimeException("RangeSet.listIterator not implemented yet.");
+    if (lower_ == null || upper_ == null)
+      throw new EvalException("Unbounded integer range "+this);
+    return new RangeSetIterator(lower_, upper_);
   }
 
   @Override
@@ -198,8 +199,15 @@ public class RangeSet extends EvalSet
     throw new RuntimeException("DiscreteSet.nextMember should never be called");
   }
 
-  private class RangeSetIterator implements Iterator<Expr>
+  /** This is a ListIterator that iterates in sorted order from low upto high.
+   *  Like all list iterators, the index methods may return incorrect
+   *  results if you do more than 2^31 nexts.
+   * @author marku
+   *
+   */
+  private class RangeSetIterator implements ListIterator<Expr>
   {
+    protected BigInteger lowest_;
     protected BigInteger current_;
     protected BigInteger highest_;
 
@@ -207,6 +215,7 @@ public class RangeSet extends EvalSet
     {
       assert(low != null);
       assert(high != null);
+      lowest_ = low;
       current_ = low;
       highest_ = high;
     }
@@ -217,13 +226,44 @@ public class RangeSet extends EvalSet
     public Expr next()
     {
       BigInteger temp = current_;
+      if ( ! hasNext())
+        throw new NoSuchElementException("too many nexts on "+this);
       current_ = current_.add(BigInteger.ONE);
       return factory_.createNumExpr(temp);
+    }
+    public boolean hasPrevious()
+    {
+      return (lowest_.compareTo(current_) < 0);
+    }
+    public int nextIndex()
+    {
+      return current_.subtract(lowest_).intValue();
+    }
+    public Expr previous()
+    {
+      if ( ! hasPrevious())
+        throw new NoSuchElementException("too many previous calls on "+this);
+      current_ = current_.subtract(BigInteger.ONE);
+      return factory_.createNumExpr(current_);
+    }
+    public int previousIndex()
+    {
+      return nextIndex() - 1;
     }
     public void remove()
     {
       throw new UnsupportedOperationException(
-          "The Remove Operation is not supported");
+          "The ListIterator.Remove Operation is not allowed on "+this);
+    }
+    public void add(Expr o)
+    {
+      throw new UnsupportedOperationException(
+      "The ListIterator.Add operation is not allowed on "+this);
+    }
+    public void set(Expr o)
+    {
+      throw new UnsupportedOperationException(
+          "The ListIterator.set(_) operation is not allowed on "+this);
     }
   }
 
@@ -344,14 +384,22 @@ public class RangeSet extends EvalSet
       return i1.max(i2);
   }
 
-  /** Calculates the union of two ranges. */
+  /** Calculates the 'generous union' of two ranges.
+   *  Generous union means that the resulting range will
+   *  include all numbers between the minimum of the two
+   *  lower bounds and the maximum of the two upper bounds.
+   *  For example, the generous union of 0..3 and 10..12 is
+   *  0..12, which includes numbers that are not in either set.
+   *  So the generous union will always be a superset 
+   *  of the real union (or equal to it). 
+   */
   public RangeSet union(RangeSet other)
   {
     return new RangeSet(minNeg(lower_, other.getLower()),
                         maxPos(upper_, other.getUpper()));
   }
 
-  /** Calculates the union of this range with (lo..up).
+  /** Calculates the 'generous union' of this range with (lo..up).
    *  Note that lo==null means negative infinity
    *  and up=null means positive infinity.
    */
@@ -361,14 +409,14 @@ public class RangeSet extends EvalSet
                         maxPos(upper_, up));
   }
 
-  /** Calculates the intersection of two ranges. */
+  /** Calculates the exact intersection of two ranges. */
   public RangeSet intersect(RangeSet other)
   {
     return new RangeSet(maxNeg(lower_, other.getLower()),
                         minPos(upper_, other.getUpper()));
   }
   
-  /** Calculates the intersection of this range with (lo..up).
+  /** Calculates the exact intersection of this range with (lo..up).
    *  Note that lo==null means negative infinity
    *  and up=null means positive infinity.
    */
@@ -376,5 +424,10 @@ public class RangeSet extends EvalSet
   {
     return new RangeSet(maxNeg(lower_, lo),
                         minPos(upper_, up));
+  }
+  
+  public String toString()
+  {
+    return "[" + lower_ + "," + upper_ + "]";
   }
 }

@@ -334,6 +334,8 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   }
 
   /** This resets any cached results.
+   *  TODO: delete this, because the contents of a set should
+   *      never change (though they may be enumerated).
    */
   protected void resetResult()
   {
