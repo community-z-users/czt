@@ -227,7 +227,7 @@ public class RangeSetTest extends ZTestCase
 
   public void testSubsetIterator()
   {
-    Iterator<Expr> iter = zeroTo3.subsetIterator(x);
+    Iterator<Expr> iter = nats.subsetIterator(upto3);
     from0To3(iter);
     assertFalse(iter.hasNext());
   }

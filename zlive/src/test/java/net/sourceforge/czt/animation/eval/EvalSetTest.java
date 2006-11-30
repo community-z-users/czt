@@ -28,11 +28,11 @@ import java.util.Set;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
-import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.animation.eval.result.SetComp;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -130,7 +130,9 @@ public class EvalSetTest
     Assert.assertTrue(emptySet.nextEvaluation());
     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(es);
     Assert.assertTrue(resultSet != null);
-    Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
+    if ( ! (resultSet instanceof SetComp))
+      Assert.assertEquals(0.0,resultSet.estSize(),ACCURACY);
+    Assert.assertEquals(0, resultSet.size());
     Iterator it = resultSet.iterator();
     Assert.assertTrue(it != null);
     Assert.assertFalse(it.hasNext());
@@ -149,9 +151,10 @@ public class EvalSetTest
     EvalSet resultSet = (EvalSet) m.getEnvir().lookup(s);
     Assert.assertTrue(resultSet != null);
     // Checking the estSize() method
-    // Some implementations may return a bit more than the true size.
     Assert.assertTrue(3.0 <= resultSet.estSize());
-    Assert.assertTrue(resultSet.estSize() <= 4.0);
+    // Some implementations may return a bit more than the true size.
+    if ( ! (resultSet instanceof SetComp))
+      Assert.assertTrue(resultSet.estSize() <= 4.0);
     //Checking the freeVars() method
     //Some subclasses may not use j.
     Set temp = set.freeVars();
@@ -167,7 +170,7 @@ public class EvalSetTest
     //Checking the members() method
     Set<Expr> allElements = new HashSet<Expr>();
     Iterator<Expr> it = resultSet.iterator();
-    //All the elements of in the set are added to a HashSet
+    //All the elements of the set are added to a HashSet
     while (it.hasNext())
       allElements.add(it.next());
     //Another HashSet named comparisonSet is being created which contains
@@ -179,30 +182,44 @@ public class EvalSetTest
     //This compares the two HashSets, and checks if they are equal
     Assert.assertTrue(allElements.equals(comparisonSet));
     Assert.assertFalse(set.nextEvaluation());
+    Assert.assertEquals(3, resultSet.size());
   }
 
-  /** Tests t := i..k, then i..k == t. */
-  /* TODO: enable this...
-  public void testIII()
+  /**
+   *  Tests the III mode. with s:=other.
+   * @param other the initial value for s.
+   * @param equal whether the first nextEvaluation should succeed or not.
+   */
+  public void IIIresult(EvalSet other, boolean equal)
   {
-    EvalSet tempRangeSet = new FlatRangeSet(i,k,t);
-    FlatPred tempFlat = (FlatPred)tempRangeSet;
     Assert.assertNotNull(bounds_);
-    tempFlat.inferBounds(bounds_); // bounds_ is empty
-    Mode tempMode = tempFlat.chooseMode(envIJK);
-    tempFlat.setMode(tempMode);
-    tempFlat.startEvaluation();
-    tempFlat.nextEvaluation();
-    Envir envIJKT = tempFlat.getMode().getEnvir();
-    Mode m = set.chooseMode(envIJKT);
+    Envir env = envIJK.plus(s, other);
+    Mode m = set.chooseMode(env);
     Assert.assertTrue(m != null);
     set.setMode(m);
     set.startEvaluation();
     // Check that the generated set (s) equals t.
-    Assert.assertTrue(set.nextEvaluation());
+    Assert.assertEquals(equal, set.nextEvaluation());
     Assert.assertFalse(set.nextEvaluation());
   }
-  */
+  
+  public void testIII_10_12()
+  {
+    EvalSet s = new RangeSet(BigInteger.valueOf(10),BigInteger.valueOf(12));
+    IIIresult(s, true);
+  }
+  
+  public void testIII_10_13()
+  {
+    EvalSet s = new RangeSet(BigInteger.valueOf(10),BigInteger.valueOf(13));
+    IIIresult(s, false);
+  }
+  
+  public void testIII_9_12()
+  {
+    EvalSet s = new RangeSet(BigInteger.valueOf(9),BigInteger.valueOf(12));
+    IIIresult(s, false);
+  }
 }
 
 

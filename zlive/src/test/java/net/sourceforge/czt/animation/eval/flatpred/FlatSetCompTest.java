@@ -29,17 +29,15 @@ import net.sourceforge.czt.z.ast.ZSchText;
 
 /**
  * A (JUnit) test class for testing the FlatSetComp class.
+ * This overrides set and emptySet to be FlatSetComp objects.
  *
  * @author Mark Utting
  */
 public class FlatSetCompTest
   extends EvalSetTest
 {
-  /** This overrides set and emptySet to be FlatDiscreteSet objects.
-   *  set = {i,k,j,i} and emptySet = {}.
-   */
-  String setCompStr = "\\{ r : i \\upto k @ r \\}";
-  String emptySetCompStr = "\\{ r : k \\upto i | r \\in \\{9\\} @ r \\}";
+  protected String setCompStr = "\\{ r : i \\upto k @ r \\}";
+  protected String emptySetCompStr = "\\{ r : k \\upto i | r \\in \\{9\\} @ r \\}";
 
   public FlatSetCompTest()
   {
