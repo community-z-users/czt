@@ -32,6 +32,7 @@ import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleUtils;
 import net.sourceforge.czt.session.CommandException;
@@ -109,6 +110,7 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
+    sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     this.reset();
   }
 
