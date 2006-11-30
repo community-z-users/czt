@@ -191,7 +191,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     return memberSet.iterator();
   }
 
-  /** Iterate through all members of the set.
+  /** Iterate forwards/backwards through all members of the set.
    *  It guarantees that there will be no duplicates.
    *
    * @return a ListIterator object.
@@ -201,21 +201,73 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     return new EvalSetIterator();
   }
 
-  /** Iterate forwards and backwards through all
-   *  members of this set that might
-   *  equal element (which need not be known yet).
+  /** Iterate through the intersection of this set
+   *  and the 'other' set.  This is intended purely
+   *  to reduce the number of elements visited, so
+   *  implementations are free to ignore otherSet if
+   *  they wish.  If otherSet==null, then
+   *  it places no constraints on the iteration,
+   *  and this method is equivalent to iterator().
    *  The result will contain no duplicates.
    *  <p>
    *  EvalSet provides a default implementation
-   *  that iterates through the whole set.
+   *  that it iterates through the smaller of the
+   *  two sets and checks membership in the other.
+   *  TODO: add unit tests for this.
    *  </p>
    * @return an Iterator object.
    */
-  public Iterator<Expr> subsetIterator(ZName element)
+  public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
-    return iterator();
+    if (otherSet == null)
+      return iterator();
+    if (otherSet.estSize() < estSize())
+      return new SubsetIterator(otherSet.iterator(), this);
+    else
+      return new SubsetIterator(this.iterator(), otherSet);
   }
 
+  /** Filters the master iterator, returning only those
+   *  elements that are members of the slave set.
+   * @author marku
+   */
+  public static class SubsetIterator implements Iterator<Expr>
+  {
+    private Iterator<Expr> iter_;
+    private EvalSet otherSet_;
+    private Expr nextExpr_;
+    
+    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
+    {
+      iter_ = master;
+      otherSet_ = slave;
+      moveToNext();
+    }
+    private void moveToNext()
+    {
+      nextExpr_ = null;
+      while (nextExpr_ == null && iter_.hasNext()) {
+        Expr e = iter_.next();
+        if (otherSet_.contains(e))
+          nextExpr_ = e;
+      }
+    }
+    public boolean hasNext()
+    {
+      return nextExpr_ != null;
+    }
+    public Expr next()
+    {
+      Expr result = nextExpr_;
+      moveToNext();
+      return result;
+    }
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
@@ -488,4 +540,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     else
       return null;
   }
+  
+  /** Each subclass should implement a nice toString. */
+  public abstract String toString();
 }
