@@ -32,14 +32,6 @@ public class ZSetTest extends TestCase
     tempc.add(sb);
     this.sc = new ZSet(tempc);
   }
-  /*
-   * Test method for 'net.sourceforge.czt.animation.gui.temp.ZSet.hashCode()'
-   */
-  public void testHashCode()
-  {
-    Assert.assertEquals(sa.hashCode(),sa0.hashCode());
-    Assert.assertNotSame(sa.hashCode(),sb.hashCode());
-  }
 
   /*
    * Test method for 'net.sourceforge.czt.animation.gui.temp.ZSet.ZSet()'
