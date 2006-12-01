@@ -53,34 +53,56 @@ public class CharTupleChecker
   {
     DeclList declList = zSchText.getDeclList();
     List<Type2> result = declList.accept(charTupleChecker());
+
     return result;
   }
 
   public List<Type2> visitVarDecl(VarDecl varDecl)
   {
-    List<NameTypePair> pairs = varDecl.accept(declChecker());
+    //get the type of the name from the expression
     List<Type2> result = factory().list();
-    for (NameTypePair pair : pairs) {
-      result.add(unwrapType(pair.getType()));
+    ZNameList zNameList = varDecl.getName();
+    for (Name name : zNameList) {
+      Type2 type = getType2FromAnns(varDecl.getExpr());
+
+      //if the type is a PowerType, take the inner type
+      if (type instanceof PowerType) {
+	PowerType powerType = (PowerType) type;
+	result.add(powerType.getType());
+      }
+      //otherwise, the type must not be resolved yet,
+      //so use a fresh unknown type
+      else {
+	result.add(factory().createUnknownType());
+      }
     }
     return result;
   }
 
   public List<Type2> visitConstDecl(ConstDecl constDecl)
   {
-    List<NameTypePair> pairs = constDecl.accept(declChecker());
-
-    assert pairs.size() == 1;
-    List<Type2> result = factory().list(unwrapType(pairs.get(0).getType()));
+    Type2 type = getType2FromAnns(constDecl.getExpr());
+    List<Type2> result = factory().list(type);
     return result;
   }
 
   public List<Type2> visitInclDecl(InclDecl inclDecl)
   {
-    List<NameTypePair> pairs = inclDecl.accept(declChecker());
-    Signature signature = factory().createSignature(pairs);
-    SchemaType schemaType = factory().createSchemaType(signature);
-    List<Type2> result = factory().<Type2>list(schemaType);
+    List<Type2> result = factory().list();
+
+    //get the type of the inner expression
+    Type2 type = getType2FromAnns(inclDecl.getExpr());
+
+    //if the type is a PowerType, take the inner type
+    if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      result.add(powerType.getType());
+    }
+    //otherwise, the type must not be resolved yet,
+    //so use a fresh unknown type
+    else {
+      result.add(factory().createUnknownType());
+    }
     return result;
   }
 

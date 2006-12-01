@@ -395,15 +395,7 @@ public class ExprChecker
     //get the expr
     Expr expr = setCompExpr.getExpr();
 
-    //get the types from the signature
-    List<Type2> types = factory().list();
-    List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
-      Type nextType = pair.getType();
-      types.add(unwrapType(nextType));
-    }
-
-    //if the expr is null, then use the schema test to obtain the type
+    //if the expr is null, then use the schema text to obtain the type
     if (expr == null) {
       //the type is the type of the characteristic tuple of the schema text
       List<Type2> charac = schText.accept(charTupleChecker());
