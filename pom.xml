@@ -84,6 +84,7 @@
     <module>zlive</module>
     <module>gaffe</module>
     <module>modeljunit</module>
+    <module>z2b</module>
     <module>jedit</module>
     <module>ui</module>
   </modules>
@@ -208,6 +209,13 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>zlive</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+
+      <!-- CZT Gaffe -->
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>gaffe</artifactId>
         <version>${czt.version}</version>
       </dependency>
 
