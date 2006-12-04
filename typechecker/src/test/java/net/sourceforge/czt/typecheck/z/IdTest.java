@@ -180,6 +180,25 @@ public class IdTest
     assertTrue(first.equals(list.get(2)));
   }
 
+  public void test5()
+    throws Exception
+  {
+    String spec =
+      "\\begin{zed}" +
+      "    S == [x:\\nat | x > 0] \\land [x:\\arithmos | x < 3]" +
+      "\\end{zed}";
+    Term term = parseAndTypecheck(spec);
+    NameCollector visitor = new NameCollector("x");
+    term.accept(visitor);
+    List<String> list = visitor.getResult();
+    assertEquals(5, list.size());
+    String first = list.get(0);
+    assertTrue(first.equals(list.get(1)));
+    assertTrue(first.equals(list.get(2)));
+    assertTrue(first.equals(list.get(3)));
+    assertTrue(first.equals(list.get(4)));
+  }
+
   public static class NameCollector
     implements TermVisitor<Object>,
                ZNameVisitor<Object>
