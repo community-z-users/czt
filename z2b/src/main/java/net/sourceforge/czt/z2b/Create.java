@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -60,54 +60,35 @@ public class Create
   }
 
   /** Create an equality between a name and expression */
-  public static Pred eqPred(ZDeclName n, Expr e) {
-    ZRefName eq = factory_.createZRefName();
+  public static Pred eqPred(ZName n, Expr e) {
+    ZName eq = factory_.createZName();
     eq.setWord("=");
-    // TODO: it would be nice to do eq.setDeclName(defn of equality)
-    return factory_.createMemPred(factory_.createTupleExpr(refExpr(n), e), 
-				  refExpr(eq), 
-				  Boolean.TRUE);
-  }
-  public static Pred eqPred(ZRefName n, Expr e) {
-    ZRefName eq = factory_.createZRefName();
-    eq.setWord("=");
-    // TODO: it would be nice to do eq.setDeclName(defn of equality)
+    // TODO: it would be nice to do eq.setName(defn of equality)
     return factory_.createMemPred(factory_.createTupleExpr(refExpr(n), e), 
 				  refExpr(eq), 
 				  Boolean.TRUE);
   }
 
-  /** Creates a RefName from a String */
-  public static ZRefName refName(String name) {
+  /** Creates a Name from a String */
+  public static ZName refName(String name) {
     // TODO: this could/should strip decorations off name and
     //        put them into the Stroke list.
-    return factory_.createZRefName(name, factory_.createZStrokeList(), null);
+    return factory_.createZName(name, factory_.createZStrokeList(), null);
   }
 
-  /** Creates a RefName to a given Name (which may be any kind of Name) */
-  public static ZRefName refName(ZRefName n) {
-    return factory_.createZRefName(n.getWord(),
-				   n.getStrokeList(),
-				   n.getDecl());
-  }
-  public static ZRefName refName(ZDeclName n) {
-    return factory_.createZRefName(n.getWord(), n.getStrokeList(), n);
+  public static ZName refName(ZName n) {
+    return factory_.createZName(n.getWord(), n.getStrokeList(), n.getId());
   }
 
   /** Creates a RefExpr to a given Name */
-  public static RefExpr refExpr(ZDeclName n) {
+  public static RefExpr refExpr(ZName n) {
     ZExprList zExprList = factory_.createZExprList();
     return factory_.createRefExpr(refName(n), zExprList, Boolean.FALSE);
   }
-  public static RefExpr refExpr(ZRefName n) {
-    ZExprList zExprList = factory_.createZExprList();
-    return factory_.createRefExpr(refName(n), zExprList, Boolean.FALSE);
-  }
-
 
   /** Prime a Name */
-  public static ZRefName prime(String name) {
-    ZRefName n2 = Create.refName(name);
+  public static ZName prime(String name) {
+    ZName n2 = Create.refName(name);
     ((List) n2.getStrokeList()).add(factory_.createNextStroke());
     return n2;
   }

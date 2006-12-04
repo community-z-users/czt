@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2003, 2004 Mark Utting
+Copyright (C) 2003, 2004, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -32,10 +32,6 @@ import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.visitor.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
 
-// the Gaffe plugins for analysing specs and schemas
-import net.sourceforge.czt.animation.gui.generation.*;
-import net.sourceforge.czt.animation.gui.generation.plugins.*;
-
 /**
  * <p>This class converts a Z section into a B machine.
  *
@@ -61,10 +57,12 @@ public class Z2B
   private static final Logger sLogger
     = Logger.getLogger("net.sourceforge.czt.z2b");
 
+  /* That needs to be reimplemented
   // plugins for finding/classifying schemas and variables.
   private SchemaExtractor extractor_;
   private SchemaIdentifier identify_;
   private VariableExtractor varExtract_;
+  */
 
   private BMachine mach_ = null;
 
@@ -74,7 +72,6 @@ public class Z2B
   * Constructor for Z2B converter.
   *
   * @param plugins Plugins to analyze the specification.
-  */
   public Z2B(PluginList plugins)
     throws PluginInstantiationException
   {
@@ -84,6 +81,7 @@ public class Z2B
     varExtract_ =
       (VariableExtractor) plugins.getPlugin(VariableExtractor.class);
   }
+  */
 
   private Factory getFactory()
   {
@@ -105,6 +103,7 @@ public class Z2B
     ConstDecl/*<SchExpr>*/ initSchema;
     List/*<ConstDecl<SchExpr>>*/ opSchemas;
 
+    /*
     // find all the schemas
     schemas = extractor_.getSchemas(spec);
 
@@ -151,7 +150,7 @@ public class Z2B
       throw new BException("cannot find any operation schemas");
 
     // TODO: extend this extractor to handle x==E vars.
-    //       Idea: return a map from DeclName to Expr (type)
+    //       Idea: return a map from Name to Expr (type)
     Pred invar = ((SchExpr) stateSchema.getExpr()).getZSchText().getPred();
     Pred initpred = ((SchExpr) initSchema.getExpr()).getZSchText().getPred();
 
@@ -178,6 +177,8 @@ public class Z2B
       ops.add(operation((ConstDecl) i.next()));
 
     return mach_;
+    */
+    return null;
   }
 
   /** Converts an expanded Z schema into a BOperation. */
@@ -185,8 +186,9 @@ public class Z2B
   //@ requires schema.getExpr instanceof SchExpr;
   protected BOperation operation(ConstDecl schema)
   {
-    String opName = schema.getZDeclName().getWord();  // TODO: decorations?
+    String opName = schema.getZName().getWord();  // TODO: decorations?
     BOperation op = new BOperation(opName, mach_);
+    /*
     Map inputs = varExtract_.getInputVariables(schema);
     Map outputs = varExtract_.getOutputVariables(schema);
     declareVars(inputs, op.getInputs(), op.getPre());
@@ -201,17 +203,18 @@ public class Z2B
     splitPrePost(post, prePreds, postPreds);
     addPreds(prePreds, op.getPre());
     addPreds(postPreds, op.getPost());
+    */
     return op;
   }
 
   /** Adds ALL the names in a VarDecl to the names/preds lists. */
   protected void declareVars(VarDecl decl, List names, List preds)
   {
-    Iterator i = decl.getDeclName().iterator();
+    Iterator i = decl.getName().iterator();
     while (i.hasNext()) {
-      ZDeclName declName = (ZDeclName) i.next();
+      ZName declName = (ZName) i.next();
       names.add(declName.accept(new PrintVisitor()));
-      ZRefName refName = getFactory().createZRefName(declName);
+      ZName refName = getFactory().createZName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
@@ -224,10 +227,10 @@ public class Z2B
   {
     Iterator i = vars.keySet().iterator();
     while (i.hasNext()) {
-      ZDeclName declName = (ZDeclName) i.next();
+      ZName declName = (ZName) i.next();
       VarDecl decl = (VarDecl) vars.get(declName);
       names.add(declName.accept(new PrintVisitor()));
-      ZRefName refName = getFactory().createZRefName(declName);
+      ZName refName = getFactory().createZName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
@@ -313,7 +316,7 @@ public class Z2B
   public Object visitGivenPara(GivenPara para)
   {
     Map sets = mach_.getSets();
-    for (DeclName name : para.getDeclNames()) {
+    for (Name name : para.getNames()) {
       sets.put(name.accept(new PrintVisitor()), null);
     }
     return null;
@@ -353,19 +356,19 @@ public class Z2B
       Branch branch = (Branch) i.next();
       if (branch.getExpr() != null)
         throw new BException("free types must be simple enumerations, but "
-			     +branch.getDeclName()+" branch has expression "
+			     +branch.getName()+" branch has expression "
 			     +branch.getExpr());
-      contents.add(branch.getDeclName().accept(new PrintVisitor()));
+      contents.add(branch.getName().accept(new PrintVisitor()));
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
-    sets.put(freetype.getDeclName().accept(new PrintVisitor()), contents);
+    sets.put(freetype.getName().accept(new PrintVisitor()), contents);
     return null;
   }
 
   /** Adds some axiomatic definitions to a B machine. */
   public Object visitAxPara(AxPara para)
   {
-    if (para.getDeclName().size() > 0)
+    if (para.getName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
     ZSchText schText = para.getZSchText();
     schText.getDeclList().accept(this);
@@ -416,7 +419,7 @@ public class Z2B
   public Object visitConstDecl(ConstDecl decl)
   {
     if ( ! (decl.getExpr() instanceof SchExpr)) {
-      String name = decl.getDeclName().accept(new PrintVisitor());
+      String name = decl.getName().accept(new PrintVisitor());
       mach_.getDefns().put(name, decl.getExpr());
     }
     return null;

@@ -28,17 +28,13 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
-import net.sourceforge.czt.animation.gui.generation.*;
-import net.sourceforge.czt.animation.gui.generation.plugins.*;
-import net.sourceforge.czt.animation.gui.generation.plugins.impl.*;
-
-
 /** Translate a Z specification from ZML format into B format.
  *
  *  It takes a file spec.xml and produces a file spec.mch.
  */
 public class Main {
 
+  /* TODO: reimplement this
   private static PluginList plugins
     = new PluginList(
         new Class[] {
@@ -53,6 +49,7 @@ public class Main {
 	  DefaultVariableExtractor.class},
 	"Z2B",
 	"Translates a Z specification (*.xml) into B format (.mch).");
+  */
   
   public static void main(String[] args) {
     try {
@@ -63,6 +60,7 @@ public class Main {
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.z2b").setLevel(Level.FINEST);
 
+      /* TODO: reimplement this
       System.err.println("Parsing command args");
       // process all command line arguments
       // Note: this may change the plugins from the defaults above.
@@ -104,6 +102,7 @@ public class Main {
       BWriter bwriter = createBWriter(specURL);
       mach.print(bwriter);
       bwriter.close();
+      */
       System.err.println("Done!");
     } catch( Exception e ) {
       System.err.println("ERROR: "+e);

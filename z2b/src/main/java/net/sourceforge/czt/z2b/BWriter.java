@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -279,14 +279,7 @@ public class BWriter extends PrintWriter
   /** Print one Z name into the current section.
    *  @param name 
    */
-  public void printName(ZDeclName name) {
-    print(bName(name));
-  }
-
-  /** Print one Z name into the current section.
-   *  @param name 
-   */
-  public void printName(ZRefName name) {
+  public void printName(ZName name) {
     print(bName(name));
   }
 
@@ -307,16 +300,9 @@ public class BWriter extends PrintWriter
 
   /** Convert a Z Name into a legal B name.
    */
-  static public String bName(ZRefName name) {
+  static public String bName(ZName name) {
     return bName(name.accept(new PrintVisitor()));
   }
-
-  /** Convert a Z Name into a legal B name.
-   */
-  static public String bName(ZDeclName name) {
-    return bName(name.accept(new PrintVisitor()));
-  }
-
 
   /** Convert a string into a legal B name
    */

@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -39,14 +39,14 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class RenameVisitor
-  implements TermVisitor, RefNameVisitor
+  implements TermVisitor, NameVisitor
 {
   Map subs_;
   
   /**
    * Constructor for RenameVisitor
    *
-   * @param rename  The map from old names (RefName) to new names (RefName).
+   * @param rename  The map from old names to new names.
    */
   public RenameVisitor(Map rename) {
     subs_ = rename;
@@ -67,7 +67,7 @@ public class RenameVisitor
 
   /** This visit method performs the renaming.
   */
-  public Object visitRefName(RefName name) {
+  public Object visitName(Name name) {
     
     String strName = name.accept(new PrintVisitor());
     if (subs_.containsKey(strName))
