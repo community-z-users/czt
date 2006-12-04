@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.ZName;
 /** This overrides the forall evaluation algorithm. */
 public class FlatMu extends FlatPred
 {
-  protected static final Logger sLogger
+  protected static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected FlatPredList schText_;
@@ -40,7 +40,7 @@ public class FlatMu extends FlatPred
   
   public FlatMu(FlatPredList sch, ZName result)
   {
-    sLogger.entering("FlatMu","FlatMu");
+    LOG.entering("FlatMu","FlatMu");
     schText_ = sch;
     resultName_ = result;
     freeVars_ = new HashSet<ZName>(schText_.freeVars());
@@ -49,7 +49,7 @@ public class FlatMu extends FlatPred
     args_.add(resultName_);
     freeVars_.add(resultName_); // result of the mu is also a free var.
     solutionsReturned_ = -1;
-    sLogger.exiting("FlatMu","FlatMu");
+    LOG.exiting("FlatMu","FlatMu");
   }
 
   /** This does local bounds inference.
@@ -65,7 +65,7 @@ public class FlatMu extends FlatPred
    */
   public Mode chooseMode(/*@non_null@*/ Envir env0)
   {
-    sLogger.entering("FlatMu","chooseMode",env0);
+    LOG.entering("FlatMu","chooseMode",env0);
     Mode mode = this.modeFunction(env0);
     if (mode != null) {
       if (mode.isInput(resultName_)) {
@@ -73,11 +73,12 @@ public class FlatMu extends FlatPred
         // For example, (\mu x:0..10 @ x) = 3
         // will give the wrong results if it is transformed into
         // (\mu x:0..10 @ 3).  So the III mode is not sound.
+        LOG.exiting("FlatMu","chooseMode",null);
         return null;
       }
       // Now check if the bound vars are finite enough to enumerate
       Mode schmode = schText_.chooseMode(env0);
-      sLogger.fine("schema text gives mode = " + mode);
+      LOG.fine("schema text gives mode = " + mode);
       if (schmode == null)
         mode = null;  // cannot evaluate the FlatMu.
       else {
@@ -86,7 +87,7 @@ public class FlatMu extends FlatPred
         mode = finalMode;
       }
     }
-    sLogger.exiting("FlatMu","chooseMode",mode);
+    LOG.exiting("FlatMu","chooseMode",mode);
     // Note that we return the original mode, with solutions <= 1.0
     // because \mu expressions return only one value, even if their
     // schema part has multiple solutions.
@@ -110,7 +111,6 @@ public class FlatMu extends FlatPred
    */
   public boolean nextEvaluation()
   {
-    sLogger.entering("FlatMu", "nextEvaluation");
     assert evalMode_ != null;
     boolean result = false;
     Envir env = evalMode_.getEnvir();
@@ -121,7 +121,6 @@ public class FlatMu extends FlatPred
       schText_.startEvaluation();
       while (schText_.nextEvaluation()) {
         Expr nextValue = schEnv.lookup(resultName_);
-        sLogger.fine("FlatMu gets next value: "+nextValue);
         if (value == null) {
           value = nextValue;
         }
@@ -129,14 +128,12 @@ public class FlatMu extends FlatPred
           UndefException ex
             = new UndefException("Mu expression has multiple results: "
                 + value + "  /=  " + nextValue);
-          sLogger.throwing("FlatMu","nextEvaluation",ex);
           throw ex;
         }
       }
       if (value == null) {
         UndefException ex =
           new UndefException("Mu expression has no solutions: " + this);
-        sLogger.throwing("FlatMu","nextEvaluation",ex);
         throw ex;
       }
       if (evalMode_.isInput(args_.size()-1)) {
@@ -148,7 +145,6 @@ public class FlatMu extends FlatPred
         result = true;
       }
     }
-    sLogger.exiting("FlatMu", "nextEvaluation", result);
     return result;
   }
 

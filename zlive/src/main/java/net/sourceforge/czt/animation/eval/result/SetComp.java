@@ -81,7 +81,6 @@ public class SetComp extends EvalSet
     resultName_ = resultName;
     // try to estimate its size.
     Mode m = predsAll_.chooseMode(env0_);
-    System.out.println("SetComp mode returns "+m);
     if (m != null)
       estSize_ = m.getSolutions();
   }

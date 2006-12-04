@@ -453,10 +453,8 @@ public class FlatPredList extends FlatPred
   //@ requires evalMode_ != null;
   public void startEvaluation()
   {
-    LOG.entering("FlatPredList","startEvaluation");
     super.startEvaluation();
     assert evalMode_ != null;
-    LOG.exiting("FlatPredList","startEvaluation");
    }
 
   /** The output environment of this FlatPred list.
@@ -476,7 +474,7 @@ public class FlatPredList extends FlatPred
    *  @return true iff a new solution was found.
    */
   public boolean nextEvaluation() {
-    LOG.entering("FlatPredList","nextEvaluation");
+    //LOG.entering("FlatPredList","nextEvaluation");
     final int end = predlist_.size(); // points just PAST the last flatpred.
     int curr;
     if (solutionsReturned_ == ALLDONE)
@@ -485,8 +483,8 @@ public class FlatPredList extends FlatPred
       // start from the beginning of the list
       solutionsReturned_++;
       curr = 0;
-      LOG.fine("starting search, size=" + end
-          + ((curr < end) ? ": "+predlist_.get(curr) : ""));
+      //LOG.finest("starting search, size=" + end
+      //    + ((curr < end) ? ": "+predlist_.get(curr) : ""));
       if (curr < end)
         predlist_.get(curr).startEvaluation();
       else {
@@ -498,7 +496,7 @@ public class FlatPredList extends FlatPred
       // start backtracking from the end of the list
       solutionsReturned_++;
       curr = end - 1;
-      LOG.fine("starting backtracking from "+curr);
+      //LOG.finest("starting backtracking from "+curr);
     }
     // invariant: the output env contains a valid solution for predlist[0..curr-1]
     while (0 <= curr && curr < end) {
@@ -507,19 +505,19 @@ public class FlatPredList extends FlatPred
         curr++;
         if (curr < end) {
           FlatPred nextfp = predlist_.get(curr);
-          LOG.fine("moving forward to "+curr+": "+nextfp);
+          //LOG.finest("moving forward to "+curr+": "+nextfp);
           nextfp.startEvaluation();
         } else {
-          LOG.fine("producing new solution: "+this.getOutputEnvir());
+          //LOG.finer("producing new solution: "+this.getOutputEnvir());
         }
       }
       else {
         curr--;
-        LOG.fine("moving backwards to "+curr
-            +((curr >= 0) ? ": "+predlist_.get(curr) : ""));
+        //LOG.finest("moving backwards to "+curr
+        //    +((curr >= 0) ? ": "+predlist_.get(curr) : ""));
      }
     }
-    LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
+    //LOG.exiting("FlatPredList","nextEvaluation",new Boolean(curr == end));
     if (curr < 0)
       solutionsReturned_ = ALLDONE;
     return curr == end;

@@ -45,7 +45,7 @@ public class FlatExists extends FlatForall
 
   public boolean nextEvaluation()
   {
-    sLogger.entering("FlatExists","nextEvaluation");
+    LOG.entering("FlatExists","nextEvaluation");
     assert(evalMode_ != null);
     UndefException undef = null;
     if (solutionsReturned_ == 0) {
@@ -55,7 +55,7 @@ public class FlatExists extends FlatForall
         body_.startEvaluation();
         try {
           if (body_.nextEvaluation()) {
-            sLogger.exiting("FlatExists","nextEvaluation",Boolean.TRUE);
+            LOG.exiting("FlatExists","nextEvaluation",Boolean.TRUE);
             return true;
           }
         }
@@ -66,11 +66,11 @@ public class FlatExists extends FlatForall
         }
       }
       if (undef != null) {
-        sLogger.fine("FlatExists throwing UndefException");
+        LOG.throwing("FlatExists", "nextEvaluation", undef);
         throw undef;
       }
     }
-    sLogger.exiting("FlatExists","nextEvaluation",Boolean.FALSE);
+    LOG.exiting("FlatExists","nextEvaluation",Boolean.FALSE);
     return false;
   }
 

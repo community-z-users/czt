@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class Bounds implements Cloneable
 {
-  private static final Logger sLogger
+  private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   private HashMap<ZName, BigInteger> lowerBound_;
@@ -153,7 +153,6 @@ public class Bounds implements Cloneable
     BigInteger old = lowerBound_.get(var);
     if (old == null || lower.compareTo(old) > 0) {
       lowerBound_.put(var, lower);
-      sLogger.fine("Bounds lower["+var+"] := "+lower+" instead of "+old);
       return true;
     }
     else
@@ -175,7 +174,6 @@ public class Bounds implements Cloneable
     BigInteger old = upperBound_.get(var);
     if (old == null || upper.compareTo(old) < 0) {
       upperBound_.put(var, upper);
-      sLogger.fine("Bounds upper["+var+"] := "+upper+" instead of "+old);
       return true;
     }
     else

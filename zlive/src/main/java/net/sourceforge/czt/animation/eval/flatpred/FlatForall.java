@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.ZName;
 
 public class FlatForall extends FlatPred
 {
-  protected static final Logger sLogger
+  protected static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected FlatPredList schText_;
@@ -46,15 +46,15 @@ public class FlatForall extends FlatPred
 
   public FlatForall(FlatPredList sch, FlatPredList body)
   {
-    sLogger.entering("FlatForall","FlatForall");
+    LOG.entering("FlatForall","FlatForall");
     schText_ = sch;
     body_ = body;
 
     // freeVars_ := sch.freeVars + (body.freeVars - sch.boundVars)
     freeVars_ = new HashSet<ZName>(schText_.freeVars());
-    System.out.println("schText freevars = "+schText_.freeVars());
-    System.out.println("schText boundvars = "+schText_.boundVars());
-    System.out.println("body freevars = "+body_.freeVars());
+    //System.out.println("schText freevars = "+schText_.freeVars());
+    //System.out.println("schText boundvars = "+schText_.boundVars());
+    //System.out.println("body freevars = "+body_.freeVars());
     Set<ZName> bound = sch.boundVars();
     for (ZName var : body_.freeVars()) {
       if (var.getId() == null) {
@@ -63,11 +63,11 @@ public class FlatForall extends FlatPred
       if ( ! bound.contains(var))
         freeVars_.add(var);
     }
-    System.out.println("freevars = "+freeVars_);
+    //System.out.println("freevars = "+freeVars_);
     args_ = new ArrayList<ZName>(freeVars_);
     Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
     solutionsReturned_ = -1;
-    sLogger.exiting("FlatForall","FlatForall");
+    LOG.exiting("FlatForall","FlatForall");
   }
 
   /** This currently lets bound information flow into the
@@ -95,8 +95,8 @@ public class FlatForall extends FlatPred
    */
   public ModeList chooseMode(/*@non_null@*/ Envir env)
   {
-    sLogger.entering("FlatForall","chooseMode",env);
-    sLogger.fine("freevars="+freeVars_.toString());
+    LOG.entering("FlatForall","chooseMode",env);
+    LOG.fine("freevars="+freeVars_.toString());
     // Use modeAllDefined to check that all free variables are defined
     Mode mode = modeAllDefined(env);
     Mode schMode = null;
@@ -106,11 +106,11 @@ public class FlatForall extends FlatPred
     if (mode != null) {
       // Now check if the bound vars are finite enough to enumerate
       schMode = schText_.chooseMode(env);
-      sLogger.fine("schema text gives mode = " + schMode);
+      LOG.fine("schema text gives mode = " + schMode);
       if (schMode != null) {
         // Now check that the body of the quantifier can be evaluated.
         bodyMode = body_.chooseMode(schMode.getEnvir());
-        sLogger.fine("body gives mode: " + bodyMode);
+        LOG.fine("body gives mode: " + bodyMode);
       }
     }
 
@@ -121,7 +121,7 @@ public class FlatForall extends FlatPred
       result.add(bodyMode);
     }
 
-    sLogger.exiting("FlatForall","chooseMode",result);
+    LOG.exiting("FlatForall","chooseMode",result);
     return result;
   }
 
@@ -140,7 +140,6 @@ public class FlatForall extends FlatPred
 
   public boolean nextEvaluation()
   {
-    sLogger.entering("FlatForAll","nextEvaluation");
     assert(evalMode_ != null);
     if (solutionsReturned_ == 0) {
       // start from the beginning of the list
@@ -150,14 +149,11 @@ public class FlatForall extends FlatPred
         body_.startEvaluation();
         // there must be (at least) one true solution from the body part
         if (!(body_.nextEvaluation())) {
-          sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
           return false;
         }
       }
-      sLogger.exiting("FlatForAll","nextEvaluation",Boolean.TRUE);
       return true;
     }
-    sLogger.exiting("FlatForAll","nextEvaluation",Boolean.FALSE);
     return false;
   }
 

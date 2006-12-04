@@ -87,7 +87,7 @@ public class FlattenVisitor
   /** The set of builtin binary relations handled by ZLive */
   static final Set<String> knownRelations = new HashSet<String>();
 
-  private static final Logger sLogger
+  private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   public FlattenVisitor(ZLive zlive, List<FlatPred> destination, DefinitionTable defns)

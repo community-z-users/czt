@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.util.ZUtils;
 */
 public abstract class EvalTest extends TestCase
 {
-  private static final Logger sLogger
+  private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   /** Get the LocAnn of a term, or null if it does not have one. */
@@ -94,7 +94,6 @@ public abstract class EvalTest extends TestCase
     private ZLive animator_;
     
     PredTest(String testname, Pred pred, ZLive anim) {
-      sLogger.fine("creating PredTest("+testname+")");
       setName(testname);
       pred_ = pred;
       animator_ = anim;
@@ -102,13 +101,14 @@ public abstract class EvalTest extends TestCase
     
     /** Test that a predicate evaluates to TruePred. */
     public void runTest() {
-      sLogger.fine("running PredTest("+getName()+")");
+      LOG.fine("running PredTest("+getName()+")");
       try {
         Pred result = animator_.evalPred(pred_);
         assertNotNull(result);
         assertTrue(result instanceof TruePred);
         System.out.println("Passed test:" + getName());
       } catch (Exception e) {
+        System.out.println("FAILED test:" + getName());
         fail("Should not throw exception " + e);
       }
     }
@@ -121,7 +121,6 @@ public abstract class EvalTest extends TestCase
     private ZLive animator_;
     
     UndefTest(String testname, Expr expr, ZLive anim) {
-      sLogger.fine("creating UndefTest("+testname+")");
       setName(testname);
       expr_ = expr;
       animator_ = anim;
@@ -129,13 +128,15 @@ public abstract class EvalTest extends TestCase
     
     /** Test that an expression throws an undefined exception. */
     public void runTest() {
-      sLogger.fine("running UndefTest("+getName()+")");
+      LOG.fine("running UndefTest("+getName()+")");
       try {
         animator_.evalExpr(expr_);
+        System.out.println("FAILED undef test (not undefined): " + getName());
         fail("Should be undefined: " + expr_);
       } catch (UndefException e) {
         System.out.println("Passed undef test: " + getName());
       } catch (EvalException e) {
+        System.out.println("FAILED undef test (exception): " + getName());
         fail("Exception while evaluating undef expr. " + e);
       }
     }
@@ -144,7 +145,7 @@ public abstract class EvalTest extends TestCase
   public static Test generateSuite(String filename) {
     ZLive animator = new ZLive();
     ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-        "zlive.log", Level.FINEST);
+        "zlive.log", Level.FINER);
     TestSuite tests = new TestSuite();
     int count = 0;
     Spec spec = null;

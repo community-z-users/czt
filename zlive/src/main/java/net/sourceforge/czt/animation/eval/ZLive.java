@@ -56,7 +56,7 @@ public class ZLive
    */
   public static final int INFER_PASSES = 5;
   
-  private static final Logger sLogger =
+  private static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   /** The name and current version of ZLive */
@@ -93,7 +93,7 @@ public class ZLive
       Exception e = new Exception("infinite loop???  See ZLive.createNewName");
       StringWriter w = new StringWriter();
       e.printStackTrace(new PrintWriter(w));
-      sLogger.fine("Stack dump: "+w.toString());
+      LOG.fine("Stack dump: "+w.toString());
     }
     return factory_.createZName("tmp"+(newNameNum++));
   }
@@ -245,37 +245,44 @@ public class ZLive
   */
   public Pred evalPred(Pred pred)
     throws EvalException
-  {
-    sLogger.entering("ZLive","evalPred");
-    if (getCurrentSection() == null) {
-      throw new CztException("Must choose a section!");
+    {
+    LOG.entering("ZLive","evalPred");
+    Pred result = null;
+    try {
+      if (getCurrentSection() == null) {
+        throw new CztException("Must choose a section!");
+      }
+      // preprocess the predicate, to unfold things.
+      pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
+      LOG.finer("After preprocess, pred="+printTerm(pred));
+      // must typecheck, to reestablish the unique-ids invariant.
+      typecheck(pred);
+      predlist_ = new FlatPredList(this);
+      predlist_.addPred(pred);
+      Envir env0 = new Envir();
+      predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
+      Mode m = predlist_.chooseMode(env0);
+      if (m == null) {
+        final String message =
+          "Cannot find mode to evaluate " + pred +
+          " (" + printTerm(pred, markup_) + ")";
+        throw new EvalException(message);
+      }
+      predlist_.setMode(m);
+      predlist_.startEvaluation();
+      if (predlist_.nextEvaluation())
+        result = factory_.createTruePred();
+      else
+        result = factory_.createFalsePred();
     }
-    // preprocess the predicate, to unfold things.
-    pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
-    sLogger.finer("After preprocess, pred="+printTerm(pred));
-    // must typecheck, to reestablish the unique-ids invariant.
-    typecheck(pred);
-    predlist_ = new FlatPredList(this);
-    predlist_.addPred(pred);
-    Envir env0 = new Envir();
-    predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
-    Mode m = predlist_.chooseMode(env0);
-    if (m == null) {
-      final String message =
-        "Cannot find mode to evaluate " + pred +
-        " (" + printTerm(pred, markup_) + ")";
-      throw new EvalException(message);
+    catch (RuntimeException ex) {
+      // we just catch and rethrow this for logging purposes
+      LOG.throwing("ZLive", "evalPred", ex);
+      throw ex;
     }
-    predlist_.setMode(m);
-    predlist_.startEvaluation();
-    Pred result;
-    if (predlist_.nextEvaluation())
-      result = factory_.createTruePred();
-    else
-      result = factory_.createFalsePred();
-    sLogger.exiting("ZLive","evalPred");
+    LOG.exiting("ZLive","evalPred");
     return result;
-  }
+    }
 
   /** Evaluate an Expr.
       This throws some kind of EvalException if expr is too difficult
@@ -285,35 +292,44 @@ public class ZLive
       @return      Usually an instance of EvalSet, or some other expr.
   */
   public Expr evalExpr(Expr expr)
-    throws EvalException
+  throws EvalException
   {
-    sLogger.entering("ZLive","evalExpr");
-    if (getCurrentSection() == null) {
-      throw new CztException("Must choose a section!");
-    }
-    // preprocess the expr, to unfold things.
-    // Unifier.printDepth_ = 7;  // for debugging unifications
-    expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
-    sLogger.finer("After preprocess, expr="+printTerm(expr));
-    // must typecheck, to reestablish the unique-ids invariant.
-    typecheck(expr);
-    predlist_ = new FlatPredList(this);
-    ZName resultName = predlist_.addExpr(expr);
-    predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
-    Envir env0 = new Envir();
-    Mode m = predlist_.chooseMode(env0);
-    if (m == null) {
-      final String message =
-        "Cannot find mode to evaluate " + expr +
-        " (" + printTerm(expr, markup_) + ")";
-      throw new EvalException(message);
-    }
-    predlist_.setMode(m);
-    predlist_.startEvaluation();
-    if ( ! predlist_.nextEvaluation())
+    LOG.entering("ZLive","evalExpr");
+    Expr result = null;
+    try {
+      if (getCurrentSection() == null) {
+        throw new CztException("Must choose a section!");
+      }
+      // preprocess the expr, to unfold things.
+      // Unifier.printDepth_ = 7;  // for debugging unifications
+      expr = (Expr) preprocess_.preprocess(getCurrentSection(), expr);
+      LOG.finer("After preprocess, expr="+printTerm(expr));
+      // must typecheck, to reestablish the unique-ids invariant.
+      typecheck(expr);
+      predlist_ = new FlatPredList(this);
+      ZName resultName = predlist_.addExpr(expr);
+      predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
+      Envir env0 = new Envir();
+      Mode m = predlist_.chooseMode(env0);
+      if (m == null) {
+        final String message =
+          "Cannot find mode to evaluate " + expr +
+          " (" + printTerm(expr, markup_) + ")";
+        throw new EvalException(message);
+      }
+      predlist_.setMode(m);
+      predlist_.startEvaluation();
+      if ( ! predlist_.nextEvaluation()) {
         throw new CztException("No solution for expression");
-    Expr result = predlist_.getOutputEnvir().lookup(resultName);
-    sLogger.exiting("ZLive","evalExpr");
+      }
+      result = predlist_.getOutputEnvir().lookup(resultName);
+    }
+    catch (RuntimeException ex) {
+      // we just catch and rethrow this for logging purposes
+      LOG.throwing("ZLive", "evalExpr", ex);
+      throw ex;
+    }
+    LOG.exiting("ZLive","evalExpr");
     return result;
   }
 
@@ -331,10 +347,12 @@ public class ZLive
     DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
     SchText schText = factory_.createZSchText(args.getZDeclList(), factory_.createTruePred());
     Expr schema = table.lookup(schemaName).getExpr();
-    if (schema == null)
-      throw new CztException("Cannot find schema: "+schemaName);
+    if (schema == null) {
+      CztException ex =new CztException("Cannot find schema: "+schemaName);
+      throw ex;
+    }
     ExistsExpr expr = factory_.createExistsExpr(schText, schema);
-    sLogger.fine("evalSchema is starting to evaluate: "+printTerm(expr));
+    LOG.fine("evalSchema is starting to evaluate: "+printTerm(expr));
     return evalExpr(expr);
   }
 

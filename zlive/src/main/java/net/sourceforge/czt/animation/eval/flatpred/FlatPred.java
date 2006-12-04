@@ -58,8 +58,8 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public abstract class FlatPred
 {
-  protected static final Logger LOG = Logger
-      .getLogger("net.sourceforge.czt.animation.eval");
+  protected static final Logger LOG =
+    Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   /** Records the free variables used within this predicate.
    *  This is calculated and cached by the freeVars() method.

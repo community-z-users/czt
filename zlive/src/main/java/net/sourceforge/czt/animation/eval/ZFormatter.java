@@ -52,7 +52,7 @@ public class ZFormatter extends SimpleFormatter {
     logger.setLevel(detail);
     try {
       handler_ = new FileHandler(fileName);
-      handler_.setLevel(Level.ALL);
+      handler_.setLevel(detail);
       handler_.setEncoding("utf8");
     } catch (Exception e) {
       throw new RuntimeException(e);
