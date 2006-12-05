@@ -30,6 +30,7 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
+import net.sourceforge.czt.parser.util.DefinitionTable;
 
 /**
  * A visitor that copies a term using the given factory.  The main purpose
@@ -38,7 +39,8 @@ import net.sourceforge.czt.zpatt.visitor.*;
  *
  * In addition, this visitor rewrites variable declarations with
  * multiple names into variable declarations with just one name,
- * i.e. a,b:E gets rewritten to a:E;b:E.
+ * (i.e. a,b:E gets rewritten to a:E;b:E) and expands a true predicate
+ * to any schema text that is missing the predicate part.
  *
  * @czt.todo Doesn't copy annotations.
  *
@@ -55,10 +57,20 @@ public class CopyVisitor
              JokerPredVisitor<Term>,
              LookupConstDeclProvisoVisitor<Term>,
              CalculateProvisoVisitor<Term>,
-             TypeProvisoVisitor<Term>
+             TypeProvisoVisitor<Term>,
+             ZNameVisitor<Term>,
+             DefinitionTable.DefinitionVisitor<DefinitionTable.Definition>
 {
   private Factory factory_;
-
+  
+  /**
+   *  Sometimes when we copy definitions/terms, we have to
+   *  generalize type parameters by converting them into jokers.
+   *  This maps each type parameters onto its new joker name.
+   *  When this is null, no names are transformed.
+   */
+  private Map<ZName, Name> typeParamMap_;
+  
   public CopyVisitor(Factory factory)
   {
     factory_ = factory;
@@ -77,6 +89,7 @@ public class CopyVisitor
     if (declNameList instanceof ZNameList) {
       ZNameList zdnl = (ZNameList) declNameList;
       if (zdnl.size() > 1) {
+        // here we expand a,b,c,...:T into a:T; b:T; c:T; ...
         ZDeclList zDeclList = factory_.createZDeclList();
         for (Name declName : zdnl) {
           ZNameList list = factory_.createZNameList();
@@ -157,5 +170,34 @@ public class CopyVisitor
     Expr left = (Expr) proviso.getExpr().accept(this);
     Expr right = (Expr) proviso.getType().accept(this);
     return factory_.createTypeProviso(context, left, right);
+  }
+  
+  /** Transforms formal type parameters into expression jokers. */
+  public DefinitionTable.Definition visitDefinition(DefinitionTable.Definition def)
+  {
+    ZNameList typeformals = def.getDeclNames();
+    ZNameList typeactuals = factory_.createZNameList();
+    typeParamMap_ = new HashMap<ZName, Name>();
+    for (Name n : typeformals) {
+      ZName zname = (ZName) n;
+      Name joker = factory_.createJokerName( ((ZName) n).getWord());
+      typeactuals.add(joker);
+      typeParamMap_.put(zname, joker);
+    }
+    // this will use typeParamMap_ to transform typeformals into jokers.
+    Expr expr2 = (Expr) def.getExpr().accept(this);
+    typeParamMap_ = null;  // disable the type-to-joker transformation
+    return new DefinitionTable.Definition(typeactuals, expr2);
+  }
+
+  public Term visitZName(ZName name)
+  {
+    if (typeParamMap_ != null && typeParamMap_.containsKey(name)) {
+      Term joker = typeParamMap_.get(name);
+      System.out.println("copy visitor transforms type "+name+" to joker "+joker);
+      return joker; 
+    }
+    else
+      return name;
   }
 }

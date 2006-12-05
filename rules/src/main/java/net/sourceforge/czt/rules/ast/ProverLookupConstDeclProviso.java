@@ -61,8 +61,19 @@ public class ProverLookupConstDeclProviso
         String word = refName.accept(new GetNameWordVisitor());
         DefinitionTable.Definition def = table.lookup(word);
         if (def != null) {
-          unify(def.getExpr().accept(copyVisitor), getRightExpr());
-          return;
+          status_ = Status.PASS;  // by default
+          def = (DefinitionTable.Definition) def.accept(copyVisitor);
+          unify(def.getExpr(), getRightExpr());
+          ZNameList formals = def.getDeclNames();
+          ZExprList actuals = ref.getZExprList();
+          if (formals.size() != actuals.size())
+            status_ = Status.FAIL;
+          else
+            for (int i=0; i < formals.size(); i++) {
+              Name joker = formals.get(i);
+              Expr actual = actuals.get(i);
+              unify(joker, actual);
+            }
         }
         else status_ = Status.UNKNOWN;
       }
@@ -71,19 +82,14 @@ public class ProverLookupConstDeclProviso
       status_ = Status.UNKNOWN;
       System.err.println(e);
     }
-    return;
   }
 
   private void unify(Term term1, Term term2)
   {
     try {
       bindings_ = UnificationUtils.unify(term1, term2);
-      if (bindings_ != null) {
-        status_ = Status.PASS;
-      }
-      else {
+      if (bindings_ == null)
         status_ = Status.FAIL;
-      }
     }
     catch(Exception e) { // UnificationException e)
       String message = "Failed to unify " + term1 + " and " + term2;
