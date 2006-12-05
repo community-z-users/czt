@@ -82,7 +82,7 @@ public class DefinitionTableVisitor
 
   public Object visitAxPara(AxPara axPara)
   {
-    List declNames = axPara.getName();
+    ZNameList declNames = axPara.getName();
     ZSchText schText = axPara.getZSchText();
     List<Decl> decls = schText.getZDeclList();
     for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) {

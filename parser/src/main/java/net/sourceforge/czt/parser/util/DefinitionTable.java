@@ -21,6 +21,9 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.impl.TermImpl;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -116,18 +119,29 @@ public class DefinitionTable
     }
   }
 
-  public static class Definition
+  /** This interface allows visitors to visit definitions. */
+  public interface DefinitionVisitor<T>
   {
-    private List genericParams_;
+    T visitDefinition(Definition def);
+  }
+  
+  /** This defines a definition, but without the name.
+   *  That is, for the generic definition g[T,U] = T \fun U,
+   *  this Definition records the type parameters T,U and
+   *  the right hand side expression.
+   */
+  public static class Definition extends TermImpl
+  {
+    private ZNameList genericParams_;
     private Expr definition_;
 
-    public Definition(List generic, Expr definition)
+    public Definition(ZNameList generic, Expr definition)
     {
       genericParams_ = generic;
       definition_ = definition;
     }
 
-    public List getDeclNames()
+    public ZNameList getDeclNames()
     {
       return genericParams_;
     }
@@ -140,6 +154,27 @@ public class DefinitionTable
     public String toString()
     {
       return genericParams_.toString() + " " + definition_.toString();
+    }
+
+    @Override
+    public <R> R accept(Visitor<R> v)
+    {
+      if (v instanceof DefinitionVisitor) {
+        DefinitionVisitor<R> defv = (DefinitionVisitor<R>)v;
+        return defv.visitDefinition(this);
+      }
+      else
+        return super.accept(v);
+    }
+
+    public Term create(Object[] args)
+    {
+      throw new RuntimeException("Should not need to create Definitions");
+    }
+
+    public Object[] getChildren()
+    {
+      return new Object[] {genericParams_, definition_};
     }
   }
 }
