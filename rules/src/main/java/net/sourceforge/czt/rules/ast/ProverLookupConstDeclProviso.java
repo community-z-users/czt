@@ -19,11 +19,17 @@
 
 package net.sourceforge.czt.rules.ast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
@@ -41,6 +47,7 @@ public class ProverLookupConstDeclProviso
   extends LookupConstDeclProvisoImpl
   implements ProverProviso
 {
+  private Logger LOG = Logger.getLogger("net.sourceforge.czt.rules");
   private Status status_ = Status.UNCHECKED;
   private Set<Binding> bindings_;
 
@@ -49,38 +56,83 @@ public class ProverLookupConstDeclProviso
     return bindings_;
   }
 
+  /** This dereferences the expression.
+   *  That is, skips over any bound jokers.
+   */
+  public Expr deref(Expr expr)
+  {
+    if (expr instanceof ProverJokerExpr) {
+      ProverJokerExpr joker = (ProverJokerExpr) expr;
+      Expr result = (Expr) joker.boundTo();
+      if (result != null)
+        return deref(result);
+    }
+    return expr;
+  }
+
   public void check(SectionManager manager, String section)
   {
-    try {
-      CopyVisitor copyVisitor = new CopyVisitor(new Factory());
-      Key key = new Key(section, DefinitionTable.class);
-      DefinitionTable table = (DefinitionTable) manager.get(key);
-      if (table != null) {
-        RefExpr ref = (RefExpr) getLeftExpr();
-        Name refName = ref.getName();
-        String word = refName.accept(new GetNameWordVisitor());
-        DefinitionTable.Definition def = table.lookup(word);
-        if (def != null) {
-          status_ = Status.PASS;  // by default
-          def = (DefinitionTable.Definition) def.accept(copyVisitor);
-          unify(def.getExpr(), getRightExpr());
-          ZNameList formals = def.getDeclNames();
-          ZExprList actuals = ref.getZExprList();
-          if (formals.size() != actuals.size())
-            status_ = Status.FAIL;
-          else
-            for (int i=0; i < formals.size(); i++) {
-              Name joker = formals.get(i);
-              Expr actual = actuals.get(i);
-              unify(joker, actual);
-            }
+    LOG.entering("ProverLookupConstDeclProviso", "check");
+    Expr deflhs = deref(getLeftExpr());
+    if ( ! (deflhs instanceof RefExpr)) {
+      status_ = Status.FAIL;
+    }
+    else {
+      try {
+        CopyVisitor copyVisitor = new CopyVisitor(new Factory(new ProverFactory()));
+        Key key = new Key(section, DefinitionTable.class);
+        DefinitionTable table = (DefinitionTable) manager.get(key);
+        if (table != null) {
+          RefExpr ref = (RefExpr) deflhs;
+          assert ref.getExprList() != null;
+          String word = ref.getName().accept(new GetNameWordVisitor());
+          DefinitionTable.Definition def = table.lookup(word);
+          LOG.fine("found def="+def);
+          if (def != null) {
+            status_ = Status.PASS;  // by default
+            assert def.getDeclNames() != null;
+            List<Expr> formals = new ArrayList<Expr>();
+            Map<ZName,Expr> formalMap = new HashMap<ZName,Expr>();
+            jokerizeNames(def.getDeclNames(), formals, formalMap, copyVisitor);
+            copyVisitor.setGeneralize(formalMap); // start generalizing
+            Expr defrhs = (Expr) def.getExpr().accept(copyVisitor);
+            copyVisitor.setGeneralize(null);  // finish generalizing
+            unify(defrhs, getRightExpr());
+            ZExprList actuals = ref.getZExprList();
+            if (formals.size() != actuals.size())
+              status_ = Status.FAIL;
+            else
+              for (int i=0; i < formals.size(); i++) {
+                Expr joker = formals.get(i);
+                Expr actual = actuals.get(i);
+                LOG.finer("unifying type param "+i+": "+joker+" =? "+actual);
+                unify(joker, actual);
+              }
+          }
+          else status_ = Status.UNKNOWN;
         }
-        else status_ = Status.UNKNOWN;
+      }
+      catch (CommandException e) {
+        status_ = Status.UNKNOWN;
+        System.err.println(e);
       }
     }
-    catch (CommandException e) {
-      status_ = Status.UNKNOWN;
-      System.err.println(e);
+    LOG.exiting("ProverLookupConstDeclProviso", "check", status_);
+  }
+
+  
+  /** Transforms formal type parameters into expression jokers. */
+  public void jokerizeNames(ZNameList names, List<Expr> jokers,
+      Map<ZName,Expr> jokerMap, CopyVisitor copy)
+  {
+    for (Name n : names) {
+      if ( ! (n instanceof ZName))
+        throw new RuntimeException("Illegal defn type parameter: "+n);
+      ZName name = (ZName) n;
+      Expr joker = copy.freshJokerExpr(name.getWord());
+      assert joker instanceof ProverJokerExpr;
+      jokers.add(joker);
+      jokerMap.put(name, joker);
     }
   }
 
@@ -88,11 +140,14 @@ public class ProverLookupConstDeclProviso
   {
     try {
       bindings_ = UnificationUtils.unify(term1, term2);
-      if (bindings_ == null)
+      if (bindings_ == null) {
+        LOG.finer("FAILED to unify: "+term1+" and "+term2);
         status_ = Status.FAIL;
+      }
     }
     catch(Exception e) { // UnificationException e)
       String message = "Failed to unify " + term1 + " and " + term2;
+      status_ = Status.FAIL;
       throw new RuntimeException(message, e);
     }
   }

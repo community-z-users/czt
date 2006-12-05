@@ -36,12 +36,18 @@ import net.sourceforge.czt.parser.util.DefinitionTable;
  * A visitor that copies a term using the given factory.  The main purpose
  * of this visitor is to create new Jokers that can be used by the prover
  * (the prover assumes that there is only one instance for each joker name).
- *
+ * <p>
  * In addition, this visitor rewrites variable declarations with
  * multiple names into variable declarations with just one name,
  * (i.e. a,b:E gets rewritten to a:E;b:E) and expands a true predicate
  * to any schema text that is missing the predicate part.
- *
+ * </p>
+ * <p>
+ * Finally, the setGeneralize allows you to temporarily define
+ * a set of names that should be generalized into expressions,
+ * usually joker expressions.  For example, this is used to
+ * generalize definitions so that their type parameters become jokers.
+ * </p>
  * @czt.todo Doesn't copy annotations.
  *
  * @author Petra Malik
@@ -58,22 +64,48 @@ public class CopyVisitor
              LookupConstDeclProvisoVisitor<Term>,
              CalculateProvisoVisitor<Term>,
              TypeProvisoVisitor<Term>,
-             ZNameVisitor<Term>,
-             DefinitionTable.DefinitionVisitor<DefinitionTable.Definition>
+             RefExprVisitor<Term>
 {
   private Factory factory_;
   
   /**
    *  Sometimes when we copy definitions/terms, we have to
    *  generalize type parameters by converting them into jokers.
-   *  This maps each type parameters onto its new joker name.
+   *  This maps each type parameter onto a given expression.
    *  When this is null, no names are transformed.
    */
-  private Map<ZName, Name> typeParamMap_;
+  private Map<ZName, Expr> generalize_;
   
+  public Map<ZName, Expr> getGeneralize()
+  {
+    return generalize_;
+  }
+
+  /** Set the names that should be generalized into
+   *  expressions (usually joker expressions) during the copy.
+   *  If this is set to null, then no names are generalized.
+   * @param generalize
+   */
+  public void setGeneralize(Map<ZName, Expr> generalize)
+  {
+    this.generalize_ = generalize;
+  }
+
   public CopyVisitor(Factory factory)
   {
     factory_ = factory;
+  }
+
+  /** This allows clients to use this copy visitor's
+   *  factory to create fresh jokers.  This is typically
+   *  used to set up the map for setGeneralize.
+   *  
+   * @param name Used as the basis for the joker name.
+   * @return     A new joker expression.
+   */
+  public JokerExpr freshJokerExpr(String name)
+  {
+    return factory_.createJokerExpr(name);
   }
 
   public Term visitTerm(Term term)
@@ -171,33 +203,18 @@ public class CopyVisitor
     Expr right = (Expr) proviso.getType().accept(this);
     return factory_.createTypeProviso(context, left, right);
   }
-  
-  /** Transforms formal type parameters into expression jokers. */
-  public DefinitionTable.Definition visitDefinition(DefinitionTable.Definition def)
-  {
-    ZNameList typeformals = def.getDeclNames();
-    ZNameList typeactuals = factory_.createZNameList();
-    typeParamMap_ = new HashMap<ZName, Name>();
-    for (Name n : typeformals) {
-      ZName zname = (ZName) n;
-      Name joker = factory_.createJokerName( ((ZName) n).getWord());
-      typeactuals.add(joker);
-      typeParamMap_.put(zname, joker);
-    }
-    // this will use typeParamMap_ to transform typeformals into jokers.
-    Expr expr2 = (Expr) def.getExpr().accept(this);
-    typeParamMap_ = null;  // disable the type-to-joker transformation
-    return new DefinitionTable.Definition(typeactuals, expr2);
-  }
 
-  public Term visitZName(ZName name)
+  public Term visitRefExpr(RefExpr expr)
   {
-    if (typeParamMap_ != null && typeParamMap_.containsKey(name)) {
-      Term joker = typeParamMap_.get(name);
-      System.out.println("copy visitor transforms type "+name+" to joker "+joker);
-      return joker; 
+    ZName name = null;
+    if (expr.getName() instanceof ZName)
+      name = (ZName) expr.getName();
+    if (generalize_ != null && name != null && generalize_.containsKey(name)) {
+      Expr result = generalize_.get(name);
+      System.out.println("copy visitor transforms type "+name+" to expr "+result);
+      return result; 
     }
     else
-      return name;
+      return expr;
   }
 }
