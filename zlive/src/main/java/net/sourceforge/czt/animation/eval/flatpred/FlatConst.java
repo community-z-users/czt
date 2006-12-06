@@ -90,16 +90,16 @@ public class FlatConst extends FlatPred
   
   public String toString()
   {
-    PrintVisitor printVisitor = new PrintVisitor();
+    PrintVisitor printer = new PrintVisitor();
     String val = "???";
     if (constant_ != null)
-      val = constant_.toString();
+      val = constant_.accept(printer);
     if (constant_ instanceof NumExpr) {
       NumExpr numExpr = (NumExpr) constant_;
-      ZNumeral num = (ZNumeral) numExpr.getNumeral(); // TODO check this cast
+      ZNumeral num = numExpr.getZNumeral();
       val = num.getValue().toString();
     }
-    return args_.get(0).accept(printVisitor) + "==" + val;
+    return printName(args_.get(0)) + "==" + val;
   }
 
 

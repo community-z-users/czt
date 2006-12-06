@@ -250,14 +250,14 @@ public class FlatRangeSet extends FlatPred
     if (lowerArg_ < 0)
       result.append("-");
     else
-      result.append(args_.get(lowerArg_));
+      result.append(printName(args_.get(lowerArg_)));
     result.append(",");
     if (upperArg_ < 0)
       result.append("-");
     else
-      result.append(args_.get(upperArg_));
+      result.append(printName(args_.get(upperArg_)));
     result.append(",");
-    result.append(args_.get(setArg_));
+    result.append(printName(args_.get(setArg_)));
     result.append("]");
     EvalSet range = null;
     if (bounds_ != null)

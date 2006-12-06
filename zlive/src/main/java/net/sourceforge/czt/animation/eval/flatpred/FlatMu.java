@@ -153,7 +153,7 @@ public class FlatMu extends FlatPred
     result.append("FlatMu(");
     result.append(schText_.toString());
     result.append(" @ ");
-    result.append(resultName_);
+    result.append(printName(resultName_));
     result.append(")");
     return result.toString();
   }

@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
  Each flattened predicate can be evaluated in one or more different
@@ -250,6 +251,15 @@ public abstract class FlatPred
   //@ requires solutionsReturned >= 0;
   public abstract boolean nextEvaluation();
 
+  /** Convenience method to convert a ZName into a string.
+   *  (This controls whether we print internal names with Ids or not.)
+   * @return
+   */
+  public String printName(ZName name)
+  {
+    return name.toString() + name.getId();
+  }
+
   /** A default implementation of toString.
    This returns "FlatXXX(args[0], args[1], ...)".
    */
@@ -259,7 +269,12 @@ public abstract class FlatPred
     String fullName = this.getClass().getName();
     int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
     result.append(fullName.substring(dotPos));
-    result.append(getArgs().toString());
+    result.append("[");
+    for (ZName arg : getArgs()) {
+      result.append(printName(arg));
+      result.append(",");
+    }
+    result.setCharAt(result.length()-1, ']');
     return result.toString();
   }
 

@@ -111,7 +111,7 @@ public class ZLive
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
     // This prints IDs of ZNames, useful for debugging.
-    // sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
+    sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     this.reset();
   }
 
@@ -307,6 +307,7 @@ public class ZLive
       LOG.finer("After preprocess, expr="+printTerm(expr));
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(expr);
+      LOG.finer("After second typecheck, expr="+printTerm(expr));
       predlist_ = new FlatPredList(this);
       ZName resultName = predlist_.addExpr(expr);
       predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);

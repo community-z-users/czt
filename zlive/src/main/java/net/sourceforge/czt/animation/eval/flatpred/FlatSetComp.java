@@ -224,7 +224,7 @@ public class FlatSetComp extends FlatPred
 
   /** @czt.todo Change this to a printCode method. */
   public String toString() {
-    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = "
-      + getLastArg();
+    return "{ " + predsAll_.toString() + " @ " + printName(resultName_) + " } = "
+      + printName(getLastArg());
   }
 }
