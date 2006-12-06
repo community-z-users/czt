@@ -193,6 +193,7 @@ public class ProverCalculateProviso
    */
   private void checkBinding(Expr rightExpr, Factory factory)
   {
+    GetZName findName = new GetZName();
     if (rightExpr instanceof SchExpr) {
       SchExpr schExpr = (SchExpr) rightExpr;
       SchText schText = schExpr.getSchText();
@@ -205,11 +206,9 @@ public class ProverCalculateProviso
           if (decl instanceof VarDecl) {
             VarDecl varDecl = (VarDecl) decl;
             for (Name declName : varDecl.getName()) {
-              ZName zName = declName.accept(new GetZName());
-              ZName newZName = factory.createZName(zName.getWord(),
-                                                   zName.getStrokeList());
-              RefExpr newRefExpr = factory.createRefExpr(newZName);
-              ConstDecl constDecl = factory.createConstDecl(newZName,
+              ZName zName = declName.accept(findName);
+              RefExpr newRefExpr = factory.createRefExpr(zName);
+              ConstDecl constDecl = factory.createConstDecl(zName,
                                                             newRefExpr);
               newZDeclList.add(constDecl);
             }
