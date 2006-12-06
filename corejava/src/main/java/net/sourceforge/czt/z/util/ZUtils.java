@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.z.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
@@ -32,6 +33,28 @@ public final class ZUtils
    */
   private ZUtils()
   {
+  }
+
+  /**
+   * Computes a list of all the NameTypePairs from the given signature
+   * whose name ends with the given decoration.  If <code>decor</code>
+   * is <code>null</code> a list of all undecored names with its
+   * corresponding types is returned.
+   */
+  public static List<NameTypePair> subsignature(Signature sig, Class decor)
+  {
+    List result = new ArrayList<NameTypePair>();
+    for (NameTypePair pair : sig.getNameTypePair()) {
+      final ZName zName = pair.getZName();
+      final ZStrokeList strokeList = zName.getZStrokeList();
+      final int size = strokeList.size();
+      if ((size == 0 && decor == null) ||
+          (size > 0 && decor != null &&
+           decor.isInstance(strokeList.get(strokeList.size() - 1)))) {
+        result.add(pair);
+      }
+    }
+    return result;
   }
 
   public static boolean isAnonymous(ZSect zSect)
