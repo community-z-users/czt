@@ -189,9 +189,7 @@ This rule applies the above schema unfolding rules to unfolding
 the bound variables of quantifiers, because the rewrite tactics
 transform schema text using the $\schemaEquals$ relation.
 \begin{zedrule}{Quantifiers}
-   \proviso E1 == print [D|P] \\
-   [D|P] \sexprUnfoldsTo [D1|P1] \\
-   \proviso E2 == print [D1|P1]
+   [D|P] \sexprUnfoldsTo [D1|P1]
 \derives
    [D|P] \schemaEquals [D1|P1]
 \end{zedrule}
