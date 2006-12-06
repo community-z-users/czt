@@ -110,7 +110,8 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
-    sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
+    // This prints IDs of ZNames, useful for debugging.
+    // sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     this.reset();
   }
 

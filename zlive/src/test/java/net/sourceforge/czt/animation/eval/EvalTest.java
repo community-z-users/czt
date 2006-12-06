@@ -102,15 +102,10 @@ public abstract class EvalTest extends TestCase
     /** Test that a predicate evaluates to TruePred. */
     public void runTest() {
       LOG.fine("running PredTest("+getName()+")");
-      try {
-        Pred result = animator_.evalPred(pred_);
-        assertNotNull(result);
-        assertTrue(result instanceof TruePred);
-        System.out.println("Passed test:" + getName());
-      } catch (Exception e) {
-        System.out.println("FAILED test:" + getName());
-        fail("Should not throw exception " + e);
-      }
+      Pred result = animator_.evalPred(pred_);
+      assertNotNull(result);
+      assertTrue(result instanceof TruePred);
+      System.out.println("Passed test:" + getName());
     }
   }
   
@@ -135,17 +130,14 @@ public abstract class EvalTest extends TestCase
         fail("Should be undefined: " + expr_);
       } catch (UndefException e) {
         System.out.println("Passed undef test: " + getName());
-      } catch (EvalException e) {
-        System.out.println("FAILED undef test (exception): " + getName());
-        fail("Exception while evaluating undef expr. " + e);
       }
     }
   }
   
   public static Test generateSuite(String filename) {
     ZLive animator = new ZLive();
-    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-        "zlive.log", Level.FINER);
+    //ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+    //    "zlive.log", Level.FINER);
     TestSuite tests = new TestSuite();
     int count = 0;
     Spec spec = null;

@@ -127,6 +127,7 @@ public class FlatMember extends FlatPred
 
   public boolean nextEvaluation() {
     assert evalMode_ != null;
+    assert bounds_ != null;
     assert solutionsReturned_ >= 0;
     assert set_ != null;
     boolean result = false;

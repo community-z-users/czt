@@ -102,13 +102,15 @@ public class TextUI {
     output.println(ZLive.banner);
 
     // save log messages into zlive.log, using our human-readable format
-    if (args.length > 0 && args[0].equals("-rules"))
+    if (args.length > 0 && args[0].equals("-logrules"))
       ZFormatter.startLogging("net.sourceforge.czt.rules",
           "zlive.log", Level.FINEST);
-    else
+    else if (args.length > 0 && args[0].equals("-logeval"))
       ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
           "zlive.log", Level.FINEST);
-
+    else if (args.length > 0)
+      output.println("Usage: [-logrules | -logeval]");
+    
     TextUI ui = new TextUI(new ZLive(), output);
     ui.mainLoop(input);
   }
