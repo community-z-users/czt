@@ -215,6 +215,6 @@ public class CopyVisitor
       return result; 
     }
     else
-      return expr;
+      return VisitorUtils.visitTerm(this, expr, false);
   }
 }
