@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.io.FileNotFoundException;
+import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.Flatten;
@@ -50,6 +51,12 @@ public class FlatMuTest
     ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
 
+    Set<ZName> free = pred.freeVars();
+    assertEquals(3, free.size());
+    assertTrue(free.contains(resultName));
+    assertTrue(free.contains(x));
+    assertTrue(free.contains(y));
+
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {x,y,resultName},
@@ -73,6 +80,12 @@ public class FlatMuTest
     ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
 
+    Set<ZName> free = pred.freeVars();
+    assertEquals(3, free.size());
+    assertTrue(free.contains(resultName));
+    assertTrue(free.contains(x));
+    assertTrue(free.contains(y));
+
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {x,y,resultName},
@@ -85,55 +98,7 @@ public class FlatMuTest
     //model.buildGraph();
     //model.printGraphDot("FlatMu2.dot");
   }
-/*
-  public void testMuBad()
-  throws FileNotFoundException
-  {
-    MuExpr mu = (MuExpr) parseExpr("(\\mu a,b:x \\upto y @ a \\div 2)");
 
-    FlatPredList sch = new FlatPredList(zlive_);
-    sch.addSchText(mu.getZSchText());
-    ZName resultName = sch.addExpr(mu.getExpr());
-    FlatMu pred = new FlatMu(sch, resultName);
-
-    Bounds bnds = new Bounds();
-    System.out.println("BAD bounds0 = "+bnds);
-    System.out.println("BAD pred0 = "+pred);
-    pred.inferBounds(bnds);
-    Envir env = new Envir();
-    Envir env2 = env.plus(x, i2);
-    Envir env3 = env2.plus(y, i3);
-    Mode mode = pred.chooseMode(env3);
-    System.out.println("BAD bounds2 = "+bnds);
-    System.out.println("BAD pred2 = "+pred);
-    assertNotNull(mode);
-    pred.setMode(mode);
-    System.out.println("BAD bounds3 = "+bnds);
-    System.out.println("BAD pred3 = "+pred);
-    pred.startEvaluation();
-    System.out.println("BAD bounds4 = "+bnds);
-    System.out.println("BAD pred4 = "+pred);
-    assertTrue(pred.nextEvaluation());
-    System.out.println("BAD bounds5 = "+bnds);
-    System.out.println("BAD pred5 = "+pred);
-    mode = pred.chooseMode(env2);
-    assertNull(mode);
-    env3 = env2.plus(y, i4);
-    mode = pred.chooseMode(env3);
-    assertNotNull(mode);
-    pred.startEvaluation();
-    try {
-      System.out.println("BAD bounds6 = "+bnds);
-      System.out.println("BAD pred6 = "+pred);
-      pred.nextEvaluation();
-      fail("should throw Undef exception 2: "+pred);
-    }
-    catch (UndefException ex)
-    {
-      System.out.println("Good 2....");
-    }
-  }
-*/
   public void testMuImplicit()
   throws FileNotFoundException
   {
@@ -150,6 +115,11 @@ public class FlatMuTest
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     ZName resultName = sch.addExpr(expr);
     FlatMu pred = new FlatMu(sch, resultName);
+
+    Set<ZName> free = pred.freeVars();
+    assertEquals(2, free.size());
+    assertTrue(free.contains(resultName));
+    assertTrue(free.contains(y));
 
     FlatPredModel iut =
       new FlatPredModel(pred,

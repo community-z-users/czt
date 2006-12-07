@@ -93,11 +93,12 @@ public class FlatPredModel implements FsmModel
   public FlatPredModel(FlatPred toTest, ZName[] names, String validModes,
       Eval eval1, Eval eval2)
   {
-    // some debug messages.
-    //    System.out.print("\n\nIUT = " + toTest + " with names ");
-    //    for (ZName n : names)
-    //      System.out.print(n + ", ");
-    //    System.out.println(" and freevars=" + toTest.freeVars());
+    StringBuffer namestr = new StringBuffer();
+    namestr.append("[");
+    for (ZName n : names)
+      namestr.append(n.toString() + ",");
+    namestr.append("]");
+    debug("============= STARTING TO TEST " + toTest + namestr);
     pred_ = toTest;
     names_ = names;
     validModes_ = validModes;
@@ -109,6 +110,7 @@ public class FlatPredModel implements FsmModel
   /** Debugging messages that can be printed to System.out/err. */
   public void debug(String msg)
   {
+    // System.out.println("DEBUG: "+msg);
   }
 
   public String getState()
@@ -137,6 +139,7 @@ public class FlatPredModel implements FsmModel
     env_ = null;
     mode_ = null;
     data_ = null;
+    debug("reset");
   }
 
   public boolean inferBoundsGuard() {return state_ == State.Init; }
@@ -147,6 +150,7 @@ public class FlatPredModel implements FsmModel
     boolean progress = true;
     while ( progress ) {
       progress = pred_.inferBounds(bnds);
+      debug("inferBounds gives "+progress+", bounds="+bnds);
     }
     state_ = State.NoMode;
   }

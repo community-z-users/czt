@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.CommandException;
@@ -62,7 +63,7 @@ public class Flatten
    *  @param  toFlatten The Pred to flatten.
    *  @param  destination Generated FlatPred objects are appended to this list.
    */
-  public void flattenPred(Pred toFlatten, List<FlatPred> destination)
+  public void flattenPred(Pred toFlatten, FlatPredList destination)
     throws CommandException
   {
     String currSect = zlive_.getCurrentSection();
@@ -78,7 +79,7 @@ public class Flatten
    *  @return The name of the variable that will contain the result,
    *          after evaluation.
    */
-  public ZName flattenExpr(Expr toFlatten, List<FlatPred> destination)
+  public ZName flattenExpr(Expr toFlatten, FlatPredList destination)
     throws CommandException
   {
     String currSect = zlive_.getCurrentSection();

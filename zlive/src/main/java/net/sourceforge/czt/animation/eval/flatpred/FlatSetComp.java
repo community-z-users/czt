@@ -75,6 +75,8 @@ public class FlatSetComp extends FlatPred
     predsAll_ = new FlatPredList(zlive);
     predsOne_ = new FlatPredList(zlive);
     resultName_ = zlive.createNewName();
+    predsAll_.makeBound(resultName_);
+    predsOne_.makeBound(resultName_);
     for (Iterator i = decls.iterator(); i.hasNext(); ) {
       Decl decl = (Decl)i.next();
       predsAll_.addDecl(decl);
@@ -91,6 +93,8 @@ public class FlatSetComp extends FlatPred
     predsOne_.addPred(eq);
 
     // Calculate free vars of preds_.
+    predsAll_.makeFree(set);
+    predsOne_.makeFree(set);
     args_ = new ArrayList<ZName>(predsAll_.freeVars());
     args_.add(set);  // TODO: could set already be in args?
     solutionsReturned_ = -1;

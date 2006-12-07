@@ -124,19 +124,11 @@ public class FlatPredList extends FlatPred
    */
   @Override public /*@non_null@*/ Set<ZName> freeVars() {
     if (freeVars_ == null) {
-      freeVars_ = new HashSet<ZName>();
+      freeVars_ = new HashSet<ZName>(); // to remove duplicates
       for (FlatPred flat : predlist_) {
         for (ZName var : flat.freeVars()) {
-          if ( ! zlive_.isNewName(var)) {
-            if (var.getId() == null) {
-              // TODO: this should never happen, because all ZNames
-              // should be linked to a DeclName after typechecking.
-              // However, some unit tests are not typechecked.
-              // System.out.println("Warning: ZName not bound to ZDeclName: "+var);
-            }
-            if ( ! boundVars_.contains(var))
-              freeVars_.add(var);
-          }
+          if ( ! boundVars_.contains(var))
+            freeVars_.add(var);
         }
       }
       args_ = new ArrayList<ZName>(freeVars_);
@@ -170,6 +162,25 @@ public class FlatPredList extends FlatPred
     predlist_.add(flat);
   }
 
+  /** Clients can use this to mark some names as
+   *  being local to (bound by) this FlatPred list. 
+   * @param name
+   */
+  public void makeBound(ZName name)
+  {
+    boundVars_.add(name);
+  }
+
+  /** Clients can use this to say that the given
+   *  variable is actually a free variable of this FlatPredList.
+   *  If it was in the set of bound variables, this also
+   *  removes it from that set.
+   */
+  public void makeFree(ZName name)
+  {
+    boundVars_.remove(name);
+  }
+
   /** Adds a whole schema text to the FlatPred list.
    *  This method should be called before chooseMode
    *  or freeVars are called.
@@ -201,22 +212,20 @@ public class FlatPredList extends FlatPred
       if (decl instanceof VarDecl) {
         VarDecl vdecl = (VarDecl) decl;
         Expr type = vdecl.getExpr();
-        ZName typeName = flattenExpr(type, predlist_);
+        ZName typeName = zlive_.getFlatten().flattenExpr(type, this);
         for (Name name : vdecl.getName()) {
-          ZName dvar = (ZName) name;
-          boundVars_.add(dvar);
-          ZName varref = getFactory().createZName(dvar);
-          assert varref.equals(dvar);
-          predlist_.add(new FlatMember(typeName, varref));
+          ZName zname = (ZName) name;
+          boundVars_.add(zname);
+          predlist_.add(new FlatMember(typeName, zname));
         }
       }
       else if (decl instanceof ConstDecl) {
         ConstDecl cdecl = (ConstDecl) decl;
-        ZName dvar = cdecl.getZName();
-        boundVars_.add(dvar);
+        ZName zname = cdecl.getZName();
+        boundVars_.add(zname);
         Expr expr = cdecl.getExpr();
-        ZName varref = getFactory().createZName(dvar);
-        flattenPred(getFactory().createMemPred(varref, expr), predlist_);
+        Pred mem = getFactory().createMemPred(zname, expr);
+        zlive_.getFlatten().flattenPred(mem, this);
       }
       else {
         throw new EvalException("Unknown kind of Decl: " + decl);
@@ -237,7 +246,7 @@ public class FlatPredList extends FlatPred
   {
     assert freeVars_ == null;
     try {
-      flattenPred(pred,predlist_);
+      zlive_.getFlatten().flattenPred(pred,this);
     }
     catch (CommandException exception) {
       throw new EvalException(exception);
@@ -254,13 +263,15 @@ public class FlatPredList extends FlatPred
    *  be called to get the value of the evaluated expression.
    *
    * @param expr  The Expr to flatten and add.
-   * @return      The result name.
+   * @return      The result name.  This is marked as a free variable.
    */
   public ZName addExpr(/*@non_null@*/Expr expr)
   {
     assert freeVars_ == null;
     try {
-      return flattenExpr(expr,predlist_);
+      ZName result = zlive_.getFlatten().flattenExpr(expr, this);
+      makeFree(result);
+      return result;
     }
     catch (CommandException exception) {
       throw new EvalException(exception);
@@ -526,18 +537,6 @@ public class FlatPredList extends FlatPred
   protected Factory getFactory()
   {
     return zlive_.getFactory();
-  }
-
-  protected void flattenPred(Pred toFlatten, List<FlatPred> destination)
-    throws CommandException
-  {
-    zlive_.getFlatten().flattenPred(toFlatten, destination);
-  }
-
-  protected ZName flattenExpr(Expr toFlatten, List<FlatPred> destination)
-    throws CommandException
-  {
-    return zlive_.getFlatten().flattenExpr(toFlatten, destination);
   }
 
   public String toString() {

@@ -82,7 +82,7 @@ public class FlattenVisitor
   private DefinitionTable table_;
 
   /** This list contains the result of flattening the expr/pred */
-  private List<FlatPred> flat_;
+  private FlatPredList flat_;
 
   /** The set of builtin binary relations handled by ZLive */
   static final Set<String> knownRelations = new HashSet<String>();
@@ -90,7 +90,7 @@ public class FlattenVisitor
   private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
-  public FlattenVisitor(ZLive zlive, List<FlatPred> destination, DefinitionTable defns)
+  public FlattenVisitor(ZLive zlive, FlatPredList destination, DefinitionTable defns)
   {
     zlive_ = zlive;
     flat_ = destination;
@@ -131,6 +131,17 @@ public class FlattenVisitor
 
     System.out.println("GivenSet "+((ZName)gtype.getName()).getWord()+".");
     return true;
+  }
+
+  /** Creates a fresh ZName and sets it (by default)
+   *  to be a bound variable of the current FlatPredList.
+   * @return the fresh ZName
+   */
+  protected ZName createBoundName()
+  {
+    ZName name = zlive_.createNewName();
+    flat_.makeBound(name);
+    return name;
   }
 
   /** True if expr is a member of a given set.
@@ -314,7 +325,7 @@ public class FlattenVisitor
   public ZName visitZName(ZName e)
   {
     if (e.getWord().equals(ZString.EMPTYSET) && e.getZStrokeList().isEmpty()) {
-      ZName emptyset = zlive_.createNewName();
+      ZName emptyset = createBoundName();
       flat_.add(new FlatDiscreteSet(new ArrayList<ZName>(), emptyset));
       e = emptyset;
     }
@@ -332,8 +343,8 @@ public class FlattenVisitor
     // check for \nat and \num
     if ( result.getWord().equals(ZString.NAT)
         && result.getZStrokeList().isEmpty()) {
-      result = zlive_.createNewName();
-      ZName zeroName = zlive_.createNewName();
+      result = createBoundName();
+      ZName zeroName = createBoundName();
       Expr zero = zlive_.getFactory().createNumExpr(0);
       flat_.add(new FlatConst(zeroName, zero));
       flat_.add(new FlatRangeSet(zeroName,null,result));
@@ -342,27 +353,27 @@ public class FlattenVisitor
         && result.getZStrokeList().size() == 1
         && (result.getZStrokeList().get(0) instanceof NumStroke)
         && ((NumStroke) result.getZStrokeList().get(0)).getDigit().equals(Digit.ONE)) {
-      result = zlive_.createNewName();
-      ZName oneName = zlive_.createNewName();
+      result = createBoundName();
+      ZName oneName = createBoundName();
       Expr one = zlive_.getFactory().createNumExpr(1);
       flat_.add(new FlatConst(oneName, one));
       flat_.add(new FlatRangeSet(oneName,null,result));
     }
     else if (result.getWord().equals(ZString.NUM)
         && result.getZStrokeList().isEmpty()) {
-      result = zlive_.createNewName();
+      result = createBoundName();
       flat_.add(new FlatRangeSet(null,null,result));
     }
     else if (result.getWord().equals(ZString.ARITHMOS)
         && result.getZStrokeList().isEmpty()) {
-      result = zlive_.createNewName();
+      result = createBoundName();
       flat_.add(new FlatRangeSet(null,null,result));
     }
     else if (isGivenSet(e)) {
       flat_.add(new FlatGivenSet(result,result.getWord(),zlive_));
     }
     else if (isGivenValue(e)) {
-      result = zlive_.createNewName();
+      result = createBoundName();
       flat_.add(
           new FlatConst(result,
           new GivenValue(e.getZName().getWord())));
@@ -384,7 +395,7 @@ public class FlattenVisitor
   /** NumExpr objects are converted into tmp = Num. */
   public ZName visitNumExpr(NumExpr e)
   {
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatConst(result,e));
     return result;
   }
@@ -397,7 +408,7 @@ public class FlattenVisitor
     Expr func = (Expr) e.getLeftExpr();
     Expr arg = (Expr) e.getRightExpr();
     List<Expr> argList = null;
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
 
     if (arg instanceof TupleExpr)
       argList = ((TupleExpr) arg).getZExprList();
@@ -467,6 +478,7 @@ public class FlattenVisitor
       // (this cannot be done at the same time as the preprocess rules,
       //  because we have to handle the above special cases first).
       Factory factory = zlive_.getFactory();
+      // TODO: simplify this... 
       // create the DeclList:  p:func
       ZStrokeList sl = factory.createZStrokeList();
       ZName pName =
@@ -493,7 +505,7 @@ public class FlattenVisitor
 
   public ZName visitTupleSelExpr(TupleSelExpr e)
   {
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatTupleSel(
             e.getExpr().accept(this),
             ((ZNumeral) e.getNumeral()).getValue().intValue(),
@@ -502,7 +514,7 @@ public class FlattenVisitor
   }
 
   public ZName visitPowerExpr(PowerExpr e) {
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     ZName base = e.getExpr().accept(this);
     flat_.add(new FlatPowerSet(base,result));
     return result;
@@ -511,13 +523,13 @@ public class FlattenVisitor
   public ZName visitSetExpr(SetExpr e)
   {
     ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
   }
 
   public ZName visitSetCompExpr(SetCompExpr e) {
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     ZSchText text = e.getZSchText();
     List<Decl> decls = text.getZDeclList();
     Pred pred = text.getPred();
@@ -544,14 +556,14 @@ public class FlattenVisitor
 
   public ZName visitProdExpr(ProdExpr e) {
     ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatProd(refnames, result));
     return result;
   }
 
   public ZName visitTupleExpr(TupleExpr e) {
     ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatTuple(refnames, result));
     return result;
   }
@@ -565,7 +577,7 @@ public class FlattenVisitor
       names.add(constDecl.getZName());
       exprs.add(constDecl.getExpr().accept(this)); // recursive flatten
     }
-    ZName result = zlive_.createNewName();
+    ZName result = createBoundName();
     flat_.add(new FlatBinding(names, exprs, result));
     return result;
   }
