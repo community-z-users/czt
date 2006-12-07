@@ -39,7 +39,7 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class RenameVisitor
-  implements TermVisitor, NameVisitor
+  implements TermVisitor<Term>, NameVisitor<Term>
 {
   Map subs_;
   
@@ -57,21 +57,21 @@ public class RenameVisitor
   *  @return   The substituted term.
   */
   public Term rename(Term t) {
-    return (Term)t.accept(this);
+    return t.accept(this);
   }
 
   /** This generic visit method recurses into all Z terms. */
-  public Object visitTerm(Term term) {
+  public Term visitTerm(Term term) {
     return VisitorUtils.visitTerm(this, term, true); 
   }
 
   /** This visit method performs the renaming.
   */
-  public Object visitName(Name name) {
+  public Term visitName(Name name) {
     
     String strName = name.accept(new PrintVisitor());
     if (subs_.containsKey(strName))
-      return subs_.get(strName);
+      return (Term) subs_.get(strName);
     else
       return name;
   }
