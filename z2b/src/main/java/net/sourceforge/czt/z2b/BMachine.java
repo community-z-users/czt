@@ -95,7 +95,7 @@ public class BMachine
   public Map<String,Expr> getDefns() { return defns_; }
 
   /** Returns the state variables of this machine.  They have type Name. */
-  public List/*<String>*/ getVariables() { return variables_; }
+  public List<String> getVariables() { return variables_; }
 
   /** Returns the invariant predicates */
   public List<Pred> getInvariant() { return invariant_; }
