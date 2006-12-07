@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -45,16 +45,16 @@ public class BOperation
   protected BMachine machine;
   
   /** The names of inputs */
-  List/*<String>*/  inputs = new ArrayList();
+  private List<String> inputs_ = new ArrayList<String>();
 
   /** The names of outputs */
-  List/*<String>*/  outputs = new ArrayList();
+  private List<String> outputs_ = new ArrayList<String>();
 
   /** Preconditions */
-  List/*<Pred>*/  pre = new ArrayList();
+  private List<Pred> pre_ = new ArrayList<Pred>();
 
   /** Postconditions */
-  List/*<Pred>*/  post = new ArrayList();
+  private List<Pred> post_ = new ArrayList<Pred>();
 
   /**
    * Constructor for BOperation
@@ -71,16 +71,16 @@ public class BOperation
   //=============== Access functions =====================
 
   /** Returns the input names of this operation. */
-  public List/*<String>*/ getInputs() { return inputs; }
+  public List<String> getInputs() { return inputs_; }
 
   /** Returns the output names of this operation. */
-  public List/*<String>*/ getOutputs() { return outputs; }
+  public List<String> getOutputs() { return outputs_; }
 
   /** Returns the precondition predicates of the operation */
-  public List/*<Pred>*/ getPre() { return pre; }
+  public List<Pred> getPre() { return pre_; }
 
   /** Returns the postcondition predicates of the operation */
-  public List/*<Pred>*/ getPost() { return post; }
+  public List<Pred> getPost() { return post_; }
 
 
   /** Prints the operation out to the given file, in *.mch syntax
@@ -88,41 +88,39 @@ public class BOperation
    */
   public void print(BWriter dest) {
     dest.nl();
-    if (outputs.size() > 0) {
-      printNames(dest,outputs);
+    if (outputs_.size() > 0) {
+      printNames(dest, outputs_);
       dest.print(" <-- ");
     }
     dest.printName(name);
-    if (inputs.size() > 0) {
+    if (inputs_.size() > 0) {
       dest.print("(");
-      printNames(dest,inputs);
+      printNames(dest, inputs_);
       dest.print(")");
     }
     dest.print(" =");
     dest.nl();
     dest.startSection("PRE");
-    dest.printPreds(pre);
+    dest.printPreds(pre_);
     dest.continueSection("PRE","THEN");
     // Now we output the postcondition as a generalised substitution:
     //    ALL frame' WHERE post2 THEN frame := frame' END
     // Note: frame is state vars plus output vars (eg. x, y!),
     //       and frame' is those same vars primed (eg. x', y!').
     //       Also, post2 is post with output vars primed.
-    List post2 = new ArrayList();
+    List<Term> post2 = new ArrayList<Term>();
     // Create primed versions of the output variables.
-    Map rename = new HashMap();
-    for (Iterator i = outputs.iterator(); i.hasNext(); ) {
-      String name = (String)i.next();
+    Map<String,ZName> rename = new HashMap<String,ZName>();
+    for (String name : outputs_) {
       rename.put(name, Create.prime(name));
     }
     // Rename outputs to outputs' in the postconditions.
     RenameVisitor outPrimer = new RenameVisitor(rename);
-    for (Iterator i = post.iterator(); i.hasNext(); ) {
-      post2.add(outPrimer.rename((Pred)i.next()));
+    for (Pred pred : post_) {
+      post2.add(outPrimer.rename(pred));
     }
     // Extend the rename map to include (x,x') for all state vars x.
-    for (Iterator i = machine.getVariables().iterator(); i.hasNext(); ) {
-      String name = (String)i.next();
+    for (String name : machine.getVariables()) {
       rename.put(name, Create.prime(name));
     }
     dest.printAnyAssign(rename, post2);
@@ -133,11 +131,11 @@ public class BOperation
   /** Prints a list of names in concise format, separated by commas. */
   //@ requires dest != null;
   //@ requires names != null && names.size() > 0;
-  protected void printNames(BWriter dest, Collection names) {
-    Iterator i = names.iterator();
+  protected void printNames(BWriter dest, Collection<String> names) {
+    Iterator<String> i = names.iterator();
     assert i.hasNext();
     while (true) {
-      String name = (String)i.next();
+      String name = i.next();
       dest.printName(name);
       if ( ! i.hasNext())
 	break;
@@ -145,4 +143,3 @@ public class BOperation
     }
   }
 }
-
