@@ -87,9 +87,10 @@ public class Create
   }
 
   /** Prime a Name */
-  public static ZName prime(String name) {
+  public static ZName prime(String name)
+  {
     ZName n2 = Create.refName(name);
-    ((List) n2.getStrokeList()).add(factory_.createNextStroke());
+    n2.getZStrokeList().add(factory_.createNextStroke());
     return n2;
   }
 }
