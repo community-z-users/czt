@@ -255,9 +255,12 @@ public class ZLive
       }
       // preprocess the predicate, to unfold things.
       pred = (Pred) preprocess_.preprocess(getCurrentSection(), pred);
-      LOG.finer("After preprocess, pred="+printTerm(pred));
+      LOG.finer("After preprocess,  pred="+printTerm(pred));
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(pred);
+      LOG.finer("After retypecheck, pred="+printTerm(pred));
+      pred = (Pred) preprocess_.fixIds(pred);
+      LOG.finer("After doing fixIds pred="+printTerm(pred));
       predlist_ = new FlatPredList(this);
       predlist_.addPred(pred);
       Envir env0 = new Envir();
@@ -308,6 +311,8 @@ public class ZLive
       // must typecheck, to reestablish the unique-ids invariant.
       typecheck(expr);
       LOG.finer("After second typecheck, expr="+printTerm(expr));
+      expr = (Expr) preprocess_.fixIds(expr);
+      LOG.finer("After doing fixIds hack expr="+printTerm(expr));
       predlist_ = new FlatPredList(this);
       ZName resultName = predlist_.addExpr(expr);
       predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
@@ -417,10 +422,16 @@ public class ZLive
   }
 
   /** Writes an evaluated expression as a standard text string.
+   *  TODO: improve this to handle GivenValue, SetComp and all
+   *        other classes in net.sourceforge.czt.animation.eval.result.
+   *        Note that these may be recursive, so we need a visitor.
    */
   public void printTerm(PrintWriter out, Term term, Markup markup)
   {
-    if (term instanceof NumExpr) {
+    if (term == null) {
+      out.print("null");
+    }
+    else if (term instanceof NumExpr) {
       NumExpr num = (NumExpr) term;
       ZNumeral znum = (ZNumeral) num.getNumeral();
       out.print(znum.getValue());
