@@ -35,23 +35,25 @@ import net.sourceforge.czt.z2b.*;
  */
 public class Create
 {
-  private static Factory factory_ 
-    = new Factory();
+  private static Factory factory_  = new Factory();
 
   /** Set the factory that is used to create various AST terms. */
-  public static void setFactory(ZFactory factory) {
+  public static void setFactory(ZFactory factory)
+  {
     factory_ = new Factory(factory);
   }
 
   /** Returns the factory that is used to create various AST terms. */
-  public static Factory getFactory() {
+  public static Factory getFactory()
+  {
     return factory_;
   }
 
   /** Create a simple AndPred.
    *  If either argument is null, it is ignored.
    */
-  public static Pred andPred(Pred p1, Pred p2) {
+  public static Pred andPred(Pred p1, Pred p2)
+  {
     if (p1 == null)
       return p2;
     if (p2 == null)
@@ -60,7 +62,8 @@ public class Create
   }
 
   /** Create an equality between a name and expression */
-  public static Pred eqPred(ZName n, Expr e) {
+  public static Pred eqPred(ZName n, Expr e)
+  {
     ZName eq = factory_.createZName();
     eq.setWord("=");
     // TODO: it would be nice to do eq.setName(defn of equality)
@@ -70,18 +73,21 @@ public class Create
   }
 
   /** Creates a Name from a String */
-  public static ZName refName(String name) {
+  public static ZName refName(String name)
+  {
     // TODO: this could/should strip decorations off name and
     //        put them into the Stroke list.
     return factory_.createZName(name, factory_.createZStrokeList(), null);
   }
 
-  public static ZName refName(ZName n) {
+  public static ZName refName(ZName n)
+  {
     return factory_.createZName(n.getWord(), n.getStrokeList(), n.getId());
   }
 
   /** Creates a RefExpr to a given Name */
-  public static RefExpr refExpr(ZName n) {
+  public static RefExpr refExpr(ZName n)
+  {
     ZExprList zExprList = factory_.createZExprList();
     return factory_.createRefExpr(refName(n), zExprList, Boolean.FALSE);
   }
@@ -92,5 +98,15 @@ public class Create
     ZName n2 = Create.refName(name);
     n2.getZStrokeList().add(factory_.createNextStroke());
     return n2;
+  }
+
+  /** Unprime a name */
+  public static ZName unprime(ZName name)
+  {
+    ZName result = factory_.createZName(name);
+    Stroke stroke =
+      result.getZStrokeList().remove(result.getZStrokeList().size() - 1);
+    assert stroke instanceof NextStroke;
+    return result;
   }
 }

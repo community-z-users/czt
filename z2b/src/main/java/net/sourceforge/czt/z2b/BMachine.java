@@ -168,7 +168,7 @@ public class BMachine
       throw new BException("no initialisation predicates");
     // We use:  ANY state' WHERE init' THEN state := state' END
     // Rename outputs to outputs' in the postconditions.
-    Map initRename = new HashMap();
+    Map<String,ZName> initRename = new HashMap();
     for (String name : variables_) {
       initRename.put(name, Create.prime(name));
     }

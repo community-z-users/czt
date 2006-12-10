@@ -1,6 +1,6 @@
 package net.sourceforge.czt.z2b;
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2006 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -25,6 +25,7 @@ import java.net.URL;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
@@ -32,77 +33,56 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
  *
  *  It takes a file spec.xml and produces a file spec.mch.
  */
-public class Main {
-
-  /* TODO: reimplement this
-  private static PluginList plugins
-    = new PluginList(
-        new Class[] {
-	  SpecSource.class,
-	  SchemaExtractor.class,
-	  SchemaIdentifier.class,
-	  VariableExtractor.class},
-	new Class[] {
-	  SpecReaderSource.class,
-	  VisitorSchemaExtractor.class,
-	  CommandLineSchemaIdentifier.class,
-	  DefaultVariableExtractor.class},
-	"Z2B",
-	"Translates a Z specification (*.xml) into B format (.mch).");
-  */
-  
-  public static void main(String[] args) {
+public class Main
+{
+  public static void main(String[] args)
+  {
     try {
       // set up our debug log.
       Handler handler = new FileHandler("z2b.log");
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
-      Logger.getLogger("net.sourceforge.czt.z2b").setLevel(Level.FINEST);
-
-      /* TODO: reimplement this
-      System.err.println("Parsing command args");
-      // process all command line arguments
-      // Note: this may change the plugins from the defaults above.
-      plugins.processOptions(args);
-
-      // Now make shortcuts to the plugins that we need.
-      SpecSource source
-	= (SpecSource)plugins.getPlugin(SpecSource.class);
+      Logger z2bLogger = Logger.getLogger("net.sourceforge.czt.z2b");
+      z2bLogger.setLevel(Level.FINEST);
 
       // Now read the spec 
       System.err.println("Reading spec");
-      Spec spec = (Spec)source.obtainSpec();
-      URL specURL = source.getURL();
+      final String input = args[0];
+      URL specURL = new File(input).toURL();
+      FileSource source = new FileSource(input);
+      SectionManager manager = new SectionManager();
+      String name = "spec";
+      manager.put(new Key(name, Source.class), source);
+      Spec spec = (Spec) manager.get(new Key(name, Spec.class));
 
-
-      // now create the output file
+       // now create the output file
       System.err.println("Creating output file");
-      Logger.getLogger("net.sourceforge.czt.z2b").
-	fine("input file is "+specURL);
+      z2bLogger.fine("input file is " + input);
 
       // set up the translation engine
       System.err.println("Translating to B");
-      Z2B tr = new Z2B(plugins);
+      Z2B tr = new Z2B(manager);
 
-      // choose the section -- we just take the last one!
+     // choose the section -- we just take the last one!
       ZSect sect;
       List sects = spec.getSect();
       if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
-	sect = (ZSect)spec.getSect().get(sects.size()-1);
-      } else {
-	throw new BException("last section is not a ZSect");
+        sect = (ZSect) spec.getSect().get(sects.size()-1);
+      }
+      else {
+        throw new BException("last section is not a ZSect");
       }
 
       // do the translation
-      BMachine mach = tr.makeBMachine(spec,sect,specURL);
+      BMachine mach = tr.makeBMachine(sect);
 
       // Output the machine to the .mch file
       System.err.println("Writing out the B");
       BWriter bwriter = createBWriter(specURL);
       mach.print(bwriter);
       bwriter.close();
-      */
+
       System.err.println("Done!");
     } catch( Exception e ) {
       System.err.println("ERROR: "+e);
@@ -118,7 +98,8 @@ public class Main {
    *
    *  It takes a file spec.xml and creates a file spec.mch.
    *
-   * @param inName The path to the ZML file.  Must end with ".xml" or ".zml".
+   * @param inName The path to the ZML file.  Must end with ".xml", ".zml",
+   *               ".tex", or ".zed".
    */
   public static BWriter createBWriter(URL inName)
     throws IOException
@@ -129,13 +110,13 @@ public class Main {
       // put the output in the current directory
       int slash = outName.lastIndexOf('/');
       if (slash >= 0 && slash < outName.length())
-	outName = outName.substring(slash+1); 
+        outName = outName.substring(slash+1); 
     }
     // Now strip off any known suffix
     if (outName.endsWith(".xml")
-	|| outName.endsWith(".zml")
-	|| outName.endsWith(".tex")
-	|| outName.endsWith(".zed")) {
+        || outName.endsWith(".zml")
+        || outName.endsWith(".tex")
+        || outName.endsWith(".zed")) {
       outName = outName.substring(0, outName.length()-4);
     }
 

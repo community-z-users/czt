@@ -41,21 +41,22 @@ import net.sourceforge.czt.z2b.*;
 public class RenameVisitor
   implements TermVisitor<Term>, NameVisitor<Term>
 {
-  Map subs_;
+  Map<String,ZName> subs_;
   
   /**
    * Constructor for RenameVisitor
    *
    * @param rename  The map from old names to new names.
    */
-  public RenameVisitor(Map rename) {
+  public RenameVisitor(Map<String,ZName> rename) {
     subs_ = rename;
   }
 
-  /** Apply this renaming to a Z term..
-  *  @param t  The original term.
-  *  @return   The substituted term.
-  */
+  /**
+   * Apply this renaming to a Z term.
+   * @param t  The original term.
+   * @return   The substituted term.
+   */
   public Term rename(Term t) {
     return t.accept(this);
   }
@@ -65,14 +66,15 @@ public class RenameVisitor
     return VisitorUtils.visitTerm(this, term, true); 
   }
 
-  /** This visit method performs the renaming.
-  */
-  public Term visitName(Name name) {
-    
+  /** This visit method performs the renaming. */
+  public Term visitName(Name name)
+  {
     String strName = name.accept(new PrintVisitor());
-    if (subs_.containsKey(strName))
-      return (Term) subs_.get(strName);
-    else
+    if (subs_.containsKey(strName)) {
+      return subs_.get(strName);
+    }
+    else {
       return name;
+    }
   }
 }
