@@ -106,7 +106,8 @@ public class PrintVisitor
 
   public String visitNextStroke(NextStroke nextStroke)
   {
-    return ZString.PRIME;
+    // return ZString.PRIME;
+    return "'";
   }
 
   public String visitNumExpr(NumExpr numExpr)
@@ -116,7 +117,8 @@ public class PrintVisitor
 
   public String visitNumStroke(NumStroke numStroke)
   {
-    return ZString.SE + numStroke.getDigit().getValue() + ZString.NW;
+    // return ZString.SE + numStroke.getDigit().getValue() + ZString.NW;
+    return "_" + numStroke.getDigit().getValue();
   }
 
   public String visitOutStroke(OutStroke outStroke)
