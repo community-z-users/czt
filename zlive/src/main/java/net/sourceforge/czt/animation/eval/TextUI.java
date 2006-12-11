@@ -223,17 +223,19 @@ public class TextUI {
           ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
           for (Para par : ZUtils.assertZParaList(sect.getParaList()))
             if (par instanceof ConjPara) {
+              ConjPara conj = (ConjPara) par;
               LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
               if (loc != null) {
                 output_.println("Conjecture on line "+loc.getLine());
               }
               try {
-                ConjPara conj = (ConjPara) par;
                 printTerm(output_, zlive_.evalPred( conj.getPred() ), zlive_.getMarkup());
                 output_.println();
               }
               catch (Exception e) {
                 output_.println("Error: "+e);
+                output_.println("  in: ");
+                zlive_.printTerm(output_, conj.getPred(), zlive_.getMarkup());
                 e.printStackTrace(output_);
               }
             }

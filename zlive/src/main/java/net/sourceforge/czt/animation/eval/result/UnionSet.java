@@ -32,11 +32,7 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
-/** A simple implementation of {e1,e2,e3,...,eN}.
- *  A typical usage is to create it, add ALL the members,
- *  then release it to be used in other expressions.
- *  (If other expressions see it before all members are
- *  added, then the size and lower/upper bounds will be wrong).
+/** A simple implementation of the union of two EvalSets.
  *
  * @author marku
  *
@@ -52,6 +48,11 @@ public class UnionSet extends EvalSet
   /** The iterator used by nextMember. */
   private Iterator<Expr> iter_;
 
+  /** TODO: could combine/simplify some sets rather than creating union.
+   *  For example, we could combine \{2\} and 3..+infinity, giving 2..+infinity.
+   * @param left
+   * @param right
+   */
   public UnionSet(EvalSet left, EvalSet right)
   {
     leftSet_ = left;

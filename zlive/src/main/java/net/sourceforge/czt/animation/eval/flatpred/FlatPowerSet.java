@@ -143,7 +143,7 @@ public class FlatPowerSet extends FlatPred
         result = this.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        env.setValue(setName, null); // TODO
+        env.setValue(setName, null); // TODO implement PowerSet
         result = true;
       }
     }
