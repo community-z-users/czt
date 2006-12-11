@@ -111,7 +111,7 @@ public class BWriter extends PrintWriter
 
   /** Print a non-deterministic update:  ANY .. WHERE .. END. */
   //@ requires preds != null && preds.size() > 0;
-  public void printAnyAssign(Map frame, List preds) {
+  public void printAnyAssign(Map<String,ZName> frame, List<Pred> preds) {
     term.printAnyAssign(frame, preds);
   }
 

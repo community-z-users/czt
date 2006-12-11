@@ -168,16 +168,11 @@ public class BMachine
       throw new BException("no initialisation predicates");
     // We use:  ANY state' WHERE init' THEN state := state' END
     // Rename outputs to outputs' in the postconditions.
-    Map<String,ZName> initRename = new HashMap();
+    Map<String,ZName> initRename = new HashMap<String,ZName>();
     for (String name : variables_) {
       initRename.put(name, Create.prime(name));
     }
-    RenameVisitor initPrimer = new RenameVisitor(initRename);
-    List initPreds = new ArrayList();
-    for (Pred pred : initialisation_) {
-      initPreds.add(initPrimer.rename(pred));
-    }
-    dest.printAnyAssign(initRename, initPreds);
+    dest.printAnyAssign(initRename, initialisation_);
     
     // Now the operations
     if (operations_.size() > 0) {

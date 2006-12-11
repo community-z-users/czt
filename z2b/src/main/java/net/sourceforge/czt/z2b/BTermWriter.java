@@ -247,23 +247,23 @@ public class BTermWriter
   *   @param frame  The (var,expr) pairs to put in the assignments.
   *   @param preds  The predicates that the expressions must satisfy.
   */
-  public void printAnyAssign(Map frame, List preds) {
+  public void printAnyAssign(Map<String,ZName> frame, List<Pred> preds) {
     // now print the ANY..WHERE..THEN..END statement.
     out.startSection("ANY");
     // print the temporary names (like printNames, but for Names)
-    for (Iterator i = frame.values().iterator(); i.hasNext(); ) {
-      ZName name = (ZName)i.next();
+    for (Iterator<ZName> i = frame.values().iterator(); i.hasNext(); ) {
+      ZName name = i.next();
       out.printName(name);
-      if (i.hasNext())
-        out.print(",");
+      if (i.hasNext()) out.print(",");
     }
     out.continueSection("ANY", "WHERE");
     out.printPreds(preds);
     out.continueSection("ANY", "THEN");
-    for (Iterator i = frame.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry entry = (Map.Entry)i.next();
-      String name = (String)entry.getKey();
-      ZName tempname = (ZName)entry.getValue();
+    for (Iterator<Map.Entry<String,ZName>> i = frame.entrySet().iterator();
+         i.hasNext(); ) {
+      Map.Entry<String,ZName> entry = i.next();
+      String name = entry.getKey();
+      ZName tempname = entry.getValue();
       // output the assignment name := tempname
       out.beginPrec(BTermWriter.ASSIGN_PREC);
       out.printName(name);

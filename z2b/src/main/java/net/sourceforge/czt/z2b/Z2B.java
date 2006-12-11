@@ -110,8 +110,7 @@ public class Z2B
     if ( ! (stateSchemaDef instanceof SchExpr)) {
       throw new BException("state schema is not a simple schema");
     }
-    List<NameTypePair> svars =
-      getSignature(stateSchemas.get(0)).getNameTypePair();
+    NameSectTypeTriple state = stateSchemas.get(0);
 
     // Check the init schema
     if (initSchemas.size() != 1) {
@@ -125,7 +124,8 @@ public class Z2B
       }
       throw new BException(msg.toString());
     }
-    Expr initSchemaDef = lookup(initSchemas.get(0));
+    NameSectTypeTriple init = initSchemas.get(0);
+    Expr initSchemaDef = lookup(init);
     if ( ! (initSchemaDef instanceof SchExpr)) {
       String msg = "init schema is not a simple schema: " + initSchemaDef;
       throw new BException(msg);
@@ -143,25 +143,17 @@ public class Z2B
     Pred invar = ((SchExpr) stateSchemaDef).getZSchText().getPred();
     Pred initpred = ((SchExpr) initSchemaDef).getZSchText().getPred();
 
-    // unprime initpred
-    Map<String,ZName> initRename = new HashMap<String,ZName>();
-    for (NameTypePair pair : ivars) {
-      ZName name = pair.getZName();
-      initRename.put(name.accept(new PrintVisitor()), Create.unprime(name));
-    }
-    initpred = (Pred) initpred.accept(new RenameVisitor(initRename));
-
     mach_ = new BMachine(sect.getName());
 
     // Process all the non-schema definitions from sect
     sect.getParaList().accept(this);
     // Add state variables
-    declareVars(svars, mach_.getVariables(), mach_.getInvariant());
+    declareVars(state, mach_.getVariables(), mach_.getInvariant());
     // add any other invariant predicates
     if (invar != null) addPred(invar, mach_.getInvariant());
 
     // Add init conditions
-    declareVars(svars, new ArrayList<String>(), mach_.getInitialisation());
+    declareVars(init, new ArrayList<String>(), mach_.getInitialisation());
     if (initpred != null) addPred(initpred, mach_.getInitialisation());
 
     // operations
@@ -224,19 +216,32 @@ public class Z2B
   protected BOperation operation(NameSectTypeTriple triple)
     throws CommandException
   {
-    String opName = triple.getName().accept(new PrintVisitor());
+    final String opName = triple.getName().accept(new PrintVisitor());
     System.out.println("Processing " + opName);
-    BOperation op = new BOperation(opName, mach_);
-    Signature sig = getSignature(triple);
-    List<NameTypePair> inputs = ZUtils.subsignature(sig, InStroke.class);
-    List<NameTypePair> outputs = ZUtils.subsignature(sig, OutStroke.class);
-    declareVars(inputs, op.getInputs(), op.getPre());
-    declareVars(outputs, op.getOutputs(), op.getPost());
-    // Now add the type conditions of the prime vars to post
-    List<NameTypePair> primed = ZUtils.subsignature(sig, NextStroke.class);
-    declareVars(primed, new ArrayList<String>(), op.getPost());
+    final BOperation op = new BOperation(opName, mach_);
+    final ZSchText zSchText = ((SchExpr) lookup(triple)).getZSchText();
+    for (Decl decl : zSchText.getZDeclList()) {
+      final VarDecl varDecl = (VarDecl) decl;
+      final Expr expr = varDecl.getExpr();
+      for (Name name : varDecl.getZNameList()) {
+        ZName zName = (ZName) name;
+        ZStrokeList strokes = zName.getZStrokeList();
+        if (strokes.size() > 0) {
+          Stroke last = strokes.get(strokes.size() - 1);
+          if (last instanceof InStroke) {
+            declareVar(zName, expr, op.getInputs(), op.getPre());
+          }
+          else if (last instanceof OutStroke) {
+            declareVar(zName, expr, op.getOutputs(), op.getPost());
+          }
+          else if (last instanceof NextStroke) {
+            declareVar(zName, expr, new ArrayList<String>(), op.getPost());
+          }
+        }
+      }
+    }
     // TODO: split the predicate parts into pre and post
-    Pred post = ((SchExpr) lookup(triple)).getZSchText().getPred();
+    Pred post = zSchText.getPred();
     List<Pred> prePreds = new ArrayList<Pred>();
     List<Pred> postPreds = new ArrayList<Pred>();
     splitPrePost(post, prePreds, postPreds);
@@ -274,6 +279,18 @@ public class Z2B
     for (NameTypePair pair : vars) {
       Expr expr = (Expr) pair.getType().accept(carrier);
       declareVar(pair.getZName(), expr, names, preds);
+    }
+  }
+
+  protected void declareVars(NameSectTypeTriple triple,
+                             List<String> names,
+                             List<Pred> preds)
+    throws CommandException
+  {
+    SchExpr schema = (SchExpr) lookup(triple);
+    for (Decl decl : schema.getZSchText().getZDeclList()) {
+      VarDecl varDecl = (VarDecl) decl;
+      declareVars((VarDecl) decl, names, preds);
     }
   }
 

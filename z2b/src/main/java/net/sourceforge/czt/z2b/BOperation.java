@@ -108,7 +108,7 @@ public class BOperation
     // Note: frame is state vars plus output vars (eg. x, y!),
     //       and frame' is those same vars primed (eg. x', y!').
     //       Also, post2 is post with output vars primed.
-    List<Term> post2 = new ArrayList<Term>();
+    List<Pred> post2 = new ArrayList<Pred>();
     // Create primed versions of the output variables.
     Map<String,ZName> rename = new HashMap<String,ZName>();
     for (String name : outputs_) {
@@ -117,7 +117,7 @@ public class BOperation
     // Rename outputs to outputs' in the postconditions.
     RenameVisitor outPrimer = new RenameVisitor(rename);
     for (Pred pred : post_) {
-      post2.add(outPrimer.rename(pred));
+      post2.add((Pred) outPrimer.rename(pred));
     }
     // Extend the rename map to include (x,x') for all state vars x.
     for (String name : machine.getVariables()) {
