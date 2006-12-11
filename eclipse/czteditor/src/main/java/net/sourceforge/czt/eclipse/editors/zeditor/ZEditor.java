@@ -197,7 +197,7 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   }
 
   /**
-   * Updates the Z outline page selection and this fEditor's range indicator.
+   * Updates the Z outline page selection and this editor's range indicator.
    *
    * @since 3.0
    */
@@ -2236,18 +2236,19 @@ public class ZEditor extends TextEditor implements IZReconcilingListener
   {
     fParsedData = parsedData;
     if (fReportProblemsWhileEditing || !this.isDirty())
-      createMarkers(fParsedData.getErrors(),
-        ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
-            .getDocument(getEditorInput()));
+      if (fParsedData != null)
+        createMarkers(fParsedData.getErrors(),
+            ((IFileEditorInput) getEditorInput()).getFile(), getDocumentProvider()
+              .getDocument(getEditorInput()));
     updateOutlinePage(fParsedData);
 
     // Notify listeners
-    Object[] listeners = fReconcilingListeners.getListeners();
-    for (int i = 0, length = listeners.length; i < length; ++i)
-      ((IZReconcilingListener) listeners[i]).reconciled(parsedData, forced,
-          progressMonitor);
+//    Object[] listeners = fReconcilingListeners.getListeners();
+//    for (int i = 0, length = listeners.length; i < length; ++i)
+//      ((IZReconcilingListener) listeners[i]).reconciled(parsedData, forced,
+//          progressMonitor);
 
-    // Update Java Outline page selection
+    // Update Z Outline page selection
 //    if (!forced && !progressMonitor.isCanceled()) {
 //      Shell shell = getSite().getShell();
 //      if (shell != null && !shell.isDisposed()) {

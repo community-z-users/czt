@@ -70,7 +70,7 @@ public class GoToDeclarationAction extends TextEditorAction
     if (data == null || ref == null)
       return null;
 
-    NameInfo info = NameInfoResolver.findInfo(data.getNameInfoList(), ref);
+    NameInfo info = NameInfoResolver.findInfo(data.getNameInfoMap(), ref);
     if (info != null)
       return info.getName();
 

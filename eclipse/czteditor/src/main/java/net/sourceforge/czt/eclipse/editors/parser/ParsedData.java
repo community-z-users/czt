@@ -59,7 +59,7 @@ public class ParsedData
 
   private Selector fTermSelector;
 
-  private List<NameInfo> fNameInfoList = new ArrayList<NameInfo>();
+  private Map<ZName, NameInfo> fNameInfoMap = new HashMap<ZName, NameInfo>();
 
   private static Visitor<Term[]> getNodeChildrenVisitor_ = new NodeChildrenVisitor();
 
@@ -70,15 +70,15 @@ public class ParsedData
 
   public void addData(Spec spec, SectionManager manager, IDocument document)
   {
-    this.spec_ = spec;
-    this.manager_ = manager;
-    this.fTermSelector = new Selector(spec);
+    spec_ = spec;
+    manager_ = manager;
+    fTermSelector = new Selector(spec);
     resetTermPositionMap(spec, document);
     //		outputRanges(spec);
     //		outputMap(this.fTermPositionMap);
     //		outputTypeAnns(spec);
     setOutlineTree(spec, document);
-    fNameInfoList = NameInfoResolver.resolve(spec, manager);
+    fNameInfoMap = NameInfoResolver.resolve(spec, manager);
   }
   
   public void setErrors(List<CztError> errors)
@@ -176,22 +176,22 @@ public class ParsedData
 
   public Object getSource()
   {
-    return this.source_;
+    return source_;
   }
 
   public Spec getSpec()
   {
-    return this.spec_;
+    return spec_;
   }
 
-  public List<NameInfo> getNameInfoList()
+  public Map<ZName, NameInfo> getNameInfoMap()
   {
-    return this.fNameInfoList;
+    return fNameInfoMap;
   }
 
   public Map<Term, Position> getTermPositionMap()
   {
-    return this.fTermPositionMap;
+    return fTermPositionMap;
   }
 
   public Selector getTermSelector()
@@ -199,7 +199,7 @@ public class ParsedData
     if (fTermSelector == null)
       fTermSelector = new Selector(spec_);
     
-    return this.fTermSelector;
+    return fTermSelector;
   }
   
   public Selector createTermSelector()

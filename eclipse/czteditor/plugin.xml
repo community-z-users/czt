@@ -173,7 +173,7 @@
             name="%category.source.name"/>
       <command
             categoryId="net.sourceforge.czt.eclipse.category.source"
-            description="Go to the declaration of a term"
+            description="Go to the declaration of a Z name"
             id="net.sourceforge.czt.eclipse.editoraction.gotodeclaration"
             name="Go To Declaration"/>
       <command

@@ -85,6 +85,9 @@ public class OccurrencesFinderJob extends Job
     if (fEditor == null)
       return Status.CANCEL_STATUS;
 
+    if (fEditor.getParsedData() == null)
+      return Status.CANCEL_STATUS;
+    
     if (fEditor.getParsedData().getSpec() == null)
       return Status.CANCEL_STATUS;
 
@@ -176,8 +179,8 @@ public class OccurrencesFinderJob extends Job
                 fEditor.getParsedData().getTermPosition((Term) child));
           }
           else {
-            NameInfo nameInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), name);
-            NameInfo selectInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoList(), select);
+            NameInfo nameInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoMap(), name);
+            NameInfo selectInfo = NameInfoResolver.findInfo(fEditor.getParsedData().getNameInfoMap(), select);
             if (nameInfo == null) {
 //              System.out.println("null name info");
               continue;

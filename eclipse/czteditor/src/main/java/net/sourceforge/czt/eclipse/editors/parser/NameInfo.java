@@ -2,6 +2,7 @@
 package net.sourceforge.czt.eclipse.editors.parser;
 
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /**
  * @author Chengdong Xu
@@ -55,11 +56,19 @@ public class NameInfo
     type_ = type;
   }
   
+  /**
+   * @unused
+   * @return
+   */
   public boolean isLocal()
   {
     return isLocal_;
   }
   
+  /**
+   * @unused
+   * @param isLocal
+   */
   public void setLocal(boolean isLocal)
   {
     isLocal_ = isLocal;
@@ -67,7 +76,7 @@ public class NameInfo
 
   public String toString()
   {
-    return "(" + name_.toString() + ", " + section_ + ", " + type_ + ")";
+    return "(" + name_.accept(new PrintVisitor()) + ", " + section_ + ", " + type_ + ")";
   }
 
 }

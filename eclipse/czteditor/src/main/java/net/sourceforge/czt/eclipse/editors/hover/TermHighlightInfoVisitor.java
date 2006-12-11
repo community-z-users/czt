@@ -4,7 +4,7 @@
 
 package net.sourceforge.czt.eclipse.editors.hover;
 
-import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -13,35 +13,20 @@ import net.sourceforge.czt.eclipse.editors.parser.NameInfoResolver;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
 import net.sourceforge.czt.eclipse.outline.NodeNameVisitor;
 import net.sourceforge.czt.parser.util.OpTable;
-import net.sourceforge.czt.z.ast.AndExpr;
-import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.DecorExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.FreePara;
 import net.sourceforge.czt.z.ast.Freetype;
 import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.GivenType;
-import net.sourceforge.czt.z.ast.InclDecl;
-import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Oper;
 import net.sourceforge.czt.z.ast.Operand;
 import net.sourceforge.czt.z.ast.Operator;
 import net.sourceforge.czt.z.ast.OptempPara;
-import net.sourceforge.czt.z.ast.OrExpr;
-import net.sourceforge.czt.z.ast.PowerExpr;
-import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.SchExpr;
-import net.sourceforge.czt.z.ast.SchemaType;
-import net.sourceforge.czt.z.ast.SetExpr;
-import net.sourceforge.czt.z.ast.Signature;
-import net.sourceforge.czt.z.ast.TupleExpr;
-import net.sourceforge.czt.z.ast.TupleSelExpr;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.VarDecl;
@@ -51,29 +36,18 @@ import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.visitor.AndExprVisitor;
-import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
 import net.sourceforge.czt.z.visitor.ConjParaVisitor;
 import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
-import net.sourceforge.czt.z.visitor.DecorExprVisitor;
 import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.FreeParaVisitor;
 import net.sourceforge.czt.z.visitor.FreetypeVisitor;
 import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
-import net.sourceforge.czt.z.visitor.InclDeclVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.OperVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
-import net.sourceforge.czt.z.visitor.OrExprVisitor;
-import net.sourceforge.czt.z.visitor.PowerExprVisitor;
-import net.sourceforge.czt.z.visitor.RefExprVisitor;
-import net.sourceforge.czt.z.visitor.SchExprVisitor;
-import net.sourceforge.czt.z.visitor.SetExprVisitor;
-import net.sourceforge.czt.z.visitor.TupleExprVisitor;
-import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
@@ -87,7 +61,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 /**
  * @author Chengdong Xu
  */
-public class TermInfoVisitor
+public class TermHighlightInfoVisitor
     implements
       TermVisitor<String>,
       ZSectVisitor<String>,
@@ -115,30 +89,33 @@ public class TermInfoVisitor
 
   private static NodeNameVisitor getTermNameVisitor_ = new NodeNameVisitor();
 
-  public TermInfoVisitor(ITextEditor textEditor)
+  public TermHighlightInfoVisitor(ITextEditor textEditor)
   {
     fEditor = textEditor;
   }
 
   /**
-   * @see net.sourceforge.czt.base.visitor.TermVisitor#visitTerm(net.sourceforge.czt.base.ast.Term)
+   * @see net.sourceforge.czt.base.visitor.TermVisitor
+   *    #visitTerm(net.sourceforge.czt.base.ast.Term)
    */
   public String visitTerm(Term term)
   {
-    return "The highlighted term is a " + term.accept(getTermNameVisitor_);
+    return "The highlighted term is a " + getClassName(term);
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.ZSectVisitor#visitZSect(net.sourceforge.czt.z.ast.ZSect)
+   * @see net.sourceforge.czt.z.visitor.ZSectVisitor
+   *    #visitZSect(net.sourceforge.czt.z.ast.ZSect)
    */
   public String visitZSect(ZSect zSect)
   {
-    return "The highlighted term is a Z section paragraph." + "\nIts name is "
-        + zSect.getName() + ".";
+    return "The highlighted term is a Z section paragraph - " + zSect.getName()
+        + ".";
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.NarrSectVisitor#visitNarrSect(net.sourceforge.czt.z.ast.NarrSect)
+   * @see net.sourceforge.czt.z.visitor.NarrSectVisitor
+   *    #visitNarrSect(net.sourceforge.czt.z.ast.NarrSect)
    */
   public String visitNarrSect(NarrSect narrPara)
   {
@@ -146,28 +123,28 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.GivenParaVisitor#visitGivenPara(net.sourceforge.czt.z.ast.GivenPara)
+   * @see net.sourceforge.czt.z.visitor.GivenParaVisitor
+   *    #visitGivenPara(net.sourceforge.czt.z.ast.GivenPara)
    */
   public String visitGivenPara(GivenPara givenPara)
   {
-    String result = "The highlighted term is a given Paragraph.";
-    String name = givenPara.getNames().accept(getTermNameVisitor_);
-    return result + "\nIts name is " + name + ".";
+    return "The highlighted term is a given Paragraph - "
+        + givenPara.getNames().accept(getTermNameVisitor_) + ".";
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.AxParaVisitor#visitAxPara(net.sourceforge.czt.z.ast.AxPara)
+   * @see net.sourceforge.czt.z.visitor.AxParaVisitor
+   *    #visitAxPara(net.sourceforge.czt.z.ast.AxPara)
    */
   public String visitAxPara(AxPara axPara)
   {
-    String result = "The highlighted term is an axiomatic paragraph.";
-    String name = axPara.getZSchText().getZDeclList().accept(
-        getTermNameVisitor_);
-    return result + "\nIts name is " + name + ".";
+    return "The highlighted term is an axiomatic paragraph - "
+        + axPara.getZSchText().getZDeclList().accept(getTermNameVisitor_) + ".";
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.ConjParaVisitor#visitConjPara(net.sourceforge.czt.z.ast.ConjPara)
+   * @see net.sourceforge.czt.z.visitor.ConjParaVisitor
+   *    #visitConjPara(net.sourceforge.czt.z.ast.ConjPara)
    */
   public String visitConjPara(ConjPara conjPara)
   {
@@ -177,7 +154,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.FreeParaVisitor#visitFreePara(net.sourceforge.czt.z.ast.FreePara)
+   * @see net.sourceforge.czt.z.visitor.FreeParaVisitor
+   *    #visitFreePara(net.sourceforge.czt.z.ast.FreePara)
    */
   public String visitFreePara(FreePara freePara)
   {
@@ -188,7 +166,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.OptempParaVisitor#visitOptempPara(net.sourceforge.czt.z.ast.OptempPara)
+   * @see net.sourceforge.czt.z.visitor.OptempParaVisitor
+   *    #visitOptempPara(net.sourceforge.czt.z.ast.OptempPara)
    */
   public String visitOptempPara(OptempPara optempPara)
   {
@@ -198,7 +177,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.NarrParaVisitor#visitNarrPara(net.sourceforge.czt.z.ast.NarrPara)
+   * @see net.sourceforge.czt.z.visitor.NarrParaVisitor
+   *    #visitNarrPara(net.sourceforge.czt.z.ast.NarrPara)
    */
   public String visitNarrPara(NarrPara narrPara)
   {
@@ -206,7 +186,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.UnparsedParaVisitor#visitUnparsedPara(net.sourceforge.czt.z.ast.UnparsedPara)
+   * @see net.sourceforge.czt.z.visitor.UnparsedParaVisitor
+   *    #visitUnparsedPara(net.sourceforge.czt.z.ast.UnparsedPara)
    */
   public String visitUnparsedPara(UnparsedPara unparsedPara)
   {
@@ -214,7 +195,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.ConstDeclVisitor#visitConstDecl(net.sourceforge.czt.z.ast.ConstDecl)
+   * @see net.sourceforge.czt.z.visitor.ConstDeclVisitor
+   *    #visitConstDecl(net.sourceforge.czt.z.ast.ConstDecl)
    */
   public String visitConstDecl(ConstDecl constDecl)
   {
@@ -224,7 +206,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.VarDeclVisitor#visitVarDecl(net.sourceforge.czt.z.ast.VarDecl)
+   * @see net.sourceforge.czt.z.visitor.VarDeclVisitor
+   *    #visitVarDecl(net.sourceforge.czt.z.ast.VarDecl)
    */
   public String visitVarDecl(VarDecl varDecl)
   {
@@ -234,7 +217,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.VarDeclVisitor#visitZDeclList(net.sourceforge.czt.z.ast.ZDeclList)
+   * @see net.sourceforge.czt.z.visitor.VarDeclVisitor
+   *    #visitZDeclList(net.sourceforge.czt.z.ast.ZDeclList)
    */
   public String visitZDeclList(ZDeclList zDeclList)
   {
@@ -242,7 +226,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.ZNameVisitor#visitZName(net.sourceforge.czt.z.ast.ZName)
+   * @see net.sourceforge.czt.z.visitor.ZNameVisitor
+   *    #visitZName(net.sourceforge.czt.z.ast.ZName)
    */
   public String visitZName(ZName zName)
   {
@@ -255,7 +240,8 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.ZNameListVisitor#visitZNameList(net.sourceforge.czt.z.ast.ZNameList)
+   * @see net.sourceforge.czt.z.visitor.ZNameListVisitor
+   *    #visitZNameList(net.sourceforge.czt.z.ast.ZNameList)
    */
   public String visitZNameList(ZNameList zNameList)
   {
@@ -271,12 +257,13 @@ public class TermInfoVisitor
   }
 
   /**
-   * @see net.sourceforge.czt.z.visitor.RefExprVisitor#visitRefExpr(net.sourceforge.czt.z.ast.RefExpr)
+   * @see net.sourceforge.czt.z.visitor.ExprVisitor
+   *    #visitExpr(net.sourceforge.czt.z.ast.Expr)
    */
   public String visitExpr(Expr expr)
   {
     String result = "The highlighted term is an expression - "
-        + expr.accept(getTermNameVisitor_) + ".";
+        + getClassName(expr) + ".";
     TypeAnn typeann = expr.getAnn(TypeAnn.class);
     String type = null;
     if (typeann != null)
@@ -324,17 +311,37 @@ public class TermInfoVisitor
     return "The highlighted term is a Z free type.";
   }
 
+  /*
+   * Return the type of the specified name
+   */
   private String getTypeOfZName(ZName zName)
   {
     if (fEditor == null || !(fEditor instanceof ZEditor))
       return null;
 
-    List<NameInfo> nameInfoList = ((ZEditor) fEditor).getParsedData()
-        .getNameInfoList();
-    NameInfo info = NameInfoResolver.findInfo(nameInfoList, zName);
+    Map<ZName, NameInfo> nameInfoMap = ((ZEditor) fEditor).getParsedData()
+        .getNameInfoMap();
+    NameInfo info = NameInfoResolver.findInfo(nameInfoMap, zName);
     if (info != null)
       return info.getType();
 
     return null;
+  }
+
+  /*
+   * Return the class name of the term
+   */
+  private String getClassName(Term term)
+  {
+    if (term == null)
+      return null;
+
+    String classname = term.getClass().getSimpleName();
+
+    // Remove the surfix "Impl" from the class name
+    if (classname.endsWith("Impl"))
+      classname = classname.substring(0, classname.lastIndexOf("Impl"));
+
+    return classname;
   }
 }

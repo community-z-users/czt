@@ -702,7 +702,7 @@ public class PreferenceConstants
     store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_STYLE, PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_STYLE_2);
     PreferenceConverter.setDefault(store,
         PreferenceConstants.EDITOR_ANNOTATION_SCHEMABOX_LINE_COLOR, new RGB(255, 100, 100));
-    store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH, 1);
+    store.setDefault(EDITOR_ANNOTATION_SCHEMABOX_LINE_WIDTH, 0);
 
 
     //  Folding preference page

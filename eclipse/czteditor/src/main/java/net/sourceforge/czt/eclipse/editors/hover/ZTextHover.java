@@ -71,7 +71,7 @@ public class ZTextHover implements ITextHover
     this.fSourceViewer = sourceViewer;
     this.fContentType = contentType;
     this.fTextEditor = editor;
-    getTermHighlightInfoVisitor_  = new TermInfoVisitor(fTextEditor);
+    getTermHighlightInfoVisitor_  = new TermHighlightInfoVisitor(fTextEditor);
   }
 
   public ITextEditor getEditor()
@@ -180,23 +180,23 @@ public class ZTextHover implements ITextHover
   {
     if (term == null)
       return null;
-
+    
     if (term instanceof ZName) {
-      List<NameInfo> nameInfoList = ((ZEditor) getEditor()).getParsedData()
-          .getNameInfoList();
-      NameInfo info = NameInfoResolver.findInfo(nameInfoList, (ZName)term);
-      if (info != null) {
+      Map<ZName, NameInfo> nameInfoMap = ((ZEditor) getEditor()).getParsedData()
+          .getNameInfoMap();
+      NameInfo info = NameInfoResolver.findInfo(nameInfoMap, (ZName)term);
+      if (info != null)
         return info.getType();
-      }
+//        return ((ZName)term).getId() + info.getType();
       return ((ZName)term).getId();
     }
 
-    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-    if (typeAnn != null) {
-      if (typeAnn.getType() != null) {
-        return typeAnn.getType().accept(new PrintVisitor());
-      }
-    }
+//    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+//    if (typeAnn != null) {
+//      if (typeAnn.getType() != null) {
+//        return typeAnn.getType().accept(new PrintVisitor());
+//      }
+//    }
 
     return null;
   }

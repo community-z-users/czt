@@ -1,199 +1,73 @@
 
 package net.sourceforge.czt.eclipse.editors.parser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.eclipse.outline.NodeNameVisitor;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.GenericType;
 import net.sourceforge.czt.z.ast.InclDecl;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.NameSectTypeTriple;
 import net.sourceforge.czt.z.ast.NameTypePair;
 import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.Sect;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Signature;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.PrintVisitor;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  * @author Chengdong Xu
  */
 public class NameInfoResolver
 {
-  private static Visitor<String> getTypeNameVisitor_ = new NodeNameVisitor();
-  private static final String ID_DELTAXI = "deltaxi"; // special ID for names starting with XI/DELTA
-  private static final String DELTA = ZString.DELTA;
-  private static final String XI = ZString.XI;
+  private static Visitor<String> getTypeNameVisitor_ = new PrintVisitor();
+//  private static final String ID_DELTAXI = "deltaxi"; // special ID for names starting with XI/DELTA
+//  private static final String DELTA = ZString.DELTA;
+//  private static final String XI = ZString.XI;
   
-  public static List<NameInfo> resolve(Spec spec, SectionManager manager)
+  public static Map<ZName, NameInfo> resolve(Spec spec, SectionManager manager)
   {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
+    Map<ZName, NameInfo> names = new HashMap<ZName, NameInfo>();
+    
     if (spec != null) {
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
           ZSect zSect = (ZSect) sect;
-          nameInfoList.addAll(visitZSect(zSect, manager));
+          visitZSect(names, zSect, manager);
         }
       }
     }
     
-    return nameInfoList;
-  }
-
-  private static List<NameInfo> visitZSect(ZSect zSect, SectionManager manager)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    String section = zSect.getName();
-
-    try {
-      SectTypeEnvAnn steAnn = (SectTypeEnvAnn) manager.get(new Key(section,
-          SectTypeEnvAnn.class));
-      if (steAnn != null) {
-        for (NameSectTypeTriple triple : steAnn.getNameSectTypeTriple()) {
-          ZName name = triple.getZName();
-          Type type = triple.getType();
-          nameInfoList.add(new NameInfo(name, triple.getSect(), type.accept(new PrintVisitor()), false));
-          nameInfoList.addAll(visitType(type, triple.getSect()));
-        }
-      }
-      
-    } catch (CommandException e) {
-      System.out.println("CommandException");
-    }
-    
-    // add local variables
-//    nameInfoList.addAll((visitChildrenOfTerm(zSect, zSect.getName())));
-    
-    return nameInfoList;
+    return names;
   }
   
-  private static List<NameInfo> visitType (Type type, String section)
-  {
-    if (type == null)
-      return new ArrayList<NameInfo>();
-    
-    if (type instanceof GenericType)
-      return visitGenericType((GenericType) type, section);
-    
-    if (type instanceof PowerType) {
-      Type pt = ((PowerType)type).getType();
-      if (pt != null && pt instanceof SchemaType)
-        return visitSchemaType((SchemaType)pt, section);
-    }
-    
-    
-    return new ArrayList<NameInfo>();
-  }
-  
-  private static List<NameInfo> visitSchemaType (SchemaType schemaType, String section)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    
-    if (schemaType == null)
-      return nameInfoList; 
-    
-    Signature sig = ((SchemaType) schemaType).getSignature();
-    
-    if (sig == null)
-      return nameInfoList;
-    
-    for (NameTypePair pair : sig.getNameTypePair()) {
-      ZName name = pair.getZName();
-      Type type = pair.getType();
-      nameInfoList.add(new NameInfo(name, section, type.accept(new PrintVisitor()), false));
-      nameInfoList.addAll(visitType(type, section));
-    }
-    
-    return nameInfoList;
-  }
-  
-  private static List<NameInfo> visitGenericType (GenericType genericType, String section)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    if (genericType == null)
-      return nameInfoList;
-    ZNameList nameList = genericType.getZNameList();
-    Type type = genericType.getType();
-    if (nameList == null || type == null)
-      return nameInfoList;
-    String t = type.accept(new PrintVisitor());
-    for (Name name : nameList) {
-      nameInfoList.add(new NameInfo((ZName)name, section, t, false));
-      nameInfoList.addAll(visitType(type, section));
-    }
-    
-    return nameInfoList;
-  }
 
-  private static List<NameInfo> visitTerm(Term term, String section)
-  {
-    List<NameInfo> triples = new ArrayList<NameInfo>();
-    if (term != null) {
-//      if (term instanceof InclDecl) {
-//        InclDecl inclDecl = (InclDecl) term;
-//        TypeAnn typeann = inclDecl.getAnn(TypeAnn.class);
-//        if (typeann.getType() instanceof PowerType) {
-//          PowerType powertype = (PowerType) typeann.getType();
-//          if (powertype instanceof SchemaType) {
-//            Signature sig = ((SchemaType)powertype).getSignature();
-//            for (NameTypePair pair : sig.getNameTypePair()) {
-//              // TODO insertIntoTable(pair.getZName(), pair.getType());
-//              triples.add(new NameInfo(pair.getZName(), section, pair.getType().accept(new PrintVisitor()), false));
-//            }
-//          }
-//        }
-//        // TODO visit children of expr
-//        return info;
-//      }
-      InclDecl decl;
-      if (term instanceof VarDecl) {
-        String type = ((VarDecl) term).getExpr().accept(getTypeNameVisitor_);
-        for (Name name : ((VarDecl) term).getName()) {  
-          triples.add(new NameInfo((ZName)name, section, type, true));
-        }
-      }
-      
-      triples.addAll(visitChildrenOfTerm(term, section));
-    }
-
-    return triples;
-  }
-
-  private static List<NameInfo> visitChildrenOfTerm(Term term, String section)
-  {
-    List<NameInfo> nameInfoList = new ArrayList<NameInfo>();
-    for (Object child : term.getChildren()) {
-      if (child != null)
-        if (child instanceof Term)
-          nameInfoList.addAll(visitTerm((Term) child, section));
-    }
-
-    return nameInfoList;
-  }
-  
   /**
    * A utility method for retrieve the information for a ZName from a list of NameInfo
    * @param nameInfoList the list of name information
    * @param name the name to find
    * @return the NameInfo instance, if the specified name is found, or <i>null</i>; 
    */
-  public static NameInfo findInfo(List<NameInfo> nameInfoList, ZName name)
+  public static NameInfo findInfo(Map<ZName, NameInfo> names, ZName name)
   {
-    if (name == null)
+    if (names == null || name == null)
       return null;
     
     String id = name.getId();
@@ -206,23 +80,265 @@ public class NameInfoResolver
     
     // Check whether the word starts with DELTA/XI. In AST, the prefix is always a single
     // character (¦¤/¦®) for both LaTeX and Unicode mode.
-    if (id.equals(ID_DELTAXI)) {
-      while ((word != null) && (word.startsWith(DELTA) || word.startsWith(XI)))
-      {
-        word = word.substring(1);
-        if ((word != null) && word.length() > 0) {
-          for (NameInfo info :nameInfoList)
-            if(!info.isLocal() && word.equals(info.getName().getWord()))
-              return info;
+//    if (id.equals(ID_DELTAXI)) {
+//      while ((word != null) && (word.startsWith(DELTA) || word.startsWith(XI)))
+//      {
+//        word = word.substring(1);
+//        if ((word != null) && word.length() > 0) {
+//          for (NameInfo info :nameInfoList)
+//            if(!info.isLocal() && word.equals(info.getName().getWord()))
+//              return info;
+//        }
+//      }
+//    }
+//    else {
+//      for (NameInfo info :nameInfoList)
+//        if(id.equals(info.getName().getId()) && word.equals(info.getName().getWord()))
+//          return info;
+//    }
+    if (names.containsKey(name))
+      return names.get(name);
+    
+    return null;
+  }
+
+  private static void visitZSect(Map<ZName, NameInfo> existingNames, ZSect zSect, SectionManager manager)
+  {
+    if (existingNames == null || zSect == null || manager == null)
+      return;
+    
+    String section = zSect.getName();
+
+    try {
+      SectTypeEnvAnn steAnn = (SectTypeEnvAnn) manager.get(new Key(section,
+          SectTypeEnvAnn.class));
+      if (steAnn != null) {
+        for (NameSectTypeTriple triple : steAnn.getNameSectTypeTriple()) {
+          ZName name = triple.getZName();
+          Type type = triple.getType();
+          
+          // Add the name into the list if it is not already included 
+          if (!existingNames.containsKey(name))
+            existingNames.put(name, new NameInfo(name, triple.getSect(), type.accept(getTypeNameVisitor_), false));
+          
+          // Retrieve names from the type hierachy
+          visitType(existingNames, type, triple.getSect());
+        }
+      }
+      // Add names inside a declaration
+      visitChildrenOfTerm(existingNames, zSect, section);
+    } catch (CommandException e) {
+      System.out.println("CommandException");
+    }
+  }
+  
+  private static void visitType (Map<ZName, NameInfo> existingNames, Type type, String section)
+  {
+    if (type == null)
+      return;
+    
+    if (type instanceof GenericType)
+      visitGenericType(existingNames, (GenericType) type, section);
+    
+    if (type instanceof PowerType) {
+      Type pt = ((PowerType)type).getType();
+      if (pt != null && pt instanceof SchemaType)
+        visitSchemaType(existingNames, (SchemaType)pt, section);
+    }
+  }
+  
+  private static void visitSchemaType (Map<ZName, NameInfo> existingNames, SchemaType schemaType, String section)
+  {
+    if (schemaType == null)
+      return; 
+    
+    Signature sig = ((SchemaType) schemaType).getSignature();
+    
+    if (sig == null)
+      return;
+    
+    for (NameTypePair pair : sig.getNameTypePair()) {
+      Type type = pair.getType();
+      if (type == null)
+        continue;
+      
+      ZName name = pair.getZName();
+      String t = type.accept(getTypeNameVisitor_);
+      if (name != null && t != null && !existingNames.containsKey(name)) {
+          existingNames.put(name, new NameInfo(name, section, t, false));
+      }
+      
+      visitType(existingNames, type, section);
+    }
+  }
+  
+  private static void visitGenericType (Map<ZName, NameInfo> existingNames, GenericType genericType, String section)
+  {
+    if (genericType == null)
+      return;
+    
+    Type type = genericType.getType();
+    if (type == null)
+      return;
+    
+    ZNameList nameList = genericType.getZNameList();
+    String t = type.accept(getTypeNameVisitor_);
+    if (nameList != null && t != null) {
+      for (Name name : nameList)
+        if (name != null && name instanceof ZName) {
+          ZName zName = (ZName)name;
+          if(!existingNames.containsKey(zName))
+            existingNames.put(zName, new NameInfo(zName, section, t, false));
+        }
+    }
+    
+    visitType(existingNames, type, section);
+  }
+
+  private static void visitChildrenOfTerm(Map<ZName, NameInfo> existingNames, Term term, String section)
+  {
+    if (term == null)
+      return;
+    
+    for (Object child : term.getChildren()) {
+      if (child != null && child instanceof Term) {
+        if (child instanceof ConstDecl)
+          visitConstDecl(existingNames, (ConstDecl) child, section);
+        else if (child instanceof VarDecl)
+          visitVarDecl(existingNames, (VarDecl) child, section);
+        else if (child instanceof InclDecl)
+          visitInclDecl(existingNames, (InclDecl) child, section);
+//        else if (child instanceof Expr)
+//          visitExpr(existingNames, (Expr) term, section);
+        else
+          visitChildrenOfTerm(existingNames, (Term)child, section);
+      }
+    }
+  }
+  
+  private static void visitConstDecl(Map<ZName, NameInfo> existingNames, ConstDecl constDecl, String section)
+  {
+    if (existingNames == null || constDecl == null)
+      return;
+    
+    Expr expr = constDecl.getExpr();
+    if (expr == null)
+      return;
+    
+    ZName name = constDecl.getZName();
+    TypeAnn typeAnn = expr.getAnn(TypeAnn.class);
+    if (name != null && typeAnn != null) {
+      Type type = typeAnn.getType();
+      if (type != null) {
+        String toe = type.accept(getTypeNameVisitor_);
+        if (toe != null && toe.length() > 5 && toe.startsWith("POWER")) {
+          String t = toe.substring(5).trim();
+          if (t != null && !t.equals(""))
+            existingNames.put(name, new NameInfo(name, section, t, false));
+        }
+      } 
+    }
+    
+    // Retrieve names from the expression
+    visitExpr(existingNames, expr, section);
+  }
+  
+  private static void visitVarDecl(Map<ZName, NameInfo> existingNames, VarDecl varDecl, String section)
+  {
+    if (existingNames == null || varDecl == null)
+      return;
+    
+    Expr expr = varDecl.getExpr();
+    if (expr == null)
+      return;
+    
+    ZNameList nameList = varDecl.getName();
+    TypeAnn typeAnn = expr.getAnn(TypeAnn.class);
+    
+    if (nameList != null && typeAnn != null) {
+      Type type = typeAnn.getType();
+      if (type != null) {
+        String toe = type.accept(getTypeNameVisitor_);
+        if (toe != null && toe.length() > 5 && toe.startsWith("POWER"))
+          toe = toe.substring(5).trim();
+          
+        if (toe != null && !toe.equals("")) {
+          for (Name name : nameList) {
+            System.out.println("Name: " + name);
+            if (name != null && name instanceof ZName) {
+              ZName zName = (ZName)name;
+              if (!existingNames.containsKey(zName)) {
+                existingNames.put(zName, new NameInfo(zName, section, toe, false));
+                System.out.println("Insert into table from VarDecl - " + name.accept(getTypeNameVisitor_));
+              }
+            }
+          }
         }
       }
     }
-    else {
-      for (NameInfo info :nameInfoList)
-        if(id.equals(info.getName().getId()) && word.equals(info.getName().getWord()))
-          return info;
+    
+    //  Retrieve names from the expression
+    visitExpr(existingNames, expr, section);
+    
+  }
+  
+  private static void visitInclDecl(Map<ZName, NameInfo> existingNames, InclDecl inclDecl, String section)
+  {
+    if (existingNames == null || inclDecl == null)
+      return;
+    
+    TypeAnn typeAnn = inclDecl.getAnn(TypeAnn.class);
+    if (typeAnn != null) {
+      Type type = typeAnn.getType();
+      if (type != null && type instanceof PowerType) {
+        Type t_pt = ((PowerType)type).getType();
+        if (t_pt != null && t_pt instanceof SchemaType) {
+          Signature sig = ((SchemaType)t_pt).getSignature();
+          if (sig != null) {
+            ListTerm<NameTypePair> pairs = sig.getNameTypePair();
+            if (pairs != null)
+              for (NameTypePair pair : pairs) {
+                ZName name = pair.getZName();
+                Type t_pair = pair.getType();
+                if (name != null && t_pair != null) {
+                  String t = t_pair.accept(getTypeNameVisitor_);
+                  if (t != null)
+                    t = t.trim();
+                  if (t != null && t.equals("") && !existingNames.containsKey(name)) {
+                    existingNames.put(name, new NameInfo(name, section, t, false));
+                    System.out.println("Insert into table from InclDecl - " + name.accept(getTypeNameVisitor_));
+                  }
+                }
+              }
+          }
+        }
+      }
     }
     
-    return null;
+    visitExpr(existingNames, inclDecl.getExpr(), section);
+  }
+  
+  private static void visitExpr(Map<ZName, NameInfo> existingNames, Expr expr, String section)
+  {
+    if (existingNames == null || expr == null)
+      return;
+    
+    if (expr instanceof RefExpr) {
+      RefExpr ref = (RefExpr) expr;
+      ZName name = ref.getZName();
+      TypeAnn typeAnn = ref.getAnn(TypeAnn.class);
+      if (name != null && typeAnn != null) {
+        Type type = typeAnn.getType();
+        if (type != null) {
+          String t = type.accept(getTypeNameVisitor_);
+          if (t != null && !existingNames.containsKey(name)) {
+            existingNames.put(name, new NameInfo(name, section, t, false));
+            System.out.println("Insert into table from Expr - " + name.accept(getTypeNameVisitor_));
+          }  
+        }
+      }  
+    }
+    
+    visitChildrenOfTerm (existingNames, expr, section);
   }
 }
