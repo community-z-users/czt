@@ -77,7 +77,7 @@ public class BWriter extends PrintWriter
     Logger.getLogger("net.sourceforge.czt.z2b");
 
   /** This is used to help to print expressions and predicates */
-  private BTermWriter term;
+  private BTermWriter bTermWriter_;
 
   /** Minimum allowable precedence */
   public static final int LOOSEST = -10;
@@ -91,12 +91,13 @@ public class BWriter extends PrintWriter
    * @param dest where to print the B output.
    *
    */
-  public BWriter(Writer dest, String source) {
+  public BWriter(Writer dest, String source)
+  {
     super(dest);
     precStack = new Stack();
     precStack.push(new Integer(LOOSEST));
     println("/* Translated automatically from " + source + " */");
-    term = new BTermWriter(this);
+    bTermWriter_ = new BTermWriter(this);
 
   }
 
@@ -106,13 +107,14 @@ public class BWriter extends PrintWriter
 
   /** Print a list of predicates, separated by '&' and newlines. */
   //@ requires preds != null && preds.size() > 0;
-  public void printPreds(List preds) {term.printPreds(preds);}
+  public void printPreds(List preds) {bTermWriter_.printPreds(preds);}
 
 
   /** Print a non-deterministic update:  ANY .. WHERE .. END. */
   //@ requires preds != null && preds.size() > 0;
-  public void printAnyAssign(Map<String,ZName> frame, List<Pred> preds) {
-    term.printAnyAssign(frame, preds);
+  public void printAnyAssign(Map<String,ZName> frame, List<Pred> preds)
+  {
+    bTermWriter_.printAnyAssign(frame, preds);
   }
 
 
@@ -120,14 +122,14 @@ public class BWriter extends PrintWriter
   *  The caller is responsible for setting the precedence of
   *  the context before calling this (@link startPrec).
   */
-  public void printPred(Pred p) {term.printPred(p);}
+  public void printPred(Pred p) {bTermWriter_.printPred(p);}
 
 
   /** Print a Z expression out in B syntax.
   *  The caller is responsible for setting the precedence of
   *  the context before calling this (@link startPrec).
   */
-  public void printExpr(Expr e) {term.printExpr(e);}
+  public void printExpr(Expr e) {bTermWriter_.printExpr(e);}
 
   
   //===================== precedence stack ========================
@@ -155,7 +157,8 @@ public class BWriter extends PrintWriter
    *  
    *  @param prec  The new precedence level.
    */
-  public void beginPrec(int prec) {
+  public void beginPrec(int prec)
+  {
     int oldprec = ((Integer)precStack.peek()).intValue();
     if (prec < oldprec) {
       print("(");
@@ -168,7 +171,8 @@ public class BWriter extends PrintWriter
    *  Automatically adds a closing ')' if necessary.
    *  @param prec  Must match the current precedence level.
    */
-  public void endPrec(int prec) {
+  public void endPrec(int prec)
+  {
     int currPrec = ((Integer)precStack.pop()).intValue();
     assert prec == currPrec
       : "beginPrec..endPrec calls are not correctly nested";
@@ -182,12 +186,14 @@ public class BWriter extends PrintWriter
   /** Start a new LOOSEST region without adding any "(".
   *   For example, this could be called inside {...} brackets.
   */
-  public void beginPrec() {
+  public void beginPrec()
+  {
     precStack.push(new Integer(LOOSEST));
   }
 
   /** Start a new LOOSEST region without adding any "(". */
-  public void endPrec() {
+  public void endPrec()
+  {
     precStack.pop();
   }
   
@@ -195,11 +201,10 @@ public class BWriter extends PrintWriter
   //================= general printing methods ==================
 
   /** the current indentation level */
-  private int indent = 0;
+  private int indent_ = 0;
 
   // the name of the current section
-  protected LinkedList<String> currSection = new LinkedList<String>();
-
+  protected LinkedList<String> currSection_ = new LinkedList<String>();
 
   /** Start a new line in the B file.
    *  This automatically adds the current amount of indentation 
@@ -207,13 +212,12 @@ public class BWriter extends PrintWriter
    *  to set this correctly, internal methods should increment or
    *  decrement 'indent'.
    */
-  public void nl() {
+  public void nl()
+  {
     println();
-    for (int i=0; i < indent; i++)
+    for (int i=0; i < indent_; i++)
       print("    ");
   }
-
-
 
   /** Start a new section/part of the B machine.
    *  @param sectName 
@@ -226,14 +230,15 @@ public class BWriter extends PrintWriter
    *  This will use deeper indentation.
    */
   //@ requires sectName != null;
-  public void startSection(String sectName) {
-    currSection.addFirst(sectName);
+  public void startSection(String sectName)
+  {
+    currSection_.addFirst(sectName);
     print(sectName);
-    indent++;
-    if (indent <= 1) {
-	nl();
+    indent_++;
+    if (indent_ <= 1) {
+        nl();
     } else {
-	print(" ");
+        print(" ");
     }
   }
 
@@ -250,14 +255,15 @@ public class BWriter extends PrintWriter
    */
   //@ requires sectName != null;
   //@ requires part != null;
-  public void continueSection(String sectName, String part) {
-    assert currSection.size() > 0;
-    assert sectName.equals(currSection.getFirst());
-    indent--;
+  public void continueSection(String sectName, String part)
+  {
+    assert currSection_.size() > 0;
+    assert sectName.equals(currSection_.getFirst());
+    indent_--;
     nl();
     print(part);
-    indent++;
-    if (indent <= 1)
+    indent_++;
+    if (indent_ <= 1)
       nl();
     else
       print(" ");
@@ -266,56 +272,61 @@ public class BWriter extends PrintWriter
   /** End the current section.
    *  @param sectName 
    */
-  public void endSection(String sectName) {
-    assert currSection.size() > 0;
-    assert sectName.equals(currSection.getFirst());
-    currSection.removeFirst();
-    indent--;
+  public void endSection(String sectName)
+  {
+    assert currSection_.size() > 0;
+    assert sectName.equals(currSection_.getFirst());
+    currSection_.removeFirst();
+    indent_--;
     nl();
     print("END");
   }
 
-
   /** Print one Z name into the current section.
    *  @param name 
    */
-  public void printName(ZName name) {
+  public void printName(ZName name)
+  {
     print(bName(name));
   }
 
   /** Print one String name into the current section.
    *  @param name 
    */
-  public void printName(String name) {
+  public void printName(String name)
+  {
     print(bName(name));
   }
 
   /** Print a separator.
    *  @param sep 
    */
-  public void printSeparator(String sep) {
+  public void printSeparator(String sep)
+  {
     print(sep);
     nl();
   }
 
   /** Convert a Z Name into a legal B name.
    */
-  static public String bName(ZName name) {
+  static public String bName(ZName name)
+  {
     return bName(name.accept(new PrintVisitor()));
   }
 
   /** Convert a string into a legal B name
    */
-  static public String bName(String name) {
+  static public String bName(String name)
+  {
     String result = "";
     for (int i=0; i<name.length(); i++) {
       char ch = name.charAt(i);
       // These are low-level ASCII checks, because we don't want
       // to output other unicode chars into Prolog.
       if ('a' <= ch && ch <= 'z'
-	  || 'A' <= ch && ch <= 'Z'
-	  || '0' <= ch && ch <= '9')
-	result += ch;
+          || 'A' <= ch && ch <= 'Z'
+          || '0' <= ch && ch <= '9')
+        result += ch;
       else switch (ch) {
       case '_': result += ch; break;
       case '\u2032': result += "__prime"; break;
