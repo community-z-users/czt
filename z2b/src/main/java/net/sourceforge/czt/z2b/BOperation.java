@@ -84,25 +84,26 @@ public class BOperation
 
 
   /** Prints the operation out to the given file, in *.mch syntax
-   *  @param dest  the file where the output should go.
+   *  @param bWriter  the file where the output should go.
    */
-  public void print(BWriter dest) {
-    dest.nl();
+  public void print(BWriter bWriter) {
+    bWriter.nl();
     if (outputs_.size() > 0) {
-      printNames(dest, outputs_);
-      dest.print(" <-- ");
+      printNames(bWriter, outputs_);
+      bWriter.print(" <-- ");
     }
-    dest.printName(name);
+    bWriter.printName(name);
     if (inputs_.size() > 0) {
-      dest.print("(");
-      printNames(dest, inputs_);
-      dest.print(")");
+      bWriter.print("(");
+      printNames(bWriter, inputs_);
+      bWriter.print(")");
     }
-    dest.print(" =");
-    dest.nl();
-    dest.startSection("PRE");
-    dest.printPreds(pre_);
-    dest.continueSection("PRE","THEN");
+    bWriter.print(" =");
+    bWriter.nl();
+    bWriter.startSection("PRE");
+    if (pre_.size() > 0) bWriter.printPreds(pre_);
+    else bWriter.print("1=1");
+    bWriter.continueSection("PRE","THEN");
     // Now we output the postcondition as a generalised substitution:
     //    ALL frame' WHERE post2 THEN frame := frame' END
     // Note: frame is state vars plus output vars (eg. x, y!),
@@ -123,8 +124,8 @@ public class BOperation
     for (String name : machine.getVariables()) {
       rename.put(name, Create.prime(name));
     }
-    dest.printAnyAssign(rename, post2);
-    dest.endSection("PRE");
+    bWriter.printAnyAssign(rename, post2);
+    bWriter.endSection("PRE");
   }
 
 

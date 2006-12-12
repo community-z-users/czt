@@ -301,8 +301,8 @@ public class BTermWriter
    */
   public void printPred(Pred p)
   {
-      sLogger.fine("printing Pred: " + p);    
-      p.accept(this);
+    sLogger.fine("printing Pred: " + p);    
+    p.accept(this);
   }
 
   /** Print a Z expression out in B syntax.
@@ -311,7 +311,7 @@ public class BTermWriter
    */
   public void printExpr(Expr e)
   {
-      e.accept(this);
+    e.accept(this);
   }
 
 
@@ -324,20 +324,18 @@ public class BTermWriter
   //@ requires s != null;
   protected Pred splitSchText(ZSchText s)
   {
-    Iterator<Decl> i = s.getZDeclList().iterator();
     Pred result = null;
-    while (i.hasNext()) {
-      Decl d = i.next();
+    for (Decl d : s.getZDeclList()) {
       if (d instanceof VarDecl) {
 	VarDecl vdecl = (VarDecl) d;
-	Iterator vars = vdecl.getName().iterator();
-	while (vars.hasNext()) {
-	  ZName declName = (ZName) vars.next();
+        for (Name name : vdecl.getName()) {
+	  ZName declName = (ZName) name;
           ZName refName = getFactory().createZName(declName);
 	  Pred ntype = getFactory().createMemPred(refName, vdecl.getExpr());
 	  if (result == null) {
 	    result = ntype;
-	  } else {
+	  }
+          else {
 	    out_.print(",");
 	    result = Create.andPred(result,ntype);
 	  }
@@ -349,12 +347,14 @@ public class BTermWriter
 	Pred ntype = Create.eqPred(n, cdecl.getExpr());
 	if (result == null) {
 	  result = ntype;
-	} else {
+	}
+        else {
 	  out_.print(",");
 	  result = Create.andPred(result,ntype);
 	}
 	out_.printName(n);
-      } else {
+      }
+      else {
 	throw new BException("Cannot handle complex schema text: " + d);
       }
     }
