@@ -111,7 +111,7 @@ public class ZLive
     sectman_ = new SectionManager();
     sectman_.putCommands("zpatt");
     // This prints IDs of ZNames, useful for debugging.
-    sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
+    //sectman_.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS, "true");
     this.reset();
   }
 
