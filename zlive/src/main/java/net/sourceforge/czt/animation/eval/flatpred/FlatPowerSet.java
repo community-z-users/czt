@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.FuzzySet;
+import net.sourceforge.czt.animation.eval.result.PowerSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -34,16 +35,13 @@ import net.sourceforge.czt.z.ast.ZName;
 * @author Mark Utting
 *
 * FlatPowerSet(base,set) implements \power base = set.
-* It is capable of checking that a given finite set is a member of 
+* It is capable of checking that a given finite set is a member of
 * the powerset (it does this by iterating through its elements)
 * and of generating all elements of the powerset when the
 * base set is small (<= 30).
 */
 public class FlatPowerSet extends FlatPred
 {
-  /** The value of the base set, if known. */
-  private EvalSet base_;
-
   /** Creates a FlatPowerSet object.
    *
    * @param baseSet  the underlying set, from which all subsets will be taken.
@@ -61,32 +59,22 @@ public class FlatPowerSet extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    base_ = bnds.getEvalSet(args_.get(0));
-    return bnds.setEvalSet(getLastArg(),null); // TODO
-  }
-
-  /** TODO: extend lower/upper bounds to talk about the elements IN the set? */
-  public BigInteger getLower()
-  {
-    return null;
-  }
-
-  public BigInteger getUpper()
-  {
-    return null;
-  }
-
-  /** Maximum size is 2^baseSize, same as size(). */
-  public BigInteger maxSize()
-  {
-    if (base_ != null) {
-      BigInteger baseSize = base_.maxSize();
-      if (baseSize.doubleValue() < 1000)
-        return BigInteger.ONE.shiftLeft(baseSize.intValue());
-      else
-        throw new EvalException("I do not want to calculate maxSize of powerset bigger than 2^1000");
+    EvalSet base = bnds.getEvalSet(args_.get(0));
+    FuzzySet fuzzy = null;
+    if (base != null) {
+      BigInteger basesize = base.maxSize();
+      BigInteger size = null;
+      double estsize = Math.pow(2.0, base.estSize());
+      if (basesize != null &&
+          basesize.compareTo(BigInteger.valueOf(1000)) > 0)
+          size = BigInteger.valueOf(2).pow(basesize.intValue());
+      if (size != null)
+        fuzzy = new FuzzySet(getLastArg().toString(), estsize, size);
     }
-    return null;
+    if (fuzzy == null)
+      return false;
+    else
+      return bnds.setEvalSet(getLastArg(),fuzzy);
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
@@ -99,83 +87,28 @@ public class FlatPowerSet extends FlatPred
     return m;
   }
 
-  /** This should only be called after nextEvaluation(). */
-  public int size()
-  {
-    assert 0 < solutionsReturned_;
-    assert base_ != null;
-    BigInteger baseSize = base_.maxSize();
-    if (baseSize.doubleValue() < 30)
-      // bigger than 2^30 is too big!
-      return Integer.MAX_VALUE;
-    else {
-      return 1 << baseSize.intValue();
-    }
-  }
-
-  /** Estimate the size of the set in the given environment. */
-  public double estSize(Envir env) {
-    if (base_ != null)
-      return Math.pow(2.0, base_.estSize());
-    return EvalSet.UNKNOWN_SIZE;
-  }
-
-  /** TODO: see if we can reduce size estimates using cardinality? */
-  public double estSubsetSize(Envir env, ZName element)
-  {
-    return estSize(env);
-  }
-  
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
     assert evalMode_ != null;
     assert solutionsReturned_ >= 0;
     Envir env = evalMode_.getEnvir();
-    base_ = (EvalSet) env.lookup(args_.get(0));
     boolean result = false;
     ZName setName = getLastArg();
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
+      EvalSet base = (EvalSet) env.lookup(args_.get(0));
       if (evalMode_.isInput(setName)) {
         Expr otherSet = env.lookup(setName);
         result = this.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        env.setValue(setName, null); // TODO implement PowerSet
+        env.setValue(setName, new PowerSet(base));
         result = true;
       }
     }
     return result;
-  }
-
-  protected Expr nextMember()
-  {
-    throw new RuntimeException("FlatPowerSet does not implement nextMember yet.");
-  }
-
-  /** Tests for membership of the set.
-  * @param e  The fully evaluated expression.
-  * @return   true iff e is a member of the set.
-  */
-  //@ requires getMode() != null;
-  public boolean contains(Object e)
-  {
-    assert evalMode_ != null;
-    assert base_ != null;
-    if (e instanceof EvalSet) {
-      EvalSet set = (EvalSet) e;
-      boolean result = true;
-      for (Expr elem : set)
-        if ( ! base_.contains(elem)) {
-          result = false;
-          break;
-        }
-      return result;
-    }
-    else
-      throw new EvalException("Type Error in "+e+" in "+this);
   }
 
 
