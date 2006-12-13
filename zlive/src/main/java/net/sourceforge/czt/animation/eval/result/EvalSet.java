@@ -58,27 +58,27 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   public static final double UNKNOWN_SIZE = 1000000.0;
 
   /** True iff all members of the set have been evaluated. */
-  protected boolean fullyEvaluated = false;
-  //@invariant fullyEvaluated ==> memberList != null;
+  private boolean fullyEvaluated_ = false;
+  //@invariant fullyEvaluated_ ==> memberList != null;
 
   /** The list of known members so far.
    *  This is guaranteed to contain no duplicates.
    *  In some implementations of EvalSet, it will be filled
    *  up lazily as the members of the set are requested.
-   *  TODO: to save a little space, we could delete memberList, once
-   *  fullyEvaluated becomes true and there are no iterators using it.
+   *  TODO: to save a little space, we could delete memberList_, once
+   *  fullyEvaluated_ becomes true and there are no iterators using it.
    */
-  protected List<Expr> memberList;
+  private List<Expr> memberList_;
 
   /** All the known members of the set.
-   *  If memberSet and memberList are both non-null,
+   *  If memberSet_ and memberList_ are both non-null,
    *  then they contain exactly the same elements.
-   *  If memberSet is non-null, but memberList is null,
-   *  then memberSet contains the complete set.
+   *  If memberSet_ is non-null, but memberList_ is null,
+   *  then memberSet_ contains the complete set.
    */
-  protected SortedSet<Expr> memberSet;
-  //@invariant memberList==null <==> memberSet==null;
-  //@invariant memberList!=null ==> memberList.size()==memberSet.size();
+  private SortedSet<Expr> memberSet_;
+  //@invariant memberList_==null <==> memberSet_==null;
+  //@invariant memberList_!=null ==> memberList_.size()==memberSet_.size();
 
   /** There seems to be no reason to need annotations,
    *  but the Expr interface forces us to have a non-null list.
@@ -150,7 +150,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
    */
   public int size()
   {
-    if ( ! fullyEvaluated) {
+    if ( ! fullyEvaluated_) {
       // TODO: trap exceptions due to infinite sets and
       //    return Integer.MAX_VALUE instead of looping forever.
       while (insertMember())
@@ -158,7 +158,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
         // do nothing
       }
     }
-    return memberSet.size();
+    return memberSet_.size();
   }
 
   /** Iterate through all members of the set.
@@ -186,9 +186,9 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
    */
   public Iterator<Expr> sortedIterator()
   {
-    if ( ! fullyEvaluated )
+    if ( ! fullyEvaluated_ )
       evaluateFully();
-    return memberSet.iterator();
+    return memberSet_.iterator();
   }
 
   /** Iterate forwards/backwards through all members of the set.
@@ -233,16 +233,16 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
    */
   public boolean contains(Object obj)
   {
-    if (memberSet != null && memberSet.contains(obj))
+    if (memberSet_ != null && memberSet_.contains(obj))
       return true;
     else {
       // evaluate the rest of the set
-      assert memberList==null || memberList.size()==memberSet.size();
+      assert memberList_==null || memberList_.size()==memberSet_.size();
       int done = 0;
-      if (memberList != null)
-        done = memberList.size();
+      if (memberList_ != null)
+        done = memberList_.size();
       while (insertMember()) {
-        if (memberList.get(done).equals(obj))
+        if (memberList_.get(done).equals(obj))
           return true;
         done++;
       }
@@ -261,7 +261,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   public /*synchronized*/ boolean isEmpty()
   {
     // return size() == 0;   //
-    if (memberList != null && memberList.size() > 0)
+    if (memberList_ != null && memberList_.size() > 0)
       return true;
     else
       return insertMember();
@@ -306,34 +306,34 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   protected abstract Expr nextMember();
 
   /** Evaluates the next member of the set and inserts it into
-   *  memberList and memberSet.  Returns true iff it found and
+   *  memberList_ and memberSet_.  Returns true iff it found and
    *  inserted a new member, or false if the set has been
-   *  fully evaluated (in which case, fullyEvaluated will have
+   *  fully evaluated (in which case, fullyEvaluated_ will have
    *  been set to true as well).
    */
   private boolean insertMember()
   {
-    if (memberList == null) {
-      assert memberSet == null;
-      memberList = new ArrayList<Expr>();
-      memberSet = new TreeSet<Expr>(ExprComparator.create());
+    if (memberList_ == null) {
+      assert memberSet_ == null;
+      memberList_ = new ArrayList<Expr>();
+      memberSet_ = new TreeSet<Expr>(ExprComparator.create());
     }
     while (true) {
       Expr next = nextMember();
       if (next == null) {
-        fullyEvaluated = true;
+        fullyEvaluated_ = true;
         return false;
       }
-      if ( ! memberSet.contains(next)) {
-        memberSet.add(next);
-        memberList.add(next);
+      if ( ! memberSet_.contains(next)) {
+        memberSet_.add(next);
+        memberList_.add(next);
         return true;
       }
     }
   }
 
   /** This ensures that the set is completely evaluated and
-   *  stored in the memberSet data structure.
+   *  stored in the memberSet_ data structure.
    */
   protected void evaluateFully()
   {
@@ -341,7 +341,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     {
       // do nothing
     }
-    assert fullyEvaluated;
+    assert fullyEvaluated_;
   }
 
   /** This resets any cached results.
@@ -350,9 +350,9 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
    */
   protected void resetResult()
   {
-    fullyEvaluated = false;
-    memberList = null;
-    memberSet = null;
+    fullyEvaluated_ = false;
+    memberList_ = null;
+    memberSet_ = null;
   }
 
   /** Throws UnsupportedOperationException. */
@@ -395,7 +395,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   public Object[] toArray()
   {
     evaluateFully();
-    return memberSet.toArray();
+    return memberSet_.toArray();
   }
 
   /** Returns an array containing all of the elements in this set.
@@ -404,7 +404,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   public <T> T[] toArray(T[] a)
   {
     evaluateFully();
-    return memberSet.toArray(a);
+    return memberSet_.toArray(a);
   }
 
   /** A copy of the TermImpl implementation. */
@@ -436,12 +436,12 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   public abstract String toString();
 
 
-  /** A lazy iterator through memberList.
-   *  It calls insertMember() to fill up memberList when necessary.
+  /** A lazy iterator through memberList_.
+   *  It calls insertMember() to fill up memberList_ when necessary.
    */
   private class EvalSetIterator implements ListIterator<Expr>
   {
-    /** The entry in memberList that will be returned next. */
+    /** The entry in memberList_ that will be returned next. */
     int position;
 
     public EvalSetIterator()
@@ -451,14 +451,14 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
 
     public /*synchronized*/ boolean hasNext()
     {
-      return (memberList != null && position < memberList.size())
-        || (! fullyEvaluated && insertMember());
+      return (memberList_ != null && position < memberList_.size())
+        || (! fullyEvaluated_ && insertMember());
     }
 
     public Expr next()
     {
-      assert position < memberList.size();
-      Expr result = memberList.get(position);
+      assert position < memberList_.size();
+      Expr result = memberList_.get(position);
       position++;
       return result;
     }
@@ -478,7 +478,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     {
       assert position > 0;
       position--;
-      return memberList.get(position);
+      return memberList_.get(position);
     }
 
     public int nextIndex()
