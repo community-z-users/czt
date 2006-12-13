@@ -47,6 +47,10 @@ public class Main
       z2bLogger.setLevel(Level.FINEST);
 
       // Now read the spec 
+      if (args.length < 1) {
+        System.err.println("Args: spec.tex");
+        System.exit(1);
+      }
       System.err.println("Reading spec");
       final String input = args[0];
       URL specURL = new File(input).toURL();
