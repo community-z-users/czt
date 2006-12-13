@@ -68,7 +68,7 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
    *  TODO: to save a little space, we could delete memberList_, once
    *  fullyEvaluated_ becomes true and there are no iterators using it.
    */
-  private List<Expr> memberList_;
+  protected List<Expr> memberList_;
 
   /** All the known members of the set.
    *  If memberSet_ and memberList_ are both non-null,
