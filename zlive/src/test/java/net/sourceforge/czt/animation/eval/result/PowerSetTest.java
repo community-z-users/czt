@@ -71,4 +71,44 @@ public class PowerSetTest extends ZTestCase
     assertEquals(baseSet, iter.next());
     assertFalse(iter.hasNext());
   }
+
+  public void testManyElements()
+  {
+    DiscreteSet baseSet = new DiscreteSet();
+    baseSet.add(i0);
+    baseSet.add(i1);
+    baseSet.add(i2);
+    baseSet.add(i3);
+    baseSet.add(i4);
+    baseSet.add(i5);
+    baseSet.add(i6);
+    baseSet.add(i7);
+    baseSet.add(i8);
+    baseSet.add(i9);
+    PowerSet powerSet = new PowerSet(baseSet);
+    assertFalse(powerSet.isEmpty());
+    assertEquals(1024.0, powerSet.estSize(), ACCURACY);
+    assertEquals(BigInteger.valueOf(1024), powerSet.maxSize());
+    assertEquals(1024, powerSet.size());
+    assertTrue(powerSet.contains(new DiscreteSet()));
+    assertTrue(powerSet.contains(baseSet));
+    DiscreteSet set1 = new DiscreteSet();
+    set1.add(i4);
+    assertTrue(powerSet.contains(set1));
+    DiscreteSet set2 = new DiscreteSet();
+    set2.add(i4);
+    set2.add(i2);
+    assertTrue(powerSet.contains(set2));
+    Iterator<Expr> iter = powerSet.iterator();
+    assertTrue(iter.hasNext());
+    assertEquals(new DiscreteSet(), iter.next());
+    assertTrue(iter.hasNext());
+
+    PowerSet powerPowerSet = new PowerSet(powerSet);
+    assertEquals(Integer.MAX_VALUE, powerPowerSet.size());
+    iter = powerPowerSet.iterator();
+    assertTrue(iter.hasNext());
+    assertEquals(new DiscreteSet(), iter.next());
+    assertTrue(iter.hasNext());
+  }
 }
