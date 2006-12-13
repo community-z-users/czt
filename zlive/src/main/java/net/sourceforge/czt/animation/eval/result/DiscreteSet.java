@@ -42,7 +42,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
  * @author marku
  *
  */
-public class DiscreteSet extends DefaultEvalSet
+public class DiscreteSet extends EvalSet
 {
   /** The elements of this set. */
   protected Set<Expr> contents_ = new TreeSet<Expr>(ExprComparator.create());
@@ -54,8 +54,12 @@ public class DiscreteSet extends DefaultEvalSet
    *  add more elements after that point.
    */
   protected List<Expr> listContents_ = null;
+
+  public boolean isEmpty()
+  {
+    return contents_.isEmpty();
+  }
   
-  @Override
   public int size()
   {
     return contents_.size();
@@ -73,20 +77,17 @@ public class DiscreteSet extends DefaultEvalSet
     return size();
   }
 
-  @Override
   public boolean contains(Object obj)
   {
     return contents_.contains(obj);
   }
 
-  @Override
   public Iterator<Expr> iterator()
   {
     // We could return an unmodifiable iterator here...
     return contents_.iterator();
   }
 
-  @Override
   public ListIterator<Expr> listIterator()
   {
     if (listContents_ == null)
@@ -100,12 +101,6 @@ public class DiscreteSet extends DefaultEvalSet
   public Iterator<Expr> sortedIterator()
   {
     return contents_.iterator();
-  }
-
-  @Override
-  protected void evaluateFully()
-  {
-    // already fully evaluated
   }
 
   /** Calculates minimum of all the elements.
@@ -156,13 +151,6 @@ public class DiscreteSet extends DefaultEvalSet
   }
 
   @Override
-  protected Expr nextMember()
-  {
-    // if this is called, then we forgot to override the calling method.
-    throw new RuntimeException("DiscreteSet.nextMember should never be called");
-  }
-
-  @Override
   public boolean add(Expr e)
   {
     if (listContents_ != null)
@@ -178,6 +166,20 @@ public class DiscreteSet extends DefaultEvalSet
     return changed;
   }
   
+  /** Returns an array containing all of the elements in this set. */
+  public Object[] toArray()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  /** Returns an array containing all of the elements in this set.
+   *  The the runtime type of the returned array is that
+   *  of the specified array. */
+  public <T> T[] toArray(T[] a)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   @Override
   public String toString()
   {
