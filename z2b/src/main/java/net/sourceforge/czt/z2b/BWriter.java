@@ -330,6 +330,7 @@ public class BWriter extends PrintWriter
       else switch (ch) {
       case '_': result += ch; break;
       case '\u2032': result += "__prime"; break;
+      case '\'': result += "__prime"; break;
       case '?': result += "__in"; break;
       case '!': result += "__out"; break;
       case '\u2199': result += "__"; break;
