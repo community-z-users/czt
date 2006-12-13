@@ -558,6 +558,8 @@ public class BTermWriter
       out_.print("NAT1");
     else if (name.equals(ZString.NUM))
       out_.print("INT");
+    else if (name.equals(ZString.ARITHMOS)) // we only handle ints
+      out_.print("INT");
     else
       out_.printName(zName);
     return zName;
