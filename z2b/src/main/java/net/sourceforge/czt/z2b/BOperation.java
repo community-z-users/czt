@@ -105,7 +105,7 @@ public class BOperation
     else bWriter.print("1=1");
     bWriter.continueSection("PRE","THEN");
     // Now we output the postcondition as a generalised substitution:
-    //    ALL frame' WHERE post2 THEN frame := frame' END
+    //    ANY frame' WHERE post2 THEN frame := frame' END
     // Note: frame is state vars plus output vars (eg. x, y!),
     //       and frame' is those same vars primed (eg. x', y!').
     //       Also, post2 is post with output vars primed.
@@ -116,6 +116,7 @@ public class BOperation
       rename.put(name, Create.prime(name));
     }
     // Rename outputs to outputs' in the postconditions.
+    // Note that (final) state vars in post are already primed.
     RenameVisitor outPrimer = new RenameVisitor(rename);
     for (Pred pred : post_) {
       post2.add((Pred) outPrimer.rename(pred));
