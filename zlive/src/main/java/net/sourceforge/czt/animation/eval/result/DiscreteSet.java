@@ -42,7 +42,7 @@ import net.sourceforge.czt.z.ast.NumExpr;
  * @author marku
  *
  */
-public class DiscreteSet extends EvalSet<Expr>
+public class DiscreteSet extends DefaultEvalSet<Expr>
 {
   /** The elements of this set. */
   protected Set<Expr> contents_ = new TreeSet<Expr>(ExprComparator.create());

@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.ast.ZName;
  * @author marku
  *
  */
-public class SetComp extends EvalSet
+public class SetComp extends DefaultEvalSet
 {
   /** This FlatPredList is used to evaluate ALL members of the set. */
   protected FlatPredList predsAll_;

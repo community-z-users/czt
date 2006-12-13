@@ -41,14 +41,7 @@ import net.sourceforge.czt.z.ast.ZName;
  * the iterator and size methods may return null or throw an exception.
  * <p>
  *  EvalSet provides default implementations
- *  of several of the Set methods.  It also provides a lazy-evaluation
- *  mechanism that uses the memberList and memberSet data structures
- *  to record which members of the set have already been evaluated
- *  and to remove duplicates.  The contains() and iterator() methods
- *  are implemented on top of this lazy evaluation mechanism, but
- *  subclasses are free to override those methods and avoid the
- *  lazy evaluation mechanism if they can do it more efficiently
- *  (like FlatRangeSet).
+ *  of several of the Set methods.
  *  </p>
  */
 public abstract class EvalSet<T extends Expr>
@@ -61,26 +54,6 @@ public abstract class EvalSet<T extends Expr>
 
   /** True iff all members of the set have been evaluated. */
   private boolean fullyEvaluated_ = false;
-  //@invariant fullyEvaluated_ ==> memberList != null;
-
-  /** The list of known members so far.
-   *  This is guaranteed to contain no duplicates.
-   *  In some implementations of EvalSet, it will be filled
-   *  up lazily as the members of the set are requested.
-   *  TODO: to save a little space, we could delete memberList_, once
-   *  fullyEvaluated_ becomes true and there are no iterators using it.
-   */
-  protected List<T> memberList_;
-
-  /** All the known members of the set.
-   *  If memberSet_ and memberList_ are both non-null,
-   *  then they contain exactly the same elements.
-   *  If memberSet_ is non-null, but memberList_ is null,
-   *  then memberSet_ contains the complete set.
-   */
-  private SortedSet<T> memberSet_;
-  //@invariant memberList_==null <==> memberSet_==null;
-  //@invariant memberList_!=null ==> memberList_.size()==memberSet_.size();
 
   /** There seems to be no reason to need annotations,
    *  but the Expr interface forces us to have a non-null list.
@@ -144,64 +117,13 @@ public abstract class EvalSet<T extends Expr>
     return estSize();
   }
 
-  /** Returns the exact size (cardinality) of the set.
-   *  This forces all the members to be evaluated if they
-   *  were not already evaluated.
-   *  This throws a RuntimeException if it is called when the set is fuzzy.
-   *  @return Integer.MAX_VALUE if the set is infinite or too large.
-   */
-  public int size()
-  {
-    if ( ! fullyEvaluated_) {
-      // TODO: trap exceptions due to infinite sets and
-      //    return Integer.MAX_VALUE instead of looping forever.
-      while (insertMember())
-      {
-        // do nothing
-      }
-    }
-    return memberSet_.size();
-  }
-
-  /** Iterate through all members of the set.
-   *  It guarantees that there will be no duplicates.
-   *
-   * @return an Iterator object.
-   *   Note: this method will return null throw a runtime exception
-   *   if it is called must only be called AFTER
-   *   nextEvaluation(), because all free variables of the
-   *   set must be instantiated before we can enumerate the members
-   *   of the set.
-   *
-   * @return an expression iterator.
-   */
-  public Iterator<T> iterator()
-  {
-    return new EvalSetIterator();
-  }
-
   /** Iterate through all members of the set in sorted order.
    *  It guarantees that there will be no duplicates.
    *  It will usually fully evaluate the set before
    *  the first element is returned.  If you want lazy evaluation,
    *  you should use the normal iterator() method instead of this.
    */
-  public Iterator<T> sortedIterator()
-  {
-    if ( ! fullyEvaluated_ )
-      evaluateFully();
-    return memberSet_.iterator();
-  }
-
-  /** Iterate forwards/backwards through all members of the set.
-   *  It guarantees that there will be no duplicates.
-   *
-   * @return a ListIterator object.
-   */
-  public ListIterator<T> listIterator()
-  {
-    return new EvalSetIterator();
-  }
+  public abstract Iterator<T> sortedIterator();
 
   /** Iterate through the intersection of this set
    *  and the 'other' set.  This is intended purely
@@ -229,44 +151,12 @@ public abstract class EvalSet<T extends Expr>
       return new SubsetIterator(this.iterator(), otherSet);
   }
   
-  /** Tests for membership of the set.
-   * @param e  The fully evaluated expression.
-   * @return   true iff e is a member of the set.
-   */
-  public boolean contains(Object obj)
-  {
-    if (memberSet_ != null && memberSet_.contains(obj))
-      return true;
-    else {
-      // evaluate the rest of the set
-      assert memberList_==null || memberList_.size()==memberSet_.size();
-      int done = 0;
-      if (memberList_ != null)
-        done = memberList_.size();
-      while (insertMember()) {
-        if (memberList_.get(done).equals(obj))
-          return true;
-        done++;
-      }
-    }
-    return false;
-  }
-
   public boolean containsAll(Collection<?> c)
   {
     for (Object obj : c)
       if ( ! this.contains(obj))
         return false;
     return true;
-  }
-
-  public /*synchronized*/ boolean isEmpty()
-  {
-    // return size() == 0;   //
-    if (memberList_ != null && memberList_.size() > 0)
-      return true;
-    else
-      return insertMember();
   }
 
   /**Tests for the equality of any two sets.
@@ -296,65 +186,6 @@ public abstract class EvalSet<T extends Expr>
   public int hashCode()
   {
     return 13;
-  }
-
-  /** Returns the next expression in the set.
-   *  This is used during the first evaluation of
-   *  the set.  Once this returns null, the set is
-   *  fully evaluated and its elements are all stored
-   *  in fullSet.
-   * @return The next Expr, or null if there are no more.
-   */
-  protected abstract T nextMember();
-
-  /** Evaluates the next member of the set and inserts it into
-   *  memberList_ and memberSet_.  Returns true iff it found and
-   *  inserted a new member, or false if the set has been
-   *  fully evaluated (in which case, fullyEvaluated_ will have
-   *  been set to true as well).
-   */
-  private boolean insertMember()
-  {
-    if (memberList_ == null) {
-      assert memberSet_ == null;
-      memberList_ = new ArrayList<T>();
-      memberSet_ = new TreeSet<T>(ExprComparator.create());
-    }
-    while (true) {
-      T next = nextMember();
-      if (next == null) {
-        fullyEvaluated_ = true;
-        return false;
-      }
-      if ( ! memberSet_.contains(next)) {
-        memberSet_.add(next);
-        memberList_.add(next);
-        return true;
-      }
-    }
-  }
-
-  /** This ensures that the set is completely evaluated and
-   *  stored in the memberSet_ data structure.
-   */
-  protected void evaluateFully()
-  {
-    while (insertMember())
-    {
-      // do nothing
-    }
-    assert fullyEvaluated_;
-  }
-
-  /** This resets any cached results.
-   *  TODO: delete this, because the contents of a set should
-   *      never change (though they may be enumerated).
-   */
-  protected void resetResult()
-  {
-    fullyEvaluated_ = false;
-    memberList_ = null;
-    memberSet_ = null;
   }
 
   /** Throws UnsupportedOperationException. */
@@ -393,22 +224,6 @@ public abstract class EvalSet<T extends Expr>
     throw new UnsupportedOperationException();
   }
 
-  /** Returns an array containing all of the elements in this set. */
-  public Object[] toArray()
-  {
-    evaluateFully();
-    return memberSet_.toArray();
-  }
-
-  /** Returns an array containing all of the elements in this set.
-   *  The the runtime type of the returned array is that
-   *  of the specified array. */
-  public <T> T[] toArray(T[] a)
-  {
-    evaluateFully();
-    return memberSet_.toArray(a);
-  }
-
   /** A copy of the TermImpl implementation. */
   public ListTerm<Ann> getAnns()
   {
@@ -437,74 +252,6 @@ public abstract class EvalSet<T extends Expr>
   /** Each subclass should implement a nice toString. */
   public abstract String toString();
 
-
-  /** A lazy iterator through memberList_.
-   *  It calls insertMember() to fill up memberList_ when necessary.
-   */
-  private class EvalSetIterator implements ListIterator<T>
-  {
-    /** The entry in memberList_ that will be returned next. */
-    int position;
-
-    public EvalSetIterator()
-    {
-      position = 0;
-    }
-
-    public /*synchronized*/ boolean hasNext()
-    {
-      return (memberList_ != null && position < memberList_.size())
-        || (! fullyEvaluated_ && insertMember());
-    }
-
-    public T next()
-    {
-      assert position < memberList_.size();
-      T result = memberList_.get(position);
-      position++;
-      return result;
-    }
-
-    public void remove()
-    {
-      throw new UnsupportedOperationException(
-          "EvalSet iterators do not support the 'remove' method.");
-    }
-
-    public boolean hasPrevious()
-    {
-      return position > 0;
-    }
-
-    public T previous()
-    {
-      assert position > 0;
-      position--;
-      return memberList_.get(position);
-    }
-
-    public int nextIndex()
-    {
-      return position;
-    }
-
-    public int previousIndex()
-    {
-      return position-1;
-    }
-
-    public void set(T arg0)
-    {
-      throw new UnsupportedOperationException(
-      "EvalSet iterators do not support the 'set' method.");
-    }
-
-    public void add(T arg0)
-    {
-      throw new UnsupportedOperationException(
-      "EvalSet iterators do not support the 'add' method.");
-    }
-  }
 
   /** Filters the master iterator, returning only those
    *  elements that are members of the slave set.

@@ -37,7 +37,7 @@ import net.sourceforge.czt.z.ast.ZName;
  * @author marku
  *
  */
-public class UnionSet extends EvalSet
+public class UnionSet extends DefaultEvalSet
 {
   /** The left-hand EvalSet. */
   private EvalSet leftSet_;

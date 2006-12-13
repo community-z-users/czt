@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
  *
  * @author Petra Malik
  */
-public class PowerSet extends EvalSet<EvalSet>
+public class PowerSet extends DefaultEvalSet<EvalSet>
 {
   private EvalSet baseset_;
   private PowerSetIterator iter_;
