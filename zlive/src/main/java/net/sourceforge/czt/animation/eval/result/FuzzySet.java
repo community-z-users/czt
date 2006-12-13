@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.ast.Expr;
  * @author marku
  *
  */
-public class FuzzySet extends DefaultEvalSet<Expr>
+public class FuzzySet extends EvalSet<Expr>
 {
   protected String name_;
   protected double estSize_;
@@ -57,7 +57,6 @@ public class FuzzySet extends DefaultEvalSet<Expr>
     return maxSize_;
   }
 
-  @Override
   public int size()
   {
     throw new FuzzySetException("size called too early on set: "+name_);
@@ -69,13 +68,11 @@ public class FuzzySet extends DefaultEvalSet<Expr>
     return estSize_;
   }
 
-  @Override
   public Iterator<Expr> iterator()
   {
     throw new FuzzySetException("iterator called too early on set: "+name_);
   }
   
-  @Override
   public ListIterator<Expr> listIterator()
   {
     throw new FuzzySetException("listIterator called too early on set: "+name_);
@@ -93,7 +90,6 @@ public class FuzzySet extends DefaultEvalSet<Expr>
     throw new FuzzySetException("subsetIterator called too early on set: "+name_);
   }
 
-  @Override
   public boolean contains(Object obj)
   {
     throw new FuzzySetException("contains called too early on set: "+name_);
@@ -105,29 +101,29 @@ public class FuzzySet extends DefaultEvalSet<Expr>
     throw new FuzzySetException("containsAll called too early on set: "+name_); 
   }
   
-  @Override
+  /** Returns an array containing all of the elements in this set. */
+  public Object[] toArray()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  /** Returns an array containing all of the elements in this set.
+   *  The the runtime type of the returned array is that
+   *  of the specified array. */
+  public <T> T[] toArray(T[] a)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   public boolean isEmpty()
   {
     throw new FuzzySetException("isEmpty called too early on set: "+name_);
   }
 
   @Override
-  protected void evaluateFully()
-  {
-    throw new FuzzySetException("contains called too early on set: "+name_);
-  }
-
-  @Override
   public boolean equals(Object s2)
   {
     throw new FuzzySetException("equals called too early on set: "+name_);
-  }
-
-  @Override
-  protected Expr nextMember()
-  {
-    // if this is called, then we forgot to override the calling method.
-    throw new RuntimeException("FuzzySet.nextMember should never be called");
   }
 
   public BigInteger getLower()

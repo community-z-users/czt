@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
  * @author marku
  *
  */
-public class RangeSet extends DefaultEvalSet
+public class RangeSet extends EvalSet<Expr>
 {
   /** The exact value of the lower bound, or null if not known. */
   protected BigInteger lower_;
@@ -71,7 +71,6 @@ public class RangeSet extends DefaultEvalSet
    *  or MAX_VALUE if the set is infinite or 
    *  has cardinality greater than MAX_VALUE.
    */
-  @Override
   public int size()
   {
     BigInteger size = maxSize();
@@ -108,7 +107,6 @@ public class RangeSet extends DefaultEvalSet
       return size.doubleValue();
   }
 
-  @Override
   public boolean contains(Object e)
   {
      if ( !(e instanceof NumExpr))
@@ -118,13 +116,11 @@ public class RangeSet extends DefaultEvalSet
          && (upper_ == null || upper_.compareTo(i) >= 0);
    }
 
-  @Override
   public Iterator<Expr> iterator()
   {
     return listIterator();
   }
 
-  @Override
   public ListIterator<Expr> listIterator()
   {
     if (lower_ == null || upper_ == null)
@@ -145,6 +141,20 @@ public class RangeSet extends DefaultEvalSet
       return intersect( (RangeSet)otherSet ).iterator();
     else
       return super.subsetIterator(otherSet);
+  }
+
+  /** Returns an array containing all of the elements in this set. */
+  public Object[] toArray()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  /** Returns an array containing all of the elements in this set.
+   *  The the runtime type of the returned array is that
+   *  of the specified array. */
+  public <T> T[] toArray(T[] a)
+  {
+    throw new UnsupportedOperationException();
   }
 
   /** @inheritDoc
@@ -184,12 +194,6 @@ public class RangeSet extends DefaultEvalSet
   */
 
   @Override
-  protected void evaluateFully()
-  {
-    // already fully evaluated
-  }
-
-  @Override
   public BigInteger getLower()
   {
     return lower_;
@@ -199,13 +203,6 @@ public class RangeSet extends DefaultEvalSet
   public BigInteger getUpper()
   {
     return upper_;
-  }
-
-  @Override
-  protected Expr nextMember()
-  {
-    // if this is called, then we forgot to override the calling method.
-    throw new RuntimeException("DiscreteSet.nextMember should never be called");
   }
 
   /** This is a ListIterator that iterates in sorted order from low upto high.
