@@ -226,47 +226,6 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     else
       return new SubsetIterator(this.iterator(), otherSet);
   }
-
-  /** Filters the master iterator, returning only those
-   *  elements that are members of the slave set.
-   * @author marku
-   */
-  public static class SubsetIterator implements Iterator<Expr>
-  {
-    private Iterator<Expr> iter_;
-    private EvalSet otherSet_;
-    private Expr nextExpr_;
-    
-    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
-    {
-      iter_ = master;
-      otherSet_ = slave;
-      moveToNext();
-    }
-    private void moveToNext()
-    {
-      nextExpr_ = null;
-      while (nextExpr_ == null && iter_.hasNext()) {
-        Expr e = iter_.next();
-        if (otherSet_.contains(e))
-          nextExpr_ = e;
-      }
-    }
-    public boolean hasNext()
-    {
-      return nextExpr_ != null;
-    }
-    public Expr next()
-    {
-      Expr result = nextExpr_;
-      moveToNext();
-      return result;
-    }
-    public void remove()
-    {
-      throw new UnsupportedOperationException();
-    }
-  }
   
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
@@ -543,4 +502,45 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   
   /** Each subclass should implement a nice toString. */
   public abstract String toString();
+
+  /** Filters the master iterator, returning only those
+   *  elements that are members of the slave set.
+   * @author marku
+   */
+  public static class SubsetIterator implements Iterator<Expr>
+  {
+    private Iterator<Expr> iter_;
+    private EvalSet otherSet_;
+    private Expr nextExpr_;
+    
+    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
+    {
+      iter_ = master;
+      otherSet_ = slave;
+      moveToNext();
+    }
+    private void moveToNext()
+    {
+      nextExpr_ = null;
+      while (nextExpr_ == null && iter_.hasNext()) {
+        Expr e = iter_.next();
+        if (otherSet_.contains(e))
+          nextExpr_ = e;
+      }
+    }
+    public boolean hasNext()
+    {
+      return nextExpr_ != null;
+    }
+    public Expr next()
+    {
+      Expr result = nextExpr_;
+      moveToNext();
+      return result;
+    }
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
 }
