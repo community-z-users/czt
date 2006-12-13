@@ -40,8 +40,8 @@ import net.sourceforge.czt.z.ast.ZName;
  *  override those methods and avoid the lazy evaluation mechanism if
  *  they can do it more efficiently.
  */
-public abstract class DefaultEvalSet<T extends Expr>
-  extends EvalSet<T>
+public abstract class DefaultEvalSet
+  extends EvalSet
 {
 
   /** Default estimate for the approximate size of an unknown set. */
@@ -58,7 +58,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  TODO: to save a little space, we could delete memberList_, once
    *  fullyEvaluated_ becomes true and there are no iterators using it.
    */
-  protected List<T> memberList_;
+  protected List<Expr> memberList_;
 
   /** All the known members of the set.
    *  If memberSet_ and memberList_ are both non-null,
@@ -66,7 +66,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  If memberSet_ is non-null, but memberList_ is null,
    *  then memberSet_ contains the complete set.
    */
-  private SortedSet<T> memberSet_;
+  private SortedSet<Expr> memberSet_;
   //@invariant memberList_==null <==> memberSet_==null;
   //@invariant memberList_!=null ==> memberList_.size()==memberSet_.size();
 
@@ -163,7 +163,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *
    * @return an expression iterator.
    */
-  public Iterator<T> iterator()
+  public Iterator<Expr> iterator()
   {
     return new EvalSetIterator();
   }
@@ -174,7 +174,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  the first element is returned.  If you want lazy evaluation,
    *  you should use the normal iterator() method instead of this.
    */
-  public Iterator<T> sortedIterator()
+  public Iterator<Expr> sortedIterator()
   {
     if ( ! fullyEvaluated_ )
       evaluateFully();
@@ -186,7 +186,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *
    * @return a ListIterator object.
    */
-  public ListIterator<T> listIterator()
+  public ListIterator<Expr> listIterator()
   {
     return new EvalSetIterator();
   }
@@ -207,7 +207,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  </p>
    * @return an Iterator object.
    */
-  public Iterator<T> subsetIterator(EvalSet otherSet)
+  public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
     if (otherSet == null)
       return iterator();
@@ -293,7 +293,7 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  in fullSet.
    * @return The next Expr, or null if there are no more.
    */
-  protected abstract T nextMember();
+  protected abstract Expr nextMember();
 
   /** Evaluates the next member of the set and inserts it into
    *  memberList_ and memberSet_.  Returns true iff it found and
@@ -305,11 +305,11 @@ public abstract class DefaultEvalSet<T extends Expr>
   {
     if (memberList_ == null) {
       assert memberSet_ == null;
-      memberList_ = new ArrayList<T>();
-      memberSet_ = new TreeSet<T>(ExprComparator.create());
+      memberList_ = new ArrayList<Expr>();
+      memberSet_ = new TreeSet<Expr>(ExprComparator.create());
     }
     while (true) {
-      T next = nextMember();
+      Expr next = nextMember();
       if (next == null) {
         fullyEvaluated_ = true;
         return false;
@@ -346,13 +346,13 @@ public abstract class DefaultEvalSet<T extends Expr>
   }
 
   /** Throws UnsupportedOperationException. */
-  public boolean add(T o)
+  public boolean add(Expr o)
   {
     throw new UnsupportedOperationException();
   }
 
   /** Throws UnsupportedOperationException. */
-  public boolean addAll(Collection<? extends T> c)
+  public boolean addAll(Collection<? extends Expr> c)
   {
     throw new UnsupportedOperationException();
   }
@@ -429,7 +429,7 @@ public abstract class DefaultEvalSet<T extends Expr>
   /** A lazy iterator through memberList_.
    *  It calls insertMember() to fill up memberList_ when necessary.
    */
-  private class EvalSetIterator implements ListIterator<T>
+  private class EvalSetIterator implements ListIterator<Expr>
   {
     /** The entry in memberList_ that will be returned next. */
     int position;
@@ -445,10 +445,10 @@ public abstract class DefaultEvalSet<T extends Expr>
         || (! fullyEvaluated_ && insertMember());
     }
 
-    public T next()
+    public Expr next()
     {
       assert position < memberList_.size();
-      T result = memberList_.get(position);
+      Expr result = memberList_.get(position);
       position++;
       return result;
     }
@@ -464,7 +464,7 @@ public abstract class DefaultEvalSet<T extends Expr>
       return position > 0;
     }
 
-    public T previous()
+    public Expr previous()
     {
       assert position > 0;
       position--;
@@ -481,13 +481,13 @@ public abstract class DefaultEvalSet<T extends Expr>
       return position-1;
     }
 
-    public void set(T arg0)
+    public void set(Expr arg0)
     {
       throw new UnsupportedOperationException(
       "EvalSet iterators do not support the 'set' method.");
     }
 
-    public void add(T arg0)
+    public void add(Expr arg0)
     {
       throw new UnsupportedOperationException(
       "EvalSet iterators do not support the 'add' method.");
@@ -498,13 +498,13 @@ public abstract class DefaultEvalSet<T extends Expr>
    *  elements that are members of the slave set.
    * @author marku
    */
-  public static class SubsetIterator<T> implements Iterator<T>
+  public static class SubsetIterator<Expr> implements Iterator<Expr>
   {
-    private Iterator<T> iter_;
+    private Iterator<Expr> iter_;
     private EvalSet otherSet_;
-    private T nextExpr_;
+    private Expr nextExpr_;
     
-    public SubsetIterator(Iterator<T> master, EvalSet slave)
+    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
     {
       iter_ = master;
       otherSet_ = slave;
@@ -514,7 +514,7 @@ public abstract class DefaultEvalSet<T extends Expr>
     {
       nextExpr_ = null;
       while (nextExpr_ == null && iter_.hasNext()) {
-        T e = iter_.next();
+        Expr e = iter_.next();
         if (otherSet_.contains(e))
           nextExpr_ = e;
       }
@@ -523,9 +523,9 @@ public abstract class DefaultEvalSet<T extends Expr>
     {
       return nextExpr_ != null;
     }
-    public T next()
+    public Expr next()
     {
-      T result = nextExpr_;
+      Expr result = nextExpr_;
       moveToNext();
       return result;
     }

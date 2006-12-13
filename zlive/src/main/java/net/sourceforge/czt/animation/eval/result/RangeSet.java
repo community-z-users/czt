@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
  * @author marku
  *
  */
-public class RangeSet extends EvalSet<Expr>
+public class RangeSet extends EvalSet
 {
   /** The exact value of the lower bound, or null if not known. */
   protected BigInteger lower_;

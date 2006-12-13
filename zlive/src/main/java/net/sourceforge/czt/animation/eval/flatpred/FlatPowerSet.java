@@ -42,7 +42,7 @@ import net.sourceforge.czt.z.ast.ZName;
 public class FlatPowerSet extends FlatPred
 {
   /** The value of the base set, if known. */
-  private EvalSet<Expr> base_;
+  private EvalSet base_;
 
   /** Creates a FlatPowerSet object.
    *
@@ -165,7 +165,7 @@ public class FlatPowerSet extends FlatPred
     assert evalMode_ != null;
     assert base_ != null;
     if (e instanceof EvalSet) {
-      EvalSet<Expr> set = (EvalSet) e;
+      EvalSet set = (EvalSet) e;
       boolean result = true;
       for (Expr elem : set)
         if ( ! base_.contains(elem)) {

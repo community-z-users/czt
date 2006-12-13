@@ -44,9 +44,9 @@ import net.sourceforge.czt.z.ast.ZName;
  *  of several of the Set methods.
  *  </p>
  */
-public abstract class EvalSet<T extends Expr>
+public abstract class EvalSet
   extends EvalResult
-  implements Set<T>
+  implements Set<Expr>
 {
 
   /** Default estimate for the approximate size of an unknown set. */
@@ -123,7 +123,7 @@ public abstract class EvalSet<T extends Expr>
    *  the first element is returned.  If you want lazy evaluation,
    *  you should use the normal iterator() method instead of this.
    */
-  public abstract Iterator<T> sortedIterator();
+  public abstract Iterator<Expr> sortedIterator();
 
   /** Iterate through the intersection of this set
    *  and the 'other' set.  This is intended purely
@@ -141,7 +141,7 @@ public abstract class EvalSet<T extends Expr>
    *  </p>
    * @return an Iterator object.
    */
-  public Iterator<T> subsetIterator(EvalSet otherSet)
+  public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
     if (otherSet == null)
       return iterator();
@@ -189,13 +189,13 @@ public abstract class EvalSet<T extends Expr>
   }
 
   /** Throws UnsupportedOperationException. */
-  public boolean add(T o)
+  public boolean add(Expr o)
   {
     throw new UnsupportedOperationException();
   }
 
   /** Throws UnsupportedOperationException. */
-  public boolean addAll(Collection<? extends T> c)
+  public boolean addAll(Collection<? extends Expr> c)
   {
     throw new UnsupportedOperationException();
   }
@@ -231,11 +231,11 @@ public abstract class EvalSet<T extends Expr>
   }
 
   /** A copy of the TermImpl implementation. */
-  public <T> T getAnn(Class<T> aClass)
+  public <Expr> Expr getAnn(Class<Expr> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return (T) annotation;
+        return (Expr) annotation;
       }
     }
     return null;
@@ -257,13 +257,13 @@ public abstract class EvalSet<T extends Expr>
    *  elements that are members of the slave set.
    * @author marku
    */
-  public static class SubsetIterator<T> implements Iterator<T>
+  public static class SubsetIterator<Expr> implements Iterator<Expr>
   {
-    private Iterator<T> iter_;
+    private Iterator<Expr> iter_;
     private EvalSet otherSet_;
-    private T nextExpr_;
+    private Expr nextExpr_;
     
-    public SubsetIterator(Iterator<T> master, EvalSet slave)
+    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
     {
       iter_ = master;
       otherSet_ = slave;
@@ -273,7 +273,7 @@ public abstract class EvalSet<T extends Expr>
     {
       nextExpr_ = null;
       while (nextExpr_ == null && iter_.hasNext()) {
-        T e = iter_.next();
+        Expr e = iter_.next();
         if (otherSet_.contains(e))
           nextExpr_ = e;
       }
@@ -282,9 +282,9 @@ public abstract class EvalSet<T extends Expr>
     {
       return nextExpr_ != null;
     }
-    public T next()
+    public Expr next()
     {
-      T result = nextExpr_;
+      Expr result = nextExpr_;
       moveToNext();
       return result;
     }

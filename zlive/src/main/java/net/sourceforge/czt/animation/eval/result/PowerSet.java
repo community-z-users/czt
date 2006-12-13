@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
  *
  * @author Petra Malik
  */
-public class PowerSet extends DefaultEvalSet<EvalSet>
+public class PowerSet extends DefaultEvalSet
 {
   private EvalSet baseset_;
   private PowerSetIterator iter_;
@@ -102,7 +102,7 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
       String msg = "Type error: members of PowerSet must be sets: " + e;
       throw new EvalException(msg);
     }
-    EvalSet<Expr> evalSet = (EvalSet) e;
+    EvalSet evalSet = (EvalSet) e;
     for (Expr expr : evalSet) {
       if (! baseset_.contains(expr)) {
         return false;
@@ -112,7 +112,7 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
   }
 
   @Override
-  protected EvalSet nextMember()
+  protected Expr nextMember()
   {
     if (iter_ == null) {
       iter_ = new PowerSetIterator(baseset_.iterator());
@@ -140,11 +140,11 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
    */
   protected class PowerSetIterator
   {
-    private Iterator<EvalSet> baseIter_;
+    private Iterator<Expr> baseIter_;
     private AddElementIterator addElemIter_;
     private int lengthOfList_ = 1;
 
-    public PowerSetIterator(Iterator<EvalSet> baseIter)
+    public PowerSetIterator(Iterator<Expr> baseIter)
     {
       baseIter_ = baseIter;
       if (baseIter_.hasNext()) {
@@ -179,7 +179,7 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
   protected static class AddElementIterator
   {
     /** The List of sets to which an element is to be added. */
-    private final List<EvalSet> list_;
+    private final List<Expr> list_;
 
     /** The expr to be added. */
     private final Expr expr_;
@@ -190,7 +190,7 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
     /** The end position */
     private final int end_;;
 
-    public AddElementIterator(Expr expr, List<EvalSet> list,
+    public AddElementIterator(Expr expr, List<Expr> list,
                               int start, int end)
     {
       expr_ = expr;
@@ -207,7 +207,7 @@ public class PowerSet extends DefaultEvalSet<EvalSet>
     public DiscreteSet next()
     {
       DiscreteSet result = new DiscreteSet();
-      result.addAll(list_.get(pos_++));
+      result.addAll(((Collection) list_.get(pos_++)));
       result.add(expr_);
       return result;
     }
