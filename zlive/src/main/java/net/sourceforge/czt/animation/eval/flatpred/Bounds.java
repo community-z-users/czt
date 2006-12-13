@@ -33,11 +33,26 @@ import net.sourceforge.czt.z.ast.ZName;
  *  It also stores information about variables that will bind
  *  to sets, since this can help when deducing bounds of the
  *  elements of those sets.
- *  
- *  TODO: add bounds inference for sets of integers.
- *    (we could add upper/lower bounds for s : \power \num,
- *     then the inferBounds methods of the EvalSet subclasses
- *     could propagate the bounds information for those sets.) 
+ *  <p>
+ *  It records information about whether new bounds information
+ *  has recently (since the last call to startAnalysis)
+ *  been added.  The implementation may even record <em>which</em>
+ *  variables have recently changed, so that clients can decide
+ *  whether or not it is worth re-analyzing a given FlatPred. 
+ *  </p>
+ *  <p>
+ *  The enterLocalBounds method can be used to clone a Bounds
+ *  object, so that local bounds information can be added to it
+ *  without affecting the bounds information in the parent.
+ *  This class also counts the number of bounds deductions that 
+ *  it has detected (see the getDeductions method).  Child Bounds
+ *  objects typically add their deduction count to their parent,
+ *  so that the count at the root of the Bounds tree gives the
+ *  total number of deductions that have been made in the current
+ *  pass.  The general idea is to continue making passes until no
+ *  further deductions are made in a pass, which shows that a fix-point
+ *  has been reached.
+ *  </p>
  *  
  * @author marku
  */
