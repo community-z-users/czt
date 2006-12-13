@@ -355,74 +355,6 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
     memberSet = null;
   }
 
-  /** A lazy iterator through memberList.
-   *  It calls insertMember() to fill up memberList when necessary.
-   */
-  private class EvalSetIterator implements ListIterator<Expr>
-  {
-    /** The entry in memberList that will be returned next. */
-    int position;
-
-    public EvalSetIterator()
-    {
-      position = 0;
-    }
-
-    public /*synchronized*/ boolean hasNext()
-    {
-      return (memberList != null && position < memberList.size())
-        || (! fullyEvaluated && insertMember());
-    }
-
-    public Expr next()
-    {
-      assert position < memberList.size();
-      Expr result = memberList.get(position);
-      position++;
-      return result;
-    }
-
-    public void remove()
-    {
-      throw new UnsupportedOperationException(
-          "EvalSet iterators do not support the 'remove' method.");
-    }
-
-    public boolean hasPrevious()
-    {
-      return position > 0;
-    }
-
-    public Expr previous()
-    {
-      assert position > 0;
-      position--;
-      return memberList.get(position);
-    }
-
-    public int nextIndex()
-    {
-      return position;
-    }
-
-    public int previousIndex()
-    {
-      return position-1;
-    }
-
-    public void set(Expr arg0)
-    {
-      throw new UnsupportedOperationException(
-      "EvalSet iterators do not support the 'set' method.");
-    }
-
-    public void add(Expr arg0)
-    {
-      throw new UnsupportedOperationException(
-      "EvalSet iterators do not support the 'add' method.");
-    }
-  }
-
   /** Throws UnsupportedOperationException. */
   public boolean add(Expr o)
   {
@@ -502,6 +434,75 @@ public abstract class EvalSet extends EvalResult implements Set<Expr>
   
   /** Each subclass should implement a nice toString. */
   public abstract String toString();
+
+
+  /** A lazy iterator through memberList.
+   *  It calls insertMember() to fill up memberList when necessary.
+   */
+  private class EvalSetIterator implements ListIterator<Expr>
+  {
+    /** The entry in memberList that will be returned next. */
+    int position;
+
+    public EvalSetIterator()
+    {
+      position = 0;
+    }
+
+    public /*synchronized*/ boolean hasNext()
+    {
+      return (memberList != null && position < memberList.size())
+        || (! fullyEvaluated && insertMember());
+    }
+
+    public Expr next()
+    {
+      assert position < memberList.size();
+      Expr result = memberList.get(position);
+      position++;
+      return result;
+    }
+
+    public void remove()
+    {
+      throw new UnsupportedOperationException(
+          "EvalSet iterators do not support the 'remove' method.");
+    }
+
+    public boolean hasPrevious()
+    {
+      return position > 0;
+    }
+
+    public Expr previous()
+    {
+      assert position > 0;
+      position--;
+      return memberList.get(position);
+    }
+
+    public int nextIndex()
+    {
+      return position;
+    }
+
+    public int previousIndex()
+    {
+      return position-1;
+    }
+
+    public void set(Expr arg0)
+    {
+      throw new UnsupportedOperationException(
+      "EvalSet iterators do not support the 'set' method.");
+    }
+
+    public void add(Expr arg0)
+    {
+      throw new UnsupportedOperationException(
+      "EvalSet iterators do not support the 'add' method.");
+    }
+  }
 
   /** Filters the master iterator, returning only those
    *  elements that are members of the slave set.
