@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.ast.Expr;
  * @author marku
  *
  */
-public class FuzzySet extends EvalSet
+public class FuzzySet extends EvalSet<Expr>
 {
   protected String name_;
   protected double estSize_;

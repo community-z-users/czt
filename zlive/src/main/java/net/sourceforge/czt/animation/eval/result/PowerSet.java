@@ -36,7 +36,7 @@ import net.sourceforge.czt.z.util.Factory;
  *
  * @author Petra Malik
  */
-public class PowerSet extends EvalSet
+public class PowerSet extends EvalSet<EvalSet>
 {
   private EvalSet baseset_;
   private PowerSetIterator iter_;
@@ -102,7 +102,7 @@ public class PowerSet extends EvalSet
       String msg = "Type error: members of PowerSet must be sets: " + e;
       throw new EvalException(msg);
     }
-    EvalSet evalSet = (EvalSet) e;
+    EvalSet<Expr> evalSet = (EvalSet) e;
     for (Expr expr : evalSet) {
       if (! baseset_.contains(expr)) {
         return false;
@@ -112,7 +112,7 @@ public class PowerSet extends EvalSet
   }
 
   @Override
-  protected Expr nextMember()
+  protected EvalSet nextMember()
   {
     if (iter_ == null) {
       iter_ = new PowerSetIterator(baseset_.iterator());
@@ -140,11 +140,11 @@ public class PowerSet extends EvalSet
    */
   protected class PowerSetIterator
   {
-    private Iterator<Expr> baseIter_;
+    private Iterator<EvalSet> baseIter_;
     private AddElementIterator addElemIter_;
     private int lengthOfList_ = 1;
 
-    public PowerSetIterator(Iterator<Expr> baseIter)
+    public PowerSetIterator(Iterator<EvalSet> baseIter)
     {
       baseIter_ = baseIter;
       if (baseIter_.hasNext()) {
@@ -165,7 +165,7 @@ public class PowerSet extends EvalSet
         (addElemIter_ != null && addElemIter_.hasNext());
     }
 
-    public Expr next()
+    public DiscreteSet next()
     {
       if (addElemIter_ == null) throw new NoSuchElementException();
       if (addElemIter_.hasNext()) {
@@ -179,7 +179,7 @@ public class PowerSet extends EvalSet
   protected static class AddElementIterator
   {
     /** The List of sets to which an element is to be added. */
-    private final List<Expr> list_;
+    private final List<EvalSet> list_;
 
     /** The expr to be added. */
     private final Expr expr_;
@@ -190,11 +190,8 @@ public class PowerSet extends EvalSet
     /** The end position */
     private final int end_;;
 
-    /**
-     * @param list The list of expressions.  Assumes that the elements
-     *             can be casted to Collection.
-     */
-    public AddElementIterator(Expr expr, List<Expr> list, int start, int end)
+    public AddElementIterator(Expr expr, List<EvalSet> list,
+                              int start, int end)
     {
       expr_ = expr;
       list_ = list;
@@ -207,10 +204,10 @@ public class PowerSet extends EvalSet
       return pos_ < end_;
     }
 
-    public Expr next()
+    public DiscreteSet next()
     {
       DiscreteSet result = new DiscreteSet();
-      result.addAll((Collection) list_.get(pos_++));
+      result.addAll(list_.get(pos_++));
       result.add(expr_);
       return result;
     }
