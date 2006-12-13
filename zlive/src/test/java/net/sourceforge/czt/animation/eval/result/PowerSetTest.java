@@ -46,6 +46,7 @@ public class PowerSetTest extends ZTestCase
     assertEquals(1.0, powerSet.estSize(), ACCURACY);
     assertEquals(BigInteger.ONE, powerSet.maxSize());
     assertEquals(1, powerSet.size());
+    assertTrue(powerSet.contains(new DiscreteSet()));
     Iterator<Expr> iter = powerSet.iterator();
     assertTrue(iter.hasNext());
     assertEquals(new DiscreteSet(), iter.next());
@@ -61,6 +62,8 @@ public class PowerSetTest extends ZTestCase
     assertEquals(2.0, powerSet.estSize(), ACCURACY);
     assertEquals(BigInteger.valueOf(2), powerSet.maxSize());
     assertEquals(2, powerSet.size());
+    assertTrue(powerSet.contains(new DiscreteSet()));
+    assertTrue(powerSet.contains(baseSet));
     Iterator<Expr> iter = powerSet.iterator();
     assertTrue(iter.hasNext());
     assertEquals(new DiscreteSet(), iter.next());

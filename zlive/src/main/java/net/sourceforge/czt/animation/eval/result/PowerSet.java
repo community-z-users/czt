@@ -102,7 +102,13 @@ public class PowerSet extends EvalSet
       String msg = "Type error: members of PowerSet must be sets: " + e;
       throw new EvalException(msg);
     }
-    throw new UnsupportedOperationException();
+    EvalSet evalSet = (EvalSet) e;
+    for (Expr expr : evalSet) {
+      if (! baseset_.contains(expr)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
