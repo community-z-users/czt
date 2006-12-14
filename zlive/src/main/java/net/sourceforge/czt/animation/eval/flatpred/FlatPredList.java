@@ -77,7 +77,13 @@ public class FlatPredList extends FlatPred
    */
   private final int ALLDONE = -2;
 
-  public static final boolean optimize = false;
+  /** Evaluation is left-to-right if this is false,
+   *  or smallest-mode-first if it is true.
+   */
+  public static final boolean optimize_ = false;
+
+  /** Maximum acceptable cost for evaluating each FlatPredList */
+  private static double maxCost_ = 1000000000;
 
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List<FlatPred> predlist_ = new ArrayList<FlatPred>();
@@ -96,6 +102,21 @@ public class FlatPredList extends FlatPred
   public FlatPredList(ZLive newZLive)
   {
     zlive_ = newZLive;
+  }
+
+  /** Set the maximum acceptable cost for evaluating each FlatPredList.
+   *  If no mode can be found with fewer solutions than this,
+   *  then chooseMode returns null, so that evaluation path will
+   *  not be considered.
+   */
+  public static double getMaxCost()
+  {
+    return maxCost_;
+  }
+
+  public static void setMaxCost(double maxCost)
+  {
+    FlatPredList.maxCost_ = maxCost_;
   }
 
   /** Returns the number of FlatPreds in this list. */
@@ -163,7 +184,7 @@ public class FlatPredList extends FlatPred
   }
 
   /** Clients can use this to mark some names as
-   *  being local to (bound by) this FlatPred list. 
+   *  being local to (bound by) this FlatPred list.
    * @param name
    */
   public void makeBound(ZName name)
@@ -296,7 +317,7 @@ public class FlatPredList extends FlatPred
     return bnds.getDeductions() > 0;
   }
 
-  /** Equivalent to inferBoundsFixPoint(bnds, 5). 
+  /** Equivalent to inferBoundsFixPoint(bnds, 5).
    *  That is, this does a default (maximum) number of
    *  static inference iterations.
    */
@@ -309,7 +330,7 @@ public class FlatPredList extends FlatPred
    *  See FlatPred.inferBounds(Bounds bnds);
    *  <p>
    *  This does upto maxPasses passes over all the predicates
-   *  in the list.  It stops earlier than maxPasses if a fixed 
+   *  in the list.  It stops earlier than maxPasses if a fixed
    *  point is reached.  That is, if the bounds are not getting
    *  any tighter on each pass over the list.
    *  </p>
@@ -350,8 +371,19 @@ public class FlatPredList extends FlatPred
     Envir env = env0;
     getArgs(); // forces freeVars_ and args_ to be evaluated.
     LOG.finer(this.hashCode() + " starting");
+    double cost = Mode.ONE_SOLUTION;
     while (!flatPreds.isEmpty() && chooseMode(env, flatPreds, submodes)) {
-      env = submodes.get(submodes.size() - 1).getEnvir();
+      Mode m = submodes.get(submodes.size() - 1);
+      cost *= m.getSolutions();
+      if (optimize_ && cost > maxCost_) {
+        LOG.finer("too expensive (" + cost + ") to evaluate " + this
+            + " with env=" + env);
+        LOG.exiting("FlatPredList", "chooseMode", null);
+        return null;
+      }
+      env = m.getEnvir();
+      LOG.finer(this.hashCode() + " " + m.getParent() + " gives cost=" + cost
+          + " and outputs=" + m.getOutputs());
     }
     if ( ! flatPreds.isEmpty()) {
       LOG.finer("no mode for " + flatPreds.get(0) + " with env=" + env);
@@ -359,12 +391,6 @@ public class FlatPredList extends FlatPred
       return null;
     }
     assert submodes.size() == predlist_.size();
-    double cost = Mode.ONE_SOLUTION;
-    for (Mode m : submodes) {
-      cost *= m.getSolutions();
-      LOG.finer(this.hashCode() + " " + m.getParent() + " gives cost=" + cost
-          + " and outputs=" + m.getOutputs());
-    }
     ModeList result = new ModeList(this, env, args_, cost, submodes);
     LOG.exiting("FlatPredList", "chooseMode", result);
     return result;
@@ -379,7 +405,7 @@ public class FlatPredList extends FlatPred
       List<Mode> modes)
   {
     Mode mode = null;
-    if (optimize) {
+    if (optimize_) {
       // choose first mode with the smallest number of solutions.
       for (Iterator<FlatPred> iter = flatPreds.iterator(); iter.hasNext();) {
         FlatPred flatPred = iter.next();
