@@ -39,6 +39,7 @@ public class StepTree extends DefaultTreeModel
     stateSchemaName = "";
     initSchemaName = "";
     pcs = new PropertyChangeSupport(this);
+    setStep(root);
   }
 
   /**
@@ -107,7 +108,7 @@ public class StepTree extends DefaultTreeModel
    */
   public boolean hasPrevious()
   {
-    return step.getLevel() > 1;
+    return step.getLevel() > 0;
   }
 
   /**

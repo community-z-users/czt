@@ -40,6 +40,7 @@ import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZChar;
 
 /**
  * @author Linan Zhang
@@ -215,6 +216,8 @@ public class ZLiveAnalyzer implements Analyzer
       }
       if (customMap.get(name) == null) {
         customMap.put(name, GaffeUtil.getAvailableMap().get(
+            result.get(name).getClass().getSimpleName()).get(0));
+        customMap.put(name+ZChar.PRIME, GaffeUtil.getAvailableMap().get(
             result.get(name).getClass().getSimpleName()).get(0));
       }
     }

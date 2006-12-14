@@ -211,7 +211,7 @@ public class Step extends DefaultMutableTreeNode
    */
   public String toString()
   {
-    return operation;
+    return operation+" Result "+this.getResultSelected()+" Complete "+isComplete;
   }
 
   /**

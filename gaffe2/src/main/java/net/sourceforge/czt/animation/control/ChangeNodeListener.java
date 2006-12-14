@@ -40,8 +40,9 @@ public class ChangeNodeListener extends MouseAdapter
     if (selRow != -1) {
       if (e.getClickCount() == 1) {
         Step node = (Step) selPath.getLastPathComponent();
-        StepTree tree = GaffeUtil.getStepTree();
-        tree.setStep(node);
+        StepTree stepTree = GaffeUtil.getStepTree();
+        stepTree.setStep(node);
+        tree.expandPath(selPath);
       }
       else if (e.getClickCount() == 2) {
         // Nothing to do

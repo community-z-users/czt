@@ -106,10 +106,10 @@ public class GaffeUI
    */
   public static void resetAll()
   {
-    statePane.reset();
-    outputPane.reset();
-    operationPane.reset();
-    toolBar.reset();
+    if (statePane!=null) statePane.reset();
+    if (outputPane!=null) outputPane.reset();
+    if (operationPane!=null) operationPane.reset();
+    if (toolBar!=null) toolBar.reset();
   }
   
   /**

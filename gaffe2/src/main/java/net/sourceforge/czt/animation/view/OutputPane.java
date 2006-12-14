@@ -10,7 +10,7 @@ import java.util.HashMap;
 import javax.swing.border.TitledBorder;
 
 import net.sourceforge.czt.animation.common.adapter.Adapter;
-import net.sourceforge.czt.animation.model.Step;
+import net.sourceforge.czt.animation.model.StepTree;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -36,8 +36,8 @@ public class OutputPane extends VariablePane
    */
   public void propertyChange(PropertyChangeEvent arg0)
   {
-    Step source = (Step) arg0.getSource();
-    HashMap<String, Expr> result = source.getResultSelected();
+    StepTree source = (StepTree) arg0.getSource();
+    HashMap<String, Expr> result = source.getStep().getResultSelected();
     contentPane.removeAll();
     componentMap.clear();
     Adapter adapter = null;

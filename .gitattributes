@@ -215,6 +215,9 @@ gaffe2/src/main/resources/nextResult.jpg -text
 gaffe2/src/main/resources/nextStep.jpg -text
 gaffe2/src/main/resources/preResult.jpg -text
 gaffe2/src/main/resources/preStep.jpg -text
+gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/EvalSetResultTest.java -text
+gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTest.java -text
+gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTreeTest.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/CallProcess.java -text

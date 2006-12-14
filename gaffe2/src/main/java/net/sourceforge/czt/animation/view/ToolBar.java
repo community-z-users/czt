@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
+import net.sourceforge.czt.animation.common.factory.GaffeUI;
 import net.sourceforge.czt.animation.control.ChangeResultListener;
 import net.sourceforge.czt.animation.control.ChangeStepListener;
 import net.sourceforge.czt.animation.control.ShowOperationMenuListener;
@@ -56,6 +57,8 @@ public class ToolBar extends JToolBar implements PropertyChangeListener
     this.add(backResultButton);
     this.add(nextResultButton);
     this.add(nextStepButton);
+    
+    GaffeUI.setToolBar(this);
   }
 
   /**

@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTree;
+import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -72,12 +73,15 @@ public class GaffeLoadListener implements ActionListener
       String initSchemaName = (String) e.readObject();
       Analyzer analyzer = GaffeFactory.getAnalyzer();
       analyzer.initialize(new File(specFile));
-
       //Reset UI
       GaffeUI.resetAll();
 
       //ReInitialise Evaluator
-      VariablePane statePane = GaffeUI.getStatePane();
+      VariablePane statePane = new VariablePane();
+      statePane.setBorder(new TitledBorder("state"));
+      statePane.setName(file.getName());
+      GaffeUI.getMainFrame().tab(statePane,"RT");
+      GaffeUI.setStatePane(statePane);
       HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
           "state");
       state = GaffeUtil.prime(state);
@@ -105,10 +109,11 @@ public class GaffeLoadListener implements ActionListener
       tree.addPropertyChangeListener(GaffeUI.getToolBar());
       Step root = (Step) tree.getRoot();
       restore(root);
-      tree.setStep((Step) root.getChildAt(0));
+      tree.setStep(root);
       /*---------------------------------------------*/
 
       e.close();
+      GaffeUI.getMainFrame().reset();
       System.out.println("File: " + file.getName() + "loaded!");
     } catch (IOException ioex) {
       ioex.printStackTrace();

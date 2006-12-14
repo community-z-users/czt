@@ -22,6 +22,7 @@ import net.sourceforge.czt.animation.model.StepTree;
 import net.sourceforge.czt.animation.view.MainFrame;
 import net.sourceforge.czt.animation.view.OperationPane;
 import net.sourceforge.czt.animation.view.StatusLabel;
+import net.sourceforge.czt.animation.view.StepTreePane;
 import net.sourceforge.czt.animation.view.ToolBar;
 import net.sourceforge.czt.animation.view.VariablePane;
 import net.sourceforge.czt.z.ast.Expr;
@@ -70,7 +71,6 @@ public class InitializeListener implements ActionListener
   private void schemaTree()
   {
     OperationPane operationPane = GaffeUI.getOperationPane();
-    StepTree tree = GaffeUtil.getStepTree();
     String schemaName = "";
     DefaultMutableTreeNode root = new DefaultMutableTreeNode(analyzer
         .getSpecURL().getFile());
@@ -82,12 +82,10 @@ public class InitializeListener implements ActionListener
       schemaName = choice.getName();
       if (choice.getSelectedItem().equals("State")) {
         stateSchemaName = schemaName;
-        tree.setStateSchemaName(schemaName);
         state.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Initial")) {
         initSchemaName = schemaName;
-        tree.setInitSchemaName(initSchemaName);
         initial.add(new DefaultMutableTreeNode(schemaName));
       }
       else if (choice.getSelectedItem().equals("Operation")) {
@@ -114,6 +112,7 @@ public class InitializeListener implements ActionListener
     VariablePane outputPane = GaffeUI.getOutputPane();
     ToolBar toolBar = GaffeUI.getToolBar();
     StatusLabel statusLabel = GaffeUI.getStatusLabel();
+    StepTreePane stepTreePane = GaffeUI.getStepTreePane();
 
     HashMap<String, Expr> state = analyzer.getVariableMap(stateSchemaName,
         "state");
@@ -124,9 +123,14 @@ public class InitializeListener implements ActionListener
         initSchemaName);
     Step step = new Step(initSchemaName, results);
     StepTree tree = new StepTree(step);
+    GaffeUtil.addStepTree("default",tree);
     tree.addPropertyChangeListener(statePane);
     tree.addPropertyChangeListener(outputPane);
     tree.addPropertyChangeListener(toolBar);
     tree.addPropertyChangeListener(statusLabel);
+    tree.addPropertyChangeListener(stepTreePane);
+    tree.setStateSchemaName(stateSchemaName);
+    tree.setInitSchemaName(initSchemaName);
+    tree.firePropertyChange("step",-1,0);
   }
 }

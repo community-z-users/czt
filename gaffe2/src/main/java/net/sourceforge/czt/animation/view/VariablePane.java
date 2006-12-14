@@ -36,7 +36,7 @@ import net.sourceforge.czt.animation.common.adapter.Adapter;
 import net.sourceforge.czt.animation.common.adapter.NumExpr_JSpinnerAdapter;
 import net.sourceforge.czt.animation.common.factory.GaffeUI;
 import net.sourceforge.czt.animation.common.factory.GaffeUtil;
-import net.sourceforge.czt.animation.model.Step;
+import net.sourceforge.czt.animation.model.StepTree;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -249,8 +249,8 @@ public class VariablePane extends JScrollPane implements PropertyChangeListener
    */
   public void propertyChange(PropertyChangeEvent arg0)
   {
-    Step source = (Step) arg0.getSource();
-    HashMap<String, Expr> result = source.getResultSelected();
+    StepTree source = (StepTree) arg0.getSource();
+    HashMap<String, Expr> result = source.getStep().getResultSelected();
     if (result == null) {
       new WrapperDialog(new MessagePane("No results found!"));
       return;

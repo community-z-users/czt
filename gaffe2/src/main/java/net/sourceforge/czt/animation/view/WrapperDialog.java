@@ -24,6 +24,8 @@ public class WrapperDialog extends JDialog
   protected JComponent target;
   protected JButton okButton;
   protected JButton clButton;
+  protected JPanel buttonPane;
+  
   /**
    * Constructor
    * @param schemaName
@@ -32,7 +34,7 @@ public class WrapperDialog extends JDialog
   public WrapperDialog(JComponent tar)
   {
     target = tar;
-    JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    buttonPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
     okButton = new JButton("Tab..");
     clButton = new JButton("Close");
     okButton.addActionListener(new FitInListener(this));
