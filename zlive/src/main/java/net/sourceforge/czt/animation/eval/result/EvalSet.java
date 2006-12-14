@@ -117,6 +117,20 @@ public abstract class EvalSet
     return estSize();
   }
 
+  /** Iterate through all members of the set.
+   *  It guarantees that there will be no duplicates.
+   *
+   * @return an expression iterator.
+   */
+  public abstract Iterator<Expr> iterator();
+
+  /** Iterate forwards/backwards through all members of the set.
+   *  It guarantees that there will be no duplicates.
+   *
+   * @return a ListIterator object.
+   */
+  public abstract ListIterator<Expr> listIterator();
+
   /** Iterate through all members of the set in sorted order.
    *  It guarantees that there will be no duplicates.
    *  It will usually fully evaluate the set before

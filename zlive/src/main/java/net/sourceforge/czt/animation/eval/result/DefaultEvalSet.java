@@ -70,11 +70,6 @@ public abstract class DefaultEvalSet
   //@invariant memberList_==null <==> memberSet_==null;
   //@invariant memberList_!=null ==> memberList_.size()==memberSet_.size();
 
-  /** There seems to be no reason to need annotations,
-   *  but the Expr interface forces us to have a non-null list.
-   */
-  private ListTerm<Ann> anns_ = new ListTermImpl<Ann>();
-
   /** The lower bound on numeric elements, if any, else null.
    *  <p>
    *  FlatEvalSet provides a default implementation
@@ -151,15 +146,9 @@ public abstract class DefaultEvalSet
     return memberSet_.size();
   }
 
-  /** Iterate through all members of the set.
-   *  It guarantees that there will be no duplicates.
-   *
-   * @return an Iterator object.
-   *   Note: this method will return null throw a runtime exception
-   *   if it is called must only be called AFTER
-   *   nextEvaluation(), because all free variables of the
-   *   set must be instantiated before we can enumerate the members
-   *   of the set.
+  /** Must only be called AFTER nextEvaluation(), because all free
+   *  variables of the set must be instantiated before we can
+   *  enumerate the members of the set.
    *
    * @return an expression iterator.
    */
@@ -168,12 +157,6 @@ public abstract class DefaultEvalSet
     return new EvalSetIterator();
   }
 
-  /** Iterate through all members of the set in sorted order.
-   *  It guarantees that there will be no duplicates.
-   *  It will usually fully evaluate the set before
-   *  the first element is returned.  If you want lazy evaluation,
-   *  you should use the normal iterator() method instead of this.
-   */
   public Iterator<Expr> sortedIterator()
   {
     if ( ! fullyEvaluated_ )
@@ -181,32 +164,11 @@ public abstract class DefaultEvalSet
     return memberSet_.iterator();
   }
 
-  /** Iterate forwards/backwards through all members of the set.
-   *  It guarantees that there will be no duplicates.
-   *
-   * @return a ListIterator object.
-   */
   public ListIterator<Expr> listIterator()
   {
     return new EvalSetIterator();
   }
 
-  /** Iterate through the intersection of this set
-   *  and the 'other' set.  This is intended purely
-   *  to reduce the number of elements visited, so
-   *  implementations are free to ignore otherSet if
-   *  they wish.  If otherSet==null, then
-   *  it places no constraints on the iteration,
-   *  and this method is equivalent to iterator().
-   *  The result will contain no duplicates.
-   *  <p>
-   *  EvalSet provides a default implementation
-   *  that it iterates through the smaller of the
-   *  two sets and checks membership in the other.
-   *  TODO: add unit tests for this.
-   *  </p>
-   * @return an Iterator object.
-   */
   public Iterator<Expr> subsetIterator(EvalSet otherSet)
   {
     if (otherSet == null)
@@ -238,14 +200,6 @@ public abstract class DefaultEvalSet
       }
     }
     return false;
-  }
-
-  public boolean containsAll(Collection<?> c)
-  {
-    for (Object obj : c)
-      if ( ! this.contains(obj))
-        return false;
-    return true;
   }
 
   public /*synchronized*/ boolean isEmpty()
@@ -345,43 +299,8 @@ public abstract class DefaultEvalSet
     memberSet_ = null;
   }
 
-  /** Throws UnsupportedOperationException. */
-  public boolean add(Expr o)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Throws UnsupportedOperationException. */
-  public boolean addAll(Collection<? extends Expr> c)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Throws UnsupportedOperationException. */
-  public void clear()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Throws UnsupportedOperationException. */
-  public boolean remove(Object o)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Throws UnsupportedOperationException. */
-  public boolean removeAll(Collection<?> c)
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Throws UnsupportedOperationException. */
-  public boolean retainAll(Collection<?> c)
-  {
-    throw new UnsupportedOperationException();
-  }
-
   /** Returns an array containing all of the elements in this set. */
+  @Override
   public Object[] toArray()
   {
     evaluateFully();
@@ -391,40 +310,12 @@ public abstract class DefaultEvalSet
   /** Returns an array containing all of the elements in this set.
    *  The the runtime type of the returned array is that
    *  of the specified array. */
+  @Override
   public <T> T[] toArray(T[] a)
   {
     evaluateFully();
     return memberSet_.toArray(a);
   }
-
-  /** A copy of the TermImpl implementation. */
-  public ListTerm<Ann> getAnns()
-  {
-    return anns_;
-  }
-
-  /** A copy of the TermImpl implementation. */
-  public <T> T getAnn(Class<T> aClass)
-  {
-    for (Object annotation : anns_) {
-      if (aClass.isInstance(annotation)) {
-        return (T) annotation;
-      }
-    }
-    return null;
-  }
-
-  public <R> R accept(Visitor<R> visitor)
-  {
-    if (visitor instanceof EvalSetVisitor)
-      return ((EvalSetVisitor<R>)visitor).visitEvalSet(this);
-    else
-      return null;
-  }
-  
-  /** Each subclass should implement a nice toString. */
-  public abstract String toString();
-
 
   /** A lazy iterator through memberList_.
    *  It calls insertMember() to fill up memberList_ when necessary.
