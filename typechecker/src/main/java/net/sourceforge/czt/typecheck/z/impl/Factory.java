@@ -350,7 +350,19 @@ public class Factory
   {
     if (declName instanceof ZName) {
       ZName zName = (ZName) declName;
+      if (zName.getId() == null) {
+	overwriteNameID(declName);
+      }
+    }
+  }
+
+  public void overwriteNameID(Name declName)
+  {
+    if (declName instanceof ZName) {
+      ZName zName = (ZName) declName;
       String id = freshId().toString();
+      String oldId = zName.getId();
+      updateIds(oldId, id);
       setId(zName, id);
     }
   }
@@ -366,14 +378,19 @@ public class Factory
     if (name1.getId() != null && name1.getId().equals(name2.getId())) return;
     String newId = name2.getId();
     String oldId = name1.getId();
+    updateIds(oldId, newId);
+    setId(name1, newId);
+  }
+
+  public void updateIds(String oldId, String newId)
+  {
     List<ZName> list = ids_.get(oldId);
     if (list != null) {
       for (ZName zName : list) {
         setId(zName, newId);
       }
       ids_.remove(oldId);
-    }
-    setId(name1, newId);
+    }  
   }
 
   public void setId(ZName zName, String id)

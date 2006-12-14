@@ -100,7 +100,7 @@ public class ExprChecker
           ZName oldName = pair.getZName();
           ZName newName = factory().createZName(oldName, false);
           //add a unique ID to this name
-          factory().addNameID(newName);
+          factory().overwriteNameID(newName);
           pairs.add(factory().createNameTypePair(newName, pair.getType()));
         }
         Signature sig = factory().createSignature(pairs);
