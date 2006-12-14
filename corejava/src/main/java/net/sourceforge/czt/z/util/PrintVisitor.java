@@ -29,9 +29,8 @@ import net.sourceforge.czt.z.visitor.*;
 /**A convenience class for printing SIMPLE terms as strings.
  * This simple printer does not handle predicates or expressions,
  * just types, names, numbers, etc.
- * It generally returns human-readable strings (ASCII), but
- * produces some Unicode characters for some ZNames.
- * However, types are printed using ASCII notation.  
+ * It generally returns Unicode strings, but you can create it
+ * so that it produces ASCII-only strings.
  * <p>
  * For more sophisticated printing of arbitrary terms, you
  * should use the SectionManager class in the session project
@@ -61,6 +60,29 @@ public class PrintVisitor
              ZStrokeListVisitor<String>,
              LocAnnVisitor<String>
 {
+  protected boolean printUnicode_;
+
+  /**
+   * Constructs a PrintVisitor that produces Unicode strings.
+   */
+  public PrintVisitor()
+  {
+    printUnicode_ = true;
+  }
+
+  /**
+   * Constructs a PrintVisitor that produces Unicode strings
+   * if the unicode parameter is true, and ASCII strings otherwise.
+   * The ASCII strings produced are designed to be human-readable,
+   * so are not necessarily in LaTeX markup.
+   * 
+   * @param unicode true means Unicode characters may appear in the output.
+   */
+  public PrintVisitor(boolean unicode)
+  {
+    printUnicode_ = unicode;
+  }
+
   public String visitGenericType(GenericType genericType)
   {
     StringBuilder result = new StringBuilder();
@@ -106,8 +128,10 @@ public class PrintVisitor
 
   public String visitNextStroke(NextStroke nextStroke)
   {
-    // return ZString.PRIME;
-    return "'";
+    if (printUnicode_)
+      return ZString.PRIME;
+    else
+      return "'";
   }
 
   public String visitNumExpr(NumExpr numExpr)
@@ -117,8 +141,10 @@ public class PrintVisitor
 
   public String visitNumStroke(NumStroke numStroke)
   {
-    // return ZString.SE + numStroke.getDigit().getValue() + ZString.NW;
-    return "_" + numStroke.getDigit().getValue();
+    if (printUnicode_)
+      return ZString.SE + numStroke.getDigit().getValue() + ZString.NW;
+    else
+      return "_" + numStroke.getDigit().getValue();
   }
 
   public String visitOutStroke(OutStroke outStroke)
@@ -191,9 +217,9 @@ public class PrintVisitor
     }
     return result.toString();
   }
-  
+
   public String visitLocAnn(LocAnn loc) {
-    StringBuffer result = new StringBuffer();    
+    StringBuffer result = new StringBuffer();
     if (loc.getLine() != null &&
         loc.getLine().compareTo(java.math.BigInteger.ZERO) >= 0) {
       result.append("line " + loc.getLine());
