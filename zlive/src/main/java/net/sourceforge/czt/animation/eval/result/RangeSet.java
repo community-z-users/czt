@@ -143,20 +143,6 @@ public class RangeSet extends EvalSet
       return super.subsetIterator(otherSet);
   }
 
-  /** Returns an array containing all of the elements in this set. */
-  public Object[] toArray()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Returns an array containing all of the elements in this set.
-   *  The the runtime type of the returned array is that
-   *  of the specified array. */
-  public <T> T[] toArray(T[] a)
-  {
-    throw new UnsupportedOperationException();
-  }
-
   /** @inheritDoc
    *
    *  This uses bounds information about element (if any)

@@ -101,20 +101,6 @@ public class FuzzySet extends EvalSet
     throw new FuzzySetException("containsAll called too early on set: "+name_); 
   }
   
-  /** Returns an array containing all of the elements in this set. */
-  public Object[] toArray()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /** Returns an array containing all of the elements in this set.
-   *  The the runtime type of the returned array is that
-   *  of the specified array. */
-  public <T> T[] toArray(T[] a)
-  {
-    throw new UnsupportedOperationException();
-  }
-
   public boolean isEmpty()
   {
     throw new FuzzySetException("isEmpty called too early on set: "+name_);

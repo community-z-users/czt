@@ -224,6 +224,20 @@ public abstract class EvalSet
     throw new UnsupportedOperationException();
   }
 
+  /** Returns an array containing all of the elements in this set. */
+  public Object[] toArray()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  /** Returns an array containing all of the elements in this set.
+   *  The the runtime type of the returned array is that
+   *  of the specified array. */
+  public <T> T[] toArray(T[] a)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   /** A copy of the TermImpl implementation. */
   public ListTerm<Ann> getAnns()
   {
