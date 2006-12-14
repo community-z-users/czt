@@ -1,36 +1,36 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 24, Failures: 15, Errors: 0, Time elapsed: 331.352 sec
+Tests run: 24, Failures: 0, Errors: 17, Time elapsed: 50.281 sec
 ------------- Standard Output ---------------
-loaded rule DeltaRef
 loaded rule setminus
+loaded rule DeltaRef
 loaded rule taildef
 loaded rule IncludeDecl
-loaded rule domainsubtraction
 loaded rule subset
+loaded rule domainsubtraction
 loaded rule subseteq
 loaded rule ExistsSchema
-loaded rule inverse
 loaded rule symdiff
+loaded rule inverse
 loaded rule prefixdef
 loaded rule ConstDecl
 loaded rule reloverride
-loaded rule relcomp
 loaded rule seconddef
-loaded rule EmptyDeclList
+loaded rule relcomp
 loaded rule emptysetTyped
+loaded rule EmptyDeclList
 loaded rule infixdef
-loaded rule literalsequence
 loaded rule frontdef
+loaded rule literalsequence
 loaded rule relimage
 loaded rule headdef
-loaded rule rangerestriction
 loaded rule domainrestriction
+loaded rule rangerestriction
 loaded rule genunion
 loaded rule range
 loaded rule unfolddefn
 loaded rule genunion2
-loaded rule TopLevelExistsSchema
 loaded rule VarDecl
+loaded rule TopLevelExistsSchema
 loaded rule XiRef
 loaded rule funccomp
 loaded rule genintersection
@@ -46,14 +46,14 @@ loaded rule intersection
 loaded rule disjointdef
 loaded rule dcat0
 loaded rule dcat1
-loaded rule SchemaPrime
 loaded rule SchemaRef
-loaded rule squash
+loaded rule SchemaPrime
 loaded rule suffixdef
-loaded rule rangesubtraction
+loaded rule squash
 loaded rule extractdef
-loaded rule reverse
+loaded rule rangesubtraction
 loaded rule dcatdistributive
+loaded rule reverse
 loaded rule genunion3
 loaded rule lambda
 loaded rule domain
@@ -63,747 +63,489 @@ loaded rule maplet
 Passed test:animate_schemas.tex:22
 Passed test:animate_schemas.tex:23
 Passed test:animate_schemas.tex:24
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@e27ed209
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land true ]
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land a \in \arithmos \land b \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@42c9851
 Passed test:animate_schemas.tex:25
 Passed test:animate_schemas.tex:26
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@38b4da6a
-[ a == 2 | true ]
-[ a : \arithmos | a = 2 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@10cbded3
-schText freevars = []
-schText boundvars = [a]
-body freevars = [a]
-freevars = []
 Passed test:animate_schemas.tex:27
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@38b2948f
-[ a == 1 | true ]
-[ a : \arithmos | a = 1 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@35d51240
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f942b7c9
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land true ]
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land a \in \arithmos \land b \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@3b2e1f31
-schText freevars = []
-schText boundvars = [a]
-body freevars = [a]
-freevars = []
 Passed test:animate_schemas.tex:28
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@bf73ed0d
-[ a : \arithmos ; b : \arithmos | a \in 1 \upto 3 \land b \in 1 \upto 3 \land true \land a < b ]
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land a \in 1 \upto 3 \land b \in 1 \upto 3 \land true \land a < b ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@c6c5214d
-Passed test:animate_schemas.tex:36
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@60b7726d
-[ a : \arithmos ; b : \arithmos | a \in 1 \upto 2 \land b \in 1 \upto 2 \land true \land a < b ]
-[ a : \arithmos ; b : \arithmos | a \in \arithmos \land b \in \arithmos \land true \land a \in 1 \upto 2 \land b \in 1 \upto 2 \land true \land a < b ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@b2545d6d
-Compare: set sizes 1, 1
-Passed test:animate_schemas.tex:37
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@10ab953a
-[ x : \arithmos | x \in \{ 0 , 1 , 2 , 8 , 9 , 10 \} \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \{ 0 , 1 , 2 , 8 , 9 , 10 \} \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@65f99009
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@1ce66ca9
-[ x : \arithmos | x \in 0 \upto 10 \land true \land ( \exists out! : 0 \upto 20 | true @ out! = x * ( 10 - x ) ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in 0 \upto 10 \land true \land ( \exists out! : 0 \upto 20 | true @ out! = x * ( 10 - x ) ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@e6a86eda
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@19c5119d
-[ out! : 0 \upto 20 | true ]
-[ out! : \arithmos | out! \in 0 \upto 20 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@d3d3746a
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@10ab953a
-[ x : \arithmos | x \in \{ 0 , 1 , 2 , 8 , 9 , 10 \} \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \{ 0 , 1 , 2 , 8 , 9 , 10 \} \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@65f99009
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@977adb3f
-[ x : 0 \upto 20 | true ]
-[ x : \arithmos | x \in 0 \upto 20 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@df898ed0
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@1ce66ca9
-[ x : \arithmos | x \in 0 \upto 10 \land true \land ( \exists out! : 0 \upto 20 | true @ out! = x * ( 10 - x ) ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in 0 \upto 10 \land true \land ( \exists out! : 0 \upto 20 | true @ out! = x * ( 10 - x ) ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@e6a86eda
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@19c5119d
-[ out! : 0 \upto 20 | true ]
-[ out! : \arithmos | out! \in 0 \upto 20 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@d3d3746a
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@d6278e72
-[ x : \arithmos | x \in \arithmos \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7ac25fc0
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@e2d147ed
-[ x : \arithmos | x \in \nat \land true \land ( \exists f : \nat | f = x + 1 @ f = 10 ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \nat \land true \land ( \exists f : \nat | f = x + 1 @ f = 10 ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@34fd5a5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@39f5bcd
-[ f : \nat | f = x + 1 ]
-[ f : \arithmos | f \in \nat \land true \land f = x + 1 ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@c8b80cba
-schText freevars = [x]
-schText boundvars = [f]
-body freevars = [f]
-freevars = [x]
-schText freevars = [x]
-schText boundvars = [f]
-body freevars = [f]
-freevars = [x]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@32d5313a
-[ x : \arithmos | x \in \arithmos \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@eec26a4
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6da87e31
-[ x : \arithmos | x \in \nat \land true \land ( {\exists}_{1}~f : \nat | f = x + 1 @ f = 10 ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \nat \land true \land ( {\exists}_{1}~f : \nat | f = x + 1 @ f = 10 ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@2e82788d
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@c79cd623
-[ f : \nat | f = x + 1 ]
-[ f : \arithmos | f \in \nat \land true \land f = x + 1 ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@5b32a14f
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@8f82d402
-[ x : \arithmos | x \in \arithmos \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@a315ed88
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@12171814
-[ x : \arithmos | x \in \nat \land true \land ( \forall f : \nat | f = x + 1 @ f = 10 ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \nat \land true \land ( \forall f : \nat | f = x + 1 @ f = 10 ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@730a2bb6
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@af79a14f
-[ f : \nat | f = x + 1 ]
-[ f : \arithmos | f \in \nat \land true \land f = x + 1 ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@ca124c4f
-schText freevars = [x]
-schText boundvars = [f]
-body freevars = [f]
-freevars = [x]
-schText freevars = [x]
-schText boundvars = [f]
-body freevars = [f]
-freevars = [x]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@66ae3cb4
-[ x : \arithmos | x \in \arithmos \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@88205f41
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2d428250
-[ x : \arithmos | x \in \nat \land true \land ( \forall f : 2 \upto 2 | true @ ( \exists g : \nat | f = g @ g = x ) ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \nat \land true \land ( \forall f : 2 \upto 2 | true @ ( \exists g : \nat | f = g @ g = x ) ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@9414cd25
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@277974a
-[ f : 2 \upto 2 | true ]
-[ f : \arithmos | f \in 2 \upto 2 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@46120aa8
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@71418932
-[ g : \nat | f = g ]
-[ g : \arithmos | g \in \nat \land true \land f = g ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@d8725d6a
-schText freevars = [f]
-schText boundvars = [g]
-body freevars = [x, g]
-freevars = [x, f]
-schText freevars = []
-schText boundvars = [f]
-body freevars = [x, f]
-freevars = [x]
-schText freevars = [f]
-schText boundvars = [g]
-body freevars = [x, g]
-freevars = [x, f]
-schText freevars = []
-schText boundvars = [f]
-body freevars = [x, f]
-freevars = [x]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@931f21f8
-[ x : \arithmos | x \in \arithmos \land true \land true ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@149646a3
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@20be275a
-[ x : \arithmos | x \in \nat \land true \land ( \exists f : 2 \upto 4 | true @ ( \forall g : \nat | f = g @ g = x ) ) ]
-[ x : \arithmos | x \in \arithmos \land true \land x \in \nat \land true \land ( \exists f : 2 \upto 4 | true @ ( \forall g : \nat | f = g @ g = x ) ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@3ad7ed81
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6c51b0ee
-[ f : 2 \upto 4 | true ]
-[ f : \arithmos | f \in 2 \upto 4 \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@9b0bcdee
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@d77b8094
-[ g : \nat | f = g ]
-[ g : \arithmos | g \in \nat \land true \land f = g ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@6441766e
-schText freevars = [f]
-schText boundvars = [g]
-body freevars = [x, g]
-freevars = [x, f]
-schText freevars = []
-schText boundvars = [f]
-body freevars = [x, f]
-freevars = [x]
-schText freevars = [f]
-schText boundvars = [g]
-body freevars = [x, g]
-freevars = [x, f]
-schText freevars = []
-schText boundvars = [f]
-body freevars = [x, f]
-freevars = [x]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@318f7bef
-[ a : \arithmos ; a' : \arithmos | a \in 0 \upto 10 \land a' \in 0 \upto 10 \land true \land ( \exists i : \num | true @ ( i , a' ) \in \{ ( a , 4 ) \} ) \land true \land a = 3 ]
-[ a : \arithmos ; a' : \arithmos | a \in \arithmos \land a' \in \arithmos \land true \land a \in 0 \upto 10 \land a' \in 0 \upto 10 \land true \land ( \exists i : \num | true @ ( i , a' ) \in \{ ( a , 4 ) \} ) \land true \land a = 3 ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@b2e4852
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f2301900
-[ i : \num | true ]
-[ i : \arithmos | i \in \num \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@b1e206bd
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7fa7a14c
-[ offheap! : \arithmos ; items : \power ( \arithmos \cross \arithmos ) ; items' : \power ( \arithmos \cross \arithmos ) ; maxsize : \arithmos ; maxsize' : \arithmos ; currsize : \arithmos ; currsize' : \arithmos | offheap! \in \arithmos \land items \in \power ( \arithmos \cross \arithmos ) \land items' \in \power ( \arithmos \cross \arithmos ) \land maxsize \in \arithmos \land maxsize' \in \arithmos \land currsize \in \arithmos \land currsize' \in \arithmos \land true \land true ]
-[ offheap! : \arithmos ; items : \power ( \arithmos \cross \arithmos ) ; items' : \power ( \arithmos \cross \arithmos ) ; maxsize : \arithmos ; maxsize' : \arithmos ; currsize : \arithmos ; currsize' : \arithmos | offheap! \in \arithmos \land items \in \power ( \arithmos \cross \arithmos ) \land items' \in \power ( \arithmos \cross \arithmos ) \land maxsize \in \arithmos \land maxsize' \in \arithmos \land currsize \in \arithmos \land currsize' \in \arithmos \land true \land offheap! \in \arithmos \land items \in \power ( \arithmos \cross \arithmos ) \land items' \in \power ( \arithmos \cross \arithmos ) \land maxsize \in \arithmos \land maxsize' \in \arithmos \land currsize \in \arithmos \land currsize' \in \arithmos \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@dcadef4
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@aa934f07
-[ SimpleHeapRemove | maxsize = 10 \land items =~\langle 2 \rangle ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@5606f001
-[ offheap! : \nat ; \Delta SimpleHeap | currsize > 0 \\
- \exists i : \nat ; v : \nat | ( i , v ) \in items \land v = min ( \ran items ) @ items' = squash ( items \setminus \{ ( i , v ) \} ) \land offheap! = v \\
- currsize' = currsize - 1 \\
- maxsize' = maxsize ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@16d2c337
-[ i : \nat ; v : \nat | ( i , v ) \in items \land v = min ( \ran items ) ]
-[ i : \arithmos ; v : \arithmos | i \in \nat \land v \in \nat \land true \land ( i , v ) \in items \land v = min ( \ran items ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@94981b16
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7f84654b
-[ x : items | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@e4752be5
-[ p : ( items \setminus \{ ( i , v ) \} ) | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2f1dbabe
-[ x : items | x \notin \{ ( i , v ) \} ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7f678358
-[ i : \dom ( items \setminus \{ ( i , v ) \} ) | i \leq p . 1 ]
-[ i : \arithmos | i \in \dom ( items \setminus \{ ( i , v ) \} ) \land true \land i \leq p . 1 ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@19471dc6
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4ce0bf5d
-[ x : ( items \setminus \{ ( i , v ) \} ) | true ]
-[ x : \arithmos \cross \arithmos | x \in ( items \setminus \{ ( i , v ) \} ) \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@164c6847
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2f1dbabe
-[ x : items | x \notin \{ ( i , v ) \} ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f1ae3a3d
-[ s : \power ( \arithmos \cross \arithmos ) | s \in \power ( \arithmos \cross \arithmos ) \land true \land true ]
-[ s : \power ( \arithmos \cross \arithmos ) | s \in \power ( \arithmos \cross \arithmos ) \land true \land s \in \power ( \arithmos \cross \arithmos ) \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@a1cd93c6
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9c09c873
-[ SeqTest | s = ( \mu UniqSoln | true ) . deref ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@c79e964d
-[ s : \seq \nat | ( \forall i : \dom s | true @ i \neq s~i ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9cb98c20
-[ f : \nat \ffun X | \dom f = 1 \upto \# f ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4985f5bc
-[ x : ( X \pfun Y ) | x \in \finset ( X \cross Y ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6db63a50
-[ f : X \rel Y | \forall p : f ; q : f | p . 1 = q . 1 @ p . 2 = q . 2 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@248644d0
-[ p : f ; q : f | p . 1 = q . 1 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@46af3727
-[ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-[ A : \power unknown(X) | A \in \power \power X \land true \land \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@31c6141
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f9ad52ba
-[ x : \{ \} | x \in X ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@25318cec
-[ a : A ; x : X | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7d3129d6
-[ x : f | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2517c833
-[ i : \dom s | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@5308c2d8
-[ x : s | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@aa40dad5
-[ UniqSoln | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@b6a7a93b
-[ deref : \seq \nat | deref =~\langle 1 , 3 , 5 , 7 \rangle ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9cb98c20
-[ f : \nat \ffun X | \dom f = 1 \upto \# f ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4985f5bc
-[ x : ( X \pfun Y ) | x \in \finset ( X \cross Y ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6db63a50
-[ f : X \rel Y | \forall p : f ; q : f | p . 1 = q . 1 @ p . 2 = q . 2 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@248644d0
-[ p : f ; q : f | p . 1 = q . 1 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@46af3727
-[ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-[ A : \power unknown(X) | A \in \power \power X \land true \land \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@31c6141
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f9ad52ba
-[ x : \{ \} | x \in X ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@25318cec
-[ a : A ; x : X | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7d3129d6
-[ x : f | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@55c4033b
-[ s : \power ( \arithmos \cross \arithmos ) | s \in \power ( \arithmos \cross \arithmos ) \land true \land true ]
-[ s : \power ( \arithmos \cross \arithmos ) | s \in \power ( \arithmos \cross \arithmos ) \land true \land s \in \power ( \arithmos \cross \arithmos ) \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@22b5abe5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@ee74135f
-[ SeqTest | s = tail ( \mu UniqSoln | true ) . deref ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@c79e964d
-[ s : \seq \nat | ( \forall i : \dom s | true @ i \neq s~i ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9cb98c20
-[ f : \nat \ffun X | \dom f = 1 \upto \# f ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4985f5bc
-[ x : ( X \pfun Y ) | x \in \finset ( X \cross Y ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6db63a50
-[ f : X \rel Y | \forall p : f ; q : f | p . 1 = q . 1 @ p . 2 = q . 2 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@248644d0
-[ p : f ; q : f | p . 1 = q . 1 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@46af3727
-[ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-[ A : \power unknown(X) | A \in \power \power X \land true \land \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@31c6141
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f9ad52ba
-[ x : \{ \} | x \in X ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@25318cec
-[ a : A ; x : X | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7d3129d6
-[ x : f | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2517c833
-[ i : \dom s | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@5308c2d8
-[ x : s | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@8fa4cdb7
-[ n : 1 \upto ( \# ( \mu UniqSoln | true ) . deref - 1 ) | true ]
-[ n : \arithmos | n \in 1 \upto ( \# ( \mu UniqSoln | true ) . deref - 1 ) \land true \land true ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@dafc0f97
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@aa40dad5
-[ UniqSoln | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@b6a7a93b
-[ deref : \seq \nat | deref =~\langle 1 , 3 , 5 , 7 \rangle ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9cb98c20
-[ f : \nat \ffun X | \dom f = 1 \upto \# f ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4985f5bc
-[ x : ( X \pfun Y ) | x \in \finset ( X \cross Y ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6db63a50
-[ f : X \rel Y | \forall p : f ; q : f | p . 1 = q . 1 @ p . 2 = q . 2 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@248644d0
-[ p : f ; q : f | p . 1 = q . 1 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@46af3727
-[ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-[ A : \power unknown(X) | A \in \power \power X \land true \land \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@31c6141
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f9ad52ba
-[ x : \{ \} | x \in X ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@25318cec
-[ a : A ; x : X | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7d3129d6
-[ x : f | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@aa40dad5
-[ UniqSoln | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@b6a7a93b
-[ deref : \seq \nat | deref =~\langle 1 , 3 , 5 , 7 \rangle ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@9cb98c20
-[ f : \nat \ffun X | \dom f = 1 \upto \# f ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@4985f5bc
-[ x : ( X \pfun Y ) | x \in \finset ( X \cross Y ) ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@6db63a50
-[ f : X \rel Y | \forall p : f ; q : f | p . 1 = q . 1 @ p . 2 = q . 2 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@248644d0
-[ p : f ; q : f | p . 1 = q . 1 ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@46af3727
-[ A : \power \power X | \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-[ A : \power unknown(X) | A \in \power \power X \land true \land \emptyset \in A \land ( \forall a : A ; x : X | true @ a \cup \{ x \} \in A ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@31c6141
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@f9ad52ba
-[ x : \{ \} | x \in X ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@25318cec
-[ a : A ; x : X | true ]
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@2ef7ae70
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-[ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) ]
-Rewrote to net.sourceforge.czt.z.impl.ZSchTextImpl@7dc394c5
-Rewriting schtext: net.sourceforge.czt.z.impl.ZSchTextImpl@7d3129d6
-[ x : f | true ]
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 ------------- ---------------- ---------------
 ------------- Standard Error -----------------
 Typeckecking failed:
-["file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 114: Undeclared name: items]
+["file:/E:/marku/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 114: Undeclared name: items\_ 21233]
 Typeckecking failed:
-["file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: items, "file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: i, "file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: v]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 234: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: a, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: x]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Implicit parameters not determined
-	Expression: \{ \}]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: f]
-Typeckecking failed:
-["file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: s]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 234: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: a, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: x]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Implicit parameters not determined
-	Expression: \{ \}]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 234: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: a, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: x]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Implicit parameters not determined
-	Expression: \{ \}]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: f]
-Typeckecking failed:
-["file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: s]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 234: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: a, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: x]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Implicit parameters not determined
-	Expression: \{ \}]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 112: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: Y]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/function_toolkit.tex", line 18: Undeclared name: f]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 234: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: X, No location information: Undeclared name: X, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: a, "jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Undeclared name: x]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Implicit parameters not determined
-	Expression: \{ \}]
-Typeckecking failed:
-["jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: f]
+["file:/E:/marku/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: items\_ 21233, "file:/E:/marku/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: i\_ 21245, "file:/E:/marku/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 115: Undeclared name: v\_ 21246]
 ------------- ---------------- ---------------
 
-Testcase: animate_schemas.tex:22 took 0.315 sec
-Testcase: animate_schemas.tex:23 took 0.433 sec
-Testcase: animate_schemas.tex:24 took 0.658 sec
-Testcase: animate_schemas.tex:25 took 2.734 sec
-Testcase: animate_schemas.tex:26 took 0.639 sec
-Testcase: animate_schemas.tex:27 took 1.373 sec
-Testcase: animate_schemas.tex:28 took 3.669 sec
-Testcase: animate_schemas.tex:31 took 0.565 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:22 took 0.156 sec
+Testcase: animate_schemas.tex:23 took 0.234 sec
+Testcase: animate_schemas.tex:24 took 0.329 sec
+Testcase: animate_schemas.tex:25 took 1.281 sec
+Testcase: animate_schemas.tex:26 took 0.328 sec
+Testcase: animate_schemas.tex:27 took 0.609 sec
+Testcase: animate_schemas.tex:28 took 1.594 sec
+Testcase: animate_schemas.tex:31 took 0.328 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:32 took 0.589 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:32 took 0.328 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:33 took 0.58 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:33 took 0.313 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:36 took 4.349 sec
-Testcase: animate_schemas.tex:37 took 4.375 sec
-Testcase: animate_schemas.tex:60 took 7.298 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:36 took 1.64 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@5951ccc (\lblot a\_ 21405 == 1 , b\_ 21406 == 2 \rblot \in \{ a\_ 21415 : \arithmos \_ 19479 ; b\_ 21416 : \arithmos \_ 19479 | a\_ 21415 \in \arithmos \_ 19479 \land b\_ 21416 \in \arithmos \_ 19479 \land true \land a\_ 21415 \in 1 \upto 3 \land b\_ 21416 \in 1 \upto 3 \land true \land a\_ 21408 < b\_ 21410 @ \lblot a\_ 21415 == a\_ 21415 , b\_ 21416 == b\_ 21416 \rblot \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@5951ccc (\lblot a\_ 21405 == 1 , b\_ 21406 == 2 \rblot \in \{ a\_ 21415 : \arithmos \_ 19479 ; b\_ 21416 : \arithmos \_ 19479 | a\_ 21415 \in \arithmos \_ 19479 \land b\_ 21416 \in \arithmos \_ 19479 \land true \land a\_ 21415 \in 1 \upto 3 \land b\_ 21416 \in 1 \upto 3 \land true \land a\_ 21408 < b\_ 21410 @ \lblot a\_ 21415 == a\_ 21415 , b\_ 21416 == b\_ 21416 \rblot \})
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:61 took 6.681 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:37 took 1.782 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@3512d4c9 (\{ \lblot a\_ 21421 == 1 , b\_ 21422 == 2 \rblot \} = \{ a\_ 21431 : \arithmos \_ 19479 ; b\_ 21432 : \arithmos \_ 19479 | a\_ 21431 \in \arithmos \_ 19479 \land b\_ 21432 \in \arithmos \_ 19479 \land true \land a\_ 21431 \in 1 \upto 2 \land b\_ 21432 \in 1 \upto 2 \land true \land a\_ 21424 < b\_ 21426 @ \lblot a\_ 21431 == a\_ 21431 , b\_ 21432 == b\_ 21432 \rblot \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@3512d4c9 (\{ \lblot a\_ 21421 == 1 , b\_ 21422 == 2 \rblot \} = \{ a\_ 21431 : \arithmos \_ 19479 ; b\_ 21432 : \arithmos \_ 19479 | a\_ 21431 \in \arithmos \_ 19479 \land b\_ 21432 \in \arithmos \_ 19479 \land true \land a\_ 21431 \in 1 \upto 2 \land b\_ 21432 \in 1 \upto 2 \land true \land a\_ 21424 < b\_ 21426 @ \lblot a\_ 21431 == a\_ 21431 , b\_ 21432 == b\_ 21432 \rblot \})
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:63 took 11.61 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:60 took 3.562 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.PreExprImpl.accept(PreExprImpl.java:104)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:76 took 5.939 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14779)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14779)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:61 took 2.75 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.PreExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.PreExprImpl.accept(PreExprImpl.java:104)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:77 took 4.481 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:63 took 5.015 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExprPredImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
+	at net.sourceforge.czt.z.impl.ExprPredImpl.accept(ExprPredImpl.java:117)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:80 took 5.687 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14813)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14813)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:76 took 2.11 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f4e94da3 (\# \{ x\_ 21595 : \arithmos \_ 19479 | x\_ 21595 \in \arithmos \_ 19479 \land true \land x\_ 21595 \in \nat \_ 19482 \land true \land ( \exists f\_ 21592 : \arithmos \_ 19479 | f\_ 21592 \in \nat \_ 19482 \land true \land f\_ 21592 = x\_ 21590 + 1 @ f\_ 21592 = 10 ) @ \lblot x\_ 21595 == x\_ 21595 \rblot \} = 1)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f4e94da3 (\# \{ x\_ 21595 : \arithmos \_ 19479 | x\_ 21595 \in \arithmos \_ 19479 \land true \land x\_ 21595 \in \nat \_ 19482 \land true \land ( \exists f\_ 21592 : \arithmos \_ 19479 | f\_ 21592 \in \nat \_ 19482 \land true \land f\_ 21592 = x\_ 21590 + 1 @ f\_ 21592 = 10 ) @ \lblot x\_ 21595 == x\_ 21595 \rblot \} = 1)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:82 took 7.963 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14839)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14839)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:77 took 2.078 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
+	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
+	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:210)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.AndPredImpl.accept(AndPredImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:210)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.AndPredImpl.accept(AndPredImpl.java:115)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:84)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:528)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.SetCompExprImpl.accept(SetCompExprImpl.java:102)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:440)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:84 took 9.062 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14867)
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Unbounded integer x in FlatRangeSet(-,-,tmp14867)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:80 took 2.125 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f05057cc (\# \{ x\_ 21621 : \arithmos \_ 19479 | x\_ 21621 \in \arithmos \_ 19479 \land true \land x\_ 21621 \in \nat \_ 19482 \land true \land ( \forall f\_ 21618 : \arithmos \_ 19479 | f\_ 21618 \in \nat \_ 19482 \land true \land f\_ 21618 = x\_ 21616 + 1 @ f\_ 21618 = 10 ) @ \lblot x\_ 21621 == x\_ 21621 \rblot \} = 1)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f05057cc (\# \{ x\_ 21621 : \arithmos \_ 19479 | x\_ 21621 \in \arithmos \_ 19479 \land true \land x\_ 21621 \in \nat \_ 19482 \land true \land ( \forall f\_ 21618 : \arithmos \_ 19479 | f\_ 21618 \in \nat \_ 19482 \land true \land f\_ 21618 = x\_ 21616 + 1 @ f\_ 21618 = 10 ) @ \lblot x\_ 21621 == x\_ 21621 \rblot \} = 1)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:97 took 5.052 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:82 took 2.5 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ee31e23a (\# \{ x\_ 21638 : \arithmos \_ 19479 | x\_ 21638 \in \arithmos \_ 19479 \land true \land x\_ 21638 \in \nat \_ 19482 \land true \land ( \forall f\_ 21633 : \arithmos \_ 19479 | f\_ 21633 \in 2 \upto 2 \land true \land true @ ( \exists g\_ 21637 : \arithmos \_ 19479 | g\_ 21637 \in \nat \_ 19482 \land true \land f\_ 21633 = g\_ 21637 @ g\_ 21637 = x\_ 21631 ) ) @ \lblot x\_ 21638 == x\_ 21638 \rblot \} = 1)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ee31e23a (\# \{ x\_ 21638 : \arithmos \_ 19479 | x\_ 21638 \in \arithmos \_ 19479 \land true \land x\_ 21638 \in \nat \_ 19482 \land true \land ( \forall f\_ 21633 : \arithmos \_ 19479 | f\_ 21633 \in 2 \upto 2 \land true \land true @ ( \exists g\_ 21637 : \arithmos \_ 19479 | g\_ 21637 \in \nat \_ 19482 \land true \land f\_ 21633 = g\_ 21637 @ g\_ 21637 = x\_ 21631 ) ) @ \lblot x\_ 21638 == x\_ 21638 \rblot \} = 1)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:124 took 24.033 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:84 took 2.516 sec
+	Caused an ERROR
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c9caa6cd (\# \{ x\_ 21655 : \arithmos \_ 19479 | x\_ 21655 \in \arithmos \_ 19479 \land true \land x\_ 21655 \in \nat \_ 19482 \land true \land ( \exists f\_ 21650 : \arithmos \_ 19479 | f\_ 21650 \in 2 \upto 4 \land true \land true @ ( \forall g\_ 21654 : \arithmos \_ 19479 | g\_ 21654 \in \nat \_ 19482 \land true \land f\_ 21650 = g\_ 21654 @ g\_ 21654 = x\_ 21648 ) ) @ \lblot x\_ 21655 == x\_ 21655 \rblot \} = 3)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c9caa6cd (\# \{ x\_ 21655 : \arithmos \_ 19479 | x\_ 21655 \in \arithmos \_ 19479 \land true \land x\_ 21655 \in \nat \_ 19482 \land true \land ( \exists f\_ 21650 : \arithmos \_ 19479 | f\_ 21650 \in 2 \upto 4 \land true \land true @ ( \forall g\_ 21654 : \arithmos \_ 19479 | g\_ 21654 \in \nat \_ 19482 \land true \land f\_ 21650 = g\_ 21654 @ g\_ 21654 = x\_ 21648 ) ) @ \lblot x\_ 21655 == x\_ 21655 \rblot \} = 3)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:270)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:134 took 83.113 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:97 took 2.296 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.HideExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
+	at net.sourceforge.czt.z.impl.HideExprImpl.accept(HideExprImpl.java:117)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_schemas.tex:135 took 140.146 sec
-	FAILED
-Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X
-junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"file:/research/tmp/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 129: Undeclared name: i"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: X"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 19: Undeclared name: YNo location information: Undeclared name: XNo location information: Undeclared name: unknown(X)"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/preprocess.tex", line 91: Undeclared name: x"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Type mismatch in membership predicate
-	Predicate: \{ x : \{ \} | x \in X \} \in \{ x : \arithmos ; x' : \arithmos ; out! : \arithmos | x \in \arithmos \land x' \in \arithmos \land out! \in \arithmos \land true \land x \in 0 \upto 10 \land x' \in 0 \upto 10 \land out! \in 0 \upto 20 \land true \land ( x + x' = 10 \\
- out! = x * x' ) @ \lblot x == x , x' == x' , out! == out! \rblot \}
-	LHS type: \power unknown(X)
-	RHS type: \power [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ]"jar:file:/research/tmp/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/set_toolkit.tex", line 235: Argument to function application has unexpected type
-	Expression: a \cup \{ x \}
-	Expected type: \power unknown(X) \cross \power unknown(X)
-	Actual type: [ x : \arithmos ; x' : \arithmos ; out! : \arithmos ] \cross \power XNo location information: Undeclared name: X
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:106)
+Testcase: animate_schemas.tex:124 took 12.297 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:169)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:164)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:204)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
+	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:440)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:243)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.flattenPred(FlatPredList.java:534)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:240)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:262)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
+
+Testcase: animate_schemas.tex:134 took 2.047 sec
+	Caused an ERROR
+null
+java.lang.NullPointerException
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:131)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:185)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.PowerTypeImpl.accept(PowerTypeImpl.java:72)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.GenericTypeImpl.accept(GenericTypeImpl.java:108)
+	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:75)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:171)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:167)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:167)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:157)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:135)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.DeclImpl.accept(DeclImpl.java:104)
+	at net.sourceforge.czt.z.impl.VarDeclImpl.accept(VarDeclImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ZDeclListImpl.accept(ZDeclListImpl.java:190)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:137)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.DeclImpl.accept(DeclImpl.java:104)
+	at net.sourceforge.czt.z.impl.InclDeclImpl.accept(InclDeclImpl.java:117)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ZDeclListImpl.accept(ZDeclListImpl.java:190)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:137)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:130)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:143)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:237)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:99)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:257)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
+
+Testcase: animate_schemas.tex:135 took 2.047 sec
+	Caused an ERROR
+null
+java.lang.NullPointerException
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:131)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:185)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.PowerTypeImpl.accept(PowerTypeImpl.java:72)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:113)
+	at net.sourceforge.czt.rules.CopyVisitor.visitTerm(CopyVisitor.java:55)
+	at net.sourceforge.czt.typecheck.z.impl.TermImpl.accept(TermImpl.java:52)
+	at net.sourceforge.czt.typecheck.z.impl.GenericTypeImpl.accept(GenericTypeImpl.java:108)
+	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:75)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:171)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:167)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:167)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:111)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:157)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:135)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.DeclImpl.accept(DeclImpl.java:104)
+	at net.sourceforge.czt.z.impl.VarDeclImpl.accept(VarDeclImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ZDeclListImpl.accept(ZDeclListImpl.java:190)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:137)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
+	at net.sourceforge.czt.z.impl.DeclImpl.accept(DeclImpl.java:104)
+	at net.sourceforge.czt.z.impl.InclDeclImpl.accept(InclDeclImpl.java:117)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:94)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ZDeclListImpl.accept(ZDeclListImpl.java:190)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:137)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
+	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:110)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:130)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:88)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:46)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:143)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:237)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:99)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:257)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
