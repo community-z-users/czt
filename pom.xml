@@ -83,6 +83,7 @@
     <module>rules</module>
     <module>zlive</module>
     <module>gaffe</module>
+    <module>gaffe2</module>
     <module>modeljunit</module>
     <module>z2b</module>
     <module>jedit</module>
