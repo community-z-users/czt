@@ -90,11 +90,13 @@ public class FlatMember extends FlatPred
     // is the set an input?
     if (result.isInput(setName)) {
       if (result.isOutput(elemName)) {
-        // We will have to generate all members.
-        // the actual EvalSet object will be available at evaluation
+        // We will have to generate all members, so recalculate # of solns.
+        // The actual EvalSet object will be available at evaluation
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
         Expr e = env.lookup(setName);
+        if (e == null)
+          e = bounds_.getEvalSet(setName);
         result.setSolutions(Double.POSITIVE_INFINITY);
         if (e != null && e instanceof EvalSet) {
           EvalSet set = (EvalSet) e;
