@@ -290,23 +290,10 @@ public class FlatPredList extends FlatPred
   public boolean inferBounds(Bounds bnds)
   {
     LOG.entering("FlatPredList","inferBounds",bnds);
-    // bnds has changed during this method
-    boolean anyChange = false;
-    // bnds has changed during most recent pass of predlist_
-    boolean recentChange = true;
-    for (int i = 0; /* recentChange && */ i < 5; i++) {
-      LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
-      recentChange = false;
-      for (FlatPred pred : predlist_) {
-        if (pred.inferBounds(bnds)) {
-          LOG.finer("changed bounds of "+pred);
-          recentChange = true;
-        }
-      }
-      anyChange |= recentChange;
-    }
-    LOG.exiting("FlatPredList","inferBounds",anyChange);
-    return anyChange;
+    for (FlatPred pred : predlist_)
+      pred.inferBounds(bnds);
+    LOG.exiting("FlatPredList","inferBounds",bnds.getDeductions() > 0);
+    return bnds.getDeductions() > 0;
   }
 
   /** Equivalent to inferBoundsFixPoint(bnds, 5). 
@@ -328,29 +315,24 @@ public class FlatPredList extends FlatPred
    *  </p>
    *  @param bnds  The database of lower and upper bounds for integer variables.
    *  @param maxPasses The maximum number of iterations done.  Must be > 0.
-   *  @return      true iff the bnds database has been changed at all.
+   *  @return      true iff a fix point has been reached.
    */
   public boolean inferBoundsFixPoint(Bounds bnds, int maxPasses)
   {
     assert maxPasses > 0;
-    LOG.entering("FlatPredList","inferBounds",bnds);
-    // bnds has changed during this method
-    boolean anyChange = false;
-    // bnds has changed during most recent pass of predlist_
-    boolean recentChange = true;
-    for (int i = 0; recentChange && i < maxPasses; i++) {
-      LOG.fine("Starting inferBounds pass " + (i+1) + " with bounds="+bnds);
-      recentChange = false;
-      for (FlatPred pred : predlist_) {
-        if (pred.inferBounds(bnds)) {
-          LOG.finer("changed bounds of "+pred);
-          recentChange = true;
-        }
-      }
-      anyChange |= recentChange;
+    LOG.entering("FlatPredList","inferBoundsFixPoint",bnds);
+    int deductions = 1;
+    for (int i = 0; i < maxPasses; i++) {
+      bnds.startAnalysis();
+      LOG.fine("Starting inferBoundsFixPoint pass " + (i+1)
+          + " with bounds="+bnds);
+      for (FlatPred pred : predlist_)
+        pred.inferBounds(bnds);
+      bnds.endAnalysis();
+      deductions = bnds.getDeductions();
     }
-    LOG.exiting("FlatPredList","inferBounds",anyChange);
-    return anyChange;
+    LOG.exiting("FlatPredList","inferBoundsFixPoint",deductions == 0);
+    return deductions == 0;
   }
 
   /** Optimises the list and chooses a mode.

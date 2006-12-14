@@ -24,6 +24,8 @@ import net.sourceforge.czt.util.Visitor;
 
 public class FlatNot extends FlatPredList
 {
+  protected Bounds bounds_;
+  
   public FlatNot(ZLive zlive)
   {
     super(zlive);
@@ -32,7 +34,11 @@ public class FlatNot extends FlatPredList
   /** This let bounds information flow into the negation, but not out. */
   public boolean inferBounds(Bounds bnds)
   {
-    super.inferBounds(bnds.clone());
+    if (bounds_ == null)
+      bounds_ = new Bounds(bnds);
+    bounds_.startAnalysis(bnds);
+    super.inferBounds(bounds_);
+    bounds_.endAnalysis();
     return false;
   }
 

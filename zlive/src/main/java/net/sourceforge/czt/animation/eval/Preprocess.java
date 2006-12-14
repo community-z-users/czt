@@ -149,7 +149,7 @@ public class Preprocess
      */
     private List<Map<String,ZName>> seen;
     
-    PrintVisitor printer = new PrintVisitor();
+    PrintVisitor printer = new PrintVisitor(false);
     
     public FixIdVisitor()
     {

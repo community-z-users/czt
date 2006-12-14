@@ -53,7 +53,7 @@ public class FlatCardTest
   public void setUp()
   {
     pred = new FlatCard(z,s);
-    pred.inferBounds(new Bounds());
+    pred.inferBounds(new Bounds(null));
   }
 
   public void testEmpty()
@@ -71,7 +71,7 @@ public class FlatCardTest
 
   protected Expr createRange(FlatPred range, Envir env)
   {
-    range.inferBounds(new Bounds()); // empty bounds
+    range.inferBounds(new Bounds(null)); // empty bounds
     Mode rangeMode = range.chooseMode(env);
     range.setMode(rangeMode);
     range.startEvaluation();

@@ -36,6 +36,7 @@ public class FlatMu extends FlatPred
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected FlatPredList schText_;
+  protected Bounds schBounds_;
   protected ZName resultName_;
   
   public FlatMu(FlatPredList sch, ZName result)
@@ -58,7 +59,11 @@ public class FlatMu extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    schText_.inferBounds(bnds.clone());
+    if (schBounds_ == null)
+      schBounds_ = new Bounds(bnds);
+    schBounds_.startAnalysis(bnds);
+    schText_.inferBounds(schBounds_);
+    schBounds_.endAnalysis();
     return false;
   }
 

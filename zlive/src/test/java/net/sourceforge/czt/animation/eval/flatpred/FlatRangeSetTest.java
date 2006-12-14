@@ -61,7 +61,7 @@ public class FlatRangeSetTest
   private EvalSet range(ZName lo, ZName hi, Envir env)
   {
     FlatRangeSet flat1 = new FlatRangeSet(lo,hi,s);
-    flat1.inferBounds(new Bounds());  // empty bounds
+    flat1.inferBounds(new Bounds(null));  // empty bounds
     Mode m1 = flat1.chooseMode(env);
     Assert.assertNotNull(m1);
     flat1.setMode(m1);

@@ -47,7 +47,7 @@ public class ZRefNameComparator implements Comparator<ZName>
    */
   public int compare(ZName var0, ZName var1)
   {
-    PrintVisitor printVisitor = new PrintVisitor();
+    PrintVisitor printVisitor = new PrintVisitor(false);
     String name0 = var0.accept(printVisitor);
     String name1 = var1.accept(printVisitor);
     return name0.compareTo(name1);

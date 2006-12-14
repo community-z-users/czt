@@ -264,7 +264,8 @@ public class ZLive
       predlist_ = new FlatPredList(this);
       predlist_.addPred(pred);
       Envir env0 = new Envir();
-      predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
+      Bounds bnds = new Bounds(null);
+      predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
       Mode m = predlist_.chooseMode(env0);
       if (m == null) {
         final String message =
@@ -315,7 +316,8 @@ public class ZLive
       LOG.finer("After doing fixIds hack expr="+printTerm(expr));
       predlist_ = new FlatPredList(this);
       ZName resultName = predlist_.addExpr(expr);
-      predlist_.inferBoundsFixPoint(new Bounds(), INFER_PASSES);
+      Bounds bnds = new Bounds(null);
+      predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
       Envir env0 = new Envir();
       Mode m = predlist_.chooseMode(env0);
       if (m == null) {

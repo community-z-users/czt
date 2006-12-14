@@ -38,6 +38,9 @@ public class FlatForall extends FlatPred
   protected FlatPredList schText_;
   protected FlatPredList body_;
 
+  protected Bounds schBounds_;
+  protected Bounds bodyBounds_;
+  
   /** The mode returned by schText_ */
   protected Mode schMode_ = null;
 
@@ -70,7 +73,7 @@ public class FlatForall extends FlatPred
     LOG.exiting("FlatForall","FlatForall");
   }
 
-  /** This currently lets bound information flow into the
+  /** This lets bound information flow into the
    *  quantifier, but not out.  This is because the constraints
    *  on the bound variables can be arbitrarily tight, and these
    *  should not be allowed to influence the bounds of any free variables.
@@ -79,10 +82,16 @@ public class FlatForall extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    Bounds bnds1 = bnds.clone();
-    schText_.inferBounds(bnds1);
-    Bounds bnds2 = bnds1.clone();
-    body_.inferBounds(bnds2);
+    if (schBounds_ == null)
+      schBounds_ = new Bounds(bnds);
+    if (bodyBounds_ == null)
+      bodyBounds_ = new Bounds(schBounds_);
+    schBounds_.startAnalysis(bnds);
+    schText_.inferBounds(schBounds_);
+    bodyBounds_.startAnalysis(schBounds_);
+    body_.inferBounds(bodyBounds_);
+    bodyBounds_.endAnalysis();
+    schBounds_.endAnalysis();
     return false;
   }
 

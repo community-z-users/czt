@@ -80,7 +80,7 @@ public class EvalSetTest
   
   public void setUp()
   {
-    bounds_ = new Bounds(); // starts empty
+    bounds_ = new Bounds(null); // starts empty
     
     set = new FlatPredList(zlive_);
     set.add(new FlatRangeSet(i,k,s));

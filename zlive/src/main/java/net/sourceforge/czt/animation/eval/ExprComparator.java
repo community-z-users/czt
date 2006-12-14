@@ -83,7 +83,7 @@ public class ExprComparator implements Comparator<Expr>
   {
     public int compare(ConstDecl cdecl0, ConstDecl cdecl1)
     {
-      PrintVisitor printVisitor = new PrintVisitor();
+      PrintVisitor printVisitor = new PrintVisitor(false);
       String name0 = cdecl0.getZName().accept(printVisitor);
       String name1 = cdecl1.getZName().accept(printVisitor);
       return name0.compareTo(name1);
@@ -108,7 +108,7 @@ public class ExprComparator implements Comparator<Expr>
    */
   public int compare(Expr arg0, Expr arg1)
   {
-    PrintVisitor printVisitor = new PrintVisitor();
+    PrintVisitor printVisitor = new PrintVisitor(false);
     int type0 = exprType(arg0);
     int type1 = exprType(arg1);
     int result = sign(type0 - type1);

@@ -106,7 +106,9 @@ public class FlatSetComp extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
-    bounds_ = bnds.clone();
+    if (bounds_ == null)
+      bounds_ = new Bounds(bnds);
+    bounds_.startAnalysis(bnds);
     boolean result = predsAll_.inferBounds(bounds_);
     predsOne_.inferBounds(bounds_);  // give it the same information.
 
@@ -114,9 +116,13 @@ public class FlatSetComp extends FlatPred
     // TODO: it would be nice to get a better size estimate here,
     // but we do not know the values of the free variables yet,
     // so it is difficult to use chooseMode on predsAll_.
+    // TODO: set them all to null and run chooseMode?
     FuzzySet fuzzy = new FuzzySet(name, EvalSet.UNKNOWN_SIZE, null);
     fuzzy.setLower(bounds_.getLower(resultName_));
     fuzzy.setUpper(bounds_.getUpper(resultName_));
+    bounds_.endAnalysis();
+    
+    // now tell the outer Bounds object a summary of what we know.
     result |= bnds.setEvalSet(getLastArg(), fuzzy);
     return result;
   }

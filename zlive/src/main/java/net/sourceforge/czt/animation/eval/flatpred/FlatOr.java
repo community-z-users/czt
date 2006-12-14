@@ -37,15 +37,19 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class FlatOr extends FlatPred
 {
-  /** The most recent variable bounds information. */
-  protected Bounds bounds_;
 
-  /** The left-hand EvalSet, once known. */
+  /** The left-hand predicate, once known. */
   private FlatPredList left_;
 
-  /** The right-hand EvalSet, once known. */
+  /** The right-hand predicate, once known. */
   private FlatPredList right_;
 
+  /** Bounds information for the left_ predicate. */
+  protected Bounds leftBounds_;
+  
+  /** Bounds information for the right_ predicate. */
+  protected Bounds rightBounds_;
+  
   /** How we know which set we are iterating through. 
    *  1 means left_, 2 means right_
    */
@@ -64,9 +68,32 @@ public class FlatOr extends FlatPred
     solutionsReturned_ = -1;
   }
 
+  /** Bounds information can only flow into the disjuncts at the moment.
+   *  TODO: Allowing it to flow out requires taking the disjunction of the
+   *  bounds of the two disjuncts.
+   */
+  public boolean inferBounds(Bounds bnds)
+  {
+    // infer bounds on left side
+    if (leftBounds_ == null)
+      leftBounds_ = new Bounds(bnds);
+    leftBounds_.startAnalysis(bnds);
+    left_.inferBounds(leftBounds_);
+    leftBounds_.endAnalysis();
+    
+    // infer bounds on right side
+    if (rightBounds_ == null)
+      rightBounds_ = new Bounds(bnds);
+    rightBounds_.startAnalysis(bnds);
+    right_.inferBounds(rightBounds_);
+    rightBounds_.endAnalysis();
+    
+    // TODO: propagate the union of the bounds into the parent.
+    return false;
+  }
+
   public Mode chooseMode(Envir env)
   {
-    assert bounds_ != null; // inferBounds must have been called.
     Mode result = null;
     Mode leftMode = left_.chooseMode(env);
     Mode rightMode = right_.chooseMode(env);
@@ -127,18 +154,6 @@ public class FlatOr extends FlatPred
     if (result)
       solutionsReturned_++;
     return result;
-  }
-
-  /** Bounds information can only flow into the disjuncts at the moment.
-   *  TODO: Allowing it to flow out requires taking the conjunction of the
-   *  bounds of the two disjuncts.
-   */
-  public boolean inferBounds(Bounds bnds)
-  {
-    bounds_ = bnds;
-    left_.inferBounds(bnds.clone());
-    right_.inferBounds(bnds.clone());
-    return false;
   }
 
   ///////////////////////// Pred methods ///////////////////////

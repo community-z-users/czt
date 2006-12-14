@@ -60,6 +60,9 @@ public class FlatPredModel implements FsmModel
   enum State {Init, NoMode, GotMode, Started, Finished};
   private State state_;
 
+  /** Bounds for the predicate under test. */
+  private Bounds bounds_ = new Bounds(null);
+  
   /** The input environment being used for testing. */
   //@invariant env_ == null <==> mode_ == null;
   private Envir env_;
@@ -131,6 +134,7 @@ public class FlatPredModel implements FsmModel
 
   /** Resets the implementation under test.
    *  TODO: it would be nice to be able to actually reset the FlatPred.
+   *  Then we could reset/recreate bounds_ as well.
    * @param testing true if this is a real test run (currently ignored).
    */
   public void reset(boolean testing)
@@ -146,11 +150,13 @@ public class FlatPredModel implements FsmModel
   /** Infers as precise a fixed point as possible. */
   @Action public void inferBounds()
   {
-    Bounds bnds = new Bounds();
-    boolean progress = true;
-    while ( progress ) {
-      progress = pred_.inferBounds(bnds);
-      debug("inferBounds gives "+progress+", bounds="+bnds);
+    int deductions = 1;
+    while (deductions > 0) {
+      bounds_.startAnalysis();
+      pred_.inferBounds(bounds_);
+      bounds_.endAnalysis();
+      deductions = bounds_.getDeductions();
+      debug("inferBounds did "+deductions+" deductions, bounds="+bounds_);
     }
     state_ = State.NoMode;
   }

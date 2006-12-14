@@ -160,7 +160,7 @@ public class Mode
   {
     StringBuffer result = new StringBuffer();
     result.append("Mode{");
-    PrintVisitor printVisitor =  new PrintVisitor();
+    PrintVisitor printVisitor =  new PrintVisitor(false);
     for (ZName name : postEnvir_.definedSince(preEnvir_)) {
       result.append(name.accept(printVisitor));
       result.append(" ");

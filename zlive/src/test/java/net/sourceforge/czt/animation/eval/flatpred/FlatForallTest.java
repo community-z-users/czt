@@ -54,7 +54,6 @@ public class FlatForallTest
 
   public void testFreeVars()
   {
-    System.out.println("FlatForall freevars="+sut_.freeVars());
     assertEquals(3, sut_.freeVars().size());  // x,y and z
   }
 

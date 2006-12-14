@@ -26,6 +26,8 @@ import net.sourceforge.czt.util.Visitor;
  */
 public class FlatExists extends FlatForall
 {
+  protected Bounds bounds_;
+  
   public FlatExists(FlatPredList sch, FlatPredList body)
   {
     super(sch,body);
@@ -37,9 +39,12 @@ public class FlatExists extends FlatForall
    */
   public boolean inferBounds(Bounds bnds)
   {
-    Bounds bnds1 = bnds.clone();
-    schText_.inferBounds(bnds1);
-    body_.inferBounds(bnds1);
+    if (bounds_ == null)
+      bounds_ = new Bounds(bnds);
+    bounds_.startAnalysis(bnds);
+    schText_.inferBounds(bounds_);
+    body_.inferBounds(bounds_);
+    bounds_.endAnalysis();
     return false;
   }
 

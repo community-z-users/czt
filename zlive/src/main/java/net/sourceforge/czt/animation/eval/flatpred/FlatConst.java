@@ -90,7 +90,7 @@ public class FlatConst extends FlatPred
   
   public String toString()
   {
-    PrintVisitor printer = new PrintVisitor();
+    PrintVisitor printer = new PrintVisitor(false);
     String val = "???";
     if (constant_ != null)
       val = constant_.accept(printer);
