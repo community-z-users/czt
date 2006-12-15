@@ -94,10 +94,10 @@ public class FlatMember extends FlatPred
         // The actual EvalSet object will be available at evaluation
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
+        result.setSolutions(Double.POSITIVE_INFINITY); // worst case
         Expr e = env.lookup(setName);
         if (e == null)
           e = bounds_.getEvalSet(setName);
-        result.setSolutions(Double.POSITIVE_INFINITY);
         if (e != null && e instanceof EvalSet) {
           EvalSet set = (EvalSet) e;
           RangeSet range = bounds_.getRange(elemName);
@@ -108,8 +108,11 @@ public class FlatMember extends FlatPred
           BigInteger size = range.maxSize();
           // the size of the set is another limit on the number of solutions
           size = RangeSet.minPos(size, set.maxSize());
+          // now translate size to double and use min(size,set.estSize())
+          double solns = set.estSize();
           if (size != null)
-            result.setSolutions(size.doubleValue());
+            solns = Math.min(solns, size.doubleValue());
+          result.setSolutions(solns);
         }
       }
     }

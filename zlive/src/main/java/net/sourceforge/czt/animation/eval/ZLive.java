@@ -55,7 +55,7 @@ public class ZLive
    *  @see FlatPredList.inferBoundsFixPoint(Bounds,int)
    */
   public static final int INFER_PASSES = 5;
-  
+
   private static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
 
@@ -81,6 +81,8 @@ public class ZLive
 
   private String sectName_;
   private Markup markup_ = Markup.LATEX;
+  
+  /** Maximum size of each Given set. */
   private int givenSetSize_ = Integer.MAX_VALUE;
 
   /** Generates a fresh temporary name. */
@@ -148,11 +150,11 @@ public class ZLive
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }
 
-  /** Reset the section manager that will be used during evaluation. 
+  /** Reset the section manager that will be used during evaluation.
    *  This clears all the specifications that have been loaded.
    */
   public void reset()
-  { 
+  {
     sectman_.reset();
     final String name = "ZLiveDefault";
     try {
@@ -169,7 +171,7 @@ public class ZLive
       System.err.println("ERROR creating " + name + " section: " + e);
       e.printStackTrace();
     }
-    
+
     // now load the ZLive preprocessing rules.
     try {
       Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
@@ -199,12 +201,19 @@ public class ZLive
       markup_ = Enum.valueOf(Markup.class, markup);
   }
 
+  /** The maximum size of each given set. 
+   *  This is Integer.MAX_VALUE by default.
+   */
   public int getGivenSetSize()
   {
     return givenSetSize_;
   }
 
-  /**
+  /** Set the maximum size of all given sets.
+   *  Note that this setting restricts on the semantics
+   *  of the specification, so small values are likely to
+   *  change the results of evaluations.
+   *
    * @throws NumberFormatException if the argument
    *  string is not a positive integer.
    */
@@ -384,7 +393,7 @@ public class ZLive
       throw new EvalException(buf.toString());
     }
   }
-  
+
   public void printCode()
   {
     printCode(writer_);

@@ -43,6 +43,9 @@ import net.sourceforge.czt.z.util.Factory;
 */
 public class FlatRangeSet extends FlatPred
 {
+  /** The average expected size of a closed range a..b */
+  private static int averageClosedRange_ = 100;
+
   protected Factory factory_ = new Factory();
 
   /** The most recent variable bounds information. */
@@ -82,6 +85,24 @@ public class FlatRangeSet extends FlatPred
     solutionsReturned_ = -1;
   }
 
+  /**
+   * @return the average expected size of a closed range a..b
+   */
+  public static int getAverageClosedRange()
+  {
+    return averageClosedRange_;
+  }
+
+  /**
+   * Sets the average expected size of a closed range a..b.
+   * This is used to guess the best evaluation order during mode analysis.
+   * @param averageClosedRange should be 2..1000000000.
+   */
+  public static void setAverageClosedRange_(int size)
+  {
+    FlatRangeSet.averageClosedRange_ = size;
+  }
+
   /** Saves the Bounds information for later use.
    *  Note that we cannot deduce any constraints on a or b
    *  from a..b.  Not even a<=b, because the b<a case is
@@ -104,6 +125,10 @@ public class FlatRangeSet extends FlatPred
         maxSize = BigInteger.ZERO;
       else
         maxSize = up.subtract(lo).add(BigInteger.ONE);
+    }
+    else if (lowerArg_ >= 0 && upperArg_ >= 0) {
+      // it will be a finite range at evaltime, so we estimate its size.
+      estSize = 100;
     }
     FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), estSize, maxSize);
     fuzzy.setLower(lo);

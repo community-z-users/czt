@@ -80,7 +80,7 @@ public class FlatPredList extends FlatPred
   /** Evaluation is left-to-right if this is false,
    *  or smallest-mode-first if it is true.
    */
-  public static final boolean optimize_ = false;
+  public static final boolean optimize_ = true;
 
   /** Maximum acceptable cost for evaluating each FlatPredList */
   private static double maxCost_ = 1000000000;
