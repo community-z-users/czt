@@ -42,7 +42,7 @@ public class FlatForallTest
   {
     // We put the forall into a context so that we can typecheck it.
     // We have to typecheck it, so that ZNames are bound to ZDeclNames.
-    SchExpr e = (SchExpr) parseExpr("[x,y,z:\nat | \\forall i:x \\upto y @ i > z]");
+    SchExpr e = (SchExpr) parseExpr("[x,y,z:\\nat | \\forall i:x \\upto y @ i > z]");
     TypeCheckUtils.typecheck(e, new SectionManager());
     ForallPred all = (ForallPred) e.getZSchText().getPred();
     FlatPredList stext = new FlatPredList(zlive_);
