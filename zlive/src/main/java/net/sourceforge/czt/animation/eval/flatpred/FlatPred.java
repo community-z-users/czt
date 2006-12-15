@@ -257,7 +257,8 @@ public abstract class FlatPred
    */
   public String printName(ZName name)
   {
-    return name.toString() + name.getId();
+    // add the getId part if you want to show Ids of names within FlatPreds.
+    return name.toString(); // + name.getId();
   }
 
   /** A default implementation of toString.
