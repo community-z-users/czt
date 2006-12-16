@@ -20,14 +20,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.ExprComparator;
+import net.sourceforge.czt.animation.eval.ZRefNameComparator;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /**
  * Evaluates ZBinding terms.
@@ -43,6 +51,9 @@ public class FlatBinding extends FlatPred
   protected Factory factory_ = new Factory();
 
   private List<ZName> bindNames;
+
+  /** Used for converting ZNames into strings. */
+  private PrintVisitor namePrinter = new PrintVisitor(false);
 
   /** Constructs a FlatBinding FlatPred.
    @param names The list of names in the binding (name1,name2,...nameN). (no duplicates)
@@ -61,6 +72,9 @@ public class FlatBinding extends FlatPred
     bindNames = names;
     args_ = new ArrayList<ZName>();
     args_.addAll(exprs);
+    // we sort the names to ensure a consistent order in all bindings
+    // that we create.
+    Collections.sort(args_, ZRefNameComparator.create());
     args_.add(bind);
     solutionsReturned_ = -1;
   }
@@ -99,34 +113,28 @@ public class FlatBinding extends FlatPred
       //The case where the binding itself is an input
       if (evalMode_.isInput(getLastArg())) {
         BindExpr bindExpr = (BindExpr) env.lookup(bindName);
-        List<Decl> bindingsList = bindExpr.getZDeclList().getDecl();
+        List<Decl> bindingsList = bindExpr.getZDeclList();
         //no. of elements in env.binding should be same as bindNames
         if (bindingsList.size() != bindNames.size())
           throw new CztException("Type error: bindings have sizes "
               +bindingsList.size()+" and "+bindNames.size());
         result = true;  // we start optimistic
+        // the names in both bindings should be sorted, so we do one 
+        // sequential pass, checking the names and comparing values.
         for (int i = 0; i < bindNames.size(); i++) {
-          ZName exprName = args_.get(i);
           ZName boundName = bindNames.get(i);
-          // find the corresponding boundName in bindingsList
-          // TODO: this is O(N^2) in the length of the binding lists.
-          //       It would be more efficient to sort both lists first,
-          //       then do one pass over them.
-          ConstDecl cdecl = null;
-          for (Decl decl : bindingsList) {
-            if (((ConstDecl)decl).getName().equals(boundName)) {
-              cdecl = (ConstDecl) decl;
-              break;
-            }
-          }
-          if (cdecl == null)
-            throw new CztException("Type error: binding does not contain: "+boundName);
-          //if exprName is not in the env, then it is set using the value in env.bindings
+          String boundNameStr = boundName.accept(namePrinter);
+          ConstDecl cdecl = (ConstDecl) bindingsList.get(i);
+          String name = cdecl.getName().accept(namePrinter);
+          assert name.equals(boundNameStr)
+              : "binding names are not equal/sorted: "+name+"/="+boundNameStr;
+          // now set cdecl in the environment or compare its value
+          ZName exprName = args_.get(i);
           if (env.lookup(exprName) == null)
               env.setValue(exprName, cdecl.getExpr());
           else
             // check that the two values are equal
-            if ( ! env.lookup(exprName).equals(cdecl.getExpr()))
+            if ( ! ExprComparator.equalZ(env.lookup(exprName),cdecl.getExpr()))
               result = false;
           }
         }
