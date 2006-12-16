@@ -50,7 +50,7 @@ public class FlatBinding extends FlatPred
 {
   protected Factory factory_ = new Factory();
 
-  private List<ZName> bindNames;
+  private List<ZName> bindNames_;
 
   /** Used for converting ZNames into strings. */
   private PrintVisitor namePrinter = new PrintVisitor(false);
@@ -69,12 +69,9 @@ public class FlatBinding extends FlatPred
       throw new IllegalArgumentException(
           "FlatBinding contains duplicate names: " + names);
 
-    bindNames = names;
+    bindNames_ = names;
     args_ = new ArrayList<ZName>();
     args_.addAll(exprs);
-    // we sort the names to ensure a consistent order in all bindings
-    // that we create.
-    Collections.sort(args_, ZRefNameComparator.create());
     args_.add(bind);
     solutionsReturned_ = -1;
   }
@@ -105,8 +102,8 @@ public class FlatBinding extends FlatPred
     boolean result = false;
     if (solutionsReturned_ == 0) {
       //bindName contains the ZName which refers to the bind Expression in the env
-      ZName bindName = args_.get(args_.size() - 1);
-
+      ZName bindName = getLastArg();
+      
       solutionsReturned_++;
       Envir env = evalMode_.getEnvir();
 
@@ -115,38 +112,53 @@ public class FlatBinding extends FlatPred
         BindExpr bindExpr = (BindExpr) env.lookup(bindName);
         List<Decl> bindingsList = bindExpr.getZDeclList();
         //no. of elements in env.binding should be same as bindNames
-        if (bindingsList.size() != bindNames.size())
+        if (bindingsList.size() != bindNames_.size())
           throw new CztException("Type error: bindings have sizes "
-              +bindingsList.size()+" and "+bindNames.size());
+              +bindingsList.size()+" and "+bindNames_.size());
         result = true;  // we start optimistic
-        // the names in both bindings should be sorted, so we do one 
-        // sequential pass, checking the names and comparing values.
-        for (int i = 0; i < bindNames.size(); i++) {
-          ZName boundName = bindNames.get(i);
+        for (int i = 0; i < bindNames_.size(); i++) {
+          ZName boundName = bindNames_.get(i);
           String boundNameStr = boundName.accept(namePrinter);
-          ConstDecl cdecl = (ConstDecl) bindingsList.get(i);
-          String name = cdecl.getName().accept(namePrinter);
-          assert name.equals(boundNameStr)
-              : "binding names are not equal/sorted: "+name+"/="+boundNameStr;
-          // now set cdecl in the environment or compare its value
+          // find the corresponding boundName in bindingsList
+          // TODO: this is O(N^2) in the length of the binding lists.
+          //       It would be more efficient to sort both lists first,
+          //       then do one pass over them, but this is difficult because
+          //       we have two separate lists (bindNames_ and args_).
+          ConstDecl cdecl = null;
+          for (Decl decl : bindingsList) {
+            // compare the names as strings, since Ids may not be the same.
+            String name = ((ConstDecl)decl).getName().accept(namePrinter);
+            if (name.equals(boundNameStr)) {
+              cdecl = (ConstDecl) decl;
+              break;
+            }
+          }
+          if (cdecl == null)
+            throw new CztException("Type error: binding does not contain: "
+                +boundName);
+          
           ZName exprName = args_.get(i);
+          // assign or compare the values
           if (env.lookup(exprName) == null)
               env.setValue(exprName, cdecl.getExpr());
           else
             // check that the two values are equal
-            if ( ! ExprComparator.equalZ(env.lookup(exprName),cdecl.getExpr()))
+            if ( ! env.lookup(exprName).equals(cdecl.getExpr()))
               result = false;
           }
         }
       else {
         // create a new binding and add it to the env
         result = true;
-        List<Decl> declList = new ArrayList<Decl>(bindNames.size());
-        for (int i = 0; i < bindNames.size(); i++) {
-          ConstDecl cdecl = factory_.createConstDecl(bindNames.get(i), env.lookup(args_.get(i)));
+        List<Decl> declList = new ArrayList<Decl>(bindNames_.size());
+        for (int i = 0; i < bindNames_.size(); i++) {
+          ConstDecl cdecl =
+            factory_.createConstDecl(bindNames_.get(i), 
+                env.lookup(args_.get(i)));
           declList.add(cdecl);
         }
-        Expr bindExpr = factory_.createBindExpr(factory_.createZDeclList(declList));
+        Expr bindExpr = 
+          factory_.createBindExpr(factory_.createZDeclList(declList));
         env.setValue(bindName, bindExpr);
       }
     }
