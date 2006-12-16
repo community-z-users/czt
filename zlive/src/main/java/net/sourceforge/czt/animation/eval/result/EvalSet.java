@@ -50,7 +50,7 @@ public abstract class EvalSet
 {
 
   /** Default estimate for the approximate size of an unknown set. */
-  public static final double UNKNOWN_SIZE = 1000000.0;
+  public static final double UNKNOWN_SIZE = 1000.0;
 
   /** True iff all members of the set have been evaluated. */
   private boolean fullyEvaluated_ = false;
