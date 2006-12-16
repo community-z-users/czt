@@ -102,6 +102,18 @@ public class ExprComparator implements Comparator<Expr>
     return EQUAL;
   }
 
+  /** A convenience method that checks equality according to Z semantics.
+   *  It is equivalent to create().compare(e1,e2) == 0.
+   *
+   * @param e1  An evaluated expression, such as an EvalSet
+   * @param e2  Another evaluated expression.
+   * @return true iff e1 and e2 are semantically equal.
+   */
+  public static boolean equalZ(Expr e1, Expr e2)
+  {
+    return singleton_.compare(e1,e2) == 0;
+  }
+
   /* This orders evaluated ZLive expressions.
    * @throws RuntimeException if it sees an unknown/non-evaluated Expr.
    * @see java.util.Comparator#compare(T, T)
