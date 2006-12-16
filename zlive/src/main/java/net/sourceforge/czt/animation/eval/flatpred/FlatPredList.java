@@ -414,6 +414,9 @@ public class FlatPredList extends FlatPred
           assert flatPred == m.getParent();
           if (mode == null || m.getSolutions() < mode.getSolutions())
             mode = m;
+          // if it is deterministic or better, just use this one.
+          if (mode != null && mode.getSolutions() <= 1.0)
+            break;
         }
       }
     }
