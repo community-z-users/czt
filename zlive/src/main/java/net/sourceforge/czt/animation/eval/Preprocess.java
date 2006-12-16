@@ -162,7 +162,6 @@ public class Preprocess
     {
       Map<String,ZName> map = new HashMap<String,ZName>();
       seen.add(map);
-      LOG.fine("starting scope "+(seen.size()-1));
       for (Decl decl : stext.getZDeclList()) {
         if (decl instanceof VarDecl) {
           VarDecl vdecl = (VarDecl) decl;
@@ -182,8 +181,6 @@ public class Preprocess
     private void declareName(ZName name)
     {
       Map<String,ZName> map = seen.get(seen.size()-1);
-      LOG.fine("declareName "+nameString(name)+" id="+name.getId()
-          + " into scope "+(seen.size()-1));
       map.put(nameString(name), name);
     }
 
@@ -201,7 +198,6 @@ public class Preprocess
     private void endScope()
     {
       assert seen.size() > 0;
-      LOG.fine("endScope "+(seen.size()-1));
       seen.remove(seen.size()-1);
     }
 
@@ -221,7 +217,6 @@ public class Preprocess
       String str = nameString(name);
       
       String id = name.getId();
-      LOG.finer("visitZName "+str+" with id="+id);
       if (id == null)
         warning("ZName "+str+" has no id.");
 
