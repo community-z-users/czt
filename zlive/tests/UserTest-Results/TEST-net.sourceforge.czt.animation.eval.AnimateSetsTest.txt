@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 259, Failures: 0, Errors: 53, Time elapsed: 497.982 sec
+Tests run: 259, Failures: 0, Errors: 44, Time elapsed: 365.15 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule DeltaRef
@@ -134,6 +134,7 @@ Passed test:animate_sets.tex:124
 Passed test:animate_sets.tex:125
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+Passed test:animate_sets.tex:137
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:138
@@ -180,6 +181,7 @@ Passed test:animate_sets.tex:205
 Passed test:animate_sets.tex:208
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+Passed test:animate_sets.tex:220
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:221
@@ -207,12 +209,16 @@ Passed test:animate_sets.tex:236
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:237
 Passed test:animate_sets.tex:238
+Passed test:animate_sets.tex:242
+Passed test:animate_sets.tex:243
 Passed test:animate_sets.tex:244
 Passed test:animate_sets.tex:245
 Passed test:animate_sets.tex:246
 Passed test:animate_sets.tex:247
 Passed test:animate_sets.tex:248
 Passed test:animate_sets.tex:249
+Passed test:animate_sets.tex:250
+Passed test:animate_sets.tex:251
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:255
@@ -223,6 +229,7 @@ Passed test:animate_sets.tex:256
 Passed test:animate_sets.tex:257
 Passed test:animate_sets.tex:258
 Passed test:animate_sets.tex:259
+Passed test:animate_sets.tex:261
 Passed test:animate_sets.tex:265
 Passed test:animate_sets.tex:268
 Passed test:animate_sets.tex:272
@@ -258,6 +265,7 @@ Passed test:animate_sets.tex:349
 Passed test:animate_sets.tex:350
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:358
+Passed test:animate_sets.tex:360
 Passed test:animate_sets.tex:362
 Passed test:animate_sets.tex:368
 Passed test:animate_sets.tex:370
@@ -280,6 +288,7 @@ Passed test:animate_sets.tex:404
 Passed test:animate_sets.tex:405
 Passed test:animate_sets.tex:406
 Passed test:animate_sets.tex:407
+Passed test:animate_sets.tex:408
 Passed test:animate_sets.tex:409
 Passed test:animate_sets.tex:410
 Passed test:animate_sets.tex:411
@@ -480,89 +489,81 @@ Typeckecking failed:
 	Expression: \{ \}]
 ------------- ---------------- ---------------
 
-Testcase: animate_sets.tex:33 took 0.41 sec
-Testcase: animate_sets.tex:34 took 0.399 sec
-Testcase: animate_sets.tex:35 took 0.396 sec
-Testcase: animate_sets.tex:36 took 0.584 sec
-Testcase: animate_sets.tex:37 took 0.159 sec
-Testcase: animate_sets.tex:38 took 0.157 sec
-Testcase: animate_sets.tex:39 took 0.459 sec
-Testcase: animate_sets.tex:40 took 0.161 sec
-Testcase: animate_sets.tex:41 took 0.337 sec
-Testcase: animate_sets.tex:44 took 0.578 sec
-Testcase: animate_sets.tex:45 took 0.393 sec
-Testcase: animate_sets.tex:46 took 0.391 sec
-Testcase: animate_sets.tex:47 took 0.443 sec
-Testcase: animate_sets.tex:48 took 0.578 sec
-Testcase: animate_sets.tex:49 took 0.394 sec
-Testcase: animate_sets.tex:50 took 0.576 sec
-Testcase: animate_sets.tex:51 took 0.579 sec
-Testcase: animate_sets.tex:52 took 0.446 sec
-Testcase: animate_sets.tex:53 took 0.811 sec
-Testcase: animate_sets.tex:54 took 0.696 sec
-Testcase: animate_sets.tex:59 took 1.241 sec
-Testcase: animate_sets.tex:60 took 1.376 sec
-Testcase: animate_sets.tex:61 took 1.379 sec
-Testcase: animate_sets.tex:62 took 2.067 sec
-Testcase: animate_sets.tex:63 took 2.066 sec
-Testcase: animate_sets.tex:65 took 0.918 sec
-Testcase: animate_sets.tex:66 took 1.138 sec
-Testcase: animate_sets.tex:67 took 1.065 sec
-Testcase: animate_sets.tex:69 took 1.233 sec
-Testcase: animate_sets.tex:70 took 1.256 sec
-Testcase: animate_sets.tex:71 took 1.255 sec
-Testcase: animate_sets.tex:72 took 1.253 sec
-Testcase: animate_sets.tex:74 took 1.95 sec
-Testcase: animate_sets.tex:75 took 1.949 sec
-Testcase: animate_sets.tex:76 took 3.327 sec
-Testcase: animate_sets.tex:77 took 3.267 sec
-Testcase: animate_sets.tex:96 took 1.911 sec
-Testcase: animate_sets.tex:97 took 3.765 sec
-Testcase: animate_sets.tex:98 took 2.768 sec
-Testcase: animate_sets.tex:99 took 3 sec
-Testcase: animate_sets.tex:100 took 3.923 sec
-Testcase: animate_sets.tex:101 took 7.383 sec
-Testcase: animate_sets.tex:102 took 2.041 sec
-Testcase: animate_sets.tex:103 took 0.989 sec
-Testcase: animate_sets.tex:104 took 2.743 sec
-Testcase: animate_sets.tex:105 took 1.137 sec
-Testcase: animate_sets.tex:106 took 2.57 sec
-Testcase: animate_sets.tex:109 took 1.119 sec
-Testcase: animate_sets.tex:110 took 1.128 sec
-Testcase: animate_sets.tex:111 took 1.869 sec
-Testcase: animate_sets.tex:112 took 0.523 sec
-Testcase: animate_sets.tex:113 took 1.69 sec
+Testcase: animate_sets.tex:33 took 0.416 sec
+Testcase: animate_sets.tex:34 took 0.401 sec
+Testcase: animate_sets.tex:35 took 0.406 sec
+Testcase: animate_sets.tex:36 took 0.588 sec
+Testcase: animate_sets.tex:37 took 0.161 sec
+Testcase: animate_sets.tex:38 took 0.161 sec
+Testcase: animate_sets.tex:39 took 0.466 sec
+Testcase: animate_sets.tex:40 took 0.162 sec
+Testcase: animate_sets.tex:41 took 0.342 sec
+Testcase: animate_sets.tex:44 took 0.584 sec
+Testcase: animate_sets.tex:45 took 0.404 sec
+Testcase: animate_sets.tex:46 took 0.397 sec
+Testcase: animate_sets.tex:47 took 0.4 sec
+Testcase: animate_sets.tex:48 took 0.587 sec
+Testcase: animate_sets.tex:49 took 0.399 sec
+Testcase: animate_sets.tex:50 took 0.585 sec
+Testcase: animate_sets.tex:51 took 0.587 sec
+Testcase: animate_sets.tex:52 took 0.452 sec
+Testcase: animate_sets.tex:53 took 0.824 sec
+Testcase: animate_sets.tex:54 took 0.702 sec
+Testcase: animate_sets.tex:59 took 1.263 sec
+Testcase: animate_sets.tex:60 took 1.4 sec
+Testcase: animate_sets.tex:61 took 1.4 sec
+Testcase: animate_sets.tex:62 took 2.101 sec
+Testcase: animate_sets.tex:63 took 2.099 sec
+Testcase: animate_sets.tex:65 took 0.934 sec
+Testcase: animate_sets.tex:66 took 1.156 sec
+Testcase: animate_sets.tex:67 took 1.082 sec
+Testcase: animate_sets.tex:69 took 1.26 sec
+Testcase: animate_sets.tex:70 took 1.276 sec
+Testcase: animate_sets.tex:71 took 1.277 sec
+Testcase: animate_sets.tex:72 took 1.273 sec
+Testcase: animate_sets.tex:74 took 1.974 sec
+Testcase: animate_sets.tex:75 took 1.985 sec
+Testcase: animate_sets.tex:76 took 3.38 sec
+Testcase: animate_sets.tex:77 took 3.317 sec
+Testcase: animate_sets.tex:96 took 1.918 sec
+Testcase: animate_sets.tex:97 took 3.452 sec
+Testcase: animate_sets.tex:98 took 2.817 sec
+Testcase: animate_sets.tex:99 took 3.044 sec
+Testcase: animate_sets.tex:100 took 3.98 sec
+Testcase: animate_sets.tex:101 took 7.508 sec
+Testcase: animate_sets.tex:102 took 2.064 sec
+Testcase: animate_sets.tex:103 took 1.008 sec
+Testcase: animate_sets.tex:104 took 2.786 sec
+Testcase: animate_sets.tex:105 took 1.15 sec
+Testcase: animate_sets.tex:106 took 2.556 sec
+Testcase: animate_sets.tex:109 took 1.132 sec
+Testcase: animate_sets.tex:110 took 1.147 sec
+Testcase: animate_sets.tex:111 took 1.899 sec
+Testcase: animate_sets.tex:112 took 0.534 sec
+Testcase: animate_sets.tex:113 took 1.717 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp1488]::set(Infinity,null), FlatPowerSet[tmp1488,tmp1487], FlatMember[tmp1487,s], FlatRangeSet[-,-,tmp1491]::set(Infinity,null), FlatMember[tmp1491,x]::Infinity, tmp1494==0, tmp1495==3, FlatRangeSet[tmp1494,tmp1495,tmp1493]::set(Infinity,4,[0,3]), FlatEquals[s,tmp1493], FlatRangeSet[-,-,tmp1496]::set(Infinity,null), FlatMember[tmp1496,x]::Infinity, FlatMember[s,x], FlatEquals[tmp1486,x] @ tmp1486 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp1488]::set(Infinity,null), FlatPowerSet[tmp1488,tmp1487], FlatMember[tmp1487,s], FlatRangeSet[-,-,tmp1491]::set(Infinity,null), FlatMember[tmp1491,x]::Infinity, tmp1494==0, tmp1495==3, FlatRangeSet[tmp1494,tmp1495,tmp1493]::set(Infinity,4,[0,3]), FlatEquals[s,tmp1493], FlatRangeSet[-,-,tmp1496]::set(Infinity,null), FlatMember[tmp1496,x]::Infinity, FlatMember[s,x], FlatEquals[tmp1486,x] @ tmp1486 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:114 took 1.891 sec
-Testcase: animate_sets.tex:115 took 1.657 sec
-Testcase: animate_sets.tex:118 took 3.592 sec
-Testcase: animate_sets.tex:119 took 3.642 sec
-Testcase: animate_sets.tex:120 took 2.613 sec
-Testcase: animate_sets.tex:121 took 3.744 sec
-Testcase: animate_sets.tex:122 took 1.102 sec
-Testcase: animate_sets.tex:123 took 4.993 sec
-Testcase: animate_sets.tex:124 took 2.119 sec
-Testcase: animate_sets.tex:125 took 5.541 sec
-Testcase: animate_sets.tex:128 took 0.55 sec
+Testcase: animate_sets.tex:114 took 1.924 sec
+Testcase: animate_sets.tex:115 took 1.686 sec
+Testcase: animate_sets.tex:118 took 3.651 sec
+Testcase: animate_sets.tex:119 took 3.653 sec
+Testcase: animate_sets.tex:120 took 2.66 sec
+Testcase: animate_sets.tex:121 took 3.803 sec
+Testcase: animate_sets.tex:122 took 1.121 sec
+Testcase: animate_sets.tex:123 took 5.077 sec
+Testcase: animate_sets.tex:124 took 2.148 sec
+Testcase: animate_sets.tex:125 took 5.672 sec
+Testcase: animate_sets.tex:128 took 0.569 sec
 	Caused an ERROR
 Unbounded integer range [1,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
@@ -572,10 +573,10 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,nul
 	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:129 took 0.674 sec
+Testcase: animate_sets.tex:129 took 0.688 sec
 	Caused an ERROR
 Unbounded integer range [1,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
@@ -585,10 +586,10 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,nul
 	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:130 took 1.112 sec
+Testcase: animate_sets.tex:130 took 1.135 sec
 	Caused an ERROR
 Unbounded integer range [0,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
@@ -598,10 +599,10 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,nul
 	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:131 took 1.806 sec
+Testcase: animate_sets.tex:131 took 1.84 sec
 	Caused an ERROR
 Unbounded integer range [1,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
@@ -611,93 +612,66 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,nul
 	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:137 took 1.429 sec
+Testcase: animate_sets.tex:137 took 1.453 sec
+Testcase: animate_sets.tex:138 took 1.589 sec
+Testcase: animate_sets.tex:139 took 1.725 sec
+Testcase: animate_sets.tex:140 took 2.273 sec
+Testcase: animate_sets.tex:141 took 2.433 sec
+Testcase: animate_sets.tex:143 took 1.127 sec
+Testcase: animate_sets.tex:144 took 1.245 sec
+Testcase: animate_sets.tex:145 took 1.247 sec
+Testcase: animate_sets.tex:147 took 1.691 sec
+Testcase: animate_sets.tex:148 took 1.723 sec
+Testcase: animate_sets.tex:149 took 1.536 sec
+Testcase: animate_sets.tex:150 took 1.506 sec
+Testcase: animate_sets.tex:152 took 2.259 sec
+Testcase: animate_sets.tex:153 took 2.235 sec
+Testcase: animate_sets.tex:154 took 3.684 sec
+Testcase: animate_sets.tex:155 took 3.516 sec
+Testcase: animate_sets.tex:157 took 1.307 sec
+Testcase: animate_sets.tex:158 took 1.337 sec
+Testcase: animate_sets.tex:159 took 1.455 sec
+Testcase: animate_sets.tex:160 took 1.416 sec
+Testcase: animate_sets.tex:161 took 1.422 sec
+Testcase: animate_sets.tex:162 took 1.319 sec
+Testcase: animate_sets.tex:163 took 1.42 sec
+Testcase: animate_sets.tex:164 took 1.631 sec
+Testcase: animate_sets.tex:166 took 1.132 sec
+Testcase: animate_sets.tex:167 took 1.158 sec
+Testcase: animate_sets.tex:168 took 1.249 sec
+Testcase: animate_sets.tex:169 took 0.767 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2605]::set(Infinity,null), FlatMember[tmp2605,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2607]::set(Infinity,null), FlatMember[tmp2607,x]::Infinity[0,null], tmp2609==0, FlatRangeSet[tmp2609,-,tmp2608]::set(Infinity,null,[0,null]), FlatMember[tmp2608,x]::Infinity[0,null], FlatEquals[tmp2604,x] @ tmp2604 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2605]::set(Infinity,null), FlatMember[tmp2605,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2607]::set(Infinity,null), FlatMember[tmp2607,x]::Infinity[0,null], tmp2609==0, FlatRangeSet[tmp2609,-,tmp2608]::set(Infinity,null,[0,null]), FlatMember[tmp2608,x]::Infinity[0,null], FlatEquals[tmp2604,x] @ tmp2604 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:138 took 1.549 sec
-Testcase: animate_sets.tex:139 took 1.706 sec
-Testcase: animate_sets.tex:140 took 2.237 sec
-Testcase: animate_sets.tex:141 took 2.416 sec
-Testcase: animate_sets.tex:143 took 1.106 sec
-Testcase: animate_sets.tex:144 took 1.223 sec
-Testcase: animate_sets.tex:145 took 1.227 sec
-Testcase: animate_sets.tex:147 took 1.576 sec
-Testcase: animate_sets.tex:148 took 1.258 sec
-Testcase: animate_sets.tex:149 took 1.451 sec
-Testcase: animate_sets.tex:150 took 1.454 sec
-Testcase: animate_sets.tex:152 took 2.188 sec
-Testcase: animate_sets.tex:153 took 2.164 sec
-Testcase: animate_sets.tex:154 took 3.542 sec
-Testcase: animate_sets.tex:155 took 3.781 sec
-Testcase: animate_sets.tex:157 took 1.187 sec
-Testcase: animate_sets.tex:158 took 1.249 sec
-Testcase: animate_sets.tex:159 took 1.306 sec
-Testcase: animate_sets.tex:160 took 1.372 sec
-Testcase: animate_sets.tex:161 took 1.369 sec
-Testcase: animate_sets.tex:162 took 1.262 sec
-Testcase: animate_sets.tex:163 took 2.093 sec
-Testcase: animate_sets.tex:164 took 1.886 sec
-Testcase: animate_sets.tex:166 took 1.706 sec
-Testcase: animate_sets.tex:167 took 1.207 sec
-Testcase: animate_sets.tex:168 took 1.384 sec
-Testcase: animate_sets.tex:169 took 0.745 sec
+Testcase: animate_sets.tex:170 took 0.717 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2617]::set(Infinity,null), FlatMember[tmp2617,x]::Infinity[1,null], tmp2620==0, FlatRangeSet[tmp2620,-,tmp2619]::set(Infinity,null,[0,null]), FlatMember[tmp2619,x]::Infinity[1,null], tmp2622==1, FlatRangeSet[tmp2622,-,tmp2621]::set(Infinity,null,[1,null]), FlatMember[tmp2621,x]::Infinity[1,null], FlatEquals[tmp2616,x] @ tmp2616 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2617]::set(Infinity,null), FlatMember[tmp2617,x]::Infinity[1,null], tmp2620==0, FlatRangeSet[tmp2620,-,tmp2619]::set(Infinity,null,[0,null]), FlatMember[tmp2619,x]::Infinity[1,null], tmp2622==1, FlatRangeSet[tmp2622,-,tmp2621]::set(Infinity,null,[1,null]), FlatMember[tmp2621,x]::Infinity[1,null], FlatEquals[tmp2616,x] @ tmp2616 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:170 took 0.7 sec
-	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:175 took 0.988 sec
-Testcase: animate_sets.tex:176 took 1.171 sec
-Testcase: animate_sets.tex:177 took 1.371 sec
-Testcase: animate_sets.tex:180 took 2.338 sec
+Testcase: animate_sets.tex:175 took 1.021 sec
+Testcase: animate_sets.tex:176 took 1.222 sec
+Testcase: animate_sets.tex:177 took 1.39 sec
+Testcase: animate_sets.tex:180 took 2.399 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -705,325 +679,181 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:184 took 1.544 sec
+Testcase: animate_sets.tex:184 took 1.581 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2705]::set(Infinity,null), FlatPowerSet[tmp2705,tmp2704], FlatMember[tmp2704,s], tmp2710==0, FlatRangeSet[tmp2710,-,tmp2709]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2709,tmp2708], FlatMember[tmp2708,s], FlatForall( FlatMember[s,x] @ tmp2712==1, tmp2713==2, FlatRangeSet[tmp2712,tmp2713,tmp2711]::set(Infinity,2,[1,2]), FlatMember[tmp2711,x]::Infinity[1,2] ), FlatEquals[tmp2703,s] @ tmp2703 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2705]::set(Infinity,null), FlatPowerSet[tmp2705,tmp2704], FlatMember[tmp2704,s], tmp2710==0, FlatRangeSet[tmp2710,-,tmp2709]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2709,tmp2708], FlatMember[tmp2708,s], FlatForall( FlatMember[s,x] @ tmp2712==1, tmp2713==2, FlatRangeSet[tmp2712,tmp2713,tmp2711]::set(Infinity,2,[1,2]), FlatMember[tmp2711,x]::Infinity[1,2] ), FlatEquals[tmp2703,s] @ tmp2703 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:188 took 2.993 sec
+Testcase: animate_sets.tex:188 took 3.044 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2727]::set(Infinity,null), FlatPowerSet[tmp2727,tmp2726], FlatMember[tmp2726,s], tmp2732==0, FlatRangeSet[tmp2732,-,tmp2731]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2731,tmp2730], FlatMember[tmp2730,s], FlatForall( FlatMember[s,x] @ tmp2734==1, tmp2735==2, FlatRangeSet[tmp2734,tmp2735,tmp2733]::set(Infinity,2,[1,2]), FlatMember[tmp2733,x]::Infinity[1,2] ), tmp2737==1, tmp2738==2, FlatRangeSet[tmp2737,tmp2738,tmp2736]::set(Infinity,2,[1,2]), FlatNot( FlatEquals[s,tmp2736] ), FlatEquals[tmp2725,s] @ tmp2725 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2727]::set(Infinity,null), FlatPowerSet[tmp2727,tmp2726], FlatMember[tmp2726,s], tmp2732==0, FlatRangeSet[tmp2732,-,tmp2731]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2731,tmp2730], FlatMember[tmp2730,s], FlatForall( FlatMember[s,x] @ tmp2734==1, tmp2735==2, FlatRangeSet[tmp2734,tmp2735,tmp2733]::set(Infinity,2,[1,2]), FlatMember[tmp2733,x]::Infinity[1,2] ), tmp2737==1, tmp2738==2, FlatRangeSet[tmp2737,tmp2738,tmp2736]::set(Infinity,2,[1,2]), FlatNot( FlatEquals[s,tmp2736] ), FlatEquals[tmp2725,s] @ tmp2725 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:195 took 3.825 sec
+Testcase: animate_sets.tex:195 took 3.524 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2773]::set(Infinity,null), FlatPowerSet[tmp2773,tmp2772], FlatMember[tmp2772,s], FlatRangeSet[-,-,tmp2777]::set(Infinity,null), FlatPowerSet[tmp2777,tmp2776], FlatMember[tmp2776,t], tmp2782==0, FlatRangeSet[tmp2782,-,tmp2781]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2781,tmp2780], FlatMember[tmp2780,s], tmp2785==0, FlatRangeSet[tmp2785,-,tmp2784]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2784,tmp2783], FlatMember[tmp2783,t], FlatUnion[s,t,tmp2786], tmp2787==1, FlatDiscreteSet[tmp2787,tmp2788], FlatEquals[tmp2786,tmp2788], FlatTuple[s,t,tmp2798], FlatEquals[tmp2771,tmp2798] @ tmp2771 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2773]::set(Infinity,null), FlatPowerSet[tmp2773,tmp2772], FlatMember[tmp2772,s], FlatRangeSet[-,-,tmp2777]::set(Infinity,null), FlatPowerSet[tmp2777,tmp2776], FlatMember[tmp2776,t], tmp2782==0, FlatRangeSet[tmp2782,-,tmp2781]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2781,tmp2780], FlatMember[tmp2780,s], tmp2785==0, FlatRangeSet[tmp2785,-,tmp2784]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2784,tmp2783], FlatMember[tmp2783,t], FlatUnion[s,t,tmp2786], tmp2787==1, FlatDiscreteSet[tmp2787,tmp2788], FlatEquals[tmp2786,tmp2788], FlatTuple[s,t,tmp2798], FlatEquals[tmp2771,tmp2798] @ tmp2771 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:199 took 2.295 sec
-Testcase: animate_sets.tex:202 took 2.645 sec
-Testcase: animate_sets.tex:205 took 2.226 sec
-Testcase: animate_sets.tex:208 took 2.165 sec
-Testcase: animate_sets.tex:211 took 1.508 sec
+Testcase: animate_sets.tex:199 took 2.049 sec
+Testcase: animate_sets.tex:202 took 2.049 sec
+Testcase: animate_sets.tex:205 took 2.047 sec
+Testcase: animate_sets.tex:208 took 1.871 sec
+Testcase: animate_sets.tex:211 took 1.389 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2951]::set(Infinity,null), FlatMember[tmp2951,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2953]::set(Infinity,null), FlatMember[tmp2953,y]::Infinity[0,null], tmp2956==0, FlatRangeSet[tmp2956,-,tmp2955]::set(Infinity,null,[0,null]), FlatMember[tmp2955,x]::Infinity[0,null], tmp2958==0, FlatRangeSet[tmp2958,-,tmp2957]::set(Infinity,null,[0,null]), FlatMember[tmp2957,y]::Infinity[0,null], tmp2959==3, FlatTuple[x,tmp2959,tmp2960], tmp2961==2, FlatTuple[tmp2961,y,tmp2962], FlatEquals[tmp2960,tmp2962], FlatTuple[x,y,tmp2971], FlatEquals[tmp2950,tmp2971] @ tmp2950 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2951]::set(Infinity,null), FlatMember[tmp2951,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2953]::set(Infinity,null), FlatMember[tmp2953,y]::Infinity[0,null], tmp2956==0, FlatRangeSet[tmp2956,-,tmp2955]::set(Infinity,null,[0,null]), FlatMember[tmp2955,x]::Infinity[0,null], tmp2958==0, FlatRangeSet[tmp2958,-,tmp2957]::set(Infinity,null,[0,null]), FlatMember[tmp2957,y]::Infinity[0,null], tmp2959==3, FlatTuple[x,tmp2959,tmp2960], tmp2961==2, FlatTuple[tmp2961,y,tmp2962], FlatEquals[tmp2960,tmp2962], FlatTuple[x,y,tmp2971], FlatEquals[tmp2950,tmp2971] @ tmp2950 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:214 took 2.013 sec
+Testcase: animate_sets.tex:214 took 2.015 sec
 	Caused an ERROR
 Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@121c12b (\{ x : \arithmos ; y : \arithmos | x \in \nat \land y \in \nat \land true \land ( x , y ) = ( \mu x : \arithmos ; y : \arithmos | x \in \{ 3 \} \land y \in \{ 3 \} \land true \land true ) \} = \{ ( 3 , 3 ) \})
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@121c12b (\{ x : \arithmos ; y : \arithmos | x \in \nat \land y \in \nat \land true \land ( x , y ) = ( \mu x : \arithmos ; y : \arithmos | x \in \{ 3 \} \land y \in \{ 3 \} \land true \land true ) \} = \{ ( 3 , 3 ) \})
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:220 took 1.618 sec
+Testcase: animate_sets.tex:220 took 1.581 sec
+Testcase: animate_sets.tex:221 took 1.695 sec
+Testcase: animate_sets.tex:222 took 1.723 sec
+Testcase: animate_sets.tex:223 took 2.414 sec
+Testcase: animate_sets.tex:224 took 3.119 sec
+Testcase: animate_sets.tex:226 took 1.472 sec
+Testcase: animate_sets.tex:227 took 1.6 sec
+Testcase: animate_sets.tex:228 took 1.347 sec
+Testcase: animate_sets.tex:230 took 1.578 sec
+Testcase: animate_sets.tex:231 took 1.588 sec
+Testcase: animate_sets.tex:232 took 1.719 sec
+Testcase: animate_sets.tex:233 took 1.778 sec
+Testcase: animate_sets.tex:235 took 2.422 sec
+Testcase: animate_sets.tex:236 took 2.428 sec
+Testcase: animate_sets.tex:237 took 3.146 sec
+Testcase: animate_sets.tex:238 took 3.635 sec
+Testcase: animate_sets.tex:242 took 0.495 sec
+Testcase: animate_sets.tex:243 took 0.491 sec
+Testcase: animate_sets.tex:244 took 0.741 sec
+Testcase: animate_sets.tex:245 took 1.614 sec
+Testcase: animate_sets.tex:246 took 1.405 sec
+Testcase: animate_sets.tex:247 took 1.397 sec
+Testcase: animate_sets.tex:248 took 1.61 sec
+Testcase: animate_sets.tex:249 took 1.372 sec
+Testcase: animate_sets.tex:250 took 0.681 sec
+Testcase: animate_sets.tex:251 took 1.379 sec
+Testcase: animate_sets.tex:255 took 0.938 sec
+Testcase: animate_sets.tex:256 took 1.714 sec
+Testcase: animate_sets.tex:257 took 0.445 sec
+Testcase: animate_sets.tex:258 took 1.071 sec
+Testcase: animate_sets.tex:259 took 0.869 sec
+Testcase: animate_sets.tex:261 took 1.957 sec
+Testcase: animate_sets.tex:265 took 0.861 sec
+Testcase: animate_sets.tex:268 took 0.774 sec
+Testcase: animate_sets.tex:272 took 1.383 sec
+Testcase: animate_sets.tex:281 took 1.901 sec
+Testcase: animate_sets.tex:282 took 1.905 sec
+Testcase: animate_sets.tex:287 took 0.511 sec
+Testcase: animate_sets.tex:288 took 0.369 sec
+Testcase: animate_sets.tex:289 took 0.194 sec
+Testcase: animate_sets.tex:291 took 1.113 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.EvalSet.subsetIterator(EvalSet.java:161)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:143)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3930]::set(Infinity,null), FlatMember[tmp3930,x]::Infinity[0,null], tmp3933==0, FlatRangeSet[tmp3933,-,tmp3932]::set(Infinity,null,[0,null]), FlatMember[tmp3932,x]::Infinity[0,null], tmp3937==1, FlatPlus[x,tmp3937,tmp3936], FlatTuple[x,tmp3936,tmp3938], FlatEquals[tmp3929,tmp3938] @ tmp3929 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3930]::set(Infinity,null), FlatMember[tmp3930,x]::Infinity[0,null], tmp3933==0, FlatRangeSet[tmp3933,-,tmp3932]::set(Infinity,null,[0,null]), FlatMember[tmp3932,x]::Infinity[0,null], tmp3937==1, FlatPlus[x,tmp3937,tmp3936], FlatTuple[x,tmp3936,tmp3938], FlatEquals[tmp3929,tmp3938] @ tmp3929 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
-	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:191)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:221 took 1.722 sec
-Testcase: animate_sets.tex:222 took 2.031 sec
-Testcase: animate_sets.tex:223 took 3.928 sec
-Testcase: animate_sets.tex:224 took 6.062 sec
-Testcase: animate_sets.tex:226 took 2.648 sec
-Testcase: animate_sets.tex:227 took 2.625 sec
-Testcase: animate_sets.tex:228 took 2.959 sec
-Testcase: animate_sets.tex:230 took 4.215 sec
-Testcase: animate_sets.tex:231 took 2.737 sec
-Testcase: animate_sets.tex:232 took 3.06 sec
-Testcase: animate_sets.tex:233 took 3.156 sec
-Testcase: animate_sets.tex:235 took 4.195 sec
-Testcase: animate_sets.tex:236 took 4.055 sec
-Testcase: animate_sets.tex:237 took 5.31 sec
-Testcase: animate_sets.tex:238 took 6.169 sec
-Testcase: animate_sets.tex:242 took 0.991 sec
-	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:119)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:243 took 0.993 sec
-	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:119)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:244 took 1.377 sec
-Testcase: animate_sets.tex:245 took 3.708 sec
-Testcase: animate_sets.tex:246 took 3.641 sec
-Testcase: animate_sets.tex:247 took 2.743 sec
-Testcase: animate_sets.tex:248 took 3.456 sec
-Testcase: animate_sets.tex:249 took 3.593 sec
-Testcase: animate_sets.tex:250 took 1.593 sec
-	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:119)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:57)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:251 took 3.038 sec
-	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:119)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:57)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:255 took 1.996 sec
-Testcase: animate_sets.tex:256 took 3.684 sec
-Testcase: animate_sets.tex:257 took 0.86 sec
-Testcase: animate_sets.tex:258 took 2.089 sec
-Testcase: animate_sets.tex:259 took 1.703 sec
-Testcase: animate_sets.tex:261 took 4.451 sec
-	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:119)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:144)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:265 took 2.109 sec
-Testcase: animate_sets.tex:268 took 1.574 sec
-Testcase: animate_sets.tex:272 took 3.063 sec
-Testcase: animate_sets.tex:281 took 4.102 sec
-Testcase: animate_sets.tex:282 took 4.542 sec
-Testcase: animate_sets.tex:287 took 1.164 sec
-Testcase: animate_sets.tex:288 took 0.958 sec
-Testcase: animate_sets.tex:289 took 0.427 sec
-Testcase: animate_sets.tex:291 took 3.721 sec
-	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:292 took 3.613 sec
+Testcase: animate_sets.tex:292 took 1.1 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3949]::set(Infinity,null), FlatMember[tmp3949,x]::Infinity[0,null], tmp3952==0, FlatRangeSet[tmp3952,-,tmp3951]::set(Infinity,null,[0,null]), FlatMember[tmp3951,x]::Infinity[0,null], tmp3956==1, FlatPlus[x,tmp3956,tmp3955], FlatTuple[x,tmp3955,tmp3957], FlatEquals[tmp3948,tmp3957] @ tmp3948 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3949]::set(Infinity,null), FlatMember[tmp3949,x]::Infinity[0,null], tmp3952==0, FlatRangeSet[tmp3952,-,tmp3951]::set(Infinity,null,[0,null]), FlatMember[tmp3951,x]::Infinity[0,null], tmp3956==1, FlatPlus[x,tmp3956,tmp3955], FlatTuple[x,tmp3955,tmp3957], FlatEquals[tmp3948,tmp3957] @ tmp3948 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:293 took 2.903 sec
-Testcase: animate_sets.tex:295 took 2.364 sec
+Testcase: animate_sets.tex:293 took 1.23 sec
+Testcase: animate_sets.tex:295 took 1.167 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3988]::set(Infinity,null), FlatMember[tmp3988,x]::Infinity[0,null], tmp3991==0, FlatRangeSet[tmp3991,-,tmp3990]::set(Infinity,null,[0,null]), FlatMember[tmp3990,x]::Infinity[0,null], tmp3995==1, FlatPlus[x,tmp3995,tmp3994], FlatTuple[x,tmp3994,tmp3996], FlatEquals[tmp3987,tmp3996] @ tmp3987 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3988]::set(Infinity,null), FlatMember[tmp3988,x]::Infinity[0,null], tmp3991==0, FlatRangeSet[tmp3991,-,tmp3990]::set(Infinity,null,[0,null]), FlatMember[tmp3990,x]::Infinity[0,null], tmp3995==1, FlatPlus[x,tmp3995,tmp3994], FlatTuple[x,tmp3994,tmp3996], FlatEquals[tmp3987,tmp3996] @ tmp3987 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:296 took 3.514 sec
+Testcase: animate_sets.tex:296 took 1.146 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4007]::set(Infinity,null), FlatMember[tmp4007,x]::Infinity[0,null], tmp4010==0, FlatRangeSet[tmp4010,-,tmp4009]::set(Infinity,null,[0,null]), FlatMember[tmp4009,x]::Infinity[0,null], tmp4014==1, FlatPlus[x,tmp4014,tmp4013], FlatTuple[x,tmp4013,tmp4015], FlatEquals[tmp4006,tmp4015] @ tmp4006 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4007]::set(Infinity,null), FlatMember[tmp4007,x]::Infinity[0,null], tmp4010==0, FlatRangeSet[tmp4010,-,tmp4009]::set(Infinity,null,[0,null]), FlatMember[tmp4009,x]::Infinity[0,null], tmp4014==1, FlatPlus[x,tmp4014,tmp4013], FlatTuple[x,tmp4013,tmp4015], FlatEquals[tmp4006,tmp4015] @ tmp4006 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:297 took 2.666 sec
+Testcase: animate_sets.tex:297 took 1.09 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:175)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:215)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:1)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntExprImpl.accept(QntExprImpl.java:130)
@@ -1033,486 +863,423 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addDecl(FlatPredList.java:236)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addSchText(FlatPredList.java:215)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:499)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenExpr(Flatten.java:89)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExpr(FlatPredList.java:293)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:318)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:327)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:299 took 2.336 sec
+Testcase: animate_sets.tex:299 took 1.1 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4027]::set(Infinity,null), FlatMember[tmp4027,x]::Infinity[0,null], tmp4030==0, FlatRangeSet[tmp4030,-,tmp4029]::set(Infinity,null,[0,null]), FlatMember[tmp4029,x]::Infinity[0,null], tmp4033==1, FlatTuple[x,tmp4033,tmp4034], FlatTuple[tmp4034,x,tmp4035], FlatEquals[tmp4026,tmp4035] @ tmp4026 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4027]::set(Infinity,null), FlatMember[tmp4027,x]::Infinity[0,null], tmp4030==0, FlatRangeSet[tmp4030,-,tmp4029]::set(Infinity,null,[0,null]), FlatMember[tmp4029,x]::Infinity[0,null], tmp4033==1, FlatTuple[x,tmp4033,tmp4034], FlatTuple[tmp4034,x,tmp4035], FlatEquals[tmp4026,tmp4035] @ tmp4026 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:300 took 2.169 sec
+Testcase: animate_sets.tex:300 took 0.955 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4048]::set(Infinity,null), FlatMember[tmp4048,x]::Infinity[0,null], tmp4051==0, FlatRangeSet[tmp4051,-,tmp4050]::set(Infinity,null,[0,null]), FlatMember[tmp4050,x]::Infinity[0,null], tmp4054==1, FlatTuple[x,tmp4054,tmp4055], FlatTuple[tmp4055,x,tmp4056], FlatEquals[tmp4047,tmp4056] @ tmp4047 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4048]::set(Infinity,null), FlatMember[tmp4048,x]::Infinity[0,null], tmp4051==0, FlatRangeSet[tmp4051,-,tmp4050]::set(Infinity,null,[0,null]), FlatMember[tmp4050,x]::Infinity[0,null], tmp4054==1, FlatTuple[x,tmp4054,tmp4055], FlatTuple[tmp4055,x,tmp4056], FlatEquals[tmp4047,tmp4056] @ tmp4047 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:302 took 4.046 sec
+Testcase: animate_sets.tex:302 took 1.897 sec
 	Caused an ERROR
-Unbounded integer range [2,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [2,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4068]::set(Infinity,null), FlatMember[tmp4068,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4070]::set(Infinity,null), FlatMember[tmp4070,y]::Infinity[1,5], tmp4073==0, FlatRangeSet[tmp4073,-,tmp4072]::set(Infinity,null,[0,null]), FlatMember[tmp4072,x]::Infinity[2,null], tmp4075==1, tmp4076==5, FlatRangeSet[tmp4075,tmp4076,tmp4074]::set(Infinity,5,[1,5]), FlatMember[tmp4074,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4082], FlatTuple[x,tmp4082,tmp4083], FlatEquals[tmp4067,tmp4083] @ tmp4067 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4068]::set(Infinity,null), FlatMember[tmp4068,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4070]::set(Infinity,null), FlatMember[tmp4070,y]::Infinity[1,5], tmp4073==0, FlatRangeSet[tmp4073,-,tmp4072]::set(Infinity,null,[0,null]), FlatMember[tmp4072,x]::Infinity[2,null], tmp4075==1, tmp4076==5, FlatRangeSet[tmp4075,tmp4076,tmp4074]::set(Infinity,5,[1,5]), FlatMember[tmp4074,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4082], FlatTuple[x,tmp4082,tmp4083], FlatEquals[tmp4067,tmp4083] @ tmp4067 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:303 took 3.78 sec
+Testcase: animate_sets.tex:303 took 1.741 sec
 	Caused an ERROR
-Unbounded integer range [2,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [2,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4093]::set(Infinity,null), FlatMember[tmp4093,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4095]::set(Infinity,null), FlatMember[tmp4095,y]::Infinity[1,5], tmp4098==0, FlatRangeSet[tmp4098,-,tmp4097]::set(Infinity,null,[0,null]), FlatMember[tmp4097,x]::Infinity[2,null], tmp4100==1, tmp4101==5, FlatRangeSet[tmp4100,tmp4101,tmp4099]::set(Infinity,5,[1,5]), FlatMember[tmp4099,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4107], FlatTuple[x,tmp4107,tmp4108], FlatEquals[tmp4092,tmp4108] @ tmp4092 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4093]::set(Infinity,null), FlatMember[tmp4093,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4095]::set(Infinity,null), FlatMember[tmp4095,y]::Infinity[1,5], tmp4098==0, FlatRangeSet[tmp4098,-,tmp4097]::set(Infinity,null,[0,null]), FlatMember[tmp4097,x]::Infinity[2,null], tmp4100==1, tmp4101==5, FlatRangeSet[tmp4100,tmp4101,tmp4099]::set(Infinity,5,[1,5]), FlatMember[tmp4099,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4107], FlatTuple[x,tmp4107,tmp4108], FlatEquals[tmp4092,tmp4108] @ tmp4092 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:304 took 3.767 sec
+Testcase: animate_sets.tex:304 took 1.745 sec
 	Caused an ERROR
-Unbounded integer range [2,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [2,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4117]::set(Infinity,null), FlatMember[tmp4117,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4119]::set(Infinity,null), FlatMember[tmp4119,y]::Infinity[1,5], tmp4122==0, FlatRangeSet[tmp4122,-,tmp4121]::set(Infinity,null,[0,null]), FlatMember[tmp4121,x]::Infinity[2,null], tmp4124==1, tmp4125==5, FlatRangeSet[tmp4124,tmp4125,tmp4123]::set(Infinity,5,[1,5]), FlatMember[tmp4123,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4131], FlatTuple[x,tmp4131,tmp4132], FlatEquals[tmp4116,tmp4132] @ tmp4116 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4117]::set(Infinity,null), FlatMember[tmp4117,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4119]::set(Infinity,null), FlatMember[tmp4119,y]::Infinity[1,5], tmp4122==0, FlatRangeSet[tmp4122,-,tmp4121]::set(Infinity,null,[0,null]), FlatMember[tmp4121,x]::Infinity[2,null], tmp4124==1, tmp4125==5, FlatRangeSet[tmp4124,tmp4125,tmp4123]::set(Infinity,5,[1,5]), FlatMember[tmp4123,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4131], FlatTuple[x,tmp4131,tmp4132], FlatEquals[tmp4116,tmp4132] @ tmp4116 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:306 took 3.204 sec
+Testcase: animate_sets.tex:306 took 1.444 sec
 	Caused an ERROR
-Unbounded integer range [2,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [2,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4141]::set(Infinity,null), FlatMember[tmp4141,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4143]::set(Infinity,null), FlatMember[tmp4143,y]::Infinity[1,5], tmp4146==0, FlatRangeSet[tmp4146,-,tmp4145]::set(Infinity,null,[0,null]), FlatMember[tmp4145,x]::Infinity[2,null], tmp4148==1, tmp4149==5, FlatRangeSet[tmp4148,tmp4149,tmp4147]::set(Infinity,5,[1,5]), FlatMember[tmp4147,y]::Infinity[1,5], FlatLessThan[y,x], FlatTuple[x,y,tmp4155], FlatEquals[tmp4140,tmp4155] @ tmp4140 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4141]::set(Infinity,null), FlatMember[tmp4141,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4143]::set(Infinity,null), FlatMember[tmp4143,y]::Infinity[1,5], tmp4146==0, FlatRangeSet[tmp4146,-,tmp4145]::set(Infinity,null,[0,null]), FlatMember[tmp4145,x]::Infinity[2,null], tmp4148==1, tmp4149==5, FlatRangeSet[tmp4148,tmp4149,tmp4147]::set(Infinity,5,[1,5]), FlatMember[tmp4147,y]::Infinity[1,5], FlatLessThan[y,x], FlatTuple[x,y,tmp4155], FlatEquals[tmp4140,tmp4155] @ tmp4140 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:308 took 2.873 sec
+Testcase: animate_sets.tex:308 took 1.355 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4164]::set(Infinity,null), FlatMember[tmp4164,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4166]::set(Infinity,null), FlatMember[tmp4166,y]::Infinity[0,null], tmp4169==0, FlatRangeSet[tmp4169,-,tmp4168]::set(Infinity,null,[0,null]), FlatMember[tmp4168,x]::Infinity[0,null], tmp4171==0, FlatRangeSet[tmp4171,-,tmp4170]::set(Infinity,null,[0,null]), FlatMember[tmp4170,y]::Infinity[0,null], FlatMult[x,x,tmp4172], FlatEquals[y,tmp4172], FlatTuple[x,y,tmp4178], FlatEquals[tmp4163,tmp4178] @ tmp4163 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4164]::set(Infinity,null), FlatMember[tmp4164,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4166]::set(Infinity,null), FlatMember[tmp4166,y]::Infinity[0,null], tmp4169==0, FlatRangeSet[tmp4169,-,tmp4168]::set(Infinity,null,[0,null]), FlatMember[tmp4168,x]::Infinity[0,null], tmp4171==0, FlatRangeSet[tmp4171,-,tmp4170]::set(Infinity,null,[0,null]), FlatMember[tmp4170,y]::Infinity[0,null], FlatMult[x,x,tmp4172], FlatEquals[y,tmp4172], FlatTuple[x,y,tmp4178], FlatEquals[tmp4163,tmp4178] @ tmp4163 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:310 took 3.349 sec
+Testcase: animate_sets.tex:310 took 1.376 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4187]::set(Infinity,null), FlatMember[tmp4187,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4189]::set(Infinity,null), FlatMember[tmp4189,y]::Infinity[0,null], tmp4192==0, FlatRangeSet[tmp4192,-,tmp4191]::set(Infinity,null,[0,null]), FlatMember[tmp4191,x]::Infinity[0,null], tmp4194==0, FlatRangeSet[tmp4194,-,tmp4193]::set(Infinity,null,[0,null]), FlatMember[tmp4193,y]::Infinity[0,null], FlatMult[x,x,tmp4195], FlatEquals[y,tmp4195], FlatTuple[x,y,tmp4201], FlatEquals[tmp4186,tmp4201] @ tmp4186 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4187]::set(Infinity,null), FlatMember[tmp4187,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4189]::set(Infinity,null), FlatMember[tmp4189,y]::Infinity[0,null], tmp4192==0, FlatRangeSet[tmp4192,-,tmp4191]::set(Infinity,null,[0,null]), FlatMember[tmp4191,x]::Infinity[0,null], tmp4194==0, FlatRangeSet[tmp4194,-,tmp4193]::set(Infinity,null,[0,null]), FlatMember[tmp4193,y]::Infinity[0,null], FlatMult[x,x,tmp4195], FlatEquals[y,tmp4195], FlatTuple[x,y,tmp4201], FlatEquals[tmp4186,tmp4201] @ tmp4186 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:311 took 4.107 sec
+Testcase: animate_sets.tex:311 took 1.38 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:141)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4210]::set(Infinity,null), FlatMember[tmp4210,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4212]::set(Infinity,null), FlatMember[tmp4212,y]::Infinity[0,null], tmp4215==0, FlatRangeSet[tmp4215,-,tmp4214]::set(Infinity,null,[0,null]), FlatMember[tmp4214,x]::Infinity[0,null], tmp4217==0, FlatRangeSet[tmp4217,-,tmp4216]::set(Infinity,null,[0,null]), FlatMember[tmp4216,y]::Infinity[0,null], FlatMult[x,x,tmp4218], FlatEquals[y,tmp4218], FlatTuple[x,y,tmp4224], FlatEquals[tmp4209,tmp4224] @ tmp4209 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4210]::set(Infinity,null), FlatMember[tmp4210,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4212]::set(Infinity,null), FlatMember[tmp4212,y]::Infinity[0,null], tmp4215==0, FlatRangeSet[tmp4215,-,tmp4214]::set(Infinity,null,[0,null]), FlatMember[tmp4214,x]::Infinity[0,null], tmp4217==0, FlatRangeSet[tmp4217,-,tmp4216]::set(Infinity,null,[0,null]), FlatMember[tmp4216,y]::Infinity[0,null], FlatMult[x,x,tmp4218], FlatEquals[y,tmp4218], FlatTuple[x,y,tmp4224], FlatEquals[tmp4209,tmp4224] @ tmp4209 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:315 took 1.989 sec
-Testcase: animate_sets.tex:316 took 1.55 sec
-Testcase: animate_sets.tex:317 took 0.531 sec
-Testcase: animate_sets.tex:318 took 0.819 sec
-Testcase: animate_sets.tex:319 took 1.223 sec
-Testcase: animate_sets.tex:320 took 1.151 sec
-Testcase: animate_sets.tex:321 took 1.16 sec
-Testcase: animate_sets.tex:322 took 1.234 sec
-Testcase: animate_sets.tex:323 took 0.613 sec
-Testcase: animate_sets.tex:324 took 0.869 sec
-Testcase: animate_sets.tex:325 took 1.258 sec
-Testcase: animate_sets.tex:326 took 0.986 sec
-Testcase: animate_sets.tex:327 took 1.91 sec
-Testcase: animate_sets.tex:328 took 1.174 sec
-Testcase: animate_sets.tex:329 took 1.709 sec
-Testcase: animate_sets.tex:330 took 0.475 sec
-Testcase: animate_sets.tex:331 took 0.569 sec
-Testcase: animate_sets.tex:332 took 0.849 sec
-Testcase: animate_sets.tex:334 took 1.515 sec
+Testcase: animate_sets.tex:315 took 0.703 sec
+Testcase: animate_sets.tex:316 took 0.627 sec
+Testcase: animate_sets.tex:317 took 0.271 sec
+Testcase: animate_sets.tex:318 took 0.385 sec
+Testcase: animate_sets.tex:319 took 0.508 sec
+Testcase: animate_sets.tex:320 took 0.563 sec
+Testcase: animate_sets.tex:321 took 0.567 sec
+Testcase: animate_sets.tex:322 took 0.683 sec
+Testcase: animate_sets.tex:323 took 0.327 sec
+Testcase: animate_sets.tex:324 took 0.439 sec
+Testcase: animate_sets.tex:325 took 0.627 sec
+Testcase: animate_sets.tex:326 took 0.497 sec
+Testcase: animate_sets.tex:327 took 0.854 sec
+Testcase: animate_sets.tex:328 took 0.552 sec
+Testcase: animate_sets.tex:329 took 0.797 sec
+Testcase: animate_sets.tex:330 took 0.215 sec
+Testcase: animate_sets.tex:331 took 0.274 sec
+Testcase: animate_sets.tex:332 took 0.38 sec
+Testcase: animate_sets.tex:334 took 0.691 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:254)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:335 took 1.263 sec
+Testcase: animate_sets.tex:335 took 0.825 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:336 took 0.821 sec
+Testcase: animate_sets.tex:336 took 0.509 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:337 took 0.989 sec
+Testcase: animate_sets.tex:337 took 0.628 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:338 took 1.231 sec
+Testcase: animate_sets.tex:338 took 0.511 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:339 took 1.874 sec
+Testcase: animate_sets.tex:339 took 0.571 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:340 took 1.504 sec
+Testcase: animate_sets.tex:340 took 0.568 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:341 took 1.359 sec
+Testcase: animate_sets.tex:341 took 0.686 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:342 took 0.659 sec
+Testcase: animate_sets.tex:342 took 0.332 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:289)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:343 took 0.891 sec
+Testcase: animate_sets.tex:343 took 0.442 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:289)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:344 took 1.261 sec
+Testcase: animate_sets.tex:344 took 0.629 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:345 took 0.953 sec
+Testcase: animate_sets.tex:345 took 0.5 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:289)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:346 took 1.758 sec
+Testcase: animate_sets.tex:346 took 0.859 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:347 took 1.062 sec
+Testcase: animate_sets.tex:347 took 0.557 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:289)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:348 took 1.721 sec
+Testcase: animate_sets.tex:348 took 0.802 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:180)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:341)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitRefExpr(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:154)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:262)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:49)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:141)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:73)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:270)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:265)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:349 took 1.268 sec
-Testcase: animate_sets.tex:350 took 1.173 sec
-Testcase: animate_sets.tex:358 took 1.564 sec
-Testcase: animate_sets.tex:360 took 2.146 sec
-	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.EvalSet.subsetIterator(EvalSet.java:161)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.subsetIterator(RangeSet.java:143)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:152)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:133)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:87)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:362 took 3.052 sec
-Testcase: animate_sets.tex:368 took 1.291 sec
-Testcase: animate_sets.tex:370 took 4.082 sec
-Testcase: animate_sets.tex:372 took 1.967 sec
-Testcase: animate_sets.tex:378 took 0.97 sec
-Testcase: animate_sets.tex:380 took 2.651 sec
-Testcase: animate_sets.tex:382 took 1.363 sec
-Testcase: animate_sets.tex:383 took 1.394 sec
-Testcase: animate_sets.tex:384 took 1.317 sec
-Testcase: animate_sets.tex:385 took 1.46 sec
-Testcase: animate_sets.tex:386 took 2.193 sec
-Testcase: animate_sets.tex:387 took 2.477 sec
-Testcase: animate_sets.tex:393 took 0.732 sec
+Testcase: animate_sets.tex:349 took 0.639 sec
+Testcase: animate_sets.tex:350 took 0.511 sec
+Testcase: animate_sets.tex:358 took 0.761 sec
+Testcase: animate_sets.tex:360 took 1.087 sec
+Testcase: animate_sets.tex:362 took 1.483 sec
+Testcase: animate_sets.tex:368 took 0.586 sec
+Testcase: animate_sets.tex:370 took 1.991 sec
+Testcase: animate_sets.tex:372 took 0.904 sec
+Testcase: animate_sets.tex:378 took 0.511 sec
+Testcase: animate_sets.tex:380 took 1.251 sec
+Testcase: animate_sets.tex:382 took 0.64 sec
+Testcase: animate_sets.tex:383 took 0.644 sec
+Testcase: animate_sets.tex:384 took 0.633 sec
+Testcase: animate_sets.tex:385 took 0.628 sec
+Testcase: animate_sets.tex:386 took 0.884 sec
+Testcase: animate_sets.tex:387 took 1.122 sec
+Testcase: animate_sets.tex:393 took 0.32 sec
 	Caused an ERROR
 Unbounded integer range [null,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
@@ -1520,10 +1287,10 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,
 	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:85)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:394 took 0.859 sec
+Testcase: animate_sets.tex:394 took 0.269 sec
 	Caused an ERROR
 Unbounded integer range [0,null]
 net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
@@ -1531,67 +1298,51 @@ net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,nul
 	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:85)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:331)
+	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:397 took 4.389 sec
-Testcase: animate_sets.tex:398 took 4.578 sec
-Testcase: animate_sets.tex:403 took 2.434 sec
-Testcase: animate_sets.tex:404 took 0.834 sec
-Testcase: animate_sets.tex:405 took 1.174 sec
-Testcase: animate_sets.tex:406 took 1.213 sec
-Testcase: animate_sets.tex:407 took 1.611 sec
-Testcase: animate_sets.tex:408 took 0.958 sec
-	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:118)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:43)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:335)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:156)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatForall.nextEvaluation(FlatForall.java:157)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:409 took 0.808 sec
-Testcase: animate_sets.tex:410 took 0.936 sec
-Testcase: animate_sets.tex:411 took 0.933 sec
-Testcase: animate_sets.tex:412 took 1.283 sec
-Testcase: animate_sets.tex:413 took 1.288 sec
-Testcase: animate_sets.tex:414 took 0.983 sec
-Testcase: animate_sets.tex:415 took 1.016 sec
-Testcase: animate_sets.tex:416 took 1.32 sec
-Testcase: animate_sets.tex:417 took 1.015 sec
-Testcase: animate_sets.tex:418 took 1.018 sec
-Testcase: animate_sets.tex:419 took 1.546 sec
-Testcase: animate_sets.tex:420 took 1.955 sec
-Testcase: animate_sets.tex:421 took 2.1 sec
-Testcase: animate_sets.tex:422 took 1.598 sec
-Testcase: animate_sets.tex:423 took 1.808 sec
-Testcase: animate_sets.tex:424 took 0.804 sec
-Testcase: animate_sets.tex:425 took 0.804 sec
-Testcase: animate_sets.tex:426 took 1.534 sec
-Testcase: animate_sets.tex:427 took 0.644 sec
-Testcase: animate_sets.tex:428 took 0.779 sec
-Testcase: animate_sets.tex:429 took 1.474 sec
-Testcase: animate_sets.tex:433 took 1.476 sec
-Testcase: animate_sets.tex:434 took 1.644 sec
-Testcase: animate_sets.tex:435 took 1.601 sec
-Testcase: animate_sets.tex:436 took 3.089 sec
-Testcase: animate_sets.tex:443 took 1.75 sec
-Testcase: animate_sets.tex:444 took 1.848 sec
-Testcase: animate_sets.tex:445 took 2.798 sec
-Testcase: animate_sets.tex:448 took 3.186 sec
-Testcase: animate_sets.tex:449 took 3.634 sec
-Testcase: animate_sets.tex:450 took 4.542 sec
-Testcase: animate_sets.tex:453 took 1.129 sec
-Testcase: animate_sets.tex:454 took 1.482 sec
-Testcase: animate_sets.tex:455 took 3.786 sec
-Testcase: animate_sets.tex:456 took 1.074 sec
-Testcase: animate_sets.tex:457 took 1.499 sec
-Testcase: animate_sets.tex:458 took 2.671 sec
+Testcase: animate_sets.tex:397 took 1.306 sec
+Testcase: animate_sets.tex:398 took 1.439 sec
+Testcase: animate_sets.tex:403 took 1.108 sec
+Testcase: animate_sets.tex:404 took 0.797 sec
+Testcase: animate_sets.tex:405 took 0.859 sec
+Testcase: animate_sets.tex:406 took 0.932 sec
+Testcase: animate_sets.tex:407 took 1.649 sec
+Testcase: animate_sets.tex:408 took 0.979 sec
+Testcase: animate_sets.tex:409 took 0.833 sec
+Testcase: animate_sets.tex:410 took 0.961 sec
+Testcase: animate_sets.tex:411 took 0.958 sec
+Testcase: animate_sets.tex:412 took 1.309 sec
+Testcase: animate_sets.tex:413 took 1.315 sec
+Testcase: animate_sets.tex:414 took 1.001 sec
+Testcase: animate_sets.tex:415 took 1.05 sec
+Testcase: animate_sets.tex:416 took 1.354 sec
+Testcase: animate_sets.tex:417 took 1.041 sec
+Testcase: animate_sets.tex:418 took 1.039 sec
+Testcase: animate_sets.tex:419 took 1.584 sec
+Testcase: animate_sets.tex:420 took 1.711 sec
+Testcase: animate_sets.tex:421 took 2.052 sec
+Testcase: animate_sets.tex:422 took 1.563 sec
+Testcase: animate_sets.tex:423 took 1.749 sec
+Testcase: animate_sets.tex:424 took 0.689 sec
+Testcase: animate_sets.tex:425 took 0.768 sec
+Testcase: animate_sets.tex:426 took 1.47 sec
+Testcase: animate_sets.tex:427 took 0.662 sec
+Testcase: animate_sets.tex:428 took 0.801 sec
+Testcase: animate_sets.tex:429 took 1.508 sec
+Testcase: animate_sets.tex:433 took 1.509 sec
+Testcase: animate_sets.tex:434 took 1.602 sec
+Testcase: animate_sets.tex:435 took 1.636 sec
+Testcase: animate_sets.tex:436 took 3.117 sec
+Testcase: animate_sets.tex:443 took 1.79 sec
+Testcase: animate_sets.tex:444 took 1.792 sec
+Testcase: animate_sets.tex:445 took 2.508 sec
+Testcase: animate_sets.tex:448 took 3.065 sec
+Testcase: animate_sets.tex:449 took 3.193 sec
+Testcase: animate_sets.tex:450 took 3.921 sec
+Testcase: animate_sets.tex:453 took 1.156 sec
+Testcase: animate_sets.tex:454 took 1.307 sec
+Testcase: animate_sets.tex:455 took 2.712 sec
+Testcase: animate_sets.tex:456 took 1.07 sec
+Testcase: animate_sets.tex:457 took 1.339 sec
+Testcase: animate_sets.tex:458 took 2.763 sec
