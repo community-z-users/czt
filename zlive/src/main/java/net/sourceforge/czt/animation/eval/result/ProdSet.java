@@ -71,8 +71,11 @@ public class ProdSet extends DefaultEvalSet
   public BigInteger maxSize()
   {
     if (baseSets_.size() == 0) return BigInteger.ZERO;
-    BigInteger result = BigInteger.valueOf(1);
+    BigInteger result = BigInteger.ONE;
     for (EvalSet s : baseSets_) {
+      BigInteger smax = s.maxSize();
+      if (smax == null)
+        return null;
       result = result.multiply(s.maxSize());
     }
     return result;
