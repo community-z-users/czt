@@ -101,7 +101,7 @@ public class RangeSetTest extends ZTestCase
     from0To3(iter);
     assertFalse(iter.hasNext());
   }
-  
+
   public void testIteratorEmpty()
   {
     Iterator<Expr> iter = empty1.iterator();
@@ -133,6 +133,50 @@ public class RangeSetTest extends ZTestCase
     assertEquals(1, iter.previousIndex());
   }
 
+  public void testListIteratorNats()
+  {
+    ListIterator<Expr> iter = nats.listIterator();
+    assertFalse(iter.hasPrevious());
+    assertEquals(-1, iter.previousIndex());
+    assertEquals(0, iter.nextIndex());
+    assertTrue(iter.hasNext());
+    assertEquals(i0, iter.next());
+    assertTrue(iter.hasNext());
+    assertEquals(i1, iter.next());
+    assertTrue(iter.hasNext());  // infinite nexts in fact
+    assertEquals(2, iter.nextIndex());
+    assertEquals(1, iter.previousIndex());
+    assertTrue(iter.hasPrevious());
+    assertEquals(i1, iter.previous());
+    assertTrue(iter.hasPrevious());
+    assertEquals(i0, iter.previous());
+    assertFalse(iter.hasPrevious());
+    assertEquals(0, iter.nextIndex());
+    assertEquals(-1, iter.previousIndex());
+  }
+
+  public void testListIteratorUpto3()
+  {
+    ListIterator<Expr> iter = upto3.listIterator();
+    assertFalse(iter.hasPrevious());
+    assertEquals(-1, iter.previousIndex());
+    assertEquals(0, iter.nextIndex());
+    assertTrue(iter.hasNext());
+    assertEquals(i3, iter.next());
+    assertTrue(iter.hasNext());
+    assertEquals(i2, iter.next());
+    assertTrue(iter.hasNext()); // infinite nexts in fact
+    assertEquals(2, iter.nextIndex());
+    assertEquals(1, iter.previousIndex());
+    assertTrue(iter.hasPrevious());
+    assertEquals(i2, iter.previous());
+    assertTrue(iter.hasPrevious());
+    assertEquals(i3, iter.previous());
+    assertFalse(iter.hasPrevious());
+    assertEquals(0, iter.nextIndex());
+    assertEquals(-1, iter.previousIndex());
+  }
+
   public void testListIteratorEmpty()
   {
     ListIterator<Expr> iter = empty1.listIterator();
@@ -141,7 +185,7 @@ public class RangeSetTest extends ZTestCase
     assertFalse(iter.hasPrevious());
     assertEquals(-1, iter.previousIndex());
   }
-  
+
   public void testContains()
   {
     assertFalse(empty1.contains(i0));
