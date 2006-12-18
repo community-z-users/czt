@@ -160,9 +160,9 @@ public abstract class EvalSet
     if (otherSet == null)
       return iterator();
     if (otherSet.estSize() < estSize())
-      return new SubsetIterator(otherSet.iterator(), this);
+      return new SubsetIterator<Expr>(otherSet.iterator(), this);
     else
-      return new SubsetIterator(this.iterator(), otherSet);
+      return new SubsetIterator<Expr>(this.iterator(), otherSet);
   }
   
   public boolean containsAll(Collection<?> c)
