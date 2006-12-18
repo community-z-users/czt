@@ -197,7 +197,7 @@ public abstract class DefaultEvalSet
     if (memberList_.size() > 0) {
       return true;
     }
-    return insertMember();
+    return ! insertMember();
   }
 
   /**Tests for the equality of any two sets.
