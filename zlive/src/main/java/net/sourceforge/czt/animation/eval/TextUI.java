@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
+import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -415,6 +416,7 @@ public class TextUI {
     out.println("markup = " + zlive_.getMarkup());
     out.println("section = " + zlive_.getCurrentSection());
     out.println("givensetsize = " + zlive_.getGivenSetSize());
+    out.println("numitersize = " + RangeSet.getNumIterSize());
   }
 
   /** Set one of the ZLive settings to the given value. */
@@ -429,6 +431,9 @@ public class TextUI {
     }
     else if ("givensetsize".equals(name)) {
       zlive_.setGivenSetSize(value);
+    }
+    else if ("numitersize".equals(name)) {
+      RangeSet.setNumIterSize(value);
     }
     else {
       output_.println("Unknown setting: " + name);
