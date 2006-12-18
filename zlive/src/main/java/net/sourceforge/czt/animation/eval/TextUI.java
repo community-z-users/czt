@@ -144,7 +144,7 @@ public class TextUI {
       output_.print("zlive> ");
       output_.flush();
       String str = input.readLine();
-      str.trim();
+      str = str.trim();
       if (str == null || str.equals("quit") || str.equals("exit"))
         break;
       else if ( ! str.equals("")) {
