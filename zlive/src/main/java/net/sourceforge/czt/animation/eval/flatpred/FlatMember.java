@@ -179,17 +179,18 @@ public class FlatMember extends FlatPred
     }
     if (set != null || range != null) {
       result.append("::");
-      if (set != null)
+      if (set != null) {
         result.append(set.estSize());
-      BigInteger lo = set.getLower();
-      BigInteger hi = set.getUpper();
-      RangeSet elemRange = null;
-      if (lo != null || hi != null)
-        elemRange = new RangeSet(lo,hi);
-      if (range != null)
-        range = range.intersect(elemRange);
-      else
-        range = elemRange;
+        BigInteger lo = set.getLower();
+        BigInteger hi = set.getUpper();
+        RangeSet elemRange = null;
+        if (lo != null || hi != null)
+          elemRange = new RangeSet(lo,hi);
+        if (range == null)
+          range = elemRange;
+        else
+          range = range.intersect(elemRange);
+      }
       if (range != null)
         result.append(range.toString());
     }
