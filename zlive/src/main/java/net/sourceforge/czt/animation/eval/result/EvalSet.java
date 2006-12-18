@@ -19,8 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
-import java.util.*;
 import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
@@ -51,9 +54,6 @@ public abstract class EvalSet
 
   /** Default estimate for the approximate size of an unknown set. */
   public static final double UNKNOWN_SIZE = 1000.0;
-
-  /** True iff all members of the set have been evaluated. */
-  private boolean fullyEvaluated_ = false;
 
   /** There seems to be no reason to need annotations,
    *  but the Expr interface forces us to have a non-null list.
@@ -164,7 +164,7 @@ public abstract class EvalSet
     else
       return new SubsetIterator<Expr>(this.iterator(), otherSet);
   }
-  
+
   public boolean containsAll(Collection<?> c)
   {
     for (Object obj : c)
@@ -259,11 +259,11 @@ public abstract class EvalSet
   }
 
   /** A copy of the TermImpl implementation. */
-  public <Expr> Expr getAnn(Class<Expr> aClass)
+  public <T> T getAnn(Class<T> aClass)
   {
     for (Object annotation : anns_) {
       if (aClass.isInstance(annotation)) {
-        return (Expr) annotation;
+        return (T) annotation;
       }
     }
     return null;
@@ -276,7 +276,7 @@ public abstract class EvalSet
     else
       return null;
   }
-  
+
   /** Each subclass should implement a nice toString. */
   public abstract String toString();
 
@@ -285,13 +285,13 @@ public abstract class EvalSet
    *  elements that are members of the slave set.
    * @author marku
    */
-  public static class SubsetIterator<Expr> implements Iterator<Expr>
+  public static class SubsetIterator<E> implements Iterator<E>
   {
-    private Iterator<Expr> iter_;
+    private Iterator<E> iter_;
     private EvalSet otherSet_;
-    private Expr nextExpr_;
-    
-    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
+    private E nextExpr_;
+
+    public SubsetIterator(Iterator<E> master, EvalSet slave)
     {
       iter_ = master;
       otherSet_ = slave;
@@ -301,7 +301,7 @@ public abstract class EvalSet
     {
       nextExpr_ = null;
       while (nextExpr_ == null && iter_.hasNext()) {
-        Expr e = iter_.next();
+        E e = iter_.next();
         if (otherSet_.contains(e))
           nextExpr_ = e;
       }
@@ -310,9 +310,9 @@ public abstract class EvalSet
     {
       return nextExpr_ != null;
     }
-    public Expr next()
+    public E next()
     {
-      Expr result = nextExpr_;
+      E result = nextExpr_;
       moveToNext();
       return result;
     }

@@ -22,9 +22,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.io.FileNotFoundException;
 import java.util.Set;
 
-import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.Flatten;
-import net.sourceforge.czt.animation.eval.UndefException;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.modeljunit.ModelTestCase;
 import net.sourceforge.czt.z.ast.Expr;

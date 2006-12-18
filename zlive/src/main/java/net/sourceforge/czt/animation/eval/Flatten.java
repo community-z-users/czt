@@ -22,7 +22,6 @@ package net.sourceforge.czt.animation.eval;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.parser.util.DefinitionTable;
@@ -49,11 +48,11 @@ import net.sourceforge.czt.z.util.Factory;
  */
 public class Flatten
 {
-  /** A reference to the main animator object, so that we can 
+  /** A reference to the main animator object, so that we can
       access all kinds of settings, tables and section manager etc.
   */
   private ZLive zlive_;
- 
+
   public Flatten(ZLive zlive)
   {
     zlive_ = zlive;
@@ -91,7 +90,7 @@ public class Flatten
 
   /** Constructs a characteristic tuple.
    *  TODO: make this handle schemas etc. properly.
-   * 
+   *
    * @param decls  List of declarations.
    * @return       The characteristic tuple.
    */

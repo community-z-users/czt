@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -41,7 +40,7 @@ public class FlatGivenSet extends FlatPred
 {
   /** We need to call zlive_.getGivenSetSize(). */
   private ZLive zlive_;
-  
+
   /** The name of this given set. */
   private String name_;
 
@@ -53,7 +52,7 @@ public class FlatGivenSet extends FlatPred
 
   /** Number of members returned by nextMember() */
   private int membersReturned_;
-  
+
   public FlatGivenSet(ZName set, String name, ZLive zlive)
   {
     args_ = new ArrayList<ZName>();
@@ -67,7 +66,7 @@ public class FlatGivenSet extends FlatPred
   {
     return zlive_.getGivenSetSize();
   }
-  
+
   /** The name of this given set. */
   public String getName()
   {
@@ -81,7 +80,7 @@ public class FlatGivenSet extends FlatPred
       return true;
     }
     else
-      return false;  
+      return false;
   }
 
   /** The lower bound on numeric elements, if any, else null. */
@@ -105,7 +104,7 @@ public class FlatGivenSet extends FlatPred
   }
 
   /** Estimate the size of the set in the default environment.
-   *  The default environment should have been set 
+   *  The default environment should have been set
    *  (via FlatPred.setMode) before you can call this.
    */
   public double estSize()
@@ -118,7 +117,7 @@ public class FlatGivenSet extends FlatPred
   {
     return zlive_.getGivenSetSize();
   }
-  
+
   /** Always throws an exception, since the size of given sets is unknown. */
   public int size()
   {

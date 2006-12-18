@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 
-import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.Expr;
@@ -39,36 +38,36 @@ public class BoundsTest extends ZTestCase
     assertEquals(0, bnds.getUpperKeys().size());
     assertEquals(0, bnds.getEvalSetKeys().size());
     assertFalse(bnds.boundsChanged());
-    
+
     // add a lower bound
     assertTrue(bnds.addLower(x, new BigInteger("-10")));
     assertEquals(new BigInteger("-10"), bnds.getLower(x));
-    
+
     // check the change detection
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.boundsChanged(x));
     assertFalse(bnds.boundsChanged(y));
     assertEquals(1, bnds.getDeductions());
-    
+
     // add a weaker lower bound
     assertFalse(bnds.addLower(x, new BigInteger("-11")));
     assertEquals(new BigInteger("-10"), bnds.getLower(x));
-    
+
     // add a stronger lower bound
     assertTrue(bnds.addLower(x, new BigInteger("-9")));
     assertEquals(new BigInteger("-9"), bnds.getLower(x));
-    
+
     // add an even stronger (and positive) lower bound
     assertTrue(bnds.addLower(x, new BigInteger("9")));
     assertEquals(new BigInteger("9"), bnds.getLower(x));
-    
+
     // recheck the change detection and counting
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.boundsChanged(x));
     assertFalse(bnds.boundsChanged(y));
     assertEquals(3, bnds.getDeductions());
   }
-  
+
   public void testUpper()
   {
     Bounds bnds = new Bounds(null);
@@ -78,36 +77,36 @@ public class BoundsTest extends ZTestCase
     assertEquals(0, bnds.getUpperKeys().size());
     assertEquals(0, bnds.getEvalSetKeys().size());
     assertFalse(bnds.boundsChanged());
-    
+
     // add an upper bound
     assertTrue(bnds.addUpper(x, new BigInteger("10")));
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
-    
+
     // check the change detection
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.boundsChanged(x));
     assertFalse(bnds.boundsChanged(y));
     assertEquals(1, bnds.getDeductions());
-    
+
     // add a weaker upper bound
     assertFalse(bnds.addUpper(x, new BigInteger("11")));
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
-    
+
     // add a stronger upper bound
     assertTrue(bnds.addUpper(x, new BigInteger("9")));
     assertEquals(new BigInteger("9"), bnds.getUpper(x));
-    
+
     // add an even stronger (and negative) upper bound
     assertTrue(bnds.addUpper(x, new BigInteger("-9")));
     assertEquals(new BigInteger("-9"), bnds.getUpper(x));
-    
+
     // recheck the change detection and counting
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.boundsChanged(x));
     assertFalse(bnds.boundsChanged(y));
     assertEquals(3, bnds.getDeductions());
   }
-  
+
   public void testConst()
   {
     Bounds bnds = new Bounds(null);
@@ -118,9 +117,9 @@ public class BoundsTest extends ZTestCase
     assertEquals(new BigInteger("20"), bnds.getLower(x));
     assertEquals(new BigInteger("20"), bnds.getUpper(x));
   }
-  
+
   /**
-   * Checks that bnds already contains all the Bounds deductions 
+   * Checks that bnds already contains all the Bounds deductions
    * that can be made by pred.
    * @param pred
    * @param bnds
@@ -150,13 +149,13 @@ public class BoundsTest extends ZTestCase
     assertNull(bnds.getUpper(y));
     assertEquals(new BigInteger("-8"), bnds.getLower(z));
     assertNull(bnds.getUpper(z));
-    
+
     checkFixPoint(preds, bnds);
     // Finally, check that the bounds of x have NOT changed.
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
   }
-  
+
   /** Tests FlatLessThan bounds propagation from right to left. */
   public void testLessThanRight()
   {
@@ -177,7 +176,7 @@ public class BoundsTest extends ZTestCase
     assertEquals(new BigInteger("10"), bnds.getUpper(z));
     assertEquals(new BigInteger("10"), bnds.getUpper(z));
   }
-  
+
   /** Tests FlatLessThanEquals bounds propagation from left to right. */
   public void testLessThanEqualsLeft()
   {
@@ -198,7 +197,7 @@ public class BoundsTest extends ZTestCase
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
     assertEquals(new BigInteger("10"), bnds.getUpper(x));
   }
-  
+
   /** Tests FlatLessThanEquals bounds propagation from right to left. */
   public void testLessThanEqualsRight()
   {
@@ -219,7 +218,7 @@ public class BoundsTest extends ZTestCase
     assertEquals(new BigInteger("10"), bnds.getUpper(z));
     assertEquals(new BigInteger("10"), bnds.getUpper(z));
   }
-  
+
   /** Tests FlatEquals bounds propagation. */
   public void testEquals()
   {
@@ -409,7 +408,7 @@ public class BoundsTest extends ZTestCase
     assertEquals(new BigInteger("8"), bnds.getUpper(z));
     checkFixPoint(preds, bnds);
   }
-  
+
   public void testSetCompExpr()
   {
     Bounds bnds = new Bounds(null);
@@ -422,7 +421,7 @@ public class BoundsTest extends ZTestCase
     assertNotNull(est);
     assertEquals(BigInteger.valueOf(0), est.getLower());
     assertEquals(BigInteger.valueOf(7), est.getUpper());
-    // TODO: add these 
+    // TODO: add these
     //assertNotNull(est.maxSize());
     //assertTrue(est.maxSize().intValue() <= 1000);
     checkFixPoint(preds, bnds);

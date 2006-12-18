@@ -22,7 +22,6 @@ package net.sourceforge.czt.animation.eval;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import junit.framework.Test;
@@ -33,7 +32,19 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.ConjPara;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
@@ -45,7 +56,7 @@ public abstract class EvalTest extends TestCase
 {
   private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
+
   /** Get the LocAnn of a term, or null if it does not have one. */
   public static LocAnn getLocAnn(Term term)
   {
@@ -63,7 +74,7 @@ public abstract class EvalTest extends TestCase
   {
     return EvalTest.class.getResource("/" + name);
   }
-  
+
   /** If the predicate is Expr=undefnum, then return Expr. */
   private static Expr undefExpr(Pred pred) {
     Expr result = null;
@@ -92,13 +103,13 @@ public abstract class EvalTest extends TestCase
   {
     private Pred pred_; // the predicate to evaluate
     private ZLive animator_;
-    
+
     PredTest(String testname, Pred pred, ZLive anim) {
       setName(testname);
       pred_ = pred;
       animator_ = anim;
     }
-    
+
     /** Test that a predicate evaluates to TruePred. */
     public void runTest() {
       LOG.fine("running PredTest("+getName()+")");
@@ -108,19 +119,19 @@ public abstract class EvalTest extends TestCase
       System.out.println("Passed test:" + getName());
     }
   }
-  
+
   /** This class tests that an expr is undefined. */
   static class UndefTest extends TestCase
   {
     private Expr expr_; // the expr that should be undefined.
     private ZLive animator_;
-    
+
     UndefTest(String testname, Expr expr, ZLive anim) {
       setName(testname);
       expr_ = expr;
       animator_ = anim;
     }
-    
+
     /** Test that an expression throws an undefined exception. */
     public void runTest() {
       LOG.fine("running UndefTest("+getName()+")");
@@ -133,7 +144,7 @@ public abstract class EvalTest extends TestCase
       }
     }
   }
-  
+
   public static Test generateSuite(String filename) {
     ZLive animator = new ZLive();
     //ZFormatter.startLogging("net.sourceforge.czt.animation.eval",

@@ -18,26 +18,6 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.animation.eval.result.EvalSet;
-import net.sourceforge.czt.animation.eval.result.EvalSetVisitor;
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.impl.ListTermImpl;
-import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Ann;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.ZName;
 
 /** 
  */

@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
  Each flattened predicate can be evaluated in one or more different
@@ -91,14 +90,14 @@ public abstract class FlatPred
 
   /** Get the list of variables that this predicate directly
    *  depends upon.  This usually contains the same variables
-   *  as the freeVars set, but this list may contain duplicates. 
+   *  as the freeVars set, but this list may contain duplicates.
    *  This should be treated as a read-only list.
    */
   public List<ZName> getArgs()
   {
     return args_;
   }
-  
+
   /** Get the variable at the end of getArgs().
    *  This is usually the output' of this FlatPred.
    */
@@ -144,7 +143,7 @@ public abstract class FlatPred
    *  in constraint solvers (bounds consistency).
    *  For example, if y already has the range 10..20,
    *  then the FlatPred x &lt; y would set the maximum value of x to 19.
-   *  
+   *
    *  @param bnds  The database of lower and upper bounds for integer variables.
    *  @return      true iff the bnds database has been changed.
    *  <p>
@@ -195,7 +194,7 @@ public abstract class FlatPred
   }
 
   /** A default implementation of chooseMode.
-   *  For example, with 3 args, this returns modes III(0.5), 
+   *  For example, with 3 args, this returns modes III(0.5),
    *  OII(1.0), IOI(1.0), IIO(1.0).
    *  That is, n-1 args must be defined in env.
    */
@@ -210,7 +209,7 @@ public abstract class FlatPred
       result = null;
     return result;
   }
-  
+
   /** A default implementation of chooseMode.
    *  Useful when the last argument is a collection (tuple/binding)
    *  that contains all the other arguments.

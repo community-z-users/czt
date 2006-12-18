@@ -20,17 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.TreeSet;
 
-import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.ast.ZName;
 
 /** A simple implementation of the union of two EvalSets.
  *
@@ -179,7 +171,7 @@ public class UnionSet extends DefaultEvalSet
           "The Remove Operation is not supported");
     }
   }
-  
+
   @Override
   public String toString()
   {

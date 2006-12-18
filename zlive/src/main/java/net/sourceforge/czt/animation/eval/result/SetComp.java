@@ -19,25 +19,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.TreeSet;
-
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
-import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** A simple implementation of a set comprehension.
- *  When this is created, the precise values of all 
+ *  When this is created, the precise values of all
  *  free variables are known and are in the given environment.
  *
  * @author marku
@@ -55,7 +45,7 @@ public class SetComp extends DefaultEvalSet
   */
   protected FlatPredList predsOne_;
 
-  
+
   /** This is the environment that defines all the free variables
    *  of this set comprehension.
    */
@@ -68,11 +58,11 @@ public class SetComp extends DefaultEvalSet
   protected Envir outputEnvir_ = null;
 
   protected double estSize_ = UNKNOWN_SIZE;
-  
+
   /** The fresh ZName which will be bound to a member of the set. */
   protected ZName resultName_;
-  
-  public SetComp(FlatPredList predsAll, FlatPredList predsOne, 
+
+  public SetComp(FlatPredList predsAll, FlatPredList predsOne,
        ZName resultName, Envir env0)
   {
     predsAll_ = predsAll;
@@ -135,7 +125,7 @@ public class SetComp extends DefaultEvalSet
     else
       return null;
   }
-  
+
   @Override
   public String toString()
   {

@@ -23,9 +23,7 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZTestCase;
-import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -47,7 +45,7 @@ public class FlatCardTest
   private ZName s = factory_.createZName("s");
 
   private ZName w = factory_.createZName("w");
-  
+
   protected FlatPred pred;
 
   public void setUp()
@@ -146,7 +144,7 @@ public class FlatCardTest
     Envir envXY = envX.plus(y,i15);
     Expr value = createRange(new FlatRangeSet(x,y,w), envXY);
     Envir envXYZ = envXY.plus(z,value);
-    
+
     // now check #w = 6
     Envir envXYZS = envXYZ.plus(s,i6);
     Mode mode = pred.chooseMode(envXYZS);
@@ -180,7 +178,7 @@ public class FlatCardTest
     tempArgsList.add(q);
     Expr value = createRange(new FlatDiscreteSet(tempArgsList,w), envLMNOPQ);
     Envir envLMNOPQZ = envLMNOPQ.plus(z,value);
-    
+
     // now check that #w = 6.
     Envir envLMNOPQZS = envLMNOPQZ.plus(s,i6);
     Mode mode = pred.chooseMode(envLMNOPQZS);

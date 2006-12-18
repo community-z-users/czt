@@ -23,13 +23,10 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.NumExpr;
-import net.sourceforge.czt.z.util.Factory;
 
 /**
  * A simple implementation of a power set.
@@ -54,7 +51,7 @@ public class PowerSet extends DefaultEvalSet
   }
 
   /** Returns the exact size of the set,
-   *  or MAX_VALUE if the set is infinite or 
+   *  or MAX_VALUE if the set is infinite or
    *  has cardinality greater than MAX_VALUE.
    */
   @Override
@@ -208,7 +205,7 @@ public class PowerSet extends DefaultEvalSet
     public DiscreteSet next()
     {
       DiscreteSet result = new DiscreteSet();
-      result.addAll(((Collection) list_.get(pos_++)));
+      result.addAll(((Collection<Expr>) list_.get(pos_++)));
       result.add(expr_);
       return result;
     }

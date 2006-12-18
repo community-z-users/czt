@@ -21,7 +21,6 @@ package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -50,7 +49,7 @@ public class ProdSet extends DefaultEvalSet
   }
 
   /** Returns the exact size of the set,
-   *  or MAX_VALUE if the set is infinite or 
+   *  or MAX_VALUE if the set is infinite or
    *  has cardinality greater than MAX_VALUE.
    */
   @Override

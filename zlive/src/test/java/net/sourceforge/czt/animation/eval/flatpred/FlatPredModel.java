@@ -22,7 +22,6 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.UndefException;
-import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.modeljunit.Action;
 import net.sourceforge.czt.modeljunit.FsmModel;
 import net.sourceforge.czt.z.ast.Expr;
@@ -62,7 +61,7 @@ public class FlatPredModel implements FsmModel
 
   /** Bounds for the predicate under test. */
   private Bounds bounds_ = new Bounds(null);
-  
+
   /** The input environment being used for testing. */
   //@invariant env_ == null <==> mode_ == null;
   private Envir env_;
@@ -75,7 +74,7 @@ public class FlatPredModel implements FsmModel
   //@invariant data_ != null <==> state_==Started;
   private Eval data_;
 
-  
+
   /** Create a test harness for a FlatPred subclass.
    *  For example, if toTest represents the constraint a*b=c,
    *  then names should contain {a,b,c} and eval1 and eval2 might contain

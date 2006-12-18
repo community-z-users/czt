@@ -1,6 +1,6 @@
 package net.sourceforge.czt.animation.eval.result;
 
-/** This exception is throw when precise information is requested 
+/** This exception is throw when precise information is requested
  *  from a 'fuzzy' set (partially unknown) too early.  For example,
  *  when size() is called.
  * @author marku
@@ -8,6 +8,7 @@ package net.sourceforge.czt.animation.eval.result;
  */
 public class FuzzySetException extends RuntimeException
 {
+  private static final long serialVersionUID = 1403403910627393752L;
 
   public FuzzySetException()
   {

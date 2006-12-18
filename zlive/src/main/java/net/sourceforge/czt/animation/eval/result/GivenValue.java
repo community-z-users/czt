@@ -19,19 +19,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.impl.ExprImpl;
 
 /** A member of a given set.
- * 
+ *
  * @author marku
- * 
+ *
  * @see net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet
  */
 public class GivenValue extends EvalResult
 {
   private String value_;
-  
+
   public GivenValue(String value)
   {
     value_ = value;

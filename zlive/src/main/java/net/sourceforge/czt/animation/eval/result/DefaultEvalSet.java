@@ -19,15 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
-import java.util.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.impl.ListTermImpl;
-import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.z.ast.Ann;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -166,11 +167,11 @@ public abstract class DefaultEvalSet
     if (otherSet == null)
       return iterator();
     if (otherSet.estSize() < estSize())
-      return new SubsetIterator(otherSet.iterator(), this);
+      return new SubsetIterator<Expr>(otherSet.iterator(), this);
     else
-      return new SubsetIterator(this.iterator(), otherSet);
+      return new SubsetIterator<Expr>(this.iterator(), otherSet);
   }
-  
+
   /** Tests for membership of the set.
    * @param e  The fully evaluated expression.
    * @return   true iff e is a member of the set.
@@ -373,13 +374,13 @@ public abstract class DefaultEvalSet
    *  elements that are members of the slave set.
    * @author marku
    */
-  public static class SubsetIterator<Expr> implements Iterator<Expr>
+  public static class SubsetIterator<E> implements Iterator<E>
   {
-    private Iterator<Expr> iter_;
+    private Iterator<E> iter_;
     private EvalSet otherSet_;
-    private Expr nextExpr_;
-    
-    public SubsetIterator(Iterator<Expr> master, EvalSet slave)
+    private E nextExpr_;
+
+    public SubsetIterator(Iterator<E> master, EvalSet slave)
     {
       iter_ = master;
       otherSet_ = slave;
@@ -389,7 +390,7 @@ public abstract class DefaultEvalSet
     {
       nextExpr_ = null;
       while (nextExpr_ == null && iter_.hasNext()) {
-        Expr e = iter_.next();
+        E e = iter_.next();
         if (otherSet_.contains(e))
           nextExpr_ = e;
       }
@@ -398,9 +399,9 @@ public abstract class DefaultEvalSet
     {
       return nextExpr_ != null;
     }
-    public Expr next()
+    public E next()
     {
-      Expr result = nextExpr_;
+      E result = nextExpr_;
       moveToNext();
       return result;
     }

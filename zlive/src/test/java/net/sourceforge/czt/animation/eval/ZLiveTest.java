@@ -19,15 +19,12 @@
 
 package net.sourceforge.czt.animation.eval;
 
-import java.util.Iterator;
-
 import junit.framework.Assert;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
-import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Spec;
@@ -120,7 +117,7 @@ public class ZLiveTest extends ZTestCase
   }
   */
 
-  
+
   public void testReset()
   {
     zlive_.reset();

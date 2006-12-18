@@ -22,7 +22,6 @@ package net.sourceforge.czt.animation.eval.result;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -59,7 +58,7 @@ public class DiscreteSet extends EvalSet
   {
     return contents_.isEmpty();
   }
-  
+
   public int size()
   {
     return contents_.size();
@@ -165,7 +164,7 @@ public class DiscreteSet extends EvalSet
       changed |= add(e);
     return changed;
   }
-  
+
   @Override
   public String toString()
   {

@@ -22,14 +22,12 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.result.DiscreteSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
-import net.sourceforge.czt.animation.eval.result.FuzzySetException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
