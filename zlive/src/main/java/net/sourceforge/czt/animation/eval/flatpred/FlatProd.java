@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.ProdSet;
 
 /**
  * FlatProd([a,b,c...], s) implements a \cross b \cross c... = s.
@@ -90,7 +91,7 @@ public class FlatProd extends FlatPred
         result = this.equals(env.lookup(set));
       }
       else {
-        env.setValue(set, null); // TODO
+        env.setValue(set, new ProdSet(baseSets_)); // TODO
         result = true;
       }
 
