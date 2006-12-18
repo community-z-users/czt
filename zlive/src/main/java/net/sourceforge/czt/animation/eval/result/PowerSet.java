@@ -128,6 +128,7 @@ public class PowerSet extends DefaultEvalSet
   protected void resetResult()
   {
     super.resetResult();
+    iter_ = null;
   }
 
   public String toString()
