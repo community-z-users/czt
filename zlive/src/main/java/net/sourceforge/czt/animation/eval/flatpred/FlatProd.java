@@ -19,17 +19,18 @@
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.*;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
+import net.sourceforge.czt.animation.eval.result.FuzzySet;
+import net.sourceforge.czt.animation.eval.result.ProdSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
-import net.sourceforge.czt.animation.eval.result.EvalSet;
-import net.sourceforge.czt.animation.eval.result.ProdSet;
 
 /**
  * FlatProd([a,b,c...], s) implements a \cross b \cross c... = s.
@@ -44,12 +45,6 @@ public class FlatProd extends FlatPred
   /** The most recent bounds information. */
   protected Bounds bounds_;
 
-  /** The actual values of the base sets, once known. */
-  private List<EvalSet> baseSets_;
-
-  /** Used by nextMember to iterate through both sets. */
-  private List<Iterator<Expr>> iterators_ = null;
-
   /** Creates a new instance of FlatUnion */
   public FlatProd(List<ZName> baseSets, ZName s)
   {
@@ -58,15 +53,38 @@ public class FlatProd extends FlatPred
     solutionsReturned_ = -1;
   }
 
-  /** TODO: perform bounds propagation similar to multiplication.
+  /** This calculates the maximum and estimated size of the cartesian
+   * product from the maximum and estimated sizes of the base sets.
+   * TODO: could perform two-way bounds propagation similar to 
+   *   multiplication, but this is probably rarely useful.
    */
   public boolean inferBounds(Bounds bnds)
   {
     bounds_ = bnds;
-    return bnds.setEvalSet(getLastArg(), null); // TODO
+    // calculate an upper bound on the size of the product
+    BigInteger maxSize = BigInteger.ONE;
+    double estSize = 1.0;
+    for (int i=0; i<args_.size()-1; i++) {
+      Expr set_i = bnds.getEvalSet(args_.get(i));
+      if (set_i != null && set_i instanceof EvalSet) {
+        EvalSet s = (EvalSet) set_i;
+        estSize *= s.estSize();
+        BigInteger max_i = s.maxSize();
+        if (max_i == null)
+          maxSize = null;
+        else if (maxSize != null)
+          maxSize = maxSize.multiply(max_i);
+      }
+      else {
+        maxSize = null;
+        estSize = EvalSet.UNKNOWN_SIZE;
+      }
+    }
+    FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), estSize, maxSize);
+    return bnds.setEvalSet(getLastArg(), fuzzy);
   }
 
-  /** TODO: implement the reverse mode as well. */
+  /** TODO: could implement a reverse mode as well, but rarely useful. */
   public Mode chooseMode(Envir env)
   {
     assert bounds_ != null; // inferBounds should have been called.
@@ -83,20 +101,17 @@ public class FlatProd extends FlatPred
       solutionsReturned_++;
       ZName set = getLastArg();
       Envir env = evalMode_.getEnvir();
-      baseSets_ = findSets(env);
-      if (baseSets_ == null)
+      List<EvalSet> baseSets = findSets(env);
+      if (baseSets == null)
         throw new EvalException("unevaluated base set in product "+this);
 
       if (evalMode_.isInput(set)) {
         result = this.equals(env.lookup(set));
       }
       else {
-        env.setValue(set, new ProdSet(baseSets_)); // TODO
+        env.setValue(set, new ProdSet(baseSets));
         result = true;
       }
-
-      // reset iterators
-      iterators_ = null;
     }
     return result;
   }
@@ -116,25 +131,6 @@ public class FlatProd extends FlatPred
       }
       return sets;
   }
-
-  //@ requires solutionsReturned > 0;
-  public boolean contains(Object e)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    if ( ! (e instanceof TupleExpr))
-      throw new EvalException("unevaluated tuple: "+e);
-
-    TupleExpr tuple = (TupleExpr) e;
-    List<Expr> values = tuple.getZExprList();
-    if (values.size() != baseSets_.size())
-      throw new EvalException("type error in FlatProd: "+e);
-    for (int i=0; i<values.size(); i++) {
-      if ( ! baseSets_.get(i).contains(values.get(i)))
-        return false;
-    }
-    return true;
-  }
-
 
   ///////////////////////// Pred methods ///////////////////////
 
