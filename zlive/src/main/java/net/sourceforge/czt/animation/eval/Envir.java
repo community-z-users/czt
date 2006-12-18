@@ -151,6 +151,13 @@ public class Envir
     return result;
   }
 
+  @Override
+  public int hashCode()
+  {
+    assert false : "Envir.hashCode() not implemented.";
+    return 42;
+  }
+
   /** Two environments are equal if they contain the same names
       and values, in exactly the same order.
   */
