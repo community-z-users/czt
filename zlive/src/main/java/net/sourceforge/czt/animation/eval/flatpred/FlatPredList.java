@@ -357,11 +357,8 @@ public class FlatPredList extends FlatPred
   }
 
   /** Optimises the list and chooses a mode.
-   *  Note that inferBounds should usually be done before this,
+   *  Note that inferBounds must be done before this,
    *  since it may narrow the search space of chooseMode.
-   *
-   *  @czt.todo Implement a simple reordering algorithm here.
-   *  The current implementation does no reordering.
    */
   public ModeList chooseMode(Envir env0)
   {
