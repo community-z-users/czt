@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -49,8 +50,10 @@ import net.sourceforge.czt.z.util.PrintVisitor;
  * 
  * @author marku
  */
-public class ExprComparator implements Comparator<Expr>
+public class ExprComparator implements Comparator<Expr>, Serializable
 {
+  private static final long serialVersionUID = -593644926294937817L;
+  
   private static final int NUMEXPR = 1;
   private static final int GIVENVALUE = 2;
   private static final int GIVENSET = 3;
@@ -79,8 +82,11 @@ public class ExprComparator implements Comparator<Expr>
   /** A comparator that compares just the name part of ConstDecls.
    *  This is useful for sorting lists of ConstDecl objects.
    */
-  private static class ConstDeclComparator implements Comparator<ConstDecl>
+  private static class ConstDeclComparator
+  implements Comparator<ConstDecl>, Serializable
   {
+    private static final long serialVersionUID = -7118907591680743993L;
+
     public int compare(ConstDecl cdecl0, ConstDecl cdecl1)
     {
       PrintVisitor printVisitor = new PrintVisitor(false);

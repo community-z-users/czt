@@ -18,21 +18,24 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.util.PrintVisitor;
 
-/** A comparator for evaluated Z expressions.
- *  The compare method defines a total order over evaluated Z expressions,
- *  such that the inferred equivalence relation is semantic equality
- *  of the Z expressions.  This class uses the singleton pattern,
+/** A comparator for evaluated ZNames.
+ *  This compares two names by converting them to strings first,
+ *  so that their Ids are ignored.
+ *  This class uses the singleton pattern,
  *  so use the create() method to get an instance.
  * 
  * @author marku
  */
-public class ZRefNameComparator implements Comparator<ZName>
+public class ZRefNameComparator implements Comparator<ZName>, Serializable
 {
+  private static final long serialVersionUID = -184279914448290364L;
+  
   private static ZRefNameComparator singleton_ = new ZRefNameComparator();
   
   public static ZRefNameComparator create()
