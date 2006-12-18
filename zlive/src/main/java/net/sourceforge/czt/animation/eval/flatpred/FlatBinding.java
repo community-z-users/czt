@@ -26,7 +26,7 @@ import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ExprComparator;
-import net.sourceforge.czt.animation.eval.ZRefNameComparator;
+import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.BindExpr;

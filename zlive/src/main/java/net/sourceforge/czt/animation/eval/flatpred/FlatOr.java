@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ZRefNameComparator;
+import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -61,7 +61,7 @@ public class FlatOr extends FlatPred
     super();
     left_ = left;
     right_ = right;
-    freeVars_ = new TreeSet<ZName>(ZRefNameComparator.create());
+    freeVars_ = new TreeSet<ZName>(ZNameComparator.create());
     freeVars_.addAll(left_.freeVars());
     freeVars_.addAll(right_.freeVars());
     args_ = new ArrayList<ZName>(freeVars_);

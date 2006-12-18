@@ -32,13 +32,13 @@ import net.sourceforge.czt.z.util.PrintVisitor;
  * 
  * @author marku
  */
-public class ZRefNameComparator implements Comparator<ZName>, Serializable
+public class ZNameComparator implements Comparator<ZName>, Serializable
 {
   private static final long serialVersionUID = -184279914448290364L;
   
-  private static ZRefNameComparator singleton_ = new ZRefNameComparator();
+  private static ZNameComparator singleton_ = new ZNameComparator();
   
-  public static ZRefNameComparator create()
+  public static ZNameComparator create()
   {
     return singleton_;
   }

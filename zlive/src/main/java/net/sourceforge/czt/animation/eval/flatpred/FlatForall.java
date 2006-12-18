@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.ZRefNameComparator;
+import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -68,7 +68,7 @@ public class FlatForall extends FlatPred
     }
     //System.out.println("freevars = "+freeVars_);
     args_ = new ArrayList<ZName>(freeVars_);
-    Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
+    Collections.sort(args_, ZNameComparator.create()); // so the order is reproducible
     solutionsReturned_ = -1;
     LOG.exiting("FlatForall","FlatForall");
   }

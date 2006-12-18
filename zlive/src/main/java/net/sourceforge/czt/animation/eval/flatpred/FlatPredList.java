@@ -28,7 +28,7 @@ import java.util.Set;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZLive;
-import net.sourceforge.czt.animation.eval.ZRefNameComparator;
+import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -153,7 +153,7 @@ public class FlatPredList extends FlatPred
         }
       }
       args_ = new ArrayList<ZName>(freeVars_);
-      Collections.sort(args_, ZRefNameComparator.create()); // so the order is reproducible
+      Collections.sort(args_, ZNameComparator.create()); // so the order is reproducible
     }
     return freeVars_;
   }
