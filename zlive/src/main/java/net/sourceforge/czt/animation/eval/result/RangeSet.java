@@ -274,9 +274,9 @@ public class RangeSet extends EvalSet
       if (current_ == null)
         throw new EvalException("Cannot start iteration through ALL integers");
       current_ = current_.add(incr_);
-      if (current_.equals(toomany_))
-        throw new EvalException("Gave up iterating through "+
-            start_+".."+end_+" by "+incr_);
+      if (end_ == null && current_.equals(toomany_))
+        throw new EvalException("Gave up unbounded iteration from "+
+            start_+" by "+incr_+" after "+numIterSize_+" results.");
       return factory_.createNumExpr(temp);
     }
     public boolean hasPrevious()
