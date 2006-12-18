@@ -46,10 +46,37 @@ public class RangeSet extends EvalSet
 
   protected Factory factory_ = new Factory();
 
+  /** Maximum number of next() solutions from the iterators.
+   *  Zero means infinite.
+   */
+  private static int numIterSize_ = 10;
+
   public RangeSet(BigInteger lo, BigInteger up)
   {
     lower_ = lo;
     upper_ = up;
+  }
+  
+  /**
+   * @return The maximum number of integers we should iterate through.
+   */
+  public static int getNumIterSize()
+  {
+    return numIterSize_;
+  }
+
+  /** Set the maximum number of integer values we should iterate
+   *  through before throwing an EvalException.
+   * @param size The maximum number of integers
+   */
+  public static void setNumIterSize(int size)
+  {
+    numIterSize_ = size;
+  }
+
+  public static void setNumIterSize(String value)
+  {
+    setNumIterSize(Integer.valueOf(value));
   }
 
   /** true iff there is a lower bound and an upper bound. */
@@ -118,19 +145,28 @@ public class RangeSet extends EvalSet
 
   public Iterator<Expr> iterator()
   {
-    return listIterator();
+      return listIterator();
   }
 
+  /** Iterates from low to high if there is a lower bound, 
+   *  otherwise it iterates from high to low.  If there are
+   *  no bounds, it will return an iterator that throws an EvalException
+   *  on the first call to next(). 
+   */
   public ListIterator<Expr> listIterator()
   {
-    if (lower_ == null || upper_ == null)
-      throw new EvalException("Unbounded integer range "+this);
-    return new RangeSetIterator(lower_, upper_);
+    if (lower_ != null)
+      return new RangeSetIterator(lower_, upper_, BigInteger.ONE);
+    else
+      return new RangeSetIterator(upper_, lower_, BigInteger.valueOf(-1));
   }
 
   @Override
   public Iterator<Expr> sortedIterator()
   {
+    if (lower_ == null)
+      throw new EvalException("No minimum value for sorted iteration through "
+          +this);
     return iterator();
   }
 
@@ -191,7 +227,11 @@ public class RangeSet extends EvalSet
     return upper_;
   }
 
-  /** This is a ListIterator that iterates in sorted order from low upto high.
+  /** This is a ListIterator that iterates from start to end, using 
+   *  the given increment value (usually +1 or -1).
+   *  If end==null, then the iterator will return an infinite
+   *  stream of values.  If both are null, then the first call
+   *  to next() will throw an exception.
    *  Like all list iterators, the index methods may return incorrect
    *  results if you do more than 2^31 nexts.
    * @author marku
@@ -199,43 +239,65 @@ public class RangeSet extends EvalSet
    */
   private class RangeSetIterator implements ListIterator<Expr>
   {
-    protected BigInteger lowest_;
-    protected BigInteger current_;
-    protected BigInteger highest_;
+    protected BigInteger start_;  // may be null
+    protected BigInteger current_; // null iff start is null
+    protected BigInteger incr_; // non-null
+    protected BigInteger end_; // may be null
+    
+    /** We throw EvalException when we reach this one. */
+    protected BigInteger toomany_; // null iff start is null;
 
-    public RangeSetIterator(BigInteger low, BigInteger high)
+    /** start or end (or both) can be null, but incr must be non-null. */
+    public RangeSetIterator(BigInteger start, BigInteger end, BigInteger incr)
     {
-      assert(low != null);
-      assert(high != null);
-      lowest_ = low;
-      current_ = low;
-      highest_ = high;
+      start_ = start;
+      current_ = start;
+      incr_ = incr;
+      end_ = end;
+      if (start != null)
+        toomany_ = start.add(incr.multiply(BigInteger.valueOf(numIterSize_)));
     }
     public boolean hasNext()
     {
-      return (current_.compareTo(highest_) <= 0);
+      if (current_ == null || end_ == null)
+        return true;
+      if (incr_.signum() == 1)
+        return (current_.compareTo(end_) <= 0);
+      else
+        return (current_.compareTo(end_) >= 0);
     }
     public Expr next()
     {
       BigInteger temp = current_;
       if ( ! hasNext())
         throw new NoSuchElementException("too many nexts on "+this);
-      current_ = current_.add(BigInteger.ONE);
+      if (current_ == null)
+        throw new EvalException("Cannot start iteration through ALL integers");
+      current_ = current_.add(incr_);
+      if (current_.equals(toomany_))
+        throw new EvalException("Gave up iterating through "+
+            start_+".."+end_+" by "+incr_);
       return factory_.createNumExpr(temp);
     }
     public boolean hasPrevious()
     {
-      return (lowest_.compareTo(current_) < 0);
+      if (current_ == null)
+        return false;
+      return (start_.compareTo(current_) != 0);
     }
     public int nextIndex()
     {
-      return current_.subtract(lowest_).intValue();
+      if (current_ == null)
+        return 0;  // we are in the initial state.
+      int nexts = current_.subtract(start_).divide(incr_).intValue();
+      assert nexts >= 0;
+      return nexts;
     }
     public Expr previous()
     {
       if ( ! hasPrevious())
         throw new NoSuchElementException("too many previous calls on "+this);
-      current_ = current_.subtract(BigInteger.ONE);
+      current_ = current_.subtract(incr_);
       return factory_.createNumExpr(current_);
     }
     public int previousIndex()
