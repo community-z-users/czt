@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateScopeTest
-Tests run: 18, Failures: 0, Errors: 16, Time elapsed: 30.27 sec
+Tests run: 18, Failures: 0, Errors: 16, Time elapsed: 29.471 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule DeltaRef
@@ -101,7 +101,7 @@ Typeckecking failed:
 	Expression: \{ \}]
 ------------- ---------------- ---------------
 
-Testcase: animate_scope.tex:21 took 1.059 sec
+Testcase: animate_scope.tex:21 took 1.007 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -123,7 +123,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:22 took 1.302 sec
+Testcase: animate_scope.tex:22 took 1.249 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -145,7 +145,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:25 took 1.109 sec
+Testcase: animate_scope.tex:25 took 1.062 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -167,7 +167,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:26 took 1.11 sec
+Testcase: animate_scope.tex:26 took 1.059 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -189,7 +189,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:28 took 1.958 sec
+Testcase: animate_scope.tex:28 took 1.871 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -211,9 +211,9 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:33 took 0.661 sec
-Testcase: animate_scope.tex:34 took 0.968 sec
-Testcase: animate_scope.tex:40 took 1.486 sec
+Testcase: animate_scope.tex:33 took 0.629 sec
+Testcase: animate_scope.tex:34 took 0.928 sec
+Testcase: animate_scope.tex:40 took 1.419 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -232,7 +232,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:43 took 1.521 sec
+Testcase: animate_scope.tex:43 took 1.456 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -251,7 +251,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:48 took 0.703 sec
+Testcase: animate_scope.tex:48 took 0.677 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
@@ -272,7 +272,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:49 took 1.286 sec
+Testcase: animate_scope.tex:49 took 1.226 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
@@ -293,7 +293,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:51 took 1.908 sec
+Testcase: animate_scope.tex:51 took 1.823 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
@@ -314,7 +314,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:52 took 1.945 sec
+Testcase: animate_scope.tex:52 took 1.86 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LetExprImpl yet. 
@@ -335,7 +335,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:56 took 1.935 sec
+Testcase: animate_scope.tex:56 took 1.849 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -352,7 +352,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:57 took 1.982 sec
+Testcase: animate_scope.tex:57 took 1.892 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -374,7 +374,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:58 took 1.841 sec
+Testcase: animate_scope.tex:58 took 1.842 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -396,7 +396,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:59 took 1.786 sec
+Testcase: animate_scope.tex:59 took 2.242 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
@@ -413,7 +413,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_scope.tex:69 took 5.695 sec
+Testcase: animate_scope.tex:69 took 5.363 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ExistsExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ExistsExprImpl yet. 

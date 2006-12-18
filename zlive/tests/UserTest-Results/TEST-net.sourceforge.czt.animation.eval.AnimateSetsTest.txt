@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSetsTest
-Tests run: 259, Failures: 0, Errors: 44, Time elapsed: 365.15 sec
+Tests run: 259, Failures: 0, Errors: 43, Time elapsed: 358.725 sec
 ------------- Standard Output ---------------
 loaded rule setminus
 loaded rule DeltaRef
@@ -173,6 +173,7 @@ Passed test:animate_sets.tex:168
 Passed test:animate_sets.tex:175
 Passed test:animate_sets.tex:176
 Passed test:animate_sets.tex:177
+Passed test:animate_sets.tex:180
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 copy visitor transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sets.tex:199
@@ -489,310 +490,320 @@ Typeckecking failed:
 	Expression: \{ \}]
 ------------- ---------------- ---------------
 
-Testcase: animate_sets.tex:33 took 0.416 sec
-Testcase: animate_sets.tex:34 took 0.401 sec
-Testcase: animate_sets.tex:35 took 0.406 sec
-Testcase: animate_sets.tex:36 took 0.588 sec
-Testcase: animate_sets.tex:37 took 0.161 sec
-Testcase: animate_sets.tex:38 took 0.161 sec
-Testcase: animate_sets.tex:39 took 0.466 sec
-Testcase: animate_sets.tex:40 took 0.162 sec
-Testcase: animate_sets.tex:41 took 0.342 sec
-Testcase: animate_sets.tex:44 took 0.584 sec
-Testcase: animate_sets.tex:45 took 0.404 sec
-Testcase: animate_sets.tex:46 took 0.397 sec
-Testcase: animate_sets.tex:47 took 0.4 sec
-Testcase: animate_sets.tex:48 took 0.587 sec
-Testcase: animate_sets.tex:49 took 0.399 sec
-Testcase: animate_sets.tex:50 took 0.585 sec
-Testcase: animate_sets.tex:51 took 0.587 sec
-Testcase: animate_sets.tex:52 took 0.452 sec
-Testcase: animate_sets.tex:53 took 0.824 sec
-Testcase: animate_sets.tex:54 took 0.702 sec
-Testcase: animate_sets.tex:59 took 1.263 sec
-Testcase: animate_sets.tex:60 took 1.4 sec
-Testcase: animate_sets.tex:61 took 1.4 sec
-Testcase: animate_sets.tex:62 took 2.101 sec
-Testcase: animate_sets.tex:63 took 2.099 sec
-Testcase: animate_sets.tex:65 took 0.934 sec
-Testcase: animate_sets.tex:66 took 1.156 sec
-Testcase: animate_sets.tex:67 took 1.082 sec
-Testcase: animate_sets.tex:69 took 1.26 sec
-Testcase: animate_sets.tex:70 took 1.276 sec
-Testcase: animate_sets.tex:71 took 1.277 sec
-Testcase: animate_sets.tex:72 took 1.273 sec
-Testcase: animate_sets.tex:74 took 1.974 sec
-Testcase: animate_sets.tex:75 took 1.985 sec
-Testcase: animate_sets.tex:76 took 3.38 sec
-Testcase: animate_sets.tex:77 took 3.317 sec
-Testcase: animate_sets.tex:96 took 1.918 sec
-Testcase: animate_sets.tex:97 took 3.452 sec
-Testcase: animate_sets.tex:98 took 2.817 sec
-Testcase: animate_sets.tex:99 took 3.044 sec
-Testcase: animate_sets.tex:100 took 3.98 sec
-Testcase: animate_sets.tex:101 took 7.508 sec
-Testcase: animate_sets.tex:102 took 2.064 sec
-Testcase: animate_sets.tex:103 took 1.008 sec
-Testcase: animate_sets.tex:104 took 2.786 sec
-Testcase: animate_sets.tex:105 took 1.15 sec
-Testcase: animate_sets.tex:106 took 2.556 sec
-Testcase: animate_sets.tex:109 took 1.132 sec
-Testcase: animate_sets.tex:110 took 1.147 sec
-Testcase: animate_sets.tex:111 took 1.899 sec
-Testcase: animate_sets.tex:112 took 0.534 sec
-Testcase: animate_sets.tex:113 took 1.717 sec
+Testcase: animate_sets.tex:33 took 0.404 sec
+Testcase: animate_sets.tex:34 took 0.395 sec
+Testcase: animate_sets.tex:35 took 0.39 sec
+Testcase: animate_sets.tex:36 took 0.573 sec
+Testcase: animate_sets.tex:37 took 0.156 sec
+Testcase: animate_sets.tex:38 took 0.154 sec
+Testcase: animate_sets.tex:39 took 0.452 sec
+Testcase: animate_sets.tex:40 took 0.158 sec
+Testcase: animate_sets.tex:41 took 0.332 sec
+Testcase: animate_sets.tex:44 took 0.567 sec
+Testcase: animate_sets.tex:45 took 0.391 sec
+Testcase: animate_sets.tex:46 took 0.386 sec
+Testcase: animate_sets.tex:47 took 0.386 sec
+Testcase: animate_sets.tex:48 took 0.57 sec
+Testcase: animate_sets.tex:49 took 0.388 sec
+Testcase: animate_sets.tex:50 took 0.573 sec
+Testcase: animate_sets.tex:51 took 0.569 sec
+Testcase: animate_sets.tex:52 took 0.441 sec
+Testcase: animate_sets.tex:53 took 0.798 sec
+Testcase: animate_sets.tex:54 took 0.683 sec
+Testcase: animate_sets.tex:59 took 1.224 sec
+Testcase: animate_sets.tex:60 took 1.357 sec
+Testcase: animate_sets.tex:61 took 1.356 sec
+Testcase: animate_sets.tex:62 took 2.037 sec
+Testcase: animate_sets.tex:63 took 2.037 sec
+Testcase: animate_sets.tex:65 took 0.904 sec
+Testcase: animate_sets.tex:66 took 1.125 sec
+Testcase: animate_sets.tex:67 took 1.05 sec
+Testcase: animate_sets.tex:69 took 1.221 sec
+Testcase: animate_sets.tex:70 took 1.236 sec
+Testcase: animate_sets.tex:71 took 1.232 sec
+Testcase: animate_sets.tex:72 took 1.285 sec
+Testcase: animate_sets.tex:74 took 1.923 sec
+Testcase: animate_sets.tex:75 took 1.915 sec
+Testcase: animate_sets.tex:76 took 3.306 sec
+Testcase: animate_sets.tex:77 took 3.214 sec
+Testcase: animate_sets.tex:96 took 1.865 sec
+Testcase: animate_sets.tex:97 took 3.353 sec
+Testcase: animate_sets.tex:98 took 2.73 sec
+Testcase: animate_sets.tex:99 took 2.951 sec
+Testcase: animate_sets.tex:100 took 3.86 sec
+Testcase: animate_sets.tex:101 took 7.283 sec
+Testcase: animate_sets.tex:102 took 2.007 sec
+Testcase: animate_sets.tex:103 took 0.976 sec
+Testcase: animate_sets.tex:104 took 2.7 sec
+Testcase: animate_sets.tex:105 took 1.12 sec
+Testcase: animate_sets.tex:106 took 2.479 sec
+Testcase: animate_sets.tex:109 took 1.716 sec
+Testcase: animate_sets.tex:110 took 1.112 sec
+Testcase: animate_sets.tex:111 took 1.839 sec
+Testcase: animate_sets.tex:112 took 0.517 sec
+Testcase: animate_sets.tex:113 took 1.655 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp1488]::set(Infinity,null), FlatPowerSet[tmp1488,tmp1487], FlatMember[tmp1487,s], FlatRangeSet[-,-,tmp1491]::set(Infinity,null), FlatMember[tmp1491,x]::Infinity, tmp1494==0, tmp1495==3, FlatRangeSet[tmp1494,tmp1495,tmp1493]::set(Infinity,4,[0,3]), FlatEquals[s,tmp1493], FlatRangeSet[-,-,tmp1496]::set(Infinity,null), FlatMember[tmp1496,x]::Infinity, FlatMember[s,x], FlatEquals[tmp1486,x] @ tmp1486 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp1488]::set(Infinity,null), FlatPowerSet[tmp1488,tmp1487], FlatMember[tmp1487,s], FlatRangeSet[-,-,tmp1491]::set(Infinity,null), FlatMember[tmp1491,x]::Infinity, tmp1494==0, tmp1495==3, FlatRangeSet[tmp1494,tmp1495,tmp1493]::set(Infinity,4,[0,3]), FlatEquals[s,tmp1493], FlatRangeSet[-,-,tmp1496]::set(Infinity,null), FlatMember[tmp1496,x]::Infinity, FlatMember[s,x], FlatEquals[tmp1486,x] @ tmp1486 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:114 took 1.924 sec
-Testcase: animate_sets.tex:115 took 1.686 sec
-Testcase: animate_sets.tex:118 took 3.651 sec
-Testcase: animate_sets.tex:119 took 3.653 sec
-Testcase: animate_sets.tex:120 took 2.66 sec
-Testcase: animate_sets.tex:121 took 3.803 sec
-Testcase: animate_sets.tex:122 took 1.121 sec
-Testcase: animate_sets.tex:123 took 5.077 sec
-Testcase: animate_sets.tex:124 took 2.148 sec
-Testcase: animate_sets.tex:125 took 5.672 sec
-Testcase: animate_sets.tex:128 took 0.569 sec
+Testcase: animate_sets.tex:114 took 1.862 sec
+Testcase: animate_sets.tex:115 took 1.634 sec
+Testcase: animate_sets.tex:118 took 3.543 sec
+Testcase: animate_sets.tex:119 took 3.541 sec
+Testcase: animate_sets.tex:120 took 2.568 sec
+Testcase: animate_sets.tex:121 took 3.687 sec
+Testcase: animate_sets.tex:122 took 1.085 sec
+Testcase: animate_sets.tex:123 took 4.916 sec
+Testcase: animate_sets.tex:124 took 2.081 sec
+Testcase: animate_sets.tex:125 took 5.455 sec
+Testcase: animate_sets.tex:128 took 0.548 sec
 	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.<init>(UnionSet.java:146)
-	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
+Gave up unbounded iteration from 1 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:278)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:164)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:157)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:120)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:129 took 0.688 sec
+Testcase: animate_sets.tex:129 took 0.665 sec
 	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.<init>(UnionSet.java:146)
-	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
+Gave up unbounded iteration from 1 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:278)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:164)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:157)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:120)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:130 took 1.135 sec
+Testcase: animate_sets.tex:130 took 1.1 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.<init>(UnionSet.java:146)
-	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
+Gave up unbounded iteration from 0 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:278)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:164)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:157)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:120)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:131 took 1.84 sec
+Testcase: animate_sets.tex:131 took 1.781 sec
 	Caused an ERROR
-Unbounded integer range [1,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [1,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.<init>(UnionSet.java:146)
-	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
+Gave up unbounded iteration from 1 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 1 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:278)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.findNext(UnionSet.java:164)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:157)
+	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.next(UnionSet.java:1)
+	at net.sourceforge.czt.animation.eval.result.UnionSet.nextMember(UnionSet.java:120)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
+	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:137 took 1.453 sec
-Testcase: animate_sets.tex:138 took 1.589 sec
-Testcase: animate_sets.tex:139 took 1.725 sec
-Testcase: animate_sets.tex:140 took 2.273 sec
-Testcase: animate_sets.tex:141 took 2.433 sec
-Testcase: animate_sets.tex:143 took 1.127 sec
-Testcase: animate_sets.tex:144 took 1.245 sec
-Testcase: animate_sets.tex:145 took 1.247 sec
-Testcase: animate_sets.tex:147 took 1.691 sec
-Testcase: animate_sets.tex:148 took 1.723 sec
-Testcase: animate_sets.tex:149 took 1.536 sec
-Testcase: animate_sets.tex:150 took 1.506 sec
-Testcase: animate_sets.tex:152 took 2.259 sec
-Testcase: animate_sets.tex:153 took 2.235 sec
-Testcase: animate_sets.tex:154 took 3.684 sec
-Testcase: animate_sets.tex:155 took 3.516 sec
-Testcase: animate_sets.tex:157 took 1.307 sec
-Testcase: animate_sets.tex:158 took 1.337 sec
-Testcase: animate_sets.tex:159 took 1.455 sec
-Testcase: animate_sets.tex:160 took 1.416 sec
-Testcase: animate_sets.tex:161 took 1.422 sec
-Testcase: animate_sets.tex:162 took 1.319 sec
-Testcase: animate_sets.tex:163 took 1.42 sec
-Testcase: animate_sets.tex:164 took 1.631 sec
-Testcase: animate_sets.tex:166 took 1.132 sec
-Testcase: animate_sets.tex:167 took 1.158 sec
-Testcase: animate_sets.tex:168 took 1.249 sec
-Testcase: animate_sets.tex:169 took 0.767 sec
+Testcase: animate_sets.tex:137 took 1.408 sec
+Testcase: animate_sets.tex:138 took 1.535 sec
+Testcase: animate_sets.tex:139 took 1.672 sec
+Testcase: animate_sets.tex:140 took 2.208 sec
+Testcase: animate_sets.tex:141 took 2.377 sec
+Testcase: animate_sets.tex:143 took 1.093 sec
+Testcase: animate_sets.tex:144 took 1.209 sec
+Testcase: animate_sets.tex:145 took 1.207 sec
+Testcase: animate_sets.tex:147 took 1.532 sec
+Testcase: animate_sets.tex:148 took 1.245 sec
+Testcase: animate_sets.tex:149 took 1.433 sec
+Testcase: animate_sets.tex:150 took 1.436 sec
+Testcase: animate_sets.tex:152 took 2.134 sec
+Testcase: animate_sets.tex:153 took 2.137 sec
+Testcase: animate_sets.tex:154 took 4.109 sec
+Testcase: animate_sets.tex:155 took 3.223 sec
+Testcase: animate_sets.tex:157 took 1.191 sec
+Testcase: animate_sets.tex:158 took 1.253 sec
+Testcase: animate_sets.tex:159 took 1.303 sec
+Testcase: animate_sets.tex:160 took 1.361 sec
+Testcase: animate_sets.tex:161 took 1.362 sec
+Testcase: animate_sets.tex:162 took 1.243 sec
+Testcase: animate_sets.tex:163 took 1.329 sec
+Testcase: animate_sets.tex:164 took 1.326 sec
+Testcase: animate_sets.tex:166 took 1.111 sec
+Testcase: animate_sets.tex:167 took 1.135 sec
+Testcase: animate_sets.tex:168 took 1.215 sec
+Testcase: animate_sets.tex:169 took 0.701 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2605]::set(Infinity,null), FlatMember[tmp2605,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2607]::set(Infinity,null), FlatMember[tmp2607,x]::Infinity[0,null], tmp2609==0, FlatRangeSet[tmp2609,-,tmp2608]::set(Infinity,null,[0,null]), FlatMember[tmp2608,x]::Infinity[0,null], FlatEquals[tmp2604,x] @ tmp2604 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2605]::set(Infinity,null), FlatMember[tmp2605,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2607]::set(Infinity,null), FlatMember[tmp2607,x]::Infinity[0,null], tmp2609==0, FlatRangeSet[tmp2609,-,tmp2608]::set(Infinity,null,[0,null]), FlatMember[tmp2608,x]::Infinity[0,null], FlatEquals[tmp2604,x] @ tmp2604 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:170 took 0.717 sec
+Testcase: animate_sets.tex:170 took 0.701 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2617]::set(Infinity,null), FlatMember[tmp2617,x]::Infinity[1,null], tmp2620==0, FlatRangeSet[tmp2620,-,tmp2619]::set(Infinity,null,[0,null]), FlatMember[tmp2619,x]::Infinity[1,null], tmp2622==1, FlatRangeSet[tmp2622,-,tmp2621]::set(Infinity,null,[1,null]), FlatMember[tmp2621,x]::Infinity[1,null], FlatEquals[tmp2616,x] @ tmp2616 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2617]::set(Infinity,null), FlatMember[tmp2617,x]::Infinity[1,null], tmp2620==0, FlatRangeSet[tmp2620,-,tmp2619]::set(Infinity,null,[0,null]), FlatMember[tmp2619,x]::Infinity[1,null], tmp2622==1, FlatRangeSet[tmp2622,-,tmp2621]::set(Infinity,null,[1,null]), FlatMember[tmp2621,x]::Infinity[1,null], FlatEquals[tmp2616,x] @ tmp2616 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:175 took 1.021 sec
-Testcase: animate_sets.tex:176 took 1.222 sec
-Testcase: animate_sets.tex:177 took 1.39 sec
-Testcase: animate_sets.tex:180 took 2.399 sec
-	Caused an ERROR
-null
-java.lang.NullPointerException
-	at net.sourceforge.czt.animation.eval.result.UnionSet$UnionSetIterator.<init>(UnionSet.java:146)
-	at net.sourceforge.czt.animation.eval.result.UnionSet.<init>(UnionSet.java:60)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatUnion.nextEvaluation(FlatUnion.java:99)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
-
-Testcase: animate_sets.tex:184 took 1.581 sec
+Testcase: animate_sets.tex:175 took 1.001 sec
+Testcase: animate_sets.tex:176 took 1.181 sec
+Testcase: animate_sets.tex:177 took 1.367 sec
+Testcase: animate_sets.tex:180 took 2.368 sec
+Testcase: animate_sets.tex:184 took 1.557 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2705]::set(Infinity,null), FlatPowerSet[tmp2705,tmp2704], FlatMember[tmp2704,s], tmp2710==0, FlatRangeSet[tmp2710,-,tmp2709]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2709,tmp2708], FlatMember[tmp2708,s], FlatForall( FlatMember[s,x] @ tmp2712==1, tmp2713==2, FlatRangeSet[tmp2712,tmp2713,tmp2711]::set(Infinity,2,[1,2]), FlatMember[tmp2711,x]::Infinity[1,2] ), FlatEquals[tmp2703,s] @ tmp2703 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2705]::set(Infinity,null), FlatPowerSet[tmp2705,tmp2704], FlatMember[tmp2704,s], tmp2710==0, FlatRangeSet[tmp2710,-,tmp2709]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2709,tmp2708], FlatMember[tmp2708,s], FlatForall( FlatMember[s,x] @ tmp2712==1, tmp2713==2, FlatRangeSet[tmp2712,tmp2713,tmp2711]::set(Infinity,2,[1,2]), FlatMember[tmp2711,x]::Infinity[1,2] ), FlatEquals[tmp2703,s] @ tmp2703 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:188 took 3.044 sec
+Testcase: animate_sets.tex:188 took 2.998 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2727]::set(Infinity,null), FlatPowerSet[tmp2727,tmp2726], FlatMember[tmp2726,s], tmp2732==0, FlatRangeSet[tmp2732,-,tmp2731]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2731,tmp2730], FlatMember[tmp2730,s], FlatForall( FlatMember[s,x] @ tmp2734==1, tmp2735==2, FlatRangeSet[tmp2734,tmp2735,tmp2733]::set(Infinity,2,[1,2]), FlatMember[tmp2733,x]::Infinity[1,2] ), tmp2737==1, tmp2738==2, FlatRangeSet[tmp2737,tmp2738,tmp2736]::set(Infinity,2,[1,2]), FlatNot( FlatEquals[s,tmp2736] ), FlatEquals[tmp2725,s] @ tmp2725 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2727]::set(Infinity,null), FlatPowerSet[tmp2727,tmp2726], FlatMember[tmp2726,s], tmp2732==0, FlatRangeSet[tmp2732,-,tmp2731]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2731,tmp2730], FlatMember[tmp2730,s], FlatForall( FlatMember[s,x] @ tmp2734==1, tmp2735==2, FlatRangeSet[tmp2734,tmp2735,tmp2733]::set(Infinity,2,[1,2]), FlatMember[tmp2733,x]::Infinity[1,2] ), tmp2737==1, tmp2738==2, FlatRangeSet[tmp2737,tmp2738,tmp2736]::set(Infinity,2,[1,2]), FlatNot( FlatEquals[s,tmp2736] ), FlatEquals[tmp2725,s] @ tmp2725 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:195 took 3.524 sec
+Testcase: animate_sets.tex:195 took 3.467 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2773]::set(Infinity,null), FlatPowerSet[tmp2773,tmp2772], FlatMember[tmp2772,s], FlatRangeSet[-,-,tmp2777]::set(Infinity,null), FlatPowerSet[tmp2777,tmp2776], FlatMember[tmp2776,t], tmp2782==0, FlatRangeSet[tmp2782,-,tmp2781]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2781,tmp2780], FlatMember[tmp2780,s], tmp2785==0, FlatRangeSet[tmp2785,-,tmp2784]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2784,tmp2783], FlatMember[tmp2783,t], FlatUnion[s,t,tmp2786], tmp2787==1, FlatDiscreteSet[tmp2787,tmp2788], FlatEquals[tmp2786,tmp2788], FlatTuple[s,t,tmp2798], FlatEquals[tmp2771,tmp2798] @ tmp2771 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2773]::set(Infinity,null), FlatPowerSet[tmp2773,tmp2772], FlatMember[tmp2772,s], FlatRangeSet[-,-,tmp2777]::set(Infinity,null), FlatPowerSet[tmp2777,tmp2776], FlatMember[tmp2776,t], tmp2782==0, FlatRangeSet[tmp2782,-,tmp2781]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2781,tmp2780], FlatMember[tmp2780,s], tmp2785==0, FlatRangeSet[tmp2785,-,tmp2784]::set(Infinity,null,[0,null]), FlatPowerSet[tmp2784,tmp2783], FlatMember[tmp2783,t], FlatUnion[s,t,tmp2786], tmp2787==1, FlatDiscreteSet[tmp2787,tmp2788], FlatEquals[tmp2786,tmp2788], FlatTuple[s,t,tmp2798], FlatEquals[tmp2771,tmp2798] @ tmp2771 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:199 took 2.049 sec
-Testcase: animate_sets.tex:202 took 2.049 sec
-Testcase: animate_sets.tex:205 took 2.047 sec
-Testcase: animate_sets.tex:208 took 1.871 sec
-Testcase: animate_sets.tex:211 took 1.389 sec
+Testcase: animate_sets.tex:199 took 2.018 sec
+Testcase: animate_sets.tex:202 took 2.019 sec
+Testcase: animate_sets.tex:205 took 2.017 sec
+Testcase: animate_sets.tex:208 took 1.902 sec
+Testcase: animate_sets.tex:211 took 1.37 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2951]::set(Infinity,null), FlatMember[tmp2951,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2953]::set(Infinity,null), FlatMember[tmp2953,y]::Infinity[0,null], tmp2956==0, FlatRangeSet[tmp2956,-,tmp2955]::set(Infinity,null,[0,null]), FlatMember[tmp2955,x]::Infinity[0,null], tmp2958==0, FlatRangeSet[tmp2958,-,tmp2957]::set(Infinity,null,[0,null]), FlatMember[tmp2957,y]::Infinity[0,null], tmp2959==3, FlatTuple[x,tmp2959,tmp2960], tmp2961==2, FlatTuple[tmp2961,y,tmp2962], FlatEquals[tmp2960,tmp2962], FlatTuple[x,y,tmp2971], FlatEquals[tmp2950,tmp2971] @ tmp2950 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp2951]::set(Infinity,null), FlatMember[tmp2951,x]::Infinity[0,null], FlatRangeSet[-,-,tmp2953]::set(Infinity,null), FlatMember[tmp2953,y]::Infinity[0,null], tmp2956==0, FlatRangeSet[tmp2956,-,tmp2955]::set(Infinity,null,[0,null]), FlatMember[tmp2955,x]::Infinity[0,null], tmp2958==0, FlatRangeSet[tmp2958,-,tmp2957]::set(Infinity,null,[0,null]), FlatMember[tmp2957,y]::Infinity[0,null], tmp2959==3, FlatTuple[x,tmp2959,tmp2960], tmp2961==2, FlatTuple[tmp2961,y,tmp2962], FlatEquals[tmp2960,tmp2962], FlatTuple[x,y,tmp2971], FlatEquals[tmp2950,tmp2971] @ tmp2950 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:141)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:133)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:203)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:214 took 2.015 sec
+Testcase: animate_sets.tex:214 took 1.98 sec
 	Caused an ERROR
 Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@121c12b (\{ x : \arithmos ; y : \arithmos | x \in \nat \land y \in \nat \land true \land ( x , y ) = ( \mu x : \arithmos ; y : \arithmos | x \in \{ 3 \} \land y \in \{ 3 \} \land true \land true ) \} = \{ ( 3 , 3 ) \})
 net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@121c12b (\{ x : \arithmos ; y : \arithmos | x \in \nat \land y \in \nat \land true \land ( x , y ) = ( \mu x : \arithmos ; y : \arithmos | x \in \{ 3 \} \land y \in \{ 3 \} \land true \land true ) \} = \{ ( 3 , 3 ) \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:220 took 1.581 sec
-Testcase: animate_sets.tex:221 took 1.695 sec
-Testcase: animate_sets.tex:222 took 1.723 sec
-Testcase: animate_sets.tex:223 took 2.414 sec
-Testcase: animate_sets.tex:224 took 3.119 sec
-Testcase: animate_sets.tex:226 took 1.472 sec
-Testcase: animate_sets.tex:227 took 1.6 sec
-Testcase: animate_sets.tex:228 took 1.347 sec
-Testcase: animate_sets.tex:230 took 1.578 sec
-Testcase: animate_sets.tex:231 took 1.588 sec
-Testcase: animate_sets.tex:232 took 1.719 sec
-Testcase: animate_sets.tex:233 took 1.778 sec
-Testcase: animate_sets.tex:235 took 2.422 sec
-Testcase: animate_sets.tex:236 took 2.428 sec
-Testcase: animate_sets.tex:237 took 3.146 sec
-Testcase: animate_sets.tex:238 took 3.635 sec
-Testcase: animate_sets.tex:242 took 0.495 sec
-Testcase: animate_sets.tex:243 took 0.491 sec
-Testcase: animate_sets.tex:244 took 0.741 sec
-Testcase: animate_sets.tex:245 took 1.614 sec
-Testcase: animate_sets.tex:246 took 1.405 sec
-Testcase: animate_sets.tex:247 took 1.397 sec
-Testcase: animate_sets.tex:248 took 1.61 sec
-Testcase: animate_sets.tex:249 took 1.372 sec
-Testcase: animate_sets.tex:250 took 0.681 sec
-Testcase: animate_sets.tex:251 took 1.379 sec
-Testcase: animate_sets.tex:255 took 0.938 sec
-Testcase: animate_sets.tex:256 took 1.714 sec
-Testcase: animate_sets.tex:257 took 0.445 sec
-Testcase: animate_sets.tex:258 took 1.071 sec
-Testcase: animate_sets.tex:259 took 0.869 sec
-Testcase: animate_sets.tex:261 took 1.957 sec
-Testcase: animate_sets.tex:265 took 0.861 sec
-Testcase: animate_sets.tex:268 took 0.774 sec
-Testcase: animate_sets.tex:272 took 1.383 sec
-Testcase: animate_sets.tex:281 took 1.901 sec
-Testcase: animate_sets.tex:282 took 1.905 sec
-Testcase: animate_sets.tex:287 took 0.511 sec
-Testcase: animate_sets.tex:288 took 0.369 sec
-Testcase: animate_sets.tex:289 took 0.194 sec
-Testcase: animate_sets.tex:291 took 1.113 sec
+Testcase: animate_sets.tex:220 took 1.554 sec
+Testcase: animate_sets.tex:221 took 1.667 sec
+Testcase: animate_sets.tex:222 took 1.695 sec
+Testcase: animate_sets.tex:223 took 2.366 sec
+Testcase: animate_sets.tex:224 took 3.079 sec
+Testcase: animate_sets.tex:226 took 1.448 sec
+Testcase: animate_sets.tex:227 took 1.574 sec
+Testcase: animate_sets.tex:228 took 1.327 sec
+Testcase: animate_sets.tex:230 took 1.557 sec
+Testcase: animate_sets.tex:231 took 1.57 sec
+Testcase: animate_sets.tex:232 took 1.687 sec
+Testcase: animate_sets.tex:233 took 1.72 sec
+Testcase: animate_sets.tex:235 took 2.394 sec
+Testcase: animate_sets.tex:236 took 2.993 sec
+Testcase: animate_sets.tex:237 took 3.322 sec
+Testcase: animate_sets.tex:238 took 3.577 sec
+Testcase: animate_sets.tex:242 took 0.488 sec
+Testcase: animate_sets.tex:243 took 0.483 sec
+Testcase: animate_sets.tex:244 took 0.733 sec
+Testcase: animate_sets.tex:245 took 1.579 sec
+Testcase: animate_sets.tex:246 took 1.402 sec
+Testcase: animate_sets.tex:247 took 1.378 sec
+Testcase: animate_sets.tex:248 took 1.581 sec
+Testcase: animate_sets.tex:249 took 1.354 sec
+Testcase: animate_sets.tex:250 took 0.669 sec
+Testcase: animate_sets.tex:251 took 1.357 sec
+Testcase: animate_sets.tex:255 took 0.922 sec
+Testcase: animate_sets.tex:256 took 1.677 sec
+Testcase: animate_sets.tex:257 took 0.438 sec
+Testcase: animate_sets.tex:258 took 1.047 sec
+Testcase: animate_sets.tex:259 took 0.854 sec
+Testcase: animate_sets.tex:261 took 1.924 sec
+Testcase: animate_sets.tex:265 took 0.868 sec
+Testcase: animate_sets.tex:268 took 0.764 sec
+Testcase: animate_sets.tex:272 took 1.352 sec
+Testcase: animate_sets.tex:281 took 1.857 sec
+Testcase: animate_sets.tex:282 took 1.867 sec
+Testcase: animate_sets.tex:287 took 0.499 sec
+Testcase: animate_sets.tex:288 took 0.368 sec
+Testcase: animate_sets.tex:289 took 0.188 sec
+Testcase: animate_sets.tex:291 took 1.095 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3930]::set(Infinity,null), FlatMember[tmp3930,x]::Infinity[0,null], tmp3933==0, FlatRangeSet[tmp3933,-,tmp3932]::set(Infinity,null,[0,null]), FlatMember[tmp3932,x]::Infinity[0,null], tmp3937==1, FlatPlus[x,tmp3937,tmp3936], FlatTuple[x,tmp3936,tmp3938], FlatEquals[tmp3929,tmp3938] @ tmp3929 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3930]::set(Infinity,null), FlatMember[tmp3930,x]::Infinity[0,null], tmp3933==0, FlatRangeSet[tmp3933,-,tmp3932]::set(Infinity,null,[0,null]), FlatMember[tmp3932,x]::Infinity[0,null], tmp3937==1, FlatPlus[x,tmp3937,tmp3936], FlatTuple[x,tmp3936,tmp3938], FlatEquals[tmp3929,tmp3938] @ tmp3929 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -800,14 +811,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:292 took 1.1 sec
+Testcase: animate_sets.tex:292 took 1.074 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3949]::set(Infinity,null), FlatMember[tmp3949,x]::Infinity[0,null], tmp3952==0, FlatRangeSet[tmp3952,-,tmp3951]::set(Infinity,null,[0,null]), FlatMember[tmp3951,x]::Infinity[0,null], tmp3956==1, FlatPlus[x,tmp3956,tmp3955], FlatTuple[x,tmp3955,tmp3957], FlatEquals[tmp3948,tmp3957] @ tmp3948 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3949]::set(Infinity,null), FlatMember[tmp3949,x]::Infinity[0,null], tmp3952==0, FlatRangeSet[tmp3952,-,tmp3951]::set(Infinity,null,[0,null]), FlatMember[tmp3951,x]::Infinity[0,null], tmp3956==1, FlatPlus[x,tmp3956,tmp3955], FlatTuple[x,tmp3955,tmp3957], FlatEquals[tmp3948,tmp3957] @ tmp3948 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -815,15 +826,15 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:293 took 1.23 sec
-Testcase: animate_sets.tex:295 took 1.167 sec
+Testcase: animate_sets.tex:293 took 1.207 sec
+Testcase: animate_sets.tex:295 took 1.147 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3988]::set(Infinity,null), FlatMember[tmp3988,x]::Infinity[0,null], tmp3991==0, FlatRangeSet[tmp3991,-,tmp3990]::set(Infinity,null,[0,null]), FlatMember[tmp3990,x]::Infinity[0,null], tmp3995==1, FlatPlus[x,tmp3995,tmp3994], FlatTuple[x,tmp3994,tmp3996], FlatEquals[tmp3987,tmp3996] @ tmp3987 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp3988]::set(Infinity,null), FlatMember[tmp3988,x]::Infinity[0,null], tmp3991==0, FlatRangeSet[tmp3991,-,tmp3990]::set(Infinity,null,[0,null]), FlatMember[tmp3990,x]::Infinity[0,null], tmp3995==1, FlatPlus[x,tmp3995,tmp3994], FlatTuple[x,tmp3994,tmp3996], FlatEquals[tmp3987,tmp3996] @ tmp3987 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -831,14 +842,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:296 took 1.146 sec
+Testcase: animate_sets.tex:296 took 1.126 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4007]::set(Infinity,null), FlatMember[tmp4007,x]::Infinity[0,null], tmp4010==0, FlatRangeSet[tmp4010,-,tmp4009]::set(Infinity,null,[0,null]), FlatMember[tmp4009,x]::Infinity[0,null], tmp4014==1, FlatPlus[x,tmp4014,tmp4013], FlatTuple[x,tmp4013,tmp4015], FlatEquals[tmp4006,tmp4015] @ tmp4006 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4007]::set(Infinity,null), FlatMember[tmp4007,x]::Infinity[0,null], tmp4010==0, FlatRangeSet[tmp4010,-,tmp4009]::set(Infinity,null,[0,null]), FlatMember[tmp4009,x]::Infinity[0,null], tmp4014==1, FlatPlus[x,tmp4014,tmp4013], FlatTuple[x,tmp4013,tmp4015], FlatEquals[tmp4006,tmp4015] @ tmp4006 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -846,7 +857,7 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:297 took 1.09 sec
+Testcase: animate_sets.tex:297 took 1.073 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.LambdaExprImpl yet. 
@@ -870,14 +881,14 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:327)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:299 took 1.1 sec
+Testcase: animate_sets.tex:299 took 1.077 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4027]::set(Infinity,null), FlatMember[tmp4027,x]::Infinity[0,null], tmp4030==0, FlatRangeSet[tmp4030,-,tmp4029]::set(Infinity,null,[0,null]), FlatMember[tmp4029,x]::Infinity[0,null], tmp4033==1, FlatTuple[x,tmp4033,tmp4034], FlatTuple[tmp4034,x,tmp4035], FlatEquals[tmp4026,tmp4035] @ tmp4026 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4027]::set(Infinity,null), FlatMember[tmp4027,x]::Infinity[0,null], tmp4030==0, FlatRangeSet[tmp4030,-,tmp4029]::set(Infinity,null,[0,null]), FlatMember[tmp4029,x]::Infinity[0,null], tmp4033==1, FlatTuple[x,tmp4033,tmp4034], FlatTuple[tmp4034,x,tmp4035], FlatEquals[tmp4026,tmp4035] @ tmp4026 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -885,14 +896,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:300 took 0.955 sec
+Testcase: animate_sets.tex:300 took 0.94 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4048]::set(Infinity,null), FlatMember[tmp4048,x]::Infinity[0,null], tmp4051==0, FlatRangeSet[tmp4051,-,tmp4050]::set(Infinity,null,[0,null]), FlatMember[tmp4050,x]::Infinity[0,null], tmp4054==1, FlatTuple[x,tmp4054,tmp4055], FlatTuple[tmp4055,x,tmp4056], FlatEquals[tmp4047,tmp4056] @ tmp4047 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4048]::set(Infinity,null), FlatMember[tmp4048,x]::Infinity[0,null], tmp4051==0, FlatRangeSet[tmp4051,-,tmp4050]::set(Infinity,null,[0,null]), FlatMember[tmp4050,x]::Infinity[0,null], tmp4054==1, FlatTuple[x,tmp4054,tmp4055], FlatTuple[tmp4055,x,tmp4056], FlatEquals[tmp4047,tmp4056] @ tmp4047 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -900,14 +911,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:302 took 1.897 sec
+Testcase: animate_sets.tex:302 took 1.853 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4068]::set(Infinity,null), FlatMember[tmp4068,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4070]::set(Infinity,null), FlatMember[tmp4070,y]::Infinity[1,5], tmp4073==0, FlatRangeSet[tmp4073,-,tmp4072]::set(Infinity,null,[0,null]), FlatMember[tmp4072,x]::Infinity[2,null], tmp4075==1, tmp4076==5, FlatRangeSet[tmp4075,tmp4076,tmp4074]::set(Infinity,5,[1,5]), FlatMember[tmp4074,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4082], FlatTuple[x,tmp4082,tmp4083], FlatEquals[tmp4067,tmp4083] @ tmp4067 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4068]::set(Infinity,null), FlatMember[tmp4068,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4070]::set(Infinity,null), FlatMember[tmp4070,y]::Infinity[1,5], tmp4073==0, FlatRangeSet[tmp4073,-,tmp4072]::set(Infinity,null,[0,null]), FlatMember[tmp4072,x]::Infinity[2,null], tmp4075==1, tmp4076==5, FlatRangeSet[tmp4075,tmp4076,tmp4074]::set(Infinity,5,[1,5]), FlatMember[tmp4074,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4082], FlatTuple[x,tmp4082,tmp4083], FlatEquals[tmp4067,tmp4083] @ tmp4067 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -915,14 +926,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:303 took 1.741 sec
+Testcase: animate_sets.tex:303 took 1.714 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4093]::set(Infinity,null), FlatMember[tmp4093,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4095]::set(Infinity,null), FlatMember[tmp4095,y]::Infinity[1,5], tmp4098==0, FlatRangeSet[tmp4098,-,tmp4097]::set(Infinity,null,[0,null]), FlatMember[tmp4097,x]::Infinity[2,null], tmp4100==1, tmp4101==5, FlatRangeSet[tmp4100,tmp4101,tmp4099]::set(Infinity,5,[1,5]), FlatMember[tmp4099,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4107], FlatTuple[x,tmp4107,tmp4108], FlatEquals[tmp4092,tmp4108] @ tmp4092 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4093]::set(Infinity,null), FlatMember[tmp4093,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4095]::set(Infinity,null), FlatMember[tmp4095,y]::Infinity[1,5], tmp4098==0, FlatRangeSet[tmp4098,-,tmp4097]::set(Infinity,null,[0,null]), FlatMember[tmp4097,x]::Infinity[2,null], tmp4100==1, tmp4101==5, FlatRangeSet[tmp4100,tmp4101,tmp4099]::set(Infinity,5,[1,5]), FlatMember[tmp4099,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4107], FlatTuple[x,tmp4107,tmp4108], FlatEquals[tmp4092,tmp4108] @ tmp4092 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -930,14 +941,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:304 took 1.745 sec
+Testcase: animate_sets.tex:304 took 1.718 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4117]::set(Infinity,null), FlatMember[tmp4117,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4119]::set(Infinity,null), FlatMember[tmp4119,y]::Infinity[1,5], tmp4122==0, FlatRangeSet[tmp4122,-,tmp4121]::set(Infinity,null,[0,null]), FlatMember[tmp4121,x]::Infinity[2,null], tmp4124==1, tmp4125==5, FlatRangeSet[tmp4124,tmp4125,tmp4123]::set(Infinity,5,[1,5]), FlatMember[tmp4123,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4131], FlatTuple[x,tmp4131,tmp4132], FlatEquals[tmp4116,tmp4132] @ tmp4116 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4117]::set(Infinity,null), FlatMember[tmp4117,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4119]::set(Infinity,null), FlatMember[tmp4119,y]::Infinity[1,5], tmp4122==0, FlatRangeSet[tmp4122,-,tmp4121]::set(Infinity,null,[0,null]), FlatMember[tmp4121,x]::Infinity[2,null], tmp4124==1, tmp4125==5, FlatRangeSet[tmp4124,tmp4125,tmp4123]::set(Infinity,5,[1,5]), FlatMember[tmp4123,y]::Infinity[1,5], FlatLessThan[y,x], FlatPlus[x,y,tmp4131], FlatTuple[x,tmp4131,tmp4132], FlatEquals[tmp4116,tmp4132] @ tmp4116 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -945,14 +956,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:306 took 1.444 sec
+Testcase: animate_sets.tex:306 took 1.419 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4141]::set(Infinity,null), FlatMember[tmp4141,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4143]::set(Infinity,null), FlatMember[tmp4143,y]::Infinity[1,5], tmp4146==0, FlatRangeSet[tmp4146,-,tmp4145]::set(Infinity,null,[0,null]), FlatMember[tmp4145,x]::Infinity[2,null], tmp4148==1, tmp4149==5, FlatRangeSet[tmp4148,tmp4149,tmp4147]::set(Infinity,5,[1,5]), FlatMember[tmp4147,y]::Infinity[1,5], FlatLessThan[y,x], FlatTuple[x,y,tmp4155], FlatEquals[tmp4140,tmp4155] @ tmp4140 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4141]::set(Infinity,null), FlatMember[tmp4141,x]::Infinity[2,null], FlatRangeSet[-,-,tmp4143]::set(Infinity,null), FlatMember[tmp4143,y]::Infinity[1,5], tmp4146==0, FlatRangeSet[tmp4146,-,tmp4145]::set(Infinity,null,[0,null]), FlatMember[tmp4145,x]::Infinity[2,null], tmp4148==1, tmp4149==5, FlatRangeSet[tmp4148,tmp4149,tmp4147]::set(Infinity,5,[1,5]), FlatMember[tmp4147,y]::Infinity[1,5], FlatLessThan[y,x], FlatTuple[x,y,tmp4155], FlatEquals[tmp4140,tmp4155] @ tmp4140 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -960,14 +971,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:308 took 1.355 sec
+Testcase: animate_sets.tex:308 took 1.337 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4164]::set(Infinity,null), FlatMember[tmp4164,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4166]::set(Infinity,null), FlatMember[tmp4166,y]::Infinity[0,null], tmp4169==0, FlatRangeSet[tmp4169,-,tmp4168]::set(Infinity,null,[0,null]), FlatMember[tmp4168,x]::Infinity[0,null], tmp4171==0, FlatRangeSet[tmp4171,-,tmp4170]::set(Infinity,null,[0,null]), FlatMember[tmp4170,y]::Infinity[0,null], FlatMult[x,x,tmp4172], FlatEquals[y,tmp4172], FlatTuple[x,y,tmp4178], FlatEquals[tmp4163,tmp4178] @ tmp4163 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4164]::set(Infinity,null), FlatMember[tmp4164,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4166]::set(Infinity,null), FlatMember[tmp4166,y]::Infinity[0,null], tmp4169==0, FlatRangeSet[tmp4169,-,tmp4168]::set(Infinity,null,[0,null]), FlatMember[tmp4168,x]::Infinity[0,null], tmp4171==0, FlatRangeSet[tmp4171,-,tmp4170]::set(Infinity,null,[0,null]), FlatMember[tmp4170,y]::Infinity[0,null], FlatMult[x,x,tmp4172], FlatEquals[y,tmp4172], FlatTuple[x,y,tmp4178], FlatEquals[tmp4163,tmp4178] @ tmp4163 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -975,14 +986,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:310 took 1.376 sec
+Testcase: animate_sets.tex:310 took 1.356 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4187]::set(Infinity,null), FlatMember[tmp4187,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4189]::set(Infinity,null), FlatMember[tmp4189,y]::Infinity[0,null], tmp4192==0, FlatRangeSet[tmp4192,-,tmp4191]::set(Infinity,null,[0,null]), FlatMember[tmp4191,x]::Infinity[0,null], tmp4194==0, FlatRangeSet[tmp4194,-,tmp4193]::set(Infinity,null,[0,null]), FlatMember[tmp4193,y]::Infinity[0,null], FlatMult[x,x,tmp4195], FlatEquals[y,tmp4195], FlatTuple[x,y,tmp4201], FlatEquals[tmp4186,tmp4201] @ tmp4186 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4187]::set(Infinity,null), FlatMember[tmp4187,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4189]::set(Infinity,null), FlatMember[tmp4189,y]::Infinity[0,null], tmp4192==0, FlatRangeSet[tmp4192,-,tmp4191]::set(Infinity,null,[0,null]), FlatMember[tmp4191,x]::Infinity[0,null], tmp4194==0, FlatRangeSet[tmp4194,-,tmp4193]::set(Infinity,null,[0,null]), FlatMember[tmp4193,y]::Infinity[0,null], FlatMult[x,x,tmp4195], FlatEquals[y,tmp4195], FlatTuple[x,y,tmp4201], FlatEquals[tmp4186,tmp4201] @ tmp4186 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -990,14 +1001,14 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:311 took 1.38 sec
+Testcase: animate_sets.tex:311 took 1.359 sec
 	Caused an ERROR
 Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4210]::set(Infinity,null), FlatMember[tmp4210,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4212]::set(Infinity,null), FlatMember[tmp4212,y]::Infinity[0,null], tmp4215==0, FlatRangeSet[tmp4215,-,tmp4214]::set(Infinity,null,[0,null]), FlatMember[tmp4214,x]::Infinity[0,null], tmp4217==0, FlatRangeSet[tmp4217,-,tmp4216]::set(Infinity,null,[0,null]), FlatMember[tmp4216,y]::Infinity[0,null], FlatMult[x,x,tmp4218], FlatEquals[y,tmp4218], FlatTuple[x,y,tmp4224], FlatEquals[tmp4209,tmp4224] @ tmp4209 }
 net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp4210]::set(Infinity,null), FlatMember[tmp4210,x]::Infinity[0,null], FlatRangeSet[-,-,tmp4212]::set(Infinity,null), FlatMember[tmp4212,y]::Infinity[0,null], tmp4215==0, FlatRangeSet[tmp4215,-,tmp4214]::set(Infinity,null,[0,null]), FlatMember[tmp4214,x]::Infinity[0,null], tmp4217==0, FlatRangeSet[tmp4217,-,tmp4216]::set(Infinity,null,[0,null]), FlatMember[tmp4216,y]::Infinity[0,null], FlatMult[x,x,tmp4218], FlatEquals[y,tmp4218], FlatTuple[x,y,tmp4224], FlatEquals[tmp4209,tmp4224] @ tmp4209 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:128)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:266)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:258)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:336)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:250)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$100(DefaultEvalSet.java:41)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:319)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatMu.nextEvaluation(FlatMu.java:128)
@@ -1005,25 +1016,25 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:287)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:315 took 0.703 sec
-Testcase: animate_sets.tex:316 took 0.627 sec
-Testcase: animate_sets.tex:317 took 0.271 sec
-Testcase: animate_sets.tex:318 took 0.385 sec
-Testcase: animate_sets.tex:319 took 0.508 sec
-Testcase: animate_sets.tex:320 took 0.563 sec
-Testcase: animate_sets.tex:321 took 0.567 sec
-Testcase: animate_sets.tex:322 took 0.683 sec
-Testcase: animate_sets.tex:323 took 0.327 sec
-Testcase: animate_sets.tex:324 took 0.439 sec
-Testcase: animate_sets.tex:325 took 0.627 sec
-Testcase: animate_sets.tex:326 took 0.497 sec
-Testcase: animate_sets.tex:327 took 0.854 sec
-Testcase: animate_sets.tex:328 took 0.552 sec
-Testcase: animate_sets.tex:329 took 0.797 sec
-Testcase: animate_sets.tex:330 took 0.215 sec
-Testcase: animate_sets.tex:331 took 0.274 sec
-Testcase: animate_sets.tex:332 took 0.38 sec
-Testcase: animate_sets.tex:334 took 0.691 sec
+Testcase: animate_sets.tex:315 took 0.692 sec
+Testcase: animate_sets.tex:316 took 0.617 sec
+Testcase: animate_sets.tex:317 took 0.269 sec
+Testcase: animate_sets.tex:318 took 0.376 sec
+Testcase: animate_sets.tex:319 took 0.496 sec
+Testcase: animate_sets.tex:320 took 0.551 sec
+Testcase: animate_sets.tex:321 took 0.555 sec
+Testcase: animate_sets.tex:322 took 0.668 sec
+Testcase: animate_sets.tex:323 took 0.321 sec
+Testcase: animate_sets.tex:324 took 0.429 sec
+Testcase: animate_sets.tex:325 took 0.613 sec
+Testcase: animate_sets.tex:326 took 0.485 sec
+Testcase: animate_sets.tex:327 took 0.839 sec
+Testcase: animate_sets.tex:328 took 0.541 sec
+Testcase: animate_sets.tex:329 took 0.78 sec
+Testcase: animate_sets.tex:330 took 0.213 sec
+Testcase: animate_sets.tex:331 took 0.27 sec
+Testcase: animate_sets.tex:332 took 0.374 sec
+Testcase: animate_sets.tex:334 took 0.999 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1039,7 +1050,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:335 took 0.825 sec
+Testcase: animate_sets.tex:335 took 1.086 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1055,7 +1066,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:336 took 0.509 sec
+Testcase: animate_sets.tex:336 took 0.502 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1071,7 +1082,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:337 took 0.628 sec
+Testcase: animate_sets.tex:337 took 0.616 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1087,7 +1098,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:338 took 0.511 sec
+Testcase: animate_sets.tex:338 took 0.5 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1103,7 +1114,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:339 took 0.571 sec
+Testcase: animate_sets.tex:339 took 0.562 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1119,7 +1130,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:340 took 0.568 sec
+Testcase: animate_sets.tex:340 took 0.562 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1135,7 +1146,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:341 took 0.686 sec
+Testcase: animate_sets.tex:341 took 0.673 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1151,7 +1162,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:342 took 0.332 sec
+Testcase: animate_sets.tex:342 took 0.323 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1167,7 +1178,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:343 took 0.442 sec
+Testcase: animate_sets.tex:343 took 0.437 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1183,7 +1194,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:344 took 0.629 sec
+Testcase: animate_sets.tex:344 took 0.614 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1199,7 +1210,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:345 took 0.5 sec
+Testcase: animate_sets.tex:345 took 0.491 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1215,7 +1226,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:346 took 0.859 sec
+Testcase: animate_sets.tex:346 took 0.842 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1231,7 +1242,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:347 took 0.557 sec
+Testcase: animate_sets.tex:347 took 0.544 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1247,7 +1258,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:348 took 0.802 sec
+Testcase: animate_sets.tex:348 took 0.785 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.RefExprImpl yet. generic
@@ -1263,86 +1274,86 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:274)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:105)
 
-Testcase: animate_sets.tex:349 took 0.639 sec
-Testcase: animate_sets.tex:350 took 0.511 sec
-Testcase: animate_sets.tex:358 took 0.761 sec
-Testcase: animate_sets.tex:360 took 1.087 sec
-Testcase: animate_sets.tex:362 took 1.483 sec
-Testcase: animate_sets.tex:368 took 0.586 sec
-Testcase: animate_sets.tex:370 took 1.991 sec
-Testcase: animate_sets.tex:372 took 0.904 sec
-Testcase: animate_sets.tex:378 took 0.511 sec
-Testcase: animate_sets.tex:380 took 1.251 sec
-Testcase: animate_sets.tex:382 took 0.64 sec
-Testcase: animate_sets.tex:383 took 0.644 sec
-Testcase: animate_sets.tex:384 took 0.633 sec
-Testcase: animate_sets.tex:385 took 0.628 sec
-Testcase: animate_sets.tex:386 took 0.884 sec
-Testcase: animate_sets.tex:387 took 1.122 sec
-Testcase: animate_sets.tex:393 took 0.32 sec
+Testcase: animate_sets.tex:349 took 0.628 sec
+Testcase: animate_sets.tex:350 took 0.502 sec
+Testcase: animate_sets.tex:358 took 0.748 sec
+Testcase: animate_sets.tex:360 took 1.065 sec
+Testcase: animate_sets.tex:362 took 1.459 sec
+Testcase: animate_sets.tex:368 took 0.577 sec
+Testcase: animate_sets.tex:370 took 1.949 sec
+Testcase: animate_sets.tex:372 took 0.89 sec
+Testcase: animate_sets.tex:378 took 0.503 sec
+Testcase: animate_sets.tex:380 took 1.227 sec
+Testcase: animate_sets.tex:382 took 0.634 sec
+Testcase: animate_sets.tex:383 took 0.634 sec
+Testcase: animate_sets.tex:384 took 0.626 sec
+Testcase: animate_sets.tex:385 took 0.617 sec
+Testcase: animate_sets.tex:386 took 0.862 sec
+Testcase: animate_sets.tex:387 took 1.099 sec
+Testcase: animate_sets.tex:393 took 0.26 sec
 	Caused an ERROR
-Unbounded integer range [null,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [null,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:85)
+Cannot start iteration through ALL integers
+net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:394 took 0.269 sec
+Testcase: animate_sets.tex:394 took 0.257 sec
 	Caused an ERROR
-Unbounded integer range [0,null]
-net.sourceforge.czt.animation.eval.EvalException: Unbounded integer range [0,null]
-	at net.sourceforge.czt.animation.eval.result.RangeSet.listIterator(RangeSet.java:127)
-	at net.sourceforge.czt.animation.eval.result.RangeSet.iterator(RangeSet.java:121)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:85)
+Gave up unbounded iteration from 0 by 1 after 10 results.
+net.sourceforge.czt.animation.eval.EvalException: Gave up unbounded iteration from 0 by 1 after 10 results.
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:278)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:240)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:88)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:523)
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:340)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:128)
 
-Testcase: animate_sets.tex:397 took 1.306 sec
-Testcase: animate_sets.tex:398 took 1.439 sec
-Testcase: animate_sets.tex:403 took 1.108 sec
-Testcase: animate_sets.tex:404 took 0.797 sec
-Testcase: animate_sets.tex:405 took 0.859 sec
-Testcase: animate_sets.tex:406 took 0.932 sec
-Testcase: animate_sets.tex:407 took 1.649 sec
-Testcase: animate_sets.tex:408 took 0.979 sec
-Testcase: animate_sets.tex:409 took 0.833 sec
-Testcase: animate_sets.tex:410 took 0.961 sec
-Testcase: animate_sets.tex:411 took 0.958 sec
-Testcase: animate_sets.tex:412 took 1.309 sec
-Testcase: animate_sets.tex:413 took 1.315 sec
-Testcase: animate_sets.tex:414 took 1.001 sec
-Testcase: animate_sets.tex:415 took 1.05 sec
-Testcase: animate_sets.tex:416 took 1.354 sec
-Testcase: animate_sets.tex:417 took 1.041 sec
-Testcase: animate_sets.tex:418 took 1.039 sec
-Testcase: animate_sets.tex:419 took 1.584 sec
-Testcase: animate_sets.tex:420 took 1.711 sec
-Testcase: animate_sets.tex:421 took 2.052 sec
-Testcase: animate_sets.tex:422 took 1.563 sec
-Testcase: animate_sets.tex:423 took 1.749 sec
+Testcase: animate_sets.tex:397 took 1.287 sec
+Testcase: animate_sets.tex:398 took 1.421 sec
+Testcase: animate_sets.tex:403 took 1.093 sec
+Testcase: animate_sets.tex:404 took 0.792 sec
+Testcase: animate_sets.tex:405 took 0.841 sec
+Testcase: animate_sets.tex:406 took 0.914 sec
+Testcase: animate_sets.tex:407 took 1.622 sec
+Testcase: animate_sets.tex:408 took 0.966 sec
+Testcase: animate_sets.tex:409 took 0.817 sec
+Testcase: animate_sets.tex:410 took 0.946 sec
+Testcase: animate_sets.tex:411 took 0.944 sec
+Testcase: animate_sets.tex:412 took 1.291 sec
+Testcase: animate_sets.tex:413 took 1.295 sec
+Testcase: animate_sets.tex:414 took 0.992 sec
+Testcase: animate_sets.tex:415 took 1.027 sec
+Testcase: animate_sets.tex:416 took 1.339 sec
+Testcase: animate_sets.tex:417 took 1.024 sec
+Testcase: animate_sets.tex:418 took 1.023 sec
+Testcase: animate_sets.tex:419 took 1.555 sec
+Testcase: animate_sets.tex:420 took 1.679 sec
+Testcase: animate_sets.tex:421 took 2.03 sec
+Testcase: animate_sets.tex:422 took 1.534 sec
+Testcase: animate_sets.tex:423 took 1.719 sec
 Testcase: animate_sets.tex:424 took 0.689 sec
-Testcase: animate_sets.tex:425 took 0.768 sec
-Testcase: animate_sets.tex:426 took 1.47 sec
-Testcase: animate_sets.tex:427 took 0.662 sec
-Testcase: animate_sets.tex:428 took 0.801 sec
-Testcase: animate_sets.tex:429 took 1.508 sec
-Testcase: animate_sets.tex:433 took 1.509 sec
-Testcase: animate_sets.tex:434 took 1.602 sec
-Testcase: animate_sets.tex:435 took 1.636 sec
-Testcase: animate_sets.tex:436 took 3.117 sec
-Testcase: animate_sets.tex:443 took 1.79 sec
-Testcase: animate_sets.tex:444 took 1.792 sec
-Testcase: animate_sets.tex:445 took 2.508 sec
-Testcase: animate_sets.tex:448 took 3.065 sec
-Testcase: animate_sets.tex:449 took 3.193 sec
-Testcase: animate_sets.tex:450 took 3.921 sec
-Testcase: animate_sets.tex:453 took 1.156 sec
-Testcase: animate_sets.tex:454 took 1.307 sec
-Testcase: animate_sets.tex:455 took 2.712 sec
-Testcase: animate_sets.tex:456 took 1.07 sec
-Testcase: animate_sets.tex:457 took 1.339 sec
-Testcase: animate_sets.tex:458 took 2.763 sec
+Testcase: animate_sets.tex:425 took 0.753 sec
+Testcase: animate_sets.tex:426 took 1.451 sec
+Testcase: animate_sets.tex:427 took 0.656 sec
+Testcase: animate_sets.tex:428 took 0.786 sec
+Testcase: animate_sets.tex:429 took 1.484 sec
+Testcase: animate_sets.tex:433 took 1.538 sec
+Testcase: animate_sets.tex:434 took 1.582 sec
+Testcase: animate_sets.tex:435 took 1.615 sec
+Testcase: animate_sets.tex:436 took 3.066 sec
+Testcase: animate_sets.tex:443 took 1.764 sec
+Testcase: animate_sets.tex:444 took 1.767 sec
+Testcase: animate_sets.tex:445 took 3.075 sec
+Testcase: animate_sets.tex:448 took 2.996 sec
+Testcase: animate_sets.tex:449 took 3.149 sec
+Testcase: animate_sets.tex:450 took 3.854 sec
+Testcase: animate_sets.tex:453 took 1.136 sec
+Testcase: animate_sets.tex:454 took 1.289 sec
+Testcase: animate_sets.tex:455 took 2.672 sec
+Testcase: animate_sets.tex:456 took 1.061 sec
+Testcase: animate_sets.tex:457 took 1.323 sec
+Testcase: animate_sets.tex:458 took 2.716 sec
