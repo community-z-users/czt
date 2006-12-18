@@ -40,7 +40,7 @@
 
   <target name="maven-jar" unless="jar.present">
     <echo>WARNING: Cannot find ${jar}</echo>
-    <echo>please call 'mvn assembly:assembly -DdescriptorId=jar-with-dependencies' for this project.</echo>
+    <echo>please call 'mvn assembly:assembly' for this project.</echo>
   </target>
 
   <target name="maven" depends="maven-test-jar, maven-jar"/>
