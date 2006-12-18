@@ -60,18 +60,22 @@ import net.sourceforge.czt.zpatt.util.Factory;
 /** Preprocesses a term to get it ready for evaluation.
  *  This unfolds some Z constructs into simpler ones,
  *  using sets of rewrite rules.
- *  
+ *
+ *  This class is marked as final just to remind developers that any subclass
+ *  should re-implement the getClass().getResource(...) call
+ *  in the setRules method.
+ *
  * @author marku
  */
-public class Preprocess
+public final class Preprocess
 {
   private static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
-  
+
   private SectionManager sectman_;
-  
+
   private RuleTable rules_;
-  
+
   /** Create a term preprocessor that will apply a set
    *  of rules (see setRules) to a given term.
    * @param sectman  The section manager used to find rule tables.
@@ -100,15 +104,15 @@ public class Preprocess
     for (String ruleName : rules_.getRules().keySet())
       System.out.println("loaded rule "+ruleName);
   }
-  
+
   /** Rewrites the given term by firstly unfolding VarDecls
-   *  with multiple variables (x,y:T), then appling all the rewrite 
-   *  rules of this Preprocess object to that term.  This should be 
+   *  with multiple variables (x,y:T), then appling all the rewrite
+   *  rules of this Preprocess object to that term.  This should be
    *  called after type checking, so that VarDecls with multiple
    *  variables can be expanded correctly.  (Section C.7.3.1
    *  of the Z standard implies that x,y:T cannot be expanded
    *  until any generics in type T have been fully instantiated).
-   *  
+   *
    * @param sectname Gives the context for the proofs of rewrite rules.
    * @param term     The input term to rewrite.
    * @return         The rewritten term.
@@ -148,9 +152,9 @@ public class Preprocess
      *  have been normalised, so types will contain global names only.
      */
     private List<Map<String,ZName>> seen;
-    
+
     PrintVisitor printer = new PrintVisitor(false);
-    
+
     public FixIdVisitor()
     {
       VisitorUtils.checkVisitorRules(this);
@@ -177,7 +181,7 @@ public class Preprocess
         }
       }
     }
-    
+
     private void declareName(ZName name)
     {
       Map<String,ZName> map = seen.get(seen.size()-1);
@@ -215,7 +219,7 @@ public class Preprocess
     {
       // get the string form of this name.
       String str = nameString(name);
-      
+
       String id = name.getId();
       if (id == null)
         warning("ZName "+str+" has no id.");
@@ -244,13 +248,13 @@ public class Preprocess
 
     public Term visitQntExpr(QntExpr term)
     {
-      
+
       startScope(term.getZSchText());
       Term result = visitTerm(term);
       endScope();
       return result;
     }
-    
+
     public Term visitQntPred(QntPred pred)
     {
       startScope(pred.getZSchText());
