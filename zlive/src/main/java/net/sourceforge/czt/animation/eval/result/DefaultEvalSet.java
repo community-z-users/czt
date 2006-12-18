@@ -36,9 +36,7 @@ import net.sourceforge.czt.z.ast.ZName;
  *  memberList and memberSet data structures to record which members
  *  of the set have already been evaluated and to remove duplicates.
  *  The contains() and iterator() methods are implemented on top of
- *  this lazy evaluation mechanism, but subclasses are free to
- *  override those methods and avoid the lazy evaluation mechanism if
- *  they can do it more efficiently.
+ *  this lazy evaluation mechanism.
  */
 public abstract class DefaultEvalSet
   extends EvalSet
@@ -53,22 +51,16 @@ public abstract class DefaultEvalSet
 
   /** The list of known members so far.
    *  This is guaranteed to contain no duplicates.
-   *  In some implementations of EvalSet, it will be filled
-   *  up lazily as the members of the set are requested.
-   *  TODO: to save a little space, we could delete memberList_, once
-   *  fullyEvaluated_ becomes true and there are no iterators using it.
+   *  It will be filled up lazily as the members of the set are requested.
    */
-  protected List<Expr> memberList_;
+  protected List<Expr> memberList_ = new ArrayList<Expr>();
 
   /** All the known members of the set.
-   *  If memberSet_ and memberList_ are both non-null,
-   *  then they contain exactly the same elements.
-   *  If memberSet_ is non-null, but memberList_ is null,
-   *  then memberSet_ contains the complete set.
+   *  memberSet_ and memberList_ contain exactly the same elements.
    */
-  private SortedSet<Expr> memberSet_;
-  //@invariant memberList_==null <==> memberSet_==null;
-  //@invariant memberList_!=null ==> memberList_.size()==memberSet_.size();
+  private SortedSet<Expr> memberSet_ =
+    new TreeSet<Expr>(ExprComparator.create());
+  //@invariant memberList_.size()==memberSet_.size();
 
   /** The lower bound on numeric elements, if any, else null.
    *  <p>
@@ -185,19 +177,16 @@ public abstract class DefaultEvalSet
    */
   public boolean contains(Object obj)
   {
-    if (memberSet_ != null && memberSet_.contains(obj))
+    if (memberSet_.contains(obj)) {
       return true;
-    else {
-      // evaluate the rest of the set
-      assert memberList_==null || memberList_.size()==memberSet_.size();
-      int done = 0;
-      if (memberList_ != null)
-        done = memberList_.size();
-      while (insertMember()) {
-        if (memberList_.get(done).equals(obj))
-          return true;
-        done++;
-      }
+    }
+    // evaluate the rest of the set
+    assert memberList_.size()==memberSet_.size();
+    int done = memberList_.size();
+    while (insertMember()) {
+      if (memberList_.get(done).equals(obj))
+        return true;
+      done++;
     }
     return false;
   }
@@ -205,10 +194,10 @@ public abstract class DefaultEvalSet
   public /*synchronized*/ boolean isEmpty()
   {
     // return size() == 0;   //
-    if (memberList_ != null && memberList_.size() > 0)
+    if (memberList_.size() > 0) {
       return true;
-    else
-      return insertMember();
+    }
+    return insertMember();
   }
 
   /**Tests for the equality of any two sets.
@@ -257,11 +246,6 @@ public abstract class DefaultEvalSet
    */
   private boolean insertMember()
   {
-    if (memberList_ == null) {
-      assert memberSet_ == null;
-      memberList_ = new ArrayList<Expr>();
-      memberSet_ = new TreeSet<Expr>(ExprComparator.create());
-    }
     while (true) {
       Expr next = nextMember();
       if (next == null) {
@@ -295,8 +279,8 @@ public abstract class DefaultEvalSet
   protected void resetResult()
   {
     fullyEvaluated_ = false;
-    memberList_ = null;
-    memberSet_ = null;
+    memberList_ = new ArrayList<Expr>();
+    memberSet_ = new TreeSet<Expr>(ExprComparator.create());
   }
 
   /** Returns an array containing all of the elements in this set. */
@@ -332,7 +316,7 @@ public abstract class DefaultEvalSet
 
     public /*synchronized*/ boolean hasNext()
     {
-      return (memberList_ != null && position < memberList_.size())
+      return (position < memberList_.size())
         || (! fullyEvaluated_ && insertMember());
     }
 
