@@ -412,7 +412,7 @@ public class FlatPredList extends FlatPred
           if (mode == null || m.getSolutions() < mode.getSolutions())
             mode = m;
           // if it is deterministic or better, just use this one.
-          if (mode != null && mode.getSolutions() <= 1.0)
+          if (mode.getSolutions() <= Mode.ONE_SOLUTION)
             break;
         }
       }
