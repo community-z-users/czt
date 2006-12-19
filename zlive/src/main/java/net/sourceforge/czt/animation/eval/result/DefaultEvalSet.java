@@ -173,19 +173,19 @@ public abstract class DefaultEvalSet
   }
 
   /** Tests for membership of the set.
-   * @param e  The fully evaluated expression.
-   * @return   true iff e is a member of the set.
+   * @param expr  The fully evaluated expression.
+   * @return   true iff the given object is a member of the set.
    */
-  public boolean contains(Object obj)
+  public boolean contains(Object expr)
   {
-    if (memberSet_.contains(obj)) {
+    if (memberSet_.contains(expr)) {
       return true;
     }
     // evaluate the rest of the set
     assert memberList_.size()==memberSet_.size();
     int done = memberList_.size();
     while (insertMember()) {
-      if (memberList_.get(done).equals(obj))
+      if (memberList_.get(done).equals(expr))
         return true;
       done++;
     }
@@ -234,7 +234,7 @@ public abstract class DefaultEvalSet
    *  This is used during the first evaluation of
    *  the set.  Once this returns null, the set is
    *  fully evaluated and its elements are all stored
-   *  in fullSet.
+   *  in <code>memberSet_</code>.
    * @return The next Expr, or null if there are no more.
    */
   protected abstract Expr nextMember();
