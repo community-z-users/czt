@@ -67,7 +67,7 @@ public class FlatDivTest
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
-    Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  div(10,-3) = -4
     pred.startEvaluation();
@@ -93,7 +93,7 @@ public class FlatDivTest
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(false, m.isInput(2));
     Assert.assertTrue(m.getEnvir().isDefined(z));
-    Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  div(-6,-5) = 1
     pred.startEvaluation();

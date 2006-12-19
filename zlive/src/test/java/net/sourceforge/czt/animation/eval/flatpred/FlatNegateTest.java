@@ -47,7 +47,7 @@ public class FlatNegateTest
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
-    Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  negate(10) = -10
     pred.startEvaluation();
@@ -68,7 +68,7 @@ public class FlatNegateTest
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(y));
-    Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
@@ -84,7 +84,7 @@ public class FlatNegateTest
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertTrue(m.getEnvir().isDefined(x));
-    Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());

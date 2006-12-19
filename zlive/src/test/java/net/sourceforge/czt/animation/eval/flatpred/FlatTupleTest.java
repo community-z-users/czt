@@ -189,7 +189,7 @@ public class FlatTupleTest
     Assert.assertEquals(false, mode.isInput(3));
     Assert.assertEquals(false, mode.isInput(4));
     Assert.assertEquals(true, mode.isInput(5));
-    Assert.assertEquals(0.5, mode.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, mode.getSolutions(), ACCURACY);
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
@@ -217,7 +217,7 @@ public class FlatTupleTest
     Assert.assertEquals(false, mode.isInput(3));
     Assert.assertEquals(false, mode.isInput(4));
     Assert.assertEquals(true, mode.isInput(5));
-    Assert.assertEquals(0.5, mode.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, mode.getSolutions(), ACCURACY);
     pred.setMode(mode);
     pred.startEvaluation();
     //The assertion fails because of unmatching value of n.

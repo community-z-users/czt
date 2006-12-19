@@ -45,7 +45,7 @@ public class FlatConstTest
     Mode m = pred.chooseMode(envX);
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
-    Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  x (=10) = 10
     pred.startEvaluation();
@@ -64,7 +64,7 @@ public class FlatConstTest
     Assert.assertTrue(m != null);
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertTrue(m.getEnvir().isDefined(x));
-    Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());

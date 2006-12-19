@@ -47,7 +47,7 @@ public class FlatLessThanTest
     Assert.assertTrue(m != null);
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
-    Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  10 < 20
     pred.startEvaluation();

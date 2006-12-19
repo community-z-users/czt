@@ -152,7 +152,7 @@ public class FlatCardTest
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
-    Assert.assertEquals(0.5, mode.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, mode.getSolutions(), ACCURACY);
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
@@ -186,7 +186,7 @@ public class FlatCardTest
     Assert.assertEquals(true, mode.isInput(0));
     Assert.assertEquals(true, mode.isInput(1));
     Assert.assertTrue(mode.getEnvir().isDefined(s));
-    Assert.assertEquals(0.5, mode.getSolutions(), ACCURACY);
+    Assert.assertEquals(Mode.MAYBE_ONE_SOLUTION, mode.getSolutions(), ACCURACY);
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
