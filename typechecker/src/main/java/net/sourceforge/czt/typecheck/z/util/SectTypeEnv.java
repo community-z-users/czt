@@ -120,6 +120,11 @@ public class SectTypeEnv
     return factory_;
   }
 
+  public int size()
+  {
+    return typeInfo_.size();
+  }
+
   /**
    * @return true if and only if this section has been checked.
    */

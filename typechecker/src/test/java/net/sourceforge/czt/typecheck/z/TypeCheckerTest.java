@@ -180,6 +180,7 @@ public class TypeCheckerTest
              "\n\tException: " + e.toString());
       }
       catch (Throwable e) {
+	e.printStackTrace();
         fail("\nUnexpected exception" +
              "\n\tFile: " + file_ +
              "\n\tException: " + e.toString());

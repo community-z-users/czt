@@ -327,6 +327,7 @@ session/src/main/resources/circus.commands -text
 typechecker/COPYING.txt -text
 typechecker/src/site/content/xdocs/images/cztlogo.jpg -text
 typechecker/src/site/content/xdocs/images/sflogo.png -text
+typechecker/src/test/java/net/sourceforge/czt/typecheck/z/RewriteTest.java -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 util/COPYING.txt -text
 util/build.xml -text
