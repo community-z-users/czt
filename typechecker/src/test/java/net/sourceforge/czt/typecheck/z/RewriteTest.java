@@ -62,7 +62,6 @@ public class RewriteTest
     CztLogger.getLogger(SectionManager.class).setLevel(Level.OFF);
     TestSuite suite = new TestSuite();
     RewriteTest rewriteTest = new RewriteTest();
-    rewriteTest.loadRules();
     rewriteTest.collectTests(suite, "rewrite/");
     return suite;
   }
@@ -76,6 +75,7 @@ public class RewriteTest
   {
     SectionManager manager = new SectionManager();
     manager.putCommands("zpatt");
+    loadRules(manager);
     return manager;
   }
 
@@ -84,18 +84,18 @@ public class RewriteTest
   {
     super.typecheck(term, manager);
 
-    //printTerm(term);
+    //printTerm(term, manager);
     String sectName = term.accept(new GetZSectNameVisitor());
 
     //apply rules
-    Term rewrittenTerm = preprocess(term);
+    Term rewrittenTerm = preprocess(term, manager);
 
     return super.typecheck(term, manager);
   }
 
-  public void loadRules()
+  public void loadRules(SectionManager manager)
   {
-    manager_.put(new Key("unfold", Source.class),
+    manager.put(new Key("unfold", Source.class),
                  new UrlSource(getClass().getResource("/unfold.tex")));
     try {
       URL url = getClass().getResource(RULES_FILE);
@@ -103,14 +103,14 @@ public class RewriteTest
 	throw new IOException("Cannot getResource(" + RULES_FILE + ")");
       }
 
-      manager_.put(new Key(url.toString(), Source.class), new UrlSource(url));
+      manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
       
       //load the rules
-      Term term = (Term) manager_.get(new Key(url.toString(), Spec.class));
+      Term term = (Term) manager.get(new Key(url.toString(), Spec.class));
       String sectName = term.accept(new GetZSectNameVisitor());
       System.err.println("section =  " + sectName);
-      manager_.get(new Key(sectName, SectTypeEnvAnn.class)); 
-      rules_ = (RuleTable) manager_.get(new Key(sectName, RuleTable.class));
+      manager.get(new Key(sectName, SectTypeEnvAnn.class)); 
+      rules_ = (RuleTable) manager.get(new Key(sectName, RuleTable.class));
     }
     catch (Throwable e) {
       fail("\nUnexpected exception loading " + RULES_FILE + "\n" +
@@ -122,23 +122,23 @@ public class RewriteTest
     //  System.err.println("loaded rule " + ruleName);
   }
 
-  public Term preprocess(Term term)
+  public Term preprocess(Term term, SectionManager manager)
   {
     if (rules_ == null)
       throw new RuntimeException("preprocessing error: no rules!");
     Factory factory = new Factory(new ProverFactory());
     //Term term2 = term.accept(new CopyVisitor(factory));
     String sectName = term.accept(new GetZSectNameVisitor());
-    Term term3 = Rewrite.rewrite(manager_, sectName, term, rules_);
+    Term term3 = Rewrite.rewrite(manager, sectName, term, rules_);
     return term3;
   }
 
-  private void printTerm(Term term)
+  private void printTerm(Term term, SectionManager manager)
   {
     String sectName = term.accept(new GetZSectNameVisitor());
     try {
       LatexString latexString = 
-	(LatexString) manager_.get(new Key(sectName, LatexString.class));
+	(LatexString) manager.get(new Key(sectName, LatexString.class));
       System.err.println(latexString.toString());
     }
     catch (Exception e) {

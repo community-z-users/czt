@@ -56,9 +56,6 @@ public class TypeCheckerTest
   extends TestCase
   implements TypecheckPropertiesKeys
 {
-  //the section manager
-  protected SectionManager manager_ = getManager();
-
   //allow use before declaration
   protected boolean useBeforeDecl_ = false;
 
