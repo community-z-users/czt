@@ -60,6 +60,7 @@ public class FlatGivenSet extends FlatPred
     name_ = name;
     zlive_ = zlive;
     solutionsReturned_ = -1;
+    exampleMembers_ = null;
   }
 
   public double getApproxSize()
