@@ -29,21 +29,29 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
- * A simple implementation of a power set.
+ * A power set with lazy evaluation of its elements.
  *
  * @author Petra Malik
  */
 public class PowerSet extends DefaultEvalSet
 {
+  /** The base set, i.e. the set S, so that this represents Power(S). */
   private EvalSet baseset_;
+
+  /** An iterator over all the elements of this set. */
   private PowerSetIterator iter_;
 
+  /** Creates a new power set of the given base set. */
   public PowerSet(EvalSet baseset)
   {
     baseset_ = baseset;
   }
 
-  /** returns false.
+  /**
+   * Power sets are never empty because they always contain the empty
+   * set so this method always returns <code>false</code>.
+   *
+   * @return false.
    */
   public boolean isEmpty()
   {
@@ -92,6 +100,9 @@ public class PowerSet extends DefaultEvalSet
       return size.doubleValue();
   }
 
+  /**
+   * @throws EvalException if the given object is not an EvalSet.
+   */
   @Override
   public boolean contains(Object e)
   {
@@ -134,7 +145,8 @@ public class PowerSet extends DefaultEvalSet
   }
 
   /**
-   * Creates the non-empty power set for the given base set.
+   * An iterator over the elements of a non-empty power set of a given
+   * base set.
    */
   protected class PowerSetIterator
   {
