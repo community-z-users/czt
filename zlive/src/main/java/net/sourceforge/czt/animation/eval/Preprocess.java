@@ -100,9 +100,6 @@ public final class Preprocess
     String sectname = term.accept(new GetZSectNameVisitor());
     sectman_.get(new Key(sectname, SectTypeEnvAnn.class)); // typecheck sect
     rules_ = (RuleTable) sectman_.get(new Key(sectname, RuleTable.class));
-    // for debugging only...
-    for (String ruleName : rules_.getRules().keySet())
-      System.out.println("loaded rule "+ruleName);
   }
 
   /** Rewrites the given term by firstly unfolding VarDecls
