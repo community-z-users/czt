@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -323,7 +324,7 @@ public abstract class DefaultEvalSet
 
     public Expr next()
     {
-      assert position < memberList_.size();
+      if (! hasNext()) throw new NoSuchElementException();
       Expr result = memberList_.get(position);
       position++;
       return result;
