@@ -66,7 +66,7 @@ public class FlatLessThan extends FlatPred
   {
     Mode m = modeOneOutput(env);
     if(m!=null) 
-      if(m.getSolutions()>0.5)
+      if(m.numOutputs() > 0)
         m.setSolutions(Double.MAX_VALUE);
     return m;
   }
