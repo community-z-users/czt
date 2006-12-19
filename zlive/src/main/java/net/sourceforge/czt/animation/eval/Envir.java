@@ -202,7 +202,10 @@ public class Envir
     result.append("Envir{");
     Envir env = this;
     while (env != null) {
-      result.append(Integer.toHexString(env.hashCode())+":"+env.name_+"="+env.expr_+",  ");
+      result.append(env.name_);
+      result.append("=");
+      result.append(env.expr_);
+      result.append(", ");
       env = env.nextEnv;
     }
     result.append("}");
