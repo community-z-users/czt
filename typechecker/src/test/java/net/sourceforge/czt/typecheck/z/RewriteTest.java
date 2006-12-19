@@ -95,6 +95,8 @@ public class RewriteTest
 
   public void loadRules()
   {
+    manager_.put(new Key("unfold", Source.class),
+                 new UrlSource(getClass().getResource("/unfold.tex")));
     try {
       URL url = getClass().getResource(RULES_FILE);
       if (url == null) {
