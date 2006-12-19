@@ -33,12 +33,27 @@ import net.sourceforge.czt.animation.eval.ZTestCase;
  */
 public class ProdSetTest extends ZTestCase
 {
-  public void testEmpty()
+  public void testSimpleEmpty()
   {
     List<EvalSet> basesets = new ArrayList<EvalSet>();
     DiscreteSet emptySet = new DiscreteSet();
     assertEquals(BigInteger.ZERO, emptySet.maxSize());
     basesets.add(emptySet);
+    ProdSet prodSet = new ProdSet(basesets);
+    assertTrue(prodSet.isEmpty());
+    assertEquals(BigInteger.ZERO, prodSet.maxSize());
+    assertEquals(0.0, prodSet.estSize(), ACCURACY);
+    assertEquals(0, prodSet.size());
+    Iterator iter = prodSet.iterator();
+    assertFalse(iter.hasNext());
+  }
+
+  public void testEmpty()
+  {
+    List<EvalSet> basesets = new ArrayList<EvalSet>();
+    basesets.add(getSet1());
+    basesets.add(getEmptySet());
+    basesets.add(getSet2());
     ProdSet prodSet = new ProdSet(basesets);
     assertTrue(prodSet.isEmpty());
     assertEquals(BigInteger.ZERO, prodSet.maxSize());
@@ -69,13 +84,8 @@ public class ProdSetTest extends ZTestCase
   public void testSimple2()
   {
     List<EvalSet> basesets = new ArrayList<EvalSet>();
-    DiscreteSet set1 = new DiscreteSet();
-    set1.add(i1);
-    basesets.add(set1);
-    DiscreteSet set2 = new DiscreteSet();
-    set2.add(i2);
-    set2.add(i3);
-    basesets.add(set2);
+    basesets.add(getSet1());
+    basesets.add(getSet2());
     ProdSet prodSet = new ProdSet(basesets);
     assertFalse(prodSet.isEmpty());
     assertEquals(BigInteger.valueOf(2), prodSet.maxSize());
@@ -87,5 +97,25 @@ public class ProdSetTest extends ZTestCase
     assertTrue(iter.hasNext());
     assertTrue(prodSet.contains(iter.next()));
     assertFalse(iter.hasNext());
+  }
+
+  private DiscreteSet getEmptySet()
+  {
+    return new DiscreteSet();
+  }
+
+  private DiscreteSet getSet1()
+  {
+    DiscreteSet result = new DiscreteSet();
+    result.add(i1);
+    return result;
+  }
+
+  private DiscreteSet getSet2()
+  {
+    DiscreteSet result = new DiscreteSet();
+    result.add(i2);
+    result.add(i3);
+    return result;
   }
 }
