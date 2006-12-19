@@ -146,6 +146,14 @@ public class ProdSet extends DefaultEvalSet
 
     public boolean hasNext()
     {
+      if (currExprs_ == null) {
+        for (Iterator<Expr> iter : iterList_) {
+          if (! iter.hasNext()) {
+            return false;
+          }
+        }
+        return true;
+      }
       for (Iterator<Expr> iter : iterList_) {
         if (iter.hasNext()) {
           return true;
