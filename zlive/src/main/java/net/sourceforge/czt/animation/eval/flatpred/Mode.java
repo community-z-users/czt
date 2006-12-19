@@ -38,12 +38,12 @@ public class Mode
   /** A constant for getSolutions().
    *  Means that one solution is expected.
    */
-  public static double ONE_SOLUTION = 1.0;
+  public final static double ONE_SOLUTION = 1.0;
 
   /** A constant for getSolutions().
    *  Means that zero or one solutions are expected.
    */
-  public static double MAYBE_ONE_SOLUTION = 0.5;
+  public final static double MAYBE_ONE_SOLUTION = 0.8;
 
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;
