@@ -19,11 +19,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
+import java.math.BigInteger;
+
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
 import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NumExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** A simple implementation of a set comprehension.
@@ -51,6 +55,13 @@ public class SetComp extends DefaultEvalSet
    */
   protected Envir env0_;
 
+  /** This stores general information about the bounds of the variables
+   *  in this set comprehension.  Note that these bounds hold for ALL
+   *  elements of the set, so any bounds analysis for particular
+   *  members must not modify these Bounds.
+   */
+  protected Bounds bounds_;
+
   /** The generated environment that contains the output values.
    *  When this is non-null, it means that we are in the process
    *  of lazily evaluating the members of the set.
@@ -63,11 +74,12 @@ public class SetComp extends DefaultEvalSet
   protected ZName resultName_;
 
   public SetComp(FlatPredList predsAll, FlatPredList predsOne,
-       ZName resultName, Envir env0)
+       ZName resultName, Envir env0, Bounds bnds)
   {
     predsAll_ = predsAll;
     predsOne_ = predsOne;
     env0_ = env0;
+    bounds_ = bnds;
     resultName_ = resultName;
     // try to estimate its size.
     Mode m = predsAll_.chooseMode(env0_);
@@ -91,17 +103,20 @@ public class SetComp extends DefaultEvalSet
     // rather than generating all possible results.
     Envir env = env0_.plus(resultName_, (Expr)e);
     // now do some additional static inference for this member.
-    /*
-    Bounds bnds = bounds_.clone();
+    Bounds ebnds = new Bounds(bounds_);
+    ebnds.startAnalysis(bounds_);
     if (e instanceof NumExpr) {
       // TODO: make this code common with FlatConst.
       BigInteger val = ((NumExpr)e).getValue();
-      bnds.addLower(resultName_,val);
-      bnds.addUpper(resultName_,val);
+      ebnds.addLower(resultName_,val);
+      ebnds.addUpper(resultName_,val);
     }
-    predsOne_.inferBoundsFixPoint(bnds);
-    */
-    Mode m = predsOne_.chooseMode(env);
+    if (e instanceof EvalSet) {
+      ebnds.setEvalSet(resultName_, (EvalSet) e);
+    }
+    predsOne_.inferBoundsFixPoint(ebnds);
+    ebnds.endAnalysis();
+    Mode m = predsOne_.chooseMode(env); // TODO: try doing this at constructor time?
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);
     predsOne_.setMode(m);

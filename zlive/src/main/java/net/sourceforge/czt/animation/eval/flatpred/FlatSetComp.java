@@ -111,6 +111,7 @@ public class FlatSetComp extends FlatPred
     bounds_.startAnalysis(bnds);
     boolean result = predsAll_.inferBounds(bounds_);
     predsOne_.inferBounds(bounds_);  // give it the same information.
+    bounds_.endAnalysis();
 
     String name = getLastArg().toString();
     // TODO: it would be nice to get a better size estimate here,
@@ -120,37 +121,10 @@ public class FlatSetComp extends FlatPred
     FuzzySet fuzzy = new FuzzySet(name, EvalSet.UNKNOWN_SIZE, null);
     fuzzy.setLower(bounds_.getLower(resultName_));
     fuzzy.setUpper(bounds_.getUpper(resultName_));
-    bounds_.endAnalysis();
     
     // now tell the outer Bounds object a summary of what we know.
     result |= bnds.setEvalSet(getLastArg(), fuzzy);
     return result;
-  }
-
-  public BigInteger getLower()
-  {
-    if (bounds_ == null)
-      return null;
-    else
-      return bounds_.getLower(resultName_);
-  }
-
-  public BigInteger getUpper()
-  {
-    if (bounds_ == null)
-      return null;
-    else
-      return bounds_.getUpper(resultName_);
-  }
-
-  /** Returns null for now -- because it is quite complex to calculate
-   *  maximum size of a set comprehension.
-   *
-   *  @czt.todo calculate an upper bound of the size.
-   */
-  public BigInteger maxSize()
-  {
-	return null;
   }
 
   /** Like other Flat*Set* objects, this acts as a function:
@@ -209,7 +183,7 @@ public class FlatSetComp extends FlatPred
       solutionsReturned_++;
       ZName setName = getLastArg();
       SetComp set = new SetComp(predsAll_, predsOne_, resultName_,
-                                evalMode_.getEnvir0());
+                                evalMode_.getEnvir0(), bounds_);
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(setName);
         result = set.equals(otherSet);
