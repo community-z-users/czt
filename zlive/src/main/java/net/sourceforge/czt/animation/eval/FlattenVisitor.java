@@ -25,17 +25,103 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.animation.eval.flatpred.FlatBinding;
+import net.sourceforge.czt.animation.eval.flatpred.FlatCard;
+import net.sourceforge.czt.animation.eval.flatpred.FlatConst;
+import net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatDiv;
+import net.sourceforge.czt.animation.eval.flatpred.FlatEquals;
+import net.sourceforge.czt.animation.eval.flatpred.FlatExists;
+import net.sourceforge.czt.animation.eval.flatpred.FlatFalse;
+import net.sourceforge.czt.animation.eval.flatpred.FlatForall;
+import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatLessThan;
+import net.sourceforge.czt.animation.eval.flatpred.FlatLessThanEquals;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMember;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMod;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMu;
+import net.sourceforge.czt.animation.eval.flatpred.FlatMult;
+import net.sourceforge.czt.animation.eval.flatpred.FlatNegate;
+import net.sourceforge.czt.animation.eval.flatpred.FlatNot;
+import net.sourceforge.czt.animation.eval.flatpred.FlatOr;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPlus;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPowerSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.animation.eval.flatpred.FlatProd;
+import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatRelSet;
+import net.sourceforge.czt.animation.eval.flatpred.FlatSetComp;
+import net.sourceforge.czt.animation.eval.flatpred.FlatTuple;
+import net.sourceforge.czt.animation.eval.flatpred.FlatTupleSel;
+import net.sourceforge.czt.animation.eval.flatpred.FlatUnion;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.base.ast.Digit;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.DefinitionTable;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.ApplExpr;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.ExistsPred;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.FalsePred;
+import net.sourceforge.czt.z.ast.ForallPred;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.IffPred;
+import net.sourceforge.czt.z.ast.ImpliesPred;
+import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.MuExpr;
+import net.sourceforge.czt.z.ast.NegPred;
+import net.sourceforge.czt.z.ast.NumExpr;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OrPred;
+import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ProdExpr;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.TupleSelExpr;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZNumeral;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZStrokeList;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.z.visitor.AndPredVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
+import net.sourceforge.czt.z.visitor.BindExprVisitor;
+import net.sourceforge.czt.z.visitor.ExistsPredVisitor;
+import net.sourceforge.czt.z.visitor.FalsePredVisitor;
+import net.sourceforge.czt.z.visitor.ForallPredVisitor;
+import net.sourceforge.czt.z.visitor.IffPredVisitor;
+import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
+import net.sourceforge.czt.z.visitor.MemPredVisitor;
+import net.sourceforge.czt.z.visitor.MuExprVisitor;
+import net.sourceforge.czt.z.visitor.NegPredVisitor;
+import net.sourceforge.czt.z.visitor.NumExprVisitor;
+import net.sourceforge.czt.z.visitor.OrPredVisitor;
+import net.sourceforge.czt.z.visitor.PowerExprVisitor;
+import net.sourceforge.czt.z.visitor.ProdExprVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
+import net.sourceforge.czt.z.visitor.TruePredVisitor;
+import net.sourceforge.czt.z.visitor.TupleExprVisitor;
+import net.sourceforge.czt.z.visitor.TupleSelExprVisitor;
+import net.sourceforge.czt.z.visitor.ZNameVisitor;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
  *  The visit* methods add subclasses of Pred or Expr into the list flat_.
@@ -561,9 +647,55 @@ public class FlattenVisitor
     return result;
   }
 
+  /** Returns the value of an expression, if it is a NumExpr.
+   *  Otherwise, returns a negative number.
+   *  So don't use this to look for negative numbers.
+   * @param e
+   * @return
+   */
+  private int numValue(Expr e)
+  {
+    if (e instanceof NumExpr)
+      return ((NumExpr)e).getValue().intValue();
+    else
+      return -1;
+  }
+
+  /** Returns true if e is 1, false if e is 0, exception otherwise. */
+  private boolean isOne(Expr e)
+  {
+    if (e instanceof NumExpr) {
+      int value = ((NumExpr)e).getValue().intValue();
+      if (value== 1)
+        return true;
+      else if (value == 0)
+        return false;
+    }
+    throw new EvalException("Not a 0/1 value");
+  }
+
   public ZName visitTupleExpr(TupleExpr e) {
-    ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
     ZName result = createBoundName();
+    ZExprList args = e.getZExprList();
+    if (args.size() == 7 &&
+        numValue(args.get(0)) == 8384791) {
+      // this is an encoding of a relation/function space
+      ZName arg1 = args.get(1).accept(this);
+      ZName arg2 = args.get(2).accept(this);
+      try {
+        boolean isFunc = isOne(args.get(3));
+        boolean isTotal = isOne(args.get(4));
+        boolean isOnto = isOne(args.get(5));
+        boolean isInjective = isOne(args.get(6));
+        flat_.add(new FlatRelSet(arg1, arg2, 
+            isFunc, isTotal, isOnto, isInjective, result));
+        return result;
+      }
+      catch (EvalException ex) {
+        // fall through to the usual tuple case.
+      }
+    }
+    ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
     flat_.add(new FlatTuple(refnames, result));
     return result;
   }
