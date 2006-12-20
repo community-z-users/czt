@@ -149,6 +149,7 @@ public class PowerSet extends DefaultEvalSet
    * base set.
    */
   protected class PowerSetIterator
+    implements Iterator<DiscreteSet>
   {
     private Iterator<Expr> baseIter_;
     private AddElementIterator addElemIter_;
@@ -184,9 +185,24 @@ public class PowerSet extends DefaultEvalSet
       nextAddElementIterator();
       return addElemIter_.next();
     }
+
+    /**
+     * Not supported by this iterator so throws an
+     * UnsupportedOperationException when called.
+     */
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
+    }
   }
 
+  /**
+   * <p>An iterator over a list of sets that adds a given expression
+   * to each of the element sets before returning.  The original list
+   * is not changed by this.</p>
+   */
   protected static class AddElementIterator
+    implements Iterator<DiscreteSet>
   {
     /** The List of sets to which an element is to be added. */
     private final List<Expr> list_;
@@ -200,7 +216,18 @@ public class PowerSet extends DefaultEvalSet
     /** The end position */
     private final int end_;;
 
-    public AddElementIterator(Expr expr, List<Expr> list,
+    /**
+     * Creates a new iterator over the given list from start position
+     * to end position that adds the given expression to each of the
+     * element sets returned.
+     *
+     * @param expr the expression to be added to each of the sets returned.
+     * @param list the list to be iterated over.  It is assumed that
+     *             the elements of that list are of type Collection<Expr>.
+     * @param start the start position to start iterating from
+     * @param end  the list position at which the iteration will stop
+     */
+    public AddElementIterator(Expr expr, List list,
                               int start, int end)
     {
       expr_ = expr;
@@ -214,12 +241,28 @@ public class PowerSet extends DefaultEvalSet
       return pos_ < end_;
     }
 
+    /**
+     * Returns a DiscreteSet containing the expression given in the
+     * constructor and all the elements of the current list element.
+     *
+     * @throws ClassCastException if the list element at the current
+     *         position is not of type @code{Collection<Expr>}.
+     */
     public DiscreteSet next()
     {
       DiscreteSet result = new DiscreteSet();
       result.addAll(((Collection<Expr>) list_.get(pos_++)));
       result.add(expr_);
       return result;
+    }
+
+    /**
+     * Not supported by this iterator so throws an
+     * UnsupportedOperationException when called.
+     */
+    public void remove()
+    {
+      throw new UnsupportedOperationException();
     }
   }
 }
