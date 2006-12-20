@@ -40,10 +40,12 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 
+/*
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ProverUtils.GetZSectNameVisitor;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.zpatt.util.Factory;
+*/
 
 import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
@@ -53,6 +55,7 @@ import net.sourceforge.czt.typecheck.testutil.TypeParser;
 public class RewriteTest
   extends TypeCheckerTest
 {
+  /*
   final private static String RULES_FILE = "/preprocess.tex";
 
   protected RuleTable rules_ = null;
@@ -65,12 +68,12 @@ public class RewriteTest
     rewriteTest.collectTests(suite, "rewrite/");
     return suite;
   }
-
+  */
   public RewriteTest()
   {
     super(false);
   }
-
+  /*
   protected SectionManager getManager()
   {
     SectionManager manager = new SectionManager();
@@ -145,4 +148,5 @@ public class RewriteTest
       System.err.println(e.toString());
     }
   }
+  */
 }

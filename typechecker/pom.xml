@@ -34,10 +34,6 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>session</artifactId>
     </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>rules</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <testResources>
