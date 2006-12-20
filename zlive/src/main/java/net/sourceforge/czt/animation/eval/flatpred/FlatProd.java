@@ -104,12 +104,12 @@ public class FlatProd extends FlatPred
       List<EvalSet> baseSets = findSets(env);
       if (baseSets == null)
         throw new EvalException("unevaluated base set in product "+this);
-
+      EvalSet newSet = new ProdSet(baseSets);
       if (evalMode_.isInput(set)) {
-        result = this.equals(env.lookup(set));
+        result = newSet.equals(env.lookup(set));
       }
       else {
-        env.setValue(set, new ProdSet(baseSets));
+        env.setValue(set, newSet);
         result = true;
       }
     }

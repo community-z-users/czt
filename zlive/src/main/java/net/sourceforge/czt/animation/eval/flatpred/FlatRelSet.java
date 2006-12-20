@@ -59,31 +59,13 @@ public class FlatRelSet
    */
   public boolean inferBounds(Bounds bnds)
   {
-    EvalSet base = bnds.getEvalSet(args_.get(0));
-    FuzzySet fuzzy = null;
-    if (base != null) {
-      BigInteger basesize = base.maxSize();
-      BigInteger size = null;
-      double estsize = Math.pow(2.0, base.estSize());
-      if (basesize != null &&
-          basesize.compareTo(BigInteger.valueOf(1000)) > 0)
-          size = BigInteger.valueOf(2).pow(basesize.intValue());
-      if (size != null)
-        fuzzy = new FuzzySet(getLastArg().toString(), estsize, size);
-    }
-    if (fuzzy == null)
-      return false;
-    else
-      return bnds.setEvalSet(getLastArg(),fuzzy);
+    return false;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     Mode m = modeFunction(env);
-    // bind (set |-> this), so that size estimates work better.
-    if (m != null)
-      m.getEnvir().setValue(getLastArg(), null); // TODO
     return m;
   }
 
@@ -98,15 +80,15 @@ public class FlatRelSet
     if(solutionsReturned_==0)
     {
       solutionsReturned_++;
+      EvalSet base1 = (EvalSet) env.lookup(args_.get(0));
+      EvalSet base2 = (EvalSet) env.lookup(args_.get(1));
+      RelSet relSet =
+        new RelSet(base1, base2, function_, total_, onto_, injective_);
       if (evalMode_.isInput(setName)) {
         Expr otherSet = env.lookup(setName);
-        result = this.equals(otherSet);
+        result = relSet.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        EvalSet base1 = (EvalSet) env.lookup(args_.get(0));
-        EvalSet base2 = (EvalSet) env.lookup(args_.get(1));
-        RelSet relSet =
-          new RelSet(base1, base2, function_, total_, onto_, injective_);
         env.setValue(setName, relSet);
         result = true;
       }

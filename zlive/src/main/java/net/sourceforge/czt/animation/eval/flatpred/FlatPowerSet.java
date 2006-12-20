@@ -99,12 +99,13 @@ public class FlatPowerSet extends FlatPred
     {
       solutionsReturned_++;
       EvalSet base = (EvalSet) env.lookup(args_.get(0));
+      EvalSet powerSet = new PowerSet(base);
       if (evalMode_.isInput(setName)) {
         Expr otherSet = env.lookup(setName);
-        result = this.equals(otherSet);
+        result = powerSet.equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        env.setValue(setName, new PowerSet(base));
+        env.setValue(setName, powerSet);
         result = true;
       }
     }
