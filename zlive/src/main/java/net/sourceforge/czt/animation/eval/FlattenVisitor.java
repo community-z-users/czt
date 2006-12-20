@@ -72,6 +72,7 @@ import net.sourceforge.czt.z.ast.ForallPred;
 import net.sourceforge.czt.z.ast.GivenType;
 import net.sourceforge.czt.z.ast.IffPred;
 import net.sourceforge.czt.z.ast.ImpliesPred;
+import net.sourceforge.czt.z.ast.LetExpr;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.MuExpr;
 import net.sourceforge.czt.z.ast.NegPred;
@@ -92,7 +93,6 @@ import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.ast.TypeAnn;
 import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZNumeral;
@@ -108,6 +108,7 @@ import net.sourceforge.czt.z.visitor.FalsePredVisitor;
 import net.sourceforge.czt.z.visitor.ForallPredVisitor;
 import net.sourceforge.czt.z.visitor.IffPredVisitor;
 import net.sourceforge.czt.z.visitor.ImpliesPredVisitor;
+import net.sourceforge.czt.z.visitor.LetExprVisitor;
 import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.MuExprVisitor;
 import net.sourceforge.czt.z.visitor.NegPredVisitor;
@@ -157,6 +158,7 @@ public class FlattenVisitor
       ProdExprVisitor<ZName>,
       TupleExprVisitor<ZName>,
       BindExprVisitor<ZName>,
+      LetExprVisitor<ZName>,
       ZNameVisitor<ZName>
 {
   /** A reference to the main animator object, so that we can
@@ -676,25 +678,6 @@ public class FlattenVisitor
 
   public ZName visitTupleExpr(TupleExpr e) {
     ZName result = createBoundName();
-    ZExprList args = e.getZExprList();
-    if (args.size() == 7 &&
-        numValue(args.get(0)) == 8384791) {
-      // this is an encoding of a relation/function space
-      ZName arg1 = args.get(1).accept(this);
-      ZName arg2 = args.get(2).accept(this);
-      try {
-        boolean isFunc = isOne(args.get(3));
-        boolean isTotal = isOne(args.get(4));
-        boolean isOnto = isOne(args.get(5));
-        boolean isInjective = isOne(args.get(6));
-        flat_.add(new FlatRelSet(arg1, arg2, 
-            isFunc, isTotal, isOnto, isInjective, result));
-        return result;
-      }
-      catch (EvalException ex) {
-        // fall through to the usual tuple case.
-      }
-    }
     ArrayList<ZName> refnames = flattenExprList(e.getZExprList());
     flat_.add(new FlatTuple(refnames, result));
     return result;
@@ -714,6 +697,49 @@ public class FlattenVisitor
     return result;
   }
 
+  public ZName visitLetExpr(LetExpr e) {
+    ZName result = createBoundName();
+    ZSchText stext = e.getZSchText();
+    boolean isRelationSet = true;  // until we find otherwise
+    boolean isFunc = false;
+    boolean isTotal = false;
+    boolean isOnto = false;
+    boolean isInj = false;
+    try {
+      for (Decl decl : stext.getZDeclList()) {
+        ConstDecl cdecl = (ConstDecl) decl;
+        if (cdecl.getName().toString().equals("isFunc"))
+          isFunc = isOne(cdecl.getExpr());
+        else if (cdecl.getName().toString().equals("isTotal"))
+          isTotal = isOne(cdecl.getExpr());
+        else if (cdecl.getName().toString().equals("isOnto"))
+          isOnto = isOne(cdecl.getExpr());
+        else if (cdecl.getName().toString().equals("isInj"))
+          isInj = isOne(cdecl.getExpr());
+        else
+          isRelationSet = false;
+      }
+      if (isRelationSet) {
+        RefExpr prod = (RefExpr) ((PowerExpr) e.getExpr()).getExpr();
+        ZName domSet = prod.getZExprList().get(0).accept(this);
+        ZName ranSet = prod.getZExprList().get(1).accept(this);
+        flat_.add(new FlatRelSet(domSet, ranSet, 
+            isFunc, isTotal, isOnto, isInj, result));
+        return result;
+      }
+    }
+    catch (EvalException ex) {
+      isRelationSet = false;
+    }
+    // flatten each RHS expression and assign it to the LHS name.
+    for (Decl decl : stext.getZDeclList()) {
+      ConstDecl cdecl = (ConstDecl) decl;
+      ZName tmpname = cdecl.getExpr().accept(this);
+      flat_.add(new FlatEquals(tmpname, cdecl.getZName()));
+    }
+    return flat_.addExpr(e.getExpr());
+  }
+  
   /*
   public ZDeclList visitZDeclList(ZDeclList declList)
   {
@@ -726,7 +752,6 @@ public class FlattenVisitor
 /*
   public ZName visitFreetype(Freetype zedObject) { return zedObject; }
   public ZName visitNameNamePair(NameNamePair zedObject) {return zedObject; }
-  public ZName visitLetExpr(LetExpr zedObject) {return zedObject; }
   public ZName visitSignature(Signature zedObject) {return zedObject; }
   public ZName visitProdType(ProdType zedObject) {return zedObject; }
   public ZName visitDecl(Decl zedObject) {return zedObject; }
