@@ -19,15 +19,35 @@
 
 package net.sourceforge.czt.rules;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.rules.ast.*;
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.ast.ProverJokerExpr;
+import net.sourceforge.czt.rules.ast.ProverJokerPred;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.LetExpr;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.SchText;
+import net.sourceforge.czt.z.ast.StrokeList;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.util.*;
+import net.sourceforge.czt.z.visitor.ExprVisitor;
+import net.sourceforge.czt.z.visitor.LetExprVisitor;
+import net.sourceforge.czt.z.visitor.PredVisitor;
+import net.sourceforge.czt.z.visitor.SchTextVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
+import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.util.Factory;
 
 /**
  * <p>A rewrite engine for Z terms.</p>
@@ -48,7 +68,8 @@ public class Rewrite
              ExprVisitor<Term>,
              SchTextVisitor<Term>,
              PredVisitor<Term>,
-             ZSectVisitor<Term>
+             ZSectVisitor<Term>,
+             LetExprVisitor<Term>
 {
   /** Maximum number of rewrites of the same expr/pred.
    *  If more rules than this are used, we assume that
@@ -124,6 +145,28 @@ public class Rewrite
     } while (pred != oldPred);
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, pred, true);
+  }
+
+  /** For LET expressions, we rewrite only the expressions,
+   *  rather than the whole schema text.
+   * @param expr  The LET expression LET V1=E1;...Vn=En @ E
+   * @return      The rewritten expression: LET V1=E1';...Vn=En' @ E'
+   */
+  public Term visitLetExpr(LetExpr expr)
+  {
+    Factory factory = new Factory(new ProverFactory());
+    ZSchText stext = expr.getZSchText();
+    ZDeclList newdecls = factory.createZDeclList();
+    for (Decl decl : stext.getZDeclList()) {
+      ConstDecl cdecl = (ConstDecl) decl;
+      ConstDecl newDecl =
+        factory.createConstDecl(cdecl.getName(),
+            (Expr) cdecl.getExpr().accept(this));
+      newdecls.add(newDecl);
+    }
+    ZSchText newStext = factory.createZSchText(newdecls, stext.getPred());
+    Expr newExpr = (Expr) expr.getExpr().accept(this);
+    return factory.createLetExpr(newStext, newExpr);
   }
 
   /** This rewrites schema text, using rules with conclusions
