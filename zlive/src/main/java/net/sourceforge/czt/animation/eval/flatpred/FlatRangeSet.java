@@ -263,11 +263,6 @@ public class FlatRangeSet extends FlatPred
     return result;
   }
 
-  protected Expr nextMember()
-  {
-    throw new RuntimeException("FlatRangeSet should never call nextMember");
-  }
-
   public String toString()
   {
     StringBuffer result = new StringBuffer();
