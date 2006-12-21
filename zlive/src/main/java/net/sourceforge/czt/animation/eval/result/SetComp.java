@@ -96,8 +96,10 @@ public class SetComp extends DefaultEvalSet
   @Override
   public boolean contains(Object e)
   {
-    if ( ! (e instanceof Expr))
-      throw new RuntimeException("illegal non-Expr object "+e+" cannot be in "+this);
+    if ( ! (e instanceof Expr)) {
+      String msg = "illegal non-Expr object " + e + " cannot be in " + this;
+      throw new RuntimeException(msg);
+    }
     // Add the expected answer to the environment.
     // This allows the predicates inside the set to CHECK the result
     // rather than generating all possible results.
