@@ -114,6 +114,16 @@ public class UnionSet extends DefaultEvalSet
       return null;
   }
 
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(leftSet_.toString());
+    result.append(" union ");
+    result.append(rightSet_.toString());
+    return result.toString();
+  }
+
   /** This iterates through both sets.
    *  It may return duplicate expressions.
    */
@@ -170,15 +180,5 @@ public class UnionSet extends DefaultEvalSet
       throw new UnsupportedOperationException(
           "The Remove Operation is not supported");
     }
-  }
-
-  @Override
-  public String toString()
-  {
-    StringBuffer result = new StringBuffer();
-    result.append(leftSet_.toString());
-    result.append(" union ");
-    result.append(rightSet_.toString());
-    return result.toString();
   }
 }
