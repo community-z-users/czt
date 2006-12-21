@@ -721,8 +721,10 @@ public class FlattenVisitor
         else
           isRelationSet = false;
       }
-      if (isRelationSet) {
-        RefExpr prod = (RefExpr) ((PowerExpr) e.getExpr()).getExpr();
+      if (isRelationSet
+          && e.getExpr() instanceof PowerExpr
+          && ((PowerExpr)e.getExpr()).getExpr() instanceof ProdExpr) {
+        ProdExpr prod = (ProdExpr) ((PowerExpr) e.getExpr()).getExpr();
         ZName domSet = prod.getZExprList().get(0).accept(this);
         ZName ranSet = prod.getZExprList().get(1).accept(this);
         flat_.add(new FlatRelSet(domSet, ranSet, 
