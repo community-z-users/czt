@@ -43,6 +43,61 @@ preserves the type information.
 
 TODO: $\power_1$ ?
 
+% NOTE: we want to define a relset function, with this type,
+% but cannot, because the result of unfolding must be valid
+% in the user's ZSect.
+%\begin{gendef}[T1,T2]
+%  relset : (\power T1) \cross (\power T2) \cross \{0,1\} 
+%             \cross \{0,1\} \cross \{0,1\} \cross \{0,1\}
+%           \fun \power \power (T1 \cross T2)
+%\end{gendef}
+
+\begin{zedrule}{rel}
+   E1 \rel E2 = (\LET isFun==0 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{pfun}
+   E1 \pfun E2 = (\LET isFun==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{fun}
+   E1 \fun E2 = (\LET isFun==1;isTotal==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{pinj}
+   E1 \pinj E2 = (\LET isFun==1;isInj==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{inj}
+   E1 \inj E2 = (\LET isFun==1;isTotal==1;isInj==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{psurj}
+   E1 \psurj E2 = (\LET isFun==1;isOnto==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{surj}
+   E1 \surj E2 = (\LET isFun==1;isTotal==1; isOnto==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{bij}
+   E1 \bij E2 = (\LET isFun==1;isTotal==1;isOnto==1;isInj==1 
+                  @ \power (E1 \cross E2))
+\end{zedrule}
+
+We treat the finite mappings the same as the infinite ones,
+because the current implementation of RelSet in ZLive
+throws an exception for all infinite relations/functions.
+\begin{zedrule}{ffun}
+   E1 \ffun E2 = (\LET isFun==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+\begin{zedrule}{finj}
+   E1 \finj E2 = (\LET isFun==1; isInj==1 @ \power (E1 \cross E2))
+\end{zedrule}
+
+
+
 \begin{zedrule}{intersection}
    E1 \cap E2 = \{x:E1 | x \in E2\}
 \end{zedrule}

@@ -707,8 +707,10 @@ public class FlattenVisitor
     boolean isInj = false;
     try {
       for (Decl decl : stext.getZDeclList()) {
+        if ( ! (decl instanceof ConstDecl))
+          throw new EvalException("LET should not have been unfolded: "+e);
         ConstDecl cdecl = (ConstDecl) decl;
-        if (cdecl.getName().toString().equals("isFunc"))
+        if (cdecl.getName().toString().equals("isFun"))
           isFunc = isOne(cdecl.getExpr());
         else if (cdecl.getName().toString().equals("isTotal"))
           isTotal = isOne(cdecl.getExpr());
