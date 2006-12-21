@@ -76,6 +76,8 @@ public class CopyVisitor
    */
   private Map<ZName, Expr> generalize_;
   
+  private String generalizing_;
+  
   public Map<ZName, Expr> getGeneralize()
   {
     return generalize_;
@@ -86,8 +88,9 @@ public class CopyVisitor
    *  If this is set to null, then no names are generalized.
    * @param generalize
    */
-  public void setGeneralize(Map<ZName, Expr> generalize)
+  public void setGeneralize(String why, Map<ZName, Expr> generalize)
   {
+    this.generalizing_ = why;
     this.generalize_ = generalize;
   }
 
@@ -211,7 +214,7 @@ public class CopyVisitor
       name = (ZName) expr.getName();
     if (generalize_ != null && name != null && generalize_.containsKey(name)) {
       Expr result = generalize_.get(name);
-      System.out.println("copy visitor transforms type "+name+" to expr "+result);
+      System.out.println("copy visitor for "+generalizing_+" transforms type "+name+" to expr "+result);
       return result; 
     }
     else

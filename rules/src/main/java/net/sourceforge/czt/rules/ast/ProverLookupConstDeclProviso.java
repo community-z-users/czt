@@ -94,9 +94,9 @@ public class ProverLookupConstDeclProviso
             List<Expr> formals = new ArrayList<Expr>();
             Map<ZName,Expr> formalMap = new HashMap<ZName,Expr>();
             jokerizeNames(def.getDeclNames(), formals, formalMap, copyVisitor);
-            copyVisitor.setGeneralize(formalMap); // start generalizing
+            copyVisitor.setGeneralize(word, formalMap); // start generalizing
             Expr defrhs = (Expr) def.getExpr().accept(copyVisitor);
-            copyVisitor.setGeneralize(null);  // finish generalizing
+            copyVisitor.setGeneralize("", null);  // finish generalizing
             unify(defrhs, getRightExpr());
             ZExprList actuals = ref.getZExprList();
             if (formals.size() != actuals.size())
