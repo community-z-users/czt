@@ -128,7 +128,12 @@ public class Rewrite
         throw new RuntimeException("Infinite loop in rules on expr "+expr);
     } while (expr != oldExpr);
     // now recurse into subexpressions
-    return VisitorUtils.visitTerm(this, expr, true);
+    if (expr instanceof LetExpr) {
+      // special case for LET, that rewrites only the RHS of ConstDecls
+      return visitLetExpr( (LetExpr)expr );
+    }
+    else
+      return VisitorUtils.visitTerm(this, expr, true);
   }
 
   public Term visitPred(Pred pred)
