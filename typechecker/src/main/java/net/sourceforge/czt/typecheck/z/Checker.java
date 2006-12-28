@@ -119,16 +119,7 @@ abstract public class Checker<R>
     return result;
   }
 
-  protected Type getTypeFromAnns(Term term)
-  {
-    Type result = factory().createUnknownType();
-    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
 
-    if (typeAnn != null) {
-      result = typeAnn.getType();
-    }
-    return result;
-  }
 
   //add an error to the list of error annotation
   protected void error(ErrorAnn errorAnn)

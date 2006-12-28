@@ -119,7 +119,17 @@ public class ExprChecker
     //if this is undeclared, create an unknown type with this RefExpr
     Object undecAnn = zName.getAnn(UndeclaredAnn.class);
 
-    //get an existing parameter annotations
+    //if we are using name IDs, then read the type off the name if it
+    //is not in the type environment
+    if (undecAnn != null && sectTypeEnv().getUseNameIds()) {
+      type = getTypeFromAnns(refExpr);
+      if (!(type instanceof UnknownType)) {
+	removeAnn(zName, UndeclaredAnn.class);
+	undecAnn = null;
+      }
+    }
+
+    //get an existing parameter annotation
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
     List<Expr> exprs = refExpr.getZExprList();
 
@@ -210,14 +220,14 @@ public class ExprChecker
       UnknownType uType = (UnknownType) type;
       uType.setZName(zName);
       for (Expr expr : exprs) {
-        Type2 exprType = expr.accept(exprChecker());
-        PowerType vPowerType = factory().createPowerType();
-        Type2 baseType = factory().createUnknownType();
-        UResult unified = unify(vPowerType, exprType);
-        if (unified != FAIL) {
-          baseType = vPowerType.getType();
-        }
-        uType.getType().add(baseType);
+	Type2 exprType = expr.accept(exprChecker());
+	PowerType vPowerType = factory().createPowerType();
+	Type2 baseType = factory().createUnknownType();
+	UResult unified = unify(vPowerType, exprType);
+	if (unified != FAIL) {
+	  baseType = vPowerType.getType();
+	}
+	uType.getType().add(baseType);
       }
     }
     else if (!(type instanceof GenericType)) {

@@ -217,6 +217,24 @@ public class GlobalDefs
   }
 
   /**
+   * Gets a type annotation from a term, returning an UnknownType is
+   * no type is present.
+   * @param term the <code>Term</code> from which to read the annotation.
+   @ @return the <code>Type</code> of the term.
+   */
+  public static Type getTypeFromAnns(Term term)
+  {
+    Factory factory = new Factory();
+    Type result = factory.createUnknownType();
+    TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+
+    if (typeAnn != null) {
+      result = typeAnn.getType();
+    }
+    return result;
+  }
+
+  /**
    * Test whether a list contains a reference to an object.
    * @param list the list to search.
    * @param o the reference to search for.
