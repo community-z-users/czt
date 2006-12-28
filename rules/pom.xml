@@ -21,6 +21,12 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>typechecker</artifactId>
+      <version>0.6-SNAPSHOT</version>
+      <type>test-jar</type>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -40,5 +46,13 @@
         </executions>
       </plugin>
     </plugins>
+    <testResources>
+      <testResource>
+        <directory>src/main/resources/rulesets</directory>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
   </build>
 </project>

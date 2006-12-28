@@ -267,7 +267,7 @@ public class Rewrite
                              RuleTable rules)
   {
     Rewrite visitor = new Rewrite(manager, rules);
-    return (Term) term.accept(visitor);
+    return term.accept(visitor);
   }
 
   /**

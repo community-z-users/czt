@@ -67,7 +67,7 @@ public class ProverTypeProviso
   {
     final Expr expr = (Expr) ProverUtils.removeJoker(getExpr());
     final Expr type = getType();
-    List errors = TypeCheckUtils.typecheck(expr, manager, false, section);
+    List errors = TypeCheckUtils.typecheck(expr, manager, false, true, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();

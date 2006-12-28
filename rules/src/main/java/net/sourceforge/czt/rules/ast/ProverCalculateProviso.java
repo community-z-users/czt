@@ -152,7 +152,7 @@ public class ProverCalculateProviso
         SchExpr result =
           (SchExpr) ProverUtils.removeJoker(decorExpr.getExpr());
         List errors =
-          TypeCheckUtils.typecheck(result, manager, false, section);
+          TypeCheckUtils.typecheck(result, manager, false, true, section);
         if (errors == null || errors.isEmpty()) {
           result.getZSchText().getDeclList().accept(collectVisitor);
           result = (SchExpr) result.accept(visitor);

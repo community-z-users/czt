@@ -67,6 +67,11 @@ public class SimpleProver
     section_ = section;
   }
 
+  public String getSection()
+  {
+    return section_;
+  }
+
   private Logger getLogger()
   {
     return Logger.getLogger(getClass().getName());

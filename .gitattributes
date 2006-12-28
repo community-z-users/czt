@@ -320,8 +320,13 @@ rules/src/main/resources/net/sourceforge/czt/rules/images/fact.jpg -text svneol=
 rules/src/main/resources/net/sourceforge/czt/rules/images/ok.jpg -text svneol=unset#image/jpeg
 rules/src/main/resources/net/sourceforge/czt/rules/images/open.png -text svneol=unset#image/png
 rules/src/main/resources/net/sourceforge/czt/rules/images/question.jpg -text svneol=unset#image/jpeg
+rules/src/test/java/net/sourceforge/czt/rules/TypeCheckRewriteTest.java -text
 rules/src/test/java/net/sourceforge/czt/rules/unification/OccursCheckVisitorTest.java -text
 rules/src/test/java/net/sourceforge/czt/rules/unification/UnifierTest.java -text
+rules/src/test/resources/rewrite/DifferentName.tex -text
+rules/src/test/resources/rewrite/NestedSameName.tex -text
+rules/src/test/resources/rewrite/SameName.tex -text
+rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
 typechecker/COPYING.txt -text
