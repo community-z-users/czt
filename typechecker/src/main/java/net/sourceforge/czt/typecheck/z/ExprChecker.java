@@ -84,11 +84,13 @@ public class ExprChecker
   }
 
   public Type2 visitRefExpr(RefExpr refExpr)
-  {
+  {    
     //get the type of this name
     ZName zName = refExpr.getZName();
     Type type = exprChecker().getType(zName);
 
+    //if the referes to a schema, create new IDs for all names 
+    //in the schema's signature
     if (type instanceof PowerType &&
         ((PowerType) type).getType() instanceof SchemaType) {
       SchemaType schType = (SchemaType) ((PowerType) type).getType();

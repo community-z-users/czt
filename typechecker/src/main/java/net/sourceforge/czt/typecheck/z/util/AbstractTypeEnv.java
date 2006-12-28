@@ -19,6 +19,8 @@
 package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
@@ -37,6 +39,9 @@ abstract public class AbstractTypeEnv
   /** A Factory. */
   protected Factory factory_;
 
+  /** True is the ids of names should be used as part of the name. */
+  protected boolean useNameIds_;
+
   public AbstractTypeEnv()
   {
     this(new ZFactoryImpl());
@@ -48,6 +53,34 @@ abstract public class AbstractTypeEnv
   }
 
   abstract public Type getType(ZName zName);
+
+  public void setUseNameIds(boolean useNameIds)
+  {
+    useNameIds_ = useNameIds;
+  }
+
+  public boolean getUseNameIds()
+  {
+    return useNameIds_;
+  }
+
+  protected <X> X getX(ZName zName, Map<ZName, X> map)
+  {
+    X result = null;
+    Set<Map.Entry<ZName, X>> entrySet = map.entrySet();    
+    for (Map.Entry<ZName, X> entry : entrySet) {
+      ZName nextZName = entry.getKey();
+      if (namesEqual(nextZName, zName) &&
+	  (!useNameIds_ || 
+	   (nextZName.getId() == null ||
+	    zName.getId() == null ||
+	    nextZName.getId().equals(zName.getId())))) {
+	result = entry.getValue();
+	break;
+      }
+    }
+    return result;
+  }
 
   /**
    * Lookup the base name of a delta or xi reference, returning the

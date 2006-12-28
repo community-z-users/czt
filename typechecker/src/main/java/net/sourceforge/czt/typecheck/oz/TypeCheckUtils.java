@@ -60,8 +60,7 @@ public class TypeCheckUtils
   public static List<? extends ErrorAnn> typecheck(Term term,
                                                    SectionManager sectInfo)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, true, false, null);
+    return typecheck(term, sectInfo, true, false);
   }
 
   /**
@@ -75,8 +74,7 @@ public class TypeCheckUtils
                                                    SectionManager sectInfo,
                                                    boolean useBeforeDecl)
   {
-    TypeCheckUtils utils = new TypeCheckUtils();
-    return utils.lTypecheck(term, sectInfo, useBeforeDecl, false, null);
+    return typecheck(term, sectInfo, useBeforeDecl, false);
   }
 
   public static List<? extends ErrorAnn> typecheck(Term term,
@@ -86,15 +84,6 @@ public class TypeCheckUtils
   {
     TypeCheckUtils utils = new TypeCheckUtils();
     return utils.lTypecheck(term, sectInfo, useBeforeDecl, useStrongTyping, null);
-  }
-
-  /** An internal method of the typechecker. */
-  protected List<? extends ErrorAnn> lTypecheck(Term term,
-                                                SectionManager sectInfo,
-                                                boolean useBeforeDecl,
-                                                String sectName)
-  {
-    return lTypecheck(term, sectInfo, useBeforeDecl, false, sectName);
   }
 
   /** An internal method of the typechecker. */

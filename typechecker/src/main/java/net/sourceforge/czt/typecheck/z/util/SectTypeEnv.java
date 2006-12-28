@@ -48,10 +48,9 @@ public class SectTypeEnv
   private Factory factory_;
 
   /**
-   * A mapping from  Strings, which represent the name, to the
-   * NameSectTypeTriple associated with that name.
+   * A mapping from ZNames to the NameSectTypeTriple associated with that name.
    */
-  protected Map<String, NameSectTypeTriple> typeInfo_;
+  protected Map<ZName, NameSectTypeTriple> typeInfo_;
 
   /** The map of variables and declared in a 2nd pass of a specification. */
   protected List<NameSectTypeTriple> declarations_;
@@ -197,7 +196,7 @@ public class SectTypeEnv
     //if not already declared, add this declaration to the environment
     NameSectTypeTriple existing = getTriple(triple.getZName());
     if (existing == null) {
-      typeInfo_.put(triple.getZName().toString().intern(), triple);
+      typeInfo_.put(triple.getZName(), triple);
     }
     //otherwise, overwrite the existing declaration, and note that
     //this declaration is a duplicate
@@ -252,9 +251,9 @@ public class SectTypeEnv
   public List<NameSectTypeTriple> getTriple()
   {
     List<NameSectTypeTriple> triples = factory_.list();
-    Set<Map.Entry<String, NameSectTypeTriple>> entrySet =
+    Set<Map.Entry<ZName, NameSectTypeTriple>> entrySet =
       typeInfo_.entrySet();
-    for (Map.Entry<String, NameSectTypeTriple> entry : entrySet) {
+    for (Map.Entry<ZName, NameSectTypeTriple> entry : entrySet) {
       if (visibleSections_.contains(section_) ||
           entry.getValue().getSect().equals(PRELUDE)) {
         triples.add(entry.getValue());
@@ -298,9 +297,9 @@ public class SectTypeEnv
   public void dump()
   {
     System.err.println("typeinfo:");
-    Set<Map.Entry<String, NameSectTypeTriple>> entrySet =
+    Set<Map.Entry<ZName, NameSectTypeTriple>> entrySet =
       typeInfo_.entrySet();
-    for (Map.Entry<String, NameSectTypeTriple> entry : entrySet) {
+    for (Map.Entry<ZName, NameSectTypeTriple> entry : entrySet) {
       System.err.print("\t(" + entry.getValue().getZName());
       System.err.print(", (" + entry.getValue().getSect());
       System.err.println(", (" + entry.getValue().getType() + ")))");
@@ -311,8 +310,7 @@ public class SectTypeEnv
   //defined in a currently visible scope.
   private NameSectTypeTriple getTriple(ZName zName)
   {
-    String sName = zName.toString().intern();
-    NameSectTypeTriple result = typeInfo_.get(sName);
+    NameSectTypeTriple result = getX(zName, typeInfo_);
     if (result != null && !visibleSections_.contains(result.getSect())) {
       result = null;
     }

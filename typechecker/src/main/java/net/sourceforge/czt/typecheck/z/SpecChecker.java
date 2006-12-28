@@ -90,7 +90,8 @@ public class SpecChecker
     setMarkup(zSect);
 
     //if this section has already been declared, raise an error
-    if (sectTypeEnv().isChecked(sectName())) {
+    if (sectTypeEnv().isChecked(sectName()) &&
+	!sectTypeEnv().getUseNameIds()) {
       Object [] params = {zSect.getName()};
       error(zSect, ErrorMessage.REDECLARED_SECTION, params);
     }
@@ -119,7 +120,8 @@ public class SpecChecker
     //get and visit the paragraphs of the current section
     zSect.getParaList().accept(this);
 
-    if (useBeforeDecl() && sectTypeEnv().getSecondTime()) {
+    if ((useBeforeDecl() && sectTypeEnv().getSecondTime()) ||
+	sectTypeEnv().getUseNameIds()) {
       try {
         SectTypeEnvAnn sectTypeEnvAnn =
           (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));

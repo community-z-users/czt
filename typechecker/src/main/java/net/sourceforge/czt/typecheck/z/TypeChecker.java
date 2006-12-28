@@ -154,6 +154,12 @@ public class TypeChecker
     }
   }
 
+  protected void setUseNameIds(boolean useNameIds)
+  {
+    sectTypeEnv_.setUseNameIds(useNameIds);
+    typeEnv_.setUseNameIds(useNameIds);
+  }
+
   public Factory getFactory()
   {
     return sectTypeEnv_.getFactory();

@@ -186,7 +186,8 @@ public class TypeCheckerTest
         ErrorAnn errorAnn = errors.get(0);
         fail("\nUnexpected type error" +
              "\n\tFile: " + file_ +
-             "\n\tException: " + errorAnn.getErrorMessage().toString());
+             "\n\tException: " + errorAnn.getErrorMessage().toString() +
+	     "\nError: " + errorAnn.toString());
       }
     }
   }

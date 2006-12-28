@@ -44,7 +44,7 @@ public class TypeEnv
   protected Factory factory_;
 
   /** The names and their types. */
-  protected Stack<Map<String, NameTypePair>> typeInfo_;
+  protected Stack<Map<ZName, NameTypePair>> typeInfo_;
 
   /**
    * The list of current generic parameters. Used for tracking the
@@ -55,7 +55,7 @@ public class TypeEnv
   public TypeEnv(Factory factory)
   {
     factory_ = factory;
-    typeInfo_ = new Stack<Map<String, NameTypePair>>();
+    typeInfo_ = new Stack<Map<ZName, NameTypePair>>();
     parameters_ = new Stack<List<ZName>>();
   }
 
@@ -66,7 +66,7 @@ public class TypeEnv
 
   public void enterScope()
   {
-    Map<String, NameTypePair> info = map();//factory_.list();
+    Map<ZName, NameTypePair> info = map();
     typeInfo_.push(info);
     List<ZName> parameters = getFactory().list();
     parameters_.push(parameters);
@@ -107,8 +107,8 @@ public class TypeEnv
   public void override(ZName zName, Type type)
   {
     //override if this is in the top scope
-    Map<String, NameTypePair> map = typeInfo_.peek();
-    NameTypePair pair = map.get(zName.toString());
+    Map<ZName, NameTypePair> map = typeInfo_.peek();
+    NameTypePair pair = getX(zName, map);
     if (pair != null) {
       pair.setType(type);
       return;
@@ -120,7 +120,7 @@ public class TypeEnv
 
   public void add(NameTypePair pair)
   {
-    typeInfo_.peek().put(pair.getZName().toString(), pair);
+    typeInfo_.peek().put(pair.getZName(), pair);
   }
 
   /**
@@ -156,8 +156,8 @@ public class TypeEnv
   protected NameTypePair getPair(ZName zName)
   {
     NameTypePair result = null;
-    for (Map<String, NameTypePair> map : typeInfo_) {
-      NameTypePair pair = map.get(zName.toString());
+    for (Map<ZName, NameTypePair> map : typeInfo_) {
+      NameTypePair pair = getX(zName, map);
       if (pair != null) {
         result = pair;
       }
