@@ -19,7 +19,8 @@
 
 package net.sourceforge.czt.jedit.zlive;
 
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import org.gjt.sp.jedit.*;
 import console.*;
