@@ -531,6 +531,13 @@ NAME =   {NOT_LB}*
           begin("zsection");
           return result(LatexSym.SECT, ZString.ZED);
         }
+  "\\begin" {IGNORE}* "{theorem}" "{" {NAME} "}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("theorem");
+          return result(ZString.ZED);
+        }
 <add:zpatt>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
         {
@@ -663,6 +670,19 @@ NAME =   {NOT_LB}*
         {
           String result = addSpace();
           return result(result + ZString.NLCHAR);
+        }
+  "\\end" {IGNORE}* "{theorem}"
+        {
+          end("theorem");
+<add:oz>
+          if (!nested_) {
+</add:oz>
+             yybegin(YYINITIAL);
+<add:oz>
+          }
+</add:oz>
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
         }
   "\\end" {IGNORE}* "{axdef}"
         {
