@@ -206,7 +206,13 @@
       <xs:extension base="Z:Para">
         <xs:sequence>
           <xs:element ref="Z:Name"/>
-          <xs:element name="FormalParameters" type="Z:Name" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+               <jaxb:property name="FormalParameters"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
           <xs:element ref="Z:ExprList" minOccurs="0">
             <xs:annotation>
