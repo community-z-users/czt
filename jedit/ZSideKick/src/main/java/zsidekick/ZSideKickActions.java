@@ -252,7 +252,10 @@ public class ZSideKickActions
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
       if (term instanceof Expr ||
-          term instanceof Pred) {
+          term instanceof Pred ||
+          term instanceof SchText) {
+        CopyVisitor copy = new CopyVisitor(ProverUtils.FACTORY);
+        term = term.accept(copy);
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -268,8 +271,11 @@ public class ZSideKickActions
                 if (term instanceof Pred) {
                   result = Rewrite.rewriteOnce((Pred) term, prover);
                 }
+                else if (term instanceof Expr) {
+                  result = Rewrite.rewriteOnce((Expr) term, prover);
+                }
                 else {
-                   result = Rewrite.rewriteOnce((Expr) term, prover);
+                  result = Rewrite.rewriteOnce((SchText) term, prover);
                 }
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
@@ -289,8 +295,8 @@ public class ZSideKickActions
         }
       }
       else {
-        final String msg =
-          "Highlighted term is neither an expression nor a predicate";
+        final String msg = "Highlighted term is neither a predicate " +
+          "nor an expression nor a schema text";
         reportError(view, msg);
       }
     }
@@ -302,7 +308,8 @@ public class ZSideKickActions
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
       if (term instanceof Expr ||
-          term instanceof Pred) {
+          term instanceof Pred ||
+          term instanceof SchText) {
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -320,9 +327,16 @@ public class ZSideKickActions
                      manager,
                      section);
                 }
+                else if (term instanceof Pred) {
+                  ProofTree.createAndShowGUI(
+                     ProverUtils.createRewritePredSequent((Pred) term, true),
+                     rules,
+                     manager,
+                     section);
+                }
                 else {
                   ProofTree.createAndShowGUI(                     
-                     ProverUtils.createRewritePredSequent((Pred) term, true),
+                     ProverUtils.createRewritePredSequent((SchText) term, true),
                      rules,
                      manager,
                      section);
@@ -342,8 +356,8 @@ public class ZSideKickActions
         }
       }
       else {
-        final String msg =
-          "Highlighted term is neither an expression nor a predicate";
+        final String msg = "Highlighted term is neither a predicate " +
+          "nor an expression nor a schema text";
         reportError(view, msg);
       }
     }
