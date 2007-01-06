@@ -25,6 +25,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
@@ -74,6 +75,20 @@ public final class ProverUtils
     ProverJokerPred joker = (ProverJokerPred) FACTORY.createJokerPred("_");
     return createPredSequent(FACTORY.createIffPred(pred, joker), copy);
   }
+
+  public static PredSequent createRewritePredSequent(SchText schText,
+                                                     boolean copy)
+  {
+    ProverJokerExpr joker = (ProverJokerExpr) FACTORY.createJokerExpr("_");
+    Expr original = FACTORY.createSchExpr(schText);
+    TupleExpr pair = FACTORY.createTupleExpr(original, joker);
+    String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
+    StrokeList noStrokes = FACTORY.createZStrokeList();
+    ZName name = FACTORY.createZName(schemaEqOp, noStrokes, "global");
+    RefExpr schemaEquals = FACTORY.createRefExpr(name);
+    Pred pred = FACTORY.createMemPred(pair, schemaEquals, Boolean.TRUE);
+    return createPredSequent(pred, copy);
+   }
 
   /**
    * Resets all the bindings in the collection.
