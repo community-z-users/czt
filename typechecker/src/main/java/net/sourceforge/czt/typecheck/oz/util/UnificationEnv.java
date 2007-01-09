@@ -352,7 +352,7 @@ public class UnificationEnv
     }
 
     //add the class references
-    List<ClassRef> classes = getFactory().list();
+    ClassRefList classes = getFactory().createClassRefList();
     for (ClassRef classRef : classTypeA.getClasses()) {
       if (!contains(classes, classRef)) {
         classes.add(classRef);
@@ -434,7 +434,7 @@ public class UnificationEnv
     return result;
   }
 
-  protected static boolean contains(List<ClassRef> list, ClassRef classRef)
+  protected static boolean contains(ClassRefList list, ClassRef classRef)
   {
     return GlobalDefs.contains(list, classRef);
   }

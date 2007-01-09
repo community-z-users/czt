@@ -91,7 +91,8 @@ public class ParaChecker
       Type2 gpType = factory().createGenParamType(paramName);
       thisClass.getType().add(gpType);
     }
-    ListTerm<ClassRef> classes = factory().listTerm(thisClass);
+    ClassRefList classes = 
+      factory().createClassRefList(factory().listTerm(thisClass));
     ClassRefType classType =
       factory().createClassRefType(classes, factory().createSignature(),
 				   factory().<NameTypePair>list(),

@@ -659,10 +659,10 @@ abstract public class Checker<R>
   }
 
   //rename the references in a class ref
-  protected List<ClassRef> renameClassRefs(List<ClassRef> classRefs,
-                                           List<NewOldPair> renamePairs)
+  protected ClassRefList renameClassRefs(ClassRefList classRefs,
+					 List<NewOldPair> renamePairs)
   {
-    List<ClassRef> newClassRefs = factory().list();
+    ClassRefList newClassRefs = factory().createClassRefList();
     for (ClassRef classRef : classRefs) {
       ClassRef newClassRef = renameClassRef(classRef, renamePairs);
       newClassRefs.add(newClassRef);
@@ -696,8 +696,8 @@ abstract public class Checker<R>
     List<NewOldPair> renamePairs = renameExpr.getZRenameList();
     checkForDuplicateRenames(renamePairs, renameExpr,  errorMessage);
 
-    List<ClassRef> classRefs = classType.getClasses();
-    List<ClassRef> newClassRefs = renameClassRefs(classRefs, renamePairs);
+    ClassRefList classRefs = classType.getClasses();
+    ClassRefList newClassRefs = renameClassRefs(classRefs, renamePairs);
 
     List<NameTypePair> attrs = classType.getAttribute();
     Signature attrSig = factory().createSignature(attrs);
@@ -751,8 +751,8 @@ abstract public class Checker<R>
         }
 
         //instaniate the class references
-        List<ClassRef> classRefs = classType.getClasses();
-        List<ClassRef> newClassRefs = factory().list();
+        ClassRefList classRefs = classType.getClasses();
+        ClassRefList newClassRefs = factory().createClassRefList();
         for (ClassRef classRef : classRefs) {
           List<Type2> types = instantiateTypes(classRef.getType());
           List<NewOldPair> pairs = factory().list();
@@ -875,8 +875,8 @@ abstract public class Checker<R>
     if (type instanceof ClassRefType && pairs.size() > 0) {
       ClassRefType classRefType = (ClassRefType) type;
 
-      List<ClassRef> classRefs = classRefType.getClasses();
-      List<ClassRef> newClassRefs = renameClassRefs(classRefs, pairs);
+      ClassRefList classRefs = classRefType.getClasses();
+      ClassRefList newClassRefs = renameClassRefs(classRefs, pairs);
 
       List<NameTypePair> attrs = classRefType.getAttribute();
       Signature attrSig = factory().createSignature(attrs);
@@ -931,7 +931,7 @@ abstract public class Checker<R>
       ClassType lClassType = (ClassType) lType;
       ClassType rClassType = (ClassType) rType;
 
-      List<ClassRef> classes = factory().list();
+      ClassRefList classes = factory().createClassRefList();
       List<NameTypePair> stateAndAttrs = factory().list();
       Signature state = factory().createSignature();
       List<NameTypePair> attrs = factory().list();

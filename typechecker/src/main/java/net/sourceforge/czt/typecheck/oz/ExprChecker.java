@@ -151,7 +151,8 @@ public class ExprChecker
     else if (vPowerType.getType() instanceof ClassRefType) {
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassRef cRef = classRefType.getThisClass();
-      List<ClassRef> subClasses = factory().list(cRef);
+      ClassRefList subClasses =
+	factory().createClassRefList(factory().list(cRef));
       
       //find any subclasses
       List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();

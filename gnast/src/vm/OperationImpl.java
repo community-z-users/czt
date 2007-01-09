@@ -1,7 +1,7 @@
 
   public ZName getZName()
   {
-    Name name = getOpName();
+    Name name = getName();
     if (name instanceof ZName) {
       return (ZName) name;
     }

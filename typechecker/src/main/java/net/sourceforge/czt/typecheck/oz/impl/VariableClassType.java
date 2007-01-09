@@ -46,13 +46,18 @@ public class VariableClassType
     super(zName);
   }
 
-  public ListTerm<ClassRef> getClasses()
+  public ClassRefList getClasses()
   {
-    ListTerm<ClassRef> result = new ListTermImpl<ClassRef>();
+    ClassRefList result = null;
     if (getClassValue() != null) {
       result = getClassValue().getClasses();
     }
     return result;
+  }
+
+  public void setClasses(ClassRefList classRefList)
+  {
+    assert false : "Cannot set ClassRefList of VariableClassType";
   }
 
   public Signature getState()

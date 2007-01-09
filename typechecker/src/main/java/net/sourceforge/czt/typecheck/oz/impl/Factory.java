@@ -93,13 +93,25 @@ public class Factory
     return result;
   }
 
+  public ClassRefList createClassRefList()
+  {
+    ClassRefList result = ozFactory_.createClassRefList();
+    return result;
+  }
+
+  public ClassRefList createClassRefList(List<? extends ClassRef> classes)
+  {
+    ClassRefList result = ozFactory_.createClassRefList(classes);
+    return result;
+  }
+
   public ClassRefType createClassRefType()
   {
     ClassRefType result = ozFactory_.createClassRefType();
     return result;
   }
 
-  public ClassRefType createClassRefType(List<? extends ClassRef> classes,
+  public ClassRefType createClassRefType(ClassRefList classes,
 					 Signature state,
 					 List<? extends NameTypePair> attribute,
 					 List<? extends NameSignaturePair> operation,
@@ -120,7 +132,7 @@ public class Factory
     return result;
   }
 
-  public ClassPolyType createClassPolyType(List<? extends ClassRef> classes,
+  public ClassPolyType createClassPolyType(ClassRefList classes,
 					   Signature state,
 					   List<? extends NameTypePair> attribute,
 					   List<? extends NameSignaturePair> operation,
@@ -137,7 +149,7 @@ public class Factory
     return result;
   }
 
-  public ClassUnionType createClassUnionType(List<? extends ClassRef> classes,
+  public ClassUnionType createClassUnionType(ClassRefList classes,
 					     Signature state,
 					     List<? extends NameTypePair> attribute,
 					     List<? extends NameSignaturePair> operation)
@@ -171,7 +183,7 @@ public class Factory
 
   public PowerType createOIDType()
   {
-    List<ClassRef> classes = list();
+    ClassRefList classes = createClassRefList();
     Signature state = createSignature();
     List<NameTypePair> attrs = list();
     List<NameSignaturePair> ops = list();    

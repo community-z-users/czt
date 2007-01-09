@@ -126,6 +126,11 @@
       <xs:documentation>A reference to a class.</xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="ClassRefList" type="OZ:ClassRefList">
+    <xs:annotation>
+      <xs:documentation>A list of ClassRefs.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="NameSignaturePair" type="OZ:NameSignaturePair">
     <xs:annotation>
       <xs:documentation>A pair of a name and a signature.</xs:documentation>
@@ -288,7 +293,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="OpName" type="Z:Name"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
@@ -394,10 +399,34 @@
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Classes" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="State" type="Z:Signature" minOccurs="0"/>
-          <xs:element name="Attribute" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:ClassRefList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Classes"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Signature" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="State"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Attribute"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Operation"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -406,10 +435,23 @@
     <xs:complexContent>
       <xs:extension base="OZ:ClassType">
         <xs:sequence>
-          <xs:element name="ThisClass" type="OZ:ClassRef"/>
-          <xs:element name="SuperClass" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:ClassRef">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="ThisClass"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="SuperClass" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded">
+          </xs:element>
           <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
-          <xs:element name="Primary" type="Z:Name" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Primary"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -418,7 +460,13 @@
     <xs:complexContent>
       <xs:extension base="OZ:ClassType">
         <xs:sequence>
-          <xs:element name="RootClass" type="OZ:ClassRef"/>
+          <xs:element ref="OZ:ClassRef">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="RootClass"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -441,6 +489,15 @@
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClassRefList">
+    <xs:complexContent>
+      <xs:extension base="Z:Term">
+        <xs:sequence>
+          <xs:element ref="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
