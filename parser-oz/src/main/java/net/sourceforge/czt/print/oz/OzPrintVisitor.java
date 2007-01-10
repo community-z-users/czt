@@ -247,7 +247,7 @@ public class OzPrintVisitor
     boolean isBox = Box.SchBox.equals(operation.getBox());
     if (isBox) {
       print(OzToken.OPSCH);
-      visit(operation.getOpName());
+      visit(operation.getName());
       print(TokenName.NL);
 
       assert operation.getOpExpr() instanceof AnonOpExpr;
@@ -270,7 +270,7 @@ public class OzPrintVisitor
       print(TokenName.END);
     }
     else {
-      visit(operation.getOpName());
+      visit(operation.getName());
       print(OzToken.SDEF);
       visit(operation.getOpExpr());
     }
@@ -489,6 +489,11 @@ public class OzPrintVisitor
   public Object visitClassRef(ClassRef classRef)
   {
     throw new UnsupportedOperationException("Unexpected term ClassRef.");
+  }
+
+  public Object visitClassRefList(ClassRefList classRefList)
+  {
+    throw new UnsupportedOperationException("Unexpected term ClassRefList.");
   }
 
   public Object visitNameSignaturePair(NameSignaturePair nameSignaturePair)
