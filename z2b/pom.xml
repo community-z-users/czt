@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>typechecker</artifactId>
+      <artifactId>rules</artifactId>
     </dependency>
   </dependencies>
   <build>

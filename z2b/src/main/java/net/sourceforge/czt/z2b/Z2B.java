@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.z2b;
 
+import java.io.StringWriter;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
@@ -68,6 +70,8 @@ public class Z2B
   private FreeVarChecker freevarChecker_ = new FreeVarChecker();
 
   private SectionManager manager_;
+
+  private Preprocessor preprocessor_ = new Preprocessor();
 
   public Z2B(SectionManager manager)
   {
@@ -177,10 +181,24 @@ public class Z2B
   protected Expr lookup(NameSectTypeTriple triple)
     throws CommandException
   {
+    String sectName = triple.getSect();
     DefinitionTable defTable = (DefinitionTable)
-      manager_.get(new Key(triple.getSect(), DefinitionTable.class));
+      manager_.get(new Key(sectName, DefinitionTable.class));
     String name = triple.getName().accept(new PrintVisitor());
-    return defTable.lookup(name).getExpr();
+    Expr result = defTable.lookup(name).getExpr();
+    System.out.print("Unfold ");
+    print(result, sectName);
+    result = (Expr) preprocessor_.unfold(result, sectName, manager_);
+    System.out.print("to ");
+    print(result, sectName);
+    return result;
+  }
+
+  protected void print(Term term, String section)
+  {
+    StringWriter writer = new StringWriter();
+    PrintUtils.printLatex(term, writer, manager_, section);
+    System.out.println(writer.toString());
   }
 
   /**

@@ -25,9 +25,21 @@ import java.net.URL;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.print.util.LatexString;
+import net.sourceforge.czt.rules.CopyVisitor;
+import net.sourceforge.czt.rules.ast.ProverFactory;
+import net.sourceforge.czt.rules.Rewrite;
+import net.sourceforge.czt.rules.RuleTable;
+import net.sourceforge.czt.rules.RuleUtils;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.FileSource;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.zpatt.util.Factory;
 
 /** Translate a Z specification from ZML format into B format.
  *
@@ -66,7 +78,7 @@ public class Main
 
       // set up the translation engine
       System.err.println("Translating to B");
-      Z2B tr = new Z2B(manager);
+      Z2B translator = new Z2B(manager);
 
      // choose the section -- we just take the last one!
       ZSect sect;
@@ -77,9 +89,10 @@ public class Main
       else {
         throw new BException("last section is not a ZSect");
       }
+      manager.get(new Key(sect.getName(), SectTypeEnvAnn.class)); // typecheck
 
       // do the translation
-      BMachine mach = tr.makeBMachine(sect);
+      BMachine mach = translator.makeBMachine(sect);
 
       // Output the machine to the .mch file
       System.err.println("Writing out the B");
@@ -88,7 +101,8 @@ public class Main
       bwriter.close();
 
       System.err.println("Done!");
-    } catch( Exception e ) {
+    }
+    catch(Exception e) {
       System.err.println("ERROR: "+e);
       System.err.println("");
       System.err.println("For debugging purposes, here is a stack trace:");
