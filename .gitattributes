@@ -312,7 +312,6 @@ parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
-parser/src/main/resources/lib/circus.unicode.latb -text
 rules/COPYING.txt -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
