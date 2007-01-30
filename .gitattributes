@@ -298,6 +298,8 @@ parser-circus/src/main/java/net/sourceforge/czt/print/circus/UnicodePrinterComma
 parser-circus/src/main/java/net/sourceforge/czt/print/circus/UnicodeToLatex.java -text
 parser-circus/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.java -text
 parser-circus/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
+parser-circus/src/main/resources/lib/circus.unicode.latb -text
+parser-circus/src/main/resources/lib/circus_toolkit.tex -text
 parser-circus/src/test/resources/tests/circus/unboxed_circus_steam_boiler.tex -text
 parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
 parser-src/pom.xml -text
