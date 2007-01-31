@@ -17,6 +17,21 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>zml</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser</artifactId>
+      <type>test-jar</type>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-oz</artifactId>
+      <type>test-jar</type>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
