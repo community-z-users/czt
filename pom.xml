@@ -163,6 +163,7 @@
         <artifactId>parser</artifactId>
         <version>${czt.version}</version>
         <type>test-jar</type>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
@@ -174,6 +175,13 @@
         <artifactId>parser-oz</artifactId>
         <version>${czt.version}</version>
       </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-oz</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+     </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>parser-tcoz</artifactId>
