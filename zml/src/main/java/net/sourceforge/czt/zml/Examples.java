@@ -44,4 +44,9 @@ public final class Examples
   {
     return Examples.class.getResource("examples/oz/" + name);
   }
+  
+  public static URL getCircusExample(String name)
+  {
+    return Examples.class.getResource("examples/circus/" + name);
+  }
 }
