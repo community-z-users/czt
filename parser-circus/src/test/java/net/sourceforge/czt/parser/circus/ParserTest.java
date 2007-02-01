@@ -51,79 +51,12 @@ public class ParserTest
     */
     return suite;
   }
-
-  /**
-   * Example test5.tex cannot be parses with the Object Z parser
-   * since the keyword "Init" is used as a schema name.
-   */
-  public void test5Test()
+ 
+  public void testCircusSimple1()
     throws Exception
   {
-    try {
-      Term term = parse(getTestExample("test5.tex"), manager_);
-      // A return value of null is also acceptable
-      if (term == null) return;
-      fail("Should throw ParseException");
-    }
-    catch (ParseException ok) {
-      // we want to end up here
-    }
-  }
-
-  public void testCC()
-    throws Exception
-  {
-    compareOz(getOzExample("CC.tex"),
-              getOzExample("CC.xml"));
-  }
-
-  public void testDms()
-    throws Exception
-  {
-    compareOz(getOzExample("dms.tex"),
-              getOzExample("dms.xml"));
-  }
-
-  public void testGraph()
-    throws Exception
-  {
-    compareOz(getOzExample("graph.tex"),
-              getOzExample("graph.xml"));
-  }
-
-  public void testMtr()
-    throws Exception
-  {
-    compareOz(getOzExample("mtr.tex"),
-              getOzExample("mtr.xml"));
-  }
-
-  public void testPirate()
-    throws Exception
-  {
-    compareOz(getOzExample("pirate.tex"),
-              getOzExample("pirate.xml"));
-  }
-
-  public void testShunting()
-    throws Exception
-  {
-    compareOz(getOzExample("shunting.tex"),
-              getOzExample("shunting.xml"));
-  }
-
-  public void testTreespec()
-    throws Exception
-  {
-    compareOz(getOzExample("treespec.tex"),
-              getOzExample("treespec.xml"));
-  }
-
-  public void testOzSimple1()
-    throws Exception
-  {
-    compareOz(getOzTestExample("simple1.tex"),
-              getOzTestExample("simple1.xml"));
+    //compareCircus(getCircusTestExample("simple1.tex"),
+    //          getCircusTestExample("simple1.xml"));
   }
 
   public Term parse(URL url, SectionManager manager)
@@ -149,13 +82,13 @@ public class ParserTest
     if (! zmlSpec.equals(parsedSpec)) {
       String message = "For " + url.toString();
       JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
-      File expected = File.createTempFile("cztParser", "test.zml");
+      File expected = File.createTempFile("cztCircusParser", "test.zml");
       Writer out =
         new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
       xmlWriter.write(zmlSpec, out);
       out.close();
       message += "\nexpected: " + expected.getAbsolutePath();
-      File got = File.createTempFile("cztParser", "test.zml");
+      File got = File.createTempFile("cztCircusParser", "test.zml");
       out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
       xmlWriter.write(parsedSpec, out);
       out.close();
@@ -181,18 +114,18 @@ public class ParserTest
     }
   }
 
-  public URL getOzExample(String name)
+  public URL getCircusExample(String name)
   {
-    URL result = net.sourceforge.czt.zml.Examples.getOzExample(name);
+    URL result = net.sourceforge.czt.zml.Examples.getCircusExample(name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
     return result;
   }
 
-  public URL getOzTestExample(String name)
+  public URL getCircusTestExample(String name)
   {
-    URL result = getClass().getResource("/tests/oz/" + name);
+    URL result = getClass().getResource("/tests/circus/" + name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
