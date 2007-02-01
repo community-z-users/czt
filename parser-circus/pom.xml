@@ -26,14 +26,53 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
       <type>test-jar</type>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-oz</artifactId>
-      <type>test-jar</type>
-    </dependency>
-  </dependencies>
-  <build>
+    </dependency>    
+  </dependencies> 
+  <!--
+   <profiles>
+        <profile>
+            <id>netbeans-public</id>
+            <activation>
+                <property>
+                    <name>netbeans.execution</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib</classpathPrefix>
+                                    <mainClass>net.sourceforge.czt.parser.circus.SpecialLatexParser</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>nb</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>directory</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptor>${basedir}/src/main/assemblies/netbeans-run.xml</descriptor>
+                                    <finalName>executable</finalName>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>-->
+  <build>   
     <plugins>
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
@@ -79,6 +118,21 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+    </plugins>    
+    <!--
+    <testResources>
+        <testResource>
+            <directory>../parser/src/test/java</directory>
+            <includes>
+                <include>**/*.class</include>                                              
+            </includes>            
+        </testResource>
+        <testResource>
+            <directory>src/test/java</directory>
+            <includes>
+                <include>**/*.class</include>                                              
+            </includes>            
+        </testResource>
+    </testResources> -->
   </build>
 </project>
