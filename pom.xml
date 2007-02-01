@@ -192,6 +192,13 @@
         <artifactId>parser-circus</artifactId>
         <version>${czt.version}</version>
       </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-circus</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+     </dependency>
 
       <!-- CZT Typechecker -->
       <dependency>
