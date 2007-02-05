@@ -305,6 +305,7 @@ parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
 parser-circus/src/test/resources/tests/circus/channels-error.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
 parser-circus/src/test/resources/tests/circus/processes.tex -text
+parser-circus/src/test/resources/tests/circus/processes.xml -text
 parser-circus/src/test/resources/tests/circus/unboxed_circus_steam_boiler.tex -text
 parser-circus/src/test/resources/tests/circus/unboxed_reactive_buffer.tex -text
 parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
