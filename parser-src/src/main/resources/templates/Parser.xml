@@ -1327,6 +1327,8 @@ action code
      * Checks whether the given predicate is a schema. 
      * If the paragraph is not a schema, an error is reported.     
      */
+    /* NOTE: As we now managed to accept the expression production for state
+     *       schemas without trouble then this is no longer a problem.
     protected void checkCircusStateAnnParaIsSchema(Para p) {      
       if (!CircusUtils.isSchema(p)) {                      
          //TODO: Maybe clean this error message as it must never happen if the
@@ -1335,6 +1337,7 @@ action code
                new Object[0], getLocation(p));
       }
     }
+     */
 
     /**
      * Adds a &lt;code&gt;ParenAnn&lt;/code&gt; annotation to the given term, where the given locations
@@ -1352,7 +1355,7 @@ action code
      * report if a problem is found.
      */
     protected void addCircusStateAnn(Para para) {
-        checkCircusStateAnnParaIsSchema(para);
+        //checkCircusStateAnnParaIsSchema(para);
         para.getAnns().add(factory_.createCircusStateAnn());
     }
 
@@ -1371,11 +1374,12 @@ action code
         for(Iterator&lt;Para&gt; it = result.iterator(); it.hasNext(); ) {
           Para p = it.next();      
           // If we have an annotation, check it is valid.
-          if (p.getAnn(CircusStateAnn.class) != null) {
-            checkCircusStateAnnParaIsSchema(p);
-          } 
+          //if (p.getAnn(CircusStateAnn.class) != null) {
+          //  checkCircusStateAnnParaIsSchema(p);
+          //} 
           // Otherwise just remove them
-          else if (p.getAnn(CircusStateAnn.class) == null) {
+          //else 
+          if (p.getAnn(CircusStateAnn.class) == null) {
             it.remove();
           }
         }
@@ -1504,7 +1508,7 @@ parser code
       opScanner_ = new OperatorScanner(jokerScanner_);
 </add:zpatt>
       nlScanner_ = new NewlineScanner(opScanner_);
-      CztLogger.getLogger(<class/>.class).finer("New parser created.");
+      CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");      
     }
 
     /**
@@ -1610,7 +1614,30 @@ parser code
                    new Object[] { toObject(errorToken_) },
                    getLocation(errorToken_));
     }
+    
+<add:circus>
+    protected CztError createCircusSyntaxError(CircusParseMessage syntax_msg, Symbol token)
+    {
+      return new CircusParseError(syntax_msg,
+                             new Object[] { toObject(token) },
+                             getLocation(token));
+    }
+  
+    public void report_syntax_error(CircusParseMessage msg)
+    {
+      report_error(msg,
+                   new Object[] { toObject(errorToken_) },
+                   getLocation(errorToken_));
+    }
+    
+    public void report_syntax_error(CircusParseMessage msg,
+                             Object[] params,
+                             LocInfo locInfo)
+    {
+      report_error(null, new CircusParseError(msg, params, locInfo));
+    }
 
+</add:circus>
     protected Object toObject(Symbol symbol)
     {
       if (symbol.value != null &amp;&amp;
@@ -2533,7 +2560,7 @@ boxedParagraph ::=
         schema:s
         {: RESULT = s; :}
         |
-        genericAxDefinition:gd
+        genericAxDefinition:gd 
         {: RESULT = gd; :}
 <add:circus>        
         |
@@ -2580,17 +2607,15 @@ unboxedParagraphList ::=
            RESULT = uil;
         :}
         |        
-        ZED error:e END
+        ZED:z error:e END
         {:
            parser.report_syntax_error();
            RESULT = list();
 <add:oz>
            resetIsOpExpr();
 </add:oz>        
-          <add:circus>
-          parser.report_error(CircusParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
-            new Object[] { 1, getLocation(eleft, eright) }, getLocation(eleft, eright));
-          </add:circus>
+          parser.report_error(ZParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
+            new Object[0], getLocation(eleft, eright));
         :}
         ;
 
@@ -2599,7 +2624,7 @@ unboxedParagraphItemList ::=
         {:
            if (ui != null) uil.add(ui);
            RESULT = uil;
-        :}
+        :}       
         |
         unboxedParagraphItem:ui
         {:
@@ -2718,7 +2743,7 @@ abbreviationDefinition ::=
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
            addLocAnn(RESULT, getLocation(dn, e));
-        :}
+        :}        
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \listarg \rangle [X] == .... without this
@@ -3004,12 +3029,22 @@ channelPara ::=
            RESULT = factory_.createChannelPara(factory_.createZDeclList(cfdl));
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :} 
-        /*|
-        CIRCCHAN:chan error
-        {: RESULT = null; :}
         |
-        CIRCCHANFROM:chanf error
-        {: RESULT = null; :}   */            
+        CIRCCHAN:chan error:e
+        {: 
+           RESULT = factory_.createChannelPara(factory_.createZDeclList());
+           addLocAnn(RESULT, getLocation(eleft, eright));
+           parser.report_error(CircusParseMessage.MSG_CHANDECL_ERROR,
+              new Object[0], getLocation(eleft, eright));           
+        :}
+        |
+        CIRCCHANFROM:chanf error:e
+        {: 
+           RESULT = factory_.createChannelPara(factory_.createZDeclList());
+           addLocAnn(RESULT, getLocation(eleft, eright));
+           parser.report_error(CircusParseMessage.MSG_CHANFROMDECL_ERROR,
+              new Object[0], getLocation(eleft, eright));           
+        :}
         ;
         
 channelDeclList ::= 
@@ -3017,14 +3052,14 @@ channelDeclList ::=
         {:
            assert cd != null;
            RESULT = factory_.list(cd);           
-        :}
+        :}        
         |
         channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
            assert cd != null &amp;&amp; cdl != null;
            cdl.add(cd);
            RESULT = cdl;
-        :}      
+        :}              
         ;
         
 channelFromDeclList ::= 
@@ -3128,13 +3163,7 @@ channelFromDecl ::=
            RefExpr re = factory_.createRefExpr(createZName(dw));/*same as: FALSE, FALSE*/
            RESULT = factory_.createChannelDecl(ofp, factory_.createZNameList(), re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
-        :}         
-       /* |
-        optFormalParameters:ofp circusDeclWordList:cdwl error
-        {: RESULT = null; :}       
-        |
-        optFormalParameters:ofp DECORWORD:dw error
-        {: RESULT = null; :}*/
+        :}                        
         ; 
 
 /// Channel Set Paragraph ////////////////////////////
@@ -3145,15 +3174,44 @@ channelSetPara ::=
            RESULT = factory_.createChannelSetPara(ofp, n, cs);
            addLocAnn(RESULT, getLocation(ccs, cs));
         :}      
-      /*  |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error
-        {: RESULT = null; :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n error
-        {: RESULT = null; :}
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e
+        {: 
+           RESULT = factory_.createChannelSetPara(ofp, n, null);
+           addLocAnn(RESULT, getLocation(ccs, n));
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_EXPR_ERROR, 
+              new Object[0], getLocation(eleft, eright));
+
+        :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp error
-        {: RESULT = null; :}       */ 
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e
+        {: 
+           RESULT = factory_.createChannelSetPara(ofp, n, null);
+           addLocAnn(RESULT, getLocation(ccs, n));
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_DEFEQUAL_ERROR, 
+              new Object[0], getLocation(eleft, eright));
+        :}
+        |
+        CIRCCHANSET:ccs optFormalParameters:ofp error:e
+        {: 
+           RESULT = factory_.createChannelSetPara(ofp, null, null);
+           addLocAnn(RESULT, getLocation(ccs, ofp.get(ofp.size()-1)));
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_MISSING_NAME_ERROR, 
+              new Object[0], getLocation(eleft, eright));
+        :}
+        /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
+                 todo that, just duplicate the productions by avoiding optFormalParameters 
+                 and using formalParameters instead. That is one with formalParameters and
+                 one without it. 
+        |
+        CIRCCHANSET:ccs error:e
+        {: 
+           RESULT = factory_.createChannelSetPara();
+           addLocAnn(RESULT, getLocation(ccs));
+           parser.report_error(CircusParseMessage.MSG_CHANNELSET_ERROR, 
+              new Object[0], getLocation(eleft, eright));           
+        :}
+        */
         ;
         
 channelSet ::=                
@@ -3175,12 +3233,44 @@ processPara ::=
            checkRepeatedStateDecl((ProcessPara)RESULT);
            addLocAnn(RESULT, getLocation(cp, pd));
         :} 
-        /*|
-        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error
-        {: RESULT = null; :}
+        /* NOTE: If no processDesc catches the error, this production covers it */
+        /*
+        THESE ERROR PRODUCTIONS TURN OUT TO BE NOT HELPFUL
+        |        
+        CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF error:e
+        {: 
+           RESULT = factory_.createProcessPara(n, ofp, null);           
+           addLocAnn(RESULT, getLocation(cp, n));           
+           parser.report_syntax_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "process paragraph" }, getLocation(eleft, eright));
+        :}
         |
-        CIRCPROC:cp optFormalParameters:ofp name:n error
-        {: RESULT = null; :}  */      
+        CIRCPROC:cp optFormalParameters:ofp name:n error:e
+        {: 
+           RESULT = factory_.createProcessPara(n, ofp, null);           
+           addLocAnn(RESULT, getLocation(cp, n));
+           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR, 
+              new Object[0], getLocation(eleft, eright));
+        :}
+        |
+        CIRCPROC:cp optFormalParameters:ofp error:e
+        {: 
+           RESULT = factory_.createProcessPara(null, ofp, null);           
+           addLocAnn(RESULT, getLocation(cp, ofp.get(ofp.size()-1)));
+           parser.report_error(CircusParseMessage.MSG_PROCESSPARA_MISSING_NAME_ERROR, 
+              new Object[0], getLocation(eleft, eright));
+        :}*/
+        /* TODO: maybe add this error production later (i.e. it raises a Shift/Reduce error).
+                 todo that, just duplicate the productions by avoiding optFormalParameters 
+                 and using formalParameters instead. That is one with formalParameters and
+                 one without it. 
+        |
+        CIRCPROC:cp error:e
+        {: 
+           RESULT = factory_.createProcessPara();           
+           addLocAnn(RESULT, getLocation(cp));
+        :}
+        */
         ;        
 
 processDesc ::=
@@ -3245,6 +3335,67 @@ paramProcess ::=
             RESULT = factory_.createSeqProcessIte(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
         :}  %prec _REPSEQ     
+        /* 
+         * Error productions for processDesc in paramProcess.
+         * These are productions for topmost errors. That is, if no
+         * other more detailed inner production matches (or if the 
+         * error_count threshold).
+         */
+        |
+        circusParamDeclList:dp SPOT:sp error:e
+        {:
+            RESULT = factory_.createParamProcess(null, dp);
+            addLocAnn(RESULT, getLocation(eleft, eright));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "parameterised process" }, getLocation(eleft, eright));            
+        :}
+        |
+        REPINTERLEAVE:ri circusParamDeclList:dp SPOT:sp error:e
+        {:
+            RESULT = factory_.createInterleaveProcessIte(null, dp);
+            addLocAnn(RESULT, getLocation(ri, sp));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated parameterised interleave process" }, 
+                getLocation(eleft, eright));            
+        :}
+        | 
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR SPOT:sp error:e
+        {:
+            RESULT = factory_.createParallelProcessIte(null, dp, cs);
+            addLocAnn(RESULT, getLocation(rp, cs));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated parameterised parallel process" }, 
+                getLocation(eleft, eright));            
+        :}
+        | 
+        REPINTCHOICE:ri circusParamDeclList:dp SPOT:sp error:e
+        {:
+            RESULT = factory_.createIntChoiceProcessIte(null, dp);
+            addLocAnn(RESULT, getLocation(ri, sp));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated parameterised internal choice process" }, 
+                getLocation(eleft, eright));            
+
+        :}
+        | 
+        REPEXTCHOICE:re circusParamDeclList:dp SPOT:sp error:e
+        {:
+            RESULT = factory_.createExtChoiceProcessIte(null, dp);
+            addLocAnn(RESULT, getLocation(re, sp));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated parameterised external choice process" }, 
+                getLocation(eleft, eright));            
+        :}
+        | 
+        ZCOMP:rs circusParamDeclList:dp SPOT:sp error:e
+        {:
+            RESULT = factory_.createSeqProcessIte(null, dp);
+            addLocAnn(RESULT, getLocation(rs, sp));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated parameterised sequential composition process" }, 
+                getLocation(eleft, eright));            
+        :}  %prec _REPSEQ  
+        /* Note: Add further productions here if needed. */
         ;
         
 /* Moved replicated indexed productions out of process because they are not
@@ -3260,8 +3411,8 @@ indexedProcess ::=
             RESULT = factory_.createIndexedProcess(p, dp);
             addLocAnn(RESULT, getLocation(dpleft, dpright));
         :}
-        | 
         /* Indexed processes productions in precendence order */
+        |         
         REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {:
             RESULT = factory_.createInterleaveProcessIdx(p, dp);
@@ -3291,6 +3442,66 @@ indexedProcess ::=
             RESULT = factory_.createSeqProcessIdx(p, dp);
             addLocAnn(RESULT, getLocation(rs, p));
         :} %prec _REPSEQ     
+        /* 
+         * Error productions for processDesc in indexedProcess.
+         * These are productions for topmost errors. That is, if no
+         * other more detailed inner production matches (or if the 
+         * error_count threshold).
+         */
+        |
+        circusParamDeclList:dp CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createIndexedProcess(null, dp);
+            addLocAnn(RESULT, getLocation(eleft, eright));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "parameterised indexed process" }, getLocation(eleft, eright));            
+        :}
+        |         
+        REPINTERLEAVE:ri circusParamDeclList:dp CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createInterleaveProcessIdx(null, dp);
+            addLocAnn(RESULT, getLocation(ri, ci));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated indexed parameterised interleave process" }, 
+                getLocation(eleft, eright));            
+        :}
+        | 
+        REPPARALLEL:rp circusParamDeclList:dp LPAR channelSet:cs RPAR CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createParallelProcessIdx(null, dp, cs);
+            addLocAnn(RESULT, getLocation(rp, cs));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated indexed parameterised parallel process" }, 
+                getLocation(eleft, eright));            
+        :}
+        | 
+        REPINTCHOICE:ri circusParamDeclList:dp CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createIntChoiceProcessIdx(null, dp);
+            addLocAnn(RESULT, getLocation(ri, ci));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated indexed parameterised internal choice process" }, 
+                getLocation(eleft, eright));                        
+        :}
+        | 
+        REPEXTCHOICE:re circusParamDeclList:dp CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createExtChoiceProcessIdx(null, dp);
+            addLocAnn(RESULT, getLocation(re, ci));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated indexed parameterised external choice process" }, 
+                getLocation(eleft, eright));                        
+        :}
+        | 
+        ZCOMP:rs circusParamDeclList:dp CIRCINDEX:ci error:e
+        {:
+            RESULT = factory_.createSeqProcessIdx(null, dp);
+            addLocAnn(RESULT, getLocation(rs, ci));
+            parser.report_error(CircusParseMessage.MSG_PROCESSPARA_DESC_ERROR, 
+              new Object[] { "replicated indexed parameterised sequential composition process" }, 
+                getLocation(eleft, eright));                                    
+        :} %prec _REPSEQ   
+        /* Note: Add further productions here if needed. */
         ;
         
 process ::=       
