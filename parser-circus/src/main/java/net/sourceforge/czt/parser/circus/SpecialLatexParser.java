@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -74,9 +75,16 @@ public class SpecialLatexParser {
                 SHOW_TIMESTAMP, SHOW_RECORDED_MESSAGE,
                 SHOW_SOURCE_METHOD, SHOW_DIRECTORY, SHOW_STACK_TRACE);
         ConsoleHandler ch = new ConsoleHandler();
-        ch.setLevel(Level.ALL);
-        ch.setFormatter(sfc);
-        
+        ch.setLevel(Level.ALL);        
+        ch.setFormatter(sfc);       
+        FileHandler fh = null;
+        try{
+          fh = new FileHandler("SpecialLatexParser.log");
+          fh.setLevel(Level.ALL);
+          fh.setFormatter(sfc);          
+        } catch (IOException e) {
+          
+        }
       /*
       logger = CztLogger.getLogger(KeywordScanner.class);
       logger.addHandler(ch);
@@ -84,30 +92,37 @@ public class SpecialLatexParser {
        
       logger = CztLogger.getLogger(Latex2Unicode.class);
       logger.addHandler(ch);
-      logger.setLevel(Level.ALL);
+      logger.addHandler(fh);
+      logger.setLevel(Level.ALL);      
        
       logger = CztLogger.getLogger(LatexMarkupParser.class);
       logger.addHandler(ch);
+      logger.addHandler(fh);
       logger.setLevel(Level.ALL);
        
       logger = CztLogger.getLogger(LatexParser.class);
       logger.addHandler(ch);
+      logger.addHandler(fh);
       logger.setLevel(Level.ALL);
       
       logger = CztLogger.getLogger(Parser.class);
       logger.addHandler(ch);
+      logger.addHandler(fh);
       logger.setLevel(Level.ALL);
       
       logger = CztLogger.getLogger(net.sourceforge.czt.print.circus.Unicode2Latex.class);
       logger.addHandler(ch);
+      logger.addHandler(fh);
       logger.setLevel(Level.ALL);
 
       logger = CztLogger.getLogger(UnicodeParser.class);
       logger.addHandler(ch);
+      logger.addHandler(fh);
       logger.setLevel(Level.ALL);
       
-      sm = new SectionManager();
-      sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.1\\parser\\src\\main\\resources\\lib");
+      sm = new SectionManager();                                  
+      sm.setProperty("czt.path", "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser\\src\\main\\resources\\lib;" +
+          "C:\\research\\tools\\java\\sourceforge\\czt\\0.5.2\\trunk\\parser-circus\\src\\main\\resources\\lib");
     }
     
     public SpecialLatexParser(Source s, SectionInfo sectInfo, Properties properties) 
@@ -184,7 +199,7 @@ public class SpecialLatexParser {
      * Converts latex to zml.
      */
     public static void main(String[] args) {
-        String usage = "Usage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
+        String usage = "\nUsage: net.sourceforge.czt.parser.circus.SpecialLatexParser"
                 + " [ -in <texInputfile>] [ -printLatex] [ -printUnicode] [ -reparseLatex] [ -printZML]";
         long time = System.currentTimeMillis();       
         try {
@@ -320,8 +335,9 @@ public class SpecialLatexParser {
         
         // Line separator string.  This is the value of the line.separator
         // property at the moment that the SimpleFormatter was created.
-        private String lineSeparator = (String) java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("line.separator"));
+        //private String lineSeparator = (String) java.security.AccessController.doPrivileged(
+        //        new sun.security.action.GetPropertyAction("line.separator"));
+        private String lineSeparator = "\r\n";//System.getProperty("line.separator");
         
         public SimpleFormatterForCircus(boolean showTimeStamp, boolean showRecordedMessage,
                 boolean showSourceMethod, boolean showDirectory, boolean showStackTrace) {
@@ -329,7 +345,7 @@ public class SpecialLatexParser {
             fShowRecordedMessage = showRecordedMessage;
             fShowSourceMethod = showSourceMethod;
             fShowDirectory = showDirectory;
-            fShowStackTrace = showStackTrace;
+            fShowStackTrace = showStackTrace;            
         }
         
         /**
@@ -349,7 +365,8 @@ public class SpecialLatexParser {
                 }
                 formatter.format(args, text, null);
                 sb.append(text);
-                sb.append(" ");
+                sb.append(" ");                
+                sb.append(lineSeparator);
             }
             if (fShowSourceMethod) {
                 if (record.getSourceClassName() != null) {
@@ -360,15 +377,15 @@ public class SpecialLatexParser {
                 if (record.getSourceMethodName() != null) {
                     sb.append(" ");
                     sb.append(record.getSourceMethodName());
-                }
-                sb.append(lineSeparator);
+                }              
+                sb.append(lineSeparator);                
             }
             if (fShowRecordedMessage) {
                 String message = formatMessage(record);
                 sb.append(record.getLevel().getLocalizedName());
                 sb.append(": ");
                 sb.append(message);
-                sb.append(lineSeparator);
+                sb.append(lineSeparator);                
             }
             if (fShowStackTrace) {
                 if (record.getThrown() != null) {
@@ -381,7 +398,7 @@ public class SpecialLatexParser {
                     } catch (Exception ex) {
                     }
                 }
-            }
+            }            
             return sb.toString();
         }
     }

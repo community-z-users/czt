@@ -19,12 +19,23 @@ public enum CircusParseMessage {
   MSG_UNBALANCED_LISTS("A {0} list of size {1} cannot be related to a {2} list of size {3}."),
   MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
   MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
-  MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
+  //MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}."),  
+ 
+  MSG_CHANDECL_ERROR("A syntax error occurred inside a channel declaration paragraph. See other messages."),
+  MSG_CHANFROMDECL_ERROR("A syntax error occurred inside a channelfrom declaration paragraph. See other messages."),
+    
+  MSG_CHANNELSET_EXPR_ERROR("Invalid expression for channel set paragraph."),
+  MSG_CHANNELSET_MISSING_NAME_ERROR("Missing name in channel set declaration."),
+  MSG_CHANNELSET_MISSING_DEFEQUAL_ERROR("Missing DEFEQUAL after name in channel set declaration."),
+  MSG_CHANNELSET_ERROR("A syntax error occurred inside a channelset paragraph. See other messages."),
   
-  MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon."),
-  MSG_BOXED_PARAGRAPH_ERROR("A syntax error occured inside a boxed paragraph at {0} {1}. See other messages");
+  MSG_PROCESSPARA_DESC_ERROR("Invalid process description for {0}. See othe messages."),
+  MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR("Missing CIRCDEF after process name in process paragraph declaration."),
+  MSG_PROCESSPARA_MISSING_NAME_ERROR("Missing process name in process paragraph declaration."),
+  
+  MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
 
   private final String message_;
   private final String explanation_;
