@@ -21,6 +21,7 @@ package net.sourceforge.czt.java_cup.maven;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.sourceforge.czt.java_cup.Main;
@@ -74,6 +75,9 @@ public class Plugin
           packageName.replace(".", fileSep);
         File destDir = new File(destdir);
         File destFile = new File(destDir, className + ".java");
+        getLog().info("Checking file dates:\n\t" + new Date(destFile.lastModified()) + 
+          "= " + destFile + "\n\t" + new Date(file.lastModified()) + "= " +
+          file);
         if (destFile.exists() &&
             destFile.lastModified() >= file.lastModified()) {
           getLog().info("Parser file is up-to-date.");
