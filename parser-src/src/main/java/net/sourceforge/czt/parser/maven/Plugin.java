@@ -21,8 +21,10 @@ package net.sourceforge.czt.parser.maven;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -66,6 +68,12 @@ public class Plugin
    * @required
    */
   private String jflexOutputDirectory;
+  
+  /**
+   * @parameter expression="${project.build.directory}/generated-sources/templates"
+   * @required
+   */
+  private String templateDirectory;
 
   /**
    * @parameter expression="${project}"
@@ -353,9 +361,12 @@ public class Plugin
   {
     final File outFile = new File(output);
     final URL url = getTemplate(template + ".xml");
-    final URLConnection connection = url.openConnection();
+    final URLConnection connection = url.openConnection();             
+    getLog().info("Checking file dates:\n\t" + new Date(outFile.lastModified()) + 
+          "= " + output + "\n\t" + new Date(connection.getLastModified()) + "= " +
+          connection);
     if (outFile.exists() &&
-        outFile.lastModified() >= connection.getLastModified()) {
+        outFile.lastModified() >= connection.getLastModified()) {      
       getLog().info("File " + output + " is up-to-date.");
       return;
     }
@@ -385,11 +396,26 @@ public class Plugin
 
   public URL getTemplate(String template)
     throws Exception
-  {
-    final String name = "/templates/" + template;
-    final URL url = getClass().getResource(name);
+  {    
+    String name = templateDirectory + "/" + template;
+    getLog().info("Retrieving template " + name);
+    URL url = null;
+    File file = new File(name);
+    if (file.exists()) {      
+      URI uri = file.toURI();
+      if (uri == null) {
+        throw new MojoExecutionException("Cannot find resource " + name);
+      }
+      url = uri.toURL();
+    }
     if (url == null) {
-      throw new MojoExecutionException("Cannot find resource " + name);
+      getLog().warn("Failed to get template at \"templateDirectory\" location. Trying reposity jar file instead.");          
+      name = "/templates/" + template;
+      getLog().info("Retrieving template " + name);
+      url = getClass().getResource(name);          
+      if (url == null) {
+        throw new MojoExecutionException("Cannot find resource " + name);
+      }    
     }
     return url;
   }
