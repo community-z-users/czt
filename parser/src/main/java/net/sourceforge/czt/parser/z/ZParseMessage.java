@@ -48,8 +48,13 @@ public enum ZParseMessage
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
 
+  //Additional error messages by completing the grammar with error productions
+  //wherever possible/purposeful. By Leo
+  MSG_MISSING_NL_UNBOXEDPARLIST("Missing hard new-line (i.e. \\\\, \\also, etc.) in unboxed paragraph item list."),
+  MSG_BOXED_PARAGRAPH_ERROR("A syntax error occured inside a boxed paragraph. See other messages."),
+  
   MSG_SYNTAX_ERROR_IN_VARDECL("Syntax error in variable declaration at token {0}; an expression is expected after token COLON");
-
+  
   private final String message_;
   private final String explanation_;
 
