@@ -28,25 +28,32 @@ import java.net.URL;
  */
 public final class Examples
 {
+    
+  private static String directory_ = "examples/";
+  
   /**
    * Do not create instances of this class.
    */
   private Examples()
   {
+  }  
+  
+  public static URL getExample(String dialect, String name) {
+    return Examples.class.getResource(directory_ + dialect + "/" + name);
   }
-
+  
   public static URL getZExample(String name)
   {
-    return Examples.class.getResource("examples/z/" + name);
+    return Examples.class.getResource(directory_ + "z/" + name);
   }
 
   public static URL getOzExample(String name)
   {
-    return Examples.class.getResource("examples/oz/" + name);
+    return Examples.class.getResource(directory_ + "oz/" + name);
   }
   
   public static URL getCircusExample(String name)
   {
-    return Examples.class.getResource("examples/circus/" + name);
+    return Examples.class.getResource(directory_ + "circus/" + name);
   }
 }
