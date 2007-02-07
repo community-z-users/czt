@@ -303,8 +303,10 @@ parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_toolkit.tex -text
 parser-circus/src/test/java/net/sourceforge/czt/parser/circus/ParserTest.java -text
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
+parser-circus/src/test/resources/tests/circus/buffer-refinement.tex -text
 parser-circus/src/test/resources/tests/circus/channels-error.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
+parser-circus/src/test/resources/tests/circus/processDesc.tex -text
 parser-circus/src/test/resources/tests/circus/processes.tex -text
 parser-circus/src/test/resources/tests/circus/processes.xml -text
 parser-circus/src/test/resources/tests/circus/unboxed_circus_steam_boiler.tex -text
