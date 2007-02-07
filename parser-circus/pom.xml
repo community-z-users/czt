@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"> 
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.sourceforge.czt</groupId>
@@ -21,15 +21,10 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>zml</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser</artifactId>
-      <type>test-jar</type>
-    </dependency>    
-  </dependencies> 
+    </dependency>         
+  </dependencies>
   <!--
-   <profiles>
+  <profiles>
         <profile>
             <id>netbeans-public</id>
             <activation>
@@ -71,9 +66,35 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>-->
-  <build>   
+    </profiles>   
+    -->
+  <build>          
     <plugins>
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/generated-sources/templates</outputDirectory>>
+              <resources>
+                <resource>
+                  <directory>../parser-src/src/main/resources/templates</directory>
+                  <includes>
+                      <include>*.xml</include>
+                  </includes>            
+                </resource>
+              </resources>
+            </configuration>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>        
+      </plugin>
+      -->
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>parser-src</artifactId>
@@ -81,13 +102,16 @@
           <execution>
             <configuration>
               <dialect>circus</dialect>
+              <templateDirectory>${basedir}/../parser-src/src/main/resources/templates</templateDirectory>
+              <!--<templateDirectory>${project.build.directory}/generated-sources/templates</templateDirectory>-->
+              <!--<templateDirectory>C:/research/tools/java/sourceforge/czt/0.5.2/trunk/parser-src/src/main/resources/templates</templateDirectory>-->
             </configuration>
             <goals>
               <goal>generate</goal>
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>      
       <plugin>
         <groupId>net.sourceforge.czt</groupId>
         <artifactId>maven-jflex-plugin</artifactId>
@@ -96,6 +120,7 @@
             <phase>process-sources</phase>
             <configuration>
               <sourceDirectory>${project.build.directory}/generated-sources/parser-src-jflex</sourceDirectory>
+              <templateDirectory>${basedir}/../parser-src/src/main/resources/templates</templateDirectory>
             </configuration>
             <goals>
               <goal>generate</goal>
