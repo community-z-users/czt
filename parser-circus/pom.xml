@@ -15,6 +15,11 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-src</artifactId>
+      <version>${czt.version}</version>      
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
     </dependency>
     <dependency>
