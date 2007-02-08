@@ -286,6 +286,7 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/TestFailureException.jav
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -text
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
+parser-circus/doc/circus.bnf.syntax.tex -text
 parser-circus/src/main/java/net/sourceforge/czt/parser/circus/CircusKeyword.java -text
 parser-circus/src/main/java/net/sourceforge/czt/parser/circus/CircusToken.java -text
 parser-circus/src/main/java/net/sourceforge/czt/parser/circus/SpecialLatexParser.java -text
