@@ -81,7 +81,7 @@ public class OpExprChecker
   {
     Signature signature = factory().createSignature();
 
-    ZName opRefName = assertZName(recProExpr.getOpName());
+    ZName opRefName = assertZName(recProExpr.getName());
     ZName opName = factory().createZName(opRefName, false);
     ClassType selfType = getSelfType();
     List<NameSignaturePair> opPairs = selfType.getOperation();
@@ -114,7 +114,7 @@ public class OpExprChecker
 
   public Signature visitEvent(Event event)
   {
-    ZName channelName = assertZName(event.getChannelName());
+    ZName channelName = assertZName(event.getName());
     LocAnn locAnn = (LocAnn) channelName.getAnn(LocAnn.class);
     ZName baseChannelName = factory().createZName(channelName.getWord());
     addAnn(baseChannelName, locAnn);

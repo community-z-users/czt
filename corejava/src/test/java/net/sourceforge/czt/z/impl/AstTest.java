@@ -22,13 +22,12 @@ package net.sourceforge.czt.z.impl;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.jaxb.JaxbValidator;
+import net.sourceforge.czt.z.util.Factory;
 
 /**
  * A (junit) test class which contains a collection of AST tests
- * like calling create methods, validating, etc.
+ * like calling create methods, etc.
  *
  * @author Petra Malik
  */
@@ -51,7 +50,7 @@ public class AstTest extends TestCase
   public static class AndExprTest
     extends TermTest
   {
-    private ZFactory zFactory_ = new ZFactoryImpl();
+    private Factory factory_ = new Factory();
 
     public AndExprTest(String name)
     {
@@ -60,7 +59,7 @@ public class AstTest extends TestCase
 
     protected Term createTerm()
     {
-      return zFactory_.createAndExpr();
+      return factory_.createAndExpr();
     }
   }
 
@@ -70,7 +69,7 @@ public class AstTest extends TestCase
   public static class OrExprTest
     extends TermTest
   {
-    private ZFactory zFactory_ = new ZFactoryImpl();
+    private Factory factory_ = new Factory();
 
     public OrExprTest(String name)
     {
@@ -79,8 +78,8 @@ public class AstTest extends TestCase
 
     protected Term createTerm()
     {
-      return zFactory_.createOrExpr(zFactory_.createOrExpr(),
-                                    zFactory_.createOrExpr());
+      return factory_.createOrExpr(factory_.createOrExpr(),
+                                   factory_.createOrExpr());
     }
   }
 
@@ -90,7 +89,7 @@ public class AstTest extends TestCase
   public static class OptempParaTest
     extends TermTest
   {
-    private ZFactory zFactory_ = new ZFactoryImpl();
+    private Factory factory_ = new Factory();
 
     public OptempParaTest(String name)
     {
@@ -99,31 +98,18 @@ public class AstTest extends TestCase
 
     protected Term createTerm()
     {
-      return zFactory_.createOptempPara();
+      return factory_.createOptempPara();
     }
 
     public void testInsertWord()
     {
-      OptempPara optempPara = zFactory_.createOptempPara();
-      Operator op1 = zFactory_.createOperator("Test1");
-      Operand op2 = zFactory_.createOperand();
+      OptempPara optempPara = factory_.createOptempPara();
+      Operator op1 = factory_.createOperator("Test1");
+      Operand op2 = factory_.createOperand();
       optempPara.getOper().add(op1);
       Assert.assertEquals(optempPara.getOper().get(0), op1);
       optempPara.getOper().add(op2);
       Assert.assertEquals(optempPara.getOper().get(1), op2);
-    }
-
-    public void testValidation()
-    {
-      OptempPara optempPara = zFactory_.createOptempPara();
-      Operator op1 = zFactory_.createOperator("Test1");
-      Operand op2 = zFactory_.createOperand();
-      optempPara.getOper().add(op1);
-      optempPara.getOper().add(op2);
-      optempPara.setCat(Cat.Relation);
-      optempPara.setPrec(new Integer(1));
-      AstValidator validator = new JaxbValidator();
-      Assert.assertTrue(validator.validate(optempPara));
     }
   }
 }

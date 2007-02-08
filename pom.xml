@@ -261,38 +261,6 @@
         <version>1.5-R3</version>
       </dependency>
 
-      <!-- Jaxb -->
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-xjc</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-libs</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml</groupId>
-        <artifactId>relaxngDatatype</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>activesoap</groupId>
-        <artifactId>xsdlib</artifactId>
-        <version>1.5</version>
-      </dependency>
-
       <!-- JFlex -->
       <dependency>
         <groupId>jflex</groupId>
@@ -403,10 +371,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
       </plugin>
-      <plugin>
+      <!--      <plugin> doesn't work due to out of memory error
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
+      </plugin> -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>changelog-maven-plugin</artifactId>

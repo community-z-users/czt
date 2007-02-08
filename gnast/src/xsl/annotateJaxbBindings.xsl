@@ -9,20 +9,49 @@
   indent="yes"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="xs:schema/xs:element[@name=substring-after(@type, ':') and
-                     not(xs:annotation/xs:appinfo/jaxb:class)]">
+<xsl:template match="xs:schema/xs:element[@name!=substring-after(@type, ':')]">
   <xsl:copy>
     <xsl:apply-templates select="@*"/>
-    <xs:annotation>
-      <xsl:apply-templates select="xs:annotation/*[not(self::xs:appinfo)]"/>
-      <xs:appinfo>
-        <xsl:apply-templates select="xs:annotation/xs:appinfo/*"/>
-        <jaxb:class>
-          <xsl:attribute name="name"><xsl:value-of select="@name"/>Element</xsl:attribute>
-        </jaxb:class>
-      </xs:appinfo>
-    </xs:annotation>
-    <xsl:apply-templates select="*[not(self::xs:annotation)]"/>
+    <xsl:attribute name="type">
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/zml'">
+        <xsl:text>Z:</xsl:text>
+      </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/object-z'">
+        <xsl:text>OZ:</xsl:text>
+      </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/tcoz'">
+        <xsl:text>TCOZ:</xsl:text>
+      </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/zpatt'">
+        <xsl:text>P:</xsl:text>
+      </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/circus'">
+        <xsl:text>CIRCUS:</xsl:text>
+      </xsl:if>
+      <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    <xsl:apply-templates select="node()"/>
+  </xsl:copy>
+</xsl:template>
+
+<xsl:template match="xs:schema">
+  <xsl:copy>
+    <xsl:apply-templates select="@*"/>
+     <xsl:apply-templates select="node()"/>
+     <xsl:for-each select="xs:element[@name!=substring-after(@type, ':')]">
+       <xs:complexType>
+         <xsl:attribute name="name">
+           <xsl:value-of select="@name"/>
+         </xsl:attribute>
+         <xs:complexContent>
+           <xs:extension>
+             <xsl:attribute name="base">
+               <xsl:value-of select="@type"/>
+             </xsl:attribute>
+           </xs:extension>
+         </xs:complexContent>
+       </xs:complexType>
+      </xsl:for-each>
   </xsl:copy>
 </xsl:template>
 

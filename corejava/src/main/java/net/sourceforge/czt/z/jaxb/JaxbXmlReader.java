@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright 2003, 2007 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -19,7 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.z.jaxb;
 
+import java.net.URL;
+
 import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.zml.Schemas;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -37,5 +40,10 @@ public class JaxbXmlReader
   public JaxbXmlReader()
   {
     super(new JaxbToAst(), JaxbContext.PATH);
+  }
+
+  protected URL getSchema()
+  {
+    return Schemas.getZSchema();
   }
 }

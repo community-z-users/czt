@@ -222,7 +222,13 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr2">
         <xs:sequence>
-          <xs:element name="Events" type="TCOZ:EventSet"/>
+          <xs:element ref="TCOZ:EventSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -231,7 +237,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="Event" type="Z:Expr" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Expr" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -240,9 +246,27 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element name="NormalOp" type="OZ:OpExpr"/>
-          <xs:element name="IntOrTimeout" type="Z:Expr"/>
-          <xs:element name="HandlerOp" type="OZ:OpExpr"/>
+          <xs:element ref="OZ:OpExpr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="NormalOp"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Expr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="IntOrTimeout"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:OpExpr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="HandlerOp"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -252,7 +276,13 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element name="Deadline" type="Z:Expr"/>
+          <xs:element ref="Z:Expr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Deadline"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -262,7 +292,13 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element name="WaitUntil" type="Z:Expr"/>
+          <xs:element ref="Z:Expr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="WaitUntil"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -280,7 +316,13 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="TCOZ:Event"/>
+          <xs:element ref="TCOZ:Event">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Expr" minOccurs="0"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
@@ -291,7 +333,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element name="OpName" type="Z:Name"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
@@ -301,7 +343,13 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="TCOZ:Connection" maxOccurs="unbounded"/>
+          <xs:element ref="TCOZ:Connection" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -321,7 +369,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element name="ChannelName" type="Z:Name"/>
+          <xs:element ref="Z:Name"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>

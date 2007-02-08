@@ -29,28 +29,22 @@ import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.util.CztLogger;
 <add:z>
-import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
 <add:zpatt>
-import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter;
 </add:zpatt>
 <add:circus>
-import net.sourceforge.czt.circus.jaxb.JaxbValidator;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 </add:circus>
 <add:oz>
-import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 </add:oz>
 <add:tcoz>
-import net.sourceforge.czt.tcoz.jaxb.JaxbValidator;
 import net.sourceforge.czt.tcoz.jaxb.JaxbXmlWriter;
 </add:tcoz>
 import net.sourceforge.czt.session.*;
@@ -111,11 +105,6 @@ public class <class/>
       <class/> parser =
         new <class/>(source, new SectionManager(), new Properties());
       Term term = parser.parse();
-      AstValidator validator = new JaxbValidator();
-      if (! validator.validate(term)) {
-        String message = "AST is not valid.";
-        logger.warning(message);
-      }
       XmlWriter xmlWriter = new JaxbXmlWriter();
       xmlWriter.write(term, out);
       out.close();

@@ -21,7 +21,6 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>zml</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>

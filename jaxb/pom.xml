@@ -17,30 +17,6 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>util</artifactId>
     </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-impl</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>xfire</groupId>
-      <artifactId>jaxb-libs</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml</groupId>
-      <artifactId>relaxngDatatype</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>activesoap</groupId>
-      <artifactId>xsdlib</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -65,36 +41,6 @@
             <version>1.6.5</version>
           </dependency>
           <dependency>
-            <groupId>xfire</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <version>1.0.5</version>
-          </dependency>
-          <dependency>
-            <groupId>xfire</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>1.0</version>
-          </dependency>
-          <dependency>
-            <groupId>xfire</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>1.0.5</version>
-          </dependency>
-          <dependency>
-            <groupId>xfire</groupId>
-            <artifactId>jaxb-libs</artifactId>
-            <version>1.0.5</version>
-          </dependency>
-          <dependency>
-            <groupId>com.sun.xml</groupId>
-            <artifactId>relaxngDatatype</artifactId>
-            <version>1.0</version>
-          </dependency>
-          <dependency>
-            <groupId>activesoap</groupId>
-            <artifactId>xsdlib</artifactId>
-            <version>1.5</version>
-          </dependency>
-          <dependency>
             <groupId>${czt.groupId}</groupId>
             <artifactId>util</artifactId>
             <version>${czt.version}</version>
@@ -108,29 +54,20 @@
                 <property name="jaxb.build.dir" location="target"/>
                 <property name="jaxb.build.xsd" location="${jaxb.build.dir}/xsd"/>
                 <property name="jaxb.build.src" location="${jaxb.build.dir}/src"/>
-                <xslt basedir="../zml" destdir="${jaxb.build.xsd}"
+                <xslt basedir="../zml" excludes="*/**"
+                  destdir="${jaxb.build.xsd}"
                   style="../gnast/src/xsl/annotateJaxbBindings.xsl">
                   <mapper type="glob" from="*.xsd" to="*.xsd"/>
                 </xslt>
                 <mkdir dir="${jaxb.build.src}"/>
-                <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask"/>
-                <xjc target="${jaxb.build.src}"
-                  extension="true" removeOldOutput="yes">
-                  <schema  dir="${jaxb.build.xsd}" includes="*.xsd"/>
-                  <depends dir="${jaxb.build.xsd}" includes="*.xsd"/>
-                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/z/jaxb/gen"
-                    includes="**"/>
-                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/oz/jaxb/gen"
-                    includes="**"/>
-                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/tcoz/jaxb/gen"
-                    includes="**"/>
-                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/circus/jaxb/gen"
-                    includes="**"/>
-                  <produces dir="${jaxb.build.src}/net/sourceforge/czt/zpatt/jaxb/gen"
-                    includes="**"/>
-                  <produces dir="${jaxb.build.src}/org"
-                    includes="**"/>
-                </xjc>
+                <java classname="com.sun.tools.internal.xjc.Driver" fork="true">
+                  <arg value="-d"/>
+                  <arg value="${jaxb.build.src}"/>
+                  <arg value="${jaxb.build.xsd}"/>
+                  <classpath>
+                    <pathelement location="${java.home}/../lib/tools.jar"/>
+                  </classpath>
+                </java>
               </tasks>
               <sourceRoot>${basedir}/target/src</sourceRoot>
             </configuration>

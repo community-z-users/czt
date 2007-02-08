@@ -18,6 +18,13 @@
         <directory>examples</directory>
         <targetPath>net/sourceforge/czt/zml/examples</targetPath>
       </resource>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>*.xsd</include>
+        </includes>
+        <targetPath>net/sourceforge/czt/zml</targetPath>
+      </resource>
     </resources>
   </build>
 </project>

@@ -27,7 +27,6 @@ import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -41,7 +40,6 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
-import net.sourceforge.czt.circus.jaxb.JaxbValidator;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 
 import net.sourceforge.czt.z.ast.*;

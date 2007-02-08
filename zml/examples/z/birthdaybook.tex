@@ -1,6 +1,196 @@
 \documentclass{article}
 \usepackage{oz}   % oz or z-eves or fuzz styles
 
+\begin{zsection}
+  \SECTION unfold \parents zpattern\_toolkit, standard\_toolkit
+\end{zsection}
+
+Declare the jokers used in these rules.
+
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker}
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4 \end{zedjoker}
+\begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
+\begin{zedjoker}{Name} v, v1, v2, v3, v4 \end{zedjoker}
+
+To clearly distinguish our rules for unfolding declaration lists and
+schema expressions from other rules, we introduce two new infix
+operators: $\sexprUnfoldsTo$ and $\declListUnfoldsTo$.  
+We do not really need to define their semantics in order to use them within
+rules, but to reassure readers, we define their semantics to be just
+equality.  In fact, the intention is that the right hand argument
+will be the unfolded and normalized form of the left hand argument.
+
+\begin{verbatim}
+%%Zinword \sexprUnfoldsTo sexprUnfoldsTo
+%%Zinword \declListUnfoldsTo declListUnfoldsTo
+\end{verbatim}
+
+\begin{zed}
+  \relation ( \_ \sexprUnfoldsTo \_ )
+\end{zed}
+\begin{zed}
+  \relation ( \_ \declListUnfoldsTo \_ )
+\end{zed}
+
+
+\begin{gendef}[SCHEMA]
+  \_ \sexprUnfoldsTo \_ : SCHEMA \rel SCHEMA \\
+  \_ \declListUnfoldsTo \_ : SCHEMA \rel SCHEMA
+\where
+  \forall s1,s2:SCHEMA @ s1 \sexprUnfoldsTo s2 \iff s1=s2 \\
+  \forall s1,s2:SCHEMA @ s1 \declListUnfoldsTo s2 \iff s1=s2 \\
+\end{gendef}
+
+\section{Rules for Unfolding Predicates}
+
+%% Syntax error on the conclusion of these rules.
+%\begin{zedrule}{implies}
+%   (P1 \implies P2) \iff ((\lnot P1) \lor P2)
+%\end{zedrule}
+
+%\begin{zedrule}{iff}
+%   (P1 \iff P2) \iff ((P1 \land P2) \lor ((\lnot P1) \land (\lnot P2))
+%\end{zedrule}
+
+\section{Unfolding Declaration Lists}
+
+We use the $\declListUnfoldsTo$ operator for unfolding declaration
+lists.   The left-hand side is always of the form $[DeclList|true]$
+and the right-hand side (which is usually a generated output) is
+a normalized schema with no duplicated names in the signature, and
+all the non-basetype conditions in the predicate part.
+
+The next few rules implement the $\declListUnfoldsTo$ operator,
+which unfolds and normalizes declaration lists.
+
+\begin{zedrule}{VarDecl}
+   \proviso E : \power E2 \\
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
+\end{zedrule}
+
+\begin{zedrule}{ConstDecl}
+   \proviso E : E2 \\
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
+\end{zedrule}
+
+\begin{zedrule}{IncludeDecl}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   [D | true] \declListUnfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+   [E; D | true] \declListUnfoldsTo [D3 |  P1 \land P2]
+\end{zedrule}
+
+\begin{zedrule}{EmptyDeclList}
+   [~ | true] \declListUnfoldsTo [~ | true]
+\end{zedrule}
+
+
+\section{Unfolding Schema Expressions}
+
+This section defines the unfolding of schema expressions,
+using the $se \sexprUnfoldsTo stext$ operator, where $se$
+is a schema expression and $stext$ is the resulting normalized
+schema construction ($[Decls|Preds]$, where the types in $Decls$
+are only base types).
+
+Top-level schema expressions are unfolded into sets of bindings.
+However, we have a special case for $\exists$, so that we can
+put all the variables into the bound variable list of the
+set comprehension, then create a binding using a subset of
+those variables.  Putting all the variables at the same level
+of scope gives the evaluation optimization algorithms more
+freedom to reorder things later.
+
+\begin{zedrule}{TopLevelExistsSchema}
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+   \proviso [D4|true] == [D2|true] \schemaminus [D1|true] \\
+   \proviso E == binding ~ [D4|true]
+\derives
+   (\exists D | P @ E2) = \{D3 | P1 \land P2 @ E\}
+\end{zedrule}
+
+\begin{zedrule}{TopLevelSchemaExpr}
+  E \sexprUnfoldsTo [D1|P1] \\
+  \proviso E2 == binding [D1 | true]
+\derives
+  E = \{ D1 | P1 @ E2 \}
+\end{zedrule}
+
+
+\begin{zedrule}{SchemaConstruction}
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
+\end{zedrule}
+
+\begin{zedrule}{SchemaRef}
+  \proviso ?~ v == E2 \\
+  E2 \sexprUnfoldsTo [D2 | P2]
+\derives
+  v \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
+This rule unfolds any remaining $\Delta$ schemas.
+If the specification explicitly defined the $\Delta$ schema,
+then the above SchemaRef rule would have unfolded it.
+\begin{zedrule}{DeltaRef}
+  \proviso v2 == \Delta \unprefix v \\
+  [v2; v2~'] \sexprUnfoldsTo [D1|P1]
+\derives
+  v \sexprUnfoldsTo [D1|P1]
+\end{zedrule}
+
+This rule unfolds any remaining $\Xi$ schemas.
+If the specification explicitly defined the $\Xi$ schema,
+then the above SchemaRef rule would have unfolded it.
+\begin{zedrule}{XiRef}
+  \proviso v2 == \Xi \unprefix v \\
+  [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
+  \proviso [v2|true] : \power [D2]
+\derives
+  v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
+\end{zedrule}
+
+\begin{zedrule}{SchemaPrime}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   \proviso [D2|P2] == [D1|P1]~' \\
+\derives
+   E~' \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
+The type proviso in the ExistsSchema rule checks
+that $D1$ and $D2$ are type compatible.
+\begin{zedrule}{ExistsSchema}
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
+   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+   \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
+\derives
+   (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
+\end{zedrule}
+
+This rule applies the above schema unfolding rules to unfolding
+the bound variables of quantifiers, because the rewrite tactics
+transform schema text using the $\schemaEquals$ relation.
+\begin{zedrule}{Quantifiers}
+   [D|P] \sexprUnfoldsTo [D1|P1]
+\derives
+   [D|P] \schemaEquals [D1|P1]
+\end{zedrule}
+
+
+\begin{zsection}
+  \SECTION birthdaybook \parents standard\_toolkit, unfold
+\end{zsection}
+
+
 \begin{document}
 This is the BirthdayBook specification, from 
 Spivey~\cite{spivey:z-notation2}.  We extend it slightly
@@ -30,6 +220,10 @@ is empty.
 \where
     known' = \{ \}
 \end{schema}
+
+\begin{zed}
+X == [BirthdayBook~' | known' = \{ \}]
+\end{zed}
 
 Next we have several operation schemas to define the normal (non-error)
 behaviour of the system.

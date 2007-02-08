@@ -1465,7 +1465,13 @@
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:Name"/>            
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1710,7 +1716,8 @@
           <xs:element ref="Z:RefExpr">                    
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="CallExpr"/>
+                <jaxb:property name="CallExpr"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
@@ -1745,7 +1752,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Process1">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1758,7 +1771,13 @@
           <xs:element name="OldNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>                      
           <xs:element name="NewNames" type="Z:Name" minOccurs="1" maxOccurs="unbounded"/>
           -->
-          <xs:element ref="CIRCUS:AssignmentPairs"/>
+          <xs:element ref="CIRCUS:AssignmentPairs">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1800,7 +1819,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParProcess">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1812,14 +1837,16 @@
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="LeftAlpha"/>
+                <jaxb:property name="LeftAlpha"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="RightAlpha"/>
+                <jaxb:property name="RightAlpha"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -1870,7 +1897,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParProcessIte">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1886,7 +1919,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParProcessIdx">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1898,7 +1937,13 @@
       <xs:extension base="Z:Para">
         <xs:sequence>
           <xs:element ref="Z:Name"/>
-          <xs:element ref="CIRCUS:NameSet"/>
+          <xs:element ref="CIRCUS:NameSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2064,7 +2109,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2073,7 +2124,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action1">
         <xs:sequence>
-          <xs:element ref="CIRCUS:Communication"/>
+          <xs:element ref="CIRCUS:Communication">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2097,7 +2154,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ActionIte">
         <xs:sequence>
-          <xs:element ref="CIRCUS:NameSet"/>
+          <xs:element ref="CIRCUS:NameSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2106,7 +2169,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParActionIte">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2120,14 +2189,16 @@
           <xs:element ref="CIRCUS:NameSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="LeftNameSet"/>
+                <jaxb:property name="LeftNameSet"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="CIRCUS:NameSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="RightNameSet"/>
+                <jaxb:property name="RightNameSet"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2139,7 +2210,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParAction">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ChannelSet"/>
+          <xs:element ref="CIRCUS:ChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2151,14 +2228,16 @@
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="LeftAlpha"/>
+                <jaxb:property name="LeftAlpha"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="RightAlpha"/>
+                <jaxb:property name="RightAlpha"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2191,14 +2270,16 @@
           <xs:element ref="Z:RefExpr">          
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ChannelExpr"/>
+                <jaxb:property name="ChannelExpr"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>       
           <xs:element ref="CIRCUS:CircusFieldList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ChanFields"/>
+                <jaxb:property name="ChanFields"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2321,7 +2402,13 @@
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusCommand">
         <xs:sequence>                  
-          <xs:element ref="CIRCUS:AssignmentPairs"/>
+          <xs:element ref="CIRCUS:AssignmentPairs">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2401,7 +2488,8 @@
           <xs:element ref="Z:RefExpr">          
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Channel"/>
+                <jaxb:property name="Channel"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
@@ -2454,7 +2542,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>          
-          <xs:element ref="Z:Signature"/>          
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2472,18 +2566,30 @@
   
   <xs:complexType name="ActionType">
     <xs:complexContent>
-        <xs:extension base="Z:Type2">
-            <xs:sequence>
-                <xs:element ref="CIRCUS:ActionSignature"/>
-            </xs:sequence>
-        </xs:extension>
+      <xs:extension base="Z:Type2">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:ActionSignature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
   <xs:complexType name="NameSetType">
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>          
-          <xs:element ref="Z:Signature"/>                      
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2510,7 +2616,8 @@
           <xs:element ref="Z:Signature" minOccurs="0">          
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ParamOrIndexes"/>
+                <jaxb:property name="ParamOrIndexes"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2545,7 +2652,8 @@
               <xs:element ref="Z:SchemaType">
                 <xs:annotation>
                   <xs:appinfo>
-                    <jaxb:property name="StateType"/>
+                    <jaxb:property name="StateType"
+                      generateElementProperty="true"/>
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element>
@@ -2571,7 +2679,8 @@
               <xs:element ref="Z:ZNameList">                
                 <xs:annotation>
                   <xs:appinfo>
-                    <jaxb:property name="NameSet"/>
+                    <jaxb:property name="NameSet"
+                      generateElementProperty="true"/>
                   </xs:appinfo>
                 </xs:annotation>
               </xs:element>
@@ -2594,21 +2703,24 @@
           <xs:element ref="Z:Signature">            
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="FormalParams"/>
+                <jaxb:property name="FormalParams"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:Signature">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="LocalVars"/>
+                <jaxb:property name="LocalVars"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:Signature" minOccurs="0">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="UsedChannels"/>
+                <jaxb:property name="UsedChannels"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>

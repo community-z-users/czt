@@ -35,15 +35,6 @@
       Suite 330, Boston, MA  02111-1307  USA
     </xs:documentation>
     <xs:appinfo>
-      <jaxb:globalBindings
-        bindingStyle="modelGroupBinding"
-        choiceContentProperty="true">
-        <jaxb:javaType
-          name="java.lang.Boolean"
-          xmlType="xs:boolean"
-          printMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.printBoolean"
-          parseMethod="net.sourceforge.czt.base.util.CztDatatypeConverter.parseBoolean"/>
-      </jaxb:globalBindings>
       <jaxb:schemaBindings>
         <jaxb:package name="net.sourceforge.czt.z.jaxb.gen">
           <jaxb:javadoc>
@@ -1275,7 +1266,13 @@ more detail.
       <xs:extension base="Z:Sect">
         <xs:sequence>
           <xs:element name="Name" type="xs:string"/>
-          <xs:element ref="Z:Parent" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Parent" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:ParaList"/>
         </xs:sequence>
       </xs:extension>
@@ -1391,7 +1388,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:Directive" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Directive" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1746,7 +1749,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:RenameList">
         <xs:sequence>
-          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1774,7 +1783,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:BranchList">
         <xs:sequence>
-          <xs:element ref="Z:Branch" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Branch" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1788,7 +1803,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:FreetypeList">
         <xs:sequence>
-          <xs:element ref="Z:Freetype" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Freetype" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1990,7 +2011,13 @@ more detail.
       <xs:extension base="Z:Ann">
         <xs:sequence>
           <xs:element ref="Z:NameSectTypeTriple"
-            minOccurs="0" maxOccurs="unbounded"/>
+            minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1999,7 +2026,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:sequence>
-          <xs:element ref="Z:Signature"/>
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2098,7 +2131,13 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element ref="Z:Signature"/>
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2108,7 +2147,13 @@ more detail.
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:NameTypePair"
-            minOccurs="0" maxOccurs="unbounded"/>
+            minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

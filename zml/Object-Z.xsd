@@ -218,7 +218,13 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
+          <xs:element ref="OZ:VisibilityList" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:ExprList" minOccurs="0">
             <xs:annotation>
               <xs:appinfo>
@@ -233,9 +239,27 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="OZ:State" minOccurs="0"/>
-          <xs:element ref="OZ:InitialState" minOccurs="0"/>
-          <xs:element ref="OZ:Operation" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:State" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:InitialState" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:Operation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -244,7 +268,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:ZName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:ZName" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -253,8 +283,20 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="OZ:PrimaryDecl" minOccurs="0"/>
-          <xs:element ref="OZ:SecondaryDecl" minOccurs="0"/>
+          <xs:element ref="OZ:PrimaryDecl" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:SecondaryDecl" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="Box" type="Z:Box" use="optional" default="SchBox"/>
@@ -313,7 +355,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="OZ:DeltaList" minOccurs="0"/>
+          <xs:element ref="OZ:DeltaList" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:SchText"/>
         </xs:sequence>
       </xs:extension>
@@ -333,7 +381,13 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="OZ:OpText" minOccurs="0"/>
+          <xs:element ref="OZ:OpText" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -402,28 +456,30 @@
           <xs:element ref="OZ:ClassRefList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Classes"/>
+                <jaxb:property name="Classes" generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:Signature" minOccurs="0">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="State"/>
+                <jaxb:property name="State" generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Attribute"/>
+                <jaxb:property name="Attribute"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
           <xs:element ref="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Operation"/>
+                <jaxb:property name="Operation"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -438,13 +494,25 @@
           <xs:element ref="OZ:ClassRef">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="ThisClass"/>
+                <jaxb:property name="ThisClass" generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element name="SuperClass" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="SuperClass"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
           </xs:element>
-          <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
+          <xs:element ref="OZ:VisibilityList" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
               <xs:appinfo>
@@ -463,7 +531,8 @@
           <xs:element ref="OZ:ClassRef">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="RootClass"/>
+                <jaxb:property name="RootClass"
+                  generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -488,7 +557,13 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:NewOldPair" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -497,7 +572,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -507,7 +588,13 @@
       <xs:extension base="Z:Term">
         <xs:sequence>
           <xs:element ref="Z:Name" minOccurs="0"/>
-          <xs:element ref="Z:Signature"/>
+          <xs:element ref="Z:Signature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

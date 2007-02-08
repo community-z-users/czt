@@ -32,8 +32,6 @@ import java.awt.event.ActionListener;
 import java.util.*;
 
 import net.sourceforge.czt.java_cup.runtime.*;
-import net.sourceforge.czt.base.util.AstValidator;
-import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Spec;
 
@@ -65,10 +63,6 @@ public class Main extends JPanel implements ActionListener
       manager.put(new Key(file, Source.class), new FileSource(file));
       Spec spec = (Spec) manager.get(new Key(file, Spec.class));
       if (spec != null) {
-        //validate the specification
-        AstValidator validator = new JaxbValidator();
-        validator.validate(spec);
-
         net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
           new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
         //writer.write(spec, System.out);
