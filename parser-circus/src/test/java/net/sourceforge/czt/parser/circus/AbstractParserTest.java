@@ -45,7 +45,7 @@ public abstract class AbstractParserTest extends TestCase
   
   protected static final ParseErrorLogging pel_ = new ParseErrorLogging();
   
-  protected static boolean DEBUG_TESTING = true;
+  protected static boolean DEBUG_TESTING = false;
   
   protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
   
@@ -137,13 +137,15 @@ public abstract class AbstractParserTest extends TestCase
     File directory = new File(fullDirectoryName);
     if (! directory.isDirectory())
     {
-      //URL url = getClass().getResource("/");
-      //System.out.println("URL-CURRENT: " + url.getFile());
-      directory = new File(getClass().getResource("/" + directoryName).getFile());
-      //System.out.println("URL-CURRENT: " + directory.getAbsolutePath());
-      if (! directory.isDirectory())
-      {
-        fail("Given name " + directoryName + "is not a directory in " + cztHome);
+      URL url = getClass().getResource("/");
+      if (url != null) {
+        System.out.println("Looking for tests under: " + url.getFile());
+        directory = new File(url.getFile());        
+        if (! directory.isDirectory()) {
+          fail("Given name " + directoryName + " is not a directory in " + cztHome);
+        }
+      } else {
+        fail("Could not retrieve a valid testing directory. This should never happen.");
       }
     }
     for (File file : directory.listFiles())
