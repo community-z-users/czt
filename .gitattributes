@@ -316,6 +316,8 @@ parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
 parser/COPYING.txt -text
+parser/doc/parser.jpg -text
+parser/doc/parser.pdf -text svneol=unset#unset
 parser/doc/parser.sxd -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
