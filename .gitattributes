@@ -382,12 +382,12 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/result/UnionSet.java -tex
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
-zml/examples/circus/channels.tex -text
-zml/examples/circus/channels.xml -text
-zml/examples/circus/processes.tex -text
-zml/examples/circus/processes.xml -text
-zml/examples/circus/unboxed_circus_steam_boiler.pdf -text svneol=unset#unset
-zml/examples/circus/unboxed_circus_steam_boiler.tex -text
-zml/examples/circus/unboxed_reactive_buffer.tex -text
-zml/examples/z/bbook.utf16 svneol=native#unset
-zml/examples/z/birthdaybook.utf16 -text
+zml/src/main/resources/examples/circus/channels.tex -text
+zml/src/main/resources/examples/circus/channels.xml -text
+zml/src/main/resources/examples/circus/processes.tex -text
+zml/src/main/resources/examples/circus/processes.xml -text
+zml/src/main/resources/examples/circus/unboxed_circus_steam_boiler.pdf -text svneol=unset#unset
+zml/src/main/resources/examples/circus/unboxed_circus_steam_boiler.tex -text
+zml/src/main/resources/examples/circus/unboxed_reactive_buffer.tex -text
+zml/src/main/resources/examples/z/bbook.utf16 svneol=native#unset
+zml/src/main/resources/examples/z/birthdaybook.utf16 -text

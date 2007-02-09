@@ -108,7 +108,7 @@
                 <property name="jaxb.build.dir" location="target"/>
                 <property name="jaxb.build.xsd" location="${jaxb.build.dir}/xsd"/>
                 <property name="jaxb.build.src" location="${jaxb.build.dir}/src"/>
-                <xslt basedir="../zml" destdir="${jaxb.build.xsd}"
+                <xslt basedir="../zml/src/main/resources/xsd" destdir="${jaxb.build.xsd}"
                   style="../gnast/src/xsl/annotateJaxbBindings.xsl">
                   <mapper type="glob" from="*.xsd" to="*.xsd"/>
                 </xslt>

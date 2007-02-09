@@ -33,6 +33,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
+import net.sourceforge.czt.zml.Resources;
 
 /**
  * A (JUnit) test class for testing the Z parser.
@@ -183,7 +184,7 @@ public class ParserTest
 
   public URL getOzExample(String name)
   {
-    URL result = net.sourceforge.czt.zml.Examples.getOzExample(name);
+    URL result = Resources.getOzExample(name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }

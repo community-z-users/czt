@@ -36,9 +36,6 @@
         <executions>
           <execution>
             <phase>generate-sources</phase>
-            <configuration>
-              <xsdFile>${basedir}/../zml/ZPattern.xsd</xsdFile>
-            </configuration>
             <goals>
               <goal>rulecodegen</goal>
             </goals>

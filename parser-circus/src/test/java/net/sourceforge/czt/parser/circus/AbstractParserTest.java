@@ -32,6 +32,7 @@ import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.util.DeleteMarkupParaVisitor;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
+import net.sourceforge.czt.zml.Resources;
 
 /**
  *
@@ -51,7 +52,7 @@ public abstract class AbstractParserTest extends TestCase
   
   public URL getCircusExample(String name)
   {
-    URL result = net.sourceforge.czt.zml.Examples.getCircusExample(name);
+    URL result = Resources.getCircusExample(name);
     if (result == null)
     {
       throw new CztException("Cannot find example " + name);

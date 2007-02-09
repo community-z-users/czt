@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -41,6 +41,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
+import net.sourceforge.czt.zml.Resources;
+
 /**
  * @goal rulecodegen
  *
@@ -62,12 +64,6 @@ public class Main
    * @required
    */
   private String velocimacroDirectory;
-
-  /**
-   * @parameter expression="${xsdFile}"
-   * @required
-   */
-  private String xsdFile;
 
   /**
    * @parameter expression="${project}"
@@ -100,7 +96,7 @@ public class Main
       DOMErrorHandler errorHandler = new ErrorHandler();
       config.setParameter("error-handler", errorHandler);
       config.setParameter("validate", Boolean.TRUE);
-      XSModel model = schemaLoader.loadURI(xsdFile);
+      XSModel model = schemaLoader.loadURI(Resources.getZpattSchema().toString());
 
       RuntimeInstance velocity = new RuntimeInstance();
       Properties initProps = new Properties();

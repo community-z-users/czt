@@ -15,8 +15,8 @@
   <build>
     <resources>
       <resource>
-        <directory>examples</directory>
-        <targetPath>net/sourceforge/czt/zml/examples</targetPath>
+        <directory>src/main/resources</directory>
+        <targetPath>net/sourceforge/czt/zml</targetPath>
       </resource>
     </resources>
   </build>

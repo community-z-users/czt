@@ -29,7 +29,7 @@ import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.base.util.XmlWriterReaderTest;
-import net.sourceforge.czt.zml.Examples;
+import net.sourceforge.czt.zml.Resources;
 
 /**
  * A JUnit test case for testing JaxbXmlReader and JaxbXmlWriter objects.
@@ -74,8 +74,8 @@ public class JaxbXmlWriterReaderTest
   public List<URL> getExampleFiles()
   {
     List<URL> result = new ArrayList();
-    result.add(Examples.getZExample("Sched.xml"));
-    result.add(Examples.getZExample("birthdaybook.xml"));
+    result.add(Resources.getZExample("Sched.xml"));
+    result.add(Resources.getZExample("birthdaybook.xml"));
     return result;
   }
 }

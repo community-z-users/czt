@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser;
 import java.net.URL;
 
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.zml.Resources;
 
 /**
  * A class that converts example names to valid URLs.
@@ -41,7 +42,7 @@ public final class Examples
 
   public static URL getExample(String name)
   {
-    URL result = net.sourceforge.czt.zml.Examples.getZExample(name);
+    URL result = Resources.getZExample(name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
