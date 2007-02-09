@@ -20,22 +20,19 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
-
-import net.sourceforge.czt.util.*;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.MarshalException;
-import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
-import net.sourceforge.czt.typecheck.z.util.*;
 
 /**
  * Utilities for typechecking Z specifications.
@@ -194,13 +191,20 @@ public class TypeCheckUtils
     System.err.println("flags: -s     syntax check only");
     System.err.println("       -d     allow use before declaration");
     System.err.println("       -n     force declarations before use");
+    System.err.println("       -i     use name ids");
     System.err.println("       -p     print the AST");
     System.err.println("       -t     print global type declarations");
+    System.err.println("       -b     print benchmarking times");
   }
 
   protected boolean useBeforeDeclDefault()
   {
     return false;
+  }
+  
+  protected boolean printBenchmarkTimesDefault()
+  {
+    return true;
   }
 
   /** The list of known toolkits.
@@ -262,6 +266,8 @@ public class TypeCheckUtils
     boolean useBeforeDecl = useBeforeDeclDefault();
     boolean printTypes = false;
     boolean printZml = false;
+    boolean printBenchmark = printBenchmarkTimesDefault();
+    boolean useNameIds = false;
 
     for (int i = 0; i < args.length; i++) {
       if (args[i].startsWith("-")) {
@@ -282,6 +288,12 @@ public class TypeCheckUtils
           case 'p':
             printZml = true;
             break;
+          case 'b':
+            printBenchmark = true;
+            break;
+          case 'i':
+            useNameIds = true;
+            break;
           default:
             printUsage();
           }
@@ -291,10 +303,13 @@ public class TypeCheckUtils
         files.add(args[i]);
       }
     }
-
     SectionManager manager = getSectionManager();
     int result = 0;
-    for (String file : files) {
+    SortedMap<String, List<Long>> timesPerFile = new TreeMap<String, List<Long>>();    
+    long zeroTime = System.currentTimeMillis();     
+    long currentTime = zeroTime;
+    long lastTime = zeroTime;
+    for (String file : files) {            
       //parse the file
       Term term = null;
       Markup markup = ParseUtils.getMarkup(file);
@@ -310,11 +325,24 @@ public class TypeCheckUtils
       catch (net.sourceforge.czt.parser.util.ParseException exception) {
         exception.printErrorList();
       }
-
+      /* ex:
+       * 0        40           
+       * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|      
+       * lt = 0
+       * ct = 40
+       * pt = 40 (40 - 0)
+       */            
+      lastTime = currentTime;
+      currentTime = System.currentTimeMillis();
+      long parseTime = currentTime - lastTime;
+      long typeCheckTime = 0;
+      long printTypeTime = 0;
+      long printZmlTime  = 0; 
+     
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
         List<? extends ErrorAnn> errors =
-	  this.lTypecheck(term, manager, useBeforeDecl, false, null);
+	  this.lTypecheck(term, manager, useBeforeDecl, useNameIds, null);
 
         //print any errors
         for (Object next : errors) {
@@ -322,6 +350,17 @@ public class TypeCheckUtils
           System.out.println();
           result = -1;
         }
+        
+        /* ex:
+         * 0        40            100
+         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+         * lt = 40
+         * ct = 100
+         * tt = 60  (100-40)
+         */
+        lastTime = currentTime;
+        currentTime = System.currentTimeMillis();
+        typeCheckTime = currentTime - lastTime;        
 
         if (printTypes) {
           SectTypeEnvAnn sectTypeEnvAnn =
@@ -332,8 +371,18 @@ public class TypeCheckUtils
           else {
             System.err.println("No type information available");
           }
-        }
-      }
+          /* ex:
+           * 0        40            100           120
+           * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+           * lt = 100
+           * ct = 120
+           * ptt= 20 (120-100)  
+           */
+          lastTime = currentTime;
+          currentTime = System.currentTimeMillis();
+          printTypeTime = currentTime - lastTime;
+        }        
+      }            
 
       if (term != null && printZml) {
         try {
@@ -343,16 +392,50 @@ public class TypeCheckUtils
         catch (MarshalException e) {
           e.printStackTrace();
         }
-      }
+        /* ex:
+         * 0        40            100           120          150
+         * |--Parse--|--TypeCheck--|--PrintType--|--PrintZml--|         
+         * lt = 120
+         * ct = 150
+         * pzt= 30 (150-120)  
+         */
+        lastTime = currentTime;
+        currentTime = System.currentTimeMillis();
+        printZmlTime = currentTime - lastTime;
+      }      
+      timesPerFile.put(file, Arrays.asList(parseTime, 
+          typeCheckTime, printTypeTime, printZmlTime, 
+          parseTime+typeCheckTime+printTypeTime+printZmlTime));
+      // Reset the currentTime offset
+      currentTime = System.currentTimeMillis();
+      lastTime = currentTime;
     }
-
+    long totalTime = System.currentTimeMillis() - zeroTime;
+    
+    System.out.println(totalTime + "ms for " + files.size() + " files.");
+    if (printBenchmark) {      
+      for(String file : timesPerFile.keySet()) {
+        List<Long> times = timesPerFile.get(file);
+        System.out.println("\t" + times.get(4) + "ms for " + file + ":");
+        System.out.println("\t\tparser.........." + times.get(0) + "ms");
+        if (!syntaxOnly) {
+          System.out.println("\t\ttypechecker....." + times.get(1) + "ms");
+        }
+        if (printTypes) {
+          System.out.println("\t\tprint types....." + times.get(2) + "ms");
+        }
+        if (printZml) {
+          System.out.println("\t\tprint zml......." + times.get(3) + "ms");          
+        }
+      }             
+    }        
     System.exit(result);
   }
 
   public static void main(String[] args)
     throws IOException, net.sourceforge.czt.base.util.UnmarshalException
-  {
-    TypeCheckUtils utils = new TypeCheckUtils();
+  {    
+    TypeCheckUtils utils = new TypeCheckUtils();    
     utils.run(args);
   }
 
