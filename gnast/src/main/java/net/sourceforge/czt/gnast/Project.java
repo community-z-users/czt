@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005, 2006 Petra Malik
+  Copyright 2003, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -236,8 +236,7 @@ public class Project
                   global_.getBaseDir());
     apgen_ = new Apgen(global_.getDefaultContext(), initProps);
     if (project_.getImportProject() != null) {
-      String projectName = project_.getImportProject();
-      Project blubb = global_.getProject(projectName);
+      Project blubb = project_.getImportProject();
 
       // should be removed in the future
       apgen_.addToContext("ImportPackage", getBasePackage());
@@ -373,13 +372,10 @@ public class Project
     logEntering(methodName);
 
     List<Project> result = new Vector<Project>();
-    String importedProject = project_.getImportProject();
-    if (importedProject != null) {
-      Project project = global_.getProject(importedProject);
-      if (project != null) {
-        result.addAll(project.getImportedProjects());
-        result.add(project);
-      }
+    Project project = project_.getImportProject();
+    if (project != null) {
+      result.addAll(project.getImportedProjects());
+      result.add(project);
     }
     logExiting(methodName, result);
     return result;
@@ -464,5 +460,10 @@ public class Project
   public String getName()
   {
     return project_.getName();
+  }
+
+  public String getTargetNamespace()
+  {
+    return project_.getTargetNamespace();
   }
 }

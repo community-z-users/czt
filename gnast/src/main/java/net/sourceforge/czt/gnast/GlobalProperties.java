@@ -34,7 +34,7 @@ public interface GlobalProperties
    *         <code>namespace</code>;
    *         <code>null</code> if no project is associated with it.
    */
-  String getProjectName(String namespace);
+  Project getProjectName(String namespace);
 
   /**
    * Returns the project with the given name.

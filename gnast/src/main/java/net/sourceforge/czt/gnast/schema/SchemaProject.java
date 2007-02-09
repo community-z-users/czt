@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -105,7 +105,7 @@ public class SchemaProject
   /**
    * The project imported from the XML Schema.
    */
-  private String importProject_;
+  private Project importProject_;
 
   private GlobalProperties global_;
 
@@ -121,7 +121,7 @@ public class SchemaProject
    * A mapping from objects that does not belong to the project
    * to be generated to its corresponding project names.
    */
-  private final Properties objectProjectProps_ = new Properties();
+  private final Map<String,Project> objectProjectProps_ = new HashMap<String,Project>();
 
   /**
    * The target namespace of the schema.
@@ -224,6 +224,11 @@ public class SchemaProject
   {
     return "//xs:schema/xs:annotation/xs:appinfo/"
       + "gnast:schemaBindings/gnast:package";
+  }
+
+  public String getTargetNamespace()
+  {
+    return targetNamespace_;
   }
 
   public String getJaxbGenPackage()
@@ -368,15 +373,6 @@ public class SchemaProject
   }
 
   /**
-   * Returns the name of the project that corresponds to the
-   * given namespace.
-   */
-  protected String getProjectName(String namespace)
-  {
-    return global_.getProjectName(namespace);
-  }
-
-  /**
    * Returns the project that has the given name.
    */
   protected Project getProject(String name)
@@ -404,10 +400,9 @@ public class SchemaProject
     String name = blubb[blubb.length - 1];
     JAstObject result = map_.get(name);
     if (result == null) {
-      String projectName = objectProjectProps_.getProperty(name);
-      if (projectName != null) {
-        Project project = getProject(projectName);
-        if (project != null) result = project.getAstObject(name);
+      Project project = objectProjectProps_.get(name);
+      if (project != null) {
+        result = project.getAstObject(name);
       }
     }
     LOGGER.exiting(CLASS_NAME, methodName, result);
@@ -434,7 +429,7 @@ public class SchemaProject
   /**
    * Return the name of the imported project.
    */
-  public String getImportProject()
+  public Project getImportProject()
   {
     return importProject_;
   }
@@ -560,16 +555,17 @@ public class SchemaProject
         String prefix = blubb[0];
         String obj = blubb[1];
         String namespace = getNamespace(prefix);
-        if (!namespace.equals("http://www.w3.org/2001/XMLSchema")) {
-          String projectName = getProjectName(namespace);
-          if (projectName == null) {
+        if (!namespace.equals("http://www.w3.org/2001/XMLSchema") &&
+            !namespace.equals(targetNamespace_)) {
+          Project project = global_.getProjectName(namespace);
+          if (project == null) {
             String message =
               "Cannot find project that corresponds to prefix " + prefix;
             LOGGER.warning(message);
           }
-          else if (!targetNamespace_.equals(namespace)) {
-            objectProjectProps_.setProperty(obj, projectName);
-            objectProjectProps_.setProperty(obj + "Impl", projectName);
+          else {
+            objectProjectProps_.put(obj, project);
+            objectProjectProps_.put(obj + "Impl", project);
           }
         }
         LOGGER.exiting(CLASS_NAME, methodName, obj);
@@ -588,12 +584,9 @@ public class SchemaProject
    */
   public JObject getObject(String type)
   {
-    String projectName = objectProjectProps_.getProperty(type);
-    if (projectName != null) {
-      Project project = getProject(projectName);
-      if (project != null) {
-        return project.getObject(type);
-      }
+    Project project = objectProjectProps_.get(type);
+    if (project != null) {
+      return project.getObject(type);
     }
     return new JObjectImpl(type);
   }

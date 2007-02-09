@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005, 2006 Petra Malik
+  Copyright 2003, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -70,11 +70,11 @@ public class Gnast implements GlobalProperties
 
   /**
    * <p>A mapping from namespaces (used in schema files)
-   * to project names.</p>
+   * to projects.</p>
    *
    * <p>Should never be <code>null</code>.
    */
-  private Properties namespaces_;
+  private Map<String,Project> namespaces_ = new HashMap<String,Project>();
 
   /**
    * <p>The destination directory
@@ -97,19 +97,6 @@ public class Gnast implements GlobalProperties
    * <p>Should never be <code>null</code>.
    */
   private String baseDir_ = ".";
-
-  /**
-   * <p>The name of the Schema file for which code is generated.
-   * If set to "all" Schema files in @{link namespaces_} are used.</p>
-   *
-   * <p>It can be set by setting property project in the
-   * gnast properties file or by using the <code>-p</code>
-   * command line option.</p>
-   *
-   * @czt.todo Is it useful to allow a list of projects for
-   *           which code is generated?
-   */
-  private String projectName_ = "all";
 
   /**
    * <p>A mapping from project names to the actual projects.</p>
@@ -141,9 +128,7 @@ public class Gnast implements GlobalProperties
     Properties gnastProperties = loadProperties(PROPERTY_FILE);
 
     destDir_ = gnastProperties.getProperty("dest.dir", destDir_);
-    projectName_ = gnastProperties.getProperty("project", projectName_);
     defaultContext_ = removePrefix("vm.", gnastProperties);
-    namespaces_ = withPrefix("http:", gnastProperties);
   }
 
   // ############################################################
@@ -206,15 +191,6 @@ public class Gnast implements GlobalProperties
           return false;
         }
       }
-      else if (arg.equals("-p")) {
-        if (i < args.length) {
-          projectName_ = args[i++];
-        }
-        else {
-          printUsageMessage(arg + " requires a project name");
-          return false;
-        }
-      }
     }
     if (i < args.length) {
       printUsageMessage("Parse error at " + args[i]);
@@ -268,16 +244,11 @@ public class Gnast implements GlobalProperties
     // handleLogging();
 
     try {
-      if ("all".equals(projectName_)) {
-        for (Iterator i = namespaces_.values().iterator(); i.hasNext();) {
-          String projectName = (String) i.next();
-          getLogger().info("Generate classes for " + projectName + " ...");
-          getProject(projectName).generate();
-        }
-      }
-      else {
-        getProject(projectName_).generate();
-      }
+      generate("../zml/src/main/resources/xsd/Z.xsd");
+      generate("../zml/src/main/resources/xsd/ZPattern.xsd");
+      generate("../zml/src/main/resources/xsd/Object-Z.xsd");
+      generate("../zml/src/main/resources/xsd/TCOZ.xsd");
+      generate("../zml/src/main/resources/xsd/Circus.xsd");
     }
     catch (RuntimeException e) {
       throw e;
@@ -293,11 +264,19 @@ public class Gnast implements GlobalProperties
     }
   }
 
+  private void generate(String fileName)
+    throws Exception
+  {
+    Project project = getProject(fileName);
+    namespaces_.put(project.getTargetNamespace(), project);
+    project.generate();
+  }
+
   // ################ INTERFACE GlobalProperties ####################
 
-  public String getProjectName(String namespace)
+  public Project getProjectName(String namespace)
   {
-    return namespaces_.getProperty(namespace);
+    return namespaces_.get(namespace);
   }
 
   public Project getProject(String name)
