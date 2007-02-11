@@ -20,6 +20,7 @@
 package net.sourceforge.czt.gnast;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -71,35 +72,35 @@ public class Project
   /**
    * Creates a new project from the given schema file.
    *
-   * @param filename the name of the schema file.
+   * @param url the location of the schema file.
    * @param global global settings used by all projects.
-   * @throws NullPointerException if <code>filename</code> is
+   * @throws NullPointerException if <code>url</code> is
    *         <code>null</code>.
    */
-  public Project(String filename, GlobalProperties global)
+  public Project(URL url, GlobalProperties global)
   {
-    logFine("Reading schema " + filename);
-    if (filename == null) throw new NullPointerException();
+    logFine("Reading schema " + url);
+    if (url == null) throw new NullPointerException();
     global_ = global;
 
     mapping_ = Gnast.loadProperties(mappingFile_);
     try {
-      project_ = new SchemaProject(filename, mapping_, global_);
+      project_ = new SchemaProject(url, mapping_, global_);
     }
     catch (javax.xml.parsers.ParserConfigurationException exception) {
-      logSevere("Parse error while parsing " + filename);
+      logSevere("Parse error while parsing " + url);
       logSevere(exception.getMessage());
     }
     catch (org.xml.sax.SAXException exception) {
-      logSevere("Sax error while parsing " + filename);
+      logSevere("Sax error while parsing " + url);
       logSevere(exception.getMessage());
     }
     catch (java.io.IOException exception) {
-      logSevere("IO error while parsing " + filename);
+      logSevere("IO error while parsing " + url);
       logSevere(exception.getMessage());
     }
     catch (XSDException exception) {
-      logSevere("Error while parsing " + filename);
+      logSevere("Error while parsing " + url);
       logSevere(exception.getMessage());
     }
   }

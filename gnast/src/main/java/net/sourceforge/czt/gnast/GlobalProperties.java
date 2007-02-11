@@ -37,15 +37,6 @@ public interface GlobalProperties
   Project getProjectName(String namespace);
 
   /**
-   * Returns the project with the given name.
-   *
-   * @param name the name of the project to be generated.
-   * @return a project with the given name, or <code>null</code>
-   *         if there is no project with that name.
-   */
-  Project getProject(String name);
-
-  /**
    * Properties that should be added to the velocity context.
    *
    * @return should never be <code>null</code>.

@@ -34,6 +34,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
 
+import net.sourceforge.czt.zml.Resources;
+
 /**
  * <p>The GnAST command line user interface.</p>
  *
@@ -244,11 +246,11 @@ public class Gnast implements GlobalProperties
     // handleLogging();
 
     try {
-      generate("../zml/src/main/resources/xsd/Z.xsd");
-      generate("../zml/src/main/resources/xsd/ZPattern.xsd");
-      generate("../zml/src/main/resources/xsd/Object-Z.xsd");
-      generate("../zml/src/main/resources/xsd/TCOZ.xsd");
-      generate("../zml/src/main/resources/xsd/Circus.xsd");
+      generate(Resources.getZSchema());
+      generate(Resources.getOzSchema());
+      generate(Resources.getTcozSchema());
+      generate(Resources.getCircusSchema());
+      generate(Resources.getZpattSchema());
     }
     catch (RuntimeException e) {
       throw e;
@@ -264,10 +266,10 @@ public class Gnast implements GlobalProperties
     }
   }
 
-  private void generate(String fileName)
+  private void generate(URL url)
     throws Exception
   {
-    Project project = getProject(fileName);
+    Project project = getProject(url);
     namespaces_.put(project.getTargetNamespace(), project);
     project.generate();
   }
@@ -279,11 +281,12 @@ public class Gnast implements GlobalProperties
     return namespaces_.get(namespace);
   }
 
-  public Project getProject(String name)
+  public Project getProject(URL url)
   {
+    String name = url.toString();
     Project result = (Project) projects_.get(name);
     if (result == null) {
-      result = new Project(getBaseDir() + "/" + name, this);
+      result = new Project(url, this);
       projects_.put(name, result);
     }
     return result;

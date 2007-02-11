@@ -30,6 +30,7 @@ Requirements with respect to the XML schema:
 package net.sourceforge.czt.gnast.schema;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
@@ -139,19 +140,19 @@ public class SchemaProject
   // ############################################################
 
   /**
-   * @param schemaFilename the XML Schema file name.
+   * @param url the XML Schema file location.
    * @param mapping the mapping information.
    */
-  public SchemaProject(String schemaFilename,
+  public SchemaProject(URL url,
                        Properties mapping,
                        GlobalProperties globalProperties)
     throws ParserConfigurationException,
            SAXException, IOException, XSDException
   {
-    nsPrefixProps_ = collectNamespacePrefixes(schemaFilename);
+    nsPrefixProps_ = collectNamespacePrefixes(url);
     global_ = globalProperties;
     if (mapping != null) bindings_ = mapping;
-    InputSource in = new InputSource(new FileInputStream(schemaFilename));
+    InputSource in = new InputSource(url.openStream());
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
     document_ = dfactory.newDocumentBuilder().parse(in);
@@ -373,14 +374,6 @@ public class SchemaProject
   }
 
   /**
-   * Returns the project that has the given name.
-   */
-  protected Project getProject(String name)
-  {
-    return global_.getProject(name);
-  }
-
-  /**
    * Returns the GnastClass with the given name.
    *
    * @param className the name of the GnastClass to be retrieved.
@@ -472,61 +465,35 @@ public class SchemaProject
    * <p>If the same prefix is used several times, only the last
    * occurrence is contained in the map.</p>
    *
-   * @param filename the name of the (XML) file to be searched.
+   * @param url the location of the (XML) file to be searched.
    * @return a map from string representing a namespace prefix
    *         to string representing its associated namespace.
    */
-  public static Properties collectNamespacePrefixes(String filename)
+  public static Properties collectNamespacePrefixes(URL url)
+    throws IOException
   {
-    final String methodName = "collectNamespacePrefixes";
-    LOGGER.entering(CLASS_NAME, methodName, filename);
-
     final Properties result = new Properties();
     Pattern p =
       Pattern.compile("xmlns:[a-zA-Z]+[\\s]*\\=\\s*\\\"[^\\\"]*\\\"");
-    CharSequence seq;
-    try {
-      seq = file2CharSeq(filename);
-    }
-    catch (IOException e) {
-      LOGGER.warning("Cannot read " + filename);
-      return null;
-    }
-    Matcher m = p.matcher(seq);
-    while (m.find()) {
-      String s = m.group();
-      String[] blubb = s.split("\"");
-      Pattern p2 = Pattern.compile("xmlns:[a-zA-Z]+[^a-zA-Z]");
-      Matcher m2 = p2.matcher(blubb[0]);
-      if (m2.find()) {
-        String string = m2.group();
-        final int l = "xmlns:".length();
-        result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+    String seq = reader.readLine();
+    while (seq != null) {
+      Matcher m = p.matcher(seq);
+      while (m.find()) {
+        String s = m.group();
+        String[] blubb = s.split("\"");
+        Pattern p2 = Pattern.compile("xmlns:[a-zA-Z]+[^a-zA-Z]");
+        Matcher m2 = p2.matcher(blubb[0]);
+        if (m2.find()) {
+          String string = m2.group();
+          final int l = "xmlns:".length();
+          result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
+        }
       }
+      seq = reader.readLine();
     }
-    LOGGER.exiting(CLASS_NAME, methodName, result);
+    reader.close();
     return result;
-  }
-
-  /**
-   * <p>Converts the contents of a file into a CharSequence
-   * suitable for use by the regex package.</p>
-   *
-   * @param filename the name of the file to be converted.
-   * @return a <code>CharSequence</code> of the contents of
-   *         the given file.
-   */
-  public static CharSequence file2CharSeq(String filename)
-    throws IOException
-  {
-    FileInputStream fis = new FileInputStream(filename);
-    FileChannel fc = fis.getChannel();
-
-    // Create a read-only CharBuffer on the file
-    ByteBuffer bbuf =
-      fc.map(FileChannel.MapMode.READ_ONLY, 0, (int) fc.size());
-    CharBuffer cbuf = Charset.forName("8859_1").newDecoder().decode(bbuf);
-    return cbuf;
   }
 
   /**
