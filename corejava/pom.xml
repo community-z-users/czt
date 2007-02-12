@@ -47,8 +47,49 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <property name="corejava.build.dir" location="target/build"/>
-                <ant dir="." target="build-charclasses"/>
+                <property name="build.src" location="target/build/src"/>
+                <property name="xml.dir" location="../devtools"/>
+                <property name="src.xsl" location="xsl"/>
+                <xslt
+                  in="${xml.dir}/zchar.xml"
+                  out="${build.src}/net/sourceforge/czt/z/util/ZChar.java"
+                  style="${src.xsl}/zchar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/zchar.xml"
+                  out="${build.src}/net/sourceforge/czt/z/util/ZString.java"
+                  style="${src.xsl}/zchar2stringclass.xsl"/>
+                <xslt
+                  in="${xml.dir}/ozchar.xml"
+                  out="${build.src}/net/sourceforge/czt/oz/util/OzChar.java"
+                  style="${src.xsl}/ozchar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/ozchar.xml"
+                  out="${build.src}/net/sourceforge/czt/oz/util/OzString.java"
+                  style="${src.xsl}/ozchar2stringclass.xsl"/>
+                <xslt
+                  in="${xml.dir}/tcozchar.xml"
+                  out="${build.src}/net/sourceforge/czt/tcoz/util/TcozChar.java"
+                  style="${src.xsl}/tcozchar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/tcozchar.xml"
+                  out="${build.src}/net/sourceforge/czt/tcoz/util/TcozString.java"
+                  style="${src.xsl}/tcozchar2stringclass.xsl"/>
+                <xslt
+                  in="${xml.dir}/circuschar.xml"
+                  out="${build.src}/net/sourceforge/czt/circus/util/CircusChar.java"
+                  style="${src.xsl}/circuschar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/circuschar.xml"
+                  out="${build.src}/net/sourceforge/czt/circus/util/CircusString.java"
+                  style="${src.xsl}/circuschar2stringclass.xsl"/>
+                <xslt
+                  in="${xml.dir}/zpattchar.xml"
+                  out="${build.src}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
+                  style="${src.xsl}/zpattchar2class.xsl"/>
+                <xslt
+                  in="${xml.dir}/zpattchar.xml"
+                  out="${build.src}/net/sourceforge/czt/zpatt/util/ZPattString.java"
+                  style="${src.xsl}/zpattchar2stringclass.xsl"/>
               </tasks>
               <sourceRoot>${basedir}/target/build/src</sourceRoot>
             </configuration>
