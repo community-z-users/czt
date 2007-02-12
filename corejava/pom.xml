@@ -48,7 +48,7 @@
             <configuration>
               <tasks>
                 <property name="build.src" location="target/build/src"/>
-                <property name="xml.dir" location="../devtools"/>
+                <property name="xml.dir" location="src/main/xml"/>
                 <property name="src.xsl" location="xsl"/>
                 <xslt
                   in="${xml.dir}/zchar.xml"
