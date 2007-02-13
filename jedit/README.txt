@@ -31,11 +31,6 @@ Note that not all of these may be included in a given release.
 
    zlive/          A jEdit plugin for the ZLive animator.
 
-   z.cliplibrary   An alternative way of inserting Z characters, by using
-                   the Clipper plugin.
-
-   z.insert.xml    Yet another alternative way of inserting Z characters,
-                   using the XInsert plugin.
 
 Requirements
 ************
@@ -99,23 +94,6 @@ To install the ZLive plugin you need to:
   3. copy ZLivePlugin.jar to SETTINGS_DIR/jars
   3. restart jEdit to load the new plugin
 
-
-c) Installing Zed in Clipper
-----------------------------
-  1. install the Clipper plugin
-  2. create the directory SETTINGS_DIR/clipper
-  3. copy z.cliplibrary to  SETTINGS_DIR/clipper
-  4. Use Utilities/Global-Options/Plugins/Clipper and
-     set the Clipper directory to SETTINGS_DIR/clipper
-  5. restart jEdit to reload the new clipper library
-
-
-d) Installing Zed in XInsert
-----------------------------
-  1. install the XInsert plugin
-  2. copy the z.insert.xml file into
-     SETTINGS_DIR/xinsert (this directory can be customized
-     -- see the XInsert documentation)
 
 What next?
 **********
