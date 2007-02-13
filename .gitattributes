@@ -350,6 +350,7 @@ web/cztlogo/cztlogo.xcf -text
 web/cztlogo/czttitle.xcf -text
 web/cztlogo/czttitle3.xcf -text
 web/cztlogo/wordart.png -text
+web/src/content/zml/Z_2_1.xsd -text
 web/src/resources/images/built-with-forrest-button.png -text
 web/src/resources/images/cztlogo.jpg -text
 web/src/resources/images/jedit_screen.png -text

@@ -60,8 +60,21 @@
       <tr>
         <th>Version</th>
         <th>Location</th>
-        <th>CVS Rev#</th>
+        <th>SVN/CVS Rev#</th>
         <th>Changes/Comments</th>
+      </tr>
+      <tr>
+        <td>2.1</td>
+        <td><link href="Z_2_1.xsd">Z_2_1.xsd</link></td>
+        <td>5093</td>
+        <td>
+          Removed XML Schema elements and types DeclName, ZDeclName, RefName,
+          and ZRefName and introduce new XML Schema elements and types Name and
+          ZName instead since the distinction between DeclName and RefName does
+          not seem to be relevant and makes handling of IDs more difficult.
+          Name and ZName or now used in places where either a DeclName or a RefName
+          has been used.
+        </td>
       </tr>
       <tr>
         <td>2.0</td>
