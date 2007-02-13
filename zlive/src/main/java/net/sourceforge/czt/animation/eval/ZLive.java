@@ -18,12 +18,15 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.Properties;
 
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
@@ -58,10 +61,6 @@ public class ZLive
 
   private static final Logger LOG =
     Logger.getLogger("net.sourceforge.czt.animation.eval");
-
-  /** The name and current version of ZLive */
-  public static final String banner =
-    "ZLive version 0.5, (C) 2006, Mark Utting";
 
   private Factory factory_;
 
@@ -497,9 +496,27 @@ public class ZLive
     return printTerm(term, getMarkup());
   }
 
+  /**
+   * Returns the name and current version of ZLive
+   */
+  public static String getBanner()
+  {
+    String version = "unknown";
+    try {
+      Properties props = new Properties();
+      URL url = ZLive.class.getResource("zlive.properties");
+      if (url != null) {
+        props.load(url.openStream());
+        version = (String) props.get("version");
+      }
+    }
+    catch (IOException e) {}
+    return "ZLive version " + version + ", (C) 2006, Mark Utting";
+  }
+
   public static void main(String args[])
   {
-    System.out.println(banner);
+    System.out.println(getBanner());
     System.out.println("To use ZLive from the command line, run TextUI.");
   }
 }

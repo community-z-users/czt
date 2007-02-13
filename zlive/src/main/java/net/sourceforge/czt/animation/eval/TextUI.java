@@ -100,7 +100,7 @@ public class TextUI {
   {
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     PrintWriter output = new PrintWriter(System.out, true); // with autoflush
-    output.println(ZLive.banner);
+    output.println(ZLive.getBanner());
 
     // save log messages into zlive.log, using our human-readable format
     if (args.length > 0 && args[0].equals("-logrules")) {
@@ -171,7 +171,7 @@ public class TextUI {
           output_.println("Term = "+zlive_.printTerm(term));
       }
       else if (cmd.equals("ver") || cmd.equals("version")) {
-        output_.println(ZLive.banner);
+        output_.println(ZLive.getBanner());
       } 
       else if (cmd.equals("why")) {
         zlive_.printCode(output_);
