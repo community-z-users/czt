@@ -42,7 +42,7 @@ public class ZLiveConsole
 
   public void printInfoMessage(Output output)
   {
-    output.print(null, net.sourceforge.czt.animation.eval.ZLive.banner);
+    output.print(null, net.sourceforge.czt.animation.eval.ZLive.getBanner());
   }
 
   public void printPrompt(Console console, Output output)
