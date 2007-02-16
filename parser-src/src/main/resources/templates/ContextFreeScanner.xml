@@ -251,8 +251,7 @@ ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
 GENCHAR = "\u2550" /* box drawings double horizontal */
-ENDCHAR = "\u2029" /* paragraph separator */
-        | "\u2514" /* box drawings light up and right */
+ENDCHAR = "\u2514" /* box drawings light up and right */
 <add:zpatt>
 JOKERCHAR = "\u2605"
 RULECHAR = "\u25A0"
