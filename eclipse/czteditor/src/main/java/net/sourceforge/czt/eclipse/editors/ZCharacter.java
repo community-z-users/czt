@@ -126,13 +126,11 @@ public class ZCharacter
   /**
    * mathmatical left angle bracket.
    */
-  //  public static char LANGLE = '\u3008';
   public static final char LANGLE = ZString.LANGLE.charAt(0);
 
   /**
    * mathmatical right angle bracket.
    */
-  //  public static char RANGLE = '\u3009';
   public static final char RANGLE = ZString.RANGLE.charAt(0);
 
   public static final String[] BRACKETS_LATEX = {"(", ")", "[", "]", "{", "}",
