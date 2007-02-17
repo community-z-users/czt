@@ -73,57 +73,6 @@ public class <class/>
     parser_ = new Parser(scanner, source, sectInfo);
   }
 
-  /**
-   * Converts unicode to zml.
-   */
-  public static void main(String[] args)
-  {
-    String usage = "Usage: <package/>.<class/>"
-      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
-    try {
-      String filename = null;
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      Reader in = new InputStreamReader(System.in);
-      OutputStream out = System.out;
-      for (int i = 0; i &lt; args.length; i++) {
-        if ("-in".equals(args[i])) {
-          if (i &lt; args.length) {
-            filename = args[++i];
-            in = new InputStreamReader(new FileInputStream(filename));
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else if ("-out".equals(args[i])) {
-          if (i &lt; args.length) {
-            out = new FileOutputStream(args[++i]);
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else {
-          System.err.println(usage);
-          return;
-        }
-      }
-      final Source source = new FileSource(filename);
-      source.setMarkup(Markup.UNICODE);
-      <class/> parser =
-        new <class/>(source, new SectionManager(), new Properties());
-      Term term = parser.parse();
-      AstValidator validator = new JaxbValidator();
-      if (! validator.validate(term)) {
-        String message = "AST is not valid.";
-        logger.warning(message);
-      }
-      XmlWriter xmlWriter = new JaxbXmlWriter();
-      xmlWriter.write(term, out);
-      out.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public Term parse()
     throws ParseException
   {

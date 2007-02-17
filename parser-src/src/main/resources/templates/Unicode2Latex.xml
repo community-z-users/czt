@@ -329,7 +329,8 @@ parser code {:
 
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
-  protected String sectionName_ = null;
+  protected String sectionName_;
+
   /**
    * Used to scan the unicode provided within markup directives.
    * Whenever a latex markup directives is to printed, a new

@@ -94,22 +94,6 @@ import net.sourceforge.czt.session.Source;
   }
 
   /**
-   * Lexes a given file.
-   */
-  public static void main(String argv[]) {    
-    try {
-      InputStream stream = new FileInputStream(argv[0]);
-      InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-
-      <class/> scanner = new <class/>(reader);
-      DebugUtils.scan(scanner, Sym.class);
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
    * Creates a new java_cup.runtime.Symbol with line and column
    * information about the current token.
    * The token will have no value.

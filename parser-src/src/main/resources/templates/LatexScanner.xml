@@ -79,21 +79,5 @@ public class <class/>
     Symbol symbol = unicodeLexer_.next_token();
     return symbol;
   }
-
-  /**
-   * Lexes a given file.
-   */
-  public static void main(String argv[]) {    
-    try {
-      Source source = new FileSource(argv[0]);
-      source.setMarkup(Markup.LATEX);
-      <class/> scanner = new <class/>(source,
-                                      new SectionManager(),
-                                      new Properties());
-      DebugUtils.scan(scanner, Sym.class);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 }
 </scanner>
