@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
-import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.parser.util.LocToken;
 import net.sourceforge.czt.print.z.UnicodeToLatex;
 import net.sourceforge.czt.session.*;
 
@@ -50,13 +50,13 @@ public class LatexMarkupConverterTest
     tmpUnicodeFile.deleteOnExit();
     File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
     tmpLatexFile.deleteOnExit();
-    String uniFile = tmpUnicodeFile.getAbsolutePath();
-    String latexFile = tmpLatexFile.getAbsolutePath();
+    final String uniFile = tmpUnicodeFile.getAbsolutePath();
+    final String latexFile = tmpLatexFile.getAbsolutePath();
     if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
       final Source source = new UrlSource(url);
       final Writer writer =
         new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
-      LatexToUnicode.convert(source, writer, new Properties());
+      latexToUnicode(source, writer);
       writer.close();
       String[] args2 = { "-in", uniFile, "-out", latexFile };
       UnicodeToLatex.main(args2);
@@ -70,11 +70,22 @@ public class LatexMarkupConverterTest
         new OutputStreamWriter(new FileOutputStream(latexFile));
       UnicodeToLatex.run(in, writer);
       writer.close();
-      String[] args2 = { "-in", latexFile, "-out", uniFile };
-      LatexToUnicode.main(args2);
+      writer =
+        new OutputStreamWriter(new FileOutputStream(uniFile), "UTF-8");
+      latexToUnicode(new FileSource(latexFile), writer);
       return ParseUtils.parse(new FileSource(tmpLatexFile.getAbsolutePath()),
                               manager);
     }
     return ParseUtils.parse(new UrlSource(url), manager);
+  }
+
+  private void latexToUnicode(Source source, Writer writer)
+    throws Exception
+  {
+    LatexToUnicode lexer = new LatexToUnicode(source, new SectionManager(), new Properties());
+    LocToken s = null;
+    while ( (s = lexer.next()) != null) {
+      if (s.spelling() != null) writer.write(s.spelling());
+    }
   }
 }
