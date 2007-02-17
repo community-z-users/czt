@@ -243,14 +243,6 @@
           jEdit's plugin manager before installing the CZT plugins.
         </p>
         <p>
-          If you plan to view or edit Z specifications in Unicode
-          markup, you should also install the
-          <link href="ext:whitespace">Whitespace</link>
-          plugin and enable the "Show other whitespaces" option (use
-          the "Plugins / WhiteSpaces" menu), to ensure that you can
-          see the ENDZED character.
-        </p>
-        <p>
           Copy the plugin's jar file(s) you want to have installed from
           <code>&lt;CZT_HOME&gt;/jedit/bin</code> into
           <code>&lt;SETTINGS_DIR&gt;/jars/</code>.
@@ -300,9 +292,6 @@
           the "Sect", "::=" and "Sch" buttons in the
           ZCharMap plugin.  These should insert a section header, then
           a free type definition, then a schema definition.
-          If you cannot see the ENDZED characters (the little red diamonds),
-          then make sure you have installed the "WhiteSpace" plugin and
-          turned on the "Show other whitespace" option.
         </p>
         <p>
           The ZLivePlugin can be accessed via the Console dockable window.
