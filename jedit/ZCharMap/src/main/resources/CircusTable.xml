@@ -39,7 +39,7 @@
      <item name="&#x22A2;?"
            description="Conjecture"
            unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
-           latex="\begin{zed}&#xA;  \vdash? PRED&#xA;\end{zed}&#xA;"/>
+           latex="\begin{theorem}{NAME}&#xA;  \vdash? PRED&#xA;\end{theorem}&#xA;"/>
   </row>
   <row heading="Predicates">
     <item name="&#x2200;"
