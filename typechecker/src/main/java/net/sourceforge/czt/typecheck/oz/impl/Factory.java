@@ -120,9 +120,11 @@ public class Factory
 					 VisibilityList visibilityList,
 					 List<? extends Name> primary)
   {
+    ClassRefList superClasses = ozFactory_.createClassRefList();
+    superClasses.addAll(superClass);
     ClassRefType result =
-      ozFactory_.createClassRefType(classes, state, attribute, operation,
-				    thisClass, superClass, visibilityList, primary);
+      ozFactory_.createClassRefType(classes, state, attribute, operation, thisClass,
+                                    superClasses, visibilityList, primary);
     return result;
   }
 

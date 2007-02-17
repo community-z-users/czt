@@ -442,7 +442,12 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element name="SuperClass" type="OZ:ClassRef" minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="OZ:ClassRefList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="SuperClass"/>
+              </xs:appinfo>
+            </xs:annotation>
           </xs:element>
           <xs:element ref="OZ:VisibilityList" minOccurs="0"/>
           <xs:element ref="Z:Name" minOccurs="0" maxOccurs="unbounded">
