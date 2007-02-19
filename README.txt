@@ -29,19 +29,6 @@ web/         Sources to the czt.sourceforge.net web site
 zlive/       Z animator
 zml/         XML schemas for Z and several Z extensions, with examples
 
-Here are the dependencies between these projects:
-jaxb         uses:  util
-corejava     uses:  jaxb
-parser       uses:  session, devtools (just devtools/cup_tum/build/src folder)
-typechecker  uses:  parser
-rules        uses:  typechecker
-zlive        uses:  typechecker, modeljunit
-gaffe        uses:  zlive
-jedit        uses:  ???
-eclipse      uses:  ???
-translators/z2b uses:  session, gaffe (just the generator part)
-translators/zeves uses: ???
-
 See the README file in each directory for more details on each sub-project.
 
 See the CZT web site for general details about CZT:
