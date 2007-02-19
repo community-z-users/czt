@@ -104,8 +104,14 @@ public class ${class.ImplName}
 
   public String toString()
   {
-    if (factory_ != null) {
-      return factory_.toString(this);
+    try {
+      if (factory_ != null) {
+        final String result = factory_.toString(this);
+        if (result != null) return result;
+      }
+    }
+    catch (Exception e) {
+      e.printStackTrace();
     }
     return super.toString();
   }
