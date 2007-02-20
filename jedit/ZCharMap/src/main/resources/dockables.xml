@@ -3,7 +3,7 @@
 <!DOCTYPE DOCKABLES SYSTEM "dockables.dtd">
 
 <DOCKABLES>
-  <DOCKABLE NAME="czt">
+  <DOCKABLE NAME="zcharmap">
     new ZCharMap(view);
   </DOCKABLE>
 </DOCKABLES>
