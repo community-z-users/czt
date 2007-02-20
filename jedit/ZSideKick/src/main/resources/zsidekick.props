@@ -4,7 +4,7 @@
 plugin.zsidekick.ZSideKickPlugin.activate=defer
 plugin.zsidekick.ZSideKickPlugin.name=ZSideKick
 plugin.zsidekick.ZSideKickPlugin.author=Petra Malik
-plugin.zsidekick.ZSideKickPlugin.version=1.0
+plugin.zsidekick.ZSideKickPlugin.version=${project.version}
 plugin.zsidekick.ZSideKickPlugin.jars=czt.jar
 plugin.zsidekick.ZSideKickPlugin.docs=zsidekick.html
 
