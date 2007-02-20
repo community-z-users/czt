@@ -39,7 +39,7 @@ Requirements
   http://www.jedit.org
 
 The plugins and extension provided in this directory
-have been tested using jEdit version 4.2final and 4.3pre4.
+have been tested using jEdit version 4.2final and 4.3pre9.
 
 Installation
 ************
