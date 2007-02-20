@@ -19,8 +19,8 @@
   </properties>
   <modules>
     <module>zlive</module>
-    <module>ZSideKick</module>
-    <module>ZCharMap</module>
+    <module>zsidekick</module>
+    <module>zcharmap</module>
   </modules>
   <dependencyManagement>
     <dependencies>

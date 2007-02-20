@@ -23,10 +23,10 @@ Note that not all of these may be included in a given release.
 
    catalog         An example catalog file.
 
-   ZCharMap/       A jEdit plugin that displays special Z characters
+   zcharmap/       A jEdit plugin that displays special Z characters
                    and allows you to click on them to insert them.
 
-   ZSideKick/      A jEdit plugin for parsing and typechecking
+   zsidekick/      A jEdit plugin for parsing and typechecking
                    Z specifications.
 
    zlive/          A jEdit plugin for the ZLive animator.
