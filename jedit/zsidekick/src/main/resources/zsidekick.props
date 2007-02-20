@@ -20,7 +20,7 @@ plugin.zsidekick.ZSideKickPlugin.menu=zsidekick.toLatex \
                                       zsidekick.toUnicode \
                                       zsidekick.toXml \
                                       zsidekick.nextWff \
-#                                      zsidekick.gotoDefinition \
+                                      zsidekick.gotoDefinition \
                                       zsidekick.insertTypeForCurrentWff \
                                       zsidekick.unfoldCurrentWff \
                                       zsidekick.rewriteCurrentWff \
