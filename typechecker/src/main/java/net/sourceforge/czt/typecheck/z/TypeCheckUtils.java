@@ -26,11 +26,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.MarshalException;
+import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.base.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.typecheck.z.impl.Factory;
 
@@ -247,8 +247,8 @@ public class TypeCheckUtils
     return sectionManager;
   }
   
-  /** @return a Jaxb writer for Z. */
-  protected JaxbXmlWriter getJaxbXmlWriter()
+  /** @return an XML writer for Z. */
+  protected XmlWriter getXmlWriter()
   {
     return new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
   }
@@ -386,7 +386,7 @@ public class TypeCheckUtils
 
       if (term != null && printZml) {
         try {
-          JaxbXmlWriter writer = getJaxbXmlWriter();
+          XmlWriter writer = getXmlWriter();
           writer.write(term, System.err);
         }
         catch (MarshalException e) {
