@@ -4,12 +4,12 @@
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.activate=defer
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.name=ZLive
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.author=Petra Malik
-plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.version=1.0
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.version=${project.version}
 
 # Plugin dependency properties
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.0=jdk 1.5
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.1=jedit 04.00.04.00
-plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.2=plugin CommunityZToolsPlugin 1.0
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.2=plugin zsidekick.ZSideKickPlugin ${project.version}
 
 # Plugin menu item properties
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.menu=zlive.eval-current-line
