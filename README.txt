@@ -37,32 +37,6 @@ See the CZT web site for general details about CZT:
 
 See INSTALL.txt on how to compile CZT.
 
-Licensing
-*********
-
-Most of the CZT software is licensed under the GNU General Public
-License, which can be found in the file COPYING in this directory.
-
-The "CZT Sans" font is derived from the Bitstream Vera Sans
-font (about 120 Z characters were added), and is distributed
-under the original Bitstream Vera Copyright, as follows.
-See http://www.gnome.org/fonts for details.
-
-JDSL, which is part of modeljunit, is licensed under a BSD style
-license; see file LICENSE.jdsl in this directory for more information.
-
-3rd party licenses:
-
-Java CUP is licensed under the Standard ML of New Jersey.
-See LICENSE.cup in this directory for more information.
-
-JAXB is part of JWSDP.  Its license can be found at
-http://java.sun.com/webservices/docs/1.5/LICENSE
-
-JFlex is licensed under the GNU General Public License.
-
-JUnit is licensed under the Common Public License
-http://www.opensource.org/licenses/cpl.php
 
 Running CZT
 ***********
