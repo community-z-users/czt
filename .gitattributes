@@ -224,7 +224,6 @@ gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
-java_cup/build.xml -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/ErrorManager.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Lexer.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/Main.java -text
