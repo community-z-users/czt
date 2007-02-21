@@ -2614,8 +2614,6 @@ unboxedParagraphList ::=
 <add:oz>
            resetIsOpExpr();
 </add:oz>        
-          parser.report_error(ZParseMessage.MSG_BOXED_PARAGRAPH_ERROR, 
-            new Object[0], getLocation(eleft, eright));
         :}
         ;
 
