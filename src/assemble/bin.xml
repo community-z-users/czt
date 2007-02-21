@@ -11,6 +11,8 @@
     <fileSet>
       <includes>
         <include>COPYING.txt</include>
+        <include>NOTICE.txt</include>
+        <include>LICENSE*</include>
       </includes>
     </fileSet>
     <fileSet>

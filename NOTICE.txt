@@ -3,21 +3,22 @@ License, which can be found in the file COPYING.txt in this directory.
 
 The "CZT Sans" font is derived from the Bitstream Vera Sans
 font (about 120 Z characters were added), and is distributed
-under the original Bitstream Vera Copyright.  See
+under the original Bitstream Vera Copyright.  See LICENSE.txt
+in the fonts directory and
 http://www.gnome.org/fonts
 for details.
-
-JDSL, which is part of modeljunit, is licensed under a BSD style
-license; see file LICENSE.jdsl for more information.
-
-Java CUP, which is used for the CZT parser, is licensed under the
-Standard ML of New Jersey.  See LICENSE.cup for more information.
 
 JFlex, which is used for the CZT lexer, is licensed under the GNU
 General Public License (see COPYING.txt).
 
+Java CUP, which is used for the CZT parser, is licensed under the
+Standard ML of New Jersey.  See LICENSE_CUP.txt for more information.
+
 JAXB is part of JWSDP.  Its license can be found at
 http://java.sun.com/webservices/docs/1.5/LICENSE
+
+JDSL, which is part of modeljunit, is licensed under a BSD style
+license; see file LICENSE_JDSL.txt for more information.
 
 JUnit, which is used for testing, is licensed under the
 Common Public License, see
