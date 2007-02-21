@@ -1,8 +1,5 @@
 <project name="ModelJUnit" default="all">
-  <property name="czt.home" location=".."/>  
-  <property file="${czt.home}/czt.properties"/>
-  <property name="modeljunit.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="jar.file" location="${modeljunit.jar.dir}/${modeljunit.jar.file}"/>
+  <property name="jar.file" location="modeljunit.jar"/>
   <property name="modeljunit.src.dir" location="src/main/java"/>
   <property name="modeljunit.build.dir" location="build"/>
   <property name="modeljunit.api.dir" location="doc/api"/>
@@ -26,7 +23,6 @@
 
   <target name="install" depends="compile"
           description="build and install the jar files">
-    <mkdir dir="${modeljunit.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${modeljunit.build.dir}"/>
     </jar>
@@ -43,7 +39,6 @@
       deprecation="yes"
       optimize="${optimize}">
       <classpath refid="classpath"/>
-      <compilerarg value="${compilerarg}"/>
     </javac>
   </target>
 
