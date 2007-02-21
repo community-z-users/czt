@@ -1,6 +1,5 @@
 * text=auto !eol
 /COPYING.txt -text
-bin/bsh/parseCircus.bsh -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
@@ -127,6 +126,7 @@ eclipse/czthelp/toc.xml -text
 eclipse/czthelp/topics_Concepts.xml -text
 eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
+examples/bsh/parseCircus.bsh -text
 fonts/CZTSans.ttf -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
