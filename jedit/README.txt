@@ -13,25 +13,6 @@ http://sourceforge.net/projects/czt/
 
 NOTE: The jEdit subproject is experimental, and highly subject to change!
 
-Here is a short description of the directories and files contained.
-Note that not all of these may be included in a given release.
-   Zchars.utf8     A list of all Z unicode characters (UTF8).
-   Zchars.utf16    A list of all Z unicode characters (UTF16).
-                   (This is useful to see which chars your font supports)
-
-   zed.xml         The beginnings of a jEdit syntax-colouring mode for Z.
-
-   catalog         An example catalog file.
-
-   zcharmap/       A jEdit plugin that displays special Z characters
-                   and allows you to click on them to insert them.
-
-   zsidekick/      A jEdit plugin for parsing and typechecking
-                   Z specifications.
-
-   zlive/          A jEdit plugin for the ZLive animator.
-
-
 Requirements
 ************
 
@@ -44,21 +25,21 @@ have been tested using jEdit version 4.2final and 4.3pre9.
 Installation
 ************
 
-In the following, it is assumed that SETTINGS_DIR is the
-jEdit settings directory (this might be the global settings
-directory as well as the user specific settings directory).
-The location of this directory is system-specific (see
-jEdit User's Guide; Customizing jEdit). The user specific
-settings directory for jedit on a unix machine is usually
-~/.jedit
+In the following, it is assumed that jEdit has already been installed
+and JEDIT_SETTINGS_DIR is the jEdit settings directory (this might be
+the global settings directory as well as the user specific settings
+directory).  The location of this directory is system-specific.  On a
+linux machine, for example, the user specific settings directory is
+usually ~/.jedit.  See jEdit User's Guide for more information on
+jEdits's settings directory.
 
 a) Installing the Z mode
 ------------------------
 
 zed.xml contain the beginnings of a jEdit syntax-colouring mode for Z.
 
-   1. copy zed.xml to SETTINGS_DIR/modes
-   2. update the catalog file in SETTINGS_DIR/modes
+   1. copy zed.xml to JEDIT_SETTINGS_DIR/modes
+   2. update the catalog file in JEDIT_SETTINGS_DIR/modes
       (see the catalog file to see how to do this)
 
 Please see Chapter 10 of the jEdit User's Guide for complete
@@ -76,22 +57,22 @@ To install a jEdit plugin, first make sure to deinstall previous
 versions.
 
 To install the ZCharMap plugin you need to:
-  1. copy ZCharMap.jar to SETTINGS_DIR/jars
+  1. copy ZCharMap.jar to JEDIT_SETTINGS_DIR/jars
   2. restart jEdit to load the new plugin
 
 To install the ZSideKick plugin you need to:
   1. Install the SideKick and ErrorList plugin
      using jEdit's Plugin manager
-  2. copy ZSideKick.jar to SETTINGS_DIR/jars
-     AND czt-dep.jar to SETTINGS_DIR/jars/czt.jar
-  3. update the catalog file in SETTINGS_DIR/modes
+  2. copy ZSideKick.jar to JEDIT_SETTINGS_DIR/jars
+     AND czt-dep.jar to JEDIT_SETTINGS_DIR/jars/czt.jar
+  3. update the catalog file in JEDIT_SETTINGS_DIR/modes
      (see the catalog file to see how to do this)
   4. restart jEdit to load the new plugin
 
 To install the ZLive plugin you need to:
   1. Install the Console plugin using jEdit's Plugin manager,
   2. install the ZSideKick plugin as described above, and
-  3. copy ZLivePlugin.jar to SETTINGS_DIR/jars
+  3. copy ZLivePlugin.jar to JEDIT_SETTINGS_DIR/jars
   3. restart jEdit to load the new plugin
 
 
