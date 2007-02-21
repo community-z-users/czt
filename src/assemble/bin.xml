@@ -10,6 +10,7 @@
   <fileSets>
     <fileSet>
       <includes>
+        <include>README.txt</include>
         <include>COPYING.txt</include>
         <include>NOTICE.txt</include>
         <include>LICENSE*</include>
