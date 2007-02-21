@@ -1,7 +1,5 @@
 * text=auto !eol
 /COPYING.txt -text
-admin/binary_release/bbook.utf16 -text
-admin/binary_release/screenshot.png -text
 bin/bsh/parseCircus.bsh -text
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset

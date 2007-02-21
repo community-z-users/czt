@@ -10,7 +10,6 @@ It includes the following sub-projects in the form of sub-directories
 in <CZT_HOME> (which is the directory where this README is in).
 Note that not all of these may be included in a given release.
 
-admin/       Tools for administration, preparing releases, ...
 corejava/    Java AST classes for standard Z
 devtools/    Some libraries (java_cup etc.) and tables of Z characters
 doc/         General Documentation and Articles
