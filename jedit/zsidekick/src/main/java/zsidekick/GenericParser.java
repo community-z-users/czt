@@ -18,8 +18,8 @@
  */
 package zsidekick;
 
-import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
 
 public class GenericParser
   extends AbstractParser
