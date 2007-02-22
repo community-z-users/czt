@@ -48,23 +48,24 @@ instructions on installing edit modes.
 
 b) Installing the jEdit plugins
 --------------------------------------------
-Change into <CZT_HOME>, the top level directory of CZT, and
-follow the instructions in INSTALL.txt to install CZT.
-This creates jar files in <CZT_HOME>/lib, including the plugin
-jar files mentioned below.
+
+If you are working with a source distribution, follow the instructions
+in <CZT_HOME>/INSTALL.txt to compile and install CZT.  This creates
+jar files in <CZT_HOME>/lib, including the plugin jar files mentioned
+below.
 
 To install a jEdit plugin, first make sure to deinstall previous
 versions.
 
 To install the ZCharMap plugin you need to:
-  1. copy ZCharMap.jar to JEDIT_SETTINGS_DIR/jars
+  1. copy <CZT_HOME>/lib/ZCharMap.jar to JEDIT_SETTINGS_DIR/jars
   2. restart jEdit to load the new plugin
 
 To install the ZSideKick plugin you need to:
   1. Install the SideKick and ErrorList plugin
      using jEdit's Plugin manager
-  2. copy ZSideKick.jar to JEDIT_SETTINGS_DIR/jars
-     AND czt-dep.jar to JEDIT_SETTINGS_DIR/jars/czt.jar
+  2. copy  <CZT_HOME>/lib/ZSideKick.jar to JEDIT_SETTINGS_DIR/jars
+     AND  <CZT_HOME>/lib/czt-dep.jar to JEDIT_SETTINGS_DIR/jars/czt.jar
   3. update the catalog file in JEDIT_SETTINGS_DIR/modes
      (see the catalog file to see how to do this)
   4. restart jEdit to load the new plugin
@@ -72,7 +73,7 @@ To install the ZSideKick plugin you need to:
 To install the ZLive plugin you need to:
   1. Install the Console plugin using jEdit's Plugin manager,
   2. install the ZSideKick plugin as described above, and
-  3. copy ZLivePlugin.jar to JEDIT_SETTINGS_DIR/jars
+  3. copy  <CZT_HOME>/lib/ZLivePlugin.jar to JEDIT_SETTINGS_DIR/jars
   3. restart jEdit to load the new plugin
 
 
@@ -93,6 +94,8 @@ be highlighted differently than the text between them.
 The plugins are accessible via menu Plugins/<plugin-name>.
 Is is also possible to dock each of the plugins. To do this,
 edit Global Options/Docking.
+Documentation for each of the plugins can be found in jEdit's Help
+system.
 
 NOTES AND WARNINGS
 ******************
