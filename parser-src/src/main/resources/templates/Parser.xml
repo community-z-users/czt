@@ -23,8 +23,8 @@
 
 package <package/>;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -33,18 +33,14 @@ import java.util.Set;
 import java.util.Stack;
 import java.io.*;
 
-import net.sourceforge.czt.java_cup.runtime.*;
 
-<add:zpatt>
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.util.Factory;
-</add:zpatt>
+import net.sourceforge.czt.base.ast.*;
 <add:circus>
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.z.util.ZUtils;
 </add:circus>
+import net.sourceforge.czt.java_cup.runtime.*;
 <add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.OzString;
@@ -52,20 +48,20 @@ import net.sourceforge.czt.oz.util.OzString;
 <add:ozz>
 import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.session.*;
 <add:tcoz>
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
 </add:tcoz>
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.parser.util.*;
-import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
-<add:z>
-import net.sourceforge.czt.z.util.Factory;
-</add:z>
+<add:zpatt>
+import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.util.Factory;
+</add:zpatt>
 
 action code
 {:
@@ -97,18 +93,7 @@ action code
      */
     protected Symbol previous_;
 
-    /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
-    protected int previousChain_ = -1;
-
-<add:oz>
-    /**
-     * The tope of the stack is true if an operation expr is
-     * currently being parsed. This is needed because Z exprs and
-     * Object-Z operations are both specified using non-terminal 'term'
-     */
-    protected Stack &lt; Boolean &gt; isOpExpr_ = 
-       new Stack &lt; Boolean &gt; ();
-</add:oz>
+    protected ParserState parserState_ = new ParserState();
 
 <add:circus>
     /** The name of the Circus toolkit. */
@@ -601,10 +586,10 @@ action code
         memPred = (MemPred) ((AndPred) pred).getRightPred();
       }
 
-      if (previousChain_ == Sym.MEM) {
+      if (parserState_.isPreviousChain(Sym.MEM)) {
         result = memPred.getRightExpr();
       }
-      else if (previousChain_ == Sym.EQUALS) {
+      else if (parserState_.isPreviousChain(Sym.EQUALS)) {
         SetExpr se = (SetExpr) memPred.getRightExpr();
         result = se.getZExprList().get(0);
       }
@@ -642,7 +627,7 @@ action code
       addLocAnn(mp, loc);
       result = factory_.createAndPred(chain, mp, And.Chain);
 
-      previousChain_ = -1;
+      parserState_.setPreviousChain(-1);
       return result;
     }
 
@@ -665,7 +650,7 @@ action code
       addLocAnn(mp, loc);
       result = factory_.createAndPred(chain, mp, And.Chain);
 
-      previousChain_ = -1;
+      parserState_.setPreviousChain(-1);
       return result;
     }
 
@@ -949,43 +934,6 @@ action code
       }
       return null;
     }
-
-<add:oz>
-    /**
-     * Reset the isOpExpr_ stack.
-     */
-     protected void resetIsOpExpr()
-     {
-       isOpExpr_.clear();
-     } 
-
-    /**
-     * Return the top of the isOpExpr_ stack.
-     */
-     protected boolean isOpExpr()
-     {
-       if (isOpExpr_.size() == 0) {
-         return false;
-       }
-       return isOpExpr_.peek();
-     } 
-
-    /**
-     * Push an item onto the isOpExpr_ stack.
-     */
-     protected void pushIsOpExpr(boolean b)
-     {
-       isOpExpr_.push(b);
-     }
-
-    /**
-     * Pop the stop of the isOpExpr_ stack.
-     */
-     protected void popIsOpExpr()
-     {
-       isOpExpr_.pop();
-     }
-</add:oz>
 
 <add:circus>
     /**
@@ -1488,17 +1436,17 @@ parser code
       //for now.
       if (action_obj.previous_ !=  null &amp;&amp;
           action_obj.previous_.sym == Sym.RSQUARE) {
-        action_obj.popIsOpExpr();
+        action_obj.parserState_.popIsOpExpr();
       }
       else if (action_obj.previous_ !=  null &amp;&amp;
           action_obj.previous_.sym == Sym.LSQUARE) {
-        action_obj.pushIsOpExpr(false);
+        action_obj.parserState_.pushIsOpExpr(false);
       }
       else if (result.sym == Sym.OPNAME) {
-        action_obj.pushIsOpExpr(true);
+        action_obj.parserState_.pushIsOpExpr(true);
       }
 
-      if (result.sym == Sym.SPOT &amp;&amp; action_obj.isOpExpr()) {
+      if (result.sym == Sym.SPOT &amp;&amp; action_obj.parserState_.isOpExpr()) {
         result.sym = Sym.SCOPE;
       }
 </add:oz>
@@ -2549,7 +2497,7 @@ boxedParagraph ::=
         error:e END:ed 
         {: 
           parser.report_syntax_error();
-          <add:oz>resetIsOpExpr();</add:oz>          
+          <add:oz>parserState_.resetIsOpExpr();</add:oz>          
         :}
         ;
 
@@ -2574,7 +2522,7 @@ unboxedParagraphList ::=
            parser.report_syntax_error();
            RESULT = factory_.list();
 <add:oz>
-           resetIsOpExpr();
+           parserState_.resetIsOpExpr();
 </add:oz>        
         :}
         ;
@@ -5327,7 +5275,7 @@ term ::=
         term:lhs AND:and term:rhs
         {:
 <add:oz>
-          if (isOpExpr()) {
+          if (parserState_.isOpExpr()) {
              RESULT = factory_.createConjOpExpr(opExpr(lhs), opExpr(rhs));
           }
           else
@@ -5357,7 +5305,7 @@ term ::=
         term:lhs ZCOMP:comp term:rhs
         {:
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              RESULT = factory_.createSeqOpExpr(opExpr(lhs), opExpr(rhs));
            }
            else {
@@ -5381,7 +5329,7 @@ term ::=
         {:
            ZNameList zNameList = factory_.createZNameList(rnl);
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              RESULT = factory_.createHideOpExpr(opExpr(t), zNameList);
            }
            else {
@@ -5554,7 +5502,7 @@ inner_term ::=
            DeclList dl = factory_.createZDeclList();
            SchText st = factory_.createZSchText(dl, null);
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              OpText ot = factory_.createOpText(null, st);
              RESULT = factory_.createAnonOpExpr(ot);
            }
@@ -5578,7 +5526,7 @@ inner_term ::=
 RSQUARE:rsq
         {:
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              OpText ot = factory_.createOpText(null, stne);
              RESULT = factory_.createAnonOpExpr(ot);
            }
@@ -5595,7 +5543,7 @@ RSQUARE:rsq
         inner_term:it DOT:dot refName:rn
         {:
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              RESULT = factory_.createOpPromotionExpr(expr(it), rn);
            }
            else {
@@ -5665,7 +5613,7 @@ RSQUARE:rsq
         inner_term:it LSQUARE renameList:rnl RSQUARE:rsquare
         {:
 <add:oz>
-           if (isOpExpr()) {
+           if (parserState_.isOpExpr()) {
              RESULT = factory_.createRenameOpExpr(opExpr(it), rnl);
            }
            else {
@@ -6053,7 +6001,7 @@ infixRel ::=
 infixChainRel ::=
         term:lhs MEM:m term:rhs
         {:
-           previousChain_ = Sym.MEM;
+           parserState_.setPreviousChain(Sym.MEM);
            RESULT =
              factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
            addLocAnn(RESULT, getLocation(mleft, mright, lhs, rhs));
@@ -6061,14 +6009,14 @@ infixChainRel ::=
         |
         term:lhs EQUALS:equals term:rhs
         {:
-           previousChain_ = Sym.EQUALS;
+           parserState_.setPreviousChain(Sym.EQUALS);
            RESULT = factory_.createEquality(expr(lhs), expr(rhs));
            addLocAnn(RESULT, getLocation(equalsleft, equalsright, lhs, rhs));
         :}
         |
         term:lhs IP:ip term:rhs
         {:
-           previousChain_ = Sym.IP;
+           parserState_.setPreviousChain(Sym.IP);
            List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(ip.getString());
            opName.add(ARG_TOK);
@@ -6085,7 +6033,7 @@ infixChainRel ::=
            RESULT =
              transformChainRel(icr, Sym.MEM, expr(rhs), getLocation(icr));
            addLocAnn(RESULT, getLocation(icr, rhs));           
-           previousChain_ = Sym.MEM;
+           parserState_.setPreviousChain(Sym.MEM);
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
@@ -6094,7 +6042,7 @@ infixChainRel ::=
            RESULT = transformChainRel(icr, Sym.EQUALS, expr(rhs),
                                       getLocation(icrleft, icrright));
            addLocAnn(RESULT, getLocation(icrleft, icrright));
-           previousChain_ = Sym.EQUALS;
+           parserState_.setPreviousChain(Sym.EQUALS);
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
@@ -6103,7 +6051,7 @@ infixChainRel ::=
            RESULT = transformChainRelInfix(icr, expr(rhs), ip.getString(),
                                            getLocation(icrleft, icrright));
            addLocAnn(RESULT, getLocation(icrleft, icrright));
-           previousChain_ = Sym.IP;
+           parserState_.setPreviousChain(Sym.IP);
         :}
         ;
 
@@ -6718,7 +6666,7 @@ class ::=
            ZNameList ofp = ch.getSecond();
            RESULT = factory_.createClassPara(dn, ofp, vl, il, ipl, s, is, ol);
            addLocAnn(RESULT, getLocation(ch.getFirst(), end));
-           assert isOpExpr() == false;
+           assert parserState_.isOpExpr() == false;
         :}
         ;
 
@@ -7007,7 +6955,7 @@ operation ::=
         OPNAME:on /*{: pushIsOpExpr(true); :}*/ SDEF opExpr:oe
         {:
            //the op expr has finished parsing, so pop the stack.
-           popIsOpExpr();
+           parserState_.popIsOpExpr();
            ZName dn = factory_.createZName(on.getName());
            addLocAnn(dn, on.getLocation());
            RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
@@ -7051,23 +6999,23 @@ opExpr ::=
 //expression. We push false onto the isOpExpr stack because we parse
 //the schemaText, but count the @ as a SPOT token to remove an ambiguity
 outer_opExpr ::=
-        DCNJ:dcnj {: pushIsOpExpr(false); :} schemaText:st
-             SPOT {: pushIsOpExpr(true); :} term:t
+        DCNJ:dcnj {: parserState_.pushIsOpExpr(false); :} schemaText:st
+             SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistConjOpExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dcnj, t));
         :}
         |
-        DGCH:dgch {: pushIsOpExpr(false); :} schemaText:st
-             SPOT {: pushIsOpExpr(true); :} term:t
+        DGCH:dgch {: parserState_.pushIsOpExpr(false); :} schemaText:st
+             SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistChoiceOpExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dgch, t));
         :}
         |
         /* We need a unicode character for this. */
-        /*DSQC*/ ZCOMP:dsqc {: pushIsOpExpr(false); :} schemaText:st
-             SPOT {: pushIsOpExpr(true); :} term:t
+        /*DSQC*/ ZCOMP:dsqc {: parserState_.pushIsOpExpr(false); :} schemaText:st
+             SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistSeqOpExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dsqc, t));
@@ -7082,15 +7030,15 @@ outer_opExpr ::=
         :}
 <add:tcoz>
         |
-        DIC:dic {: pushIsOpExpr(false); :} schemaText:st 
-           SPOT {: pushIsOpExpr(true); :} term:t
+        DIC:dic {: parserState_.pushIsOpExpr(false); :} schemaText:st 
+           SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistInChoiceProExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dic, t));
         :}
         |
-        DIL:dil {: pushIsOpExpr(false); :} schemaText:st
-           SPOT {: pushIsOpExpr(true); :} term:t
+        DIL:dil {: parserState_.pushIsOpExpr(false); :} schemaText:st
+           SPOT {: parserState_.pushIsOpExpr(true); :} term:t
         {:
            RESULT = factory_.createDistInterleaveProExpr(st, opExpr(t));
            addLocAnn(RESULT, getLocation(dil, t));
