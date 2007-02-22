@@ -2,7 +2,7 @@
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
   Copyright (C) 2003, 2004, 2005 Tim Miller
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the CZT project.
 
   The CZT project contains free software;
@@ -23,6 +23,7 @@
 
 package <package/>;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -900,10 +901,18 @@ action code
           term.getAnns().add(locAnn);
         }
         locAnn.setLoc(getLoc());
-        if (locInfo.getLine() >= 0) locAnn.setLine(locInfo.getLine());
-        if (locInfo.getColumn() >= 0) locAnn.setCol(locInfo.getColumn());
-        if (locInfo.getStart() >= 0) locAnn.setStart(locInfo.getStart());
-        if (locInfo.getLength() >= 0) locAnn.setLength(locInfo.getLength());
+        if (locInfo.getLine() >= 0) {
+          locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
+        }
+        if (locInfo.getColumn() >= 0) {
+          locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
+        }
+        if (locInfo.getStart() >= 0) {
+          locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
+        }
+        if (locInfo.getLength() >= 0) {
+          locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
+        }
       }
     }
 
@@ -2446,7 +2455,7 @@ section ::=
                  locAnn.getStart() != null) {
                final int length = loc.getStart() + loc.getLength()
                                   - locAnn.getStart().intValue();
-               locAnn.setLength(length);
+               locAnn.setLength(BigInteger.valueOf(length));
              }
            }
         :}
