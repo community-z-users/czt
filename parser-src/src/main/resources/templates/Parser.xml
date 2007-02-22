@@ -193,55 +193,8 @@ action code
 <add:zpatt>
     protected JokerScanner jokerScanner_;
 </add:zpatt>
-
-    /**
-     * Create an empty list.
-     */
-    protected &lt;E&gt; List&lt;E&gt; list()
-    {
-      return new ArrayList&lt;E&gt;();
-    }
-
-    /**
-     * Create a list containing one element.
-     */
-    protected &lt;E&gt; List&lt;E&gt; list(E elem)
-    {
-      List&lt;E&gt; result = list();
-      result.add(elem);
-      return result;
-    }
-
-    /**
-     * Creates a list containing two elements.
-     */
-    protected &lt;E&gt; List&lt;E&gt; list(E elem1, E elem2)
-    {
-      List&lt;E&gt; result = list();
-      result.add(elem1);
-      result.add(elem2);
-      return result;
-    }
-
-    /**
-     * Creates a list from another list
-     */
-    protected &lt;E&gt; List&lt;E&gt; list(List&lt;E&gt; list)
-    {
-      List&lt;E&gt; result = list();
-      result.addAll(list);
-      return result;
-    }
-
-    /**
-     * Creates a pair from two elements. 
-     */
-    protected &lt;X,Y&gt; Pair&lt;X,Y&gt; pair(X x, Y y)
-    {
-      return new Pair(x, y);
-    }
-
 <add:oz>
+
     /**
      * Create a pair of PrimaryDecl and SecondaryDecl from 2 DeclLists
      */
@@ -256,7 +209,7 @@ action code
       }
       PrimaryDecl primaryDecl = factory_.createPrimaryDecl(pDeclList);
       SecondaryDecl secondaryDecl = factory_.createSecondaryDecl(sDeclList);
-      return pair(primaryDecl, secondaryDecl);
+      return new Pair(primaryDecl, secondaryDecl);
     }
 
     protected OpText createOpText(DeltaList del, DeclList dec, Pred p)
@@ -699,7 +652,7 @@ action code
     {
       Pred result = null;
 
-      List&lt;String&gt; opName = list(ARG_TOK);
+      List&lt;String&gt; opName = factory_.list(ARG_TOK);
       opName.add(ip);
       opName.add(ARG_TOK);
 
@@ -765,7 +718,7 @@ action code
                               int line, int column)
       throws ParseException
     {
-      List parentOpTables = list();
+      List parentOpTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
@@ -808,7 +761,7 @@ action code
                                  int line, int column)
       throws CommandException
     {
-      List parentJokerTables = list();
+      List parentJokerTables = factory_.list();
       if (Section.PRELUDE.getName().equals(section)) {
         assert parents.size() == 0;
       }
@@ -2388,7 +2341,7 @@ specification ::=
            header.setParaList(pl);
            ZSect zSect = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
-           RESULT = createSpec(list(zSect));
+           RESULT = createSpec(factory_.list(zSect));
         :}
         |
         // sectioned specification
@@ -2411,7 +2364,7 @@ emptySectionHeader ::=
 <add:circus>
            final Parent pcircus = factory_.createParent(CIRCUS_TOOLKIT);
 </add:circus>
-           final List&lt;Parent&gt; parents = list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
+           final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetOpTable(name, parents, eleft, eright);
 <add:zpatt>
            resetJokerTable(name, parents, eleft, eright);
@@ -2438,7 +2391,7 @@ sectionList ::=
         :}
         |
         section:s
-        {: RESULT = list((Sect) s); :}
+        {: RESULT = factory_.list((Sect) s); :}
         ;
 
 section ::=
@@ -2504,10 +2457,10 @@ sectionHeader ::=
 
 parents ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         |
         PARENTS
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         |
         PARENTS parentList:pl
         {: RESULT = pl; :}
@@ -2528,7 +2481,7 @@ parentList ::=
            checkName(dw);
            Parent p = factory_.createParent(dw.getName());
            addLocAnn(p, dw.getLocation());
-           RESULT = list(p);
+           RESULT = factory_.list(p);
         :}
         ;
 
@@ -2619,7 +2572,7 @@ unboxedParagraphList ::=
         ZED:z error:e END
         {:
            parser.report_syntax_error();
-           RESULT = list();
+           RESULT = factory_.list();
 <add:oz>
            resetIsOpExpr();
 </add:oz>        
@@ -2635,7 +2588,7 @@ unboxedParagraphItemList ::=
         |
         unboxedParagraphItem:ui
         {:
-           RESULT = list(ui);
+           RESULT = factory_.list(ui);
         :}
         ;
         
@@ -2842,7 +2795,7 @@ narrWordList ::=
         :}
         |
         TEXT:t
-        {: RESULT = list(t); :}
+        {: RESULT = factory_.list(t); :}
         ;
 
 // operator templates  /////////////////////////////////////////////////////
@@ -2934,7 +2887,7 @@ prefixTemplate ::=
 	|
 	LPAREN POWER:p varg:v RPAREN
 	{:
-           RESULT = list(createOperator(ZString.POWER, p), v);
+           RESULT = factory_.list(createOperator(ZString.POWER, p), v);
 	:}
         ;
 
@@ -2976,7 +2929,7 @@ nofixTemplate ::=
 
 optWordOperandList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         |
         optWordOperandList:wl templateTag:t DECORWORD:n
         {:
@@ -3783,7 +3736,7 @@ circusParamDeclList ::=
 
 circusParamZDeclList ::=
         qualifiedDecl:qd
-        {: RESULT = factory_.createZDeclList(list(qd)); :}
+        {: RESULT = factory_.createZDeclList(factory_.list(qd)); :}
         |
         circusParamZDeclList:cdl SEMICOLON qualifiedDecl:qd
         {:
@@ -3839,9 +3792,9 @@ unboxedOptInnerCircusParaList ::=
         :}
         |
         unboxedCircusInnerPara:ip 
-        {: RESULT = list(ip); :}
+        {: RESULT = factory_.list(ip); :}
         | // empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         ;
         
 unboxedCircusInnerPara ::=               
@@ -4581,7 +4534,7 @@ jokerDeclList ::=
 
 zDeclList ::=
         declaration:d
-        {: RESULT = factory_.createZDeclList(list(d)); :}
+        {: RESULT = factory_.createZDeclList(factory_.list(d)); :}
         |
         zDeclList:zdl sep declaration:d
         {:
@@ -4612,7 +4565,7 @@ schemaTextNoExpression ::=
 	|
 	basicDeclaration:bd
 	{: 
-           ZDeclList zdl = factory_.createZDeclList(list(bd));
+           ZDeclList zdl = factory_.createZDeclList(factory_.list(bd));
            RESULT = factory_.createZSchText(zdl, null);
         :}
         ;
@@ -4858,7 +4811,7 @@ refNameList ::=
         DECORWORD:dw
         {:
            ZName rn = createZName(dw);
-           RESULT = list(rn);
+           RESULT = factory_.list(rn);
         :}
         <add:oz>
         |
@@ -4866,7 +4819,7 @@ refNameList ::=
         {:
            ZName rn = factory_.createZName(OzString.INITWORD);
            addLocAnn(rn, getLocation(iwleft, iwright));
-           RESULT = list(rn);
+           RESULT = factory_.list(rn);
         :}
         </add:oz>
         ;
@@ -4910,14 +4863,14 @@ opName ::=
 
 prefixName ::=
         PRE:p varg
-        {: RESULT = list(p.getString(), ARG_TOK); :}
+        {: RESULT = factory_.list(p.getString(), ARG_TOK); :}
         |
         PREP:p varg
-        {: RESULT = list(p.getString(), ARG_TOK); :}
+        {: RESULT = factory_.list(p.getString(), ARG_TOK); :}
         |
         L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
         {: 
-           RESULT = list(l.getString());
+           RESULT = factory_.list(l.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
            RESULT.add(ARG_TOK);
@@ -4925,7 +4878,7 @@ prefixName ::=
         |
         LP:lp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {: 
-           RESULT = list(lp.getString());
+           RESULT = factory_.list(lp.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
            RESULT.add(ARG_TOK);
@@ -4934,14 +4887,14 @@ prefixName ::=
 
 postfixName ::=
         varg POST:p
-        {: RESULT = list(ARG_TOK, p.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, p.getString()); :}
         |
         varg POSTP:p
-        {: RESULT = list(ARG_TOK, p.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, p.getString()); :}
         |
         varg EL:el optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(el.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -4949,7 +4902,7 @@ postfixName ::=
         |
         varg ELP:elp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(elp.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -4960,21 +4913,21 @@ postfixName ::=
 infixName ::=
         varg I:i varg
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(i.getString());
            RESULT.add(ARG_TOK);
         :}
         |
         varg IP:ip varg
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(ip.getString());
            RESULT.add(ARG_TOK);
         :}
         |
         varg EL:el optVargEsSsList:ouesl argEreOrSre:aeos varg
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(el.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -4983,7 +4936,7 @@ infixName ::=
         |
         varg ELP:elp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {:
-           RESULT = list(ARG_TOK);
+           RESULT = factory_.list(ARG_TOK);
            RESULT.add(elp.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
@@ -4994,14 +4947,14 @@ infixName ::=
 nofixName ::=
         L:l optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           RESULT = list(l.getString());
+           RESULT = factory_.list(l.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
         :}
         |
         LP:lp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           RESULT = list(lp.getString());
+           RESULT = factory_.list(lp.getString());
            RESULT.addAll(ouesl);
            RESULT.addAll(aeos);
         :}
@@ -5009,7 +4962,7 @@ nofixName ::=
 
 optVargEsSsList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         |
         optVargEsSsList:ouesl argEsOrSs:aeos
         {: 
@@ -5020,42 +4973,42 @@ optVargEsSsList ::=
 
 argEsOrSs ::=
         ARG ES:es
-        {: RESULT = list(ARG_TOK, es.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, es.getString()); :}
         |
         LISTARG SS:ss
-        {: RESULT = list(LISTARG_TOK, ss.getString()); :}
+        {: RESULT = factory_.list(LISTARG_TOK, ss.getString()); :}
         ;
 
 argEreOrSre ::=
         ARG ERE:ere
-        {: RESULT = list(ARG_TOK, ere.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, ere.getString()); :}
         |
         LISTARG SRE:sre
-        {: RESULT = list(LISTARG_TOK, sre.getString()); :}
+        {: RESULT = factory_.list(LISTARG_TOK, sre.getString()); :}
         ;
 
 argErepOrSrep ::=
         ARG EREP:erep
-        {: RESULT = list(ARG_TOK, erep.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, erep.getString()); :}
         |
         LISTARG SREP:srep
-        {: RESULT = list(LISTARG_TOK, srep.getString()); :}
+        {: RESULT = factory_.list(LISTARG_TOK, srep.getString()); :}
         ;
 
 argErOrSr ::=
         ARG ER:er
-        {: RESULT = list(ARG_TOK, er.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, er.getString()); :}
         |
         LISTARG SR:sr
-        {: RESULT = list(LISTARG_TOK, sr.getString()); :}
+        {: RESULT = factory_.list(LISTARG_TOK, sr.getString()); :}
         ;
 
 argErpOrSrp ::=
         ARG ERP:erp
-        {: RESULT = list(ARG_TOK, erp.getString()); :}
+        {: RESULT = factory_.list(ARG_TOK, erp.getString()); :}
         |
         LISTARG SRP:srp
-        {: RESULT = list(LISTARG_TOK, srp.getString()); :}
+        {: RESULT = factory_.list(LISTARG_TOK, srp.getString()); :}
         ;
 
 //a genName is returned as a pair, with the first item being the name,
@@ -5077,20 +5030,20 @@ genName ::=
 prefixGenName ::=
         PRE:pre name:formalParameter
         {:
-           List&lt;String&gt; name = list(pre.getString(), ARG_TOK);
+           List&lt;String&gt; name = factory_.list(pre.getString(), ARG_TOK);
            ZNameList decls = factory_.createZNameList();
            decls.add(formalParameter);
            LocInfo loc = getLocation(formalParameterleft,
                                      formalParameterright);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, decls);
+           RESULT = new Pair(declName, decls);
         :}
         |
         L:l optNameEsSsList:onesl name:fpn1
              ereOrSre:eos name:fpn2
         {:
            //construct the name
-           List&lt;String&gt; name = list(l.getString());
+           List&lt;String&gt; name = factory_.list(l.getString());
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos.getString());
@@ -5102,25 +5055,25 @@ prefixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, fps); 
+           RESULT = new Pair(declName, fps); 
         :}
         ;
 
 postfixGenName ::=
         name:fpn POST:p
         {:
-           List&lt;String&gt; name = list(ARG_TOK, p.getString());
+           List&lt;String&gt; name = factory_.list(ARG_TOK, p.getString());
            ZNameList decls = factory_.createZNameList();
            decls.add(fpn);
            LocInfo loc = getLocation(pleft, pright);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, decls);
+           RESULT = new Pair(declName, decls);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 erOrSr:eos
         {:
            //construct the name
-           List&lt;String&gt; name = list(ARG_TOK);
+           List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
@@ -5133,7 +5086,7 @@ postfixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, fps);
+           RESULT = new Pair(declName, fps);
          :}
         ;
 
@@ -5141,7 +5094,7 @@ infixGenName ::=
         name:fpn1 I:i name:fpn2
         {:
            //construct the name
-           List&lt;String&gt; name = list(ARG_TOK);
+           List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(i.getString());
            name.add(ARG_TOK);
 
@@ -5151,13 +5104,13 @@ infixGenName ::=
            fps.add(fpn2);
            LocInfo loc = getLocation(fpn2left, fpn2right);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, fps);
+           RESULT = new Pair(declName, fps);
         :}
         |
         name:fpn1 EL:el optNameEsSsList:onesl name:fpn2 ereOrSre:eos name:fpn3
         {:
            //construct the name
-           List&lt;String&gt; name = list(ARG_TOK);
+           List&lt;String&gt; name = factory_.list(ARG_TOK);
            name.add(el.getString());
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
@@ -5171,7 +5124,7 @@ infixGenName ::=
            fps.add(fpn3);
            LocInfo loc = getLocation(fpn3left, fpn3right);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, fps);
+           RESULT = new Pair(declName, fps);
         :}
         ;
 
@@ -5179,7 +5132,7 @@ nofixGenName ::=
         L:l optNameEsSsList:onesl name:fpn erOrSr:eos
         {:
            //construct the name
-           List&lt;String&gt; name = list(l.getString());
+           List&lt;String&gt; name = factory_.list(l.getString());
            name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos.getString());
@@ -5189,7 +5142,7 @@ nofixGenName ::=
            fps.add(fpn);
            LocInfo loc = getLocation(eosleft, eosright);
            Name declName = strListToZName(name, loc);
-           RESULT = pair(declName, fps);
+           RESULT = new Pair(declName, fps);
         :}
         ;
 
@@ -5198,14 +5151,14 @@ nofixGenName ::=
 //list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = pair(factory_.createZNameList(),
-                         factory_.createZNameList()); :}
+        {: RESULT = new Pair(factory_.createZNameList(),
+                             factory_.createZNameList()); :}
         |
         optNameEsSsList:ouesl name:fpn esOrSs:eos
         {:
            ZNameList gens = ouesl.getFirst();
            gens.add(fpn);
-           List name = list(ouesl.getSecond());
+           List name = factory_.list(ouesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos.getString());
            RESULT = ouesl;
@@ -5445,7 +5398,7 @@ term ::=
         term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN:rparen
         {:
            ZName rn = factory_.createZName(jnl.getString(), null);
-           List&lt;Name&gt; rnl = list((Name) rn);
+           List&lt;Name&gt; rnl = factory_.list((Name) rn);
            ZNameList zNameList = factory_.createZNameList(rnl);
            RESULT = factory_.createHideExpr(expr(t), zNameList);
            addLocAnn(RESULT, getLocation(hideleft, hideright, t, rparen));
@@ -5782,7 +5735,7 @@ optAppendageList ::=
        {: RESULT = al; :}
        |
        //empty
-       {: RESULT = list(); :}
+       {: RESULT = factory_.list(); :}
        ;
 
 //a list of possible constructs that come after inner_term LSQUARE
@@ -5795,7 +5748,7 @@ appendageList ::=
        :}
        |
        appendage:a
-       {: RESULT = list(a); :}
+       {: RESULT = factory_.list(a); :}
        ;
 
 appendage ::=
@@ -5870,7 +5823,7 @@ constDeclList ::=
         :}
         |
         constDecl:cd
-        {: RESULT = factory_.createZDeclList(list(cd)); :}
+        {: RESULT = factory_.createZDeclList(factory_.list(cd)); :}
         ;       
 
 letDefinitionList ::=
@@ -5881,7 +5834,7 @@ letDefinitionList ::=
         :}
         |
         letDefinition:ld
-        {: RESULT = factory_.createZDeclList(list(ld)); :}
+        {: RESULT = factory_.createZDeclList(factory_.list(ld)); :}
         ;       
 
 letDefinition ::=
@@ -5926,7 +5879,7 @@ renameList ::=
         :}
         |
         rename:rn  
-        {: RESULT = factory_.createZRenameList(list(rn)); :}
+        {: RESULT = factory_.createZRenameList(factory_.list(rn)); :}
         ;    
 
 rename ::=
@@ -5956,7 +5909,7 @@ relation ::=
 prefixRel ::=
         PREP:p term:t
         {:
-           List&lt;String&gt; opName = list(p.getString());
+           List&lt;String&gt; opName = factory_.list(p.getString());
            opName.add(ARG_TOK);
            ZExprList exprs = factory_.createZExprList();
            exprs.add(expr(t));
@@ -5966,7 +5919,7 @@ prefixRel ::=
         |
         LP:lp expSep:es term:t1 EREP:erep term:t2
         {: 
-           List&lt;String&gt; opName = list(lp.getString());
+           List&lt;String&gt; opName = factory_.list(lp.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erep.getString());
@@ -5983,7 +5936,7 @@ prefixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SREP:srep term:t
         {:
-           List&lt;String&gt; opName = list(lp.getString());
+           List&lt;String&gt; opName = factory_.list(lp.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srep.getString());
@@ -6007,13 +5960,13 @@ postfixRel ::=
            ZExprList expList = factory_.createZExprList();
            expList.add(expr(t));
            LocInfo pLoc = p.getLocation();
-           RESULT = createMemPred(list(p.getString()), expList, pLoc);
+           RESULT = createMemPred(factory_.list(p.getString()), expList, pLoc);
            addLocAnn(RESULT, getLocation(t, pLoc));
         :}
         |
         term:t1 ELP:elp expSep:es term:t2 ERP:erp
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(elp.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
@@ -6031,7 +5984,7 @@ postfixRel ::=
         |
         term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(elp.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -6057,7 +6010,7 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es term:t2 EREP:erep term:t3
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(elp.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
@@ -6076,7 +6029,7 @@ infixRel ::=
         |
         term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(elp.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -6116,7 +6069,7 @@ infixChainRel ::=
         term:lhs IP:ip term:rhs
         {:
            previousChain_ = Sym.IP;
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(ip.getString());
            opName.add(ARG_TOK);
            ZExprList expList = factory_.createZExprList();
@@ -6157,7 +6110,7 @@ infixChainRel ::=
 nofixRel ::=
         LP:lp expSep:es term:t ERP:erp
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(erp.getString());
@@ -6173,7 +6126,7 @@ nofixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SRP:srp
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(srp.getString());
@@ -6213,13 +6166,13 @@ prefixApp ::=
            exprs.add(expr(t));
            LocInfo loc = pre.getLocation();
            RESULT =
-             createMixfixExpr(list(pre.getString(), ARG_TOK), exprs, loc);
+             createMixfixExpr(factory_.list(pre.getString(), ARG_TOK), exprs, loc);
            addLocAnn(RESULT, getLocation(pre.getLocation(), t));
         :}
         |
         L:l expSep:es term:t1 ERE:ere term:t2
         {:
-           List&lt;String&gt; opName = list(l.getString());
+           List&lt;String&gt; opName = factory_.list(l.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(ere.getString());
@@ -6237,7 +6190,7 @@ prefixApp ::=
         |
         L:l expSep:es optExpressionList:oel SRE:sre term:t
         {:
-           List&lt;String&gt; opName = list(l.getString());
+           List&lt;String&gt; opName = factory_.list(l.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sre.getString());
@@ -6265,13 +6218,13 @@ postfixApp ::=
            exprs.add(expr(t));
            LocInfo loc = post.getLocation();
            RESULT =
-             createMixfixExpr(list(ARG_TOK, post.getString()), exprs, loc);
+             createMixfixExpr(factory_.list(ARG_TOK, post.getString()), exprs, loc);
            addLocAnn(RESULT, getLocation(t, post.getLocation()));
         :}
         |
         term:t1 EL:el expSep:es term:t2 ER:er
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(el.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
@@ -6290,7 +6243,7 @@ postfixApp ::=
         |
         term:t EL:el expSep:es optExpressionList:oel SR:sr
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(el.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -6314,7 +6267,7 @@ postfixApp ::=
 infixApp ::=
         term:lhs I:i term:rhs
         {: 
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(i.getString());
            opName.add(ARG_TOK);
            ZExprList exprs = factory_.createZExprList();
@@ -6326,7 +6279,7 @@ infixApp ::=
         |
         term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(el.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
@@ -6345,7 +6298,7 @@ infixApp ::=
         |
         term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
         {:
-           List&lt;String&gt; opName = list(ARG_TOK);
+           List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(el.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
@@ -6370,7 +6323,7 @@ infixApp ::=
 nofixApp ::=
         L:l expSep:es term:t ER:er
         {:
-           List&lt;String&gt; opName = list(l.getString());
+           List&lt;String&gt; opName = factory_.list(l.getString());
            addExpSepName(opName, es);
            opName.add(ARG_TOK);
            opName.add(er.getString());
@@ -6385,7 +6338,7 @@ nofixApp ::=
         |
         L:l expSep:es optExpressionList:oel SR:sr
         {:
-           List&lt;String&gt; opName = list(l.getString());
+           List&lt;String&gt; opName = factory_.list(l.getString());
            addExpSepName(opName, es);
            opName.add(LISTARG_TOK);
            opName.add(sr.getString());
@@ -6403,11 +6356,11 @@ nofixApp ::=
 
 expSep ::=
         //empty
-        {: RESULT = list(); :} %prec I
+        {: RESULT = factory_.list(); :} %prec I
         |
         expSep:exs term:t ES:es
         {:
-           exs.add(list(expr(t)));
+           exs.add(factory_.list(expr(t)));
            exs.add(es.getString());
            RESULT = exs;
         :}
@@ -6456,7 +6409,7 @@ jokerPara ::=
 rulePara ::=
         RULE:r DECORWORD:dw antecedents:a RULELINE conclusion:c END:end
         {:
-           List&lt;Sequent&gt; sequents = list((Sequent) c);
+           List&lt;Sequent&gt; sequents = factory_.list((Sequent) c);
            sequents.addAll(a);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, getLocation(r, end));
@@ -6464,7 +6417,7 @@ rulePara ::=
         |
         RULE:r DECORWORD:dw conclusion:c END:end
         {:
-           List&lt;Sequent&gt; sequents = list((Sequent) c);
+           List&lt;Sequent&gt; sequents = factory_.list((Sequent) c);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, getLocation(r, end));
         :}
@@ -6478,7 +6431,7 @@ jokerList ::=
        :}
        |
        DECORWORD:dw
-       {: RESULT = list(dw.getName()); :}
+       {: RESULT = factory_.list(dw.getName()); :}
        ;
 
 antecedents ::=
@@ -6490,7 +6443,7 @@ antecedents ::=
         |
         sequent:s
         {:
-           RESULT = list(s);
+           RESULT = factory_.list(s);
         :}
         ;
 
@@ -6587,7 +6540,7 @@ sequentLHS ::=
         |
         antecedent:a
         {:
-           RESULT = list(a);
+           RESULT = factory_.list(a);
         :}
         ;
 
@@ -6681,7 +6634,7 @@ varDeclList ::=
            zdnl.add(dn);
            VarDecl vd = factory_.createVarDecl(zdnl, bt);
            addLocAnn(vd, getLocation(dn, bt));
-           RESULT = factory_.createZDeclList(list(vd));
+           RESULT = factory_.createZDeclList(factory_.list(vd));
         :}
         ;
 
@@ -6773,16 +6726,16 @@ classHeader ::=
         CLASS name:n
         {:
            ZNameList decls = factory_.createZNameList();
-           RESULT = pair(n, decls);
+           RESULT = new Pair(n, decls);
         :}
         |
         GENCLASS name:n formalParameters:fp
-        {: RESULT = pair(n, fp); :}
+        {: RESULT = new Pair(n, fp); :}
         ;
 
 operationList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         |
         operationList:ol optNL operation:o
         {: 
@@ -6822,7 +6775,7 @@ inheritedClassList ::=
         :}
         |
         inheritedClass:ic 
-        {: RESULT = list(ic); :}
+        {: RESULT = factory_.list(ic); :}
         ;
 
 inheritedClass ::=
@@ -6857,7 +6810,7 @@ innerParaList ::=
         :}
         |
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = factory_.list(); :}
         ;
 
 innerPara ::=
@@ -6947,7 +6900,7 @@ stateDeclNoExpression ::=
         |
         basicDeclaration:bd
         {:
-           ZDeclList zdl = factory_.createZDeclList(list(bd));
+           ZDeclList zdl = factory_.createZDeclList(factory_.list(bd));
            RESULT = statePair(zdl, null);
         :}
         |        
@@ -6966,14 +6919,14 @@ optPrimaryDeclPart ::=
 primaryDeclPart ::=
         declaration:d
         {:
-           RESULT = factory_.createZDeclList(list(d));
+           RESULT = factory_.createZDeclList(factory_.list(d));
            addLocAnn(RESULT, getLocation(dleft, dright));
         :}
 <add:tcoz>
         |
         channelDeclaration:cd
         {:
-           RESULT = factory_.createZDeclList(list(cd));
+           RESULT = factory_.createZDeclList(factory_.list(cd));
            addLocAnn(RESULT, getLocation(cdleft, cdright));
         :}
 </add:tcoz>
@@ -7317,7 +7270,7 @@ topology ::=
         :}
         |
         connection:cn
-        {: RESULT = list(cn); :}
+        {: RESULT = factory_.list(cn); :}
         ;
                  
 connection ::=
@@ -7337,7 +7290,7 @@ eventSet ::=
         :}
         |
         event:e
-        {: RESULT = list(e); :}
+        {: RESULT = factory_.list(e); :}
         ;
 
 event ::=
@@ -7383,7 +7336,7 @@ deltaList ::=
         |
         DELTA:d LPAREN RPAREN:lparen
         {:
-           List&lt;Name&gt; refNameList = list();
+           List&lt;Name&gt; refNameList = factory_.list();
            RESULT = factory_.createDeltaList(refNameList);
            addLocAnn(RESULT, getLocation(d, lparen));
         :}
