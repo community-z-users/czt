@@ -5,6 +5,7 @@ plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.activate=defer
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.name=ZLive
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.author=Petra Malik
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.version=${project.version}
+plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.docs=zlive.html
 
 # Plugin dependency properties
 plugin.net.sourceforge.czt.jedit.zlive.ZLivePlugin.depend.0=jdk 1.5
