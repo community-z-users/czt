@@ -12,8 +12,7 @@
   <description>
     Set of libraries and tools for editing, typechecking and animating
     formal specifications written in the Z specification language,
-    with some support for Z extensions such as Object-Z, TCOZ, and
-    Circus.
+    with some support for Z extensions such as Object-Z and Circus.
   </description>
   <url>http://czt.sourceforge.net</url>
   <organization>
@@ -77,7 +76,6 @@
     <module>parser</module>
     <module>parser-zpatt</module>
     <module>parser-oz</module>
-    <module>parser-tcoz</module>
     <module>parser-circus</module>
     <module>typechecker</module>
     <module>rules</module>
@@ -182,11 +180,6 @@
         <type>test-jar</type>
         <scope>test</scope>
      </dependency>
-      <dependency>
-        <groupId>${czt.groupId}</groupId>
-        <artifactId>parser-tcoz</artifactId>
-        <version>${czt.version}</version>
-      </dependency>
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>parser-circus</artifactId>

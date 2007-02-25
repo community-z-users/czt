@@ -248,7 +248,6 @@ public class Gnast implements GlobalProperties
     try {
       generate(Resources.getZSchema());
       generate(Resources.getOzSchema());
-      generate(Resources.getTcozSchema());
       generate(Resources.getCircusSchema());
       generate(Resources.getZpattSchema());
     }
