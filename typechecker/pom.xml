@@ -24,11 +24,7 @@
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-tcoz</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-zpatt</artifactId>
+      <artifactId>parser-oz</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
