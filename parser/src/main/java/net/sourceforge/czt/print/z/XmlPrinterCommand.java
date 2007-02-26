@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import net.sourceforge.czt.java_cup.runtime.Symbol;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.XmlString;
