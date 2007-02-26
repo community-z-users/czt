@@ -368,6 +368,12 @@
           </descriptors>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <maxmemory>200m</maxmemory>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <reporting>
