@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2004, 2005 Petra Malik
+  Copyright 2003, 2004, 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -40,6 +40,12 @@ public interface JProperty extends JVariable
    * @return the name of this property.
    */
   String getName();
+
+  /**
+   * Returns the name of this property starting with a lower case letter.
+   * @return the name of this property starting with a lower case letter.
+   */
+  String getLName();
 
   /**
    * Returns the name of the getter for this property.

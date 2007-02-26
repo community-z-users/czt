@@ -181,4 +181,6 @@ public abstract class JAstObjectImpl implements JAstObject
     }
     return null;
   }
+
+  public abstract String getNamespace();
 }

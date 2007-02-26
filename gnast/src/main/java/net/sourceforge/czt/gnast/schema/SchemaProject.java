@@ -688,6 +688,11 @@ public class SchemaProject
       return SchemaProject.this.getImplPackage();
     }
 
+    public String getNamespace()
+    {
+      return getTargetNamespace();
+    }
+
     /**
      * Returns whether this gnast class is an instance of
      * the gnast class whos name is <code>name</code>.
@@ -985,7 +990,8 @@ public class SchemaProject
       String result = null;
       if (parseRefAttribute(node) || parseTypeAttribute(node)) {
         String maxOccurs = xPath_.getNodeValue(node, "@maxOccurs");
-        if ("unbounded".equals(maxOccurs)) {
+        if ("unbounded".equals(maxOccurs) ||
+            "2".equals(maxOccurs)) {
           listType_ = type_;
           type_ = "java.util.List<" + listType_ + ">";
         }

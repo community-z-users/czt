@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005 Petra Malik
+  Copyright 2003, 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -124,4 +124,6 @@ public interface JAstObject extends JObject
   String getAdditionalImplCodeFilename();
 
   boolean isList();
+
+  String getNamespace();
 }
