@@ -23,8 +23,8 @@
 
 package <package/>;
 
-import java.util.ArrayList;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -115,7 +115,7 @@ action code
      * Default number of multisynchronisation occurrences for particular communication pattern.
      * At the moment this feature is still experimental, and may disapear in the future.
      */
-    private static final java.math.BigInteger DEFAULT_MULTISYNCH = java.math.BigInteger.ZERO;
+    private static final BigInteger DEFAULT_MULTISYNCH = BigInteger.ZERO;
     
     /**
      * Default model for RefinementConjPara is failures-divergences.
