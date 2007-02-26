@@ -1259,9 +1259,6 @@ more detail.
         </xs:sequence>
         <xs:attribute name="Version" type="xs:string"
           use="optional" default="1.0"/>
-        <xs:attribute name="Author" type="xs:string" use="optional"/>
-        <xs:attribute name="Modified" type="xs:dateTime" use="optional"/>
-        <xs:attribute name="Source" type="xs:anyURI" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
