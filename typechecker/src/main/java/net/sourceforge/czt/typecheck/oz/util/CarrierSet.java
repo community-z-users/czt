@@ -107,7 +107,8 @@ public class CarrierSet
         }
         else {
           ClassUnionExpr next =
-            ozFactory_.createClassUnionExpr(classUnionExpr, expr);
+            ozFactory_.createClassUnionExpr(ozFactory_.list(classUnionExpr,
+                                                            expr));
           classUnionExpr = next;
         }
       }

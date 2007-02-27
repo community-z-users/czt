@@ -5319,7 +5319,8 @@ term ::=
         /* class union */
         term:lhs CLASSUNION:classunion term:rhs
         {:
-           RESULT = factory_.createClassUnionExpr(expr(lhs), expr(rhs));
+           RESULT = factory_.createClassUnionExpr(factory_.list(expr(lhs),
+                                                                expr(rhs)));
            addLocAnn(RESULT, getLocation(lhs, rhs));
         :}
         |

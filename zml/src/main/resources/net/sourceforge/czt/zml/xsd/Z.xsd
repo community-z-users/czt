@@ -1528,20 +1528,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1594,20 +1581,7 @@ more detail.
       <xs:extension base="Z:Expr">
         <xs:sequence>
           <xs:element ref="Z:Pred"/>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1804,20 +1778,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftPred"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightPred"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1845,20 +1806,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
         <xs:attribute name="Mixfix" type="xs:boolean"
           use="optional" default="false"/>
@@ -2156,20 +2104,7 @@ more detail.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:Name">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="NewName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Name">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="OldName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Name" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

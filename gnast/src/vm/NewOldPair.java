@@ -1,3 +1,7 @@
+  Name getNewName();
+  void setNewName(Name name);
+  Name getOldName();
+  void setOldName(Name name);
 
   /**
    * This is a convenience method.

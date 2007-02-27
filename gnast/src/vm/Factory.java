@@ -356,3 +356,127 @@
                         toBig(line), toBig(col),
                         toBig(start), toBig(length));
   }
+
+  public AndExpr createAndExpr(Expr left, Expr right)
+  {
+    AndExpr result = createAndExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public AndPred createAndPred(Pred left, Pred right, And and)
+  {
+    AndPred result = createAndPred();
+    result.getPred().add(left);
+    result.getPred().add(right);
+    result.setAnd(and);
+    return result;
+  }
+
+  public ApplExpr createApplExpr(Expr left, Expr right, Boolean  mixfix)
+  {
+    ApplExpr result = createApplExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    result.setMixfix(mixfix);
+    return result;
+  }
+
+  public CompExpr createCompExpr(Expr left, Expr right)
+  {
+    CompExpr result = createCompExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public CondExpr createCondExpr(Pred pred, Expr left, Expr right)
+  {
+    CondExpr result = createCondExpr();
+    result.setPred(pred);
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public IffExpr createIffExpr(Expr left, Expr right)
+  {
+    IffExpr result = createIffExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public IffPred createIffPred(Pred left, Pred right)
+  {
+    IffPred result = createIffPred();
+    result.getPred().add(left);
+    result.getPred().add(right);
+    return result;
+  }
+
+  public ImpliesExpr createImpliesExpr(Expr left, Expr right)
+  {
+    ImpliesExpr result = createImpliesExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public ImpliesPred createImpliesPred(Pred left, Pred right)
+  {
+    ImpliesPred result = createImpliesPred();
+    result.getPred().add(left);
+    result.getPred().add(right);
+    return result;
+  }
+
+  public MemPred createMemPred(Expr left, Expr right, Boolean mixfix)
+  {
+    MemPred result = createMemPred();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    result.setMixfix(mixfix);
+    return result;
+  }
+
+  public OrExpr createOrExpr(Expr  left, Expr right)
+  {
+    OrExpr result = createOrExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public OrPred createOrPred(Pred  left, Pred right)
+  {
+    OrPred result = createOrPred();
+    result.getPred().add(left);
+    result.getPred().add(right);
+    return result;
+  }
+
+  public PipeExpr createPipeExpr(Expr left, Expr right)
+  {
+    PipeExpr result = createPipeExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public ProjExpr createProjExpr(Expr left, Expr right)
+  {
+    ProjExpr result = createProjExpr();
+    result.getExpr().add(left);
+    result.getExpr().add(right);
+    return result;
+  }
+
+  public NewOldPair createNewOldPair(Name newName, Name oldName)
+  {
+    NewOldPair result = createNewOldPair();
+    result.getName().add(newName);
+    result.getName().add(oldName);
+    return result;
+  }

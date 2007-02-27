@@ -24,7 +24,7 @@ import net.sourceforge.czt.rules.Joker;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.zpatt.ast.JokerExpr;
 import junit.framework.TestCase;
 
@@ -58,7 +58,10 @@ public class OccursCheckVisitorTest extends TestCase
   public void testContains3()
   {
     Expr right = factory_.createSetExpr();
-    Pred pred = factory_.createMemPred(joker_, right, Boolean.TRUE);
+    MemPred pred = factory_.createMemPred();
+    pred.setLeftExpr(joker_);
+    pred.setRightExpr(right);
+    pred.setMixfix(Boolean.TRUE);
     assertTrue(occursCheck_.contains(pred, joker_));
   }
   
@@ -66,7 +69,10 @@ public class OccursCheckVisitorTest extends TestCase
   {
     Expr left = factory_.createSetExpr();
     Expr joker2 = factory_.createJokerExpr("otherJoker");
-    Pred pred = factory_.createMemPred(left, joker2, Boolean.TRUE);
+    MemPred pred = factory_.createMemPred();
+    pred.setLeftExpr(left);
+    pred.setRightExpr(joker2);
+    pred.setMixfix(Boolean.TRUE);
     assertFalse(occursCheck_.contains(pred, joker_));
   }
   
@@ -75,7 +81,10 @@ public class OccursCheckVisitorTest extends TestCase
   {
     Expr left = factory_.createSetExpr();
     Expr samejoker = factory_.createJokerExpr("jokerName_");
-    Pred pred = factory_.createMemPred(left, samejoker, Boolean.TRUE);
+    MemPred pred = factory_.createMemPred();
+    pred.setLeftExpr(left);
+    pred.setRightExpr(samejoker);
+    pred.setMixfix(Boolean.TRUE);
     assertFalse(occursCheck_.contains(pred, joker_));
   }
 }
