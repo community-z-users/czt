@@ -1,122 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE MODE SYSTEM "xmode.dtd">
-
 <MODE>
-	<PROPS>
-		<!-- <PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)\s*\(|ELSE|ELSEIF|EITHER|OR|VARIANT|INVARIANT)[^;]*|for\s*\(.*)" /> -->
-		<PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)" />
-		<PROPERTY NAME="commentStart" VALUE="/*" />
-		<PROPERTY NAME="commentEnd" VALUE="*/" />
-		<PROPERTY NAME="lineComment" VALUE="//" />
-	</PROPS>
-	<RULES ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="COMMENT1">
-		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
-			<BEGIN>"</BEGIN>
-			<END>"</END>
-		</SPAN>
-		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
-			<BEGIN>'</BEGIN>
-			<END>'</END>
-		</SPAN>
-		<!-- This matches a schema definition -->
-		<SPAN DELEGATE="ZED">
-			<BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
-			<END>&#x2029;</END>   <!-- ENDCHAR -->
-		</SPAN>
-		<!-- This matches a generic schema definition -->
-		<SPAN DELEGATE="ZED">
-			<BEGIN>&#x250C;&#x2550;</BEGIN>  <!-- GENSCH (SCHCHAR GENCHAR) -->
-			<END>&#x2029;</END>   <!-- ENDCHAR -->
-		</SPAN>
-		<!-- This matches an axiomatic description -->
-		<SPAN DELEGATE="ZED">
-			<BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
-			<END>&#x2029;</END>   <!-- ENDCHAR -->
-		</SPAN>
-
-		<!-- This matches a generic axiomatic description -->
-		<SPAN DELEGATE="ZED">
-			<BEGIN>&#x2577;&#x2550;</BEGIN>  <!-- GENAX (AXCHAR GENCHAR)-->
-			<END>&#x2029;</END>   <!-- ENDCHAR -->
-		</SPAN>
-
-                <!-- This matches all other Zed that begin with ZED -->
-		<SPAN DELEGATE="ZED">
-                        <BEGIN>&#x2500;</BEGIN> <!-- ZEDCHAR -->
-			<END>&#x2029;</END>
-		</SPAN>
-		<!-- This matches the name part of a vertical Z schema definition -->
-		<EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
-	</RULES>
-	
-	<RULES SET="ZED" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
-		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
-			<BEGIN>"</BEGIN>
-			<END>"</END>
-		</SPAN>
-		
-		<SEQ TYPE="OPERATOR">∈</SEQ>
-		<!-- OLD STUFF FROM THE B MODE -->
-		<SEQ TYPE="OPERATOR">!</SEQ>
-		<SEQ TYPE="OPERATOR">#</SEQ>
-		<SEQ TYPE="OPERATOR">$0</SEQ>
-		<SEQ TYPE="OPERATOR">%</SEQ>
-		<SEQ TYPE="OPERATOR">=</SEQ>
-		<!-- pour le & -->
-		<SEQ TYPE="OPERATOR">&amp;</SEQ>
-		<!-- pour le < et  > -->
-		<SEQ TYPE="OPERATOR">&gt;</SEQ>
-		<SEQ TYPE="OPERATOR">&lt;</SEQ>
-
-		<SEQ TYPE="OPERATOR">*</SEQ>
-
-		<SEQ TYPE="OPERATOR">+</SEQ>
-		<SEQ TYPE="OPERATOR">/</SEQ>
-		<SEQ TYPE="OPERATOR">\</SEQ>
-		<SEQ TYPE="OPERATOR">~</SEQ>
-		<SEQ TYPE="OPERATOR">:</SEQ>
-		<SEQ TYPE="OPERATOR">;</SEQ>
-		<SEQ TYPE="OPERATOR">|</SEQ>
-		<SEQ TYPE="OPERATOR">-</SEQ>
-		
-		<SEQ TYPE="OPERATOR">^</SEQ>
-		
-		<SEQ TYPE="OPERATOR">.</SEQ>
-		<SEQ TYPE="OPERATOR">,</SEQ>
-		<SEQ TYPE="OPERATOR">(</SEQ>
-		<SEQ TYPE="OPERATOR">)</SEQ>
-		<SEQ TYPE="OPERATOR">}</SEQ>
-		<SEQ TYPE="OPERATOR">{</SEQ>
-		<SEQ TYPE="OPERATOR">]</SEQ>
-		<SEQ TYPE="OPERATOR">[</SEQ>
-
-		<KEYWORDS>
-		
-			<!-- clauses -->
-			<KEYWORD2>VARIABLES</KEYWORD2>
-
-			<!-- substitutions -->
-			<KEYWORD2>ANY</KEYWORD2>
-			<KEYWORD2>ASSERT</KEYWORD2>
-
-			<KEYWORD2>END</KEYWORD2>
-			<KEYWORD2>IF</KEYWORD2>
-			<KEYWORD2>IN</KEYWORD2>
-			<KEYWORD2>LET</KEYWORD2>
-			
-			<KEYWORD3>FIN</KEYWORD3>
-			<KEYWORD3>FIN1</KEYWORD3>
-			<KEYWORD3>INT</KEYWORD3>
-			<KEYWORD3>INTEGER</KEYWORD3>
-
-			<FUNCTION>card</FUNCTION>
-			<!-- Z functions and relations -->
-			<FUNCTION>dom</FUNCTION>
-			<FUNCTION>ran</FUNCTION>
-			<FUNCTION>id</FUNCTION>
-			<FUNCTION>first</FUNCTION>
-			<FUNCTION>second</FUNCTION>
-		</KEYWORDS>
-	</RULES>
+  <PROPS>
+    <PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)"/>
+    <PROPERTY NAME="commentStart" VALUE="/*"/>
+    <PROPERTY NAME="commentEnd" VALUE="*/"/>
+    <PROPERTY NAME="lineComment" VALUE="//"/>
+  </PROPS>
+  <RULES ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="COMMENT1">
+    <!-- schema definition -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic schema definition -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x250C;&#x2550;</BEGIN>  <!-- GENSCH  -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- axiomatic description -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- generic axiomatic description -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2577;&#x2550;</BEGIN>  <!-- GENAX -->
+      <END>&#x2514;</END>   <!-- ENDCHAR -->
+    </SPAN>
+    <!-- all other Zed that begin with ZED -->
+    <SPAN DELEGATE="ZED">
+      <BEGIN>&#x2500;</BEGIN> <!-- ZEDCHAR -->
+      <END>&#x2514;</END>
+    </SPAN>
+    <!-- the name part of a vertical Z schema definition -->
+    <EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
+  </RULES>
+  <RULES SET="ZED" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
+    <SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+      <BEGIN>"</BEGIN>
+      <END>"</END>
+    </SPAN>
+    <SEQ TYPE="OPERATOR">(</SEQ>
+    <SEQ TYPE="OPERATOR">)</SEQ>
+    <SEQ TYPE="OPERATOR">}</SEQ>
+    <SEQ TYPE="OPERATOR">{</SEQ>
+    <SEQ TYPE="OPERATOR">]</SEQ>
+    <SEQ TYPE="OPERATOR">[</SEQ>
+    <!-- symbolic keywords -->
+    <SEQ TYPE="OPERATOR">:</SEQ>
+    <SEQ TYPE="OPERATOR">==</SEQ>
+    <SEQ TYPE="OPERATOR">,</SEQ>
+    <SEQ TYPE="OPERATOR">::=</SEQ>
+    <SEQ TYPE="OPERATOR">|</SEQ>		
+    <SEQ TYPE="OPERATOR">&amp;</SEQ>
+    <SEQ TYPE="OPERATOR">\</SEQ>
+    <SEQ TYPE="OPERATOR">/</SEQ>
+    <SEQ TYPE="OPERATOR">.</SEQ>
+    <SEQ TYPE="OPERATOR">;</SEQ>
+    <SEQ TYPE="OPERATOR">=</SEQ>
+    <!-- toolkit operators -->
+    <SEQ TYPE="OPERATOR">&gt;</SEQ>
+    <SEQ TYPE="OPERATOR">&lt;</SEQ>
+    <SEQ TYPE="OPERATOR">*</SEQ>
+    <SEQ TYPE="OPERATOR">+</SEQ>
+    <SEQ TYPE="OPERATOR">~</SEQ>
+    <SEQ TYPE="OPERATOR">-</SEQ>
+    <SEQ TYPE="OPERATOR">^</SEQ>
+    <KEYWORDS>
+      <KEYWORD1>else</KEYWORD1>
+      <KEYWORD1>false</KEYWORD1>
+      <KEYWORD1>function</KEYWORD1>
+      <KEYWORD1>generic</KEYWORD1>
+      <KEYWORD1>if</KEYWORD1>
+      <KEYWORD1>leftassoc</KEYWORD1>
+      <KEYWORD1>let</KEYWORD1>
+      <KEYWORD1>parents</KEYWORD1>
+      <KEYWORD1>pre</KEYWORD1>
+      <KEYWORD1>relation</KEYWORD1>
+      <KEYWORD1>rightassoc</KEYWORD1>
+      <KEYWORD1>section</KEYWORD1>
+      <KEYWORD1>then</KEYWORD1>
+      <KEYWORD1>true</KEYWORD1>
+      <!-- toolkit functions and relations -->
+      <FUNCTION>dom</FUNCTION>
+      <FUNCTION>ran</FUNCTION>
+      <FUNCTION>id</FUNCTION>
+      <FUNCTION>first</FUNCTION>
+      <FUNCTION>second</FUNCTION>
+    </KEYWORDS>
+  </RULES>
 </MODE>
