@@ -12,12 +12,4 @@
   <description>
     Provides ZML examples for CZT.
   </description>
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <targetPath>net/sourceforge/czt/zml</targetPath>
-      </resource>
-    </resources>
-  </build>
 </project>
