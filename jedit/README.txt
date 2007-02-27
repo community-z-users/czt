@@ -65,9 +65,9 @@ Please restart jEdit to load the new plugins.
 b) Installing the Z modes
 -------------------------
 
-zed.xml contains the beginnings of a jEdit syntax-colouring mode for Z
-using Unicode mark-up that highlights Z paragraphs differently than
-the text between them.  To install it,
+The file zed.xml contains the beginnings of a jEdit syntax-colouring
+mode for Z in Unicode mark-up that highlights Z paragraphs and Z
+keywords.  To install it,
 
    1. copy zed.xml to JEDIT_SETTINGS_DIR/modes
    2. update the catalog file in JEDIT_SETTINGS_DIR/modes
