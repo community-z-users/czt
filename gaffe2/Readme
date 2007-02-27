@@ -7,7 +7,7 @@ Instructions on use Gaffe2.
       This problem is due to when you create the project, by default the source root folder is the project folder. But
       for gaffe2, please load .project and .classpath or you should specify the source root folder as "/src/main/java"
   b . If any external classes under other CZT projects are not found, please check whether you have include the external
-      jar "czt-dep.jar" or you may refer to other projects in the eclipse build path configuration dialog.
+      jar "czt.jar" or you may refer to other projects in the eclipse build path configuration dialog.
 
 3 Simply run the MainFrame.java should be able to run the current Gaffe2. Next time you can run this by run history.
   You may build gaffe2 as a jar and run without eclipse, up to your choice.   

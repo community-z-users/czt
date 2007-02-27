@@ -27,10 +27,10 @@ There are at least two ways of using the CZT tools.
 
 2. Command line tool.
 
-   The jar file <CZT_HOME>/lib/czt-dep.jar
+   The jar file <CZT_HOME>/lib/czt.jar
    can be executed by calling
 
-     java -jar czt-dep.jar
+     java -jar czt.jar
 
    Calling it without arguments as shown here prints usage information.
 

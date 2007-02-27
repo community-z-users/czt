@@ -65,7 +65,7 @@ To install the ZSideKick plugin you need to:
   1. Install the SideKick and ErrorList plugin
      using jEdit's Plugin manager
   2. copy  <CZT_HOME>/lib/ZSideKick.jar to JEDIT_SETTINGS_DIR/jars
-     AND  <CZT_HOME>/lib/czt-dep.jar to JEDIT_SETTINGS_DIR/jars/czt.jar
+     AND  <CZT_HOME>/lib/czt.jar to JEDIT_SETTINGS_DIR/jars/czt.jar
   3. update the catalog file in JEDIT_SETTINGS_DIR/modes
      (see the catalog file to see how to do this)
   4. restart jEdit to load the new plugin
