@@ -51,7 +51,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class TypeCheckRewriteTest
   extends net.sourceforge.czt.typecheck.z.TypeCheckerTest
 {
-  final private static String RULES_FILE = "/unfold.tex";
+  final private static String RULES_FILE = "/rulesets/unfold.tex";
 
   protected RuleTable rules_ = null;
 
