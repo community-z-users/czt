@@ -53,13 +53,6 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <dependencies>
           <dependency>
-            <groupId>sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-          </dependency>
-          <dependency>
             <groupId>ant</groupId>
             <artifactId>ant-trax</artifactId>
             <version>1.6.5</version>
@@ -108,6 +101,7 @@
                 <property name="jaxb.build.dir" location="target"/>
                 <property name="jaxb.build.xsd" location="${jaxb.build.dir}/xsd"/>
                 <property name="jaxb.build.src" location="${jaxb.build.dir}/src"/>
+		<property name="build.compiler" value="extJavac"/>
                 <xslt basedir="../zml/src/main/resources/net/sourceforge/czt/zml/xsd" destdir="${jaxb.build.xsd}"
                   style="../gnast/src/xsl/annotateJaxbBindings.xsl">
                   <mapper type="glob" from="*.xsd" to="*.xsd"/>

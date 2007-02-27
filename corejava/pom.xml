@@ -30,13 +30,6 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <dependencies>
           <dependency>
-            <groupId>sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-          </dependency>
-          <dependency>
             <groupId>ant</groupId>
             <artifactId>ant-trax</artifactId>
             <version>1.6.5</version>
@@ -50,6 +43,7 @@
                 <property name="build.src" location="target/build/src"/>
                 <property name="xml.dir" location="src/main/xml"/>
                 <property name="src.xsl" location="xsl"/>
+		<property name="build.compiler" value="extJavac"/>
                 <xslt
                   in="${xml.dir}/zchar.xml"
                   out="${build.src}/net/sourceforge/czt/z/util/ZChar.java"
