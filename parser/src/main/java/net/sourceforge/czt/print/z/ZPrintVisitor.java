@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -1305,6 +1305,21 @@ public class ZPrintVisitor
       visit(term);
       if (iter.hasNext()) {
         print(separator);
+      }
+    }
+  }
+
+  /**
+   * @throws NullPointerException if separator is <code>null</code>.
+   */
+  protected void printTermList(List list, String separator)
+  {
+    if (separator == null) throw new NullPointerException();
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
+      Term term = (Term) iter.next();
+      visit(term);
+      if (iter.hasNext()) {
+        printDecorword(separator);
       }
     }
   }
