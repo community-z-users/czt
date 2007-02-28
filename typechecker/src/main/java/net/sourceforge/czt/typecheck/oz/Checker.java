@@ -189,14 +189,13 @@ abstract public class Checker<R>
   {
     if (opExpr instanceof ConjOpExpr) {
       ConjOpExpr conjOpExpr = (ConjOpExpr) opExpr;
-      OpExpr leftOpExpr = conjOpExpr.getLeftOpExpr();
-      OpExpr rightOpExpr = conjOpExpr.getRightOpExpr();
-      traverseForDowncasts(leftOpExpr);
-      traverseForDowncasts(rightOpExpr);
+      for (OpExpr oe : conjOpExpr.getOpExpr()) {
+        traverseForDowncasts(oe);
+      }
     }
     else if (opExpr instanceof ScopeEnrichOpExpr) {
       ScopeEnrichOpExpr scopeEnrichOpExpr = (ScopeEnrichOpExpr) opExpr;
-      OpExpr leftOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
+      OpExpr leftOpExpr = scopeEnrichOpExpr.getOpExpr().get(0);
       traverseForDowncasts(leftOpExpr);
     }
     else if (opExpr instanceof AnonOpExpr) {

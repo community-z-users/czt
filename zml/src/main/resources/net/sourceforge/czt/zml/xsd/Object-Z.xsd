@@ -377,20 +377,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="OZ:OpExpr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftOpExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="OZ:OpExpr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightOpExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="OZ:OpExpr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

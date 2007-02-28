@@ -192,7 +192,7 @@ public class OpExprChecker
     traverseForDowncasts(opExpr2);
 
     //get the signatures of the left and right operations
-    OpExpr lOpExpr = opExpr2.getLeftOpExpr();
+    OpExpr lOpExpr = opExpr2.getOpExpr().get(0);
     Signature lSig = lOpExpr.accept(opExprChecker());
 
     //if this is a choice expr, exit and then enter a scope so that
@@ -202,7 +202,7 @@ public class OpExprChecker
       typeEnv().enterScope();
     }
 
-    OpExpr rOpExpr = opExpr2.getRightOpExpr();
+    OpExpr rOpExpr = opExpr2.getOpExpr().get(1);
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());
@@ -226,8 +226,8 @@ public class OpExprChecker
     typeEnv().enterScope();
 
     //get the signatures of the left and right operations
-    OpExpr lOpExpr = seqOpExpr.getLeftOpExpr();
-    OpExpr rOpExpr = seqOpExpr.getRightOpExpr();
+    OpExpr lOpExpr = seqOpExpr.getOpExpr().get(0);
+    OpExpr rOpExpr = seqOpExpr.getOpExpr().get(1);
     Signature lSig = lOpExpr.accept(opExprChecker());
     Signature rSig = rOpExpr.accept(opExprChecker());
 
@@ -251,8 +251,8 @@ public class OpExprChecker
     typeEnv().enterScope();
 
     //get the signatures of the left and right operations
-    OpExpr lOpExpr = parallelOpExpr.getLeftOpExpr();
-    OpExpr rOpExpr = parallelOpExpr.getRightOpExpr();
+    OpExpr lOpExpr = parallelOpExpr.getOpExpr().get(0);
+    OpExpr rOpExpr = parallelOpExpr.getOpExpr().get(1);
     Signature lSig = lOpExpr.accept(opExprChecker());
     Signature rSig = rOpExpr.accept(opExprChecker());
 
@@ -279,8 +279,8 @@ public class OpExprChecker
     typeEnv().enterScope();
 
     //get the signatures of the left and right operations
-    OpExpr lOpExpr = assoParallelOpExpr.getLeftOpExpr();
-    OpExpr rOpExpr = assoParallelOpExpr.getRightOpExpr();
+    OpExpr lOpExpr = assoParallelOpExpr.getOpExpr().get(0);
+    OpExpr rOpExpr = assoParallelOpExpr.getOpExpr().get(1);
     Signature lSig = lOpExpr.accept(opExprChecker());
     Signature rSig = rOpExpr.accept(opExprChecker());
 
@@ -350,14 +350,14 @@ public class OpExprChecker
     typeEnv().enterScope();
 
     //get the signature of the left operation expression
-    OpExpr lOpExpr = scopeEnrichOpExpr.getLeftOpExpr();
+    OpExpr lOpExpr = scopeEnrichOpExpr.getOpExpr().get(0);
     Signature lSig = lOpExpr.accept(opExprChecker());
 
     //add the types into the typing environment
     typeEnv().add(lSig.getNameTypePair());
 
     //get and visit the right expr
-    OpExpr rOpExpr = scopeEnrichOpExpr.getRightOpExpr();
+    OpExpr rOpExpr = scopeEnrichOpExpr.getOpExpr().get(1);
     Signature rSig = rOpExpr.accept(opExprChecker());
 
     List<NameTypePair> newPairs = factory().list(lSig.getNameTypePair());

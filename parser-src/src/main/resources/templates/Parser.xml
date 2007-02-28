@@ -5196,7 +5196,7 @@ term ::=
         {:
 <add:oz>
           if (parserState_.isOpExpr()) {
-             RESULT = factory_.createConjOpExpr(opExpr(lhs), opExpr(rhs));
+             RESULT = factory_.createConjOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
           }
           else
 </add:oz>
@@ -5226,7 +5226,7 @@ term ::=
         {:
 <add:oz>
            if (parserState_.isOpExpr()) {
-             RESULT = factory_.createSeqOpExpr(opExpr(lhs), opExpr(rhs));
+             RESULT = factory_.createSeqOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            }
            else {
 </add:oz>
@@ -6946,7 +6946,7 @@ outer_opExpr ::=
         term:lhs SCOPE:s term:rhs
         {:
            RESULT =
-             factory_.createScopeEnrichOpExpr(opExpr(lhs), opExpr(rhs));
+             factory_.createScopeEnrichOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(sleft, sright, lhs, rhs));
         :}
 <add:tcoz>
@@ -6991,7 +6991,7 @@ inner_opExpr ::=
         inner_term:lhs PARALLEL:p inner_term:rhs
         {:
            RESULT = 
-             factory_.createParallelOpExpr(opExpr(lhs), opExpr(rhs));
+             factory_.createParallelOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(pleft, pright, lhs, rhs));
         :}    
         |
@@ -6999,7 +6999,7 @@ inner_opExpr ::=
         inner_term:lhs ASSOPARALLEL:ap inner_term:rhs
         {:
            RESULT = 
-             factory_.createAssoParallelOpExpr(opExpr(lhs), opExpr(rhs));
+             factory_.createAssoParallelOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(apleft, apright, lhs, rhs));
         :}
         |
@@ -7007,7 +7007,7 @@ inner_opExpr ::=
         inner_term:lhs GCH:gch inner_term:rhs
         {:
            RESULT =
-             factory_.createExChoiceOpExpr(opExpr(lhs), opExpr(rhs));
+             factory_.createExChoiceOpExpr(factory_.list(opExpr(lhs), opExpr(rhs)));
            addLocAnn(RESULT, getLocation(gchleft, gchright, lhs, rhs));
         :}
 /*
