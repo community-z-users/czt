@@ -66,7 +66,7 @@
       <tr>
         <td>2.1</td>
         <td><link href="Z_2_1.xsd">Z_2_1.xsd</link></td>
-        <td>5093</td>
+        <td>5169</td>
         <td>
           Removed XML Schema elements and types DeclName, ZDeclName,
           RefName, and ZRefName and introduce new XML Schema elements
