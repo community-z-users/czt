@@ -29,7 +29,7 @@ public class GenericParser
 
   public GenericParser(String extension, Markup markup)
   {
-    super(extension + markup);
+    super(extension + (markup == Markup.UNICODE ? "" : "latex"));
     extension_ = extension;
     markup_ = markup;
   }
