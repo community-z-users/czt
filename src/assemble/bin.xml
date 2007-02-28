@@ -24,7 +24,7 @@
     </fileSet>
     <fileSet>
       <outputDirectory>/</outputDirectory>
-      <directory>zml/src/main/resources</directory>
+      <directory>zml/src/main/resources/net/sourceforge/czt/zml</directory>
     </fileSet>
     <fileSet>
       <directory>jedit</directory>
