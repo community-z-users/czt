@@ -68,12 +68,17 @@
         <td><link href="Z_2_1.xsd">Z_2_1.xsd</link></td>
         <td>5093</td>
         <td>
-          Removed XML Schema elements and types DeclName, ZDeclName, RefName,
-          and ZRefName and introduce new XML Schema elements and types Name and
-          ZName instead since the distinction between DeclName and RefName does
-          not seem to be relevant and makes handling of IDs more difficult.
-          Name and ZName or now used in places where either a DeclName or a RefName
+          Removed XML Schema elements and types DeclName, ZDeclName,
+          RefName, and ZRefName and introduce new XML Schema elements
+          and types Name and ZName instead since the distinction
+          between DeclName and RefName does not seem to be relevant
+          and makes handling of IDs more difficult.  Name and ZName or
+          now used in places where either a DeclName or a RefName
           has been used.
+          <br/>
+          Remove optional attributes Author, Modified, and Source
+          from element Spec.  Annotations can be used to preserve this
+          sort of information.
         </td>
       </tr>
       <tr>

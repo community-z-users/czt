@@ -10,9 +10,9 @@
     <xs:documentation>
       This XML schema defines XML markup for formal
       specifications written in the ISO Standard Z notation.
-      $Id: Z.xsd 5093 2007-02-09 01:31:36Z petramalik $
+      $Id: Z.xsd 5169 2007-02-27 21:58:05Z petramalik $
 
-      Copyright (C) 2003, 2004, 2005, 2006 Mark Utting
+      Copyright (C) 2003, 2004, 2005, 2006, 2007 Mark Utting
       This file is part of the Community Z Tools (CZT) project.
 
       The CZT project contains free software; you can
@@ -1165,9 +1165,6 @@
         </xs:sequence>
         <xs:attribute name="Version" type="xs:string"
           use="optional" default="1.0"/>
-        <xs:attribute name="Author" type="xs:string" use="optional"/>
-        <xs:attribute name="Modified" type="xs:dateTime" use="optional"/>
-        <xs:attribute name="Source" type="xs:anyURI" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1430,8 +1427,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1484,8 +1480,7 @@
       <xs:extension base="Z:Expr">
         <xs:sequence>
           <xs:element ref="Z:Pred"/>
-          <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1682,8 +1677,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
-          <xs:element ref="Z:Pred"/>
-          <xs:element ref="Z:Pred"/>
+          <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1711,8 +1705,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
         <xs:attribute name="Mixfix" type="xs:boolean"
           use="optional" default="false"/>
@@ -1986,8 +1979,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="Z:Name"/>
-          <xs:element ref="Z:Name"/>
+          <xs:element ref="Z:Name" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
