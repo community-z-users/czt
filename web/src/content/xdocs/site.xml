@@ -41,6 +41,9 @@ See http://xml.apache.org/forrest/linking.html for more info
     <manual
       label="User Manual"
       href="manual.html"/>
+    <wiki
+      label="Wiki"
+      href="wiki"/>
     <developer
       label="Developer Info"
       href="developer.html"/>
