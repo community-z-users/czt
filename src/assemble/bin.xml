@@ -27,6 +27,13 @@
       <directory>zml/src/main/resources/net/sourceforge/czt/zml</directory>
     </fileSet>
     <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <directory>doc/refcard/z</directory>
+      <includes>
+        <include>*.pdf</include>
+      </includes>
+    </fileSet>
+    <fileSet>
       <directory>jedit</directory>
       <includes>
         <include>*.txt</include>
