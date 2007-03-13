@@ -1,5 +1,5 @@
 #*
-Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
+Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -33,6 +33,8 @@ package ${project.BasePackage}.${class.Package};
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.xml.bind.JAXBElement;
+
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.Term;
 
@@ -40,7 +42,6 @@ import net.sourceforge.czt.base.ast.Term;
 import ${p.JaxbGenPackage}.*;
 #end
 import ${project.JaxbGenPackage}.*;
-import org.w3._2001.xmlschema.*;
 
 /**
  * The marshaller responsible for serializing XML data.
@@ -58,10 +59,6 @@ public class $class.Name
              net.sourceforge.czt.base.visitor.TermVisitor<Object>
 #end
 {
-#if(!$ImportPackage)
-  protected boolean createElement_ = true;
-#end
-
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
@@ -69,8 +66,6 @@ public class $class.Name
     objectFactory_ = new ${jaxbPackage}.ObjectFactory();
   private net.sourceforge.czt.z.jaxb.gen.ObjectFactory
     annsObjectFactory_ = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
-  private org.w3._2001.xmlschema.ObjectFactory
-    anyTypeObjectFactory_ = new org.w3._2001.xmlschema.ObjectFactory();
 
   private String getClassName()
   {
@@ -82,17 +77,16 @@ public class $class.Name
     return Logger.getLogger(getClassName());
   }
 
-  private net.sourceforge.czt.z.jaxb.gen.Term.AnnsType visitAnnotations(List list)
+  private net.sourceforge.czt.z.jaxb.gen.Term.Anns visitAnnotations(List list)
     throws javax.xml.bind.JAXBException
   {
-      net.sourceforge.czt.z.jaxb.gen.Term.AnnsType anns =
-        annsObjectFactory_.createTermAnnsType();
-    List newlist = anns.getany();
+      net.sourceforge.czt.z.jaxb.gen.Term.Anns anns =
+        annsObjectFactory_.createTermAnns();
+    List newlist = anns.getAny();
     for (Object obj : list) {
       if (obj instanceof Term) {
         Term term = (Term) obj;
         try {
-          createElement_ = true;
           Object visitedTerm = term.accept(this);
           newlist.add(visitedTerm);
         }
@@ -111,8 +105,6 @@ public class $class.Name
   public Object visitTerm(Term zedObject)
   {
     String message = "Unexpected element " + zedObject.getClass().getName();
-    // getLogger().warning(message);
-    // return null;
     throw(new UnsupportedOperationException(message));
   }
 
@@ -122,17 +114,8 @@ public class $class.Name
   public Object visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
   {
     getLogger().entering(getClassName(), "visit${c.Name}", zedObject);
-
-    $c.Name jaxbObject = null;
     try {
-#if(${c.NameEqualsType})
-      jaxbObject = objectFactory_.create${c.Name}Element();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.create${c.Name}();
-      }
-#else
-      jaxbObject = objectFactory_.create${c.Name}();
-#end
+      $c.Name jaxbObject = objectFactory_.create${c.Name}();
       if (zedObject.getAnns() != null) {
         List list = zedObject.getAnns();
         if (list.size() > 0) {
@@ -143,22 +126,22 @@ public class $class.Name
 #if($prop.Name == 'Content')
       {
         List list = zedObject.getContent();
-        if (list.size() > 0) {
-          AnyType anyType =
-            anyTypeObjectFactory_.createAnyType();
-          List newlist = anyType.getContent();
+        if (list.size() == 1) {
+          Object o = list.get(0);
+          if (o instanceof Term) {
+            o = ((Term) o).accept(this);
+          }
+          jaxbObject.setContent(o);
+        }
+        else if (list.size() > 1) {
+          List newlist = new java.util.ArrayList();
           for (Object o : list) {
             if (o instanceof Term) {
-#if($prop.isReference())
-              createElement_ = true;
-#else
-              createElement_ = false;
-#end
               o = ((Term) o).accept(this);
             }
             newlist.add(o);
           }
-          jaxbObject.setContent(anyType);
+          jaxbObject.setContent(newlist);
         }
       }
 #elseif($prop.isList())
@@ -166,34 +149,28 @@ public class $class.Name
         List newlist = jaxbObject.${prop.GetterName}();
         for (Object o : zedObject.${prop.GetterName}()) {
           if (o instanceof Term) {
-#if($prop.isReference())
-            createElement_ = true;
-#else
-            createElement_ = false;
-#end
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
         }
       }
 #else
-#if($prop.isReference())
-      createElement_ = true;
-#else
-      createElement_ = false;
-#end
       if (zedObject.${prop.GetterName}() != null) {
-#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || $prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar')
+#if($prop.Type.FullName == 'net.sourceforge.czt.base.ast.Digit' || $prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar' || $prop.Type.FullName == 'javax.xml.datatype.XMLGregorianCalendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
 #elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommKind' || $prop.Type.Name == 'CallKind' || $prop.Type.FullName == 'ProcessKind' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType')
-        jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
+        jaxbObject.${prop.SetterName}(${prop.Type.Name}.fromValue(zedObject.${prop.GetterName}().toString()));
 #else
         Term term = zedObject.${prop.GetterName}();
-        jaxbObject.${prop.SetterName}((${prop.Type.Name}) term.accept(this));
+        JAXBElement<${prop.Type.Name}> newValue = (JAXBElement)
+          term.accept(this);
+        jaxbObject.${prop.SetterName}(newValue);
 #end
       }
 #end
 #end
+      getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
+      return objectFactory_.create${c.Name}(jaxbObject);
     }
     catch (Exception exception) {
       String message =
@@ -202,9 +179,6 @@ public class $class.Name
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
   }
 #end
 #end

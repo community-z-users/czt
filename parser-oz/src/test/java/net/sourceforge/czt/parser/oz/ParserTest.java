@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -144,9 +144,6 @@ public class ParserTest
     visitor = new DeleteMarkupParaVisitor();
     parsedSpec = (Spec) parsedSpec.accept(visitor);
     zmlSpec = (Spec) zmlSpec.accept(visitor);
-    JaxbValidator validator = new JaxbValidator();
-    Assert.assertTrue(validator.validate(parsedSpec));
-    Assert.assertTrue(validator.validate(zmlSpec));
     if (! zmlSpec.equals(parsedSpec)) {
       String message = "For " + url.toString();
       JaxbXmlWriter xmlWriter = new JaxbXmlWriter();

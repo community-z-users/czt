@@ -24,9 +24,7 @@ import java.math.BigInteger;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
@@ -114,19 +112,6 @@ public class AstTest extends TestCase
       Assert.assertEquals(optempPara.getOper().get(0), op1);
       optempPara.getOper().add(op2);
       Assert.assertEquals(optempPara.getOper().get(1), op2);
-    }
-
-    public void testValidation()
-    {
-      OptempPara optempPara = factory_.createOptempPara();
-      Operator op1 = factory_.createOperator("Test1");
-      Operand op2 = factory_.createOperand();
-      optempPara.getOper().add(op1);
-      optempPara.getOper().add(op2);
-      optempPara.setCat(Cat.Relation);
-      optempPara.setPrec(BigInteger.valueOf(1));
-      AstValidator validator = new JaxbValidator();
-      Assert.assertTrue(validator.validate(optempPara));
     }
   }
 }

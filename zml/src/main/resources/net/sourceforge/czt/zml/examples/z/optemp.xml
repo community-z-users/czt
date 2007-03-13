@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ZSect>
         <Anns>
-            <LocAnn Col="0" Line="0" Loc="optemp.tex"/>
+            <LocAnn Loc="optemp.tex" Line="0" Col="0"/>
         </Anns>
         <Name>Specification</Name>
         <Parent>
@@ -10,28 +10,28 @@
         </Parent>
         <ZParaList>
             <LatexMarkupPara/>
-            <OptempPara Assoc="Left" Cat="Function" Prec="41">
+            <OptempPara Prec="41" Cat="Function" Assoc="Left">
                 <Anns>
-                    <LocAnn Col="0" Length="81" Line="0" Loc="optemp.tex" Start="0"/>
+                    <LocAnn Start="0" Loc="optemp.tex" Line="0" Length="81" Col="0"/>
                 </Anns>
                 <Operand List="false"/>
                 <Operator>
                     <Anns>
-                        <LocAnn Col="31" Length="1" Line="1" Loc="optemp.tex" Start="43"/>
+                        <LocAnn Start="43" Loc="optemp.tex" Line="1" Length="1" Col="31"/>
                     </Anns>
                     <Word>t</Word>
                 </Operator>
                 <Operand List="false"/>
                 <Operator>
                     <Anns>
-                        <LocAnn Col="39" Length="1" Line="1" Loc="optemp.tex" Start="51"/>
+                        <LocAnn Start="51" Loc="optemp.tex" Line="1" Length="1" Col="39"/>
                     </Anns>
                     <Word>e</Word>
                 </Operator>
                 <Operand List="true"/>
                 <Operator>
                     <Anns>
-                        <LocAnn Col="50" Length="2" Line="1" Loc="optemp.tex" Start="62"/>
+                        <LocAnn Start="62" Loc="optemp.tex" Line="1" Length="2" Col="50"/>
                     </Anns>
                     <Word>st</Word>
                 </Operator>
@@ -40,4 +40,3 @@
         </ZParaList>
     </ZSect>
 </Spec>
-

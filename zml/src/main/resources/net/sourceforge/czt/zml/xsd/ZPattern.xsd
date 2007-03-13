@@ -308,7 +308,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="P:SequentContext"/>
+          <xs:element ref="P:SequentContext">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -319,7 +325,13 @@
       <xs:extension base="P:Sequent">
         <xs:sequence>
           <xs:element ref="Z:Pred"/>
-          <xs:element ref="P:Deduction" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="P:Deduction" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -431,7 +443,13 @@
     <xs:complexContent>
       <xs:extension base="Z:ExprList">
         <xs:sequence>
-          <xs:element ref="Z:ZExprList"/>
+          <xs:element ref="Z:ZExprList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
@@ -455,8 +473,20 @@
     <xs:complexContent>
       <xs:extension base="Z:DeclList">
         <xs:sequence>
-          <xs:element ref="Z:ZDeclList"/>
-          <xs:element ref="P:JokerDeclList"/>
+          <xs:element ref="Z:ZDeclList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="P:JokerDeclList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -478,7 +508,13 @@
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerExpr"/>
+          <xs:element ref="P:JokerExpr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
@@ -488,7 +524,13 @@
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerExprList"/>
+          <xs:element ref="P:JokerExprList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:ExprList"/>
         </xs:sequence>
       </xs:extension>
@@ -498,7 +540,13 @@
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerPred"/>
+          <xs:element ref="P:JokerPred">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Pred"/>
         </xs:sequence>
       </xs:extension>
@@ -508,7 +556,13 @@
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerDeclList"/>
+          <xs:element ref="P:JokerDeclList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
@@ -518,7 +572,13 @@
     <xs:complexContent>
       <xs:extension base="P:Binding">
         <xs:sequence>
-          <xs:element ref="P:JokerName"/>
+          <xs:element ref="P:JokerName">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
           <xs:element ref="Z:Name"/>
         </xs:sequence>
       </xs:extension>

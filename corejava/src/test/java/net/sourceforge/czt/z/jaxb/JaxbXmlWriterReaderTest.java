@@ -1,5 +1,5 @@
 /*
-  Copyright 2004, 2006 Mark Utting
+  Copyright 2004, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -25,7 +25,6 @@ import java.util.List;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.base.util.XmlWriterReaderTest;
@@ -64,11 +63,6 @@ public class JaxbXmlWriterReaderTest
   public XmlWriter createXmlWriter()
   {
     return new JaxbXmlWriter();
-  }
-
-  public AstValidator createAstValidator()
-  {
-    return new JaxbValidator();
   }
 
   public List<URL> getExampleFiles()

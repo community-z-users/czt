@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2005, 2006 Petra Malik
+Copyright 2003, 2005, 2006, 2007 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -31,6 +31,9 @@ package #package(${class.Package});
 
 import java.util.*;
 import java.util.logging.Logger;
+
+import com.sun.org.apache.xerces.internal.dom.ElementNSImpl;
+import javax.xml.bind.JAXBElement;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
 import ${project.AstPackage}.*;
@@ -84,6 +87,17 @@ public class ${class.Name}#if($ImportProject)
     throw new UnsupportedOperationException("Unexpected element "
                                             + object.getClass().getName());
   }
+
+  public Object visitJAXBElement(JAXBElement jaxbElement)
+  {
+    return dispatch(jaxbElement.getValue());
+  }
+
+  public Object visitElementNSImpl(ElementNSImpl obj)
+  {
+    return obj;
+  }
+
 #foreach($c in $classes)
 #if(!$c.Abstract)
 
@@ -93,12 +107,8 @@ public class ${class.Name}#if($ImportProject)
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
     List<Object> content = new Vector<Object>();
-    if (jaxbObject.getContent() != null
-        && jaxbObject.getContent().getContent() != null) {
-      for (Object obj : jaxbObject.getContent().getContent()) {
-        Object o = dispatch(obj);
-        content.add(o);
-      }
+    if (jaxbObject.getContent() != null) {
+      content.add(dispatch(jaxbObject.getContent()));
     }
 #elseif(${prop.isList()})
     ${prop.Type.FullName} ${prop.VarName} = new Vector<${prop.ListType.FullName}>();
@@ -108,11 +118,13 @@ public class ${class.Name}#if($ImportProject)
     }
 #elseif($prop.Type.Name == 'Box' || $prop.Type.Name == 'Cat' || $prop.Type.Name == 'Assoc' || $prop.Type.Name == 'DirectiveType' || $prop.Type.Name == 'And' || $prop.Type.Name == 'CommKind' || $prop.Type.Name == 'CallKind' || $prop.Type.Name == 'Model' || $prop.Type.Name == 'ProcessKind' || $prop.Type.Name == 'ParamQualifier' || $prop.Type.Name == 'JokerType')
     ${prop.Type.FullName} ${prop.VarName} = null;
-    String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}();
-    if (${prop.VarName}Jaxb != null) {
-      ${prop.VarName} =
-        ${prop.Type.FullName}.fromString(${prop.VarName}Jaxb);
+    if (jaxbObject.${prop.GetterName}() != null) {
+      String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}().value();
+      ${prop.VarName} = ${prop.Type.FullName}.fromString(${prop.VarName}Jaxb);
     }
+#elseif($prop.Type.Name == 'Boolean')
+    ${prop.Type.FullName} ${prop.VarName} =
+      (${prop.Type.FullName}) jaxbObject.is${prop.Name}();
 #else
     ${prop.Type.FullName} ${prop.VarName} =
       (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
@@ -121,9 +133,9 @@ public class ${class.Name}#if($ImportProject)
     ${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
 
     if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
+        && jaxbObject.getAnns().getAny() != null) {
       List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
+      List anyList = jaxbObject.getAnns().getAny();
       for (Object obj : anyList) {
         Object o = dispatch(obj);
         annsList.add(o);

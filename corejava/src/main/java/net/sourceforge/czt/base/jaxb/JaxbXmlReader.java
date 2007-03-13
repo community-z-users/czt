@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004, 2006 Mark Utting
+  Copyright (C) 2003, 2004, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,10 +21,14 @@ package net.sourceforge.czt.base.jaxb;
 
 import java.io.File;
 import java.io.InputStream;
-import org.xml.sax.InputSource;
-
+import java.net.URL;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.XmlReader;
@@ -58,17 +62,21 @@ public class JaxbXmlReader
   }
 
   private Unmarshaller createUnmarshaller()
+    throws JAXBException, SAXException
   {
-    Unmarshaller unmarshaller = null;
-    try {
-      JAXBContext jaxcontext =
-        JAXBContext.newInstance(jaxbContextPath_);
-      unmarshaller = jaxcontext.createUnmarshaller();
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
+    JAXBContext jaxcontext = JAXBContext.newInstance(jaxbContextPath_);
+    Unmarshaller unmarshaller = jaxcontext.createUnmarshaller();
+    SchemaFactory schemaFactory = SchemaFactory.newInstance(
+      javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    Schema schema = getSchema() == null ? null :
+      schemaFactory.newSchema(getSchema());
+    unmarshaller.setSchema(schema);
     return unmarshaller;
+  }
+
+  protected URL getSchema()
+  {
+    return null;
   }
 
   /**
@@ -82,9 +90,6 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(stream));
-    }
-    catch (UnsupportedOperationException e) {
-      throw e;
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -103,9 +108,6 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(input));
-    }
-    catch (UnsupportedOperationException e) {
-      throw e;
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -126,11 +128,7 @@ public class JaxbXmlReader
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(file));
     }
-    catch (UnsupportedOperationException e) {
-      throw e;
-    }
     catch (Exception e) {
-      // TODO: what to do now?
       e.printStackTrace();
     }
     return term;

@@ -20,7 +20,6 @@ import junit.framework.TestSuite;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.circus.jaxb.JaxbValidator;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.SectionManager;
@@ -96,9 +95,6 @@ public abstract class AbstractParserTest extends TestCase
     visitor = new DeleteMarkupParaVisitor();
     parsedSpec = (Spec) parsedSpec.accept(visitor);
     zmlSpec = (Spec) zmlSpec.accept(visitor);
-    JaxbValidator validator = new JaxbValidator();
-    Assert.assertTrue(validator.validate(parsedSpec));
-    Assert.assertTrue(validator.validate(zmlSpec));
     if (! zmlSpec.equals(parsedSpec))
     {
       String message = "For " + url.toString();

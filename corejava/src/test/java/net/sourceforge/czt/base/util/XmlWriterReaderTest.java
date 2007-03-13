@@ -53,11 +53,6 @@ public abstract class XmlWriterReaderTest
   public abstract XmlReader createXmlReader();
 
   /**
-   * Returns the AstValidator to be tested.
-   */
-  public abstract AstValidator createAstValidator();
-
-  /**
    * Returns the XmlWriter to be tested.
    */
   public abstract XmlWriter createXmlWriter();
@@ -71,16 +66,13 @@ public abstract class XmlWriterReaderTest
     throws Exception
   {
     XmlReader reader = createXmlReader();
-    AstValidator validator = createAstValidator();
     XmlWriter writer = createXmlWriter();
     for (URL url : getExampleFiles()) {
       Term term = reader.read(url.openStream());
-      Assert.assertTrue(validator.validate(term));
       File tmpFile1 = File.createTempFile("cztXmlWriterReader", "test.zml");
       tmpFile1.deleteOnExit();
       writer.write(term, new FileOutputStream(tmpFile1));
       Term term2 = reader.read(tmpFile1);
-      Assert.assertTrue(validator.validate(term2));
       Assert.assertEquals(term, term2);
 
       File tmpFile2 = File.createTempFile("cztXmlWriterReader", "test.zml");
@@ -88,7 +80,6 @@ public abstract class XmlWriterReaderTest
       writer.setEncoding("UTF-16");
       writer.write(term, new FileOutputStream(tmpFile2));
       term2 = reader.read(tmpFile2);
-      Assert.assertTrue(validator.validate(term2));
       Assert.assertEquals(term, term2);
     }
   }
