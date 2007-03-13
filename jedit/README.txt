@@ -16,6 +16,8 @@ NOTE: The jEdit subproject is experimental, and highly subject to change!
 Requirements
 ************
 
+- Java 6
+  http://java.sun.com/javase/downloads/index.jsp
 - jEdit
   http://www.jedit.org
 

@@ -2,7 +2,7 @@
                   ============================
 
 You need at least the following:
-- J2SE Development Kit >= 5.0
+- J2SE Development Kit >= 6
   http://java.sun.com/javase/downloads/
 - Maven version >= 2.0.4
   http://maven.apache.org/
