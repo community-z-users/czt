@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
   <name>CZT Rules</name>
   <description>
-    Provides classes for parsing and printing Z specifications.
+    Provides classes for transforming and proving Z specifications.
   </description>
   <dependencies>
     <dependency>
@@ -24,7 +24,6 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>typechecker</artifactId>
-      <version>0.6-SNAPSHOT</version>
       <type>test-jar</type>
     </dependency>
   </dependencies>

@@ -199,6 +199,13 @@
         <artifactId>typechecker</artifactId>
         <version>${czt.version}</version>
       </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>typechecker</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+      </dependency>
 
       <!-- CZT Rules -->
       <dependency>
@@ -252,38 +259,6 @@
         <groupId>rhino</groupId>
         <artifactId>rhino</artifactId>
         <version>1.5-R3</version>
-      </dependency>
-
-      <!-- Jaxb -->
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-xjc</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>xfire</groupId>
-        <artifactId>jaxb-libs</artifactId>
-        <version>1.0.5</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml</groupId>
-        <artifactId>relaxngDatatype</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>activesoap</groupId>
-        <artifactId>xsdlib</artifactId>
-        <version>1.5</version>
       </dependency>
 
       <!-- JFlex -->
