@@ -1,6 +1,6 @@
 /*
  * AbstractParser.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -104,6 +104,9 @@ public abstract class AbstractParser
       catch (CommandException e) {
         // TODO Is ignoring OK?
       }
+      if (spec != null) {
+        wffHighlight_.setSpec(spec);
+      }
     }
     catch (CommandException exception) {
       errorSource.clear();
@@ -131,8 +134,16 @@ public abstract class AbstractParser
                              message);
       }
     }
-    if (spec != null) {
-      wffHighlight_.setSpec(spec);
+    catch (Throwable e) {
+      errorSource.clear();
+      String message =
+        "Caught " + e.getClass().getName() + ": " + e.getMessage();
+      errorSource.addError(ErrorSource.ERROR,
+                           buffer.getPath(),
+                           0,
+                           0,
+                           0,
+                           message);
     }
     return data;
   }
