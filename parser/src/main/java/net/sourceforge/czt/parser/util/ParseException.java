@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,13 +19,13 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.session.CommandException;
 
 /**
- * A parse exception.
+ * A parse exception.  It contains a list of errors that caused the
+ * parse to fail.
  *
  * @author Petra Malik
  */
@@ -36,8 +36,7 @@ public class ParseException
   private List<CztError> errorList_;
 
   /**
-   * Constructs a new parse exception with the specified message, source
-   * line number and column number.
+   * Constructs a new parse exception with the specified error list.
    */
   public ParseException(List<CztError> errorList)
   {
