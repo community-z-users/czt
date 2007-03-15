@@ -20,7 +20,7 @@
 package net.sourceforge.czt.parser.util;
 
 /**
- * Information about location in a source document, like location,
+ * Information about location in a source document, like source location,
  * line and column number, etc.
  *
  * @author Petra Malik
