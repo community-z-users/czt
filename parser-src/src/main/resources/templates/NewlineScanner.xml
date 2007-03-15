@@ -56,8 +56,6 @@ public class <class/>
                 Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
                 Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
                 Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
-                Sym.END, Sym.SCH, Sym.GENSCH, Sym.AX,
-                Sym.GENAX, Sym.ZED,
 <add:zpatt>
                 Sym.RULELINE, Sym.RULE, Sym.JOKER, Sym.RULELINE,
 </add:zpatt>
@@ -104,6 +102,7 @@ public class <class/>
                 Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
                 Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
                 Sym.PRE, Sym.PREP, Sym.L, Sym.LP, Sym.CONJECTURE, 
+                Sym.ZED, Sym.AX, Sym.SCH, Sym.GENAX, Sym.GENSCH,
 <add:zpatt>
                 Sym.PROVISO,
 </add:zpatt>
@@ -137,7 +136,7 @@ public class <class/>
   private int [] nlBefore_ =
     new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
                 Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
-                Sym.ERP, Sym.SR, Sym.SRP, Sym.RDATA,
+                Sym.ERP, Sym.SR, Sym.SRP, Sym.RDATA, Sym.END,
 <add:oz>
                 Sym.CONTAINMENT
 </add:oz>
