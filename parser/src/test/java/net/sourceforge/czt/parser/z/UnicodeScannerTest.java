@@ -263,26 +263,8 @@ public class UnicodeScannerTest
   }
 
   /**
-   * Example 3 from Z Standard chapter 7.3.
-   */
-  public void testExample3()
-    throws Exception
-  {
-    isDecorword(CROSS + ":" + MEM);
-    isDecorword("x_:_e");
-    isDecorword(SE + "x" + NW + ":" + SE + "e" + NW);
-
-    resetLexer(ZEDCHAR + "x:e" + ENDCHAR);
-    nextIsZed();
-    nextIsDecorword("x");
-    nextIsColon();
-    nextIsDecorword("e");
-    nextIsEnd();
-    nextIsEof();
-  }
-
-  /**
    * Example 4 from Z Standard chapter 7.3.
+   * (Example 3 has been deleted by the Technical Corrigendum)
    */
   public void testExample4()
     throws Exception

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
-  Copyright 2003, 2006 Petra Malik
+  Copyright 2003, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software;
@@ -159,6 +159,11 @@ DECIMAL = [:digit:]
 /* TODO: What about OTHERLETTER? */
 LETTER = [:letter:] | \uD835 [\uDD38-\uDD51]
 
+PUNCT =   "\u002C" /* comma */
+        | "\u002E" /* full stop */
+        | "\u003A" /* colon */
+        | "\u003B" /* semicolon */
+
 SPECIAL =   {STROKECHAR}
           | {WORDGLUE}
           | {BRACKET}
@@ -168,7 +173,7 @@ SPECIAL =   {STROKECHAR}
           | {CONTROL}
 
 /* NOT_SYMBOL ist only needed to define SYMBOL */
-NOT_SYMBOL = {DIGIT} | {LETTER} | {SPECIAL} | "\t"
+NOT_SYMBOL = {DIGIT} | {LETTER} | {SPECIAL} | {PUNCT}
 
 /* SYMBOL are all the characters that are not NOT_SYMBOL
    nor a special Unicode symbol */
@@ -265,6 +270,7 @@ DECORWORD = {WORD} {STROKE}*
 WORD =   {WORDPART}+
        | {LETTER} {ALPHASTR} {WORDPART}*
        | {SYMBOL}+ {WORDPART}*
+       | {PUNCT}+ ("\u003D" /* equals sign */)?
 WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
 ALPHASTR = ({LETTER} | {DIGIT})*
 NUMERAL = {DIGIT}+
