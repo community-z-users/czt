@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004, 2005, 2006 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik, Tim Miller
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -950,7 +950,7 @@ NAME =   {NOT_LB}*
   {SCRIPT} {IGNORE}* .
         {
           String message = "Unexpected subscript or superscript " + yytext();
-          throw new ScanException(message, yyline, yycolumn);
+          throw new ScanException(message, getLocation());
         }
   "\\_" | "\\{" | "\\}"
         {

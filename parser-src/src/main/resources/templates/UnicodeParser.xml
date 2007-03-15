@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the CZT project.
 
   The CZT project contains free software;
@@ -23,6 +23,8 @@ package <package/>;
 
 import java.io.*;
 import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import net.sourceforge.czt.java_cup.runtime.Scanner;
@@ -30,7 +32,9 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
+import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.util.CztLogger;
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
@@ -76,6 +80,11 @@ public class <class/>
     }
     catch (ParseException e) {
       throw e;
+    }
+    catch (ScanException e) {
+      List&lt;CztError&gt; errorList = new ArrayList&lt;CztError&gt;();
+      errorList.add(e);
+      throw new ParseException(errorList);
     }
     catch (Exception e) {
       throw new RuntimeException("This should never happen", e);
