@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2004, 2005 Petra Malik, Tim Miller
+     Copyright (C) 2004, 2005, Tim Miller
+     Copyright (C) 2004, 2005, 2007 Petra Malik
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -24,7 +25,6 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
@@ -33,7 +33,6 @@ import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -69,23 +68,23 @@ import net.sourceforge.czt.parser.util.Token;
 public class KeywordScanner
   implements Scanner
 {
-  private SeparateDelimiter scanner_;
+  private ContextFreeScanner scanner_;
   private static Map &lt;String, Integer&gt; keywords_ = createKeywordMap();
   private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
   
   private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
 
   public KeywordScanner(ContextFreeScanner scanner, Properties properties)
-  {    
-    scanner_ = new SeparateDelimiter(scanner, properties);
+  {
+    scanner_ = scanner;
   }
 
   private static Map &lt;String, Integer&gt; createKeywordMap()
   {
     Map &lt;String, Integer&gt; result = new HashMap&lt;String, Integer&gt;();
-    
+
     /* Adds all Z Standard keyword tokens */
-    addKeywords(result, Keyword.values());    
+    addKeywords(result, Keyword.values());
 
 <add:zpatt>
     /* Adds all Z pattern keyword tokens */
@@ -94,13 +93,13 @@ public class KeywordScanner
 
 <add:oz>
     /* Adds all Object-Z keyword tokens */
-    addKeywords(result, OzKeyword.values());    
+    addKeywords(result, OzKeyword.values());
 </add:oz>
 
 <add:tcoz>
     /* Adds all Tcoz keyword tokens */
     addKeywords(result, TcozKeyword.values());
-</add:tcoz>  
+</add:tcoz>
 
 <add:circus>
     /* Adds all Circus keyword tokens */
@@ -117,7 +116,7 @@ public class KeywordScanner
       if (symbol == null) {
         final String message = "Cannot map keyword " + keyword +
           " to a parser token.";
-        throw new net.sourceforge.czt.util.CztException(message);
+        throw new CztException(message);
       }
       addKeyword(result, keyword.spelling(), symbol);
     }
@@ -196,77 +195,6 @@ public class KeywordScanner
                           symbol.left, symbol.right,
                           decorword.getLocation());
       }
-    }
-    return symbol;
-  }
-}
-
-class SeparateDelimiter
-  implements Scanner, ParsePropertiesKeys
-{
-  private Properties properties_;
-  private ContextFreeScanner scanner_;
-  private Stack&lt;Symbol&gt; tokens_ = new Stack&lt;Symbol&gt;();
-
-  public SeparateDelimiter(ContextFreeScanner scanner, Properties properties)
-  {
-    scanner_ = scanner;
-    properties_ = properties;
-  }
-
-  private boolean getBooleanProperty(String propertyKey)
-  {
-    if (properties_ == null) {
-      return false;
-    }
-    return "true".equals(properties_.getProperty(propertyKey));
-  }
-
-  private boolean needsSeparation(char c)
-  {
-    return c == ',' || c == ';' || c == '.';
-  }
-
-  // TODO compute line and column number correctly (not possible?)
-  public Symbol next_token()
-    throws IOException
-  {
-    if (! tokens_.empty()) return tokens_.pop();
-    Symbol symbol = scanner_.next_token();
-    int left = symbol.left;
-    int right = symbol.right;
-    if (symbol.sym == Sym.DECORWORD &amp;&amp;
-        getBooleanProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS)) {
-      String value = ((Decorword) symbol.value).getName();
-      char[] charArray = value.toCharArray();
-      int length = charArray.length;
-      int suffix = length - 1;
-      while(needsSeparation(charArray[suffix])) {
-        if (suffix &lt;= 0) {
-          return symbol;
-        }
-        suffix--;
-      }
-      assert suffix >= 0;
-      if (suffix &lt; length - 1) {
-        String string = new String(charArray, suffix + 1, length - suffix - 1);
-        Decorword dw = new Decorword(string);
-        tokens_.push(new Symbol(Sym.DECORWORD, left, right, dw));
-      }
-      int prefix = 0;
-      while(needsSeparation(charArray[prefix])) {
-        prefix++;
-      }
-      assert prefix &lt;= suffix;
-      String string = new String(charArray, prefix, suffix - prefix + 1);
-      Symbol newSymbol =
-        new Symbol(Sym.DECORWORD, left, right, new Decorword(string));
-      if (prefix == 0) {
-        return newSymbol;
-      }
-      tokens_.push(newSymbol);
-      string = new String(charArray, 0, prefix);
-      return new Symbol(Sym.DECORWORD, left, right, new Decorword(string));
     }
     return symbol;
   }

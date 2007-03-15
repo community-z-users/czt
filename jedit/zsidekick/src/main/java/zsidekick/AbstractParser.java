@@ -185,12 +185,8 @@ public abstract class AbstractParser
 
   protected void setParseProperties(SectionManager manager)
   {
-    String propname =
-      ZSideKickPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
+    String propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
     String value = jEdit.getBooleanProperty(propname) ? "true" : "false";
-    manager.setProperty(PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS, value);
-    propname = ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
-    value = jEdit.getBooleanProperty(propname) ? "true" : "false";
     manager.setProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS, value);
     propname = ZSideKickPlugin.PROP_PRINT_IDS;
     value = jEdit.getBooleanProperty(propname) ? "true" : "false";

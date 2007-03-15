@@ -52,7 +52,6 @@ options.zsidekick.label=ZSideKick
 options.zsidekick.code=new zsidekick.OptionPane();
 options.zsidekick.standardConformance=<html><h3>Extensions to Z Standard</h3></html>
 options.zsidekick.printNameIds=Print the Ids of names
-options.zsidekick.extractCommaOrSemi=Extract comma, semicolon, and dot from the beginning and end of a DECORWORD
 options.zsidekick.addSpaceBeforeLatexPunctation=Add space before latex punctation (, and ; characters)
 options.zsidekick.ignoreUnknownLatexCommands=Allow latex commands that do not have mark-up directives
 options.zsidekick.resetButton=Reset all options to be Z Standard conforming

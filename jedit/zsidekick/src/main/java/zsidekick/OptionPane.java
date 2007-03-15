@@ -1,6 +1,6 @@
 /*
  * OptionPane.java
- * Copyright (C) 2005, 2006 Petra Malik
+ * Copyright (C) 2005, 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,22 +29,17 @@ public class OptionPane extends AbstractOptionPane
 {
   private final String PRINT_IDS =
     ZSideKickPlugin.PROP_PRINT_IDS;
-  private final String EXTRACT_COMMA_OR_SEMI =
-    ZSideKickPlugin.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS;
   private final String IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS;
   private final String PROP_LABEL_STD_CONFORMANCE =
     ZSideKickPlugin.OPTION_PREFIX + "standardConformance";
   private final String PROP_LABEL_PRINT_IDS =
     ZSideKickPlugin.OPTION_PREFIX + "printNameIds";
-  private final String PROP_LABEL_EXTRACT_COMMA_OR_SEMI =
-    ZSideKickPlugin.OPTION_PREFIX + "extractCommaOrSemi";
   private final String PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS =
     ZSideKickPlugin.OPTION_PREFIX + "ignoreUnknownLatexCommands";
   private final String PROP_LABEL_RESET =
     ZSideKickPlugin.OPTION_PREFIX + "resetButton";
 
-  private JCheckBox extractCommaOrSemi_;
   private JCheckBox ignoreUnknownLatexCommands_;
   private JCheckBox printIds_;
 
@@ -57,17 +52,11 @@ public class OptionPane extends AbstractOptionPane
   {
     addComponent(new JLabel(jEdit.getProperty(PROP_LABEL_STD_CONFORMANCE)));
 
-    extractCommaOrSemi_ =
-      new JCheckBox(jEdit.getProperty(PROP_LABEL_EXTRACT_COMMA_OR_SEMI));
-    boolean value = jEdit.getBooleanProperty(EXTRACT_COMMA_OR_SEMI);
-    extractCommaOrSemi_.getModel().setSelected(value);
-    addComponent(extractCommaOrSemi_);
-
     String string =
       jEdit.getProperty(PROP_LABEL_IGNORE_UNKNOWN_LATEX_COMMANDS);
     ignoreUnknownLatexCommands_ = new JCheckBox(string);
 
-    value = jEdit.getBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS);
+    boolean value = jEdit.getBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS);
     ignoreUnknownLatexCommands_.getModel().setSelected(value);
     addComponent(ignoreUnknownLatexCommands_);
 
@@ -85,9 +74,7 @@ public class OptionPane extends AbstractOptionPane
 
   protected void _save()
   {
-    boolean value = extractCommaOrSemi_.getModel().isSelected();
-    jEdit.setBooleanProperty(EXTRACT_COMMA_OR_SEMI, value);
-    value = ignoreUnknownLatexCommands_.getModel().isSelected();
+    boolean value = ignoreUnknownLatexCommands_.getModel().isSelected();
     jEdit.setBooleanProperty(IGNORE_UNKNOWN_LATEX_COMMANDS, value);
     value = printIds_.getModel().isSelected();
     jEdit.setBooleanProperty(PRINT_IDS, value);
@@ -98,7 +85,6 @@ public class OptionPane extends AbstractOptionPane
     public void actionPerformed(ActionEvent e)
     {
       printIds_.getModel().setSelected(false);
-      extractCommaOrSemi_.getModel().setSelected(false);
       ignoreUnknownLatexCommands_.getModel().setSelected(false);
     }
   }

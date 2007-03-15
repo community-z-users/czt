@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -30,18 +30,6 @@ package net.sourceforge.czt.parser.util;
  */
 public interface ParsePropertiesKeys
 {
-  /**
-   * When set to <code>true</code>, the parser tools extract
-   * symbol characters COMMA, SEMICOLON, and FULL STOP from the
-   * beginning and end of a WORD token to become WORDs themselves.
-   * This is a planned change to the Z Standard; see also
-   * the Draft Technical Corrigendum 1: Corrections,
-   * including to use of Unicode, March 17th, 2006.
-   * As of now, this has yet to be submitted for official ballot.
-   */
-  String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS =
-    "extract_comma_or_semi";
-
   /**
    * When set to <code>true</code>, the parser tools will ignore
    * unknown latex commands (that is, give a warning and use the name

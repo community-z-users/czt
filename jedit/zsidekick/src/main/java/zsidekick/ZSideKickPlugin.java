@@ -1,6 +1,6 @@
 /*
  * ZSideKickPlugin.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,8 +27,6 @@ public class ZSideKickPlugin
   public static final String OPTION_PREFIX = "options.zsidekick.";
   public static final String PROP_PRINT_IDS =
     "ZSideKickPlugin.printIds";
-  public static final String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS =
-    "ZSideKickPlugin.extractCommaOrSemiFromDecorwors";
   public static final String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS =
     "ZSideKickPlugin.ignoreUnknownLatexCommands";
 }
