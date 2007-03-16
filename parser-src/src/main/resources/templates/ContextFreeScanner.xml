@@ -245,6 +245,7 @@ ENDCHAR = "\u2514" /* box drawings light up and right */
 JOKERCHAR = "\u2605"
 RULECHAR = "\u25A0"
 PROVISO = "\u25B8"
+RULELINE="\u2501"
 </add:zpatt>
 <add:circus>
 //CIRCUSPROCESSCHAR = "\u250F" /* box drawings down light and right heavy */
@@ -366,8 +367,7 @@ RULE = {RULECHAR}
   {SPACE} | {CONTROL} { }
 
   <add:zpatt>
-  /* ZED is used as the rule-line character. */
-  {ZED}         { return symbol(Sym.RULELINE); }
+  {RULELINE}    { return symbol(Sym.RULELINE); }
   {PROVISO}     { return symbol(Sym.PROVISO); }
   </add:zpatt>
 
