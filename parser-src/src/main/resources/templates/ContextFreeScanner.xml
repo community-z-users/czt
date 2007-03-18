@@ -73,13 +73,10 @@ import net.sourceforge.czt.session.Source;
    */
   private CztReader reader_ = null;
 
-  <add:oz>
   /**
-   * Records whether the number of paragraph "begins", so we know
-   * when to return to the initial state.
+   * Records the number of paragraph begins.
    */
   private int begins_ = 0;
-  </add:oz>
 
   public <class/>(Source source)
     throws IOException
@@ -100,7 +97,7 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type)
   {
-    return new Symbol(type, getLine(), getColumn(), getLocation());
+    return new Symbol(type, -1, -1, getLocation());
   }
 
   /**
@@ -113,23 +110,7 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type, Object value)
   {
-    return new Symbol(type, getLine(), getColumn(), value);
-  }
-
-  private int getLine()
-  {
-    if (reader_ != null) {
-      return reader_.getLine(yychar);
-    }
-    return yyline;
-  }
-
-  private int getColumn()
-  {
-    if (reader_ != null) {
-      return reader_.getColumn(yychar);
-    }
-    return yycolumn;
+    return new Symbol(type, -1, -1, value);
   }
 
   private LocInfo getLocation()
@@ -145,6 +126,26 @@ import net.sourceforge.czt.session.Source;
                              endLoc.getStart() + endLoc.getLength() - start);
     }
     return new LocInfoImpl(null, yyline, yycolumn, yychar, yytext().length());
+  }
+
+  private void beginZed()
+  {
+    if (begins_ > 0<add:oz> &amp;&amp; false</add:oz>) {
+      String msg = "Unexpected begin of paragraph; " +
+        "end of paragraph expected instead";
+      throw new ScanException(msg, getLocation());
+    }
+    begins_++;
+    yybegin(Z);
+  }
+
+  private void endZed()
+  {
+    begins_--;
+    assert begins_ >= 0;
+    if (begins_ == 0) {
+      yybegin(YYINITIAL);
+    }
   }
 %}
    
@@ -291,43 +292,31 @@ RULE = {RULECHAR}
 //CIRCUSPROCESSBOX = {CIRCUSPROCESSCHAR}
 </add:circus>
 
-%state Z <add:oz>CLASS</add:oz>
+%state Z
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
 
-&lt;YYINITIAL&gt; {
-  {ZED}         {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); return symbol(Sym.ZED); }
-  {AX}          {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); return symbol(Sym.AX); }
-  {GENAX}       {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); return symbol(Sym.GENAX); }
-  {SCH}         {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); return symbol(Sym.SCH); }
-  {GENSCH}      {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); return symbol(Sym.GENSCH); }
+  {ZED}         {  beginZed(); return symbol(Sym.ZED); }
+  {AX}          {  beginZed(); return symbol(Sym.AX); }
+  {GENAX}       {  beginZed(); return symbol(Sym.GENAX); }
+  {SCH}         {  beginZed(); return symbol(Sym.SCH); }
+  {GENSCH}      {  beginZed(); return symbol(Sym.GENSCH); }
 
+&lt;YYINITIAL&gt; {
   <add:zpatt>
   /* Z joker paragraph */
-  {JOKER}       {  yybegin(Z); return symbol(Sym.JOKER); }
-  {RULE}        {  yybegin(Z); return symbol(Sym.RULE); }
+  {JOKER}       {  beginZed(); return symbol(Sym.JOKER); }
+  {RULE}        {  beginZed(); return symbol(Sym.RULE); }
   </add:zpatt>
   
-  <add:circus>
-  /* Circus paragraphs */
-  //{CIRCUSPROCESSBOX} { yybegin(Z); returm symbol(Sym.CIRCUSPROCESSBOX); }
-  </add:circus>
-
   <add:oz>
   /* Object-Z class paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "class"
-                {  begins_++;
-                   yybegin(Z); return symbol(Sym.CLASS); }
+                {  beginZed(); return symbol(Sym.CLASS); }
   /* Object-Z class paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "genclass"
-                {  begins_++;
-                   yybegin(Z); return symbol(Sym.GENCLASS); }
+                {  beginZed(); return symbol(Sym.GENCLASS); }
   </add:oz>
 
   {TEXT}        {
@@ -335,12 +324,6 @@ RULE = {RULECHAR}
                    return symbol(Sym.TEXT, value);
                 }
 
-  .             {
-                   String msg = "Unexpected character "+ yytext() + "(" +
-                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
-                     ") outside para";
-                   throw new ScanException(msg, getLocation());
-                }
 }
 
 &lt;Z&gt; {
@@ -351,14 +334,7 @@ RULE = {RULECHAR}
                 { return symbol(Sym.WHERE); }
 </add:print>
   /* Boxes */
-  {END}         {  <add:oz>
-                   if (--begins_ == 0) {
-                   </add:oz>
-                     yybegin(YYINITIAL);
-                   <add:oz>
-                   }
-                   </add:oz>
-                   return symbol(Sym.END); }
+  {END}         {  endZed(); return symbol(Sym.END); }
   {NL}          {  return symbol(Sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
@@ -374,17 +350,12 @@ RULE = {RULECHAR}
   <add:oz>
   /* Object-Z box characters */
   {SCHCHAR} {ZEDCHAR}+
-                { begins_++; return symbol(Sym.STATE); }
+                { beginZed(); return symbol(Sym.STATE); }
   {SCHCHAR} ({SPACE} | {CONTROL}) "Init"
-                { begins_++; return symbol(Sym.INIT); }
+                { beginZed(); return symbol(Sym.INIT); }
 
-  //these are added becaus they can be nested inside Object-Z class boxes
-  {ZED}         { begins_++; return symbol(Sym.ZED); }
-  {AX}          { begins_++; return symbol(Sym.AX); }
-  {GENAX}       { begins_++; return symbol(Sym.GENAX); }
-  {SCH}         { begins_++; return symbol(Sym.SCH); }
   /* Object-Z operation */
-  {SCH} "op"    { begins_++; return symbol(Sym.OPSCH); }
+  {SCH} "op"    { beginZed(); return symbol(Sym.OPSCH); }
   </add:oz>
 
   /* Brackets */
@@ -437,10 +408,11 @@ RULE = {RULECHAR}
                    msg += ")";
                    throw new ScanException(msg, getLocation());
                 }
+}
   .             {
                    String msg = "Unexpected character "+ yytext() + "(" +
-                     "\\u" + Integer.toString(yytext().charAt(0), 16) + ")";
+                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
+                     ") outside para";
                    throw new ScanException(msg, getLocation());
                 }
-}
 </scanner>
