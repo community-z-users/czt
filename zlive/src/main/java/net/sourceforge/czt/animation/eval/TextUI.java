@@ -72,6 +72,10 @@ import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.util.Factory;
 
+/** A text-based user interface for the ZLive animator.
+ * @author marku
+ *
+ */
 public class TextUI {
   private static Logger LOG 
     = Logger.getLogger("net.sourceforge.czt.animation.eval");

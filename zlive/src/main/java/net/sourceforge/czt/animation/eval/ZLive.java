@@ -51,6 +51,15 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 
+/** This is the main class of the ZLive animator.
+ *  It can be used directly by other Java programs that
+ *  want to evaluate Z terms.  It is also used by TextUI,
+ *  which provides a text-based user interface for ZLive,
+ *  and it could also be used by a GUI class.
+ *  
+ * @author marku
+ *
+ */
 public class ZLive
 {
   /** The maximum number of static inference passes done
