@@ -1,6 +1,6 @@
 /*
  * ParsedData.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,16 +32,20 @@ public class ParsedData
 {
   SectionManager manager_;
   Spec spec_;
+  WffHighlight wffHighlight_;
 
   public ParsedData(String name)
   {
     super(name);
   }
 
-  public void addData(Spec spec, SectionManager manager, Buffer buffer)
+  public void addData(Spec spec, SectionManager manager,
+                      WffHighlight wffHighlight, Buffer buffer)
   {
     spec_ = spec;
     manager_ = manager;
+    wffHighlight_ = wffHighlight;
+    wffHighlight_.setSpec(spec);
     for (Sect sect : spec.getSect()) {
       root.add(new CztTreeNode(sect, buffer));
     }

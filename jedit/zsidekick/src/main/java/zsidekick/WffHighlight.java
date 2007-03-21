@@ -37,7 +37,7 @@ public class WffHighlight
   private JEditTextArea textArea_;
   private TermSelector termSelector_;
 
-  public WffHighlight(JEditTextArea textArea)
+  public void setTextArea(JEditTextArea textArea)
   {
     textArea_ = textArea;
   }

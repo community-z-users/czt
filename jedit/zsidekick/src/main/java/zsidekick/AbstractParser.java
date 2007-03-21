@@ -41,7 +41,7 @@ public abstract class AbstractParser
   implements ParsePropertiesKeys,
              PrintPropertiesKeys
 {
-  WffHighlight wffHighlight_;
+  WffHighlight wffHighlight_= new WffHighlight();
 
   public AbstractParser(String name)
   {
@@ -51,7 +51,7 @@ public abstract class AbstractParser
   public void activate(EditPane editPane)
   {
     super.activate(editPane);
-    wffHighlight_ = new WffHighlight(editPane.getTextArea());
+    wffHighlight_.setTextArea(editPane.getTextArea());
     editPane.getTextArea().getPainter().addExtension(wffHighlight_);
   }
 
@@ -69,7 +69,6 @@ public abstract class AbstractParser
                                   DefaultErrorSource errorSource)
   {
     ParsedData data = new ParsedData(buffer.getName());
-    Spec spec = null;
     try {
       SectionManager manager = getManager();
       final String name = buffer.getPath();
@@ -82,9 +81,9 @@ public abstract class AbstractParser
       source.setEncoding(buffer.getStringProperty("encoding"));
       source.setMarkup(getMarkup());
       manager.put(new Key(name, Source.class), source);
-      spec = (Spec) manager.get(new Key(name, Spec.class));
+      Spec spec = (Spec) manager.get(new Key(name, Spec.class));
       if (spec.getSect().size() > 0) {
-        data.addData(spec, manager, buffer);
+        data.addData(spec, manager, wffHighlight_, buffer);
         if (! buffer.getBooleanProperty("zsidekick.disable-typechecking")) {
           for (Sect sect : spec.getSect()) {
             if (sect instanceof ZSect) {
@@ -103,9 +102,6 @@ public abstract class AbstractParser
       }
       catch (CommandException e) {
         // TODO Is ignoring OK?
-      }
-      if (spec != null) {
-        wffHighlight_.setSpec(spec);
       }
     }
     catch (CommandException exception) {
