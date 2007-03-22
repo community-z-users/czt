@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the CZT project: http://czt.sourceforge.net
 
   The CZT project contains free software; you can redistribute it and/or
@@ -21,7 +21,6 @@ package net.sourceforge.czt.parser.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +30,7 @@ import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.LocAnn;
-import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.util.Factory;
 
 public class LatexMarkupFunction
 {
@@ -45,20 +44,23 @@ public class LatexMarkupFunction
    * All pairs (string, directive) contained in this map should satisfy:
    * string.equals(directive.getCommand()).
    */
-  private Map commandToDirective_ = new HashMap();
+  private Map<String,MarkupDirective> commandToDirective_ =
+    new HashMap<String,MarkupDirective>();
 
   /**
    * A mapping from unicode String to MarkupDirective.
    * All pairs (string, directive) contained in this map should satisfy:
    * string.equals(directive.getUnicode()).
    */
-  private Map unicodeToDirective_ = new HashMap();
+  private Map<String,MarkupDirective> unicodeToDirective_ =
+    new HashMap<String,MarkupDirective>();
 
   /**
    * The directive defined in this section in the order they were
    * added.
    */
-  private List directives_ = new ArrayList();
+  private List<MarkupDirective> directives_ =
+    new ArrayList<MarkupDirective>();
 
   /**
    * @throws NullPointerException if <code>section</code>
@@ -109,9 +111,8 @@ public class LatexMarkupFunction
   public void add(LatexMarkupFunction markupFunction)
     throws MarkupException
   {
-    Collection toBeAdded = markupFunction.commandToDirective_.values();
-    for (Iterator iter = toBeAdded.iterator(); iter.hasNext();) {
-      final MarkupDirective directive = (MarkupDirective) iter.next();
+    for (MarkupDirective directive :
+           markupFunction.commandToDirective_.values()) {
       final String command = directive.getCommand();
       if (getCommandDirective(command) != null) {
         checkDirectives(getCommandDirective(command), directive);
@@ -157,33 +158,11 @@ public class LatexMarkupFunction
       commandToDirective_.toString();
   }
 
-  public LatexMarkupPara toAst(ZFactory factory)
+  public LatexMarkupPara toAst(Factory factory)
   {
     LatexMarkupPara result = factory.createLatexMarkupPara();
-    List directiveList = result.getDirective();
-    for (Iterator iter = directives_.iterator(); iter.hasNext();) {
-      final MarkupDirective directive = (MarkupDirective) iter.next();
-      assert directive.getSection().equals(section_);
-      final Directive newDirective =
-        factory.createDirective(directive.getCommand(),
-                                directive.getUnicode(),
-                                directive.getType());
-      if (directive.getLine() != null) {
-        LocAnn locAnn = factory.createLocAnn();
-        locAnn.setLine(directive.getLine());
-        newDirective.getAnns().add(locAnn);
-      }
-      directiveList.add(newDirective);
-    }
-    return result;
-  }
-
-  public LatexMarkupPara toAst(net.sourceforge.czt.z.util.Factory factory)
-  {
-    LatexMarkupPara result = factory.createLatexMarkupPara();
-    List directiveList = result.getDirective();
-    for (Iterator iter = directives_.iterator(); iter.hasNext();) {
-      final MarkupDirective directive = (MarkupDirective) iter.next();
+    List<Directive> directiveList = result.getDirective();
+    for (MarkupDirective directive : directives_) {
       assert directive.getSection().equals(section_);
       final Directive newDirective =
         factory.createDirective(directive.getCommand(),
@@ -203,7 +182,7 @@ public class LatexMarkupFunction
    * Returns an iterator over the markup directives defined in this
    * markup function.
    */
-  public Iterator iterator()
+  public Iterator<MarkupDirective> iterator()
   {
     return commandToDirective_.values().iterator();
   }
@@ -249,12 +228,9 @@ public class LatexMarkupFunction
       unicode_ = directive.getUnicode();
       type_ = directive.getType();
       section_ = section;
-      for (Iterator iter = directive.getAnns().iterator(); iter.hasNext();) {
-        Object o = iter.next();
-        if (o instanceof LocAnn) {
-          LocAnn locAnn = (LocAnn) o;
-          lineNr_ = locAnn.getLine();
-        }
+      LocAnn locAnn = directive.getAnn(LocAnn.class);
+      if (locAnn != null) {
+        lineNr_ = locAnn.getLine();
       }
       checkMembersNonNull();
     }
