@@ -132,6 +132,7 @@ public abstract class AbstractParser
     }
     catch (Throwable e) {
       errorSource.clear();
+      e.printStackTrace();
       String message =
         "Caught " + e.getClass().getName() + ": " + e.getMessage();
       errorSource.addError(ErrorSource.ERROR,
