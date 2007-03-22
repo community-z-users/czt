@@ -4558,6 +4558,7 @@ declWordList ::=
         declWordList:dwl COMMA misusedOpName:mon
         {:
            misusedOpName(mon);
+           RESULT = factory_.createZNameList();
         :}        
         |
         opName:on
@@ -4581,6 +4582,7 @@ declWordList ::=
         misusedOpName:mon
         {:
            misusedOpName(mon);
+           RESULT = factory_.createZNameList();
         :}
         ;
 
