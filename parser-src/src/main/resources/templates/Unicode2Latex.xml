@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
+     Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -293,7 +293,7 @@ action code
     }
     if (table != null) {
       LatexMarkupPara para =
-        table.toAst(new net.sourceforge.czt.z.impl.ZFactoryImpl());
+        table.toAst(new net.sourceforge.czt.z.util.Factory());
       markup_ = para.getDirective().iterator();
     }
     else {
