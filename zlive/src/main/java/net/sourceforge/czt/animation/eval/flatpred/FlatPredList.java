@@ -30,6 +30,7 @@ import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
@@ -109,14 +110,21 @@ public class FlatPredList extends FlatPred
    *  then chooseMode returns null, so that evaluation path will
    *  not be considered.
    */
-  public static double getMaxCost()
+  public static double getSearchSize()
   {
     return maxCost_;
   }
 
-  public static void setMaxCost(double maxCost)
+  public static void setSearchSize(double num)
   {
-    FlatPredList.maxCost_ = maxCost_;
+    if (num < 1.0)
+      throw new CztException("search size must be at least 1.0");
+    FlatPredList.maxCost_ = num;
+  }
+
+  public static void setSearchSize(String str)
+  {
+    setSearchSize(Double.valueOf(str));
   }
 
   /** Returns the number of FlatPreds in this list. */
