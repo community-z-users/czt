@@ -65,10 +65,12 @@ public class FlatPowerSet extends FlatPred
       BigInteger basesize = base.maxSize();
       BigInteger size = null;
       double estsize = Math.pow(2.0, base.estSize());
+      // we treat sets bigger that 2^1000 as being infinite,
+      // to avoid wasting time calculating huge BigInteger values.
       if (basesize != null &&
           basesize.compareTo(BigInteger.valueOf(1000)) > 0)
           size = BigInteger.valueOf(2).pow(basesize.intValue());
-      if (size != null)
+      if (size != null || estsize < Double.POSITIVE_INFINITY)
         fuzzy = new FuzzySet(getLastArg().toString(), estsize, size);
     }
     if (fuzzy == null)
