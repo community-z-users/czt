@@ -118,22 +118,18 @@ public class FlatRangeSet extends FlatPred
     if (upperArg_ >= 0)
       up = bnds.getUpper(args_.get(upperArg_));
 
-    double estSize = Double.POSITIVE_INFINITY;
-    BigInteger maxSize = null;
-    if (lo != null && up != null) {
-      if (up.compareTo(lo) < 0)
-        maxSize = BigInteger.ZERO;
-      else
-        maxSize = up.subtract(lo).add(BigInteger.ONE);
+    EvalSet estimate = new RangeSet(lo,up);
+    if (estimate.maxSize() == null
+        && lowerArg_ >= 0
+        && upperArg_ >= 0) {
+      // it will be a finite range at evaltime, so we guess its size.
+      FuzzySet fuzzy = new FuzzySet(getLastArg().toString(),
+          averageClosedRange_, null);
+      fuzzy.setLower(lo);
+      fuzzy.setUpper(up);
+      estimate = fuzzy;
     }
-    else if (lowerArg_ >= 0 && upperArg_ >= 0) {
-      // it will be a finite range at evaltime, so we estimate its size.
-      estSize = 100;
-    }
-    FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), estSize, maxSize);
-    fuzzy.setLower(lo);
-    fuzzy.setUpper(up);
-    return bnds.setEvalSet(args_.get(setArg_), fuzzy);
+    return bnds.setEvalSet(args_.get(setArg_), estimate);
   }
 
   public BigInteger getBound(int which)
