@@ -56,7 +56,7 @@ public class RangeSet extends EvalSet
     lower_ = lo;
     upper_ = up;
   }
-  
+
   /**
    * @return The maximum number of integers we should iterate through.
    */
@@ -84,8 +84,8 @@ public class RangeSet extends EvalSet
   {
     return lower_ != null && upper_ != null;
   }
-  
-  /** true iff this range is empty.  
+
+  /** true iff this range is empty.
    *  That is, if lower and upper bounds are both known
    *  (not infinite) and upper < lower.
    */
@@ -95,7 +95,7 @@ public class RangeSet extends EvalSet
   }
 
   /** Returns the exact size of the set,
-   *  or MAX_VALUE if the set is infinite or 
+   *  or MAX_VALUE if the set is infinite or
    *  has cardinality greater than MAX_VALUE.
    */
   public int size()
@@ -148,10 +148,10 @@ public class RangeSet extends EvalSet
       return listIterator();
   }
 
-  /** Iterates from low to high if there is a lower bound, 
+  /** Iterates from low to high if there is a lower bound,
    *  otherwise it iterates from high to low.  If there are
    *  no bounds, it will return an iterator that throws an EvalException
-   *  on the first call to next(). 
+   *  on the first call to next().
    */
   public ListIterator<Expr> listIterator()
   {
@@ -227,7 +227,7 @@ public class RangeSet extends EvalSet
     return upper_;
   }
 
-  /** This is a ListIterator that iterates from start to end, using 
+  /** This is a ListIterator that iterates from start to end, using
    *  the given increment value (usually +1 or -1).
    *  If end==null, then the iterator will return an infinite
    *  stream of values.  If both are null, then the first call
@@ -243,7 +243,7 @@ public class RangeSet extends EvalSet
     protected BigInteger current_; // null iff start is null
     protected BigInteger incr_; // non-null
     protected BigInteger end_; // may be null
-    
+
     /** We throw EvalException when we reach this one. */
     protected BigInteger toomany_; // null iff start is null;
 
@@ -376,7 +376,7 @@ public class RangeSet extends EvalSet
     else
       return super.equals(other);
   }
-  
+
 
   /** Calculates the minimum of two optional numbers,
    *  with null interpreted as being negative infinity.
@@ -444,9 +444,9 @@ public class RangeSet extends EvalSet
    *  lower bounds and the maximum of the two upper bounds.
    *  For example, the generous union of 0..3 and 10..12 is
    *  0..12, which includes numbers that are not in either set.
-   *  So the generous union will always be a superset 
+   *  So the generous union will always be a superset
    *  of the real union (or equal to it).
-   *  If other==null, then this is returned. 
+   *  If other==null, then this is returned.
    */
   public RangeSet union(RangeSet other)
   {
@@ -478,7 +478,7 @@ public class RangeSet extends EvalSet
       return new RangeSet(maxNeg(lower_, other.getLower()),
                           minPos(upper_, other.getUpper()));
   }
-  
+
   /** Calculates the exact intersection of this range with (lo..up).
    *  Note that lo==null means negative infinity
    *  and up=null means positive infinity.
@@ -488,9 +488,17 @@ public class RangeSet extends EvalSet
     return new RangeSet(maxNeg(lower_, lo),
                         minPos(upper_, up));
   }
-  
+
+  /** Returns a possibly-null limit as a string. */
+  public static String LimitString(BigInteger limit)
+  {
+    if (limit == null)
+      return "_";
+    return limit.toString();
+  }
+
   public String toString()
   {
-    return "[" + lower_ + "," + upper_ + "]";
+    return LimitString(lower_) + ".." + LimitString(upper_);
   }
 }

@@ -278,9 +278,9 @@ public class RangeSetTest extends ZTestCase
 
   public void testToString()
   {
-    assertEquals("[0,3]", zeroTo3.toString());
-    assertEquals("[null,3]", upto3.toString());
-    assertEquals("[0,null]", nats.toString());
+    assertEquals("0..3", zeroTo3.toString());
+    assertEquals("_..3", upto3.toString());
+    assertEquals("0.._", nats.toString());
   }
 
 }
