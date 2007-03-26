@@ -1,6 +1,6 @@
 /*
  * WffHighlight.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
+import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.z.util.TermSelector;
 
 public class WffHighlight
@@ -51,7 +52,15 @@ public class WffHighlight
         final LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
         if (locAnn.getStart().intValue() <= offset &&
             offset <= locAnn.getEnd().intValue()) {
-          return term.accept(new ConcreteSyntaxDescriptionVisitor());
+          String text = "<html>" +
+            term.accept(new ConcreteSyntaxDescriptionVisitor());
+          TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
+          if (typeAnn != null) {
+            text += "<br/>Type: " +
+              typeAnn.getType().accept(new PrintVisitor());
+          }
+          text += "</html>";
+          return text;
         }
       }
     }
