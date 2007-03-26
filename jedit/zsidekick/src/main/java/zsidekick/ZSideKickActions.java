@@ -31,6 +31,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor;
 
 public class ZSideKickActions
 {
@@ -107,12 +108,10 @@ public class ZSideKickActions
 
   public static WffHighlight getWffHighlight(View view)
   {
-    for (Object o : view.getTextArea().getPainter().getExtensions()) {
-      if (o instanceof WffHighlight) {
-	return (WffHighlight) o;
-      }
+    ParsedData parsedData = getParsedData(view);
+    if (parsedData != null) {
+      return parsedData.getWffHighlight();
     }
-    reportError(view, "No highlighter for wffs found.");
     return null;
   }
 
@@ -121,6 +120,11 @@ public class ZSideKickActions
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       wffHighlight.next();
+      Term term = wffHighlight.getSelectedWff();
+      if (term != null) {
+        String message = term.accept(new ConcreteSyntaxDescriptionVisitor());
+        view.getStatus().setMessage(message);
+      }
     }
   }
 
