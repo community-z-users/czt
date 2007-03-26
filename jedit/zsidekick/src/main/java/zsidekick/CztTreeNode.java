@@ -96,7 +96,8 @@ public class CztTreeNode
     LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
     if (locAnn != null &&
         locAnn.getStart() != null && locAnn.getStart().intValue() >= 0 &&
-        locAnn.getLength() != null && locAnn.getLength().intValue() >= 0) {
+        locAnn.getLength() != null && locAnn.getLength().intValue() >= 0 &&
+        locAnn.getEnd().intValue() <= buffer.getLength()) {
       end = locAnn.getEnd().intValue();
     }
     return buffer.createPosition(end);
