@@ -346,12 +346,6 @@ import net.sourceforge.czt.z.util.ZString;
       ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo, };
-    LOGGER.logrb(level,
-                 getClass().toString(),
-                 "",
-                 RESOURCE_NAME,
-                 msg.toString(),
-                 args);
     ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo);
   }
 
