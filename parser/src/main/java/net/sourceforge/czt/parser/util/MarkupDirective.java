@@ -154,7 +154,7 @@ public class MarkupDirective
   public String toString()
   {
     String result = command_ + "(" + type_ + ") --> " + unicode_ +
-      " defined in " + section_;
+      " defined in " + section_ + " at line " + lineNr_;
     return result;
   }
 }

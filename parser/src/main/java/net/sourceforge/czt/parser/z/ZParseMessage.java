@@ -47,6 +47,7 @@ public enum ZParseMessage
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables ({0})"),
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
+  MSG_LATEX_COMMAND_DEFINED_TWICE("Command {0} defined twice: {1}, {2}"),
 
   //Additional error messages by completing the grammar with error productions
   //wherever possible/purposeful. By Leo

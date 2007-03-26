@@ -137,7 +137,7 @@ public class <class/>
         markupFunction_.add(markupFunction);
       }
       catch (MarkupException e) {
-        throw new RuntimeException(e);
+        reportError(e);
       }
     }
   }
@@ -243,7 +243,7 @@ public class <class/>
           markupFunction_.add(directive);
         }
         catch (MarkupException e) {
-          throw new RuntimeException(e);
+          reportError(e);
         }
       }
       return next();
@@ -323,7 +323,7 @@ public class <class/>
       markupFunction_.add(directive);
     }
     catch (MarkupException e) {
-      throw new RuntimeException(e);
+      reportError(e);
     }
   }
 
@@ -402,6 +402,24 @@ public class <class/>
     }
     System.err.println("WARNING: Cannot parse " + directive);
     return null;
+  }
+
+  private void reportError(MarkupException e)
+  {
+    MarkupDirective d1 = e.getMarkupDirective1();
+    MarkupDirective d2 = e.getMarkupDirective2();
+    Object[] args = { d1.getCommand(), d1, d2 };
+    LocInfo location = new LocInfoImpl(getSource().toString(),
+                                       d2.getLine().intValue(),
+                                       -1,
+                                       -1,
+                                       -1);
+    ZParseError.report(sectInfo_,
+                       getSource(),
+                       ErrorType.ERROR,
+                       ZParseMessage.MSG_LATEX_COMMAND_DEFINED_TWICE,
+                       args,
+                       location);
   }
 
   public interface LatexLexer

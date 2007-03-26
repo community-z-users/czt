@@ -41,12 +41,12 @@ public class MarkupException
     directive2_ = directive2;
   }
 
-  public MarkupDirective getDirective1()
+  public MarkupDirective getMarkupDirective1()
   {
     return directive1_;
   }
 
-  public MarkupDirective getDirective2()
+  public MarkupDirective getMarkupDirective2()
   {
     return directive2_;
   }
