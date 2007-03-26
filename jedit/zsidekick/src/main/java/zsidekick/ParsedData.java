@@ -60,4 +60,9 @@ public class ParsedData
   {
     return manager_;
   }
+
+  public WffHighlight getWffHighlight()
+  {
+    return wffHighlight_;
+  }
 }
