@@ -52,6 +52,7 @@ import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.LocInfoImpl;
 import net.sourceforge.czt.parser.util.LocToken;
 import net.sourceforge.czt.parser.util.LocTokenImpl;
+import net.sourceforge.czt.parser.util.MarkupDirective;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.parser.z.ZParseError;
@@ -326,8 +327,7 @@ import net.sourceforge.czt.z.util.ZString;
       System.out.println("Should not happen");
       return null;
     }
-    LatexMarkupFunction.MarkupDirective directive =
-      (LatexMarkupFunction.MarkupDirective)
+    MarkupDirective directive = (MarkupDirective)
       latexCommands_.getCommandDirective(latexCommand);
     if (directive == null) {
       return null;

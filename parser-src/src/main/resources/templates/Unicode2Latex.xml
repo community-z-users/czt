@@ -169,9 +169,8 @@ action code
     LatexCommand command = null;
     if (markup_ == null) {
       Object o = latexCommands.get(word);
-      if (o instanceof LatexMarkupFunction.MarkupDirective) {
-        LatexMarkupFunction.MarkupDirective directive =
-          (LatexMarkupFunction.MarkupDirective) o;
+      if (o instanceof MarkupDirective) {
+        MarkupDirective directive = (MarkupDirective) o;
         command = new LatexCommand(directive.getCommand(),
                                    directive.getUnicode(),
                                    directive.addLeftSpace(),
@@ -192,9 +191,8 @@ action code
     for (int i = 0; i &lt; zchars.length; i++) {
       ZChar zchar = zchars[i];
       Object o = latexCommands.get(zchar.toString());
-      if (o instanceof LatexMarkupFunction.MarkupDirective) {
-        LatexMarkupFunction.MarkupDirective directive =
-          (LatexMarkupFunction.MarkupDirective) o;
+      if (o instanceof MarkupDirective) {
+        MarkupDirective directive = (MarkupDirective) o;
         command = new LatexCommand(directive.getCommand(),
                                    directive.getUnicode(),
                                    directive.addLeftSpace(),
@@ -250,8 +248,7 @@ action code
 
   private void addParentMarkups(ZSect zsect, LatexMarkupFunction table)
   {
-    for (Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
-      Parent parent = (Parent) iter.next();
+    for (Parent parent : zsect.getParent()) {
       String parentName = parent.getWord();
       LatexMarkupFunction parentMarkup = null;
       try {
@@ -309,8 +306,7 @@ action code
     unicode2latexMap_ = new HashMap();
     if (table != null) {
       for (Iterator iter = table.iterator(); iter.hasNext();) {
-        LatexMarkupFunction.MarkupDirective directive =
-          (LatexMarkupFunction.MarkupDirective) iter.next();
+        MarkupDirective directive = (MarkupDirective) iter.next();
         unicode2latexMap_.put(directive.getUnicode(), directive);
       }
     }

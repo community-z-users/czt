@@ -19,7 +19,6 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.z.ast.Directive;
-import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.util.Factory;
@@ -96,12 +94,8 @@ public class LatexMarkupFunction
     final String unicode = directive.getUnicode();
     final MarkupDirective markupDirective =
       new MarkupDirective(directive, section_);
-    if (commandToDirective_.get(command) != null) {
-      String message = "Command " + command +
-        " defined twice in section " + section_;
-      message += "\n" + commandToDirective_.get(command) +
-        "\n" + markupDirective;
-      throw new MarkupException(message);
+    if (getCommandDirective(command) != null) {
+      reportError(getCommandDirective(command), markupDirective);
     }
     commandToDirective_.put(command, markupDirective);
     unicodeToDirective_.put(unicode, markupDirective);
@@ -145,11 +139,15 @@ public class LatexMarkupFunction
   {
     assert directive1.getCommand().equals(directive2.getCommand());
     if (! directive1.equals(directive2)) {
-      String message = "Command " + directive1.getCommand() +
-        " defined twice in section " + section_;
-      message += "\n" + directive1 + "\n" + directive2;
-      throw new MarkupException(message);
+      reportError(directive1, directive2);
     }
+  }
+
+  private void reportError(MarkupDirective directive1,
+                           MarkupDirective directive2)
+    throws MarkupException
+  {
+    throw new MarkupException(directive1, directive2);
   }
 
   public String toString()
@@ -185,142 +183,5 @@ public class LatexMarkupFunction
   public Iterator<MarkupDirective> iterator()
   {
     return commandToDirective_.values().iterator();
-  }
-
-  /**
-   * A markup directive.
-   */
-  public static class MarkupDirective
-  {
-    private String command_;
-    private String unicode_;
-    private DirectiveType type_;
-    private String section_;
-    private BigInteger lineNr_ = null;
-
-    /**
-     * @throws NullPointerException if one of the arguments
-     *         is <code>null</code>.
-     */
-    public MarkupDirective(String command,
-                           String unicode,
-                           DirectiveType type,
-                           String section,
-                           BigInteger lineNr)
-    {
-      command_ = command;
-      unicode_ = unicode;
-      type_ = type;
-      section_ = section;
-      lineNr_ = lineNr;
-      checkMembersNonNull();
-    }
-
-    /**
-     * @throws NullPointerException if <code>directive</code> or
-     *         <code>section</code> is <code>null</code>; or if
-     *         the command, unicode, or type of the given directive
-     *         is <code>null</code>.
-     */
-    public MarkupDirective(Directive directive, String section)
-    {
-      command_ = directive.getCommand();
-      unicode_ = directive.getUnicode();
-      type_ = directive.getType();
-      section_ = section;
-      LocAnn locAnn = directive.getAnn(LocAnn.class);
-      if (locAnn != null) {
-        lineNr_ = locAnn.getLine();
-      }
-      checkMembersNonNull();
-    }
-
-    /**
-     * Throws a <code>NullPointerException</code> if one of the member
-     * variables is <code>null</code>.
-     */
-    private void checkMembersNonNull()
-    {
-      if (command_ == null || unicode_ == null ||
-          type_ == null || section_ == null) {
-        throw new NullPointerException();
-      }
-    }
-
-    public BigInteger getLine()
-    {
-      return lineNr_;
-    }
-
-    public String getSection()
-    {
-      return section_;
-    }
-
-    public String getCommand()
-    {
-      return command_;
-    }
-
-    public String getUnicode()
-    {
-      return unicode_;
-    }
-
-    public DirectiveType getType()
-    {
-      return type_;
-    }
-
-    /**
-     * A boolean indicating whether a space is usually inserted before.
-     * This is the case for directives of type IN and POST.
-     */
-    public boolean addLeftSpace()
-    {
-      final DirectiveType in = DirectiveType.IN;
-      final DirectiveType post = DirectiveType.POST;
-      return getType().equals(in) || getType().equals(post);
-    }
-
-    /**
-     * A boolean indicating whether a space is usually inserted after.
-     * This is the case for directives of type IN and PRE.
-     */
-    public boolean addRightSpace()
-    {
-      final DirectiveType in = DirectiveType.IN;
-      final DirectiveType pre = DirectiveType.PRE;
-      return getType().equals(in) || getType().equals(pre);
-    }
-
-    public boolean equals(Object obj)
-    {
-      if (obj != null &&
-          this.getClass().equals(obj.getClass())) {
-        MarkupDirective directive = (MarkupDirective) obj;
-        if (! command_.equals(directive.command_)) {
-          return false;
-        }
-        if (! unicode_.equals(directive.unicode_)) {
-          return false;
-        }
-        if (! type_.equals(directive.type_)) {
-          return false;
-        }
-        if (! section_.equals(directive.section_)) {
-          return false;
-        }
-        return true;
-      }
-      return false;
-    }
-
-    public String toString()
-    {
-      String result = command_ + "(" + type_ + ") --> " + unicode_ +
-        " defined in " + section_;
-      return result;
-    }
   }
 }
