@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.io.*;
 import java.text.MessageFormat;
@@ -164,11 +165,12 @@ public class ErrorAnn
     String localised = null;
     String [] args = null;
     if (locAnn_ != null) {
-      final Integer lineNr = locAnn_.getLine().intValue();
+      final String lineNr = locAnn_.getLine() != null ?
+        locAnn_.getLine().toString() : "unknown";
       final String source = locAnn_.getLoc();
       localised =
         RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
-      args = new String [] {source, lineNr.toString()};
+      args = new String [] {source, lineNr };
     }
     else {
       localised =
