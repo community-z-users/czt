@@ -187,8 +187,13 @@ public class Main
       "       prints the ids for names as part of the name.\n" +
       "       Note that this is for debugging purposes.  The output won't\n" +
       "       typecheck any more.\n" +
-      "Dialects:\n  z    Standard Z (default)\n  oz   Object Z\n" +
-      "File ending bingings:\n  tex, zed --> LaTeX mark-up\n" +
+      "Dialects:\n" +
+      "  z       Standard Z (default)\n" +
+      "  oz      Object Z\n" +
+      "  circus  Circus language\n" +
+      "  zpatt   Z with transformation rules\n" +
+      "File ending bingings:\n" +
+      "  tex, zed --> LaTeX mark-up\n" +
       "  xml, zml --> ZML\n" +
       "  utf8     --> Unicode (encoding UTF-8)\n" +
       "  utf16    --> Unicode (encoding UTF-16)\n" +
