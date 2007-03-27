@@ -20,9 +20,13 @@
 package net.sourceforge.czt.base.visitor;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.util.ReflectionUtils;
+import net.sourceforge.czt.util.StrUtils;
 
 import net.sourceforge.czt.util.Visitor;
 
@@ -175,4 +179,32 @@ public final class VisitorUtils
       }
     }
   }
+  
+  /** Transitive visitor utils. It returns false if a problem has been found */
+  public static boolean transitivelyCheckVisitorRules(Object o) {
+        Class visitorClass = o.getClass();
+        Set<Method> methods = ReflectionUtils.getAllMethodsFrom(o, "visit");
+        Set<Class<?>> interfaces = ReflectionUtils.getAllInterfacesFrom(o, "Visitor");
+        
+        boolean noProblems = true;
+        int methodNameOffset = "visit".length();
+        
+        for(Method m : methods) {
+            String termName = m.getName().substring(methodNameOffset);
+            String intfName = termName + "Visitor";
+            boolean found = false;
+            Iterator<Class<?>> it = interfaces.iterator();
+            while (!found && it.hasNext()) {
+                found = it.next().getName().endsWith(intfName);
+            }
+            if (!found) {
+                System.err.println("Warning: class "                    
+                    + StrUtils.className(visitorClass) 
+                    + " should implement interface "
+                    + intfName + ".");
+            }
+            noProblems &= found;
+        }
+        return noProblems;
+    } 
 }
