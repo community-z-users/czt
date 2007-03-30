@@ -51,8 +51,6 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class TypeCheckRewriteTest
   extends net.sourceforge.czt.typecheck.z.TypeCheckerTest
 {
-  final private static String RULES_FILE = "/rulesets/unfold.tex";
-
   protected RuleTable rules_ = null;
 
   public static Test suite()
@@ -100,9 +98,9 @@ public class TypeCheckRewriteTest
   public void loadRules(SectionManager manager)
   {
     try {
-      URL url = getClass().getResource(RULES_FILE);
+      URL url = RuleUtils.getUnfoldRules();
       if (url == null) {
-	throw new IOException("Cannot getResource(" + RULES_FILE + ")");
+	throw new IOException("Cannot get unfold rules");
       }
 
       manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
@@ -114,7 +112,7 @@ public class TypeCheckRewriteTest
       rules_ = (RuleTable) manager.get(new Key(sectName, RuleTable.class));
     }
     catch (Throwable e) {
-      fail("\nUnexpected exception loading " + RULES_FILE + "\n" +
+      fail("\nUnexpected exception loading unfold rules\n" +
 	   "\n\tException: " + e.toString());
     }
 
