@@ -106,20 +106,22 @@ public class RewriteTest
       throws Exception
     {
       Unifier unifier = new Unifier();
-      Term rewritten =
-        Rewrite.rewrite(manager_, section_, term, rules_);
-      if (! rewritten.equals(expectedResult)) {
-        XmlWriter writer = new JaxbXmlWriter();
+      Term rewritten = Rewrite.rewrite(manager_, section_, term, rules_);
+      Term expected = expectedResult.accept(new CopyVisitor(factory_));
+      boolean result = unifier.unify(expected, rewritten);
+      if (! result) {
         System.out.println("******************** Got *******************");
         print(rewritten);
         System.out.println("*************** Expected *******************");
         print(expectedResult);
+        System.out.println(unifier.getCause());
       }
-      assertEquals(expectedResult, rewritten);
+      assertTrue(result);
     }
 
     private void print(Term term)
     {
+      XmlWriter writer = new JaxbXmlWriter();
       PrintUtils.print(term, new OutputStreamWriter(System.out),
                        manager_, section_, Markup.LATEX);
       System.out.println();
