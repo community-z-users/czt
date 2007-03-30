@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -35,6 +35,6 @@ public final class RuleUtils
 
   public static URL getUnfoldRules()
   {
-    return RuleUtils.class.getResource("/rulesets/unfold.tex");
+    return RuleUtils.class.getResource("/lib/unfold.tex");
   }
 }
