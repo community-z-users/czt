@@ -72,7 +72,14 @@ all the non-basetype conditions in the predicate part.
 The next few rules implement the $\declListUnfoldsTo$ operator,
 which unfolds and normalizes declaration lists.
 
-\begin{zedrule}{VarDecl}
+\begin{zedrule}{VarDecl1}
+   \proviso E : \power E \\
+   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\derives
+   [v:E; D1 | true] \declListUnfoldsTo [v:E; D2 |  P2]
+\end{zedrule}
+
+\begin{zedrule}{VarDecl2}
    \proviso E : \power E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
