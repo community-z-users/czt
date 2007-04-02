@@ -36,11 +36,13 @@ Simplifications:
     \lblot x == x, x'==x' \rblot \}
 \end{theorem}
 
-%\begin{theorem}{theorem4}
-%  \vdash? \Xi Simple =
-%    \{ x : \arithmos; x' : \arithmos | x \in \nat \land x' \in \nat @
-%    \lblot x == x, x'==x' \rblot \}
-%\end{theorem}
+\begin{theorem}{theorem4}
+  \vdash? \Xi Simple =
+    \{ x : \arithmos; x' : \arithmos | x \in \nat \land x' \in \nat \land
+       \theta \{ x : \arithmos | true @ \lblot x == x \rblot \} =
+       \theta \{ x : \arithmos | true @ \lblot x == x \rblot \} ' @
+    \lblot x == x, x'==x' \rblot \}
+\end{theorem}
 
 \begin{theorem}{theorem5}
   \vdash? Simple~' =
