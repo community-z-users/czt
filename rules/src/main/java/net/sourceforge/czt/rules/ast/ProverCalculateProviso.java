@@ -368,7 +368,7 @@ public class ProverCalculateProviso
         StrokeList strokes = rightName.getStrokeList();
         // TODO: clean this up.
         final ZName resultName =
-          factory.createZName(resultWord, strokes, "global_i_hope");
+          factory.createZName(resultWord, strokes, null);
         final RefExpr result =
           factory.createRefExpr(resultName);
         unify(result, getLeftExpr()); // unify sets status_
