@@ -30,6 +30,40 @@ Simplifications:
     \{ x : \arithmos | x \in \nat @ \lblot x == x \rblot \}
 \end{theorem}
 
+\begin{theorem}{theorem3}
+  \vdash? \Delta Simple =
+    \{ x : \arithmos; x' : \arithmos | x \in \nat \land x' \in \nat @
+    \lblot x == x, x'==x' \rblot \}
+\end{theorem}
+
+%\begin{theorem}{theorem4}
+%  \vdash? \Xi Simple =
+%    \{ x : \arithmos; x' : \arithmos | x \in \nat \land x' \in \nat @
+%    \lblot x == x, x'==x' \rblot \}
+%\end{theorem}
+
+\begin{theorem}{theorem5}
+  \vdash? Simple~' =
+    \{ x' : \arithmos | x' \in \nat @
+    \lblot x'==x' \rblot \}
+\end{theorem}
+
+
+
+\begin{schema}{SimpleConstDecl}
+  y == 3
+\end{schema}
+
+\begin{theorem}{theoremSimpleConstDecl}
+  \vdash? SimpleConstDecl =
+    \{ y : \arithmos | y = 3 @ \lblot y == y \rblot \}
+\end{theorem}
+
+\begin{theorem}{theorem6}
+  \vdash? (\exists Simple @ SimpleConstDecl) =
+    \{ x : \arithmos ; y : \arithmos |
+       x \in \nat \land y = 3 @ \lblot y == y \rblot \}
+\end{theorem}
 
 
 Unfolding birthdaybook:
