@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -65,9 +65,11 @@ public class ProverTypeProviso
 
   public void check(SectionManager manager, String section)
   {
+    if (status_ == Status.PASS || status_ == Status.FAIL) return;
     final Expr expr = (Expr) ProverUtils.removeJoker(getExpr());
     final Expr type = getType();
-    List errors = TypeCheckUtils.typecheck(expr, manager, false, true, section);
+    List errors =
+      TypeCheckUtils.typecheck(expr, manager, false, true, section);
     if (errors == null || errors.isEmpty()) {
       TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
       CarrierSet visitor = new CarrierSet();
