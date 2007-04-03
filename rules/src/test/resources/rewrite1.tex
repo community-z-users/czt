@@ -68,6 +68,18 @@ Simplifications:
 \end{theorem}
 
 
+\begin{schema}{SimpleGen}[T]
+  x: T
+\end{schema}
+
+\begin{theorem}{theorem2Gen}
+  \vdash? SimpleGen[\nat] =
+    \{ x : \arithmos | x \in \nat @ \lblot x == x \rblot \}
+\end{theorem}
+
+
+
+
 Unfolding birthdaybook:
 
 \begin{zed}[NAME, DATE]\end{zed}
