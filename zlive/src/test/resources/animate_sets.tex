@@ -177,12 +177,10 @@ Moving various kinds of predicates into the type.
 \begin{zed} \vdash?  \{ x:\num | x<3 \land x>0 \} = \{1,2\} \end{zed}
 \begin{zed} \vdash?  \{ x:\num | 3>x \land x>0 \land x>2 \} = \{\} \end{zed}
 \begin{zed}
-  \vdash?  \{ x,y:\nat | y<x<3 \} 
-     = (\{2\} \cross (0 \upto 1)) \cup \{(1,0)\} 
+  \vdash? \{ x,y:\nat | y<x<3 \} = (\{2\} \cross (0 \upto 1)) \cup \{(1,0)\} 
 \end{zed}
 \begin{zed}
-  \vdash?  \{ s:\power \nat | s \subseteq 1 \upto 2 \} 
-        = \power(1 \upto 2) 
+  \vdash? \{ s:\power \nat | s \subseteq 1 \upto 2 \} = \power(1 \upto 2) 
 \end{zed}
 \begin{zed}
   \vdash?  (\{ s:\power \nat | s \subset 1 \upto 2 \}
