@@ -266,6 +266,7 @@ public class ZLive
     {
     LOG.entering("ZLive","evalPred");
     Pred result = null;
+    predlist_ = new FlatPredList(this);
     try {
       if (getCurrentSection() == null) {
         throw new CztException("Must choose a section!");
@@ -278,7 +279,6 @@ public class ZLive
       LOG.finer("After retypecheck, pred="+printTerm(pred));
       pred = (Pred) preprocess_.fixIds(pred);
       LOG.finer("After doing fixIds pred="+printTerm(pred));
-      predlist_ = new FlatPredList(this);
       predlist_.addPred(pred);
       Envir env0 = new Envir();
       Bounds bnds = new Bounds(null);
@@ -310,7 +310,7 @@ public class ZLive
       This throws some kind of EvalException if expr is too difficult
       to evaluate or contains an undefined expression.
       The input expression must be type checked.
-      @param expr  A net.sourceforge.czt.z.ast.Pred object.
+      @param expr  A net.sourceforge.czt.z.ast.Expr object.
       @return      Usually an instance of EvalSet, or some other expr.
   */
   public Expr evalExpr(Expr expr)
@@ -318,6 +318,7 @@ public class ZLive
   {
     LOG.entering("ZLive","evalExpr");
     Expr result = null;
+    predlist_ = new FlatPredList(this);
     try {
       if (getCurrentSection() == null) {
         throw new CztException("Must choose a section!");
@@ -331,7 +332,6 @@ public class ZLive
       LOG.finer("After second typecheck, expr="+printTerm(expr));
       expr = (Expr) preprocess_.fixIds(expr);
       LOG.finer("After doing fixIds hack expr="+printTerm(expr));
-      predlist_ = new FlatPredList(this);
       ZName resultName = predlist_.addExpr(expr);
       Bounds bnds = new Bounds(null);
       predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
