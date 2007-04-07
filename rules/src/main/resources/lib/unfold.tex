@@ -16,10 +16,10 @@
 
 Declare the jokers used in these rules.
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3, D4 \end{zedjoker}
-\begin{zedjoker}{Pred} P, P1, P2, P3, P4 \end{zedjoker}
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9 \end{zedjoker}
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6, P7, P8, P9 \end{zedjoker}
 \begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
-\begin{zedjoker}{Name} v, v1, v2, v3, v4 \end{zedjoker}
+\begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
@@ -51,6 +51,10 @@ will be the unfolded and normalized form of the left hand argument.
 \end{gendef}
 
 \section{Rules for Unfolding Predicates}
+
+\begin{zedrule}{SchemaPred}
+  E \iff \theta E \in E
+\end{zedrule}
 
 %% Syntax error on the conclusion of these rules.
 %\begin{zedrule}{implies}
@@ -114,7 +118,8 @@ is a schema expression and $stext$ is the resulting normalized
 schema construction ($[Decls|Preds]$, where the types in $Decls$
 are only base types).
 
-Top-level schema expressions are unfolded into sets of bindings.
+Top-level schema expressions are unfolded into schema construction
+expressions, which can then be expanded into sets of bindings.
 However, we have a special case for $\exists$, so that we can
 put all the variables into the bound variable list of the
 set comprehension, then create a binding using a subset of
@@ -122,28 +127,45 @@ those variables.  Putting all the variables at the same level
 of scope gives the evaluation optimization algorithms more
 freedom to reorder things later.
 
-\begin{zedrule}{TopLevelExistsSchema}
-   [D|P] \sexprUnfoldsTo [D1 | P1] \\
-   E2 \sexprUnfoldsTo [D2 | P2] \\
-   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
-   \proviso [D4|true] == [D2|true] \schemaminus [D1|true] \\
-   \proviso E == binding ~ [D4|true]
+\begin{zedrule}{TopLevel}
+  \proviso E : \power [D2] \\
+  E  \sexprUnfoldsTo [D | P]
 \derives
-   (\exists D | P @ E2) = \{D3 | P1 \land P2 @ E\}
+  E = [D | P]
 \end{zedrule}
 
-\begin{zedrule}{TopLevelSchemaExpr}
-  E \sexprUnfoldsTo [D1|P1] \\
-  \proviso E2 == binding [D1 | true]
+\begin{zedrule}{Theta}
+  \proviso E == \theta [D | true]
 \derives
-  E = \{ D1 | P1 @ E2 \}
+  \theta [D | P] = E
 \end{zedrule}
 
-
-\begin{zedrule}{SchemaConstruction}
-   [D1 | true] \declListUnfoldsTo [D2 | P2]
+\begin{zedrule}{ThetaPrime}
+  \proviso E : \power [D] \\
+  \proviso E2 == \theta [D | true] '
 \derives
-   [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
+  \theta E~' = E2
+\end{zedrule}
+
+% Why doesn't that work?
+%\begin{zedrule}{ThetaPrime}
+%  \proviso E == \theta [D | true] '
+%\derives
+%  \theta [D | P]' = E
+%\end{zedrule}
+
+% Why doesn't that work?
+%\begin{zedrule}{SchemaConstruction1}
+%  [D1 | true] \declListUnfoldsTo [D2 | true]
+%\derives
+%  [D1 | P] \sexprUnfoldsTo [D2 | P]
+%\end{zedrule}
+
+\begin{zedrule}{SchemaConstruction2}
+  [D1 | true] \declListUnfoldsTo [D2 | P2] \\
+  P2 \land P \iff P3
+\derives
+  [D1 | P] \sexprUnfoldsTo [D2 | P3]
 \end{zedrule}
 
 \begin{zedrule}{SchemaRef}
@@ -192,6 +214,66 @@ that $D1$ and $D2$ are type compatible.
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
 
+
+
+\begin{zedrule}{SchemaNegation}
+  E \sexprUnfoldsTo [D | P]
+\derives
+  (\lnot E) \sexprUnfoldsTo [D | \lnot P]
+\end{zedrule}
+
+\begin{zedrule}{SchemaConjunction}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+ \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+  (E1 \land E2) \sexprUnfoldsTo [D3 | P1 \land P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaDisjunction}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+ \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+  (E1 \lor E2) \sexprUnfoldsTo [D3 | P1 \lor P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaImplication}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+ \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+  (E1 \implies E2) \sexprUnfoldsTo [D3 | P1 \implies P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaEquivalence}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+ \proviso [D1 | true] \land [D2 | true] : \power [D3]
+\derives
+  (E1 \iff E2) \sexprUnfoldsTo [D3 | P1 \iff P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaProjection}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+  \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+	\proviso [D4 | true] == [D3 | true] \schemaminus [D2 | true]
+\derives
+  E1 \project E2 \sexprUnfoldsTo [D2 | \exists D4 @ P1 \land P2]
+\end{zedrule}
+
+postnames : names that end with ! or '
+prenames: names that end with ? or don't have decorations
+
+\begin{zedrule}{SchemaPrecondition}
+  [D1 | P1] \sexprUnfoldsTo [D4 | P2] \\
+  \proviso [D2 | true] == postnames [D4 | true] \\
+  \proviso [D3 | true] == prenames [D4 | true] \\
+\derives
+  \pre [D1 | P1] \sexprUnfoldsTo [D3 | \exists D2 @ P2]
+\end{zedrule}
+
 This rule applies the above schema unfolding rules to unfolding
 the bound variables of quantifiers, because the rewrite tactics
 transform schema text using the $\schemaEquals$ relation.
@@ -200,4 +282,13 @@ transform schema text using the $\schemaEquals$ relation.
 \derives
    [D|P] \schemaEquals [D1|P1]
 \end{zedrule}
+
+\begin{zsection}
+  \SECTION expand \parents unfold
+\end{zsection}
+
+\begin{zedrule}{SchemaToSet}
+[D | P] = \{ D | P @ \theta [D | true] \}
+\end{zedrule}
+
 \end{document}
