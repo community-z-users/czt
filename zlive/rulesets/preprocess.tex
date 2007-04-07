@@ -36,9 +36,13 @@ larger terms).
 We do not unfold $\emptyset$ to $\{\}$, because it is not possible
 to preserve the type information (one cannot write $\{\}[T]$).
 So this rule unfolds it to an easily-evaluated empty set that
-preserves the type information.
+preserves the type information.  
+NOTE: this used to be unfolded to $\{x:\{\} | x \in E\}$, but
+now that optimization within sets is done better, it is unfolded
+to the usual definition in the standard.  So this rule could now
+probably be omitted and done by the unfolddefn rule below.
 \begin{zedrule}{emptysetTyped}
-   \emptyset[E] = \{x:\{\} | x \in E\}
+   \emptyset[E] = \{x:E | false\}  
 \end{zedrule}
 
 TODO: $\power_1$ ?
