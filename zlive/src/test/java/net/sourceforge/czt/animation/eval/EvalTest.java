@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval;
 
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -57,16 +58,34 @@ public abstract class EvalTest extends TestCase
   private static final Logger LOG
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
-  /** Get the LocAnn of a term, or null if it does not have one. */
-  public static LocAnn getLocAnn(Term term)
+  /** Get the line number of a term, or null if line number is unknown */
+  private static BigInteger getLineNumFrom(Term term)
   {
-    List anns = term.getAnns();
-    Iterator i = anns.iterator();
-    while (i.hasNext()) {
-      Object ann = i.next();
-      if (ann instanceof LocAnn)
-        return (LocAnn)ann;
+    LocAnn loc = term.getAnn(LocAnn.class);
+    if (loc != null && loc.getLine() != null)
+        return loc.getLine();
+    return null;
+  }
+  
+
+  /** Get the line number of a term or its subterms.
+   *  @return A line number, or null if unknown.
+   */
+  public static BigInteger getLineNum(Term term)
+  {
+    BigInteger result = getLineNumFrom(term);
+    if (result != null)
+      return result;
+    
+    // look for line numbers in the children...
+    for (Object child : term.getChildren()) {
+      if (child instanceof Term) {
+        result = getLineNum((Term) child);
+        if (result != null)
+          return result;
+      }
     }
+    
     return null;
   }
 
@@ -186,15 +205,9 @@ public abstract class EvalTest extends TestCase
             // construct a nice name for this test.
             count++;
             String name = filename + "::" + count;
-            LocAnn loc = getLocAnn(pred);
-            if (loc == null && pred instanceof MemPred) {
-              MemPred mem = (MemPred)pred;
-              loc = getLocAnn(mem.getLeftExpr());
-              if (loc == null)
-                loc = getLocAnn(mem.getRightExpr());
-            }
-            if (loc != null)
-              { name = filename + ":" + loc.getLine().intValue(); }
+            BigInteger lineNum = getLineNum(pred);
+            if (lineNum != null)
+              { name = filename + ":" + lineNum.intValue(); }
             int slash = name.lastIndexOf("/");
             if (slash >= 0)
               name = name.substring(slash+1);
