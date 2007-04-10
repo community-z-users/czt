@@ -97,7 +97,7 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type)
   {
-    return new Symbol(type, -1, -1, getLocation());
+    return new Symbol(type, getLine(), getColumn(), getLocation());
   }
 
   /**
@@ -110,7 +110,23 @@ import net.sourceforge.czt.session.Source;
    */
   private Symbol symbol(int type, Object value)
   {
-    return new Symbol(type, -1, -1, value);
+    return new Symbol(type, getLine(), getColumn(), value);
+  }
+
+  private int getLine() 	 
+  { 	 
+    if (reader_ != null) { 	 
+      return reader_.getLine(yychar); 	 
+    } 	 
+    return yyline; 	 
+  } 	 
+
+  private int getColumn() 	 
+  { 	 
+    if (reader_ != null) { 	 
+      return reader_.getColumn(yychar); 	 
+    } 	 
+    return yycolumn; 	 
   }
 
   private LocInfo getLocation()
