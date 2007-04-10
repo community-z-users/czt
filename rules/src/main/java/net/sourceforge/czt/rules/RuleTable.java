@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -37,13 +37,8 @@ public class RuleTable
   public void addRules(List<Rule> rules)
     throws RuleTableException
   {
-    rules_.addAll(rules);
     for (Rule rule : rules) {
-      final String rulename = rule.getName();
-      if (map_.get(rulename) != null) {
-        throw new RuleTableException("Rule " + rulename + " defined twice");
-      }
-      map_.put(rulename, rule);
+      addRule(rule);
     }
   }
 
