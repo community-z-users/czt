@@ -20,6 +20,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    
     <release version="0.5" date="July 6, 2006">
       <action dev="MarkU" type="add">
       	Implemented a simple textual user interface which provides
@@ -57,6 +58,7 @@
         progress we are making towards a useful animator.
       </action>
     </release>
+    
     <release version="0.2" date="unreleased">
      <actions priority="high">
       <action dev="Mark" type="fix">
@@ -103,27 +105,61 @@
       	Other complex predicates should probably be unfolded into disjunctions.
       </action>
     </release>
+    <release version="1.0" date="unreleased">
+      <action context="code" dev="open">
+         The calculation of free/bound variables now handles tmpNNN
+         variables as normal variables, so that they are scoped correctly.
+         This was necessary to avoid errors in the mode calculations, such
+         as for sets whose results contained tmpNNN variables.
+      </action>
+      <action context="code" dev="open">
+       	Implemented a FlatPred implementation of function/relation types,
+	    like in Jaza.  That is, an implementation of A --> B, for all 
+	    the kinds of functions/relations/sequences that Z supports.
+	    (Use flags to keep track of each property such as one-to-one,
+	    total, onto etc.)
+      </action>
+      <action context="code" dev="MarkU, Petra">
+        Separated the FlatPred hierarchy from the evaluated results that it
+        returns (see the net.sourceforge.czt.animation.eval.result package).
+        For example, FlatPowerSet now returns a PowerSet object each time
+        it is evaluated.  This is more flexible, and was necessary to handle
+        examples like {a:1..10 @ \power(0..a)}.
+      </action>
+      <action context="code" dev="Petra, MarkU">
+       	Implemented a better mode algorithm to reorder lists of FlatPreds,
+       	based on the estimated number of solutions for each mode.
+	    Initially, just repeatedly choose the predicate with the 
+	    smallest number of expected solutions.  In the future, more 
+	    sophisticated path-finding algorithms may be used, such as 
+	    best-first or A* path-finding algorithms.
+      </action>
+    </release>
   </changes>
 
   <todo>
-      <action context="code" dev="open">
-       	Implement a better mode algorithm to reorder lists of FlatPreds,
-       	based on the estimated number of solutions for each mode.
-	Initially, just repeatedly choose the predicate with the 
-	smallest number of expected solutions.  Later, more sophisticated
-	path-finding algorithms could be used, such as best-first or A*
-       	path-finding algorithms.
-      </action>
-      <action context="code" dev="open">
-       	Implement a FlatPred implementation of function/relation types,
-	like in Jaza.  That is, an implementation of A --> B, for all 
-	the kinds of functions/relations/sequences that Z supports.
-	(Use flags to keep track of each property such as one-to-one,
-	total, onto etc.)
-      </action>
+  	  <action context="code" dev="open">
+  	    Unfold all characteristic tuples, before preprocessing.
+  	  </action>
+  	  <action context="code" dev="open">
+  	    Implement/extend a term printer that can handle the extended
+  	    terms of ZLive, such as the various kinds of EvalSet.
+  	    This could either be an extended version of an existing printer,
+  	    or we could translate all ZLive expressions back into std Z exprs.
+  	  </action>
+  	  <action context="code" dev="open">
+  	    Provide more sophisticated modes, so that (X,Y) in S can be
+  	    evaluated in a mode where X and S are inputs and Y is an output.
+  	    Similarly for Binding in S.
+  	    This is particularly important and common when S is a set 
+  	    comprehension, and the input X can be used to narrow its search.
+  	    This is quite a major design extension.
+  	  <action context="code" dev="open">
+  	    Implement FlatBindSel, which handles Binding.Var = Expr.
+  	  </action>
       <action context="code" dev="open">
        	Implement a FlatPred implementation of list concatenation,
-	A^B=C.  This is needed to support lots of the sequence operators.
+	    A^B=C.  This is needed to support lots of the sequence operators.
       </action>
     </actions>
 
@@ -132,10 +168,6 @@
       	Integrate ZLive with the Gaffe animator interface generator/editor.
       	This will allow users to generate and customise interfaces for
       	each Z specification.
-      </action>
-      <action context="code" dev="open">
-      	Check the handling of tmpNNN variables within the calculation
-      	of free/bound variables.
       </action>
     </actions>
     <actions priority="low">
