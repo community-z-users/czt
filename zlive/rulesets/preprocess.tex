@@ -47,14 +47,17 @@ probably be omitted and done by the unfolddefn rule below.
 
 TODO: $\power_1$ ?
 
-% NOTE: we want to define a relset function, with this type,
-% but cannot, because the result of unfolding must be valid
-% in the user's ZSect.
-%\begin{gendef}[T1,T2]
-%  relset : (\power T1) \cross (\power T2) \cross \{0,1\} 
-%             \cross \{0,1\} \cross \{0,1\} \cross \{0,1\}
-%           \fun \power \power (T1 \cross T2)
-%\end{gendef}
+We unfold schemas that are used as expressions into set comprehensions.
+\begin{zedrule}{SchemaToSetZLive}
+[D | P] = \{ D | P @ \theta [D | true] \}
+\end{zedrule}
+
+
+This next batch of rules unfolds the various kinds of relation
+and function spaces into a term that is type equivalent, but also
+preserves several flags that tell us what kind of function space
+it was (isFun, isTotal etc.).  These flags are meaningful to ZLive, 
+even though they are not used in the body of the LET expressions.
 
 \begin{zedrule}{rel}
    E1 \rel E2 = (\LET isFun==0 @ \power (E1 \cross E2))
@@ -276,7 +279,9 @@ These are mostly handled as primitives of ZLive.
    \num_1 = \{x:\num | x \neq 0\}
 \end{zedrule}
 
-TODO: add mod as a primitive?
+\begin{zedrule}{succ1}
+  (succ~\_) = (\lambda n : \nat @ n+1)
+\end{zedrule}
 
 TODO: implement iter somehow (it is like transitive closure).
 
