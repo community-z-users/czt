@@ -33,6 +33,9 @@ import net.sourceforge.czt.rules.ast.ProverJokerExpr;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
+import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.impl.LookupConstDeclProvisoImpl;
@@ -99,15 +102,28 @@ public class ProverLookupConstDeclProviso
             copyVisitor.setGeneralize("", null);  // finish generalizing
             unify(defrhs, getRightExpr());
             ZExprList actuals = ref.getZExprList();
-            if (formals.size() != actuals.size())
+            if (formals.size() != actuals.size()) {
               status_ = Status.FAIL;
-            else
+            }
+            else {
               for (int i=0; i < formals.size(); i++) {
                 Expr joker = formals.get(i);
                 Expr actual = actuals.get(i);
                 LOG.finer("unifying type param "+i+": "+joker+" =? "+actual);
                 unify(joker, actual);
               }
+            }
+            /*
+            // Now run the typechecker over the instantiated defn.
+            // so that the whole term will be properly type annotated.
+            List<? extends ErrorAnn> errors =
+              TypeCheckUtils.typecheck(getRightExpr(), manager, false, true, section);
+            if (errors != null && ! errors.isEmpty()) {
+              status_ = Status.FAIL;
+              throw new TypeErrorException("typecheck failure after unfolding "+word, 
+                  errors);
+            }
+            */
           }
           else status_ = Status.UNKNOWN;
         }
