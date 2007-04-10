@@ -40,6 +40,8 @@ import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.BindSelExpr;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Name;
@@ -49,9 +51,12 @@ import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.visitor.BindExprVisitor;
+import net.sourceforge.czt.z.visitor.BindSelExprVisitor;
 import net.sourceforge.czt.z.visitor.QntExprVisitor;
 import net.sourceforge.czt.z.visitor.QntPredVisitor;
 import net.sourceforge.czt.z.visitor.ZNameVisitor;
@@ -136,6 +141,8 @@ public final class Preprocess
    */
   public class FixIdVisitor
   implements TermVisitor<Term>,
+    BindExprVisitor<Term>,
+    BindSelExprVisitor<Term>,
     QntExprVisitor<Term>,
     QntPredVisitor<Term>,
     ZNameVisitor<Term>
@@ -210,6 +217,23 @@ public final class Preprocess
     public Term visitTerm(Term term)
     {
       return VisitorUtils.visitTerm(this, term, true);
+    }
+
+    /** For bindings, we check only the expressions, not the field names. */
+    public Term visitBindExpr(BindExpr e)
+    {
+      for (Decl d : e.getZDeclList()) {
+         ConstDecl cdecl = (ConstDecl) d;
+         cdecl.getExpr().accept(this);
+      }
+      return e;
+    }
+
+    /** For binding selections, E.x, we check only E, not x. */
+    public Term visitBindSelExpr(BindSelExpr e)
+    {
+      e.getExpr().accept(this);
+      return e;
     }
 
     public Term visitZName(ZName name)
