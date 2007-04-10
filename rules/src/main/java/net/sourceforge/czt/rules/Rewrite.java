@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,9 +22,7 @@ package net.sourceforge.czt.rules;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.rules.ast.ProverFactory;
-import net.sourceforge.czt.rules.ast.ProverJokerExpr;
-import net.sourceforge.czt.rules.ast.ProverJokerPred;
+import net.sourceforge.czt.rules.ast.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
@@ -124,9 +122,10 @@ public class Rewrite
       oldExpr = expr;
       expr = (Expr) rewriteOnce(expr, prover_);
       rewrites++;
-      if (rewrites > MAX_REWRITES)
+      if (rewrites > MAX_REWRITES) {
         throw new RuntimeException("Infinite loop in rules on expr "+expr);
-    } while (expr != oldExpr);
+      }
+    } while (! expr.equals(oldExpr));
     // now recurse into subexpressions
     if (expr instanceof LetExpr) {
       // special case for LET, that rewrites only the RHS of ConstDecls
@@ -145,9 +144,10 @@ public class Rewrite
       oldPred = pred;
       pred = (Pred) rewriteOnce(pred, prover_);
       rewrites++;
-      if (rewrites > MAX_REWRITES)
+      if (rewrites > MAX_REWRITES) {
         throw new RuntimeException("Infinite loop in rules on pred "+pred);
-    } while (pred != oldPred);
+      }
+    } while (! pred.equals(oldPred));
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, pred, true);
   }
