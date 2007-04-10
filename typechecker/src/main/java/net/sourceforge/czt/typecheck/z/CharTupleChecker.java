@@ -93,10 +93,13 @@ public class CharTupleChecker
     //get the type of the inner expression
     Type2 type = getType2FromAnns(inclDecl.getExpr());
 
-    //if the type is a PowerType, take the inner type
+    //if the type is a PowerType, take the inner type, unless this is
+    //a DecorExpr, in which case, remove the decorations of the inner
+    //type
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      result.add(powerType.getType());
+      Type2 charType = removeDecorations(inclDecl.getExpr(), powerType.getType());
+      result.add(charType);
     }
     //otherwise, the type must not be resolved yet,
     //so use a fresh unknown type
@@ -121,6 +124,40 @@ public class CharTupleChecker
       Signature signature = factory().createSignature();
       SchemaType schemaType = factory().createSchemaType(signature);
       result.add(schemaType);
+    }
+    return result;
+  }
+
+  private Type2 removeDecorations(Expr expr, Type2 type)
+  {
+    Type2 result = type;
+    if (expr instanceof DecorExpr) {
+      assert type instanceof SchemaType;
+      SchemaType schemaType = (SchemaType) type;
+
+      DecorExpr decorExpr = (DecorExpr) expr;
+      Stroke stroke = decorExpr.getStroke();
+
+      Signature signature = schemaType.getSignature();
+      List<NameTypePair> newPairs = factory().list();
+      for (NameTypePair pair : signature.getNameTypePair()) {
+	ZName name = pair.getZName();
+	ZStrokeList nameStrokes = name.getZStrokeList();
+	Stroke endStroke = nameStrokes.get(nameStrokes.size()-1);
+	assert endStroke.equals(decorExpr.getStroke());
+
+	//create a new pairs with the final stroke removed from the name
+	ZStrokeList newStrokeList = factory().createZStrokeList(nameStrokes);
+	newStrokeList.remove(newStrokeList.size()-1);
+	ZName newName = 
+	  factory().createZName(name.getWord(), newStrokeList);
+	NameTypePair newPair = 
+	  factory().createNameTypePair(newName, pair.getType());
+	newPairs.add(newPair);
+      }
+      Signature newSignature = factory().createSignature(newPairs);
+      result = factory().createSchemaType(newSignature);
+      result = removeDecorations(decorExpr.getExpr(), result);
     }
     return result;
   }

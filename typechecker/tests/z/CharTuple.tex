@@ -1,0 +1,53 @@
+\begin{zsection}
+  \SECTION CharTuple
+\end{zsection}
+
+Tests that the characterisation rules are implemented correctly.
+
+\begin{axdef}
+\where
+ \{ | true\} = \{\}\\
+ \{ x, y : \nat | true\} = \{x : \nat; y : \nat | true\}     
+\end{axdef}
+
+\begin{axdef}
+ e == [x:\nat]
+\where
+ \{ e | true\} = \{ e~' | true  \}
+\end{axdef}
+
+\begin{axdef}
+\where
+ \lambda e~?! @ 1 = \{ x : \nat @ (\lblot x == x \rblot, 1) \}
+\end{axdef}
+
+\begin{axdef}
+\where
+ \{ e~'?! | true \} = \{ x : \nat @ \lblot x == x \rblot \}
+\end{axdef}
+
+Check that only the decorations specified by the inclusion declaration
+are removed.
+
+\begin{axdef}
+ f == [x: \nat; y' : \power\nat; z?! : \power\power\nat]
+\where
+ (\mu f~_{1} | true) = 
+ (\mu x : \nat; y' : \power\nat; z?!: \power\power\nat | true @ 
+        \lblot x == x, y' == y', z?! == z?! \rblot)
+\end{axdef}
+
+
+Petra's example from the bug report:
+
+\begin{schema}{S}
+x: \nat
+\end{schema}
+
+\begin{schema}{T}
+x:\nat
+\where
+\{x,x':\nat @
+(\lblot x==x \rblot, \lblot x==x' \rblot)\}
+= \{ S; S~' | true \}
+\end{schema}

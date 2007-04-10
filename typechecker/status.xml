@@ -8,6 +8,23 @@
 
   <changes>
     <!-- Add new releases here -->
+    <release version="0.6">
+      <action dev="Tim" type="fix">
+        Corrected bug 1688910 -- Characterisation rules not
+        implemented correctly
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1609808 -- Ids become inconsistent if an expr is
+        typechecked twice
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1606459 -- Ids in set comprehension
+      </action>
+      <action dev="Tim" type="fix">
+        Corrected bug 1578608 -- Using a given type as a generic
+        doesn't work
+      </action>
+    </release>
     <release version="0.5" date="July 6, 2006">
       <action dev="Tim" type="fix">
         Corrected bug 1497266 -- Typechecker merges too many DeclName ids.

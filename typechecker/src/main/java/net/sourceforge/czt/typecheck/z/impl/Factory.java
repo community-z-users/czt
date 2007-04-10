@@ -271,6 +271,11 @@ public class Factory
     return factory_.createSectTypeEnvAnn(triples);
   }
 
+  public ZStrokeList createZStrokeList(ZStrokeList zStrokeList)
+  {
+    return factory_.createZStrokeList(zStrokeList);
+  }
+
   public ZName createZDeclName(String word)
   {
     return createZDeclName(word, factory_.createZStrokeList());

@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
