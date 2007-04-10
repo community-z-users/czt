@@ -77,8 +77,6 @@ public class ProofTree
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
     Rule copiedRule = (Rule) rule.accept(visitor);
-    System.err.println("Rule jokers:");
-    ProverUtils.printJokers(copiedRule);
     return SimpleProver.apply(copiedRule, sequent);
   }
 
@@ -160,13 +158,7 @@ public class ProofTree
     if (sequent.getDeduction() != null) {
       java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
       ProverUtils.collectBindings(sequent, bindings);
-      for (Binding binding : bindings) {
-        System.err.println(binding.getChildren()[0]);
-      }
-      System.err.println("Before resetting ");
-      ProverUtils.printJokers(sequent);
-      System.err.println("After resetting ");
-      ProverUtils.printJokers(sequent);
+      ProverUtils.reset(bindings);
       sequent.setDeduction(null);
     }
   }
@@ -261,9 +253,7 @@ public class ProofTree
         popup.add(whyNot);
         for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext();) {
           final Rule rule = iter.next();
-          System.err.println("Try rule " + rule.getName());
           if (apply(rule, node)) {
-            System.err.println(node.toString());
             menuItem = new JMenuItem("Rule " + rule.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -282,7 +272,6 @@ public class ProofTree
             whyNot.add(menuItem);
           }
           reset(sequent);
-          System.err.println("resetting ... to " + node.toString());
         }
       }
       JMenuItem print = new JMenuItem("Print");
