@@ -4,7 +4,7 @@
 \parindent 0pt
 \parskip 1ex plus 3pt
 
-\title{CZT Tests for Basic Set Operations}
+\title{CZT Tests for Binding and Schema Operations}
 \author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
 \begin{document}
 \maketitle
@@ -19,7 +19,7 @@ the constant undefnum should have an undefined left-hand-side.
 
 \section{Testing Explicit Bindings}
 
-Equality.
+Test equality of bindings.
 \begin{zed}\vdash? \lblot\rblot= \lblot\rblot\end{zed}
 \begin{zed}\vdash? \lblot a==1\rblot= \lblot a==1\rblot\end{zed}
 \begin{zed}\vdash? \lblot a==1,b==2\rblot= \lblot a==1,b==2\rblot\end{zed}
@@ -28,7 +28,7 @@ Equality.
 \begin{zed}\vdash? \forall a==2 @ \lblot a==1,b==2 \rblot = \lblot a==1,b==a\rblot\end{zed}
 \begin{zed}\vdash? \forall a==1 @ \lblot a==1,b==2 \rblot \neq \lblot a==1,b==a\rblot\end{zed}
 
-Selection.
+Test selection of fields within bindings.
 \begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.a = 1 \end{zed}
 \begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.b = 2 \end{zed}
 \begin{zed}\vdash? \lblot a==1,b==2,c==3 \rblot.c = 3 \end{zed}
@@ -48,6 +48,7 @@ Membership/equality with schemas (sets of bindings).
   out! = x * x'
 \end{schema}
 
+Schemas A2 and A3 are equivalent to the precondition of schema A.
 \begin{zed}
   A2 == [x : 0 \upto 10 | (\exists out!:0 \upto 20 @ out! = x * (10-x))]
 \\
@@ -58,8 +59,44 @@ Membership/equality with schemas (sets of bindings).
   preA2 == \pre A2
 \end{zed}
 
+Test unfolding of schema A and various schema operators.
+\begin{zed} \vdash? 
+  \# A = 5
+\end{zed}
+\begin{zed} \vdash? 
+  [A | x=2] = \{\lblot x==2,x'==8,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  (A \land [x:\{2\}]) = \{\lblot x==2,x'==8,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  [A~' | x''=2] = \{\lblot x''==2,x'==8,out!'==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  A \semi [x : \{8\}; x'==5] = \{\lblot x==2,x'==5,out!==16 \rblot\}
+\end{zed}
+\begin{zed} \vdash? 
+  [x==5;x'==1] \semi A  =  \{\lblot x==5,x'==8,out!==16 \rblot\}
+\end{zed}
+
+Test use of schema A within quantifiers.
+\begin{zed} \vdash? (\exists A @ out!=16) \end{zed}
+\begin{zed} \vdash? \lnot (\exists A @ out!=15) \end{zed}
+\begin{zed} \vdash? (\forall A @ out! \neq 15) \end{zed}
+\begin{zed} \vdash? (\exists_1 A @ out!=16) \end{zed}
+
+Test use of schema A as a predicate.
+\begin{zed} \vdash?
+  (\exists x,x',out! : 0 \upto 10 @ A \land x=1)
+\end{zed}
+\begin{zed} \vdash?
+  \lnot (\exists x,x',out! : 0 \upto 10 @ x=2 \land A)
+\end{zed}
+
+Test the precondition of schema A.
 \begin{zed} \vdash? preA = A3 \end{zed}
 \begin{zed} \vdash? preA2 = A3 \end{zed}
+\begin{zed} \vdash? preA = preA2 \end{zed}
 
 \begin{zed} \vdash? (\forall x : 0 \upto 20 @ \pre A \iff A2) \end{zed}
 
@@ -85,7 +122,7 @@ TODO: same difficulty as OnePoint3
 \begin{zed} \vdash? \# OnePoint5 = 3 \end{zed}
 
 
-echo Miscellaneous schema challenges
+\section{Miscellaneous schema challenges}
 
 \begin{schema}{Test1}
   a,a':0 \upto 10
@@ -106,7 +143,8 @@ until it was fixed.
     currsize = \#(\ran items)
 \end{schema}
 
-A schema written by Dana that exposed scope errors in the one-point rule of Jaza.
+A schema written by Dana that exposed scope errors in the one-point rule 
+of Jaza.
 \begin{schema}{SimpleHeapRemove}
     offheap!: \nat \\
     \Delta SimpleHeap \\
@@ -120,7 +158,7 @@ A schema written by Dana that exposed scope errors in the one-point rule of Jaza
 
 This was executable with Jaza after exists were expanded inline within schemas.
 \begin{zed}
-  RemoveTest == [SimpleHeapRemove | maxsize = 10 \land items = \langle 2 \rangle]
+  RemoveTest == [SimpleHeapRemove | maxsize=10 \land items = \langle 2 \rangle]
 \end{zed}
 \begin{zed} \vdash? \# RemoveTest = 1 \end{zed}
 
