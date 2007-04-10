@@ -139,6 +139,20 @@ public final class ProverUtils
     }
   }
 
+  public static List<Joker> collectJokers(Term term)
+  {
+    JokerCollector collector = new JokerCollector();
+    term.accept(collector);
+    return collector.getResult();
+  }
+
+  public static void printJokers(Term term)
+  {
+    for (Joker joker : collectJokers(term)) {
+      System.err.println(joker + " named " + joker.getName() +
+                         " bound to " + joker.boundTo());
+    }
+  }
 
   /**
    * Throws UnboundJokerException!
