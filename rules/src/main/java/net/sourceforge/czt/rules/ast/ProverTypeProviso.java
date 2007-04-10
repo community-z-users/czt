@@ -78,8 +78,9 @@ public class ProverTypeProviso
       unify(type, expr2);
     }
     else {
-      System.err.println("Typeckecking failed:");
-      System.err.println(errors);
+      // System.err.println("TypeProviso failed:");
+      // System.err.println(TermToString.apply(expr));
+      // System.err.println(errors);
       status_ = Status.FAIL;
     }
   }
