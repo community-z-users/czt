@@ -96,11 +96,6 @@ public class CompilerPreferencePage extends PreferencePage
     
     addCheckBox(
         propertiesGroup,
-        PreferencesMessages.CompilerPreferencePage_extract_comma_or_semi_from_decorwords,
-        PreferencesMessages.CompilerPreferencePage_extract_comma_or_semi_from_decorwords_tooltip,
-        PreferenceConstants.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS);
-    addCheckBox(
-        propertiesGroup,
         PreferencesMessages.CompilerPreferencePage_ignore_unknown_latex_commands,
         PreferencesMessages.CompilerPreferencePage_ignore_unknown_latex_commands_tooltip,
         PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS);

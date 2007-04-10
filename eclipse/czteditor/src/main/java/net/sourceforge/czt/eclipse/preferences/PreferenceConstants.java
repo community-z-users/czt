@@ -29,22 +29,6 @@ public class PreferenceConstants
   /*
    * Compiler preference keys
    */
-  /**
-   * A named preference that sets the property of the parser.
-   * <p>
-   * Value is of type <code>boolean</code>.
-   * </p>
-   * <p>
-   * When set to <code>true</code>, the parser tools extract
-   * symbol characters COMMA, SEMICOLON, and FULL STOP from the
-   * beginning and end of a WORD token to become WORDs themselves.
-   * This is a planned change to the Z Standard; see also
-   * the Draft Technical Corrigendum 1: Corrections,
-   * including to use of Unicode, March 17th, 2006.
-   * As of now, this has yet to be submitted for official ballot.
-   * </p>
-   */
-  public static final String PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS = net.sourceforge.czt.parser.util.ParsePropertiesKeys.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS; //$NON-NLS-1$
 
   /**
    * A named preference that sets the property of the parser.
@@ -671,9 +655,6 @@ public class PreferenceConstants
     //		store.setDefault(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, true);
 
     // Compiler preference page
-    store.setDefault(
-        PreferenceConstants.PROP_EXTRACT_COMMA_OR_SEMI_FROM_DECORWORDS, true);
-
     store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
         true);
 

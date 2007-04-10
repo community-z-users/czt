@@ -34,8 +34,6 @@ public final class PreferencesMessages extends NLS
    */
   public static String CompilerPreferencePage_description;
   public static String CompilerPreferencePage_properties;
-  public static String CompilerPreferencePage_extract_comma_or_semi_from_decorwords;
-  public static String CompilerPreferencePage_extract_comma_or_semi_from_decorwords_tooltip;
   public static String CompilerPreferencePage_ignore_unknown_latex_commands;
   public static String CompilerPreferencePage_ignore_unknown_latex_commands_tooltip;
   public static String CompilerPreferencePage_typecheck_use_before_decl;
