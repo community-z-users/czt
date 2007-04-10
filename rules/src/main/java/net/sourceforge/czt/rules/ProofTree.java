@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -77,6 +77,8 @@ public class ProofTree
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
     Rule copiedRule = (Rule) rule.accept(visitor);
+    System.err.println("Rule jokers:");
+    ProverUtils.printJokers(copiedRule);
     return SimpleProver.apply(copiedRule, sequent);
   }
 
@@ -158,7 +160,13 @@ public class ProofTree
     if (sequent.getDeduction() != null) {
       java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
       ProverUtils.collectBindings(sequent, bindings);
-      ProverUtils.reset(bindings);
+      for (Binding binding : bindings) {
+        System.err.println(binding.getChildren()[0]);
+      }
+      System.err.println("Before resetting ");
+      ProverUtils.printJokers(sequent);
+      System.err.println("After resetting ");
+      ProverUtils.printJokers(sequent);
       sequent.setDeduction(null);
     }
   }
@@ -238,41 +246,52 @@ public class ProofTree
             }
           });
         popup.add(menuItem);
-        return popup;
       }
-      JMenuItem menuItem = new JMenuItem("Auto prove");
-      menuItem.addActionListener(new ActionListener() {
+      else {
+        JMenuItem menuItem = new JMenuItem("Auto prove");
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              prove(node);
+            }
+          });
+        popup.add(menuItem);
+        JMenu apply = new JMenu("Apply");
+        popup.add(apply);
+        JMenu whyNot = new JMenu("Why not");
+        popup.add(whyNot);
+        for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext();) {
+          final Rule rule = iter.next();
+          System.err.println("Try rule " + rule.getName());
+          if (apply(rule, node)) {
+            System.err.println(node.toString());
+            menuItem = new JMenuItem("Rule " + rule.getName());
+            menuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                  apply(rule.getName(), node);
+                }
+              });
+            apply.add(menuItem);
+          }
+          else {
+            menuItem = new JMenuItem("Rule " + rule.getName());
+            menuItem.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                  whyNot(rule.getName(), node);
+                }
+              });
+            whyNot.add(menuItem);
+          }
+          reset(sequent);
+          System.err.println("resetting ... to " + node.toString());
+        }
+      }
+      JMenuItem print = new JMenuItem("Print");
+      print.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-            prove(node);
+            System.err.println(node.toString());
           }
         });
-      popup.add(menuItem);
-      JMenu apply = new JMenu("Apply");
-      popup.add(apply);
-      JMenu whyNot = new JMenu("Why not");
-      popup.add(whyNot);
-      for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext();) {
-        final Rule rule = iter.next();
-        if (apply(rule, node)) {
-          menuItem = new JMenuItem("Rule " + rule.getName());
-          menuItem.addActionListener(new ActionListener() {
-              public void actionPerformed(ActionEvent e) {
-                apply(rule.getName(), node);
-              }
-            });
-          apply.add(menuItem);
-        }
-        else {
-          menuItem = new JMenuItem("Rule " + rule.getName());
-          menuItem.addActionListener(new ActionListener() {
-              public void actionPerformed(ActionEvent e) {
-                whyNot(rule.getName(), node);
-              }
-            });
-          whyNot.add(menuItem);
-        }
-        reset(sequent);
-      }
+      popup.add(print);
       return popup;
     }
   }
