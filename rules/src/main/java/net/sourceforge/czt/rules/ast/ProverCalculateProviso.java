@@ -61,8 +61,12 @@ public class ProverCalculateProviso
   {
     Factory factory = new Factory();
     final Expr expr = getRightExpr();
-    if (expr instanceof DecorExpr) 
+    if (expr instanceof DecorExpr) {
       checkDecorExpr((DecorExpr)expr, manager, section);
+    }
+    else if (expr instanceof ThetaExpr) {
+      checkThetaExpr((ThetaExpr) expr, manager, section, factory);
+    }
     else if (expr instanceof ApplExpr) {
       ApplExpr applExpr = (ApplExpr) expr;
       Expr left = applExpr.getLeftExpr();
@@ -183,6 +187,43 @@ public class ProverCalculateProviso
 	status_ = Status.UNKNOWN;
       }
     }
+  }
+
+  private void checkThetaExpr(ThetaExpr thetaExpr,
+                              SectionManager manager,
+                              String section,
+                              Factory factory)
+  {
+    Expr expr = (Expr) ProverUtils.removeJoker(thetaExpr.getExpr());
+    List errors =
+      TypeCheckUtils.typecheck(expr, manager, false, true, section);
+    if (errors == null || errors.isEmpty()) {
+      TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+      assert typeAnn != null;
+      Type type = typeAnn.getType();
+      if (type instanceof PowerType) {
+        type = ((PowerType) type).getType();
+        if (type instanceof SchemaType) {
+          Signature sig = ((SchemaType) type).getSignature();
+          ZDeclList zDeclList = factory.createZDeclList();
+          for (NameTypePair nameType : sig.getNameTypePair()) {
+            ZName origName = (ZName) nameType.getName();
+            ZName name1 = factory.createZName(origName.getWord(),
+                                             origName.getStrokeList());
+            ZStrokeList strokes = factory.createZStrokeList();
+            strokes.addAll(origName.getZStrokeList());
+            strokes.addAll(thetaExpr.getZStrokeList());
+            ZName name2 = factory.createZName(origName.getWord(), strokes);
+            RefExpr refExpr = factory.createRefExpr(name2);
+            zDeclList.add(factory.createConstDecl(name1, refExpr));
+          }
+          BindExpr bindExpr = factory.createBindExpr(zDeclList);
+          unify(bindExpr, getLeftExpr()); // sets status_
+          return;
+        }
+      }
+    }
+    status_ = Status.FAIL; // TODO: When should this be FAIL?
   }
   
   /** Implements the 'binding [D]' proviso.
