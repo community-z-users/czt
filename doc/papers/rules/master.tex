@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{oz}
+\usepackage{czt}
+
+% Extra general macros for this paper.
+\newenvironment{Rationale}{\\ \textbf{Rationale:}\it}{}
+
+% Extra math-mode macros for this paper.
+% Some of these may eventually go into czt.sty
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\Zc}{Z_C}
+
+
+\title{Transforming Z with Rules}
+\author{Mark Utting, Petra Malik and Ian Toyn}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper describes a simple extension of Z that allows transformation and reasoning rules to be written in a natural, Z-like notation.  We show that these rules can be used to define schema unfolding of the schema expressions in Z, as well as being useful for a wide variety of other Z transformations.  
+\end{abstract}
+
+\section{Introduction}
+
+The main goal of the Z rule system described in this paper is
+to provide a high-level notation for Z transformations, by
+allowing rules to be written in Z syntax as much as possible.  Each
+rule has a single conclusion and possibly several antecedents, so is a
+horn clause.  Thus we have a high-level Prolog-like notation (but with
+Z syntax) for defining Z transformations and automatic proofs.  This
+should be powerful enough to define all the schema unfolding (so we do
+not have to implement it by hand in Java!) as well as have many other
+uses...
+  \begin{Rationale}
+    A high-level notation is more readable, much quicker
+    to write and easier to maintain than writing transformations in
+    a low level notation like Java.  It also allows better reuse of the
+    knowledge implicit in the rules~\cite{DenningACM}.
+  \end{Rationale}
+
+To provide a Java \texttt{Deduction} interface for applying a rule or
+set of rules to a given Z construct, and to provide several
+implementations of this interface that can be parameterised by a set
+of restricted rules (for example, equality rewrites).
+  \begin{Rationale} 
+  We want to use some sets of rewrite rules
+  (example, schema unfolding) as important components of CZT, so we
+  must have reasonably efficient implementations of those rule sets,
+  and a uniform way of applying them.  It is useful to allow many
+  different rewrite engines (implementations of the \texttt{Deduction}
+  interface) because each engine may place different restrictions on
+  the rules that it allows, may apply rules using a different
+  semantics (apply once, apply exhaustively, apply to all subterms
+  bottom-up or top-down etc.), and may use a different implementation
+  technology (for example, an interpreter that applies the rules or a
+  compiler that transforms the rules into Java code).
+  \end{Rationale}
+
+Other goals for the future are
+to be able to support a variety of Z logics, such as
+$Z_C$~\cite{henson:revising-z-1-99,henson:revising-z-2-99}, 
+$\mathcal{V}$~\cite{brien:calculus-schemas-z00} (a successor of
+the $\mathcal{W}$ logic that appeared in early drafts of the Z standard).
+It is desirable to 
+    support both $Z_C$ and $\mathcal{V}$ (and any future proposals for Z
+    logics), since they are rather different and it would be interesting
+    to compare them in a common framework.  For example, substitution
+    is a meta-level operation in $Z_C$, but is defined within the object
+    logic of $\mathcal{V}$.
+
+Build a tactic layer on top of this basic theorem prover, using a
+tactic language such as ANGEL~\cite{martin:tactics}.  This has been
+used as the basis of several other Z provers (CadiZ, Jigsaw1, Jigsaw2,
+Ergo).
+  \begin{Rationale}
+    An explicit proof tree allows proofs to be recorded, replayed,
+    displayed, checked by independent tools etc.
+    The non-determinism of ANGEL could easily be implemented as
+    Java iterators returning alternative solutions.
+  \end{Rationale}
+
+In the future, we would also like to be able to translate the rules
+into a form that Z theorem provers will accept, so that we can prove
+rules correct -- to allow this, the more declarative the rules are the
+better.
+
+\section{Related Work}
+
+\section{Z Rules}
+
+This section describes the syntax and semantics of the Z rules.
+
+
+\section{Example Rules: Schema Unfolding}
+
+\section{Example Rules: Simplification}
+
+\section{Conclusions}
+
+\end{document}
