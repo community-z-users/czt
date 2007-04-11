@@ -135,11 +135,15 @@ freedom to reorder things later.
 \end{zedrule}
 
 \begin{zedrule}{Theta}
-  \proviso E == \theta [D | true]
+  \proviso E : \power [D] \\
+  \proviso E2 == \theta [D | true]
 \derives
-  \theta [D | P] = E
+  \theta E = E2
 \end{zedrule}
 
+NOTE: we need thirteen versions of this next rule -- one for
+each possible decoration.  The long-term solution is to add
+support for Stroke-List jokers.
 \begin{zedrule}{ThetaPrime}
   \proviso E : \power [D] \\
   \proviso E2 == \theta [D | true] '
@@ -187,6 +191,9 @@ then the above SchemaRef rule would have unfolded it.
   v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
+NOTE: we need thirteen versions of this next rule -- one for
+each possible decoration.  The long-term solution is to add
+support for Stroke-List jokers.
 \begin{zedrule}{SchemaPrime}
    E \sexprUnfoldsTo [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
@@ -249,21 +256,26 @@ that $D1$ and $D2$ are type compatible.
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
-	\proviso [D4 | true] == [D3 | true] \schemaminus [D2 | true]
+  \proviso [D4 | true] == [D3 | true] \schemaminus [D2 | true]
 \derives
-  E1 \project E2 \sexprUnfoldsTo [D2 | \exists D4 @ P1 \land P2]
+  E1 \project E2 \sexprUnfoldsTo [D2 | (\exists D4 @ P1 \land P2)]
 \end{zedrule}
 
 postnames : names that end with ! or '
-prenames: names that end with ? or don't have decorations
+prenames: names that do not end with ! or '
+(that is, names that end with ?, or numeric decoration, or that 
+don't have decorations).
 
 \begin{zedrule}{SchemaPrecondition}
-  [D1 | P1] \sexprUnfoldsTo [D4 | P2] \\
+  E \sexprUnfoldsTo [D4 | P2] \\
   \proviso [D2 | true] == postnames [D4 | true] \\
-  \proviso [D3 | true] == prenames [D4 | true] \\
+  \proviso [D3 | true] == [D4 | true] \schemaminus [D2 | true] \\
 \derives
-  \pre [D1 | P1] \sexprUnfoldsTo [D3 | \exists D2 @ P2]
+  \pre E \sexprUnfoldsTo [D3 | (\exists D2 @ P2)]
 \end{zedrule}
+
+TODO: schema hiding, schema piping and sequential composition,
+schema forall, schema exists unique.
 
 This rule applies the above schema unfolding rules to unfolding
 the bound variables of quantifiers, because the rewrite tactics
