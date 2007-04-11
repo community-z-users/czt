@@ -4391,11 +4391,11 @@ declPart ::=
 jokerDeclList ::=
         zDeclList:zdl sep:s JOKERDECLLIST:j
         {: RESULT = factory_.createHeadDeclList(zdl,
-             factory_.createJokerDeclList(j.getString())); :}
+             factory_.createJokerDeclList(j.getString(), null)); :}
         |
         JOKERDECLLIST:j
         {:
-           RESULT = factory_.createJokerDeclList(j.getString());
+           RESULT = factory_.createJokerDeclList(j.getString(), null);
         :}
 </add:zpatt>
         ;
@@ -4468,7 +4468,7 @@ varDecl ::=
         |
         JOKERNAME:jn COLON expression:e
         {:
-           Name dn = factory_.createJokerName(jn.getString());
+           Name dn = factory_.createJokerName(jn.getString(), null);
            ZNameList zdnl = factory_.createZNameList();
            zdnl.add(dn);
            RESULT = factory_.createVarDecl(zdnl, e);
@@ -4487,7 +4487,7 @@ constDecl ::=
         |
         JOKERNAME:jn DEFEQUAL:defequal expression:e
         {:
-           Name dn = factory_.createJokerName(jn.getString());
+           Name dn = factory_.createJokerName(jn.getString(), null);
            RESULT = factory_.createConstDecl(dn, e);
            LocInfo jnLoc = jn.getLocation();
            LocInfo loc = getLocation(defequalleft, defequalright, jnLoc, e);
@@ -6476,7 +6476,7 @@ baseType ::=
         |
         JOKEREXPR:je /* joker type */
         {:
-           RESULT = factory_.createJokerExpr(je.getString());
+           RESULT = factory_.createJokerExpr(je.getString(), null);
            addLocAnn(RESULT, je.getLocation());
         :}
         ;
@@ -6513,12 +6513,12 @@ varJokerDeclList ::=
         varDeclList:vdl SEMICOLON JOKERDECLLIST:jdl
         {:
            RESULT = factory_.createHeadDeclList(vdl,
-             factory_.createJokerDeclList(jdl.getString()));
+             factory_.createJokerDeclList(jdl.getString(), null));
         :}
         |
         JOKERDECLLIST:jdl
         {:
-           RESULT = factory_.createJokerDeclList(jdl.getString());
+           RESULT = factory_.createJokerDeclList(jdl.getString(), null);
            addLocAnn(RESULT, jdl.getLocation());
         :}        
         ;
@@ -6526,20 +6526,20 @@ varJokerDeclList ::=
 jokerRef ::=
         JOKEREXPR:je
         {:
-           RESULT = factory_.createJokerExpr(je.getString());
+           RESULT = factory_.createJokerExpr(je.getString(), null);
            addLocAnn(RESULT, je.getLocation());
         :}
         |
         JOKERPRED:jp
         {:
-           RESULT = factory_.createJokerPred(jp.getString());
+           RESULT = factory_.createJokerPred(jp.getString(), null);
            addLocAnn(RESULT, jp.getLocation());
         :}
         |
         JOKERNAME:jn
         {:
            final LocInfo loc = jn.getLocation();
-           Name rn = factory_.createJokerName(jn.getString());
+           Name rn = factory_.createJokerName(jn.getString(), null);
            addLocAnn(rn, loc);
            RESULT = factory_.createRefExpr(rn);
            addLocAnn(RESULT, loc);

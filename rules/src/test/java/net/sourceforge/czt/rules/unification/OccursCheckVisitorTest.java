@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2006, 2007 Mark Utting
   This file is part of the CZT project.
 
   The CZT project contains free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ public class OccursCheckVisitorTest extends TestCase
     super.setUp();
     occursCheck_ = new OccursCheckVisitor();
     factory_ = new ProverFactory();
-    joker_ = (ProverJokerExpr) factory_.createJokerExpr(jokerName_);
+    joker_ = (ProverJokerExpr) factory_.createJokerExpr(jokerName_, null);
     
   }
 
@@ -68,7 +68,7 @@ public class OccursCheckVisitorTest extends TestCase
   public void testContains4()
   {
     Expr left = factory_.createSetExpr();
-    Expr joker2 = factory_.createJokerExpr("otherJoker");
+    Expr joker2 = factory_.createJokerExpr("otherJoker", null);
     MemPred pred = factory_.createMemPred();
     pred.setLeftExpr(left);
     pred.setRightExpr(joker2);
@@ -80,7 +80,7 @@ public class OccursCheckVisitorTest extends TestCase
   public void testContains5()
   {
     Expr left = factory_.createSetExpr();
-    Expr samejoker = factory_.createJokerExpr("jokerName_");
+    Expr samejoker = factory_.createJokerExpr("jokerName_", null);
     MemPred pred = factory_.createMemPred();
     pred.setLeftExpr(left);
     pred.setRightExpr(samejoker);

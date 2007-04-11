@@ -193,7 +193,8 @@ public class Rewrite
   public static SchText rewriteOnce(SchText schText, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
-    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
+    ProverJokerExpr joker = (ProverJokerExpr)
+      factory.createJokerExpr("_", null);
     // now create the predicate: schText \schemaEquals joker
     // System.out.println("Rewriting schtext: "+schText);
     Expr original = factory.createSchExpr(schText);
@@ -227,7 +228,8 @@ public class Rewrite
   public static Term rewriteOnce(Expr expr, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
-    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr("_");
+    ProverJokerExpr joker = (ProverJokerExpr)
+      factory.createJokerExpr("_", null);
     Pred pred = factory.createEquality(expr, joker);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(pred);
@@ -247,7 +249,8 @@ public class Rewrite
   public static Term rewriteOnce(Pred pred, Prover prover)
   {
     Factory factory = new Factory(new ProverFactory());
-    ProverJokerPred joker = (ProverJokerPred) factory.createJokerPred("_");
+    ProverJokerPred joker = (ProverJokerPred)
+      factory.createJokerPred("_", null);
     PredSequent predSequent = factory.createPredSequent();
     predSequent.setPred(factory.createIffPred(pred, joker));
     if (prover.prove(predSequent)) {

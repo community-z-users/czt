@@ -154,18 +154,16 @@ freedom to reorder things later.
 %  \theta [D | P]' = E
 %\end{zedrule}
 
-% Why doesn't that work?
-%\begin{zedrule}{SchemaConstruction1}
-%  [D1 | true] \declListUnfoldsTo [D2 | true]
-%\derives
-%  [D1 | P] \sexprUnfoldsTo [D2 | P]
-%\end{zedrule}
+\begin{zedrule}{SchemaConstruction1}
+  [D1 | true] \declListUnfoldsTo [D2 | true]
+\derives
+  [D1 | P] \sexprUnfoldsTo [D2 | P]
+\end{zedrule}
 
 \begin{zedrule}{SchemaConstruction2}
-  [D1 | true] \declListUnfoldsTo [D2 | P2] \\
-  P2 \land P \iff P3
+  [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
-  [D1 | P] \sexprUnfoldsTo [D2 | P3]
+  [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
 \end{zedrule}
 
 \begin{zedrule}{SchemaRef}

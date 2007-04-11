@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import net.sourceforge.czt.zpatt.impl.ZpattFactoryImpl;
 public class ProverFactory
   extends ZpattFactoryImpl
 {
+  private static int id_ = 0;
 #foreach ($j in $jokers)
   private Map<String, ${j.ClassName}> m${j.Name}s_ =
     new HashMap<String, ${j.ClassName}>();
@@ -48,11 +49,12 @@ public class ProverFactory
     throw new UnsupportedOperationException();
   }
 
-  public ${j.Name} create${j.Name}(String name)
+  public ${j.Name} create${j.Name}(String name, String id)
   {
     ${j.ClassName} result = m${j.Name}s_.get(name);
     if (result == null) {
-      result = new  ${j.ClassName}(name);
+      String newId = "" + id_++;
+      result = new  ${j.ClassName}(name, newId);
       m${j.Name}s_.put(name, result);
     }
     return result;

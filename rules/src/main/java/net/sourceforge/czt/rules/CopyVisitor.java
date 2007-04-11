@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -108,7 +108,7 @@ public class CopyVisitor
    */
   public JokerExpr freshJokerExpr(String name)
   {
-    return factory_.createJokerExpr(name);
+    return factory_.createJokerExpr(name, null);
   }
 
   public Term visitTerm(Term term)
@@ -165,22 +165,22 @@ public class CopyVisitor
 
   public Term visitJokerDeclList(JokerDeclList joker)
   {
-    return factory_.createJokerDeclList(joker.getName());
+    return factory_.createJokerDeclList(joker.getName(), joker.getId());
   }
 
   public Term visitJokerExpr(JokerExpr joker)
   {
-    return factory_.createJokerExpr(joker.getName());
+    return factory_.createJokerExpr(joker.getName(), joker.getId());
   }
 
   public Term visitJokerName(JokerName joker)
   {
-    return factory_.createJokerName(joker.getName());
+    return factory_.createJokerName(joker.getName(), joker.getId());
   }
 
   public Term visitJokerPred(JokerPred joker)
   {
-    return factory_.createJokerPred(joker.getName());
+    return factory_.createJokerPred(joker.getName(), joker.getId());
   }
 
   public Term visitLookupConstDeclProviso(LookupConstDeclProviso proviso)

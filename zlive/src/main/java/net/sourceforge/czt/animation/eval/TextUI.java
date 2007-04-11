@@ -279,7 +279,7 @@ public class TextUI {
             else {
               Factory fact = new Factory(new ProverFactory());
               ProverJokerExpr joker = (ProverJokerExpr)
-                 fact.createJokerExpr("_");
+                 fact.createJokerExpr("_", null);
               Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
               PredSequent predSequent =
                 ProverUtils.createPredSequent(pred, true);

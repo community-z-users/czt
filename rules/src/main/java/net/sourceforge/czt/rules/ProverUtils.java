@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -65,21 +65,24 @@ public final class ProverUtils
 
   public static PredSequent createRewritePredSequent(Expr expr, boolean copy)
   {
-    ProverJokerExpr joker = (ProverJokerExpr) FACTORY.createJokerExpr("_");
+    ProverJokerExpr joker = (ProverJokerExpr)
+      FACTORY.createJokerExpr("_", null);
     Pred pred = FACTORY.createEquality(expr, joker);
     return createPredSequent(pred, copy);
   }
 
   public static PredSequent createRewritePredSequent(Pred pred, boolean copy)
   {
-    ProverJokerPred joker = (ProverJokerPred) FACTORY.createJokerPred("_");
+    ProverJokerPred joker = (ProverJokerPred)
+      FACTORY.createJokerPred("_", null);
     return createPredSequent(FACTORY.createIffPred(pred, joker), copy);
   }
 
   public static PredSequent createRewritePredSequent(SchText schText,
                                                      boolean copy)
   {
-    ProverJokerExpr joker = (ProverJokerExpr) FACTORY.createJokerExpr("_");
+    ProverJokerExpr joker = (ProverJokerExpr)
+      FACTORY.createJokerExpr("_", null);
     Expr original = FACTORY.createSchExpr(schText);
     TupleExpr pair = FACTORY.createTupleExpr(original, joker);
     String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
