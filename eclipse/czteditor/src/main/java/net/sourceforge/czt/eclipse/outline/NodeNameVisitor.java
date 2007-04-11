@@ -3,6 +3,8 @@ package net.sourceforge.czt.eclipse.outline;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.oz.ast.ClassPara;
+import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.z.ast.AndExpr;
 import net.sourceforge.czt.z.ast.ApplExpr;
@@ -94,7 +96,8 @@ public class NodeNameVisitor
       OperVisitor<String>,
       GivenTypeVisitor<String>,
       ZFreetypeListVisitor<String>,
-      FreetypeVisitor<String>
+      FreetypeVisitor<String>,
+      ClassParaVisitor<String>  // For Object-Z
 {
   /**
    * @see net.sourceforge.czt.z.visitor.TermVisitor#visitTerm(net.sourceforge.czt.z.ast.Term)
@@ -357,5 +360,13 @@ public class NodeNameVisitor
   public String visitFreetype(Freetype freetype)
   {
     return freetype.getZName().accept(new PrintVisitor());
+  }
+
+  /**
+   * @see net.sourceforge.czt.z.visitor.FreetypeVisitor#visitFreetype(net.sourceforge.czt.z.ast.Freetype)
+   */
+  public String visitClassPara(ClassPara para)
+  {
+    return para.getName().accept(new PrintVisitor());
   }
 }

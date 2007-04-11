@@ -14,6 +14,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.eclipse.outline.CztTreeNode;
 import net.sourceforge.czt.eclipse.outline.NodeChildrenVisitor;
 import net.sourceforge.czt.eclipse.util.Selector;
+import net.sourceforge.czt.oz.ast.ClassPara;
 import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
@@ -316,6 +317,14 @@ public class ParsedData
     else if (term instanceof VarDecl) {
       Position range = getPosition(term);
       Position namePosition = getNamePosition(((VarDecl) term).getName());
+      return new CztTreeNode(source_, term, range, namePosition);
+    }
+    /************** Object-Z nodes ***********************/
+    else if (term instanceof ClassPara) {
+      ClassPara cpara = (ClassPara) term;
+      System.out.println("Saw ClassPara with name "+cpara.getName());
+      Position range = getPosition(term);
+      Position namePosition = getPosition(cpara.getName());
       return new CztTreeNode(source_, term, range, namePosition);
     }
 

@@ -7,6 +7,8 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.oz.ast.ClassPara;
+import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.Box;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
@@ -37,7 +39,8 @@ public class NodeChildrenVisitor
       ZSectVisitor<Term[]>,
       ZParaListVisitor<Term[]>,
       AxParaVisitor<Term[]>,
-      SchExprVisitor<Term[]>
+      SchExprVisitor<Term[]>,
+      ClassParaVisitor<Term[]>   // for Object-Z
 {
   public Term[] visitTerm(Term term)
   {
@@ -99,5 +102,10 @@ public class NodeChildrenVisitor
   public Term[] visitSchExpr(SchExpr schExpr)
   {
     return schExpr.getZSchText().getZDeclList().toArray(new Term[0]);
+  }
+  
+  public Term[] visitClassPara(ClassPara para)
+  {
+    return new Term[] {}; // para.getName()  //getZSchText().getZDeclList().toArray(new Term[0]);
   }
 }

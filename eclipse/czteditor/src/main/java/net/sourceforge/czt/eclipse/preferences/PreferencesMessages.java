@@ -154,6 +154,8 @@ public final class PreferencesMessages extends NLS
   public static String ZEditorPreferencePage_empty_input;
 
   public static String ZEditorPreferencePage_invalid_input;
+
+  public static String CompilerPreferencePage_dialect_tooltip;
   
   /*    
    public static String JavaBasePreferencePage_doubleclick_action;

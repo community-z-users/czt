@@ -18,7 +18,10 @@ import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -79,11 +82,17 @@ public class ZCompiler
       sectMan.put(new Key(this.getCurrentSection(), Source.class), source);
       parsed = (Spec) sectMan
           .get(new Key(this.getCurrentSection(), Spec.class));
-      if (parsed != null)
-        errors.addAll(TypeCheckUtils.typecheck(parsed, sectMan));
-
-      if (parsed.getSect().size() > 0) {
-        fParsedData.addData(parsed, sectMan, document);
+      if (parsed != null) {
+        for (Sect sect : parsed.getSect()) {
+          if (sect instanceof ZSect) {
+            sectMan.get(new Key(((ZSect) sect).getName(),
+                                SectTypeEnvAnn.class));
+          }
+        }
+      
+        if (parsed.getSect().size() > 0) {
+          fParsedData.addData(parsed, sectMan, document);
+        }
       }
       
       try {

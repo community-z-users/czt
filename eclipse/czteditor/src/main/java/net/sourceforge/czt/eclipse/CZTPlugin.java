@@ -118,7 +118,9 @@ public class CZTPlugin extends AbstractUIPlugin
   public void start(BundleContext context) throws Exception
   {
     super.start(context);
-    fSectionManager = createSectionManager();
+    String defaultDialect = getPreferenceStore().getString(
+              PreferenceConstants.PROP_DIALECT);
+    fSectionManager = createSectionManager(defaultDialect);
     
     fPropertyChangeListener= new IPropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent event) {
@@ -127,6 +129,10 @@ public class CZTPlugin extends AbstractUIPlugin
             PreferenceConstants.PROP_TYPECHECK_USE_BEFORE_DECL.equals(property) ||
             PreferenceConstants.PROP_TYPECHECK_USE_STRONG_TYPING.equals(property)) {
           fSectionManager.setProperty(property, String.valueOf(event.getNewValue()));
+        }
+        else if (PreferenceConstants.PROP_DIALECT.equals(property)) {
+          String dialect = String.valueOf(event.getNewValue());
+          fSectionManager = createSectionManager(dialect);
         }
       }
     };
@@ -333,15 +339,17 @@ public class CZTPlugin extends AbstractUIPlugin
   public SectionManager getSectionManager()
   {
     if (fSectionManager == null) {
-      fSectionManager = createSectionManager();
+      fSectionManager = createSectionManager("z");
     }
+    System.out.println("Cloning section manager "+fSectionManager.hashCode());
     return (SectionManager) fSectionManager.clone();
   }
 
-  private SectionManager createSectionManager()
+  private SectionManager createSectionManager(String dialect)
   {
-    SectionManager sectManager = new SectionManager();
+    SectionManager sectManager = new SectionManager(dialect);
     
+    System.out.println("Created new SectionManager("+dialect+") -> "+sectManager.hashCode());
     IPreferenceStore store = getPreferenceStore();
     /**
      * Sets the properties of the section manager

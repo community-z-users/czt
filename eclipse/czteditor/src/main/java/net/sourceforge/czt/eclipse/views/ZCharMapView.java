@@ -1,7 +1,11 @@
 
 package net.sourceforge.czt.eclipse.views;
 
+import java.beans.PropertyChangeListener;
+
+import net.sourceforge.czt.eclipse.CZTPlugin;
 import net.sourceforge.czt.eclipse.editors.zeditor.ZEditor;
+import net.sourceforge.czt.eclipse.preferences.PreferenceConstants;
 import net.sourceforge.czt.eclipse.util.CZTColorManager;
 import net.sourceforge.czt.eclipse.util.IZColorConstants;
 import net.sourceforge.czt.eclipse.util.IZFileType;
@@ -12,6 +16,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -166,6 +172,26 @@ public class ZCharMapView extends ViewPart
     fCharMapViewFontData.setStyle(SWT.BOLD);
     fCharMapViewFont = new Font(Display.getDefault(), fCharMapViewFontData);
     createTable(parent);
+    
+    CZTPlugin.getDefault()
+      .getPreferenceStore()
+      .addPropertyChangeListener(new IPropertyChangeListener() {
+
+        public void propertyChange(PropertyChangeEvent event)
+        {
+          String key = event.getProperty();
+          if (key.equals(PreferenceConstants.PROP_DIALECT)) {
+            String value = String.valueOf(event.getNewValue());
+            if ("z".equals(value))
+              fNotationCombo.select(0);
+            else if ("oz".equals(value))
+              fNotationCombo.select(1);
+            else if ("circus".equals(value))
+              fNotationCombo.select(2);
+          }
+        }
+        
+      });
 
     //		makeActions();
     //		hookContextMenu();

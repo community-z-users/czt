@@ -31,6 +31,15 @@ public class PreferenceConstants
    */
 
   /**
+   * A named preference that determines the parser and typechecker
+   * that are used for all CZT buffers.
+   * <p>
+   * Value can be "z", "oz", "circus" etc.
+   * </p>
+   */
+  public static final String PROP_DIALECT = "czt_dialect";
+  
+  /**
    * A named preference that sets the property of the parser.
    * <p>
    * Value is of type <code>boolean</code>.
@@ -655,6 +664,8 @@ public class PreferenceConstants
     //		store.setDefault(PreferenceConstants.APPEARANCE_FOLD_PACKAGES_IN_PACKAGE_EXPLORER, true);
 
     // Compiler preference page
+    store.setDefault(PreferenceConstants.PROP_DIALECT, "z");
+    
     store.setDefault(PreferenceConstants.PROP_IGNORE_UNKNOWN_LATEX_COMMANDS,
         true);
 
