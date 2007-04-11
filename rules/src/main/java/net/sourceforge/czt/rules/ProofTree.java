@@ -274,10 +274,11 @@ public class ProofTree
           reset(sequent);
         }
       }
-      JMenuItem print = new JMenuItem("Print");
+      JMenuItem print = new JMenuItem("Print node");
       print.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
             System.err.println(node.toString());
+            System.err.println(TermToString.apply(node.getSequent()));
           }
         });
       popup.add(print);
