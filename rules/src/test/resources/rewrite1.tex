@@ -74,6 +74,19 @@
          [ | (\exists  x : \arithmos | true @ x \in \nat) ]
 \end{theorem}
 
+\begin{theorem}{SimpleSchemaPre1}
+  \vdash? \pre Simple = [ x:\arithmos | (\exists @ x\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleSchemaPre2}
+  \vdash? \pre (Simple~') = [ | (\exists x':\arithmos @ x'\in\nat)]
+\end{theorem}
+
+\begin{theorem}{SimpleSchemaPre3}
+  \vdash? \pre (Simple \land Simple~') =
+          [x:\arithmos | (\exists x':\arithmos @ x\in\nat \land x'\in\nat)]
+\end{theorem}
+
 \begin{schema}{SimpleConstDecl}
   y == 3
 \end{schema}

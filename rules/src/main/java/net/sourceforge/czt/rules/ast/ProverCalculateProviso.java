@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -95,6 +95,8 @@ public class ProverCalculateProviso
       Expr arg = applExpr.getRightExpr();
       if ("binding".equals(funcName))
         checkBinding(arg, factory);
+      else if ("postnames".equals(funcName))
+        checkPostnames(arg, factory);
       else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
         checkSchemaMinus(arg, factory);
       else if ("print".equals(funcName))
@@ -280,6 +282,63 @@ public class ProverCalculateProviso
     }
   }
   
+  private void checkPostnames(Expr rightExpr, Factory factory)
+  {
+    GetZName findName = new GetZName();
+    if (rightExpr instanceof SchExpr) {
+      SchExpr schExpr = (SchExpr) rightExpr;
+      SchText schText = schExpr.getSchText();
+      if (schText instanceof ZSchText) {
+        ZSchText zSchText = (ZSchText) schText;
+        ZDeclList zDeclList =
+          zSchText.accept(new GetZDeclList(factory));
+        ZDeclList newZDeclList = factory.createZDeclList();
+        for (Decl decl : zDeclList) {
+          if (decl instanceof VarDecl) {
+            VarDecl varDecl = (VarDecl) decl;
+            VarDecl newDecl =
+              factory.createVarDecl(factory.createZNameList(),
+                                    varDecl.getExpr());
+            for (Name declName : varDecl.getName()) {
+              ZName zName = declName.accept(findName);
+              ZStrokeList strokes = zName.getZStrokeList();
+              if (strokes.size() > 0 &&
+                  (strokes.get(strokes.size() - 1) instanceof OutStroke ||
+                   strokes.get(strokes.size() - 1) instanceof NextStroke)) {
+                newDecl.getZNameList().add(zName);
+              }
+            }
+            if (newDecl.getZNameList().size() > 0) {
+              newZDeclList.add(newDecl);
+            }
+          }
+          else {
+            final String message = decl.getClass() +
+            " is not a supported Decl " +
+            " for the calculate proviso";
+            throw new CztException(message);
+          }
+        }
+        ZSchText newZSchText =
+          factory.createZSchText(newZDeclList, factory.createTruePred());
+        SchExpr newSchExpr = factory.createSchExpr(newZSchText);
+        unify(newSchExpr, getLeftExpr());
+      }
+      else {
+        final String message = schText.getClass() +
+        " is not a supported SchText " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+    }
+    else {
+      final String message = rightExpr.getClass() +
+      " is not supported by the postname function " +
+      "of the calculate proviso";
+      throw new CztException(message);
+    }
+  }
+
   /** Implements the [D1|true] schemaminus [D2|true] proviso.
    *  This calculates the signature D1 minus D2.
    *  Every path through this method should set status_. 
