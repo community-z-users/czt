@@ -8,6 +8,8 @@ doc/architecture.sxd -text
 doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
+doc/papers/rules/cztprover1.eps -text
+doc/papers/rules/cztprover1.png -text svneol=unset#image/png
 doc/papers/rules/master.tex -text
 doc/refcard/z/refcard.dvi -text
 doc/refcard/z/refcard.p1.latb -text
