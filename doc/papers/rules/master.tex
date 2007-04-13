@@ -145,16 +145,17 @@ example is checking that a certain name $n$ is not free in a given
 term $t$.  We write this as $n \notfreein t$.  To reason about Z in a
 convenient way, it is also useful to have side conditions that can
 check properties of signatures, distinguish between the different
-kinds of decorations on names etc.
+kinds of decorations on names, etc.
 
-The ZedRules notation provides four kinds of side conditions.
+The ZedRules notation provides four kinds of side conditions (provisos).
 These are written in a Z-like notation, but they are prefixed by
 a special `keyword' \verb!\proviso! (displayed as $\proviso$ when
 typeset -- this is the U+25B8 character in Unicode) to improve
 readability and avoid syntactic ambiguity. 
 \begin{description}
 \item[Typecheck:] $\proviso E:BT$, where $E$ is an expression and $BT$
-  is a carrier set that corresponds to a Z base type.  Note that $BT$
+  is a carrier set (that is, a Z expression that corresponds to a Z
+  base type).  Note that $BT$ 
   typically contains jokers or is just one joker, in which case, the
   typechecker must calculate the type rather than just checking it.
 \item[Calculate:] $\proviso ExprJoker == Expr$.
@@ -164,8 +165,13 @@ readability and avoid syntactic ambiguity.
   operators for manipulating names and declaration lists.  We will see
   examples of these operators in the following sections.
 \item[Check:] $\proviso Name \notfreein Term$.
-  These simple decidable predicates give us a
-  way of checking properties of set of names.
+  This checks that the given $Name$ does not appear in $Term$.
+  Note that if $Term$ contains a joker, then this proviso must either
+  fail (because it is unclear whether or not $Term$ may be
+  instantiated to contain $Name$ in the future), or add a
+  constraint to that joker to ensure that it can never be instantiated to
+  contain $Name$.  Both implementations are acceptable -- the latter
+  implementation is more complex but also more powerful.
 \item[Lookup:] $\proviso? Name==Expr$.
   This searches for a matching ConstDecl in the current Z section
   and its ancestor sections.  It provides a way of looking up 
@@ -252,8 +258,8 @@ next.
 
 \subsection{An Automated Depth-First Prover}
 
-This tool is a Java class that provides a simple depth-first search
-method that can be used to find proofs automatically.
+This tool is a Java class (called SimpleProver) that provides a simple
+depth-first search method that can be used to find proofs automatically.
 Given a predicate, it tries to apply the rules in the order they
 appear in the Z specification.  If a rule application succeeds, a
 sequence of new subgoals is created and attempted to be proven next
@@ -286,7 +292,11 @@ must match the term to be rewritten, the right side $e2$ represents
 the result of the transformation, and $r$ is some equivalence relation
 such as equality.  We say that a Z expression~$e1$ is rewritten to the
 Z expression~$e2$ if $e1 = e2$ can be proven using repeated
-applications of rules from the given set of rewrite rules.
+applications of rules from the given set of rewrite rules.  Note that
+some rewrite rules may have antecedents, so applying such rewrite
+rules can require checking provisos and proving any antecedent
+predicates -- the latter task is done using the SimpleProver tool
+mentioned earlier.
 
 Usually, the task is to compute $e2$ for a given Z expression $e1$.
 To do that, the rewrite engine asks the prover to prove $e1 = E$,
@@ -316,7 +326,7 @@ and schema expressions.  For example, given a schema expression such as
 $E \land [x:\nat | p~x]$ where $E$ is the name of a schema, these rules
 define a normalisation process that will transform this schema expression
 into something of the form $[D|P]$, where $D$ is a list of variable
-declarations whose types are all base types and $P$ is a predicate that
+declarations whose types are all carrier sets and $P$ is a predicate that
 will contain constraints like $x \in \nat$ and $p~x$.
 
 We start by declaring the jokers used in all the rules in this section.
@@ -362,7 +372,7 @@ We use the $\declListUnfoldsTo$ operator for unfolding declaration
 lists.   The left-hand side is always of the form $[DeclList|true]$
 and the right-hand side (which is usually a generated output) is
 of the form $[D|P]$, where the declaration list $D$ has no duplicated
-names and all its types are Z base types, and the predicate $P$
+names and all its types are Z carrier sets, and the predicate $P$
 contains any additional typing constraints that were in DeclList.
 
 The next few rules specify the $\declListUnfoldsTo$ operator.
@@ -374,13 +384,14 @@ are applied, so the rules that follow cover all possible kinds
 of declarations.
 
 The VarDecl1 rule is a special case of VarDecl2, which applies when $E$ is
-already a base type.  Since VarDecl1 comes before VarDecl2 in this file,
+already a carrier set.  Since VarDecl1 comes before VarDecl2 in this file,
 the rewrite tactic gives it higher priority, and this avoids introducing
 redundant tautologies (such as $E \in \arithmos$, which is guaranteed to
 be true by the type system) into the predicate.  This is an example of
 how we can influence the behaviour of the rewrite tactic by placing more
 specific rules before more general ones.  Of course, in the interactive
-prover, the user could choose to apply either rule when $E$ is a base type.
+prover, the user could choose to apply either rule when $E$ is a
+carrier set.
 
 \begin{zedrule}{VarDecl1}
    \proviso E : \power E \\
@@ -424,19 +435,15 @@ mutually recursive.
 \subsection{Unfolding Schema Expressions}
 
 This section defines the unfolding of schema expressions,
-using the $SE \sexprUnfoldsTo STEXT$ operator, where $SE$
-is a schema expression and $STEXT$ is the resulting normalized
+using the $SE \sexprUnfoldsTo NORM$ operator, where $SE$
+is a schema expression and $NORM$ is the resulting normalized
 schema construction ($[Decls|Preds]$, where the types in $Decls$
-are only base types).
+are only carrier sets).
 
-Top-level schema expressions are unfolded into schema construction
-expressions, which can then be expanded into sets of bindings.
-However, we have a special case for $\exists$, so that we can
-put all the variables into the bound variable list of the
-set comprehension, then create a binding using a subset of
-those variables.  Putting all the variables at the same level
-of scope gives the evaluation optimization algorithms more
-freedom to reorder things later.
+The TopLevel rule is an equality rewrite rule for expressions.
+The typing proviso ensures that it is applicable only when $E$
+is a schema expression.  The last antecedent rewrites $E$ to
+$[D | P]$ by using the $\sexprUnfoldsTo$ rules in this section.
 
 \begin{zedrule}{TopLevel}
   \proviso E : \power [D2] \\
@@ -445,6 +452,11 @@ freedom to reorder things later.
   E = [D | P]
 \end{zedrule}
 
+The Theta rule rewrites expressions like $\theta~S$, where
+$S==[x,y:\nat]$, into a binding like $\lblot x==x,y==y \rblot$.
+A typing proviso is used to calculate the signature of $E$, then
+the calculation proviso generates the appropriate binding expression
+from that signature.
 \begin{zedrule}{Theta}
   \proviso E : \power [D] \\
   \proviso E2 == \theta [D | true]
@@ -452,9 +464,12 @@ freedom to reorder things later.
   \theta E = E2
 \end{zedrule}
 
-NOTE: we need thirteen versions of this next rule -- one for
-each possible decoration.   In the future we will add
-support for Stroke-List jokers, so that all decorations can
+
+The next rule handles decorated $\theta$ expressions.  However, this
+version handles only a single prime decoration.  We need thirteen
+versions of this next rule -- one for 
+each possible decoration.   In the future we will extend the ZedRules
+notation to support Stroke-List jokers, so that all decoration lists can
 be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
@@ -464,6 +479,10 @@ be handled by a single rule.
   \theta E~' = E2
 \end{zedrule}
 
+Like VarDecl1 and VarDecl2, the SchemaConstruction1 rule is a special
+case of SchemaConstruction2, which applies to schemas that are already
+normalised and avoids adding lots of redundant typing conditions into
+the predicate part.
 \begin{zedrule}{SchemaConstruction1}
   [D1 | true] \declListUnfoldsTo [D2 | true]
 \derives
@@ -476,6 +495,10 @@ be handled by a single rule.
   [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
 \end{zedrule}
 
+The SchemaRef rule uses the lookup proviso to unfold schema names
+($E$ may specify an instantiation of a generic schema).  
+The result of the lookup
+is then normalised to obtain the overall result.
 \begin{zedrule}{SchemaRef}
   \proviso ?~ E == E2 \\
   E2 \sexprUnfoldsTo [D2 | P2]
@@ -486,6 +509,9 @@ be handled by a single rule.
 This rule unfolds any remaining $\Delta$ schemas.
 If the specification explicitly defined the $\Delta$ schema,
 then the above SchemaRef rule would have unfolded it.
+The $N1 \unprefix N2$ operator removes a string $N1$ from the front of
+the name $N2$ and returns the remainder of the name, or fails if $N2$
+does not start with $N1$.
 
 \begin{zedrule}{DeltaRef}
   \proviso v2 == \Delta \unprefix v \\
@@ -516,11 +542,10 @@ NOTE: we also currently need thirteen versions of this next rule
    E~' \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
-The type proviso in the ExistsSchema rule checks
-that $D1$ and $D2$ are type compatible.  The $\schemaminus$
-operator in the proviso calculates $D2 - D1$.  That is,
-$D4$ will contain all the declarations that appear in $D2$
-but do not appear in $D1$. 
+The type proviso in the ExistsSchema rule checks that $D1$ and $D2$
+are type compatible.  The $\schemaminus$ operator in the proviso
+subtracts one signature from another.  That is, $D4$ will contain all
+the declarations that appear in $D2$ but do not appear in $D1$.
 
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
@@ -605,24 +630,24 @@ TODO: schema hiding, schema piping and sequential composition,
 schema forall, schema exists unique.
 
 
-\subsection{Rules for Unfolding Quantified Declarations}
+%\subsection{Rules for Unfolding Quantified Declarations}
+%
+%When rewriting terms involving quantifiers, we want to
+%rewrite and expand the schema text $E$ within quantifiers
+%such as $\exists E @ P$ or $(\lambda E@E2)$, as well as rewriting
+%the predicates and expressions within the body of the quantifiers.
+%The rewrite tactics try to transform such schema text using the 
+%$\schemaEquals$ relation.  So the following rule applies the above 
+%schema unfolding rules to unfolding any schema text that appears within 
+%the bound variable part of quantifiers.
+%\begin{zedrule}{Quantifiers}
+%   [D|P] \sexprUnfoldsTo [D1|P1]
+%\derives
+%   [D|P] \schemaEquals [D1|P1]
+%\end{zedrule}
 
-When rewriting terms involving quantifiers, we want to
-rewrite and expand the schema text $E$ within quantifiers
-such as $\exists E @ P$ or $(\lambda E@E2)$, as well as rewriting
-the predicates and expressions within the body of the quantifiers.
-The rewrite tactics try to transform such schema text using the 
-$\schemaEquals$ relation.  So the following rule applies the above 
-schema unfolding rules to unfolding any schema text that appears within 
-the bound variable part of quantifiers.
-\begin{zedrule}{Quantifiers}
-   [D|P] \sexprUnfoldsTo [D1|P1]
-\derives
-   [D|P] \schemaEquals [D1|P1]
-\end{zedrule}
 
-
-\subsection{Rules for Unfolding Predicates}
+\subsection{Rules for Unfolding Schemas as Predicates}
 
 If a schema expression $E$ is used as a predicate, it is equivalent to
 checking that $\theta E$ (a binding constructed from names that are
@@ -656,7 +681,7 @@ is desirable to support both $\Zc$ and $\V$ (and any future
 proposals for Z logics), since they are rather different and it would be
 interesting to compare them in a common framework.  For example,
 substitution is a meta-level operation in $\Zc$, but is defined within the
-object logic of $\V$.  To supporting richer logics such as these,
+object logic of $\V$.  To support richer logics such as these,
 it would be necessary to add a few more proviso constructs and to
 generalise antecedents into sequents that can specify a different context
 to that of the conclusion.  For example, an antecedent such as $x:T \vdash
