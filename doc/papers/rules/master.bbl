@@ -4,6 +4,9 @@
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 \newcommand{\enquote}[1]{``#1''}
 
+\bibitem{}
+
+
 \bibitem{armour:business-model00}
 Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
   (2000), pp.~19--22.
@@ -12,6 +15,12 @@ Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
 Brien, S.~M. and A.~P. Martin, \emph{A calculus for schemas in {Z}}, Journal of
   Symbolic Computation \textbf{30} (2000), pp.~63--91.
 
+\bibitem{girard:proofs-types90}
+Girard, J.-Y., P.~Taylor and Y.~Lafont, \enquote{Proofs and Types,} Number~7 in
+  Cambridge Tracts in Theoretical Computer Science, Cambridge University Press,
+  1990, available from
+  \url{http://www.cs.man.ac.uk/~pt/stable/Proofs+Types.html}.
+
 \bibitem{henson:revising-z-1-99}
 Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {I} - logic and semantics},
   Formal Aspects of Computing Journal \textbf{11} (1999), pp.~359--380.
@@ -19,6 +28,12 @@ Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {I} - logic and semantics},
 \bibitem{henson:revising-z-2-99}
 Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {II} - logical development},
   Formal Aspects of Computing Journal \textbf{11} (1999), pp.~381--401.
+
+\bibitem{martin:tac-lang-for-ergo}
+Martin, A., R.~Nickson and M.~Utting, \emph{A tactic language for {Ergo}}, in:
+  L.~Groves and S.~Reeves, editors, \emph{Formal Methods Pacific '97}, Springer
+  Series in Discrete Mathematics and Theoretical Computer Science (1997), pp.
+  186--207.
 
 \bibitem{martin:tactics}
 Martin, A.~P., P.~H.~B. Gardiner and J.~C.~P. Woodcock, \emph{A tactic

@@ -15,7 +15,7 @@
 \newcommand{\unprefix}{\mathrel{unprefix}}
 \newcommand{\schemaEquals}{\mathrel{=_S}}
 
-\def\lastname{Utting, Malik, Toyn}
+\def\lastname{Utting, Malik and Toyn}
 
 \begin{document}
 \begin{frontmatter}
@@ -42,8 +42,8 @@
   terms, which makes it easier to build new Z manipulation tools.
   We describe the syntax and semantics of these rules, plus several reasoning
   engines that use sets of rules to manipulate Z terms.  We demonstrate the
-  utility of rules by discussing one set of rules that defines schema
-  unfolding of the schema expressions in Z and another set that is used by
+  utility of rules by discussing two sets of rules.  One set defines schema
+  unfolding of the schema expressions in Z.  The other set is used by
   the ZLive animator to preprocess Z expressions into a form more suitable
   for animation.  
 \end{abstract}
@@ -74,31 +74,111 @@ logic.  A high-level notation such as this gives better support for the
 capture and reuse of the knowledge implicit in the
 rules~\cite{armour:business-model00}.
 
-This paper proposes such a declarative notation, called ZedRules.
-It is an extension of the standard Z notation that provides \emph{jokers}
-that can stand for arbitrary expressions, predicates, declarations etc.
-It allows equality and inference rules to be written in a Z-like notation,
-and users can extend this notation by defining new operators within Z.
+This paper proposes such a declarative notation, called ZedRules.  It
+is an extension of the standard Z notation that provides \emph{jokers}
+that can stand for arbitrary expressions, predicates, declarations
+etc.  It allows inference rules and rewrite rules to be written in a
+Z-like notation, and users can extend this notation by defining new
+operators within Z.
 
 Section \ref{sec:syntax} describes the syntax and semantics of the
 ZedRules.  Section~\ref{sec:tools} describes three different reasoning
 engines provided by CZT to use the rules.  Section~\ref{sec:schemas} shows
 how the rules can be used to specify unfolding and normalisation of schema
 expressions and Section~\ref{sec:zlive} shows some of the rules that are
-used by ZLive to preprocess Z expressions and predicates.
+used by the ZLive animator to preprocess Z expressions and predicates.
 
 
 
-\section{Related Work} \label{sec:relwork}
+\subsection{Related Work} \label{sec:relwork}
+
+TODO
 
 
 \section{Rule Syntax and Semantics} \label{sec:syntax}
 
 This section describes the syntax and semantics of the Z rules.
 
-Each rule has a single conclusion and possibly several antecedents, so is a
-horn clause.  Thus we have a high-level Prolog-like notation (but with Z
-syntax) for defining Z transformations and automatic proofs.
+Each rule has a single conclusion and zero or more antecedents, so is a
+horn clause.  The conclusion and each antecedent is typically just a Z
+predicate, written in the standard Z notation.  The informal semantics
+is that the conclusion is true if all the antecedents are true.
+
+For example, the \emph{Funct} rule from the $\V$ logic~\cite{}
+might be written as follows:
+\begin{zedrule}{Funct}
+  \exists_1 x:f @ x.1 = e \\
+  x \notfreein e
+\derives
+  y=f(e) \iff (e,y) \in f
+\end{zedrule}
+
+The \LaTeX\ input for this rule is:
+\begin{verbatim}
+\begin{zedrule}{Funct}
+  \exists_1 x:f @ x.1 = e \\
+  x \notfreein e
+\derives
+  y=f(e) \iff (e,y) \in f
+\end{zedrule}
+\end{verbatim}
+while the Unicode form of the rule is similar to the typeset form.
+
+It is also necessary to declare which names are metavariables
+(jokers) and which syntactic roles they play.  For example, in
+this $Funct$ rule, the $e,f$ and $y$ names stand for arbitrary
+expressions (we call them \emph{expression jokers}), whereas the $x$
+is a normal bound variable name.  In the ZedRules notation, each
+joker name must be declared before it is used in rules.  For example,
+the following declarations declare $e,f$ and $y$ to be expression
+jokers and $D1$ to be a joker that ranges over declaration lists.
+
+\begin{zedjoker}{Expr} e,f,y \end{zedjoker}
+\begin{zedjoker}{DeclList} D1 \end{zedjoker}
+
+
+\subsection{Side Conditions}
+
+Most logics contain rules with side conditions, which check various
+syntactic properties of the terms in the rule.  The most common
+example is checking that a certain name $n$ is not free in a given
+term $t$.  We write this as $n \notfreein t$.  To reason about Z in a
+convenient way, it is also useful to have side conditions that can
+check properties of signatures, distinguish between the different
+kinds of decorations on names etc.
+
+The ZedRules notation provides four kinds of side conditions.
+These are written in a Z-like notation, but they are prefixed by
+a special `keyword' \verb!\proviso! (displayed as $\proviso$ when
+typeset -- this is the U+25B8 character in Unicode) to improve
+readability and avoid syntactic ambiguity. 
+\begin{description}
+\item[Typecheck:] $\proviso E:BT$, where $E$ is an expression and $BT$
+  is a carrier set that corresponds to a Z base type.  Note that $BT$
+  typically contains jokers or is just one joker, in which case, the
+  typechecker must calculate the type rather than just checking it.
+\item[Calculate:] $\proviso ExprJoker == Expr$.
+  This calculates the right hand side, then assigns it to the left hand
+  side expression joker.
+  The right hand side $Expr$ may contain only a very restricted set of
+  operators for manipulating names and declaration lists.  We will see
+  examples of these operators in the following sections.
+\item[Check:] $\proviso Name \notfreein Term$.
+  These simple decidable predicates give us a
+  way of checking properties of set of names.
+\item[Lookup:] $\proviso? Name==Expr$.
+  This searches for a matching ConstDecl in the current Z section
+  and its ancestor sections.  It provides a way of looking up 
+  definitions so that they can be used to unfold expressions.
+  The left hand side $Name$ can also be a reference expression,
+  which is a name plus a list of expressions -- this allows generic
+  definitions to be instantiated and unfolded.  In the future we plan
+  to expand this lookup syntax, so that rules can query other kinds of
+  Z paragraphs, such as the declarations and predicates within 
+  axiomatic definitions.
+\end{description}
+
+\subsection{Semantics}
 
 We describe the semantics of the rules independently of any operational
 description of how rules can be used. 
@@ -116,7 +196,7 @@ code).
 
 To use and test the rules, several tools have been implemented.
 
-\subsection{A Simple Interactive Prover}
+\subsection{An Interactive Prover}
 
 \begin{figure}[htbp]
   \centering
@@ -125,11 +205,11 @@ To use and test the rules, several tools have been implemented.
   \label{fig:cztprover}
 \end{figure}
 
-The simple interactive prover shown in figure~\ref{fig:cztprover} is
-used as a debugging aid.  It displays an entire proof tree in tree
-form.  Each node is labelled with a subgoal, which is either a sequent
-(predicate) or a proviso.  Each node can be closed (proven), indicated
-by a tick icon, or open (not proven), indicated by a question mark
+The interactive prover shown in figure~\ref{fig:cztprover} 
+displays an entire proof tree in tree form.  
+Each node is labelled with a subgoal, which is either a sequent
+(a predicate) or a proviso.  Each node can be closed (proven), indicated
+by a tick icon, or open (unproven), indicated by a question mark
 icon.
 
 The user can manipulate the proof tree by applying rules to sequents,
@@ -164,9 +244,16 @@ be hidden.  If the pointer is above a particular node, the tooltip
 gives information about whether and which rule has been applied, or
 whether the current node is a proviso.
 
+This interactive prover is not intended to be a practical tool for
+reasoning about Z specifications.  A much higher level of automation
+would be needed for that.  But it has been found to be very useful as
+a debugging tool when developing rule sets for the other tools discussed
+next. 
+
 \subsection{An Automated Depth-First Prover}
 
-A simple depth-first prover is used to find proofs automatically.
+This tool is a Java class that provides a simple depth-first search
+method that can be used to find proofs automatically.
 Given a predicate, it tries to apply the rules in the order they
 appear in the Z specification.  If a rule application succeeds, a
 sequence of new subgoals is created and attempted to be proven next
@@ -181,7 +268,7 @@ instantiated more fully).  The current implementation treats state
 \emph{UNKNOWN} the same as \emph{FAIL}, thus relies on the order of
 subgoals provided by the rule writer.
 
-Note that the simple prover uses a shallow backtracking algorithm and
+Note that this simple prover uses a shallow backtracking algorithm and
 therefore might fail to find a proof even when there exists one.  If a
 proof for a subgoal is found, the prover sticks to it and no attempt
 is made to find an alternative proof.  This might prevent another
@@ -192,13 +279,14 @@ it is usually found more quickly than using deep backtracking.
 
 \subsection{A Rewrite Engine}
 
-The purpose of the rewrite engine is to rewrite a given Z term using a
-given set of rewrite rules.  A rewrite rule is a rule whose conclusion
-is of a particular form and consists of a left side (which needs to
-match the term to be rewritten) and a right side (which represents the
-result of the transformation).  For example, a Z expression~$e1$ is
-rewritten to the Z expression~$e2$ if $e1 = e2$ can be proven using
-the given rewrite rules.
+CZT also provides a Java class called Rewrite that can rewrite a given
+Z term using a given set of rewrite rules.  A rewrite rule is a rule
+whose conclusion is of the form $e1~r~e2$, where the left side $e1$
+must match the term to be rewritten, the right side $e2$ represents
+the result of the transformation, and $r$ is some equivalence relation
+such as equality.  We say that a Z expression~$e1$ is rewritten to the
+Z expression~$e2$ if $e1 = e2$ can be proven using repeated
+applications of rules from the given set of rewrite rules.
 
 Usually, the task is to compute $e2$ for a given Z expression $e1$.
 To do that, the rewrite engine asks the prover to prove $e1 = E$,
@@ -207,13 +295,15 @@ designed so that, if a proof is found, the right hand side of the
 equation is ground, i.e.\ does not contain any unbound jokers.  Then
 $e1$ is substituted by, or rewritten to, $e2$.
 
-Currently, there are methods for rewriting an expression (using $e1 =
-e2$ rules) and a predicate (using $p1 \leftrightarrow p2$ rules) once.
-However, there are endless ways of combining rewrites into sequences
-of rewrites.  Subterms can be considered, either in a bottom-up or a
-top-down approach.  The current implementation rewrites each level of
-a term in a top-down manner.  A term is rewritten until it does not
-change any more, and then the subterms are rewritten in the same way.
+Currently, there are methods for rewriting a given expression (using
+$e1 = e2$ rules) and a predicate (using $p1 \leftrightarrow p2$ rules)
+once.  However, there are endless ways of combining rewrites into
+sequences of rewrites.  Subterms can be considered, either in a
+bottom-up or a top-down approach.  The Rewrite implementation rewrites
+each level of a term in a top-down manner.  A term is rewritten until
+it does not change any more, and then its subterms are rewritten in
+the same way.
+
 
 \section{Example Rules: Schema Unfolding} \label{sec:schemas}
 
@@ -546,36 +636,46 @@ transforms any expression that is used as predicate into $\theta E \in E$.
 
 \section{Example Rules: ZLive Preprocessor} \label{sec:zlive}
 
+TODO
+
 \section{Conclusions} \label{sec:concl}
 
-
-TODO: conclusions
+We have described the ZedRules notation and illustrated its utility
+for schema normalisation and general rewriting.  The main advantage
+of the notation is that it is a superset of standard Z and it makes it
+much easier and clearer to develop Z tools that perform non-trivial
+transformations.
 
 
 In the future, we would like to be able to extend the ZedRules notation to
-support a variety of Z logics, such as
-$Z_C$~\cite{henson:revising-z-1-99,henson:revising-z-2-99},
-$\mathcal{V}$~\cite{brien:calculus-schemas-z00} (a successor of the
+fully support a variety of Z logics, such as
+$\Zc$~\cite{henson:revising-z-1-99,henson:revising-z-2-99},
+$\V$~\cite{brien:calculus-schemas-z00} (a successor of the
 $\mathcal{W}$ logic that appeared in early drafts of the Z standard).  It
-is desirable to support both $Z_C$ and $\mathcal{V}$ (and any future
+is desirable to support both $\Zc$ and $\V$ (and any future
 proposals for Z logics), since they are rather different and it would be
 interesting to compare them in a common framework.  For example,
-substitution is a meta-level operation in $Z_C$, but is defined within the
-object logic of $\mathcal{V}$.  To supporting richer logics such as these,
+substitution is a meta-level operation in $\Zc$, but is defined within the
+object logic of $\V$.  To supporting richer logics such as these,
 it would be necessary to add a few more proviso constructs and to
 generalise antecedents into sequents that can specify a different context
 to that of the conclusion.  For example, an antecedent such as $x:T \vdash
 P$ would allow the proof of $P$ to proceed in an extended context where the
-new variable $x$ is declared and has type $T$.  This is the same 
+new variable $x$ is declared and has type $T$.  This is 
+similar to the common sequent calculus style of
+proof~\cite{girard:proofs-types90}. 
 
 The current CZT reasoning tools construct an explicit proof tree that
 allows proofs to be recorded, replayed, displayed, checked by independent
 tools etc.
 It would be interesting to build a tactic layer on top of this proof
 tree, using a tactic language such as ANGEL~\cite{martin:tactics}, which
-has been used as the basis of several other Z provers (CadiZ, Jigsaw1,
-Jigsaw2, Ergo).  This would make it easier to program combinations of rules
-in flexible ways, whereas currently such tactics must be written in Java.
+has been used as the basis of several other Z provers
+(CADiZ~cite{Toyn98a}, Jigsaw1, Jigsaw2,
+Ergo~\cite{martin:tac-lang-for-ergo}).
+This would make it easier to program combinations of rules 
+in flexible ways, whereas currently such tactics must be written as
+Java methods.
 
 If ZedRules was extended in both of the above ways (to support richer
 logics and to provide tactics), it could be used as a general Z theorem
@@ -596,12 +696,12 @@ prover.  However, we do not have any plans to do this, for three reasons:
   rules per second to be pleasant to use.
 \end{enumerate}
 
-In the future, we would also like to be able to translate the rules
+In the future, we would also like to be able to translate rules
 into a form that existing Z theorem provers can accept, so that we can prove
 rules correct and prove that a given set of rules preserves the Z
 semantics.  A simple declarative semantics for rules makes this
 easier to achieve.
 
 \bibliographystyle{entcs}
-\bibliography{spec,logic,thmprove,misc}
+\bibliography{spec,logic,thmprove,misc,proceedings}
 \end{document}
