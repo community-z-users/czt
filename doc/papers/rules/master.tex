@@ -104,8 +104,8 @@ horn clause.  The conclusion and each antecedent is typically just a Z
 predicate, written in the standard Z notation.  The informal semantics
 is that the conclusion is true if all the antecedents are true.
 
-For example, the \emph{Funct} rule from the $\V$ logic~\cite{}
-might be written as follows:
+For example, the \emph{Funct} rule from the $\V$
+logic~\cite{brien:calculus-schemas-z00} might be written as follows:
 \begin{zedrule}{Funct}
   \exists_1 x:f @ x.1 = e \\
   x \notfreein e
@@ -188,7 +188,6 @@ readability and avoid syntactic ambiguity.
 
 We describe the semantics of the rules independently of any operational
 description of how rules can be used. 
-
 This allows rules to be used by many different reasoning and rewrite
 engines.  Each engine may place different restrictions on the rules
 that it allows, may apply rules using a different semantics (apply once,
@@ -196,6 +195,13 @@ apply exhaustively, apply to all subterms bottom-up or top-down etc.), and
 may use a different implementation technology (for example, an interpreter
 that applies the rules or a compiler that transforms the rules into Java
 code).
+
+TODO: describe the semantics of rules: basically that every ground
+instantiation of a rule must be a valid deduction (if the antecedents
+are true, then the conclusion is true).  This places some constraints
+on kinds of provisos that are allowed, because they must be monotonic
+with respect to instantiation.  The authors of rules are also
+responsible for the correctness of each rule.  
 
 
 \section{Tools for Rules} \label{sec:tools}
@@ -573,31 +579,9 @@ normalised before the predicate is negated.
   (E1 \land E2) \sexprUnfoldsTo [D3 | P1 \land P2]
 \end{zedrule}
 
-\begin{zedrule}{SchemaDisjunction}
-  E1 \sexprUnfoldsTo [D1 | P1] \\
-  E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
-\derives
-  (E1 \lor E2) \sexprUnfoldsTo [D3 | P1 \lor P2]
-\end{zedrule}
+The schema disjunction, implication and equivalence rules are similar.
 
-\begin{zedrule}{SchemaImplication}
-  E1 \sexprUnfoldsTo [D1 | P1] \\
-  E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
-\derives
-  (E1 \implies E2) \sexprUnfoldsTo [D3 | P1 \implies P2]
-\end{zedrule}
-
-\begin{zedrule}{SchemaEquivalence}
-  E1 \sexprUnfoldsTo [D1 | P1] \\
-  E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
-\derives
-  (E1 \iff E2) \sexprUnfoldsTo [D3 | P1 \iff P2]
-\end{zedrule}
-
-Schema projection, $E1 \project E2$, is similar to schema conjunction,
+Schema projection, $E1 \project E2$, is also similar to schema conjunction,
 but the resulting schema has only the names that are declared in $E2$.
 Any other names that are declared in $E1$ are hidden existentially.
 
