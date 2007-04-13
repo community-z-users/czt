@@ -201,19 +201,19 @@ rewritten to the Z expression~$e2$ if $e1 = e2$ can be proven using
 the given rewrite rules.
 
 Usually, the task is to compute $e2$ for a given Z expression $e1$.
-To do that, the rewrite engine asks the prover to prove $e1 = \_$,
-where $\_$ is an expression joker.  The rewrite rules should be
+To do that, the rewrite engine asks the prover to prove $e1 = E$,
+where $E$ is an expression joker.  The rewrite rules should be
 designed so that, if a proof is found, the right hand side of the
 equation is ground, i.e.\ does not contain any unbound jokers.  Then
 $e1$ is substituted by, or rewritten to, $e2$.
 
-The current tools provide support for rewriting an expression, a
-predicate, or a schema expression once.  However, there are endless
-ways of combining those rewrites into sequences of rewrites.  Subterms
-can be considered, either in a bottom-up or a top-down approach.  The
-current implementation rewrites each level of a term in a top-down
-manner.  A term is rewritten until it does not change any more, and
-then the subterms are rewritten in the same way.
+Currently, there are methods for rewriting an expression (using $e1 =
+e2$ rules) and a predicate (using $p1 \leftrightarrow p2$ rules) once.
+However, there are endless ways of combining rewrites into sequences
+of rewrites.  Subterms can be considered, either in a bottom-up or a
+top-down approach.  The current implementation rewrites each level of
+a term in a top-down manner.  A term is rewritten until it does not
+change any more, and then the subterms are rewritten in the same way.
 
 \section{Example Rules: Schema Unfolding} \label{sec:schemas}
 
