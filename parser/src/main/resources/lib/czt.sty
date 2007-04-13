@@ -6,17 +6,17 @@
 
 % Some standard Z commands
 \newenvironment{zsection}{\zed}{\endzed}
-\newcommand{\SECTION}{\keyword{section}}
-\newcommand{\parents}{\keyword{parents}}
-\newcommand{\function}{\keyword{function}}
-\newcommand{\generic}{\keyword{generic}}
-\newcommand{\relation}{\keyword{relation}}
-\newcommand{\leftassoc}{\keyword{leftassoc}}
-\newcommand{\rightassoc}{\keyword{rightassoc}}
-\newcommand{\LET}{\keyword{let}}
-\newcommand{\IF}{\keyword{if}}
-\newcommand{\THEN}{\keyword{then}}
-\newcommand{\ELSE}{\keyword{else}}
+\newcommand{\SECTION}{\boldword{section}}
+\newcommand{\parents}{\boldword{parents}}
+\newcommand{\function}{\boldword{function}}
+\newcommand{\generic}{\boldword{generic}}
+\newcommand{\relation}{\boldword{relation}}
+\newcommand{\leftassoc}{\boldword{leftassoc}}
+\newcommand{\rightassoc}{\boldword{rightassoc}}
+\newcommand{\LET}{\boldword{let}}
+\newcommand{\IF}{\boldword{if}}
+\newcommand{\THEN}{\boldword{then}}
+\newcommand{\ELSE}{\boldword{else}}
 
 %% These need defining, because they are not defined in oz.sty
 \newcommand{\listarg}{\mathrel{,,}}
@@ -31,8 +31,8 @@
 %% These need redefining, because the Z standard requires
 %% something different to oz.sty (or to LaTeX, for \star!)
 \def\star{{}^{*}}   % we must override standard LaTeX \star! 
-\def\infix{\keyword{infix}}          % this overrides the oz.sty \infix.
-\def\partition{\keyword{partition}}  % overrides the oz.sty 'partitions'
+\def\infix{\boldword{infix}}          % this overrides the oz.sty \infix.
+\def\partition{\boldword{partition}}  % overrides the oz.sty 'partitions'
 
 
 
