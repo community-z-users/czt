@@ -14,7 +14,15 @@
   \SECTION unfold \parents zpattern\_toolkit, standard\_toolkit
 \end{zsection}
 
-Declare the jokers used in these rules.
+This Z section contains rules for unfolding and normalising declarations
+and schema expressions.  For example, given a schema expression such as 
+$E \land [x:\nat | p~x]$ where $E$ is the name of a schema, these rules
+define a normalisation process that will transform this schema expression
+into something of the form $[D|P]$, where $D$ is a list of variable
+declarations whose types are all base types and $P$ is a predicate that
+will contain constraints like $x \in \nat$ and $p~x$.
+
+We start by declaring the jokers used in all the rules in this section.
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9 \end{zedjoker}
 \begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6, P7, P8, P9 \end{zedjoker}
@@ -50,31 +58,32 @@ will be the unfolded and normalized form of the left hand argument.
   \forall s1,s2:SCHEMA @ s1 \declListUnfoldsTo s2 \iff s1=s2 \\
 \end{gendef}
 
-\section{Rules for Unfolding Predicates}
-
-\begin{zedrule}{SchemaPred}
-  E \iff \theta E \in E
-\end{zedrule}
-
-%% Syntax error on the conclusion of these rules.
-%\begin{zedrule}{implies}
-%   (P1 \implies P2) \iff ((\lnot P1) \lor P2)
-%\end{zedrule}
-
-%\begin{zedrule}{iff}
-%   (P1 \iff P2) \iff ((P1 \land P2) \lor ((\lnot P1) \land (\lnot P2))
-%\end{zedrule}
 
 \section{Unfolding Declaration Lists}
 
 We use the $\declListUnfoldsTo$ operator for unfolding declaration
 lists.   The left-hand side is always of the form $[DeclList|true]$
 and the right-hand side (which is usually a generated output) is
-a normalized schema with no duplicated names in the signature, and
-all the non-basetype conditions in the predicate part.
+of the form $[D|P]$, where the declaration list $D$ has no duplicated
+names and all its types are Z base types, and the predicate $P$
+contains any additional typing constraints that were in DeclList.
 
-The next few rules implement the $\declListUnfoldsTo$ operator,
-which unfolds and normalizes declaration lists.
+The next few rules specify the $\declListUnfoldsTo$ operator.
+The rules are intended to recurse through a declaration list from left
+to right, with the base case of an empty declaration list being handled
+by the EmptyDeclList rule.  Note that multiple declarations such as
+$x,y,z:T$ are expanded out into separate declarations before rules
+are applied, so the rules that follow cover all possible kinds
+of declarations.
+
+The VarDecl1 rule is a special case of VarDecl2, which applies when $E$ is
+already a base type.  Since VarDecl1 comes before VarDecl2 in this file,
+the rewrite tactic gives it higher priority, and this avoids introducing
+redundant tautologies (such as $E \in \arithmos$, which is guaranteed to
+be true by the type system) into the predicate.  This is an example of
+how we can influence the behaviour of the rewrite tactic by placing more
+specific rules before more general ones.  Of course, in the interactive
+prover, the user could choose to apply either rule when $E$ is a base type.
 
 \begin{zedrule}{VarDecl1}
    \proviso E : \power E \\
@@ -97,6 +106,11 @@ which unfolds and normalizes declaration lists.
    [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
 \end{zedrule}
 
+This rule creates a subgoal $E \sexprUnfoldsTo \ldots$ that will
+invoke the schema expression rules in the next section.  So the
+two sets of $\declListUnfoldsTo$ and $\sexprUnfoldsTo$ rules are
+mutually recursive.
+
 \begin{zedrule}{IncludeDecl}
    E \sexprUnfoldsTo [D1 | P1] \\
    [D | true] \declListUnfoldsTo [D2 | P2] \\
@@ -113,8 +127,8 @@ which unfolds and normalizes declaration lists.
 \section{Unfolding Schema Expressions}
 
 This section defines the unfolding of schema expressions,
-using the $se \sexprUnfoldsTo stext$ operator, where $se$
-is a schema expression and $stext$ is the resulting normalized
+using the $SE \sexprUnfoldsTo STEXT$ operator, where $SE$
+is a schema expression and $STEXT$ is the resulting normalized
 schema construction ($[Decls|Preds]$, where the types in $Decls$
 are only base types).
 
@@ -142,8 +156,10 @@ freedom to reorder things later.
 \end{zedrule}
 
 NOTE: we need thirteen versions of this next rule -- one for
-each possible decoration.  The long-term solution is to add
-support for Stroke-List jokers.
+each possible decoration.   In the future we will add
+support for Stroke-List jokers, so that all decorations can
+be handled by a single rule.
+
 \begin{zedrule}{ThetaPrime}
   \proviso E : \power [D] \\
   \proviso E2 == \theta [D | true] '
@@ -173,6 +189,7 @@ support for Stroke-List jokers.
 This rule unfolds any remaining $\Delta$ schemas.
 If the specification explicitly defined the $\Delta$ schema,
 then the above SchemaRef rule would have unfolded it.
+
 \begin{zedrule}{DeltaRef}
   \proviso v2 == \Delta \unprefix v \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1]
@@ -183,6 +200,7 @@ then the above SchemaRef rule would have unfolded it.
 This rule unfolds any remaining $\Xi$ schemas.
 If the specification explicitly defined the $\Xi$ schema,
 then the above SchemaRef rule would have unfolded it.
+
 \begin{zedrule}{XiRef}
   \proviso v2 == \Xi \unprefix v \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
@@ -191,9 +209,9 @@ then the above SchemaRef rule would have unfolded it.
   v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
-NOTE: we need thirteen versions of this next rule -- one for
-each possible decoration.  The long-term solution is to add
-support for Stroke-List jokers.
+NOTE: we also currently need thirteen versions of this next rule 
+-- one for each possible decoration. 
+
 \begin{zedrule}{SchemaPrime}
    E \sexprUnfoldsTo [D1 | P1] \\
    \proviso [D2|P2] == [D1|P1]~' \\
@@ -202,7 +220,11 @@ support for Stroke-List jokers.
 \end{zedrule}
 
 The type proviso in the ExistsSchema rule checks
-that $D1$ and $D2$ are type compatible.
+that $D1$ and $D2$ are type compatible.  The $\schemaminus$
+operator in the proviso calculates $D2 - D1$.  That is,
+$D4$ will contain all the declarations that appear in $D2$
+but do not appear in $D1$. 
+
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
@@ -212,7 +234,8 @@ that $D1$ and $D2$ are type compatible.
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
 
-
+The semantics of schema negation requires the schema to be
+normalised before the predicate is negated.
 
 \begin{zedrule}{SchemaNegation}
   E \sexprUnfoldsTo [D | P]
@@ -252,6 +275,10 @@ that $D1$ and $D2$ are type compatible.
   (E1 \iff E2) \sexprUnfoldsTo [D3 | P1 \iff P2]
 \end{zedrule}
 
+Schema projection, $E1 \project E2$, is similar to schema conjunction,
+but the resulting schema has only the names that are declared in $E2$.
+Any other names that are declared in $E1$ are hidden existentially.
+
 \begin{zedrule}{SchemaProjection}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
@@ -261,10 +288,13 @@ that $D1$ and $D2$ are type compatible.
   E1 \project E2 \sexprUnfoldsTo [D2 | (\exists D4 @ P1 \land P2)]
 \end{zedrule}
 
-postnames : names that end with ! or '
-prenames: names that do not end with ! or '
-(that is, names that end with ?, or numeric decoration, or that 
-don't have decorations).
+To calculate the precondition of a schema, we must existentially
+hide all the output names, such as $x!$ or $x'$.  The $postnames$ 
+operator in the following rule takes a normalised schema as input and
+returns (in $D2$) just the declarations whose names have a final decoration 
+of $!$ or $'$.  These names are removed from $D4$, so that $D3$ contains 
+only the declarations of names that should appear in the precondition, 
+such as $x$, $x?$ and $x_2$.
 
 \begin{zedrule}{SchemaPrecondition}
   E \sexprUnfoldsTo [D4 | P2] \\
@@ -277,13 +307,42 @@ don't have decorations).
 TODO: schema hiding, schema piping and sequential composition,
 schema forall, schema exists unique.
 
-This rule applies the above schema unfolding rules to unfolding
-the bound variables of quantifiers, because the rewrite tactics
-transform schema text using the $\schemaEquals$ relation.
+
+\section{Rules for Unfolding Declarations}
+
+When rewriting terms involving quantifiers, we want to
+rewrite and expand the schema text $E$ within quantifiers
+such as $\exists E @ P$ or $(\lambda E@E2)$, as well as rewriting
+the predicates and expressions within the body of the quantifiers.
+The rewrite tactics try to transform such schema text using the 
+$\schemaEquals$ relation.  So the following rule applies the above 
+schema unfolding rules to unfolding any schema text that appears within 
+the bound variable part of quantifiers.
 \begin{zedrule}{Quantifiers}
    [D|P] \sexprUnfoldsTo [D1|P1]
 \derives
    [D|P] \schemaEquals [D1|P1]
 \end{zedrule}
+
+
+\section{Rules for Unfolding Predicates}
+
+If a schema expression $E$ is used as a predicate, it is equivalent to
+checking that $\theta E$ (a binding constructed from names that are
+currently in scope) satisfies the predicate part of $E$ 
+(including any subtypes in the declarations).  So this rule
+transforms any expression that is used as predicate into $\theta E \in E$.
+\begin{zedrule}{SchemaPred}
+  E \iff \theta E \in E
+\end{zedrule}
+
+%% Syntax error on the conclusion of these rules.
+%\begin{zedrule}{implies}
+%   (P1 \implies P2) \iff ((\lnot P1) \lor P2)
+%\end{zedrule}
+
+%\begin{zedrule}{iff}
+%   (P1 \iff P2) \iff ((P1 \land P2) \lor ((\lnot P1) \land (\lnot P2))
+%\end{zedrule}
 
 \end{document}
