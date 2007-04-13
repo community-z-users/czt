@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\newcommand{\enquote}[1]{``#1''}
+
+\bibitem{armour:business-model00}
+Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
+  (2000), pp.~19--22.
+
+\bibitem{brien:calculus-schemas-z00}
+Brien, S.~M. and A.~P. Martin, \emph{A calculus for schemas in {Z}}, Journal of
+  Symbolic Computation \textbf{30} (2000), pp.~63--91.
+
+\bibitem{henson:revising-z-1-99}
+Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {I} - logic and semantics},
+  Formal Aspects of Computing Journal \textbf{11} (1999), pp.~359--380.
+
+\bibitem{henson:revising-z-2-99}
+Henson, M.~C. and S.~Reeves, \emph{Revising {Z}: {II} - logical development},
+  Formal Aspects of Computing Journal \textbf{11} (1999), pp.~381--401.
+
+\bibitem{martin:tactics}
+Martin, A.~P., P.~H.~B. Gardiner and J.~C.~P. Woodcock, \emph{A tactic
+  calculus}, Formal Aspects of Computing \textbf{8} (1996), pp.~479--489, an
+  abridged version appears in the journal; the full version is available at the
+  Formal Aspects of Computing FTP site, ftp://ftp.cs.man.ac.uk/pub/fac.
+
+\end{thebibliography}
