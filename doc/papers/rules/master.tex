@@ -114,6 +114,7 @@ code).
 
 \section{Tools for Rules} \label{sec:tools}
 
+To use and test the rules, several tools have been implemented.
 
 \subsection{A Simple Interactive Prover}
 
@@ -124,10 +125,95 @@ code).
   \label{fig:cztprover}
 \end{figure}
 
+The simple interactive prover shown in figure~\ref{fig:cztprover} is
+used as a debugging aid.  It displays an entire proof tree in tree
+form.  Each node is labelled with a subgoal, which is either a sequent
+(predicate) or a proviso.  Each node can be closed (proven), indicated
+by a tick icon, or open (not proven), indicated by a question mark
+icon.
+
+The user can manipulate the proof tree by applying rules to sequents,
+undoing rule applications, or requesting a proviso to be checked.
+Clicking on a node will popup a menu offering the choices available
+for that particular node.  For a proviso that has not yet been
+checked, for example, a menu entry for requesting the check is
+offered.  If the check succeeds, this node is considered closed and
+the icon will change from a question mark to a tick.
+
+The menu for sequents to which no rule has been applied yet offers the
+choice of ``Auto prove'' this sequent or to apply one of the matching
+rules.  It also has a ``Why not'' submenu, which lists all the rules
+that cannot be applied.  By selection one of those, the user gets
+detailed debugging information why the unification of the selected
+sequent and the conclusion of a particular rule failed.
+
+To provide the submenus ``Apply'' and ``Why not'', the prover goes
+through all the known rules and tries to apply them to the current
+sequent.  If this test rule application suceeds, the corresponding
+rule name gets added into the ``Apply'' submenu; if it fails, the rule
+name gets added into the ``Why not'' submenu.  While this approach
+might be too inefficient and slow for large rule sets, it has shown to
+be very helpful for our purposes.
+
+The ``Auto prove'' menu entry, provided for sequents to which no rule
+has been applied, calls the automated prover described in the next
+section.  If a proof is found, the resulting proof tree is displayed
+as a subtree of the current node and the user can browse and
+manipulate it.  Browsing a proof tree is eased by allowing subtrees to
+be hidden.  If the pointer is above a particular node, the tooltip
+gives information about whether and which rule has been applied, or
+whether the current node is a proviso.
 
 \subsection{An Automated Depth-First Prover}
 
+A simple depth-first prover is used to find proofs automatically.
+Given a predicate, it tries to apply the rules in the order they
+appear in the Z specification.  If a rule application succeeds, a
+sequence of new subgoals is created and attempted to be proven next
+(in the order provided by the rule).  If proving the new subgoals
+fails, the next rule is tried instead.
+
+If a subgoal is a proviso, it is checked and changes into one of three
+states: \emph{PASS} (the side-condition was correctly discharged),
+\emph{FAIL} (the side-condition is false), \emph{UNKNOWN} (the
+side-condition needs to be checked later, when the sequent is
+instantiated more fully).  The current implementation treats state
+\emph{UNKNOWN} the same as \emph{FAIL}, thus relies on the order of
+subgoals provided by the rule writer.
+
+Note that the simple prover uses a shallow backtracking algorithm and
+therefore might fail to find a proof even when there exists one.  If a
+proof for a subgoal is found, the prover sticks to it and no attempt
+is made to find an alternative proof.  This might prevent another
+subgoal from being proven.  Even though this approach is less general
+than deep backtracking, this has not been a problem for the rules used
+so far.  Furthermore, if a proof is found using shallow backtracking,
+it is usually found more quickly than using deep backtracking.
+
 \subsection{A Rewrite Engine}
+
+The purpose of the rewrite engine is to rewrite a given Z term using a
+given set of rewrite rules.  A rewrite rule is a rule whose conclusion
+is of a particular form and consists of a left side (which needs to
+match the term to be rewritten) and a right side (which represents the
+result of the transformation).  For example, a Z expression~$e1$ is
+rewritten to the Z expression~$e2$ if $e1 = e2$ can be proven using
+the given rewrite rules.
+
+Usually, the task is to compute $e2$ for a given Z expression $e1$.
+To do that, the rewrite engine asks the prover to prove $e1 = \_$,
+where $\_$ is an expression joker.  The rewrite rules should be
+designed so that, if a proof is found, the right hand side of the
+equation is ground, i.e.\ does not contain any unbound jokers.  Then
+$e1$ is substituted by, or rewritten to, $e2$.
+
+The current tools provide support for rewriting an expression, a
+predicate, or a schema expression once.  However, there are endless
+ways of combining those rewrites into sequences of rewrites.  Subterms
+can be considered, either in a bottom-up or a top-down approach.  The
+current implementation rewrites each level of a term in a top-down
+manner.  A term is rewritten until it does not change any more, and
+then the subterms are rewritten in the same way.
 
 \section{Example Rules: Schema Unfolding} \label{sec:schemas}
 
