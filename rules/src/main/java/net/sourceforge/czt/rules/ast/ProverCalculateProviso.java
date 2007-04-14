@@ -97,6 +97,8 @@ public class ProverCalculateProviso
         checkBinding(arg, factory);
       else if ("postnames".equals(funcName))
         checkPostnames(arg, factory);
+      else if ("primenames".equals(funcName))
+        checkPrimenames(arg, factory);
       else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
         checkSchemaMinus(arg, factory);
       else if ("print".equals(funcName))
@@ -334,6 +336,62 @@ public class ProverCalculateProviso
     else {
       final String message = rightExpr.getClass() +
       " is not supported by the postname function " +
+      "of the calculate proviso";
+      throw new CztException(message);
+    }
+  }
+
+  private void checkPrimenames(Expr rightExpr, Factory factory)
+  {
+    GetZName findName = new GetZName();
+    if (rightExpr instanceof SchExpr) {
+      SchExpr schExpr = (SchExpr) rightExpr;
+      SchText schText = schExpr.getSchText();
+      if (schText instanceof ZSchText) {
+        ZSchText zSchText = (ZSchText) schText;
+        ZDeclList zDeclList =
+          zSchText.accept(new GetZDeclList(factory));
+        ZDeclList newZDeclList = factory.createZDeclList();
+        for (Decl decl : zDeclList) {
+          if (decl instanceof VarDecl) {
+            VarDecl varDecl = (VarDecl) decl;
+            VarDecl newDecl =
+              factory.createVarDecl(factory.createZNameList(),
+                                    varDecl.getExpr());
+            for (Name declName : varDecl.getName()) {
+              ZName zName = declName.accept(findName);
+              ZStrokeList strokes = zName.getZStrokeList();
+              if (strokes.size() > 0 &&
+                  (strokes.get(strokes.size() - 1) instanceof NextStroke)) {
+                newDecl.getZNameList().add(zName);
+              }
+            }
+            if (newDecl.getZNameList().size() > 0) {
+              newZDeclList.add(newDecl);
+            }
+          }
+          else {
+            final String message = decl.getClass() +
+            " is not a supported Decl " +
+            " for the calculate proviso";
+            throw new CztException(message);
+          }
+        }
+        ZSchText newZSchText =
+          factory.createZSchText(newZDeclList, factory.createTruePred());
+        SchExpr newSchExpr = factory.createSchExpr(newZSchText);
+        unify(newSchExpr, getLeftExpr());
+      }
+      else {
+        final String message = schText.getClass() +
+        " is not a supported SchText " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+    }
+    else {
+      final String message = rightExpr.getClass() +
+      " is not supported by the primename function " +
       "of the calculate proviso";
       throw new CztException(message);
     }
