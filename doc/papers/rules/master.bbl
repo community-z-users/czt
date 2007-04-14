@@ -4,9 +4,6 @@
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 \newcommand{\enquote}[1]{``#1''}
 
-\bibitem{}
-
-
 \bibitem{armour:business-model00}
 Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
   (2000), pp.~19--22.
@@ -14,6 +11,12 @@ Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
 \bibitem{brien:calculus-schemas-z00}
 Brien, S.~M. and A.~P. Martin, \emph{A calculus for schemas in {Z}}, Journal of
   Symbolic Computation \textbf{30} (2000), pp.~63--91.
+
+\bibitem{zeves:98}
+Canada, O., \emph{Z/eves version 1.5: An overview}, in: \emph{Proceedings of
+  the International Workshop on Current Trends in Applied Formal Method:
+  Applied Formal Methods FM-Trends 98}, number 1641 in LNCS (1998), pp.
+  367--376.
 
 \bibitem{girard:proofs-types90}
 Girard, J.-Y., P.~Taylor and Y.~Lafont, \enquote{Proofs and Types,} Number~7 in
@@ -40,5 +43,9 @@ Martin, A.~P., P.~H.~B. Gardiner and J.~C.~P. Woodcock, \emph{A tactic
   calculus}, Formal Aspects of Computing \textbf{8} (1996), pp.~479--489, an
   abridged version appears in the journal; the full version is available at the
   Formal Aspects of Computing FTP site, ftp://ftp.cs.man.ac.uk/pub/fac.
+
+\bibitem{cadiz:refman02}
+Toyn, I., \emph{Cadiz reference manual}, Available from
+  \url{http://www-users.cs.york.ac.uk/~ian/cadiz} (2002), accessed April 2007.
 
 \end{thebibliography}

@@ -1,8 +1,16 @@
 \documentclass{entcs}
-\usepackage{entcsmacro}
+
+%% For those who don't have entcs...
+%\documentclass{article}
+%\newenvironment{frontmatter}{}{\maketitle}
+%\newenvironment{keyword}{\begin{quote}}{\end{quote}}
+%\newcommand{\thanksref}[1]{}
+%\newcommand{\address}[1]{#1}
+
 %NOTE: oz.sty clashes with entcs.cls, so we use a hacked version of oz.sty
 \usepackage{czt}
 \usepackage{graphicx}
+\usepackage{url}
 
 % Extra general macros for this paper.
 
@@ -61,8 +69,8 @@ by large amounts of low-level code (for example, in C or Java) that
 manipulate the syntax of Z schema expressions and return equivalent
 unfolded terms.  This low-level approach is error-prone, and the code that
 performs the transformations is time-consuming to write and difficult to
-read.  The problem is that the essence of the abstract transformations are
-hidden in the masses of low-level code.
+read.  The problem is that the core ideas of the abstract transformations are
+hidden in the masses of low-level code needed to manipulate syntax trees.
 
 This means that building new Z transformation tools is time-consuming,
 requires programming skills, and also requires detailed knowledge of the
@@ -89,10 +97,57 @@ expressions and Section~\ref{sec:zlive} shows some of the rules that are
 used by the ZLive animator to preprocess Z expressions and predicates.
 
 
-
 \subsection{Related Work} \label{sec:relwork}
 
-TODO
+We briefly consider how other Z tools provide support for unfolding
+schema expressions and for allowing users to define domain-specific
+transformations of Z expressions.
+
+CADiZ~\cite{cadiz:refman02} provides several builtin commands
+(programmed in C) for performing small schema transformation,
+normalisation and unfolding steps.  A \emph{schema expansion} tactic
+is provided which combines these steps to give a comprehensive schema
+unfolding and normalisation facility.  Expert users are able to define
+their own transformations by writing tactics in a high-level,
+functional, tactic language.  It is easy to write Z terms and patterns
+within tactics, which makes the notation more familiar to Z users.
+
+Z/EVES~\cite{zeves:98} provides a fixed set of transformation
+commands, including an unfold command for normalising schema
+expressions and a rewrite command that uses certain kinds of theorems
+as rewrite rules.  Since users can specify these theorems in their Z
+specifications, this gives a way of adding domain-specific rewrite
+rules.  However, the expressivity of rewrite rules is quite restricted
+compared to the ZedRules notation of this paper.
+
+ProofPower~\footnote{See the ProofPower web site,
+\url{http://www.lemma-one.com/ProofPower/index/index.html}.} takes a
+similar approach, but provides a much larger set of rewriting tactics,
+with a variety of behaviour.  It is also possible to prove derived
+inference rules, which can have similar expressiveness as the ZedRules
+of this paper (with antecedents, jokers etc.).  However, such rules
+are expressed in the proof notation of ProofPower (ML and HOL), rather
+than in Z syntax.
+
+Our ZedRules notation differs from the above approaches by allowing
+more expressive rules to be written, and using a superset of Z.  As
+well as rewrite rules (for example, equalities), it is possible to
+write general inference rules with side-conditions.  We shall see that
+this is sufficiently expressive that we can write a set of rules for
+unfolding schema expressions -- one of the more complex aspects of Z.
+In contrast, the other Z tools use a mixture of builtin commands,
+rewrite rules and specific tactics to implement schema expression
+unfolding.  Our hope is that the additional expressivity of the
+ZedRules notation will make it easier to specify many kinds of Z
+transformations, as well as being useful for schema unfolding.
+
+%This will make it easier to 
+%develop new Z transformation tools such as test generators,
+%domain checkers.
+
+%There is a large and mature theory of rewriting
+%systems~\cite{baader:rewriting06}.  Much of this can be applied to
+%the rules that we write in the ZedRules notation.  
 
 
 \section{Rule Syntax and Semantics} \label{sec:syntax}
@@ -135,6 +190,15 @@ jokers and $D1$ to be a joker that ranges over declaration lists.
 
 \begin{zedjoker}{Expr} e,f,y \end{zedjoker}
 \begin{zedjoker}{DeclList} D1 \end{zedjoker}
+
+We can group a set of joker declarations and rules together by writing
+them within one Z section.  The Z standard \textbf{parent} commands
+can then be used to inherit one set of rules into another.  Note that,
+since joker declarations and rule paragraphs start with \LaTeX\
+commands that are not part of the Z standard, they will be treated as
+narrative text by other Z tools, and ignored.  This allows us to embed
+rules within Z specifications, but retain backwards compatibility
+with Z tools that do not use the ZedRules notation.
 
 
 \subsection{Side Conditions}
@@ -206,7 +270,8 @@ responsible for the correctness of each rule.
 
 \section{Tools for Rules} \label{sec:tools}
 
-To use and test the rules, several tools have been implemented.
+To use and test the rules, several tools have been implemented
+in the CZT system.
 
 \subsection{An Interactive Prover}
 
@@ -217,7 +282,7 @@ To use and test the rules, several tools have been implemented.
   \label{fig:cztprover}
 \end{figure}
 
-The interactive prover shown in figure~\ref{fig:cztprover} displays an
+The interactive prover shown in Figure~\ref{fig:cztprover} displays an
 entire proof tree in tree form.  Each node is labelled with a subgoal,
 which is either a Z predicate or a proviso.  If a rule has been
 applied to a predicate node, it can have children (the antecedents of
@@ -289,7 +354,7 @@ than deep backtracking, this has not been a problem for the rules used
 so far.  Furthermore, if a proof is found using shallow backtracking,
 it is usually found more quickly than using deep backtracking.
 
-\subsection{A Rewrite Engine}
+\subsection{A Rewrite Engine} \label{sec:rewrite}
 
 CZT also provides a Java class called Rewrite that can rewrite a given
 Z term using a given set of rewrite rules.  A rewrite rule is a rule
@@ -312,7 +377,7 @@ equation is ground, i.e.\ does not contain any unbound jokers.  Then
 $e1$ is substituted by, or rewritten to, $e2$.
 
 Currently, there are methods for rewriting expressions (using $e1 =
-e2$ rules) and predicates (using $p1 \leftrightarrow p2$ rules) once.
+e2$ rules) and predicates (using $p1 \iff p2$ rules) once.
 Another method combines rewrites into sequences of rewrites and also
 considers subterms in a top-down manner.  A given term is rewritten
 until it does not change any more, and then its subterms are rewritten
@@ -387,7 +452,7 @@ $x,y,z:T$ are expanded out into separate declarations before rules
 are applied, so the rules that follow cover all possible kinds
 of declarations.
 
-The VarDecl1 rule is a special case of VarDecl2, which applies when $E$ is
+The VarDecl1 rule is a special case of VarDecl2.  It applies when $E$ is
 already a carrier set.  Since VarDecl1 comes before VarDecl2 in this file,
 the rewrite tactic gives it higher priority, and this avoids introducing
 redundant tautologies (such as $E \in \arithmos$, which is guaranteed to
@@ -418,8 +483,8 @@ carrier set.
    [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
 \end{zedrule}
 
-This rule creates a subgoal $E \sexprUnfoldsTo \ldots$ that will
-invoke the schema expression rules in the next section.  So the
+The IncludeDecl rule creates a subgoal $E \sexprUnfoldsTo \ldots$ that
+will invoke the schema expression rules in the next section.  So the
 two sets of $\declListUnfoldsTo$ and $\sexprUnfoldsTo$ rules are
 mutually recursive.
 
@@ -484,7 +549,7 @@ be handled by a single rule.
 \end{zedrule}
 
 Like VarDecl1 and VarDecl2, the SchemaConstruction1 rule is a special
-case of SchemaConstruction2, which applies to schemas that are already
+case of SchemaConstruction2.  It applies to schemas that are already
 normalised and avoids adding lots of redundant typing conditions into
 the predicate part.
 \begin{zedrule}{SchemaConstruction1}
@@ -515,7 +580,7 @@ If the specification explicitly defined the $\Delta$ schema,
 then the above SchemaRef rule would have unfolded it.
 The $N1 \unprefix N2$ operator removes a string $N1$ from the front of
 the name $N2$ and returns the remainder of the name, or fails if $N2$
-does not start with $N1$.
+does not start with $N1$.  There is a similar rule for $\Xi$ schema names. 
 
 \begin{zedrule}{DeltaRef}
   \proviso v2 == \Delta \unprefix v \\
@@ -524,17 +589,6 @@ does not start with $N1$.
   v \sexprUnfoldsTo [D1|P1]
 \end{zedrule}
 
-This rule unfolds any remaining $\Xi$ schemas.
-If the specification explicitly defined the $\Xi$ schema,
-then the above SchemaRef rule would have unfolded it.
-
-\begin{zedrule}{XiRef}
-  \proviso v2 == \Xi \unprefix v \\
-  [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
-  \proviso [v2|true] : \power [D2]
-\derives
-  v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
-\end{zedrule}
 
 NOTE: we also currently need thirteen versions of this next rule 
 -- one for each possible decoration. 
@@ -550,6 +604,7 @@ The type proviso in the ExistsSchema rule checks that $D1$ and $D2$
 are type compatible.  The $\schemaminus$ operator in the proviso
 subtracts one signature from another.  That is, $D4$ will contain all
 the declarations that appear in $D2$ but do not appear in $D1$.
+The rule for schema $\forall$ is similar.
 
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
@@ -560,14 +615,18 @@ the declarations that appear in $D2$ but do not appear in $D1$.
    (\exists D | P @ E) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
 
-The semantics of schema negation requires the schema to be
-normalised before the predicate is negated.
+The semantics of schema negation requires schemas to be
+normalised before their predicate is negated.
 
 \begin{zedrule}{SchemaNegation}
   E \sexprUnfoldsTo [D | P]
 \derives
   (\lnot E) \sexprUnfoldsTo [D | \lnot P]
 \end{zedrule}
+
+The SchemaConjunction rule is straightforward -- it uses a type
+proviso to check that the signatures of the two schemas are compatible.
+The schema disjunction, implication and equivalence rules are similar.
 
 \begin{zedrule}{SchemaConjunction}
   E1 \sexprUnfoldsTo [D1 | P1] \\
@@ -576,8 +635,6 @@ normalised before the predicate is negated.
 \derives
   (E1 \land E2) \sexprUnfoldsTo [D3 | P1 \land P2]
 \end{zedrule}
-
-The schema disjunction, implication and equivalence rules are similar.
 
 Schema projection, $E1 \project E2$, is also similar to schema conjunction,
 but the resulting schema has only the names that are declared in $E2$.
@@ -608,8 +665,29 @@ such as $x$, $x?$ and $x_2$.
   \pre E \sexprUnfoldsTo [D3 | (\exists D2 @ P2)]
 \end{zedrule}
 
-TODO: schema hiding, schema piping and sequential composition,
-schema forall, schema exists unique.
+Schema composition is one of the most complex schema operators.
+However, this CompositionSchema rule captures its semantics concisely
+and follows the semantic definition in the Z standard quite closely.
+Note that $primenames$ returns the names whose last decoration is
+$'$, and $\bowtie$ is a special decoration that cannot be entered by
+users.
+
+\begin{zedrule}{CompositionSchema}
+  E1 \sexprUnfoldsTo [D1 | P1] \\
+  E2 \sexprUnfoldsTo [D2 | P2] \\
+  \proviso E3 == primenames [D1 | true] \\
+  \proviso E5 == [D2 | true]~\bowtie \\
+  \proviso E6 == \theta [D2 | true]~\bowtie \\
+\derives
+  E1 \semi E2 = (\exists E5 @ (\exists E3 @ [E1; E5 | \theta E3 = E6]) \\
+  \t4                \land (\exists D2 @ [E2; E5 |
+                                    \theta [D2 | true] = E6]))
+\end{zedrule}
+
+%TODO: schema hiding, schema piping and sequential composition,
+%      schema forall, schema exists unique.
+
+
 
 
 %\subsection{Rules for Unfolding Quantified Declarations}
@@ -643,7 +721,71 @@ transforms any expression that is used as predicate into $\theta E \in E$.
 
 \section{Example Rules: ZLive Preprocessor} \label{sec:zlive}
 
-TODO
+In this section we show just a few of the rules that the ZLive
+animator uses to unfold and simplify Z expressions before starting
+animation.  When an expression is given to ZLive to animate, the first
+phase of animation (after parsing and typechecking) is to use the CZT
+Rewrite Engine (see Section~\ref{sec:rewrite}) to apply the following
+set of rules to the expression.
+
+\begin{zsection}
+  \SECTION ZLivePreprocess \parents unfold
+\end{zsection}
+
+Note that this $ZLivePreprocess$ section has the $unfold$ section (see
+Section~\ref{sec:schemas}) as a parent, so the schema unfolding rules
+from the $unfold$ section are effectively the first rules in the
+$ZLivePreprocess$ section.  If we wanted to reuse multiple rule sets,
+we could simply list multiple parents, in the desired order.
+
+The SchemaToSet rule unfolds schemas that are used as expressions into
+set comprehensions.  Since this rule appears \emph{after} the schema
+rule from the $unfold$ section, schema expressions will be unfolded
+and normalised before this rule is applied. 
+\begin{zedrule}{SchemaToSet}
+[D | P] = \{ D | P @ \theta [D | true] \}
+\end{zedrule}
+
+The next two rules are adapted from the sets toolkit and the
+relations toolkit of the Z standard.  They illustrate how rewrite rules
+can be used to unfold one operator and express it in terms of other
+simpler operators.  ZLive needs no builtin knowledge of intersection
+or $\dom$ -- these two rules are all that is needed.  Around 40 of the
+standard toolkit operators are unfolded by rules in this way.
+
+\begin{zedrule}{intersection}
+   E1 \cap E2 = \{x:E1 | x \in E2\}
+\end{zedrule}
+\begin{zedrule}{domain}
+   \dom E = \{x:E @ x.1\}
+\end{zedrule}
+
+We finish this section with a rather bizarre use of rules.  ZLive uses
+an internal data structure, RelSet, to represent function and relation
+spaces, such as $\nat \fun \{0,1\}$.  This data structure records the
+domain and range set, plus various flags according to the properties
+of the function space (total, onto, functional, injective).  This
+gives a compact representation of the function space and makes it easy
+to efficiently check if a given set of pairs is a member of the
+function space or not.  The following two rules illustrate how the the
+Z function space operators are rewritten into strange $\LET$ terms,
+which ZLive recognises and converts into a RelSet object.  These rules
+are not true equalities, but are used to rewrite a term like $\nat
+\fun \{0,1\}$ into the temporary $\LET$ form, which is then translated
+into a RelSet object that is equivalent to $\nat \fun \{0,1\}$.
+
+\begin{zedrule}{fun}
+   E1 \fun E2 = (\LET isFun==1;isTotal==1 @ \power (E1 \cross E2))
+\end{zedrule}
+\begin{zedrule}{bij}
+   E1 \bij E2 = (\LET isFun==1;isTotal==1;isOnto==1;isInj==1 \\
+   \t3               @ \power (E1 \cross E2))
+\end{zedrule}
+
+Using rules to preprocess expressions and unfold schemas has made it
+far faster to develop ZLive and makes it easier to experiment with
+alternative translations of an operator.
+
 
 \section{Conclusions} \label{sec:concl}
 
