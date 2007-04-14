@@ -335,10 +335,10 @@ will contain constraints like $x \in \nat$ and $p~x$.
 
 We start by declaring the jokers used in all the rules in this section.
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5 \end{zedjoker}
-\begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5 \end{zedjoker}
-\begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5 \end{zedjoker}
-\begin{zedjoker}{Name} v, v1, v2, v3, v4, v5 \end{zedjoker}
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6 \end{zedjoker}
+\begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6 \end{zedjoker}
+\begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6 \end{zedjoker}
+\begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6 \end{zedjoker}
 
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
@@ -360,8 +360,8 @@ will be the unfolded and normalized form of the left hand argument.
   \relation ( \_ \declListUnfoldsTo \_ )
 \end{zed}
 
-
-\begin{gendef}[SCHEMA]
+% NOTE: we are using an old version of oz.sty that requires {T}, not [T]
+\begin{gendef}{SCHEMA}
   \_ \sexprUnfoldsTo \_ : SCHEMA \rel SCHEMA \\
   \_ \declListUnfoldsTo \_ : SCHEMA \rel SCHEMA
 \where
@@ -553,11 +553,11 @@ the declarations that appear in $D2$ but do not appear in $D1$.
 
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
-   E2 \sexprUnfoldsTo [D2 | P2] \\
+   E \sexprUnfoldsTo [D2 | P2] \\
    \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
 \derives
-   (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
+   (\exists D | P @ E) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
 
 The semantics of schema negation requires the schema to be
