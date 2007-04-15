@@ -152,24 +152,25 @@ public class ProverCalculateProviso
   {
     final Stroke stroke = decorExpr.getStroke();
     if (decorExpr.getExpr() instanceof SchExpr) {
-      final CollectStateVariablesVisitor collectVisitor =
-        new CollectStateVariablesVisitor();
-      final DecorateNamesVisitor visitor =
-        new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
       try {
         SchExpr result =
           (SchExpr) ProverUtils.removeJoker(decorExpr.getExpr());
+        // We typecheck before decorating to ensure that ids are correct
         List errors =
           TypeCheckUtils.typecheck(result, manager, false, true, section);
         if (errors == null || errors.isEmpty()) {
+          final CollectStateVariablesVisitor collectVisitor =
+            new CollectStateVariablesVisitor();
           result.getZSchText().getDeclList().accept(collectVisitor);
+          final DecorateNamesVisitor visitor =
+            new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
           result = (SchExpr) result.accept(visitor);
           if (result != null) {
             unify(result, getLeftExpr());
 	    // unify sets status_
           }
 	  else {
-	      status_ = Status.UNKNOWN; // TODO: should this be FAIL?
+            status_ = Status.UNKNOWN; // TODO: should this be FAIL?
 	  }
         }
         else {
@@ -706,6 +707,14 @@ public class ProverCalculateProviso
     }
   }
 
+  /**
+   * Assumes that the term is properly typechecked (i.e. the ids are
+   * correct).  When decorating expressions and predicates, it
+   * decorates only names that exactly match a member of
+   * <code>declNames_</code> (including ids).  We hope that nested
+   * schema expressions are therefore not a problem (we should prove
+   * this).
+   */
   public static class DecorateNamesVisitor
     implements InclDeclVisitor<Term>,
                TermVisitor<Term>,
@@ -749,20 +758,13 @@ public class ProverCalculateProviso
 
     public Term visitZName(ZName zName)
     {
-      Object[] children = zName.getChildren();
-      for (int i = 0; i < children.length; i++) {
-        if (children[i] instanceof Term) {
-          children[i] = ((Term) children[i]).accept(this);
-        }
-      }
-      ZName newName = (ZName) zName.create(children);
       if (declNames_.contains(zName)) {
 	ZStrokeList strokes = factory_.createZStrokeList();
-	strokes.addAll(newName.getZStrokeList());
+	strokes.addAll(zName.getZStrokeList());
 	strokes.add(stroke_);
-        newName.setStrokeList(strokes);
+        return factory_.createZName(zName.getWord(), strokes, zName.getId());
       }
-      return newName;
+      return zName;
     }
   }
 }
