@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
-Tests run: 18, Failures: 0, Errors: 17, Time elapsed: 6.138 sec
+Tests run: 18, Failures: 0, Errors: 17, Time elapsed: 6.427 sec
 ------------- Standard Output ---------------
 GivenSet T.
 GivenValue T.
@@ -32,7 +32,7 @@ GivenSet V.
 GivenSet V.
 ------------- ---------------- ---------------
 
-Testcase: animate_freetypes.tex:46 took 0.153 sec
+Testcase: animate_freetypes.tex:46 took 0.166 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -41,7 +41,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:47 took 0.149 sec
+Testcase: animate_freetypes.tex:47 took 0.158 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -50,7 +50,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:48 took 0.15 sec
+Testcase: animate_freetypes.tex:48 took 0.154 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -59,7 +59,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:49 took 0.248 sec
+Testcase: animate_freetypes.tex:49 took 0.261 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
@@ -75,7 +75,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:50 took 0.248 sec
+Testcase: animate_freetypes.tex:50 took 0.257 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Known
@@ -91,7 +91,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:51 took 0.249 sec
+Testcase: animate_freetypes.tex:51 took 0.26 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
@@ -107,7 +107,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:52 took 0.359 sec
+Testcase: animate_freetypes.tex:52 took 0.362 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
@@ -123,7 +123,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:53 took 0.353 sec
+Testcase: animate_freetypes.tex:53 took 0.355 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
@@ -139,7 +139,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:54 took 0.459 sec
+Testcase: animate_freetypes.tex:54 took 0.466 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. Soon
@@ -155,10 +155,10 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:55 took 0.84 sec
+Testcase: animate_freetypes.tex:55 took 0.988 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a3f7471 (Red \notin \{ x : T \cross V | x \in Feeling \land true \land true @ x . 2 \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@a3f7471 (Red \notin \{ x : T \cross V | x \in Feeling \land true \land true @ x . 2 \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@94f8bd9a (Red \notin \{ x : T \cross V | x \in Feeling \land true \land true @ x . 2 \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@94f8bd9a (Red \notin \{ x : T \cross V | x \in Feeling \land true \land true @ x . 2 \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
@@ -173,7 +173,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:59 took 0.393 sec
+Testcase: animate_freetypes.tex:59 took 0.397 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -186,7 +186,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:60 took 0.345 sec
+Testcase: animate_freetypes.tex:60 took 0.357 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -199,8 +199,8 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:64 took 0.401 sec
-Testcase: animate_freetypes.tex:65 took 0.344 sec
+Testcase: animate_freetypes.tex:64 took 0.394 sec
+Testcase: animate_freetypes.tex:65 took 0.358 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -209,7 +209,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:66 took 0.347 sec
+Testcase: animate_freetypes.tex:66 took 0.38 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -218,7 +218,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:68 took 0.35 sec
+Testcase: animate_freetypes.tex:68 took 0.364 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException
@@ -227,7 +227,7 @@ java.lang.NullPointerException
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_freetypes.tex:69 took 0.444 sec
+Testcase: animate_freetypes.tex:69 took 0.433 sec
 	Caused an ERROR
 null
 java.lang.NullPointerException

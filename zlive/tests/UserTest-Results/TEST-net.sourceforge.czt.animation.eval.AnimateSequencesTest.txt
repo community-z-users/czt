@@ -1,344 +1,108 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSequencesTest
-Tests run: 87, Failures: 7, Errors: 25, Time elapsed: 272.331 sec
+Tests run: 87, Failures: 7, Errors: 25, Time elapsed: 263.205 sec
 ------------- Standard Output ---------------
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6c4612b6
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6c4612b6
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6c4612b6
+Passed test:animate_sequences.tex:28
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6e0972f8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6e0972f8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6e0972f8
 Passed test:animate_sequences.tex:29
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@701e2ea0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@701e2ea0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@701e2ea0
 Passed test:animate_sequences.tex:31
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73171893
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73171893
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73171893
 Passed test:animate_sequences.tex:32
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7504d698
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7504d698
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7504d698
 Passed test:animate_sequences.tex:34
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@76e45b15
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@76e45b15
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@76e45b15
 Passed test:animate_sequences.tex:35
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9dddd37d
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9dddd37d
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9dddd37d
 Passed test:animate_sequences.tex:36
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9fcb09e2
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9fcb09e2
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9fcb09e2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9ff40325
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9ff40325
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9ff40325
 Passed test:animate_sequences.tex:40
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2fce0dc
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2fce0dc
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2fce0dc
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a3262b7f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a3262b7f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a3262b7f
 Passed test:animate_sequences.tex:41
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a69df81e
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a69df81e
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a69df81e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a6c6f3ec
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a6c6f3ec
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a6c6f3ec
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9dd6dbf
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9dd6dbf
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9dd6dbf
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@aa06b5d7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@aa06b5d7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@aa06b5d7
 Passed test:animate_sequences.tex:44
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad39f151
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad39f151
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad39f151
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad633bf4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad633bf4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad633bf4
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d45db41c
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d45db41c
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d45db41c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d486febf
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d486febf
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d486febf
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7d5e654
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7d5e654
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7d5e654
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7ff30f7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7ff30f7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d7ff30f7
 Passed test:animate_sequences.tex:48
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db662f3f
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db662f3f
+copy visitor for iseq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db662f3f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db859f42
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db859f42
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@db859f42
 Passed test:animate_sequences.tex:50
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dea7821b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dea7821b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dea7821b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e07a5bb4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e07a5bb4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e07a5bb4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@79b54e4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@79b54e4
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@79b54e4
 Passed test:animate_sequences.tex:57
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@96b5dbd
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@96b5dbd
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@96b5dbd
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b5c5560
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b5c5560
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b5c5560
 Passed test:animate_sequences.tex:60
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e899488
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e899488
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e899488
 Passed test:animate_sequences.tex:61
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sequences.tex:63
 Passed test:animate_sequences.tex:64
 Passed test:animate_sequences.tex:67
@@ -347,325 +111,95 @@ Passed test:animate_sequences.tex:69
 Passed test:animate_sequences.tex:70
 Passed test:animate_sequences.tex:71
 Passed undef test: animate_sequences.tex:72
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sequences.tex:83
 Passed test:animate_sequences.tex:84
 Passed test:animate_sequences.tex:85
 Passed test:animate_sequences.tex:86
 Passed test:animate_sequences.tex:87
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed undef test: animate_sequences.tex:88
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sequences.tex:91
 Passed test:animate_sequences.tex:92
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed test:animate_sequences.tex:93
 Passed test:animate_sequences.tex:94
 Passed test:animate_sequences.tex:95
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
 Passed undef test: animate_sequences.tex:96
 Passed test:animate_sequences.tex:100
 Passed test:animate_sequences.tex:101
 Passed test:animate_sequences.tex:102
 Passed test:animate_sequences.tex:103
 Passed test:animate_sequences.tex:104
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for  _ ? _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for  _ ? _  transforms type Y to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202d0
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-Passed test:animate_sequences.tex:129
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
-copy visitor for ? transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d6202b1
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d5bc62
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d5bc62
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d5bc62
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad22ce7c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad22ce7c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ad22ce7c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b07c8e43
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b07c8e43
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b07c8e43
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b3e6b45c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b3e6b45c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b3e6b45c
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b61973c7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b61973c7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@b61973c7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dd4d0a01
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dd4d0a01
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@dd4d0a01
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@df106da7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@df106da7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@df106da7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e279b664
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e279b664
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e279b664
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e5650514
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e5650514
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e5650514
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e8dafb7e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e8dafb7e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@e8dafb7e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ea9e5c99
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ea9e5c99
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@ea9e5c99
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@68ccf1d8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@68ccf1d8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@68ccf1d8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6a90557e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6a90557e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6a90557e
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6dfcbd92
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6dfcbd92
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6dfcbd92
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6fbfcfd8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6fbfcfd8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@6fbfcfd8
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73426ed9
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73426ed9
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@73426ed9
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7505d27f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7505d27f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7505d27f
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9c545beb
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9c545beb
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9c545beb
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9f3faa9b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9f3faa9b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@9f3faa9b
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2c658b7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2c658b7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a2c658b7
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a489b9d2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a489b9d2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a489b9d2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a80cf9c2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a80cf9c2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a80cf9c2
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d05add
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d05add
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a9d05add
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d1118ffc
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d1118ffc
+copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@d1118ffc
 Passed test:animate_sequences.tex:135
 Passed test:animate_sequences.tex:136
 Passed test:animate_sequences.tex:137
@@ -684,134 +218,125 @@ Passed test:animate_sequences.tex:153
 Passed test:animate_sequences.tex:154
 ------------- ---------------- ---------------
 
-Testcase: animate_sequences.tex:28 took 2.136 sec
+Testcase: animate_sequences.tex:28 took 2.266 sec
+Testcase: animate_sequences.tex:29 took 3.195 sec
+Testcase: animate_sequences.tex:31 took 2.377 sec
+Testcase: animate_sequences.tex:32 took 2.683 sec
+Testcase: animate_sequences.tex:34 took 2.649 sec
+Testcase: animate_sequences.tex:35 took 3.072 sec
+Testcase: animate_sequences.tex:36 took 3.38 sec
+Testcase: animate_sequences.tex:40 took 3.32 sec
+Testcase: animate_sequences.tex:41 took 4.742 sec
+Testcase: animate_sequences.tex:43 took 3.427 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:44 took 3.78 sec
+Testcase: animate_sequences.tex:46 took 3.707 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:47 took 4.392 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:48 took 4.69 sec
+Testcase: animate_sequences.tex:50 took 4.005 sec
+Testcase: animate_sequences.tex:54 took 2.391 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:55 took 3.101 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:57 took 2.126 sec
+Testcase: animate_sequences.tex:58 took 2.505 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
+
+Testcase: animate_sequences.tex:60 took 2.744 sec
+Testcase: animate_sequences.tex:61 took 3.01 sec
+Testcase: animate_sequences.tex:63 took 0.83 sec
+Testcase: animate_sequences.tex:64 took 0.429 sec
+Testcase: animate_sequences.tex:67 took 0.432 sec
+Testcase: animate_sequences.tex:68 took 0.669 sec
+Testcase: animate_sequences.tex:69 took 0.391 sec
+Testcase: animate_sequences.tex:70 took 0.507 sec
+Testcase: animate_sequences.tex:71 took 1.133 sec
+Testcase: animate_sequences.tex:72 took 0.213 sec
+Testcase: animate_sequences.tex:75 took 2.214 sec
 	Caused an ERROR
-Error: unfolded term contains type errors.
-"jar:file:/E:/marku/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X
-net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/E:/marku/czt/trunk/zlive/target/zlive-0.6-SNAPSHOT-jar-with-dependencies.jar!/lib/sequence_toolkit.tex", line 117: Undeclared name: X
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:401)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:278)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:29 took 2.883 sec
-Testcase: animate_sequences.tex:31 took 2.304 sec
-Testcase: animate_sequences.tex:32 took 2.626 sec
-Testcase: animate_sequences.tex:34 took 2.588 sec
-Testcase: animate_sequences.tex:35 took 3.044 sec
-Testcase: animate_sequences.tex:36 took 3.364 sec
-Testcase: animate_sequences.tex:40 took 3.215 sec
-Testcase: animate_sequences.tex:41 took 4.313 sec
-Testcase: animate_sequences.tex:43 took 3.365 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:44 took 3.7 sec
-Testcase: animate_sequences.tex:46 took 3.642 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:47 took 4.336 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:48 took 4.68 sec
-Testcase: animate_sequences.tex:50 took 3.981 sec
-Testcase: animate_sequences.tex:54 took 2.476 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:55 took 3.199 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:57 took 2.306 sec
-Testcase: animate_sequences.tex:58 took 2.76 sec
-	FAILED
-null
-junit.framework.AssertionFailedError: null
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:137)
-
-Testcase: animate_sequences.tex:60 took 3.042 sec
-Testcase: animate_sequences.tex:61 took 3.365 sec
-Testcase: animate_sequences.tex:63 took 0.869 sec
-Testcase: animate_sequences.tex:64 took 0.512 sec
-Testcase: animate_sequences.tex:67 took 0.523 sec
-Testcase: animate_sequences.tex:68 took 0.817 sec
-Testcase: animate_sequences.tex:69 took 0.468 sec
-Testcase: animate_sequences.tex:70 took 0.617 sec
-Testcase: animate_sequences.tex:71 took 1.184 sec
-Testcase: animate_sequences.tex:72 took 0.266 sec
-Testcase: animate_sequences.tex:75 took 2.47 sec
-	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@426cad9 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | true \land false \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@426cad9 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | true \land false \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@85d7502f (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | false \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@85d7502f (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | false \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:76 took 3.136 sec
+Testcase: animate_sequences.tex:76 took 2.785 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@491f7b66 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) , ( 2 , 6 ) \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@491f7b66 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) , ( 2 , 6 ) \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6c0f845 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) , ( 2 , 6 ) \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@c6c0f845 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) , ( 3 , 6 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) , ( 2 , 6 ) \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:77 took 2.334 sec
+Testcase: animate_sequences.tex:77 took 2.08 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@78c8131b (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | true \land false \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@78c8131b (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | true \land false \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@88c81047 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | false \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@88c81047 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos \cross \arithmos | false \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:78 took 2.496 sec
+Testcase: animate_sequences.tex:78 took 2.241 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7c474cd7 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@7c474cd7 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ca113864 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ca113864 (\{ n : \arithmos | n \in 1 \upto ( \# \{ ( 1 , 2 ) , ( 2 , 4 ) \} - 1 ) \land true \land true @ ( n , \{ ( 1 , 2 ) , ( 2 , 4 ) \} ( n + 1 ) ) \} = \{ ( 1 , 4 ) \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:79 took 4.738 sec
+Testcase: animate_sequences.tex:79 took 4.541 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cd87982e (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos | x \in 1 \upto 9 \land true \land true @ ( x , ( x + 1 ) * 2 ) \})
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cd87982e (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos | x \in 1 \upto 9 \land true \land true @ ( x , ( x + 1 ) * 2 ) \})
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cbd0e4db (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos | x \in 1 \upto 9 \land true \land true @ ( x , ( x + 1 ) * 2 ) \})
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@cbd0e4db (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos | x \in 1 \upto 10 \land true \land true @ ( x , x * 2 ) \} ( n + 1 ) ) \} = \{ x : \arithmos | x \in 1 \upto 9 \land true \land true @ ( x , ( x + 1 ) * 2 ) \})
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:291)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:80 took 3.004 sec
+Testcase: animate_sequences.tex:80 took 2.828 sec
 	Caused an ERROR
-Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@eda7a8c7 (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} ( n + 1 ) ) \} 1)
-net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@eda7a8c7 (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} ( n + 1 ) ) \} 1)
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@ee15990a (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} ( n + 1 ) ) \} 1)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.ApplExprImpl@ee15990a (\{ n : \arithmos | n \in 1 \upto ( \# \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} - 1 ) \land true \land true @ ( n , \{ x : \arithmos \cross \arithmos | x \in \nat \cross \num \land true \land false \} ( n + 1 ) ) \} 1)
 	at net.sourceforge.czt.animation.eval.ZLive.evalExpr(ZLive.java:344)
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:158)
 
-Testcase: animate_sequences.tex:83 took 0.837 sec
-Testcase: animate_sequences.tex:84 took 1.437 sec
-Testcase: animate_sequences.tex:85 took 0.727 sec
-Testcase: animate_sequences.tex:86 took 1.035 sec
-Testcase: animate_sequences.tex:87 took 2.201 sec
-Testcase: animate_sequences.tex:88 took 1.431 sec
-Testcase: animate_sequences.tex:91 took 1.836 sec
-Testcase: animate_sequences.tex:92 took 2.522 sec
-Testcase: animate_sequences.tex:93 took 1.701 sec
-Testcase: animate_sequences.tex:94 took 1.855 sec
-Testcase: animate_sequences.tex:95 took 3.829 sec
-Testcase: animate_sequences.tex:96 took 2.31 sec
-Testcase: animate_sequences.tex:100 took 1.115 sec
-Testcase: animate_sequences.tex:101 took 1.247 sec
-Testcase: animate_sequences.tex:102 took 1.562 sec
-Testcase: animate_sequences.tex:103 took 1.286 sec
-Testcase: animate_sequences.tex:104 took 1.302 sec
-Testcase: animate_sequences.tex:107 took 3.473 sec
+Testcase: animate_sequences.tex:83 took 0.801 sec
+Testcase: animate_sequences.tex:84 took 1.272 sec
+Testcase: animate_sequences.tex:85 took 0.716 sec
+Testcase: animate_sequences.tex:86 took 0.947 sec
+Testcase: animate_sequences.tex:87 took 3.323 sec
+Testcase: animate_sequences.tex:88 took 1.649 sec
+Testcase: animate_sequences.tex:91 took 1.797 sec
+Testcase: animate_sequences.tex:92 took 2.409 sec
+Testcase: animate_sequences.tex:93 took 1.676 sec
+Testcase: animate_sequences.tex:94 took 1.828 sec
+Testcase: animate_sequences.tex:95 took 3.92 sec
+Testcase: animate_sequences.tex:96 took 2.409 sec
+Testcase: animate_sequences.tex:100 took 1.071 sec
+Testcase: animate_sequences.tex:101 took 1.194 sec
+Testcase: animate_sequences.tex:102 took 1.451 sec
+Testcase: animate_sequences.tex:103 took 1.231 sec
+Testcase: animate_sequences.tex:104 took 1.237 sec
+Testcase: animate_sequences.tex:107 took 3.228 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -832,7 +357,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:108 took 3.648 sec
+Testcase: animate_sequences.tex:108 took 3.355 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -853,7 +378,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:109 took 3.937 sec
+Testcase: animate_sequences.tex:109 took 3.597 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -874,33 +399,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:110 took 3.67 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:328)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:115)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:111 took 3.67 sec
+Testcase: animate_sequences.tex:110 took 3.399 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -926,154 +425,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:114 took 6.13 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:115 took 6.281 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:116 took 6.302 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:117 took 6.296 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:118 took 6.447 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:119 took 6.453 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:120 took 6.632 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_sequences.tex:121 took 6.496 sec
+Testcase: animate_sequences.tex:111 took 3.402 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -1099,7 +451,154 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:122 took 6.506 sec
+Testcase: animate_sequences.tex:114 took 5.671 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:115 took 5.804 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:116 took 5.8 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:117 took 5.81 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:118 took 5.931 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:119 took 5.935 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:120 took 6.114 sec
+	Caused an ERROR
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:121 took 5.996 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
@@ -1125,10 +624,36 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:126 took 4.564 sec
+Testcase: animate_sequences.tex:122 took 6.004 sec
 	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp13400]::_.._, FlatRangeSet[-,-,tmp13401]::_.._, FlatProd[tmp13400,tmp13401,tmp13402], FlatPowerSet[tmp13402,tmp13399], FlatMember[tmp13399,s], { FlatRangeSet[-,-,tmp13410]::_.._, FlatRangeSet[-,-,tmp13411]::_.._, FlatProd[tmp13410,tmp13411,tmp13412], FlatPowerSet[tmp13412,tmp13409], FlatMember[tmp13409,f], tmp13419==0, FlatRangeSet[tmp13419,-,tmp13418]::0.._, tmp13421==0, FlatRangeSet[tmp13421,-,tmp13420]::0.._, FlatRelSet[tmp13418,tmp13420,tmp13417], FlatMember[tmp13417,f], { FlatRangeSet[-,-,tmp13424]::_.._, FlatRangeSet[-,-,tmp13425]::_.._, FlatProd[tmp13424,tmp13425,tmp13426], FlatMember[tmp13426,x]::Infinity, FlatMember[f,x], FlatTupleSel[x,tmp13430], FlatEquals[tmp13423,tmp13430] @ tmp13423 } = tmp13422, tmp13433==1, FlatCard[f,tmp13434], FlatRangeSet[tmp13433,tmp13434,tmp13432]::set(100.0,null,1.._), FlatEquals[tmp13422,tmp13432], FlatEquals[tmp13408,f] @ tmp13408 } = tmp13407, FlatMember[tmp13407,s]::1000.0, FlatForall( FlatRangeSet[-,-,tmp13453]::_.._, FlatRangeSet[-,-,tmp13454]::_.._, FlatProd[tmp13453,tmp13454,tmp13455], FlatMember[tmp13455,x]::Infinity, FlatMember[s,x] @ tmp13457==1, tmp13458==2, FlatTuple[tmp13457,tmp13458,tmp13456], tmp13460==2, tmp13461==4, FlatTuple[tmp13460,tmp13461,tmp13459], tmp13463==3, tmp13464==6, FlatTuple[tmp13463,tmp13464,tmp13462], FlatDiscreteSet[tmp13456,tmp13462,tmp13459,tmp13465], FlatMember[tmp13465,x]::3.0 ), FlatCard[s,tmp13466], tmp13467==1, FlatLessThanEquals[tmp13466,tmp13467], FlatEquals[tmp13398,s] @ tmp13398 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp13400]::_.._, FlatRangeSet[-,-,tmp13401]::_.._, FlatProd[tmp13400,tmp13401,tmp13402], FlatPowerSet[tmp13402,tmp13399], FlatMember[tmp13399,s], { FlatRangeSet[-,-,tmp13410]::_.._, FlatRangeSet[-,-,tmp13411]::_.._, FlatProd[tmp13410,tmp13411,tmp13412], FlatPowerSet[tmp13412,tmp13409], FlatMember[tmp13409,f], tmp13419==0, FlatRangeSet[tmp13419,-,tmp13418]::0.._, tmp13421==0, FlatRangeSet[tmp13421,-,tmp13420]::0.._, FlatRelSet[tmp13418,tmp13420,tmp13417], FlatMember[tmp13417,f], { FlatRangeSet[-,-,tmp13424]::_.._, FlatRangeSet[-,-,tmp13425]::_.._, FlatProd[tmp13424,tmp13425,tmp13426], FlatMember[tmp13426,x]::Infinity, FlatMember[f,x], FlatTupleSel[x,tmp13430], FlatEquals[tmp13423,tmp13430] @ tmp13423 } = tmp13422, tmp13433==1, FlatCard[f,tmp13434], FlatRangeSet[tmp13433,tmp13434,tmp13432]::set(100.0,null,1.._), FlatEquals[tmp13422,tmp13432], FlatEquals[tmp13408,f] @ tmp13408 } = tmp13407, FlatMember[tmp13407,s]::1000.0, FlatForall( FlatRangeSet[-,-,tmp13453]::_.._, FlatRangeSet[-,-,tmp13454]::_.._, FlatProd[tmp13453,tmp13454,tmp13455], FlatMember[tmp13455,x]::Infinity, FlatMember[s,x] @ tmp13457==1, tmp13458==2, FlatTuple[tmp13457,tmp13458,tmp13456], tmp13460==2, tmp13461==4, FlatTuple[tmp13460,tmp13461,tmp13459], tmp13463==3, tmp13464==6, FlatTuple[tmp13463,tmp13464,tmp13462], FlatDiscreteSet[tmp13456,tmp13462,tmp13459,tmp13465], FlatMember[tmp13465,x]::3.0 ), FlatCard[s,tmp13466], tmp13467==1, FlatLessThanEquals[tmp13466,tmp13467], FlatEquals[tmp13398,s] @ tmp13398 }
+ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ? _ 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:328)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:115)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:126 took 4.243 sec
+	Caused an ERROR
+Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp12696]::_.._, FlatRangeSet[-,-,tmp12697]::_.._, FlatProd[tmp12696,tmp12697,tmp12698], FlatPowerSet[tmp12698,tmp12695], FlatMember[tmp12695,s], { FlatRangeSet[-,-,tmp12706]::_.._, FlatRangeSet[-,-,tmp12707]::_.._, FlatProd[tmp12706,tmp12707,tmp12708], FlatPowerSet[tmp12708,tmp12705], FlatMember[tmp12705,f], tmp12715==0, FlatRangeSet[tmp12715,-,tmp12714]::0.._, tmp12717==0, FlatRangeSet[tmp12717,-,tmp12716]::0.._, FlatRelSet[tmp12714,tmp12716,tmp12713], FlatMember[tmp12713,f], { FlatRangeSet[-,-,tmp12720]::_.._, FlatRangeSet[-,-,tmp12721]::_.._, FlatProd[tmp12720,tmp12721,tmp12722], FlatMember[tmp12722,x]::Infinity, FlatMember[f,x], FlatTupleSel[x,tmp12726], FlatEquals[tmp12719,tmp12726] @ tmp12719 } = tmp12718, tmp12729==1, FlatCard[f,tmp12730], FlatRangeSet[tmp12729,tmp12730,tmp12728]::set(100.0,null,1.._), FlatEquals[tmp12718,tmp12728], FlatEquals[tmp12704,f] @ tmp12704 } = tmp12703, FlatMember[tmp12703,s]::1000.0, FlatForall( FlatRangeSet[-,-,tmp12749]::_.._, FlatRangeSet[-,-,tmp12750]::_.._, FlatProd[tmp12749,tmp12750,tmp12751], FlatMember[tmp12751,x]::Infinity, FlatMember[s,x] @ tmp12753==1, tmp12754==2, FlatTuple[tmp12753,tmp12754,tmp12752], tmp12756==2, tmp12757==4, FlatTuple[tmp12756,tmp12757,tmp12755], tmp12759==3, tmp12760==6, FlatTuple[tmp12759,tmp12760,tmp12758], FlatDiscreteSet[tmp12752,tmp12758,tmp12755,tmp12761], FlatMember[tmp12761,x]::3.0 ), FlatCard[s,tmp12762], tmp12763==1, FlatLessThanEquals[tmp12762,tmp12763], FlatEquals[tmp12694,s] @ tmp12694 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp12696]::_.._, FlatRangeSet[-,-,tmp12697]::_.._, FlatProd[tmp12696,tmp12697,tmp12698], FlatPowerSet[tmp12698,tmp12695], FlatMember[tmp12695,s], { FlatRangeSet[-,-,tmp12706]::_.._, FlatRangeSet[-,-,tmp12707]::_.._, FlatProd[tmp12706,tmp12707,tmp12708], FlatPowerSet[tmp12708,tmp12705], FlatMember[tmp12705,f], tmp12715==0, FlatRangeSet[tmp12715,-,tmp12714]::0.._, tmp12717==0, FlatRangeSet[tmp12717,-,tmp12716]::0.._, FlatRelSet[tmp12714,tmp12716,tmp12713], FlatMember[tmp12713,f], { FlatRangeSet[-,-,tmp12720]::_.._, FlatRangeSet[-,-,tmp12721]::_.._, FlatProd[tmp12720,tmp12721,tmp12722], FlatMember[tmp12722,x]::Infinity, FlatMember[f,x], FlatTupleSel[x,tmp12726], FlatEquals[tmp12719,tmp12726] @ tmp12719 } = tmp12718, tmp12729==1, FlatCard[f,tmp12730], FlatRangeSet[tmp12729,tmp12730,tmp12728]::set(100.0,null,1.._), FlatEquals[tmp12718,tmp12728], FlatEquals[tmp12704,f] @ tmp12704 } = tmp12703, FlatMember[tmp12703,s]::1000.0, FlatForall( FlatRangeSet[-,-,tmp12749]::_.._, FlatRangeSet[-,-,tmp12750]::_.._, FlatProd[tmp12749,tmp12750,tmp12751], FlatMember[tmp12751,x]::Infinity, FlatMember[s,x] @ tmp12753==1, tmp12754==2, FlatTuple[tmp12753,tmp12754,tmp12752], tmp12756==2, tmp12757==4, FlatTuple[tmp12756,tmp12757,tmp12755], tmp12759==3, tmp12760==6, FlatTuple[tmp12759,tmp12760,tmp12758], FlatDiscreteSet[tmp12752,tmp12758,tmp12755,tmp12761], FlatMember[tmp12761,x]::3.0 ), FlatCard[s,tmp12762], tmp12763==1, FlatLessThanEquals[tmp12762,tmp12763], FlatEquals[tmp12694,s] @ tmp12694 }
 	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
 	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:135)
@@ -1138,8 +663,45 @@ net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of Set
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:129 took 0.848 sec
-Testcase: animate_sequences.tex:130 took 3.213 sec
+Testcase: animate_sequences.tex:129 took 0.123 sec
+	Caused an ERROR
+null
+net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitProdType(CarrierSet.java:147)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitProdType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.impl.ProdTypeImpl.accept(ProdTypeImpl.java:68)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitPowerType(CarrierSet.java:92)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitPowerType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.impl.PowerTypeImpl.accept(PowerTypeImpl.java:70)
+	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
+	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
+	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
+	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+
+Testcase: animate_sequences.tex:130 took 2.449 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
@@ -1155,7 +717,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:131 took 3.683 sec
+Testcase: animate_sequences.tex:131 took 2.789 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
@@ -1171,7 +733,7 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:132 took 2.11 sec
+Testcase: animate_sequences.tex:132 took 1.662 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet. ?/
@@ -1187,24 +749,24 @@ net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sour
 	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
 
-Testcase: animate_sequences.tex:135 took 2.67 sec
-Testcase: animate_sequences.tex:136 took 2.579 sec
-Testcase: animate_sequences.tex:137 took 3.129 sec
-Testcase: animate_sequences.tex:138 took 3.198 sec
-Testcase: animate_sequences.tex:139 took 3.114 sec
-Testcase: animate_sequences.tex:140 took 2.749 sec
-Testcase: animate_sequences.tex:141 took 2.776 sec
+Testcase: animate_sequences.tex:135 took 2.751 sec
+Testcase: animate_sequences.tex:136 took 2.585 sec
+Testcase: animate_sequences.tex:137 took 3.029 sec
+Testcase: animate_sequences.tex:138 took 3.192 sec
+Testcase: animate_sequences.tex:139 took 2.993 sec
+Testcase: animate_sequences.tex:140 took 2.706 sec
+Testcase: animate_sequences.tex:141 took 2.711 sec
 	FAILED
-Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@9424c3b9
-junit.framework.AssertionFailedError: Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@9424c3b9
+Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@df024bb9
+junit.framework.AssertionFailedError: Should be undefined: net.sourceforge.czt.z.impl.ApplExprImpl@df024bb9
 	at net.sourceforge.czt.animation.eval.EvalTest$UndefTest.runTest(EvalTest.java:160)
 
-Testcase: animate_sequences.tex:144 took 4.315 sec
-Testcase: animate_sequences.tex:145 took 4.594 sec
-Testcase: animate_sequences.tex:146 took 6.174 sec
-Testcase: animate_sequences.tex:147 took 3.727 sec
-Testcase: animate_sequences.tex:148 took 4.632 sec
-Testcase: animate_sequences.tex:151 took 4.292 sec
-Testcase: animate_sequences.tex:152 took 4.567 sec
-Testcase: animate_sequences.tex:153 took 4.568 sec
-Testcase: animate_sequences.tex:154 took 5.876 sec
+Testcase: animate_sequences.tex:144 took 4.383 sec
+Testcase: animate_sequences.tex:145 took 4.602 sec
+Testcase: animate_sequences.tex:146 took 5.966 sec
+Testcase: animate_sequences.tex:147 took 3.803 sec
+Testcase: animate_sequences.tex:148 took 4.658 sec
+Testcase: animate_sequences.tex:151 took 4.394 sec
+Testcase: animate_sequences.tex:152 took 4.608 sec
+Testcase: animate_sequences.tex:153 took 5.953 sec
+Testcase: animate_sequences.tex:154 took 5.75 sec
