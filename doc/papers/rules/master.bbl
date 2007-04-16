@@ -1,8 +1,13 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
 \expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
 \newcommand{\enquote}[1]{``#1''}
+
+\bibitem{ISOZ}
+13568, I., \enquote{Information Technology---{Z} Formal Specification
+  Notation---Syntax, Type System and Semantics,} 2002, first Edition
+  2002-07-01.
 
 \bibitem{armour:business-model00}
 Armour, P.~G., \emph{The case for a new business model}, CACM \textbf{43}
@@ -43,6 +48,10 @@ Martin, A.~P., P.~H.~B. Gardiner and J.~C.~P. Woodcock, \emph{A tactic
   calculus}, Formal Aspects of Computing \textbf{8} (1996), pp.~479--489, an
   abridged version appears in the journal; the full version is available at the
   Formal Aspects of Computing FTP site, ftp://ftp.cs.man.ac.uk/pub/fac.
+
+\bibitem{Toyn98a}
+Toyn, I., \emph{A tactic language for reasoning about {Z} specifications}, in:
+  \emph{3rd Northern Formal Methods Workshop} (1998).
 
 \bibitem{cadiz:refman02}
 Toyn, I., \emph{Cadiz reference manual}, Available from
