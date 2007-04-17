@@ -321,17 +321,15 @@ such as $x$, $x?$ and $x_2$.
 \begin{zedrule}{SchemaComposition}
   \proviso E1 : \power [D1] \\
   \proviso E2 : \power [D2] \\
-  \proviso E3 == primenames [D1 | true] \\
-  \proviso E5 == [D2 | true]~_{9} \\ % E5 == E8~_{9}
-  \proviso E6 == \theta E3~_{9} \\
-  \proviso [D7 | true] == primenames [D2 | true] \\
-  \proviso E8 == [D2 | true ] \schemaminus [D7 | true] \\
-  \proviso E9 == \theta E8 ~'_{9}
+  \proviso [D3 | true] == primenames [D1 | true] \\
+  \proviso [D4 | true] == undecorate [D3 | true] \\
+  \proviso [D5 | true] == [D4 | true] \schemaminus [D2 | true] \\
+  \proviso E6 == [D4 | true] \schemaminus [D5 | true] % matching names
 \derives
   E1 \semi E2 =
-  (\exists E5 @ (\exists E3 @ [E1; E5 | \theta E3 = E6])
-                \land
-                (\exists E8 @ [E2; E5 | \theta E8 = E9]))
+  (\exists E6~_9 @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~_9])
+                   \land
+                   (\exists E6   @ [E2 | \theta E6   = \theta E6~_9]))
 \end{zedrule}
 
 TODO: schema hiding, schema piping,

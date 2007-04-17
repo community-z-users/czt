@@ -99,6 +99,8 @@ public class ProverCalculateProviso
         checkPostnames(arg, factory);
       else if ("primenames".equals(funcName))
         checkPrimenames(arg, factory);
+      else if ("undecorate".equals(funcName))
+        checkUndecorate(arg, factory);
       else if (funcName.equals(ZString.ARG_TOK+"schemaminus"+ZString.ARG_TOK))
         checkSchemaMinus(arg, factory);
       else if ("print".equals(funcName))
@@ -392,7 +394,73 @@ public class ProverCalculateProviso
     }
     else {
       final String message = rightExpr.getClass() +
-      " is not supported by the primename function " +
+      " is not supported by the primenames function " +
+      "of the calculate proviso";
+      throw new CztException(message);
+    }
+  }
+
+  private void checkUndecorate(Expr rightExpr, Factory factory)
+  {
+    GetZName findName = new GetZName();
+    if (rightExpr instanceof SchExpr) {
+      SchExpr schExpr = (SchExpr) rightExpr;
+      SchText schText = schExpr.getSchText();
+      if (schText instanceof ZSchText) {
+        ZSchText zSchText = (ZSchText) schText;
+        ZDeclList zDeclList =
+          zSchText.accept(new GetZDeclList(factory));
+        ZDeclList newZDeclList = factory.createZDeclList();
+        for (Decl decl : zDeclList) {
+          if (decl instanceof VarDecl) {
+            VarDecl varDecl = (VarDecl) decl;
+            VarDecl newDecl =
+              factory.createVarDecl(factory.createZNameList(),
+                                    varDecl.getExpr());
+            for (Name declName : varDecl.getName()) {
+              ZName zName = declName.accept(findName);
+              ZStrokeList strokes = zName.getZStrokeList();
+              if (strokes.size() > 0) {
+                ZStrokeList newStrokes = factory.createZStrokeList();
+                newStrokes.addAll(strokes);
+                newStrokes.remove(newStrokes.size() - 1);
+                ZName newName = factory.createZName(zName.getWord(),
+                                                    newStrokes,
+                                                    zName.getId());
+                newDecl.getZNameList().add(newName);
+              }
+              else {
+                String message = "Name must be decorated " +
+                  "for the undecorate proviso";
+                throw new CztException(message);
+              }
+            }
+            if (newDecl.getZNameList().size() > 0) {
+              newZDeclList.add(newDecl);
+            }
+          }
+          else {
+            final String message = decl.getClass() +
+            " is not a supported Decl " +
+            " for the calculate proviso";
+            throw new CztException(message);
+          }
+        }
+        ZSchText newZSchText =
+          factory.createZSchText(newZDeclList, factory.createTruePred());
+        SchExpr newSchExpr = factory.createSchExpr(newZSchText);
+        unify(newSchExpr, getLeftExpr());
+      }
+      else {
+        final String message = schText.getClass() +
+        " is not a supported SchText " +
+        " for the calculate proviso";
+        throw new CztException(message);
+      }
+    }
+    else {
+      final String message = rightExpr.getClass() +
+      " is not supported by the undecorate function " +
       "of the calculate proviso";
       throw new CztException(message);
     }
@@ -453,7 +521,7 @@ public class ProverCalculateProviso
     throws ProverUtils.UnboundJokerException
   {
     if ( ! (expr instanceof SchExpr))
-      throw new CztException(op+" arguments must be schemas");
+      throw new CztException(op+" arguments must be schemas " + expr);
     ZSchText text = ((SchExpr)expr).getZSchText();
     if ( ! (text.getPred() instanceof TruePred))
       throw new CztException(op+" arguments should have predicate part = true");
