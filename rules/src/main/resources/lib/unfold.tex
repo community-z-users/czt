@@ -167,6 +167,13 @@ be handled by a single rule.
   \theta E~' = E2
 \end{zedrule}
 
+\begin{zedrule}{ThetaDecor9}
+  \proviso E : \power [D] \\
+  \proviso E2 == \theta [D | true]~_{9}
+\derives
+  \theta E~_{9} = E2
+\end{zedrule}
+
 \begin{zedrule}{SchemaConstruction1}
   [D1 | true] \declListUnfoldsTo [D2 | true]
 \derives
@@ -217,6 +224,13 @@ NOTE: we also currently need thirteen versions of this next rule
    \proviso [D2|P2] == [D1|P1]~' \\
 \derives
    E~' \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaDecor9}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   \proviso [D2|P2] == [D1|P1]~_{9} \\
+\derives
+   E~_{9} \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
 The type proviso in the ExistsSchema rule checks
@@ -304,7 +318,23 @@ such as $x$, $x?$ and $x_2$.
   \pre E \sexprUnfoldsTo [D3 | (\exists D2 @ P2)]
 \end{zedrule}
 
-TODO: schema hiding, schema piping and sequential composition,
+\begin{zedrule}{SchemaComposition}
+  \proviso E1 : \power [D1] \\
+  \proviso E2 : \power [D2] \\
+  \proviso E3 == primenames [D1 | true] \\
+  \proviso E5 == [D2 | true]~_{9} \\ % E5 == E8~_{9}
+  \proviso E6 == \theta E3~_{9} \\
+  \proviso [D7 | true] == primenames [D2 | true] \\
+  \proviso E8 == [D2 | true ] \schemaminus [D7 | true] \\
+  \proviso E9 == \theta E8 ~'_{9}
+\derives
+  E1 \semi E2 =
+  (\exists E5 @ (\exists E3 @ [E1; E5 | \theta E3 = E6])
+                \land
+                (\exists E8 @ [E2; E5 | \theta E8 = E9]))
+\end{zedrule}
+
+TODO: schema hiding, schema piping,
 schema forall, schema exists unique.
 
 

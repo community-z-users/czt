@@ -87,6 +87,26 @@
           [x:\arithmos | (\exists x':\arithmos @ x\in\nat \land x'\in\nat)]
 \end{theorem}
 
+\begin{theorem}{SimpleComp}
+  \vdash? \Delta Simple \semi \Delta Simple =
+    [ x : \arithmos ;
+      x' : \arithmos
+    |
+      (\exists x_{9}~: \arithmos ; x'_{9}~: \arithmos | true
+       @ (true \land ((\exists x' : \arithmos | true
+                       @ (true \land
+                          (((x\in\nat \land x'\in\nat) \land true ) \land
+                           \lblot x' == x' \rblot =
+                           \lblot x' == x'_{9} \rblot)))
+                      \land
+                      (\exists x : \arithmos | true
+                       @ (true \land
+                          (((x\in\nat \land x'\in\nat) \land true ) \land
+                           \lblot x == x \rblot =
+                           \lblot x == x'_{9} \rblot))))))
+    ]
+\end{theorem}
+
 \begin{schema}{SimpleConstDecl}
   y == 3
 \end{schema}
