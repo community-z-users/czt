@@ -139,10 +139,20 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="Deduction" type="P:Deduction">
+  <xs:element name="Deduction" type="P:Deduction" abstract="true">
     <xs:annotation>
       <xs:documentation>
         A deduction is an application of a Rule to a PredSequent.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="RuleApplication"
+              type="P:RuleApplication"
+              substitutionGroup="P:Deduction">
+    <xs:annotation>
+      <xs:documentation>
+        An application of a Rule to a PredSequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -287,7 +297,13 @@
 
   <xs:complexType name="Deduction">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RuleApplication">
+    <xs:complexContent>
+      <xs:extension base="P:Deduction">
         <xs:sequence>
           <xs:element ref="P:Binding" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="P:Sequent" minOccurs="0" maxOccurs="unbounded"/>

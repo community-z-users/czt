@@ -293,8 +293,8 @@ public class ProofTree
     {
       super(sequent);
       Deduction ded = sequent.getDeduction();
-      if (ded != null) {
-        for (Sequent s : ded.getSequent()) {
+      if (ded instanceof RuleApplication) {
+        for (Sequent s : ((RuleApplication) ded).getSequent()) {
           insert(createNode(s), getChildCount());
         }
       }
@@ -396,8 +396,9 @@ public class ProofTree
       else if (value instanceof ProofNode) {
         ProofNode node = (ProofNode) value;
         PredSequent sequent = node.getSequent();
-        if (sequent.getDeduction() != null) {
-          setToolTipText("Rule " + sequent.getDeduction().getName());
+        if (sequent.getDeduction() instanceof RuleApplication) {
+          RuleApplication ruleAppl = (RuleApplication) sequent.getDeduction();
+          setToolTipText("Rule " + ruleAppl.getName());
         }
         else {
           setToolTipText("No rule has been applied to this sequent");

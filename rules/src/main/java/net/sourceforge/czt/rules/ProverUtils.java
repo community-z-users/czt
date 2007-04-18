@@ -128,9 +128,11 @@ public final class ProverUtils
   public static void collectBindings(PredSequent sequent, List<Binding> list)
   {
     Deduction ded = sequent.getDeduction();
-    if (ded != null) {
-      list.addAll(ded.getBinding());
-      for (Sequent s : ded.getSequent()) {
+    if (ded == null) return;
+    if (ded instanceof RuleApplication) {
+      RuleApplication ruleAppl = (RuleApplication) ded;
+      list.addAll(ruleAppl.getBinding());
+      for (Sequent s : ruleAppl.getSequent()) {
         if (s instanceof PredSequent) {
           collectBindings((PredSequent) s, list);
         }

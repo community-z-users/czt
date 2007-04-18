@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Session;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -109,21 +110,28 @@ public class SimpleProver
           // we use a random id number in log messages to make it
           // clearer which rule application each message is talking about.
           int id = rand_.nextInt(1000);
-          List<Sequent> ants = predSequent.getDeduction().getSequent();
-          String message = "Applied rule " + rule.getName() + "." + id
-                         + ", children=" + ants.size();
-          getLogger().fine(message);
-          int problem = prove(predSequent.getDeduction().getSequent());
-          if (problem < 0) {
-            message = "Finished rule " + rule.getName() + "." + id;
+          Deduction ded = predSequent.getDeduction();
+          if (ded instanceof RuleApplication) {
+            RuleApplication ruleAppl = (RuleApplication) ded;
+            List<Sequent> ants = ruleAppl.getSequent();
+            String message = "Applied rule " + rule.getName() + "." + id
+              + ", children=" + ants.size();
             getLogger().fine(message);
-            return true;
+            int problem = prove(ruleAppl.getSequent());
+            if (problem < 0) {
+              message = "Finished rule " + rule.getName() + "." + id;
+              getLogger().fine(message);
+              return true;
+            }
+            else {
+              undo(predSequent);
+              message = "Undid rule " + rule.getName() + "." + id
+                + " because antecedent " + problem + " failed";
+              getLogger().fine(message);
+            }
           }
           else {
-            undo(predSequent);
-            message = "Undid rule " + rule.getName() + "." + id
-                    + " because antecedent " + problem + " failed";
-            getLogger().fine(message);
+            throw new CztException("Unsupported deduction " + ded);
           }
         }
       }
@@ -137,12 +145,22 @@ public class SimpleProver
     return false;
   }
 
-  private void undo(PredSequent predSequent)
+  /**
+   * Undos the bindings of the duduction and sets deduction to null.
+   * Note that this method does not iterate into the children of a
+   * deduction, so only undoes the bindings of this deduction.
+   */
+  public void undo(PredSequent predSequent)
   {
-    Deduction ded = predSequent.getDeduction();
-    if (ded != null) {
-      ProverUtils.reset(ded.getBinding());
+    Deduction deduction = predSequent.getDeduction();
+    if (deduction == null) return;
+    if (deduction instanceof RuleApplication) {
+      RuleApplication ruleAppl = (RuleApplication) deduction;
+      ProverUtils.reset(ruleAppl.getBinding());
       predSequent.setDeduction(null);
+    }
+    else {
+      throw new CztException("Unsupported deduction " + deduction);
     }
   }
 
@@ -153,7 +171,11 @@ public class SimpleProver
    */
   public boolean prove(Deduction deduction)
   {
-    return prove(deduction.getSequent()) < 0;
+    if (deduction instanceof RuleApplication) {
+      RuleApplication ruleAppl = (RuleApplication) deduction;
+      return prove(ruleAppl.getSequent()) < 0;
+    }
+    throw new CztException("Unsupported deduction " + deduction);
   }
 
   /**
@@ -196,7 +218,8 @@ public class SimpleProver
   public static boolean apply(Rule rule, PredSequent predSequent)
   {
     if (predSequent.getDeduction() != null) {
-      String message = "A rule has been already applied to this PredSequent.";
+      String message =
+        "This PredSequent already has a deduction associated to it.";
       throw new IllegalArgumentException(message);
     }
     // Note: must use new ProverFactory here to generate fresh joker names.
@@ -214,9 +237,9 @@ public class SimpleProver
       if (bindings != null) {
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
-        Deduction deduction =
-          factory.createDeduction(bindingList, sequents, rule.getName());
-        predSequent.setDeduction(deduction);
+        RuleApplication ruleAppl =
+          factory.createRuleApplication(bindingList, sequents, rule.getName());
+        predSequent.setDeduction(ruleAppl);
         return true;
       }
     }
@@ -240,7 +263,8 @@ public class SimpleProver
   {
     try {
       if (predSequent.getDeduction() != null) {
-        String message = "A rule has been already applied to this PredSequent.";
+        String message =
+          "This PredSequent already has a deduction associated to it.";
         throw new IllegalArgumentException(message);
       }
       // Note: must use new ProverFactory here to generate fresh joker names.
@@ -259,7 +283,9 @@ public class SimpleProver
           List<Binding> bindingList = new ArrayList<Binding>();
           bindingList.addAll(bindings);
           Deduction deduction =
-            factory.createDeduction(bindingList, sequents, rule.getName());
+            factory.createRuleApplication(bindingList,
+                                          sequents,
+                                          rule.getName());
           predSequent.setDeduction(deduction);
           return true;
         }

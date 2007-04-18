@@ -285,8 +285,8 @@ public class TextUI {
                 ProverUtils.createPredSequent(pred, true);
               SimpleProver prover = new SimpleProver(rules, manager, section);
               if (SimpleProver.apply2(rule, predSequent)) {
-                int proveresult = prover.prove(predSequent.getDeduction().getSequent());
-                if (proveresult < 0)
+                boolean proveresult = prover.prove(predSequent.getDeduction());
+                if (proveresult)
                   output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 
                 else
                   output_.println("Could not prove antecedent "+proveresult);

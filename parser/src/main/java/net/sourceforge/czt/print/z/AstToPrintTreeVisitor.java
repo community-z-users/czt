@@ -209,9 +209,7 @@ public class AstToPrintTreeVisitor
     final Precedence prec = getPrec(andPred);
     PrintPredicate result =
       printFactory_.createPrintPredicate(list, prec, null);
-    if (andPred.getAnn(ParenAnn.class) != null) {
       result.getAnns().add(factory_.createParenAnn());
-    }
     return result;
   }
 

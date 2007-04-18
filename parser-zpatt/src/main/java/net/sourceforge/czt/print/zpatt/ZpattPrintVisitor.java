@@ -176,6 +176,11 @@ public class ZpattPrintVisitor
     return null;
   }
 
+  public Object visitRuleApplication(RuleApplication ruleApplication)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   public Object visitSequentContext(SequentContext context)
   {
     throw new UnsupportedOperationException();

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 public class OpenSubgoalCollector
-  implements DeductionVisitor,
+  implements RuleApplicationVisitor,
              PredSequentVisitor,
              ProvisoVisitor,
              TermVisitor
@@ -45,9 +45,9 @@ public class OpenSubgoalCollector
     return subgoals_;
   }
 
-  public Object visitDeduction(Deduction deduction)
+  public Object visitRuleApplication(RuleApplication ruleAppl)
   {
-    for (Sequent sequent : deduction.getSequent()) {
+    for (Sequent sequent : ruleAppl.getSequent()) {
       sequent.accept(this);
     }
     return null;
