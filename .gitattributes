@@ -3,6 +3,11 @@
 corejava/src/documentation/resources/images/apichange.jpg svneol=native#unset
 corejava/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 corejava/src/documentation/resources/images/sflogo.png svneol=native#unset
+corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbContext.java -text
+corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -text
+corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
+corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java -text
+corejava/src/main/java/net/sourceforge/czt/circuspatt/util/PrintVisitor.java -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/eclipse-projects.zip -text
@@ -400,3 +405,4 @@ zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_circus_st
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_reactive_buffer.tex -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/bbook.utf16 svneol=native#unset
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/birthdaybook.utf16 -text
+zml/src/main/resources/net/sourceforge/czt/zml/xsd/CircusPattern.xsd -text
