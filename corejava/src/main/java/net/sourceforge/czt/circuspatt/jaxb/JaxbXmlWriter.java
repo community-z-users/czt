@@ -25,10 +25,10 @@ package net.sourceforge.czt.circuspatt.jaxb;
  * @author Leo Freitas
  */
 public class JaxbXmlWriter
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlWriter
+  extends net.sourceforge.czt.circus.jaxb.JaxbXmlWriter // change to net.sourceforge.czt.base.jaxb.JaxbXmlWriter
 {
   public JaxbXmlWriter()
   {
-    super(new AstToJaxb(), JaxbContext.PATH);
+    //super(new AstToJaxb(), JaxbContext.PATH);
   }
 }

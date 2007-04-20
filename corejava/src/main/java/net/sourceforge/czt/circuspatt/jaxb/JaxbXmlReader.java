@@ -20,7 +20,7 @@
 package net.sourceforge.czt.circuspatt.jaxb;
 
 import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.circuspatt.ast.CircusPatternFactory;
+//import net.sourceforge.czt.circuspatt.ast.CircusPatternFactory;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -28,15 +28,15 @@ import net.sourceforge.czt.circuspatt.ast.CircusPatternFactory;
  * @author Leo Freitas
  */
 public class JaxbXmlReader
-  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
+  extends net.sourceforge.czt.circus.jaxb.JaxbXmlReader // change to net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
-  public JaxbXmlReader(ZFactory zFactory, CircusPatternFactory circuspattFactory)
+  public JaxbXmlReader(ZFactory zFactory/*, CircusPatternFactory circuspattFactory*/)
   {
-    super(new JaxbToAst(zFactory, circuspattFactory), JaxbContext.PATH);
+    //super(new JaxbToAst(zFactory, circuspattFactory), JaxbContext.PATH);
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst(), JaxbContext.PATH);
+   // super(new JaxbToAst(), JaxbContext.PATH);
   }
 }
