@@ -35,6 +35,7 @@ public final class Resources
   private static String TCOZ_SCHEMA = "TCOZ.xsd";
   private static String CIRCUS_SCHEMA = "Circus.xsd";
   private static String ZPATTERN_SCHEMA = "ZPattern.xsd";
+  private static String CIRCUSPATTERN_SCHEMA = "CircusPattern.xsd";
 
   /**
    * Do not create instances of this class.
@@ -72,6 +73,11 @@ public final class Resources
   {
     return getSchema(ZPATTERN_SCHEMA);
   }
+  
+  public static URL getCircusPattSchema()
+  {
+    return getSchema(CIRCUSPATTERN_SCHEMA);
+  }
 
   public static URL getExample(String dialect, String name)
   {
@@ -91,5 +97,5 @@ public final class Resources
   public static URL getCircusExample(String name)
   {
     return Resources.class.getResource(EXAMPLES + "circus/" + name);
-  }
+  }  
 }
