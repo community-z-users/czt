@@ -28,6 +28,9 @@
       <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/circus'">
         <xsl:text>CIRCUS:</xsl:text>
       </xsl:if>
+      <xsl:if test="/xs:schema/@targetNamespace='http://czt.sourceforge.net/circuspatt'">
+        <xsl:text>CP:</xsl:text>
+      </xsl:if>
       <xsl:value-of select="@name"/>
     </xsl:attribute>
     <xsl:apply-templates select="node()"/>
