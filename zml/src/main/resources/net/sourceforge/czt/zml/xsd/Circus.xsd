@@ -180,7 +180,20 @@
   </xs:element>
 
   <!-- Channel Set Expressions -->
-  <xs:element name="ChannelSet" type="CIRCUS:ChannelSet">
+  <xs:element name="ChannelSet" type="CIRCUS:ChannelSet" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+        Abstract base classe for Circus channel set expressions. There are two
+        implementations: one for normal <code>CircusChannelSet</code>s appearing
+        in specifications; and one for chennel set jokers appearing in refinement
+        laws.
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  
+  <xs:element name="CircusChannelSet" type="CIRCUS:CircusChannelSet" substitutionGroup="CIRCUS:ChannelSet">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -711,7 +724,20 @@
   </xs:element>
 
   <!-- Name Set Expressions -->
-  <xs:element name="NameSet" type="CIRCUS:NameSet">
+  <xs:element name="NameSet" type="CIRCUS:NameSet" abstract="true">
+    <xs:annotation>
+      <xs:documentation>        
+        <p>
+        Abstract base classe for Circus name set expressions. There are two
+        implementations: one for <code>CircusNameSet</code>s appearing
+        in specifications; and one for name set jokers appearing in refinement
+        laws.
+        </p>        
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+    
+  <xs:element name="CircusNameSet" type="CIRCUS:CircusNameSet" substitutionGroup="CIRCUS:NameSet">
     <xs:annotation>
       <xs:documentation>        
         <p>
@@ -1546,7 +1572,13 @@
   <!-- Channel Set Expression complexTypes -->
   <xs:complexType name="ChannelSet">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="CircusChannelSet">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:ChannelSet">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
@@ -1963,7 +1995,13 @@
   <!-- Name Set Expression complexTypes -->
   <xs:complexType name="NameSet">
     <xs:complexContent>
-      <xs:extension base="Z:Term">
+      <xs:extension base="Z:Term"/>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="CircusNameSet">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:NameSet">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
