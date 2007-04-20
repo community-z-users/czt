@@ -20,7 +20,7 @@
     <xsl:apply-templates select="@* | node()"/>
     <xsl:for-each select="xs:element/xs:complexType">
       <xs:complexType>
-        <xs:attribute name="name"
+        <xs:attribute name="name"/>
       </xs:complexType>
     </xsl:for-each>
   </xsl:copy>
