@@ -1,9 +1,9 @@
 
-  public ZExprList getZActuals()
+  public net.sourceforge.czt.z.ast.ZExprList getZActuals()
   {
-    ExprList el = getActuals();
-    if (el instanceof ZExprList) {
-      return (ZExprList) el;
+    net.sourceforge.czt.z.ast.ExprList el = getActuals();
+    if (el instanceof net.sourceforge.czt.z.ast.ZExprList) {
+      return (net.sourceforge.czt.z.ast.ZExprList) el;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }

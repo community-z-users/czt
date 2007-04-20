@@ -3,4 +3,4 @@
    * It returns the ZExprList if ExprList is an instance of
    * ZExprList or throws an UnsupportedAstClassException otherwise.
    */
-  ZExprList getZActuals();
+  net.sourceforge.czt.z.ast.ZExprList getZActuals();

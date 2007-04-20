@@ -3,4 +3,4 @@
    * It returns the ZNameList if NameList is an instance of
    * ZNameList or throws an UnsupportedAstClassException otherwise.
    */
-  ZNameList getZFrame();
+  net.sourceforge.czt.z.ast.ZNameList getZFrame();

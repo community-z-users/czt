@@ -1,18 +1,18 @@
 
-  public ZNameList getZLHS()
+  public net.sourceforge.czt.z.ast.ZNameList getZLHS()
   {
-    NameList rnl = getLHS();
-    if (rnl instanceof ZNameList) {
-      return (ZNameList) rnl;
+    net.sourceforge.czt.z.ast.NameList rnl = getLHS();
+    if (rnl instanceof net.sourceforge.czt.z.ast.ZNameList) {
+      return (net.sourceforge.czt.z.ast.ZNameList) rnl;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
 
-  public ZExprList getZRHS()
+  public net.sourceforge.czt.z.ast.ZExprList getZRHS()
   {
-    ExprList expr = getRHS();
-    if (expr instanceof ZExprList) {
-      return (ZExprList) expr;
+    net.sourceforge.czt.z.ast.ExprList expr = getRHS();
+    if (expr instanceof net.sourceforge.czt.z.ast.ZExprList) {
+      return (net.sourceforge.czt.z.ast.ZExprList) expr;
     }
     throw new net.sourceforge.czt.base.util.UnsupportedAstClassException();
   }
