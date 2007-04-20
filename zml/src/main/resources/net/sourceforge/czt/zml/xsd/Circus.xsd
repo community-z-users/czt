@@ -61,6 +61,11 @@
         <gnast:package name="net.sourceforge.czt.circus">
           <gnast:package id="ast" name="ast">
             <gnast:generate id="factory" class="CircusFactory" template="CoreFactory.vm"/>
+            <gnast:javadoc>
+&lt;p&gt;
+These interfaces represent the AST for Circus. 
+&lt;/p&gt;
+            </gnast:javadoc>
           </gnast:package>
           <gnast:package id="impl" name="impl">
             <gnast:generate id="factoryImpl" class="CircusFactoryImpl" template="CoreFactoryImpl.vm"/>
@@ -71,6 +76,16 @@
           <gnast:package id="util" name="util">
             <gnast:generate id="convFactory" class="Factory" template="Factory.vm"/>
           </gnast:package>
+          <!-- NOT YET...
+          <gnast:package id="util" name="util">
+            <gnast:generate id="flyFactory" class="FlyweightFactory"
+              template="FlyweightFactory.vm"/>
+          </gnast:package>
+          <gnast:package id="util" name="util">
+            <gnast:generate id="createVisitor" class="CreateVisitor"
+              template="CreateVisitor.vm"/>
+          </gnast:package>
+          -->
           <gnast:package id="jaxb" name="jaxb">
             <gnast:generate id="AstToJaxb" class="AstToJaxb" template="AstToJaxb.vm"/>
             <gnast:generate id="JaxbToAst" class="JaxbToAst" template="JaxbToAst.vm"/>
