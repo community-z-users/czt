@@ -132,7 +132,9 @@ eclipse/czthelp/topics_Concepts.xml -text
 eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
 examples/bsh/parseCircus.bsh -text
+fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
+fonts/Using[!!-~]fontforget.ppt -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
