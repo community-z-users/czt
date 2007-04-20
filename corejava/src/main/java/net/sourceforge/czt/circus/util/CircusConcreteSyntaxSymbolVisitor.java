@@ -182,7 +182,7 @@ public class CircusConcreteSyntaxSymbolVisitor
     public CircusConcreteSyntaxSymbol visitExtChoiceProcessIdx(ExtChoiceProcessIdx term) {
         return CircusConcreteSyntaxSymbol.IDX_EXTCH_PROCESS;
     }
-    public CircusConcreteSyntaxSymbol visitNameSet(NameSet term) {
+    public CircusConcreteSyntaxSymbol visitCircusNameSet(CircusNameSet term) {
         return CircusConcreteSyntaxSymbol.NAMESET;
     }
     public CircusConcreteSyntaxSymbol visitParallelActionIte(ParallelActionIte term) {
@@ -287,7 +287,7 @@ public class CircusConcreteSyntaxSymbolVisitor
     public CircusConcreteSyntaxSymbol visitAssignmentCommand(AssignmentCommand term) {
         return CircusConcreteSyntaxSymbol.ASSIGN_CMD;
     }
-    public CircusConcreteSyntaxSymbol visitChannelSet(ChannelSet term) {
+    public CircusConcreteSyntaxSymbol visitCircusChannelSet(CircusChannelSet term) {
         return CircusConcreteSyntaxSymbol.CHANNELSET;
     }
     public CircusConcreteSyntaxSymbol visitInputField(InputField term) {
