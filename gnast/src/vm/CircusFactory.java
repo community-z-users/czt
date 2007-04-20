@@ -5,10 +5,10 @@
   CallProcess createCallProcess(Name name);
   
   /** Creates an empty BasicNameSet. This is a convenience method */
-  NameSet createEmptyNameSet();
+  CircusNameSet createEmptyCircusNameSet();
 
   /** Creates an empty BasicChannelSet. This is a convenience method */
-  ChannelSet createEmptyChannelSet();
+  CircusChannelSet createEmptyCircusChannelSet();
   
   /** Creates an interleave action with empty (basic) name sets. This is a convenience method */    
   InterleaveAction createInterleaveAction(CircusAction left, CircusAction right);

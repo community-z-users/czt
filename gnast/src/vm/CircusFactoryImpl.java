@@ -11,16 +11,16 @@
     }
     
     /** Creates an empty BasicNameSet. This is a convenience method */
-    public NameSet createEmptyNameSet() {
-      return createNameSet(createSetExpr(createZExprList()));
+    public CircusNameSet createEmptyCircusNameSet() {
+      return createCircusNameSet(createSetExpr(createZExprList()));
     }
     
     /** Creates an empty BasicChannelSet. This is a convenience method */
-    public ChannelSet createEmptyChannelSet() {
-      return createChannelSet(createSetExpr(createZExprList()));
+    public CircusChannelSet createEmptyCircusChannelSet() {
+      return createCircusChannelSet(createSetExpr(createZExprList()));
     }
     
     /** Creates an interleave action with empty (basic) name sets. This is a convenience method */    
     public InterleaveAction createInterleaveAction(CircusAction left, CircusAction right) {
-      return createInterleaveAction(left, right, createEmptyNameSet(), createEmptyNameSet());
+      return createInterleaveAction(left, right, createEmptyCircusNameSet(), createEmptyCircusNameSet());
     }
