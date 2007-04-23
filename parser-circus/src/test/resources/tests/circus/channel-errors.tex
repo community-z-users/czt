@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage{circus} 
+\newenvironment{zsection}{\begin{quotation}}{\end{quotation}}
+
+\begin{document}
+
+\begin{zsection}
+   \SECTION channel\_errors \parents circus\_toolkit
+\end{zsection}
+
+This example shows how the parser handles channel declaration errors.
+Firstly, the $\circchannel$ keyword without a name
+\begin{circus}
+    \circchannel\   
+\end{circus}
+
+\begin{cirucs}    
+    \circchannelfrom\ 
+\end{cirucs}
+
+\begin{circus}
+   \circchannel\ c, d \someunknowncmd
+\end{circus}
+
+\begin{circus}
+   \circchannel\ c, d : \\
+\end{circus}
+
+\begin{circus}
+   \circchannel\ [X, Y] c, d : \\
+\end{circus}
+
+\end{document}

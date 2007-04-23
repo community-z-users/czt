@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage{circus}
+\newenvironment{zsection}{\begin{quotation}}{\end{quotation}}
+
+\begin{document}
+
+\begin{zsection}
+   \SECTION fibsec \parents circus\_toolkit
+\end{zsection}
+
+\begin{circus}
+    \circchannel\ out: \nat
+\end{circus}
+
+\begin{circus}
+    \circprocess\ Fib ~~\circdef~~ \circbegin \\
+    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
+    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
+    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~] \\
+    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+    @ InitFib ~\circseq~ OutFib \\
+    \circend
+\end{circus}
+
+\end{document}
