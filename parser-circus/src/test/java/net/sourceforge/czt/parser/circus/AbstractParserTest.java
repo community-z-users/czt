@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.logging.Level;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -39,16 +40,17 @@ import net.sourceforge.czt.zml.Resources;
  */
 public abstract class AbstractParserTest extends TestCase
 {
+  protected static final ParseErrorLogging pel_ = new ParseErrorLogging();
+  protected static final ParseErrorLogging pelsm_ = new ParseErrorLogging(SectionManager.class, Level.ALL);
+  
   protected final SectionManager manager_ = new SectionManager();
   
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
   
-  protected static final ParseErrorLogging pel_ = new ParseErrorLogging();
-  
-  protected static boolean DEBUG_TESTING = false;
+  protected static boolean DEBUG_TESTING = true;
   
   protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
-  
+   
   public URL getCircusExample(String name)
   {
     URL result = Resources.getCircusExample(name);
@@ -71,6 +73,7 @@ public abstract class AbstractParserTest extends TestCase
   
   public Term parse(Source source) throws Exception
   {
+    System.out.println(source.toString());
     return ParseUtils.parse(source, manager_);
   }
   
@@ -136,13 +139,13 @@ public abstract class AbstractParserTest extends TestCase
     {
       URL url = getClass().getResource("/");
       if (url != null) {
-        System.out.println("Looking for tests under: " + url.getFile());
-        directory = new File(url.getFile());        
+        System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
+        directory = new File(url.getFile() + fullDirectoryName);        
         if (! directory.isDirectory()) {
-          fail("Given name " + directoryName + " is not a directory in " + cztHome);
-        }
+          fail("Given name " + directory.getAbsolutePath() + " is not a directory in " + cztHome);
+        }        
       } else {
-        fail("Could not retrieve a valid testing directory. This should never happen.");
+        fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
       }
     }
     for (File file : directory.listFiles())
