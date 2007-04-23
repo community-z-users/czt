@@ -251,7 +251,7 @@ RINTER = "\u301B"   /* left interleave bracket */
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
-    <add:zpatt> | {JOKERCHAR} | {RULECHAR} </add:zpatt>    
+    <add:zpatt> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:zpatt>    
     <add:circus> /*| {CIRCUPROCESSCHAR}*/ </add:circus>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
@@ -324,6 +324,7 @@ RULE = {RULECHAR}
   /* Z joker paragraph */
   {JOKER}       {  beginZed(); return symbol(Sym.JOKER); }
   {RULE}        {  beginZed(); return symbol(Sym.RULE); }
+  {PROVISO}     {  beginZed(); return symbol(Sym.PROVISO); }
   </add:zpatt>
   
   <add:oz>
@@ -338,6 +339,12 @@ RULE = {RULECHAR}
   {TEXT}        {
                    LocString value = new LocString(yytext(), getLocation());
                    return symbol(Sym.TEXT, value);
+                }
+  .             {
+                   String msg = "Unexpected character "+ yytext() + "(" +
+                     "\\u" + Integer.toString(yytext().charAt(0), 16) +
+                     ") outside para";
+                   throw new ScanException(msg, getLocation());
                 }
 
 }
@@ -424,11 +431,11 @@ RULE = {RULECHAR}
                    msg += ")";
                    throw new ScanException(msg, getLocation());
                 }
-}
   .             {
                    String msg = "Unexpected character "+ yytext() + "(" +
                      "\\u" + Integer.toString(yytext().charAt(0), 16) +
-                     ") outside para";
+                     ") inside para";
                    throw new ScanException(msg, getLocation());
                 }
+}
 </scanner>

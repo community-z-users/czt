@@ -1827,6 +1827,7 @@ non terminal And
 /// Z pattern constructs ///////////////////////////////////////////////
 non terminal Jokers jokerPara;
 non terminal Rule rulePara;
+non terminal Proviso2 provisoPara;
 
 non terminal List&lt;String&gt; jokerList;
 
@@ -2407,6 +2408,9 @@ boxedParagraph ::=
         |
         rulePara:rp
         {: RESULT = rp; :}
+        |
+        provisoPara:pp
+        {: RESULT = pp; :}
 </add:zpatt>
 <add:oz>
         |
@@ -6291,6 +6295,14 @@ rulePara ::=
            List&lt;Sequent&gt; sequents = factory_.list((Sequent) c);
            RESULT = factory_.createRule(sequents, dw.getName());
            addLocAnn(RESULT, getLocation(r, end));
+        :}
+        ;
+
+provisoPara ::=
+        PROVISO:p DECORWORD:dw sequent:s END:end
+        {:
+           RESULT = factory_.createProviso2(s, dw.getName());
+           addLocAnn(RESULT, getLocation(p, end));
         :}
         ;
 
