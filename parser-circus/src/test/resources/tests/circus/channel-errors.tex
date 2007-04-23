@@ -1,6 +1,6 @@
 \documentclass{article}
 
-\usepackage{circus} 
+\usepackage{circus}
 \newenvironment{zsection}{\begin{quotation}}{\end{quotation}}
 
 \begin{document}
@@ -10,25 +10,41 @@
 \end{zsection}
 
 This example shows how the parser handles channel declaration errors.
-Firstly, the $\circchannel$ keyword without a name
+Firstly, the $\circchannel$ keyword without a name or with wrong types
+%
 \begin{circus}
-    \circchannel\   
+    \circchannel
 \end{circus}
-
-\begin{cirucs}    
-    \circchannelfrom\ 
+%
+\begin{cirucs}
+    \circchannelfrom
 \end{cirucs}
-
+%
 \begin{circus}
    \circchannel\ c, d \someunknowncmd
 \end{circus}
-
+%
 \begin{circus}
    \circchannel\ c, d : \\
 \end{circus}
-
+%
 \begin{circus}
    \circchannel\ [X, Y] c, d : \\
 \end{circus}
 
-\end{document}
+\begin{circus}
+    \circchannelset 
+\end{circus}
+
+\begin{circus}
+    \circchannelset\ C1 \\ 
+\end{circus}
+
+\begin{circus}
+    \circchannelset\ C2 == \\
+\end{circus}
+\begin{circus}
+    \circchannelset\ [X, Y] C3 == 
+\end{circus}
+
+\end{document} 
