@@ -1544,7 +1544,7 @@ terminal LocInfo
 </add:zpatt>
 <add:circus>
         // Environment chars
-        CIRCPROCESSBOX, 
+        CIRCUS, 
         
         /**
          * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
@@ -2451,8 +2451,23 @@ unboxedParagraphList ::=
            parserState_.resetIsOpExpr();
 </add:oz>        
         :}
-        ;
-
+<add:circus>  
+        |
+        CIRCUS:circ unboxedParagraphItemList:uil END:end
+        {: if (uil.size() == 1) {
+             addLocAnn(uil.get(0), getLocation(circ, end));
+           }
+           RESULT = uil;
+        :}
+        |        
+        CIRCUS:c error:e END
+        {:
+           parser.report_syntax_error();
+           RESULT = factory_.list();    
+        :}
+</add:circus>        
+        ;     
+        
 unboxedParagraphItemList ::=
         unboxedParagraphItemList:uil NL unboxedParagraphItem:ui
         {:
