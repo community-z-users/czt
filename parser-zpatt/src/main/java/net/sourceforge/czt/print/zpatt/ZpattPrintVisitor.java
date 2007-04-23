@@ -53,6 +53,11 @@ public class ZpattPrintVisitor
     return null;
   }
 
+  public Object visitCheckPassed(CheckPassed checkPassed)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   public Object visitDeduction(Deduction ded)
   {
     throw new UnsupportedOperationException();
@@ -174,6 +179,19 @@ public class ZpattPrintVisitor
       print(TokenName.NL);
     }
     return null;
+  }
+
+  public Object visitProviso2(Proviso2 proviso)
+  {
+    printDecorword(ZPattString.PROVISO);
+    printDecorword(proviso.getName());
+    visit(proviso.getSequent());
+    return null;
+  }
+
+  public Object visitProvisoApplication(ProvisoApplication ruleApplication)
+  {
+    throw new UnsupportedOperationException();
   }
 
   public Object visitRuleApplication(RuleApplication ruleApplication)
