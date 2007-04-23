@@ -62,6 +62,7 @@ public interface CircusString extends ZString
   String CIRCSTOP = "Stop";
   String CIRCCHAOS = "Chaos";
   String CIRCASSIGN = ":=";
+  String CIRCUS = CIRCCHAR;
 }
 <xsl:text>
 </xsl:text>
