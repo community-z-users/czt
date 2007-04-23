@@ -1927,13 +1927,15 @@ non terminal CircusProcess
     processDesc, 
     paramProcess, 
     indexedProcess, 
-    unboxedBasicProcess,
     boxedBasicProcess,
     processCall,    
     parenthesisedProcess,
     //renamingProcesses,
     process;
 
+non terminal BasicProcess
+    unboxedBasicProcess;
+    
 non terminal RenameList
     nameSubstitution;
     
@@ -2862,7 +2864,7 @@ channelPara ::=
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :} 
         |
-        CIRCCHAN:chan error:e
+        CIRCCHAN:chan error:e optNL
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -2870,7 +2872,7 @@ channelPara ::=
               new Object[0], getLocation(eleft, eright));           
         :}
         |
-        CIRCCHANFROM:chanf error:e
+        CIRCCHANFROM:chanf error:e optNL
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -2942,7 +2944,7 @@ channelDecl ::=
 	:} 
         /* Generically defined typed channels with type error */
         |
-        formalParameters:ofp circusDeclWordList:cdwl COLON:c error:e
+        formalParameters:ofp circusDeclWordList:cdwl COLON:c error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -2950,7 +2952,7 @@ channelDecl ::=
           addLocAnn(RESULT, getLocation(ofp, getLocation(eleft, eright)));
         :}
         |
-        formalParameters:fp circusDeclWordList:cdwl error:e
+        formalParameters:fp circusDeclWordList:cdwl error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -2959,7 +2961,7 @@ channelDecl ::=
         :} 
         |
         /* Typec channels with type error */
-        circusDeclWordList:cdwl COLON:c error:e
+        circusDeclWordList:cdwl COLON:c error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -2967,7 +2969,8 @@ channelDecl ::=
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}
         |
-        circusDeclWordList:cdwl error:e
+        /* This production covers just name lists, see channel-errors.tex*/
+        circusDeclWordList:cdwl error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
@@ -3007,7 +3010,7 @@ channelSetPara ::=
            addLocAnn(RESULT, getLocation(ccs, cs));
         :}      
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n DEFEQUAL:equal error:e optNL
         {: 
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
@@ -3016,7 +3019,7 @@ channelSetPara ::=
 
         :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e
+        CIRCCHANSET:ccs optFormalParameters:ofp name:n error:e optNL
         {: 
            RESULT = factory_.createChannelSetPara(ofp, n, null);
            addLocAnn(RESULT, getLocation(ccs, n));
@@ -3024,7 +3027,7 @@ channelSetPara ::=
               new Object[0], getLocation(eleft, eright));
         :}
         |
-        CIRCCHANSET:ccs optFormalParameters:ofp error:e
+        CIRCCHANSET:ccs optFormalParameters:ofp error:e optNL
         {: 
            RESULT = factory_.createChannelSetPara(ofp, null, null);
            addLocAnn(RESULT, getLocation(ccs, ofp.get(ofp.size()-1)));
@@ -3036,7 +3039,7 @@ channelSetPara ::=
                  and using formalParameters instead. That is one with formalParameters and
                  one without it. 
         |
-        CIRCCHANSET:ccs error:e
+        CIRCCHANSET:ccs error:e optNL
         {: 
            RESULT = factory_.createChannelSetPara();
            addLocAnn(RESULT, getLocation(ccs));
@@ -3397,6 +3400,9 @@ unboxedBasicProcess ::=
         {:  
            assert ca != null : "Invalid (null) main action."; //this should never happen.
            
+           RESULT = factory_.createBasicProcess();
+           parserState_.setCurrentBasicProcess(RESULT);
+           
            // Create an on-the-fly paragraph for the main action named "$$mainAction".           
            ActionPara mainActPara = factory_.createActionPara(
               factory_.createZName(DEFAULT_MAIN_ACTION_NAME), ca);
@@ -3417,7 +3423,13 @@ unboxedBasicProcess ::=
            }           
            
            // Creates the resulting basic process
-           RESULT = factory_.createBasicProcess(statePara, localPara, onTheFlyPara, ca);
+           // We could just add the code above directly, but this makes it easier
+           // to change/maintain the code here.
+           // RESULT = factory_.createBasicProcess(statePara, localPara, onTheFlyPara, ca);
+           RESULT.setStatePara(statePara);
+           RESULT.setLocalPara(localPara);
+           RESULT.setOnTheFlyPara(onTheFlyPara);
+           RESULT.setMainAction(ca);           
            addLocAnn(RESULT, getLocation(cb, ce));
            
            // Clears the bacis process on-the-fly cache now the the onTheFlyPara
@@ -3427,6 +3439,7 @@ unboxedBasicProcess ::=
                   ("Could not properly copy the on-the-fly para while creating basic process. " +
                   "Cache is to be reset. TODO:Remove after parser stabilises.");
            parserState_.clearBasicProcessOnTheFlyCache();           
+           parserState_.clearCurrentBasicProcess();
         :}
         ;        
 
@@ -3765,30 +3778,27 @@ unboxedCircProcState ::=
            addLocAnn(RESULT, getLocation(cs, e));                      
         :}
         ;      
- 
-//boxedBasicProcessPara ::=        
-//        |
-//        CIRCPROCESSENV:cpe name:n optNL optFormalParameters:ofp basicProcess:bp END 
-//        {:
-//            RESULT = factory_.createProcessPara(n, ofp, bp);
-//            addLocAnn(RESULT, cpeleft, cperight);
-//        :} 
-//        ;  
-//      |            
-//        operatorTemplate:ot
-//       {:
-//           try { TODO:Think about opTable_!
-//             opTable_.add(ot);
-//           }
-//           catch (OpTable.OperatorException e) {
-//             final Symbol token = new Symbol(Sym.ZED, otleft, otright);
-//             parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
-//                                 new Object[] { e.getMessage() },
-//                                 getLocation(otleft, otright));
-//           }
-//           RESULT = ot;
-//        :}        
-        
+
+/*        
+boxedBasicProcessPara ::=        
+        |
+        CIRCPROCESSENV:cpe name:n optNL optFormalParameters:ofp basicProcess:bp END 
+        {:
+            RESULT = factory_.createProcessPara(n, ofp, bp);
+            addLocAnn(RESULT, cpeleft, cperight);
+        :} 
+        ;      
+        |
+        channelPara:cp
+        {: RESULT = cp; :}
+        |
+        channelSetPara:csp
+        {: RESULT = csp; :}
+        |
+        processPara:pp
+        {: RESULT = pp; :}
+        ;
+*/        
 /// Special productions for process paragraphs ////////////////////////////////
        
 genericActuals ::=
