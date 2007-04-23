@@ -39,7 +39,7 @@ public class ParserFailTest extends AbstractParserTest
     //if the file name ends with error, then we have a case with
     //the typechecker should throw the exception specified at the
     //start of the filename
-    if (file.getName().endsWith("-error.tex"))
+    if (file.getName().endsWith("-errors.tex"))
     {
       //int index = fileName.indexOf("-");
       //if (index < 1) {

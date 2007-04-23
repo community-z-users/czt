@@ -49,7 +49,7 @@ public class ParserTest extends AbstractParserTest
   protected void collectTest(TestSuite suite, File file)
   {    
     String fileName = file.getName();
-    if (fileName.indexOf("-error") == -1 && fileName.endsWith(".tex"))
+    if (fileName.indexOf("-errors") == -1 && fileName.endsWith(".tex"))
     {
       suite.addTest(new TestNormal(file.getAbsolutePath()));
     }
