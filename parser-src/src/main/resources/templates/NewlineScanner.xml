@@ -70,7 +70,7 @@ public class <class/>
 </add:tcoz>
 <add:circus>
                 /* Circus LaTeX environments */
-                //Sym.CIRCUSPROCESSBOX, 
+                Sym.CIRCUS,
                 
                 /* Everything infix comes here */
                 Sym.CIRCDEF, Sym.CIRCINDEX, Sym.CIRCTHEN, Sym.CIRCELSE, 
@@ -78,6 +78,7 @@ public class <class/>
                 /* Sym.CIRCGUARD, // removed, see Parser.xml terminal section for an explanation */
                 Sym.CIRCSEQ, Sym.INTERLEAVE, Sym.CIRCHIDING, 
                 Sym.EXTCHOICE, Sym.INTCHOICE, Sym.CIRCASSIGN,
+                Sym.CIRCREFINES,
                 
                 /* Those shall be allowed new soft lines on both sides for formatting purposes */
                 Sym.LPAR, Sym.LINTER, Sym.RPAR, Sym.RINTER
@@ -114,10 +115,9 @@ public class <class/>
                 Sym.DIL, Sym.DIC, Sym.DPARA,
 </add:tcoz>
 <add:circus>
-                /* Everything prefix comes here */
-                /* Sym.CIRCMU, Sym.REPSEQ, // removed, see Parser.xml terminal section for an explanation */
-                Sym.REPINTERLEAVE, Sym.REPPARALLEL, Sym.REPEXTCHOICE, 
-                Sym.REPINTCHOICE,                
+                /* Everything prefix comes here */                
+                Sym.CIRCMU, Sym.REPINTERLEAVE, Sym.REPPARALLEL, Sym.REPEXTCHOICE, 
+                Sym.REPINTCHOICE, /* Sym.REPSEQ, // removed, see Parser.xml terminal section for an explanation */
                 
                 /* Sym.CIRCIF, // removed, see Parser.xml terminal section for an explanation */
                 Sym.CIRCDO, Sym.CIRCVAR, Sym.CIRCVAL,
