@@ -906,14 +906,14 @@ action code
      * Creates an empty channel set (i.e. ChannelSet with an empty basic channel set expression).
      */
     protected ChannelSet createEmptyChannelSet() {
-      return factory_.createChannelSet(createEmptyChannelSetExpr());
+      return factory_.createCircusChannelSet(factory_.createSetExpr(factory_.createZExprList()));
     }
     
     /**
      * Creates an empty name set (i.e. NameSet with an empty set expression).
      */
     protected NameSet createEmptyNameSet() {
-      return factory_.createNameSet(factory_.createSetExpr(factory_.createZExprList()));
+      return factory_.createCircusNameSet(factory_.createSetExpr(factory_.createZExprList()));
     }  
     
     /**
@@ -3050,7 +3050,7 @@ channelSet ::=
         expression:e
         {:          
            Expr eValid = validateChannelSetExpr(e);
-           RESULT = factory_.createChannelSet(eValid);
+           RESULT = factory_.createCircusChannelSet(eValid);
            addLocAnn(RESULT, getLocation(eleft, eright));
         :}
         ;
@@ -3843,7 +3843,7 @@ namesetPara ::=
 nameSet ::=
         expression:e
         {:
-           RESULT = factory_.createNameSet(e);
+           RESULT = factory_.createCircusNameSet(e);
            addLocAnn(RESULT, getLocation(e));
         :}
         ;
