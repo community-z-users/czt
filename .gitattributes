@@ -351,6 +351,7 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
+typechecker-circus/pom.xml -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorAnn.java -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorMessage.java -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypeCheckResources.java -text
