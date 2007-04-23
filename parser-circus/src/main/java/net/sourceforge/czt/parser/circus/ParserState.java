@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.Factory;
@@ -42,6 +43,12 @@ public class ParserState
    */  
   private static int implicitlyProcUniqueNameSeed_ = 0;
 
+  /**
+   * Current basic process being parsed. We can only have one at a time.
+   * This will allow basic circus process across many \begin{circus}\end{circus}.
+   */
+  private BasicProcess currentBasicProcess_;
+  
   /**
    * <p>List of implicitly declared actions as action paragraphs,
    * where the action name is given according to
@@ -89,12 +96,20 @@ public class ParserState
     implicitlyProcUniqueNameSeed_ = 0;
     implicitlyDeclProcPara_.clear();      
   }
+  
+  /**
+   * Clears the current basic process.
+   */
+  public void clearCurrentBasicProcess() {
+      currentBasicProcess_ = null;
+  }
 
   /**
    * Creates a unique string for implicitly declared actions.
    */
   public String createImplicitlyDeclActUniqueName()
   {
+    assert currentBasicProcess_ != null : "There is no current basic process for implicitly declared action";
     String result = "$$implicitAct" + implicitlyActUniqueNameSeed_;
     implicitlyActUniqueNameSeed_++;
     return result;
@@ -117,6 +132,7 @@ public class ParserState
    */
   public void addImplicitlyDeclActionPara(ActionPara ap)
   {
+    assert currentBasicProcess_ != null : "There is no current basic process for implicitly declared action";  
     assert ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) == null :
       "Action already had an on-the-fly annotation";
     ap.getCircusAction().getAnns().add(factory_.createOnTheFlyDefAnn());
@@ -140,5 +156,9 @@ public class ParserState
   public List<ActionPara> getImplicitlyDeclActPara()
   {
     return implicitlyDeclActPara_;
+  }
+  
+  public void setCurrentBasicProcess(BasicProcess process) {
+    currentBasicProcess_ = process;
   }
 }

@@ -23,13 +23,13 @@ public enum CircusParseMessage {
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}."),  
  
-  MSG_CHANDECL_ERROR("A syntax error occurred inside a channel declaration paragraph. See other messages."),
-  MSG_CHANFROMDECL_ERROR("A syntax error occurred inside a channelfrom declaration paragraph. See other messages."),
+  MSG_CHANDECL_ERROR("An error occurred inside a channel declaration paragraph. See other messages, or review the \"\\circchannel\\\" keyword."),
+  MSG_CHANFROMDECL_ERROR("An error occurred inside a channelfrom declaration paragraph. See other messages, or review the \"\\circchannelfrom\\\" keyword."),
     
-  MSG_CHANNELSET_EXPR_ERROR("Invalid expression for channel set paragraph."),
+  MSG_CHANNELSET_EXPR_ERROR("Invalid expression for channel set paragraph after double equals (==)."),
   MSG_CHANNELSET_MISSING_NAME_ERROR("Missing name in channel set declaration."),
   MSG_CHANNELSET_MISSING_DEFEQUAL_ERROR("Missing DEFEQUAL after name in channel set declaration."),
-  MSG_CHANNELSET_ERROR("A syntax error occurred inside a channelset paragraph. See other messages."),
+  MSG_CHANNELSET_ERROR("An error occurred inside a channelset paragraph. See other messages, or review the \"\\circchannelset\\\" keyword."),
   
   MSG_PROCESSPARA_DESC_ERROR("Invalid process description for {0}. See othe messages."),
   MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR("Missing CIRCDEF after process name in process paragraph declaration."),
