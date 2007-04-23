@@ -158,7 +158,7 @@ public class CircusPrintVisitor
     return null;
   }
 
-  public Object visitChannelSet(ChannelSet term) {
+  public Object visitCircusChannelSet(CircusChannelSet term) {
     visit(term.getExpr());
     return null;
   }
@@ -843,7 +843,7 @@ public class CircusPrintVisitor
     return null;
   }
   
-  public Object visitNameSet(NameSet term) {
+  public Object visitCircusNameSet(CircusNameSet term) {
     visit(term.getExpr());
     return null;
   }
