@@ -310,6 +310,7 @@ parser-circus/src/main/java/net/sourceforge/czt/print/circus/XmlPrinterCommand.j
 parser-circus/src/main/java/net/sourceforge/czt/print/circus/ZmlScanner.java -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
 parser-circus/src/main/resources/lib/circus_toolkit.tex -text
+parser-circus/src/test/java/net/sourceforge/czt/parser/circus/ParserUtilsTest.java -text
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement.tex -text
 parser-circus/src/test/resources/tests/circus/channels-error.tex -text
