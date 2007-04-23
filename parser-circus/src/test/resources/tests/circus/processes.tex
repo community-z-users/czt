@@ -71,15 +71,15 @@ introduces a name for a process description. Like schemas and axiomatic
 definitions, process paragraphs can also have formal parameters.
 %
 \[
-   \circprocess [X, Y] P \circdef \cdots
+   \circprocess\ [X, Y] P \circdef \cdots
 \]
 %
 For the processes below, we define some channels.
 %
 \begin{circus}
-   \circchannel [X] a, b: X \\
-   \circchannel c,d: \nat \\
-   \circchannel s1, s2
+   \circchannel\ [X] a, b: X \\
+   \circchannel\ c,d: \nat \\
+   \circchannel\ s1, s2
 \end{circus}
 %
 More information on the syntax of channels can be found in the \textsf{channels.pdf} file.
@@ -143,7 +143,7 @@ We need the hard space on $FibState$ for it to be a $DecorExpr$.
     InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
     InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
     OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~]\\
-    OutFib ~~\circdef~~ \circmu\ X @ (\circvar\ next: \nat @ OutFibState \circseq\ out~!next \then X) \\
+%    OutFib ~~\circdef~~ \circmu\ X @ (\circvar\ next: \nat @ OutFibState \circseq\ out~!next \then X) \\
     \t1 @ (InitFib \circseq\ OutFib) \\
    \circend
 \end{circus}
@@ -162,18 +162,18 @@ mix Z expressions with \code{BasicChannelSetExpr}, hence the need for $HCS0$ and
 The typechecker will infer the type types of channels from $HCS$ in the definition of process $H_1$.
 %
 \begin{circus}
-    \circchannelset HCS0 == \lchanset a, b \rchanset \\ % \cup \lchanset c \rchanset \\ !! Not yet valid!!
-    \circchannelset HCS1 == \lchanset c \rchanset \\
-    \circchannelset HCS == HCS0 \cup HCS1 \\
+    \circchannelset\ HCS0 == \lchanset a, b \rchanset \\ % \cup \lchanset c \rchanset \\ !! Not yet valid!!
+    \circchannelset\ HCS1 == \lchanset c \rchanset \\
+    \circchannelset\ HCS == HCS0 \cup HCS1 \\
     \circprocess\ H \circdef BASIC[\nat] \circhide \lchanset a[\nat], b[\nat] \rchanset \\
     \circprocess\ [X, Y] H_1 \circdef BASIC[X \setminus Y] \circhide HCS
 \end{circus}
 %
 \begin{verbatim}
      begin{circus}
-         \circchannelset HCS0 == \lchanset a, b \rchanset \\
-         \circchannelset HCS1 == \lchanset c \rchanset \\
-         \circchannelset HCS == HCS0 \cup HCS1 \\
+         \circchannelset\ HCS0 == \lchanset a, b \rchanset \\
+         \circchannelset\ HCS1 == \lchanset c \rchanset \\
+         \circchannelset\ HCS == HCS0 \cup HCS1 \\
          \circprocess\ H \circdef BASIC[\nat] \circhide
                                \lchanset a[\nat], b[\nat] \rchanset \\
          \circprocess\ [X, Y] H_1 \circdef BASIC[X \setminus Y]
