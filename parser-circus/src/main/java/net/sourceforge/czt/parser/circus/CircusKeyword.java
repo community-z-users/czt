@@ -29,7 +29,7 @@ import net.sourceforge.czt.circus.util.CircusString;
  * @author Leo Freitas
  */
 public enum CircusKeyword implements Token {  
-  /* Sym elements
+  /* Sym parenthesis-like elements are treated differently.
   LCIRCCHANSET => 26
   RSCHEXPRACT => 37
   RCIRCCHANSET => 27
@@ -42,62 +42,77 @@ public enum CircusKeyword implements Token {
   CIRCLINST => 28
   LCIRCRENAME => 38
   CIRCRINST => 29
-  LINTER => 32
-  CIRCDEF => 25
-    */
-  /* Circus symbolic keychars*/
-  PREFIXCOLON(CircusString.PREFIXCOLON),
-  CIRCDEF(CircusString.CIRCDEF),  
-  CIRCINDEX(CircusString.CIRCINDEX),
-  CIRCREFINES(CircusString.CIRCREFINES),
-  CIRCMU(CircusString.CIRCMU),
-  CIRCTHEN(CircusString.CIRCTHEN),
-  CIRCELSE(CircusString.CIRCELSE),
-  PREFIXTHEN(CircusString.PREFIXTHEN),
-  CIRCASSIGN(CircusString.CIRCASSIGN),
-  /**
-   * Note: We are reusing ANDALSO instead. See Parser.xml terminal section for an explanation.
-   * addKeyword(CircusString.CIRCGUARD, Sym.CIRCGUARD), 
-   */
-  CIRCSEQ(CircusString.CIRCSEQ),
-  /**
-   * Note: We are reusing ZCOMP instead. See Parser.xml terminal section for an explanation.
-   * addKeyword(CircusString.REPSEQ, Sym.REPSEQ),
-   */    
-  INTERLEAVE(CircusString.INTERLEAVE),
-  REPINTERLEAVE(CircusString.REPINTERLEAVE),   
-  REPPARALLEL(CircusString.REPPARALLEL),   
-  CIRCHIDING(CircusString.CIRCHIDING),
-  EXTCHOICE(CircusString.EXTCHOICE),
-  REPEXTCHOICE(CircusString.REPEXTCHOICE),   
-  INTCHOICE(CircusString.INTCHOICE),
-  REPINTCHOICE(CircusString.REPINTCHOICE),   
-  //addKeyword(CircusString.CIRCPARBAR, Sym.CIRCPARBAR),   
-
+  LINTER => 32  
+  */
+    
   /* Circus language keywords*/
+  
+  /************************************************** 
+   * Keywords with new-lines accepted "before" them *    
+   **************************************************/ 
+  CIRCOD(CircusString.CIRCOD),              /* \\circod         , od  */
+  CIRCEND(CircusString.CIRCEND),            /* \\circend        , end */
+  CIRCFI(CircusString.CIRCFI),              /* \\circend        , fi  */
+  
   /**
-   * Note: We are reusing ZString.IF instead. See Parser.xml terminal section for an explanation.
-   * addKeyword(CircusString.CIRCIF, Sym.CIRCIF),
+   * Note: 
+   * For CIRCIF, we are reusing ZString.IF instead. 
+   * See Parser.xml terminal section for an explanation.
    */    
-  CIRCFI(CircusString.CIRCFI),
-  CIRCDO(CircusString.CIRCDO),
-  CIRCOD(CircusString.CIRCOD),
-  CIRCVAR(CircusString.CIRCVAR),
-  CIRCVAL(CircusString.CIRCVAL),
-  CIRCRES(CircusString.CIRCRES),
-  CIRCVRES(CircusString.CIRCVRES),    
+  
+  /************************************************** 
+   * Keywords with new-lines accepted "after" them  *    
+   **************************************************/ 
+  CIRCDO(CircusString.CIRCDO),              /* \\circdo         , do          */
+  CIRCVAR(CircusString.CIRCVAR),            /* \\circvar        , var         */
+  CIRCVAL(CircusString.CIRCVAL),            /* \\circval        , val         */
+  CIRCRES(CircusString.CIRCRES),            /* \\circres        , res         */
+  CIRCVRES(CircusString.CIRCVRES),          /* \\circvres       , vres        */
+  CIRCCHAN(CircusString.CIRCCHAN),          /* \\circchannel    , channel     */
+  CIRCCHANFROM(CircusString.CIRCCHANFROM),  /* \\circchannelfrom, channelfrom */
+  CIRCCHANSET(CircusString.CIRCCHANSET),    /* \\circchannelset , channelset  */
+  CIRCNAMESET(CircusString.CIRCNAMESET),    /* \\circnameset    , nameset     */
+  CIRCPROC(CircusString.CIRCPROC),          /* \\circprocess    , process     */
+  CIRCBEGIN(CircusString.CIRCBEGIN),        /* \\circbegin      , begin       */
+  CIRCSTATE(CircusString.CIRCSTATE),        /* \\circstate      , state       */
+  REPINTERLEAVE(CircusString.REPINTERLEAVE),/* \\Interleave     , U+2AFC      */   
+  REPPARALLEL(CircusString.REPPARALLEL),    /* \\Parallel       , U+2225      */ 
+  REPEXTCHOICE(CircusString.REPEXTCHOICE),  /* \\Extchoice      , U+25A1      */   
+  REPINTCHOICE(CircusString.REPINTCHOICE),  /* \\Intchoice      , U+2294      */
+
+  /************************************************** 
+   * Keywords with new-lines accepted both b/a them *    
+   **************************************************/ 
+  CIRCDEF(CircusString.CIRCDEF),            /* \\circdef        , U+2259 */            
+  CIRCINDEX(CircusString.CIRCINDEX),        /* \\circindex      , U+2299 */            
+  CIRCTHEN(CircusString.CIRCTHEN),          /* \\circthen       , U+27FC */
+  CIRCELSE(CircusString.CIRCELSE),          /* \\circelse       , U+25AF */
+  PREFIXTHEN(CircusString.PREFIXTHEN),      /* \\then           , U+27F6 */
+  PREFIXCOLON(CircusString.PREFIXCOLON),    /* \\prefixcolon    , U+2236 */
+  CIRCSEQ(CircusString.CIRCSEQ),            /* \\circseq        , U+037E */
+  INTERLEAVE(CircusString.INTERLEAVE),      /* \\interleave     , U+2980 */
+  CIRCHIDING(CircusString.CIRCHIDING),      /* \\circhide       , U+2AF5 */
+  EXTCHOICE(CircusString.EXTCHOICE),        /* \\extchoice      , U+25FB */
+  INTCHOICE(CircusString.INTCHOICE),        /* \\intchoice      , U+2293 */
+  CIRCASSIGN(CircusString.CIRCASSIGN),      /* :=               , :=     */
+  CIRCREFINES(CircusString.CIRCREFINES),    /* \\circrefines    , U+2291 */
+  CIRCMU(CircusString.CIRCMU),              /* \\circmu         , U+00B5 */
+  
+  /**
+   * Note: 
+   * For REPSEQ we are reusing ZCOMP instead. 
+   * For CIRCGUARD we are reusing ANDALSO instead. 
+   * See Parser.xml terminal section for an explanation.   
+   *
+   * QUESTION: Should CIRCASSIGN be given a LaTeX command? 
+   */                                                  
+  
+  /************************************************** 
+   * Keywords without new-lines accepted (no-fix)   *    
+   **************************************************/   
   CIRCSKIP(CircusString.CIRCSKIP),
   CIRCSTOP(CircusString.CIRCSTOP),
-  CIRCCHAOS(CircusString.CIRCCHAOS),
-
-  CIRCCHAN(CircusString.CIRCCHAN),
-  CIRCCHANFROM(CircusString.CIRCCHANFROM),
-  CIRCCHANSET(CircusString.CIRCCHANSET),
-  CIRCNAMESET(CircusString.CIRCNAMESET),
-  CIRCPROC(CircusString.CIRCPROC),
-  CIRCBEGIN(CircusString.CIRCBEGIN),
-  CIRCEND(CircusString.CIRCEND),
-  CIRCSTATE(CircusString.CIRCSTATE);
+  CIRCCHAOS(CircusString.CIRCCHAOS);
 
   private String spelling_;
 
