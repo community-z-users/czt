@@ -576,7 +576,8 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           begin("circus");
-          return result(ZString.ZED);
+          braceStack_.push(BraceType.NAME);
+          return result(CircusString.CIRCUS);
         }
 </add:circus>
 <add:oz>
@@ -780,9 +781,9 @@ NAME =   {NOT_LB}*
 </add:zpatt>
 <add:circus>
   "\\end" {IGNORE}* "{circus}"
-        {
+        { 
           end("circus");
-             yybegin(YYINITIAL);
+          yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
