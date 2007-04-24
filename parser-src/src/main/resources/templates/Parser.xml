@@ -1870,17 +1870,20 @@ non terminal Para
     channelSetPara,
     processPara,
     refinementPara,
-    boxedBasicProcessPara,
+    boxedCircusPara,
     actionPara,
     namesetPara, 
     unboxedCircProcState,
     boxedCircusInnerPara,
+    unboxedCircusParagraphItem,    
     unboxedCircusInnerPara;
 
-non terminal List &lt; Para &gt;
+non terminal List&lt;Para&gt;
+    unboxedCircusParagraphList,
+    unboxedCircusParagraphItemList,
     boxedOptInnerCircusParaList,
     unboxedOptInnerCircusParaList;
-
+    
 non terminal ZExprList
     genericActuals,
     actualParameters,
@@ -2374,6 +2377,14 @@ paragraphList ::=
            pl.addAll(upl);
            RESULT = pl;
         :}
+<add:circus>                
+        |
+        paragraphList:pl unboxedCircusParagraphList:ucpl
+        {:
+           pl.addAll(ucpl);
+           RESULT = pl;
+        :}
+</add:circus>                
         |
         paragraphList:pl narrParagraph:np
         {:
@@ -2399,11 +2410,8 @@ boxedParagraph ::=
         {: RESULT = gd; :}
 <add:circus>        
         |
-        boxedBasicProcessPara:bpp
-        {: RESULT = bpp; :}
-        |
-        refinementPara:rp
-        {: RESULT = rp; :}
+        boxedCircusPara:bcp
+        {: RESULT = bcp; :}        
 </add:circus>        
 <add:zpatt>
         |
@@ -2453,23 +2461,8 @@ unboxedParagraphList ::=
            parserState_.resetIsOpExpr();
 </add:oz>        
         :}
-<add:circus>  
-        |
-        CIRCUS:circ unboxedParagraphItemList:uil END:end
-        {: if (uil.size() == 1) {
-             addLocAnn(uil.get(0), getLocation(circ, end));
-           }
-           RESULT = uil;
-        :}
-        |        
-        CIRCUS:c error:e END
-        {:
-           parser.report_syntax_error();
-           RESULT = factory_.list();    
-        :}
-</add:circus>        
-        ;     
-        
+        ;
+                
 unboxedParagraphItemList ::=
         unboxedParagraphItemList:uil NL unboxedParagraphItem:ui
         {:
@@ -2515,17 +2508,6 @@ unboxedParagraphItem ::=
            }
            RESULT = ot;
         :}
-<add:circus>
-        |
-        channelPara:cp
-        {: RESULT = cp; :}
-        |
-        channelSetPara:csp
-        {: RESULT = csp; :}
-        |
-        processPara:pp
-        {: RESULT = pp; :}       
-</add:circus>
         ;
 
 basicTypeDefinition ::= 
@@ -2845,6 +2827,61 @@ varg ::=
 
 <add:circus>   
 
+/// Main entry as a Circus boxed paragraph ////////////////////////////////
+    
+/*
+boxedCircusPara ::=                        
+        CIRCUS:circ name:n optNL optFormalParameters:ofp basicProcess:bp END 
+        {:
+            RESULT = factory_.createProcessPara(n, ofp, bp);
+            addLocAnn(RESULT, cpeleft, cperight);
+        :}                
+        ;
+*/        
+/// Main entry as a Circus unboxed paragraph ////////////////////////////////        
+
+unboxedCircusParagraphList ::=
+        CIRCUS:circ unboxedCircusParagraphItemList:uil END:end
+        {: if (uil.size() == 1) {
+             addLocAnn(uil.get(0), getLocation(circ, end));
+           }
+           RESULT = uil;
+        :}
+        /*|        
+        CIRCUS:c error:e END
+        {:
+           parser.report_syntax_error(CircusParseMessage.MSG_CIRCUSENV_ERROR);
+           RESULT = factory_.list();    
+        :}*/
+        ;
+        
+unboxedCircusParagraphItemList ::=
+        unboxedCircusParagraphItemList:uil NL unboxedCircusParagraphItem:ui
+        {:
+           if (ui != null) uil.add(ui);
+           RESULT = uil;
+        :}       
+        |
+        unboxedCircusParagraphItem:ui
+        {:
+           RESULT = factory_.list(ui);
+        :}
+        ;    
+        
+unboxedParagraphItem ::=
+        channelPara:cp
+        {: RESULT = cp; :}
+        |
+        channelSetPara:csp
+        {: RESULT = csp; :}
+        |
+        processPara:pp
+        {: RESULT = pp; :}       
+        |
+        refinementPara:rp
+        {: RESULT = rp; :}
+        ;
+
 /// Circus declaration list (no opName) ////////////////////////////////
 
 /* Used where declWordList should be used, but no operator templates are allowed,
@@ -2881,7 +2918,7 @@ channelPara ::=
            addLocAnn(RESULT, getLocation(chanf, cfdl.get(cfdl.size()-1)));
         :} 
         |
-        CIRCCHAN:chan error:e optNL
+        CIRCCHAN:chan error:e 
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -2889,7 +2926,7 @@ channelPara ::=
               new Object[0], getLocation(eleft, eright));           
         :}
         |
-        CIRCCHANFROM:chanf error:e optNL
+        CIRCCHANFROM:chanf error:e 
         {: 
            RESULT = factory_.createChannelPara(factory_.createZDeclList());
            addLocAnn(RESULT, getLocation(eleft, eright));
@@ -2899,33 +2936,33 @@ channelPara ::=
         ;
         
 channelDeclList ::= 
-        channelDecl:cd
-        {:
-           assert cd != null;
-           RESULT = factory_.list(cd);           
-        :}        
-        |
         channelDeclList:cdl SEMICOLON channelDecl:cd
         {:
            assert cd != null &amp;&amp; cdl != null;
            cdl.add(cd);
            RESULT = cdl;
-        :}              
+        :}  
+        |
+        channelDecl:cd
+        {:
+           assert cd != null;
+           RESULT = factory_.list(cd);           
+        :}                         
         ;
         
 channelFromDeclList ::= 
-        channelFromDecl:cfd
-        {:
-           assert cfd != null;
-           RESULT = factory_.list(cfd);
-        :}
-        |
         channelFromDeclList:cfdl SEMICOLON channelFromDecl:cfd
         {:
            assert cfd != null &amp;&amp; cfdl != null ;
            cfdl.add(cfd);
            RESULT = cfdl;
-        :}        
+        :}
+        |
+        channelFromDecl:cfd
+        {:
+           assert cfd != null;
+           RESULT = factory_.list(cfd);
+        :}    
         ;        
         
 /* Removed declWordList and use circusDeclWordList instead as we do not need
@@ -3794,28 +3831,8 @@ unboxedCircProcState ::=
            RESULT = ap;
            addLocAnn(RESULT, getLocation(cs, e));                      
         :}
-        ;      
+        ;             
 
-/*        
-boxedBasicProcessPara ::=        
-        |
-        CIRCPROCESSENV:cpe name:n optNL optFormalParameters:ofp basicProcess:bp END 
-        {:
-            RESULT = factory_.createProcessPara(n, ofp, bp);
-            addLocAnn(RESULT, cpeleft, cperight);
-        :} 
-        ;      
-        |
-        channelPara:cp
-        {: RESULT = cp; :}
-        |
-        channelSetPara:csp
-        {: RESULT = csp; :}
-        |
-        processPara:pp
-        {: RESULT = pp; :}
-        ;
-*/        
 /// Special productions for process paragraphs ////////////////////////////////
        
 genericActuals ::=
