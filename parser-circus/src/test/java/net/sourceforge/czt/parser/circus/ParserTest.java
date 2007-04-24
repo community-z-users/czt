@@ -43,6 +43,7 @@ public class ParserTest extends AbstractParserTest
     TestSuite suite = new TestSuite();
     ParserTest parserTests = new ParserTest();
     parserTests.collectTests(suite, TESTS_SOURCEDIR);        
+    System.out.println("Number of (hoppefully) successful tests to run: " + suite.countTestCases());
     return suite;
   }
   

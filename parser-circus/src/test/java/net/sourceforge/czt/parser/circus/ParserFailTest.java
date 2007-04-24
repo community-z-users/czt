@@ -31,6 +31,7 @@ public class ParserFailTest extends AbstractParserTest
     TestSuite suite = new TestSuite();
     ParserFailTest parserTests = new ParserFailTest();
     parserTests.collectTests(suite, TESTS_SOURCEDIR);
+    System.out.println("Number of (hoppefully) erroneous tests to run: " + suite.countTestCases());
     return suite; 
   }
   
