@@ -367,7 +367,7 @@ public class Plugin
           connection);
     if (outFile.exists() &&
         outFile.lastModified() >= connection.getLastModified()) {      
-      getLog().info("File " + output + " is up-to-date.");
+      getLog().info("File is up-to-date: " + output);
       return;
     }
     if (! outFile.getParentFile().exists()) {
