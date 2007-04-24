@@ -575,9 +575,9 @@ NAME =   {NOT_LB}*
         {
           yybegin(ZED);
           assert ! addSpace_;
-          begin("circus");
-          braceStack_.push(BraceType.NAME);
-          return result(CircusString.CIRCUS);
+          begin("circus");          
+          // NOTE: Couldn't make CircusString.CIRCUS Work (Leo) :(
+          return result(ZString.ZED);
         }
 </add:circus>
 <add:oz>
