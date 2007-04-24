@@ -82,8 +82,12 @@
   </xs:annotation>
 
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
+  <xs:element name="SequentList" type="P:SequentList"/>
 
-  <xs:element name="Rule" type="P:Rule" substitutionGroup="Z:Para">
+  <xs:element name="RulePara" type="P:RulePara" abstract="true"
+    substitutionGroup="Z:Para"/>
+
+  <xs:element name="Rule" type="P:Rule" substitutionGroup="P:RulePara">
     <xs:annotation>
       <xs:documentation>
         This is a proof/transformation rule with one conclusion sequent
@@ -95,7 +99,8 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="Proviso2" type="P:Proviso2" substitutionGroup="Z:Para"/>
+  <xs:element name="Proviso2" type="P:Proviso2"
+    substitutionGroup="P:RulePara"/>
 
   <xs:element name="Jokers" type="P:Jokers" substitutionGroup="Z:Para">
     <xs:annotation>
@@ -292,19 +297,17 @@
     </xs:annotation>
   </xs:element>
 
-
-  <xs:complexType name="Rule">
+  <xs:complexType name="SequentList">
     <xs:complexContent>
-      <xs:extension base="Z:Para">
+      <xs:extension base="Z:Term">
         <xs:sequence>
-          <xs:element ref="P:Sequent"  minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element ref="P:Sequent"  minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Proviso2">
+  <xs:complexType name="RulePara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
@@ -312,6 +315,29 @@
         </xs:sequence>
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Rule">
+    <xs:complexContent>
+      <xs:extension base="P:RulePara">
+        <xs:sequence>
+          <xs:element ref="P:SequentList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Antecedents"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Proviso2">
+    <xs:complexContent>
+      <xs:extension base="P:RulePara"/>
     </xs:complexContent>
   </xs:complexType>
 
@@ -347,7 +373,13 @@
       <xs:extension base="P:Deduction">
         <xs:sequence>
           <xs:element ref="P:Binding" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="P:Sequent" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="P:SequentList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>

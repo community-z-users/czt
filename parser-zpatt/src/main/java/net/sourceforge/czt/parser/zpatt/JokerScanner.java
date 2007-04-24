@@ -68,7 +68,7 @@ public class JokerScanner
   {
     Symbol result = scanner_.next_token();
 
-    if (result.sym == Sym.RULE) {
+    if (result.sym == Sym.RULE || result.sym == Sym.PROVISO) {
       lookup_ = true;
     }
     else if (lookup_ == true && result.sym == Sym.END) {

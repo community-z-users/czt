@@ -170,14 +170,22 @@ public class ZpattPrintVisitor
     return null;
   }
 
+  public Object visitSequentList(SequentList sequentList)
+  {
+    for (Sequent sequent : sequentList) {
+      visit(sequent);
+      print(TokenName.NL);
+    }
+    return null;
+  }
+
   public Object visitRule(Rule rule)
   {
     printDecorword(ZPattString.RULE);
     printDecorword(rule.getName());
-    for (Sequent sequent : rule.getSequent()) {
-      visit(sequent);
-      print(TokenName.NL);
-    }
+    visit(rule.getAntecedents());
+    printDecorword(ZPattString.RULELINE);
+    visit(rule.getSequent());
     return null;
   }
 

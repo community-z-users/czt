@@ -1832,7 +1832,9 @@ non terminal Proviso2 provisoPara;
 non terminal List&lt;String&gt; jokerList;
 
 non terminal List&lt;Sequent&gt;
-    sequentLHS,
+    sequentLHS;
+
+non terminal SequentList
     antecedents;
 
 non terminal Sequent antecedent;
@@ -6309,16 +6311,14 @@ jokerPara ::=
 rulePara ::=
         RULE:r DECORWORD:dw antecedents:a RULELINE conclusion:c END:end
         {:
-           List&lt;Sequent&gt; sequents = factory_.list((Sequent) c);
-           sequents.addAll(a);
-           RESULT = factory_.createRule(sequents, dw.getName());
+           RESULT = factory_.createRule(c, dw.getName(), a);
            addLocAnn(RESULT, getLocation(r, end));
         :}
         |
         RULE:r DECORWORD:dw conclusion:c END:end
         {:
-           List&lt;Sequent&gt; sequents = factory_.list((Sequent) c);
-           RESULT = factory_.createRule(sequents, dw.getName());
+           SequentList antecedents = factory_.createSequentList();
+           RESULT = factory_.createRule(c, dw.getName(), antecedents);
            addLocAnn(RESULT, getLocation(r, end));
         :}
         ;
@@ -6343,15 +6343,16 @@ jokerList ::=
        ;
 
 antecedents ::=
+        sequent:s
+        {:
+           RESULT = factory_.createSequentList();
+           RESULT.add(s);
+        :}
+        |
         antecedents:a NL sequent:s
         {:
            a.add(s);
            RESULT = a;
-        :}
-        |
-        sequent:s
-        {:
-           RESULT = factory_.list(s);
         :}
         ;
 

@@ -9,6 +9,7 @@
     <BOXCHAR>
       <char id="JOKERCHAR" hex="2605" description="black star"/>
       <char id="RULECHAR" hex="25A0" description="black square"/>
+      <char id="RULELINE" hex="2501" description="box drawing heavy horizontal"/>
     </BOXCHAR>
   </SPECIAL>
 </OZCHAR>
