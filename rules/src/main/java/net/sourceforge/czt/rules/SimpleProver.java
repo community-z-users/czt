@@ -102,10 +102,10 @@ public class SimpleProver
    */
   public boolean prove(PredSequent predSequent)
   {
-    for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext(); ) {
-      Rule rule = iter.next();
+    for (Iterator<RulePara> iter = rules_.iterator(); iter.hasNext(); ) {
+      RulePara rulePara = iter.next();
       try {
-        boolean success = apply(rule, predSequent);
+        boolean success = apply(rulePara, predSequent);
         if (success) {
           // we use a random id number in log messages to make it
           // clearer which rule application each message is talking about.
@@ -113,22 +113,25 @@ public class SimpleProver
           Deduction ded = predSequent.getDeduction();
           if (ded instanceof RuleApplication) {
             RuleApplication ruleAppl = (RuleApplication) ded;
-            List<Sequent> ants = ruleAppl.getSequent();
-            String message = "Applied rule " + rule.getName() + "." + id
-              + ", children=" + ants.size();
+            String message = "Applied rule " + rulePara.getName() + "." + id
+              + ", children=" + ruleAppl.getSequentList().size();
             getLogger().fine(message);
-            int problem = prove(ruleAppl.getSequent());
+            int problem = prove(ruleAppl.getSequentList());
             if (problem < 0) {
-              message = "Finished rule " + rule.getName() + "." + id;
+              message = "Finished rule " + rulePara.getName() + "." + id;
               getLogger().fine(message);
               return true;
             }
             else {
               undo(predSequent);
-              message = "Undid rule " + rule.getName() + "." + id
+              message = "Undid rule " + rulePara.getName() + "." + id
                 + " because antecedent " + problem + " failed";
               getLogger().fine(message);
             }
+          }
+          else if (ded instanceof ProvisoApplication) {
+            if (prove((ProvisoApplication) ded)) return true;
+            undo(predSequent);
           }
           else {
             throw new CztException("Unsupported deduction " + ded);
@@ -137,7 +140,7 @@ public class SimpleProver
       }
       catch (IllegalArgumentException e) {
         String message =
-          "PredSequent cannot be applied to rule " + rule.getName() + ": "
+          "PredSequent cannot be applied to rule " + rulePara.getName() + ": "
           + e.getMessage();
         getLogger().warning(message);
       }
@@ -159,6 +162,11 @@ public class SimpleProver
       ProverUtils.reset(ruleAppl.getBinding());
       predSequent.setDeduction(null);
     }
+    else if (deduction instanceof ProvisoApplication) {
+      ProvisoApplication provisoAppl = (ProvisoApplication) deduction;
+      ProverUtils.reset(provisoAppl.getBinding());
+      predSequent.setDeduction(null);
+    }
     else {
       throw new CztException("Unsupported deduction " + deduction);
     }
@@ -173,9 +181,20 @@ public class SimpleProver
   {
     if (deduction instanceof RuleApplication) {
       RuleApplication ruleAppl = (RuleApplication) deduction;
-      return prove(ruleAppl.getSequent()) < 0;
+      return prove(ruleAppl.getSequentList()) < 0;
+    }
+    else if (deduction instanceof ProvisoApplication) {
+      return prove((ProvisoApplication) deduction);
     }
     throw new CztException("Unsupported deduction " + deduction);
+  }
+
+  public boolean prove(ProvisoApplication proviso)
+  {
+    ProvisoStatus status = proviso.getProvisoStatus();
+    if (status instanceof CheckPassed) return true;
+    // TODO: All provisos fail right now!
+    return false;
   }
 
   /**
@@ -184,11 +203,10 @@ public class SimpleProver
    * otherwise it returns the number of the sequent
    * that failed (from 0 upwards).
    */
-  public int prove(List<Sequent> sequents)
+  public int prove(SequentList sequents)
   {
     int result = -1;
-    for (Iterator<Sequent> i = sequents.iterator(); i.hasNext(); ) {
-      Sequent sequent = i.next();
+    for (Sequent sequent : sequents) {
       result++;
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return result;
@@ -205,6 +223,17 @@ public class SimpleProver
       }
     }
     return -1;
+  }
+
+  public static boolean apply(RulePara rulePara, PredSequent predSequent)
+  {
+    if (rulePara instanceof Rule) {
+      return apply((Rule) rulePara, predSequent);
+    }
+    else if (rulePara instanceof Proviso2) {
+      return apply((Proviso2) rulePara, predSequent);
+    }
+    return false;
   }
 
   /**
@@ -225,11 +254,7 @@ public class SimpleProver
     // Note: must use new ProverFactory here to generate fresh joker names.
     Factory factory = new Factory(new ProverFactory());
     rule = (Rule) copy(rule, factory);
-    List<Sequent> sequents = rule.getSequent();
-    if (sequents.size() <= 0) {
-      throw new IllegalArgumentException("Rule without Sequent");
-    }
-    Sequent sequent = sequents.remove(0);
+    Sequent sequent = rule.getSequent();
     if (sequent instanceof PredSequent) {
       Pred pred = ((PredSequent) sequent).getPred();
       Set<Binding> bindings =
@@ -238,8 +263,51 @@ public class SimpleProver
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
         RuleApplication ruleAppl =
-          factory.createRuleApplication(bindingList, sequents, rule.getName());
+          factory.createRuleApplication(bindingList,
+                                        rule.getAntecedents(),
+                                        rule.getName());
         predSequent.setDeduction(ruleAppl);
+        return true;
+      }
+    }
+    else {
+      String message = "Conclusion of a rule must be a PredSequent";
+      throw new IllegalArgumentException(message);
+    }
+    return false;
+  }
+
+  /**
+   * Tries to apply a given Proviso to a given PredSequent.
+   * The factory is used to create the Deduction object.
+   *
+   * @throws IllegalArgumentException if a rule has already been applied to
+   *                                  predSequent or the conclusion of the
+                                      rule is not a PredSequent.
+   */
+  public static boolean apply(Proviso2 proviso, PredSequent predSequent)
+  {
+    if (predSequent.getDeduction() != null) {
+      String message =
+        "This PredSequent already has a deduction associated to it.";
+      throw new IllegalArgumentException(message);
+    }
+    // Note: must use new ProverFactory here to generate fresh joker names.
+    Factory factory = new Factory(new ProverFactory());
+    proviso = (Proviso2) copy(proviso, factory);
+    Sequent sequent = proviso.getSequent();
+    if (sequent instanceof PredSequent) {
+      Pred pred = ((PredSequent) sequent).getPred();
+      Set<Binding> bindings =
+        UnificationUtils.unify(pred, predSequent.getPred());
+      if (bindings != null) {
+        List<Binding> bindingList = new ArrayList<Binding>();
+        bindingList.addAll(bindings);
+        ProvisoApplication provisoAppl =
+          factory.createProvisoApplication(bindingList,
+                                           null,
+                                           proviso.getName());
+        predSequent.setDeduction(provisoAppl);
         return true;
       }
     }
@@ -270,11 +338,7 @@ public class SimpleProver
       // Note: must use new ProverFactory here to generate fresh joker names.
       Factory factory = new Factory(new ProverFactory());
       rule = (Rule) copy(rule, factory);
-      List<Sequent> sequents = rule.getSequent();
-      if (sequents.size() <= 0) {
-        throw new IllegalArgumentException("Rule without Sequent");
-      }
-      Sequent sequent = sequents.remove(0);
+      Sequent sequent = rule.getSequent();
       if (sequent instanceof PredSequent) {
         Pred pred = ((PredSequent) sequent).getPred();
         Set<Binding> bindings =
@@ -284,7 +348,7 @@ public class SimpleProver
           bindingList.addAll(bindings);
           Deduction deduction =
             factory.createRuleApplication(bindingList,
-                                          sequents,
+                                          rule.getAntecedents(),
                                           rule.getName());
           predSequent.setDeduction(deduction);
           return true;

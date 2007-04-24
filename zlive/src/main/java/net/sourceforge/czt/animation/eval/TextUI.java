@@ -70,7 +70,7 @@ import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.zpatt.ast.PredSequent;
-import net.sourceforge.czt.zpatt.ast.Rule;
+import net.sourceforge.czt.zpatt.ast.RulePara;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 /** A text-based user interface for the ZLive animator.
@@ -272,9 +272,9 @@ public class TextUI {
               output_.println("Type errors: "+errs);
             RuleTable rules = (RuleTable)
               manager.get(new Key("ZLivePreprocess", RuleTable.class));
-            Rule rule = rules.get(parts[0]);
-            if (rule == null) {
-              output_.println("Cannot find rule " + parts[0]);
+            RulePara rulePara = rules.get(parts[0]);
+            if (rulePara == null) {
+              output_.println("Cannot find rule paragraph " + parts[0]);
             }
             else {
               Factory fact = new Factory(new ProverFactory());
@@ -284,7 +284,7 @@ public class TextUI {
               PredSequent predSequent =
                 ProverUtils.createPredSequent(pred, true);
               SimpleProver prover = new SimpleProver(rules, manager, section);
-              if (SimpleProver.apply2(rule, predSequent)) {
+              if (SimpleProver.apply(rulePara, predSequent)) {
                 boolean proveresult = prover.prove(predSequent.getDeduction());
                 if (proveresult)
                   output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 

@@ -25,36 +25,36 @@ import net.sourceforge.czt.zpatt.ast.*;
 
 public class RuleTable
 {
-  private Map<String, Rule> map_ = new HashMap();
-  private List<Rule> rules_ = new ArrayList();
+  private Map<String, RulePara> map_ = new HashMap();
+  private List<RulePara> rules_ = new ArrayList();
 
-  public void addRules(RuleTable table)
+  public void addRuleParas(RuleTable table)
     throws RuleTableException
   {
-    addRules(table.rules_);
+    addRuleParas(table.rules_);
   }
 
-  public void addRules(List<Rule> rules)
+  public void addRuleParas(List<RulePara> rules)
     throws RuleTableException
   {
-    for (Rule rule : rules) {
-      addRule(rule);
+    for (RulePara rule : rules) {
+      addRulePara(rule);
     }
   }
 
-  public void addRule(Rule rule)
+  public void addRulePara(RulePara rule)
     throws RuleTableException
   {
     final String rulename = rule.getName();
     rules_.add(rule);
     if (map_.get(rulename) != null) {
-      final String message = "Rule " + rulename + " defined twice";
+      final String message = "RulePara " + rulename + " defined twice";
       throw new RuleTableException(message);
     }
     map_.put(rulename, rule);
   }
 
-  public Iterator<Rule> iterator()
+  public Iterator<RulePara> iterator()
   {
     return rules_.iterator();
   }
@@ -62,18 +62,18 @@ public class RuleTable
   /**
    * Convenience method for getRule.
    */
-  public Rule get(String rulename)
+  public RulePara get(String name)
   {
-    return getRule(rulename);
+    return getRulePara(name);
   }
 
-  public Rule getRule(String name)
+  public RulePara getRulePara(String name)
   {
     return map_.get(name);
   }
 
   @Deprecated
-  public Map<String,Rule> getRules()
+  public Map<String,RulePara> getRuleParas()
   {
     return map_;
   }

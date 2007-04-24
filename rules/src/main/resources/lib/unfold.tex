@@ -26,7 +26,7 @@ We start by declaring the jokers used in all the rules in this section.
 
 \begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9 \end{zedjoker}
 \begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6, P7, P8, P9 \end{zedjoker}
-\begin{zedjoker}{Expr} E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
+\begin{zedjoker}{Expr} T, E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 
 To clearly distinguish our rules for unfolding declaration lists and
@@ -84,6 +84,11 @@ be true by the type system) into the predicate.  This is an example of
 how we can influence the behaviour of the rewrite tactic by placing more
 specific rules before more general ones.  Of course, in the interactive
 prover, the user could choose to apply either rule when $E$ is a base type.
+
+%%Zpreword \typeOf typeOf
+\begin{zedproviso}{TypecheckProviso}
+  T = \typeOf E
+\end{zedproviso}
 
 \begin{zedrule}{VarDecl1}
    \proviso E : \power E \\

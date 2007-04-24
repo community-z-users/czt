@@ -132,7 +132,7 @@ public final class ProverUtils
     if (ded instanceof RuleApplication) {
       RuleApplication ruleAppl = (RuleApplication) ded;
       list.addAll(ruleAppl.getBinding());
-      for (Sequent s : ruleAppl.getSequent()) {
+      for (Sequent s : ruleAppl.getSequentList()) {
         if (s instanceof PredSequent) {
           collectBindings((PredSequent) s, list);
         }

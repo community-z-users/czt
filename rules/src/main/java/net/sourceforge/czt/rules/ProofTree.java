@@ -71,19 +71,19 @@ public class ProofTree
   /**
    * Doesn't change the children.
    */
-  private boolean apply(Rule rule, ProofNode node)
+  private boolean apply(RulePara rulePara, ProofNode node)
   {
     PredSequent sequent = node.getSequent();
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
-    Rule copiedRule = (Rule) rule.accept(visitor);
-    return SimpleProver.apply(copiedRule, sequent);
+    RulePara copiedRulePara = (RulePara) rulePara.accept(visitor);
+    return SimpleProver.apply(copiedRulePara, sequent);
   }
 
   private void apply(String name, ProofNode node)
   {
     PredSequent sequent = node.getSequent();
-    if (apply(rules_.getRule(name), node)) {
+    if (apply(rules_.getRulePara(name), node)) {
       substituteNode(node, new ProofNode(sequent));
     }
   }
@@ -100,7 +100,7 @@ public class ProofTree
     PredSequent sequent = node.getSequent();
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
-    Rule copiedRule = (Rule) rules_.getRule(name).accept(visitor);
+    Rule copiedRule = (Rule) rules_.getRulePara(name).accept(visitor);
     try {
       SimpleProver.apply2(copiedRule, sequent);
     }
@@ -251,22 +251,22 @@ public class ProofTree
         popup.add(apply);
         JMenu whyNot = new JMenu("Why not");
         popup.add(whyNot);
-        for (Iterator<Rule> iter = rules_.iterator(); iter.hasNext();) {
-          final Rule rule = iter.next();
-          if (apply(rule, node)) {
-            menuItem = new JMenuItem("Rule " + rule.getName());
+        for (Iterator<RulePara> iter = rules_.iterator(); iter.hasNext();) {
+          final RulePara rulePara = iter.next();
+          if (apply(rulePara, node)) {
+            menuItem = new JMenuItem("Rule " + rulePara.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                  apply(rule.getName(), node);
+                  apply(rulePara.getName(), node);
                 }
               });
             apply.add(menuItem);
           }
           else {
-            menuItem = new JMenuItem("Rule " + rule.getName());
+            menuItem = new JMenuItem("Rule " + rulePara.getName());
             menuItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                  whyNot(rule.getName(), node);
+                  whyNot(rulePara.getName(), node);
                 }
               });
             whyNot.add(menuItem);
@@ -294,7 +294,7 @@ public class ProofTree
       super(sequent);
       Deduction ded = sequent.getDeduction();
       if (ded instanceof RuleApplication) {
-        for (Sequent s : ((RuleApplication) ded).getSequent()) {
+        for (Sequent s : ((RuleApplication) ded).getSequentList()) {
           insert(createNode(s), getChildCount());
         }
       }

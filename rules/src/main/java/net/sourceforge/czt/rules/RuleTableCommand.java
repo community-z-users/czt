@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class RuleTableCommand
                SpecVisitor,
                ZParaListVisitor,
                ZSectVisitor,
-               RuleVisitor
+               RuleParaVisitor
   {
     private RuleTable rules_ = new RuleTable();
     private SectionManager manager_;
@@ -81,7 +81,7 @@ public class RuleTableCommand
         try {
           RuleTable parentRuleTable = (RuleTable)
             manager_.get(new Key(p.getWord(), RuleTable.class));
-          rules_.addRules(parentRuleTable);
+          rules_.addRuleParas(parentRuleTable);
         }
         catch (CommandException e) {
           System.err.println("Cannot get RuleTable for parent " + p.getWord());
@@ -102,10 +102,10 @@ public class RuleTableCommand
       return null;
     }
 
-    public Object visitRule(Rule rule)
+    public Object visitRulePara(RulePara rulePara)
     {
       try {
-        rules_.addRule(rule);
+        rules_.addRulePara(rulePara);
       }
       catch (RuleTable.RuleTableException e) {
         throw new VisitorException(e);

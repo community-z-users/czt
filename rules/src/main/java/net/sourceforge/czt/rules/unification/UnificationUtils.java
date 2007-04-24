@@ -128,7 +128,7 @@ public final class UnificationUtils
     Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
     Rule rule = firstRule(spec);
     assert rule != null;
-    Sequent seq = rule.getSequent().get(0);
+    Sequent seq = rule.getSequent();
     return ((PredSequent)seq).getPred();
   }
 

@@ -47,7 +47,7 @@ public class OpenSubgoalCollector
 
   public Object visitRuleApplication(RuleApplication ruleAppl)
   {
-    for (Sequent sequent : ruleAppl.getSequent()) {
+    for (Sequent sequent : ruleAppl.getSequentList()) {
       sequent.accept(this);
     }
     return null;
