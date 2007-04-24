@@ -135,6 +135,7 @@ public abstract class AbstractParserTest extends TestCase
     String fullDirectoryName = cztHome + directoryName;
     System.out.println("Full directory name = " + fullDirectoryName);
     File directory = new File(fullDirectoryName);
+    File[] files = null;
     if (! directory.isDirectory())
     {
       URL url = getClass().getResource("/");
@@ -142,16 +143,22 @@ public abstract class AbstractParserTest extends TestCase
         System.out.println("Looking for tests under: " + url.getFile() + fullDirectoryName);
         directory = new File(url.getFile() + fullDirectoryName);        
         if (! directory.isDirectory()) {
-          fail("Given name " + directory.getAbsolutePath() + " is not a directory in " + cztHome);
-        }        
+          System.out.println("No tests to perform on " + directory.getAbsolutePath());            
+        } else {
+            files = directory.listFiles();
+        }       
       } else {
         fail("Could not retrieve a valid testing set under " + directory.getAbsolutePath());
       }
+    } else {
+        files = directory.listFiles();
     }
-    for (File file : directory.listFiles())
-    {
-      collectTest(suite, file);
-    }    
+    if (files != null) {
+        for (File file : files)
+        {
+          collectTest(suite, file);
+        }    
+    }
   }
 }
 
