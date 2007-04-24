@@ -23,6 +23,8 @@ public enum CircusParseMessage {
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}."),  
  
+  MSG_CIRCUSENV_ERROR("Error occurred within circus environment at symbol {0}."),
+  
   MSG_CHANDECL_ERROR("An error occurred inside a channel declaration paragraph. See other messages, or review the \"\\circchannel\\\" keyword."),
   MSG_CHANFROMDECL_ERROR("An error occurred inside a channelfrom declaration paragraph. See other messages, or review the \"\\circchannelfrom\\\" keyword."),
     
