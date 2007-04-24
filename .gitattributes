@@ -416,4 +416,3 @@ zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_circus_st
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_reactive_buffer.tex -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/bbook.utf16 svneol=native#unset
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/birthdaybook.utf16 -text
-zml/src/main/resources/net/sourceforge/czt/zml/xsd/CircusPattern.xsd -text
