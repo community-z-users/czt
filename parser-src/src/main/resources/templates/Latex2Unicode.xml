@@ -587,9 +587,8 @@ NAME =   {NOT_LB}*
         {
           yybegin(ZED);
           assert ! addSpace_;
-          begin("circusaction");          
-          // Tried reusing CIRCUS for different environment.
-          return result(CircusString.CIRCUS);
+          begin("circusaction");                    
+          return result(CircusString.CIRCUSACTION);
         }        
 </add:circus>
 <add:oz>

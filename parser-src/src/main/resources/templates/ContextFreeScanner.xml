@@ -252,7 +252,7 @@ RINTER = "\u301B"   /* left interleave bracket */
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:zpatt> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:zpatt>    
-    <add:circus> | {CIRCCHAR} </add:circus>
+    <add:circus> | {CIRCUSACTIONCHAR} </add:circus>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
@@ -265,9 +265,7 @@ PROVISO = "\u25B8"
 RULELINE="\u2501"
 </add:zpatt>
 <add:circus>
-// Use CIRCCHAR, rather than CIRCUSCHAR, because circuschar.xml in CoreJava
-// already has a CIRCUSCHAR tag. (Would this be a conflict?)
-CIRCCHAR = "\u250F"  /* box drawings down light and right heavy */
+CIRCUSACTIONCHAR = "\u2014"  /* EM dash */
 </add:circus>
 
 /* Other SPECIAL characters (6.4.4.5) */
@@ -307,7 +305,7 @@ JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
 </add:zpatt>
 <add:circus>
-CIRCUS = {CIRCCHAR}
+CIRCUSACTION = {CIRCUSACTIONCHAR}
 </add:circus>
 
 %state Z
@@ -330,7 +328,7 @@ CIRCUS = {CIRCCHAR}
   </add:zpatt>
   
   <add:circus>
-  {CIRCUS}      {  beginZed(); return symbol(Sym.CIRCUS); }   
+  {CIRCUSACTION}      {  beginZed(); return symbol(Sym.CIRCUSACTION); }   
   </add:circus>
   
   <add:oz>
