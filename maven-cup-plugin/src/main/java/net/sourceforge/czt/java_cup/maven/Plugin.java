@@ -21,6 +21,7 @@ package net.sourceforge.czt.java_cup.maven;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,21 @@ public class Plugin
   private String outputDirectory;
 
   /**
+   * @parameter 
+   */
+  private boolean dumpGrammar;
+  
+  /**
+   * @parameter 
+   */
+  private boolean dumpStates;
+
+  /**
+   * @parameter 
+   */
+  private boolean dumpTables;
+  
+  /**
    * @parameter expression="${project}"
    * @required
    */
@@ -65,9 +81,9 @@ public class Plugin
       project.addCompileSourceRoot(outputDirectory);
     }
     List<File> grammars = getGrammarFiles();
-    getLog().info("Processing " + grammars.size() + " cup files");
+    getLog().info("CUP: Processing " + grammars.size() + " cup files");
     for (File file : grammars) {
-      getLog().info("Processing " + file.getPath());
+      getLog().info("CUP: Processing " + file.getPath());
       String className = file.getName().replaceAll(".cup", "");
       try {
         String packageName = getPackage(file);
@@ -75,20 +91,25 @@ public class Plugin
           packageName.replace(".", fileSep);
         File destDir = new File(destdir);
         File destFile = new File(destDir, className + ".java");
-        getLog().info("Checking file dates:\n\t" + new Date(destFile.lastModified()) + 
+        getLog().debug("CUP: Checking file dates:\n\t" + new Date(destFile.lastModified()) + 
           "= " + destFile + "\n\t" + new Date(file.lastModified()) + "= " +
           file);
         if (destFile.exists() &&
             destFile.lastModified() >= file.lastModified()) {
-          getLog().info("Parser file is up-to-date.");
+          getLog().debug("CUP: Parser file is up-to-date.");
         }
         else {
-          if (! destDir.exists()) destDir.mkdirs();
-          Main.main(new String[] { "-destdir", destdir,
+          if (! destDir.exists()){ destDir.mkdirs();}
+          List<String> args = new ArrayList<String>();
+          if (dumpGrammar) {args.add("-dump_grammar");}
+          if (dumpStates) {args.add("-dump_states");}
+          if (dumpTables) {args.add("-dump_tables");}
+          args.addAll(Arrays.asList("-destdir", destdir,
                                    "-package", packageName,
                                    "-parser", className,
                                    "-symbols", "Sym",
-                                   file.getPath() });
+                                   file.getPath()));
+          Main.main(args.toArray(new String[0]));
         }
       }
       catch (Exception e) {
