@@ -87,13 +87,14 @@ public class ParserFailTest extends AbstractParserTest
       }
       catch (RuntimeException e)
       {
-        e.printStackTrace();
+        printCauses(e);
         fail(lineSeparator_ + "Unexpected runtime exception" +
             lineSeparator_ + "\tFile: " + file_ +
             lineSeparator_ + "\tException: " + e.toString());
       }
       catch (Throwable e)
       {
+        printCauses(e);  
         fail(lineSeparator_ + "Unexpected exception" +
             lineSeparator_ + "\tFile: " + file_ +
             lineSeparator_ + "\tException: " + e.toString());

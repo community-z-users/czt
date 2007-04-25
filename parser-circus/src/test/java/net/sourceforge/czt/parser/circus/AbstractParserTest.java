@@ -160,5 +160,10 @@ public abstract class AbstractParserTest extends TestCase
         }    
     }
   }
+  
+  protected void printCauses(Throwable e) {
+      e.printStackTrace();
+      if (e.getCause() != null) printCauses(e.getCause());
+  }
 }
 

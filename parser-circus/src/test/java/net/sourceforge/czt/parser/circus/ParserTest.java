@@ -66,7 +66,7 @@ public class ParserTest extends AbstractParserTest
     }
     
     public void runTest()
-    {
+    {      
       try
       {
         Term term = parse(new FileSource(file_));
@@ -77,25 +77,25 @@ public class ParserTest extends AbstractParserTest
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)
       {
-        f.printStackTrace();
+        printCauses(f);
         fail(lineSeparator_ + "Unexpected parser exception" +
             lineSeparator_ + "\tFile: " + file_ +
             lineSeparator_ + "\tException: " + f.toString());
-        f.printErrorList();
+        f.printErrorList();        
       }
       catch (RuntimeException e)
       {
-        e.printStackTrace();
+        printCauses(e);
         fail(lineSeparator_ + "Unexpected runtime exception" +
             lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + e.toString());
+            lineSeparator_ + "\tException: " + e.toString());                
       }
       catch (Throwable e)
-      {
-        e.printStackTrace();
+      {        
+        printCauses(e);
         fail(lineSeparator_ + "Unexpected exception" +
             lineSeparator_ + "\tFile: " + file_ +
-            lineSeparator_ + "\tException: " + e.toString());
+            lineSeparator_ + "\tException: " + e.toString());        
       }
     }
   }
