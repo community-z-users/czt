@@ -130,7 +130,12 @@
           <execution>
             <phase>process-sources</phase>
             <configuration>
-              <sourceDirectory>${project.build.directory}/generated-sources/parser-src-cup</sourceDirectory>
+              <sourceDirectory>${project.build.directory}/generated-sources/parser-src-cup</sourceDirectory>              
+              <!--
+              <dumpStates>true</dumpStates>
+              <dumpGrammar>true</dumpGrammar>              
+              <dumpTables>false</dumpTables>
+              -->
             </configuration>
             <goals>
               <goal>generate</goal>
