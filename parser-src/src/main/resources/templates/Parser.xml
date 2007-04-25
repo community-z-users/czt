@@ -1265,6 +1265,60 @@ action code
       }      
       return result;
     }
+    
+    /**
+     * Checks whether there is a basic process in current scope, adding a
+     * parsing error with the given extra msg and location information in 
+     * case there is no process into scope.
+     *     
+    protected boolean isBasicProcessScopeValidFor(String msg, LocInfo l) {
+        boolean result = parserState_.hasCurrentBasicProcess();
+        System.err.println("isBasicProcessScopeValidFor " + msg + ": " + result + " @ " + l.toString());
+        if (!result) {
+            parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE,
+               new Object[] { msg }, l);
+        }
+        return result;
+    }*/
+    
+    /** Create an empty basic process and sets the parser state valure for it */
+    protected BasicProcess createMockBasicProcessFor(String from) {
+       System.out.println(from);// TODO: Change this to a Logger entry!
+
+       // NEVER CREATE DIRECTLY (i.e. null lists), AS PARSERSTATE WILL UPDATE
+       // THE CURRENT PROCESS' OnTheFlyPara!
+       // statePara, localParaList, onTheFlyParaList, mainAction
+       BasicProcess result = factory_.createBasicProcess(null, factory_.createZParaList(), 
+            factory_.createZParaList(), null);
+
+       // updates the state
+       parserState_.setCurrentBasicProcess(result);
+       return result;
+    }
+
+    protected void updateBasicProcessInformation(BasicProcess bp) {
+       assert parserState_.hasCurrentBasicProcess() &amp;&amp; 
+            parserState_.getCurrentBasicProcess().equals(bp) : "Invalid current basic process";
+       assert parserState_.hasCurrentMainAction() : "No main action available for current basic process";
+
+       ZParaList localPara =
+          factory_.createZParaList(parserState_.getLocallyDeclPara());
+       ZParaList onTheFlyPara =
+          factory_.createZParaList(parserState_.getImplicitlyDeclActPara());
+
+      // Retrieve all state annotated elements (and the first one to be the state).
+      // Duplicated state annotations will generate an error report at ProcessPara.
+      ZParaList stateParaList = getCircusStateAnnPara(localPara, onTheFlyPara);
+      Para statePara = null;
+      if (!stateParaList.isEmpty()) {
+         statePara = stateParaList.get(0);
+      }
+
+       bp.setStatePara(statePara);
+       bp.setLocalPara(localPara);
+       bp.setOnTheFlyPara(onTheFlyPara);
+       bp.setMainAction(parserState_.getCurrentMainAction());
+    }
 </add:circus>
 :}
 
@@ -1544,7 +1598,7 @@ terminal LocInfo
 </add:zpatt>
 <add:circus>
         // Environment chars
-        CIRCUS, 
+        CIRCUSACTION, 
         
         /**
          * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
@@ -1869,17 +1923,16 @@ non terminal Para
     channelPara,
     channelSetPara,
     processPara,
-    refinementPara,
-    boxedCircusPara,
+    refinementPara,    
     actionPara,
     namesetPara, 
-    unboxedCircProcState,
+    circusProcessState,
     singleCircusParagraphItem,    
     circusInnerProcPara;
 
 non terminal List&lt;Para&gt;
-    singleCircusParagraphList,    
-    optCircusInnerProcParaList;
+    circusParagraphList,    
+    circusInnerProcParaList;
     
 non terminal ZExprList
     genericActuals,
@@ -1935,7 +1988,7 @@ non terminal CircusProcess
     process;
 
 non terminal BasicProcess
-    singleCircusBasicProcess;
+    circusBasicProcess;
     
 non terminal RenameList
     nameSubstitution;
@@ -1971,6 +2024,7 @@ non terminal CircusAction
     circusAction,
     actionCall,
     parenthesisedAction,
+    circusBasicProcessMainAction,
     cspAction;
     
 /// Circus guard //////////////////////////////////////////////////////////        
@@ -2375,7 +2429,7 @@ paragraphList ::=
         :}
 <add:circus>                
         |
-        paragraphList:pl singleCircusParagraphList:ucpl
+        paragraphList:pl circusParagraphList:ucpl
         {:
            pl.addAll(ucpl);
            RESULT = pl;
@@ -2404,11 +2458,6 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd 
         {: RESULT = gd; :}
-<add:circus>        
-        |
-        boxedCircusPara:bcp
-        {: RESULT = bcp; :}        
-</add:circus>        
 <add:zpatt>
         |
         jokerPara:jp
@@ -2830,45 +2879,29 @@ varg ::=
 
 <add:circus>   
 
-/// Main entry as a Circus boxed paragraph ////////////////////////////////
-    
-/*
-boxedCircusPara ::=                        
-        CIRCUS:circ name:n optNL optFormalParameters:ofp basicProcess:bp END 
-        {:
-            RESULT = factory_.createProcessPara(n, ofp, bp);
-            addLocAnn(RESULT, cpeleft, cperight);
-        :}                
-        ;
-*/        
-/// Main entry as a Circus unboxed paragraph ////////////////////////////////        
+// Main entry as a Circus unboxed paragraph ////////////////////////////////        
 
 /**
  * These paragraphs encompass all Circus paragraphs across multiple 
  * Circus environments, except BasicProcess. 
  */
-singleCircusParagraphList ::=                             
+circusParagraphList ::=                             
         /* (REMOVED: see below for an explanation
+        // Haven't used CIRCUS here because of problems with Latex2Unicode
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
         {: RESULT = ppl; :}
-        |*/        
-        CIRCUS:circ optCircusInnerProcParaList:ppl END:end        
-        {:
+        |*/                
+        CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
+        {:           
            if (ppl.size() == 1) {
              addLocAnn(ppl.get(0), getLocation(circ, end));
            }
            RESULT = ppl;
         :}
-        /*|
-        CIRCUS:circ basicProcessMainAction:bpma END:end
+        |
+        CIRCUSACTION:circ circusBasicProcessMainAction:cbpma END:end
         {:
-            RESULT = null;
-        :}*/
-        |        
-        CIRCUS:c error:e END
-        {:
-           parser.report_syntax_error(CircusParseMessage.MSG_CIRCUSENV_ERROR);
-           RESULT = factory_.list();    
+            RESULT = factory_.list();
         :}
         ;
        
@@ -2914,8 +2947,8 @@ singleCircusParagraphItem ::=
  * For now, this excludes Z boxed paragraphs (AXDEF, GAXDEF, SCH, and GSCH). 
  * That is because we need to fiddle with the Latex2Unicode scanner for that effect.
  */
-optCircusInnerProcParaList ::=
-        optCircusInnerProcParaList:ipl NL circusInnerProcPara:ip 
+circusInnerProcParaList ::=
+        circusInnerProcParaList:ipl NL circusInnerProcPara:ip 
         {:
            if (ip != null) ipl.add(ip);
            RESULT = ipl;
@@ -2923,30 +2956,49 @@ optCircusInnerProcParaList ::=
         |
         circusInnerProcPara:ip 
         {: RESULT = factory_.list(ip); :}
-        | 
+        /*| 
         // empty
-        {: RESULT = factory_.list(); :}
+        {: RESULT = factory_.list(); :}*/
         ;
-        
-circusInnerProcPara ::=               
+                
+/**
+ * These are all the productions that can occur within a BasicProcess scope.
+ * 
+ */
+circusInnerProcPara ::=  
+        /* Allow these repeated unboxedParagrahItem productions here so 
+         * that singled circus-environment basic-processes can be defined.
+         * Note that there is no room for boxedParagraph (which is fine).
+         */
         basicTypeDefinition:gtd
-        {: RESULT = gtd; :}
+        {:             
+            //isBasicProcessScopeValidFor("a local given set", getLocation(gtd)); 
+            RESULT = gtd; 
+            parserState_.addLocallyDeclPara(RESULT);
+        :}
         |
         freeTypeList:ftl
-        {:
+        {:           
+           //isBasicProcessScopeValidFor("a local free type", getLocation(ftl));  
            RESULT = factory_.createFreePara(ftl);
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
+           parserState_.addLocallyDeclPara(RESULT);
         :}
         |
         abbreviationDefinition:ad
-        {: RESULT = ad; :}
+        {:            
+           //isBasicProcessScopeValidFor("a local abbreviation", getLocation(ad));  
+           RESULT = ad; 
+           parserState_.addLocallyDeclPara(RESULT);
+        :}
         |    
         optFormalParameters:ofp CONJECTURE predicate:p
-        {:
+        {:           
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(ofpleft, ofpright));
+           parserState_.addLocallyDeclPara(RESULT);
         :} 
-        |
+        /*| DO NOT ALLOW LOCAL OPERATOR TEMPLATES? UNRESOLVED ISSUE IN Circus GRAMMAR
         // TODO:DESIGN: come back here and include appropriate code for ProcessTable
         operatorTemplate:ot
         {:           
@@ -2960,18 +3012,28 @@ circusInnerProcPara ::=
            //                      getLocation(ot));
            //}           
            RESULT = ot;
+           parserState_.addLocallyDeclPara(RESULT);
            parser.report_error(CircusParseMessage.MSG_NOT_IMPLEMENTED, 
               new Object[] { "Process operator template" }, getLocation(ot));
-        :}
+        :}*/
         |
-        unboxedCircProcState:cps
-        {: RESULT = cps; :}                 
+        circusProcessState:cps
+        {: 
+           RESULT = cps; 
+           parserState_.addLocallyDeclPara(RESULT);
+        :}                 
         |        
         namesetPara:np
-        {: RESULT = np; :}
+        {: 
+           RESULT = np; 
+           parserState_.addLocallyDeclPara(RESULT);
+        :}
         |        
         actionPara:ap
-        {: RESULT = ap; :}            
+        {: 
+           RESULT = ap; 
+           parserState_.addLocallyDeclPara(RESULT);
+        :}
         ;        
         
 /// Circus declaration list (no opName) ////////////////////////////////
@@ -3486,10 +3548,8 @@ indexedProcess ::=
         ;
         
 process ::=       
-        singleCircusBasicProcess:bp
-        {:
-            RESULT = bp;
-        :}
+        circusBasicProcess:bp
+        {: RESULT = bp; :}
         |
         /* Processes operator productions in precendence order */
         process:p CIRCHIDING:h channelSet:cs
@@ -3761,64 +3821,77 @@ circusQualifier ::=
         {: RESULT = ParamQualifier.ValueResult; :}
         ;        
 
-/// Z paragraphs withing Process paragraphs ////////////////////////////////
+/// Circus BasicProcess paragraphs ////////////////////////////////
 
-singleCircusBasicProcess ::=                                
-        CIRCBEGIN:cb optCircusInnerProcParaList:ipl SPOT:s circusAction:ca CIRCEND:ce
-        {:  
-           assert ca != null : "Invalid (null) main action."; //this should never happen.
+circusBasicProcess ::=                                
+        /* Represents basic circus processes across multiple circus environments.
+         * That means, we REQUIRE that "\circprocess P \circdef \circbegin"
+         * After this lonely begin, the parser will match the enclosing \end{circus}
+         *
+         * Then, after that, the user MUST switch to \begin{circusaction} \end{circusaction}
+         * environment in order to allow next paragraphs to be add.
+         */
+        CIRCBEGIN:begin 
+        {:
+           RESULT = createMockBasicProcessFor("MULTIPLE ENVIRONMENT BASICPROCESS");
+           addLocAnn(RESULT, getLocation(beginleft, beginright));
+        :}
+        |
+        /* Represents basic processes without paragraphs, but just the main action 
+         * declared within a single \begin{circus} \end{circus}.
+         */
+        CIRCBEGIN:cb circusBasicProcessMainAction:ca
+        {:           
+           RESULT = createMockBasicProcessFor("JUST MAINACTION BASICPROCESS - SINGLE ENVIRONMENT");
+           addLocAnn(RESULT, getLocation(cb, ca));
            
-           RESULT = factory_.createBasicProcess();
-           parserState_.setCurrentBasicProcess(RESULT);
+           //if (isBasicProcessScopeValidFor("a main action", getLocation(cb, ca))) {                
+                updateBasicProcessInformation(RESULT);
+           //}           
+           
+           // Clears: the implicitly declared actions and their name seed;
+           // the current main action, the current basic process, and the
+           // list of locally declared paragraphs.
+           parserState_.clearCurrentBasicProcessInformation();
+           
+        :}
+        |
+        CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca
+        {: 
+           RESULT = createMockBasicProcessFor("SINGLE ENVIRONMENT BASICPROCESS");
+           addLocAnn(RESULT, getLocation(cb, ca));           
+           updateBasicProcessInformation(RESULT);  
+           parserState_.clearCurrentBasicProcessInformation();
+                      
+           // Ensure the list collected in "ipl" is the same the one into RESULT
+           assert RESULT.getLocalPara().equals(factory_.createZParaList(ipl)) : 
+                  ("Could not properly copy the locally defined paragraphs " +
+                   "while creating basic process. ");
+        :}        
+        ;        
+
+circusBasicProcessMainAction ::=
+        SPOT:s circusAction:ca CIRCEND:ce
+        {:            
+           // sets the main action into the parserState_
+           parserState_.setCurrentMainAction(ca);
+           RESULT = ca;
+           addLocAnn(RESULT, getLocation(ca, ce));
            
            // Create an on-the-fly paragraph for the main action named "$$mainAction".           
            ActionPara mainActPara = factory_.createActionPara(
               factory_.createZName(DEFAULT_MAIN_ACTION_NAME), ca);
-           parserState_.addImplicitlyDeclActionPara(mainActPara);
-           addLocAnn(mainActPara, getLocation(s, getLocation(ca)));           
-           
-           // Collects list of declared paragraphs for the basic process 
-           ZParaList localPara = factory_.createZParaList(ipl);
-           ZParaList onTheFlyPara =
-             factory_.createZParaList(parserState_.getImplicitlyDeclActPara());
-           
-           // Retrieve all state annotated elements (and the first one to be the state).
-           // Duplicated state annotations will generate an error report at ProcessPara.
-           ZParaList stateParaList = getCircusStateAnnPara(localPara, onTheFlyPara);
-           Para statePara = null;
-           if (!stateParaList.isEmpty()) {
-              statePara = stateParaList.get(0);
-           }           
-           
-           // Creates the resulting basic process
-           // We could just add the code above directly, but this makes it easier
-           // to change/maintain the code here.
-           // RESULT = factory_.createBasicProcess(statePara, localPara, onTheFlyPara, ca);
-           RESULT.setStatePara(statePara);
-           RESULT.setLocalPara(localPara);
-           RESULT.setOnTheFlyPara(onTheFlyPara);
-           RESULT.setMainAction(ca);           
-           addLocAnn(RESULT, getLocation(cb, ce));
-           
-           // Clears the bacis process on-the-fly cache now the the onTheFlyPara
-           // elements have been copied by the constructor (but it doesn't hurt 
-           // to assert it is acttually correct).
-           assert ((BasicProcess)RESULT).getOnTheFlyPara().equals(onTheFlyPara) : 
-                  ("Could not properly copy the on-the-fly para while creating basic process. " +
-                  "Cache is to be reset. TODO:Remove after parser stabilises.");
-           parserState_.clearBasicProcessOnTheFlyCache();           
-           parserState_.clearCurrentBasicProcess();
+           addLocAnn(mainActPara, getLocation(ca));           
+           parserState_.addImplicitlyDeclActionPara(mainActPara);           
         :}
-        ;        
+        ;
 
-/// Boxed basic process paragraphs ////////////////////////////////
-
-/* Unboxed Circus basic processes state can only be an expression or
+/* Circus basic processes state can only be an expression or
  * an abbreviation (without generic parameters). Thus, we have copied
  * the appropriate production from abbreviationDefinition terminal. 
  * For a schema we need a boxed basic process paragraph.
  */
-unboxedCircProcState ::= 
+circusProcessState ::= 
         /* Unboxed schema definition can only be horizontal */
         CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
         {:
