@@ -548,7 +548,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
 <add:circus>
-                   CIRCUS, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+                   CIRCUSACTION, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
                    LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
                    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
                    LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, CIRCREFINES,
@@ -733,7 +733,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 </add:zpatt>
 <add:circus>
              |
-             CIRCUS tokenSeq:s END
+             CIRCUSACTION tokenSeq:s END
              {:
                 String result = begin("circusaction");
                 if (s != null) result += s.getName();
