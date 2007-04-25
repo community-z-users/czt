@@ -26,9 +26,12 @@ import java.util.List;
 
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.CircusAction;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.util.ZUtils;
 
 public class ParserState
   extends net.sourceforge.czt.parser.z.ParserState
@@ -47,7 +50,7 @@ public class ParserState
    * Current basic process being parsed. We can only have one at a time.
    * This will allow basic circus process across many \begin{circus}\end{circus}.
    */
-  private BasicProcess currentBasicProcess_;
+  private BasicProcess currentBasicProcess_ = null;
   
   /**
    * <p>List of implicitly declared actions as action paragraphs,
@@ -57,10 +60,14 @@ public class ParserState
    * <p>This list is cleared at the <code>BasicProcess</code> related
    * productions so that they are always related to the current basic
    * process being parsed.</p>
-   */
-    private List<ActionPara> implicitlyDeclActPara_ =
+   *
+   * <p>REFACTORED: This is in fact the getOnTheFlyPara() of current process</p>*/
+   private List<ActionPara> implicitlyDeclActPara_ =
       new ArrayList<ActionPara>();
-
+      
+   private List<Para> locallyDeclPara_ =
+      new ArrayList<Para>();   
+  
   /**
    * <p>List of implicitly declared processes as process paragraphs,
    * where the process name is given according to
@@ -73,6 +80,8 @@ public class ParserState
    */
   private List<ProcessPara> implicitlyDeclProcPara_ =
     new ArrayList<ProcessPara>();
+  
+  private CircusAction mainAction_ = null;
 
   private Factory factory_ = new Factory();
            
@@ -82,9 +91,14 @@ public class ParserState
    * zero.
    */
   public void clearBasicProcessOnTheFlyCache()
-  {
-    implicitlyActUniqueNameSeed_ = 0;
-    implicitlyDeclActPara_.clear();      
+  {           
+    implicitlyActUniqueNameSeed_ = 0;    
+    implicitlyDeclActPara_.clear();
+  }
+  
+  public void clearBasicProcessLocalParaCache()
+  {               
+    locallyDeclPara_.clear();
   }
     
   /**
@@ -98,10 +112,15 @@ public class ParserState
   }
   
   /**
-   * Clears the current basic process.
+   * Clears the implicitly declared actions and their name seed;
+   * the current main action, the current basic process, and the
+   * list of locally declared paragraphs.
    */
-  public void clearCurrentBasicProcess() {
-      currentBasicProcess_ = null;
+  public void clearCurrentBasicProcessInformation() {
+      setCurrentMainAction(null);
+      setCurrentBasicProcess(null);
+      clearBasicProcessOnTheFlyCache();
+      clearBasicProcessLocalParaCache();
   }
 
   /**
@@ -131,14 +150,20 @@ public class ParserState
    * <code>OnTheFlyDefAnn</code> for the action the paragraph defines.
    */
   public void addImplicitlyDeclActionPara(ActionPara ap)
-  {
-    assert currentBasicProcess_ != null : "There is no current basic process for implicitly declared action";  
+  {    
     assert ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) == null :
       "Action already had an on-the-fly annotation";
     ap.getCircusAction().getAnns().add(factory_.createOnTheFlyDefAnn());
-    implicitlyDeclActPara_.add(ap);
+    implicitlyDeclActPara_.add(ap);    
   }
 
+  public void addLocallyDeclPara(Para p)
+  { 
+    // avoid repeated at parsing? or let the typechecker take care of it
+    // assert !locallyDeclPara_.contains(p);
+    locallyDeclPara_.add(p);
+  }
+  
   /**
    * Add an implicitly declared process to the current
    * <code>ZSect</code> cache.  It also includes an
@@ -152,13 +177,38 @@ public class ParserState
     pp.getCircusProcess().getAnns().add(factory_.createOnTheFlyDefAnn());
     implicitlyDeclProcPara_.add(pp);
   }
-
+  
   public List<ActionPara> getImplicitlyDeclActPara()
-  {
+  {    
     return implicitlyDeclActPara_;
+  }
+  
+  public List<Para> getLocallyDeclPara()
+  {    
+    return locallyDeclPara_;
   }
   
   public void setCurrentBasicProcess(BasicProcess process) {
     currentBasicProcess_ = process;
+  }
+  
+  public void setCurrentMainAction(CircusAction action) {
+      mainAction_ = action;
+  }
+  
+  public CircusAction getCurrentMainAction() {
+      return mainAction_;
+  }
+  
+  public BasicProcess getCurrentBasicProcess() {
+      return currentBasicProcess_;
+  }
+  
+  public boolean hasCurrentMainAction() {
+      return mainAction_ != null;
+  }
+  
+  public boolean hasCurrentBasicProcess() {
+      return currentBasicProcess_ != null;
   }
 }
