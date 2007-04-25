@@ -362,12 +362,12 @@ public class Plugin
     final File outFile = new File(output);
     final URL url = getTemplate(template + ".xml");
     final URLConnection connection = url.openConnection();             
-    getLog().info("Checking file dates:\n\t" + new Date(outFile.lastModified()) + 
+    getLog().debug("Checking file dates:\n\t" + new Date(outFile.lastModified()) + 
           "= " + output + "\n\t" + new Date(connection.getLastModified()) + "= " +
           connection);
     if (outFile.exists() &&
         outFile.lastModified() >= connection.getLastModified()) {      
-      getLog().info("File is up-to-date: " + output);
+      getLog().debug("File is up-to-date: " + output);
       return;
     }
     if (! outFile.getParentFile().exists()) {
@@ -398,7 +398,7 @@ public class Plugin
     throws Exception
   {    
     String name = templateDirectory + "/" + template;
-    getLog().info("Retrieving template " + name);
+    getLog().debug("Retrieving template " + name);
     URL url = null;
     File file = new File(name);
     if (file.exists()) {      
@@ -409,9 +409,9 @@ public class Plugin
       url = uri.toURL();
     }
     if (url == null) {
-      getLog().warn("Failed to get template at \"templateDirectory\" location. Trying reposity jar file instead.");          
+      getLog().debug("Failed to get template at \"templateDirectory\" location. Trying reposity jar file instead.");          
       name = "/templates/" + template;
-      getLog().info("Retrieving template " + name);
+      getLog().debug("Retrieving template " + name);
       url = getClass().getResource(name);          
       if (url == null) {
         throw new MojoExecutionException("Cannot find resource " + name);
