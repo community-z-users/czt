@@ -577,6 +577,10 @@ NAME =   {NOT_LB}*
           assert ! addSpace_;
           begin("circus");          
           // NOTE: Couldn't make CircusString.CIRCUS Work (Leo) :(
+          //       Perhaps in the end just leave it that way,
+          //       as in Parser.xml (see singleCircusParagraphItemList)
+          //       it proved to be harded to have singled-item circus
+          //       environments
           return result(ZString.ZED);
         }
 </add:circus>
