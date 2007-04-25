@@ -61,24 +61,24 @@ public class Plugin
     }
     final String fileSep = System.getProperty("file.separator");
     List<File> files = getFiles();
-    getLog().info("Processing " + files.size() + " jflex files");
+    getLog().info("JFLEX: Processing " + files.size() + " jflex files");
     for (File file : files) {
       if (file.getName().lastIndexOf(".jflex") != -1) {
         String filename = file.getName().substring(0, file.getName().lastIndexOf(".jflex"));
-        getLog().info("Looking for template for file named " + file.getName() + "(" + file.getPath() + ")");
+        getLog().debug("JFLEX: Looking for template for file named " + file.getName() + "(" + file.getPath() + ")");
         String packageName = getPackage(file);
         String destdir = outputDirectory + fileSep + packageName.replace(".", fileSep);
         File destDir = new File(destdir);
         File destFile = new File(destDir, filename + ".java");
-        getLog().info("Checking file dates:\n\t" + new Date(destFile.lastModified()) +
+        getLog().debug("JFLEX: Checking file dates:\n\t" + new Date(destFile.lastModified()) +
             "= " + destFile + "\n\t" + new Date(file.lastModified()) + "= " +
             file);
         if (destFile.exists() && destFile.lastModified() >= file.lastModified()) {
-          getLog().info("Lexer file is up-to-date.");
+          getLog().debug("JFLEX: Lexer file is up-to-date.");
         } else {
           JFlexTask task = new JFlexTask();
           task.setDestdir(new File(outputDirectory));
-          getLog().info("Processing " + file.getPath());
+          getLog().info("JFLEX: Processing " + file.getPath());
           task.setFile(file);
           try {
             task.execute();
@@ -87,7 +87,7 @@ public class Plugin
           }
         }        
       } else {
-        getLog().warn("Found a file that is not for jflex processing: " + file);
+        getLog().warn("JFLEX: Found a file that is not for jflex processing: " + file);
       }
     }
   }
