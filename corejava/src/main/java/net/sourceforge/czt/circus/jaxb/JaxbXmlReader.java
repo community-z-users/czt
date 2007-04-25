@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 package net.sourceforge.czt.circus.jaxb;
 
 import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 import net.sourceforge.czt.circus.ast.CircusFactory;
 
 /**
@@ -30,9 +31,12 @@ import net.sourceforge.czt.circus.ast.CircusFactory;
 public class JaxbXmlReader
   extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
-  public JaxbXmlReader(ZFactory zFactory, CircusFactory circusFactory)
+  public JaxbXmlReader(ZFactory zFactory,
+                       ZpattFactory zpattFactory,
+                       CircusFactory circusFactory)
   {
-    super(new JaxbToAst(zFactory, circusFactory), JaxbContext.PATH);
+    super(new JaxbToAst(zFactory, zpattFactory, circusFactory),
+          JaxbContext.PATH);
   }
 
   public JaxbXmlReader()

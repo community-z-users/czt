@@ -246,10 +246,11 @@ public class Gnast implements GlobalProperties
     // handleLogging();
 
     try {
+      // The order here must respect dependencies!
       generate(Resources.getZSchema());
       generate(Resources.getOzSchema());
-      generate(Resources.getCircusSchema());
       generate(Resources.getZpattSchema());
+      generate(Resources.getCircusSchema());
       /* NOT YET: not adding imports adequately yet. */
       // generate(Resources.getCircusPattSchema());
     }

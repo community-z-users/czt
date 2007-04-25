@@ -98,9 +98,8 @@ These interfaces represent the AST for Circus.
     </xs:appinfo>
   </xs:annotation>
 
-  <!-- PUT Z.XSD before ZPattern.xsd otherwise GnAST would not generate the right import clauses -->
-  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>  
+  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
   <!-- ********************************************************************* -->
   <!-- Definitions of the elements in the order of appearance in the grammar -->
