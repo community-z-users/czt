@@ -230,6 +230,8 @@ gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTest.java -tex
 gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTreeTest.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
+gnast/src/vm/BasicProcess.java -text
+gnast/src/vm/BasicProcessImpl.java -text
 gnast/src/vm/CallProcess.java -text
 gnast/src/vm/CallProcessImpl.java -text
 gnast/src/vm/CreateVisitor.vm -text
