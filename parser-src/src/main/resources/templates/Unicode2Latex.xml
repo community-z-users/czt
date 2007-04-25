@@ -735,9 +735,9 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              |
              CIRCUS tokenSeq:s END
              {:
-                String result = begin("circus");
+                String result = begin("circusaction");
                 if (s != null) result += s.getName();
-                result += end("circus");
+                result += end("circusaction");
                 parser.write(result);
              :}
 </add:circus>

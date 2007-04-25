@@ -583,6 +583,14 @@ NAME =   {NOT_LB}*
           //       environments
           return result(ZString.ZED);
         }
+  "\\begin" {IGNORE}* "{circusaction}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("circusaction");          
+          // Tried reusing CIRCUS for different environment.
+          return result(CircusString.CIRCUS);
+        }        
 </add:circus>
 <add:oz>
   //look ahead to see if this is a generic class
@@ -791,6 +799,13 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
+  "\\end" {IGNORE}* "{circusaction}"
+        { 
+          end("circusaction");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }        
 </add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{classcom}"
