@@ -162,15 +162,7 @@ public class SchemaProject
       targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
       String importNamespace =
         xPath_.getNodeValue(schemaNode, "xs:import/@namespace");      
-        System.out.println("CALCULATING IMPORTS FOR: " + targetNamespace_);
       if (importNamespace != null) {
-        System.out.println("CREATING SCHEMA-PROJECT \n \n" + 
-               "URL    = " + url +
-            "\nmapping = " + mapping + 
-            "\nglobalp = " + globalProperties +
-            "\n\n" +
-              "NSPrefix= " + nsPrefixProps_ +
-            "\nImportNS= " + importNamespace + "\n");
         importProject_ = global_.getProjectName(importNamespace);
       }
 
