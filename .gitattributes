@@ -317,6 +317,7 @@ parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
 parser-circus/src/test/resources/tests/circus/README.txt -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement.tex -text
 parser-circus/src/test/resources/tests/circus/channel-errors.tex -text
+parser-circus/src/test/resources/tests/circus/channel2-errors.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
 parser-circus/src/test/resources/tests/circus/fib.tex -text
 parser-circus/src/test/resources/tests/circus/processDesc.tex -text
