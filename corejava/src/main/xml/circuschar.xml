@@ -19,7 +19,7 @@
       <char id="RINTER" hex="27E7" description="right interleave bracket"/>      
     </BRACKET>    
     <BOXCHAR>      
-      <char id="CIRCCHAR" hex="250F" description="box drawings thick down and right. Like SCHCHAR"/>            
+      <char id="CIRCUSACTIONCHAR" hex="2014" description="box drawings thick down and right. Like SCHCHAR"/>            
     </BOXCHAR>
   </SPECIAL>
   <SYMBOL>
