@@ -21,11 +21,25 @@
 
 package net.sourceforge.czt.parser.z;
 
+import java.math.BigInteger;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.z.ast.LocAnn;
+import net.sourceforge.czt.z.util.Factory;
+
 public class ParserState
 {
   /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
   private int previousChain_ = -1;
+  
+  private Factory factory_ = new Factory();
+  private final Source loc_;
 
+  public ParserState(Source source) {
+      loc_ = source;
+  }
+  
   public void setPreviousChain(int previousChain)
   {
     previousChain_ = previousChain;
@@ -34,5 +48,40 @@ public class ParserState
   public boolean isPreviousChain(int value)
   {
     return previousChain_ == value;
+  }
+  
+  /**
+   * Refactored from Parser.xml to ParserState.java
+   * so that ParserState methods can not only create
+   * elements but also add location information. Parser.xml
+   * initialises getLoc() to be the same as the parsing source.
+   */
+  public String getLoc()
+  {
+    return loc_.toString();
+  }
+
+  public void addLocAnn(Term term, LocInfo locInfo)
+  {
+      if (locInfo != null) {
+        LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+        if (locAnn == null) {
+          locAnn = factory_.createLocAnn();
+          term.getAnns().add(locAnn);
+        }
+        locAnn.setLoc(getLoc());
+        if (locInfo.getLine() >= 0) {
+          locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
+        }
+        if (locInfo.getColumn() >= 0) {
+          locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
+        }
+        if (locInfo.getStart() >= 0) {
+          locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
+        }
+        if (locInfo.getLength() >= 0) {
+          locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
+        }
+      }
   }
 }

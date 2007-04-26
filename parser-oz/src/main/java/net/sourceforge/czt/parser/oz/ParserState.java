@@ -22,6 +22,7 @@
 package net.sourceforge.czt.parser.oz;
 
 import java.util.Stack;
+import net.sourceforge.czt.session.Source;
 
 public class ParserState
   extends net.sourceforge.czt.parser.z.ParserState
@@ -33,6 +34,10 @@ public class ParserState
    */
   private Stack<Boolean> isOpExpr_ =  new Stack<Boolean>();
 
+  public ParserState(Source loc) {
+      super(loc);
+  }
+  
   /**
    * Reset the isOpExpr_ stack.
    */
