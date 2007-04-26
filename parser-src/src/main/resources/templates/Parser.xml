@@ -1244,7 +1244,7 @@ action code
      */    
     protected boolean checkBasicProcessScopeIsValidFor(String msg, LocInfo l) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
-        CztLogger.getLogger(<class/>.class).fine("Checking process scope for" + 
+        CztLogger.getLogger(<class/>.class).fine("CHECKING PROCESS SCOPE FOR " + 
             msg + ": " + result + " @ " + l.toString());        
         if (!result) {
             CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
@@ -1261,6 +1261,8 @@ action code
      */
     protected boolean enterBasicProcessScope(BasicProcess bp) {
         boolean result = parserState_.enterBasicProcessScope(bp);
+        CztLogger.getLogger(<class/>.class).fine("ENTERING PROCESS SCOPE: " + result 
+            + " @ " + getLocation(bp));
         if (!result) {
             parser.report_error(CircusParseMessage.MSG_DUPlICATED_BASIC_PROCESS_SCOPE,
               new Object[0], getLocation(bp));
@@ -1273,13 +1275,16 @@ action code
      * error in case of nested process scopes. It assumes the BasicProcess 
      * already has location information calculated.
      */
-    protected boolean exitBasicProcessScope(LocInfo l) {
-        boolean result = parserState_.exitBasicProcessScope();
-        if (!result) {
+    protected BasicProcess exitBasicProcessScope(LocInfo l) {        
+        CztLogger.getLogger(<class/>.class).fine("EXITING PROCESS SCOPE: " + 
+            parserState_.isWithinMultipleEnvBasicProcessScope() +
+            " @ " + l + "\n" + parserState_.printBasicProcess());
+        BasicProcess result = parserState_.exitBasicProcessScope();
+        if (result != null) {
             CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
                 CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
                 new Object[] { l.toString() }));            
-        }
+        }        
         return result;
     }
     
@@ -1287,6 +1292,8 @@ action code
     protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, LocInfo loc) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp; 
             parserState_.getLocallyDeclPara().containsAll(ipl);
+        CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT: " + result 
+            + " @ " + loc);
         if (!result) {            
             parser.report_error(CircusParseMessage.MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE,
               new Object[] { loc }, loc);
@@ -1294,8 +1301,8 @@ action code
         //net.sourceforge.czt.circus.util.PrintVisitor pv = new net.sourceforge.czt.circus.util.PrintVisitor();
         //System.out.println(factory_.createZParaList(ipl).accept(pv));
         //System.out.println(RESULT.accept(pv));           
-        System.out.println(ipl.toString());
-        System.out.println(parserState_.getLocallyDeclPara().toString());        
+        //System.out.println(ipl.toString());
+        //System.out.println(parserState_.getLocallyDeclPara().toString());        
         return result;
     }              
     
@@ -2891,18 +2898,30 @@ circusParagraphList ::=
            if (ppl.size() == 1) {
              addLocAnn(ppl.get(0), getLocation(circ, end));
            }           
-           RESULT = ppl;
            ensureInnerProcParaListKnownInBasicProcessScope(ppl, getLocation(circ, end));
+           
+           // Result here does not matter. It will be collected later via ParserState            
+           RESULT = factory_.list();           
         :}
         |
         CIRCUSACTION:circ circusBasicProcessMainAction:cbpma END:end
-        {:
+        {:                        
             // Updates the basic process structures with collected 
             // information (i.e. local para, state para, on the fly, main action, etc.)
-            parserState_.updateBasicProcessInformation(getLocation(circ, cbpma));
-            parserState_.clearBasicProcessInformation();
-            exitBasicProcessScope(getLocation(circ, cbpma));  
-            RESULT = factory_.list();
+            parserState_.updateBasicProcessInformation(getLocation(circ, cbpma));            
+            parserState_.clearBasicProcessInformation();            
+            
+            // If exit fails, a warning is mentioned, not an error, 
+            BasicProcess bp = exitBasicProcessScope(getLocation(circ, cbpma));              
+            
+            // Result here is the current process that was on scope. 
+            RESULT = factory_.list();                        
+            
+            // bp = null if warning took place, so continue no problem
+            if (bp != null) {
+                RESULT.add(bp);
+                addLocAnn(RESULT.get(0), getLocation(circ, end));
+            }            
         :}
         ;
        
@@ -3840,11 +3859,11 @@ circusBasicProcess ::=
         CIRCBEGIN:begin 
         {:
            // create an empty BasicProcess with empty (rather than null) lists
-           RESULT = createMockBasicProcessFor("MULTIPLE ENVIRONMENT BASICPROCESS");
+           RESULT = createMockBasicProcessFor("MULTIPLE ENVIRONMENT");
            addLocAnn(RESULT, getLocation(beginleft, beginright));           
            
            // sets the basic process scope flag 
-           enterBasicProcessScope(RESULT);          
+           enterBasicProcessScope(RESULT);
         :}
         |
         /* Represents basic processes without paragraphs, but just the main action 
@@ -3853,7 +3872,7 @@ circusBasicProcess ::=
         CIRCBEGIN:cb circusBasicProcessMainAction:ca
         {:    
            // create an empty BasicProcess with empty (rather than null) lists 
-           RESULT = createMockBasicProcessFor("JUST MAINACTION BASICPROCESS - SINGLE ENVIRONMENT");
+           RESULT = createMockBasicProcessFor("JUST MAINACTION - SINGLE ENVIRONMENT");
            addLocAnn(RESULT, getLocation(cb, ca));
            
            // sets the basic process scope flag. 
@@ -3864,35 +3883,43 @@ circusBasicProcess ::=
                // Updates the basic process structures with collected 
                // information (i.e. main action)
                parserState_.updateBasicProcessInformation(getLocation(RESULT));
-
+               
                // Clears: the implicitly declared actions and their name seed;
                // the current main action, the current basic process, and the
                // list of locally declared paragraphs. It also clears the process scope
-               parserState_.clearBasicProcessInformation();
-               exitBasicProcessScope(getLocation(cb, ca));           
+               parserState_.clearBasicProcessInformation();               
+               
+               // If exit fails, a warning is mentioned, not an error, so continue regardless
+               BasicProcess bp = exitBasicProcessScope(getLocation(cb, ca));
+               
+               // bp = null if warning took place, otherwise it must be RESULT
+               assert (bp == null) || (bp.equals(RESULT)) : "Invalid scoped basic process: different from RESULT";
             }
         :}
         |
         CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca
         {: 
            // create an empty BasicProcess with empty (rather than null) lists 
-           RESULT = createMockBasicProcessFor("SINGLE ENVIRONMENT BASICPROCESS");
+           RESULT = createMockBasicProcessFor("SINGLE ENVIRONMENT");
            addLocAnn(RESULT, getLocation(cb, ca));           
            
            // sets the basic process scope flag. 
            // it is important to check mainAction's scope 
            // (i.e. main action declared outside basic process scope)
            if (enterBasicProcessScope(RESULT)) {           
+               // Ensure the list collected in "ipl" is the same the one into RESULT
+               ensureInnerProcParaListKnownInBasicProcessScope(ipl, getLocation(cb, ca));                
+           
                // Updates the basic process structures with collected 
                // information (i.e. ipl, state para, on the fly, main action, etc.)
-               parserState_.updateBasicProcessInformation(getLocation(RESULT));
+               parserState_.updateBasicProcessInformation(getLocation(RESULT));                                             
                parserState_.clearBasicProcessInformation();
                
                // If exit fails, a warning is mentioned, not an error, so continue regardless
-               exitBasicProcessScope(getLocation(cb, ca));
+               BasicProcess bp = exitBasicProcessScope(getLocation(cb, ca));               
                
-               // Ensure the list collected in "ipl" is the same the one into RESULT
-               ensureInnerProcParaListKnownInBasicProcessScope(ipl, getLocation(cb, ca));                          
+               // bp = null if warning took place, otherwise it must be RESULT
+               assert (bp == null) || (bp.equals(RESULT)) : "Invalid scoped basic process: different from RESULT";
            }
         :}        
         ;        
