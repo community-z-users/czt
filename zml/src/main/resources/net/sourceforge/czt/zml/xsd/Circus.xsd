@@ -98,6 +98,9 @@ These interfaces represent the AST for Circus.
     </xs:appinfo>
   </xs:annotation>
 
+  <!-- NOTE: GnAST considers the first import only in the SchemaProject build phase,
+             so always put ZPattern.xsd first for Circus.xsd (i.e. innermost parent).
+   -->
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>  
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
@@ -1467,13 +1470,7 @@ These interfaces represent the AST for Circus.
       <xs:extension base="Z:Para">
         <xs:sequence>          
           <!--<xs:element ref="CIRCUS:ChannelDecl" minOccurs="0" maxOccurs="unbounded"/>-->
-          <xs:element ref="Z:DeclList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ChannelDecl"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:DeclList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2325,23 +2322,16 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Term">
         <xs:sequence>
-          <!-- Channel expression because it can contain generic actuals -->
-          <xs:element ref="Z:RefExpr">          
+          <!-- RefExpr because it can contain generic actuals -->
+          <xs:element ref="Z:RefExpr">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="ChannelExpr"
                   generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>       
-          <xs:element ref="CIRCUS:CircusFieldList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ChanFields"
-                  generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
           </xs:element>
+          <xs:element ref="CIRCUS:FieldList"/>
         </xs:sequence>
         <xs:attribute name="CommKind" type="CIRCUS:CommKind" use="optional" default="Synch"/>
         <xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
@@ -2570,10 +2560,12 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Type">
         <xs:sequence>
-          <xs:element ref="Z:NameList">
+          <!-- Use concrete (rather than allowing Joker) names here -->
+          <xs:element ref="Z:ZNameList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
+                <jaxb:property name="GenFormals"
+                 generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2664,11 +2656,13 @@ These interfaces represent the AST for Circus.
                 <jaxb:property name="ProcessName"/>
               </xs:appinfo>
             </xs:annotation>
-          </xs:element>          
-          <xs:element ref="Z:NameList">
+          </xs:element>       
+          <!-- Use concrete (rather than allowing Joker) names here -->
+          <xs:element ref="Z:ZNameList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
+                <jaxb:property name="GenFormals"
+                 generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
@@ -2734,6 +2728,7 @@ These interfaces represent the AST for Circus.
               <xs:element ref="CIRCUS:ActionSignature" minOccurs="0" maxOccurs="unbounded"/>                
               <!--
               Contains a list of all name set paragraphs of the process.
+              Use concrete (rather than allowing Joker) names here 
               -->
               <xs:element ref="Z:ZNameList">                
                 <xs:annotation>
