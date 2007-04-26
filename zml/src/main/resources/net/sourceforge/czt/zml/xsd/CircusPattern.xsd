@@ -94,6 +94,9 @@
     </xs:appinfo>
   </xs:annotation>
 
+  <!-- NOTE: GnAST considers the first import only in the SchemaProject build phase,
+             so always put Circus.xsd first for Circus.xsd (i.e. innermost parent).
+   -->
   <xs:import namespace="http://czt.sourceforge.net/circus" schemaLocation="Circus.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>
