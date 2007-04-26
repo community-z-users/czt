@@ -94,10 +94,9 @@
     </xs:appinfo>
   </xs:annotation>
 
-  <!-- PUT Z.XSD before ZPattern.xsd otherwise GnAST would not generate the right import clauses -->
+  <xs:import namespace="http://czt.sourceforge.net/circus" schemaLocation="Circus.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>
-  <xs:import namespace="http://czt.sourceforge.net/circus" schemaLocation="Circus.xsd"/>
 
   <!-- ********************************************************************* -->
   <!-- Definitions of the elements in the order of appearance in the grammar -->

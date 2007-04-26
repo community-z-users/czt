@@ -251,8 +251,7 @@ public class Gnast implements GlobalProperties
       generate(Resources.getOzSchema());
       generate(Resources.getZpattSchema());
       generate(Resources.getCircusSchema());
-      /* NOT YET: not adding imports adequately yet. */
-      // generate(Resources.getCircusPattSchema());
+      generate(Resources.getCircusPattSchema());
     }
     catch (RuntimeException e) {
       throw e;
