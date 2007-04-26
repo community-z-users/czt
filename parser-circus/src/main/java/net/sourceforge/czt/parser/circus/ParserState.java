@@ -32,6 +32,7 @@ import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.Box;
@@ -67,7 +68,7 @@ public class ParserState
   /**
    * Keeps track of current basic process scope on multiple environments.
    */  
-  private BasicProcess currentBasicProcess_ = null;
+  private BasicProcess basicProcess_ = null;
   
   private Para statePara_ = null;
   
@@ -107,6 +108,8 @@ public class ParserState
   private CircusAction mainAction_ = null;
 
   private Factory factory_ = new Factory();
+  
+  private PrintVisitor printVisitor_ = new PrintVisitor(); 
            
   /**
    * Clears the implicitly declared actions cache for the current
@@ -223,7 +226,7 @@ public class ParserState
     assert bp != null : "Invalid basic process scope (null)";
     boolean result = !isWithinMultipleEnvBasicProcessScope();
     if (result) {
-        currentBasicProcess_ = bp;    
+        basicProcess_ = bp;    
     }
     return result;
   }
@@ -232,11 +235,18 @@ public class ParserState
    * Clears the current basic process scope, provided one exists.
    * If it doesn't nothing change, and the parser should raise a warning.
    */
-  public boolean exitBasicProcessScope() {      
-      boolean result = isWithinMultipleEnvBasicProcessScope();
-      if (result) {
-          currentBasicProcess_ = null;
+  public BasicProcess exitBasicProcessScope() {      
+      /*
+      BasicProcess result = null;
+      if (isWithinMultipleEnvBasicProcessScope()) {
+          result = basicProcess_;
+          basicProcess_ = null;
       } 
+      return result;
+      */
+      // or simply...
+      BasicProcess result = basicProcess_;
+      basicProcess_ = null;
       return result;
   }
   
@@ -286,7 +296,7 @@ public void addCircusStateAnn(Para para) {
   }
   
   public boolean isWithinMultipleEnvBasicProcessScope() {
-      return currentBasicProcess_ != null;
+      return basicProcess_ != null;
   }
   
   public void setMainAction(CircusAction action) {
@@ -313,16 +323,21 @@ public void addCircusStateAnn(Para para) {
       return statePara_ != null;
   }
   
+  public String printBasicProcess() {      
+      assert isWithinMultipleEnvBasicProcessScope() : "Invalid basic process scope (null)";
+      return printVisitor_.printBasicProcesses(basicProcess_);
+  }
+  
   public void updateBasicProcessInformation(LocInfo l) {
-      assert isWithinMultipleEnvBasicProcessScope() : "Invalid current basic process";
+      assert isWithinMultipleEnvBasicProcessScope() : "Invalid basic process scope (null)";
       assert hasMainAction() : "No main action available for current basic process";
 
       Para statePara = hasState() ? getStatePara() : createDefaultStatePara(l);      
       ZParaList localPara = factory_.createZParaList(getLocallyDeclPara());
       ZParaList onTheFlyPara = factory_.createZParaList(getImplicitlyDeclActPara());      
-      currentBasicProcess_.setStatePara(statePara);
-      currentBasicProcess_.setLocalPara(localPara);
-      currentBasicProcess_.setOnTheFlyPara(onTheFlyPara);
-      currentBasicProcess_.setMainAction(getMainAction());
+      basicProcess_.setStatePara(statePara);
+      basicProcess_.setLocalPara(localPara);
+      basicProcess_.setOnTheFlyPara(onTheFlyPara);
+      basicProcess_.setMainAction(getMainAction());
   }
 }

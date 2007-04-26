@@ -135,19 +135,6 @@ are defined below. They usually come between \verb'begin{circus}...end{circus}' 
 %  \circprocess [X] BASIC \circdef BASIC[X]
 %\end{circus}
 
-We need the hard space on $FibState$ for it to be a $DecorExpr$.
-\begin{circus}
-   \circprocess\ UnboxedFibonacci \circdef \circbegin
-    \also %
-    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
-    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
-    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
-    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~]\\
-%    OutFib ~~\circdef~~ \circmu\ X @ (\circvar\ next: \nat @ OutFibState \circseq\ out~!next \then X) \\
-    \t1 @ (InitFib \circseq\ OutFib) \\
-   \circend
-\end{circus}
-
 
 \subsection{Process definition --- \grammar{process}}
 
