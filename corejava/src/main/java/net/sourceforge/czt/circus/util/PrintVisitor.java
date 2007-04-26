@@ -19,6 +19,12 @@
 
 package net.sourceforge.czt.circus.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
@@ -163,5 +169,42 @@ public class PrintVisitor
         result.append("\nMainAction=");
         result.append(term.getMainAction().accept(this));
         return result.toString();
+    }
+    
+    private static FindBasicProcesses findBP_ = new FindBasicProcesses();
+        
+    public String printBasicProcesses(Term term) {
+        StringBuffer result = new StringBuffer();
+        List<BasicProcess> bps = findBP_.collectBasicProcessesFrom(term);
+        result.append("----------------------------------------\n");
+        result.append("Found " + bps.size() + " basic processes");
+        for(BasicProcess bp : bps) {
+            result.append("\nBasicProcess[\n");
+            result.append(bp.accept(this));
+            result.append("\n]");
+        }
+        result.append("\n----------------------------------------\n");
+        return result.toString();
+    }
+        
+    static class FindBasicProcesses implements TermVisitor<Object>, BasicProcessVisitor<Object> {
+        
+        List<BasicProcess> basicProcesses_ = new ArrayList<BasicProcess>();
+        
+        public Object visitBasicProcess(BasicProcess term) {
+            basicProcesses_.add(term);
+            return term;
+        }
+        
+        public Object visitTerm(Term term) {
+            VisitorUtils.visitTerm(this, term);
+            return term;
+        }
+        
+        List<BasicProcess> collectBasicProcessesFrom(Term term) {
+            basicProcesses_.clear();
+            term.accept(this);
+            return Collections.unmodifiableList(basicProcesses_);
+        }
     }
 }
