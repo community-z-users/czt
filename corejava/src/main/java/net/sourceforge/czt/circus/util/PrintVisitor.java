@@ -41,7 +41,9 @@ import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
+import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.ZParaListVisitor;
         
 /**
  * @author Petra Malik
@@ -57,7 +59,8 @@ public class PrintVisitor
              BasicProcessSignatureVisitor<String>,
              ActionSignatureVisitor<String>,
              BasicProcessVisitor<String>,
-             ProcessParaVisitor<String>
+             ProcessParaVisitor<String>, 
+             ZParaListVisitor<String>
 {
     public String visitChannelType(ChannelType term) {
         StringBuffer result =  new StringBuffer("CHANNEL_TYPE ");        
@@ -144,6 +147,10 @@ public class PrintVisitor
         result.append(" == ");
         result.append(term.getCircusProcess().accept(this));
         return result.toString();
+    }
+    
+    public String visitZParaList(ZParaList term) {
+        return visitList(term, "ZParaList[", ","  , "]");
     }
     
     public String visitBasicProcess(BasicProcess term) {
