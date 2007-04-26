@@ -19,8 +19,10 @@
 
 package net.sourceforge.czt.circus.util;
 
+import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
 import net.sourceforge.czt.circus.ast.NameSetType;
@@ -28,9 +30,11 @@ import net.sourceforge.czt.circus.ast.ProcessKind;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
 
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
+import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ActionTypeVisitor;
 import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
@@ -51,7 +55,9 @@ public class PrintVisitor
              NameSetTypeVisitor<String>,
              ProcessSignatureVisitor<String>,
              BasicProcessSignatureVisitor<String>,
-             ActionSignatureVisitor<String>                    
+             ActionSignatureVisitor<String>,
+             BasicProcessVisitor<String>,
+             ProcessParaVisitor<String>
 {
     public String visitChannelType(ChannelType term) {
         StringBuffer result =  new StringBuffer("CHANNEL_TYPE ");        
@@ -129,6 +135,26 @@ public class PrintVisitor
             result.append(visit(term.getParamOrIndexes()));
             result.append("]");
         }                 
+        return result.toString();
+    }
+
+    public String visitProcessPara(ProcessPara term) {
+        StringBuffer result = new StringBuffer(term.getProcessName().accept(this));        
+        result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));        
+        result.append(" == ");
+        result.append(term.getCircusProcess().accept(this));
+        return result.toString();
+    }
+    
+    public String visitBasicProcess(BasicProcess term) {
+        StringBuffer result = new StringBuffer("StatePara=");
+        result.append(term.getStatePara().accept(this));
+        result.append("\nLocalPara");
+        result.append(visitList(term.getZLocalPara(), "[", "\n", "]"));
+        result.append("\nOnTheFlyPara");
+        result.append(visitList(term.getZOnTheFlyPara(), "[", "\n", "]"));
+        result.append("\nMainAction=");
+        result.append(term.getMainAction().accept(this));
         return result.toString();
     }
 }
