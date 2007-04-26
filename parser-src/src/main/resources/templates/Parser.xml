@@ -93,7 +93,7 @@ action code
      */
     protected Symbol previous_;
 
-    protected ParserState parserState_ = new ParserState();
+    protected ParserState parserState_;
 
 <add:circus>
     /** The name of the Circus toolkit. */
@@ -105,11 +105,6 @@ action code
      * The typechecker must guaranttee that no such names are mentioned by the user.
      */
     private static final String DEFAULT_MAIN_ACTION_NAME = "$$mainAction";
-    
-    /**
-     * Default name of state for stateless processes.
-     */
-    private static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
   
     /**
      * Default number of multisynchronisation occurrences for particular communication pattern.
@@ -786,31 +781,12 @@ action code
 
     protected String getLoc()
     {
-      return source_.toString();
+      return parserState_.getLoc();
     }
 
     private void addLocAnn(Term term, LocInfo locInfo)
     {
-      if (locInfo != null) {
-        LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-        if (locAnn == null) {
-          locAnn = factory_.createLocAnn();
-          term.getAnns().add(locAnn);
-        }
-        locAnn.setLoc(getLoc());
-        if (locInfo.getLine() >= 0) {
-          locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
-        }
-        if (locInfo.getColumn() >= 0) {
-          locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
-        }
-        if (locInfo.getStart() >= 0) {
-          locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
-        }
-        if (locInfo.getLength() >= 0) {
-          locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
-        }
-      }
+      parserState_.addLocAnn(term, locInfo);
     }
 
     private int computeLength(LocInfo start, LocInfo end)
@@ -962,10 +938,8 @@ action code
         result.getZExprList().addAll(zrl);
       } else {
         CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR.getMessage() + " at {1}",  
-            new Object[] { errorIdx, getLocation(result) }));
-        //parser.report_error(CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR,
-        //                    new Object[] { errorIdx }, getLocation(result));
+            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage() + " at {1}",  
+            new Object[] { errorIdx, getLocation(result) }));       
       }       
       return result;
     } 
@@ -1178,16 +1152,6 @@ action code
        addLocAnn(parenAnn, getLocation(lp, rp));
        t.getAnns().add(parenAnn);
     }
-    
-    /**
-     * Adds a &lt;code&gt;CircusStateAnn&lt;/code&gt; annotation to the given paragraph.
-     * The code also checks the paragraph is indeed a valid schema, and an error is
-     * report if a problem is found.
-     */
-    protected void addCircusStateAnn(Para para) {
-        //checkCircusStateAnnParaIsSchema(para);
-        para.getAnns().add(factory_.createCircusStateAnn());
-    }
 
     /**
      * Flattens all paragraphs from the given list of &lt;code&gt;ZParaList&lt;/code&gt; 
@@ -1244,7 +1208,7 @@ action code
         if (stateParaList.size() > 1) {              
           parser.report_error(CircusParseMessage.MSG_DUPLICATE_PROC_STATE_DECL,
               new Object[] { pp.getProcessName(), CircusUtils.getSchemaName(stateParaList.get(0)), 
-                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)) }, 
+                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)), getLocation(pp, stateParaList.get(1)) }, 
                   getLocation(pp, stateParaList.get(1)));
         }                        
         // Otherwise, it is fine, either we have one or no state declaration.
@@ -1267,58 +1231,88 @@ action code
     }
     
     /**
+     * &lt;p&gt;
      * Checks whether there is a basic process in current scope, adding a
-     * parsing error with the given extra msg and location information in 
+     * parsing warning with the given extra msg and location information in 
      * case there is no process into scope.
-     *     
-    protected boolean isBasicProcessScopeValidFor(String msg, LocInfo l) {
-        boolean result = parserState_.hasCurrentBasicProcess();
-        System.err.println("isBasicProcessScopeValidFor " + msg + ": " + result + " @ " + l.toString());
+     * &lt;/p&gt;
+     * &lt;p&gt;
+     * This warning ought to be taken seriously, since type checking will
+     * simply assume the inner process paragraph (declared outside a process)
+     * is included into the closest enclosing basic process.
+     * &lt;/p&gt;     
+     */    
+    protected boolean checkBasicProcessScopeIsValidFor(String msg, LocInfo l) {
+        boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
+        CztLogger.getLogger(<class/>.class).fine("Checking process scope for" + 
+            msg + ": " + result + " @ " + l.toString());        
         if (!result) {
-            parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE,
-               new Object[] { msg }, l);
+            CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
+                new Object[] { msg, l.toString() }));
         }
         return result;
-    }*/
+    }
+    
+    /**
+     * Enters a basic process scope within the parser state, giving a parser
+     * error in case of nested process scopes. It assumes the BasicProcess 
+     * already has location information calculated.
+     */
+    protected boolean enterBasicProcessScope(BasicProcess bp) {
+        boolean result = parserState_.enterBasicProcessScope(bp);
+        if (!result) {
+            parser.report_error(CircusParseMessage.MSG_DUPlICATED_BASIC_PROCESS_SCOPE,
+              new Object[0], getLocation(bp));
+        }
+        return result;
+    }
+    
+    /**
+     * Enters a basic process scope within the parser state, giving a parser
+     * error in case of nested process scopes. It assumes the BasicProcess 
+     * already has location information calculated.
+     */
+    protected boolean exitBasicProcessScope(LocInfo l) {
+        boolean result = parserState_.exitBasicProcessScope();
+        if (!result) {
+            CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+                CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
+                new Object[] { l.toString() }));            
+        }
+        return result;
+    }
+    
+    // Ensure the list collected in "ipl" is the same the one into RESULT
+    protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, LocInfo loc) {
+        boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp; 
+            parserState_.getLocallyDeclPara().containsAll(ipl);
+        if (!result) {            
+            parser.report_error(CircusParseMessage.MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE,
+              new Object[] { loc }, loc);
+        }
+        //net.sourceforge.czt.circus.util.PrintVisitor pv = new net.sourceforge.czt.circus.util.PrintVisitor();
+        //System.out.println(factory_.createZParaList(ipl).accept(pv));
+        //System.out.println(RESULT.accept(pv));           
+        System.out.println(ipl.toString());
+        System.out.println(parserState_.getLocallyDeclPara().toString());        
+        return result;
+    }              
     
     /** Create an empty basic process and sets the parser state valure for it */
     protected BasicProcess createMockBasicProcessFor(String from) {
-       System.out.println(from);// TODO: Change this to a Logger entry!
+       CztLogger.getLogger(<class/>.class).fine("CREATING BASICPROCESS => " + from);       
 
        // NEVER CREATE DIRECTLY (i.e. null lists), AS PARSERSTATE WILL UPDATE
        // THE CURRENT PROCESS' OnTheFlyPara!
        // statePara, localParaList, onTheFlyParaList, mainAction
        BasicProcess result = factory_.createBasicProcess(null, factory_.createZParaList(), 
             factory_.createZParaList(), null);
-
-       // updates the state
-       parserState_.setCurrentBasicProcess(result);
+       
        return result;
     }
 
-    protected void updateBasicProcessInformation(BasicProcess bp) {
-       assert parserState_.hasCurrentBasicProcess() &amp;&amp; 
-            parserState_.getCurrentBasicProcess().equals(bp) : "Invalid current basic process";
-       assert parserState_.hasCurrentMainAction() : "No main action available for current basic process";
-
-       ZParaList localPara =
-          factory_.createZParaList(parserState_.getLocallyDeclPara());
-       ZParaList onTheFlyPara =
-          factory_.createZParaList(parserState_.getImplicitlyDeclActPara());
-
-      // Retrieve all state annotated elements (and the first one to be the state).
-      // Duplicated state annotations will generate an error report at ProcessPara.
-      ZParaList stateParaList = getCircusStateAnnPara(localPara, onTheFlyPara);
-      Para statePara = null;
-      if (!stateParaList.isEmpty()) {
-         statePara = stateParaList.get(0);
-      }
-
-       bp.setStatePara(statePara);
-       bp.setLocalPara(localPara);
-       bp.setOnTheFlyPara(onTheFlyPara);
-       bp.setMainAction(parserState_.getCurrentMainAction());
-    }
+    
 </add:circus>
 :}
 
@@ -1573,6 +1567,7 @@ init with
     action_obj.sectInfo_ = sectInfo_;
     action_obj.opScanner_ = opScanner_;
     action_obj.nlScanner_ = nlScanner_;
+    action_obj.parserState_ = new ParserState(source_);
 <add:zpatt>
     action_obj.jokerScanner_ = jokerScanner_;
 </add:zpatt>
@@ -2895,12 +2890,18 @@ circusParagraphList ::=
         {:           
            if (ppl.size() == 1) {
              addLocAnn(ppl.get(0), getLocation(circ, end));
-           }
+           }           
            RESULT = ppl;
+           ensureInnerProcParaListKnownInBasicProcessScope(ppl, getLocation(circ, end));
         :}
         |
         CIRCUSACTION:circ circusBasicProcessMainAction:cbpma END:end
         {:
+            // Updates the basic process structures with collected 
+            // information (i.e. local para, state para, on the fly, main action, etc.)
+            parserState_.updateBasicProcessInformation(getLocation(circ, cbpma));
+            parserState_.clearBasicProcessInformation();
+            exitBasicProcessScope(getLocation(circ, cbpma));  
             RESULT = factory_.list();
         :}
         ;
@@ -2972,14 +2973,14 @@ circusInnerProcPara ::=
          */
         basicTypeDefinition:gtd
         {:             
-            //isBasicProcessScopeValidFor("a local given set", getLocation(gtd)); 
+            checkBasicProcessScopeIsValidFor("a local given set", getLocation(gtd)); 
             RESULT = gtd; 
             parserState_.addLocallyDeclPara(RESULT);
         :}
         |
         freeTypeList:ftl
         {:           
-           //isBasicProcessScopeValidFor("a local free type", getLocation(ftl));  
+           checkBasicProcessScopeIsValidFor("a local free type list", getLocation(ftl));  
            RESULT = factory_.createFreePara(ftl);
            addLocAnn(RESULT, getLocation(ftl.get(0), ftl.get(ftl.size() - 1)));
            parserState_.addLocallyDeclPara(RESULT);
@@ -2987,13 +2988,14 @@ circusInnerProcPara ::=
         |
         abbreviationDefinition:ad
         {:            
-           //isBasicProcessScopeValidFor("a local abbreviation", getLocation(ad));  
+           checkBasicProcessScopeIsValidFor("a local abbreviation", getLocation(ad));  
            RESULT = ad; 
            parserState_.addLocallyDeclPara(RESULT);
         :}
         |    
-        optFormalParameters:ofp CONJECTURE predicate:p
-        {:           
+        optFormalParameters:ofp CONJECTURE:c predicate:p
+        {:        
+           checkBasicProcessScopeIsValidFor("a local conjecture", getLocation(c, p));  
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(ofpleft, ofpright));
            parserState_.addLocallyDeclPara(RESULT);
@@ -3010,27 +3012,31 @@ circusInnerProcPara ::=
            //  parser.report_error(ZParseMessage.MSG_CANNOT_ADD_OP,
            //                      new Object[] { e.getMessage() },
            //                      getLocation(ot));
-           //}           
+           //}   
+           checkBasicProcessScopeIsValidFor("a local operator template", getLocation(ot));  
            RESULT = ot;
            parserState_.addLocallyDeclPara(RESULT);
            parser.report_error(CircusParseMessage.MSG_NOT_IMPLEMENTED, 
-              new Object[] { "Process operator template" }, getLocation(ot));
+              new Object[] { "Basic process operator template" }, getLocation(ot));
         :}*/
         |
         circusProcessState:cps
         {: 
+           checkBasicProcessScopeIsValidFor("process state", getLocation(cps));  
            RESULT = cps; 
            parserState_.addLocallyDeclPara(RESULT);
         :}                 
         |        
         namesetPara:np
         {: 
+           checkBasicProcessScopeIsValidFor("name set paragraph", getLocation(np)); 
            RESULT = np; 
            parserState_.addLocallyDeclPara(RESULT);
         :}
         |        
         actionPara:ap
         {: 
+           checkBasicProcessScopeIsValidFor("action paragraph", getLocation(ap));  
            RESULT = ap; 
            parserState_.addLocallyDeclPara(RESULT);
         :}
@@ -3833,48 +3839,69 @@ circusBasicProcess ::=
          */
         CIRCBEGIN:begin 
         {:
+           // create an empty BasicProcess with empty (rather than null) lists
            RESULT = createMockBasicProcessFor("MULTIPLE ENVIRONMENT BASICPROCESS");
-           addLocAnn(RESULT, getLocation(beginleft, beginright));
+           addLocAnn(RESULT, getLocation(beginleft, beginright));           
+           
+           // sets the basic process scope flag 
+           enterBasicProcessScope(RESULT);          
         :}
         |
         /* Represents basic processes without paragraphs, but just the main action 
          * declared within a single \begin{circus} \end{circus}.
          */
         CIRCBEGIN:cb circusBasicProcessMainAction:ca
-        {:           
+        {:    
+           // create an empty BasicProcess with empty (rather than null) lists 
            RESULT = createMockBasicProcessFor("JUST MAINACTION BASICPROCESS - SINGLE ENVIRONMENT");
            addLocAnn(RESULT, getLocation(cb, ca));
            
-           //if (isBasicProcessScopeValidFor("a main action", getLocation(cb, ca))) {                
-                updateBasicProcessInformation(RESULT);
-           //}           
+           // sets the basic process scope flag. 
+           // it is important to check mainAction's scope 
+           // (i.e. main action declared outside basic process scope)
+           if (enterBasicProcessScope(RESULT)) {           
            
-           // Clears: the implicitly declared actions and their name seed;
-           // the current main action, the current basic process, and the
-           // list of locally declared paragraphs.
-           parserState_.clearCurrentBasicProcessInformation();
-           
+               // Updates the basic process structures with collected 
+               // information (i.e. main action)
+               parserState_.updateBasicProcessInformation(getLocation(RESULT));
+
+               // Clears: the implicitly declared actions and their name seed;
+               // the current main action, the current basic process, and the
+               // list of locally declared paragraphs. It also clears the process scope
+               parserState_.clearBasicProcessInformation();
+               exitBasicProcessScope(getLocation(cb, ca));           
+            }
         :}
         |
         CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca
         {: 
+           // create an empty BasicProcess with empty (rather than null) lists 
            RESULT = createMockBasicProcessFor("SINGLE ENVIRONMENT BASICPROCESS");
            addLocAnn(RESULT, getLocation(cb, ca));           
-           updateBasicProcessInformation(RESULT);  
-           parserState_.clearCurrentBasicProcessInformation();
-                      
-           // Ensure the list collected in "ipl" is the same the one into RESULT
-           assert RESULT.getLocalPara().equals(factory_.createZParaList(ipl)) : 
-                  ("Could not properly copy the locally defined paragraphs " +
-                   "while creating basic process. ");
+           
+           // sets the basic process scope flag. 
+           // it is important to check mainAction's scope 
+           // (i.e. main action declared outside basic process scope)
+           if (enterBasicProcessScope(RESULT)) {           
+               // Updates the basic process structures with collected 
+               // information (i.e. ipl, state para, on the fly, main action, etc.)
+               parserState_.updateBasicProcessInformation(getLocation(RESULT));
+               parserState_.clearBasicProcessInformation();
+               
+               // If exit fails, a warning is mentioned, not an error, so continue regardless
+               exitBasicProcessScope(getLocation(cb, ca));
+               
+               // Ensure the list collected in "ipl" is the same the one into RESULT
+               ensureInnerProcParaListKnownInBasicProcessScope(ipl, getLocation(cb, ca));                          
+           }
         :}        
         ;        
 
 circusBasicProcessMainAction ::=
         SPOT:s circusAction:ca CIRCEND:ce
-        {:            
+        {:      
            // sets the main action into the parserState_
-           parserState_.setCurrentMainAction(ca);
+           parserState_.setMainAction(ca);
            RESULT = ca;
            addLocAnn(RESULT, getLocation(ca, ce));
            
@@ -3895,43 +3922,43 @@ circusProcessState ::=
         /* Unboxed schema definition can only be horizontal */
         CIRCSTATE:cs name:n DEFEQUAL:equal expression:e
         {:
+           // Creates a horizontal schema: name == e as ConstDecl
            ConstDecl cd = factory_.createConstDecl(n, e);
            addLocAnn(cd, getLocation(equalleft, equalright, n, e));
-           ZDeclList decls = factory_.createZDeclList();
-           decls.add(cd);
+           ZDeclList decls = factory_.createZDeclList(factory_.list(cd));           
            ZSchText st = factory_.createZSchText(decls, null);
            addLocAnn(st, getLocation(n, e));
+           
+           // no generic arguments for state schema
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
-           addCircusStateAnn(RESULT);
+           
+           // add CircusStateAnn to paragraph
+           parserState_.addCircusStateAnn(RESULT);
            addLocAnn(RESULT, getLocation(getLocation(csleft, csright), e));
+           
+           // Add it as a locally declared paragraph
+           parserState_.addLocallyDeclPara(RESULT);
+           parserState_.setStatePara(RESULT);
         :}
         |
         /* On-the-fly state schema as a SchExprAction */
         CIRCSTATE:cs expression:e
         {:             
-           Name dn = factory_.createZName(DEFAULT_PROCESS_STATE_NAME);
-           addLocAnn(dn, getLocation(csleft, csright));
-           
-           /*
-           ConstDecl cd = factory_.createConstDecl(dn, e);
-           addLocAnn(cd, getLocation(getLocation(csleft, csright), e));
-           ZDeclList decls = factory_.createZDeclList();
-           decls.add(cd);
-           ZSchText st = factory_.createZSchText(decls, null);
-           addLocAnn(st, getLocation(dn, e));
-           ZNameList zdnl = factory_.createZNameList();
-           RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
-           */
-           
+           Name dn = parserState_.createDefaultProcessStateName(getLocation(csleft, csright));           
+          
            // Add it as an implicitly declared paragraph
            SchExprAction sa = factory_.createSchExprAction(e);           
            addLocAnn(sa, getLocation(dn, e));
            ActionPara ap = factory_.createActionPara(dn, sa);
-           addCircusStateAnn(ap);           
-           parserState_.addImplicitlyDeclActionPara(ap);
+           parserState_.addCircusStateAnn(ap);                      
+           
+           // Add it as an implicitly declared action (because the name is given).           
+           parserState_.addImplicitlyDeclActionPara(ap);           
+           parserState_.setStatePara(ap);
+           
            RESULT = ap;
-           addLocAnn(RESULT, getLocation(cs, e));                      
+           addLocAnn(RESULT, getLocation(cs, e));                    
         :}
         ;             
 
