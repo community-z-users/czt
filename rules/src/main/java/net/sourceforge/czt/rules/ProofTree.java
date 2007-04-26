@@ -130,10 +130,8 @@ public class ProofTree
     SimpleProver prover = new SimpleProver(rules_, manager_, section_);
     PredSequent sequent = node.getSequent();
     if (prover.prove(sequent)) {
-      System.err.println("yes");
       substituteNode(node, new ProofNode(sequent));
     }
-    else { System.err.println("no"); }
   }
 
   private void substituteNode(ProofNode node, ProofNode newNode)
