@@ -14,14 +14,14 @@ public enum CircusParseMessage {
   
   MSG_NOT_IMPLEMENTED("{0} feature not implemented yet."),
   MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET("Expressions in channel set paragraphs can be neither set extension nor set comprehension. It must be a basic channel set expresion instead."),
-  MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR("Invalid basic channel set expression at index {0}."),
+  MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING("Invalid basic channel set expression at index {0}."),
   MSG_UNKNOWN_COMMUNICATION_PATTERN("Invalid communication pattern.", "The prefixing communication is neither of synchronisation, input, output, or mixed. This can only happen with specialised implementations of Field that do not obbey follow any available CommType."),
   MSG_UNBALANCED_LISTS("A {0} list of size {1} cannot be related to a {2} list of size {3}."),
   MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
   MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
   //MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
-  MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3}."),  
+  MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3} at {4}."),  
  
   MSG_CIRCUSENV_ERROR("Error occurred within circus environment at symbol {0}."),
   
@@ -37,7 +37,12 @@ public enum CircusParseMessage {
   MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR("Missing CIRCDEF after process name in process paragraph declaration."),
   MSG_PROCESSPARA_MISSING_NAME_ERROR("Missing process name in process paragraph declaration."),
   
-  MSG_OUTSITE_BASIC_PROCESS_SCOPE("Cannot declare {0} outside a basic process scope."),
+  MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE("No basic process scope for enclosing basic process inner paragraphs at {0}."),
+  MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched (closing) basic process scope at {0}."),
+  MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes."),
+  MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("Cannot declare {0} outside a basic process scope at \n {1}.\n " +
+      "This is a serious warning as type checking will assume the paragraph declared outside a process\n" +
+      "is included into the closest enclosing basic process."),
     
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
   

@@ -22,20 +22,38 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.Factory;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.z.ast.Box;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZNameList;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.ZUtils;
 
 public class ParserState
   extends net.sourceforge.czt.parser.z.ParserState
 {
+    
+  /**
+   * Default name of state for stateless processes.
+   */
+  private static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt"; 
+    
   /**
    * Unique number seed for implicitly declared action names.
    */                         
@@ -47,10 +65,15 @@ public class ParserState
   private static int implicitlyProcUniqueNameSeed_ = 0;
 
   /**
-   * Current basic process being parsed. We can only have one at a time.
-   * This will allow basic circus process across many \begin{circus}\end{circus}.
-   */
+   * Keeps track of current basic process scope on multiple environments.
+   */  
   private BasicProcess currentBasicProcess_ = null;
+  
+  private Para statePara_ = null;
+  
+  public ParserState(Source loc) {
+      super(loc);
+  }
   
   /**
    * <p>List of implicitly declared actions as action paragraphs,
@@ -116,9 +139,9 @@ public class ParserState
    * the current main action, the current basic process, and the
    * list of locally declared paragraphs.
    */
-  public void clearCurrentBasicProcessInformation() {
-      setCurrentMainAction(null);
-      setCurrentBasicProcess(null);
+  public void clearBasicProcessInformation() {      
+      setMainAction(null);      
+      setStatePara(null);
       clearBasicProcessOnTheFlyCache();
       clearBasicProcessLocalParaCache();
   }
@@ -128,7 +151,8 @@ public class ParserState
    */
   public String createImplicitlyDeclActUniqueName()
   {
-    assert currentBasicProcess_ != null : "There is no current basic process for implicitly declared action";
+    //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE ADDED OUTSIDE AN OPEN SCOPE
+    //assert isWithinMultipleEnvBasicProcessScope() : "There is no current basic process for implicitly declared action";
     String result = "$$implicitAct" + implicitlyActUniqueNameSeed_;
     implicitlyActUniqueNameSeed_++;
     return result;
@@ -151,6 +175,8 @@ public class ParserState
    */
   public void addImplicitlyDeclActionPara(ActionPara ap)
   {    
+    //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE ADDED OUTSIDE AN OPEN SCOPE.
+    //assert isWithinMultipleEnvBasicProcessScope() : "There is no current basic process for implicitly declared action";
     assert ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) == null :
       "Action already had an on-the-fly annotation";
     ap.getCircusAction().getAnns().add(factory_.createOnTheFlyDefAnn());
@@ -158,7 +184,7 @@ public class ParserState
   }
 
   public void addLocallyDeclPara(Para p)
-  { 
+  {     
     // avoid repeated at parsing? or let the typechecker take care of it
     // assert !locallyDeclPara_.contains(p);
     locallyDeclPara_.add(p);
@@ -188,27 +214,115 @@ public class ParserState
     return locallyDeclPara_;
   }
   
-  public void setCurrentBasicProcess(BasicProcess process) {
-    currentBasicProcess_ = process;
+  /**
+   * Enters a basic process scope, provided there isn't one already,
+   * since nested scope processes are not allowed. If the result is
+   * false, the parser ought to flag an error.
+   */
+  public boolean enterBasicProcessScope(BasicProcess bp) {
+    assert bp != null : "Invalid basic process scope (null)";
+    boolean result = !isWithinMultipleEnvBasicProcessScope();
+    if (result) {
+        currentBasicProcess_ = bp;    
+    }
+    return result;
   }
   
-  public void setCurrentMainAction(CircusAction action) {
+  /**
+   * Clears the current basic process scope, provided one exists.
+   * If it doesn't nothing change, and the parser should raise a warning.
+   */
+  public boolean exitBasicProcessScope() {      
+      boolean result = isWithinMultipleEnvBasicProcessScope();
+      if (result) {
+          currentBasicProcess_ = null;
+      } 
+      return result;
+  }
+  
+  public Name createDefaultProcessStateName(LocInfo l) {
+      Name dn = factory_.createZName(DEFAULT_PROCESS_STATE_NAME);
+      addLocAnn(dn, l);
+      return dn;
+  }
+  
+  /**
+ * Adds a &lt;code&gt;CircusStateAnn&lt;/code&gt; annotation to the given paragraph.
+ * The code also checks the paragraph is indeed a valid schema, and an error is
+ * report if a problem is found.
+ */
+public void addCircusStateAnn(Para para) {
+    //checkCircusStateAnnParaIsSchema(para);
+    para.getAnns().add(factory_.createCircusStateAnn());
+}
+  
+// [~ | true ~]
+  public Expr createEmptySchExpr() {
+      Expr result = factory_.createSchExpr(
+          factory_.createZSchText(
+            factory_.createZDeclList(), factory_.createTruePred()));
+      return result;
+  }
+
+  public Para createDefaultStatePara(LocInfo l) {            
+      Name n = createDefaultProcessStateName(l);
+      
+      // Creates a horizontal schema: name == e as ConstDecl
+      ConstDecl cd = factory_.createConstDecl(n, createEmptySchExpr());
+      addLocAnn(cd, l);      
+      ZDeclList decls = factory_.createZDeclList(factory_.list(cd));           
+      ZSchText st = factory_.createZSchText(decls, null);
+      addLocAnn(st, l);
+
+      // no generic arguments for state schema
+      ZNameList zdnl = factory_.createZNameList();
+      Para result = factory_.createAxPara(zdnl, st, Box.OmitBox);
+
+      // add CircusStateAnn to paragraph
+      addCircusStateAnn(result);
+      addLocAnn(result, l);
+      
+      return result;
+  }
+  
+  public boolean isWithinMultipleEnvBasicProcessScope() {
+      return currentBasicProcess_ != null;
+  }
+  
+  public void setMainAction(CircusAction action) {
       mainAction_ = action;
   }
   
-  public CircusAction getCurrentMainAction() {
+  public CircusAction getMainAction() {
       return mainAction_;
   }
   
-  public BasicProcess getCurrentBasicProcess() {
-      return currentBasicProcess_;
+  public void setStatePara(Para para) {
+      statePara_ = para;
   }
   
-  public boolean hasCurrentMainAction() {
+  public Para getStatePara() {
+      return statePara_;
+  }
+  
+  public boolean hasMainAction() {
       return mainAction_ != null;
   }
+   
+  public boolean hasState() {
+      return statePara_ != null;
+  }
   
-  public boolean hasCurrentBasicProcess() {
-      return currentBasicProcess_ != null;
+  public void updateBasicProcessInformation(LocInfo l) {
+      assert isWithinMultipleEnvBasicProcessScope() : "Invalid current basic process";
+      assert hasMainAction() : "No main action available for current basic process";
+
+      Para statePara = hasState() ? getStatePara() : createDefaultStatePara(l);      
+      ZParaList localPara = factory_.createZParaList(getLocallyDeclPara());
+      ZParaList onTheFlyPara = factory_.createZParaList(getImplicitlyDeclActPara());      
+      currentBasicProcess_.setStatePara(statePara);
+      currentBasicProcess_.setLocalPara(localPara);
+      currentBasicProcess_.setOnTheFlyPara(onTheFlyPara);
+      currentBasicProcess_.setMainAction(getMainAction());
   }
 }
