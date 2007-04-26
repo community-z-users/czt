@@ -50,6 +50,7 @@ public class SimpleProver
   private SectionManager manager_;
   private String section_;
   private Random rand_ = new Random();  // used just for log messages
+  private Map<String,ProvisoChecker> provisos_ = createProvisoMap();
 
   public SimpleProver(Session session)
     throws CommandException
@@ -66,6 +67,13 @@ public class SimpleProver
     rules_ = rules;
     manager_ = manager;
     section_ = section;
+  }
+
+  private Map<String,ProvisoChecker> createProvisoMap()
+  {
+    Map<String,ProvisoChecker> result = new HashMap<String,ProvisoChecker>();
+    result.put("TypecheckProviso", new TypecheckProviso());
+    return result;
   }
 
   public String getSection()
@@ -164,6 +172,11 @@ public class SimpleProver
     }
     else if (deduction instanceof ProvisoApplication) {
       ProvisoApplication provisoAppl = (ProvisoApplication) deduction;
+      if (provisoAppl.getProvisoStatus() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) provisoAppl.getProvisoStatus();
+        ProverUtils.reset(passed.getBinding());
+        provisoAppl.setProvisoStatus(null);
+      }
       ProverUtils.reset(provisoAppl.getBinding());
       predSequent.setDeduction(null);
     }
@@ -189,11 +202,23 @@ public class SimpleProver
     throw new CztException("Unsupported deduction " + deduction);
   }
 
-  public boolean prove(ProvisoApplication proviso)
+  public boolean prove(ProvisoApplication provisoAppl)
   {
-    ProvisoStatus status = proviso.getProvisoStatus();
+    ProvisoStatus status = provisoAppl.getProvisoStatus();
     if (status instanceof CheckPassed) return true;
-    // TODO: All provisos fail right now!
+    ProvisoChecker checker = provisos_.get(provisoAppl.getName());
+    if (checker != null) {
+      List args = provisoAppl.getAnn(List.class);
+      Set<Binding> bindings =
+        checker.check(args, manager_, section_);
+      if (bindings != null) {
+        Factory factory = new Factory(new ProverFactory());
+        CheckPassed passed = factory.createCheckPassed();
+        passed.getBinding().addAll(bindings);
+        provisoAppl.setProvisoStatus(passed);
+        return true;
+      }
+    }
     return false;
   }
 
@@ -307,6 +332,7 @@ public class SimpleProver
           factory.createProvisoApplication(bindingList,
                                            null,
                                            proviso.getName());
+        provisoAppl.getAnns().add(ProverUtils.collectJokers(proviso));
         predSequent.setDeduction(provisoAppl);
         return true;
       }

@@ -142,6 +142,14 @@ public final class ProverUtils
         }
       }
     }
+    else if (ded instanceof ProvisoApplication) {
+      ProvisoApplication provisoAppl = (ProvisoApplication) ded;
+      list.addAll(provisoAppl.getBinding());
+      if (provisoAppl.getProvisoStatus() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) provisoAppl.getProvisoStatus();
+        list.addAll(passed.getBinding());
+      }
+    }
   }
 
   public static List<Joker> collectJokers(Term term)

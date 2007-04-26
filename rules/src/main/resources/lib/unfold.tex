@@ -85,20 +85,25 @@ how we can influence the behaviour of the rewrite tactic by placing more
 specific rules before more general ones.  Of course, in the interactive
 prover, the user could choose to apply either rule when $E$ is a base type.
 
-%%Zpreword \typeOf typeOf
+%%Zinword \isTypeOf isTypeOf
+
+\begin{zed}
+  \relation ( \_ \isTypeOf \_ )
+\end{zed}
+
 \begin{zedproviso}{TypecheckProviso}
-  T = \typeOf E
+  T \isTypeOf E
 \end{zedproviso}
 
 \begin{zedrule}{VarDecl1}
-   \proviso E : \power E \\
+   \power E \isTypeOf E \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E; D2 |  P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl2}
-   \proviso E : \power E2 \\
+   \power E2 \isTypeOf E \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]

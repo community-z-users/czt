@@ -130,8 +130,10 @@ public class ProofTree
     SimpleProver prover = new SimpleProver(rules_, manager_, section_);
     PredSequent sequent = node.getSequent();
     if (prover.prove(sequent)) {
+      System.err.println("yes");
       substituteNode(node, new ProofNode(sequent));
     }
+    else { System.err.println("no"); }
   }
 
   private void substituteNode(ProofNode node, ProofNode newNode)
@@ -222,6 +224,23 @@ public class ProofTree
               popup.show(e.getComponent(), e.getX(), e.getY());
             }
           }
+          else if (o instanceof Proviso2Node) {
+            final Proviso2Node pn = (Proviso2Node) o;
+            if (! pn.isClosed()) {
+              JPopupMenu popup = new JPopupMenu();
+              JMenuItem menuItem = new JMenuItem("Check proviso");
+              menuItem.addActionListener(new ActionListener() {
+                  public void actionPerformed(ActionEvent e) {
+                    SimpleProver prover =
+                      new SimpleProver(rules_, manager_, section_);
+                    prover.prove(pn.getProviso());
+                    getModel().nodeChanged(pn);
+                  }
+                });
+              popup.add(menuItem);
+              popup.show(e.getComponent(), e.getX(), e.getY());
+            }
+          }
         }
       }
     }
@@ -298,6 +317,9 @@ public class ProofTree
           insert(createNode(s), getChildCount());
         }
       }
+      else if (ded instanceof ProvisoApplication) {
+        insert(new Proviso2Node((ProvisoApplication) ded), 0);
+      }
     }
 
     public PredSequent getSequent()
@@ -307,21 +329,29 @@ public class ProofTree
 
     public boolean isClosed()
     {
-      if (getSequent().getDeduction() == null) return false;
-      for (Enumeration<TreeNode> e = children();
-           e.hasMoreElements() ;) {
-        TreeNode node = e.nextElement();
-        if (node instanceof ProofNode) {
-          if (! ((ProofNode) node).isClosed()) return false;
+      Deduction ded = getSequent().getDeduction();
+      if (ded == null) return false;
+      if (ded instanceof RuleApplication) {
+        for (Enumeration<TreeNode> e = children();
+             e.hasMoreElements() ;) {
+          TreeNode node = e.nextElement();
+          if (node instanceof ProofNode) {
+            if (! ((ProofNode) node).isClosed()) return false;
+          }
+          else if (node instanceof ProvisoNode) {
+            if (! ((ProvisoNode) node).isClosed()) return false;
+          }
+          else {
+            throw new RuntimeException("Unexpected node " + node.getClass());
+          }
         }
-        else if (node instanceof ProvisoNode) {
-          if (! ((ProvisoNode) node).isClosed()) return false;
-        }
-        else {
-          throw new RuntimeException("Unexpected node " + node.getClass());
-        }
+        return true;
       }
-      return true;
+      else if (ded instanceof ProvisoApplication) {
+        ProvisoApplication provisoAppl = (ProvisoApplication) ded;
+        return (provisoAppl.getProvisoStatus() instanceof CheckPassed);
+      }
+      throw new RuntimeException("Unexpected dedudction " + ded.getClass());
     }
 
     public String toString() {
@@ -369,6 +399,30 @@ public class ProofTree
     }
   }
 
+  class Proviso2Node
+    extends DefaultMutableTreeNode
+  {
+    public Proviso2Node(ProvisoApplication provisoAppl)
+    {
+      super(provisoAppl);
+    }
+
+    public ProvisoApplication getProviso()
+    {
+      return (ProvisoApplication) getUserObject();
+    }
+
+    public boolean isClosed()
+    {
+      return (getProviso().getProvisoStatus() instanceof CheckPassed);
+    }
+
+    public String toString()
+    {
+      return "proviso";
+    }
+  }
+
   class Renderer
     extends DefaultTreeCellRenderer
   {
@@ -393,12 +447,22 @@ public class ProofTree
           setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
         }
       }
+      else if (value instanceof Proviso2Node) {
+        setToolTipText("Proviso");
+        Proviso2Node node = (Proviso2Node) value;
+        if (node.isClosed()) {
+          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
+        }
+        else {
+          setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
+        }
+      }
       else if (value instanceof ProofNode) {
         ProofNode node = (ProofNode) value;
         PredSequent sequent = node.getSequent();
-        if (sequent.getDeduction() instanceof RuleApplication) {
-          RuleApplication ruleAppl = (RuleApplication) sequent.getDeduction();
-          setToolTipText("Rule " + ruleAppl.getName());
+        if (sequent.getDeduction() instanceof RulePara) {
+          RulePara rulePara = (RulePara) sequent.getDeduction();
+          setToolTipText("Rule " + rulePara.getName());
         }
         else {
           setToolTipText("No rule has been applied to this sequent");
