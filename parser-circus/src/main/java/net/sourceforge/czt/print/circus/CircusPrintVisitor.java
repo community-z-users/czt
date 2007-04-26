@@ -39,7 +39,7 @@ import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.z.util.ZUtils;
 
 /**
- * An Object-Z visitor used for printing.
+ * An Circus visitor used for printing.
  *
  * @author Petra Malik, Leo Freitas
  */
@@ -120,7 +120,7 @@ public class CircusPrintVisitor
   public Object visitChannelPara(ChannelPara term) {
     //TODO: Change this to CIRCUS for \begin{circus} at some point.
     print(TokenName.ZED);
-    visit(term.getChannelDecl());    
+    visit(term.getDeclList());    
     print(TokenName.END);   
     return null;
   } 
@@ -492,7 +492,7 @@ public class CircusPrintVisitor
     //boolean needHardSpace = term.getChannelExpr().getZExprList().isEmpty();
     visit(term.getChannelExpr());
     printDecorword("~");//hard space please
-    visit(term.getChanFields());
+    visit(term.getFieldList());
     return null;
   }
   
