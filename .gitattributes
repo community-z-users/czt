@@ -10,6 +10,16 @@ corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java 
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/PrintVisitor.java -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
+doc/ast-hierarchy-cards/circus/circus-action-command-ast-card.jpg -text
+doc/ast-hierarchy-cards/circus/circus-decl-ast-card.jpg -text
+doc/ast-hierarchy-cards/circus/circus-para-ast-card.jpg -text
+doc/ast-hierarchy-cards/circus/circus-process-ast-card.jpg -text
+doc/ast-hierarchy-cards/circus/circus-type-ann-ast-card.jpg -text
+doc/ast-hierarchy-cards/z/z-decl-name-ast-card.jpg -text
+doc/ast-hierarchy-cards/z/z-expr-ast-card.jpg -text
+doc/ast-hierarchy-cards/z/z-para-sect-ast-card.jpg -text
+doc/ast-hierarchy-cards/z/z-pred-ast-card.jpg -text
+doc/ast-hierarchy-cards/z/z-type-ann-ast-card.jpg -text
 doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
