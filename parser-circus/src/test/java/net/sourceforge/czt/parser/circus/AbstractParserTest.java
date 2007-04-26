@@ -23,6 +23,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.circus.util.PrintVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
@@ -73,8 +74,14 @@ public abstract class AbstractParserTest extends TestCase
   
   public Term parse(Source source) throws Exception
   {
-    System.out.println(source.toString());
-    return ParseUtils.parse(source, manager_);
+    Term term = ParseUtils.parse(source, manager_);
+    if (DEBUG_TESTING) {
+        PrintVisitor pv = new PrintVisitor();
+        //System.out.println("DEBUG: Print visitor for " + source);
+        //System.out.println(term.accept(pv));
+        //System.out.println();
+    }
+    return term;
   }
   
   class DeleteLocVisitor implements TermVisitor
