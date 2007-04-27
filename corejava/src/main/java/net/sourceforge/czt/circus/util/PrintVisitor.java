@@ -161,13 +161,13 @@ public class PrintVisitor
     
     public String visitBasicProcess(BasicProcess term) {
         StringBuffer result = new StringBuffer("StatePara=");
-        result.append(term.getStatePara().accept(this));
+        result.append(term.getStatePara() != null ? term.getStatePara().accept(this) : "null");
         result.append("\nLocalPara");
         result.append(visitList(term.getZLocalPara(), "[", "\n", "]"));
         result.append("\nOnTheFlyPara");
         result.append(visitList(term.getZOnTheFlyPara(), "[", "\n", "]"));
         result.append("\nMainAction=");
-        result.append(term.getMainAction().accept(this));
+        result.append(term.getMainAction() != null ? term.getMainAction().accept(this) : "null");
         return result.toString();
     }
     
@@ -191,7 +191,7 @@ public class PrintVisitor
         
         List<BasicProcess> basicProcesses_ = new ArrayList<BasicProcess>();
         
-        public Object visitBasicProcess(BasicProcess term) {
+        public Object visitBasicProcess(BasicProcess term) {            
             basicProcesses_.add(term);
             return term;
         }
@@ -202,6 +202,7 @@ public class PrintVisitor
         }
         
         List<BasicProcess> collectBasicProcessesFrom(Term term) {
+            assert term != null : "Invalid null basic process within specification";
             basicProcesses_.clear();
             term.accept(this);
             return Collections.unmodifiableList(basicProcesses_);
