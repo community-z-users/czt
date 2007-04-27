@@ -119,8 +119,8 @@ public class SimpleProver
           // clearer which rule application each message is talking about.
           int id = rand_.nextInt(1000);
           Deduction ded = predSequent.getDeduction();
-          if (ded instanceof RuleApplication) {
-            RuleApplication ruleAppl = (RuleApplication) ded;
+          if (ded instanceof RuleAppl) {
+            RuleAppl ruleAppl = (RuleAppl) ded;
             String message = "Applied rule " + rulePara.getName() + "." + id
               + ", children=" + ruleAppl.getSequentList().size();
             getLogger().fine(message);
@@ -137,8 +137,8 @@ public class SimpleProver
               getLogger().fine(message);
             }
           }
-          else if (ded instanceof ProvisoApplication) {
-            if (prove((ProvisoApplication) ded)) return true;
+          else if (ded instanceof OracleAppl) {
+            if (prove((OracleAppl) ded)) return true;
             undo(predSequent);
           }
           else {
@@ -165,19 +165,19 @@ public class SimpleProver
   {
     Deduction deduction = predSequent.getDeduction();
     if (deduction == null) return;
-    if (deduction instanceof RuleApplication) {
-      RuleApplication ruleAppl = (RuleApplication) deduction;
+    if (deduction instanceof RuleAppl) {
+      RuleAppl ruleAppl = (RuleAppl) deduction;
       ProverUtils.reset(ruleAppl.getBinding());
       predSequent.setDeduction(null);
     }
-    else if (deduction instanceof ProvisoApplication) {
-      ProvisoApplication provisoAppl = (ProvisoApplication) deduction;
-      if (provisoAppl.getProvisoStatus() instanceof CheckPassed) {
-        CheckPassed passed = (CheckPassed) provisoAppl.getProvisoStatus();
+    else if (deduction instanceof OracleAppl) {
+      OracleAppl oracleAppl = (OracleAppl) deduction;
+      if (oracleAppl.getProvisoStatus() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) oracleAppl.getProvisoStatus();
         ProverUtils.reset(passed.getBinding());
-        provisoAppl.setProvisoStatus(null);
+        oracleAppl.setProvisoStatus(null);
       }
-      ProverUtils.reset(provisoAppl.getBinding());
+      ProverUtils.reset(oracleAppl.getBinding());
       predSequent.setDeduction(null);
     }
     else {
@@ -192,30 +192,30 @@ public class SimpleProver
    */
   public boolean prove(Deduction deduction)
   {
-    if (deduction instanceof RuleApplication) {
-      RuleApplication ruleAppl = (RuleApplication) deduction;
+    if (deduction instanceof RuleAppl) {
+      RuleAppl ruleAppl = (RuleAppl) deduction;
       return prove(ruleAppl.getSequentList()) < 0;
     }
-    else if (deduction instanceof ProvisoApplication) {
-      return prove((ProvisoApplication) deduction);
+    else if (deduction instanceof OracleAppl) {
+      return prove((OracleAppl) deduction);
     }
     throw new CztException("Unsupported deduction " + deduction);
   }
 
-  public boolean prove(ProvisoApplication provisoAppl)
+  public boolean prove(OracleAppl oracleAppl)
   {
-    ProvisoStatus status = provisoAppl.getProvisoStatus();
+    ProvisoStatus status = oracleAppl.getProvisoStatus();
     if (status instanceof CheckPassed) return true;
-    ProvisoChecker checker = provisos_.get(provisoAppl.getName());
+    ProvisoChecker checker = provisos_.get(oracleAppl.getName());
     if (checker != null) {
-      List args = provisoAppl.getAnn(List.class);
+      List args = oracleAppl.getAnn(List.class);
       Set<Binding> bindings =
         checker.check(args, manager_, section_);
       if (bindings != null) {
         Factory factory = new Factory(new ProverFactory());
         CheckPassed passed = factory.createCheckPassed();
         passed.getBinding().addAll(bindings);
-        provisoAppl.setProvisoStatus(passed);
+        oracleAppl.setProvisoStatus(passed);
         return true;
       }
     }
@@ -255,8 +255,8 @@ public class SimpleProver
     if (rulePara instanceof Rule) {
       return apply((Rule) rulePara, predSequent);
     }
-    else if (rulePara instanceof Proviso2) {
-      return apply((Proviso2) rulePara, predSequent);
+    else if (rulePara instanceof Oracle) {
+      return apply((Oracle) rulePara, predSequent);
     }
     return false;
   }
@@ -287,10 +287,10 @@ public class SimpleProver
       if (bindings != null) {
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
-        RuleApplication ruleAppl =
-          factory.createRuleApplication(bindingList,
-                                        rule.getAntecedents(),
-                                        rule.getName());
+        RuleAppl ruleAppl =
+          factory.createRuleAppl(bindingList,
+                                 rule.getAntecedents(),
+                                 rule.getName());
         predSequent.setDeduction(ruleAppl);
         return true;
       }
@@ -310,7 +310,7 @@ public class SimpleProver
    *                                  predSequent or the conclusion of the
                                       rule is not a PredSequent.
    */
-  public static boolean apply(Proviso2 proviso, PredSequent predSequent)
+  public static boolean apply(Oracle oracle, PredSequent predSequent)
   {
     if (predSequent.getDeduction() != null) {
       String message =
@@ -319,8 +319,8 @@ public class SimpleProver
     }
     // Note: must use new ProverFactory here to generate fresh joker names.
     Factory factory = new Factory(new ProverFactory());
-    proviso = (Proviso2) copy(proviso, factory);
-    Sequent sequent = proviso.getSequent();
+    oracle = (Oracle) copy(oracle, factory);
+    Sequent sequent = oracle.getSequent();
     if (sequent instanceof PredSequent) {
       Pred pred = ((PredSequent) sequent).getPred();
       Set<Binding> bindings =
@@ -328,12 +328,12 @@ public class SimpleProver
       if (bindings != null) {
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
-        ProvisoApplication provisoAppl =
-          factory.createProvisoApplication(bindingList,
-                                           null,
-                                           proviso.getName());
-        provisoAppl.getAnns().add(ProverUtils.collectJokers(proviso));
-        predSequent.setDeduction(provisoAppl);
+        OracleAppl oracleAppl =
+          factory.createOracleAppl(bindingList,
+                                   null,
+                                   oracle.getName());
+        oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
+        predSequent.setDeduction(oracleAppl);
         return true;
       }
     }
@@ -358,8 +358,8 @@ public class SimpleProver
     if (rulePara instanceof Rule) {
       return apply2((Rule) rulePara, predSequent);
     }
-    else if (rulePara instanceof Proviso2) {
-      return apply2((Proviso2) rulePara, predSequent);
+    else if (rulePara instanceof Oracle) {
+      return apply2((Oracle) rulePara, predSequent);
     }
     return false;
   }
@@ -385,9 +385,9 @@ public class SimpleProver
           List<Binding> bindingList = new ArrayList<Binding>();
           bindingList.addAll(bindings);
           Deduction deduction =
-            factory.createRuleApplication(bindingList,
-                                          rule.getAntecedents(),
-                                          rule.getName());
+            factory.createRuleAppl(bindingList,
+                                   rule.getAntecedents(),
+                                   rule.getName());
           predSequent.setDeduction(deduction);
           return true;
         }
@@ -403,7 +403,7 @@ public class SimpleProver
     }
   }
 
-  public static boolean apply2(Proviso2 proviso, PredSequent predSequent)
+  public static boolean apply2(Oracle oracle, PredSequent predSequent)
     throws RuleApplicationException
   {
     try {
@@ -414,8 +414,8 @@ public class SimpleProver
       }
       // Note: must use new ProverFactory here to generate fresh joker names.
       Factory factory = new Factory(new ProverFactory());
-      proviso = (Proviso2) copy(proviso, factory);
-      Sequent sequent = proviso.getSequent();
+      oracle = (Oracle) copy(oracle, factory);
+      Sequent sequent = oracle.getSequent();
       if (sequent instanceof PredSequent) {
         Pred pred = ((PredSequent) sequent).getPred();
         Set<Binding> bindings =
@@ -423,12 +423,12 @@ public class SimpleProver
         if (bindings != null) {
           List<Binding> bindingList = new ArrayList<Binding>();
           bindingList.addAll(bindings);
-          ProvisoApplication provisoAppl =
-            factory.createProvisoApplication(bindingList,
-                                             null,
-                                             proviso.getName());
-          provisoAppl.getAnns().add(ProverUtils.collectJokers(proviso));
-          predSequent.setDeduction(provisoAppl);
+          OracleAppl oracleAppl =
+            factory.createOracleAppl(bindingList,
+                                     null,
+                                     oracle.getName());
+          oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
+          predSequent.setDeduction(oracleAppl);
           return true;
         }
       }
@@ -439,7 +439,7 @@ public class SimpleProver
       return false;
     }
     catch (UnificationException e) {
-      throw new RuleApplicationException(proviso, predSequent, e);
+      throw new RuleApplicationException(oracle, predSequent, e);
     }
   }
 

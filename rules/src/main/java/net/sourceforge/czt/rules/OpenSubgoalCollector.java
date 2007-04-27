@@ -33,7 +33,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 public class OpenSubgoalCollector
-  implements RuleApplicationVisitor,
+  implements RuleApplVisitor,
              PredSequentVisitor,
              ProvisoVisitor,
              TermVisitor
@@ -45,7 +45,7 @@ public class OpenSubgoalCollector
     return subgoals_;
   }
 
-  public Object visitRuleApplication(RuleApplication ruleAppl)
+  public Object visitRuleAppl(RuleAppl ruleAppl)
   {
     for (Sequent sequent : ruleAppl.getSequentList()) {
       sequent.accept(this);

@@ -129,8 +129,8 @@ public final class ProverUtils
   {
     Deduction ded = sequent.getDeduction();
     if (ded == null) return;
-    if (ded instanceof RuleApplication) {
-      RuleApplication ruleAppl = (RuleApplication) ded;
+    if (ded instanceof RuleAppl) {
+      RuleAppl ruleAppl = (RuleAppl) ded;
       list.addAll(ruleAppl.getBinding());
       for (Sequent s : ruleAppl.getSequentList()) {
         if (s instanceof PredSequent) {
@@ -142,11 +142,11 @@ public final class ProverUtils
         }
       }
     }
-    else if (ded instanceof ProvisoApplication) {
-      ProvisoApplication provisoAppl = (ProvisoApplication) ded;
-      list.addAll(provisoAppl.getBinding());
-      if (provisoAppl.getProvisoStatus() instanceof CheckPassed) {
-        CheckPassed passed = (CheckPassed) provisoAppl.getProvisoStatus();
+    else if (ded instanceof OracleAppl) {
+      OracleAppl oracleAppl = (OracleAppl) ded;
+      list.addAll(oracleAppl.getBinding());
+      if (oracleAppl.getProvisoStatus() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) oracleAppl.getProvisoStatus();
         list.addAll(passed.getBinding());
       }
     }

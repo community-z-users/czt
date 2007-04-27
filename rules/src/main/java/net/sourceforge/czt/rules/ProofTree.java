@@ -222,8 +222,8 @@ public class ProofTree
               popup.show(e.getComponent(), e.getX(), e.getY());
             }
           }
-          else if (o instanceof Proviso2Node) {
-            final Proviso2Node pn = (Proviso2Node) o;
+          else if (o instanceof OracleNode) {
+            final OracleNode pn = (OracleNode) o;
             if (! pn.isClosed()) {
               JPopupMenu popup = new JPopupMenu();
               JMenuItem menuItem = new JMenuItem("Check proviso");
@@ -231,7 +231,7 @@ public class ProofTree
                   public void actionPerformed(ActionEvent e) {
                     SimpleProver prover =
                       new SimpleProver(rules_, manager_, section_);
-                    prover.prove(pn.getProviso());
+                    prover.prove(pn.getOracleAppl());
                     getModel().nodeChanged(pn);
                   }
                 });
@@ -310,13 +310,13 @@ public class ProofTree
     {
       super(sequent);
       Deduction ded = sequent.getDeduction();
-      if (ded instanceof RuleApplication) {
-        for (Sequent s : ((RuleApplication) ded).getSequentList()) {
+      if (ded instanceof RuleAppl) {
+        for (Sequent s : ((RuleAppl) ded).getSequentList()) {
           insert(createNode(s), getChildCount());
         }
       }
-      else if (ded instanceof ProvisoApplication) {
-        insert(new Proviso2Node((ProvisoApplication) ded), 0);
+      else if (ded instanceof OracleAppl) {
+        insert(new OracleNode((OracleAppl) ded), 0);
       }
     }
 
@@ -329,7 +329,7 @@ public class ProofTree
     {
       Deduction ded = getSequent().getDeduction();
       if (ded == null) return false;
-      if (ded instanceof RuleApplication) {
+      if (ded instanceof RuleAppl) {
         for (Enumeration<TreeNode> e = children();
              e.hasMoreElements() ;) {
           TreeNode node = e.nextElement();
@@ -345,8 +345,8 @@ public class ProofTree
         }
         return true;
       }
-      else if (ded instanceof ProvisoApplication) {
-        ProvisoApplication provisoAppl = (ProvisoApplication) ded;
+      else if (ded instanceof OracleAppl) {
+        OracleAppl provisoAppl = (OracleAppl) ded;
         return (provisoAppl.getProvisoStatus() instanceof CheckPassed);
       }
       throw new RuntimeException("Unexpected dedudction " + ded.getClass());
@@ -397,22 +397,22 @@ public class ProofTree
     }
   }
 
-  class Proviso2Node
+  class OracleNode
     extends DefaultMutableTreeNode
   {
-    public Proviso2Node(ProvisoApplication provisoAppl)
+    public OracleNode(OracleAppl provisoAppl)
     {
       super(provisoAppl);
     }
 
-    public ProvisoApplication getProviso()
+    public OracleAppl getOracleAppl()
     {
-      return (ProvisoApplication) getUserObject();
+      return (OracleAppl) getUserObject();
     }
 
     public boolean isClosed()
     {
-      return (getProviso().getProvisoStatus() instanceof CheckPassed);
+      return (getOracleAppl().getProvisoStatus() instanceof CheckPassed);
     }
 
     public String toString()
@@ -445,9 +445,9 @@ public class ProofTree
           setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
         }
       }
-      else if (value instanceof Proviso2Node) {
+      else if (value instanceof OracleNode) {
         setToolTipText("Proviso");
-        Proviso2Node node = (Proviso2Node) value;
+        OracleNode node = (OracleNode) value;
         if (node.isClosed()) {
           setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
         }

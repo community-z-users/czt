@@ -99,7 +99,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="Proviso2" type="P:Proviso2"
+  <xs:element name="Oracle" type="P:Oracle"
     substitutionGroup="P:RulePara"/>
 
   <xs:element name="Jokers" type="P:Jokers" substitutionGroup="Z:Para">
@@ -154,8 +154,8 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="RuleApplication"
-              type="P:RuleApplication"
+  <xs:element name="RuleAppl"
+              type="P:RuleAppl"
               substitutionGroup="P:Deduction">
     <xs:annotation>
       <xs:documentation>
@@ -164,8 +164,8 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="ProvisoApplication"
-              type="P:ProvisoApplication"
+  <xs:element name="OracleAppl"
+              type="P:OracleAppl"
               substitutionGroup="P:Deduction">
     <xs:annotation>
       <xs:documentation>
@@ -322,7 +322,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="Proviso2">
+  <xs:complexType name="Oracle">
     <xs:complexContent>
       <xs:extension base="P:RulePara"/>
     </xs:complexContent>
@@ -355,7 +355,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="RuleApplication">
+  <xs:complexType name="RuleAppl">
     <xs:complexContent>
       <xs:extension base="P:Deduction">
         <xs:sequence>
@@ -373,7 +373,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ProvisoApplication">
+  <xs:complexType name="OracleAppl">
     <xs:complexContent>
       <xs:extension base="P:Deduction">
         <xs:sequence>

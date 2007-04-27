@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -189,20 +189,20 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitProviso2(Proviso2 proviso)
+  public Object visitOracle(Oracle oracle)
   {
     printDecorword(ZPattString.PROVISO);
-    printDecorword(proviso.getName());
-    visit(proviso.getSequent());
+    printDecorword(oracle.getName());
+    visit(oracle.getSequent());
     return null;
   }
 
-  public Object visitProvisoApplication(ProvisoApplication ruleApplication)
+  public Object visitOracleAppl(OracleAppl oracleAppl)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Object visitRuleApplication(RuleApplication ruleApplication)
+  public Object visitRuleAppl(RuleAppl ruleAppl)
   {
     throw new UnsupportedOperationException();
   }

@@ -1883,7 +1883,7 @@ non terminal And
 /// Z pattern constructs ///////////////////////////////////////////////
 non terminal Jokers jokerPara;
 non terminal Rule rulePara;
-non terminal Proviso2 provisoPara;
+non terminal Oracle oraclePara;
 
 non terminal List&lt;String&gt; jokerList;
 
@@ -2468,7 +2468,7 @@ boxedParagraph ::=
         rulePara:rp
         {: RESULT = rp; :}
         |
-        provisoPara:pp
+        oraclePara:pp
         {: RESULT = pp; :}
 </add:zpatt>
 <add:oz>
@@ -6496,10 +6496,10 @@ rulePara ::=
         :}
         ;
 
-provisoPara ::=
+oraclePara ::=
         PROVISO:p DECORWORD:dw sequent:s END:end
         {:
-           RESULT = factory_.createProviso2(s, dw.getName());
+           RESULT = factory_.createOracle(s, dw.getName());
            addLocAnn(RESULT, getLocation(p, end));
         :}
         ;
