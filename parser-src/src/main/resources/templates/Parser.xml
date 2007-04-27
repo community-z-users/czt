@@ -1104,19 +1104,11 @@ action code
         return ap;
     }
     
-    
-    /*
-    protected NameList getCurrentProcessGenFormals() {
-        // TODO: Add this, with production just like ZSect.
-        return factory_.createZNameList();
+    protected ProcessPara createProcessPara(ZName name, ZNameList fp, CircusProcess cp) {
+        ProcessPara pp = factory_.createProcessPara(name, fp, cp);
+        return pp;
     }
-    
-    protected ExprList defaultCurrentProcessGenActuals() {
-        // TOD: Add this, with production just like ZSect.
-        return factory_.createZExprList();
-    }
-    */
-    
+       
     /**
      * Creates an implicit process paragraph with location annotation for the given name and action.
      */
@@ -1270,6 +1262,21 @@ action code
         return result;
     }
     
+    protected BasicProcess updateBasicProcessInformation(LocInfo loc) {
+        CztLogger.getLogger(<class/>.class).fine("UPDATE BASIC PROCESS INFORMATION (FROM MAIN ACTION)");
+        return updateBasicProcessInformation(parserState_.getBasicProcess(), loc); 
+    }
+    
+    protected BasicProcess updateBasicProcessInformation(BasicProcess bp, LocInfo loc) {
+        CztLogger.getLogger(<class/>.class).fine("UPDATE BASIC PROCESS INFORMATION " + bp.hashCode() + " @ " + loc);
+        if (bp!=null) { CztLogger.getLogger(<class/>.class).fine("GIVEN BASIC PROCESS BEFORE: " + bp.hashCode() + "\n" + parserState_.printBasicProcess(bp)); }
+        CztLogger.getLogger(<class/>.class).fine("BEFORE UPDATE: " + parserState_.getBasicProcess().hashCode() + "\n" + parserState_.printBasicProcess());
+        BasicProcess result = parserState_.updateBasicProcessInformation(loc);
+        CztLogger.getLogger(<class/>.class).fine("AFTER UPDATE: " + parserState_.getBasicProcess().hashCode() + "\n" + parserState_.printBasicProcess());        
+        if (bp!=null) { CztLogger.getLogger(<class/>.class).fine("GIVEN BASIC PROCESS BEFORE: " + bp.hashCode() + "\n" + parserState_.printBasicProcess(bp)); }
+        return result;
+    }
+    
     /**
      * Enters a basic process scope within the parser state, giving a parser
      * error in case of nested process scopes. It assumes the BasicProcess 
@@ -1307,15 +1314,14 @@ action code
     }              
     
     /** Create an empty basic process and sets the parser state valure for it */
-    protected BasicProcess createMockBasicProcessFor(String from) {
-       CztLogger.getLogger(<class/>.class).fine("CREATING BASICPROCESS => " + from);       
-
+    protected BasicProcess createMockBasicProcessFor(String from) {       
        // NEVER CREATE DIRECTLY (i.e. null lists), AS PARSERSTATE WILL UPDATE
        // THE CURRENT PROCESS' OnTheFlyPara!
        // statePara, localParaList, onTheFlyParaList, mainAction
        BasicProcess result = factory_.createBasicProcess(null, factory_.createZParaList(), 
             factory_.createZParaList(), null);
        
+       CztLogger.getLogger(<class/>.class).fine("CREATING BASICPROCESS => " + from + " = \n" + result);       
        return result;
     }
 
@@ -2908,7 +2914,7 @@ circusParagraphList ::=
         {:                        
             // Updates the basic process structures with collected 
             // information (i.e. local para, state para, on the fly, main action, etc.)
-            parserState_.updateBasicProcessInformation(getLocation(circ, cbpma));            
+            updateBasicProcessInformation(getLocation(circ, cbpma));
             parserState_.clearBasicProcessInformation();            
             
             // If exit fails, a warning is mentioned, not an error, 
@@ -2919,7 +2925,7 @@ circusParagraphList ::=
             
             // bp = null if warning took place, so continue no problem
             if (bp != null) {
-                RESULT.add(bp);
+                RESULT.add(factory_.createProcessPara(factory_.createZName("$TEST"), factory_.createZNameList(), bp));
                 addLocAnn(RESULT.get(0), getLocation(circ, end));
             }            
         :}
@@ -3873,7 +3879,6 @@ circusBasicProcess ::=
         {:    
            // create an empty BasicProcess with empty (rather than null) lists 
            RESULT = createMockBasicProcessFor("JUST MAINACTION - SINGLE ENVIRONMENT");
-           addLocAnn(RESULT, getLocation(cb, ca));
            
            // sets the basic process scope flag. 
            // it is important to check mainAction's scope 
@@ -3882,7 +3887,7 @@ circusBasicProcess ::=
            
                // Updates the basic process structures with collected 
                // information (i.e. main action)
-               parserState_.updateBasicProcessInformation(getLocation(RESULT));
+               RESULT = updateBasicProcessInformation(RESULT, getLocation(RESULT));
                
                // Clears: the implicitly declared actions and their name seed;
                // the current main action, the current basic process, and the
@@ -3893,7 +3898,10 @@ circusBasicProcess ::=
                BasicProcess bp = exitBasicProcessScope(getLocation(cb, ca));
                
                // bp = null if warning took place, otherwise it must be RESULT
-               assert (bp == null) || (bp.equals(RESULT)) : "Invalid scoped basic process: different from RESULT";
+               if (bp != null) {
+                    RESULT = bp;                   
+               }               
+               addLocAnn(RESULT, getLocation(cb, ca));
             }
         :}
         |
@@ -3901,7 +3909,6 @@ circusBasicProcess ::=
         {: 
            // create an empty BasicProcess with empty (rather than null) lists 
            RESULT = createMockBasicProcessFor("SINGLE ENVIRONMENT");
-           addLocAnn(RESULT, getLocation(cb, ca));           
            
            // sets the basic process scope flag. 
            // it is important to check mainAction's scope 
@@ -3912,14 +3919,19 @@ circusBasicProcess ::=
            
                // Updates the basic process structures with collected 
                // information (i.e. ipl, state para, on the fly, main action, etc.)
-               parserState_.updateBasicProcessInformation(getLocation(RESULT));                                             
+               RESULT = updateBasicProcessInformation(RESULT, getLocation(RESULT));                                             
+                          
                parserState_.clearBasicProcessInformation();
                
                // If exit fails, a warning is mentioned, not an error, so continue regardless
                BasicProcess bp = exitBasicProcessScope(getLocation(cb, ca));               
                
                // bp = null if warning took place, otherwise it must be RESULT
-               assert (bp == null) || (bp.equals(RESULT)) : "Invalid scoped basic process: different from RESULT";
+               if (bp != null) {
+                    RESULT = bp;
+                   
+               }
+               addLocAnn(RESULT, getLocation(cb, ca));
            }
         :}        
         ;        
