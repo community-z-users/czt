@@ -323,12 +323,22 @@ public void addCircusStateAnn(Para para) {
       return statePara_ != null;
   }
   
-  public String printBasicProcess() {      
+  BasicProcess getBasicProcess() {
       assert isWithinMultipleEnvBasicProcessScope() : "Invalid basic process scope (null)";
-      return printVisitor_.printBasicProcesses(basicProcess_);
+      return basicProcess_;
   }
   
-  public void updateBasicProcessInformation(LocInfo l) {
+  public String printBasicProcess() {      
+      assert isWithinMultipleEnvBasicProcessScope() : "Invalid basic process scope (null)";
+      return printBasicProcess(basicProcess_);
+  }
+  
+  public String printBasicProcess(BasicProcess bp) {      
+      assert bp != null : "Invalid basic process scope (null)";
+      return printVisitor_.printBasicProcesses(bp);
+  }
+  
+  public BasicProcess updateBasicProcessInformation(LocInfo l) {
       assert isWithinMultipleEnvBasicProcessScope() : "Invalid basic process scope (null)";
       assert hasMainAction() : "No main action available for current basic process";
 
@@ -339,5 +349,6 @@ public void addCircusStateAnn(Para para) {
       basicProcess_.setLocalPara(localPara);
       basicProcess_.setOnTheFlyPara(onTheFlyPara);
       basicProcess_.setMainAction(getMainAction());
+      return basicProcess_;
   }
 }
