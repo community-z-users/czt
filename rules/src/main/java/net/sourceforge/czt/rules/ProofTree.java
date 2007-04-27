@@ -100,7 +100,7 @@ public class ProofTree
     PredSequent sequent = node.getSequent();
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
-    Rule copiedRule = (Rule) rules_.getRulePara(name).accept(visitor);
+    RulePara copiedRule = (RulePara) rules_.getRulePara(name).accept(visitor);
     try {
       SimpleProver.apply2(copiedRule, sequent);
     }

@@ -352,6 +352,18 @@ public class SimpleProver
    *                                  to the sequent,
    *                                  or the rule doesn't have a sequent
    */
+  public static boolean apply2(RulePara rulePara, PredSequent predSequent)
+    throws RuleApplicationException
+  {
+    if (rulePara instanceof Rule) {
+      return apply2((Rule) rulePara, predSequent);
+    }
+    else if (rulePara instanceof Proviso2) {
+      return apply2((Proviso2) rulePara, predSequent);
+    }
+    return false;
+  }
+
   public static boolean apply2(Rule rule, PredSequent predSequent)
     throws RuleApplicationException
   {
@@ -388,6 +400,46 @@ public class SimpleProver
     }
     catch (UnificationException e) {
       throw new RuleApplicationException(rule, predSequent, e);
+    }
+  }
+
+  public static boolean apply2(Proviso2 proviso, PredSequent predSequent)
+    throws RuleApplicationException
+  {
+    try {
+      if (predSequent.getDeduction() != null) {
+        String message =
+          "This PredSequent already has a deduction associated to it.";
+        throw new IllegalArgumentException(message);
+      }
+      // Note: must use new ProverFactory here to generate fresh joker names.
+      Factory factory = new Factory(new ProverFactory());
+      proviso = (Proviso2) copy(proviso, factory);
+      Sequent sequent = proviso.getSequent();
+      if (sequent instanceof PredSequent) {
+        Pred pred = ((PredSequent) sequent).getPred();
+        Set<Binding> bindings =
+          UnificationUtils.unify2(pred, predSequent.getPred());
+        if (bindings != null) {
+          List<Binding> bindingList = new ArrayList<Binding>();
+          bindingList.addAll(bindings);
+          ProvisoApplication provisoAppl =
+            factory.createProvisoApplication(bindingList,
+                                             null,
+                                             proviso.getName());
+          provisoAppl.getAnns().add(ProverUtils.collectJokers(proviso));
+          predSequent.setDeduction(provisoAppl);
+          return true;
+        }
+      }
+      else {
+        String message = "Conclusion of a rule must be a PredSequent";
+        throw new IllegalArgumentException(message);
+      }
+      return false;
+    }
+    catch (UnificationException e) {
+      throw new RuleApplicationException(proviso, predSequent, e);
     }
   }
 

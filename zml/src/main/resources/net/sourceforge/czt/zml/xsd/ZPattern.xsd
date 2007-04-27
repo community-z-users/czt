@@ -284,19 +284,6 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="TypeProviso" type="P:TypeProviso" substitutionGroup="P:Proviso">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is Expr:Expr2, where
-        Expr2 must contain only base type constructors and
-        expression jokers.
-        The sequent is true when the typechecker can prove
-        (from the context of the sequent) that the base type
-        of Expr is Expr2.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
   <xs:complexType name="SequentList">
     <xs:complexContent>
       <xs:extension base="Z:Term">
@@ -527,23 +514,6 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="TypeProviso">
-    <xs:complexContent>
-      <xs:extension base="P:Proviso">
-        <xs:sequence>
-          <xs:element ref="Z:Expr"/>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Type"/>
-              </xs:appinfo>
-            </xs:annotation>
-	  </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

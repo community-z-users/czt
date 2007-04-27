@@ -211,13 +211,4 @@ public class ZpattPrintVisitor
   {
     throw new UnsupportedOperationException();
   }
-
-  public Object visitTypeProviso(TypeProviso proviso)
-  {
-    print(ZPattKeyword.PROVISO);
-    visit(proviso.getExpr());
-    print(Keyword.COLON);
-    visit(proviso.getType());
-    return null;
-  }
 }

@@ -39,9 +39,9 @@ public class TypecheckProviso
   public Set<Binding> check(List args, SectionManager manager, String section)
   {
     try {
-      final Expr type = (Expr) args.get(0);
-      Expr expr = (Expr) args.get(1);
+      Expr expr = (Expr) args.get(0);
       expr = (Expr) ProverUtils.removeJoker(expr);
+      final Expr type = (Expr) args.get(1);
       List errors =
         TypeCheckUtils.typecheck(expr, manager, false, true, section);
       if (errors == null || errors.isEmpty()) {

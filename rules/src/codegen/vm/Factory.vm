@@ -103,16 +103,4 @@ public class ProverFactory
     proviso.setRightExpr(rightExpr);
     return proviso;
   }
-
-  public TypeProviso
-  createTypeProviso(SequentContext sequentContext,
-                    Expr expr,
-                    Expr type)
-  {
-    TypeProviso proviso = new ProverTypeProviso();
-    proviso.setSequentContext(sequentContext);
-    proviso.setExpr(expr);
-    proviso.setType(type);
-    return proviso;
-  }
 }

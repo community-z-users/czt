@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@ package net.sourceforge.czt.rules;
 
 import net.sourceforge.czt.rules.unification.UnificationException;
 import net.sourceforge.czt.zpatt.ast.PredSequent;
-import net.sourceforge.czt.zpatt.ast.Rule;
+import net.sourceforge.czt.zpatt.ast.RulePara;
 
 /**
  * Thrown when the application of a rule to a sequent has failed.
@@ -29,21 +29,21 @@ import net.sourceforge.czt.zpatt.ast.Rule;
 public class RuleApplicationException
   extends Exception
 {
-  private Rule rule_;
+  private RulePara rulePara_;
   private PredSequent sequent_;
 
-  public RuleApplicationException(Rule rule,
+  public RuleApplicationException(RulePara rulePara,
                                   PredSequent sequent,
                                   UnificationException cause)
   {
     super(cause);
-    rule_ = rule;
+    rulePara_ = rulePara;
     sequent_ = sequent;
   }
 
-  public Rule getRule()
+  public RulePara getRule()
   {
-    return rule_;
+    return rulePara_;
   }
 
   public PredSequent getSequent()
@@ -53,6 +53,6 @@ public class RuleApplicationException
 
   public String getMessage()
   {
-    return rule_.getName() + " cannot be applied to " + sequent_;
+    return rulePara_.getName() + " cannot be applied to " + sequent_;
   }
 }

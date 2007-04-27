@@ -6563,13 +6563,6 @@ proviso ::=
            addLocAnn(RESULT, getLocation(deleft, deright, e1, e2));
         :}
         |
-        term:t COLON baseType:bt
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createTypeProviso(sc, expr(t), bt);
-           addLocAnn(RESULT, getLocation(t, bt));
-        :}
-        |
         term:t
         {:
            SequentContext sc = factory_.createSequentContext();
@@ -6632,13 +6625,6 @@ antecedent ::=
            SequentContext sc = factory_.createSequentContext();
            RESULT = factory_.createPredSequent(sc, pred(t), null);
            addLocAnn(RESULT, getLocation(t));
-        :}
-        |
-        expression:e COLON baseType:bt
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createTypeProviso(sc, e, bt);
-           addLocAnn(RESULT, getLocation(e, bt));
         :}
         ;
 

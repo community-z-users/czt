@@ -11,7 +11,7 @@
 \maketitle
 
 \begin{zsection}
-  \SECTION unfold \parents zpattern\_toolkit, standard\_toolkit
+  \SECTION unfold \parents proviso\_toolkit, standard\_toolkit
 \end{zsection}
 
 This Z section contains rules for unfolding and normalising declarations
@@ -23,11 +23,6 @@ declarations whose types are all base types and $P$ is a predicate that
 will contain constraints like $x \in \nat$ and $p~x$.
 
 We start by declaring the jokers used in all the rules in this section.
-
-\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9 \end{zedjoker}
-\begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6, P7, P8, P9 \end{zedjoker}
-\begin{zedjoker}{Expr} T, E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
-\begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
@@ -85,32 +80,22 @@ how we can influence the behaviour of the rewrite tactic by placing more
 specific rules before more general ones.  Of course, in the interactive
 prover, the user could choose to apply either rule when $E$ is a base type.
 
-%%Zinword \isTypeOf isTypeOf
-
-\begin{zed}
-  \relation ( \_ \isTypeOf \_ )
-\end{zed}
-
-\begin{zedproviso}{TypecheckProviso}
-  T \isTypeOf E
-\end{zedproviso}
-
 \begin{zedrule}{VarDecl1}
-   \power E \isTypeOf E \\
+   E \hasType \power E \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E; D2 |  P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl2}
-   \power E2 \isTypeOf E \\
+   E \hasType \power E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
 \end{zedrule}
 
 \begin{zedrule}{ConstDecl}
-   \proviso E : E2 \\
+   E \hasType E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
@@ -124,7 +109,7 @@ mutually recursive.
 \begin{zedrule}{IncludeDecl}
    E \sexprUnfoldsTo [D1 | P1] \\
    [D | true] \declListUnfoldsTo [D2 | P2] \\
-   \proviso [D1 | true] \land [D2 | true] : \power [D3]
+   ([D1 | true] \land [D2 | true])\hasType \power [D3 | true] 
 \derives
    [E; D | true] \declListUnfoldsTo [D3 |  P1 \land P2]
 \end{zedrule}
@@ -152,14 +137,14 @@ of scope gives the evaluation optimization algorithms more
 freedom to reorder things later.
 
 \begin{zedrule}{TopLevel}
-  \proviso E : \power [D2] \\
+  E \hasType \power [D2 | true] \\
   E  \sexprUnfoldsTo [D | P]
 \derives
   E = [D | P]
 \end{zedrule}
 
 \begin{zedrule}{Theta}
-  \proviso E : \power [D] \\
+  E \hasType \power [D | true] \\
   \proviso E2 == \theta [D | true]
 \derives
   \theta E = E2
@@ -171,14 +156,14 @@ support for Stroke-List jokers, so that all decorations can
 be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
-  \proviso E : \power [D] \\
+  E \hasType \power [D | true] \\
   \proviso E2 == \theta [D | true] '
 \derives
   \theta E~' = E2
 \end{zedrule}
 
 \begin{zedrule}{ThetaDecor9}
-  \proviso E : \power [D] \\
+  E \hasType \power [D | true] \\
   \proviso E2 == \theta [D | true]~_{9}
 \derives
   \theta E~_{9} = E2
@@ -221,7 +206,7 @@ then the above SchemaRef rule would have unfolded it.
 \begin{zedrule}{XiRef}
   \proviso v2 == \Xi \unprefix v \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
-  \proviso [v2|true] : \power [D2]
+  [v2|true] \hasType \power [D2 | true] 
 \derives
   v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
@@ -252,7 +237,7 @@ but do not appear in $D1$.
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
-   \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+   ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true] \\
    \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
 \derives
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
@@ -270,7 +255,7 @@ normalised before the predicate is negated.
 \begin{zedrule}{SchemaConjunction}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
+  ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true]
 \derives
   (E1 \land E2) \sexprUnfoldsTo [D3 | P1 \land P2]
 \end{zedrule}
@@ -278,7 +263,7 @@ normalised before the predicate is negated.
 \begin{zedrule}{SchemaDisjunction}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
+  ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true]
 \derives
   (E1 \lor E2) \sexprUnfoldsTo [D3 | P1 \lor P2]
 \end{zedrule}
@@ -286,7 +271,7 @@ normalised before the predicate is negated.
 \begin{zedrule}{SchemaImplication}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
+  ([D1 | true] \land [D2 | true])\hasType \power [D3 | true]
 \derives
   (E1 \implies E2) \sexprUnfoldsTo [D3 | P1 \implies P2]
 \end{zedrule}
@@ -294,7 +279,7 @@ normalised before the predicate is negated.
 \begin{zedrule}{SchemaEquivalence}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
- \proviso [D1 | true] \land [D2 | true] : \power [D3]
+  ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true]
 \derives
   (E1 \iff E2) \sexprUnfoldsTo [D3 | P1 \iff P2]
 \end{zedrule}
@@ -306,7 +291,7 @@ Any other names that are declared in $E1$ are hidden existentially.
 \begin{zedrule}{SchemaProjection}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
-  \proviso [D1 | true] \land [D2 | true] : \power [D3] \\
+  ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true] \\
   \proviso [D4 | true] == [D3 | true] \schemaminus [D2 | true]
 \derives
   E1 \project E2 \sexprUnfoldsTo [D2 | (\exists D4 @ P1 \land P2)]
@@ -329,8 +314,8 @@ such as $x$, $x?$ and $x_2$.
 \end{zedrule}
 
 \begin{zedrule}{SchemaComposition}
-  \proviso E1 : \power [D1] \\
-  \proviso E2 : \power [D2] \\
+  E1 \hasType \power [D1 | true] \\
+  E2 \hasType \power [D2 | true] \\
   \proviso [D3 | true] == primenames [D1 | true] \\
   \proviso [D4 | true] == undecorate [D3 | true] \\
   \proviso [D5 | true] == [D4 | true] \schemaminus [D2 | true] \\
