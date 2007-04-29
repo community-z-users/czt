@@ -80,18 +80,6 @@ public class ProverFactory
 
 #end
 
-  public LookupConstDeclProviso
-  createLookupConstDeclProviso(SequentContext sequentContext,
-                               Expr leftExpr,
-                               Expr rightExpr)
-  {
-    LookupConstDeclProviso proviso = new ProverLookupConstDeclProviso();
-    proviso.setSequentContext(sequentContext);
-    proviso.setLeftExpr(leftExpr);
-    proviso.setRightExpr(rightExpr);
-    return proviso;
-  }
-
   public CalculateProviso
   createCalculateProviso(SequentContext sequentContext,
                          Expr leftExpr,

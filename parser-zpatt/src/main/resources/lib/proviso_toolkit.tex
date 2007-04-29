@@ -1,3 +1,9 @@
+\documentclass{article}
+\usepackage{czt}
+\newcommand{\unprefix}{\mathrel{unprefix}}
+
+\begin{document}
+
 \begin{zsection}
   \SECTION proviso\_toolkit \parents zpattern\_toolkit
 \end{zsection}
@@ -17,3 +23,36 @@
   E \hasType T
 \end{zedproviso}
 
+
+
+%%Zinword \hasDefn hasDefn
+
+\begin{zed}
+  \relation (\_ \hasDefn \_)
+\end{zed}
+
+\begin{zedproviso}{LookupProviso}
+  E1 \hasDefn E2
+\end{zedproviso}
+
+
+
+%%Zinword \is is
+
+\begin{zed}
+  \relation (\_ \is \_)
+\end{zed}
+
+\begin{zedproviso}{CalculateThetaProviso}
+  \theta [D | true] \is E
+\end{zedproviso}
+
+\begin{zedproviso}{CalculateThetaPrimeProviso}
+  \theta [D | true] ' \is E
+\end{zedproviso}
+
+\begin{zedproviso}{CalculateTheta9Proviso}
+  \theta [D | true] _9 \is E
+\end{zedproviso}
+
+\end{document}

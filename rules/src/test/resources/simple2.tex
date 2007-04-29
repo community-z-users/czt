@@ -1,11 +1,6 @@
 \begin{zsection}
-\SECTION simple2 \parents zpattern\_toolkit
+\SECTION simple2 \parents proviso\_toolkit
 \end{zsection}
-
-\begin{zedjoker}{DeclList} D, D1, D2, D3\end{zedjoker} \\
-\begin{zedjoker}{Pred} P, P1, P2\end{zedjoker} \\
-\begin{zedjoker}{Expr} E, E2\end{zedjoker} \\
-\begin{zedjoker}{Name} v\end{zedjoker} \\
 
 We define an infix operator for unfolding schemas.
 
@@ -147,7 +142,7 @@ unification are undone correctly.
 
 
 \begin{zedrule}{normaliseIncludeDecl}
-   \proviso ?~ v == [D1 | P1] \\
+   v \hasDefn [D1 | P1] \\
 \derives
    [v; D | true] \unfoldsTo [D1 | P1 \land P2]
 \end{zedrule}

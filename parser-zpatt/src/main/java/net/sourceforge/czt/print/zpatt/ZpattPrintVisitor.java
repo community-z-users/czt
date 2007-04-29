@@ -146,24 +146,6 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitLookupPredProviso(LookupPredProviso proviso)
-  {
-    print(ZPattKeyword.PROVISO);
-    print(TokenName.INSTROKE);
-    visit(proviso.getPred());
-    return null;
-  }
-
-  public Object visitLookupConstDeclProviso(LookupConstDeclProviso proviso)
-  {
-    print(ZPattKeyword.PROVISO);
-    print(TokenName.INSTROKE);
-    visit(proviso.getLeftExpr());
-    print(Keyword.DEFEQUAL);
-    visit(proviso.getRightExpr());
-    return null;
-  }
-
   public Object visitPredSequent(PredSequent predSequent)
   {
     visit(predSequent.getPred());

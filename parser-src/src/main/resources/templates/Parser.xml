@@ -1906,7 +1906,6 @@ non terminal PredSequent conclusion;
 non terminal Sequent
     sequent,
     proviso,
-    lookupProviso,
     provisoSequent,
     predSequent;
 
@@ -6581,25 +6580,6 @@ proviso ::=
            RESULT = factory_.createCheckProviso(sc, pred(t));
            addLocAnn(RESULT, getLocation(t));
         :}
-        |
-        lookupProviso:lp
-        {: RESULT = lp; :}
-        ;
-
-lookupProviso ::=
-        INSTROKE:is expression:e1 DEFEQUAL expression:e2
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createLookupConstDeclProviso(sc, expr(e1), expr(e2));
-           addLocAnn(RESULT, getLocation(is, e2));
-        :}
-        |
-        INSTROKE:is term:t
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createLookupPredProviso(sc, pred(t));
-           addLocAnn(RESULT, getLocation(is, t));
-        :}        
         ;
 
 predSequent ::=

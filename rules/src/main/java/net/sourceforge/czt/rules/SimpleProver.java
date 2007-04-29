@@ -73,6 +73,7 @@ public class SimpleProver
   {
     Map<String,ProvisoChecker> result = new HashMap<String,ProvisoChecker>();
     result.put("TypecheckProviso", new TypecheckProviso());
+    result.put("LookupProviso", new LookupProviso());
     return result;
   }
 
@@ -218,6 +219,9 @@ public class SimpleProver
         oracleAppl.setProvisoStatus(passed);
         return true;
       }
+    }
+    else {
+      System.err.println("No binding for proviso " + oracleAppl.getName());
     }
     return false;
   }

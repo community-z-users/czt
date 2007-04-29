@@ -218,44 +218,6 @@
   <xs:element name="Proviso" type="P:Proviso"
       abstract="true" substitutionGroup="P:Sequent"/>
 
-  <xs:element name="LookupProviso" type="P:LookupProviso"
-      abstract="true" substitutionGroup="P:Proviso">
-    <xs:annotation>
-      <xs:documentation>
-        This is the abstract base class of all the lookup provisos.
-        They search the context (which includes the specification)
-        for a given kind of fact.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="LookupConstDeclProviso" 
-              type="P:LookupConstDeclProviso"
-              substitutionGroup="P:LookupProviso">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is Expr1==Expr2.
-        The sequent is true when the context of the sequent
-        contains the definition Name[T1,...,Tn]==Expr
-        (n may equal 0).  Note that Expr1 is usually written
-        as an ExprJoker in the rules, and will be bound only
-        to a RefExpr by this proviso.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="LookupPredProviso"
-              type="P:LookupPredProviso"
-              substitutionGroup="P:LookupProviso">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is simply a predicate.
-        The sequent is true when the context of the sequent
-        contains a predicate that unifies with this predicate.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
   <xs:element name="CheckProviso"
               type="P:CheckProviso"
               substitutionGroup="P:Proviso">
@@ -444,45 +406,6 @@
   <xs:complexType name="Proviso">
     <xs:complexContent>
       <xs:extension base="P:Sequent"/>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="LookupProviso">
-    <xs:complexContent>
-      <xs:extension base="P:Proviso"/>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="LookupConstDeclProviso">
-    <xs:complexContent>
-      <xs:extension base="P:LookupProviso">
-        <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="LookupPredProviso">
-    <xs:complexContent>
-      <xs:extension base="P:LookupProviso">
-        <xs:sequence>
-          <xs:element ref="Z:Pred"/>
-        </xs:sequence>
-      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
