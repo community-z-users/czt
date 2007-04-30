@@ -37,23 +37,20 @@ public class TypecheckProviso
   implements ProvisoChecker
 {
   public Set<Binding> check(List args, SectionManager manager, String section)
+    throws UnboundJokerException
   {
-    try {
-      Expr expr = (Expr) args.get(0);
-      expr = (Expr) ProverUtils.removeJoker(expr);
-      final Expr type = (Expr) args.get(1);
-      List errors =
-        TypeCheckUtils.typecheck(expr, manager, false, true, section);
-      if (errors == null || errors.isEmpty()) {
-        TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
-        CarrierSet visitor = new CarrierSet();
-        Term expr2 = (Term) typeAnn.getType().accept(visitor);
-        expr2 = expr2.accept(new CopyVisitor(new Factory()));
-        Set<Binding> result = UnificationUtils.unify(type, expr2);
-        return result;
-      }
-    }
-    catch (ProverUtils.UnboundJokerException e) {
+    Expr expr = (Expr) args.get(0);
+    expr = (Expr) ProverUtils.removeJoker(expr);
+    final Expr type = (Expr) args.get(1);
+    List errors =
+      TypeCheckUtils.typecheck(expr, manager, false, true, section);
+    if (errors == null || errors.isEmpty()) {
+      TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+      CarrierSet visitor = new CarrierSet();
+      Term expr2 = (Term) typeAnn.getType().accept(visitor);
+      expr2 = expr2.accept(new CopyVisitor(new Factory()));
+      Set<Binding> result = UnificationUtils.unify(type, expr2);
+      return result;
     }
     return null;
   }

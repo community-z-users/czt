@@ -44,41 +44,37 @@ public class SchemaMinusProviso
    * This calculates the signature D1 minus D2.
    */
   public Set<Binding> check(List args, SectionManager manager, String section)
+    throws UnboundJokerException
   {
-    try {
-      Factory factory = new Factory(new ProverFactory());
-      ZDeclList decls1 = (ZDeclList)
-        ProverUtils.removeJoker((Term) args.get(0));
-      ZDeclList decls2 = (ZDeclList)
-        ProverUtils.removeJoker((Term) args.get(1));
-      // create a map of the names in decls2.
-      Map<String,Expr> map2 = new HashMap<String,Expr>();
-      for (Decl decl : decls2) {
-        if (! (decl instanceof VarDecl)) return null;
-        VarDecl vdecl = (VarDecl) decl;
-        String name = vdecl.getName().get(0).accept(new PrintVisitor());
-        map2.put(name,vdecl.getExpr());
-      }
-      // now go through decls1, and filter out any names in map2
-      ZDeclList result = factory.createZDeclList();
-      for (Decl decl : decls1) {
-        if (! (decl instanceof VarDecl)) return null;
-        VarDecl vdecl = (VarDecl) decl;
-        String name = vdecl.getName().get(0).accept(new PrintVisitor());
-        if (map2.containsKey(name)) {
-          assert map2.get(name).equals(vdecl.getExpr());
-        }
-        else {
-          result.add(decl);
-        }
-      }
-      ZSchText schtext =
-        factory.createZSchText(result, factory.createTruePred());
-      SchExpr schExpr = factory.createSchExpr(schtext);
-      return UnificationUtils.unify(result, (DeclList) args.get(2));
+    Factory factory = new Factory(new ProverFactory());
+    ZDeclList decls1 = (ZDeclList)
+      ProverUtils.removeJoker((Term) args.get(0));
+    ZDeclList decls2 = (ZDeclList)
+      ProverUtils.removeJoker((Term) args.get(1));
+    // create a map of the names in decls2.
+    Map<String,Expr> map2 = new HashMap<String,Expr>();
+    for (Decl decl : decls2) {
+      if (! (decl instanceof VarDecl)) return null;
+      VarDecl vdecl = (VarDecl) decl;
+      String name = vdecl.getName().get(0).accept(new PrintVisitor());
+      map2.put(name,vdecl.getExpr());
     }
-    catch (ProverUtils.UnboundJokerException e) {
+    // now go through decls1, and filter out any names in map2
+    ZDeclList result = factory.createZDeclList();
+    for (Decl decl : decls1) {
+      if (! (decl instanceof VarDecl)) return null;
+      VarDecl vdecl = (VarDecl) decl;
+      String name = vdecl.getName().get(0).accept(new PrintVisitor());
+      if (map2.containsKey(name)) {
+        assert map2.get(name).equals(vdecl.getExpr());
+      }
+      else {
+        result.add(decl);
+      }
     }
-    return null;
+    ZSchText schtext =
+      factory.createZSchText(result, factory.createTruePred());
+    SchExpr schExpr = factory.createSchExpr(schtext);
+    return UnificationUtils.unify(result, (DeclList) args.get(2));
   }
 }

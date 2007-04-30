@@ -230,8 +230,13 @@ public class SimpleProver
     ProvisoChecker checker = provisos_.get(oracleAppl.getName());
     if (checker != null) {
       List args = oracleAppl.getAnn(List.class);
-      Set<Binding> bindings =
-        checker.check(args, manager_, section_);
+      Set<Binding> bindings;
+      try {
+        bindings = checker.check(args, manager_, section_);
+      }
+      catch (UnboundJokerException e) {
+        bindings = null;
+      }
       if (bindings != null) {
         Factory factory = new Factory(new ProverFactory());
         CheckPassed passed = factory.createCheckPassed();

@@ -251,6 +251,7 @@ public class ZSideKickActions
   }
 
   public static void rewrite(View view)
+    throws UnboundJokerException
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
@@ -273,7 +274,7 @@ public class ZSideKickActions
                 Prover prover = new SimpleProver(rules, manager, section);
                 Term result;
                 if (term instanceof Pred) {
-                  result = Rewrite.rewriteOnce((Pred) term, prover);
+                    result = Rewrite.rewriteOnce((Pred) term, prover);
                 }
                 else if (term instanceof Expr) {
                   result = Rewrite.rewriteOnce((Expr) term, prover);
@@ -407,6 +408,7 @@ public class ZSideKickActions
   }
 
   public static void unfold(View view)
+    throws UnboundJokerException
   {
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {

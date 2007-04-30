@@ -120,7 +120,12 @@ public class Rewrite
     int rewrites = 0;
     do {
       oldExpr = expr;
-      expr = (Expr) rewriteOnce(expr, prover_);
+      try {
+        expr = (Expr) rewriteOnce(expr, prover_);
+      }
+      catch (UnboundJokerException e) {
+        throw new RuntimeException(e);
+      }
       rewrites++;
       if (rewrites > MAX_REWRITES) {
         throw new RuntimeException("Infinite loop in rules on expr "+expr);
@@ -142,7 +147,12 @@ public class Rewrite
     int rewrites = 0;
     do {
       oldPred = pred;
-      pred = (Pred) rewriteOnce(pred, prover_);
+      try {
+        pred = (Pred) rewriteOnce(pred, prover_);
+      }
+      catch (UnboundJokerException e) {
+        throw new RuntimeException(e);
+      }
       rewrites++;
       if (rewrites > MAX_REWRITES) {
         throw new RuntimeException("Infinite loop in rules on pred "+pred);
@@ -180,7 +190,12 @@ public class Rewrite
   public Term visitSchText(SchText schText)
   {
     // apply the first matching rule just once.
-    schText = (SchText) rewriteOnce(schText, prover_);
+    try {
+      schText = (SchText) rewriteOnce(schText, prover_);
+    }
+    catch (UnboundJokerException e) {
+      throw new RuntimeException(e);
+    }
     // now recurse into subexpressions
     return VisitorUtils.visitTerm(this, schText, true);
   }
@@ -191,6 +206,7 @@ public class Rewrite
    * If the prover fails, the original schema text is returned.
    */
   public static SchText rewriteOnce(SchText schText, Prover prover)
+    throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr)
@@ -226,6 +242,7 @@ public class Rewrite
    * itself is returned.
    */
   public static Term rewriteOnce(Expr expr, Prover prover)
+    throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerExpr joker = (ProverJokerExpr)
@@ -247,6 +264,7 @@ public class Rewrite
    * predicate itself is returned.
    */
   public static Term rewriteOnce(Pred pred, Prover prover)
+    throws UnboundJokerException
   {
     Factory factory = new Factory(new ProverFactory());
     ProverJokerPred joker = (ProverJokerPred)

@@ -19,19 +19,15 @@
 
 package net.sourceforge.czt.rules;
 
-import java.util.List;
-import java.util.Set;
-
-import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.zpatt.ast.Binding;
-
-public interface ProvisoChecker
+public class UnboundJokerException
+  extends Exception
 {
-  /**
-   * Returns <code>null</code> if the check fails,
-   * the set of bindings if it succeeds.
-   */
-  Set<Binding> check(List args, SectionManager manager, String section)
-    throws UnboundJokerException;
+  public UnboundJokerException()
+  {
+  }
+
+  public UnboundJokerException(String message)
+  {
+    super(message);
+  }
 }

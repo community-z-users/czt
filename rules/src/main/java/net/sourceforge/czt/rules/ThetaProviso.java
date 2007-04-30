@@ -43,40 +43,37 @@ public class ThetaProviso
   }
 
   public Set<Binding> check(List args, SectionManager manager, String section)
+    throws UnboundJokerException
   {
-    try {
-      Factory factory = new Factory(new ProverFactory());
-      Expr expr = (Expr) ProverUtils.removeJoker((Term) args.get(0));
-      Expr result = (Expr) args.get(1);
-      List errors =
-        TypeCheckUtils.typecheck(expr, manager, false, true, section);
-      if (errors == null || errors.isEmpty()) {
-        TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
-        assert typeAnn != null;
-        Type type = typeAnn.getType();
-        if (type instanceof PowerType) {
-          type = ((PowerType) type).getType();
-          if (type instanceof SchemaType) {
-            Signature sig = ((SchemaType) type).getSignature();
-            ZDeclList zDeclList = factory.createZDeclList();
-            for (NameTypePair nameType : sig.getNameTypePair()) {
-              ZName origName = (ZName) nameType.getName();
-              ZName name1 = factory.createZName(origName.getWord(),
-                                                origName.getStrokeList());
-              ZStrokeList strokes = factory.createZStrokeList();
-              strokes.addAll(origName.getZStrokeList());
-              if (strokes_ != null) strokes.addAll(strokes_);
-              ZName name2 = factory.createZName(origName.getWord(), strokes);
-              RefExpr refExpr = factory.createRefExpr(name2);
-              zDeclList.add(factory.createConstDecl(name1, refExpr));
-            }
-            BindExpr bindExpr = factory.createBindExpr(zDeclList);
-            return UnificationUtils.unify(bindExpr, result);
+    Factory factory = new Factory(new ProverFactory());
+    Expr expr = (Expr) ProverUtils.removeJoker((Term) args.get(0));
+    Expr result = (Expr) args.get(1);
+    List errors =
+      TypeCheckUtils.typecheck(expr, manager, false, true, section);
+    if (errors == null || errors.isEmpty()) {
+      TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
+      assert typeAnn != null;
+      Type type = typeAnn.getType();
+      if (type instanceof PowerType) {
+        type = ((PowerType) type).getType();
+        if (type instanceof SchemaType) {
+          Signature sig = ((SchemaType) type).getSignature();
+          ZDeclList zDeclList = factory.createZDeclList();
+          for (NameTypePair nameType : sig.getNameTypePair()) {
+            ZName origName = (ZName) nameType.getName();
+            ZName name1 = factory.createZName(origName.getWord(),
+                                              origName.getStrokeList());
+            ZStrokeList strokes = factory.createZStrokeList();
+            strokes.addAll(origName.getZStrokeList());
+            if (strokes_ != null) strokes.addAll(strokes_);
+            ZName name2 = factory.createZName(origName.getWord(), strokes);
+            RefExpr refExpr = factory.createRefExpr(name2);
+            zDeclList.add(factory.createConstDecl(name1, refExpr));
           }
+          BindExpr bindExpr = factory.createBindExpr(zDeclList);
+          return UnificationUtils.unify(bindExpr, result);
         }
       }
-    }
-    catch (ProverUtils.UnboundJokerException e) {
     }
     return null;
   }

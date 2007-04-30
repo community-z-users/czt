@@ -38,64 +38,61 @@ public class SortNamesProviso
   private Factory factory_ = new Factory(new ProverFactory());
 
   public Set<Binding> check(List args, SectionManager manager, String section)
+    throws UnboundJokerException
   {
-    try {
-      final ZDeclList d = (ZDeclList)
-        ProverUtils.removeJoker((Term) args.get(0));
-      final DeclList d1 = (DeclList) args.get(1);
-      final DeclList d2 = (DeclList) args.get(2);
-      final DeclList d3 = (DeclList) args.get(3);
-      final DeclList d4 = (DeclList) args.get(4);
-      final ZDeclList r1 = factory_.createZDeclList();
-      final ZDeclList r2 = factory_.createZDeclList();
-      final ZDeclList r3 = factory_.createZDeclList();
-      final ZDeclList r4 = factory_.createZDeclList();
+    final ZDeclList d = (ZDeclList)
+      ProverUtils.removeJoker((Term) args.get(0));
+    final DeclList d1 = (DeclList) args.get(1);
+    final DeclList d2 = (DeclList) args.get(2);
+    final DeclList d3 = (DeclList) args.get(3);
+    final DeclList d4 = (DeclList) args.get(4);
+    final ZDeclList r1 = factory_.createZDeclList();
+    final ZDeclList r2 = factory_.createZDeclList();
+    final ZDeclList r3 = factory_.createZDeclList();
+    final ZDeclList r4 = factory_.createZDeclList();
 
-      for (Decl decl : d) {
-        if (! (decl instanceof VarDecl)) return null;
-        VarDecl varDecl = (VarDecl) decl;
-        assert varDecl.getName().size() == 1;
-        ZName zName = (ZName) varDecl.getName().get(0);
-        ZStrokeList strokes = zName.getZStrokeList();
-        if (strokes.size() > 0) {
-          Stroke last = strokes.get(strokes.size() - 1);
-          if (last instanceof InStroke) {
-            r1.add(undecorate(zName, varDecl));
-          }
-          else if (last instanceof NextStroke) {
-            r2.add(undecorate(zName, varDecl));
-          }
-          else if (last instanceof OutStroke) {
-            r3.add(undecorate(zName, varDecl));
-          }
-          else {
-            r4.add(varDecl);
-          }
+    for (Decl decl : d) {
+      if (! (decl instanceof VarDecl)) return null;
+      VarDecl varDecl = (VarDecl) decl;
+      assert varDecl.getName().size() == 1;
+      ZName zName = (ZName) varDecl.getName().get(0);
+      ZStrokeList strokes = zName.getZStrokeList();
+      if (strokes.size() > 0) {
+        Stroke last = strokes.get(strokes.size() - 1);
+        if (last instanceof InStroke) {
+          r1.add(undecorate(zName, varDecl));
+        }
+        else if (last instanceof NextStroke) {
+          r2.add(undecorate(zName, varDecl));
+        }
+        else if (last instanceof OutStroke) {
+          r3.add(undecorate(zName, varDecl));
         }
         else {
           r4.add(varDecl);
         }
       }
-      Set<Binding> bindings1 = UnificationUtils.unify(r1, d1);
-      Set<Binding> bindings2 = UnificationUtils.unify(r2, d2);
-      Set<Binding> bindings3 = UnificationUtils.unify(r3, d3);
-      Set<Binding> bindings4 = UnificationUtils.unify(r4, d4);
-      if (bindings1 != null && bindings2 != null &&
-          bindings2 != null && bindings4 != null) {
-        Set<Binding> result = bindings1;
-        result.addAll(bindings2);
-        result.addAll(bindings3);
-        result.addAll(bindings4);
-        return result;
-      }
       else {
-        ProverUtils.reset(bindings1);
-        ProverUtils.reset(bindings2);
-        ProverUtils.reset(bindings3);
-        ProverUtils.reset(bindings4);
+        r4.add(varDecl);
       }
     }
-    catch (ProverUtils.UnboundJokerException e) {
+    Set<Binding> bindings1 = UnificationUtils.unify(r1, d1);
+    Set<Binding> bindings2 = UnificationUtils.unify(r2, d2);
+    Set<Binding> bindings3 = UnificationUtils.unify(r3, d3);
+    Set<Binding> bindings4 = UnificationUtils.unify(r4, d4);
+    if (bindings1 != null && bindings2 != null &&
+        bindings2 != null && bindings4 != null) {
+      Set<Binding> result = bindings1;
+      result.addAll(bindings2);
+      result.addAll(bindings3);
+      result.addAll(bindings4);
+      return result;
+    }
+    else {
+      ProverUtils.reset(bindings1);
+      ProverUtils.reset(bindings2);
+      ProverUtils.reset(bindings3);
+      ProverUtils.reset(bindings4);
     }
     return null;
   }

@@ -37,24 +37,21 @@ public class UnprefixProviso
   implements ProvisoChecker
 {
   public Set<Binding> check(List args, SectionManager manager, String section)
+    throws UnboundJokerException
   {
-    try {
-      Factory factory = new Factory(new ProverFactory());
-      final ZName v1 = (ZName) ProverUtils.removeJoker((Term) args.get(0));
-      final ZName v2 = (ZName) ProverUtils.removeJoker((Term) args.get(1));
-      final Name v3 = (Name) args.get(2);
-      final String leftWord = v1.getWord();
-      final String rightWord = v2.getWord();
-      if (rightWord.startsWith(leftWord)) {
-        final String resultWord =
-          rightWord.substring(leftWord.length(), rightWord.length());
-        StrokeList strokes = v2.getStrokeList();
-        // TODO: clean this up.
-        final ZName result = factory.createZName(resultWord, strokes, null);
-        return UnificationUtils.unify(result, v3);
-      }
-    }
-    catch (ProverUtils.UnboundJokerException e) {
+    Factory factory = new Factory(new ProverFactory());
+    final ZName v1 = (ZName) ProverUtils.removeJoker((Term) args.get(0));
+    final ZName v2 = (ZName) ProverUtils.removeJoker((Term) args.get(1));
+    final Name v3 = (Name) args.get(2);
+    final String leftWord = v1.getWord();
+    final String rightWord = v2.getWord();
+    if (rightWord.startsWith(leftWord)) {
+      final String resultWord =
+        rightWord.substring(leftWord.length(), rightWord.length());
+      StrokeList strokes = v2.getStrokeList();
+      // TODO: clean this up.
+      final ZName result = factory.createZName(resultWord, strokes, null);
+      return UnificationUtils.unify(result, v3);
     }
     return null;
   }

@@ -163,13 +163,16 @@ public final class ProverUtils
     }
   }
 
-  /**
-   * Throws UnboundJokerException!
-   */
   public static Term removeJoker(Term term)
+    throws UnboundJokerException
   {
     RemoveJokerVisitor visitor = new RemoveJokerVisitor();
-    return (Term) term.accept(visitor);
+    try {
+      return (Term) term.accept(visitor);
+    }
+    catch (ProverUtils.UnboundJokerRuntimeException e) {
+      throw new UnboundJokerException(e.getMessage());
+    }
   }
 
 
@@ -192,7 +195,7 @@ public final class ProverUtils
     }
   }
 
-  public static class RemoveJokerVisitor
+  private static class RemoveJokerVisitor
     implements TermVisitor<Term>,
                HeadDeclListVisitor<Term>
   {
@@ -204,7 +207,7 @@ public final class ProverUtils
         if (boundTo == null) {
           final String message = "Joker " + joker.getName() +
             " is not associated to a term.";
-          throw new UnboundJokerException(message);
+          throw new UnboundJokerRuntimeException(message);
         }
         return boundTo.accept(this);
       }
@@ -223,14 +226,14 @@ public final class ProverUtils
     }
   }
 
-  public static class UnboundJokerException
+  public static class UnboundJokerRuntimeException
     extends RuntimeException
   {
-    public UnboundJokerException()
+    public UnboundJokerRuntimeException()
     {
     }
 
-    public UnboundJokerException(String message)
+    public UnboundJokerRuntimeException(String message)
     {
       super(message);
     }
