@@ -28,5 +28,9 @@ import net.sourceforge.czt.zpatt.ast.Binding;
 
 public interface ProvisoChecker
 {
+  /**
+   * Returns <code>null</code> if the check fails,
+   * the set of bindings if it succeeds.
+   */
   Set<Binding> check(List args, SectionManager manager, String section);
 }

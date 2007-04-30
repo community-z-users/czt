@@ -37,22 +37,6 @@ public class ZpattPrintVisitor
     super(printer, props);
   }
 
-  public Object visitCalculateProviso(CalculateProviso proviso)
-  {
-    print(ZPattKeyword.PROVISO);
-    visit(proviso.getLeftExpr());
-    print(Keyword.DEFEQUAL);
-    visit(proviso.getRightExpr());
-    return null;
-  }
-
-  public Object visitCheckProviso(CheckProviso proviso)
-  {
-    print(ZPattKeyword.PROVISO);
-    visit(proviso.getPred());
-    return null;
-  }
-
   public Object visitCheckPassed(CheckPassed checkPassed)
   {
     throw new UnsupportedOperationException();

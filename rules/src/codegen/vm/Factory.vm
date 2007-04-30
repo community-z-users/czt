@@ -79,16 +79,4 @@ public class ProverFactory
   }
 
 #end
-
-  public CalculateProviso
-  createCalculateProviso(SequentContext sequentContext,
-                         Expr leftExpr,
-                         Expr rightExpr)
-  {
-    CalculateProviso proviso = new ProverCalculateProviso();
-    proviso.setSequentContext(sequentContext);
-    proviso.setLeftExpr(leftExpr);
-    proviso.setRightExpr(rightExpr);
-    return proviso;
-  }
 }

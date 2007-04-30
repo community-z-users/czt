@@ -61,7 +61,6 @@ public class CopyVisitor
              JokerExprVisitor<Term>,
              JokerNameVisitor<Term>,
              JokerPredVisitor<Term>,
-             CalculateProvisoVisitor<Term>,
              RefExprVisitor<Term>
 {
   private Factory factory_;
@@ -179,14 +178,6 @@ public class CopyVisitor
   public Term visitJokerPred(JokerPred joker)
   {
     return factory_.createJokerPred(joker.getName(), joker.getId());
-  }
-
-  public Term visitCalculateProviso(CalculateProviso proviso)
-  {
-    SequentContext context = proviso.getSequentContext();
-    Expr left = (Expr) proviso.getLeftExpr().accept(this);
-    Expr right = (Expr) proviso.getRightExpr().accept(this);
-    return factory_.createCalculateProviso(context, left, right);
   }
 
   public Term visitRefExpr(RefExpr expr)

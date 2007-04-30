@@ -71,9 +71,29 @@ public class SimpleProver
 
   private Map<String,ProvisoChecker> createProvisoMap()
   {
+    Factory factory = new Factory(new ProverFactory());
+    Stroke prime = factory.createNextStroke();
+    Stroke in = factory.createInStroke();
+    Stroke out = factory.createOutStroke();
+    Stroke num9Stroke = factory.createNumStroke(9);
+    ZStrokeList sl1 = factory.createZStrokeList();
+    sl1.add(prime);
+    ZStrokeList sl2 = factory.createZStrokeList();
+    sl2.add(num9Stroke);
+
     Map<String,ProvisoChecker> result = new HashMap<String,ProvisoChecker>();
     result.put("TypecheckProviso", new TypecheckProviso());
     result.put("LookupProviso", new LookupProviso());
+    result.put("CalculateThetaProviso", new ThetaProviso(null));
+    result.put("CalculateThetaPrimeProviso", new ThetaProviso(sl1));
+    result.put("CalculateTheta9Proviso", new ThetaProviso(sl2));
+    result.put("PrimeProviso", new DecorateProviso(prime));
+    result.put("OutProviso", new DecorateProviso(out));
+    result.put("InProviso", new DecorateProviso(in));
+    result.put("Decor9Proviso", new DecorateProviso(num9Stroke));
+    result.put("SchemaMinusProviso", new SchemaMinusProviso());
+    result.put("UnprefixProviso", new UnprefixProviso());
+    result.put("SortNamesProviso", new SortNamesProviso());
     return result;
   }
 
@@ -239,13 +259,6 @@ public class SimpleProver
       result++;
       if (sequent instanceof PredSequent) {
         if (! prove((PredSequent) sequent)) return result;
-      }
-      else if (sequent instanceof ProverProviso) {
-        ProverProviso proviso = (ProverProviso) sequent;
-        proviso.check(manager_, section_);
-        if (! ProverProviso.Status.PASS.equals(proviso.getStatus())) {
-          return result;
-        }
       }
       else {
         return result;

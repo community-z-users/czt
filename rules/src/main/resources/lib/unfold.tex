@@ -145,7 +145,7 @@ freedom to reorder things later.
 
 \begin{zedrule}{Theta}
   E \hasType \power [D | true] \\
-  \proviso E2 == \theta [D | true]
+  \theta [D | true] \is E2
 \derives
   \theta E = E2
 \end{zedrule}
@@ -157,14 +157,14 @@ be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
   E \hasType \power [D | true] \\
-  \proviso E2 == \theta [D | true] '
+  \theta [D | true] ' \is E2
 \derives
   \theta E~' = E2
 \end{zedrule}
 
 \begin{zedrule}{ThetaDecor9}
   E \hasType \power [D | true] \\
-  \proviso E2 == \theta [D | true]~_{9}
+  \theta [D | true]~_{9} \is E2
 \derives
   \theta E~_{9} = E2
 \end{zedrule}
@@ -193,7 +193,7 @@ If the specification explicitly defined the $\Delta$ schema,
 then the above SchemaRef rule would have unfolded it.
 
 \begin{zedrule}{DeltaRef}
-  \proviso v2 == \Delta \unprefix v \\
+  \Delta \unprefix v \is v2 \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1]
 \derives
   v \sexprUnfoldsTo [D1|P1]
@@ -204,7 +204,7 @@ If the specification explicitly defined the $\Xi$ schema,
 then the above SchemaRef rule would have unfolded it.
 
 \begin{zedrule}{XiRef}
-  \proviso v2 == \Xi \unprefix v \\
+  \Xi \unprefix v \is v2 \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1] \\
   [v2|true] \hasType \power [D2 | true] 
 \derives
@@ -216,14 +216,28 @@ NOTE: we also currently need thirteen versions of this next rule
 
 \begin{zedrule}{SchemaPrime}
    E \sexprUnfoldsTo [D1 | P1] \\
-   \proviso [D2|P2] == [D1|P1]~' \\
+   [D1|P1]~' \is [D2|P2] \\
 \derives
    E~' \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
+\begin{zedrule}{SchemaDecor2}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   [D1|P1]~? \is [D2|P2] \\
+\derives
+   E~? \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
+\begin{zedrule}{SchemaDecor3}
+   E \sexprUnfoldsTo [D1 | P1] \\
+   [D1|P1]~! \is [D2|P2] \\
+\derives
+   E~! \sexprUnfoldsTo [D2 | P2]
+\end{zedrule}
+
 \begin{zedrule}{SchemaDecor9}
    E \sexprUnfoldsTo [D1 | P1] \\
-   \proviso [D2|P2] == [D1|P1]~_{9} \\
+   [D1|P1]~_{9} \is  [D2|P2] \\
 \derives
    E~_{9} \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
@@ -238,7 +252,7 @@ but do not appear in $D1$.
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
    ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true] \\
-   \proviso [D4|true] == [D2|true] \schemaminus [D1|true]
+   ([D2|true] \schemaminus [D1|true]) \is [D4|true]
 \derives
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
@@ -292,7 +306,7 @@ Any other names that are declared in $E1$ are hidden existentially.
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
   ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true] \\
-  \proviso [D4 | true] == [D3 | true] \schemaminus [D2 | true]
+  ([D3 | true] \schemaminus [D2 | true]) \is [D4 | true]
 \derives
   E1 \project E2 \sexprUnfoldsTo [D2 | (\exists D4 @ P1 \land P2)]
 \end{zedrule}
@@ -307,19 +321,20 @@ such as $x$, $x?$ and $x_2$.
 
 \begin{zedrule}{SchemaPrecondition}
   E \sexprUnfoldsTo [D4 | P2] \\
-  \proviso [D2 | true] == postnames [D4 | true] \\
-  \proviso [D3 | true] == [D4 | true] \schemaminus [D2 | true] \\
+  (sort [D4|true]) \is ([D6|true]? \land [D7|true]' \land
+                        [D8|true]! \land [D9|true]) \\
+  ([D6|true]? \land [D9|true]) \hasType \power [D1|true]
 \derives
-  \pre E \sexprUnfoldsTo [D3 | (\exists D2 @ P2)]
+  \pre E \sexprUnfoldsTo [ D1 | (\exists ([D7|true]' \land [D8|true]!) @ P2)]
 \end{zedrule}
 
 \begin{zedrule}{SchemaComposition}
   E1 \hasType \power [D1 | true] \\
   E2 \hasType \power [D2 | true] \\
-  \proviso [D3 | true] == primenames [D1 | true] \\
-  \proviso [D4 | true] == undecorate [D3 | true] \\
-  \proviso [D5 | true] == [D4 | true] \schemaminus [D2 | true] \\
-  \proviso E6 == [D4 | true] \schemaminus [D5 | true] % matching names
+  (sort [D1|true]) \is ([D6|true]? \land [D4|true]' \land
+                        [D8|true]! \land [D9|true]) \\
+  ([D4 | true] \schemaminus [D2 | true]) \is E5\\
+  ([D4 | true] \schemaminus E5) \is E6 % matching names
 \derives
   E1 \semi E2 =
   (\exists E6~_9 @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~_9])

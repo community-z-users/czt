@@ -35,7 +35,6 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public class OpenSubgoalCollector
   implements RuleApplVisitor,
              PredSequentVisitor,
-             ProvisoVisitor,
              TermVisitor
 {
   protected List<Sequent> subgoals_ = new ArrayList<Sequent>();
@@ -61,18 +60,6 @@ public class OpenSubgoalCollector
     else {
       predSequent.getDeduction().accept(this);
     }
-    return null;
-  }
-
-  public Object visitProviso(Proviso proviso)
-  {
-    if (proviso instanceof ProverProviso) {
-      ProverProviso pp =(ProverProviso) proviso;
-      if (ProverProviso.Status.PASS.equals(pp.getStatus())) {
-        return null;
-      }
-    }
-    subgoals_.add(proviso);
     return null;
   }
 

@@ -169,7 +169,7 @@
               substitutionGroup="P:Deduction">
     <xs:annotation>
       <xs:documentation>
-        An application of a Proviso to a PredSequent.
+        An application of an Orcale to a PredSequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -211,37 +211,6 @@
         The conclusion of this sequent is just a Z predicate, 
         which may contain joker variables.  The sequent is true
         when the predicate is provable from the context of the sequent.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="Proviso" type="P:Proviso"
-      abstract="true" substitutionGroup="P:Sequent"/>
-
-  <xs:element name="CheckProviso"
-              type="P:CheckProviso"
-              substitutionGroup="P:Proviso">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is a predicate that
-        contains a restricted set of known operators, which
-        check membership of signatures, not-free-in conditions etc.
-        The sequent is true when this predicate evaluates to true.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="CalculateProviso"
-              type="P:CalculateProviso"
-              substitutionGroup="P:Proviso">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is written as ExprJoker==Expr,
-        where Expr contains a restricted set of known operators for
-        calculating sets of names and performing substitutions etc.
-        When the proviso is executed, it calculates the value of
-        Expr and binds ExprJoker to that value.
-        TODO: We also want to allow ExprJoker to be a list of names here?
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -395,45 +364,6 @@
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="Proviso">
-    <xs:complexContent>
-      <xs:extension base="P:Sequent"/>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="CheckProviso">
-    <xs:complexContent>
-      <xs:extension base="P:Proviso">
-        <xs:sequence>
-          <xs:element ref="Z:Pred"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="CalculateProviso">
-    <xs:complexContent>
-      <xs:extension base="P:Proviso">
-        <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>

@@ -105,7 +105,7 @@ that will always fail.
 This allows us to test that the rule application and the
 unification are undone correctly.
 \begin{zedrule}{normaliseConstDecl42}
-   \proviso [D1 | true] \unfoldsTo [D2 | false \land P2] // will fail
+   [D1 | true] \unfoldsTo [D2 | false \land P2]
 \derives
    [v==42; D1 | true] \unfoldsTo [v:\{42\}; D2 | P2]
 \end{zedrule}

@@ -136,10 +136,6 @@ public final class ProverUtils
         if (s instanceof PredSequent) {
           collectBindings((PredSequent) s, list);
         }
-        else if (s instanceof ProverProviso) {
-          Set<Binding> bindings = ((ProverProviso) s).getBindings();
-          if (bindings != null) list.addAll(bindings);
-        }
       }
     }
     else if (ded instanceof OracleAppl) {

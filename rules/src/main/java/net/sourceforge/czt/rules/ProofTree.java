@@ -91,7 +91,6 @@ public class ProofTree
   private DefaultMutableTreeNode createNode(Sequent s)
   {
     if (s instanceof PredSequent) return new ProofNode((PredSequent) s);
-    if (s instanceof ProverProviso) return new ProvisoNode((ProverProviso) s);
     throw new RuntimeException("Unexpted sequent " + s.getClass());
   }
 
@@ -205,22 +204,6 @@ public class ProofTree
           Object o = selPath.getLastPathComponent();
           if (o instanceof ProofNode) {
             menu((ProofNode) o).show(e.getComponent(), e.getX(), e.getY());
-          }
-          else if (o instanceof ProvisoNode) {
-            final ProvisoNode pn = (ProvisoNode) o;
-            final ProverProviso p = (ProverProviso) pn.getProviso();
-            if (! ProverProviso.Status.PASS.equals(p.getStatus())) {
-              JPopupMenu popup = new JPopupMenu();
-              JMenuItem menuItem = new JMenuItem("Check proviso");
-              menuItem.addActionListener(new ActionListener() {
-                  public void actionPerformed(ActionEvent e) {
-                    p.check(manager_, section_);
-                    getModel().nodeChanged(pn);
-                  }
-                });
-              popup.add(menuItem);
-              popup.show(e.getComponent(), e.getX(), e.getY());
-            }
           }
           else if (o instanceof OracleNode) {
             final OracleNode pn = (OracleNode) o;
@@ -336,9 +319,6 @@ public class ProofTree
           if (node instanceof ProofNode) {
             if (! ((ProofNode) node).isClosed()) return false;
           }
-          else if (node instanceof ProvisoNode) {
-            if (! ((ProvisoNode) node).isClosed()) return false;
-          }
           else {
             throw new RuntimeException("Unexpected node " + node.getClass());
           }
@@ -362,37 +342,6 @@ public class ProofTree
       catch (Exception e) {
         e.printStackTrace();
         return getSequent().toString();
-      }
-    }
-  }
-
-  class ProvisoNode
-    extends DefaultMutableTreeNode
-  {
-    public ProvisoNode(ProverProviso proviso)
-    {
-      super(proviso);
-    }
-
-    public ProverProviso getProviso()
-    {
-      return (ProverProviso) getUserObject();
-    }
-
-    public boolean isClosed()
-    {
-      return  ProverProviso.Status.PASS.equals(getProviso().getStatus());
-    }
-
-    public String toString() {
-      try {
-        StringWriter writer = new StringWriter();
-        PrintUtils.printUnicode(getProviso(), writer, manager_, section_);
-        return writer.toString();
-      }
-      catch (Exception e) {
-        e.printStackTrace();
-        return getProviso().toString();
       }
     }
   }
@@ -435,17 +384,7 @@ public class ProofTree
       super.getTreeCellRendererComponent(tree, value, sel,
                                          expanded, leaf, row,
                                          hasFocus);
-      if (value instanceof ProvisoNode) {
-        setToolTipText("Proviso");
-        ProvisoNode node = (ProvisoNode) value;
-        if (node.isClosed()) {
-          setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
-        }
-        else {
-          setIcon(new ImageIcon(getClass().getResource("images/question.jpg")));
-        }
-      }
-      else if (value instanceof OracleNode) {
+      if (value instanceof OracleNode) {
         setToolTipText("Proviso");
         OracleNode node = (OracleNode) value;
         if (node.isClosed()) {

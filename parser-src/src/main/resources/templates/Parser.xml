@@ -1905,8 +1905,6 @@ non terminal PredSequent conclusion;
 
 non terminal Sequent
     sequent,
-    proviso,
-    provisoSequent,
     predSequent;
 
 non terminal Term jokerRef;
@@ -6551,35 +6549,8 @@ conclusion ::=
         ;
 
 sequent ::=
-        provisoSequent:ps
-        {: RESULT = ps; :}
-        |
         predSequent:ps
         {: RESULT = ps; :}
-        ;
-
-provisoSequent ::=
-        sequentLHS:slhs VDASH PROVISO proviso:p
-        {: RESULT = p; :}
-        |
-        PROVISO proviso:p
-        {: RESULT = p; :}
-        ;
-
-proviso ::=
-        expression:e1 DEFEQUAL:de expression:e2
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createCalculateProviso(sc, e1, e2);
-           addLocAnn(RESULT, getLocation(deleft, deright, e1, e2));
-        :}
-        |
-        term:t
-        {:
-           SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createCheckProviso(sc, pred(t));
-           addLocAnn(RESULT, getLocation(t));
-        :}
         ;
 
 predSequent ::=

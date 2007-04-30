@@ -19,6 +19,10 @@
   \relation ( \_ \hasType \_ )
 \end{zed}
 
+\begin{gendef}[E1,E2]
+  \_ \hasType \_ : E1 \rel E2
+\end{gendef}
+
 \begin{zedproviso}{TypecheckProviso}
   E \hasType T
 \end{zedproviso}
@@ -30,6 +34,10 @@
 \begin{zed}
   \relation (\_ \hasDefn \_)
 \end{zed}
+
+\begin{gendef}[E]
+  \_ \hasDefn \_ : E \rel E
+\end{gendef}
 
 \begin{zedproviso}{LookupProviso}
   E1 \hasDefn E2
@@ -43,16 +51,49 @@
   \relation (\_ \is \_)
 \end{zed}
 
+\begin{gendef}[E1,E2]
+  \_ \is \_ : E1 \rel E2
+\end{gendef}
+
+\begin{zedproviso}{PrimeProviso}
+  E~' \is E2
+\end{zedproviso}
+
+\begin{zedproviso}{OutProviso}
+  E~! \is E2
+\end{zedproviso}
+
+\begin{zedproviso}{InProviso}
+  E~? \is E2
+\end{zedproviso}
+
+\begin{zedproviso}{Decor9Proviso}
+  E~_9 \is E2
+\end{zedproviso}
+
 \begin{zedproviso}{CalculateThetaProviso}
-  \theta [D | true] \is E
+  \theta E \is E2
 \end{zedproviso}
 
 \begin{zedproviso}{CalculateThetaPrimeProviso}
-  \theta [D | true] ' \is E
+  \theta E~' \is E2
 \end{zedproviso}
 
 \begin{zedproviso}{CalculateTheta9Proviso}
-  \theta [D | true] _9 \is E
+  \theta E~ _9 \is E2
+\end{zedproviso}
+
+\begin{zedproviso}{SchemaMinusProviso}
+  [D1|true] \schemaminus [D2|true] \is [D3|true]
+\end{zedproviso}
+
+\begin{zedproviso}{UnprefixProviso}
+  v1 \unprefix v2 \is v3
+\end{zedproviso}
+
+\begin{zedproviso}{SortNamesProviso}
+  (sort [D|true]) \is ([D1|true]? \land [D2|true]' \land
+                       [D3|true]! \land [D4|true])
 \end{zedproviso}
 
 \end{document}

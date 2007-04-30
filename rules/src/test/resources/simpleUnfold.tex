@@ -113,7 +113,7 @@ declared names within the schema.
 
 \begin{zedrule}{DecorDecl}
    v \unfoldsTo [D1 | P1] \\
-   \proviso [D2|P2] == [D1|P1]~' \\
+   [D1|P1]~' \is [D2|P2]\\
    [D | true] \unfoldsTo [D3 | P3] \\
    ([D2 | true] \land [D3 | true]) \hasType \power [D4 | true]\\
    P2 \land P3 \iff P4
@@ -136,8 +136,7 @@ declared names within the schema.
 \begin{zedrule}{ExistsSchema}
    E1 \unfoldsTo [D1 | P1] \\
    E2 \unfoldsTo [D2 | P2] \\
-   \proviso [D3|true] == [D2|true] \schemaminus [D1|true] \\
-%   \proviso E == print~[D3 | true]
+   [D2|true] \schemaminus [D1|true] \is [D3|true]
 \derives
    (\exists E1 @ E2) \unfoldsTo [D3 | (\exists [D1|P1] @ P2)]
 \end{zedrule}
@@ -221,4 +220,13 @@ piping, hiding, projection, and precondition).
 \vdash? (\exists [x,z:\arithmos | true] @ [y,z:\arithmos|true]) \unfoldsTo
         [y:\arithmos | (\exists [x:\arithmos~; z:\arithmos|true] @ true)]
 \end{zed}
+
+
+Checks provisos:
+
+\begin{theorem}{TestDecorateProviso}
+\vdash?  [a : \arithmos~; b:\nat | a < b]~' \is
+         [a': \arithmos ; b' : \nat | a' < b' ]
+\end{theorem}
+
 \end{document}
