@@ -11,6 +11,7 @@ package net.sourceforge.czt.circus.util;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
+import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -80,4 +81,13 @@ public final class CircusUtils {
       String.valueOf(term);
     throw new UnsupportedAstClassException(message);    
   }        
+  
+  public static CircusFactoryImpl assertCircusFactoryImpl(Object factory) {
+    if (factory instanceof CircusFactoryImpl) {
+      return (CircusFactoryImpl) factory;
+    }
+    final String message = "Expected a CircusFactoryImpl but found " + 
+      String.valueOf(factory);
+    throw new UnsupportedAstClassException(message);    
+  }
 }

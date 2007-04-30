@@ -25,6 +25,7 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
 {
@@ -120,7 +121,29 @@ public final class ZUtils
     }
     return result;
   } 
+  
+  public static Expr getSchemaDefExpr(Para para)  
+  {
+    Expr result = null;
+    if (isSchema(para)) {
+      AxPara axp = (AxPara)para;
+      assert isAxParaSchemaValid(axp);
+      result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getExpr();
+    }
+    return result;
+  } 
+  
+  public static NameList getAxParaGenFormals(Para para) {
+      NameList result = null;            
+      if (para != null && (para instanceof AxPara)) 
+          result = ((AxPara)para).getNameList();      
+      return result;
+  }
 
+  public static ZNameList getAxParaZGenFormals(Para axp) {
+      return axp == null ? null : assertZNameList(getAxParaGenFormals(axp));
+  }
+  
   public static ZBranchList assertZBranchList(Term term)
   {
     if (term instanceof ZBranchList) {
@@ -209,5 +232,14 @@ public final class ZUtils
     final String message =
       "Expected a ZSchText but found " + String.valueOf(term);
     throw new UnsupportedAstClassException(message);
+  }
+  
+  public static ZFactoryImpl assertZFactoryImpl(Object factory) {
+    if (factory instanceof ZFactoryImpl) {
+      return (ZFactoryImpl) factory;
+    }
+    final String message = "Expected a ZFactoryImpl but found " + 
+      String.valueOf(factory);
+    throw new UnsupportedAstClassException(message);    
   }
 }
