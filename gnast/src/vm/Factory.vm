@@ -74,6 +74,16 @@ public class ${class.Name}
     factory_ = factory;
   }
 
+  /**
+   * Gives access to the inner extension-factory within this factory bridge.
+   * This is useful so that methods from BasicFactory can be accessed through
+   * this topmost level factory object
+   */
+  public ${project.getObject("factory")} get${project.getObject("factory").Name}()
+  {
+    return factory_;
+  }
+
 #foreach($c in $classes)
 #if(!$c.Abstract)
 #set($head = "${c.Name} create${c.Name}")
