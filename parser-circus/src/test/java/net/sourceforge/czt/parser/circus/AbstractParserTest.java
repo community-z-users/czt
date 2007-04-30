@@ -76,10 +76,13 @@ public abstract class AbstractParserTest extends TestCase
   {
     Term term = ParseUtils.parse(source, manager_);
     if (DEBUG_TESTING) {
-        PrintVisitor pv = new PrintVisitor();
-        System.out.println("DEBUG: PrintVisitor BasicProcess for " + source);
-        System.out.println(pv.printBasicProcesses(term));
-        System.out.println();
+        System.out.flush();
+        //PrintVisitor pv = new PrintVisitor();
+        System.out.println("DEBUG: PrintVisitor for " + source);        
+        //System.out.println(pv.printProcessPara(term));
+        //System.out.println();
+        System.out.println(term);
+        System.out.flush();
     }
     return term;
   }
