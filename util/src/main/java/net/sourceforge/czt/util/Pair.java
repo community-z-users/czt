@@ -39,4 +39,13 @@ public class Pair<T1, T2> {
         else 
             return false;
     }
+    
+    public T1 getFirst()
+    {
+       return FIRST;
+    }
+
+    public T2 getSecond() {
+       return SECOND;
+    }
 }
