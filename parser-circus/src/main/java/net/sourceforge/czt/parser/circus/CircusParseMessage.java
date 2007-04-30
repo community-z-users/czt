@@ -19,7 +19,7 @@ public enum CircusParseMessage {
   MSG_UNBALANCED_LISTS("A {0} list of size {1} cannot be related to a {2} list of size {3}."),
   MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
   MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
-  //MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
+  MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
   MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3} at {4}."),  
  
@@ -38,9 +38,9 @@ public enum CircusParseMessage {
   MSG_PROCESSPARA_MISSING_NAME_ERROR("Missing process name in process paragraph declaration."),
   
   MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE("No basic process scope for enclosing basic process inner paragraphs at {0}."),
-  MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched (closing) basic process scope at {0}."),
-  MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes."),
-  MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("Cannot declare {0} outside a basic process scope at \n {1}.\n " +
+  MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched ({0}) scope for basic process ({1}) at {2}."),
+  MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes (from {0}) at {1}."),
+  MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("Cannot {0}{1} outside a basic process scope at \n {2}.\n " +
       "This is a serious warning as type checking will assume the paragraph declared outside a process\n" +
       "is included into the closest enclosing basic process."),
     
