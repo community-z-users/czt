@@ -239,10 +239,14 @@ gaffe2/src/main/resources/preStep.jpg -text
 gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/EvalSetResultTest.java -text
 gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTest.java -text
 gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTreeTest.java -text
+gnast/src/vm/ActionPara.java -text
+gnast/src/vm/ActionParaImpl.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/BasicProcess.java -text
 gnast/src/vm/BasicProcessImpl.java -text
+gnast/src/vm/CallAction.java -text
+gnast/src/vm/CallActionImpl.java -text
 gnast/src/vm/CallProcess.java -text
 gnast/src/vm/CallProcessImpl.java -text
 gnast/src/vm/ChannelDecl.java -text
@@ -255,6 +259,10 @@ gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/LetMuAction.java -text
 gnast/src/vm/LetMuActionImpl.java -text
+gnast/src/vm/MuAction.java -text
+gnast/src/vm/MuActionImpl.java -text
+gnast/src/vm/NameSetPara.java -text
+gnast/src/vm/NameSetParaImpl.java -text
 gnast/src/vm/ProcessPara.java -text
 gnast/src/vm/ProcessParaImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
