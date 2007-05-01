@@ -17,12 +17,13 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oracles;
 
 import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
@@ -32,8 +33,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
-public class SortNamesProviso
-  implements ProvisoChecker
+public class SortNamesOracle
+  extends AbstractOracle
 {
   private Factory factory_ = new Factory(new ProverFactory());
 

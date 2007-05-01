@@ -18,7 +18,7 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oracles;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
@@ -36,11 +37,11 @@ import net.sourceforge.czt.z.util.PrintVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
-public class SchemaMinusProviso
-  implements ProvisoChecker
+public class SchemaMinusOracle
+  extends AbstractOracle
 {
   /**
-   * Implements the [D1|true] schemaminus [D2|true] proviso.
+   * Implements the [D1|true] schemaminus [D2|true] oracle.
    * This calculates the signature D1 minus D2.
    */
   public Set<Binding> check(List args, SectionManager manager, String section)

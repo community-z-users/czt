@@ -23,7 +23,7 @@
   \_ \hasType \_ : E1 \rel E2
 \end{gendef}
 
-\begin{zedproviso}{TypecheckProviso}
+\begin{zedproviso}{TypecheckOracle}
   E \hasType T
 \end{zedproviso}
 
@@ -39,7 +39,7 @@
   \_ \hasDefn \_ : E \rel E
 \end{gendef}
 
-\begin{zedproviso}{LookupProviso}
+\begin{zedproviso}{LookupOracle}
   E1 \hasDefn E2
 \end{zedproviso}
 
@@ -55,43 +55,43 @@
   \_ \is \_ : E1 \rel E2
 \end{gendef}
 
-\begin{zedproviso}{PrimeProviso}
+\begin{zedproviso}{PrimeOracle}
   E~' \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{OutProviso}
+\begin{zedproviso}{OutOracle}
   E~! \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{InProviso}
+\begin{zedproviso}{InOracle}
   E~? \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{Decor9Proviso}
+\begin{zedproviso}{Decor9Oracle}
   E~_9 \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{CalculateThetaProviso}
+\begin{zedproviso}{CalculateThetaOracle}
   \theta E \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{CalculateThetaPrimeProviso}
+\begin{zedproviso}{CalculateThetaPrimeOracle}
   \theta E~' \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{CalculateTheta9Proviso}
+\begin{zedproviso}{CalculateTheta9Oracle}
   \theta E~ _9 \is E2
 \end{zedproviso}
 
-\begin{zedproviso}{SchemaMinusProviso}
+\begin{zedproviso}{SchemaMinusOracle}
   [D1|true] \schemaminus [D2|true] \is [D3|true]
 \end{zedproviso}
 
-\begin{zedproviso}{UnprefixProviso}
+\begin{zedproviso}{UnprefixOracle}
   v1 \unprefix v2 \is v3
 \end{zedproviso}
 
-\begin{zedproviso}{SortNamesProviso}
+\begin{zedproviso}{SortNamesOracle}
   (sort [D|true]) \is ([D1|true]? \land [D2|true]' \land
                        [D3|true]! \land [D4|true])
 \end{zedproviso}

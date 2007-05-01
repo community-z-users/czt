@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.rules.ast.*;
+import net.sourceforge.czt.rules.oracles.*;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.SectionManager;
@@ -50,7 +51,7 @@ public class SimpleProver
   private SectionManager manager_;
   private String section_;
   private Random rand_ = new Random();  // used just for log messages
-  private Map<String,ProvisoChecker> provisos_ = createProvisoMap();
+  private Map<String,AbstractOracle> provisos_ = createOracleMap();
 
   public SimpleProver(Session session)
     throws CommandException
@@ -69,7 +70,7 @@ public class SimpleProver
     section_ = section;
   }
 
-  private Map<String,ProvisoChecker> createProvisoMap()
+  private Map<String,AbstractOracle> createOracleMap()
   {
     Factory factory = new Factory(new ProverFactory());
     Stroke prime = factory.createNextStroke();
@@ -81,19 +82,19 @@ public class SimpleProver
     ZStrokeList sl2 = factory.createZStrokeList();
     sl2.add(num9Stroke);
 
-    Map<String,ProvisoChecker> result = new HashMap<String,ProvisoChecker>();
-    result.put("TypecheckProviso", new TypecheckProviso());
-    result.put("LookupProviso", new LookupProviso());
-    result.put("CalculateThetaProviso", new ThetaProviso(null));
-    result.put("CalculateThetaPrimeProviso", new ThetaProviso(sl1));
-    result.put("CalculateTheta9Proviso", new ThetaProviso(sl2));
-    result.put("PrimeProviso", new DecorateProviso(prime));
-    result.put("OutProviso", new DecorateProviso(out));
-    result.put("InProviso", new DecorateProviso(in));
-    result.put("Decor9Proviso", new DecorateProviso(num9Stroke));
-    result.put("SchemaMinusProviso", new SchemaMinusProviso());
-    result.put("UnprefixProviso", new UnprefixProviso());
-    result.put("SortNamesProviso", new SortNamesProviso());
+    Map<String,AbstractOracle> result = new HashMap<String,AbstractOracle>();
+    result.put("TypecheckOracle", new TypecheckOracle());
+    result.put("LookupOracle", new LookupOracle());
+    result.put("CalculateThetaOracle", new ThetaOracle(null));
+    result.put("CalculateThetaPrimeOracle", new ThetaOracle(sl1));
+    result.put("CalculateTheta9Oracle", new ThetaOracle(sl2));
+    result.put("PrimeOracle", new DecorateOracle(prime));
+    result.put("OutOracle", new DecorateOracle(out));
+    result.put("InOracle", new DecorateOracle(in));
+    result.put("Decor9Oracle", new DecorateOracle(num9Stroke));
+    result.put("SchemaMinusOracle", new SchemaMinusOracle());
+    result.put("UnprefixOracle", new UnprefixOracle());
+    result.put("SortNamesOracle", new SortNamesOracle());
     return result;
   }
 
@@ -227,7 +228,7 @@ public class SimpleProver
   {
     ProvisoStatus status = oracleAppl.getProvisoStatus();
     if (status instanceof CheckPassed) return true;
-    ProvisoChecker checker = provisos_.get(oracleAppl.getName());
+    AbstractOracle checker = provisos_.get(oracleAppl.getName());
     if (checker != null) {
       List args = oracleAppl.getAnn(List.class);
       Set<Binding> bindings;
@@ -325,7 +326,7 @@ public class SimpleProver
   }
 
   /**
-   * Tries to apply a given Proviso to a given PredSequent.
+   * Tries to apply a given Oracle to a given PredSequent.
    * The factory is used to create the Deduction object.
    *
    * @throws IllegalArgumentException if a rule has already been applied to

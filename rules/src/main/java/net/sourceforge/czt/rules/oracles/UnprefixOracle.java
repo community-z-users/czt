@@ -1,4 +1,5 @@
 /*
+  Copyright (C) 2007 Mark Utting
   Copyright (C) 2007 Petra Malik
   This file is part of the czt project.
 
@@ -17,40 +18,41 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oracles;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.rules.*;
+import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
-import net.sourceforge.czt.typecheck.z.util.CarrierSet;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
-public class TypecheckProviso
-  implements ProvisoChecker
+public class UnprefixOracle
+  extends AbstractOracle
 {
   public Set<Binding> check(List args, SectionManager manager, String section)
     throws UnboundJokerException
   {
-    Expr expr = (Expr) args.get(0);
-    expr = (Expr) ProverUtils.removeJoker(expr);
-    final Expr type = (Expr) args.get(1);
-    List errors =
-      TypeCheckUtils.typecheck(expr, manager, false, true, section);
-    if (errors == null || errors.isEmpty()) {
-      TypeAnn typeAnn = (TypeAnn) expr.getAnn(TypeAnn.class);
-      CarrierSet visitor = new CarrierSet();
-      Term expr2 = (Term) typeAnn.getType().accept(visitor);
-      expr2 = expr2.accept(new CopyVisitor(new Factory()));
-      Set<Binding> result = UnificationUtils.unify(type, expr2);
-      return result;
+    Factory factory = new Factory(new ProverFactory());
+    final ZName v1 = (ZName) ProverUtils.removeJoker((Term) args.get(0));
+    final ZName v2 = (ZName) ProverUtils.removeJoker((Term) args.get(1));
+    final Name v3 = (Name) args.get(2);
+    final String leftWord = v1.getWord();
+    final String rightWord = v2.getWord();
+    if (rightWord.startsWith(leftWord)) {
+      final String resultWord =
+        rightWord.substring(leftWord.length(), rightWord.length());
+      StrokeList strokes = v2.getStrokeList();
+      // TODO: clean this up.
+      final ZName result = factory.createZName(resultWord, strokes, null);
+      return UnificationUtils.unify(result, v3);
     }
     return null;
   }

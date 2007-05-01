@@ -17,13 +17,14 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.rules;
+package net.sourceforge.czt.rules.oracles;
 
 import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.ProverFactory;
 import net.sourceforge.czt.rules.unification.*;
 import net.sourceforge.czt.session.*;
@@ -36,15 +37,15 @@ import net.sourceforge.czt.zpatt.util.Factory;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 /**
- * Implements the 'decorated expression' proviso.  For example, given
+ * Implements the 'decorated expression' oracle.  For example, given
  * [D] ', this will create a primed version of [D].
  */
-public class DecorateProviso
-  implements ProvisoChecker
+public class DecorateOracle
+  extends AbstractOracle
 {
   Stroke stroke_;
 
-  public DecorateProviso(Stroke stroke)
+  public DecorateOracle(Stroke stroke)
   {
     stroke_ = stroke;
   }
