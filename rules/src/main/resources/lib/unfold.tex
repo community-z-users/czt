@@ -11,7 +11,7 @@
 \maketitle
 
 \begin{zsection}
-  \SECTION unfold \parents proviso\_toolkit, standard\_toolkit
+  \SECTION unfold \parents oracle\_toolkit, standard\_toolkit
 \end{zsection}
 
 This Z section contains rules for unfolding and normalising declarations
@@ -242,11 +242,10 @@ NOTE: we also currently need thirteen versions of this next rule
    E~_{9} \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
-The type proviso in the ExistsSchema rule checks
-that $D1$ and $D2$ are type compatible.  The $\schemaminus$
-operator in the proviso calculates $D2 - D1$.  That is,
-$D4$ will contain all the declarations that appear in $D2$
-but do not appear in $D1$. 
+The type oracle in the ExistsSchema rule checks that $D1$ and $D2$ are
+type compatible.  The $\schemaminus$ oracle calculates $D2 - D1$.
+That is, $D4$ will contain all the declarations that appear in $D2$
+but do not appear in $D1$.
 
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\

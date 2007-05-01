@@ -557,15 +557,15 @@ NAME =   {NOT_LB}*
         {
           yybegin(ERROR);
         }
-  "\\begin" {IGNORE}* "{zedproviso}" {IGNORE}* "{"
+  "\\begin" {IGNORE}* "{zedoracle}" {IGNORE}* "{"
         {
           yybegin(ZED);
           assert ! addSpace_;
-          begin("zedproviso");
+          begin("zedoracle");
           braceStack_.push(BraceType.NAME);
           return result(ZPattString.PROVISO);
         }
-  "\\begin" {IGNORE}* "{zedproviso}" {IGNORE}*
+  "\\begin" {IGNORE}* "{zedoracle}" {IGNORE}*
         {
           yybegin(ERROR);
         }
@@ -782,9 +782,9 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
-  "\\end" {IGNORE}* "{zedproviso}"
+  "\\end" {IGNORE}* "{zedoracle}"
         {
-          end("zedproviso");
+          end("zedoracle");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);

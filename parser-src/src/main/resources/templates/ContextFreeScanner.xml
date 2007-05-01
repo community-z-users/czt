@@ -371,7 +371,6 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
 
   <add:zpatt>
   {RULELINE}    { return symbol(Sym.RULELINE); }
-  {PROVISO}     { return symbol(Sym.PROVISO); }
   </add:zpatt>
 
   <add:oz>
