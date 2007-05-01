@@ -113,7 +113,6 @@ public class PrintVisitor
         return term.getWord();
     }
 
-    
     /** Schema or generic schema definition (vertical).
      *      AxPara.Box          = SchBox
      *      AxPara.decl         = generics

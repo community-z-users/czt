@@ -66,6 +66,90 @@ public final class ZUtils
       parents.size() == 1 &&
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
   }
+
+  /** Schema or generic schema definition (vertical).
+   *      AxPara.Box          = SchBox
+   *      AxPara.decl         = generics
+   *      AxPara.SchText.decl = ConstDecl
+   *      AxPara.SchText.pred = null
+   *
+   *      ConstDecl.dname     = SchemaName
+   *      ConstDecl.expr      = SchExpr
+   *
+   * Axiomatic or generic definitions
+   *      AxPara.Box          = AxBox
+   *      AxPara.decl         = generics
+   *
+   *      AxPara.SchText.decl = declared variables
+   *      AxPara.SchText.pred = axiomatic predicate
+   *
+   * Horizontal definition
+   *      AxPara.Box          = OmitBox
+   *      AxPara.decl         = generics
+   *      AxPara.SchText.decl = Constdecl
+   *      AxPara.SchText.pred = null
+   *
+   *      ConstDecl.dname     = HorizDefName (either SchName or AbbrvName)
+   *      ConstDecl.expr      = HorizDefExpr (either SchExpr or Other)
+   */
+  
+  /** Checks whether the given term is an AxPara */
+  public static boolean isAxPara(Term term) {
+      return term instanceof AxPara;
+  }
+  
+  /** Assuming term is an AxPara casts it. A ClassCastException is raised otherwise. */
+  public static AxPara asAxPara(Term term) {
+      assert isAxPara(term);
+      return (AxPara)term;
+  }
+  
+  /** Checks whether the given term is an AxPara with OmixBox */
+  public static boolean isHorizontalDef(Term term) {
+      return (isAxPara(term) && asAxPara(term).getBox().equals(Box.OmitBox));
+  }
+  
+  /** Checks whether the given term <code>isHorizontalDef(Term)</code> and <code>isSchema(Term)</code> */
+  public static boolean isHorizontalSchema(Term term) {
+      return (isHorizontalDef(term) && isSchema(term));
+  }
+  
+  /** Checks whether the given term <code>isHorizontalDef(Term)</code> and <code>!isSchema(Term)</code> */
+  public static boolean isAbbreviation(Term term) {
+      return (isHorizontalDef(term) && !isSchema(term));
+  }
+  
+  private static boolean coreBoxedAxiomaticDef(Term term) {
+      return (isAxPara(term) && asAxPara(term).getBox().equals(Box.AxBox));
+  }
+  
+  public static NameList getAxParaGenFormals(Term term) {
+      return (isAxPara(term) ? asAxPara(term).getNameList() : null);
+  }
+
+  public static ZNameList getAxParaZGenFormals(Term term) {
+      return term == null ? null : assertZNameList(getAxParaGenFormals(term));
+  }
+
+  /** Checks whether the given term is an AxPara with AxBox (i.e. it comes from a \begin{axdef}/AX */
+  public static boolean isBoxedAxiomaticDef(Term term) {
+      boolean result = coreBoxedAxiomaticDef(term);
+      if (result) {
+        NameList nl = getAxParaGenFormals(term);      
+        result = (nl == null || ((nl instanceof ZNameList) && ((ZNameList)nl).isEmpty()));
+      }
+      return result;
+  }
+  
+  /** Checks whether the given term is an AxPara with AxBox (i.e. it comes from a \begin{gendef}[...]/GENAX */
+  public static boolean isBoxedGenericDef(Term term) {
+      boolean result = coreBoxedAxiomaticDef(term);
+      if (result) {
+        ZNameList nl = getAxParaZGenFormals(term);      
+        result = (nl != null && !nl.isEmpty());
+      }
+      return result;
+  }
   
   /**
    * Returns true if the AxPara has been properly encoded as either
@@ -83,11 +167,11 @@ public final class ZUtils
    * as a schema or not. That is, it checks whether the term is properly encoded
    * as either a horizontal or a boxed schema.
    */
-  public static boolean isSchema(Para p) 
+  public static boolean isSchema(Term term) 
   {
-    boolean result = (p instanceof AxPara);
+    boolean result = isAxPara(term);
     if (result) {
-      AxPara axp = (AxPara)p;
+      AxPara axp = asAxPara(term);
       result = axp.getBox().equals(Box.SchBox);        
       // If it is not a SchBox then check for OmitBox.    
       if (!result) {
@@ -111,37 +195,34 @@ public final class ZUtils
    * If the given paragraph <code>isSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
    */
-  public static Name getSchemaName(Para para)  
+  public static Name getSchemaName(Term term)  
   {
     Name result = null;
-    if (isSchema(para)) {
-      AxPara axp = (AxPara)para;
+    if (isSchema(term)) {
+      AxPara axp = asAxPara(term);
       assert isAxParaSchemaValid(axp);
       result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getName();
     }
     return result;
   } 
   
-  public static Expr getSchemaDefExpr(Para para)  
+  public static Expr getSchemaDefExpr(Term term)  
   {
     Expr result = null;
-    if (isSchema(para)) {
-      AxPara axp = (AxPara)para;
+    if (isSchema(term)) {
+      AxPara axp = asAxPara(term);
       assert isAxParaSchemaValid(axp);
       result = ((ConstDecl)axp.getZSchText().getZDeclList().get(0)).getExpr();
     }
     return result;
-  } 
-  
-  public static NameList getAxParaGenFormals(Para para) {
-      NameList result = null;            
-      if (para != null && (para instanceof AxPara)) 
-          result = ((AxPara)para).getNameList();      
-      return result;
   }
-
-  public static ZNameList getAxParaZGenFormals(Para axp) {
-      return axp == null ? null : assertZNameList(getAxParaGenFormals(axp));
+  
+  public static ZNameList getSchemaZGenFormals(Term term) {
+      ZNameList result = null;
+      if (isSchema(term)) {
+          
+      }
+      return result;
   }
   
   public static ZBranchList assertZBranchList(Term term)
