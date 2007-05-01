@@ -51,7 +51,7 @@ public class SimpleProver
   private SectionManager manager_;
   private String section_;
   private Random rand_ = new Random();  // used just for log messages
-  private Map<String,AbstractOracle> provisos_ = createOracleMap();
+  private Map<String,AbstractOracle> oracles_ = createOracleMap();
 
   public SimpleProver(Session session)
     throws CommandException
@@ -194,10 +194,10 @@ public class SimpleProver
     }
     else if (deduction instanceof OracleAppl) {
       OracleAppl oracleAppl = (OracleAppl) deduction;
-      if (oracleAppl.getProvisoStatus() instanceof CheckPassed) {
-        CheckPassed passed = (CheckPassed) oracleAppl.getProvisoStatus();
+      if (oracleAppl.getOracleAnswer() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) oracleAppl.getOracleAnswer();
         ProverUtils.reset(passed.getBinding());
-        oracleAppl.setProvisoStatus(null);
+        oracleAppl.setOracleAnswer(null);
       }
       ProverUtils.reset(oracleAppl.getBinding());
       predSequent.setDeduction(null);
@@ -226,9 +226,9 @@ public class SimpleProver
 
   public boolean prove(OracleAppl oracleAppl)
   {
-    ProvisoStatus status = oracleAppl.getProvisoStatus();
-    if (status instanceof CheckPassed) return true;
-    AbstractOracle checker = provisos_.get(oracleAppl.getName());
+    OracleAnswer answer = oracleAppl.getOracleAnswer();
+    if (answer instanceof CheckPassed) return true;
+    AbstractOracle checker = oracles_.get(oracleAppl.getName());
     if (checker != null) {
       List args = oracleAppl.getAnn(List.class);
       Set<Binding> bindings;
@@ -242,12 +242,12 @@ public class SimpleProver
         Factory factory = new Factory(new ProverFactory());
         CheckPassed passed = factory.createCheckPassed();
         passed.getBinding().addAll(bindings);
-        oracleAppl.setProvisoStatus(passed);
+        oracleAppl.setOracleAnswer(passed);
         return true;
       }
     }
     else {
-      System.err.println("No binding for proviso " + oracleAppl.getName());
+      System.err.println("No binding for oracle " + oracleAppl.getName());
     }
     return false;
   }

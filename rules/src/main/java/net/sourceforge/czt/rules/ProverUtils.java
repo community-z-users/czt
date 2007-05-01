@@ -141,8 +141,8 @@ public final class ProverUtils
     else if (ded instanceof OracleAppl) {
       OracleAppl oracleAppl = (OracleAppl) ded;
       list.addAll(oracleAppl.getBinding());
-      if (oracleAppl.getProvisoStatus() instanceof CheckPassed) {
-        CheckPassed passed = (CheckPassed) oracleAppl.getProvisoStatus();
+      if (oracleAppl.getOracleAnswer() instanceof CheckPassed) {
+        CheckPassed passed = (CheckPassed) oracleAppl.getOracleAnswer();
         list.addAll(passed.getBinding());
       }
     }

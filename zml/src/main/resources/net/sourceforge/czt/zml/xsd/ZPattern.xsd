@@ -174,20 +174,20 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="ProvisoStatus" type="P:ProvisoStatus" abstract="true">
+  <xs:element name="OracleAnswer" type="P:OracleAnswer" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        The status of a proviso.
+        The answer of the oracle.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
 
   <xs:element name="CheckPassed"
               type="P:CheckPassed"
-              substitutionGroup="P:ProvisoStatus">
+              substitutionGroup="P:OracleAnswer">
     <xs:annotation>
       <xs:documentation>
-        A successful proviso check.
+        A successful check.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -309,14 +309,14 @@
       <xs:extension base="P:Deduction">
         <xs:sequence>
           <xs:element ref="P:Binding" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="P:ProvisoStatus" minOccurs="0"/>
+          <xs:element ref="P:OracleAnswer" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="ProvisoStatus">
+  <xs:complexType name="OracleAnswer">
     <xs:complexContent>
       <xs:extension base="Z:Term"/>
     </xs:complexContent>
@@ -324,7 +324,7 @@
 
   <xs:complexType name="CheckPassed">
     <xs:complexContent>
-      <xs:extension base="P:ProvisoStatus">
+      <xs:extension base="P:OracleAnswer">
         <xs:sequence>
           <xs:element ref="P:Binding" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>

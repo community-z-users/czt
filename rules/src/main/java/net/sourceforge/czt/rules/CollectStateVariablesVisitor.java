@@ -55,7 +55,7 @@ public class CollectStateVariablesVisitor
 
   public Term visitInclDecl(InclDecl inclDecl)
   {
-    String message = "CalculateProviso: Schema not normalised";
+    String message = "Schema not normalised";
     throw new IllegalStateException(message);
   }
 

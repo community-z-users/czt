@@ -209,7 +209,7 @@ public class ProofTree
             final OracleNode pn = (OracleNode) o;
             if (! pn.isClosed()) {
               JPopupMenu popup = new JPopupMenu();
-              JMenuItem menuItem = new JMenuItem("Check proviso");
+              JMenuItem menuItem = new JMenuItem("Ask oracle");
               menuItem.addActionListener(new ActionListener() {
                   public void actionPerformed(ActionEvent e) {
                     SimpleProver prover =
@@ -326,8 +326,8 @@ public class ProofTree
         return true;
       }
       else if (ded instanceof OracleAppl) {
-        OracleAppl provisoAppl = (OracleAppl) ded;
-        return (provisoAppl.getProvisoStatus() instanceof CheckPassed);
+        OracleAppl oracleAppl = (OracleAppl) ded;
+        return (oracleAppl.getOracleAnswer() instanceof CheckPassed);
       }
       throw new RuntimeException("Unexpected dedudction " + ded.getClass());
     }
@@ -349,9 +349,9 @@ public class ProofTree
   class OracleNode
     extends DefaultMutableTreeNode
   {
-    public OracleNode(OracleAppl provisoAppl)
+    public OracleNode(OracleAppl oracleAppl)
     {
-      super(provisoAppl);
+      super(oracleAppl);
     }
 
     public OracleAppl getOracleAppl()
@@ -361,12 +361,12 @@ public class ProofTree
 
     public boolean isClosed()
     {
-      return (getOracleAppl().getProvisoStatus() instanceof CheckPassed);
+      return (getOracleAppl().getOracleAnswer() instanceof CheckPassed);
     }
 
     public String toString()
     {
-      return "proviso";
+      return "oracle";
     }
   }
 
@@ -385,7 +385,7 @@ public class ProofTree
                                          expanded, leaf, row,
                                          hasFocus);
       if (value instanceof OracleNode) {
-        setToolTipText("Proviso");
+        setToolTipText("Oracle");
         OracleNode node = (OracleNode) value;
         if (node.isClosed()) {
           setIcon(new ImageIcon(getClass().getResource("images/ok.jpg")));
