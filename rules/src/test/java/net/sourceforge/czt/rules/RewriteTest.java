@@ -45,7 +45,6 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.UrlSource;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class RewriteTest

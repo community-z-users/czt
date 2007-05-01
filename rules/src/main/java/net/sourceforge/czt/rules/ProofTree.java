@@ -44,7 +44,7 @@ public class ProofTree
   private String section_;
 
   public ProofTree(JFrame frame,
-                   PredSequent sequent,
+                   Sequent sequent,
                    RuleTable rules,
                    SectionManager manager,
                    String section)
@@ -73,7 +73,7 @@ public class ProofTree
    */
   private boolean apply(RulePara rulePara, ProofNode node)
   {
-    PredSequent sequent = node.getSequent();
+    Sequent sequent = node.getSequent();
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
     RulePara copiedRulePara = (RulePara) rulePara.accept(visitor);
@@ -82,7 +82,7 @@ public class ProofTree
 
   private void apply(String name, ProofNode node)
   {
-    PredSequent sequent = node.getSequent();
+    Sequent sequent = node.getSequent();
     if (apply(rules_.getRulePara(name), node)) {
       substituteNode(node, new ProofNode(sequent));
     }
@@ -90,13 +90,12 @@ public class ProofTree
 
   private DefaultMutableTreeNode createNode(Sequent s)
   {
-    if (s instanceof PredSequent) return new ProofNode((PredSequent) s);
-    throw new RuntimeException("Unexpted sequent " + s.getClass());
+    return new ProofNode(s);
   }
 
   private void whyNot(String name, ProofNode node)
   {
-    PredSequent sequent = node.getSequent();
+    Sequent sequent = node.getSequent();
     Factory factory = new Factory(new ProverFactory());
     CopyVisitor visitor = new CopyVisitor(factory);
     RulePara copiedRule = (RulePara) rules_.getRulePara(name).accept(visitor);
@@ -127,7 +126,7 @@ public class ProofTree
   private void prove(ProofNode node)
   {
     SimpleProver prover = new SimpleProver(rules_, manager_, section_);
-    PredSequent sequent = node.getSequent();
+    Sequent sequent = node.getSequent();
     if (prover.prove(sequent)) {
       substituteNode(node, new ProofNode(sequent));
     }
@@ -152,7 +151,7 @@ public class ProofTree
     }
   }
 
-  private void reset(PredSequent sequent)
+  private void reset(Sequent sequent)
   {
     if (sequent.getDeduction() != null) {
       java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
@@ -164,13 +163,13 @@ public class ProofTree
 
   private void reset(ProofNode node)
   {
-    PredSequent sequent = node.getSequent();
+    Sequent sequent = node.getSequent();
     reset(sequent);
     substituteNode(node, new ProofNode(sequent));
   }
 
 
-  public static void createAndShowGUI(PredSequent sequent,
+  public static void createAndShowGUI(Sequent sequent,
                                       RuleTable rules,
                                       SectionManager manager,
                                       String section)
@@ -228,7 +227,7 @@ public class ProofTree
 
     private JPopupMenu menu(final ProofNode node)
     {
-      final PredSequent sequent = (PredSequent) node.getUserObject();
+      final Sequent sequent = (Sequent) node.getUserObject();
       JPopupMenu popup = new JPopupMenu();
       if (sequent.getDeduction() != null) {
         JMenuItem menuItem = new JMenuItem("Undo rule application");
@@ -289,7 +288,7 @@ public class ProofTree
   class ProofNode
     extends DefaultMutableTreeNode
   {
-    public ProofNode(PredSequent sequent)
+    public ProofNode(Sequent sequent)
     {
       super(sequent);
       Deduction ded = sequent.getDeduction();
@@ -303,9 +302,9 @@ public class ProofTree
       }
     }
 
-    public PredSequent getSequent()
+    public Sequent getSequent()
     {
-      return (PredSequent) getUserObject();
+      return (Sequent) getUserObject();
     }
 
     public boolean isClosed()
@@ -396,7 +395,7 @@ public class ProofTree
       }
       else if (value instanceof ProofNode) {
         ProofNode node = (ProofNode) value;
-        PredSequent sequent = node.getSequent();
+        Sequent sequent = node.getSequent();
         if (sequent.getDeduction() instanceof RulePara) {
           RulePara rulePara = (RulePara) sequent.getDeduction();
           setToolTipText("Rule " + rulePara.getName());

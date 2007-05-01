@@ -20,7 +20,7 @@
 package net.sourceforge.czt.rules;
 
 import net.sourceforge.czt.rules.unification.UnificationException;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.RulePara;
 
 /**
@@ -30,10 +30,10 @@ public class RuleApplicationException
   extends Exception
 {
   private RulePara rulePara_;
-  private PredSequent sequent_;
+  private Sequent sequent_;
 
   public RuleApplicationException(RulePara rulePara,
-                                  PredSequent sequent,
+                                  Sequent sequent,
                                   UnificationException cause)
   {
     super(cause);
@@ -46,7 +46,7 @@ public class RuleApplicationException
     return rulePara_;
   }
 
-  public PredSequent getSequent()
+  public Sequent getSequent()
   {
     return sequent_;
   }

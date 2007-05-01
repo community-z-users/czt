@@ -130,9 +130,9 @@ public class ZpattPrintVisitor
     return null;
   }
 
-  public Object visitPredSequent(PredSequent predSequent)
+  public Object visitSequent(Sequent sequent)
   {
-    visit(predSequent.getPred());
+    visit(sequent.getPred());
     return null;
   }
 

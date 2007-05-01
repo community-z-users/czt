@@ -1959,7 +1959,7 @@ non terminal SequentList
 
 non terminal Sequent antecedent;
 
-non terminal PredSequent conclusion;
+non terminal Sequent conclusion;
 
 non terminal Sequent
     sequent,
@@ -6724,7 +6724,7 @@ conclusion ::=
         {:
            //czt.todo: What is the context?
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           RESULT = factory_.createSequent(sc, pred(t), null);
            addLocAnn(RESULT, getLocation(t));
         :}
         ;
@@ -6738,14 +6738,14 @@ predSequent ::=
         sequentLHS:slhs VDASH term:t
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc , pred(t), null);
+           RESULT = factory_.createSequent(sc , pred(t), null);
            addLocAnn(RESULT, getLocation(slhs.get(0), t));
         :}
         |
         term:t
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           RESULT = factory_.createSequent(sc, pred(t), null);
            addLocAnn(RESULT, getLocation(t));
         :}
         ;
@@ -6767,7 +6767,7 @@ antecedent ::=
         term:t
         {:
            SequentContext sc = factory_.createSequentContext();
-           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           RESULT = factory_.createSequent(sc, pred(t), null);
            addLocAnn(RESULT, getLocation(t));
         :}
         ;

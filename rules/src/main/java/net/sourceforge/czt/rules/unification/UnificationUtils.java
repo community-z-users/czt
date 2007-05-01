@@ -37,7 +37,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.zpatt.ast.Binding;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.Rule;
 import net.sourceforge.czt.zpatt.ast.Sequent;
 
@@ -129,7 +129,7 @@ public final class UnificationUtils
     Rule rule = firstRule(spec);
     assert rule != null;
     Sequent seq = rule.getSequent();
-    return ((PredSequent)seq).getPred();
+    return seq.getPred();
   }
 
   /** Finds the first zedrule in the specification. */

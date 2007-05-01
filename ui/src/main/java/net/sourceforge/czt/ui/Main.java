@@ -303,7 +303,7 @@ public class Main
                     if (p instanceof ConjPara) {
                       ConjPara conj = (ConjPara) p;
                       ProofTree.createAndShowGUI(
-                        ProverUtils.createPredSequent(conj.getPred(), true),
+                        ProverUtils.createSequent(conj.getPred(), true),
                         rules,
                         manager,
                         sectionName);

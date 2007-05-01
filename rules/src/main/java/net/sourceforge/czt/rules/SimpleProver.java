@@ -37,7 +37,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
 /**
  * <p>A simple implementation of the Prover interface.</p>
  *
- * <p>This prover tries to prove a PredSequent by searching for an
+ * <p>This prover tries to prove a Sequent by searching for an
  * applicable rule and, when one is found, tries to prove the new goals
  * created with the application of the rule.  It uses depth-first
  * search.</p>
@@ -113,9 +113,8 @@ public class SimpleProver
    */
   public boolean prove(Pred pred)
   {
-    PredSequent predSequent =
-      ProverUtils.createPredSequent(pred, true);
-    return prove(predSequent);
+    Sequent sequent = ProverUtils.createSequent(pred, true);
+    return prove(sequent);
   }
 
   /**
@@ -130,17 +129,17 @@ public class SimpleProver
    * Returns <code>true</code> if this succeeds,
    * <code>false</code> otherwise.
    */
-  public boolean prove(PredSequent predSequent)
+  public boolean prove(Sequent sequent)
   {
     for (Iterator<RulePara> iter = rules_.iterator(); iter.hasNext(); ) {
       RulePara rulePara = iter.next();
       try {
-        boolean success = apply(rulePara, predSequent);
+        boolean success = apply(rulePara, sequent);
         if (success) {
           // we use a random id number in log messages to make it
           // clearer which rule application each message is talking about.
           int id = rand_.nextInt(1000);
-          Deduction ded = predSequent.getDeduction();
+          Deduction ded = sequent.getDeduction();
           if (ded instanceof RuleAppl) {
             RuleAppl ruleAppl = (RuleAppl) ded;
             String message = "Applied rule " + rulePara.getName() + "." + id
@@ -153,7 +152,7 @@ public class SimpleProver
               return true;
             }
             else {
-              undo(predSequent);
+              undo(sequent);
               message = "Undid rule " + rulePara.getName() + "." + id
                 + " because antecedent " + problem + " failed";
               getLogger().fine(message);
@@ -161,7 +160,7 @@ public class SimpleProver
           }
           else if (ded instanceof OracleAppl) {
             if (prove((OracleAppl) ded)) return true;
-            undo(predSequent);
+            undo(sequent);
           }
           else {
             throw new CztException("Unsupported deduction " + ded);
@@ -170,7 +169,7 @@ public class SimpleProver
       }
       catch (IllegalArgumentException e) {
         String message =
-          "PredSequent cannot be applied to rule " + rulePara.getName() + ": "
+          "Sequent cannot be applied to rule " + rulePara.getName() + ": "
           + e.getMessage();
         getLogger().warning(message);
       }
@@ -183,14 +182,14 @@ public class SimpleProver
    * Note that this method does not iterate into the children of a
    * deduction, so only undoes the bindings of this deduction.
    */
-  public void undo(PredSequent predSequent)
+  public void undo(Sequent sequent)
   {
-    Deduction deduction = predSequent.getDeduction();
+    Deduction deduction = sequent.getDeduction();
     if (deduction == null) return;
     if (deduction instanceof RuleAppl) {
       RuleAppl ruleAppl = (RuleAppl) deduction;
       ProverUtils.reset(ruleAppl.getBinding());
-      predSequent.setDeduction(null);
+      sequent.setDeduction(null);
     }
     else if (deduction instanceof OracleAppl) {
       OracleAppl oracleAppl = (OracleAppl) deduction;
@@ -200,7 +199,7 @@ public class SimpleProver
         oracleAppl.setOracleAnswer(null);
       }
       ProverUtils.reset(oracleAppl.getBinding());
-      predSequent.setDeduction(null);
+      sequent.setDeduction(null);
     }
     else {
       throw new CztException("Unsupported deduction " + deduction);
@@ -263,106 +262,82 @@ public class SimpleProver
     int result = -1;
     for (Sequent sequent : sequents) {
       result++;
-      if (sequent instanceof PredSequent) {
-        if (! prove((PredSequent) sequent)) return result;
-      }
-      else {
-        return result;
-      }
+      if (! prove(sequent)) return result;
     }
     return -1;
   }
 
-  public static boolean apply(RulePara rulePara, PredSequent predSequent)
+  public static boolean apply(RulePara rulePara, Sequent sequent)
   {
     if (rulePara instanceof Rule) {
-      return apply((Rule) rulePara, predSequent);
+      return apply((Rule) rulePara, sequent);
     }
     else if (rulePara instanceof Oracle) {
-      return apply((Oracle) rulePara, predSequent);
+      return apply((Oracle) rulePara, sequent);
     }
     return false;
   }
 
   /**
-   * Tries to apply a given Rule to a given PredSequent.
+   * Tries to apply a given Rule to a given Sequent.
    * The factory is used to create the Deduction object.
    *
    * @throws IllegalArgumentException if a rule has already been applied to
-   *                                  predSequent or the conclusion of the
-                                      rule is not a PredSequent.
+   *                                  the given Sequent.
    */
-  public static boolean apply(Rule rule, PredSequent predSequent)
+  public static boolean apply(Rule rule, Sequent sequent)
   {
-    if (predSequent.getDeduction() != null) {
+    if (sequent.getDeduction() != null) {
       String message =
-        "This PredSequent already has a deduction associated to it.";
+        "This Sequent already has a deduction associated to it.";
       throw new IllegalArgumentException(message);
     }
     // Note: must use new ProverFactory here to generate fresh joker names.
     Factory factory = new Factory(new ProverFactory());
     rule = (Rule) copy(rule, factory);
-    Sequent sequent = rule.getSequent();
-    if (sequent instanceof PredSequent) {
-      Pred pred = ((PredSequent) sequent).getPred();
-      Set<Binding> bindings =
-        UnificationUtils.unify(pred, predSequent.getPred());
-      if (bindings != null) {
-        List<Binding> bindingList = new ArrayList<Binding>();
-        bindingList.addAll(bindings);
-        RuleAppl ruleAppl =
-          factory.createRuleAppl(bindingList,
-                                 rule.getAntecedents(),
-                                 rule.getName());
-        predSequent.setDeduction(ruleAppl);
-        return true;
-      }
-    }
-    else {
-      String message = "Conclusion of a rule must be a PredSequent";
-      throw new IllegalArgumentException(message);
+    Sequent conclusion = rule.getSequent();
+    Set<Binding> bindings =
+      UnificationUtils.unify(conclusion.getPred(), sequent.getPred());
+    if (bindings != null) {
+      List<Binding> bindingList = new ArrayList<Binding>();
+      bindingList.addAll(bindings);
+      RuleAppl ruleAppl = factory.createRuleAppl(bindingList,
+                                                 rule.getAntecedents(),
+                                                 rule.getName());
+      sequent.setDeduction(ruleAppl);
+      return true;
     }
     return false;
   }
 
   /**
-   * Tries to apply a given Oracle to a given PredSequent.
+   * Tries to apply a given Oracle to a given Sequent.
    * The factory is used to create the Deduction object.
    *
    * @throws IllegalArgumentException if a rule has already been applied to
-   *                                  predSequent or the conclusion of the
-                                      rule is not a PredSequent.
+   *                                  Sequent.
    */
-  public static boolean apply(Oracle oracle, PredSequent predSequent)
+  public static boolean apply(Oracle oracle, Sequent sequent)
   {
-    if (predSequent.getDeduction() != null) {
+    if (sequent.getDeduction() != null) {
       String message =
-        "This PredSequent already has a deduction associated to it.";
+        "This Sequent already has a deduction associated to it.";
       throw new IllegalArgumentException(message);
     }
     // Note: must use new ProverFactory here to generate fresh joker names.
     Factory factory = new Factory(new ProverFactory());
     oracle = (Oracle) copy(oracle, factory);
-    Sequent sequent = oracle.getSequent();
-    if (sequent instanceof PredSequent) {
-      Pred pred = ((PredSequent) sequent).getPred();
-      Set<Binding> bindings =
-        UnificationUtils.unify(pred, predSequent.getPred());
-      if (bindings != null) {
-        List<Binding> bindingList = new ArrayList<Binding>();
-        bindingList.addAll(bindings);
-        OracleAppl oracleAppl =
-          factory.createOracleAppl(bindingList,
-                                   null,
-                                   oracle.getName());
-        oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
-        predSequent.setDeduction(oracleAppl);
-        return true;
-      }
-    }
-    else {
-      String message = "Conclusion of a rule must be a PredSequent";
-      throw new IllegalArgumentException(message);
+    Sequent conclusion = oracle.getSequent();
+    Set<Binding> bindings =
+      UnificationUtils.unify(conclusion.getPred(), sequent.getPred());
+    if (bindings != null) {
+      List<Binding> bindingList = new ArrayList<Binding>();
+      bindingList.addAll(bindings);
+      OracleAppl oracleAppl =
+        factory.createOracleAppl(bindingList, null, oracle.getName());
+      oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
+      sequent.setDeduction(oracleAppl);
+      return true;
     }
     return false;
   }
@@ -375,94 +350,78 @@ public class SimpleProver
    *                                  to the sequent,
    *                                  or the rule doesn't have a sequent
    */
-  public static boolean apply2(RulePara rulePara, PredSequent predSequent)
+  public static boolean apply2(RulePara rulePara, Sequent sequent)
     throws RuleApplicationException
   {
     if (rulePara instanceof Rule) {
-      return apply2((Rule) rulePara, predSequent);
+      return apply2((Rule) rulePara, sequent);
     }
     else if (rulePara instanceof Oracle) {
-      return apply2((Oracle) rulePara, predSequent);
+      return apply2((Oracle) rulePara, sequent);
     }
     return false;
   }
 
-  public static boolean apply2(Rule rule, PredSequent predSequent)
+  public static boolean apply2(Rule rule, Sequent sequent)
     throws RuleApplicationException
   {
     try {
-      if (predSequent.getDeduction() != null) {
+      if (sequent.getDeduction() != null) {
         String message =
-          "This PredSequent already has a deduction associated to it.";
+          "This Sequent already has a deduction associated to it.";
         throw new IllegalArgumentException(message);
       }
       // Note: must use new ProverFactory here to generate fresh joker names.
       Factory factory = new Factory(new ProverFactory());
       rule = (Rule) copy(rule, factory);
-      Sequent sequent = rule.getSequent();
-      if (sequent instanceof PredSequent) {
-        Pred pred = ((PredSequent) sequent).getPred();
-        Set<Binding> bindings =
-          UnificationUtils.unify2(pred, predSequent.getPred());
-        if (bindings != null) {
-          List<Binding> bindingList = new ArrayList<Binding>();
-          bindingList.addAll(bindings);
-          Deduction deduction =
-            factory.createRuleAppl(bindingList,
-                                   rule.getAntecedents(),
-                                   rule.getName());
-          predSequent.setDeduction(deduction);
-          return true;
-        }
-      }
-      else {
-        String message = "Conclusion of a rule must be a PredSequent";
-        throw new IllegalArgumentException(message);
+      Sequent conclusion = rule.getSequent();
+      Set<Binding> bindings =
+        UnificationUtils.unify2(conclusion.getPred(), sequent.getPred());
+      if (bindings != null) {
+        List<Binding> bindingList = new ArrayList<Binding>();
+        bindingList.addAll(bindings);
+        Deduction deduction = factory.createRuleAppl(bindingList,
+                                                     rule.getAntecedents(),
+                                                     rule.getName());
+        sequent.setDeduction(deduction);
+        return true;
       }
       return false;
     }
     catch (UnificationException e) {
-      throw new RuleApplicationException(rule, predSequent, e);
+      throw new RuleApplicationException(rule, sequent, e);
     }
   }
 
-  public static boolean apply2(Oracle oracle, PredSequent predSequent)
+  public static boolean apply2(Oracle oracle, Sequent sequent)
     throws RuleApplicationException
   {
     try {
-      if (predSequent.getDeduction() != null) {
+      if (sequent.getDeduction() != null) {
         String message =
-          "This PredSequent already has a deduction associated to it.";
+          "This Sequent already has a deduction associated to it.";
         throw new IllegalArgumentException(message);
       }
       // Note: must use new ProverFactory here to generate fresh joker names.
       Factory factory = new Factory(new ProverFactory());
       oracle = (Oracle) copy(oracle, factory);
-      Sequent sequent = oracle.getSequent();
-      if (sequent instanceof PredSequent) {
-        Pred pred = ((PredSequent) sequent).getPred();
-        Set<Binding> bindings =
-          UnificationUtils.unify2(pred, predSequent.getPred());
-        if (bindings != null) {
-          List<Binding> bindingList = new ArrayList<Binding>();
-          bindingList.addAll(bindings);
-          OracleAppl oracleAppl =
-            factory.createOracleAppl(bindingList,
-                                     null,
-                                     oracle.getName());
-          oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
-          predSequent.setDeduction(oracleAppl);
-          return true;
-        }
-      }
-      else {
-        String message = "Conclusion of a rule must be a PredSequent";
-        throw new IllegalArgumentException(message);
+      Sequent conclusion = oracle.getSequent();
+      Set<Binding> bindings =
+        UnificationUtils.unify2(conclusion.getPred(), sequent.getPred());
+      if (bindings != null) {
+        List<Binding> bindingList = new ArrayList<Binding>();
+        bindingList.addAll(bindings);
+        OracleAppl oracleAppl = factory.createOracleAppl(bindingList,
+                                                         null,
+                                                         oracle.getName());
+        oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
+        sequent.setDeduction(oracleAppl);
+        return true;
       }
       return false;
     }
     catch (UnificationException e) {
-      throw new RuleApplicationException(oracle, predSequent, e);
+      throw new RuleApplicationException(oracle, sequent, e);
     }
   }
 

@@ -226,7 +226,7 @@ public class ZSideKickActions
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
                 ProofTree.createAndShowGUI(
-                  ProverUtils.createPredSequent(pred, true),
+                  ProverUtils.createSequent(pred, true),
                   rules,
                   manager,
                   section);
@@ -327,21 +327,21 @@ public class ZSideKickActions
               if (rules != null) {
                 if (term instanceof Expr) {
                   ProofTree.createAndShowGUI(
-                     ProverUtils.createRewritePredSequent((Expr) term, true),
+                     ProverUtils.createRewriteSequent((Expr) term, true),
                      rules,
                      manager,
                      section);
                 }
                 else if (term instanceof Pred) {
                   ProofTree.createAndShowGUI(
-                     ProverUtils.createRewritePredSequent((Pred) term, true),
+                     ProverUtils.createRewriteSequent((Pred) term, true),
                      rules,
                      manager,
                      section);
                 }
                 else {
                   ProofTree.createAndShowGUI(                     
-                     ProverUtils.createRewritePredSequent((SchText) term, true),
+                     ProverUtils.createRewriteSequent((SchText) term, true),
                      rules,
                      manager,
                      section);

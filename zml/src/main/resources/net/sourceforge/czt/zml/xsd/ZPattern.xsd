@@ -91,10 +91,8 @@
     <xs:annotation>
       <xs:documentation>
         This is a proof/transformation rule with one conclusion sequent
-        (the FIRST in the list of sequents) and optionally, several
-        antecedent sequents.  
-        Each sequent has the form Context |- Fact.
-        The conclusion sequent must be a PredSequent.
+        and optionally, several antecedent sequents.  
+        Each sequent has the form Context |- Predicate.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -149,7 +147,7 @@
   <xs:element name="Deduction" type="P:Deduction" abstract="true">
     <xs:annotation>
       <xs:documentation>
-        A deduction is an application of a Rule to a PredSequent.
+        A deduction is an application of a Rule to a Sequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -159,7 +157,7 @@
               substitutionGroup="P:Deduction">
     <xs:annotation>
       <xs:documentation>
-        An application of a Rule to a PredSequent.
+        An application of a Rule to a Sequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -169,7 +167,7 @@
               substitutionGroup="P:Deduction">
     <xs:annotation>
       <xs:documentation>
-        An application of an Orcale to a PredSequent.
+        An application of an Orcale to a Sequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -192,25 +190,13 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="Sequent" type="P:Sequent" abstract="true">
+  <xs:element name="Sequent" type="P:Sequent">
     <xs:annotation>
       <xs:documentation>
-        This is an abstract superclass of all the various kinds of
-	sequents that are possible in a Z rule.  Each sequent has
-        the form Context |- Conclusion.  The various subclasses of
-	Sequence have different kinds of conclusions.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-
-  <xs:element name="PredSequent"
-              type="P:PredSequent"
-              substitutionGroup="P:Sequent">
-    <xs:annotation>
-      <xs:documentation>
-        The conclusion of this sequent is just a Z predicate, 
-        which may contain joker variables.  The sequent is true
-        when the predicate is provable from the context of the sequent.
+        A sequent is of the form Context |- Predicate,
+        where the Predicate may contain joker variables.  A sequent
+        is true when the predicate is provable from the context of
+        the sequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -229,7 +215,13 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="P:Sequent"/>
+          <xs:element ref="P:Sequent">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
         <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
@@ -350,15 +342,6 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="PredSequent">
-    <xs:complexContent>
-      <xs:extension base="P:Sequent">
-        <xs:sequence>
           <xs:element ref="Z:Pred"/>
           <xs:element ref="P:Deduction" minOccurs="0" maxOccurs="1">
             <xs:annotation>

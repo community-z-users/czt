@@ -44,7 +44,7 @@ import net.sourceforge.czt.z.visitor.LetExprVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.z.visitor.SchTextVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 /**
@@ -217,9 +217,9 @@ public class Rewrite
     TupleExpr pair = factory.createTupleExpr(original, joker);
     Pred pred =
       factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
-    PredSequent predSequent = factory.createPredSequent();
-    predSequent.setPred(pred);
-    if (prover.prove(predSequent)) {
+    Sequent sequent = factory.createSequent();
+    sequent.setPred(pred);
+    if (prover.prove(sequent)) {
       Expr newExpr = (Expr) ProverUtils.removeJoker(joker.boundTo());
       if (newExpr instanceof SchExpr) {
         SchText result = ((SchExpr)newExpr).getSchText(); 
@@ -248,9 +248,9 @@ public class Rewrite
     ProverJokerExpr joker = (ProverJokerExpr)
       factory.createJokerExpr("_", null);
     Pred pred = factory.createEquality(expr, joker);
-    PredSequent predSequent = factory.createPredSequent();
-    predSequent.setPred(pred);
-    if (prover.prove(predSequent)) {
+    Sequent sequent = factory.createSequent();
+    sequent.setPred(pred);
+    if (prover.prove(sequent)) {
       return ProverUtils.removeJoker(joker.boundTo());
     }
     return expr;
@@ -269,9 +269,9 @@ public class Rewrite
     Factory factory = new Factory(new ProverFactory());
     ProverJokerPred joker = (ProverJokerPred)
       factory.createJokerPred("_", null);
-    PredSequent predSequent = factory.createPredSequent();
-    predSequent.setPred(factory.createIffPred(pred, joker));
-    if (prover.prove(predSequent)) {
+    Sequent sequent = factory.createSequent();
+    sequent.setPred(factory.createIffPred(pred, joker));
+    if (prover.prove(sequent)) {
       return ProverUtils.removeJoker(joker.boundTo());
     }
     return pred;

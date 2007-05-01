@@ -69,7 +69,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.RulePara;
 import net.sourceforge.czt.zpatt.util.Factory;
 
@@ -281,11 +281,11 @@ public class TextUI {
               ProverJokerExpr joker = (ProverJokerExpr)
                  fact.createJokerExpr("_", null);
               Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
-              PredSequent predSequent =
-                ProverUtils.createPredSequent(pred, true);
+              Sequent sequent =
+                ProverUtils.createSequent(pred, true);
               SimpleProver prover = new SimpleProver(rules, manager, section);
-              if (SimpleProver.apply(rulePara, predSequent)) {
-                boolean proveresult = prover.prove(predSequent.getDeduction());
+              if (SimpleProver.apply(rulePara, sequent)) {
+                boolean proveresult = prover.prove(sequent.getDeduction());
                 if (proveresult)
                   output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 
                 else

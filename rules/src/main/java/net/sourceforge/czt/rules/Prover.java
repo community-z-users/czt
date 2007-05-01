@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 
 package net.sourceforge.czt.rules;
 
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 
 /**
  * <p>A prover can be used to find proofs.</p>
@@ -38,7 +38,7 @@ public interface Prover
   /**
    * Proves a given sequent.  Returns <code>true</code> if a proof
    * has been found.  In this case, the Deduction element of the
-   * given PredSequent contains the proof.
+   * given Sequent contains the proof.
    */
-  boolean prove(PredSequent conclusion);
+  boolean prove(Sequent conclusion);
 }

@@ -42,7 +42,7 @@ import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
+import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class SimpleProverTest
@@ -101,7 +101,7 @@ public class SimpleProverTest
     LOG.addHandler(handler);
     
     for (ConjPara conjPara : collectConjectures(term)) {
-      PredSequent sequent = factory_.createPredSequent();
+      Sequent sequent = factory_.createSequent();
       CopyVisitor visitor = new CopyVisitor(factory_);
       sequent.setPred((Pred) conjPara.getPred().accept(visitor));
       SimpleProver prover =

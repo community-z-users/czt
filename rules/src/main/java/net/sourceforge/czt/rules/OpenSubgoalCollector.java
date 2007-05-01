@@ -34,7 +34,7 @@ import net.sourceforge.czt.zpatt.visitor.*;
 
 public class OpenSubgoalCollector
   implements RuleApplVisitor,
-             PredSequentVisitor,
+             SequentVisitor,
              TermVisitor
 {
   protected List<Sequent> subgoals_ = new ArrayList<Sequent>();
@@ -52,13 +52,13 @@ public class OpenSubgoalCollector
     return null;
   }
 
-  public Object visitPredSequent(PredSequent predSequent)
+  public Object visitSequent(Sequent sequent)
   {
-    if (predSequent.getDeduction() == null) {
-      subgoals_.add(predSequent);
+    if (sequent.getDeduction() == null) {
+      subgoals_.add(sequent);
     }
     else {
-      predSequent.getDeduction().accept(this);
+      sequent.getDeduction().accept(this);
     }
     return null;
   }

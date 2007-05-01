@@ -38,7 +38,6 @@ import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.zpatt.ast.Binding;
 import net.sourceforge.czt.zpatt.ast.JokerExpr;
-import net.sourceforge.czt.zpatt.ast.PredSequent;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 public class UnifierTest extends TestCase

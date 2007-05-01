@@ -43,43 +43,43 @@ public final class ProverUtils
 
   /**
    * Copies the given predicate using the CopyVisitor (which makes
-   * sure that unification works) and creates a PredSequent with that
+   * sure that unification works) and creates a Sequent with that
    * predicate.
    */
-  public static PredSequent createPredSequent(Pred pred, boolean copy)
+  public static Sequent createSequent(Pred pred, boolean copy)
   {
     if (copy) {
       CopyVisitor copyVisitor = new CopyVisitor(FACTORY);
       pred = (Pred) pred.accept(copyVisitor);
     }
-    PredSequent predSequent = FACTORY.createPredSequent();
-    predSequent.setPred(pred);
-    return predSequent;
+    Sequent sequent = FACTORY.createSequent();
+    sequent.setPred(pred);
+    return sequent;
   }
 
-  public static PredSequent createPredSequent(Expr expr, boolean copy)
+  public static Sequent createSequent(Expr expr, boolean copy)
   {
     Pred pred = FACTORY.createExprPred(expr);
-    return createPredSequent(pred, copy);
+    return createSequent(pred, copy);
   }
 
-  public static PredSequent createRewritePredSequent(Expr expr, boolean copy)
+  public static Sequent createRewriteSequent(Expr expr, boolean copy)
   {
     ProverJokerExpr joker = (ProverJokerExpr)
       FACTORY.createJokerExpr("_", null);
     Pred pred = FACTORY.createEquality(expr, joker);
-    return createPredSequent(pred, copy);
+    return createSequent(pred, copy);
   }
 
-  public static PredSequent createRewritePredSequent(Pred pred, boolean copy)
+  public static Sequent createRewriteSequent(Pred pred, boolean copy)
   {
     ProverJokerPred joker = (ProverJokerPred)
       FACTORY.createJokerPred("_", null);
-    return createPredSequent(FACTORY.createIffPred(pred, joker), copy);
+    return createSequent(FACTORY.createIffPred(pred, joker), copy);
   }
 
-  public static PredSequent createRewritePredSequent(SchText schText,
-                                                     boolean copy)
+  public static Sequent createRewriteSequent(SchText schText,
+                                             boolean copy)
   {
     ProverJokerExpr joker = (ProverJokerExpr)
       FACTORY.createJokerExpr("_", null);
@@ -90,7 +90,7 @@ public final class ProverUtils
     ZName name = FACTORY.createZName(schemaEqOp, noStrokes, "global");
     RefExpr schemaEquals = FACTORY.createRefExpr(name);
     Pred pred = FACTORY.createMemPred(pair, schemaEquals, Boolean.TRUE);
-    return createPredSequent(pred, copy);
+    return createSequent(pred, copy);
    }
 
   /**
@@ -125,7 +125,7 @@ public final class ProverUtils
     return result;
   }
 
-  public static void collectBindings(PredSequent sequent, List<Binding> list)
+  public static void collectBindings(Sequent sequent, List<Binding> list)
   {
     Deduction ded = sequent.getDeduction();
     if (ded == null) return;
@@ -133,9 +133,7 @@ public final class ProverUtils
       RuleAppl ruleAppl = (RuleAppl) ded;
       list.addAll(ruleAppl.getBinding());
       for (Sequent s : ruleAppl.getSequentList()) {
-        if (s instanceof PredSequent) {
-          collectBindings((PredSequent) s, list);
-        }
+        collectBindings(s, list);
       }
     }
     else if (ded instanceof OracleAppl) {
