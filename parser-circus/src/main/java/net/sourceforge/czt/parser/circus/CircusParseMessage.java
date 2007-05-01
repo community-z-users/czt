@@ -37,6 +37,7 @@ public enum CircusParseMessage {
   MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR("Missing CIRCDEF after process name in process paragraph declaration."),
   MSG_PROCESSPARA_MISSING_NAME_ERROR("Missing process name in process paragraph declaration."),
   
+  MSG_DUPLICATED_BASIC_PROCESS_STATE("Duplicated state paragraph for basic process at {0}."),
   MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE("No basic process scope for enclosing basic process inner paragraphs at {0}."),
   MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched ({0}) scope for basic process ({1}) at {2}."),
   MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes (from {0}) at {1}."),

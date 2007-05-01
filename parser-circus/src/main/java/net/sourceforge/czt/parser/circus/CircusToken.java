@@ -40,7 +40,9 @@ public enum CircusToken
   LSCHEXPRACT(CircusString.LSCHEXPRACT), 
   RSCHEXPRACT(CircusString.RSCHEXPRACT), 
   LCIRCRENAME(CircusString.LCIRCRENAME), 
-  RCIRCRENAME(CircusString.RCIRCRENAME);
+  RCIRCRENAME(CircusString.RCIRCRENAME),
+  
+  CIRCUSACTION(CircusString.CIRCUSACTION);
 
   private String spelling_;
 

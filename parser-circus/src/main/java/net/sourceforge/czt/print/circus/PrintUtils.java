@@ -122,6 +122,9 @@ public final class PrintUtils
     catch (Exception e) {      
       throw new CztException(e);
     }
+    if (!scanner.getWarnings().isEmpty()) {
+        throw new PrintException("LaTeX printing generated important warnings", scanner.getWarnings());
+    }
   }
 
   /**

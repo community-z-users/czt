@@ -19,15 +19,18 @@
 
 package net.sourceforge.czt.print.circus;
 
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Iterator;
+import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.circus.util.CircusString;
-import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.circus.ast.*;
@@ -68,15 +71,7 @@ public class CircusPrintVisitor
     else
       printDecorword(keyword.spelling());
   }
-  
-  protected boolean isChannelFromDecl(ChannelDecl term) {
-    return (term.getNameList() == null && term.getExpr() instanceof RefExpr);
-  }
-  
-  private boolean isOnTheFly(Term term) {
-     return term.getAnn(OnTheFlyDefAnn.class) != null;
-  }
-  
+    
   private void printActualParams(ZExprList term, boolean indexes) {
     if (term != null && !term.isEmpty()) {
       print(indexes ? CircusToken.CIRCLINST : TokenName.LPAREN);
@@ -93,7 +88,7 @@ public class CircusPrintVisitor
   }
   
   protected void printProcessD(ProcessD term, boolean indexes) {
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       printFormalParameters(term.getZDeclList());      
       print(indexes ? CircusKeyword.CIRCINDEX : Keyword.SPOT);
       visit(term.getCircusProcess());
@@ -104,7 +99,7 @@ public class CircusPrintVisitor
   }
   
   protected void printActionD(ActionD term) {
-    if (!isOnTheFly(term)) {      
+    if (!CircusUtils.isOnTheFly(term)) {      
       printFormalParameters(term.getZDeclList());      
       print(Keyword.SPOT);
       visit(term.getCircusAction());
@@ -114,6 +109,36 @@ public class CircusPrintVisitor
     }
   }
 
+  private List<String> warnings_ = new ArrayList<String>();
+  
+  public List<String> getWarnings() {
+      return Collections.unmodifiableList(warnings_);
+  }
+  
+  private void warn(CircusPrintMessage cpm, Object... arguments) {
+      final String msg = MessageFormat.format(cpm.getMessage(), arguments);
+      warnings_.add(msg);    
+      CztLogger.getLogger(PrintUtils.class).warning(msg);      
+  }
+  
+  private void warnMissingFor(String msg, BasicProcess term) {
+      warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
+  }
+  
+  private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
+      warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);      
+  }  
+  
+  private void warnLocalOnTheFly(Term para, BasicProcess term) {      
+      warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);      
+  }
+    
+  private void warnDuplicatedState(Term term) {      
+      warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);      
+  }
+  
+  private boolean processedState_ = false;
+  
   /*********************************************************** 
    * Channel related    
    ***********************************************************/
@@ -126,7 +151,7 @@ public class CircusPrintVisitor
   } 
   
   public Object visitChannelDecl(ChannelDecl term) {    
-    if (isChannelFromDecl(term)) {
+    if (CircusUtils.isChannelFromDecl(term)) {
       print(CircusKeyword.CIRCCHANFROM);
       printGenericFormals(term.getGenFormals());
       assert term.getExpr() != null;
@@ -185,18 +210,98 @@ public class CircusPrintVisitor
     printGenericFormals(term.getGenFormals());
     visit(term.getProcessName());
     print(CircusKeyword.CIRCDEF);
+    boolean isBasicProcess = (term.getCircusProcess() instanceof BasicProcess);
+    
+    // basic processes will be spread across different environments
+    if (isBasicProcess) {        
+        print(CircusKeyword.CIRCBEGIN);
+        print(TokenName.END);
+        print(TokenName.NL);        
+    }
     visit(term.getCircusProcess());    
+
+    // close the environment for either CIRCEND (basic) or normal processes.
     print(TokenName.END);
     return null;
   }
 
-  public Object visitBasicProcess(BasicProcess term) {
-    throw new UnsupportedOperationException("not yet!");
+  public Term visitBasicProcess(BasicProcess term) {
+    
+    processedState_ = false;
+    boolean hasState = (term.getStatePara() != null);
+    
+    // basic process state is part of either implicitly declared or local paras
+    if (!hasState) {
+        // it should not be null if term was created by the parser!
+        // thus, raise an warning!
+        warnMissingFor("process state", term);
+    }
+    
+    // locally declared paragraph within basic process
+    for (Iterator<Para> iter = term.getZLocalPara().iterator();
+           iter.hasNext();) {
+        Para next = iter.next();
+        
+        // local para cannot be on-the-fly
+        if (CircusUtils.isOnTheFly(next)) {
+            warnLocalOnTheFly(next, term);            
+        } else if (CircusUtils.isCircusState(next)) {
+            // if it is state, it can only appear once
+            if (processedState_) {
+                warnDuplicatedState(next);                
+            } else {
+                // is must be an horizontal definition, as in name == sch-expr
+                // see Parser.xml circusProcessState production for details
+                assert ZUtils.isHorizontalSchema(next) : "Inconsistent CircusStateAnn for basic process paragrph " + next;
+                processedState_ = true;
+                
+                // since it is an horizontal schema, we must add a circus environment for it
+                print(CircusToken.CIRCUSACTION);
+                print(CircusKeyword.CIRCSTATE);
+                visit(next);
+                print(TokenName.END);
+                if (iter.hasNext()) print(TokenName.NL);
+            }
+        } else {
+            visit(next);        
+            if (iter.hasNext()) print(TokenName.NL);
+        }        
+    }
+    
+    // implicitly declared action paragraphs
+    for (Iterator<Para> iter = term.getZOnTheFlyPara().iterator();
+           iter.hasNext();) {
+        Para next = iter.next();
+        if (next instanceof ActionPara) {            
+            visit(next);
+            if (iter.hasNext()) print(TokenName.NL);
+        } else {
+            warnBadParagraphFor("Implicitly", next, term);
+        }
+    }
+    
+    if (term.getMainAction() != null) {
+        print(CircusToken.CIRCUSACTION);
+        print(Keyword.SPOT);
+        visit(term.getMainAction());
+        print(TokenName.NL);
+    } else {
+        warnMissingFor("main action", term);
+    }
+    if (hasState && !processedState_) {
+        warnMissingFor("locally or implicitly declared process state", term);
+    }        
+    
+    print(TokenName.ZED);
+    print(CircusKeyword.CIRCEND);
+    // the environment closure is done at ProcessPara above
+    
+    return null;
   }
   
   public Object visitCallProcess(CallProcess term) {
     printLPAREN(term);
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       visit(term.getCallExpr());            
       printActualParams(term.getZActuals(), 
           CallKind.Index.equals(term.getCallKind()));          
@@ -313,7 +418,7 @@ public class CircusPrintVisitor
 
   public Object visitParallelProcessIte(ParallelProcessIte term) {    
     /* Just like printProcessD, but with the channel set*/
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       print(CircusKeyword.REPPARALLEL);
       printFormalParameters(term.getZDeclList());
       print(CircusToken.LPAR);
@@ -362,7 +467,7 @@ public class CircusPrintVisitor
 
   public Object visitParallelProcessIdx(ParallelProcessIdx term) {
     /* Just like printProcessD, but with the channel set*/
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       print(CircusKeyword.REPPARALLEL);
       printFormalParameters(term.getZDeclList());
       print(CircusToken.LPAR);
@@ -391,14 +496,27 @@ public class CircusPrintVisitor
    ***********************************************************/
   
   public Object visitActionPara(ActionPara term) {
-    visit(term.getName());
-    print(CircusKeyword.CIRCDEF);
-    visit(term.getCircusAction());    
+    print(CircusToken.CIRCUSACTION);
+    if (CircusUtils.isCircusState(term)) {
+        if (processedState_) {
+            warnDuplicatedState(term);
+        } else {
+            assert CircusUtils.isOnTheFly(term) : "Action para marked as basic process state but not as on-the-fly. PARSER-BUG";
+            processedState_ = true;
+            print(CircusKeyword.CIRCSTATE);
+            visit(term.getCircusAction());
+        }        
+    } else {
+        visit(term.getName());
+        print(CircusKeyword.CIRCDEF);
+        visit(term.getCircusAction());    
+    }
+    print(TokenName.END);
     return null;
   }
 
   public Object visitSchExprAction(SchExprAction term) {
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       print(CircusToken.LSCHEXPRACT);
       visit(term.getExpr());
       print(CircusToken.RSCHEXPRACT);
@@ -439,7 +557,7 @@ public class CircusPrintVisitor
 
   public Object visitCallAction(CallAction term) {
     printLPAREN(term);
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       visit(term.getName());                  
       printActualParams(term.getZExprList(), false);//not indexes
     } else {
@@ -614,7 +732,7 @@ public class CircusPrintVisitor
 
   public Object visitParallelActionIte(ParallelActionIte term) {
     /* Just like printActionD, but with the channel set*/
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       // TODO: Add the simplified version when the namesets are empty.
       print(CircusToken.LPAR);
       visit(term.getChannelSet());
@@ -636,7 +754,7 @@ public class CircusPrintVisitor
   }
      
   public Object visitInterleaveActionIte(InterleaveActionIte term) {    
-    if (!isOnTheFly(term)) {
+    if (!CircusUtils.isOnTheFly(term)) {
       // TODO: Add the simplified version when the namesets are empty.
       print(CircusKeyword.REPINTERLEAVE);    
       printFormalParameters(term.getZDeclList());      

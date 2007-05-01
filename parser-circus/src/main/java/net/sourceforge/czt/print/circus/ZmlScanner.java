@@ -19,8 +19,12 @@
 
 package net.sourceforge.czt.print.circus;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
+import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
 
 /**
  * This Scanner uses the print visitor to tokenize a
@@ -31,6 +35,8 @@ import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 public class ZmlScanner
   extends net.sourceforge.czt.print.z.ZmlScanner
 {
+   private final List<String> warnings_;
+   
   /**
    * Creates a new ZML scanner.
    */
@@ -42,6 +48,12 @@ public class ZmlScanner
     SymbolCollector collector = new SymbolCollector(Sym.class);
     CircusPrintVisitor visitor = new CircusPrintVisitor(collector);
     term.accept(visitor);
+    warnings_ = new ArrayList<String>();
+    warnings_.addAll(visitor.getWarnings());
     symbols_ = collector.getSymbols();
+  }
+  
+  public List<String> getWarnings() {
+    return Collections.unmodifiableList(warnings_);  
   }
 }

@@ -53,13 +53,7 @@ import net.sourceforge.czt.z.util.ZUtils;
 
 public class ParserState
   extends net.sourceforge.czt.parser.z.ParserState
-{
-    
-  /**
-   * Default name of state for stateless processes.
-   */
-  private static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt"; 
-    
+{        
   /**
    * Unique number seed for implicitly declared action names.
    */                         
@@ -183,7 +177,7 @@ public class ParserState
   {
     //DO NOT ADD THIS ASSERT HERE, SINCE THEY MAY BE ADDED OUTSIDE AN OPEN SCOPE
     //assert hasBasicProcess() : "There is no current basic process for implicitly declared action";
-    String result = "$$implicitAct" + implicitlyActUniqueNameSeed_;
+    String result = CircusUtils.DEFAULT_IMPLICIT_ACTION_NAME_PREFIX + implicitlyActUniqueNameSeed_;
     implicitlyActUniqueNameSeed_++;
     return result;
   }
@@ -193,7 +187,7 @@ public class ParserState
    */
   public String createImplicitlyDeclProcUniqueName()
   { 
-    String result = "$$implicitProc" + implicitlyProcUniqueNameSeed_;
+    String result = CircusUtils.DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX + implicitlyProcUniqueNameSeed_;
     implicitlyProcUniqueNameSeed_++;
     return result;
   }
@@ -267,7 +261,7 @@ public class ParserState
   }
   
   protected Name createDefaultProcessStateName(LocInfo l) {
-      Name dn = factory_.createZName(DEFAULT_PROCESS_STATE_NAME);
+      Name dn = factory_.createZName(CircusUtils.DEFAULT_PROCESS_STATE_NAME);
       addLocAnn(dn, l);
       return dn;
   }  

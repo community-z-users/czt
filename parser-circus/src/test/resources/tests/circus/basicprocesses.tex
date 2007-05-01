@@ -18,33 +18,60 @@
 \maketitle
 
 \begin{abstract}
-    \noindent This article documents the various ways one can declare \Circus\ processes using \LaTeX\ markup.
+    \noindent This article documents the various ways one can declare basic \Circus\ processes using \LaTeX\ markup.
     It also documents the open issues of the language related to this syntactic category.
 \end{abstract}
 
 \section{Introduction}
-.
-\section{Basic \Circus\ process paragraphs --- \grammar{processPara}}
-
-In \Circus\ processes are global paragraphs at section level. Other
-global paragraphs are channel, channel sets, and all other Z
-paragraphs. Firstly, we need to create a new section containing the
-\textsf{circus\_toolkit} as a parent.
 
 \begin{zsection}
   \SECTION\ basic\_circus\_processes \parents\ circus\_toolkit
 \end{zsection}
 
-+ cannot have boxed paragraphs (AX, GENAX, SCHEMA) within circus environments.
-+ proocess MUST start / finish in particular way.
+\section{Basic \Circus\ process paragraphs --- \grammar{circusBasicProcess}}
 
 \begin{circus}
     \circchannel\ out: \nat
 \end{circus}
 
+\subsection{Just main action --- stateless}
+
+Within a single environment
+%
+\begin{circus}
+    \circprocess\ JustMainActionBasicProcess ~~\circdef~~ \circbegin \\
+    @ out.0 \then Skip \\
+    \circend
+\end{circus}
+
+Within a multiple environments.
+%
+\begin{circus}
+    \circprocess\ JustMainActionBasicProcessMultiple ~~\circdef~~ \circbegin
+\end{circus}
+
 \begin{circusaction}
-    WrongActionOutsideBasicProcScope ~~\circdef~~ out.0 \then \Skip
+    @ out.0 \then Skip \\
 \end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+%%%%%
+%%%%%\subsection{With state and within a single \texttt{circus} environment}
+%%%%%
+%%%%%\begin{circus}
+%%%%%    \circprocess\ Fib ~~\circdef~~ \circbegin \\
+%%%%%    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+%%%%%    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
+%%%%%    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
+%%%%%    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~] \\
+%%%%%    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+%%%%%    @ InitFib ~\circseq~ OutFib \\
+%%%%%    \circend
+%%%%%\end{circus}
+
+\subsection{With state and within multiple environments}
 
 \begin{circus}
     \circprocess\ FibStateMultipleEnv ~~\circdef~~ \circbegin
@@ -70,13 +97,10 @@ paragraphs. Firstly, we need to create a new section containing the
 \end{circusaction}
 
 \begin{circusaction}
-    @ InitFib ~\circseq~ OutFib \\
-    \circend
+    @ InitFib ~\circseq~ OutFib 
 \end{circusaction}
 
 \begin{circus}
-    \circprocess\ JustMainActionBasicProcess ~~\circdef~~ \circbegin \\
-    @ out.0 \then Skip \\
     \circend
 \end{circus}
 

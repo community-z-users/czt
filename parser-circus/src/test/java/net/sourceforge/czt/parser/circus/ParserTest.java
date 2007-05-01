@@ -52,25 +52,38 @@ public class ParserTest extends AbstractParserTest
     String fileName = file.getName();
     if (fileName.indexOf("-errors") == -1 && fileName.endsWith(".tex"))
     {
-      suite.addTest(new TestNormal(file.getAbsolutePath()));
+      suite.addTest(createTestCase(file.getAbsolutePath()));
     }
   }
   
-  class TestNormal extends TestCase
+  protected TestNormal createTestCase(String name) {
+      return new TestNormal(name);
+  }
+  
+  protected class TestNormal extends TestCase
   {
     private String file_;
+    private Term term_;
     
-    TestNormal(String file)
+    protected TestNormal(String file)
     {
       file_ = file;
+      term_ = null;
     }
     
-    public void runTest()
-    {      
-      try
+    protected String getFile() {
+        return file_;
+    }
+    
+    protected Term getTerm() {
+        return term_;
+    }
+    
+    protected void innerTest() {
+        try
       {
-        Term term = parse(new FileSource(file_));
-        if (term == null)
+        term_ = parse(new FileSource(file_));
+        if (term_ == null)
         {
           fail("Parser returned null (i.e., parsing error)");
         }
@@ -97,6 +110,11 @@ public class ParserTest extends AbstractParserTest
             lineSeparator_ + "\tFile: " + file_ +
             lineSeparator_ + "\tException: " + e.toString());        
       }
+    }
+    
+    public void runTest()
+    {      
+      innerTest();
     }
   }
 }

@@ -72,13 +72,17 @@ public abstract class AbstractParserTest extends TestCase
     return result;
   }
   
-  public Term parse(Source source) throws Exception
+  protected SectionManager getSectionManager() {
+      return manager_;
+  }
+  
+  protected Term parse(Source source) throws Exception
   {
     Term term = ParseUtils.parse(source, manager_);
     if (DEBUG_TESTING) {
         System.out.flush();
         //PrintVisitor pv = new PrintVisitor();
-        System.out.println("DEBUG: PrintVisitor for " + source);        
+        System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + source);        
         //System.out.println(pv.printProcessPara(term));
         //System.out.println();
         System.out.println(term);
