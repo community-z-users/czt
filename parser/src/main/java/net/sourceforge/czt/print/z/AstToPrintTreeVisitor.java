@@ -87,6 +87,14 @@ public class AstToPrintTreeVisitor
   private ZFactory factory_ = new ZFactoryImpl();
   private PrintFactory printFactory_ = new PrintFactory();
 
+  protected ZFactory getZFactory() {
+      return factory_;
+  }
+  
+  protected PrintFactory getZPrintFactory() {
+      return printFactory_;
+  }
+  
   private boolean oldZ_ = false;
 
   /**

@@ -17,6 +17,7 @@ public class PrintException extends RuntimeException {
   
   public PrintException()
   {
+      super();
   }
 
   public PrintException(String message)
