@@ -95,34 +95,6 @@ action code
 
     protected ParserState parserState_;
 
-<add:circus>
-    /** The name of the Circus toolkit. */
-    private static final String CIRCUS_TOOLKIT = "circus_toolkit";
-    
-    /**
-     * Every basic process main action is named with this internal name.
-     * Internal names start with a double dollar sign.
-     * The typechecker must guaranttee that no such names are mentioned by the user.
-     */
-    private static final String DEFAULT_MAIN_ACTION_NAME = "$$mainAction";
-  
-    /**
-     * Default number of multisynchronisation occurrences for particular communication pattern.
-     * At the moment this feature is still experimental, and may disapear in the future.
-     */
-    private static final BigInteger DEFAULT_MULTISYNCH = BigInteger.ZERO;
-    
-    /**
-     * Default model for RefinementConjPara is failures-divergences.
-     */    
-    private static final Model DEFAULT_REFINEMENT_MODEL = Model.FlDv;
-    
-    /**
-     * Default parameter qualifier for process and actions is by value.
-     */
-    private static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value; 
-</add:circus>
-
    /** Section information. */
     protected SectionInfo sectInfo_;
 
@@ -1129,13 +1101,22 @@ action code
      */
     protected boolean checkCircusStateAnnParaIsSchema(Para p) {      
       // call the CircusUtils version of isSchema to include Schema Actions
-      boolean result = CircusUtils.isSchema(p);
+      boolean result = ZUtils.isHorizontalSchema(p) || CircusUtils.isSchema(p);
       if (!result) {                               
          parser.report_error(CircusParseMessage.MSG_INVALID_BASICPROCESS_STATE_PARA,
                new Object[0], getLocation(p));
       }
       return result;
     }     
+    
+    protected boolean checkForDuplicatedState(LocInfo loc) {      
+      boolean result = parserState_.getStatePara() == null;
+      if (!result) {                               
+         parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
+               new Object[] {loc} , loc);
+      }
+      return result;
+    }
 
     /**
      * Adds a &lt;code&gt;ParenAnn&lt;/code&gt; annotation to the given term, where the given locations
@@ -1210,7 +1191,7 @@ action code
     }
     
     protected Model validateModel(Decorword dw) {
-      Model result = DEFAULT_REFINEMENT_MODEL;
+      Model result = CircusUtils.DEFAULT_REFINEMENT_MODEL;
       if (dw.toString().equals(Model.Tr.toString()))
         result = Model.Tr;
       else if (dw.toString().equals(Model.SFl.toString()))
@@ -2356,7 +2337,7 @@ emptySectionHeader ::=
            final Parent poz = factory_.createParent(OZ_TOOLKIT);
 </add:oz>
 <add:circus>
-           final Parent pcircus = factory_.createParent(CIRCUS_TOOLKIT);
+           final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_TOOLKIT);
 </add:circus>
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetOpTable(name, parents, eleft, eright);
@@ -2434,8 +2415,8 @@ sectionHeader ::=
            }
 </add:oz>
 <add:circus>
-           final Parent circusParent = factory_.createParent(CIRCUS_TOOLKIT);
-           if ((! name.equals(CIRCUS_TOOLKIT)) &amp;&amp;
+           final Parent circusParent = factory_.createParent(CircusUtils.CIRCUS_TOOLKIT);
+           if ((! name.equals(CircusUtils.CIRCUS_TOOLKIT)) &amp;&amp;
                (! p.contains(circusParent)) &amp;&amp;
                (! name.equals(Section.PRELUDE.getName()))) {
              p.add(circusParent);
@@ -3180,8 +3161,11 @@ circusInnerProcPara ::=
         circusProcessState:cps
         {:            
            RESULT = cps;            
+           // raise a scoping warning if needed
+           addBasicProcessScopePostCheckFor("process state", getLocation(cps));
+
            // no need to add to local paragraphs, see circusProcessState
-           // production: state could be a local paragraph or implicitly declared
+           // production: state could be a local paragraph or implicitly declared           
         :}                 
         |        
         namesetPara:np
@@ -3979,7 +3963,7 @@ optCircusQualifier ::=
         {: RESULT = cq; :}
         |
         //empty
-        {: RESULT = DEFAULT_PARAMETER_QUALIFIER; :}
+        {: RESULT = CircusUtils.DEFAULT_PARAMETER_QUALIFIER; :}
         ;      
         
 circusQualifier ::=
@@ -4114,7 +4098,7 @@ circusBasicProcessMainAction ::=
            
            // Create an on-the-fly paragraph for the main action named "$$mainAction".           
            ActionPara mainActPara = factory_.createActionPara(
-              factory_.createZName(DEFAULT_MAIN_ACTION_NAME), RESULT);
+              factory_.createZName(CircusUtils.DEFAULT_MAIN_ACTION_NAME), RESULT);
            addLocAnn(mainActPara, loc);           
            parserState_.addImplicitlyDeclActionPara(mainActPara);                      
            
@@ -4140,18 +4124,21 @@ circusProcessState ::=
            addLocAnn(st, getLocation(n, e));
            
            // no generic arguments for state schema
+           LocInfo loc = getLocation(getLocation(csleft, csright), e);
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
-           addLocAnn(RESULT, getLocation(getLocation(csleft, csright), e));
+           addLocAnn(RESULT, loc);
            
            // add CircusStateAnn to paragraph. assumes there is LocInfo in RESULT
            if (checkCircusStateAnnParaIsSchema(RESULT)) {
              parserState_.addCircusStateAnn(RESULT);
            }
            
-           // Add it as a locally declared paragraph
-           parserState_.addLocallyDeclPara(RESULT);
-           parserState_.setStatePara(RESULT);
+           // Add it as a locally declared paragraph, or raise an error if duplicated
+           if (checkForDuplicatedState(loc)) {
+             parserState_.setStatePara(RESULT);
+             parserState_.addLocallyDeclPara(RESULT);
+           }           
         :}
         |
         /* On-the-fly state schema as a SchExprAction */
@@ -4163,7 +4150,8 @@ circusProcessState ::=
            SchExprAction sa = factory_.createSchExprAction(e);           
            addLocAnn(sa, getLocation(dn, e));
            ActionPara ap = factory_.createActionPara(dn, sa);
-           addLocAnn(ap, getLocation(cs, e));                               
+           LocInfo loc = getLocation(cs, e);
+           addLocAnn(ap, loc);
            
            // add CircusStateAnn to paragraph. assumes there is LocInfo in RESULT
            if (checkCircusStateAnnParaIsSchema(ap)) {
@@ -4171,8 +4159,11 @@ circusProcessState ::=
            }           
            
            // Add it as an implicitly declared action (because the name is given).           
-           parserState_.addImplicitlyDeclActionPara(ap);           
-           parserState_.setStatePara(ap);
+           // if duplicated add a parsing error
+           if (checkForDuplicatedState(loc)) {
+             parserState_.addImplicitlyDeclActionPara(ap);           
+             parserState_.setStatePara(ap);
+           }
            
            // use ap above as it is ActionPara and RESULT is Para.
            RESULT = ap;           
@@ -4510,7 +4501,7 @@ communication ::=
         {:
             /* RefExpr: mixfix=false, explicit=false */
             RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw)), 
-                factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), DEFAULT_MULTISYNCH);
+                factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), CircusUtils.DEFAULT_MULTISYNCH);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         |
@@ -4519,7 +4510,7 @@ communication ::=
         {:
             /* RefExpr: mixfix=false, explicit=true */
             RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw), el, Boolean.FALSE, Boolean.TRUE), 
-                factory_.createCircusFieldList(cf), retrieveCommKind(cf), DEFAULT_MULTISYNCH);
+                factory_.createCircusFieldList(cf), retrieveCommKind(cf), CircusUtils.DEFAULT_MULTISYNCH);
             addLocAnn(RESULT, getLocation(dwleft, dwright));
         :}
         ;
@@ -4738,7 +4729,7 @@ refinementPara ::=
         
 refines ::=         
         CIRCREFINES 
-        {: RESULT = DEFAULT_REFINEMENT_MODEL; :}
+        {: RESULT = CircusUtils.DEFAULT_REFINEMENT_MODEL; :}
         |
         CIRCREFINES DECORWORD:dw
         {: RESULT = validateModel(dw); :}        
