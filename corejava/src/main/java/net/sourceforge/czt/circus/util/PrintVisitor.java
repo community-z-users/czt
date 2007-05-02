@@ -233,7 +233,7 @@ public class PrintVisitor
     }
     
     public String visitProcessPara(ProcessPara term) {
-        StringBuffer result = new StringBuffer(visit(term.getProcessName()));
+        StringBuffer result = new StringBuffer("ProcessPara(" + visit(term.getName()) + ")");
         result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
         result.append(" == ");
         result.append(visit(term.getCircusProcess()));
@@ -241,15 +241,14 @@ public class PrintVisitor
     }
     
     public String visitActionPara(ActionPara term) {
-        StringBuffer result = new StringBuffer(visit(term.getName()));
+        StringBuffer result = new StringBuffer("ActionPara(" + visit(term.getName()) + ")");
         result.append(" == ");
         result.append(visit(term.getCircusAction()));
         return result.toString();
     }    
     
     public String visitBasicProcess(BasicProcess term) {
-        StringBuffer result = new StringBuffer();
-        result.append("BasicProcess(hC=");
+        StringBuffer result = new StringBuffer("BasicProcess(hC=");        
         result.append(term.hashCode());
         result.append(")[");
         result.append("\n\tStatePara=");
