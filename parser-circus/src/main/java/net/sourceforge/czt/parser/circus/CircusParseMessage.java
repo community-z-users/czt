@@ -21,7 +21,7 @@ public enum CircusParseMessage {
   MSG_INVALID_CHANNEL_RENAMING_EXPR("Invalid channel renaming for channel {0} at index {1}. It is a {2} instead of RefExpr."),
   MSG_INVALID_BASICPROCESS_STATE_PARA("State paragraph is not a schema", "Basic process state must be either a horizontal or boxed schema, or a schema expression action."),
   MSG_UNKNOWN_REFINEMENT_MODEL("Unknown refinement model {0}."),
-  MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The firs duplicate one is named {3} at {4}."),  
+  MSG_DUPLICATE_PROC_STATE_DECL("Process {0} state name is {1}, but {2} more state paragraph(s) have been declared. The first duplicate one is named {3} at {4}."),  
  
   MSG_CIRCUSENV_ERROR("Error occurred within circus environment at symbol {0}."),
   
@@ -44,7 +44,7 @@ public enum CircusParseMessage {
   MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("Cannot {0}{1} outside a basic process scope at \n {2}.\n " +
       "This is a serious warning as type checking will assume the paragraph declared outside a process\n" +
       "is included into the closest enclosing basic process."),
-    
+  MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND("Basic process scope from multiple environments was closed without been previouly opened at {0}."),  
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
   
   private final String message_;

@@ -75,12 +75,14 @@ public class ParserState
    * Keeps track of the last process name within a paragrph. It is 
    * important to tackle multiple environment basic processes.
    */
-  private Name processName_ = null;
+  //private Name processName_ = null;
   
   /**
    * Process paragraph's generic parameters. That is important for BasicProcesses
    */
-  private NameList processGen_ = null;
+  //private NameList processGen_ = null;
+  
+  private ProcessPara processPara_ = null;
   
   private BasicProcess basicProcess_ = null;
   
@@ -127,7 +129,7 @@ public class ParserState
   
   public ParserState(Source loc) {
       super(loc);
-      processGen_ = factory_.createZNameList();
+      //processGen_ = factory_.createZNameList();
   } 
   
   /**
@@ -313,10 +315,11 @@ public class ParserState
       // if originally false, exit will return false and
       // the parser shall flag an warning about umatched scopes.
       boolean result = isWithinMultipleEnvBasicProcessScope();
-      basicProcess_ = null;
-      processName_ = null;      
+      basicProcess_ = null;      
       processLoc_ = null;
-      setProcessGenFormals(null); // sets it to the empty list.
+      processPara_ = null;
+      //processName_ = null;      
+      //setProcessGenFormals(null); // sets it to the empty list.
       isWithinMultipleEnvBasicProcessScope_ = false;      
       return result;      
   }  
@@ -341,21 +344,39 @@ public class ParserState
       return statePara_;
   }
   
-  public void setProcessName(Name name) {
-      processName_ = name;
+  public ProcessPara getProcessPara() {
+      return processPara_;
   }
   
-  public Name getProcessName() {
-      return processName_;
+  public void setProcessPara(ProcessPara pp) {
+      processPara_ = pp;
+  }  
+ 
+  public Name getProcessName() {      
+      return processPara_ != null ? processPara_.getName() : null;
   }
   
+  public NameList getProcessGenFormals() {      
+      return processPara_ != null ? processPara_.getGenFormals() : null;
+  }
+  
+  public boolean hasProcessPara() {
+      return processPara_ != null;
+  }  
+  
+  public boolean hasProcessName() {
+      return hasProcessPara() & processPara_.getName() != null;
+  }  
+  
+  /*
   public void setProcessGenFormals(NameList nl) {
       processGen_ = (nl == null ? factory_.createZNameList() : nl);
   }
   
-  public NameList getProcessGenFormals() {
-      return processGen_;
-  }
+  public void setProcessName(Name name) {
+      processName_ = name;
+  }  
+ */
   
   public void setBasicProcess(BasicProcess bp) {
       assert bp != null : "Invalid basic process (null).";
@@ -375,10 +396,6 @@ public class ParserState
       return statePara_ != null;
   }
   
-  public boolean hasProcessName() {
-      return processName_ != null;
-  }  
-  
   public boolean hasBasicProcess() {
       return basicProcess_ != null;
   }
@@ -389,8 +406,13 @@ public class ParserState
           assert processLoc_ != null : "Invalid original location";
           
           // get state or create a default one
-          Para statePara = hasState() ? getStatePara() : createDefaultStatePara(processLoc_);            
-    
+          Para statePara = getStatePara();
+          if (statePara == null) {
+              statePara = createDefaultStatePara(processLoc_);
+              assert statePara != null : "Invalid default state creation";
+              addLocallyDeclPara(statePara);
+          }   
+          
           // copy the paragraphs into a ZParaList
           ZParaList localPara = factory_.createZParaList(getLocallyDeclPara());
           ZParaList onTheFlyPara = factory_.createZParaList(getImplicitlyDeclActPara());
