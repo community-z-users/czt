@@ -34,26 +34,18 @@ import net.sourceforge.czt.print.z.ZmlScanner.SymbolCollector;
  */
 public class ZmlScanner
   extends net.sourceforge.czt.print.z.ZmlScanner
-{
-   private final List<String> warnings_;
-   
+{  
   /**
    * Creates a new ZML scanner.
    */
-  public ZmlScanner(Term term)
+  public ZmlScanner(Term term, WarningManager manager)
   {
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(collector);
-    term.accept(visitor);
-    warnings_ = new ArrayList<String>();
-    warnings_.addAll(visitor.getWarnings());
+    CircusPrintVisitor visitor = new CircusPrintVisitor(collector, manager);
+    term.accept(visitor);    
     symbols_ = collector.getSymbols();
-  }
-  
-  public List<String> getWarnings() {
-    return Collections.unmodifiableList(warnings_);  
   }
 }

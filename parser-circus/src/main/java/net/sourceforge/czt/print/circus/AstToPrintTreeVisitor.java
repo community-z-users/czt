@@ -42,7 +42,7 @@ import net.sourceforge.czt.circus.visitor.*;
 
 public class AstToPrintTreeVisitor
   extends net.sourceforge.czt.print.z.AstToPrintTreeVisitor
-  /*implements BasicProcessVisitor<Term>, ActionParaVisitor<Term>*/
+  implements BasicProcessVisitor<Term>, ActionParaVisitor<Term>, ProcessParaVisitor<Term>
 
 {
   /**
@@ -50,53 +50,69 @@ public class AstToPrintTreeVisitor
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public AstToPrintTreeVisitor(SectionInfo sectInfo)
+  public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
-    super(sectInfo);
-  }
-  /*
-  private void warn(CircusPrintMessage cpm, Object... arguments) {
-      CztLogger.getLogger(PrintUtils.class).warning(MessageFormat.format(
-          cpm.getMessage(), arguments));
-  }
-  
-  private void warnMissingFor(String msg, BasicProcess term) {
-      warn(CircusPrintMessage.MSG_BASIC_PROCESS_MISSING_ENTITY, msg, term);
-  }
-  
-  private void warnBadParagraphFor(String msg, Para para, BasicProcess term) {
-      warn(CircusPrintMessage.MSG_BASIC_PROCESS_BAD_PARAGRAPH, msg, para, term);      
+    super(sectInfo, wm);
   }  
   
-  private void warnLocalOnTheFly(Term para, BasicProcess term) {      
-      warn(CircusPrintMessage.MSG_BASIC_PROCESS_LOCAL_ONTHEFLY_PARAGRAPH, para, term);      
-  }
-    
-  private void warnDuplicatedState(Term term) {      
-      warn(CircusPrintMessage.MSG_BASIC_PROCESS_DUPLICATED_STATE_PARAGRAPH, term);      
+  protected WarningManager getWM() {
+      return (WarningManager)warningManager_;
   }
   
   private boolean processedState_ = false;
+  
+  public Term visitProcessPara(ProcessPara term) {     
+    // TODO: Check here when we have unboxed versions.
+    List list = new ArrayList();
+    
+    list.add(TokenName.ZED);
+    list.add(CircusKeyword.CIRCPROC);    
+    
+    // TODO: CHECK WITH PETRA HOW TO HANDLE THOSE HERE.
+    //       i.e. SHALL WE HAVE printGenFormals as in ZPrintVisitor?
+    list.add(visit(term.getGenFormals()));
+    list.add(visit(term.getName()));
+    list.add(CircusKeyword.CIRCDEF);
+    boolean isBasicProcess = (term.getCircusProcess() instanceof BasicProcess);
+    
+    // basic processes will be spread across different environments
+    if (isBasicProcess) {        
+        list.add(CircusKeyword.CIRCBEGIN);
+        list.add(TokenName.END);
+        list.add(TokenName.NL);        
+    }
+    // adding a printParagraph to the list will make it be print. ok.
+    list.add(visit(term.getCircusProcess()));    
+
+    // close the environment for either CIRCEND (basic) or normal processes.
+    list.add(TokenName.END);
+    return getZPrintFactory().createPrintParagraph(list);
+  }
   
   public Term visitActionPara(ActionPara term) {
       List list = new ArrayList();
       list.add(CircusToken.CIRCUSACTION);
       if (CircusUtils.isCircusState(term)) {
         if (processedState_) {
-            warnDuplicatedState(term);
+            getWM().warnDuplicatedState(term);
         } else {
+            assert CircusUtils.isOnTheFly(term) : "Action para marked as basic process state but not as on-the-fly. PARSER-BUG";
             list.add(CircusKeyword.CIRCSTATE);
             processedState_ = true;
+            list.add(visit(term));
         }
-      }
-      list.add(visit(term));
+      } else { 
+          list.add(visit(term.getName()));
+          list.add(CircusKeyword.CIRCDEF);
+          list.add(visit(term.getCircusAction()));
+      }      
       list.add(TokenName.END);
       return getZPrintFactory().createPrintParagraph(list);
   }
   
   public Term visitBasicProcess(BasicProcess term) {
     List list = new ArrayList();    
-    
+        
     processedState_ = false;
     boolean hasState = (term.getStatePara() != null);
     
@@ -104,7 +120,7 @@ public class AstToPrintTreeVisitor
     if (!hasState) {
         // it should not be null if term was created by the parser!
         // thus, raise an warning!
-        warnMissingFor("process state", term);
+        getWM().warnMissingFor("process state", term);
     }
     
     // locally declared paragraph within basic process
@@ -114,11 +130,11 @@ public class AstToPrintTreeVisitor
         
         // local para cannot be on-the-fly
         if (CircusUtils.isOnTheFly(next)) {
-            warnLocalOnTheFly(next, term);
+            getWM().warnLocalOnTheFly(next, term);
         } else if (CircusUtils.isCircusState(next)) {
             // if it is state, it can only appear once
             if (processedState_) {
-                warnDuplicatedState(next);
+                getWM().warnDuplicatedState(next);
             } else {
                 // is must be an horizontal definition, as in name == sch-expr
                 // see Parser.xml circusProcessState production for details
@@ -146,17 +162,27 @@ public class AstToPrintTreeVisitor
             list.add(visit(next));
             if (iter.hasNext()) list.add(TokenName.NL);
         } else {
-            warnBadParagraphFor("Implicitly", next, term);
+            getWM().warnBadParagraphFor("Implicitly", next, term);
         }
     }
     
     if (term.getMainAction() != null) {
+        list.add(CircusToken.CIRCUSACTION);
         list.add(Keyword.SPOT);
         list.add(visit(term.getMainAction()));
+        list.add(TokenName.NL);
     } else {
-        warnMissingFor("main action", term);
+        getWM().warnMissingFor("main action", term);
     }
+    
+    if (hasState && !processedState_) {
+        getWM().warnMissingFor("locally or implicitly declared process state", term);
+    }        
+    
+    list.add(TokenName.ZED);
+    list.add(CircusKeyword.CIRCEND);
+    // the environment closure is done at ProcessPara above
         
     return getZPrintFactory().createPrintParagraph(list);
-  }*/
+  }
 }

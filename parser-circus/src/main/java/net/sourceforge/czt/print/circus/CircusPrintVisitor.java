@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Properties;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.util.Token;
+import net.sourceforge.czt.parser.util.WarningManager;
 import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
@@ -50,14 +52,24 @@ public class CircusPrintVisitor
   extends net.sourceforge.czt.print.z.ZPrintVisitor
   implements CircusVisitor
 {
+    
+   private final WarningManager warningManager_;
+    
   /**
    * Creates a new Object-Z print visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public CircusPrintVisitor(ZPrinter printer)
+  public CircusPrintVisitor(ZPrinter printer, WarningManager wm)
   {
-    super(printer);
+    super(printer);    
+    warningManager_ = wm;
+  }
+  
+  public CircusPrintVisitor(ZPrinter printer, Properties properties, WarningManager wm)
+  {
+    super(printer, properties);
+    warningManager_ = wm;
   }
   
   /*********************************************************** 
@@ -109,16 +121,8 @@ public class CircusPrintVisitor
     }
   }
 
-  private List<String> warnings_ = new ArrayList<String>();
-  
-  public List<String> getWarnings() {
-      return Collections.unmodifiableList(warnings_);
-  }
-  
   private void warn(CircusPrintMessage cpm, Object... arguments) {
-      final String msg = MessageFormat.format(cpm.getMessage(), arguments);
-      warnings_.add(msg);    
-      CztLogger.getLogger(PrintUtils.class).warning(msg);      
+      warningManager_.warn(cpm.getMessage(), arguments);
   }
   
   private void warnMissingFor(String msg, BasicProcess term) {
@@ -204,6 +208,8 @@ public class CircusPrintVisitor
    * from ProcessPara to a special form of action call.
    */
   public Object visitProcessPara(ProcessPara term) {
+      throw new PrintException("Unexpected term ProcessPara");
+      /*
     // TODO: Check here when we have unboxed versions.
     print(TokenName.ZED);
     print(CircusKeyword.CIRCPROC);
@@ -222,11 +228,12 @@ public class CircusPrintVisitor
 
     // close the environment for either CIRCEND (basic) or normal processes.
     print(TokenName.END);
-    return null;
+    return null;*/
   }
-
+  
   public Term visitBasicProcess(BasicProcess term) {
-    
+    throw new PrintException("Unexpected term BasicProcess");
+    /*
     processedState_ = false;
     boolean hasState = (term.getStatePara() != null);
     
@@ -296,7 +303,7 @@ public class CircusPrintVisitor
     print(CircusKeyword.CIRCEND);
     // the environment closure is done at ProcessPara above
     
-    return null;
+    return null;*/
   }
   
   public Object visitCallProcess(CallProcess term) {
@@ -494,9 +501,10 @@ public class CircusPrintVisitor
   /*********************************************************** 
    * Action related    
    ***********************************************************/
-  
+ 
   public Object visitActionPara(ActionPara term) {
-    print(CircusToken.CIRCUSACTION);
+      throw new PrintException("Unexpected term ActionPara");
+   /* print(CircusToken.CIRCUSACTION);
     if (CircusUtils.isCircusState(term)) {
         if (processedState_) {
             warnDuplicatedState(term);
@@ -512,7 +520,7 @@ public class CircusPrintVisitor
         visit(term.getCircusAction());    
     }
     print(TokenName.END);
-    return null;
+    return null;*/
   }
 
   public Object visitSchExprAction(SchExprAction term) {
@@ -628,7 +636,7 @@ public class CircusPrintVisitor
 
   public Object visitInputField(InputField term) {
     print(TokenName.INSTROKE);    
-    visit(term.getVariable());
+    visit(term.getVariableName());
     if (term.getRestriction() != null && !(term.getRestriction() instanceof TruePred)) {
       print(CircusKeyword.PREFIXCOLON);
       visit(term.getRestriction());

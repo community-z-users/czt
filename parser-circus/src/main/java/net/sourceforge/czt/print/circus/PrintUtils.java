@@ -20,14 +20,21 @@
 package net.sourceforge.czt.print.circus;
 
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.circus.WarningManager;
 import net.sourceforge.czt.print.z.PrecedenceParenAnnVisitor;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.Pair;
 
 /**
  * Utilities for printing Circus specifications given as an AST.
@@ -42,6 +49,8 @@ public final class PrintUtils
   private PrintUtils()
   {
   }
+  
+  public static final WarningManager warningManager_ = new WarningManager(PrintUtils.class);
 
   /**
    * Prints a given term (usually a Spec or Sect) in the specified
@@ -92,6 +101,34 @@ public final class PrintUtils
       throw new UnsupportedOperationException(message);
     }
   }
+  
+  private static void transformWarningMap(Map<String, Map<Class<?>, List<String>>> to,
+      Class<?> with, Map<String, List<String>> from) {
+      for(Map.Entry<String, List<String>> entry : from.entrySet()) {                              
+          // if there is a key from from, then there must be warnings
+          String fromKey = entry.getKey();
+          Map<Class<?>, List<String>> toValue;
+          
+          // either create new entry for sect fromKey or retrieve an old one
+          if (to.containsKey(fromKey)) {
+            toValue = to.get(fromKey);            
+          } else {
+            toValue = new HashMap<Class<?>, List<String>>();
+            to.put(fromKey, toValue);
+          }
+          
+          assert toValue != null;
+          List<String> toWarnings;
+          if (toValue.containsKey(with)) {
+              toWarnings = toValue.get(with);
+          } else {
+              toWarnings = new ArrayList<String>();              
+              toValue.put(with, toWarnings);
+          }          
+          toWarnings.addAll(entry.getValue());
+      }
+  }
+      
 
   /**
    * Prints a given term (usually a Spec or Sect) as latex markup to
@@ -109,21 +146,38 @@ public final class PrintUtils
    */
   public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
+    Map<String, Map<Class<?>, List<String>>> warnings = 
+        new TreeMap<String, Map<Class<?>, List<String>>>();
+    
+    warningManager_.clear();
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);    
+    Term tree = (Term) term.accept(toPrintTree);    
+    
+    transformWarningMap(warnings, toPrintTree.getClass(), warningManager_.getZSectWarnings());        
+    
+    warningManager_.clear();
+    System.out.println("02: CREATING ZML SCANNER FOR TRAVERSED PTV");
+    ZmlScanner scanner = new ZmlScanner(tree, warningManager_);
+    transformWarningMap(warnings, scanner.getClass(), warningManager_.getZSectWarnings());        
+        
+    System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
+    System.out.println("04: CREATING UNICODE PRINTER FOR GIVEN FILE WRITER");
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
+      System.out.println("05: ABOUT TO PARSE FOR PRINTING USING UNICODE->LATEX PARSER");    
       parser.parse();
+      System.out.println("06: PARSING FOR PRINTING COMPLETE; CHECKING WARNINGS");          
     }
-    catch (Exception e) {      
+    catch (Exception e) { 
+      System.out.println("07: EXCEPTION OCCURRED WIHTIN PRINT-LATEX METHOD");
+      e.printStackTrace();
       throw new CztException(e);
     }
-    if (!scanner.getWarnings().isEmpty()) {
-        throw new PrintException("LaTeX printing generated important warnings", scanner.getWarnings());
+    if (!warnings.isEmpty()) {
+        System.out.println(warnings);
     }
   }
 
@@ -148,7 +202,8 @@ public final class PrintUtils
                                 SectionInfo sectInfo,
                                 String sectionName)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);
@@ -156,7 +211,7 @@ public final class PrintUtils
     catch (CommandException exception) {
       throw new CztException(exception);
     }
-    ZmlScanner scanner = new ZmlScanner(tree);
+    ZmlScanner scanner = new ZmlScanner(tree, warningManager_);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
     Unicode2Latex parser = new Unicode2Latex(scanner);
@@ -188,13 +243,14 @@ public final class PrintUtils
                                   Writer out,
                                   SectionInfo sectInfo)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree = (Term) term.accept(toPrintTree);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(printer);
+    CircusPrintVisitor visitor = new CircusPrintVisitor(printer, warningManager_);
     tree.accept(visitor);
   }
 
@@ -217,7 +273,8 @@ public final class PrintUtils
                                   SectionInfo sectInfo,
                                   String sectionName)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);
@@ -229,7 +286,7 @@ public final class PrintUtils
       new PrecedenceParenAnnVisitor();
     tree.accept(precVisitor);
     UnicodePrinter printer = new UnicodePrinter(out);
-    CircusPrintVisitor visitor = new CircusPrintVisitor(printer);
+    CircusPrintVisitor visitor = new CircusPrintVisitor(printer, warningManager_);
     tree.accept(visitor);
   }
 }

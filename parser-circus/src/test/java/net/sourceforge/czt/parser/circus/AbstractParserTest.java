@@ -41,16 +41,15 @@ import net.sourceforge.czt.zml.Resources;
  */
 public abstract class AbstractParserTest extends TestCase
 {
-  protected static final ParseErrorLogging pel_ = new ParseErrorLogging();
-  protected static final ParseErrorLogging pelsm_ = new ParseErrorLogging(SectionManager.class, Level.ALL);
+  protected static boolean DEBUG_TESTING = true;
+  protected static Level DEBUG_LEVEL = Level.FINE;
+  protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
+
+  protected static final ParseErrorLogging pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
+  protected static final ParseErrorLogging pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
   
   protected final SectionManager manager_ = new SectionManager();
-  
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
-  
-  protected static boolean DEBUG_TESTING = true;
-  
-  protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
    
   public URL getCircusExample(String name)
   {
