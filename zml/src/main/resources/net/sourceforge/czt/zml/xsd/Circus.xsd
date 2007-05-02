@@ -1529,13 +1529,7 @@ These interfaces represent the AST for Circus.
                I couldn't figure out how to put the generics before the
                name without causing an ambiguity complaint by the XML
                validator :( -->
-          <xs:element ref="Z:Name">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ProcessName"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Name"/>            
           <xs:element ref="Z:NameList">
             <xs:annotation>
               <xs:appinfo>
