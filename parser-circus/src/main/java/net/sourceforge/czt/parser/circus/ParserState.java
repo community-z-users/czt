@@ -325,6 +325,13 @@ public class ParserState
   }  
   
   public boolean isWithinMultipleEnvBasicProcessScope() {
+      /**
+       * NOTE: This variable name is misleading a little bit.
+       *       Even within singled environment scope, it is set.
+       *       Nevertheless, the code for handling both single env 
+       *       is left within the production, whereas the code for 
+       *       multiple env is scattered across multiple productions.
+       */
       return isWithinMultipleEnvBasicProcessScope_;
   }
   

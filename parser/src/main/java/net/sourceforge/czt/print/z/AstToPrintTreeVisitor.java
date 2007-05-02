@@ -119,6 +119,10 @@ public class AstToPrintTreeVisitor
   
   protected final WarningManager warningManager_;
 
+  public AstToPrintTreeVisitor(SectionInfo sectInfo) {
+      this(sectInfo, new WarningManager(AstToPrintTreeVisitor.class));
+  }
+  
   /**
    * Creates a new ast to print tree visitor.
    * The section information should be able to provide information of

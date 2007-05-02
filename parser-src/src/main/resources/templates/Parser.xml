@@ -1282,7 +1282,7 @@ action code
        BasicProcess result = factory_.createBasicProcess(null, factory_.createZParaList(), 
             factory_.createZParaList(), null);       
        addLocAnn(result, l);
-       CztLogger.getLogger(<class/>.class).fine("CREATING BASICPROCESS => " + from + 
+       CztLogger.getLogger(<class/>.class).finer("CREATING BASICPROCESS => " + from + 
            " @ " + l + "\n" + result);           
        parserState_.setBasicProcess(result);
        if (!parserState_.isWithinMultipleEnvBasicProcessScope()) {
@@ -1298,7 +1298,7 @@ action code
      */
     protected boolean enterBasicProcessScope(String from, LocInfo l) {
         boolean result = parserState_.enterBasicProcessScope(l);
-        CztLogger.getLogger(<class/>.class).fine("ENTERING PROCESS SCOPE: " + result 
+        CztLogger.getLogger(<class/>.class).finer("ENTERING PROCESS SCOPE: " + result 
             + " from " + from + " @ " + l);
         if (!result) {
             parser.report_error(CircusParseMessage.MSG_DUPlICATED_BASIC_PROCESS_SCOPE,
@@ -1313,7 +1313,7 @@ action code
      * already has location information calculated.
      */
     protected boolean exitBasicProcessScope(String from, LocInfo l) {        
-        CztLogger.getLogger(<class/>.class).fine("EXITING PROCESS SCOPE: " + 
+        CztLogger.getLogger(<class/>.class).finer("EXITING PROCESS SCOPE: " + 
             parserState_.isWithinMultipleEnvBasicProcessScope() +
             " from " + from + " @ " + l + "\n" + parserState_.getBasicProcess());
         
@@ -1331,7 +1331,7 @@ action code
     
     protected boolean updateBasicProcessInformation(String from, LocInfo loc) {                           
         boolean result = parserState_.updateBasicProcessInformation();
-        CztLogger.getLogger(<class/>.class).fine("UPDATE BASIC PROCESS INFORMATION: " +
+        CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
             result + " from " + from + " @ " + loc + "\n" + 
             " Proc[" + parserState_.getProcessName()  + "] "             
             + " =>\n" + parserState_.getBasicProcess()); 
@@ -1340,14 +1340,13 @@ action code
         }        
         return result;
     }    
-    
-    private void logProductionResult(Term term, String from, LocInfo loc) {
-        CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
-            " from " + from + " @ " + loc + "\n" + 
-            " Proc[" + parserState_.getProcessName() + "] "             
-            + " => " + term); 
-    }
 </add:circus>
+
+    // could be useful for other parsers as well
+    protected void logProductionResult(Term term, String from, LocInfo loc) {
+        CztLogger.getLogger(<class/>.class).fine("PRODUCTION RESULT: " +
+            " from " + from + " @ " + loc + "=>\n" + term); 
+    }
 :}
 
 parser code
@@ -1457,7 +1456,7 @@ parser code
         "Next token is (" + symbolMap_.get(result.sym) + ", " + 
             (result.sym != Sym.TEXT ? String.valueOf(result.value) + ", " + 
                 (result.value != null ? result.value.getClass().getName() : "null") : "...shhh...") + ").";
-      CztLogger.getLogger(<class/>.class).finer(logMessage);
+      CztLogger.getLogger(<class/>.class).finest(logMessage);
       return result;
     }
 
@@ -2617,7 +2616,15 @@ unboxedParagraphItemList ::=
         |
         unboxedParagraphItem:ui
         {:
-           RESULT = factory_.list(ui);
+           RESULT = factory_.list();
+           
+           // This nullness result check is important for 
+           // consistency with the check above for lists.
+           //
+           // It is also important to avoid duplication 
+           // of Circus BasicPorcess declared across multiple 
+           // Circus environments.
+           if (ui != null) RESULT.add(ui);           
         :}
         ;
         
@@ -2657,7 +2664,7 @@ unboxedParagraphItem ::=
         |
         singleCircusParagraphItem:scpi
         {:
-            RESULT = scpi;
+            RESULT = scpi;            
             //logProductionResult(RESULT, "UNBOXED-PARAGRAPH-ITEM", getLocation(scpi));
         :}
 </add:circus>        
@@ -3402,14 +3409,39 @@ processPara ::=
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
         {: 
            LocInfo loc = getLocation(cp, pd);           
+           ProcessPara pp = factory_.createProcessPara(n, ofp, pd);
+           checkStateDeclNotRepeated(pp);
+           addLocAnn(pp, loc);           
            
-           RESULT = factory_.createProcessPara(n, ofp, pd);
-           checkStateDeclNotRepeated(RESULT);
-           addLocAnn(RESULT, loc);           
-           
-           parserState_.setProcessPara(RESULT);
-           
-           logProductionResult(RESULT, "PROCESS PARA", loc);
+           // If processDesc is a multiple env BasicProcess, check whether
+           // it is multiple environment or single environment
+           if ((pd instanceof BasicProcess) 
+               // If multiple environment, just return null.
+               // this avoids creating duplicated entries into section level for process para
+               // The null entry is dealt with in unboxedParagraphItemList production
+               &amp;&amp; parserState_.isWithinMultipleEnvBasicProcessScope()) {
+                  
+              RESULT = null;                  
+              parserState_.setProcessPara(pp);
+
+              // to ensure this is harmless, we add must add a 
+              // post check warning in case the process is not 
+              // properly closed. Such warnings are cleared whenever
+              // a process scope is properly closed.
+              //
+              // The English in warnings given for missing scope declarations
+              // does not quite suit the English here, but as it shouldn't happen
+              // often, we just reuse the code here to lower maintenance levels.
+              addBasicProcessScopePostCheckFor("multiple environment basic " +
+                "process without closing its scope with a CIRCEND later on when", loc);                                                  
+           } else {           
+              // Otherwise, for either single environment basic process or
+              // process paragraphs that are not basic processes, create a
+              // new entry.
+              RESULT = pp;
+           }
+           logProductionResult(pp, "PROCESS PARA with " + 
+              (RESULT == null ? "null" : "non-null"), loc);
         :} 
         |
         /**
@@ -3425,20 +3457,24 @@ processPara ::=
            final String from = "MULTIPLE ENVIRONMENT END";
            LocInfo loc = getLocation(endleft, endright);
            
+           if (!parserState_.isWithinMultipleEnvBasicProcessScope()) {
+                warnProcessScopeMismatch("CIRCEND", from, loc);
+           }
+           
            //Name pn = null;
            //NameList gen = null;
-           BasicProcess bp = null;
+           BasicProcess bp = null;           
            
            // Updates the basic process structures with collected information 
            // from previous environment 
            if (updateBasicProcessInformation(from, loc)) {
-                //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
+                //logProductionResult(parserState_.getBasicProcess(), "PARSER STATE BP FROM " + from + " AFTER UPDATE", loc);   
                                 
                 //pn = parserState_.getProcessName();
                 bp = parserState_.cloneBasicProcessWithAnns();
                 //gen = parserState_.getProcessGenFormals();
                 
-                //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
+                //logProductionResult(bp, "BP FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
            }               
            // retrive the process from the state before clearing it up
                       
