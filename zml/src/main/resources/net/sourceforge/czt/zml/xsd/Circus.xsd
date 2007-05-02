@@ -2363,7 +2363,7 @@ These interfaces represent the AST for Circus.
           <xs:element ref="Z:Name">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Variable"/>
+                <jaxb:property name="VariableName"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
