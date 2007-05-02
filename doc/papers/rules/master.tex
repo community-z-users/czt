@@ -17,12 +17,17 @@
 
 % Extra math-mode macros for this paper.
 % Some of these may eventually go into czt.sty
+\newenvironment{zedoracle}[1]{\par\textbf{oracle }#1\vspace{-2ex}\infrule}{\endinfrule}
+
 \newcommand{\V}{\mathcal{V}}
 \newcommand{\Zc}{Z_C}
 \newcommand{\sexprUnfoldsTo}{\mathrel{=_{se}}}
 \newcommand{\declListUnfoldsTo}{\mathrel{=_d}}
 \newcommand{\unprefix}{\mathrel{unprefix}}
 \newcommand{\schemaEquals}{\mathrel{=_S}}
+\newcommand{\hasType}{\mathrel{hasType}}
+\newcommand{\hasDefn}{\mathrel{hasDefn}}
+\newcommand{\is}{\mathrel{is}}
 
 \def\lastname{Utting, Malik and Toyn}
 
@@ -444,7 +449,7 @@ the oracle uses a relation defined as follows.
   \relation ( \_ \hasType \_ )
 \end{zed}
 
-\begin{gendef}[E1,E2]
+\begin{gendef}{E1,E2}
   \_ \hasType \_ : E1 \rel E2
 \end{gendef}
 
@@ -452,9 +457,9 @@ The type oracle gets an expression~$E$ and a carier set~$T$ (that is,
 a Z expression that corresponds to a Z base type) and checks that $E$
 is of type $T$.
 
-\begin{zedproviso}{TypeOracle}
+\begin{zedoracle}{TypeOracle}
   E \hasType T
-\end{zedproviso}
+\end{zedoracle}
 
 Note that $T$ is typically a joker, or contains jokers, in which case
 the oracle calculates the type rather than just checking it.
@@ -472,13 +477,13 @@ such as the declarations and predicates within axiomatic definitions.
   \relation (\_ \hasDefn \_)
 \end{zed}
 
-\begin{gendef}[E]
+\begin{gendef}{E}
   \_ \hasDefn \_ : E \rel E
 \end{gendef}
 
-\begin{zedproviso}{LookupOracle}
+\begin{zedoracle}{LookupOracle}
   E1 \hasDefn E2
-\end{zedproviso}
+\end{zedoracle}
 
 Calculate oracles use the relation $\is$ defined below.  They usually
 calculate the left-hand side and then unify the result with the
@@ -488,7 +493,7 @@ left-hand expression.
   \relation (\_ \is \_)
 \end{zed}
 
-\begin{gendef}[E1,E2]
+\begin{gendef}{E1,E2}
   \_ \is \_ : E1 \rel E2
 \end{gendef}
 
@@ -497,9 +502,9 @@ schema~$E$ and unifies the result of that computation with~$E2$.  Note
 that this is less general than decorating an arbitrary schema
 expression.
 
-\begin{zedproviso}{SchemaPrimeOracle}
+\begin{zedoracle}{SchemaPrimeOracle}
   E~' \is E2
-\end{zedproviso}
+\end{zedoracle}
 
 Oracles for the other kinds of decorations can be given similarily.
 
@@ -507,30 +512,30 @@ The calculate theta oracle computes to a given theta expression like
 $\theta~S$, where $S==[x,y:\nat]$, the binding expression $\lblot
 x==x,y==y \rblot$.
 
-\begin{zedproviso}{CalculateThetaOracle}
+\begin{zedoracle}{CalculateThetaOracle}
   \theta E \is E2
-\end{zedproviso}
+\end{zedoracle}
 
 The $\schemaminus$ oracle subtracts one signature from another.  That
 is, $D3$ will contain all the declarations that appear in $D1$ but do
 not appear in $D2$.
 
-\begin{zedproviso}{SchemaMinusOracle}
+\begin{zedoracle}{SchemaMinusOracle}
   [D1|true] \schemaminus [D2|true] \is [D3|true]
-\end{zedproviso}
+\end{zedoracle}
 
 The $\unprefix$ oracle removes a word $v1$ from the front of the name
 $v2$ and unifies the resulting name with $v3$.  It fails if $v2$ does
 not start with $v1$.
 
-\begin{zedproviso}{UnprefixOracle}
+\begin{zedoracle}{UnprefixOracle}
   v1 \unprefix v2 \is v3
-\end{zedproviso}
+\end{zedoracle}
 
-\begin{zedproviso}{SortNamesOracle}
+\begin{zedoracle}{SortNamesOracle}
   (sort [D|true]) \is ([D1|true]? \land [D2|true]' \land
                        [D3|true]! \land [D4|true])
-\end{zedproviso}
+\end{zedoracle}
 
 
 To clearly distinguish our rules for unfolding declaration lists and
