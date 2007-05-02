@@ -3,6 +3,7 @@
 /*
   Copyright (C) 2003, 2004, 2005 Tim Miller
   Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Leo Freitas
   This file is part of the CZT project.
 
   The CZT project contains free software;
@@ -1109,6 +1110,41 @@ action code
       return result;
     }     
     
+    /** 
+     * Checks &lt;code&gt;BasicProcess&lt;/code&gt; paragraphs for repeated state annotations.     
+     * That is, if the given paragraph corresponds to a &lt;code&gt;BasicProcess&lt;/code&gt;,
+     * and the user has declared more than one state schemas, an error is reported.
+     * ? TODO: CHECK if deprecated now that we have a robust parserState_ for basic process' scope.
+     */
+    protected void checkStateDeclNotRepeated(ProcessPara pp) {  
+      if (pp.getCircusProcess() instanceof BasicProcess) {
+        BasicProcess bp = (BasicProcess)pp.getCircusProcess();
+        
+        // Collect all paragraphs annotated with CircusStateAnn.
+        ZParaList stateParaList = getCircusStateAnnPara(bp);
+
+        // If more than one state has been declared, then raise the error.
+        // The message will contain the process name and the first violating
+        // state, which is the second one (of the possibly many) declared.
+        if (stateParaList.size() > 1) {              
+          parser.report_error(CircusParseMessage.MSG_DUPLICATE_PROC_STATE_DECL,
+              new Object[] { pp.getName(), CircusUtils.getSchemaName(stateParaList.get(0)), 
+                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)), getLocation(pp, stateParaList.get(1)) }, 
+                  getLocation(pp, stateParaList.get(1)));
+        }                        
+        // Otherwise, it is fine, either we have one or no state declaration.
+      }
+    }
+    
+    protected boolean checkProcessParaScope(LocInfo loc) {
+       boolean result = parserState_.getProcessPara() != null;
+       if (!result) {                               
+          parser.report_error(CircusParseMessage.MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND,
+                new Object[] {loc} , loc);
+       }
+       return result;
+    }
+    
     protected boolean checkForDuplicatedState(LocInfo loc) {      
       boolean result = parserState_.getStatePara() == null;
       if (!result) {                               
@@ -1165,31 +1201,6 @@ action code
           ZUtils.assertZParaList(bp.getOnTheFlyPara()));
     }
 
-    /**
-     * Checks &lt;code&gt;BasicProcess&lt;/code&gt; paragraphs for repeated state annotations.     
-     * That is, if the given paragraph corresponds to a &lt;code&gt;BasicProcess&lt;/code&gt;,
-     * and the user has declared more than one state schemas, an error is reported.
-     */
-    protected void checkRepeatedStateDecl(ProcessPara pp) {  
-      if (pp.getCircusProcess() instanceof BasicProcess) {
-        BasicProcess bp = (BasicProcess)pp.getCircusProcess();
-        
-        // Collect all paragraphs annotated with CircusStateAnn.
-        ZParaList stateParaList = getCircusStateAnnPara(bp);
-
-        // If more than one state has been declared, then raise the error.
-        // The message will contain the process name and the first violating
-        // state, which is the second one (of the possibly many) declared.
-        if (stateParaList.size() > 1) {              
-          parser.report_error(CircusParseMessage.MSG_DUPLICATE_PROC_STATE_DECL,
-              new Object[] { pp.getProcessName(), CircusUtils.getSchemaName(stateParaList.get(0)), 
-                  stateParaList.size(), CircusUtils.getSchemaName(stateParaList.get(1)), getLocation(pp, stateParaList.get(1)) }, 
-                  getLocation(pp, stateParaList.get(1)));
-        }                        
-        // Otherwise, it is fine, either we have one or no state declaration.
-      }
-    }
-    
     protected Model validateModel(Decorword dw) {
       Model result = CircusUtils.DEFAULT_REFINEMENT_MODEL;
       if (dw.toString().equals(Model.Tr.toString()))
@@ -1236,8 +1247,8 @@ action code
      */    
     protected void addBasicProcessScopePostCheckFor(String msg, LocInfo l) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
-        CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE WARNING FOR " + 
-            msg + "?: " + result + " @ " + l.toString());
+        CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
+            msg + "?: " + !result + " @ " + l.toString());
         if (!result) {
             final String msg2 = "declare " + msg;
             parserState_.addProcessScopeWarning("declare " + msg, l);            
@@ -1245,6 +1256,8 @@ action code
     }
     
     protected void raisePendingBasicProcessScopeWarnings() {
+        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS AFTER POST CHECK: " + 
+            parserState_.getProcessScopeWarnings().size());
         for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {
             warnProcessScopeMissing(p.getFirst(), "", p.getSecond());
         }
@@ -1966,18 +1979,20 @@ non terminal DeclList
 non terminal Para
     channelPara,
     channelSetPara,
-    processPara,
     refinementPara,        
     namesetPara, 
     circusProcessState,
     singleCircusParagraphItem,    
     circusInnerProcPara;
     
+non terminal ProcessPara
+    processPara;
+        
 non terminal ActionPara
     actionPara;
 
 non terminal List&lt;Para&gt;
-    circusParagraphList,    
+    circusMultiEnvParagraphList,    
     circusInnerProcParaList;
     
 non terminal ZExprList
@@ -2484,14 +2499,14 @@ paragraphList ::=
                 boolean hasGenerics = (nl != null &amp;&amp; 
                     (nl instanceof ZNameList) &amp;&amp; 
                     !((ZNameList)nl).isEmpty());
-                final String msg = "a local" +
-                    (hasGenerics ? " generic" : " ") +
-                    (ZUtils.isSchema(p) ? " schema" : 
+                final String msg = "a local " +
+                    (hasGenerics ? "generic " : "") +
+                    (ZUtils.isSchema(p) ? "schema " : 
                         (((AxPara)p).getBox().equals(Box.OmitBox) ?
-                            " horizontal definition" : 
-                            " axiomatic definition")
+                            "horizontal definition " : 
+                            "axiomatic definition ")
                     ) +
-                    " paragraph";                    
+                    "paragraph";                    
                 
                 // raise a scoping warning if needed                          
                 addBasicProcessScopePostCheckFor(msg, getLocation(p));
@@ -2509,9 +2524,14 @@ paragraphList ::=
         :}
 <add:circus>                
         |
-        paragraphList:pl circusParagraphList:ucpl
+        paragraphList:pl circusMultiEnvParagraphList:ucpl
         {:
-           pl.addAll(ucpl);
+           assert ucpl.isEmpty() : "Circus paragraph list from multiple environment must be empty. " +
+               "Its members are stored within the parserState and collected when the basic process " +
+               "scope is closed. If they appear dangling outside a scope, relevant warnings/errors " +
+               "are raised accordingly. For this production, it is necessary in order to allow the " +
+               "tokens to be consumed, even if stored indirectly as in here.";
+           //pl.addAll(ucpl);
            RESULT = pl;           
         :}
 </add:circus>                
@@ -2966,17 +2986,14 @@ varg ::=
  * These paragraphs encompass all Circus paragraphs across multiple 
  * Circus environments, except BasicProcess. 
  */
-circusParagraphList ::=                             
+circusMultiEnvParagraphList ::=                             
         /* (REMOVED: see below for an explanation
         // Haven't used CIRCUS here because of problems with Latex2Unicode
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
         {: RESULT = ppl; :}
         |*/                
         CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
-        {:           
-           if (ppl.size() == 1) {
-             addLocAnn(ppl.get(0), getLocation(circ, end));
-           }           
+        {:                             
            ensureInnerProcParaListKnownInBasicProcessScope(ppl, getLocation(circ, end));
            
            // Result here does not matter. It will be collected later via ParserState            
@@ -2998,7 +3015,7 @@ circusParagraphList ::=
  * but couldn't make it work for entries with less than one item. So I went
  * back as it was before.
  *
-//singleCircusParagraphItemList ::=                
+singleCircusParagraphItemList ::=                
         singleCircusParagraphItemList:cpl NL singleCircusParagraphItem:cpi
         {:
            if (cpi != null) cpl.add(cpi);
@@ -3027,48 +3044,7 @@ singleCircusParagraphItem ::=
         {: RESULT = pp; :}       
         |
         refinementPara:rp
-        {: RESULT = rp; :}        
-        |
-        /**
-         * This production terminates the scope of a basic process declared
-         * across multiple circusaction environments. It needs to be here,
-         * rather than on "circusBasicProcess" production, to avoid confusion
-         * between indexed processes (i.e. an indexed process could also be
-         * a basic process, but it would be terminating one, which is strange,
-         * as in "CIRCPROC CIRCEND").
-         */
-        CIRCEND:end
-        {:
-           final String from = "MULTIPLE ENVIRONMENT END";
-           LocInfo loc = getLocation(endleft, endright);
-           
-           Name pn = null;
-           NameList gen = null;
-           BasicProcess bp = null;
-           
-           // Updates the basic process structures with collected information 
-           // from previous environment 
-           if (updateBasicProcessInformation(from, loc)) {
-                //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
-                                
-                pn = parserState_.getProcessName();
-                bp = parserState_.cloneBasicProcessWithAnns();
-                gen = parserState_.getProcessGenFormals();
-                
-                //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
-           }               
-           // If exit fails, a warning is mentioned, not an error, so continue regardless
-           exitBasicProcessScope(from, loc);  
-           
-           RESULT = factory_.createProcessPara(pn, gen, bp);
-           addLocAnn(RESULT, loc);
-           
-           logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);  
-           
-           // if there were any warning collected for the list of paragraphs
-           // declared outside the multiple environment scope, raise then
-           raisePendingBasicProcessScopeWarnings();
-        :}
+        {: RESULT = rp; :}                
         ;
 
 /**
@@ -3425,13 +3401,70 @@ processPara ::=
         /* Process declaration */
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
         {: 
-           LocInfo loc = getLocation(cp, pd);
+           LocInfo loc = getLocation(cp, pd);           
+           
            RESULT = factory_.createProcessPara(n, ofp, pd);
-           checkRepeatedStateDecl((ProcessPara)RESULT);
-           addLocAnn(RESULT, loc);
-           parserState_.setProcessName(n);
-           //logProductionResult(RESULT, "PROCESS PARA", loc);
+           checkStateDeclNotRepeated(RESULT);
+           addLocAnn(RESULT, loc);           
+           
+           parserState_.setProcessPara(RESULT);
+           
+           logProductionResult(RESULT, "PROCESS PARA", loc);
         :} 
+        |
+        /**
+         * This production terminates the scope of a basic process declared
+         * across multiple circusaction environments. It needs to be here,
+         * rather than on "circusBasicProcess" production, to avoid confusion
+         * between indexed processes (i.e. an indexed process could also be
+         * a basic process, but it would be terminating one, which is strange,
+         * as in "CIRCPROC CIRCEND").
+         */
+        CIRCEND:end
+        {:
+           final String from = "MULTIPLE ENVIRONMENT END";
+           LocInfo loc = getLocation(endleft, endright);
+           
+           //Name pn = null;
+           //NameList gen = null;
+           BasicProcess bp = null;
+           
+           // Updates the basic process structures with collected information 
+           // from previous environment 
+           if (updateBasicProcessInformation(from, loc)) {
+                //logProductionResult(parserState_.getBasicProcess(), "BP FROM " + from + " AFTER UPDATE", loc);   
+                                
+                //pn = parserState_.getProcessName();
+                bp = parserState_.cloneBasicProcessWithAnns();
+                //gen = parserState_.getProcessGenFormals();
+                
+                //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER STATE UPDATE", loc);   
+           }               
+           // retrive the process from the state before clearing it up
+                      
+           if (checkProcessParaScope(loc)) {           
+              RESULT = parserState_.getProcessPara();
+              RESULT.setCircusProcess(bp);  
+              
+              // This was creating a duplicated entry into section level for processpara
+              //RESULT = factory_.createProcessPara(pn, gen, bp);
+           } else {
+              // error was raised at this point
+              RESULT = factory_.createProcessPara();
+           }
+           
+           // If exit fails, a warning is mentioned, not an error, so continue regardless
+           exitBasicProcessScope(from, loc);  
+           
+           addLocAnn(RESULT, loc);
+           checkStateDeclNotRepeated(RESULT);           
+           logProductionResult(RESULT, "PROCESS PARA " + from, loc);
+           
+           // if there were any warning collected for the list of paragraphs
+           // declared outside the multiple environment scope, raise then
+           raisePendingBasicProcessScopeWarnings();
+        :}
+        
         /* NOTE: If no processDesc catches the error, this production covers it */
         /*
         THESE ERROR PRODUCTIONS TURN OUT TO BE NOT HELPFUL
@@ -4033,7 +4066,7 @@ circusBasicProcess ::=
                // If exit fails, a warning is mentioned, not an error, so continue regardless
                exitBasicProcessScope(from, loc);                              
             }
-            logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
+            //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
             
             // if there were any warning collected for the list of paragraphs
             // declared outside the multiple environment scope, raise then.
@@ -4049,9 +4082,9 @@ circusBasicProcess ::=
            boolean shouldContinue = enterBasicProcessScope(from, loc);           
            RESULT = createMockBasicProcessFor(from, loc);
            if (shouldContinue) {           
-               logProductionResult(factory_.createZParaList(ipl), "IPL FROM " + from, loc);   
-               logProductionResult(factory_.createZParaList(parserState_.getLocallyDeclPara()), 
-                    "STATE-LOCAL-PARA-LIST FROM " + from, loc);   
+               //logProductionResult(factory_.createZParaList(ipl), "IPL FROM " + from, loc);   
+               //logProductionResult(factory_.createZParaList(parserState_.getLocallyDeclPara()), 
+               //     "STATE-LOCAL-PARA-LIST FROM " + from, loc);   
            
                // In here we have a tricky situation...     
                     
@@ -4076,7 +4109,7 @@ circusBasicProcess ::=
                // If exit fails, a warning is mentioned, not an error, so continue regardless
                exitBasicProcessScope(from, loc);
            }
-           logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
+           //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
            
            
            // if there were any warning collected for the list of paragraphs
