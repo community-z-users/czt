@@ -376,6 +376,7 @@ parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.pdf -text
 parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 parser/src/documentation/resources/images/sflogo.png svneol=native#unset
+parser/src/main/java/net/sourceforge/czt/parser/util/WarningManager.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
 rules/COPYING.txt -text
