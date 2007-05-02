@@ -25,7 +25,9 @@ import java.util.Properties;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.WarningManager;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
@@ -44,6 +46,8 @@ public final class PrintUtils
   private PrintUtils()
   {
   }
+  
+  public static final WarningManager warningManager_ = new WarningManager(PrintUtils.class);
 
   /**
    * Prints a given term (usually a Spec or Sect) in the specified
@@ -73,7 +77,7 @@ public final class PrintUtils
     }
     else {
       String message = "Attempt to print unsupported markup";
-      throw new UnsupportedOperationException(message);
+      throw new PrintException(message);
     }
   }
 
@@ -91,7 +95,7 @@ public final class PrintUtils
     }
     else {
       String message = "Attempt to print unsupported markup";
-      throw new UnsupportedOperationException(message);
+      throw new PrintException(message);
     }
   }
 
@@ -111,7 +115,8 @@ public final class PrintUtils
    */
   public static void printLatex(Term term, Writer out, SectionManager sectInfo)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree = (Term) term.accept(toPrintTree);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
@@ -122,15 +127,16 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new CztException(e);
+      throw new PrintException("An exception occurred while trying to print LaTeX markup.", e);
     }
   }
 
   public static void printOldLatex(Term term, Writer out,
                                    SectionManager sectInfo)
   {
+    warningManager_.clear();  
     term.accept(new ToSpiveyZVisitor());
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     toPrintTree.setOldZ(true);
     Term tree = (Term) term.accept(toPrintTree);
     Properties props = new Properties(sectInfo.getProperties());
@@ -144,7 +150,7 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new CztException(e);
+      throw new PrintException("An exception occurred while trying to print old (Spivey's) LaTeX markup.", e);
     }
   }
 
@@ -169,13 +175,15 @@ public final class PrintUtils
                                 SectionManager sectInfo,
                                 String sectionName)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
-      throw new CztException(exception);
+      throw new PrintException("A command exception occurred while trying to print LaTeX markup " +
+          "for term within section " + sectionName, exception);
     }
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo.getProperties());
     if (tree instanceof Para) {
@@ -194,7 +202,8 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new CztException(e);
+      throw new PrintException("An exception occurred while trying to print LaTeX markup " +
+         "for term within section " + sectionName, e);
     }
   }
 
@@ -203,15 +212,17 @@ public final class PrintUtils
                                    SectionManager sectInfo,
                                    String sectionName)
   {
+    warningManager_.clear();  
     term.accept(new ToSpiveyZVisitor());
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     toPrintTree.setOldZ(true);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
-      throw new CztException(exception);
+      throw new PrintException("A command exception occurred while trying to print old (Spivey's) LaTeX markup " +
+          "for term within section " + sectionName, exception);
     }
     Properties props = new Properties(sectInfo.getProperties());
     props.setProperty(PrintPropertiesKeys.PROP_Z_EVES, "true");
@@ -226,7 +237,8 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      throw new CztException(e);
+      throw new PrintException("An exception occurred while trying to print old (Spivey's) LaTeX markup " +
+         "for term within section " + sectionName, e);
     }
   }
 
@@ -247,7 +259,8 @@ public final class PrintUtils
                                   Writer out,
                                   SectionManager sectInfo)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree = (Term) term.accept(toPrintTree);
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
@@ -277,13 +290,15 @@ public final class PrintUtils
                                   SectionManager sectInfo,
                                   String sectionName)
   {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    warningManager_.clear();  
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo, warningManager_);
     Term tree;
     try {
       tree = (Term) toPrintTree.run(term, sectionName);
     }
     catch (CommandException exception) {
-      throw new CztException(exception);
+      throw new PrintException("A command exception occurred while trying to print Unicode markup " +
+          "for term within section " + sectionName, exception);
     }
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();

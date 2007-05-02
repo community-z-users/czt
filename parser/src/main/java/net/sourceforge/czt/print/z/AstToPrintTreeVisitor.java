@@ -19,9 +19,13 @@
 
 package net.sourceforge.czt.print.z;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -29,6 +33,7 @@ import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.TokenImpl;
+import net.sourceforge.czt.parser.util.WarningManager;
 import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.*;
@@ -36,6 +41,7 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.Section;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -86,14 +92,14 @@ public class AstToPrintTreeVisitor
 {
   private ZFactory factory_ = new ZFactoryImpl();
   private PrintFactory printFactory_ = new PrintFactory();
-
+  
   protected ZFactory getZFactory() {
       return factory_;
   }
   
   protected PrintFactory getZPrintFactory() {
       return printFactory_;
-  }
+  }  
   
   private boolean oldZ_ = false;
 
@@ -110,20 +116,24 @@ public class AstToPrintTreeVisitor
    * Provides the operator table for sections.
    */
   private SectionInfo sectInfo_;
+  
+  protected final WarningManager warningManager_;
 
   /**
    * Creates a new ast to print tree visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public AstToPrintTreeVisitor(SectionInfo sectInfo)
+  public AstToPrintTreeVisitor(SectionInfo sectInfo, WarningManager wm)
   {
     sectInfo_ = sectInfo;
+    warningManager_ = wm;
   }
 
   public Term run(String sectionName)
     throws CommandException
   {
+    warningManager_.setCurrentSectName(sectionName);
     ZSect zSect = (ZSect) sectInfo_.get(new Key(sectionName, ZSect.class));
     return zSect.accept(this);
   }
@@ -139,6 +149,7 @@ public class AstToPrintTreeVisitor
    */
   public Term run(Term term, OpTable opTable)
   {
+    warningManager_.setCurrentSectName(Section.ANONYMOUS.getName());  
     opTable_ = opTable;
     prec_ = new PrecedenceVisitor(opTable_);
     return (Term) term.accept(this);
@@ -156,6 +167,7 @@ public class AstToPrintTreeVisitor
   public Term run(Term term, String sectionName)
     throws CommandException
   {
+    warningManager_.setCurrentSectName(sectionName);
     opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
     prec_ = new PrecedenceVisitor(opTable_);
     return (Term) term.accept(this);
@@ -486,13 +498,12 @@ public class AstToPrintTreeVisitor
   public Term visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
+    warningManager_.setCurrentSectName(name);
     try {
       opTable_ = (OpTable) sectInfo_.get(new Key(name, OpTable.class));
     }
-    catch (CommandException exception) {
-      String message = "Cannot get operator table for " + name + "; " +
-        "try to print anyway ... ";
-      printWarning(message);
+    catch (CommandException exception) {      
+      warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);
     }
     if (opTable_ == null) {
       List parentOpTables = new ArrayList();
@@ -529,19 +540,12 @@ public class AstToPrintTreeVisitor
     try {
       return (OpTable) sectInfo_.get(new Key(name, OpTable.class));
     }
-    catch (CommandException exception) {
-      String message = "Cannot get operator table for " + name + "; " +
-        "try to print anyway ... ";
-      printWarning(message);
+    catch (CommandException exception) {      
+      warningManager_.warn("Cannot get operator table for {0}; try to print anyway ... ", name);      
     }
     return null;
   }
-
-  private void printWarning(String message)
-  {
-    CztLogger.getLogger(AstToPrintTreeVisitor.class).warning(message);
-  }
-
+  
   /**
    * @throws NullPointerException if <code>opName</code> is <code>null</code>.
    */

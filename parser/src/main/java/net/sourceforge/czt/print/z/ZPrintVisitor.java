@@ -20,9 +20,12 @@
 package net.sourceforge.czt.print.z;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
@@ -32,6 +35,7 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
@@ -61,8 +65,8 @@ public class ZPrintVisitor
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
   private Factory factory_ = new Factory();
-  protected boolean ref_ = false;
-
+  protected boolean ref_ = false;  
+  
   /**
    * Creates a new Z print visitor.
    * The section information should be able to provide information of
@@ -78,7 +82,7 @@ public class ZPrintVisitor
     super(printer);
     properties_ = properties;
   }
-
+  
   private boolean getBooleanProperty(String propertyKey)
   {
     if (properties_ == null) {
@@ -155,8 +159,8 @@ public class ZPrintVisitor
    * second term.
    */
   private void print(Term t1, String symbol, Term t2)
-  {
-    if (symbol == null) throw new CztException();
+  {      
+    if (symbol == null) throw new PrintException("Invalid separator symbol for print", new NullPointerException());
     visit(t1);
     printDecorword(symbol);
     visit(t2);
@@ -164,7 +168,7 @@ public class ZPrintVisitor
 
   public Object visitTerm(Term term)
   {
-    throw new CztException("Unexpected term " + term);
+    throw new PrintException("Unexpected term " + term);
   }
 
   public Object visitListTerm(ListTerm listTerm)
@@ -179,7 +183,7 @@ public class ZPrintVisitor
 
   public Object visitAndPred(AndPred andPred)
   {
-    throw new UnsupportedOperationException("Unexpeced term AndPred");
+    throw new PrintException("Unexpeced term AndPred");
   }
 
   public Object visitAndExpr(AndExpr andExpr)
@@ -199,7 +203,7 @@ public class ZPrintVisitor
    */
   public Object visitAxPara(AxPara axPara)
   {
-    throw new UnsupportedOperationException("Unexpeced term AxPara");
+    throw new PrintException("Unexpeced term AxPara");
   }
   
   /**
@@ -224,7 +228,7 @@ public class ZPrintVisitor
       String message =
         "ZPrintVisitor: getBinOperatorName of " + word + " failed.";
       message += " split is " + split + " of length " + split.length;
-      throw new CztException(message);
+      throw new PrintException(message);
     }
     return result;
   }
@@ -247,7 +251,7 @@ public class ZPrintVisitor
    */
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    throw new CztException("Unexpected term " + applExpr);
+    throw new PrintException("Unexpected term " + applExpr);
   }
 
   public Object visitBindExpr(BindExpr bindExpr)
@@ -475,12 +479,12 @@ public class ZPrintVisitor
 
   public Object visitGenericType(GenericType genType)
   {
-    throw new UnsupportedOperationException("Unexpected term GenType");
+    throw new PrintException("Unexpected term GenType");
   }
 
   public Object visitGenParamType(GenParamType genType)
   {
-    throw new UnsupportedOperationException("Unexpected term GenType");
+    throw new PrintException("Unexpected term GenType");
   }
 
   public Object visitGivenPara(GivenPara givenPara)
@@ -496,7 +500,7 @@ public class ZPrintVisitor
 
   public Object visitGivenType(GivenType givenType)
   {
-    throw new UnsupportedOperationException("Unexpected term GenType");
+    throw new PrintException("Unexpected term GenType");
   }
 
   public Object visitHideExpr(HideExpr hideExpr)
@@ -601,12 +605,12 @@ public class ZPrintVisitor
 
   public Object visitLocAnn(LocAnn locAnn)
   {
-    throw new UnsupportedOperationException("Unexpeced term LocAnn");
+    throw new PrintException("Unexpeced term LocAnn");
   }
 
   public Object visitMemPred(MemPred memPred)
   {
-    throw new UnsupportedOperationException("Unexpeced term MemPred");
+    throw new PrintException("Unexpeced term MemPred");
   }
 
   public Object visitMuExpr(MuExpr muExpr)
@@ -640,13 +644,13 @@ public class ZPrintVisitor
   public Object visitNameSectTypeTriple(NameSectTypeTriple triple)
   {
     String message = "Unexpected term NameSectTypeTriple.";
-    throw new UnsupportedOperationException(message);
+    throw new PrintException(message);
   }
 
   public Object visitNameTypePair(NameTypePair pair)
   {
     String message = "Unexpected term NameTypePair.";
-    throw new UnsupportedOperationException(message);
+    throw new PrintException(message);
   }
 
   public Object visitNarrPara(NarrPara narrPara)
@@ -742,7 +746,7 @@ public class ZPrintVisitor
     String message =
       printOperator(appl.getOperatorName(), appl.getArgs());
     if (message != null) {
-      throw new CztException("Cannot print appl");
+      throw new PrintException("Cannot print appl");
     }
     if (braces) print(TokenName.RPAREN);
     return null;
@@ -812,13 +816,13 @@ public class ZPrintVisitor
 
   public Object visitParenAnn(ParenAnn parenAnn)
   {
-    throw new UnsupportedOperationException("Unexpected term ParenAnn.");
+    throw new PrintException("Unexpected term ParenAnn.");
   }
 
   public Object visitParent(Parent parent)
   {
     String word = parent.getWord();
-    if (word == null) throw new CztException();
+    if (word == null) throw new PrintException("Invalid (null) parent");
     print(TokenName.DECORWORD, new Decorword(word));
     return null;
   }
@@ -846,7 +850,7 @@ public class ZPrintVisitor
 
   public Object visitPowerType(PowerType powerType)
   {
-    throw new UnsupportedOperationException("Unexpected term PowerType.");
+    throw new PrintException("Unexpected term PowerType.");
   }
 
   public Object visitPreExpr(PreExpr preExpr)
@@ -933,7 +937,7 @@ public class ZPrintVisitor
 
   public Object visitProdType(ProdType prodType)
   {
-    throw new UnsupportedOperationException("Unexpected term ProdType.");
+    throw new PrintException("Unexpected term ProdType.");
   }
 
   public Object visitProjExpr(ProjExpr projExpr)
@@ -955,7 +959,7 @@ public class ZPrintVisitor
       String message = "RefExpr with Mixfix set to true are not contained " +
         "in print trees; did you run the AstToPrintTreeVisitor before " +
         "calling this ZPrintVisitor?";
-      throw new CztException(message);
+      throw new PrintException(message);
     }
     else { // Mixfix == false
       ref_ = true;
@@ -1035,7 +1039,7 @@ public class ZPrintVisitor
 
   public Object visitSchemaType(SchemaType schemaType)
   {
-    throw new UnsupportedOperationException("Unexpected term SchemaType.");
+    throw new PrintException("Unexpected term SchemaType.");
   }
 
   public Object visitSchExpr(SchExpr schExpr)
@@ -1070,7 +1074,7 @@ public class ZPrintVisitor
 
   public Object visitSectTypeEnvAnn(SectTypeEnvAnn ann)
   {
-    throw new UnsupportedOperationException("Unexpected term SectTypeEnvAnn.");
+    throw new PrintException("Unexpected term SectTypeEnvAnn.");
   }
 
   public Object visitSetCompExpr(SetCompExpr setCompExpr)
@@ -1095,7 +1099,7 @@ public class ZPrintVisitor
 
   public Object visitSignature(Signature s)
   {
-    throw new UnsupportedOperationException("Unexpected term Signature.");
+    throw new PrintException("Unexpected term Signature.");
   }
 
   public Object visitSpec(Spec spec)
@@ -1145,12 +1149,12 @@ public class ZPrintVisitor
 
   public Object visitSignatureAnn(SignatureAnn typeAnn)
   {
-    throw new UnsupportedOperationException("Unexpected term SignatureAnn.");
+    throw new PrintException("Unexpected term SignatureAnn.");
   }
 
   public Object visitTypeAnn(TypeAnn typeAnn)
   {
-    throw new UnsupportedOperationException("Unexpected term TypeAnn.");
+    throw new PrintException("Unexpected term TypeAnn.");
   }
 
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
@@ -1181,7 +1185,7 @@ public class ZPrintVisitor
       final List parents = zSect.getParent();
       print(TokenName.ZED);
       print(Keyword.SECTION);
-      if (name == null) throw new CztException();
+      if (name == null) throw new PrintException("Invalid section (null) name.");
       print(TokenName.DECORWORD, new Decorword(name));
       if (parents.size() > 0) {
         print(Keyword.PARENTS);
@@ -1299,7 +1303,7 @@ public class ZPrintVisitor
    */
   protected void printTermList(List list, Keyword separator)
   {
-    if (separator == null) throw new NullPointerException();
+    if (separator == null) throw new PrintException("Invalid separator keyword for printTermList", new NullPointerException());
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       visit(term);
@@ -1314,7 +1318,7 @@ public class ZPrintVisitor
    */
   protected void printTermList(List list, String separator)
   {
-    if (separator == null) throw new NullPointerException();
+    if (separator == null) throw new PrintException("Invalid separator keyword for printTermList", new NullPointerException());
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       visit(term);
