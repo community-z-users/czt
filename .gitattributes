@@ -241,6 +241,8 @@ gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTest.java -tex
 gaffe2/src/test/java/net/sourceforge/czt/animation/test/model/StepTreeTest.java -text
 gnast/src/vm/ActionPara.java -text
 gnast/src/vm/ActionParaImpl.java -text
+gnast/src/vm/ActionSignature.java -text
+gnast/src/vm/ActionSignatureImpl.java -text
 gnast/src/vm/AssignmentPairs.java -text
 gnast/src/vm/AssignmentPairsImpl.java -text
 gnast/src/vm/BasicProcess.java -text
@@ -257,6 +259,8 @@ gnast/src/vm/Communication.java -text
 gnast/src/vm/CommunicationImpl.java -text
 gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
+gnast/src/vm/InputField.java -text
+gnast/src/vm/InputFieldImpl.java -text
 gnast/src/vm/LetMuAction.java -text
 gnast/src/vm/LetMuActionImpl.java -text
 gnast/src/vm/MuAction.java -text
@@ -265,6 +269,8 @@ gnast/src/vm/NameSetPara.java -text
 gnast/src/vm/NameSetParaImpl.java -text
 gnast/src/vm/ProcessPara.java -text
 gnast/src/vm/ProcessParaImpl.java -text
+gnast/src/vm/ProcessSignature.java -text
+gnast/src/vm/ProcessSignatureImpl.java -text
 gnast/src/vm/SpecStmtCommand.java -text
 gnast/src/vm/SpecStmtCommandImpl.java -text
 gnast/src/vm/ZSect.java -text
