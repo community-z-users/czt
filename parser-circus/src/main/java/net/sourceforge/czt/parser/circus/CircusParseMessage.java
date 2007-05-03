@@ -41,8 +41,8 @@ public enum CircusParseMessage {
   MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE("No basic process scope for enclosing basic process inner paragraphs at {0}."),
   MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched ({0}) scope for basic process ({1}) at {2}."),
   MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes (from {0}) at {1}."),
-  MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("Cannot {0}{1} outside a basic process scope at \n {2}.\n " +
-      "This is a serious warning as type checking will assume the paragraph declared outside a process\n" +
+  MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING("{0} {1} at \n {2}.",
+      "\nThis is a serious warning as type checking will assume the paragraph declared outside a process\n" +
       "is included into the closest enclosing basic process."),
   MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND("Basic process scope from multiple environments was closed without been previouly opened at {0}."),  
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  

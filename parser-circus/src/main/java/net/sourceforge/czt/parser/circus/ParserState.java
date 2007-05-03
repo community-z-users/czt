@@ -129,8 +129,9 @@ public class ParserState
   
   public ParserState(Source loc) {
       super(loc);
+      clearAllProcessInformation();
       //processGen_ = factory_.createZNameList();
-  } 
+  }   
   
   /**
    * Clears the implicitly declared actions cache for the current
@@ -171,6 +172,20 @@ public class ParserState
       clearBasicProcessLocalParaCache();      
       //clearBasicProcessScopeWarnings();
   }
+  
+  public void clearAllProcessInformation() {      
+      clearSectProcessOnTheFlyCache();
+      clearBasicProcessInformation();      
+      
+      basicProcess_ = null;      
+      processLoc_ = null;
+      processPara_ = null;
+      //processName_ = null;      
+      //setProcessGenFormals(null); // sets it to the empty list.      
+      
+      clearSectBasicProcessScopeWarnings();
+  }
+  
 
   /**
    * Creates a unique string for implicitly declared actions.
@@ -450,7 +465,7 @@ public class ParserState
       new ArrayList<Pair<String, LocInfo>>();
   
   public List<Pair<String, LocInfo>> getProcessScopeWarnings() {
-      return processScopeWarnings_;
+      return processScopeWarnings_;      
   }
   
   public void addProcessScopeWarning(String msg, LocInfo loc) {
