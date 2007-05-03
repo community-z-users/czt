@@ -1223,11 +1223,11 @@ action code
     }
     
     private void warnProcessScopeMissing(String msg, String from, LocInfo l) {            
+        from = "(" + from + ")" + " outside basic process scope";
         CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
-                new Object[] { msg, 
-                    (from != null &amp;&amp; !from.isEmpty() ? "(" + from + ")" : ""), 
-                    l.toString() }));
+                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage() +
+                CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getExplanation(),  
+                new Object[] { msg, from, l }));
     }
     
     /**
@@ -1250,17 +1250,22 @@ action code
         CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
             msg + "?: " + !result + " @ " + l.toString());
         if (!result) {
-            final String msg2 = "declare " + msg;
-            parserState_.addProcessScopeWarning("declare " + msg, l);            
+            final String msg2 = "Cannot declare " + msg;
+            parserState_.addProcessScopeWarning(msg2, l);            
         }        
     }
     
     protected void raisePendingBasicProcessScopeWarnings() {
+        raisePendingBasicProcessScopeWarnings("outside basic process scope");
+    }
+    
+    protected void raisePendingBasicProcessScopeWarnings(String msg) {
         CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS AFTER POST CHECK: " + 
-            parserState_.getProcessScopeWarnings().size());
-        for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {
-            warnProcessScopeMissing(p.getFirst(), "", p.getSecond());
-        }
+            parserState_.getProcessScopeWarnings().size());        
+        for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {                        
+            parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING,  
+               new Object[] { p.getFirst(), msg, p.getSecond() }, p.getSecond());
+        }        
         parserState_.clearSectBasicProcessScopeWarnings();
     }
     
@@ -1330,7 +1335,9 @@ action code
     }
     
     protected boolean updateBasicProcessInformation(String from, LocInfo loc) {                           
+        CztLogger.getLogger(<class/>.class).finer("BEFORE UPDATE BASIC PROCESS INFORMATION");
         boolean result = parserState_.updateBasicProcessInformation();
+        CztLogger.getLogger(<class/>.class).finer("AFTER UPDATE BASIC PROCESS INFORMATION");
         CztLogger.getLogger(<class/>.class).finer("UPDATE BASIC PROCESS INFORMATION: " +
             result + " from " + from + " @ " + loc + "\n" + 
             " Proc[" + parserState_.getProcessName()  + "] "             
@@ -2304,7 +2311,7 @@ input ::=
              s.getSect().add(0, narr);
            }
            <add:circus>               
-               //logProductionResult(s, "SPECIFICATION AT INPUT", getLocation(s));
+               //logProductionResult(s, "SPECIFICATION AT INPUT", getLocation(s));               
            </add:circus>
            RESULT = s;
         :}
@@ -2331,6 +2338,10 @@ specification ::=
            ZSect zSect = updateZSect(header, opTable_
              <add:zpatt>, jokerTable_ </add:zpatt>);
            RESULT = createSpec(factory_.list(zSect));
+           <add:circus>               
+               //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
+               raisePendingBasicProcessScopeWarnings();
+           </add:circus>
         :}
         |
         // sectioned specification
@@ -2360,8 +2371,7 @@ emptySectionHeader ::=
 </add:zpatt>
            RESULT = createZSect(name, parents);
 <add:circus>                        
-           parserState_.clearSectProcessOnTheFlyCache();
-           parserState_.clearSectBasicProcessScopeWarnings();
+           parserState_.clearAllProcessInformation();
 </add:circus>
            addLocAnn(RESULT, getLocation(eleft, eright));
         :}
@@ -2389,11 +2399,11 @@ section ::=
         {:
            <add:circus>
                //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", getLocation(pl.get(0)));
-           </add:circus>
+           </add:circus>           
            header.setParaList(pl);
-           RESULT = updateZSect(header, opTable_
+           RESULT = updateZSect(header, opTable_           
              <add:zpatt>, jokerTable_ </add:zpatt>);
-           if (pl.size() > 0) {
+           if (pl.size() > 0) {             
              LocInfo loc = getLocation(pl.get(pl.size() - 1));
              LocAnn locAnn = (LocAnn) RESULT.getAnn(LocAnn.class);
              if (loc.getStart() >= 0 &amp;&amp;
@@ -2404,6 +2414,11 @@ section ::=
                locAnn.setLength(BigInteger.valueOf(length));
              }
            }
+           
+           <add:circus>               
+               logProductionResult(pl, "SECTION[" + header.getName() + "]-PL", getLocation(RESULT));
+               raisePendingBasicProcessScopeWarnings();
+           </add:circus>
         :}
         ;
 
@@ -2442,8 +2457,7 @@ sectionHeader ::=
 </add:zpatt>
            RESULT = createZSect(name, p);
 <add:circus>                       
-           parserState_.clearSectProcessOnTheFlyCache();
-           parserState_.clearSectBasicProcessScopeWarnings();
+           parserState_.clearAllProcessInformation();           
 </add:circus>           
            addLocAnn(RESULT, s);
         :}
@@ -3409,6 +3423,7 @@ processPara ::=
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
         {: 
            LocInfo loc = getLocation(cp, pd);           
+           final String from = "PROCESS PARA";
            ProcessPara pp = factory_.createProcessPara(n, ofp, pd);
            checkStateDeclNotRepeated(pp);
            addLocAnn(pp, loc);           
@@ -3416,31 +3431,29 @@ processPara ::=
            // If processDesc is a multiple env BasicProcess, check whether
            // it is multiple environment or single environment
            if ((pd instanceof BasicProcess) 
-               // If multiple environment, just return null.
-               // this avoids creating duplicated entries into section level for process para
-               // The null entry is dealt with in unboxedParagraphItemList production
-               &amp;&amp; parserState_.isWithinMultipleEnvBasicProcessScope()) {
-                  
-              RESULT = null;                  
-              parserState_.setProcessPara(pp);
-
-              // to ensure this is harmless, we add must add a 
-              // post check warning in case the process is not 
-              // properly closed. Such warnings are cleared whenever
-              // a process scope is properly closed.
-              //
-              // The English in warnings given for missing scope declarations
-              // does not quite suit the English here, but as it shouldn't happen
-              // often, we just reuse the code here to lower maintenance levels.
-              addBasicProcessScopePostCheckFor("multiple environment basic " +
-                "process without closing its scope with a CIRCEND later on when", loc);                                                  
+              &amp;&amp;
+              // If multiple environment, just return null. This avoids creating 
+              // duplicated entries into section level for process para.
+              // The null entry is dealt with in unboxedParagraphItemList production
+              parserState_.isWithinMultipleEnvBasicProcessScope()) {                  
+                  RESULT = null;                  
+                  parserState_.setProcessPara(pp);
+ 
+                  // to ensure this is harmless, we add must add a 
+                  // post check warning in case the process is not 
+                  // properly closed. Such warnings are cleared whenever
+                  // a process scope is properly closed.
+                  final String msg = "Missing enclosing CIRCEND for multiple environment basic process " + n;
+                  parserState_.addProcessScopeWarning(msg, loc);
+                  CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
+                      msg + "?: true @ " + loc.toString());                      
            } else {           
               // Otherwise, for either single environment basic process or
               // process paragraphs that are not basic processes, create a
               // new entry.
               RESULT = pp;
            }
-           logProductionResult(pp, "PROCESS PARA with " + 
+           logProductionResult(pp, from + " with " +
               (RESULT == null ? "null" : "non-null"), loc);
         :} 
         |
