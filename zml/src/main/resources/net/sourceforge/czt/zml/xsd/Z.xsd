@@ -659,8 +659,8 @@ more detail.
                 function, dom, (again, a RefExpr with Mixfix=false) 
                 and the second (right) expression is the argument R.</li>
         </ul>
-        As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
-        has Mixfix=false.
+        As another example, m + n has ApplExpr.Mixfix=true, whereas (_ + _)(m, n) 
+        ApplExpr has Mixfix=false. On both cases the RefExpr.Mixifix=false for "(_+_)".
       </xs:documentation>
     </xs:annotation>
   </xs:element>
