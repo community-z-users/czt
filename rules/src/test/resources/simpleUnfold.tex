@@ -56,14 +56,14 @@ so that the $v:S$ pattern matches $a:\nat$ and the $b,c:\nat$
 becomes the first declaration within $D1$.
 
 \begin{zedrule}{VarDeclBaseType}
-   E \hasType \power E \\
+   E :: \power E \\
    [D1 | true] \unfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \unfoldsTo [v:E; D2 | P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl}
-   E \hasType \power E2 \\
+   E :: \power E2 \\
    [D1 | true] \unfoldsTo [D2 | P2] \\
    v \in E \land P2 \iff P3
 \derives
@@ -85,7 +85,7 @@ directly defined in the specification.
 \begin{zedrule}{IncludeDecl}
    v \unfoldsTo [D1 | P1] \\
    [D | true] \unfoldsTo [D2 | P2] \\
-   ([D1 | true] \land [D2 | true]) \hasType \power [D3 | true]\\
+   ([D1 | true] \land [D2 | true]) :: \power [D3 | true]\\
    P1 \land P2 \iff P3
 \derives
    [v; D | true] \unfoldsTo [D3 | P3]
@@ -115,7 +115,7 @@ declared names within the schema.
    v \unfoldsTo [D1 | P1] \\
    [D1|P1]~' \is [D2|P2]\\
    [D | true] \unfoldsTo [D3 | P3] \\
-   ([D2 | true] \land [D3 | true]) \hasType \power [D4 | true]\\
+   ([D2 | true] \land [D3 | true]) :: \power [D4 | true]\\
    P2 \land P3 \iff P4
 \derives
    [v~'; D | true] \unfoldsTo [D4 | P4]

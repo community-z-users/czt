@@ -111,7 +111,7 @@ throws an exception for all infinite relations/functions.
 \end{zedrule}
 
 \begin{zedrule}{symdiff}
-  E1 \hasType \power E
+  E1 :: \power E
 \derives
    E1 \symdiff E2 = \{ x:E | \lnot (x \in E1 \iff x \in E2) \}
 \end{zedrule}
@@ -143,7 +143,7 @@ A general rule for $\bigcup$.
 The right-hand side will be evaluable after we have implemented
 some reordering optimizations. 
 \begin{zedrule}{genunion}
-   E \hasType \power \power E2
+   E :: \power \power E2
 \derives
    \bigcup E = \{s:E; x:E2 | x \in s @ x\}
 \end{zedrule}
@@ -152,7 +152,7 @@ This right-hand side will not be evaluable in general,
 unless the base type $E2$ is small.  We might have to
 implement $\bigcap$ as a primitive?
 \begin{zedrule}{genintersection}
-   E \hasType \power \power E2
+   E :: \power \power E2
 \derives
    \bigcap E = \{x:E2 | (\forall s:E @ x \in s) @ x\}
 \end{zedrule}
@@ -344,13 +344,13 @@ TODO: this might be better done using $\cat$
 \end{zedrule}
 
 \begin{zedrule}{suffixdef}
-   E1 \hasType \power (\arithmos \cross E3)
+   E1 :: \power (\arithmos \cross E3)
 \derives
    E1 \suffix E2 \iff (\exists s:\seq E3 @ s \cat E1 = E2)
 \end{zedrule}
 
 \begin{zedrule}{infixdef}
-   E1 \hasType \power (\arithmos \cross E3)
+   E1 :: \power (\arithmos \cross E3)
 \derives
    E1 \infix E2 \iff (\exists s,t:\seq E3 @ s \cat E1 \cat t = E2)
 \end{zedrule}
