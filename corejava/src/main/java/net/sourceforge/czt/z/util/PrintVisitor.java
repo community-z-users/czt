@@ -201,7 +201,19 @@ public class PrintVisitor
 
   public String visitZName(ZName zName)
   {
-    return zName.getWord() + visit(zName.getStrokeList());
+    StringBuffer result = new StringBuffer();
+    String name = zName.getWord();
+    for(int i = 0 ; i < name.length() ; i++) {
+        if (Character.isLetterOrDigit(name.codePointAt(i)) ||
+            Character.isSpaceChar(name.codePointAt(i)) ||            
+            name.charAt(i) == '_') {
+            result.append(name.charAt(i));
+        } else {            
+            result.append("U+" + Integer.toHexString(name.codePointAt(i)).toUpperCase());
+        }
+    }
+    result.append(visit(zName.getStrokeList()));
+    return result.toString();
   }
 
   public String visitZNumeral(ZNumeral zNumeral)

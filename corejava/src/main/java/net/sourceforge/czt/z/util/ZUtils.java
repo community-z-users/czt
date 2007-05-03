@@ -370,7 +370,7 @@ public final class ZUtils
               r.getZExprList().isEmpty());
       }
       return result;
-  }
+  }  
   
   /**
    * Returns true if term is a generic operator instantiation. That is, a
@@ -378,7 +378,7 @@ public final class ZUtils
    * non-empty (it contains [T]). The explicit attribute indicates whether 
    * the instantiating expressions are explicitly given in the specification
    * (explicit is true) or whether they were inferred by the typechecker 
-   * (explicit is false). For example: \emptyset[T] or \emptyset
+   * (explicit is false). For example: \emptyset[T] or \emptyset.
    */
   public static boolean isGenInstExpr(Term term) {
       // NOTE: doesn't work for jokers
@@ -391,9 +391,21 @@ public final class ZUtils
   }
   
   /**
+   * Another less common example would be (\_ \fun \_)[S, T].
+   * In this case,  
+   * RefExpr(ZName("_->_"), ZExprList(
+   *    RefExpr(ZName("S"), MF=F, EX=F), 
+   *    RefExpr(ZName("T"), MF=F, EX=F)),
+   *    MF=F, EX=T)
+   */
+  public static boolean isExplicitGenInstExpr(Term term) {
+      return isGenInstExpr(term) && asRefExpr(term).getExplicit();
+  }  
+  
+  /**
    * Returns true if term is Generic Operator Application. That is, a
    * RefExpr with mixfix and explicit true, and the list of instantiating 
-   * expressions is non-empty (it contains [S,T]). For example: S \rel[S, T] T.
+   * expressions is non-empty (it contains [S,T]). For example: S \fun T.
    */
   public static boolean isGenOpApplExpr(Term term) {
       // NOTE: doesn't work for jokers
@@ -418,7 +430,8 @@ public final class ZUtils
   
   /**
    * Returns the list of instantiating expressions in Generic Operator Application
-   * RefExpr or null if it isn't one. That is, it returns [S,T] from "S \rel[S, T] T".
+   * RefExpr or null if it isn't one. That is, it returns [S,T] from "S \fun T".
+   * Not that it will return null if term is "(\_ \fun \_)[S, T]"
    */
   public static ZExprList getGenOpApplZGenActuals(Term term) {
       ZExprList result = null;
@@ -427,34 +440,18 @@ public final class ZUtils
       }
       return result;
   }  
-  
+    
   /** 
-   * Returns true if term is an function operator application expression
-   * with implicitly fixed parameters. That is, an term is an ApplExpr
-   * with mixfix TRUE, and the first (left) expression as the name (e.g. " _ + _ ")
-   *  (that is, a RefExpr) has mixfix TRUE, and the second (right) expression 
-   * is (S,T). For example: "(S + T)", as opposed to "(_+_)(S,T)".   
-   */
-  public static boolean isImplicitFcnOpApplExpr(Term term) {
-      // NOTE: doesn't work for jokers
-      boolean result = isApplExpr(term);
-      if (result) {
-          ApplExpr appl = asApplExpr(term);
-          result = (appl.getMixfix() && 
-              isRefExpr(appl.getLeftExpr()) &&
-              asRefExpr(appl.getLeftExpr()).getMixfix());
-      }
-      return result;
-  }
-  
-  /** 
-   * Returns true if term is an function operator application expression
-   * with explicitly fixed parameters. That is, an term is an ApplExpr
-   * with mixfix TRUE, and the first (left) expression as the name (e.g. " _ + _ ")
-   *  (that is, a RefExpr) has mixfix FALSE, and the second (right) expression 
-   * is (S,T). For example: "(_+_)(S,T)", as opposed to "(S + T)".   
+   * Returns true if term is an function operator application expression.
+   * That is, an term is an ApplExpr with mixfix TRUE, and the first (left) 
+   * expression as the name (e.g. " _ + _ ") (that is, a RefExpr) has mixfix 
+   * FALSE, and the second (right) expression is (S,T). 
+   * For example: "(S + T)". 
+   * There is no case of ApplExpr where RefExpr mixfix is true.
+   * For instance, both "A (\_ \fun\_)[S, T] B" and "(\_ \fun\_)[S, T] (A, B)"
+   * parse with ApplExpr and RefExpr mixfix false.
    */  
-  public static boolean isExplicitFcnOpApplExpr(Term term) {
+  public static boolean isFcnOpApplExpr(Term term) {
       // NOTE: doesn't work for jokers
       boolean result = isApplExpr(term);
       if (result) {
@@ -464,24 +461,15 @@ public final class ZUtils
               !asRefExpr(appl.getLeftExpr()).getMixfix());
       }
       return result;
-  }
-  
-  /** 
-   * Returns true if term is an function operator application expression.
-   * That is, an ApplExpr with mixfix true, and the first (left) expression 
-   * as the operator name and the second (right) expression as the parameters.
-   * For example: "(_+_)(S,T)" or  "(S + T)".
-   * It is just the disjunction of isImplicitFcnOpApplExpr(Term) and isExplicitFcnOpApplExpr(Term).
-   */  
-  public static boolean isFcnOpApplExpr(ApplExpr term) {
-      return (isImplicitFcnOpApplExpr(term) || isExplicitFcnOpApplExpr(term));
-  }
+  }  
   
   /** 
    * Returns true if term is an application expression. That is, an term is an ApplExpr
    * with mixfix FALSE, the first (left) expression is the function name (e.g., \dom), 
    * (a RefExpr with mixfix FALSE) and the second (right) expression is the 
    * argument. For example: \dom~R or \id~R. 
+   * Note that this also covers the case where function operator application
+   * is given explicitly, as in "(_+_)(S,T)".
    */ 
   public static boolean isApplicationExpr(Term term) {
       // NOTE: doesn't work for jokers
@@ -493,7 +481,7 @@ public final class ZUtils
               !asRefExpr(appl.getLeftExpr()).getMixfix());
       }
       return result;
-  }
+  }    
   
   /**
    * Returns true whenever the given ApplExpr is valid (i.e. either function operator
@@ -512,7 +500,7 @@ public final class ZUtils
    */
   public static RefExpr getApplExprName(Term term) {
       RefExpr result = null;
-      if (isImplicitFcnOpApplExpr(term) || isExplicitFcnOpApplExpr(term) || isApplicationExpr(term)) {
+      if (isApplExpr(term) && isApplicationExprValid(asApplExpr(term))) {
           result = asRefExpr(asApplExpr(term).getLeftExpr());
       }
       return result;
@@ -525,7 +513,7 @@ public final class ZUtils
    */
   public static ZExprList getApplExprArguments(Term term) {
       ZExprList result = null;
-      if (isImplicitFcnOpApplExpr(term) || isExplicitFcnOpApplExpr(term) || isApplicationExpr(term)) {
+      if (isApplExpr(term) && isApplicationExprValid(asApplExpr(term))) {
           result = getZFactory().createZExprList();
           Expr arg = asApplExpr(term).getRightExpr();
           if (isTupleExpr(arg)) {
@@ -560,15 +548,6 @@ public final class ZUtils
   }
   
   /**
-   * Returns true if term is MemPred with Mixfix=false, where the first (left) 
-   * expression is the element, and the second (right) expression is the set.
-   * For example, "n \in S" has left="n" and right="S".
-   */
-  public static boolean isMembershipPred(Term term) {
-      return isMemPred(term) && !asMemPred(term).getMixfix();      
-  }  
-  
-  /**
    * Returns true if term is MemPred with Mixfix=true, and the second 
    * (right) expression is the operator name.
    * For example, "n < m" has left="(n,m)" and right=" _ < _ ",
@@ -579,7 +558,17 @@ public final class ZUtils
   public static boolean isRelOpApplPred(Term term) {
       return (isMemPred(term) && asMemPred(term).getMixfix() && 
           isRefExpr(asMemPred(term).getRightExpr()));
-  }
+  }  
+  
+  /**
+   * Returns true if term is MemPred with Mixfix=false, where the first (left) 
+   * expression is the element, and the second (right) expression is the set.
+   * For example, "n \in S" has left="n" and right="S". Note that this accounts
+   * for explicit relational operator application, as in (0, 1) \in (\_ < \_)
+   */
+  public static boolean isMembershipPred(Term term) {
+      return isMemPred(term) && !asMemPred(term).getMixfix();      
+  }  
   
   /**
    * Returns true whenever the given MemPred is valid (i.e. either equality,

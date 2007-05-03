@@ -21,16 +21,13 @@ package net.sourceforge.czt.circus.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
-import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
@@ -52,21 +49,38 @@ import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
+import net.sourceforge.czt.z.ast.AndPred;
+import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
-import net.sourceforge.czt.z.ast.Name;
+import net.sourceforge.czt.z.ast.FalsePred;
+import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.Parent;
+import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.TruePred;
+import net.sourceforge.czt.z.ast.TupleExpr;
+import net.sourceforge.czt.z.ast.VarDecl;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.z.visitor.AndPredVisitor;
+import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.FalsePredVisitor;
+import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
+import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.SpecVisitor;
+import net.sourceforge.czt.z.visitor.TruePredVisitor;
+import net.sourceforge.czt.z.visitor.TupleExprVisitor;
+import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 /**
- * @author Petra Malik
+ * @author Leo Freitas
  */
 public class PrintVisitor
     extends net.sourceforge.czt.z.util.PrintVisitor
@@ -85,6 +99,15 @@ public class PrintVisitor
     ZSectVisitor<String>,
     ParentVisitor<String>,
     AxParaVisitor<String>,
+    VarDeclVisitor<String>,
+    TruePredVisitor<String>,
+    FalsePredVisitor<String>,
+    RefExprVisitor<String>,
+    TupleExprVisitor<String>,
+    ApplExprVisitor<String>,
+    SetExprVisitor<String>,
+    MemPredVisitor<String>,
+    AndPredVisitor<String>,
     SpecVisitor<String>
 {
     
@@ -108,6 +131,70 @@ public class PrintVisitor
     public String visitZParaList(ZParaList term) {
         return visitList(term, "ZParaList[", ",\n"  , "]");
     }    
+    
+    public String visitVarDecl(VarDecl term) {
+        StringBuffer result = new StringBuffer("VarDecl[");
+        result.append(visitList(term.getZNameList(), "", ", ", ": "));
+        result.append(visit(term.getExpr()));
+        result.append("]");
+        return result.toString();
+    }
+    
+    public String visitRefExpr(RefExpr term) {
+        StringBuffer result = new StringBuffer("RefExpr{");
+        result.append(visit(term.getName()));
+        result.append(visitList(term.getZExprList(), "[", ", ", "]"));
+        result.append(", MF=" +term.getMixfix());
+        result.append(", EX=" +term.getExplicit());
+        result.append("}");
+        return result.toString();
+    }
+    
+    public String visitTupleExpr(TupleExpr term) {
+        return visitList(term.getZExprList(), "TupleExpr(", ", ", ")");
+    }
+    
+    public String visitApplExpr(ApplExpr term) {
+        StringBuffer result = new StringBuffer("ApplExpr{LHS=");
+        result.append(visit(term.getLeftExpr()));
+        result.append(", RHS=");
+        result.append(visit(term.getRightExpr()));
+        result.append(", MF=" +term.getMixfix());
+        result.append("}");
+        return result.toString();
+    }
+    
+    public String visitSetExpr(SetExpr term) {
+        return visitList(term.getZExprList(), "SetExpr(", ", ", ")");
+    }
+    
+    public String visitAndPred(AndPred term) {
+        StringBuffer result = new StringBuffer("AndPred{LHS=");
+        result.append(visit(term.getLeftPred()));
+        result.append(", RHS=");
+        result.append(visit(term.getRightPred()));
+        result.append(", AND=" +term.getAnd());
+        result.append("}");
+        return result.toString();        
+    }
+    
+    public String visitMemPred(MemPred term) {
+        StringBuffer result = new StringBuffer("MemPred{LHS=");
+        result.append(visit(term.getLeftExpr()));
+        result.append(", RHS=");
+        result.append(visit(term.getRightExpr()));
+        result.append(", MF=" +term.getMixfix());
+        result.append("}");
+        return result.toString();
+    }
+    
+    public String visitTruePred(TruePred term) {
+        return "true";
+    }
+    
+    public String visitFalsePred(FalsePred term) {
+        return "false";
+    }
     
     public String visitParent(Parent term) {
         return term.getWord();
@@ -152,15 +239,17 @@ public class PrintVisitor
            result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
            result.append("{");
            result.append(visit(ZUtils.getAbbreviationName(term)));
-           result.append("}=");
+           result.append(" == ");
            result.append(visit(ZUtils.getAbbreviationExpr(term)));
+           result.append("}");
        } else {
            result.append("AxBox");
            result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
-           result.append("");
-           result.append(visitList(ZUtils.getAxBoxDecls(term), "{", "; ", "}"));
+           result.append("{");
+           result.append(visitList(ZUtils.getAxBoxDecls(term), ";\n "));
            result.append(" | ");
            result.append(visit(ZUtils.getAxBoxPred(term)));
+           result.append("}");
        }
        return result.toString();
     }
