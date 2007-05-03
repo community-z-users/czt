@@ -212,16 +212,18 @@ $v$ to be a name joker.
 
 Most logics contain rules with side conditions, which check various
 syntactic properties of the terms in the rule.  The most common
-example is checking that a certain name $n$ is not free in a given
-term $t$.  We write this as $n \notfreein t$.  To reason about Z in a
+example is checking that a certain name~$n$ is not free in a given
+term~$t$.  We write this as $n \notfreein t$.  To reason about Z in a
 convenient way, it is also useful to be able to check properties of
 signatures, distinguish between the different kinds of decorations on
 names, etc.
 
 The ZedRules notation provides oracles to support this kind of
-reasoning.  An oracle is a magic thing that is able to decide that
-certain predicates are true.  The sort of predicates an oracle can
-decide is described by the zedoracle notation.  For example, the
+reasoning.  An oracle is able to decide whether certain predicates are
+true.  The predicates that an oracle can decide are described by an
+oracle paragraph.  An oracle paragraph is introduced by the keyword
+\emph{oracle} followed by a unique name for the oracle, and consists
+of a Standard Z predicate extended with jokers.  For example, the
 \LaTeX\ input to describe an oracle that verifies that a name is not
 free in a given expression is:
 \begin{verbatim}
@@ -251,14 +253,15 @@ an ordinary Z name.
 
 \subsection{Semantics}
 
-We describe the semantics of the rules independently of any operational
-description of how rules can be used.  This allows rules to be used by many
-different reasoning and rewrite engines.  Each engine may place different
-restrictions on the rules that it allows, may apply rules using a variety
-of operational semantics (apply once, apply exhaustively, apply to all
-subterms bottom-up or top-down etc.), and may use a different
-implementation technology (for example, an interpreter that applies the
-rules or a compiler that transforms a set of rules into code).
+We describe the semantics of ZedRules independently of any operational
+description of how rules can be used.  This allows rules to be used by
+many different reasoning and rewrite engines.  Each engine may place
+different restrictions on the rules that it allows, may apply rules
+using a variety of operational semantics (apply once, apply
+exhaustively, apply to all subterms bottom-up or top-down etc.), and
+may use a different implementation technology (for example, an
+interpreter that applies the rules or a compiler that transforms a set
+of rules into code).
 
 We now define the semantics of a rule $R$ with antecedents $A_1
 \ldots A_n$ and conclusion $C$ as follows.
