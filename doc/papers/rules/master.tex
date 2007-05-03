@@ -95,14 +95,15 @@ allow \emph{jokers} that can stand for arbitrary expressions, predicates,
 declarations etc.
 
 Section \ref{sec:relwork} discusses approaches to schema unfolding and
-user-defined transformations in existing Z tools.  Section~\ref{sec:syntax}
-describes the syntax and semantics of the ZedRules.
-Section~\ref{sec:tools} describes three example reasoning engines provided
-by CZT,\footnote{See \url{http://czt.sourceforge.net}.} which use the rules.
+user-defined transformations in existing Z tools.
+Section~\ref{sec:syntax} describes the syntax and semantics of the
+ZedRules.  Section~\ref{sec:tools} describes three example reasoning
+engines provided by CZT,\footnote{See
+\url{http://czt.sourceforge.net}.} which use the rules.
 Section~\ref{sec:schemas} shows how the rules can be used to specify
 unfolding and normalisation of schema expressions and
-Section~\ref{sec:zlive} shows some of the rules that are used by the ZLive
-animator to preprocess Z expressions and predicates.
+Section~\ref{sec:zlive} shows some of the rules that are used by the
+CZT ZLive animator to preprocess Z expressions and predicates.
 
 
 \section{Related Work} \label{sec:relwork}
@@ -168,10 +169,12 @@ one for rules, one for jokers, and one for oracles.
 
 \subsection{Syntax}
 
-Each rule has a single conclusion and zero or more antecedents, which are
-typically just Z predicates, written in the standard Z notation.  The
-informal semantics is that the conclusion is true if all the antecedents
-are true.
+Each rule is introduced with the keyword \emph{rule} and a unique name
+for the rule.  It has a single conclusion, written below a line, and
+zero or more antecedents, written above the line.  The syntax of
+consequents and antecedents is that of Standard Z predicates extended
+with jokers.  Their informal semantics is that the conclusion is true
+if all the antecedents are true.
 
 For example, the \emph{Funct} rule from the $\V$
 logic~\cite{brien:calculus-schemas-z00} might be written as follows:
@@ -240,11 +243,11 @@ ZedRules notation.
 
 Currently, the scope of a joker is within all rule and oracle
 paragraphs of the section in which it appears and of which it is an
-ancestor.  In the future, we plan to declaring them locally to a rule
-or oracle paragraph instead.  Global jokers are very concise (need to
-be declared just once) but are less flexible because once a joker is
-declared, it reserves the name for ever, and makes that name unusable
-as an ordinary Z name.
+ancestor.  In the future, we plan to declare them locally to a rule or
+oracle paragraph instead.  Global jokers are very concise (need to be
+declared just once) but are less flexible because once a joker is
+declared, it reserves the name forever, making that name unusable as
+an ordinary Z name.
 
 \subsection{Semantics}
 
@@ -276,14 +279,14 @@ preserve this validity property.
 
 \section{Tools for Rules} \label{sec:tools}
 
-To use and test the rules, several tools have been implemented
-in the CZT system.  These are useful for transforming Z in various
-ways, but none of them are intended to be a general Z theorem prover, 
-for three reasons:
+To use and test ZedRules, several tools have been implemented in the
+CZT system.  These are useful for transforming Z in various ways, but
+none of them are intended to be a general Z theorem prover, for three
+reasons:
 \begin{enumerate}
-\item There are already several other good theorem provers for Z, so
-  developing another would simply fragment the existing small user-base
-  further.
+\item There are already many other good theorem provers for Z, so
+  developing another would simply fragment the existing small
+  user-base further.
 \item For practical theorem proving, it is necessary to develop a large set
   of rules (several for each Z construct), derived rules and tactics to
   automate the common styles of reasoning.  Experience shows that this
@@ -334,7 +337,7 @@ The interactive prover shown in Figure~\ref{fig:cztprover} displays a
 proof in tree form.  Each node is labelled with a subgoal.  If a rule
 has been applied to a node, it can have children (instantiations of
 the antecedents of the rule).  An icon indicates whether a node has
-been proven (tick) or still needs to be proven (question mark).
+been proven (\ding{52}) or still needs to be proven (?).
 
 The user can manipulate the proof tree by applying rules or oracles
 and undoing rule and oracle applications.  Clicking on a node will pop
