@@ -147,8 +147,20 @@ public class PrintVisitor
            result.append(visit(ZUtils.getSchemaName(term)));
            result.append("}=");
            result.append(visit(ZUtils.getSchemaDefExpr(term)));
+       } else if (ZUtils.isHorizontalDef(term)) {           
+           result.append("Abbreviation");
+           result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
+           result.append("{");
+           result.append(visit(ZUtils.getAbbreviationName(term)));
+           result.append("}=");
+           result.append(visit(ZUtils.getAbbreviationExpr(term)));
        } else {
-           result.append(visit(term)); 
+           result.append("AxBox");
+           result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
+           result.append("");
+           result.append(visitList(ZUtils.getAxBoxDecls(term), "{", "; ", "}"));
+           result.append(" | ");
+           result.append(visit(ZUtils.getAxBoxPred(term)));
        }
        return result.toString();
     }
