@@ -26,6 +26,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.circus.ast.BasicProcess;
+import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.ChannelPara;
+import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ProcessPara;
@@ -37,7 +40,9 @@ import net.sourceforge.czt.circus.ast.ProcessKind;
 import net.sourceforge.czt.circus.ast.ProcessSignature;
 import net.sourceforge.czt.circus.ast.BasicProcessSignature;
 import net.sourceforge.czt.circus.ast.ActionSignature;
+import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 
 import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
@@ -49,11 +54,18 @@ import net.sourceforge.czt.circus.visitor.NameSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
+import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
+import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.Directive;
+import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.FalsePred;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.MemPred;
+import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
@@ -61,14 +73,19 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.TruePred;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZDeclList;
+import net.sourceforge.czt.z.ast.ZNameList;
 import net.sourceforge.czt.z.ast.ZParaList;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.AndPredVisitor;
 import net.sourceforge.czt.z.visitor.ApplExprVisitor;
 import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.DirectiveVisitor;
 import net.sourceforge.czt.z.visitor.FalsePredVisitor;
+import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.MemPredVisitor;
+import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
@@ -76,6 +93,8 @@ import net.sourceforge.czt.z.visitor.SpecVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
 import net.sourceforge.czt.z.visitor.TupleExprVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
+import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
+import net.sourceforge.czt.z.visitor.ZNameListVisitor;
 import net.sourceforge.czt.z.visitor.ZParaListVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
@@ -108,6 +127,15 @@ public class PrintVisitor
     SetExprVisitor<String>,
     MemPredVisitor<String>,
     AndPredVisitor<String>,
+    LatexMarkupParaVisitor<String>,
+    NarrParaVisitor<String>,
+    DirectiveVisitor<String>,
+    ChannelParaVisitor<String>,
+    ZDeclListVisitor<String>,
+    ChannelSetParaVisitor<String>,
+    ChannelDeclVisitor<String>,
+    ZNameListVisitor<String>,
+    SchExprActionVisitor<String>,
     SpecVisitor<String>
 {
     
@@ -128,15 +156,67 @@ public class PrintVisitor
         return result.toString();
     }    
     
+    public String visitNarrPara(NarrPara term) {
+        return "NarrPara(" + term.getContent().size() + " in size)";
+    }
+    
+    public String visitLatexMarkupPara(LatexMarkupPara term) {
+        return visitList(term.getDirective(), "LatexMarkupPara[", ",\n", "]");
+    }
+    
+    public String visitDirective(Directive term) {
+        StringBuffer result = new StringBuffer("%%Z");
+        if (!term.getType().equals(DirectiveType.NONE)) {
+            result.append(term.getType().toString().toLowerCase());
+        }        
+        result.append(term.getUnicode().length() == 1 || term.getUnicode().startsWith("U+") ? "char" : "word");
+        result.append(" ");
+        result.append(term.getCommand());
+        result.append(" ");
+        result.append(visitUnicode(term.getUnicode()));
+        return result.toString();
+    }
+    
     public String visitZParaList(ZParaList term) {
-        return visitList(term, "ZParaList[", ",\n"  , "]");
+        return visitList(term, "ZParaList[\n", ",\n"  , "\n]");
     }    
+    
+    public String visitZDeclList(ZDeclList term) {
+        return visitList(term, "ZDeclList[", ",\n" , "\n]");
+    }
+    
+    public String visitZNameList(ZNameList term) {
+        return visitList(term, "ZNameList[", ", " , "]");
+    }
+    
+    
+    public String visitChannelDecl(ChannelDecl term) {
+        StringBuffer result = new StringBuffer("ChannelDecl[\n");
+        result.append(visitList(term.getZGenFormals(), "[" , ", ", "]"));        
+        result.append(visitList(term.getZNameList(), ", "));
+        result.append(" : ");
+        result.append(visit(term.getExpr()));
+        return result.toString();            
+    }
+    
+    public String visitChannelPara(ChannelPara term) {
+        return visitList(term.getZDeclList(), "ChannelPara[\n", ";\n", "]");
+    }
+    
+    public String visitChannelSetPara(ChannelSetPara term) {
+        StringBuffer result = new StringBuffer("ChannelSetPara[\n");
+        result.append(visit(term.getZName()));        
+        result.append(visit(term.getZGenFormals()));
+        result.append(" == ");
+        result.append(visit(term.getChannelSet()));
+        return result.toString();        
+    }
     
     public String visitVarDecl(VarDecl term) {
         StringBuffer result = new StringBuffer("VarDecl[");
         result.append(visitList(term.getZNameList(), "", ", ", ": "));
         result.append(visit(term.getExpr()));
-        result.append("]");
+        result.append("]\n");
         return result.toString();
     }
     
@@ -146,21 +226,21 @@ public class PrintVisitor
         result.append(visitList(term.getZExprList(), "[", ", ", "]"));
         result.append(", MF=" +term.getMixfix());
         result.append(", EX=" +term.getExplicit());
-        result.append("}");
+        result.append("}\n");
         return result.toString();
     }
     
     public String visitTupleExpr(TupleExpr term) {
-        return visitList(term.getZExprList(), "TupleExpr(", ", ", ")");
+        return visitList(term.getZExprList(), "TupleExpr(", ", ", ")\n");
     }
     
     public String visitApplExpr(ApplExpr term) {
         StringBuffer result = new StringBuffer("ApplExpr{LHS=");
         result.append(visit(term.getLeftExpr()));
-        result.append(", RHS=");
+        result.append(",\n RHS=");
         result.append(visit(term.getRightExpr()));
-        result.append(", MF=" +term.getMixfix());
-        result.append("}");
+        result.append(",\n MF=" +term.getMixfix());
+        result.append("}\n");
         return result.toString();
     }
     
@@ -171,20 +251,20 @@ public class PrintVisitor
     public String visitAndPred(AndPred term) {
         StringBuffer result = new StringBuffer("AndPred{LHS=");
         result.append(visit(term.getLeftPred()));
-        result.append(", RHS=");
+        result.append(",\n RHS=");
         result.append(visit(term.getRightPred()));
-        result.append(", AND=" +term.getAnd());
-        result.append("}");
+        result.append(",\n AND=" +term.getAnd());
+        result.append("}\n");
         return result.toString();        
     }
     
     public String visitMemPred(MemPred term) {
         StringBuffer result = new StringBuffer("MemPred{LHS=");
         result.append(visit(term.getLeftExpr()));
-        result.append(", RHS=");
+        result.append(",\n RHS=");
         result.append(visit(term.getRightExpr()));
-        result.append(", MF=" +term.getMixfix());
-        result.append("}");
+        result.append(",\n MF=" +term.getMixfix());
+        result.append("}\n");
         return result.toString();
     }
     
@@ -230,7 +310,7 @@ public class PrintVisitor
        if (ZUtils.isSchema(term)) {
            result.append("Schema");
            result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
-           result.append("{");
+           result.append("{\n");
            result.append(visit(ZUtils.getSchemaName(term)));
            result.append("}=");
            result.append(visit(ZUtils.getSchemaDefExpr(term)));
@@ -241,7 +321,7 @@ public class PrintVisitor
            result.append(visit(ZUtils.getAbbreviationName(term)));
            result.append(" == ");
            result.append(visit(ZUtils.getAbbreviationExpr(term)));
-           result.append("}");
+           result.append("\n}");
        } else {
            result.append("AxBox");
            result.append(visitList(ZUtils.getAxParaZGenFormals(term), "[", ", ", "]"));
@@ -249,8 +329,9 @@ public class PrintVisitor
            result.append(visitList(ZUtils.getAxBoxDecls(term), ";\n "));
            result.append(" | ");
            result.append(visit(ZUtils.getAxBoxPred(term)));
-           result.append("}");
+           result.append("\n}");
        }
+       result.append("\n");
        return result.toString();
     }
     
@@ -321,7 +402,7 @@ public class PrintVisitor
     }
     
     protected String visitProcess(ProcessSignature term) {
-        StringBuffer result = new StringBuffer("Name: ");
+        StringBuffer result = new StringBuffer("Process: ");
         result.append(visit(term.getProcessName()));
         result.append(visitList(ZUtils.assertZNameList(term.getGenFormals()), "[", ",", "]"));
         // Print parameters or indexes signature if they exist
@@ -348,18 +429,25 @@ public class PrintVisitor
         return result.toString();
     }    
     
+    public String visitSchExprAction(SchExprAction term) {        
+        return visit(term.getExpr());
+    }
+    
     public String visitBasicProcess(BasicProcess term) {
         StringBuffer result = new StringBuffer("BasicProcess(hC=");        
         result.append(term.hashCode());
         result.append(")[");
-        result.append("\n\tStatePara=");
+        result.append("\nStatePara=");
         result.append(visit(term.getStatePara()));
-        result.append("\n\tLocalPara");
-        result.append(visitList(term.getZLocalPara(), "[", "\n", "]"));
-        result.append("\n\tOnTheFlyPara");
-        result.append(visitList(term.getZOnTheFlyPara(), "[", "\n", "]"));
-        result.append("\n\tMainAction=");
+        int paraCnt = term.getZLocalPara().size();
+        result.append("\nLocalPara(" + paraCnt + ")");
+        result.append(visitList(term.getZLocalPara(), "[\n", "\n", "]"));
+        int ontheflyCnt = term.getZOnTheFlyPara().size();
+        result.append("\nOnTheFlyPara(" + ontheflyCnt + ")");        
+        result.append(visitList(term.getZOnTheFlyPara(), "[\n", "\n", "]"));
+        result.append("\nMainAction=");
         result.append(visit(term.getMainAction()));
+        result.append("\nTotal paras=" + (paraCnt+ontheflyCnt));
         result.append("\n]\n");
         return result.toString();
     }
