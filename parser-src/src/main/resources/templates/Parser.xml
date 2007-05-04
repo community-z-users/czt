@@ -1217,17 +1217,21 @@ action code
     }
     
     private void warnProcessScopeMismatch(String msg, String from, LocInfo l) {
-        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+        final String msg2 = java.text.MessageFormat.format(
                 CircusParseMessage.MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING.getMessage(),  
-                new Object[] { msg, from, l.toString() }));            
+                new Object[] { msg, from, l.toString() });
+        CztLogger.getLogger(<class/>.class).warning(msg2);            
+        parserState_.addProcessScopeWarning(msg2, l);
     }
     
-    private void warnProcessScopeMissing(String msg, String from, LocInfo l) {            
+    private void warnProcessScopeMissing(String msg, String from, LocInfo l) {
         from = "(" + from + ")" + " outside basic process scope";
-        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+        final String msg2 = java.text.MessageFormat.format(
                 CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getMessage() +
                 CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING.getExplanation(),  
-                new Object[] { msg, from, l }));
+                new Object[] { msg, from, l });
+        CztLogger.getLogger(<class/>.class).warning(msg2);
+        parserState_.addProcessScopeWarning(msg2, l);
     }
     
     /**
@@ -1245,34 +1249,75 @@ action code
      * when the parsing task terminates at specification production.
      * &lt;p&gt;
      */    
-    protected void addBasicProcessScopePostCheckFor(String msg, LocInfo l) {
+    protected boolean addBasicProcessScopePostCheckFor(String msg, LocInfo l) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope();
         CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
             msg + "?: " + !result + " @ " + l.toString());
         if (!result) {
             final String msg2 = "Cannot declare " + msg;
             parserState_.addProcessScopeWarning(msg2, l);            
-        }        
+        }     
+        return result;
     }
     
-    protected void raisePendingBasicProcessScopeWarnings() {
-        raisePendingBasicProcessScopeWarnings("outside basic process scope");
+    /** Adds a warning for the case where circend is missing */
+    protected void addMultipleEnvBasicProcessCIRCENDWarning(Name procName, LocInfo loc) {
+        CztLogger.getLogger(<class/>.class).fine(
+            "ADDING PROCESS SCOPE POST CHECK FOR MULTIPLE ENV CIRCEND? : true @ " 
+            + loc.toString());      
+        parserState_.addProcessEndWarning(procName, loc);    
+    }
+
+    /** Removes warning for the case where circend is missing if procName match */
+    protected void removeMultipleEnvBasicProcessCIRCENDWarning(LocInfo circEndLoc) {
+        Pair&lt;Name, LocInfo&gt; pew = parserState_.getProcessEndWarning();
+        
+        // we are at multiple environment situation and found a CIRCEND
+        if (pew != null) {
+            assert checkProcessParaScope(pew.getSecond()) : 
+                "Cannot remove CIRCEND warning outside a process para scope";
+            if (parserState_.getProcessPara().getName().equals(pew.getFirst())) {
+                CztLogger.getLogger(<class/>.class).fine(
+                    "FOUND MATCHING CIRCEND FOR " + pew.getFirst() + " @ CIRCEND-LOC " + 
+                    circEndLoc.toString());
+                parserState_.clearSectBasicProcessEndWarning();
+            } else {
+                CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+                    CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getMessage() +
+                    CircusParseMessage.MSG_PROCESS_PARA_NAME_MISMATCH_FOR_CIRCEND_WARNIING.getExplanation(),
+                    new Object[] { pew.getFirst(), parserState_.getProcessPara().getName(),
+                      pew.getSecond(), circEndLoc }));                                        
+            }            
+        }
     }
     
-    protected void raisePendingBasicProcessScopeWarnings(String msg) {
-        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS AFTER POST CHECK: " + 
-            parserState_.getProcessScopeWarnings().size());        
+    protected void raisePendingBasicProcessWarnings(String from) {
+        raisePendingBasicProcessWarnings(from, "outside basic process scope");
+    }
+    
+    protected void raisePendingBasicProcessWarnings(String from, String msg) {
+        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS SCOPE WARNINGS (" + from + 
+            ") AFTER POST CHECK: " + parserState_.getProcessScopeWarnings().size());        
         for(Pair&lt;String, LocInfo&gt; p : parserState_.getProcessScopeWarnings()) {                        
             parser.report_error(CircusParseMessage.MSG_OUTSITE_BASIC_PROCESS_SCOPE_WARNING,  
                new Object[] { p.getFirst(), msg, p.getSecond() }, p.getSecond());
-        }        
+        }                
         parserState_.clearSectBasicProcessScopeWarnings();
+        
+        Pair&lt;Name, LocInfo&gt; pew = parserState_.getProcessEndWarning();
+        CztLogger.getLogger(<class/>.class).fine("PENDING PROCESS CIRCEND WARNING (" + from + 
+            ") AFTER POST CHECK?: " + (pew != null));
+        if (pew != null) {
+            parser.report_error(CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND,
+                new Object[] { pew.getFirst(), pew.getSecond() }, pew.getSecond());            
+        }            
+        parserState_.clearSectBasicProcessEndWarning();
     }
     
     /** Ensures the list of collected paragraphs is the same the one into parserState_ */
     protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, LocInfo loc) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp; 
-            parserState_.getLocallyDeclPara().containsAll(ipl);
+            parserState_.isKnownPara(ipl);
         CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT: " + result 
             + " @ " + loc);
         if (!result) {            
@@ -1702,7 +1747,7 @@ terminal LocInfo
         CIRCFI, CIRCDO, CIRCOD, CIRCVAR, CIRCVAL,
         CIRCRES, CIRCVRES, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
         CIRCNAMESET, CIRCPROC, CIRCBEGIN, CIRCEND, CIRCSTATE,
-        CIRCSKIP, CIRCSTOP, CIRCCHAOS, _CIRCIF, 
+        CIRCSKIP, CIRCSTOP, CIRCCHAOS, _CIRCIF, CIRCASSERTREF,
         
         /* Note:
          *
@@ -1985,7 +2030,8 @@ non terminal DeclList
 non terminal Para
     channelPara,
     channelSetPara,
-    refinementPara,        
+    processRefPara,
+    actionRefPara,
     namesetPara, 
     circusProcessState,
     singleCircusParagraphItem,    
@@ -2340,7 +2386,7 @@ specification ::=
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>               
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
-               raisePendingBasicProcessScopeWarnings();
+               raisePendingBasicProcessWarnings("SPECIFICATION PRODUCTION");
            </add:circus>
         :}
         |
@@ -2417,7 +2463,7 @@ section ::=
            
            <add:circus>               
                logProductionResult(pl, "SECTION[" + header.getName() + "]-PL", getLocation(RESULT));
-               raisePendingBasicProcessScopeWarnings();
+               raisePendingBasicProcessWarnings("SECTION PRODUCTION");
            </add:circus>
         :}
         ;
@@ -3064,7 +3110,7 @@ singleCircusParagraphItem ::=
         processPara:pp
         {: RESULT = pp; :}       
         |
-        refinementPara:rp
+        processRefPara:rp
         {: RESULT = rp; :}                
         ;
 
@@ -3183,6 +3229,14 @@ circusInnerProcPara ::=
            if (!parserState_.isImplicitlyDeclaredActionPara(ap)) {
                parserState_.addLocallyDeclPara(RESULT);
            }           
+        :}
+        |
+        actionRefPara:rp
+        {:
+           RESULT = rp;           
+           // raise a scoping warning if needed
+           addBasicProcessScopePostCheckFor("action refinement paragraph", getLocation(rp));
+           parserState_.addLocallyDeclPara(RESULT);           
         :}
         ;        
         
@@ -3417,7 +3471,7 @@ channelSet ::=
         ;
       
 /// Process Paragraphs ////////////////////////////////      
-  
+
 processPara ::=
         /* Process declaration */
         CIRCPROC:cp optFormalParameters:ofp name:n CIRCDEF processDesc:pd
@@ -3443,10 +3497,7 @@ processPara ::=
                   // post check warning in case the process is not 
                   // properly closed. Such warnings are cleared whenever
                   // a process scope is properly closed.
-                  final String msg = "Missing enclosing CIRCEND for multiple environment basic process " + n;
-                  parserState_.addProcessScopeWarning(msg, loc);
-                  CztLogger.getLogger(<class/>.class).fine("ADDING PROCESS SCOPE POST CHECK FOR " + 
-                      msg + "?: true @ " + loc.toString());                      
+                  addMultipleEnvBasicProcessCIRCENDWarning(n, loc);
            } else {           
               // Otherwise, for either single environment basic process or
               // process paragraphs that are not basic processes, create a
@@ -3470,9 +3521,8 @@ processPara ::=
            final String from = "MULTIPLE ENVIRONMENT END";
            LocInfo loc = getLocation(endleft, endright);
            
-           if (!parserState_.isWithinMultipleEnvBasicProcessScope()) {
-                warnProcessScopeMismatch("CIRCEND", from, loc);
-           }
+           // if there is no scope add warning.            
+           addBasicProcessScopePostCheckFor("MULTIPLE ENVIRONMENT END", loc);              
            
            //Name pn = null;
            //NameList gen = null;
@@ -3495,6 +3545,10 @@ processPara ::=
               RESULT = parserState_.getProcessPara();
               RESULT.setCircusProcess(bp);  
               
+              // if we have a ProcessPara, the CIRCEND warning 
+              // should be removed provided the procName is the same              
+              removeMultipleEnvBasicProcessCIRCENDWarning(loc);
+              
               // This was creating a duplicated entry into section level for processpara
               //RESULT = factory_.createProcessPara(pn, gen, bp);
            } else {
@@ -3511,7 +3565,7 @@ processPara ::=
            
            // if there were any warning collected for the list of paragraphs
            // declared outside the multiple environment scope, raise then
-           raisePendingBasicProcessScopeWarnings();
+           raisePendingBasicProcessWarnings(from);
         :}
         
         /* NOTE: If no processDesc catches the error, this production covers it */
@@ -4120,7 +4174,7 @@ circusBasicProcess ::=
             // if there were any warning collected for the list of paragraphs
             // declared outside the multiple environment scope, raise then.
             // there should be none, since this is already just a main action.
-            raisePendingBasicProcessScopeWarnings();
+            raisePendingBasicProcessWarnings(from);
         :}
         |
         CIRCBEGIN:cb circusInnerProcParaList:ipl circusBasicProcessMainAction:ca CIRCEND:ce
@@ -4160,10 +4214,9 @@ circusBasicProcess ::=
            }
            //logProductionResult(RESULT, "RESULT-VAR FROM " + from + " AFTER PARSER SCOPE EXIT", loc);
            
-           
            // if there were any warning collected for the list of paragraphs
            // declared outside the multiple environment scope, raise then.           
-           raisePendingBasicProcessScopeWarnings();           
+           raisePendingBasicProcessWarnings(from);           
         :}        
         ;        
 
@@ -4801,8 +4854,16 @@ nameSubstitution ::=
         :}
         ;        
         
-refinementPara ::=
-        LCIRCGUARD circusAction:spec refines:r circusAction:impl RCIRCGUARD
+processRefPara ::=
+        CIRCASSERTREF process:spec refines:r process:impl
+        {:
+           RESULT = factory_.createRefinementConjPara(spec, impl, r);
+           addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
+        :}
+        ;
+        
+actionRefPara ::=
+        CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
         {:
            RESULT = factory_.createRefinementConjPara(spec, impl, r);
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
