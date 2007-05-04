@@ -122,7 +122,7 @@ public class <class/>
                 /* Sym.CIRCIF, // removed, see Parser.xml terminal section for an explanation */
                 Sym.CIRCDO, Sym.CIRCVAR, Sym.CIRCVAL,
                 Sym.CIRCRES, Sym.CIRCVRES, Sym.CIRCCHAN, Sym.CIRCCHANFROM, 
-                Sym.CIRCCHANSET, Sym.CIRCNAMESET, Sym.CIRCPROC,
+                Sym.CIRCCHANSET, Sym.CIRCNAMESET, Sym.CIRCPROC, Sym.CIRCASSERTREF,
                 
                 Sym.LCIRCCHANSET, Sym.CIRCLINST, Sym.LCIRCGUARD, 
                 Sym.LSCHEXPRACT, Sym.LCIRCRENAME, Sym.CIRCSTATE, Sym.CIRCBEGIN

@@ -102,6 +102,7 @@ action code
     map.put(CircusString.CIRCCHANSET, new LatexCommand("\\circchannelset\\", , false, true));    
     map.put(CircusString.CIRCNAMESET, new LatexCommand("\\circnameset\\", , false, true));    
     map.put(CircusString.CIRCPROC, new LatexCommand("\\circprocess\\", , false, true));        
+    map.put(CircusString.CIRCASSERTREF, new LatexCommand("\\circassertref\\", , false, true));        
     map.put(CircusString.CIRCBEGIN, new LatexCommand("\\circvar\\", , false, true));
     map.put(CircusString.CIRCSTATE, new LatexCommand("\\circvar\\", , false, true));
     map.put(CircusString.CIRCREPINTERLEAVE, new LatexCommand("\\circvar\\", , false, true));
