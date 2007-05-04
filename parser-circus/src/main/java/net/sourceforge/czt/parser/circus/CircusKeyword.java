@@ -73,6 +73,7 @@ public enum CircusKeyword implements Token {
   CIRCCHANSET(CircusString.CIRCCHANSET),    /* \\circchannelset , channelset  */
   CIRCNAMESET(CircusString.CIRCNAMESET),    /* \\circnameset    , nameset     */
   CIRCPROC(CircusString.CIRCPROC),          /* \\circprocess    , process     */
+  CIRCASSERTREF(CircusString.CIRCASSERTREF),/* \\circassertref  , assert      */
   CIRCBEGIN(CircusString.CIRCBEGIN),        /* \\circbegin      , begin       */
   CIRCSTATE(CircusString.CIRCSTATE),        /* \\circstate      , state       */
   REPINTERLEAVE(CircusString.REPINTERLEAVE),/* \\Interleave     , U+2AFC      */   
