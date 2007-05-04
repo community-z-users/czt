@@ -2574,7 +2574,7 @@ paragraphList ::=
                     addBasicProcessScopePostCheckFor(msg, getLocation(p));
                     parserState_.addLocallyDeclPara(p);                            
                 } else {                
-                    //assert parserState_.isZPara(para);                        
+                    //assert ZUtils.isZPara(para);                        
                     parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
                         new Object[] { StrUtils.stripPackage(p.getClass()), loc }, loc);
                 }
@@ -2673,7 +2673,7 @@ unboxedParagraphList ::=
                 while (it.hasNext()) {
                     Para para = it.next();
                     loc = getLocation(para);
-                    add = parserState_.isZPara(para);
+                    add = ZUtils.isZPara(para);
                     if (para instanceof AxPara) {
                         AxPara p = (AxPara)para;
                         NameList nl = ZUtils.getAxParaGenFormals(p);
