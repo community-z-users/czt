@@ -55,6 +55,7 @@ public interface CircusString extends ZString
   String CIRCCHANSET = "channelset";
   String CIRCNAMESET = "nameset";  
   String CIRCPROC = "process";
+  String CIRCASSERTREF = "assert";
   String CIRCBEGIN = "begin";
   String CIRCEND = "end";
   String CIRCSTATE = "state";
