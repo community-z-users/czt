@@ -26,7 +26,8 @@ public enum CircusConcreteSyntaxSymbol
   CHANNEL_PARA("Channel paragraph"),
   CHANNELSET_PARA("Channel set paragraph"),
   PROCESS_PARA("Process paragraph"),
-  REFINEMENT_CONJ_PARA("Refinement conjecture paragraphs"),
+  PROCESS_REF_CONJ_PARA("Process refinement conjecture paragraph"),
+  ACTION_REF_CONJ_PARA("Action refinement conjecture paragraph"),
   
   /* Action level paragraphs */  
   ACTION_PARA("Action paragraph"),

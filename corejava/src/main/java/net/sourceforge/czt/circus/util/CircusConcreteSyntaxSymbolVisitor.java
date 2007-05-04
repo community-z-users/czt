@@ -77,8 +77,12 @@ public class CircusConcreteSyntaxSymbolVisitor
        return null;
     }
     
-    public CircusConcreteSyntaxSymbol visitRefinementConjPara(RefinementConjPara term) {
-        return CircusConcreteSyntaxSymbol.REFINEMENT_CONJ_PARA;
+    public CircusConcreteSyntaxSymbol visitProcessRefConjPara(ProcessRefConjPara term) {
+        return CircusConcreteSyntaxSymbol.PROCESS_REF_CONJ_PARA;
+    }
+    
+    public CircusConcreteSyntaxSymbol visitActionRefConjPara(ActionRefConjPara term) {
+        return CircusConcreteSyntaxSymbol.ACTION_REF_CONJ_PARA;
     }
     
     public CircusConcreteSyntaxSymbol visitLetVarAction(LetVarAction term) {
