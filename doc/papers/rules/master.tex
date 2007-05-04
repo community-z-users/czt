@@ -175,26 +175,26 @@ if all the antecedents are true.
 For example, the \emph{Funct} rule from the $\V$
 logic~\cite{brien:calculus-schemas-z00} might be written as follows:
 \begin{zedrule}{Funct}
-  \exists_1 x:f @ x.1 = e \\
-  x \notfreein e
+  \exists_1 x:F @ x.1 = E \\
+  \proviso x \notfreein E
 \derives
-  y=f(e) \iff (e,y) \in f
+  Y=F(E) \iff (E,Y) \in F
 \end{zedrule}
 
 The \LaTeX\ input for this rule is:
 \begin{verbatim}
 \begin{zedrule}{Funct}
-  \exists_1 x:f @ x.1 = e \\
-  x \notfreein e
+  \exists_1 x:F @ x.1 = E \\
+  x \notfreein E
 \derives
-  y=f(e) \iff (e,y) \in f
+  Y=F(E) \iff (E,Y) \in F
 \end{zedrule}
 \end{verbatim}
 while the Unicode form of the rule is similar to the typeset form.
 
 It is also necessary to declare which names are metavariables
 (jokers) and which syntactic roles they play.  For example, in
-this $Funct$ rule, the $e,f$ and $y$ names stand for arbitrary
+this $Funct$ rule, the $E,F$ and $Y$ names stand for arbitrary
 expressions (we call them \emph{expression jokers}), whereas the $x$
 is a concrete bound variable name.  In the ZedRules notation, each
 joker name must be declared before it is used in rules.  For example,
