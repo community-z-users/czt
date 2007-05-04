@@ -159,9 +159,9 @@ useful for schema unfolding.
 \section{Rule Syntax and Semantics} \label{sec:syntax}
 
 This section describes the syntax and semantics of ZedRules.  We add
-three new kinds of Z paragraph to the Z standard notation, one for
-rules, one for jokers, and one for oracles.  The ideas in this section
-are not specific to CZT and could be adopted by other Z tools.
+two new kinds of Z paragraphs to the Z standard notation, one for
+rules and one for jokers.  The ideas in this section are not specific
+to CZT and could be adopted by other Z tools.
 
 \subsection{Syntax}
 
@@ -206,6 +206,24 @@ $v$ to be a name joker.
 \begin{zedjoker}{DeclList} D1 \end{zedjoker}
 \begin{zedjoker}{Name} v \end{zedjoker}
 
+We can group joker declarations and rules together by writing them
+within one Z section.  The Z standard \textbf{parents} commands can
+then be used to inherit one set of rules into another.  Note that,
+since joker declarations and rule paragraphs start with \LaTeX\
+commands that are not part of the Z standard, they will be treated as
+narrative text by other Z tools, and ignored.  This allows us to embed
+rules within Z specifications, but retain backwards compatibility with
+Z tools that do not use the ZedRules notation.
+
+Currently, the scope of a joker is within all rule paragraphs of the
+section in which it appears and of which it is an ancestor.  In the
+future, we plan to declare them locally to a rule paragraph instead.
+Global jokers are very concise (need to be declared just once) but are
+less flexible because once a joker is declared, it reserves the name
+forever, making that name unusable as an ordinary Z name.
+
+\subsection{Provisos}
+
 Most logics contain rules with side conditions, which check various
 syntactic properties of the terms in the rule.  The most common
 example is checking that a certain name~$n$ is not free in a given
@@ -214,38 +232,11 @@ convenient way, it is also useful to be able to check properties of
 signatures, distinguish between the different kinds of decorations on
 names, etc.
 
-The ZedRules notation provides oracles to support this kind of
-reasoning.  An oracle is able to decide whether certain predicates are
-true.  The predicates that an oracle can decide are described by an
-oracle paragraph.  An oracle paragraph is introduced by the keyword
-\emph{oracle} followed by a unique name for the oracle, and consists
-of a Standard Z predicate extended with jokers.  For example, the
-\LaTeX\ input to describe an oracle that verifies that a name is not
-free in a given expression is:
-\begin{verbatim}
-\begin{zedoracle}{NotFreeInOracle}
-  v \notfreein e
-\end{zedoracle}
-\end{verbatim}
-where $e$ is an expression joker and $v$ is a name joker.
-
-We can group joker declarations, rules, and oracles together by
-writing them within one Z section.  The Z standard \textbf{parents}
-commands can then be used to inherit one set of rules and oracles into
-another.  Note that, since joker declarations and rule and oracle
-paragraphs start with \LaTeX\ commands that are not part of the Z
-standard, they will be treated as narrative text by other Z tools, and
-ignored.  This allows us to embed rules within Z specifications, but
-retain backwards compatibility with Z tools that do not use the
-ZedRules notation.
-
-Currently, the scope of a joker is within all rule and oracle
-paragraphs of the section in which it appears and of which it is an
-ancestor.  In the future, we plan to declare them locally to a rule or
-oracle paragraph instead.  Global jokers are very concise (need to be
-declared just once) but are less flexible because once a joker is
-declared, it reserves the name forever, making that name unusable as
-an ordinary Z name.
+The ZedRules notation provides provisos to support this kind of
+reasoning.  These are Standard Z predicates extended with jokers, but
+they are prefixed by a special `keyword' \verb!\proviso! (displayed as
+$\proviso$ when typeset -- this is the U+25B8 character in Unicode) to
+improve readability and avoid syntactic ambiguity.
 
 \subsection{Semantics}
 
@@ -259,15 +250,33 @@ may use a different implementation technology (for example, an
 interpreter that applies the rules or a compiler that transforms a set
 of rules into code).
 
-We now define the semantics of a rule $R$ with antecedents $A_1
-\ldots A_n$ and conclusion $C$ as follows.
+Each proviso evaluates to $PASS$ or $NOT\_PASS$.  All provisos must
+satisfy the following property.  The value of the proviso must be
+monotonic with respect to the instantiation of jokers.  For example,
+given the proviso $\proviso x \notfreein E$, it is not acceptable for
+the proviso to return $PASS$ when $E$ is a joker, but then return
+$NOT\_PASS$ after $E$ is instantiated.  In fact, this property implies
+that when a proviso $x \notfreein E$ contains a joker in $E$, either
+the proviso must return $NOT\_PASS$, or the proviso must add
+constraints to the joker to ensure that it can never be instantiated
+to contain a free $x$.  The CZT implementation of ZedRules takes the
+former approach.  The latter approach is more powerful, but also more
+complex to implement.
+
+We can now define the semantics of a rule $R$ with antecedents $A_1
+\ldots A_n$ and conclusion $C$.  Since the order of the antecedents is
+not semantically important, we can sort the antecedents into $Q_1
+\ldots Q_k, Pr_{k+1} \ldots Pr_n$ where $k \in 0 \upto n$, so that the
+normal predicate antecedents $Q_i$ come before the provisos $Pr_i$.
 \begin{defn} %{ValidRule}
-  A rule $R$ is valid iff for every ground instantiation of
-  all the jokers in the rule,
+  Given a Z specificaton.  A rule $R$ is valid iff for every ground
+  instantiation of all the jokers in the rule such that
+  all the provisos $Pr_{k+1} \ldots Pr_n$ evaluate to $PASS$ and
   \[
-       A_1 \land \ldots \land A_n \implies C
+       Q_1 \land \ldots \land Q_k \implies C
   \]
-  is a valid theorem according to the Z standard semantics.
+  is well-typed we have that $Q_1 \land \ldots \land Q_k \implies C$
+  is {\it true} according to the Z standard semantics.
 \end{defn}
 
 The authors of rules are responsible for ensuring that each rule they
@@ -299,28 +308,38 @@ reasons:
 \end{enumerate}
 
 
-\subsection{Oracles}
+\subsection{Provisos}
 
-An oracle is Java code that is able to decide that a certain Z
-predicate is true.  The given predicate may contain jokers, in which
-case the oracle may provide instantiations under which the predicate
-becomes true.  The answer of an oracle must be consistent with the Z
-semantics: If an oracle declares a predicate to be true then, for
-every ground instantiation of the jokers, this predicate must be a
-valid theorem according to the Z standard semantics.
+The following provisos have been implemented.
 
-To ensure that proofs can be recorded and replayed, the answer of an
-oracle should be monotonic with respect to the instantiations of
-jokers.  For example, it is not acceptable for an oracle to return
-true for predicate~$p$ and false for predicate~$q$ where $q$ is an
-instantiation of~$p$.
+\begin{description}
+\item[Type:] $\proviso Expr :: Expr$.  This calculates the type of the
+  left-hand expression and unifies the corresponding carrier set with
+  the right-hand expression.
 
-The above properties imply that the oracle $x \notfreein E$ must not
-return true if there is an unbound joker in $E$, or the oracle must
-add constraints to the joker to ensure that it can never be
-instantiated to contain a free $x$.  The CZT implementation of
-ZedRules takes the former approach.  The latter approach is more
-powerful, but also more complex to implement.
+\item[Calculate:] $\proviso Expr \is Expr$.  This calculates the
+  left-hand expression, then unifies the result with the right-hand
+  expression.  $E1$ can contain only a very restricted set of
+  operators for manipulating names and declaration lists.  We will see
+  examples of these operators in the following section.
+
+\item[Check:] $\proviso Name \notfreein Term$.  This checks that the
+  given $Name$ does not appear in $Term$.  This is useful for logics
+  in which not-free-in conditions are handled at the meta-level.  Note
+  that in the $\V$ logic, the not-free-in operator is an object-level
+  relation, so $x \notfreein e$ is a normal predicate rather than a
+  proviso.
+
+\item[Lookup:] $\proviso Name \hasDefn Expr$.  This searches for a
+  matching declaration in the current Z section and its ancestor
+  sections.  It provides a way of looking up definitions so that they
+  can be used to unfold expressions.  The left-hand side $Name$ can
+  also be a reference expression, which is a name plus a list of
+  expressions -- this allows generic definitions to be instantiated
+  and unfolded.  In the future we plan to expand this proviso, so that
+  rules can query other kinds of Z paragraphs, such as the
+  declarations and predicates within axiomatic definitions.
+\end{description}
 
 
 \subsection{An Interactive Prover}
@@ -338,26 +357,26 @@ has been applied to a node, it can have children (instantiations of
 the antecedents of the rule).  An icon indicates whether a node has
 been proven (\ding{52}) or still needs to be proven ({\bf ?}).
 
-The user can manipulate the proof tree by applying rules or oracles
-and undoing rule and oracle applications.  Clicking on a node will pop
-up a menu offering the choices available for that particular node.
-For example, the menu for predicates to which a rule or oracle has
-already been applied offers the option of undoing this application.
-The menu for predicates to which no rule has been applied offers the
-choice of ``Auto prove'' or to apply one of the matching rules or
-oracles.  It also has a ``Why not'' submenu, which lists all the rules
-and oracles that cannot be applied.  By selecting one of those, the
-user gets detailed debugging information about why the unification of
-the selected predicate and the conclusion of a particular rule or
-oracle failed.
+The user can manipulate the proof tree by applying rules, evaluating
+provisos, and undoing rule and proviso applications.  Clicking on a
+node will pop up a menu offering the choices available for that
+particular node.  For example, the menu for predicates to which a rule
+has already been applied offers the option of undoing this
+application.  The menu for predicates to which no rule has been
+applied offers the choice of ``Auto prove'' or to apply one of the
+matching rules.  It also has a ``Why not'' submenu, which lists all
+the rules that cannot be applied.  By selecting one of those, the user
+gets detailed debugging information about why the unification of the
+selected predicate and the conclusion of a particular rule or oracle
+failed.
 
 To provide the submenus ``Apply'' and ``Why not'', the prover goes
-through all the known rules and oracles and tries to apply them to the
-current predicate.  If this test application suceeds, the
-corresponding rule or oracle name is added into the ``Apply''
-submenu; if it fails, the name is added into the ``Why not''
-submenu.  While this approach might be too inefficient and slow for
-large rule sets, it has been very helpful for our purposes.
+through all the known rules and tries to apply them to the current
+predicate.  If this test application suceeds, the corresponding rule
+or oracle name is added into the ``Apply'' submenu; if it fails, the
+name is added into the ``Why not'' submenu.  While this approach might
+be too inefficient and slow for large rule sets, it has been very
+helpful for our purposes.
 
 The ``Auto prove'' menu entry calls the automated prover described in
 the next section.  If a proof is found, the resulting proof tree is
@@ -377,17 +396,17 @@ next.
 
 This tool is a Java class (called SimpleProver) that provides a
 depth-first search method that can be used to find proofs
-automatically.  Given a predicate, it tries to apply the rules and
-oracles in the order they appear in the Z specification.  If the
-conclusion of a rule can be unified with the predicate, the resulting
-joker instantiations are recorded and a sequence of new subgoals is
-created from the antecedents of the rule (taking the joker
-instantiations into account) and attempted to be proven next (in the
-order provided by the rule).  If proving the new subgoals fails, the
-other rules and oracles are tried instead.  If an oracle application
-succeeds, the code for checking the predicate is executed next.  If
-this succeeds, the predicate is considered to be proven, otherwise the
-proof search is continued by trying to apply other rules and oracles.
+automatically.  Given a predicate, it tries to apply the rules in the
+order they appear in the Z specification.  If the conclusion of a rule
+can be unified with the predicate, the resulting joker instantiations
+are recorded and a sequence of new subgoals is created from the
+antecedents of the rule (taking the joker instantiations into account)
+and attempted to be proven next (in the order provided by the rule).
+If proving the new subgoals fails, the other rules are tried instead.
+If an oracle application succeeds, the code for checking the predicate
+is executed next.  If this succeeds, the predicate is considered to be
+proven, otherwise the proof search is continued by trying to apply
+other rules instead.
 
 Note that this simple prover uses a shallow backtracking algorithm and
 therefore might fail to find a proof even if there exists one.  If a
@@ -449,107 +468,6 @@ We start by declaring the jokers used in the rules in this section.
 \begin{zedjoker}{Expr} C, E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 
-Next we explain the oracles used.  We start with the type oracle that
-can decide and compute the type of a given expression.  The syntax of
-the oracle uses a relation defined as follows.
-
-\begin{zed}
-  \relation ( \_ :: \_ )
-\end{zed}
-
-\begin{gendef}{E1,E2}
-  \_ :: \_ : E1 \rel E2
-\end{gendef}
-
-The type oracle gets an expression~$E$ and a carrier set~$C$ (that is,
-a Z expression that corresponds to a Z base type) and checks that the
-type of~$E$ corresponds to $C$.
-
-\begin{zedoracle}{TypeOracle}
-  E :: C
-\end{zedoracle}
-
-Note that $C$ is typically a joker, or contains jokers, in which case
-the oracle calculates the carrier set rather than just checking it.
-
-The lookup oracle searches for a matching ConstDecl in the current Z
-section and its ancestor sections.  It provides a way of looking up
-definitions so that they can be used to unfold expressions.  The
-left-hand side is usually a reference expression, which is a name plus
-a list of expressions -- this allows generic definitions to be
-instantiated and unfolded.  In the future we plan to expand this
-lookup syntax, so that rules can query other kinds of Z paragraphs,
-such as the declarations and predicates within axiomatic definitions.
-
-\begin{zed}
-  \relation (\_ \hasDefn \_)
-\end{zed}
-
-\begin{gendef}{E}
-  \_ \hasDefn \_ : E \rel E
-\end{gendef}
-
-\begin{zedoracle}{LookupOracle}
-  E1 \hasDefn E2
-\end{zedoracle}
-
-Calculate oracles use the relation $\is$ defined below.  They usually
-calculate the left-hand side and then unify the result with the
-left-hand expression.
-
-\begin{zed}
-  \relation (\_ \is \_)
-\end{zed}
-
-\begin{gendef}{E1,E2}
-  \_ \is \_ : E1 \rel E2
-\end{gendef}
-
-An example is the schmema prime oracle that decorates a normalised
-schema~$E$ and unifies the result of that computation with~$E2$.  Note
-that this is less general than decorating an arbitrary schema
-expression.
-
-\begin{zedoracle}{SchemaPrimeOracle}
-  E~' \is E2
-\end{zedoracle}
-
-Oracles for the other kinds of decorations can be given similarily.
-
-The calculate theta oracle computes a binding expression from a theta
-expression.  For example, $\theta~[x,y:\nat] \is \lblot x==x,y==y
-\rblot$.
-
-\begin{zedoracle}{CalculateThetaOracle}
-  \theta E \is E2
-\end{zedoracle}
-
-The $\schemaminus$ oracle subtracts one signature from another.  That
-is, $D3$ will contain all the declarations that appear in $D1$ but do
-not appear in $D2$.
-
-\begin{zedoracle}{SchemaMinusOracle}
-  [D1|true] \schemaminus [D2|true] \is [D3|true]
-\end{zedoracle}
-
-The $\unprefix$ oracle removes a word $v1$ from the front of the name
-$v2$ and unifies the resulting name with $v3$.  It fails if $v2$ does
-not start with $v1$.
-
-\begin{zedoracle}{UnprefixOracle}
-  v1 \unprefix v2 \is v3
-\end{zedoracle}
-
-The split names oracles splits the names in a declaration list into
-four groups according to their final decoration.  For example,
-$[x, x', y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land [y:T]!$
-
-\begin{zedoracle}{SplitNamesOracle}
-  (split [D|true]) \is ([D1|true]? \land [D2|true] \land [D3|true]' \land
-                       [D4|true]!)
-\end{zedoracle}
-
-
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
 operators: $\sexprUnfoldsTo$ and $\declListUnfoldsTo$.  
@@ -607,21 +525,21 @@ course, in the interactive prover, the user could choose to apply either
 rule when $E$ is a carrier set.
 
 \begin{zedrule}{VarDecl1}
-   E :: \power E \\
+   \proviso E :: \power E \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E; D2 |  P2]
 \end{zedrule}
 
 \begin{zedrule}{VarDecl2}
-   E :: \power E2 \\
+   \proviso E :: \power E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v:E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v \in E \land P2]
 \end{zedrule}
 
 \begin{zedrule}{ConstDecl}
-   E :: E2 \\
+   \proviso E :: E2 \\
    [D1 | true] \declListUnfoldsTo [D2 | P2]
 \derives
    [v==E; D1 | true] \declListUnfoldsTo [v:E2; D2 |  v = E \land P2]
@@ -635,7 +553,7 @@ mutually recursive.
 \begin{zedrule}{IncludeDecl}
    E \sexprUnfoldsTo [D1 | P1] \\
    [D | true] \declListUnfoldsTo [D2 | P2] \\
-   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] 
+   \proviso ([D1 | true] \land [D2 | true]) :: \power [D3 | true] 
 \derives
    [E; D | true] \declListUnfoldsTo [D3 |  P1 \land P2]
 \end{zedrule}
@@ -654,24 +572,24 @@ schema construction ($[Decls|Preds]$, where the types in $Decls$
 are only carrier sets).
 
 The TopLevel rule is an equality rewrite rule for expressions.  The
-type oracle ensures that it is applicable only when $E$ is a schema
+type proviso ensures that it is applicable only when $E$ is a schema
 expression.  The last antecedent uses the $\sexprUnfoldsTo$ rules in
 this section to rewrite $E$ to $[D | P]$.
 
 \begin{zedrule}{TopLevel}
-  E :: \power [D2 | true] \\
+  \proviso E :: \power [D2 | true] \\
   E  \sexprUnfoldsTo [D | P]
 \derives
   E = [D | P]
 \end{zedrule}
 
 The Theta rule rewrites expressions into a binding.  The type
-oracle is used to calculate the signature of $E$, then the theta
-oracle generates the appropriate binding expression from that
+proviso is used to calculate the signature of $E$, then the theta
+proviso generates the appropriate binding expression from that
 signature.
 \begin{zedrule}{Theta}
-  E :: \power [D | true] \\
-  \theta [D | true] \is E2
+  \proviso E :: \power [D | true] \\
+  \proviso \theta [D | true] \is E2
 \derives
   \theta E = E2
 \end{zedrule}
@@ -685,8 +603,8 @@ notation to support Stroke-List jokers, so that all decoration lists can
 be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
-  E :: \power [D | true] \\
-  \theta [D | true] ' \is E2
+  \proviso E :: \power [D | true] \\
+  \proviso theta [D | true] ' \is E2
 \derives
   \theta E~' = E2
 \end{zedrule}
@@ -707,12 +625,12 @@ the predicate part.
   [D1 | P] \sexprUnfoldsTo [D2 | P2 \land P]
 \end{zedrule}
 
-The SchemaRef rule uses the lookup oracle to unfold schema names
+The SchemaRef rule uses the lookup proviso to unfold schema names
 ($E$ may specify an instantiation of a generic schema).  
 The result of the lookup
 is then normalised to obtain the overall result.
 \begin{zedrule}{SchemaRef}
-  E \hasDefn E2 \\
+  \proviso E \hasDefn E2 \\
   E2 \sexprUnfoldsTo [D2 | P2]
 \derives
   E \sexprUnfoldsTo [D2 | P2]
@@ -724,33 +642,33 @@ SchemaRef rule would have unfolded it.  There is a similar rule for
 $\Xi$ schema names.
 
 \begin{zedrule}{DeltaRef}
-  \Delta \unprefix v \is v2 \\
+  \proviso \Delta \unprefix v \is v2 \\
   [v2; v2~'] \sexprUnfoldsTo [D1|P1]
 \derives
   v \sexprUnfoldsTo [D1|P1]
 \end{zedrule}
 
 
-The SchemaPrime rule uses the schema prime oracle to decorate a
+The SchemaPrime rule uses the schema prime proviso to decorate a
 normalised schema.  Note that we also currently need thirteen versions
 of this next rule -- one for each possible decoration.
 
 \begin{zedrule}{SchemaPrime}
    E \sexprUnfoldsTo [D1 | P1] \\
-   [D1|P1]~' \is [D2|P2] \\
+   \proviso [D1|P1]~' \is [D2|P2] \\
 \derives
    E~' \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
-The type oracle in the ExistsSchema rule checks that $D1$ and $D2$ are
-type compatible.  The $\schemaminus$ oracle subtracts $D1$ from~$D2$.
+The type proviso in the ExistsSchema rule checks that $D1$ and $D2$ are
+type compatible.  The $\schemaminus$ proviso subtracts $D1$ from~$D2$.
 The rule for schema $\forall$ is similar.
 
 \begin{zedrule}{ExistsSchema}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
-   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
-   ([D2|true] \schemaminus [D1|true]) \is [D4|true]
+   \proviso ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
+   \proviso ([D2|true] \schemaminus [D1|true]) \is [D4|true]
 \derives
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
 \end{zedrule}
@@ -765,13 +683,13 @@ normalised before their predicate is negated.
 \end{zedrule}
 
 The SchemaConjunction rule is straightforward -- it uses a type
-oracle to check that the signatures of the two schemas are compatible.
+proviso to check that the signatures of the two schemas are compatible.
 The schema disjunction, implication and equivalence rules are similar.
 
 \begin{zedrule}{SchemaConjunction}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
-  ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
+  \proviso ([D1 | true] \land [D2 | true]) :: \power [D3 | true]
 \derives
   (E1 \land E2) \sexprUnfoldsTo [D3 | P1 \land P2]
 \end{zedrule}
@@ -783,27 +701,31 @@ Any other names that are declared in $E1$ are hidden existentially.
 \begin{zedrule}{SchemaProjection}
   E1 \sexprUnfoldsTo [D1 | P1] \\
   E2 \sexprUnfoldsTo [D2 | P2] \\
-  ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
-  ([D3 | true] \schemaminus [D2 | true]) \is [D4 | true]
+  \proviso ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
+  \proviso ([D3 | true] \schemaminus [D2 | true]) \is [D4 | true]
 \derives
   E1 \project E2 \sexprUnfoldsTo [D2 | (\exists D4 @ P1 \land P2)]
 \end{zedrule}
 
-To calculate the precondition of a schema, we must existentially
-hide all the output names, such as $x!$ or $x'$.  The $postnames$ 
-operator in the following rule takes a normalised schema as input and
-returns (in $D2$) just the declarations whose names have a final decoration 
-of $!$ or $'$.  These names are removed from $D4$, so that $D3$ contains 
-only the declarations of names that should appear in the precondition, 
-such as $x$, $x?$ and $x_2$.
+To calculate the precondition of a schema, we must existentially hide
+all the output names, such as $x!$ or $x'$.  The $split$ operator in
+the following rule takes a declaration list and splits the names into
+four groups according to their final decoration.  (For example, $[x,
+x', y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land
+[y:T]!$.)
+
+The declarations whose names have no decorations or a final decoration
+of $?$ are collected in $D1$, while declarations whose names have a
+final decoration of $!$ or $'$ are collected in $D2$.
 
 \begin{zedrule}{SchemaPrecondition}
   E \sexprUnfoldsTo [D4 | P2] \\
-  (split [D4|true]) \is ([D6|true]? \land [D7|true]' \land
-                        [D8|true]! \land [D9|true]) \\
-  ([D6|true]? \land [D9|true]) :: \power [D1|true]
+  \proviso (split [D4|true]) \is ([D6|true]? \land [D7|true] \land
+                                  [D8|true]' \land [D9|true]! ) \\
+  \proviso ([D6|true]? \land [D7|true]) :: \power [D1|true] \\
+  \proviso ([D8|true]' \land [D9|true]!) :: \power [D2|true]
 \derives
-  \pre E \sexprUnfoldsTo [ D1 | (\exists ([D7|true]' \land [D8|true]!) @ P2)]
+  \pre E \sexprUnfoldsTo [ D1 | (\exists [D2|true] @ P2)]
 \end{zedrule}
 
 Schema composition is one of the most complex schema operators.
@@ -811,17 +733,17 @@ Note that $\bowtie$ is a special decoration that cannot be entered by
 users.
 
 \begin{zedrule}{SchemaComposition}
-  E1 :: \power [D1 | true] \\
-  E2 :: \power [D2 | true] \\
-  (split [D1|true]) \is ([D6|true]? \land [D4|true]' \land
-                        [D8|true]! \land [D9|true]) \\
-  ([D4 | true] \schemaminus [D2 | true]) \is E5\\
-  ([D4 | true] \schemaminus E5) \is E6 % matching names
+  \proviso E1 :: \power [D1 | true] \\
+  \proviso E2 :: \power [D2 | true] \\
+  (split [D1|true]) \is ([D3|true]? \land [D4|true] \land [D5|true]' \land
+                         [D6|true]! ) \\
+  ([D5 | true] \schemaminus [D2 | true]) \is E6\\
+  ([D5 | true] \schemaminus E6) \is E7 % matching names
 \derives
   E1 \semi E2 =
-  (\exists E6~{}^{\bowtie} @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~{}^{\bowtie}])
-                   \land
-                   (\exists E6   @ [E2 | \theta E6   = \theta E6~{}^{\bowtie}]))
+  (\exists E7~{}^{\bowtie} @ (\exists E7~' @ [E1 | \theta E7~' = \theta E7~{}^{\bowtie}])
+                   \land \\
+\t5                   (\exists E7   @ [E2 | \theta E7   = \theta E7~{}^{\bowtie}]))
 \end{zedrule}
 
 %TODO: schema hiding, schema piping, schema exists unique.
@@ -854,6 +776,74 @@ expression that is used as predicate into $\theta E \in E$.
 \begin{zedrule}{SchemaPred}
   E \iff \theta E \in E
 \end{zedrule}
+
+\section{Example Rules: ZLive Preprocessor} \label{sec:zlive}
+
+In this section we show just a few of the rules that the ZLive
+animator uses to unfold and simplify Z expressions before starting
+animation.  When an expression is given to ZLive to animate, the first
+phase of animation (after parsing and typechecking) is to use the CZT
+Rewrite Engine (see Section~\ref{sec:rewrite}) to apply the following
+set of rules to the expression.
+
+\begin{zsection}
+  \SECTION ZLivePreprocess \parents unfold
+\end{zsection}
+
+Note that this $ZLivePreprocess$ section has the $unfold$ section (see
+Section~\ref{sec:schemas}) as a parent, so the schema unfolding rules
+from the $unfold$ section are effectively the first rules in the
+$ZLivePreprocess$ section.  If we wanted to reuse multiple rule sets,
+we could simply list multiple parents, in the desired order.
+
+The SchemaToSet rule unfolds schemas that are used as expressions into
+set comprehensions.  Since this rule appears \emph{after} the schema
+rule from the $unfold$ section, schema expressions will be unfolded
+and normalised before this rule is applied.
+\begin{zedrule}{SchemaToSet}
+[D | P] = \{ D | P @ \theta [D | true] \}
+\end{zedrule}
+
+The next two rules are adapted from the sets toolkit and the
+relations toolkit of the Z standard.  They illustrate how rewrite rules
+can be used to unfold one operator and express it in terms of other
+simpler operators.  ZLive needs no builtin knowledge of intersection
+or $\dom$ -- these two rules are all that is needed.  Around 40 of the
+standard toolkit operators are unfolded by rules in this way.
+
+\begin{zedrule}{intersection}
+   E1 \cap E2 = \{x:E1 | x \in E2\}
+\end{zedrule}
+\begin{zedrule}{domain}
+   \dom E = \{x:E @ x.1\}
+\end{zedrule}
+
+We finish this section with a rather bizarre use of rules.  ZLive uses
+an internal data structure, RelSet, to represent function and relation
+spaces, such as $\nat \fun \{0,1\}$.  This data structure records the
+domain and range set, plus various flags according to the properties
+of the function space (total, onto, functional, injective).  This
+gives a compact representation of the function space and makes it easy
+to efficiently check if a given set of pairs is a member of the
+function space or not.  The following two rules illustrate how the the
+Z function space operators are rewritten into strange $\LET$ terms,
+which ZLive recognises and converts into a RelSet object.  These rules
+are not true equalities, but are used to rewrite a term like $\nat
+\fun \{0,1\}$ into the temporary $\LET$ form, which is then translated
+into a RelSet object that is equivalent to $\nat \fun \{0,1\}$.
+
+\begin{zedrule}{fun}
+   E1 \fun E2 = (\LET isFun==1;isTotal==1 @ \power (E1 \cross E2))
+\end{zedrule}
+\begin{zedrule}{bij}
+   E1 \bij E2 = (\LET isFun==1;isTotal==1;isOnto==1;isInj==1 \\
+   \t3               @ \power (E1 \cross E2))
+\end{zedrule}
+
+Using rules to preprocess expressions and unfold schemas has made it
+far faster to develop ZLive and makes it easier to experiment with
+alternative translations of an operator.
+
 
 
 
