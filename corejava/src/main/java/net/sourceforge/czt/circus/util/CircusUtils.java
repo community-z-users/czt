@@ -23,8 +23,14 @@ import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.circus.ast.ActionPara;
+import net.sourceforge.czt.circus.ast.ActionRefConjPara;
+import net.sourceforge.czt.circus.ast.ChannelPara;
+import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.CircusFieldList;
+import net.sourceforge.czt.circus.ast.NameSetPara;
+import net.sourceforge.czt.circus.ast.ProcessPara;
+import net.sourceforge.czt.circus.ast.ProcessRefConjPara;
 
 /**
  *
@@ -131,6 +137,21 @@ public final class CircusUtils {
   
   public static boolean isCircusState(Term term) {
      return term.getAnn(CircusStateAnn.class) != null;
+  }
+  
+  public static boolean isCircusInnerProcessPara(Para term) {
+      return !ZUtils.isZPara(term) &&
+          ((term instanceof ActionPara) ||
+          (term instanceof NameSetPara) ||
+          (term instanceof ActionRefConjPara));
+  }
+  
+  public static boolean isCircusGlobalPara(Para term) {
+      return !ZUtils.isZPara(term) &&
+          ((term instanceof ChannelPara) ||
+          (term instanceof ProcessPara) ||
+          (term instanceof ChannelSetPara) ||
+          (term instanceof ProcessRefConjPara));
   }
     
   public static CircusFieldList assertCircusFieldList(Term term) {

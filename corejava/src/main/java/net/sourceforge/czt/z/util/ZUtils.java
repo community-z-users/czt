@@ -78,6 +78,19 @@ public final class ZUtils
       parents.size() == 1 &&
       Section.STANDARD_TOOLKIT.getName().equals(parents.get(0).getWord());
   }
+  
+  /** 
+   * Returns true if the given term is either a boxed or unboxed Z paragraph.
+   * That is, a given set, a free type, an axiomatic/generic description,
+   * a schema, a horizontal definition, a conjecture, or an operator template.
+   */
+  public static boolean isZPara(Term term) {
+      return (term instanceof GivenPara) ||
+          (term instanceof FreePara) ||
+          (term instanceof AxPara) ||
+          (term instanceof ConjPara) ||
+          (term instanceof OptempPara);
+  }
 
   /** Schema or generic schema definition (vertical).
    *      AxPara.Box          = SchBox
