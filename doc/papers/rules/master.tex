@@ -55,10 +55,8 @@
   terms, which makes it easier to build new Z manipulation tools.  We
   describe the syntax and semantics of these rules, plus some example
   reasoning engines that use sets of rules to manipulate Z terms.  We
-  demonstrate the utility of rules by discussing two sets of rules.
-  One set defines unfolding of the schema expressions in Z.  The other
-  set is used by the ZLive animator to preprocess Z expressions into a
-  form more suitable for animation.
+  demonstrate the utility of rules by discussing a set of rules for
+  unfolding schema expressions in Z.
 \end{abstract}
 \begin{keyword}
   Z, CZT, ZedRules, reasoning, rewriting rules, theorem proving
@@ -100,9 +98,7 @@ ZedRules.  Section~\ref{sec:tools} describes three example reasoning
 engines provided by CZT,\footnote{See
 \url{http://czt.sourceforge.net}.} which use the rules.
 Section~\ref{sec:schemas} shows how the rules can be used to specify
-unfolding and normalisation of schema expressions and
-Section~\ref{sec:zlive} shows some of the rules that are used by the
-CZT ZLive animator to preprocess Z expressions and predicates.
+unfolding and normalisation of schema expressions.
 
 
 \section{Related Work} \label{sec:relwork}
@@ -162,9 +158,10 @@ useful for schema unfolding.
 
 \section{Rule Syntax and Semantics} \label{sec:syntax}
 
-This section describes the syntax and semantics of ZedRules.
-We add three new kinds of Z paragraph to the Z standard notation,
-one for rules, one for jokers, and one for oracles.
+This section describes the syntax and semantics of ZedRules.  We add
+three new kinds of Z paragraph to the Z standard notation, one for
+rules, one for jokers, and one for oracles.  The ideas in this section
+are not specific to CZT and could be adopted by other Z tools.
 
 \subsection{Syntax}
 
@@ -339,7 +336,7 @@ The interactive prover shown in Figure~\ref{fig:cztprover} displays a
 proof in tree form.  Each node is labelled with a subgoal.  If a rule
 has been applied to a node, it can have children (instantiations of
 the antecedents of the rule).  An icon indicates whether a node has
-been proven (\ding{52}) or still needs to be proven (?).
+been proven (\ding{52}) or still needs to be proven ({\bf ?}).
 
 The user can manipulate the proof tree by applying rules or oracles
 and undoing rule and oracle applications.  Clicking on a node will pop
@@ -366,7 +363,7 @@ The ``Auto prove'' menu entry calls the automated prover described in
 the next section.  If a proof is found, the resulting proof tree is
 displayed as a subtree of the current node and the user can browse and
 manipulate it.  Browsing a proof tree is eased by allowing subtrees to
-be folded away by just clicking onto them.  If the mouse pointer is
+be folded away by just clicking on them.  If the mouse pointer is
 above a particular node, the tooltip gives information about whether
 and which rule or oracle has been applied.
 
@@ -519,9 +516,9 @@ expression.
 
 Oracles for the other kinds of decorations can be given similarily.
 
-The calculate theta oracle computes to a given theta expression like
-$\theta~S$, where $S==[x,y:\nat]$, the binding expression $\lblot
-x==x,y==y \rblot$.
+The calculate theta oracle computes a binding expression from a theta
+expression.  For example, $\theta~[x,y:\nat] \is \lblot x==x,y==y
+\rblot$.
 
 \begin{zedoracle}{CalculateThetaOracle}
   \theta E \is E2
@@ -543,9 +540,13 @@ not start with $v1$.
   v1 \unprefix v2 \is v3
 \end{zedoracle}
 
-\begin{zedoracle}{SortNamesOracle}
-  (sort [D|true]) \is ([D1|true]? \land [D2|true]' \land
-                       [D3|true]! \land [D4|true])
+The split names oracles splits the names in a declaration list into
+four groups according to their final decoration.  For example,
+$[x, x', y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land [y:T]!$
+
+\begin{zedoracle}{SplitNamesOracle}
+  (split [D|true]) \is ([D1|true]? \land [D2|true] \land [D3|true]' \land
+                       [D4|true]!)
 \end{zedoracle}
 
 
@@ -798,7 +799,7 @@ such as $x$, $x?$ and $x_2$.
 
 \begin{zedrule}{SchemaPrecondition}
   E \sexprUnfoldsTo [D4 | P2] \\
-  (sort [D4|true]) \is ([D6|true]? \land [D7|true]' \land
+  (split [D4|true]) \is ([D6|true]? \land [D7|true]' \land
                         [D8|true]! \land [D9|true]) \\
   ([D6|true]? \land [D9|true]) :: \power [D1|true]
 \derives
@@ -812,15 +813,15 @@ users.
 \begin{zedrule}{SchemaComposition}
   E1 :: \power [D1 | true] \\
   E2 :: \power [D2 | true] \\
-  (sort [D1|true]) \is ([D6|true]? \land [D4|true]' \land
+  (split [D1|true]) \is ([D6|true]? \land [D4|true]' \land
                         [D8|true]! \land [D9|true]) \\
   ([D4 | true] \schemaminus [D2 | true]) \is E5\\
   ([D4 | true] \schemaminus E5) \is E6 % matching names
 \derives
   E1 \semi E2 =
-  (\exists E6~\bowtie @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~\bowtie])
+  (\exists E6~{}^{\bowtie} @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~{}^{\bowtie}])
                    \land
-                   (\exists E6   @ [E2 | \theta E6   = \theta E6~\bowtie]))
+                   (\exists E6   @ [E2 | \theta E6   = \theta E6~{}^{\bowtie}]))
 \end{zedrule}
 
 %TODO: schema hiding, schema piping, schema exists unique.
@@ -847,80 +848,13 @@ users.
 
 If a schema expression $E$ is used as a predicate, it is equivalent to
 checking that $\theta E$ (a binding constructed from names that are
-currently in scope) satisfies the predicate part of $E$ 
-(including any subtypes in the declarations).  So this rule
-transforms any expression that is used as predicate into $\theta E \in E$.
+currently in scope) satisfies the predicate part of $E$ (including any
+subtypes in the declarations).  So this rule transforms any schema
+expression that is used as predicate into $\theta E \in E$.
 \begin{zedrule}{SchemaPred}
   E \iff \theta E \in E
 \end{zedrule}
 
-
-\section{Example Rules: ZLive Preprocessor} \label{sec:zlive}
-
-In this section we show just a few of the rules that the ZLive
-animator uses to unfold and simplify Z expressions before starting
-animation.  When an expression is given to ZLive to animate, the first
-phase of animation (after parsing and typechecking) is to use the CZT
-Rewrite Engine (see Section~\ref{sec:rewrite}) to apply the following
-set of rules to the expression.
-
-\begin{zsection}
-  \SECTION ZLivePreprocess \parents unfold
-\end{zsection}
-
-Note that this $ZLivePreprocess$ section has the $unfold$ section (see
-Section~\ref{sec:schemas}) as a parent, so the schema unfolding rules
-from the $unfold$ section are effectively the first rules in the
-$ZLivePreprocess$ section.  If we wanted to reuse multiple rule sets,
-we could simply list multiple parents, in the desired order.
-
-The SchemaToSet rule unfolds schemas that are used as expressions into
-set comprehensions.  Since this rule appears \emph{after} the schema
-rule from the $unfold$ section, schema expressions will be unfolded
-and normalised before this rule is applied. 
-\begin{zedrule}{SchemaToSet}
-[D | P] = \{ D | P @ \theta [D | true] \}
-\end{zedrule}
-
-The next two rules are adapted from the sets toolkit and the
-relations toolkit of the Z standard.  They illustrate how rewrite rules
-can be used to unfold one operator and express it in terms of other
-simpler operators.  ZLive needs no builtin knowledge of intersection
-or $\dom$ -- these two rules are all that is needed.  Around 40 of the
-standard toolkit operators are unfolded by rules in this way.
-
-\begin{zedrule}{intersection}
-   E1 \cap E2 = \{x:E1 | x \in E2\}
-\end{zedrule}
-\begin{zedrule}{domain}
-   \dom E = \{x:E @ x.1\}
-\end{zedrule}
-
-We finish this section with a rather bizarre use of rules.  ZLive uses
-an internal data structure, RelSet, to represent function and relation
-spaces, such as $\nat \fun \{0,1\}$.  This data structure records the
-domain and range set, plus various flags according to the properties
-of the function space (total, onto, functional, injective).  This
-gives a compact representation of the function space and makes it easy
-to efficiently check if a given set of pairs is a member of the
-function space or not.  The following two rules illustrate how the the
-Z function space operators are rewritten into strange $\LET$ terms,
-which ZLive recognises and converts into a RelSet object.  These rules
-are not true equalities, but are used to rewrite a term like $\nat
-\fun \{0,1\}$ into the temporary $\LET$ form, which is then translated
-into a RelSet object that is equivalent to $\nat \fun \{0,1\}$.
-
-\begin{zedrule}{fun}
-   E1 \fun E2 = (\LET isFun==1;isTotal==1 @ \power (E1 \cross E2))
-\end{zedrule}
-\begin{zedrule}{bij}
-   E1 \bij E2 = (\LET isFun==1;isTotal==1;isOnto==1;isInj==1 \\
-   \t3               @ \power (E1 \cross E2))
-\end{zedrule}
-
-Using rules to preprocess expressions and unfold schemas has made it
-far faster to develop ZLive and makes it easier to experiment with
-alternative translations of an operator.
 
 
 \section{Conclusions} \label{sec:concl}
