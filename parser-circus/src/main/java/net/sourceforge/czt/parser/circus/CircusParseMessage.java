@@ -37,7 +37,7 @@ public enum CircusParseMessage {
   MSG_PROCESSPARA_MISSING_CIRCDEF_ERROR("Missing CIRCDEF after process name in process paragraph declaration."),
   MSG_PROCESSPARA_MISSING_NAME_ERROR("Missing process name in process paragraph declaration."),
   
-  MSG_DUPLICATED_BASIC_PROCESS_STATE("Duplicated state paragraph for basic process at {0}."),
+  MSG_DUPLICATED_BASIC_PROCESS_STATE("Duplicated ({0}) state paragraph for basic process at {1}."),
   MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE("No basic process scope for enclosing basic process inner paragraphs at {0}."),
   MSG_INVALID_BASIC_PROCESS_SCOPE_WARNING("Unmatched ({0}) scope for basic process ({1}) at {2}."),
   MSG_DUPlICATED_BASIC_PROCESS_SCOPE("Circus does not allow nested basic processes (from {0}) at {1}."),
@@ -49,6 +49,8 @@ public enum CircusParseMessage {
       "CIRCEND warning for multiple environment basic process {1} declared @ {2} with CIRCEND-LOC @ {3}.",
       "\nThis is a seriouc warning and should be looked carefully. It means there must be scoping problems at the given locations."),      
   MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND("Basic process scope from multiple environments was closed without been previouly opened at {0}."),  
+  MSG_INVALID_INNER_PROCESS_PARA("Invalid unboxed paragraph (i.e. within ZED env) for Circus basic process scope. " +
+      "Only Z paragraphs are valid within Z unboxed paragraph environment but a {0} was found at {1}."),   
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
   
   private final String message_;

@@ -1,0 +1,47 @@
+
+\begin{zsection}
+  \SECTION\ test \parents\ standard\_toolkit
+\end{zsection}
+
+\begin{axdef}
+   x, y: (\_ \pfun \_)[A, B] \\   
+   z, w: A \pfun B \\
+   i, j: A (\_ \fun\_)[S, T] B \\
+   l, m: (\_ \fun\_)[S, T] (A, B)
+\where
+   0 > 10 \\
+   (0, 10) \in (\_ > \_) 
+\end{axdef}
+
+
+AxBox{
+ VarDecl[x, y: RefExpr{ _ U+21F8 _ [RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}], MF=false, EX=true}];
+ VarDecl[z, w: RefExpr{ _ U+21F8 _ [RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}], MF=true, EX=true}];
+ VarDecl[i, j: 
+    ApplExpr{
+        LHS=ApplExpr{
+            LHS=RefExpr{A, MF=false, EX=false}, 
+            RHS=RefExpr{ _ U+2192 _ [RefExpr{S, MF=false, EX=false}, RefExpr{T, MF=false, EX=false}], MF=false, EX=true}, 
+            MF=false}, 
+        RHS=RefExpr{B, MF=false, EX=false}, 
+        MF=false}];
+ VarDecl[l, m: 
+    ApplExpr{
+        LHS=RefExpr{ _ U+2192 _ [RefExpr{S, MF=false, EX=false}, RefExpr{T, MF=false, EX=false}], MF=false, EX=true}, 
+        RHS=TupleExpr(RefExpr{A, MF=false, EX=false}, RefExpr{B, MF=false, EX=false}), 
+        MF=false}] 
+ | 
+ AndPred{
+    LHS=MemPred{
+        LHS=TupleExpr(0, 10), 
+        RHS=RefExpr{ _ U+3E _ , MF=false, EX=false}, 
+        MF=true}, 
+    RHS=MemPred{
+        LHS=TupleExpr(0, 10), 
+        RHS=RefExpr{ _ U+3E _ , MF=false, EX=false}, 
+        MF=false}, 
+    AND=NL}
+},
+
+
+ 

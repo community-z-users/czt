@@ -917,18 +917,28 @@ public class CircusPrintVisitor
    * Others 
    ***********************************************************/
    
-  public Object visitRefinementConjPara(RefinementConjPara term) {
-    print(CircusToken.LCIRCGUARD);
+  public Object visitProcessRefConjPara(ProcessRefConjPara term) {
+    print(CircusKeyword.CIRCASSERTREF);
     visit(term.getSpecification());
     print(CircusKeyword.CIRCREFINES);
     if (!term.getModel().equals(Model.FlDv)) {
       printDecorword(term.getModel() + "~");
     }
-    visit(term.getImplementation());
-    print(CircusToken.RCIRCGUARD);    
+    visit(term.getImplementation());    
     return null;
   }
-    
+   
+  public Object visitActionRefConjPara(ActionRefConjPara term) {
+    print(CircusKeyword.CIRCASSERTREF);
+    visit(term.getSpecification());
+    print(CircusKeyword.CIRCREFINES);
+    if (!term.getModel().equals(Model.FlDv)) {
+      printDecorword(term.getModel() + "~");
+    }
+    visit(term.getImplementation());    
+    return null;
+  }
+  
   public Object visitQualifiedDecl(QualifiedDecl term) {        
     if (ParamQualifier.Result.equals(term.getParamQualifier())) {            
       print(CircusKeyword.CIRCRES);
