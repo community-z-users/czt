@@ -40,6 +40,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
+import net.sourceforge.czt.util.StrUtils;
 </add:circus>
 import net.sourceforge.czt.java_cup.runtime.*;
 <add:oz>
@@ -1145,11 +1146,13 @@ action code
        return result;
     }
     
-    protected boolean checkForDuplicatedState(LocInfo loc) {      
+    protected boolean checkForDuplicatedState(String msg, LocInfo loc) {      
       boolean result = parserState_.getStatePara() == null;
+      CztLogger.getLogger(<class/>.class).fine("DUPLICATED STATE PARA (" + 
+            msg + ")?: " + !result + " @ " + loc.toString());
       if (!result) {                               
          parser.report_error(CircusParseMessage.MSG_DUPLICATED_BASIC_PROCESS_STATE,
-               new Object[] {loc} , loc);
+               new Object[] { msg, loc} , loc);
       }
       return result;
     }
@@ -1203,11 +1206,11 @@ action code
 
     protected Model validateModel(Decorword dw) {
       Model result = CircusUtils.DEFAULT_REFINEMENT_MODEL;
-      if (dw.toString().equals(Model.Tr.toString()))
+      if (dw.toString().toUpperCase().equals(Model.Tr.toString().toUpperCase()))
         result = Model.Tr;
-      else if (dw.toString().equals(Model.SFl.toString()))
+      else if (dw.toString().toUpperCase().equals(Model.SFl.toString().toUpperCase()))
         result = Model.SFl;
-      else if (dw.toString().equals(Model.FlDv.toString()))
+      else if (dw.toString().toUpperCase().equals(Model.FlDv.toString().toUpperCase()))
         result = Model.FlDv;
       else {
         parser.report_error(CircusParseMessage.MSG_UNKNOWN_REFINEMENT_MODEL,
@@ -1315,10 +1318,10 @@ action code
     }
     
     /** Ensures the list of collected paragraphs is the same the one into parserState_ */
-    protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, LocInfo loc) {
+    protected boolean ensureInnerProcParaListKnownInBasicProcessScope(List&lt;Para&gt; ipl, String from, LocInfo loc) {
         boolean result = parserState_.isWithinMultipleEnvBasicProcessScope() &amp;&amp; 
             parserState_.isKnownPara(ipl);
-        CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT: " + result 
+        CztLogger.getLogger(<class/>.class).fine("ENSURING PARAGRAPH CONTAINMENT (" + from + ")?: " + result 
             + " @ " + loc);
         if (!result) {            
             parser.report_error(CircusParseMessage.MSG_FAIL_CHECK_INNER_PROC_ELEM_BASIC_PROC_SCOPE,
@@ -2548,28 +2551,33 @@ paragraphList ::=
         {:
            if (p != null) {
              pl.add(p);
-             <add:circus>
+             <add:circus>                 
              // for boxed paragraphs for basic circus process added
              // across multiple circus LaTeX environments
              if (parserState_.isWithinMultipleEnvBasicProcessScope()) {                
-                assert (p instanceof AxPara) : 
-                    "Invalid boxed paragraph for Circus basic process scope.";
-                NameList nl = ZUtils.getAxParaGenFormals(p);
-                boolean hasGenerics = (nl != null &amp;&amp; 
-                    (nl instanceof ZNameList) &amp;&amp; 
-                    !((ZNameList)nl).isEmpty());
-                final String msg = "a local " +
-                    (hasGenerics ? "generic " : "") +
-                    (ZUtils.isSchema(p) ? "schema " : 
-                        (((AxPara)p).getBox().equals(Box.OmitBox) ?
-                            "horizontal definition " : 
-                            "axiomatic definition ")
-                    ) +
-                    "paragraph";                    
-                
-                // raise a scoping warning if needed                          
-                addBasicProcessScopePostCheckFor(msg, getLocation(p));
-                parserState_.addLocallyDeclPara(p);                            
+                LocInfo loc = getLocation(p);
+                if (p instanceof AxPara) {
+                    NameList nl = ZUtils.getAxParaGenFormals(p);
+                    boolean hasGenerics = (nl != null &amp;&amp; 
+                        (nl instanceof ZNameList) &amp;&amp; 
+                        !((ZNameList)nl).isEmpty());
+                    final String msg = "a local " +
+                        (hasGenerics ? "generic " : "") +
+                        (ZUtils.isSchema(p) ? "schema " : 
+                            (((AxPara)p).getBox().equals(Box.OmitBox) ?
+                                "horizontal definition " : 
+                                "axiomatic definition ")
+                        ) +
+                        "paragraph";                    
+
+                    // raise a scoping warning if needed                          
+                    addBasicProcessScopePostCheckFor(msg, getLocation(p));
+                    parserState_.addLocallyDeclPara(p);                            
+                } else {                
+                    //assert parserState_.isZPara(para);                        
+                    parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
+                        new Object[] { StrUtils.stripPackage(p.getClass()), loc }, loc);
+                }
              }
              </add:circus>
            }
@@ -2654,6 +2662,55 @@ unboxedParagraphList ::=
         {: if (uil.size() == 1) {
              addLocAnn(uil.get(0), getLocation(zed, end));
            }
+             <add:circus>
+             // for unboxed paragraphs for basic circus process added
+             // across multiple circus LaTeX environments
+             if (parserState_.isWithinMultipleEnvBasicProcessScope()) {                
+                String msg;
+                LocInfo loc;
+                boolean add;                                
+                Iterator&lt;Para&gt; it = uil.iterator();
+                while (it.hasNext()) {
+                    Para para = it.next();
+                    loc = getLocation(para);
+                    add = parserState_.isZPara(para);
+                    if (para instanceof AxPara) {
+                        AxPara p = (AxPara)para;
+                        NameList nl = ZUtils.getAxParaGenFormals(p);
+                        boolean hasGenerics = (nl != null &amp;&amp; 
+                            (nl instanceof ZNameList) &amp;&amp; 
+                            !((ZNameList)nl).isEmpty());
+                        msg = "a local " +
+                            (hasGenerics ? "generic " : "") +
+                            (ZUtils.isSchema(p) ? "schema " : 
+                                (((AxPara)p).getBox().equals(Box.OmitBox) ?
+                                    "horizontal definition " : 
+                                    "axiomatic definition ")
+                            ) +
+                            "paragraph";                    
+                    } else if (para instanceof GivenPara) {
+                        msg = "a local given set paragraph";
+                    } else if (para instanceof FreePara) {
+                        msg = "a local free type paragraph";
+                    } else if (para instanceof ConjPara) {
+                        msg = "a local conjecture paragraph";
+                    } else if (para instanceof OptempPara) {                    
+                        msg = "a local operator template paragraph";
+                    } else {
+                        msg = "an invalid local paragrph";
+                        //assert parserState_.isZPara(para);                        
+                        parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
+                            new Object[] { StrUtils.stripPackage(para.getClass()), loc }, loc);
+                    }
+                    if (add) {
+                        // raise a scoping warning if needed                          
+                        addBasicProcessScopePostCheckFor(msg, loc);
+                        parserState_.addLocallyDeclPara(para);
+                        it.remove();
+                    }
+                }                
+             }
+           </add:circus>           
            RESULT = uil;
         :}
         |        
@@ -3061,7 +3118,7 @@ circusMultiEnvParagraphList ::=
         |*/                
         CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
         {:                             
-           ensureInnerProcParaListKnownInBasicProcessScope(ppl, getLocation(circ, end));
+           ensureInnerProcParaListKnownInBasicProcessScope(ppl, "MULTIPLE ENV", getLocation(circ, end));
            
            // Result here does not matter. It will be collected later via ParserState            
            RESULT = factory_.list();           
@@ -4192,7 +4249,7 @@ circusBasicProcess ::=
                // In here we have a tricky situation...     
                     
                // Ensure the list collected in "ipl" is the same the one into RESULT
-               if (ensureInnerProcParaListKnownInBasicProcessScope(ipl, loc)) {
+               if (ensureInnerProcParaListKnownInBasicProcessScope(ipl, from, loc)) {
                   // if ensureInnerProcParaListKnownInBasicProcessScope, then the 
                   // warnings can be cleared, since they were properly included.  
                   parserState_.clearSectBasicProcessScopeWarnings();
@@ -4270,7 +4327,7 @@ circusProcessState ::=
            }
            
            // Add it as a locally declared paragraph, or raise an error if duplicated
-           if (checkForDuplicatedState(loc)) {
+           if (checkForDuplicatedState("horizontally declared", loc)) {
              parserState_.setStatePara(RESULT);
              parserState_.addLocallyDeclPara(RESULT);
            }           
@@ -4295,9 +4352,9 @@ circusProcessState ::=
            
            // Add it as an implicitly declared action (because the name is given).           
            // if duplicated add a parsing error
-           if (checkForDuplicatedState(loc)) {
-             parserState_.addImplicitlyDeclActionPara(ap);           
+           if (checkForDuplicatedState("implicitly declared", loc)) {
              parserState_.setStatePara(ap);
+             parserState_.addImplicitlyDeclActionPara(ap);                        
            }
            
            // use ap above as it is ActionPara and RESULT is Para.
@@ -4857,7 +4914,7 @@ nameSubstitution ::=
 processRefPara ::=
         CIRCASSERTREF process:spec refines:r process:impl
         {:
-           RESULT = factory_.createRefinementConjPara(spec, impl, r);
+           RESULT = factory_.createProcessRefConjPara(spec, impl, r);
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
         :}
         ;
@@ -4865,7 +4922,7 @@ processRefPara ::=
 actionRefPara ::=
         CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
         {:
-           RESULT = factory_.createRefinementConjPara(spec, impl, r);
+           RESULT = factory_.createActionRefConjPara(spec, impl, r);
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
         :}
         ;
