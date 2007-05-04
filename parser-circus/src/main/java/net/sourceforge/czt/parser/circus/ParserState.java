@@ -184,6 +184,7 @@ public class ParserState
       //setProcessGenFormals(null); // sets it to the empty list.      
       
       clearSectBasicProcessScopeWarnings();
+      clearSectBasicProcessEndWarning();      
   }
   
 
@@ -461,17 +462,49 @@ public class ParserState
       return result;
   }
   
+  /**
+   * Check whether the given para list is contained within the parsing state
+   * either as locally declared para or implicitly declared action para.
+   */
+  public boolean isKnownPara(List<Para> ipl) {
+      for(Para para : ipl) {
+          if (!implicitlyDeclActPara_.contains(para) &&
+              !locallyDeclPara_.contains(para))
+              return false;
+      }
+      return true;
+  }
+  
   private List<Pair<String, LocInfo>> processScopeWarnings_ = 
       new ArrayList<Pair<String, LocInfo>>();
   
+  // procName, LocInfo
+  private Pair<Name, LocInfo> processEndWarning_;
+  
   public List<Pair<String, LocInfo>> getProcessScopeWarnings() {
       return processScopeWarnings_;      
+  }
+  
+  public Pair<Name, LocInfo> getProcessEndWarning() {
+      return processEndWarning_;
   }
   
   public void addProcessScopeWarning(String msg, LocInfo loc) {
       processScopeWarnings_.add(new Pair<String, LocInfo>(msg, loc));
   }  
   
+  public void addProcessEndWarning(Name procName, LocInfo loc) {  
+      assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
+      final String msg = java.text.MessageFormat.format(
+            CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(), 
+               new Object[] { procName, loc });
+      processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
+  }  
+              
+  public void clearSectBasicProcessEndWarning() {      
+      processEndWarning_ = null;
+  }
+    
   public void clearSectBasicProcessScopeWarnings() {
      processScopeWarnings_.clear();
   }
