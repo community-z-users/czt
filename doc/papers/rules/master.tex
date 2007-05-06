@@ -207,7 +207,7 @@ this $Funct$ rule, the $E,F$ and $Y$ names stand for arbitrary
 expressions (we call them \emph{expression jokers}), whereas the $x$
 is a concrete bound variable name.  In the ZedRules notation, each
 joker name must be declared before it is used in rules.  For example,
-the following declarations declare $e,f$ and $y$ to be expression
+the following declarations declare $E,F$ and $Y$ to be expression
 jokers, $D1$ to be a joker that ranges over declaration lists, and
 $v$ to be a name joker.
 
@@ -224,32 +224,51 @@ narrative text by other Z tools, and ignored.  This allows us to embed
 rules within Z specifications, but retain backwards compatibility with
 Z tools that do not use the ZedRules notation.
 
-Currently, the scope of a joker is within all rule paragraphs of the
+\subsection{Type system}
+
+The scope of a joker (currently) encompasses all rule paragraphs of the
+%Currently, the scope of a joker is within all rule paragraphs of the
 section in which it appears and of which it is an ancestor.  In the
-future, we plan to declare them locally to a rule paragraph instead.
+future, we plan to declare jokers locally to a rule paragraph instead.
 Global jokers are very concise (need to be declared just once) but are
 less flexible because once a joker is declared,
 its name becomes unusable as an ordinary Z name throughout its global scope.
 %it reserves the name forever, making that name unusable as an ordinary Z name.
 
-\subsection{Type system}
-
-A rule can refer to three kinds of symbols:
-those of the core Z language,
-such as $\power$, $\nat$ and $\varg = \varg$;
-those defined explicitly using Standard Z in a section,
-such as $dom$, $\varg \cat \varg$ and $foo$ (however those are defined),
-and jokers declared by a joker declaration paragraph in a section.
-
-References to jokers are typechecked using the environment
-where the rule is written.
-Other references are typechecked using the environment
-where the rule is applied.
-Note that a reference to a name such as $dom$,
-which has a definition in the standard toolkit,
-could be bound to a different definition of $dom$,
-even if the standard toolkit is in scope
-in the section where the rule is written.
+%A rule can refer to several kinds of symbols:
+%those of the core Z language,
+%such as $\power$, $\nat$ and $\varg = \varg$;
+%those defined explicitly in Z,
+%such as $dom$, $\varg \cat \varg$ and $foo$ (however those are defined),
+%and jokers declared by a joker declaration paragraph in a section.
+%
+The typechecking of a rule has separate static and dynamic phases.
+The static phase uses the environment where the rule is written,
+whereas the dynamic phase uses the environment where the rule is applied.
+The static phase determines which references refer to jokers
+or to Z names declared locally within the rule.
+The static phase remains quiet about
+names that are not declared in its environment,
+as they might yet be found to be declared during the dynamic phase.
+The dynamic phase ensures that the remaining references
+refer to particular Z declarations in the environment where the rule is applied.
+%
+%References to jokers are typechecked using the environment
+%where the rule is written.
+%This environment is extended as local variables declared inside a rule
+%are typechecked.
+%Other references are typechecked using the environment
+%where the rule is applied.
+Note that Z declarations that are in scope where a rule is written
+might not be in scope where the rule is applied;
+there can even be different declarations of the same names
+in the different environments.
+%Note that a reference to a name such as $dom$,
+%which has a definition in the standard toolkit,
+%could be found by the dynamic phase to refer to
+%a different definition of $dom$,
+%even if the standard toolkit is in scope
+%in the section where the rule is written.
 
 A rule is typically applied to a goal in a proof.
 The environment of such an application
@@ -278,10 +297,11 @@ reasoning.
 %distinguish them from antecedent predicates.
 %improve readability and avoid syntactic ambiguity.
 
+Each proviso evaluates to $PASS$ or $NOT\_PASS$.
 The evaluation of a proviso begins with
 taking into account known instantiations of any jokers used in the proviso.
 It typically uses unification to determine instantiations of remaining jokers,
-evaluating to PASS if those unifications succeed
+evaluating to $PASS$ only if those unifications succeed
 and the particular test implemented by the proviso succeeds.
 The following provisos have been implemented.
 
@@ -315,13 +335,14 @@ The following provisos have been implemented.
   This is useful for logics
   in which not-free-in conditions are handled at the meta-level.  Note
   that in the $\V$ logic, the not-free-in operator is an object-level
-  relation, so $x \notfreein e$ is a normal predicate rather than a
-  proviso.
+  relation, so $x \notfreein e$
+  need not be written as a proviso.
+%  is a normal predicate rather than a proviso.
 
 \item[Lookup:] $\proviso Name \hasDefn Expr$.
   A lookup proviso passes if
   the name is bound to a constant ($==$) declaration in the environment
-  whose right-hand side unifies with the expression.
+  and if that declaration's right-hand side unifies with the expression.
   The $Name$ can be followed by an instantiation list of expressions,
   allowing for lookup of generic constant definitions.
   We hope to generalise this further to allow lookup of
@@ -338,20 +359,6 @@ The following provisos have been implemented.
 %  declarations and predicates within axiomatic definitions.
 \end{description}
 
-
-\subsection{Rule Semantics}
-
-We describe the semantics of ZedRules independently of any operational
-description of how rules can be used.  This allows rules to be used by
-many different reasoning and rewrite engines.  Each engine may place
-different restrictions on the rules that it allows, may apply rules
-using a variety of operational semantics (apply once, apply
-exhaustively, apply to all subterms bottom-up or top-down etc.), and
-may use a different implementation technology (for example, an
-interpreter that applies the rules or a compiler that transforms a set
-of rules into code).
-
-Each proviso evaluates to $PASS$ or $NOT\_PASS$.
 %All provisos must satisfy the following property.
 The value of a proviso must be
 monotonic with respect to the instantiation of jokers.  For example,
@@ -365,24 +372,45 @@ to contain a free $x$.  The CZT implementation of ZedRules takes the
 former approach.  The latter approach is more powerful, but also more
 complex to implement.
 
-We can now define the semantics of a rule $R$ with antecedents $A_1
-\ldots A_n$ and conclusion $C$.  Since the order of the antecedents is
-not semantically important, we can sort the antecedents into $Q_1
-\ldots Q_k, Pr_{k+1} \ldots Pr_n$ where $k \in 0 \upto n$, so that the
-normal predicate antecedents $Q_i$ come before the provisos $Pr_i$.
-\begin{defn} %{ValidRule}
-  Given a Z specificaton.  A rule $R$ is valid iff for every ground
-  instantiation of all the jokers in the rule such that
-  all the provisos $Pr_{k+1} \ldots Pr_n$ evaluate to $PASS$ and
-  \[
-       Q_1 \land \ldots \land Q_k \implies C
-  \]
-  is well-typed we have that $Q_1 \land \ldots \land Q_k \implies C$
-  is {\it true} according to the Z standard semantics.
-\end{defn}
 
-The authors of rules are responsible for ensuring that each rule they
-write is valid according to this definition.  Proof tools are
+\subsection{Rule Semantics}
+
+We describe the semantics of ZedRules independently of any operational
+description of how rules can be used.  This allows rules to be used by
+many different reasoning and rewrite engines.  Each engine may place
+different restrictions on the rules that it allows, may apply rules
+using a variety of operational semantics (apply once, apply
+exhaustively, apply to all subterms bottom-up or top-down etc.), and
+may use a different implementation technology (for example, an
+interpreter that applies the rules or a compiler that transforms a set
+of rules into code).
+
+If the provisos of a well-typed rule all evaluate to $PASS$,
+then the application of that rule is valid if and only if
+the conjunction of its other antecedents implies its consequent.
+Note that the validity of a rule depends on the context in which it is applied,
+and so responsibility for ensuring that a rule is valid
+is shared by the author and the user of a rule.
+%
+%We can now define the semantics of a rule $R$ with antecedents $A_1
+%\ldots A_n$ and conclusion $C$.  Since the order of the antecedents is
+%not semantically important, we can sort the antecedents into $Q_1
+%\ldots Q_k, Pr_{k+1} \ldots Pr_n$ where $k \in 0 \upto n$, so that the
+%normal predicate antecedents $Q_i$ come before the provisos $Pr_i$.
+%\begin{defn} %{ValidRule}
+%  Given the models for the environment where the rule is applied.  A rule $R$ is valid iff for every ground
+%  instantiation of all the jokers in the rule such that
+%  all the provisos $Pr_{k+1} \ldots Pr_n$ evaluate to $PASS$ and
+%  \[
+%       Q_1 \land \ldots \land Q_k \implies C
+%  \]
+%  is well-typed we have that $Q_1 \land \ldots \land Q_k \implies C$
+%  is {\it true} according to the Z standard semantics.
+%\end{defn}
+%
+%The authors of rules are responsible for ensuring that each rule they
+%write is valid according to this definition.
+Proof tools are
 responsible for ensuring that the derived rules produced by proofs
 preserve this validity property.
 
