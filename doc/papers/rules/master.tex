@@ -47,7 +47,7 @@
     Heslington, York, UK}
   \thanks[emailMark]{Email: \texttt{marku@cs.waikato.ac.nz}}
   \thanks[emailPetra]{Email: \texttt{petra@cs.waikato.ac.nz}}
-  \thanks[emailIan]{Email: \texttt{ian@cs.york.ac.nz}}
+  \thanks[emailIan]{Email: \texttt{ian@cs.york.ac.uk}}
 \begin{abstract}
   This paper describes an extension of Z that allows transformation
   and reasoning rules to be written in a Z-like notation.  This gives
@@ -55,11 +55,13 @@
   terms, which makes it easier to build new Z manipulation tools.  We
   describe the syntax and semantics of these rules, plus some example
   reasoning engines that use sets of rules to manipulate Z terms.  We
-  demonstrate the utility of rules by discussing a set of rules for
-  unfolding schema expressions in Z.
+  demonstrate the utility of rules by discussing two sets of rules.
+  One set defines unfolding of the schema expressions in Z.  The other
+  set is used by the ZLive animator to preprocess Z expressions into
+  a form more suitable for animation.
 \end{abstract}
 \begin{keyword}
-  Z, CZT, ZedRules, reasoning, rewriting rules, theorem proving
+  CZT, ZedRules, reasoning, rewriting rules, theorem proving
 \end{keyword}
 \end{frontmatter}
 
@@ -98,7 +100,10 @@ ZedRules.  Section~\ref{sec:tools} describes three example reasoning
 engines provided by CZT,\footnote{See
 \url{http://czt.sourceforge.net}.} which use the rules.
 Section~\ref{sec:schemas} shows how the rules can be used to specify
-unfolding and normalisation of schema expressions.
+unfolding and normalisation of schema expressions,
+and Section 6 shows some of the rules
+that are used by the ZLive animator \cite{ZLive}
+to preprocess Z expressions and predicates.
 
 
 \section{Related Work} \label{sec:relwork}
@@ -167,10 +172,14 @@ to CZT and could be adopted by other Z tools.
 
 Each rule is introduced with the keyword \emph{rule} and a unique name
 for the rule.  It has a single conclusion, written below a line, and
-zero or more antecedents, written above the line.  The syntax of
+zero or more antecedents, written above the line.
+Some of the antecedents can be provisos,
+which are distinguished by a leading $\proviso$ character (U+25B8).
+The syntax of
 consequents and antecedents is that of Standard Z predicates extended
-with jokers.  Their informal semantics is that the conclusion is true
-if all the antecedents are true.
+with jokers.
+%Their informal semantics is that the conclusion is true
+%if all the antecedents are true.
 
 For example, the \emph{Funct} rule from the $\V$
 logic~\cite{brien:calculus-schemas-z00} might be written as follows:
@@ -185,7 +194,7 @@ The \LaTeX\ input for this rule is:
 \begin{verbatim}
 \begin{zedrule}{Funct}
   \exists_1 x:F @ x.1 = E \\
-  x \notfreein E
+  \proviso x \notfreein E
 \derives
   Y=F(E) \iff (E,Y) \in F
 \end{zedrule}
@@ -202,7 +211,7 @@ the following declarations declare $e,f$ and $y$ to be expression
 jokers, $D1$ to be a joker that ranges over declaration lists, and
 $v$ to be a name joker.
 
-\begin{zedjoker}{Expr} e,f,y \end{zedjoker}
+\begin{zedjoker}{Expr} E,F,Y \end{zedjoker}
 \begin{zedjoker}{DeclList} D1 \end{zedjoker}
 \begin{zedjoker}{Name} v \end{zedjoker}
 
@@ -219,10 +228,37 @@ Currently, the scope of a joker is within all rule paragraphs of the
 section in which it appears and of which it is an ancestor.  In the
 future, we plan to declare them locally to a rule paragraph instead.
 Global jokers are very concise (need to be declared just once) but are
-less flexible because once a joker is declared, it reserves the name
-forever, making that name unusable as an ordinary Z name.
+less flexible because once a joker is declared,
+its name becomes unusable as an ordinary Z name throughout its global scope.
+%it reserves the name forever, making that name unusable as an ordinary Z name.
 
-\subsection{Provisos}
+\subsection{Type system}
+
+A rule can refer to three kinds of symbols:
+those of the core Z language,
+such as $\power$, $\nat$ and $\varg = \varg$;
+those defined explicitly using Standard Z in a section,
+such as $dom$, $\varg \cat \varg$ and $foo$ (however those are defined),
+and jokers declared by a joker declaration paragraph in a section.
+
+References to jokers are typechecked using the environment
+where the rule is written.
+Other references are typechecked using the environment
+where the rule is applied.
+Note that a reference to a name such as $dom$,
+which has a definition in the standard toolkit,
+could be bound to a different definition of $dom$,
+even if the standard toolkit is in scope
+in the section where the rule is written.
+
+A rule is typically applied to a goal in a proof.
+The environment of such an application
+depends on the environment of the conjecture from which the goal was deduced.
+The environment of an application of a rule to a term within a goal
+may also depend on the local variables of the goal
+that are in scope for that term.
+
+\subsection{Proviso Semantics}
 
 Most logics contain rules with side conditions, which check various
 syntactic properties of the terms in the rule.  The most common
@@ -231,14 +267,79 @@ term~$t$.  We write this as $n \notfreein t$.  To reason about Z in a
 convenient way, it is also useful to be able to check properties of
 signatures, distinguish between the different kinds of decorations on
 names, etc.
-
+%
 The ZedRules notation provides provisos to support this kind of
-reasoning.  These are Standard Z predicates extended with jokers, but
-they are prefixed by a special `keyword' \verb!\proviso! (displayed as
-$\proviso$ when typeset -- this is the U+25B8 character in Unicode) to
-improve readability and avoid syntactic ambiguity.
+reasoning.
+%Provisos are written using the syntax of Standard Z predicates
+%(though with different semantics) extended with jokers.
+%These are Standard Z predicates extended with jokers, but
+%They are prefixed by a special `keyword' \verb!\proviso! (displayed as
+%$\proviso$ when typeset -- this is the U+25B8 character in Unicode) to
+%distinguish them from antecedent predicates.
+%improve readability and avoid syntactic ambiguity.
 
-\subsection{Semantics}
+The evaluation of a proviso begins with
+taking into account known instantiations of any jokers used in the proviso.
+It typically uses unification to determine instantiations of remaining jokers,
+evaluating to PASS if those unifications succeed
+and the particular test implemented by the proviso succeeds.
+The following provisos have been implemented.
+
+\begin{description}
+\item[Type:] $\proviso Expr :: Expr$.
+  A type proviso passes if
+  the right-hand expression is the carrier set of the type
+  of the left-hand expression.
+%  This calculates the type of the
+%  left-hand expression and unifies the corresponding carrier set with
+%  the right-hand expression.
+
+\item[Calculate:] $\proviso Expr \is Expr$.
+  A calculate proviso passes if
+  the calculation expressed by the left-hand expression
+  produces a result that unifies with the right-hand expression.
+  These calculations are expressed using a restricted set of operators,
+  which typically manipulate names and declaration lists.
+  Examples of these operators are given in the following section.
+%  This calculates the
+%  left-hand expression, then unifies the result with the right-hand
+%  expression.  $E1$ can contain only a very restricted set of
+%  operators for manipulating names and declaration lists.  We will see
+%  examples of these operators in the following section.
+
+\item[Check:] $\proviso Name \notfreein Term$.
+  A check proviso passes if
+  the given $Name$ does not appear free in $Term$.
+%  This checks that the
+%  given $Name$ does not appear in $Term$.
+  This is useful for logics
+  in which not-free-in conditions are handled at the meta-level.  Note
+  that in the $\V$ logic, the not-free-in operator is an object-level
+  relation, so $x \notfreein e$ is a normal predicate rather than a
+  proviso.
+
+\item[Lookup:] $\proviso Name \hasDefn Expr$.
+  A lookup proviso passes if
+  the name is bound to a constant ($==$) declaration in the environment
+  whose right-hand side unifies with the expression.
+  The $Name$ can be followed by an instantiation list of expressions,
+  allowing for lookup of generic constant definitions.
+  We hope to generalise this further to allow lookup of
+  variable ($:$) declarations and their constraining predicates.
+%  This searches for a
+%  matching declaration in the current Z section and its ancestor
+%  sections.  It provides a way of looking up definitions so that they
+%  can be used to unfold expressions.
+%  The left-hand side $Name$ can
+%  also be a reference expression, which is a name plus a list of
+%  expressions -- this allows generic definitions to be instantiated
+%  and unfolded.  In the future we plan to expand this proviso, so that
+%  rules can query other kinds of Z paragraphs, such as the
+%  declarations and predicates within axiomatic definitions.
+\end{description}
+
+
+\subsection{Rule Semantics}
 
 We describe the semantics of ZedRules independently of any operational
 description of how rules can be used.  This allows rules to be used by
@@ -250,8 +351,9 @@ may use a different implementation technology (for example, an
 interpreter that applies the rules or a compiler that transforms a set
 of rules into code).
 
-Each proviso evaluates to $PASS$ or $NOT\_PASS$.  All provisos must
-satisfy the following property.  The value of the proviso must be
+Each proviso evaluates to $PASS$ or $NOT\_PASS$.
+%All provisos must satisfy the following property.
+The value of a proviso must be
 monotonic with respect to the instantiation of jokers.  For example,
 given the proviso $\proviso x \notfreein E$, it is not acceptable for
 the proviso to return $PASS$ when $E$ is a joker, but then return
@@ -306,40 +408,6 @@ reasons:
   a good theorem prover needs to perform tens or hundreds of thousands of
   rules per second to be pleasant to use.
 \end{enumerate}
-
-
-\subsection{Provisos}
-
-The following provisos have been implemented.
-
-\begin{description}
-\item[Type:] $\proviso Expr :: Expr$.  This calculates the type of the
-  left-hand expression and unifies the corresponding carrier set with
-  the right-hand expression.
-
-\item[Calculate:] $\proviso Expr \is Expr$.  This calculates the
-  left-hand expression, then unifies the result with the right-hand
-  expression.  $E1$ can contain only a very restricted set of
-  operators for manipulating names and declaration lists.  We will see
-  examples of these operators in the following section.
-
-\item[Check:] $\proviso Name \notfreein Term$.  This checks that the
-  given $Name$ does not appear in $Term$.  This is useful for logics
-  in which not-free-in conditions are handled at the meta-level.  Note
-  that in the $\V$ logic, the not-free-in operator is an object-level
-  relation, so $x \notfreein e$ is a normal predicate rather than a
-  proviso.
-
-\item[Lookup:] $\proviso Name \hasDefn Expr$.  This searches for a
-  matching declaration in the current Z section and its ancestor
-  sections.  It provides a way of looking up definitions so that they
-  can be used to unfold expressions.  The left-hand side $Name$ can
-  also be a reference expression, which is a name plus a list of
-  expressions -- this allows generic definitions to be instantiated
-  and unfolded.  In the future we plan to expand this proviso, so that
-  rules can query other kinds of Z paragraphs, such as the
-  declarations and predicates within axiomatic definitions.
-\end{description}
 
 
 \subsection{An Interactive Prover}
