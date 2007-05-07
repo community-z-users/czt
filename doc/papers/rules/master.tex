@@ -95,12 +95,11 @@ Section \ref{sec:relwork} discusses approaches to schema unfolding and
 user-defined transformations in existing Z tools.
 Section~\ref{sec:syntax} describes the syntax and semantics of the
 ZedRules.  Section~\ref{sec:tools} describes three example reasoning
-engines provided by CZT,\footnote{See
-\url{http://czt.sourceforge.net}.} which use the rules.
+engines provided by CZT~\cite{malik:czt05}, which use the rules.
 Section~\ref{sec:schemas} shows how the rules can be used to specify
 unfolding and normalisation of schema expressions,
 and Section 6 shows some of the rules
-that are used by the ZLive animator \cite{ZLive}
+that are used by the ZLive animator (which is part of CZT)
 to preprocess Z expressions and predicates.
 
 
@@ -130,25 +129,24 @@ rules.  However, the expressivity of rewrite rules is quite restricted
 compared to the ZedRules notation of this paper.
 
 ProofPower\footnote{See the ProofPower web site,
-\url{http://www.lemma-one.com/ProofPower/index/index.html}.} takes a
-similar approach, but provides a much larger set of rewriting tactics,
-with a variety of behaviour.  It is also possible to prove derived
-inference rules, which can have similar expressiveness as the ZedRules
-of this paper (with antecedents, jokers etc.).  However, such rules
-are expressed in the proof notation of ProofPower (ML and HOL), rather
-than in Z syntax.
+  \url{http://www.lemma-one.com/ProofPower/index/index.html}.} provides
+similar transformation commands as Z/EVES, but with a much larger set of
+rewriting tactics, with a variety of behaviour.  It is also possible to
+prove derived inference rules, which can have similar expressiveness as the
+ZedRules of this paper (with antecedents, jokers etc.).  However, such
+rules are expressed in the proof notation of ProofPower (ML and HOL),
+rather than in Z syntax.
 
-Our ZedRules notation differs from the above approaches by allowing
-more expressive rules to be written, and writing them in a declarative
-style in a superset of Z.  As well as rewrite rules (for example,
-equalities), it is possible to write general inference rules with
-side-conditions.  We shall see that this is sufficiently expressive
-that we can write a set of rules for unfolding schema expressions ---
-one of the more complex aspects of Z.  In contrast, the other Z tools
-use a mixture of builtin commands, rewrite rules and specific tactics
-to implement schema expression unfolding.  Our hope is that the
-additional expressivity of the ZedRules notation will make it easier
-to specify many kinds of Z transformations, as well as being useful
+Our ZedRules notation differs from the above approaches by allowing more
+expressive rules to be written, and writing them in a declarative style in
+a superset of Z.  As well as rewrite rules, it is possible to write general
+inference rules with side-conditions.  We shall see that this is
+sufficiently expressive that we can write a set of rules for unfolding
+schema expressions --- one of the more complex aspects of Z.  In contrast,
+the other Z tools use a mixture of builtin commands, rewrite rules and
+specific tactics to implement schema expression unfolding.  Our hope is
+that the additional expressivity of the ZedRules notation will make it
+easier to specify many kinds of Z transformations, as well as being useful
 for schema unfolding.
 
 
@@ -161,18 +159,16 @@ specific to CZT and could be adopted by other Z tools.
 
 \subsection{Syntax}
 
-Each rule is introduced with the keyword \emph{rule} and a unique name
-for the rule.  It has a single conclusion, written below a line, and
-zero or more antecedents, written above the line.  Some of the
-antecedents can be provisos, which are distinguished by a leading
-$\proviso$ character (U+25B8).  The syntax of consequents and
+Each rule is introduced with the keyword \emph{rule} and a unique name for
+the rule.  It has a single conclusion, written below a line, and zero or
+more antecedents, written above the line.  The syntax of consequents and
 antecedents is that of Standard Z predicates extended with jokers.
 
 For example, the \emph{Funct} rule from the $\V$
 logic~\cite{brien:calculus-schemas-z00} might be written as follows:
 \begin{zedrule}{Funct}
   \exists_1 x:F @ x.1 = E \\
-  \proviso x \notfreein E
+  x \backslash E
 \derives
   Y=F(E) \iff (E,Y) \in F
 \end{zedrule}
@@ -181,12 +177,24 @@ The \LaTeX\ input for this rule is:
 \begin{verbatim}
 \begin{zedrule}{Funct}
   \exists_1 x:F @ x.1 = E \\
-  \proviso x \notfreein E
+  x \backslash E
 \derives
   Y=F(E) \iff (E,Y) \in F
 \end{zedrule}
 \end{verbatim}
-while the Unicode form of the rule is similar to the typeset form.
+
+Most logics contain rules with meta-level side conditions, which check
+various syntactic properties of the terms in the rule.  The most common
+example is checking that a certain name~$x$ is not free in a given
+term~$E$.  In the $\V$ logic, the not-free-in operator ($x \backslash E$)
+is an object-level relation, but in many other logics, not-free-in is a
+meta level operator, which we write as $x \notfreein E$.  To reason about Z
+in a convenient way, it is also useful to be able to check properties of
+signatures, distinguish between the different kinds of decorations on
+names, etc.  The ZedRules notation provides a variety of provisos to
+support this kind of reasoning.  Some of the antecedents of a rule can be
+provisos.  They are distinguished from normal antecedents by a leading
+$\proviso$ character (U+25B8), for example $\proviso x \notfreein E$.
 
 It is also necessary to declare which names are metavariables
 (jokers) and which syntactic roles they play.  For example, in
@@ -196,7 +204,7 @@ is a concrete bound variable name.  In the ZedRules notation, each
 joker name must be declared before it is used in rules.  For example,
 the following declarations declare $E,F$ and $Y$ to be expression
 jokers, $D1$ to be a joker that ranges over declaration lists, and
-$v$ to be a name joker.
+$V$ to be a name joker.
 
 \begin{zedjoker}{Expr} E,F,Y \end{zedjoker}
 \begin{zedjoker}{DeclList} D1 \end{zedjoker}
@@ -244,15 +252,6 @@ the goal that are in scope for that term.
 
 \subsection{Proviso Semantics}
 
-Most logics contain rules with side conditions, which check various
-syntactic properties of the terms in the rule.  The most common
-example is checking that a certain name~$n$ is not free in a given
-term~$t$.  We write this as $n \notfreein t$.  To reason about Z in a
-convenient way, it is also useful to be able to check properties of
-signatures, distinguish between the different kinds of decorations on
-names, etc.  The ZedRules notation provides provisos to support this
-kind of reasoning.
-
 Each proviso evaluates to either $PASS$ or $NOT\_PASS$.  The
 evaluation of a proviso begins with taking into account known
 instantiations of any jokers used in the proviso.  It typically uses
@@ -277,29 +276,17 @@ provisos have been implemented.
 \item[Check:] $\proviso Name \notfreein Term$.
   A check proviso passes if the given $Name$ does not appear free in
   $Term$.  This is useful for logics in which not-free-in conditions
-  are handled at the meta-level.  Note that in the $\V$ logic, the
-  not-free-in operator is an object-level relation, so $x \notfreein
-  e$ need not be written as a proviso.
+  are handled at the meta-level.  
+  
+\item[Lookup:] $\proviso Name \hasDefn Expr$.  A lookup proviso passes if
+  there is a definition of $Name$ in the current context and if that
+  definition's right-hand side unifies with the expression $Expr$.  The
+  $Name$ can be followed by an instantiation list of expressions, allowing
+  for lookup of generic definitions.  This provides a way of looking up
+  definitions so that they can be used to unfold expressions.  We hope to
+  generalise this further to 
+  allow lookup of variable declarations and their constraining predicates.
 
-\item[Lookup:] $\proviso Name \hasDefn Expr$.
-  A lookup proviso passes if the name is bound to a constant ($==$)
-  declaration in the environment and if that declaration's right-hand
-  side unifies with the expression.  The $Name$ can be followed by an
-  instantiation list of expressions, allowing for lookup of generic
-  constant definitions.  We hope to generalise this further to allow
-  lookup of variable ($:$) declarations and their constraining
-  predicates.
-
-%  This searches for a
-%  matching declaration in the current Z section and its ancestor
-%  sections.  It provides a way of looking up definitions so that they
-%  can be used to unfold expressions.
-%  The left-hand side $Name$ can
-%  also be a reference expression, which is a name plus a list of
-%  expressions --- this allows generic definitions to be instantiated
-%  and unfolded.  In the future we plan to expand this proviso, so that
-%  rules can query other kinds of Z paragraphs, such as the
-%  declarations and predicates within axiomatic definitions.
 \end{description}
 
 The value of a proviso must be monotonic with respect to the
@@ -403,11 +390,10 @@ be folded away by just clicking on them.  If the mouse pointer is
 above a particular node, the tooltip gives information about whether
 and which rule has been applied.
 
-This interactive prover is not intended to be a practical tool for
-reasoning about Z specifications.  A much higher level of automation
-would be needed for that.  But it has been found to be a very useful
-tool in the development of rule sets for the other tools discussed
-next.
+This interactive prover is a useful tool for the development of rule sets,
+such as the rule sets that are used by the tools discussed in the following
+sections.
+
 
 \subsection{An Automated Depth-First Prover} \label{sec:prover}
 
@@ -909,9 +895,9 @@ provers (after a large amount of theory development).
 In the future, we would also like to be able to translate rules
 into a form that existing Z theorem provers can accept, so that we can prove
 rules correct and prove that a given set of rules preserves the Z
-semantics.  A simple declarative semantics for rules makes this
+semantics.  Our simple declarative semantics for rules makes this
 easier to achieve.
 
 \bibliographystyle{entcs}
-\bibliography{spec,logic,thmprove,misc,proceedings}
+\bibliography{spec,logic,thmprove,misc,utting,proceedings}
 \end{document}
