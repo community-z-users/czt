@@ -409,14 +409,13 @@ would be needed for that.  But it has been found to be a very useful
 tool in the development of rule sets for the other tools discussed
 next.
 
-\subsection{An Automated Depth-First Prover}
+\subsection{An Automated Depth-First Prover} \label{sec:prover}
 
-This tool is a Java class (called SimpleProver) that provides a
-depth-first search method that can be used to find proofs
-automatically.  Given a predicate, it tries to apply the rules in the
-order they appear in the Z specification.  If the conclusion of a rule
-can be unified with the predicate, the resulting joker instantiations
-are recorded and a sequence of new subgoals is created from the
+This tool uses a depth-first search to find proofs automatically.
+Given a predicate, it tries to apply the rules in the order they
+appear in the Z specification.  If the conclusion of a rule can be
+unified with the predicate, the resulting joker instantiations are
+recorded and a sequence of new subgoals is created from the
 antecedents of the rule (taking the joker instantiations into account)
 and attempted to be proven next (in the order provided by the rule).
 If proving the new subgoals fails, the other rules are tried instead.
@@ -436,32 +435,32 @@ usually found more quickly than using deep backtracking.
 
 \subsection{A Rewrite Engine} \label{sec:rewrite}
 
-CZT also provides a Java class called Rewrite that can rewrite a given
-Z term using a given set of rewrite rules.  A rewrite rule is a rule
-whose conclusion is of the form $t1~r~t2$, where the left side $t1$
-must match the term to be rewritten, the right side $t2$ represents
-the result of the transformation, and $r$ is some equivalence
-relation.  For example, the Rewrite engine will rewrite a Z
-expression~$e1$ to the Z expression~$e2$ if it can prove $e1 = e2$
-using repeated applications of rules from the given set of rewrite
-rules.  Note that rewrite rules may have antecedents, so applying such
-rewrite rules requires proving any antecedent predicates and provisos
---- the latter task is done using the SimpleProver tool mentioned
-earlier.
+CZT also provides a rewrite engine that can rewrite a given Z term
+using a given set of rewrite rules.  A rewrite rule is a rule whose
+conclusion is of the form $t1~r~t2$, where the left side $t1$ must
+match the term to be rewritten, the right side $t2$ represents the
+result of the transformation, and $r$ is some equivalence relation.
+Note that rewrite rules may have antecedents, so applying such rewrite
+rules requires proving any antecedent predicates and provisos --- the
+latter task is done using the prover described in
+section~\ref{sec:prover}.
 
-Usually, the task is to compute $e2$ for a given Z expression $e1$.
-To do that, the rewrite engine asks the prover to prove $e1 = E$,
-where $E$ is an expression joker.  The rewrite rules should be
-designed so that, if a proof is found, the right-hand side of the
-equation is ground, i.e.\ does not contain any unbound jokers.  Then
-$e1$ is substituted by, or rewritten to, $e2$.
+For example, the rewrite engine will rewrite a Z expression~$e1$ to
+the Z expression~$e2$ if it can prove $e1 = e2$ using the given set of
+rules.  Usually, $e2$ is not given but has to be computed.  To do
+that, the rewrite engine asks the prover to prove $e1 = E$, where $E$
+is an expression joker.  The rewrite rules should be designed so that,
+if a proof is found, the right-hand side of the equation is ground,
+i.e.\ does not contain any unbound jokers.  Then $e1$ is substituted
+by, or rewritten to, $e2$.
 
-The rewrite engine is implemented by the Rewrite class, which provides
-methods for rewriting expressions (using $e1 = e2$ rules) and
-predicates (using $p1 \iff p2$ rules) once.  Another method combines
-rewrites into sequences of rewrites and also considers subterms in a
-top-down manner.  A given term is rewritten until it does not change
-any more, and then its subterms are rewritten in the same way.
+The rewrite engine supports rewriting expressions (using $e1 = e2$
+rules) and predicates (using $p1 \iff p2$ rules) just once.  It also
+provides ways to combine rewrites into sequences of rewrites and
+considers subterms in a top-down manner.  A given term is rewritten
+until it does not change any more (the rule writer needs to ensure
+termination of the rules), and then its subterms are rewritten in the
+same way.
 
 \section{Example Rules: Schema Unfolding and Normalisation} \label{sec:schemas}
 
