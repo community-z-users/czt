@@ -138,17 +138,18 @@ of this paper (with antecedents, jokers etc.).  However, such rules
 are expressed in the proof notation of ProofPower (ML and HOL), rather
 than in Z syntax.
 
-Our ZedRules notation differs from the above approaches by allowing more
-expressive rules to be written, and writing them in a declarative style in
-a superset of Z.  As well as rewrite rules (for example, equalities), it is
-possible to write general inference rules with side-conditions.  We shall
-see that this is sufficiently expressive that we can write a set of rules
-for unfolding schema expressions -- one of the more complex aspects of Z.
-In contrast, the other Z tools use a mixture of builtin commands, rewrite
-rules and specific tactics to implement schema expression unfolding.  Our
-hope is that the additional expressivity of the ZedRules notation will make
-it easier to specify many kinds of Z transformations, as well as being
-useful for schema unfolding.
+Our ZedRules notation differs from the above approaches by allowing
+more expressive rules to be written, and writing them in a declarative
+style in a superset of Z.  As well as rewrite rules (for example,
+equalities), it is possible to write general inference rules with
+side-conditions.  We shall see that this is sufficiently expressive
+that we can write a set of rules for unfolding schema expressions ---
+one of the more complex aspects of Z.  In contrast, the other Z tools
+use a mixture of builtin commands, rewrite rules and specific tactics
+to implement schema expression unfolding.  Our hope is that the
+additional expressivity of the ZedRules notation will make it easier
+to specify many kinds of Z transformations, as well as being useful
+for schema unfolding.
 
 %This will make it easier to 
 %develop new Z transformation tools such as test generators,
@@ -163,8 +164,8 @@ useful for schema unfolding.
 
 This section describes the syntax and semantics of ZedRules.  We add
 two new kinds of Z paragraphs to the Z standard notation, one for
-rules and one for jokers.  The ideas in this section are not specific
-to CZT and could be adopted by other Z tools.
+rules and one for declaring jokers.  The ideas in this section are not
+specific to CZT and could be adopted by other Z tools.
 
 \subsection{Syntax}
 
@@ -291,67 +292,54 @@ reasoning.
 %(though with different semantics) extended with jokers.
 %These are Standard Z predicates extended with jokers, but
 %They are prefixed by a special `keyword' \verb!\proviso! (displayed as
-%$\proviso$ when typeset -- this is the U+25B8 character in Unicode) to
+%$\proviso$ when typeset --- this is the U+25B8 character in Unicode) to
 %distinguish them from antecedent predicates.
 %improve readability and avoid syntactic ambiguity.
 
-Each proviso evaluates to $PASS$ or $NOT\_PASS$.
-The evaluation of a proviso begins with
-taking into account known instantiations of any jokers used in the proviso.
-It typically uses unification to determine instantiations of remaining jokers,
-evaluating to $PASS$ only if those unifications succeed
-and the particular test implemented by the proviso succeeds.
-The following provisos have been implemented.
+Each proviso evaluates to either $PASS$ or $NOT\_PASS$.  The
+evaluation of a proviso begins with taking into account known
+instantiations of any jokers used in the proviso.  It typically uses
+unification to determine instantiations of remaining jokers,
+evaluating to $PASS$ only if those unifications succeed and the
+particular test implemented by the proviso succeeds.  The following
+provisos have been implemented.
 
 \begin{description}
 \item[Type:] $\proviso Expr :: Expr$.
-  A type proviso passes if
-  the right-hand expression is the carrier set of the type
-  of the left-hand expression.
-%  This calculates the type of the
-%  left-hand expression and unifies the corresponding carrier set with
-%  the right-hand expression.
+  A type proviso passes if the right-hand expression is the carrier
+  set of the type of the left-hand expression.
 
 \item[Calculate:] $\proviso Expr \is Expr$.
-  A calculate proviso passes if
-  the calculation expressed by the left-hand expression
-  produces a result that unifies with the right-hand expression.
-  These calculations are expressed using a restricted set of operators,
-  which typically manipulate names and declaration lists.
-  Examples of these operators are given in the following section.
-%  This calculates the
-%  left-hand expression, then unifies the result with the right-hand
-%  expression.  $E1$ can contain only a very restricted set of
-%  operators for manipulating names and declaration lists.  We will see
-%  examples of these operators in the following section.
+  A calculate proviso passes if the calculation expressed by the
+  left-hand expression produces a result that unifies with the
+  right-hand expression.  These calculations are expressed using a
+  restricted set of operators, which typically manipulate names and
+  declaration lists.  Examples of these operators are given in
+  \section~\ref{sec:schemas}.
 
 \item[Check:] $\proviso Name \notfreein Term$.
-  A check proviso passes if
-  the given $Name$ does not appear free in $Term$.
-%  This checks that the
-%  given $Name$ does not appear in $Term$.
-  This is useful for logics
-  in which not-free-in conditions are handled at the meta-level.  Note
-  that in the $\V$ logic, the not-free-in operator is an object-level
-  relation, so $x \notfreein e$
-  need not be written as a proviso.
-%  is a normal predicate rather than a proviso.
+  A check proviso passes if the given $Name$ does not appear free in
+  $Term$.  This is useful for logics in which not-free-in conditions
+  are handled at the meta-level.  Note that in the $\V$ logic, the
+  not-free-in operator is an object-level relation, so $x \notfreein
+  e$ need not be written as a proviso.
 
 \item[Lookup:] $\proviso Name \hasDefn Expr$.
-  A lookup proviso passes if
-  the name is bound to a constant ($==$) declaration in the environment
-  and if that declaration's right-hand side unifies with the expression.
-  The $Name$ can be followed by an instantiation list of expressions,
-  allowing for lookup of generic constant definitions.
-  We hope to generalise this further to allow lookup of
-  variable ($:$) declarations and their constraining predicates.
+  A lookup proviso passes if the name is bound to a constant ($==$)
+  declaration in the environment and if that declaration's right-hand
+  side unifies with the expression.  The $Name$ can be followed by an
+  instantiation list of expressions, allowing for lookup of generic
+  constant definitions.  We hope to generalise this further to allow
+  lookup of variable ($:$) declarations and their constraining
+  predicates.
+
 %  This searches for a
 %  matching declaration in the current Z section and its ancestor
 %  sections.  It provides a way of looking up definitions so that they
 %  can be used to unfold expressions.
 %  The left-hand side $Name$ can
 %  also be a reference expression, which is a name plus a list of
-%  expressions -- this allows generic definitions to be instantiated
+%  expressions --- this allows generic definitions to be instantiated
 %  and unfolded.  In the future we plan to expand this proviso, so that
 %  rules can query other kinds of Z paragraphs, such as the
 %  declarations and predicates within axiomatic definitions.
@@ -423,16 +411,17 @@ reasons:
 \item There are already many other good theorem provers for Z, so
   developing another would simply fragment the existing small
   user-base further.
-\item For practical theorem proving, it is necessary to develop a large set
-  of rules (several for each Z construct), derived rules and tactics to
-  automate the common styles of reasoning.  Experience shows that this
-  requires several person years of theory development. 
+\item For practical theorem proving, it is necessary to develop a
+  large set of rules (several for each Z construct), derived rules and
+  tactics to automate the common styles of reasoning.  Experience
+  shows that this requires several person years of theory development.
 \item The speed of the current CZT implementation of ZedRules is not
-  sufficiently fast for practical reasoning.  The automated proof engines can
-  apply a few hundred rules per second, which is adequate for simple unfolding
-  tasks, but not adequate for heavy-duty reasoning with lots of rules --
-  a good theorem prover needs to perform tens or hundreds of thousands of
-  rules per second to be pleasant to use.
+  sufficiently fast for practical reasoning.  The automated proof
+  engines can apply a few hundred rules per second, which is adequate
+  for simple unfolding tasks, but not adequate for heavy-duty
+  reasoning with lots of rules --- a good theorem prover needs to
+  perform tens or hundreds of thousands of rules per second to be
+  pleasant to use.
 \end{enumerate}
 
 
@@ -520,9 +509,10 @@ the result of the transformation, and $r$ is some equivalence
 relation.  For example, the Rewrite engine will rewrite a Z
 expression~$e1$ to the Z expression~$e2$ if it can prove $e1 = e2$
 using repeated applications of rules from the given set of rewrite
-rules.  Note that some rewrite rules may have antecedents, so applying
-such rewrite rules can require proving any antecedent predicates --
-the latter task is done using the SimpleProver tool mentioned earlier.
+rules.  Note that rewrite rules may have antecedents, so applying such
+rewrite rules requires proving any antecedent predicates and provisos
+--- the latter task is done using the SimpleProver tool mentioned
+earlier.
 
 Usually, the task is to compute $e2$ for a given Z expression $e1$.
 To do that, the rewrite engine asks the prover to prove $e1 = E$,
@@ -688,10 +678,9 @@ signature.
 
 The next rule handles decorated $\theta$ expressions.  However, this
 version handles only a single prime decoration.  We need thirteen
-versions of this next rule -- one for 
-each possible decoration.   In the future we will extend the ZedRules
-notation to support Stroke-List jokers, so that all decoration lists can
-be handled by a single rule.
+versions of this next rule --- one for each possible decoration.  In
+the future we will extend the ZedRules notation to support Stroke-List
+jokers, so that all decoration lists can be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
   \proviso E :: \power [D | true] \\
@@ -742,7 +731,7 @@ $\Xi$ schema names.
 
 The SchemaPrime rule uses the schema prime proviso to decorate a
 normalised schema.  Note that we also currently need thirteen versions
-of this next rule -- one for each possible decoration.
+of this next rule --- one for each possible decoration.
 
 \begin{zedrule}{SchemaPrime}
    E \sexprUnfoldsTo [D1 | P1] \\
@@ -773,9 +762,10 @@ normalised before their predicate is negated.
   (\lnot E) \sexprUnfoldsTo [D | \lnot P]
 \end{zedrule}
 
-The SchemaConjunction rule is straightforward -- it uses a type
-proviso to check that the signatures of the two schemas are compatible.
-The schema disjunction, implication and equivalence rules are similar.
+The SchemaConjunction rule is straightforward --- it uses a type
+proviso to check that the signatures of the two schemas are
+compatible.  The schema disjunction, implication and equivalence rules
+are similar.
 
 \begin{zedrule}{SchemaConjunction}
   E1 \sexprUnfoldsTo [D1 | P1] \\
@@ -895,12 +885,12 @@ and normalised before this rule is applied.
 [D | P] = \{ D | P @ \theta [D | true] \}
 \end{zedrule}
 
-The next two rules are adapted from the sets toolkit and the
-relations toolkit of the Z standard.  They illustrate how rewrite rules
-can be used to unfold one operator and express it in terms of other
-simpler operators.  ZLive needs no builtin knowledge of intersection
-or $\dom$ -- these two rules are all that is needed.  Around 40 of the
-standard toolkit operators are unfolded by rules in this way.
+The next two rules are adapted from the sets toolkit and the relations
+toolkit of the Z standard.  They illustrate how rewrite rules can be
+used to unfold one operator and express it in terms of other simpler
+operators.  ZLive needs no builtin knowledge of intersection or $\dom$
+--- these two rules are all that is needed.  Around 40 of the standard
+toolkit operators are unfolded by rules in this way.
 
 \begin{zedrule}{intersection}
    E1 \cap E2 = \{x:E1 | x \in E2\}
