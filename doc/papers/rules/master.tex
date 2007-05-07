@@ -598,10 +598,11 @@ this section to rewrite $E$ to $[D | P]$.
   E = [D | P]
 \end{zedrule}
 
-The Theta rule rewrites expressions into a binding.  The type
-proviso is used to calculate the signature of $E$, then the theta
-proviso generates the appropriate binding expression from that
-signature.
+The Theta rule rewrites expressions into a binding.  The type proviso
+is used to calculate the signature of $E$, then the theta proviso
+generates the appropriate binding expression from that signature.  For
+example, the binding $\lblot x==x,y==y \rblot$ is computed for
+expressions $\theta~[x,y:\nat]$.
 \begin{zedrule}{Theta}
   \proviso E :: \power [D | true] \\
   \proviso \theta [D | true] \is E2
@@ -618,7 +619,7 @@ jokers, so that all decoration lists can be handled by a single rule.
 
 \begin{zedrule}{ThetaPrime}
   \proviso E :: \power [D | true] \\
-  \proviso theta [D | true] ' \is E2
+  \proviso \theta [D | true] ' \is E2
 \derives
   \theta E~' = E2
 \end{zedrule}
@@ -725,9 +726,8 @@ Any other names that are declared in $E1$ are hidden existentially.
 To calculate the precondition of a schema, we must existentially hide
 all the output names, such as $x!$ or $x'$.  The $split$ operator in
 the following rule takes a declaration list and splits the names into
-four groups according to their final decoration.  (For example, $[x,
-x', y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land
-[y:T]!$.)
+four groups according to their final decoration (for example, $[x, x',
+y?, y!, z:T] \is [y:T]? \land [x:T; z:T] \land [x':T]\land [y:T]!$).
 
 The declarations whose names have no decorations or a final decoration
 of $?$ are collected in $D1$, while declarations whose names have a
@@ -744,8 +744,11 @@ final decoration of $!$ or $'$ are collected in $D2$.
 \end{zedrule}
 
 Schema composition is one of the most complex schema operators.
-Note that $\bowtie$ is a special decoration that cannot be entered by
-users.
+However, this SchemaComposition rule captures its semantics concisely.
+First, the signatures of the two expressions $E1$ and~$E2$ are
+computed, and all the names from $D2$ that have a primed version in
+$D1$ are collected in $D5$.  Note that $\bowtie$ is a special
+decoration that cannot be entered by users.
 
 \begin{zedrule}{SchemaComposition}
   \proviso E1 :: \power [D1 | true] \\
@@ -764,7 +767,7 @@ users.
 %TODO: schema hiding, schema piping, schema exists unique.
 
 
-%\subsection{Rules for Unfolding Quantified Declarations}
+%\subsection{Unfolding Quantified Declarations}
 %
 %When rewriting terms involving quantifiers, we want to
 %rewrite and expand the schema text $E$ within quantifiers
@@ -781,7 +784,7 @@ users.
 %\end{zedrule}
 
 
-\subsection{Rules for Unfolding Schemas as Predicates}
+\subsection{Unfolding Schemas as Predicates}
 
 If a schema expression $E$ is used as a predicate, it is equivalent to
 checking that $\theta E$ (a binding constructed from names that are
