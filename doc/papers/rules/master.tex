@@ -17,8 +17,6 @@
 
 % Extra math-mode macros for this paper.
 % Some of these may eventually go into czt.sty
-\newenvironment{zedoracle}[1]{\par\textbf{oracle }#1\vspace{-2ex}\infrule}{\endinfrule}
-
 \newcommand{\V}{\mathcal{V}}
 \newcommand{\Zc}{Z_C}
 \newcommand{\sexprUnfoldsTo}{\mathrel{=_{se}}}
@@ -463,16 +461,15 @@ applied offers the choice of ``Auto prove'' or to apply one of the
 matching rules.  It also has a ``Why not'' submenu, which lists all
 the rules that cannot be applied.  By selecting one of those, the user
 gets detailed debugging information about why the unification of the
-selected predicate and the conclusion of a particular rule or oracle
-failed.
+selected predicate and the conclusion of a particular rule failed.
 
 To provide the submenus ``Apply'' and ``Why not'', the prover goes
 through all the known rules and tries to apply them to the current
 predicate.  If this test application suceeds, the corresponding rule
-or oracle name is added into the ``Apply'' submenu; if it fails, the
-name is added into the ``Why not'' submenu.  While this approach might
-be too inefficient and slow for large rule sets, it has been very
-helpful for our purposes.
+name is added into the ``Apply'' submenu; if it fails, the name is
+added into the ``Why not'' submenu.  While this approach might be too
+inefficient and slow for large rule sets, it has been very helpful for
+our purposes.
 
 The ``Auto prove'' menu entry calls the automated prover described in
 the next section.  If a proof is found, the resulting proof tree is
@@ -480,7 +477,7 @@ displayed as a subtree of the current node and the user can browse and
 manipulate it.  Browsing a proof tree is eased by allowing subtrees to
 be folded away by just clicking on them.  If the mouse pointer is
 above a particular node, the tooltip gives information about whether
-and which rule or oracle has been applied.
+and which rule has been applied.
 
 This interactive prover is not intended to be a practical tool for
 reasoning about Z specifications.  A much higher level of automation
@@ -499,10 +496,8 @@ are recorded and a sequence of new subgoals is created from the
 antecedents of the rule (taking the joker instantiations into account)
 and attempted to be proven next (in the order provided by the rule).
 If proving the new subgoals fails, the other rules are tried instead.
-If an oracle application succeeds, the code for checking the predicate
-is executed next.  If this succeeds, the predicate is considered to be
-proven, otherwise the proof search is continued by trying to apply
-other rules instead.
+To discharge a proviso, code for checking the predicate is executed.
+If this succeeds, the predicate is considered to be proven.
 
 Note that this simple prover uses a shallow backtracking algorithm and
 therefore might fail to find a proof even if there exists one.  If a
