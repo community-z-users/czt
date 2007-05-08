@@ -176,113 +176,32 @@ more detail.
         A (generic) axiomatic paragraph, (generic) schema definition,
         or (generic) horizontal definition
         <ul>
-        <li>C.4.3 (Axiomatic description). In this case, AxPara.Box=AxBox,
-                with no generic parameters (AxPara.NameList=null/empty). 
-                The SchText.DeclList are the declared variables (possibly empty),
-                whereas the SchText.Pred is the axiomatic definition introduced.
-                In LaTeX markup it is typeset using the \begin{axdef}\end{axdef}
-                environment. For example:
-                \begin{axdef}
-                x: \nat
-                \where
-                x = 10
-                \end{axdef}
-                is encoded with an AST like  
-                AxPara(null, SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("\nat")))), 
-                  MemPred(RefExpr(ZName("x")), SetExpr(ZExprList(NumExpr(10))))), Box.AxBox).
-        </li>
-        
-        <li>C.4.4 (Schema definition). In this case, AxPara.Box=SchBox, with no generic
-                with no generic parameters (AxPara.NameList=null/empty). 
-                The SchText.DeclList contains one ConstDecl, whereas the SchText.Pred 
-                is null. The ConstDecl.Name=schema-name, whereas the 
-                ConstDecl.Expr=SchExpr, where SchExpr.SchText.DeclList are the
-                schema (possibly empy) declarions (or inclusions), and the
-                SchExpr.SchText.Pred is the schema predicate or invariant.                
-                In LaTeX markup it is typeset using the \begin{schema}{schema-name}\end{schema}
-                environment, where schema-name matches ConstDecl.Name. For example,                
-                \begin{schema}{S}
-                x: \nat
-                \where
-                x = 10
-                \end{schema}                
-                is encoded with an AST like  (see 12.2.3.1 or C.4.4.2)
-                
-                AxPara(null, SchText(ZDeclList(ConstDecl(ZName("S"), SchExpr(
-                    SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("\nat")))), 
-                        MemPred(RefExpr(ZName("x")), SetExpr(ZExprList(NumExpr(10)))))))), 
-                    null), Box.SchBox).
-        </li>                
-        <li>C.4.5 (Generic description). In this case, AxPara.Box=AxBox,
-                with generic parameters (AxPara.NameList is not empty). The remaining 
-                structure is just like axiomatic description.
-                In LaTeX markup it is typeset using the \begin{gendef}[X]\end{gendef}
-                environment. For example:
-                \begin{gendef}[X]
-                x: X
-                \where
-                P
-                \end{axdef}
-                is encoded with an AST like  
-                
-                AxPara(ZNameList(ZName("X")), SchText(ZDeclList(
-                    VarDecl(ZNameList(ZName("x")), RefExpr(ZName("X")))), P), Box.AxBox).                    
-        </li>
-        <li>C.4.6 (Generic schema definition). In this case, AxPara.Box=SchBox, with 
-                generic parameters (AxPara.NameList is not empty). The remaining structure
-                is just like schema definition.                                
-                In LaTeX markup it is typeset using the \begin{schema}{schema-name}[X]\end{schema}
-                environment. For example,                
-                \begin{schema}{S}[X]
-                x: X
-                \where
-                P
-                \end{schema}                
-                
-                is encoded with an AST like  (see 12.2.3.2 or C.4.6.2)
-                AxPara(ZNameList(ZName("X")), SchText(ZDeclList(ConstDecl(ZName("S"), SchExpr(
-                    SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("X")))), 
-                        P)))), null), Box.SchBox).
-        </li>
-        <li>C.4.7 (Horizontal definition). In this case, AxPara.Box=OmitBox, with no generic
-                with no generic parameters (AxPara.NameList=null/empty). 
-                The SchText.DeclList contains one ConstDecl, whereas the SchText.Pred 
-                is null. The ConstDecl.Name=hname, whereas the 
-                ConstDecl.Expr has the abbreviation definition. If this expression
-                is a SchExpr, then we have a horizontal schema, wehre SchExpr.SchText.DeclList 
-                are the schema (possibly empy) declarions (or inclusions), and the
-                SchExpr.SchText.Pred is the schema predicate or invariant (like for C.4.4).
-                In LaTeX markup it is typeset using the \begin{zed} hname == expr \end{zed}
-                environment, where hname matches ConstDecl.Name. For example,                
-                \begin{zed} S == [ x: \nat | x = 10 ] \end{zed}                
-                is encoded with an AST like  (see 12.2.3.3 or C.4.7.2)
-                
-                AxPara(null, SchText(ZDeclList(ConstDecl(ZName("S"), SchExpr(
-                    SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("\nat")))), 
-                        MemPred(RefExpr(ZName("x")), SetExpr(ZExprList(NumExpr(10)))))))), 
-                        null), Box.OmitBox)
-                    
-                whereas \begin{zed} BIT == \{0, 1\} \end{zed} is
-                
-                AxPara(null, SchText(ZDeclList(ConstDecl(ZName("BIT"), 
-                    SetExpr(ZExprList(NumExpr(0), NumExpr(1))))), null), Box.OmitBox).                 
+        <li>C.4.3 (Axiomatic description) and C.4.5 (Generic description).
+          In this case, Box=AxBox.  NameList contains the generic parameters,
+          so is empty for an axiomatic description.  For example,
+          <code>\begin{axdef}     x,y: \nat \where x \neq y \end{axdef}</code>
+          <code>\begin{gendef}[T] x,y: T \where x \neq y \end{gendef}</code>
+          both translate into an AxPara with Box=AxBox and SchText containing
+          the declaration of x and y, and the predicate x \neq y.  For the axdef
+          example, NameList is empty, whereas for the gendef example it
+          contains T.
         </li>        
-        <li>C.4.8 (Generic horizontal definition). In this case, AxPara.Box=OmitBox, with 
-                generic parameters (AxPara.NameList is not empty).  The remaining structure
-                is just like horizontal definition.                
-                In LaTeX markup it is typeset using the \begin{zed} hname[X] == expr \end{zed}.
-                For example, \begin{zed} S[X] == [ x: X | P ] \end{zed} is encoded with an AST 
-                like  (see 12.2.3.3 or C.4.7.2)
-                
-                AxPara(ZNameList(ZName("X")), SchText(ZDeclList(ConstDecl(ZName("S"), SchExpr(
-                    SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("X")))), 
-                        P)))), null), Box.OmitBox)
-                        
-                whereas \begin{zed} \emptyset[X] == \{ x: X | false \} \end{zed} is
-                
-                AxPara(ZNameList(ZName("X")), SchText(ZDeclList(ConstDecl(ZName("\emptyset"), 
-                    SetCompExpr(SchText(ZDeclList(VarDecl(ZNameList(ZName("x")), RefExpr(ZName("X")))), 
-                    FalsePred()), RefExpr(ZName("x")) ))), null), Box.OmitBox). 
+        <li>C.4.4 (Schema definition) and C.4.6 (Generic schema definition).
+          In this case, Box=SchBox.  For example,
+          <code>\begin{schema}{S} x,y: \nat \where x \neq y \end{schema}</code>
+          is translated into a nongeneric AxPara (see 12.2.3.1 or C.4.4.2)
+          whose SchText contains a single ConstDecl, S == [x,y:\nat | x \neq y].
+          A generic schema definition is similar but has a non empty NameList
+          (see 12.2.3.2 or C.4.6.2).
+        </li>                
+        <li>C.4.7 (Horizontal definition) and
+            C.4.8 (Generic horizontal definition).
+          In this case, Box=OmitBox.  For example,
+          <code>\begin{zed}S == [x,y: \nat | x \neq y]\end{zed}</code>
+          is translated into a nongeneric AxPara (see 12.2.3.3 or C.4.7.2)
+          whose SchText contains a single ConstDecl, S == [x,y:\nat | x \neq y].
+          A generic horizontal definition is similar but has a non empty
+          NameList (see 12.2.3.4 or C.4.8.2).
         </li>        
         </ul>
       </xs:documentation>
@@ -654,13 +573,15 @@ more detail.
                 In this case, Mixfix=true, the first (left) expression is the
                 name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!) 
                 and the second (right) expression is (S,T).</li>
-        <li>C.6.22 (Application).  For example: dom R.
+        <li>C.6.22 (Application).  For example: (_ + _)(S, T).
+                In this case, Mixfix=false, and the rest is the same as above
+                (the first expression is the RefExpr with Mixfix=false and
+                name (" _ + _ "), and the second expression is (S,T)).
+                Another example: dom R.
                 In this case, Mixfix=false, the first (left) expression is the
                 function, dom, (again, a RefExpr with Mixfix=false) 
                 and the second (right) expression is the argument R.</li>
         </ul>
-        As another example, m + n has ApplExpr.Mixfix=true, whereas (_ + _)(m, n) 
-        ApplExpr has Mixfix=false. On both cases the RefExpr.Mixifix=false for "(_+_)".
       </xs:documentation>
     </xs:annotation>
   </xs:element>
