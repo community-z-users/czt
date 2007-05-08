@@ -198,25 +198,31 @@ public class PrintVisitor
     }
     return result.toString();
   }
-  
-  protected String visitUnicode(String name) {
-    StringBuffer result = new StringBuffer();
-    for(int i = 0 ; i < name.length() ; i++) {
-        if (Character.isLetterOrDigit(name.codePointAt(i)) ||
-            Character.isSpaceChar(name.codePointAt(i)) ||            
-            name.charAt(i) == '_' || name.charAt(i) == '$') {
-            result.append(name.charAt(i));
-        } else {            
-            result.append("U+" + Integer.toHexString(name.codePointAt(i)).toUpperCase());
-        }
+
+  protected void unicodeToAscii(String name, StringBuffer result)
+  {
+    for(int i = 0; i < name.length(); i++) {
+      if (Character.isLetterOrDigit(name.codePointAt(i)) ||
+          Character.isSpaceChar(name.codePointAt(i)) ||
+          name.charAt(i) == '_' || name.charAt(i) == '$') {
+        result.append(name.charAt(i));
+      }
+      else {
+        result.append("U+" +
+                      Integer.toHexString(name.codePointAt(i)).toUpperCase());
+      }
     }
-    return result.toString();
   }
 
   public String visitZName(ZName zName)
   {
     StringBuffer result = new StringBuffer();
-    result.append(visitUnicode(zName.getWord()));
+    if (printUnicode_) {
+      result.append(zName.getWord());
+    }
+    else {
+      unicodeToAscii(zName.getWord(), result);
+    }
     result.append(visit(zName.getStrokeList()));
     return result.toString();
   }

@@ -173,7 +173,7 @@ public class PrintVisitor
         result.append(" ");
         result.append(term.getCommand());
         result.append(" ");
-        result.append(visitUnicode(term.getUnicode()));
+        unicodeToAscii(term.getUnicode(), result);
         return result.toString();
     }
     
