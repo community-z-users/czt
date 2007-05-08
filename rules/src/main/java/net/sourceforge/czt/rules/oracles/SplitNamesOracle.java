@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.util.Factory;
 
-public class SortNamesOracle
+public class SplitNamesOracle
   extends AbstractOracle
 {
   private Factory factory_ = new Factory(new ProverFactory());
@@ -64,17 +64,17 @@ public class SortNamesOracle
           r1.add(undecorate(zName, varDecl));
         }
         else if (last instanceof NextStroke) {
-          r2.add(undecorate(zName, varDecl));
-        }
-        else if (last instanceof OutStroke) {
           r3.add(undecorate(zName, varDecl));
         }
+        else if (last instanceof OutStroke) {
+          r4.add(undecorate(zName, varDecl));
+        }
         else {
-          r4.add(varDecl);
+          r2.add(varDecl);
         }
       }
       else {
-        r4.add(varDecl);
+        r2.add(varDecl);
       }
     }
     Set<Binding> bindings1 = UnificationUtils.unify(r1, d1);

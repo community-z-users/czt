@@ -94,7 +94,7 @@ public class SimpleProver
     result.put("Decor9Oracle", new DecorateOracle(num9Stroke));
     result.put("SchemaMinusOracle", new SchemaMinusOracle());
     result.put("UnprefixOracle", new UnprefixOracle());
-    result.put("SortNamesOracle", new SortNamesOracle());
+    result.put("SplitNamesOracle", new SplitNamesOracle());
     return result;
   }
 

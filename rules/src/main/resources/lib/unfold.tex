@@ -320,8 +320,8 @@ such as $x$, $x?$ and $x_2$.
 
 \begin{zedrule}{SchemaPrecondition}
   E \sexprUnfoldsTo [D4 | P2] \\
-  (sort [D4|true]) \is ([D6|true]? \land [D7|true]' \land
-                        [D8|true]! \land [D9|true]) \\
+  (split [D4|true]) \is ([D6|true]? \land [D9|true] \land
+                         [D7|true]' \land [D8|true]!) \\
   ([D6|true]? \land [D9|true]) :: \power [D1|true]
 \derives
   \pre E \sexprUnfoldsTo [ D1 | (\exists ([D7|true]' \land [D8|true]!) @ P2)]
@@ -330,8 +330,8 @@ such as $x$, $x?$ and $x_2$.
 \begin{zedrule}{SchemaComposition}
   E1 :: \power [D1 | true] \\
   E2 :: \power [D2 | true] \\
-  (sort [D1|true]) \is ([D6|true]? \land [D4|true]' \land
-                        [D8|true]! \land [D9|true]) \\
+  (split [D1|true]) \is ([D6|true]? \land [D9|true] \land
+                         [D4|true]' \land [D8|true]!) \\
   ([D4 | true] \schemaminus [D2 | true]) \is E5\\
   ([D4 | true] \schemaminus E5) \is E6 % matching names
 \derives
