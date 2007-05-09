@@ -404,6 +404,8 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
+src/site/resources/images/cztlogo.jpg -text
+src/site/resources/images/project.jpg -text
 typechecker-circus/pom.xml -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorAnn.java -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorMessage.java -text
@@ -428,11 +430,9 @@ web/cztlogo/czttitle3.xcf -text
 web/cztlogo/wordart.png -text
 web/src/content/zml/Z_2_1.xsd -text
 web/src/resources/images/built-with-forrest-button.png -text
-web/src/resources/images/cztlogo.jpg -text
 web/src/resources/images/jedit_screen.png -text
 web/src/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 web/src/resources/images/plugin.png -text
-web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text

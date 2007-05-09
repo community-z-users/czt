@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="CZT">
+  <bannerLeft>
+    <name>CZT</name>
+    <src>images/project.jpg</src>
+    <href>http://czt.sourceforge.net/</href>
+  </bannerLeft>
+  <bannerRight>
+    <src>images/cztlogo.jpg</src>
+  </bannerRight>
+  <body>
+    ${modules}
+    ${reports}
+  </body>
+</project>
