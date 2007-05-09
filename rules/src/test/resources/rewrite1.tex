@@ -153,3 +153,11 @@ Unfolding birthdaybook:
     [ known : \power NAME ; birthday : \power ( NAME \cross DATE )
     | birthday \in NAME \pfun DATE \land known = \dom birthday ]
 \end{theorem}
+
+\begin{theorem}{Test}
+  \vdash? (\exists NAME:\power\arithmos @ [x:NAME | true] =
+                                          [x:\arithmos | x\in NAME])
+          \iff
+          (\exists NAME:\power\arithmos @ [x:\arithmos | x\in NAME] =
+                                          [x:\arithmos | x\in NAME])
+\end{theorem}

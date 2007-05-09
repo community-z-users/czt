@@ -42,6 +42,7 @@ public class TypecheckOracle
   {
     Expr expr = (Expr) args.get(0);
     expr = (Expr) ProverUtils.removeJoker(expr);
+    //    expr.getAnns().clear();
     final Expr type = (Expr) args.get(1);
     List errors =
       TypeCheckUtils.typecheck(expr, manager, false, true, section);
