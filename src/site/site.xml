@@ -9,6 +9,10 @@
     <src>images/cztlogo.jpg</src>
   </bannerRight>
   <body>
+    <menu name="Main">
+      <item name="Welcome" href="index.html"/>
+      <item name="News/History" href="news.html"/>
+    </menu>
     ${modules}
     ${reports}
   </body>

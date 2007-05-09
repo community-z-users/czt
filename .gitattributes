@@ -405,6 +405,7 @@ rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
 src/site/resources/images/cztlogo.jpg -text
+src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text
 typechecker-circus/pom.xml -text
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorAnn.java -text
@@ -431,7 +432,6 @@ web/cztlogo/wordart.png -text
 web/src/content/zml/Z_2_1.xsd -text
 web/src/resources/images/built-with-forrest-button.png -text
 web/src/resources/images/jedit_screen.png -text
-web/src/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 web/src/resources/images/plugin.png -text
 web/src/resources/images/sflogo.png -text
 zlive/COPYING.txt -text

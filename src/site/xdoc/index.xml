@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
-<document> 
-  <header> 
-   <title>Welcome to CZT</title> 
-  </header> 
+<!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties> 
+    <title>Welcome to CZT</title> 
+  </properties>
   <body> 
-    <section>
-      <title>Overview</title>
+    <section name="Overview">
       <p>The Community Z Tools (CZT) project is building a set of tools
         for editing, typechecking and animating formal specifications
-        written in the <link href="site:whatisz">
-        Z specification language</link>, with some support for Z extensions
+        written in the <a href="http://www.zuser.org/z/">
+        Z specification language</a>, with some support for Z extensions
 	such as Object-Z, Circus, and TCOZ.
         These tools are all built using the CZT Java framework for Z tools.
       </p>
       <p>
         Beta-versions of the end-user CZT tools are now included in the
         CZT releases (download
-        <link href="site:download">sources</link> or
-        <link href="ext:petra">binaries</link>).  This includes a
-        <link href="ext:jedit">jEdit</link>-based
+        <a href="http://sourceforge.net/project/showfiles.php?group_id=86250">sources</a> or
+        <a href="http://www.cs.waikato.ac.nz/~petra/">binaries</a>).
+        This includes a
+        <a href="http://www.jedit.org">jEdit</a>-based
         Z editor that gives WYSIWYG editing of the Unicode markup for Z,
         template-based insertion of Z constructs for LaTeX and Unicode
         markup, automatic typechecking on each save, a SideKick panel that
         shows the structure of your Z specification, conversion between
         the different markups and much much more.
         More information can be found in the
-        <link href="site:manual">manual.</link>.
+        <a href="manual.html">manual.</a>.
         Here is a screenshot, showing some random Z in Unicode format:
       </p>	
-      <figure src="images/jedit_unicode_example.png" 
+      <img src="images/jedit_unicode_example.png" 
                 alt="CZT Tools within JEdit"/>
     </section>
-    <section>
-      <title>Background</title>
+    <section name="Background">
         <p>[Adapted from Andrew Martin's 
-          <link href="ext:original-proposal">original CZT proposal</link>]
+          <a href="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/proposal.html">original CZT proposal</a>]
 	  The Z specification language was adopted as an ISO standard in 2002.
           It can be used to precisely specify the requirements or behaviour of
           systems, and analyze that behaviour via proof, animation,
@@ -57,37 +57,39 @@
           Z. 
         </p>
     </section>
-    <section>
-      <title>CZT Objectives</title>
+    <section name="CZT Objectives">
       <p>Our objectives are to encourage interchange between existing Z
          tools (via a standard XML interchange format for Z),
          and to provide open-source libraries for building and integrating
          new Z tools.
-         The software we are building does/will include:
+         The software we are building includes:
       </p>
       <ol>
-        <li>An <link href="site:zml">XML Schema markup</link> for Z.
-            See the <link href="ext:zb-2003">ZB2003</link>
+        <li>An <a href="zml/index.html">XML Schema markup</a> for Z.
+            See the <a href="ext:zb-2003">ZB2003</a>
             proceedings for a paper describing this markup.</li>
-        <li><link href="http://czt.sourceforge.net/corejava/api/">Java
-            classes</link> for Z annotated syntax trees (AST).</li>
+        <li><a href="corejava/apidocs/">Java
+            classes</a> for Z annotated syntax trees (AST).</li>
         <li>Java classes for converting between XML and Java AST.</li>
         <li>Java libraries for the common operations needed in every Z tool
-            (markup-converters, parser, type-checker, schema expansion
-            etc.).  A paper describing these will be presented at 
-	    <link href="ext:zb-2005">ZB2005</link>.
+            (markup-converters, parser, type-checker, etc.).
+            A <a href="http://www.springerlink.com/index/10.1007/11415787_5">paper</a>
+            describing these has been presented at 
+	    <a href="http://www.zb2005.org">ZB2005</a>.
 	    </li>
         <li>One or more simple graphical Z editors, with facilities for
             easily entering the special Z unicode symbols.  Initially we
-            are using <link href="ext:jedit">jEdit</link>.</li>
+            are using <a href="http://www.jedit.org">jEdit</a>.</li>
         <li>A Z animation tool called ZLive, with a customisable 
             graphical user interface.</li> 
         <li>Export tools, to output Z in other notations or for other Z tools.
             (example, HTML output, LaTeX output, translation to B and
             JML).</li> 
         <li>Extended versions of the libraries and tools to support Z 
-            extensions such as <link href="ext:objectz">Object-Z</link>
-            and <link href="ext:tcoz">TCOZ</link>.
+            extensions such as
+            <a href="http://www.itee.uq.edu.au/~smith/objectz.html">Object-Z</a>,
+            <a href="http://www.comp.nus.edu.sg/~dongjs/tcoz.html">TCOZ</a>,
+            and <a href="http://www.cs.york.ac.uk/circus/">CIRCUS</a>.
         </li>
       </ol>
     </section>
