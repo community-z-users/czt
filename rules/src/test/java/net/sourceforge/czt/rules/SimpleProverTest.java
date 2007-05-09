@@ -110,7 +110,7 @@ public class SimpleProverTest
       PrintUtils.print(conjPara.getPred(),
                        writer,
                        manager,
-                       "standard_toolkit",
+                       "oracle_toolkit",
                        Markup.LATEX);
       writer.close();
       LOG.fine("Starting to prove conjecture: " + resource + ": " + writer.toString());
