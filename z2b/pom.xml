@@ -8,7 +8,7 @@
   </parent>
   <artifactId>z2b</artifactId>
   <packaging>jar</packaging>
-  <name>Z to B translator</name>
+  <name>CZT Z to B translator</name>
   <description>
     A Z to B translator.
   </description>
