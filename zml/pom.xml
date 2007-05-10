@@ -10,6 +10,6 @@
   <packaging>jar</packaging>
   <name>CZT ZML</name>
   <description>
-    Provides ZML examples for CZT.
+    Provides XML Schemas that define the XML markup for Z and example specifications in various mark-ups.
   </description>
 </project>
