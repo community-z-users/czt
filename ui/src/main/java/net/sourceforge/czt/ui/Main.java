@@ -32,9 +32,12 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * The command line user interface for CZT.
+ */
 public class Main
 {
-  public static String PREFIX = "java -jar czt.jar ";
+  public static final String PREFIX = "java -jar czt.jar ";
   private Level verbosityLevel_ = Level.WARNING;
 
   public static void main(String[] args)
