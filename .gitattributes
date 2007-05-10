@@ -429,7 +429,6 @@ util/src/main/java/net/sourceforge/czt/util/CztSystemProperties.java -text
 util/src/main/java/net/sourceforge/czt/util/Pair.java -text
 util/src/main/java/net/sourceforge/czt/util/ReflectionUtils.java -text
 util/src/main/java/net/sourceforge/czt/util/StrUtils.java -text
-web/src/content/zml/Z_2_1.xsd -text
 web/src/resources/images/jedit_screen.png -text
 web/src/resources/images/plugin.png -text
 web/src/resources/images/sflogo.png -text
@@ -465,3 +464,4 @@ zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_circus_st
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/unboxed_reactive_buffer.tex -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/bbook.utf16 svneol=native#unset
 zml/src/main/resources/net/sourceforge/czt/zml/examples/z/birthdaybook.utf16 -text
+zml/src/site/resources/zml/Z_2_1.xsd -text
