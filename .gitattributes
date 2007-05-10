@@ -429,9 +429,6 @@ util/src/main/java/net/sourceforge/czt/util/CztSystemProperties.java -text
 util/src/main/java/net/sourceforge/czt/util/Pair.java -text
 util/src/main/java/net/sourceforge/czt/util/ReflectionUtils.java -text
 util/src/main/java/net/sourceforge/czt/util/StrUtils.java -text
-web/src/resources/images/jedit_screen.png -text
-web/src/resources/images/plugin.png -text
-web/src/resources/images/sflogo.png -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
