@@ -35,7 +35,7 @@ import net.sourceforge.czt.z.ast.*;
 public class Main
 {
   public static String PREFIX = "java -jar czt.jar ";
-  private Level verbosityLevel = Level.WARNING;
+  private Level verbosityLevel_ = Level.WARNING;
 
   public static void main(String[] args)
     throws Throwable
@@ -53,7 +53,7 @@ public class Main
     catch (CommandException e) {
       if (e.getCause() != null) {
         if (e.getCause().getMessage() != null &&
-            verbosityLevel.intValue() >= Level.INFO.intValue() ) {
+            verbosityLevel_.intValue() >= Level.INFO.intValue() ) {
           System.err.println(e.getCause().getMessage());
           return;
         }
@@ -89,11 +89,11 @@ public class Main
           extension = "zpatt";
         }
         else if ("-v".equals(args[i])) {
-          verbosityLevel = Level.INFO;
+          verbosityLevel_ = Level.INFO;
         }
         else if ("-vv".equals(args[i])) {
-          verbosityLevel = Level.CONFIG;
-          Logger.getLogger("").setLevel(verbosityLevel);
+          verbosityLevel_ = Level.CONFIG;
+          Logger.getLogger("").setLevel(verbosityLevel_);
         }
         else if ("-id".equals(args[i]) ||
                  "-ids".equals(args[i])) {
@@ -118,7 +118,7 @@ public class Main
           }
         }
         else {
-          setConsoleLogger(verbosityLevel);
+          setConsoleLogger(verbosityLevel_);
           SectionManager manager = new SectionManager(extension);
           if (printIds) {
             manager.setProperty(PrintPropertiesKeys.PROP_PRINT_NAME_IDS,
@@ -179,7 +179,7 @@ public class Main
     return "Usage:\n" +
       "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
-      "Flags:\n"+
+      "Flags:\n" +
       "  -d   specify the dialect to be used\n" +
       "  -o   specify output file (mark-up is determined by file ending)\n" +
       "  -s   syntax check only\n" +
@@ -219,9 +219,9 @@ public class Main
       Method main =
         cmdClass.getMethod("main", new Class[] { args.getClass() });
       try {
-        String[] arguments = new String[args.length-1];
+        String[] arguments = new String[args.length - 1];
         for (int i = 0; i < arguments.length; i++) {
-          arguments[i] = args[i+1];
+          arguments[i] = args[i + 1];
         }
         main.invoke(null, new Object[] { arguments });
       }
@@ -236,13 +236,12 @@ public class Main
   public static String printCommands()
   {
     return printProperties(getCommands());
-    
   }
 
   public static String printProperties(Properties props)
   {
     StringBuilder builder = new StringBuilder();
-    for(Map.Entry entry : props.entrySet()) {
+    for (Map.Entry entry : props.entrySet()) {
       builder.append("  " + entry.getKey() +
                      " (bound to " + entry.getValue() + ")\n");
     }
@@ -293,8 +292,8 @@ public class Main
             }
             if (zSect.getParaList() instanceof ZParaList &&
                 ((ZParaList) zSect.getParaList()).size() > 0) {
-	      nrOfZSects++;
-	      logger.info("Z Section " + sectionName);
+              nrOfZSects++;
+              logger.info("Z Section " + sectionName);
               if (prove) {
                 RuleTable rules = (RuleTable)
                   manager.get(new Key(sectionName, RuleTable.class));
