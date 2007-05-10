@@ -8,10 +8,6 @@ corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -t
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/PrintVisitor.java -text
-cztlogo/cztlogo.xcf -text
-cztlogo/czttitle.xcf -text
-cztlogo/czttitle3.xcf -text
-cztlogo/wordart.png -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/ast-hierarchy-cards/circus/circus-action-command-ast-card.jpg -text
@@ -25,6 +21,10 @@ doc/ast-hierarchy-cards/z/z-para-sect-ast-card.jpg -text
 doc/ast-hierarchy-cards/z/z-pred-ast-card.jpg -text
 doc/ast-hierarchy-cards/z/z-type-ann-ast-card.jpg -text
 doc/ast-hierarchy-cards/zpatt/zpatt-all-ast-card.jpg -text
+doc/cztlogo/cztlogo.xcf -text
+doc/cztlogo/czttitle.xcf -text
+doc/cztlogo/czttitle3.xcf -text
+doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
 doc/papers/ifm/Typecheckers.zuml -text
 doc/papers/ifm/mc.arch.stages.eps -text
