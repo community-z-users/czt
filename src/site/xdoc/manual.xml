@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://forrest.apache.org/dtd/document-v13.dtd">
-<document> 
-  <header> 
+<!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties> 
     <title>CZT User Manual</title> 
-  </header> 
-  <body>
-    <section>
-      <title>About CZT</title>
+  </properties>
+  <body> 
+    <section name="About CZT">
       <p>
         The Community Z Tools (CZT) project is an open-source Java
         framework for building formal methods tools for Z and Z
@@ -23,11 +23,10 @@
         the CZT tools.
       </p>
       <p>
-        Binary releases can be downloaded from
-        <link href="ext:petra">Petra's web-site</link>
-        Source releases can be downloaded from <link
+        Releases can be downloaded from
+        <a
           href="http://sourceforge.net/project/showfiles.php?group_id=86250">
-          Sourceforge</link>.
+          Sourceforge</a>.
         There are three bundles on the sourceforge web-site.  The
         bundle "corejava" is deprecated and contains only old releases
         of corejava.  The bundle "czt" is a collection of all the
@@ -36,8 +35,7 @@
         stand-alone typechecker for Z and Object Z specifications.
       </p>
     </section>
-    <section>
-      <title>Source Releases</title>
+    <section name="Source Releases">
       <p>
         Currently, there are two alternative ways to compile CZT.  The
         recommended way is to use maven.  It doesn't require to
@@ -57,21 +55,20 @@
         for more information about how ant can be used to build CZT.
       </p>
 
-      <section id="installation">
-        <title>Compiling using maven</title>
+      <section name="Compiling using maven" id="installation">
         <p>
           You need at least the following:
         </p>
         <ul>
           <li>
-            <link href="ext:jdk">
+            <a href="http://java.sun.com/javase/downloads/">
               J2SE Development Kit >= 5.0
-            </link>
+            </a>
           </li>
           <li>
-            <link href="ext:maven">
+            <a href="http://maven.apache.org/">
               Maven version >= 2.0.4
-            </link>
+            </a>
           </li>
         </ul>
         <p>
@@ -80,20 +77,11 @@
           start.
         </p>
         <p>
-          Maven will download most of the dependencies automatically.
-          However, there are a few things that maven can't download
-          for you.  This includes
-          <link href="ext:jflex">jflex</link>,
-          <link href="ext:jedit">jEdit</link>
-          and various jEdit plugins.  Please follow the instructions
-          given by maven to install those in the maven repository so
-          that maven can find them.
-        </p>
-        <p>
           The required jEdit plugins, namely
-          <link href="ext:console">Console</link>,
-          <link href="ext:errorlist">ErrorList</link>, and
-          <link href="ext:sidekick">SideKick</link>,
+          <a href="http://plugins.jedit.org/plugins/?Console">Console</a>,
+          <a href="http://plugins.jedit.org/plugins/?ErrorList">ErrorList</a>,
+          and
+          <a href="http://plugins.jedit.org/plugins/?SideKick">SideKick</a>,
           can be installed using jEdit's plugin manager (select
           Plugins/Plugin Manager from the jEdit menu).  After the
           installation, the jar files of the plugins can be found in
@@ -125,14 +113,13 @@
         </p>
       </section>
     </section>
-    <section>
-      <title>Sources from Subversion</title>
+    <section name="Sources from Subversion">
       <p>
         If you are really feeling adventurous, you can try to build
         CZT using the sources from Subversion.  See the
-        <link href="site:cztsvninfo">
+        <a href="http://sourceforge.net/svn/?group_id=86250">
           documentation about Subversion on sourceforge
-        </link>
+        </a>
         for more information about how to access the CZT repository.
       </p>
       <p>
@@ -142,11 +129,10 @@
         Subversion repository.
       </p>
     </section>
-    <section>
-      <title>Running CZT as a command line tool</title>
+    <section name="Running CZT as a command line tool">
       <p>
         If you have got the CZT sources, you should first follow the
-        <link href="#installation">installation instructions</link>.
+        <a href="#installation">installation instructions</a>.
         This will create the jar files mentioned below.
       </p>
       <p>
@@ -182,13 +168,11 @@
         See the usage information for a  list of availabe tools.
       </p>
     </section>
-    <section>
-      <title>The CZT jEdit plugins</title>
-      <section>
-        <title>Installation</title>
+    <section name="The CZT jEdit plugins">
+      <section name="Installation">
         <p>
           If you have not already done so, install
-          <link href="ext:jedit">jEdit</link>
+          <a href="http://www.jedit.org">jEdit</a>
           and make sure it is using Java 5.  By clicking on
           "Macros / Properties / System Properties" you can check which
           Java version jEdit is using.  The
@@ -234,11 +218,12 @@
           Since the CZT plugins need to be installed manually
           (not using the plugin manager),
           we need to take care of the plugin's
-          dependencies.  The ZSideKick plugin depends on
-          <link href="ext:errorlist">ErrorList</link> and
-          <link href="ext:sidekick">SideKick</link>,
-          the ZLivePlugin depends on the
-          <link href="ext:console">Console</link> plugin.
+          dependencies.  The ZSideKick plugin depends on the
+          <a href="http://plugins.jedit.org/plugins/?Console">Console</a>,
+          <a href="http://plugins.jedit.org/plugins/?ErrorList">ErrorList</a>,
+          and
+          <a href="http://plugins.jedit.org/plugins/?SideKick">SideKick</a>,
+          plugin.
           Please install the required plugins from within
           jEdit's plugin manager before installing the CZT plugins.
         </p>
@@ -264,14 +249,13 @@
           <code>&lt;SETTINGS_DIR&gt;/modes/</code>.
          </p>
       </section>
-      <section>
-        <title>Using the CZT jEdit plugins</title>
+      <section name="Using the CZT jEdit plugins">
         <p>
           After you restart jEdit, you should now find an entry
           "Community Z Tools" in the plugin menu, which pops up the
           ZCharMap plugin.  It will show some "missing font" square
           boxes until you
-          <link href="#font">install the CZT font</link>.  We like to
+          <a href="#font">install the CZT font</a>.  We like to
           "dock" this plugin at the top or bottom of the main jEdit
           window -- see the jEdit documentation how plugins can be
           docked etc.
@@ -300,8 +284,7 @@
         </p>
       </section>
     </section>
-    <section id="font">
-      <title>Installing the CZT font</title>
+    <section name="Installing the CZT font" id="font">
       <p>
         We are not experts in installing fonts, so please check the
         documentation of your operating system how fonts are installed.  The
@@ -309,8 +292,7 @@
         Windows XP and Linux.
       </p>
 
-      <section>
-        <title>Installing the CZT font on Windows XP</title>
+      <section name="Installing the CZT font on Windows XP">
         <p>
           Go into Start/Control Panel, then into the "Fonts" program.
           (If you are using the new XP categories, you need to select
@@ -321,8 +303,7 @@
         </p>
       </section>
 
-      <section>
-        <title>Installing the CZT font on Linux</title>
+      <section name="Installing the CZT font on Linux">
         <p>
           Executing the following commands worked for me on gentoo
           (without having root privileges):
@@ -339,14 +320,13 @@
           More information can be obtained from:
         </p>
         <ul>
-          <li><link href="site:gnomefonts">The Gnome Web-Site</link></li>
-          <li><link href="site:font-howto">The Font HOWTO</link></li>
-          <li><link href="site:ttfonts">The Malta Linux User Group</link></li>
+          <li><a href="http://www.gnome.org/fonts">The Gnome Web-Site</a></li>
+          <li><a href="http://www.linux.org/docs/ldp/howto/Font-HOWTO/">The Font HOWTO</a></li>
+          <li><a href="http://linux.org.mt/article/ttfonts">The Malta Linux User Group</a></li>
         </ul>
       </section>
 
-      <section>
-        <title>Selecting the CZT font within jEdit</title>
+      <section name="Selecting the CZT font within jEdit">
         <p>
           After installing the font, we must tell jEdit to use that font
           in all its buffers.  To do this, go into the jEdit global settings
