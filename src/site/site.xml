@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="CZT">
+  <!--
   <bannerLeft>
     <name>CZT</name>
     <src>images/project.jpg</src>
@@ -8,17 +9,17 @@
   <bannerRight>
     <src>images/cztlogo.jpg</src>
   </bannerRight>
+  -->
   <body>
     <menu name="Main">
       <item name="Welcome" href="index.html"/>
-      <item name="News/History" href="news.html"/>
       <item name="CZT on Sourceforge" href="http://sourceforge.net/projects/czt/"/>
     </menu>
     <menu name="Get CZT">
       <item name="Download" href="http://sourceforge.net/project/showfiles.php?group_id=86250&amp;package_id=89518"/>
     </menu>
     <menu name="Documentation">
-      <item name="Manual" href="manual.html"/>
+      <item name="Manual" href="http://czt.sourceforge.net/manual.html"/>
       <item name="Wiki" href="http://czt.sourceforge.net/wiki/"/>
     </menu>
     ${modules}
