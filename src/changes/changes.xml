@@ -4,7 +4,7 @@
     <title>CZT Changes Report</title>
   </properties>
   <body>
-    <release version="1.0" date="May 2007" description="Release based on ZML 2.0; tools like parser, typechecker, animator are quite mature now">
+    <release version="1.0" date="May 2007" description="Major release based on ZML 2.1; tools like parser, typechecker, etc. are quite mature now">
       <action dev="Petra Malik" type="add">
         Use maven as build system.  This includes lots of changes to
         the project and directory structure to follow the maven
