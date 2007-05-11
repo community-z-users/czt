@@ -1,5 +1,6 @@
 * text=auto !eol
 /COPYING.txt -text
+attic/bsh/parseCircus.bsh -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbContext.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
@@ -148,7 +149,6 @@ eclipse/czthelp/toc.xml -text
 eclipse/czthelp/topics_Concepts.xml -text
 eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
-examples/bsh/parseCircus.bsh -text
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
 fonts/Using[!!-~]fontforget.ppt -text
