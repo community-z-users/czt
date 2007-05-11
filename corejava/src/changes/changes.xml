@@ -1,81 +1,65 @@
 <?xml version="1.0"?>
-<status>
-
-  <developers>
-    <person name="Petra Malik"      email="PetraMalik@sourceforge.net"      id="Petra" />
-  </developers>
-
-  <changes>
-    <!-- Add new releases here
-         Some action types have associated images. By default, images are
-         defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
-         src/documentation/resources/images/<foo>.jpg images, these will
-         automatically be used for entries of type <foo>.
-         Sample action:
-         <action dev="JB" type="fix" due-to="Joe Contributor"
-           due-to-email="joec@apache.org" fixes-bug="123">
-           Fixed a bug in the Foo class.
-         </action>
-    -->
+<document>
+  <body>
     <release version="2.0.0" date="July 6, 2006">
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Remove interface
-        <code>net.sourceforge.czt.base.ast.TermA</code>
+        net.sourceforge.czt.base.ast.TermA
         and class
-        <code>net.sourceforge.czt.base.impl.TermAImpl</code>
+        net.sourceforge.czt.base.impl.TermAImpl
         and make
-        <code>net.sourceforge.czt.base.ast.Term</code>
+        net.sourceforge.czt.base.ast.Term
         contain annotations instead.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Update classes in packages z according to the changes in ZML.
         New interfaces and classes:
-        <code>net.sourceforge.czt.z.ast.Ann</code>,
-        <code>net.sourceforge.czt.z.ast.BranchList</code>,
-        <code>net.sourceforge.czt.z.ast.DeclList</code>,
-        <code>net.sourceforge.czt.z.ast.DeclNameList</code>,
-        <code>net.sourceforge.czt.z.ast.ExprList</code>,
-        <code>net.sourceforge.czt.z.ast.FreetypeList</code>,
-        <code>net.sourceforge.czt.z.ast.Numeral</code>,
-        <code>net.sourceforge.czt.z.ast.ParaList</code>,
-        <code>net.sourceforge.czt.z.ast.RefNameList</code>,
-        <code>net.sourceforge.czt.z.ast.RenameList</code>,
-        <code>net.sourceforge.czt.z.ast.StrokeList</code>,
-        <code>net.sourceforge.czt.z.ast.ZBranchList</code>,
-        <code>net.sourceforge.czt.z.ast.ZDeclList</code>,
-        <code>net.sourceforge.czt.z.ast.ZDeclName</code>,
-        <code>net.sourceforge.czt.z.ast.ZDeclNameList</code>,
-        <code>net.sourceforge.czt.z.ast.ZExprList</code>,
-        <code>net.sourceforge.czt.z.ast.ZFreetypeList</code>,
-        <code>net.sourceforge.czt.z.ast.ZNumeral</code>,
-        <code>net.sourceforge.czt.z.ast.ZParaList</code>,
-        <code>net.sourceforge.czt.z.ast.ZRefName</code>,
-        <code>net.sourceforge.czt.z.ast.ZRefNameList</code>,
-        <code>net.sourceforge.czt.z.ast.ZRenameList</code>,
-        <code>net.sourceforge.czt.z.ast.ZSchText</code>, and
-        <code>net.sourceforge.czt.z.ast.ZStrokeList</code>.
+        net.sourceforge.czt.z.ast.Ann,
+        net.sourceforge.czt.z.ast.BranchList,
+        net.sourceforge.czt.z.ast.DeclList,
+        net.sourceforge.czt.z.ast.DeclNameList,
+        net.sourceforge.czt.z.ast.ExprList,
+        net.sourceforge.czt.z.ast.FreetypeList,
+        net.sourceforge.czt.z.ast.Numeral,
+        net.sourceforge.czt.z.ast.ParaList,
+        net.sourceforge.czt.z.ast.RefNameList,
+        net.sourceforge.czt.z.ast.RenameList,
+        net.sourceforge.czt.z.ast.StrokeList,
+        net.sourceforge.czt.z.ast.ZBranchList,
+        net.sourceforge.czt.z.ast.ZDeclList,
+        net.sourceforge.czt.z.ast.ZDeclName,
+        net.sourceforge.czt.z.ast.ZDeclNameList,
+        net.sourceforge.czt.z.ast.ZExprList,
+        net.sourceforge.czt.z.ast.ZFreetypeList,
+        net.sourceforge.czt.z.ast.ZNumeral,
+        net.sourceforge.czt.z.ast.ZParaList,
+        net.sourceforge.czt.z.ast.ZRefName,
+        net.sourceforge.czt.z.ast.ZRefNameList,
+        net.sourceforge.czt.z.ast.ZRenameList,
+        net.sourceforge.czt.z.ast.ZSchText, and
+        net.sourceforge.czt.z.ast.ZStrokeList.
         Removed interfaces and classes:
-        <code>net.sourceforge.czt.z.ast.Name</code> and
-        <code>net.sourceforge.czt.z.ast.NameExprPair</code>.
+        net.sourceforge.czt.z.ast.Name and
+        net.sourceforge.czt.z.ast.NameExprPair.
         Renamed interfaces and classes:
-        <code>net.sourceforge.czt.z.ast.NameNamePair</code> to
-        <code>net.sourceforge.czt.z.ast.NewOldPair</code>, and
-        <code>net.sourceforge.czt.z.ast.Number</code> to
-        <code>net.sourceforge.czt.z.ast.Digit</code>.
+        net.sourceforge.czt.z.ast.NameNamePair to
+        net.sourceforge.czt.z.ast.NewOldPair, and
+        net.sourceforge.czt.z.ast.Number to
+        net.sourceforge.czt.z.ast.Digit.
         Added new getter and setter for Start and Length to LocAnn.
         Added new getter and setter for Explicit to RefExpr.
       </action>
-      <action dev="Petra" type="apichange">
-        Use <code>BigInteger</code> instead of <code>Integer</code> for
-        <code>Prec</code> in <code>OptempPara</code>,
-        in <code>ZNumeral</code>, and for <code>Line</code> and
-        <code>Col</code> in <code>LocAnn</code>.
+      <action dev="Petra" type="update">
+        Use BigInteger instead of Integer for
+        Prec in OptempPara,
+        in ZNumeral, and for Line and
+        Col in LocAnn.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change the return type of method
-        <code>Term.getAnns()</code> to <code>List</code>.
+        Term.getAnns() to List.
       </action>
-      <action dev="Tim,Leo,Petra" type="apichange">
+      <action dev="Tim,Leo,Petra" type="update">
         Update classes in packages oz, tcoz, circus, and zpatt
         according to the changes in the corresponding XML Schema files
         (too many changes to explicitly list them here).
@@ -84,7 +68,7 @@
         Provide support for selecting terms in an AST based on the
         location annotations of the terms and a given position, which is
         usually the position of a pointing device like a caret.  See
-        <code>net.sourceforge.czt.z.util.TermSelector</code> for more
+        net.sourceforge.czt.z.util.TermSelector for more
         information.
       </action>
       <action dev="Petra" type="add">
@@ -92,22 +76,22 @@
         given AST node.  This can be used to give a description of a
         selected term to a user, or as entries in the tree of a structure
         browsers.  See
-        <code>net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor.java</code>
+        net.sourceforge.czt.z.util.ConcreteSyntaxDescriptionVisitor.java
         for more information.
       </action>
     </release>
     <release version="1.4.1" date="September 2, 2005">
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change the AST to use generic lists.  Remove now unused class
-        <code>net.sourceforge.czt.util.TypesafeList</code>.
+        net.sourceforge.czt.util.TypesafeList.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change the AST visitors to use a generic return type.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change AST enum classes from typesafe enumerations to Java 1.5 enums.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Update classes in packages oz, tcoz, and zpatt
         according to the changes in the corresponding XML Schema files.
       </action>
@@ -123,21 +107,21 @@
       <action dev="Petra" type="add">
         Add new AST classes and interfaces for SignatureAnn.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Update classes in packages oz, tcoz, and zpatt
         according to the changes in the corresponding XML Schema files.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change interface
-        <code>net.sourceforge.czt.z.util.ZChar</code>
+        net.sourceforge.czt.z.util.ZChar
         to be a typesafe enum class containing an enumeration of commonly
         used Z characters and a couple of useful methods.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Remove method
-        <code>net.sourceforge.czt.util.CztLogger.getLogger(Object)</code>
+        net.sourceforge.czt.util.CztLogger.getLogger(Object)
         and provide a new method
-        <code>net.sourceforge.czt.util.CztLogger.getLogger(Class)</code>
+        net.sourceforge.czt.util.CztLogger.getLogger(Class)
         instead. The new method returns a more useful Logger.
       </action>
       <action dev="petra" type="fix">
@@ -150,7 +134,7 @@
       </action>
       <action dev="petra" type="fix">
         Fix the
-        <code>net.sourceforge.czt.util.ParseException.toString()</code>
+        net.sourceforge.czt.util.ParseException.toString()
         method so that it conforms to Java API spec (of Throwable).
       </action>
       <action dev="petra" type="remove">
@@ -162,104 +146,104 @@
     <release version="1.3.0" date="September 22, 2004">
       <action dev="petra" type="add">
         Add new abstract Standard Z AST classes/interfaces
-        <code>Type2</code> and
-        <code>GenericType</code> to reflect the grammar for types given in the
+        Type2 and
+        GenericType to reflect the grammar for types given in the
         ISO Standard for Z. 
       </action>
       <action dev="petra" type="add">
         Add new factory classes
-        <code>net.sourceforge.czt.*.util.Factory</code>
+        net.sourceforge.czt.*.util.Factory
         that provides convenience methods for creating AST terms.
       </action>
       <action dev="petra" type="add">
         Add new class
-        <code>net.sourceforge.czt.z.util.OperatorName</code>
+        net.sourceforge.czt.z.util.OperatorName
         that provides convenience methods for handling operator names.
       </action>
       <action dev="petra" type="add">
         Add new TCOZ AST classes/interfaces
-        <code>net.sourceforge.czt.tcoz.ast.InChoiceProExpr</code>,
-        <code>net.sourceforge.czt.tcoz.impl.InChoiceProExprImpl</code>,
-        <code>net.sourceforge.czt.tcoz.visitor.InChoiceProExprVisitor</code>,
-        <code>net.sourceforge.czt.tcoz.ast.DistInChoiceProExpr</code>,
-        <code>net.sourceforge.czt.tcoz.impl.DistInChoiceProExprImpl</code>,
-        <code>net.sourceforge.czt.tcoz.visitor.DistInChoiceProExprVisitor</code>,
-        <code>net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr</code>,
-        <code>net.sourceforge.czt.tcoz.impl.DistInterleaveProExprImpl</code>, and
-        <code>net.sourceforge.czt.tcoz.visitor.DistInterleaveProExprVisitor</code>
+        net.sourceforge.czt.tcoz.ast.InChoiceProExpr,
+        net.sourceforge.czt.tcoz.impl.InChoiceProExprImpl,
+        net.sourceforge.czt.tcoz.visitor.InChoiceProExprVisitor,
+        net.sourceforge.czt.tcoz.ast.DistInChoiceProExpr,
+        net.sourceforge.czt.tcoz.impl.DistInChoiceProExprImpl,
+        net.sourceforge.czt.tcoz.visitor.DistInChoiceProExprVisitor,
+        net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr,
+        net.sourceforge.czt.tcoz.impl.DistInterleaveProExprImpl, and
+        net.sourceforge.czt.tcoz.visitor.DistInterleaveProExprVisitor
         thanks to Chunqing.
       </action>
       <action dev="petra" type="add">
         Add new abstract Object Z AST classes/interfaces
-        <code>net.sourceforge.czt.oz.ast.DistOpExpr</code>,
-        <code>net.sourceforge.czt.oz.impl.DistOpExprImpl</code>, and
-        <code>net.sourceforge.czt.oz.visitor.DistOpExprVisitor</code>.
+        net.sourceforge.czt.oz.ast.DistOpExpr,
+        net.sourceforge.czt.oz.impl.DistOpExprImpl, and
+        net.sourceforge.czt.oz.visitor.DistOpExprVisitor.
         This is the abstract base class/interface for all DistOpExpr.
       </action>
       <action dev="petra" type="add">
         Add new abstract Object Z AST classes/interfaces
-        <code>net.sourceforge.czt.oz.ast.OperationExpr2</code>,
-        <code>net.sourceforge.czt.oz.impl.OperationExpr2Impl</code>, and
-        <code>net.sourceforge.czt.oz.visitor.OperationExpr2Visitor</code>.
+        net.sourceforge.czt.oz.ast.OperationExpr2,
+        net.sourceforge.czt.oz.impl.OperationExpr2Impl, and
+        net.sourceforge.czt.oz.visitor.OperationExpr2Visitor.
         This is the abstract base class/interface for binary operation
         expressions.
       </action>
       <action dev="petra" type="add">
         Add new (TCOZ) classes
-        <code>net.sourceforge.czt.tcoz.jaxb.JaxbContext</code>,
-        <code>net.sourceforge.czt.tcoz.jaxb.JaxbValidator</code>,
-        <code>net.sourceforge.czt.tcoz.jaxb.JaxbReader</code>, and
-        <code>net.sourceforge.czt.tcoz.jaxb.JaxbWriter</code>
+        net.sourceforge.czt.tcoz.jaxb.JaxbContext,
+        net.sourceforge.czt.tcoz.jaxb.JaxbValidator,
+        net.sourceforge.czt.tcoz.jaxb.JaxbReader, and
+        net.sourceforge.czt.tcoz.jaxb.JaxbWriter
         to enable reading, writing, and validating TCOZ ASTs.
       </action>
       <action dev="petra" type="add">
         Add new AST interface
-        <code>net.sourceforge.czt.base.ast.ListTerm</code>,
+        net.sourceforge.czt.base.ast.ListTerm,
         its corresponding default implementation
-        <code>net.sourceforge.czt.base.impl.ListTermImpl</code>, and visitor
-        <code>net.sourceforge.czt.base.visitor.ListTermVisitor</code>.
+        net.sourceforge.czt.base.impl.ListTermImpl, and visitor
+        net.sourceforge.czt.base.visitor.ListTermVisitor.
       </action>
       <action dev="petra" type="add">
         Add classes
-        <code>net.sourceforge.czt.z.ast.LatexMarkupPara</code>,
-        <code>net.sourceforge.czt.z.ast.Directive</code>,
+        net.sourceforge.czt.z.ast.LatexMarkupPara,
+        net.sourceforge.czt.z.ast.Directive,
         and
-        <code>net.sourceforge.czt.z.ast.DirectiveType</code>,
+        net.sourceforge.czt.z.ast.DirectiveType,
         which are used to represent the latex markup table.
       </action>
       <action dev="petra" type="add">
         Add exception classes
-        <code>net.sourceforge.czt.base.util.MarshalException</code>
+        net.sourceforge.czt.base.util.MarshalException
         and
-        <code>net.sourceforge.czt.base.util.UnmarshalException</code>,
+        net.sourceforge.czt.base.util.UnmarshalException,
         which can be thrown when an error occurs during a marshal or
         unmarshal operation.
       </action>
       <action dev="Petra" type="add">
         In class
-        <code>net.sourceforge.czt.base.util.XmlWriter</code>,
+        net.sourceforge.czt.base.util.XmlWriter,
         add getter and setter methods for reading and manipulating
         the encoding used for writing XML.
       </action>
       <action dev="Petra" type="update">
         Update JAXB generated classes to support ZML version 1.3.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Rename interfaces and classes of Standard Z term
-        <code>GenType</code> to
-        <code>GenParamType</code> to avoid confusion with
-        <code>GenericType</code>.
+        GenType to
+        GenParamType to avoid confusion with
+        GenericType.
       </action>
-      <action dev="petra" type="apichange">
+      <action dev="petra" type="update">
         Use instances of the newly introduced
-        <code>ListTerm</code> (see entry above)
-        instead of <code>List</code> everywhere in the AST.
-        This makes it easier to write visitors since <code>Term</code> and
-        <code>List</code> must not be distinguished any more.
+        ListTerm (see entry above)
+        instead of List everywhere in the AST.
+        This makes it easier to write visitors since Term and
+        List must not be distinguished any more.
         Note that this change may break existing visitors
         (see also the <link href="http://sourceforge.net/mailarchive/forum.php?thread_id=4875423&amp;forum_id=36894">proposal</link> for this API change).
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         XmlWriter and XmlReader now throw (Un)MarshalException in case that
         an error occured.
       </action>
@@ -276,76 +260,76 @@
     <release version="1.2.0" date="April 8, 2004">
       <action dev="Petra" type="add">
         Add interfaces
-        <code>net.sourceforge.czt.z.util.ZChar</code>
+        net.sourceforge.czt.z.util.ZChar
         and
-        <code>net.sourceforge.czt.z.util.ZString</code>
+        net.sourceforge.czt.z.util.ZString
         containing Z related unicode characters and strings.
       </action>
       <action dev="Tim" type="add">
         Add interfaces
-        <code>net.sourceforge.czt.oz.util.OzChar</code>
+        net.sourceforge.czt.oz.util.OzChar
         and
-        <code>net.sourceforge.czt.oz.util.OzString</code>
+        net.sourceforge.czt.oz.util.OzString
         containing OZ related unicode characters and strings.
       </action>
       <action dev="Petra" type="add">
         Add support for Timed Communicating Object Z (TCOZ)
         based on the Schema provided by Li Yuan Fang.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Some changes in subpackages of
-        <code>net.sourceforge.czt.z</code>
-        due to changes in <code>zml/Z.xsd</code>.
+        net.sourceforge.czt.z
+        due to changes in zml/Z.xsd.
         <ul>
           <li>
             Added classes
-            <code>Oper</code> and
-            <code>Operator</code>.
+            Oper and
+            Operator.
            </li>
            <li>
              Class
-             <code>Operand</code> is now a subclass of
-             <code>Oper</code>.
+             Operand is now a subclass of
+             Oper.
            </li>
            <li>
              Class
-             <code>OptempPara</code> now contains
-             <code>Oper</code> instead of a String or
-             <code>Operand</code>.
+             OptempPara now contains
+             Oper instead of a String or
+             Operand.
            </li>
         </ul>
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Some changes in subpackages of
-        <code>net.sourceforge.czt.oz</code>
-        due to changes in <code>zml/Object-Z.xsd</code>.
+        net.sourceforge.czt.oz
+        due to changes in zml/Object-Z.xsd.
         <ul>
           <li>
             Added classes
-            <code>PromotedInitPred</code>,
-            <code>PromotedAttrExpr</code>,
-            <code>SelfExpr</code>,
-            <code>PolyExpr</code>,
-            <code>ContainmentExpr</code>,
-            <code>RenameList</code>.
+            PromotedInitPred,
+            PromotedAttrExpr,
+            SelfExpr,
+            PolyExpr,
+            ContainmentExpr,
+            RenameList.
           </li>
           <li>
             Class
-            <code>InheritedClass</code> now contains a
-            <code>RenameList</code> rather than a
-            <code>RenameExpr</code>
+            InheritedClass now contains a
+            RenameList rather than a
+            RenameExpr
           </li>
           <li>
             Class
-            <code>FormalParameters</code> now contains a list of
-            <code>DeclName</code> rather than a list of
-            <code>RefName</code>.
+            FormalParameters now contains a list of
+            DeclName rather than a list of
+            RefName.
           </li>
           <li>
             Class
-            <code>RenameOpExpr</code> now contains a list of
-            <code>NameNamePair</code> rather than a list of
-            <code>RenameExpr</code>.
+            RenameOpExpr now contains a list of
+            NameNamePair rather than a list of
+            RenameExpr.
           </li>
         </ul>
       </action>
@@ -375,46 +359,46 @@
       <action dev="Petra" type="update">
         Update JAXB support to use JWSDP 1.3.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Package
-        <code>net.sourceforge.czt.core</code>
+        net.sourceforge.czt.core
         has been split into package
-        <code>net.sourceforge.czt.base</code>
+        net.sourceforge.czt.base
         containing base classes that are Schema independent and package
-        <code>net.sourceforge.czt.z</code>
+        net.sourceforge.czt.z
         which contains the classes representing the AST for Standard Z
         (most of the classes here are generated from the ZML Schema).
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Rename
-        <code>net.sourceforge.czt.core.ast.CoreFactory</code>
+        net.sourceforge.czt.core.ast.CoreFactory
         to
-        <code>net.sourceforge.czt.z.ast.ZFactory</code>
+        net.sourceforge.czt.z.ast.ZFactory
         and
-        <code>net.sourceforge.czt.core.impl.CoreFactoryImpl</code>
+        net.sourceforge.czt.core.impl.CoreFactoryImpl
         to
-        <code>net.sourceforge.czt.z.impl.ZFactoryImpl</code>
+        net.sourceforge.czt.z.impl.ZFactoryImpl
         to allow a common naming schema (Z is now used for the
         Standard Z classes).
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change the order of arguments for some create-methods (for
         instance HideExpr) in ZFactory since the new order is more
         intuitive.
       </action>
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Remove class
-        <code>net.sourceforge.czt.core.util.SubstitutionVisitor</code>
+        net.sourceforge.czt.core.util.SubstitutionVisitor
         since this sceleton visitor does not meet the needs of all
         possible visitors to be designed.
         A new class
-        <code>net.sourceforge.czt.z.visitor.VisitorUtils</code> is
+        net.sourceforge.czt.z.visitor.VisitorUtils is
         provided instead.  This class contains static methods from
         which a programmer can choose when implementing a visitor.
       </action>
     </release>
     <release version="1.1.1" date="October 3, 2003">
-      <action dev="Petra" type="apichange">
+      <action dev="Petra" type="update">
         Change all immutable properties of the AST classes to be mutable
         since immutable properties are no longer needed
         (they were there for historic reasons).
@@ -422,21 +406,21 @@
           <li>
             all getter methods that return an immutable list in the previous
             release now return a (mutable) list (an example is
-            <code>getDeclName()</code>
-            in class <code>AxPara</code>)
+            getDeclName()
+            in class AxPara)
           </li>
           <li>
             there are a few more setters now (an example is
-            <code>setName(String)</code>
-            in class <code>ZSect</code>)
+            setName(String)
+            in class ZSect)
           </li>
           <li>
             there are a few more default factory methods in class
-            <code>CoreFactory</code>
+            CoreFactory
             and
-            <code>CoreFactoryImpl</code>
+            CoreFactoryImpl
             (an example is
-            <code>createAxPara()</code>)
+            createAxPara())
           </li>
           <li>
             some of the constructors of the implementation classes in package
@@ -446,7 +430,7 @@
           </li>
           <li>
             remove class
-            <code>ImmutableList</code>
+            ImmutableList
             since it is no longer used
           </li>
         </ul>
@@ -468,47 +452,5 @@
         reading and writing XML files etc.
       </action>
     </release>
-  </changes>
-
-  <todo>
-    <actions priority="high">
-      <action context="docs" dev="Petra">
-        Write documentation, test cases, etc.
-      </action>
-      <action context="code" dev="open">
-        Write a validator that checks the conditions not expressed
-        in the XML Schema.  This includes, for instance, a check
-        that Expr2N contains at least two expressions
-        and the expression in Qnt1Expr is compulsory.
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="code" dev="open">
-        Handle default values in the equals methods.
-        Currently two terms that differ only in an optional child
-        (optional with respect to the XML Schema definition), one
-        is set to null (not set and therefore the default value)
-        and one is set to the default value
-        are not equal with respect to the equals method.
-        It should return true in this case since the resulting XML
-        is the same.
-      </action>
-    </actions>
-    <actions priority="low">
-      <action context="docs" dev="open">
-        Design a Corejava logo.
-      </action>
-    </actions>
-    <!-- Add todo items. @context is an arbitrary string. Eg:
-    <actions priority="high">
-      <action context="code" dev="SN">
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="docs" dev="open">
-      </action>
-    </actions>
-    -->
-  </todo>
-
-</status>
+  </body>
+</document>
