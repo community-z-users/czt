@@ -1,24 +1,6 @@
 <?xml version="1.0"?>
-<status>
-
-  <developers>
-    <person name="Petra Malik" email="PetraMalik@sourceforge.net" id="Petra"/>
-    <person name="Tim Miller" email="timmiller@sourceforge.net" id="Tim"/>
-    <person name="Mark Utting" id="Mark"/>
-  </developers>
-
-  <changes>
-    <!-- Add new releases here
-         Some action types have associated images. By default, images are
-         defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
-         src/documentation/resources/images/<foo>.jpg images, these will
-         automatically be used for entries of type <foo>.
-         Sample action:
-         <action dev="JB" type="fix" due-to="Joe Contributor"
-           due-to-email="joec@apache.org" fixes-bug="123">
-           Fixed a bug in the Foo class.
-         </action>
-    -->
+<document>
+  <body>
     <release version="0.6" date="unreleased">
       <action dev="Petra" type="update">
         Support the new ENDCHAR character U+2514.
@@ -106,7 +88,7 @@
       </action>
       <action dev="Petra" type="add">
         Add a first working version of a section manager
-        (see package <code>net.sourceforge.czt.session</code>)
+        (see package net.sourceforge.czt.session)
         that caches information
         about Z sections like AST, operator table, etc.
       </action>
@@ -223,69 +205,5 @@
         Initial Release.
       </action>
     </release>
-  </changes>
-
-  <todo>
-    <actions priority="high">
-      <action context="code" dev="open">
-        Write a Circus parser.
-      </action>
-      <action context="code" dev="open">
-        Write a TCOZ parser.
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="code" dev="open">
-        Fix the latex printer.  The current latex printer tries to avoid
-        putting hard spaces everywhere by using information from the latex
-        markup table.  For instance, there is no need to put hard spaces
-        around the latex command
-        <code>\varg</code>
-        since it is defined to be an inword (via the '%%Zinword \varg \_'
-        directive in the prelude), i.e. spaces are added before
-        and after it when it is tranlated back into unicode.
-        But this is true only in most cases.  For instance, when defining
-        the function
-        <code>\function \varg ^{ ~\varg~ }</code>,
-        the hard spaces cannot be omited since the second
-        <code>\varg</code>
-        is enclosed in braces and no spaces are added when it is tranlated
-        to unicode.  The current latex printer does not handle this case.
-        The current workaround (to be able to print the prelude) is
-        to not use
-        <code>\varg</code>
-        at all, but user defined operators that use braces may not be
-        printed correcly.
-      </action>
-      <action context="code" dev="open">
-        Develop an e-mail markup to unicode converter.  It should
-        return Symbol objects so that it can be fitted into the CztReader.
-      </action>
-    </actions>
-    <actions priority="low">
-      <action context="docs" dev="open">
-        Design a Parser logo.
-      </action>
-      <action context="code" dev="open">
-        Improve the output of schema text so that it generates
-	semicolons versus newlines 'correctly'.  Note that LET expressions
-	can only contain semicolons, but other schema text can contain
-	either.  The choice between semicolon and newline could be done via
-        some heuristics, but to do it properly would require recording
-        which was used in the input, which requires significant changes
-	to the XML schema for Z.
-      </action>
-    </actions>
-
-    <!-- Add todo items. @context is an arbitrary string. Eg:
-    <actions priority="high">
-      <action context="code" dev="SN">
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="docs" dev="open">
-      </action>
-    </actions>
-    -->
-  </todo>
-</status>
+  </body>
+</document>
