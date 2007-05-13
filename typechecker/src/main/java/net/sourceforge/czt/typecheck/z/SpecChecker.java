@@ -91,7 +91,7 @@ public class SpecChecker
 
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName()) &&
-	!sectTypeEnv().getUseNameIds()) {
+        !sectTypeEnv().getUseNameIds()) {
       Object [] params = {zSect.getName()};
       error(zSect, ErrorMessage.REDECLARED_SECTION, params);
     }
@@ -121,7 +121,7 @@ public class SpecChecker
     zSect.getParaList().accept(this);
 
     if ((useBeforeDecl() && sectTypeEnv().getSecondTime()) ||
-	sectTypeEnv().getUseNameIds()) {
+        sectTypeEnv().getUseNameIds()) {
       try {
         SectTypeEnvAnn sectTypeEnvAnn =
           (SectTypeEnvAnn) sectInfo().get(new Key(sectName(), SectTypeEnvAnn.class));
@@ -216,7 +216,7 @@ public class SpecChecker
       NameSectTypeTriple duplicate = sectTypeEnv().add(triple);
       //raise an error if there are duplicates in merging parents
       if (duplicate != null &&
-	  !duplicate.getSect().equals(triple.getSect())) {
+          !duplicate.getSect().equals(triple.getSect())) {
         Object [] params = {triple.getZName(), duplicate.getSect(),
                             triple.getSect(), sectName()};
         error(parent, ErrorMessage.REDECLARED_GLOBAL_NAME_PARENT_MERGE, params);

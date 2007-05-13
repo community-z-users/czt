@@ -67,16 +67,16 @@ abstract public class AbstractTypeEnv
   protected <X> X getX(ZName zName, Map<ZName, X> map)
   {
     X result = null;
-    Set<Map.Entry<ZName, X>> entrySet = map.entrySet();    
+    Set<Map.Entry<ZName, X>> entrySet = map.entrySet();
     for (Map.Entry<ZName, X> entry : entrySet) {
       ZName nextZName = entry.getKey();
       if (namesEqual(nextZName, zName) &&
-	  (!useNameIds_ || 
-	   (nextZName.getId() == null ||
-	    zName.getId() == null ||
-	    nextZName.getId().equals(zName.getId())))) {
-	result = entry.getValue();
-	break;
+          (!useNameIds_ ||
+           (nextZName.getId() == null ||
+            zName.getId() == null ||
+            nextZName.getId().equals(zName.getId())))) {
+        result = entry.getValue();
+        break;
       }
     }
     return result;
@@ -85,7 +85,7 @@ abstract public class AbstractTypeEnv
   /**
    * Lookup the base name of a delta or xi reference, returning the
    * parameter 'type' if the base name is not found, or is not a
-   * schema
+   * schema.
    */
   protected Type getDeltaXiType(ZName zName, Type type)
   {
@@ -133,7 +133,7 @@ abstract public class AbstractTypeEnv
         else {
           result = newPowerType;
         }
-        
+
         // Ensure that zName is linked to a ZName,
         // This is one of the postconditions of the typechecker, that
         // every ZName should be linked to some ZName.

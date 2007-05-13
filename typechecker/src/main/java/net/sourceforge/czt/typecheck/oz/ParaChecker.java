@@ -95,11 +95,11 @@ public class ParaChecker
       factory().createClassRefList(factory().listTerm(thisClass));
     ClassRefType classType =
       factory().createClassRefType(classes, factory().createSignature(),
-				   factory().<NameTypePair>list(),
-				   factory().<NameSignaturePair>list(),
-				   thisClass,
+                                   factory().<NameTypePair>list(),
+                                   factory().<NameSignaturePair>list(),
+                                   thisClass,
                                    factory().<ClassRef>list(), 
-				   null,
+                                   null,
                                    factory().<Name>list());
     PowerType powerType = factory().createPowerType(classType);
 
@@ -150,7 +150,9 @@ public class ParaChecker
     if (state != null) {
       Signature signature = state.accept(paraChecker());
       List<NameTypePair> decls = classType.getState().getNameTypePair();
-      checkForDuplicates(decls, className(), ErrorMessage.INCOMPATIBLE_OVERRIDING);
+      checkForDuplicates(decls,
+                         className(),
+                         ErrorMessage.INCOMPATIBLE_OVERRIDING);
     }
 
     //visit the initial predicate
@@ -207,7 +209,7 @@ public class ParaChecker
 
     //check the class type for duplicate declaration names
     checkClass(classType, className(), classPara.getVisibilityList(),
-	       ErrorMessage.REDECLARED_NAME_IN_CLASSPARA);
+               ErrorMessage.REDECLARED_NAME_IN_CLASSPARA);
     checkForDuplicates(opNames);
 
     //add the visibility list to the signature now after the paragraph
@@ -413,17 +415,17 @@ public class ParaChecker
 
       //add the decls to the subclass's signature and the type env
       inheritFeature(classRefType.getState().getNameTypePair(),
-		     current.getState().getNameTypePair(),
-		     expr);
+                     current.getState().getNameTypePair(),
+                     expr);
 
       //add the primary variable names to the subclass's signature
       List<Name> primaryNames = classRefType.getPrimary();
       for (Name primaryName : primaryNames) {
-	ZName zPrimaryName = assertZName(primaryName);
-	current.getPrimary().add(zPrimaryName);
-	primary().add(zPrimaryName);
+        ZName zPrimaryName = assertZName(primaryName);
+        current.getPrimary().add(zPrimaryName);
+        primary().add(zPrimaryName);
       }
-      
+
       //add the operations to the subclass's signature and the op env
       inheritOps(classRefType.getOperation(), current.getOperation(), expr);
     }

@@ -22,15 +22,12 @@ import java.io.*;
 import java.util.List;
 import java.util.Set;
 import java.util.Map;
-import java.util.Iterator;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.Section;
-import net.sourceforge.czt.parser.util.Pair;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 
@@ -43,9 +40,6 @@ public class SectTypeEnv
 {
   /** The name of the prelude section. */
   public static final String PRELUDE = Section.PRELUDE.getName();
-
-  /** A Factory. */
-  private Factory factory_;
 
   /**
    * A mapping from ZNames to the NameSectTypeTriple associated with that name.
@@ -72,6 +66,9 @@ public class SectTypeEnv
 
   /** The function of all sections to their immediate parents. */
   protected Map<String, Set<String>> parents_;
+
+  /** A Factory. */
+  private Factory factory_;
 
   public SectTypeEnv(Factory factory)
   {

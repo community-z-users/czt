@@ -19,8 +19,6 @@
 
 package net.sourceforge.czt.typecheck.oz;
 
-import net.sourceforge.czt.util.CztLogger;
-
 public class TypeCheckResources
   extends net.sourceforge.czt.typecheck.z.TypeCheckResources
 {

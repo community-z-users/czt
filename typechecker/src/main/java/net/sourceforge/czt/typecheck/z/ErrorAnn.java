@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import java.math.BigInteger;
 import java.util.*;
 import java.io.*;
 import java.text.MessageFormat;
@@ -206,7 +205,8 @@ public class ErrorAnn
         }
         return message;
       }
-    } else if (object != null) {
+    }
+    else if (object != null) {
       return object.toString();
     }
     return "Cannot be printed";

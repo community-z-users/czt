@@ -110,16 +110,16 @@ public class DeclChecker
       LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
       List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
       for (NameTypePair pair : lPairs) {
-	//copy the name
-	ZName oldName = pair.getZName();
-	ZName newName = factory().createZDeclName(oldName.getWord(),
+        //copy the name
+        ZName oldName = pair.getZName();
+        ZName newName = factory().createZDeclName(oldName.getWord(),
                                                   oldName.getStrokeList());
-	//add a unique ID to this name
-	factory().addNameID(newName);
+        //add a unique ID to this name
+        factory().addNameID(newName);
 
         addAnn(newName, locAnn);
-	NameTypePair newPair =
-	  factory().createNameTypePair(newName, pair.getType());
+        NameTypePair newPair =
+          factory().createNameTypePair(newName, pair.getType());
         pairs.add(newPair);
       }
     }

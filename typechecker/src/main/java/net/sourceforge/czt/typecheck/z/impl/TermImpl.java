@@ -20,9 +20,7 @@ package net.sourceforge.czt.typecheck.z.impl;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.*;
 
 /**

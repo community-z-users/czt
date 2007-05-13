@@ -154,7 +154,7 @@ public class PredChecker
   }
 
   public UResult visitIffPred(IffPred iffPred)
-  {    
+  {
     typeEnv().enterScope();
     traverseForDowncasts(iffPred.getLeftPred());
     traverseForDowncasts(iffPred.getRightPred());

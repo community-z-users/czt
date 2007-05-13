@@ -37,7 +37,7 @@ import net.sourceforge.czt.typecheck.z.impl.*;
  */
 public class CharTupleChecker
   extends Checker<List<Type2>>
-  implements 
+  implements
     ZSchTextVisitor<List<Type2>>,
     VarDeclVisitor<List<Type2>>,
     ConstDeclVisitor<List<Type2>>,
@@ -67,13 +67,13 @@ public class CharTupleChecker
 
       //if the type is a PowerType, take the inner type
       if (type instanceof PowerType) {
-	PowerType powerType = (PowerType) type;
-	result.add(powerType.getType());
+        PowerType powerType = (PowerType) type;
+        result.add(powerType.getType());
       }
       //otherwise, the type must not be resolved yet,
       //so use a fresh unknown type
       else {
-	result.add(factory().createUnknownType());
+        result.add(factory().createUnknownType());
       }
     }
     return result;
@@ -98,7 +98,8 @@ public class CharTupleChecker
     //type
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
-      Type2 charType = removeDecorations(inclDecl.getExpr(), powerType.getType());
+      Type2 charType =
+        removeDecorations(inclDecl.getExpr(), powerType.getType());
       result.add(charType);
     }
     //otherwise, the type must not be resolved yet,
@@ -141,19 +142,19 @@ public class CharTupleChecker
       Signature signature = schemaType.getSignature();
       List<NameTypePair> newPairs = factory().list();
       for (NameTypePair pair : signature.getNameTypePair()) {
-	ZName name = pair.getZName();
-	ZStrokeList nameStrokes = name.getZStrokeList();
-	Stroke endStroke = nameStrokes.get(nameStrokes.size()-1);
-	assert endStroke.equals(decorExpr.getStroke());
+        ZName name = pair.getZName();
+        ZStrokeList nameStrokes = name.getZStrokeList();
+        Stroke endStroke = nameStrokes.get(nameStrokes.size() - 1);
+        assert endStroke.equals(decorExpr.getStroke());
 
-	//create a new pairs with the final stroke removed from the name
-	ZStrokeList newStrokeList = factory().createZStrokeList(nameStrokes);
-	newStrokeList.remove(newStrokeList.size()-1);
-	ZName newName = 
-	  factory().createZName(name.getWord(), newStrokeList);
-	NameTypePair newPair = 
-	  factory().createNameTypePair(newName, pair.getType());
-	newPairs.add(newPair);
+        //create a new pairs with the final stroke removed from the name
+        ZStrokeList newStrokeList = factory().createZStrokeList(nameStrokes);
+        newStrokeList.remove(newStrokeList.size() - 1);
+        ZName newName =
+          factory().createZName(name.getWord(), newStrokeList);
+        NameTypePair newPair =
+          factory().createNameTypePair(newName, pair.getType());
+        newPairs.add(newPair);
       }
       Signature newSignature = factory().createSignature(newPairs);
       result = factory().createSchemaType(newSignature);

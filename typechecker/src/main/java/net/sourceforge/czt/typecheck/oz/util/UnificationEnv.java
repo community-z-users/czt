@@ -375,8 +375,8 @@ public class UnificationEnv
   }
 
   protected List<NameTypePair> checkCompatibility(List<NameTypePair> pairsA,
-						  List<NameTypePair> pairsB,
-						  List<NameTypePair> altPairs)
+                                                  List<NameTypePair> pairsB,
+                                                  List<NameTypePair> altPairs)
   {
     List<NameTypePair> result = getFactory().list();
     //check compatibility of attributes and state variables

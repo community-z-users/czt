@@ -43,7 +43,7 @@ public class GlobalDefs
     if (result instanceof VariableClassType) {
       VariableClassType vClassType = (VariableClassType) result;
       if (vClassType.getCandidateType() != null) {
-	result = vClassType.getCandidateType();
+        result = vClassType.getCandidateType();
       }
     }
     else if (result instanceof PowerType) {
@@ -54,24 +54,24 @@ public class GlobalDefs
     else if (result instanceof ProdType) {
       ProdType prodType = (ProdType) result;
       for (int i = 0; i < prodType.getType().size(); i++) {
-	Type2 resolved = resolveVariableClassType(prodType.getType().get(i));
-	prodType.getType().set(i, resolved);
+        Type2 resolved = resolveVariableClassType(prodType.getType().get(i));
+        prodType.getType().set(i, resolved);
       }
     }
     else if (result instanceof SchemaType) {
       Signature signature = ((SchemaType) result).getSignature();
       for (NameTypePair pair : signature.getNameTypePair()) {
-	Type2 resolved = resolveVariableClassType(unwrapType(pair.getType()));
-	pair.setType(resolved);
+        Type2 resolved = resolveVariableClassType(unwrapType(pair.getType()));
+        pair.setType(resolved);
       }
     }
     else if (result instanceof ClassType) {
       List<ClassRef> classRefs = ((ClassType) result).getClasses();
       for (ClassRef classRef : classRefs) {
-	for (int i = 0; i < classRef.getType().size(); i++) {
-	  Type2 resolved = resolveVariableClassType(classRef.getType().get(i));
-	  classRef.getType().set(i, resolved);
-	}
+        for (int i = 0; i < classRef.getType().size(); i++) {
+          Type2 resolved = resolveVariableClassType(classRef.getType().get(i));
+          classRef.getType().set(i, resolved);
+        }
       }
     }
     return result;
@@ -85,7 +85,7 @@ public class GlobalDefs
       ClassRefType classRefType = (ClassRefType) type;
       List<ZName> list = classRefType.getVisibilityList();
       result = classRefType.getVisibilityList() == null ||
-	containsZName(classRefType.getVisibilityList(), zName);
+        containsZName(classRefType.getVisibilityList(), zName);
     }
     return result;
   }
@@ -115,11 +115,11 @@ public class GlobalDefs
   }
 
   public static NameSignaturePair findNameSigPair(ZName zName,
-						  List<NameSignaturePair> pairs)
+                                                  List<NameSignaturePair> pairs)
   {
     NameSignaturePair result = null;
     //find the pair that has this name
-    for(NameSignaturePair pair : pairs) {
+    for (NameSignaturePair pair : pairs) {
       if (namesEqual(zName, pair.getZName())) {
         result = pair;
         break;
@@ -129,10 +129,11 @@ public class GlobalDefs
   }
 
   //find a NameSignaturePair in a class signature
-  public static NameSignaturePair findOperation(ZName zName, 
-						ClassType classType)
+  public static NameSignaturePair findOperation(ZName zName,
+                                                ClassType classType)
   {
-    NameSignaturePair result = findNameSigPair(zName, classType.getOperation());
+    NameSignaturePair result =
+      findNameSigPair(zName, classType.getOperation());
     return result;
   }
 
@@ -149,15 +150,15 @@ public class GlobalDefs
     }
     else {
       for (int i = 0; i < term.getChildren().length; i++) {
-	Object child = term.getChildren()[i];
-	if (child instanceof Term) {
-	  List<Object> newlist = new java.util.ArrayList(list);
-	  newlist.add(term);
-	  if (containsCycle(newlist, (Term) child)) {
-	    return true;
-	  }
-	}
-      }      
+        Object child = term.getChildren()[i];
+        if (child instanceof Term) {
+          List<Object> newlist = new java.util.ArrayList(list);
+          newlist.add(term);
+          if (containsCycle(newlist, (Term) child)) {
+            return true;
+          }
+        }
+      }
     }
     return false;
   }

@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Map;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -121,8 +120,8 @@ public class PostChecker
     //check if this name is undeclared
     if (uAnn != null) {
       Object [] params = {zName};
-        ErrorAnn errorAnn =
-          errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
+      ErrorAnn errorAnn =
+        errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
       removeAnn(zName, uAnn);
 
       //if this ref expr was created for an ExprPred

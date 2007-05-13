@@ -27,7 +27,6 @@ import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.z.util.GlobalDefs;
 import net.sourceforge.czt.typecheck.z.util.ParameterAnn;
 import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
 
@@ -36,13 +35,13 @@ import net.sourceforge.czt.typecheck.z.util.UndeclaredAnn;
  */
 public class Factory
 {
+  /** Used for generating unique ids in names. */
+  static protected int id_ = 0;
+
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
   protected net.sourceforge.czt.z.util.Factory factory_;
   private Map<String,List<ZName>> ids_ = new HashMap<String,List<ZName>>();
-
-  /** Used for generating unique ids in names. */
-  protected static int id_ = 0;
 
   public Factory()
   {
@@ -356,7 +355,7 @@ public class Factory
     if (declName instanceof ZName) {
       ZName zName = (ZName) declName;
       if (zName.getId() == null) {
-	overwriteNameID(declName);
+        overwriteNameID(declName);
       }
     }
   }
@@ -395,7 +394,7 @@ public class Factory
         setId(zName, newId);
       }
       ids_.remove(oldId);
-    }  
+    }
   }
 
   public void setId(ZName zName, String id)

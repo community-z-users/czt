@@ -22,7 +22,6 @@ import java.util.List;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
-import net.sourceforge.czt.z.visitor.SignatureVisitor;
 import net.sourceforge.czt.z.ast.*;
 
 /**

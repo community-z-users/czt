@@ -34,7 +34,8 @@ public class TypeCheckCommand
   implements TypecheckPropertiesKeys
 {
   protected List<? extends ErrorAnn> typecheck(Term term,
-                                               SectionManager manager) {
+                                               SectionManager manager)
+  {
     boolean useBeforeDecl =
       getBooleanProperty(manager, PROP_TYPECHECK_USE_BEFORE_DECL);
     boolean strong =

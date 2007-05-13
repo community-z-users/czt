@@ -26,7 +26,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
-import net.sourceforge.czt.typecheck.oz.util.GlobalDefs;
 
 /**
  * A factory for creating types that hide VariableTypes.
@@ -68,8 +67,8 @@ public class Factory
   }
 
   public ClassRef createClassRef(ZName zName,
-				 List<Type2> type,
-				 List<NewOldPair> pairs)
+                                 List<Type2> type,
+                                 List<NewOldPair> pairs)
   {
     Name refName = createZName(zName, false);
     ClassRef result = createClassRef(refName, type, pairs);
@@ -79,14 +78,14 @@ public class Factory
   public ClassRef createClassRef(ZName zName)
   {
     ClassRef result = createClassRef(zName,
-				     this.<Type2>list(),
-				     this.<NewOldPair>list());
+                                     this.<Type2>list(),
+                                     this.<NewOldPair>list());
     return result;
   }
 
   public ClassRef createClassRef(Name refName,
-				 List<Type2> type,
-				 List<NewOldPair> pairs)
+                                 List<Type2> type,
+                                 List<NewOldPair> pairs)
   {
     ClassRef classRef = ozFactory_.createClassRef(refName, type, pairs);
     ClassRef result = new ClassRefImpl(classRef);
@@ -112,13 +111,13 @@ public class Factory
   }
 
   public ClassRefType createClassRefType(ClassRefList classes,
-					 Signature state,
-					 List<? extends NameTypePair> attribute,
-					 List<? extends NameSignaturePair> operation,
-					 ClassRef thisClass,
-					 List<? extends ClassRef> superClass,
-					 VisibilityList visibilityList,
-					 List<? extends Name> primary)
+                                         Signature state,
+                                         List<? extends NameTypePair> attribute,
+                                         List<? extends NameSignaturePair> operation,
+                                         ClassRef thisClass,
+                                         List<? extends ClassRef> superClass,
+                                         VisibilityList visibilityList,
+                                         List<? extends Name> primary)
   {
     ClassRefList superClasses = ozFactory_.createClassRefList();
     superClasses.addAll(superClass);
@@ -135,10 +134,10 @@ public class Factory
   }
 
   public ClassPolyType createClassPolyType(ClassRefList classes,
-					   Signature state,
-					   List<? extends NameTypePair> attribute,
-					   List<? extends NameSignaturePair> operation,
-					   ClassRef rootClass)
+                                           Signature state,
+                                           List<? extends NameTypePair> attribute,
+                                           List<? extends NameSignaturePair> operation,
+                                           ClassRef rootClass)
   {
     ClassPolyType result =
       ozFactory_.createClassPolyType(classes, state, attribute, operation, rootClass);
@@ -152,11 +151,11 @@ public class Factory
   }
 
   public ClassUnionType createClassUnionType(ClassRefList classes,
-					     Signature state,
-					     List<? extends NameTypePair> attribute,
-					     List<? extends NameSignaturePair> operation)
+                                             Signature state,
+                                             List<? extends NameTypePair> attribute,
+                                             List<? extends NameSignaturePair> operation)
   {
-    ClassUnionType result = 
+    ClassUnionType result =
       ozFactory_.createClassUnionType(classes, state, attribute, operation);
     return result;
   }
@@ -188,7 +187,7 @@ public class Factory
     ClassRefList classes = createClassRefList();
     Signature state = createSignature();
     List<NameTypePair> attrs = list();
-    List<NameSignaturePair> ops = list();    
+    List<NameSignaturePair> ops = list();
     ClassUnionType cuType = createClassUnionType(classes, state, attrs, ops);
     PowerType result = createPowerType(cuType);
     return result;

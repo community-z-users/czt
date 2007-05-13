@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 import static net.sourceforge.czt.z.util.ZUtils.*;
@@ -84,12 +83,12 @@ public class ExprChecker
   }
 
   public Type2 visitRefExpr(RefExpr refExpr)
-  {    
+  {
     //get the type of this name
     ZName zName = refExpr.getZName();
     Type type = exprChecker().getType(zName);
 
-    //if the referes to a schema, create new IDs for all names 
+    //if the referes to a schema, create new IDs for all names
     //in the schema's signature
     if (type instanceof PowerType &&
         ((PowerType) type).getType() instanceof SchemaType) {
@@ -124,8 +123,8 @@ public class ExprChecker
     if (undecAnn != null && sectTypeEnv().getUseNameIds()) {
       type = getTypeFromAnns(refExpr);
       if (!(type instanceof UnknownType)) {
-	removeAnn(zName, UndeclaredAnn.class);
-	undecAnn = null;
+        removeAnn(zName, UndeclaredAnn.class);
+        undecAnn = null;
       }
     }
 
@@ -220,14 +219,14 @@ public class ExprChecker
       UnknownType uType = (UnknownType) type;
       uType.setZName(zName);
       for (Expr expr : exprs) {
-	Type2 exprType = expr.accept(exprChecker());
-	PowerType vPowerType = factory().createPowerType();
-	Type2 baseType = factory().createUnknownType();
-	UResult unified = unify(vPowerType, exprType);
-	if (unified != FAIL) {
-	  baseType = vPowerType.getType();
-	}
-	uType.getType().add(baseType);
+        Type2 exprType = expr.accept(exprChecker());
+        PowerType vPowerType = factory().createPowerType();
+        Type2 baseType = factory().createUnknownType();
+        UResult unified = unify(vPowerType, exprType);
+        if (unified != FAIL) {
+          baseType = vPowerType.getType();
+        }
+        uType.getType().add(baseType);
       }
     }
     else if (!(type instanceof GenericType)) {
@@ -989,7 +988,7 @@ public class ExprChecker
     //because we can infer the minimal type from this one inference
     //even if they are class types.
     UResult unified = strongUnify(vPowerType, funcType);
-    
+
     //if the left expression is not a function, raise an error
     if (unified == FAIL) {
       Object [] params = {applExpr, funcType};
@@ -997,15 +996,15 @@ public class ExprChecker
     }
     else {
       //the type of the domain of the function must unify with the
-      //type of the argument   
+      //type of the argument
       unified = unify(resolve(domType), argType);
       if (unified == FAIL) {
         Object [] params = {applExpr, resolve(domType), argType};
         error(applExpr, ErrorMessage.TYPE_MISMATCH_IN_APPLEXPR, params);
-      }      
+      }
       else {
         //if the domain and argument unify, then the type is the range type
-	type = resolve(ranType);
+        type = resolve(ranType);
       }
     }
 
@@ -1109,8 +1108,8 @@ public class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType decorSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-	ZStrokeList strokes = factory().getZFactory().createZStrokeList();
-	strokes.add(decorExpr.getStroke());
+        ZStrokeList strokes = factory().getZFactory().createZStrokeList();
+        strokes.add(decorExpr.getStroke());
         decorSchemaType = decorate(schemaType, strokes);
       }
       type = factory().createPowerType(decorSchemaType);

@@ -108,7 +108,7 @@ public class GlobalDefs
   }
 
   /**
-   * Test is an object is an instance of a class
+   * Test is an object is an instance of a class.
    * @param o the object to be tested.
    * @param aClass the <code>Class</code> the object against which the
    * object is tested.
@@ -159,7 +159,7 @@ public class GlobalDefs
   }
 
   /**
-   * Adds an annotation to a <code>Term</code>
+   * Adds an annotation to a <code>Term</code>.
    * @param term the <code>Term</code> to which to add the annotation.
    * @param ann the annotation to add.
    */
@@ -171,7 +171,7 @@ public class GlobalDefs
   }
 
   /**
-   * Removes an annotation from a <code>Term</code>
+   * Removes an annotation from a <code>Term</code>.
    * @param term the <code>Term</code> from which to remove the annotation.
    * @param ann the annotation to remove.
    */
@@ -190,7 +190,7 @@ public class GlobalDefs
 
   /**
    * Removes all annotations of a particular class from a
-   * <code>Term</code>
+   * <code>Term</code>.
    * @param term the <code>Term</code> from which to remove the
    * annotations.
    * @param aClass the class of annotations to remove.
@@ -207,7 +207,7 @@ public class GlobalDefs
   }
 
   /**
-   * Copies annoatations from one <code>Term</code> to another
+   * Copies annoatations from one <code>Term</code> to another.
    * @param src the <code>Term</code> from which to read the annotations.
    * @param dest the <code>Term</code> to which to add the annotations.
    */
@@ -274,7 +274,7 @@ public class GlobalDefs
   }
 
   /**
-   * Test whether a list contains a ZName with the same ID
+   * Test whether a list contains a ZName with the same ID.
    * @param list the list to search.
    * @param zName the ZName to search for.
    * @return true if and only if the name is in the list.

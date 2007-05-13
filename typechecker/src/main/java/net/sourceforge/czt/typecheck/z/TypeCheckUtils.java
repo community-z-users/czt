@@ -138,7 +138,7 @@ public class TypeCheckUtils
   protected List<? extends ErrorAnn> lTypecheck(Term term,
                                                 SectionManager sectInfo,
                                                 boolean useBeforeDecl,
-						boolean useNameIds,
+                                                boolean useNameIds,
                                                 String sectName)
   {
     ZFactory zFactory = new ZFactoryImpl();
@@ -182,7 +182,7 @@ public class TypeCheckUtils
     return "zedtypecheck";
   }
 
-  /** Print a usage message to System.err, describing the 
+  /** Print a usage message to System.err, describing the
    *  command line arguments accepted by main.
    */
   protected void printUsage()
@@ -201,7 +201,7 @@ public class TypeCheckUtils
   {
     return false;
   }
-  
+
   protected boolean printBenchmarkTimesDefault()
   {
     return true;
@@ -342,7 +342,7 @@ public class TypeCheckUtils
       //if the parse succeeded, typecheck the term
       if (term != null && !syntaxOnly) {
         List<? extends ErrorAnn> errors =
-	  this.lTypecheck(term, manager, useBeforeDecl, useNameIds, null);
+          this.lTypecheck(term, manager, useBeforeDecl, useNameIds, null);
 
         //print any errors
         for (Object next : errors) {

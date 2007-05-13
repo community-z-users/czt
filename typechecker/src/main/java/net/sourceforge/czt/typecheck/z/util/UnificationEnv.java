@@ -23,9 +23,7 @@ import java.util.Stack;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Iterator;
 
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
@@ -329,7 +327,7 @@ public class UnificationEnv
 
   //unify the signature "one-way". Use hashmaps for efficiency
   protected UResult unifySignatureAux(Map<String, NameTypePair> mapA,
-				      Map<String, NameTypePair> mapB)
+                                      Map<String, NameTypePair> mapB)
   {
     UResult result = SUCC;
     Set<Map.Entry<String, NameTypePair>> entrySet = mapA.entrySet();

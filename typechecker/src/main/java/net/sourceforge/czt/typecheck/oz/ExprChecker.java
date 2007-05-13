@@ -76,8 +76,8 @@ public class ExprChecker
     ZName zName = refExpr.getZName();
 
     if (className() != null &&
-	zName.getWord().equals(OzString.SELF) &&
-	zName.getZStrokeList().size() == 0) {
+        zName.getWord().equals(OzString.SELF) &&
+        zName.getZStrokeList().size() == 0) {
       type  = getSelfType();
     }
     return type;
@@ -152,57 +152,57 @@ public class ExprChecker
       ClassRefType classRefType = (ClassRefType) vPowerType.getType();
       ClassRef cRef = classRefType.getThisClass();
       ClassRefList subClasses =
-	factory().createClassRefList(factory().list(cRef));
-      
+        factory().createClassRefList(factory().list(cRef));
+
       //find any subclasses
       List<NameSectTypeTriple> triples = sectTypeEnv().getTriple();
       for (NameSectTypeTriple triple : triples) {
-	Type2 nextType = unwrapType(triple.getType());
-	if (isPowerClassRefType(nextType)) {
-	  ClassRefType subClass =
-	    (ClassRefType) powerType(nextType).getType();
-	  if (contains(subClass.getSuperClass(), cRef)) {
-	    //the subclasses must have the same number of parameters as
-	    //the "top-level" class
-	    final int superSize = cRef.getType().size();
-	    final int subSize = subClass.getThisClass().getType().size();
-	    if (superSize != subSize) {
-	      Object [] params = {cRef.getName(), superSize,
-				  subClass.getThisClass().getName(),
-				  subSize, polyExpr};
-	      error(polyExpr,
-		    ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
-	    }
-	    
-	    //all visible features must also be visible in the subclass
-	    List<NameTypePair> superAttrs = classRefType.getAttribute();
-	    List<NameTypePair> subAttrs = subClass.getAttribute();
-	    checkVisibility(classRefType, subClass, superAttrs,
-			    subAttrs, polyExpr);
+        Type2 nextType = unwrapType(triple.getType());
+        if (isPowerClassRefType(nextType)) {
+          ClassRefType subClass =
+            (ClassRefType) powerType(nextType).getType();
+          if (contains(subClass.getSuperClass(), cRef)) {
+            //the subclasses must have the same number of parameters as
+            //the "top-level" class
+            final int superSize = cRef.getType().size();
+            final int subSize = subClass.getThisClass().getType().size();
+            if (superSize != subSize) {
+              Object [] params = {cRef.getName(), superSize,
+                                  subClass.getThisClass().getName(),
+                                  subSize, polyExpr};
+              error(polyExpr,
+                    ErrorMessage.PARAMETER_MISMATCH_IN_POLYEXPR, params);
+            }
 
-	    List<NameTypePair> superState = classRefType.getState().getNameTypePair();
-	    List<NameTypePair> subState = subClass.getState().getNameTypePair();
-	    checkVisibility(classRefType, subClass, superState, subState, polyExpr);
+            //all visible features must also be visible in the subclass
+            List<NameTypePair> superAttrs = classRefType.getAttribute();
+            List<NameTypePair> subAttrs = subClass.getAttribute();
+            checkVisibility(classRefType, subClass, superAttrs,
+                            subAttrs, polyExpr);
 
-	    List<NameSignaturePair> superOps = classRefType.getOperation();
-	    List<NameSignaturePair> subOps = subClass.getOperation();
-	    checkOpVisibility(classRefType, subClass, superOps, subOps, polyExpr);
+            List<NameTypePair> superState = classRefType.getState().getNameTypePair();
+            List<NameTypePair> subState = subClass.getState().getNameTypePair();
+            checkVisibility(classRefType, subClass, superState, subState, polyExpr);
 
-	    ClassRef subCRef = factory().createClassRef();
-	    subCRef.setName(subClass.getThisClass().getName());
-	    subCRef.getType().addAll(cRef.getType());
-	    subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
-	    if (!contains(subClasses, subCRef)) {
-	      subClasses.add(subCRef);
-	    }
-	  }
-	}
+            List<NameSignaturePair> superOps = classRefType.getOperation();
+            List<NameSignaturePair> subOps = subClass.getOperation();
+            checkOpVisibility(classRefType, subClass, superOps, subOps, polyExpr);
+
+            ClassRef subCRef = factory().createClassRef();
+            subCRef.setName(subClass.getThisClass().getName());
+            subCRef.getType().addAll(cRef.getType());
+            subCRef.getNewOldPair().addAll(cRef.getNewOldPair());
+            if (!contains(subClasses, subCRef)) {
+              subClasses.add(subCRef);
+            }
+          }
+        }
       }
       ClassPolyType polyClass =
-	factory().createClassPolyType(subClasses, classRefType.getState(),
-				      classRefType.getAttribute(),
-				      classRefType.getOperation(),
-				      classRefType.getThisClass());
+        factory().createClassPolyType(subClasses, classRefType.getState(),
+                                      classRefType.getAttribute(),
+                                      classRefType.getOperation(),
+                                      classRefType.getThisClass());
       type = factory().createPowerType(polyClass);
     }
 
@@ -267,52 +267,53 @@ public class ExprChecker
     if (instanceOf(exprType, VariableClassType.class) ||
         !instanceOf(exprType, VariableType.class)) {
       if (exprType instanceof SchemaType) {
-	type = bindSelExpr.accept(zExprChecker_);
+        type = bindSelExpr.accept(zExprChecker_);
       }
       else if (exprType instanceof ClassType) {
         ClassType classType = (ClassType) exprType;
         ZName selectName = bindSelExpr.getZName();
 
-	//if the selected name is "self", then simply type of this
-	//is the same as the type of the expression
-	if (selectName.getWord().equals(OzString.SELF) &&
-	    selectName.getZStrokeList().size() == 0) {
-	  type = classType;
-	}
-	else {
-	  //try to find the name in the state signature
-	  Signature signature = classType.getState();
-	  NameTypePair pair = findNameTypePair(selectName, signature);
-	  
-	  //if it is not found, try the attributes
-	  if (pair == null) {
-	    List<NameTypePair> pairs = classType.getAttribute();
-	    pair = findNameTypePair(selectName, pairs);
-	  }
-	  
-	  //if it is not in the state or attributes, raise an error
-	  if (pair == null) {
-	    Object [] params = {bindSelExpr};
-	    error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
-	  }
-	  //otherwise, the type is the type of the selection
-	  else {
-	    type = pair.getType();
-	  }
-	}
-	
-	//if the feature exists, but it is not visible, raise an error
-	if (!(type instanceof UnknownType) && !isVisible(selectName, exprType)) {
-	  Object [] params = {selectName, bindSelExpr};
-	  error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
-	}
+        //if the selected name is "self", then simply type of this
+        //is the same as the type of the expression
+        if (selectName.getWord().equals(OzString.SELF) &&
+            selectName.getZStrokeList().size() == 0) {
+          type = classType;
+        }
+        else {
+          //try to find the name in the state signature
+          Signature signature = classType.getState();
+          NameTypePair pair = findNameTypePair(selectName, signature);
+
+          //if it is not found, try the attributes
+          if (pair == null) {
+            List<NameTypePair> pairs = classType.getAttribute();
+            pair = findNameTypePair(selectName, pairs);
+          }
+
+          //if it is not in the state or attributes, raise an error
+          if (pair == null) {
+            Object [] params = {bindSelExpr};
+            error(selectName, ErrorMessage.NON_EXISTENT_SELECTION, params);
+          }
+          //otherwise, the type is the type of the selection
+          else {
+            type = pair.getType();
+          }
+        }
+
+        //if the feature exists, but it is not visible, raise an error
+        if (!(type instanceof UnknownType)
+            && !isVisible(selectName, exprType)) {
+          Object [] params = {selectName, bindSelExpr};
+          error(bindSelExpr, ErrorMessage.NON_VISIBLE_NAME_IN_SELEXPR, params);
+        }
       }
       else {
         Object [] params = {bindSelExpr, exprType};
         error(bindSelExpr, ErrorMessage.NON_BINDING_IN_BINDSELEXPR, params);
       }
     }
-    
+
     //try to resolve this type if it is unknown
     if (type instanceof Type2) {
       type = resolveUnknownType((Type2) type);
@@ -377,19 +378,19 @@ public class ExprChecker
     }
     else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
       if (vPowerType.getType() instanceof ClassRefType) {
-	//add declname IDs to the new names
-	addNameIDs(renameExpr.getZRenameList());
+        //add declname IDs to the new names
+        addNameIDs(renameExpr.getZRenameList());
 
-	//rename the class features
+        //rename the class features
         ClassRefType classRefType = (ClassRefType) vPowerType.getType();
-	String errorMessage =
-	  ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
-	ClassRefType renameClassType =
-	  createRenameClassType(classRefType, renameExpr, errorMessage);
-	type = factory().createPowerType(renameClassType);
+        String errorMessage =
+          ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR.toString();
+        ClassRefType renameClassType =
+          createRenameClassType(classRefType, renameExpr, errorMessage);
+        type = factory().createPowerType(renameClassType);
       }
       else if (vPowerType.getType() instanceof SchemaType) {
-	type = renameExpr.accept(zExprChecker_);
+        type = renameExpr.accept(zExprChecker_);
       }
       else {
         Object [] params = {renameExpr, exprType};

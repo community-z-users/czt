@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.typecheck.oz;
 
-import java.util.List;
-
 import static net.sourceforge.czt.typecheck.oz.util.GlobalDefs.*;
 
 import net.sourceforge.czt.base.ast.*;
@@ -36,7 +34,7 @@ public class SpecChecker
   extends Checker<Object>
 {
   //the name of the Object-Z toolkit
-  public final static String OZ_TOOLKIT = "oz_toolkit";
+  public static final String OZ_TOOLKIT = "oz_toolkit";
 
   //a Z spec checker
   protected net.sourceforge.czt.typecheck.z.SpecChecker zSpecChecker_;

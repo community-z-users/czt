@@ -144,33 +144,33 @@ public class OpExprChecker
       //if the name is not found, and use-before-decl is enabled,
       //then search for this name in the class
       if (opDef == null && sectTypeEnv().getSecondTime() &&
-	  (expr == null || isSelfExpr(expr))) {
-	List<Operation> ops = classPara().getOperation();
-	for (Operation op : ops) {
-	  ZName opName = op.getZName();
-	  if (namesEqual(opName, zPromName)) {
-	    Signature opSignature = op.accept(paraChecker());
-	    opDef =
-	      factory().createNameSignaturePair(opName, opSignature);
-	  }
-	}
+          (expr == null || isSelfExpr(expr))) {
+        List<Operation> ops = classPara().getOperation();
+        for (Operation op : ops) {
+          ZName opName = op.getZName();
+          if (namesEqual(opName, zPromName)) {
+            Signature opSignature = op.accept(paraChecker());
+            opDef =
+              factory().createNameSignaturePair(opName, opSignature);
+          }
+        }
       }
-      
+
       //if there is no operation with this name, raise an error
       if (opDef == null) {
-	Object [] params = {opPromExpr};
-	error(opPromExpr,
-	      ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
-	      params);
+        Object [] params = {opPromExpr};
+        error(opPromExpr,
+              ErrorMessage.NON_EXISTENT_NAME_IN_OPPROMEXPR,
+              params);
       }
       else {
-	signature = opDef.getSignature();
+        signature = opDef.getSignature();
       }
-      
+
       //if there is an operation, but it is not visible, raise an error
       if (opDef != null && !isVisible(zPromName, classType)) {
-	Object [] params = {zPromName, opPromExpr};
-	error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
+        Object [] params = {zPromName, opPromExpr};
+        error(opPromExpr, ErrorMessage.NON_VISIBLE_NAME_IN_OPPROMEXPR, params);
       }
     }
 
@@ -411,7 +411,7 @@ public class OpExprChecker
       for (NameTypePair distPair : distPairs) {
         ZName distName = distPair.getZName();
         ZStrokeList strokes = factory().getZFactory().createZStrokeList();
-	strokes.addAll(distName.getZStrokeList());
+        strokes.addAll(distName.getZStrokeList());
         int size = strokes.size();
         if (size > 0 && strokes.get(size - 1) instanceof OutStroke) {
           strokes.remove(size - 1);
