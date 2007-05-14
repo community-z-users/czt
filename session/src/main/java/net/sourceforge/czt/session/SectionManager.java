@@ -353,11 +353,12 @@ public class SectionManager
     final String name = key.getName();
     Object result = content_.get(key);
     if (result == null) {
+      getLogger().finer("Collecting command for " + infoType);  
       Command command = (Command) commands_.get(infoType);
       if (command == null) {
         throw new CommandException("No command available to compute " + key);
       }
-      getLogger().finer("Try command ...");
+      getLogger().finer("Trying command " + command.getClass());
       command.compute(name, this);
       result = content_.get(new Key(name, infoType));
       if (result == null) {
