@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Mark Utting
+  Copyright (C) 2005, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -24,6 +24,9 @@ import java.util.ArrayList;
 
 import net.sourceforge.czt.base.ast.*;
 
+/**
+ * Utilities for Terms.
+ */
 public final class BaseUtils
 {
   /**
@@ -58,6 +61,9 @@ public final class BaseUtils
     }
   }
 
+  /**
+   * Returns the maximal depth of the given term tree.
+   */
   public static int depth(Term term)
   {
     int depth = 0;
@@ -67,6 +73,6 @@ public final class BaseUtils
         if (d > depth) depth = d;
       }
     }
-    return depth+1;
+    return depth + 1;
   }
 }

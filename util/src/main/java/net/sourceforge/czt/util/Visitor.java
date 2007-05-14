@@ -22,6 +22,7 @@ package net.sourceforge.czt.util;
 /**
  * The base interface of all czt visitors.
  *
+ * @param <R> the return type of the visit method.
  * @author Petra Malik
  */
 public interface Visitor<R>

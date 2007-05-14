@@ -24,6 +24,8 @@ import net.sourceforge.czt.util.Visitor;
 
 /**
  * A visitor for visiting annotated terms.
+ *
+ * @param <R> the return type of the visit method.
  */
 public interface ListTermVisitor<R> extends Visitor<R>
 {

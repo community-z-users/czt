@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2005 Mark Utting
+  Copyright 2003, 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -24,6 +24,8 @@ import net.sourceforge.czt.util.Visitor;
 
 /**
  * A visitor for visiting terms.
+ *
+ * @param <R> the return type of the visit method.
  */
 public interface TermVisitor<R> extends Visitor<R>
 {

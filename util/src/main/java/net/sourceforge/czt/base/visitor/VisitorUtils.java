@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.ReflectionUtils;
-
 import net.sourceforge.czt.util.Visitor;
 
 /**
@@ -178,7 +177,7 @@ public final class VisitorUtils
       }
     }
   }
-  
+
   /** Transitive visitor utils. It returns false if a problem has been found */
   public static boolean transitivelyCheckVisitorRules(Object o)
   {
@@ -188,7 +187,7 @@ public final class VisitorUtils
       ReflectionUtils.getAllInterfacesFrom(o, "Visitor");
     boolean noProblems = true;
     int methodNameOffset = "visit".length();
-    for(Method m : methods) {
+    for (Method m : methods) {
       String termName = m.getName().substring(methodNameOffset);
       String intfName = termName + "Visitor";
       boolean found = false;
@@ -197,7 +196,7 @@ public final class VisitorUtils
         found = it.next().getName().endsWith(intfName);
       }
       if (!found) {
-        System.err.println("Warning: class "                    
+        System.err.println("Warning: class "
                            + visitorClass
                            + " should implement interface "
                            + intfName + ".");
@@ -205,5 +204,5 @@ public final class VisitorUtils
       noProblems &= found;
     }
     return noProblems;
-  } 
+  }
 }

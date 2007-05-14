@@ -55,7 +55,7 @@ public interface XmlReader
    * @throws NullPointerException if <code>file</code>
    *                              is <code>null</code>.
    */
-  public Term read(InputSource input)
+  Term read(InputSource input)
     throws UnmarshalException;
 
   /**
