@@ -49,16 +49,26 @@ public enum Digit
    */
   public static Digit fromValue(int i)
   {
-    if (i == 0) return ZERO;
-    if (i == 1) return ONE;
-    if (i == 2) return TWO;
-    if (i == 3) return THREE;
-    if (i == 4) return FOUR;
-    if (i == 5) return FIVE;
-    if (i == 6) return SIX;
-    if (i == 7) return SEVEN;
-    if (i == 8) return EIGHT;
-    if (i == 9) return NINE;
+    final int i0 = 0;
+    final int i1 = 1;
+    final int i2 = 2;
+    final int i3 = 3;
+    final int i4 = 4;
+    final int i5 = 5;
+    final int i6 = 6;
+    final int i7 = 7;
+    final int i8 = 8;
+    final int i9 = 9;
+    if (i == i0) return ZERO;
+    if (i == i1) return ONE;
+    if (i == i2) return TWO;
+    if (i == i3) return THREE;
+    if (i == i4) return FOUR;
+    if (i == i5) return FIVE;
+    if (i == i6) return SIX;
+    if (i == i7) return SEVEN;
+    if (i == i8) return EIGHT;
+    if (i == i9) return NINE;
     throw new IllegalArgumentException("Int value: " + i);
   }
 }
