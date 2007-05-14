@@ -1,17 +1,17 @@
 /**
  Copyright (C) 2006 Mark Utting
  This file is part of the czt project.
- 
+
  The CZT project contains free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
- 
+
  The CZT project is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with CZT; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -32,11 +32,16 @@ import net.sourceforge.czt.z.ast.ZName;
  * FlatOr(p, q) implements p \lor q.
  * It returns all the solutions from p, followed by all the solutions from q.
  * The two FlatPreds or FlatPredLists p and q must have identical modes.
- * 
+ *
  * @author marku
  */
 public class FlatOr extends FlatPred
 {
+  /** Bounds information for the left_ predicate. */
+  protected Bounds leftBounds_;
+
+  /** Bounds information for the right_ predicate. */
+  protected Bounds rightBounds_;
 
   /** The left-hand predicate, once known. */
   private FlatPredList left_;
@@ -44,18 +49,12 @@ public class FlatOr extends FlatPred
   /** The right-hand predicate, once known. */
   private FlatPredList right_;
 
-  /** Bounds information for the left_ predicate. */
-  protected Bounds leftBounds_;
-  
-  /** Bounds information for the right_ predicate. */
-  protected Bounds rightBounds_;
-  
-  /** How we know which set we are iterating through. 
+  /** How we know which set we are iterating through.
    *  1 means left_, 2 means right_
    */
   private int from_ = 0;
 
-  /** Creates a new instance of FlatUnion */
+  /** Creates a new instance of FlatUnion. */
   public FlatOr(FlatPredList left, FlatPredList right)
   {
     super();
@@ -80,14 +79,14 @@ public class FlatOr extends FlatPred
     leftBounds_.startAnalysis(bnds);
     left_.inferBounds(leftBounds_);
     leftBounds_.endAnalysis();
-    
+
     // infer bounds on right side
     if (rightBounds_ == null)
       rightBounds_ = new Bounds(bnds);
     rightBounds_.startAnalysis(bnds);
     right_.inferBounds(rightBounds_);
     rightBounds_.endAnalysis();
-    
+
     // TODO: propagate the union of the bounds into the parent.
     return false;
   }
@@ -103,7 +102,8 @@ public class FlatOr extends FlatPred
       List<Mode> modes = new ArrayList<Mode>(2);
       modes.add(leftMode);
       modes.add(rightMode);
-      // TODO: investigate why leftMode.inputs_ is legal here -- should be protected.
+      // TODO: investigate why leftMode.inputs_ is legal here --
+      //       should be protected.
       result = new ModeList(this, env, args_, solutions, modes);
     }
     return result;

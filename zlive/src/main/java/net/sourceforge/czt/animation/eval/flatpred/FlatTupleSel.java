@@ -43,7 +43,7 @@ public class FlatTupleSel extends FlatPred
     args_.add(result);
     solutionsReturned_ = -1;
   }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -61,21 +61,21 @@ public class FlatTupleSel extends FlatPred
       solutionsReturned_++;
       if (evalMode_.isInput(0)) {
         Expr expr = evalMode_.getEnvir().lookup(args_.get(0));
-	if ( ! (expr instanceof TupleExpr))
-	  throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
-	TupleExpr tuple = (TupleExpr) expr;
-	int size = tuple.getZExprList().size();
-	if (size < selection)
-	  throw new CztException("Badly typed tuple selection: " + size);
-	Expr selected = tuple.getZExprList().get(selection - 1);
+        if ( ! (expr instanceof TupleExpr))
+          throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
+        TupleExpr tuple = (TupleExpr) expr;
+        int size = tuple.getZExprList().size();
+        if (size < selection)
+          throw new CztException("Badly typed tuple selection: " + size);
+        Expr selected = tuple.getZExprList().get(selection - 1);
 
-	if (evalMode_.isInput(1)) {
-	  // Now check selected against the output
-	  Expr output = evalMode_.getEnvir().lookup(args_.get(1));
-	  result = output.equals(selected);
-	}
-	else {
-	  // Now assign selected to the result
+        if (evalMode_.isInput(1)) {
+          // Now check selected against the output
+          Expr output = evalMode_.getEnvir().lookup(args_.get(1));
+          result = output.equals(selected);
+        }
+        else {
+          // Now assign selected to the result
           evalMode_.getEnvir().setValue(args_.get(1), selected);
           result = true;
         }
@@ -83,7 +83,7 @@ public class FlatTupleSel extends FlatPred
     }
     return result;
   }
-  
+
 
   ///////////////////////// Pred methods ///////////////////////
 
