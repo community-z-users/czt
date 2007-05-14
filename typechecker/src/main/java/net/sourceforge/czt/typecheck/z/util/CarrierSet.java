@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z.util;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
