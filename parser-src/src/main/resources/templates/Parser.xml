@@ -40,7 +40,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.util.Factory;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.util.StrUtils;
 </add:circus>
 import net.sourceforge.czt.java_cup.runtime.*;
 <add:oz>
@@ -2576,7 +2575,7 @@ paragraphList ::=
                 } else {                
                     //assert ZUtils.isZPara(para);                        
                     parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
-                        new Object[] { StrUtils.stripPackage(p.getClass()), loc }, loc);
+                        new Object[] { p.getClass().getSimpleName(), loc }, loc);
                 }
              }
              </add:circus>
@@ -2700,7 +2699,7 @@ unboxedParagraphList ::=
                         msg = "an invalid local paragrph";
                         //assert parserState_.isZPara(para);                        
                         parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
-                            new Object[] { StrUtils.stripPackage(para.getClass()), loc }, loc);
+                            new Object[] { para.getClass().getSimpleName(), loc }, loc);
                     }
                     if (add) {
                         // raise a scoping warning if needed                          

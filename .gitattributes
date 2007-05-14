@@ -417,10 +417,8 @@ typechecker/tests/z/CharTuple.tex -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 util/COPYING.txt -text
 util/src/main/java/net/sourceforge/czt/util/BitUtils.java -text
-util/src/main/java/net/sourceforge/czt/util/CztSystemProperties.java -text
 util/src/main/java/net/sourceforge/czt/util/Pair.java -text
 util/src/main/java/net/sourceforge/czt/util/ReflectionUtils.java -text
-util/src/main/java/net/sourceforge/czt/util/StrUtils.java -text
 zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
