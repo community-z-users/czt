@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
 <document> 
-  <header> 
+  <properties> 
     <title>Welcome to the ZLive Animator</title> 
-  </header> 
+  </properties>
   <body> 
     <p>
       The ZLive animator is part of the
-      <link href="site:czt">CZT</link>
+      <a href="http://czt.sourceforge.net">CZT</a>
       project that aims at providing a framework
       for building formal methods tools, especially for the Z specification
       language.  This subproject provides an animator for evaluating
@@ -24,7 +23,7 @@
     <p>
       Here is a simple example of using the text interface of ZLive:
       (not fully implemented yet)!
-      <br/><code>ZLive v0.1</code>
+      <br/><code>ZLive (C) Mark Utting</code>
       <br/><code>Z&gt; eval 4 \upto 6 \cup 1 \upto 2</code>
       <br/><code>\{ 1, 2, 4, 5, 6 \}</code>
       <br/><code>Z&gt; eval \{ a,b:0 \upto 100 | a*b = 20 \}</code>
