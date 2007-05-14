@@ -1,14 +1,8 @@
 <?xml version="1.0"?>
-<status>
-
-  <developers>
-    <person name="Tim Miller" email="timmiller@sourceforge.net" id="Tim"/>
-    <!-- Add more people here -->
-  </developers>
-
-  <changes>
+<document>
+  <body>
     <!-- Add new releases here -->
-    <release version="0.6">
+    <release version="0.6" date="unreleased">
       <action dev="Tim" type="fix">
         Corrected bug 1688910 -- Characterisation rules not
         implemented correctly
@@ -171,41 +165,5 @@
         Initial Release.
       </action>
     </release>
-  </changes>
-
-  <todo>
-    <actions priority="high">
-      <action context="docs" dev="open">
-        Improve the web site.
-      </action>
-      <action context="code" dev="Tim">
-        Implement functionality to allow downcasting using selections as 
-        well as names (e.g obj.val \in C)
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="docs" dev="open">
-        Specify the Object-Z type rules using the type-inference rule
-        metalanguage defined in the Z standard.
-      </action>
-      <action context="code" dev="open">
-        Look at ways to infer class types using attribute and
-        operation selection expressions.
-      </action>
-      <action context="code" dev="open">
-        Modify unification algorithm to prevent PredExprs being used
-        as sets.
-      </action>
-    </actions>
-    <!-- Add todo items. @context is an arbitrary string. Eg:
-    <actions priority="high">
-      <action context="code" dev="SN">
-      </action>
-    </actions>
-    <actions priority="medium">
-      <action context="docs" dev="open">
-      </action>
-    </actions>
-    -->
-  </todo>
-</status>
+  </body>
+</document>
