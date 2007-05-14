@@ -348,6 +348,28 @@
         </executions>
         <configuration>
           <maxmemory>200m</maxmemory>
+          <groups>
+            <group>
+              <title>Standard Z Packages</title>
+              <packages>net.sourceforge.czt.z.*</packages>
+            </group>
+            <group>
+              <title>Z Pattern Packages</title>
+              <packages>net.sourceforge.czt.zpatt.*</packages>
+            </group>
+            <group>
+              <title>Object Z Packages</title>
+              <packages>net.sourceforge.czt.oz.*</packages>
+            </group>
+            <group>
+              <title>Circus Packages</title>
+              <packages>net.sourceforge.czt.circus.*</packages>
+            </group>
+            <group>
+              <title>Circus Pattern Packages</title>
+              <packages>net.sourceforge.czt.circuspatt.*</packages>
+            </group>
+          </groups>
         </configuration>
       </plugin>
       <plugin>
