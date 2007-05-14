@@ -24,6 +24,7 @@ import java.util.List;
 /**
  * <p>A list that integrates nicely into the AST.</p>
  *
+ * @param <E> the type of the elements allowed in the list.
  * @author Petra Malik
  */
 public interface ListTerm<E>

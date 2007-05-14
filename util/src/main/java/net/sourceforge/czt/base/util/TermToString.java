@@ -1,5 +1,5 @@
 /*
-  Copyright 2005 Mark Utting
+  Copyright 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,6 +22,9 @@ package net.sourceforge.czt.base.util;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 
+/**
+ * Converter from Term to String.  Usually used for debugging purposes.
+ */
 public class TermToString
   implements TermVisitor
 {
@@ -39,7 +42,7 @@ public class TermToString
 
   public Object visitTerm(Term term)
   {
-    buffer_.append(term.getClass().getSimpleName() + "[ ");
+    buffer_.append(term.getClass().getSimpleName() + "( ");
     for (Object o : term.getChildren()) {
       if (o instanceof Term) {
         Term child = (Term) o;
@@ -50,7 +53,7 @@ public class TermToString
       }
       buffer_.append(" ");
     }
-    buffer_.append("]");
+    buffer_.append(")");
     return null;
   }
 

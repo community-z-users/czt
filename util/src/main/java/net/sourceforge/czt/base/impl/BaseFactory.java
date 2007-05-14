@@ -1,5 +1,5 @@
 /*
-  Copyright 2006 Mark Utting
+  Copyright 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,10 +20,12 @@
 package net.sourceforge.czt.base.impl;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.PrintVisitor;
 import net.sourceforge.czt.base.util.Visit;
 import net.sourceforge.czt.base.util.VisitorImpl;
 
+/**
+ * The base class of AST factories.
+ */
 public abstract class BaseFactory
 {
   private VisitorImpl<String> toStringVisitor_;
