@@ -60,14 +60,6 @@
                   out="${build.src}/net/sourceforge/czt/oz/util/OzString.java"
                   style="${src.xsl}/ozchar2stringclass.xsl"/>
                 <xslt
-                  in="${xml.dir}/tcozchar.xml"
-                  out="${build.src}/net/sourceforge/czt/tcoz/util/TcozChar.java"
-                  style="${src.xsl}/tcozchar2class.xsl"/>
-                <xslt
-                  in="${xml.dir}/tcozchar.xml"
-                  out="${build.src}/net/sourceforge/czt/tcoz/util/TcozString.java"
-                  style="${src.xsl}/tcozchar2stringclass.xsl"/>
-                <xslt
                   in="${xml.dir}/circuschar.xml"
                   out="${build.src}/net/sourceforge/czt/circus/util/CircusChar.java"
                   style="${src.xsl}/circuschar2class.xsl"/>
