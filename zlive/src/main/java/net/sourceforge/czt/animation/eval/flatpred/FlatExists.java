@@ -83,9 +83,10 @@ public class FlatExists extends FlatForall
   @Override
   public String toString()
   {
-    return printQuant("exists",
+    return printQuant("(exists",
         schText_.toString(),
-        body_.toString());
+        body_.toString(),
+        ")");
   }
 
   ///////////////////////// Pred methods ///////////////////////

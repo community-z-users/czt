@@ -121,7 +121,7 @@ public class FlatSetComp extends FlatPred
     FuzzySet fuzzy = new FuzzySet(name, EvalSet.UNKNOWN_SIZE, null);
     fuzzy.setLower(bounds_.getLower(resultName_));
     fuzzy.setUpper(bounds_.getUpper(resultName_));
-    
+
     // now tell the outer Bounds object a summary of what we know.
     result |= bnds.setEvalSet(getLastArg(), fuzzy);
     return result;
@@ -149,7 +149,7 @@ public class FlatSetComp extends FlatPred
      *  environment, because it will be mistaken for the actual
      *  solution.  Is there a nice way of adding it to bounds
      *  but still leaving chooseMode to be side-effect-free?
-     
+
     Mode all = predsAll_.chooseMode(env);
     if (m != null && all != null) {
       FuzzySet fuzzy = new FuzzySet(getLastArg().toString(),
@@ -206,9 +206,11 @@ public class FlatSetComp extends FlatPred
       return super.accept(visitor);
   }
 
-  /** @czt.todo Change this to a printCode method. */
-  public String toString() {
-    return "{ " + predsAll_.toString() + " @ " + printName(resultName_) + " } = "
-      + printName(getLastArg());
+  public String toString()
+  {
+    return printQuant("{",
+        predsAll_.toString(),
+        printName(resultName_),
+        "} = " + printLastArg());
   }
 }

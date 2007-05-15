@@ -170,9 +170,10 @@ public class FlatForall extends FlatPred
   @Override
   public String toString()
   {
-    return printQuant("forall",
+    return printQuant("(forall",
         schText_.toString(),
-        body_.toString());
+        body_.toString(),
+        ")");
   }
 
   ///////////////////////// Pred methods ///////////////////////

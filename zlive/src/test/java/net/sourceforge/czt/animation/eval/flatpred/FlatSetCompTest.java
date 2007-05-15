@@ -46,6 +46,7 @@ public class FlatSetCompTest
   public void setUp()
   {
     super.setUp();
+    zlive_.resetNewNames(); // so that set and emptyset use known tmp names.
     setIJKBounds();
     SetCompExpr setComp = (SetCompExpr) parseExpr(setCompStr);
     SetCompExpr emptySetComp = (SetCompExpr) parseExpr(emptySetCompStr);
@@ -66,6 +67,13 @@ public class FlatSetCompTest
 			       emptySetComp.getExpr(),
 			       es));
     emptySet.inferBounds(bounds_);
+  }
+
+  public void testToString()
+  {
+    assertEquals("{ i .. k = tmp1 :: 10..12;\n"
+               + "    r in tmp1 :: 3.010..12;\n    tmp0 = r\n  @ tmp0\n  } = s",
+        set.toString());
   }
 
   public void testFreeVars()

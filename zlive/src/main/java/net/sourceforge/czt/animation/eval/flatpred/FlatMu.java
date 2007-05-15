@@ -157,7 +157,7 @@ public class FlatMu extends FlatPred
 
   @Override
   public String toString() {
-    return printQuant("mu", schText_.toString(), printName(resultName_));
+    return printQuant("(mu", schText_.toString(), printName(resultName_), ")");
   }
 
   ///////////////////////// Pred methods ///////////////////////

@@ -306,13 +306,15 @@ public abstract class FlatPred
     return printArg(0) + " " + op + " " + printArg(1) + " = " + printArg(2);
   }
 
-  protected String printQuant(String quant, String stext, String body)
+  protected String printQuant(String quant, String stext, String body,
+      String endQuant)
   {
     if (stext.contains("\n") || body.contains("\n")) {
-      return "(" + quant + " " + indent(stext) + "\n@ " + indent(body) + "\n)";
+      return quant + " " + indent(stext) + "\n@ " + indent(body) 
+            + "\n" + endQuant;
     }
     else {
-      return "(" + quant + " " + stext + " @ " + body + ")";
+      return quant + " " + stext + " @ " + body + endQuant;
     }
   }
 
