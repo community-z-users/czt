@@ -17,19 +17,20 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatLessThan;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatCard visitor.
+ * A FlatLessThan visitor.
  */
-public interface FlatCardVisitor<R> extends Visitor<R>
+public interface FlatLessThanVisitor<R> extends Visitor<R>
 {
   /**
-   * Visits a FlatCard.
-   * @param  term the FlatCard to be visited.
+   * Visits a FlatLessThan.
+   * @param  term the FlatLessThan to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatCard(FlatCard term);
+  public R visitFlatLessThan(FlatLessThan term);
 }

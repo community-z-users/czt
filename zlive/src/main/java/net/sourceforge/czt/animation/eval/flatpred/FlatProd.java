@@ -25,6 +25,7 @@ import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatProdVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.ProdSet;

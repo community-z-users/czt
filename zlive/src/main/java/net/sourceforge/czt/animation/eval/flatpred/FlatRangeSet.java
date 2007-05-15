@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatRangeSetVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;

@@ -17,19 +17,20 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatFalse;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatLessThanEquals Visitor.
+ * A FlatFalse visitor.
  */
-public interface FlatLessThanEqualsVisitor<R> extends Visitor<R>
+public interface FlatFalseVisitor<R> extends Visitor<R>
 {
   /**
-   * Visits a FlatLessThanEquals.
-   * @param  term the FlatLessThanEquals to be visited.
+   * Visits a FlatFalse
+   * @param  term the FlatFalse to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatLessThanEquals(FlatLessThanEquals term);
+  public R visitFlatFalse(FlatFalse term);
 }

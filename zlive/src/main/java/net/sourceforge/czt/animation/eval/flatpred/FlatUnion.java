@@ -26,6 +26,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatUnionVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.UnionSet;

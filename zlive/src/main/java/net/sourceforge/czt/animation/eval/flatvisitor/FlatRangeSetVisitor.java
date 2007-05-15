@@ -17,19 +17,20 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatFalse visitor.
+ * A FlatRangeSet visitor.
  */
-public interface FlatFalseVisitor<R> extends Visitor<R>
+public interface FlatRangeSetVisitor<R> extends Visitor<R>
 {
   /**
-   * Visits a FlatFalse
-   * @param  term the FlatFalse to be visited.
+   * Visits a FlatRangeSet
+   * @param  term the FlatRangeSet to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatFalse(FlatFalse term);
+  public R visitFlatRangeSet(FlatRangeSet term);
 }

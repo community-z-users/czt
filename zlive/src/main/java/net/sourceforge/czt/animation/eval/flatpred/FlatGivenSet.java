@@ -29,7 +29,10 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatDiscreteSetVisitor;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatGivenSetVisitor;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
@@ -195,5 +198,15 @@ public class FlatGivenSet extends FlatPred
     }
     else
       throw new EvalException("GIVEN " + name_ + " is too big to iterate through.");
+  }
+
+  ///////////////////////// Pred methods ///////////////////////
+
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof FlatGivenSetVisitor)
+      return ((FlatGivenSetVisitor<R>) visitor).visitFlatGivenSet(this);
+    else
+      return super.accept(visitor);
   }
 }

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatPowerSetVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.PowerSet;

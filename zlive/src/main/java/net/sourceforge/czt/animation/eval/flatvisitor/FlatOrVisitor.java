@@ -17,20 +17,21 @@ along with CZT; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatOr;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- *
- * @author MarkU
+ * A FlatOr visitor.
  */
-public interface FlatProdVisitor<R> extends Visitor<R> {
+public interface FlatOrVisitor<R> extends Visitor<R>
+{
   /**
-   * Visits a FlatProd.
-   * @param  term the FlatProd to be visited.
+   * Visits a FlatOr
+   * @param  term the FlatOr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatProd(FlatProd term);
+  public R visitFlatOr(FlatOr term);
 }
 

@@ -423,9 +423,9 @@ zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/EnvirUtils.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSet.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSetVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProdVisitor.java -text
+zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatPowerSetVisitor.java -text
+zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatProdVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/DiscreteSet.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/EvalResult.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/FuzzySet.java -text

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatMemberVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
 import net.sourceforge.czt.util.Visitor;

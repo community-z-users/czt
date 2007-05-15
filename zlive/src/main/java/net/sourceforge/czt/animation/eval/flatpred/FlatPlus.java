@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatPlusVisitor;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;

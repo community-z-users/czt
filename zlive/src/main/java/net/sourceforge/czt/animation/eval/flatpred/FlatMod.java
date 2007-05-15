@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.UndefException;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatModVisitor;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;

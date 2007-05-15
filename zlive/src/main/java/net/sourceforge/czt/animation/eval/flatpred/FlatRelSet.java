@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatGivenSetVisitor;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatRelSetVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.RelSet;
@@ -101,12 +103,9 @@ public class FlatRelSet
 
   public <R> R accept(Visitor<R> visitor)
   {
-    throw new UnsupportedOperationException();
-  }
-
-  public Iterator<Expr> subsetIterator(ZName element)
-  {
-    // TODO Auto-generated method stub
-    return null;
+    if (visitor instanceof FlatRelSetVisitor)
+      return ((FlatRelSetVisitor<R>) visitor).visitFlatRelSet(this);
+    else
+      return super.accept(visitor);
   }
 }

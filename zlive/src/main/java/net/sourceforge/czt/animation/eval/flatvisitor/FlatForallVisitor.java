@@ -1,6 +1,6 @@
 /*
   ZLive - A Z animator -- Part of the CZT Project.
-  Copyright 2005 Mark Utting
+  Copyright 2004 Mark Utting
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
@@ -17,19 +17,20 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatForall;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatTupleSel visitor.
+ * A FlatForall visitor.
  */
-public interface FlatTupleSelVisitor<R> extends Visitor<R>
+public interface FlatForallVisitor<R> extends Visitor<R>
 {
   /**
-   * Visits a FlatTupleSel.
-   * @param  term the FlatTupleSel to be visited.
+   * Visits a FlatForall
+   * @param  term the FlatForall to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatTupleSel(FlatTupleSel term);
+  public R visitFlatForall(FlatForall term);
 }

@@ -19,6 +19,7 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import net.sourceforge.czt.animation.eval.UndefException;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatExistsVisitor;
 import net.sourceforge.czt.util.Visitor;
 
 /** This implements the exists quantifier.

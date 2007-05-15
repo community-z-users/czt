@@ -17,19 +17,20 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-package net.sourceforge.czt.animation.eval.flatpred;
+package net.sourceforge.czt.animation.eval.flatvisitor;
 
+import net.sourceforge.czt.animation.eval.flatpred.FlatPred;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatMember visitor.
+ * A FlatPred visitor.
  */
-public interface FlatMemberVisitor<R> extends Visitor<R>
+public interface FlatPredVisitor<R> extends Visitor<R>
 {
   /**
-   * Visits a FlatMember.
-   * @param  term the FlatMember to be visited.
+   * Visits a FlatPred.
+   * @param  term the FlatPred to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public R visitFlatMember(FlatMember term);
+  public R visitFlatPred(FlatPred term);
 }

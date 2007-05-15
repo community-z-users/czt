@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatDiscreteSetVisitor;
 import net.sourceforge.czt.animation.eval.result.DiscreteSet;
 import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.util.Visitor;

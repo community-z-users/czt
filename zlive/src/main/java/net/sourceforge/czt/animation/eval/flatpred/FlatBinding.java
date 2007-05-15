@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatBindingVisitor;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.BindExpr;

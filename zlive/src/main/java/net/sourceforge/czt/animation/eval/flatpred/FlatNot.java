@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZLive;
+import net.sourceforge.czt.animation.eval.flatvisitor.FlatNotVisitor;
 import net.sourceforge.czt.util.Visitor;
 
 public class FlatNot extends FlatPredList
