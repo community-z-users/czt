@@ -43,6 +43,7 @@ public class FlatBindingTest
     List<ZName>  names = new ArrayList<ZName>();
     List<ZName> exprs = new ArrayList<ZName>();
     FlatPred pred = new FlatBinding(names,exprs,z);
+    assertEquals("<|  |> = z", pred.toString());
 
     FlatPredModel iut = new FlatPredModel(pred, new ZName[] {z},
                             "OOO,OII,IOI,IIO,III",
@@ -63,6 +64,7 @@ public class FlatBindingTest
     exprs.add(x);
     exprs.add(y);
     FlatPred pred = new FlatBinding(names,exprs,z);
+    assertEquals("<| x==x, y==y |> = z", pred.toString());
 
     FlatPredModel iut = new FlatPredModel(pred, new ZName[] {x,y,z},
                             "OII,IOI,IIO,III",

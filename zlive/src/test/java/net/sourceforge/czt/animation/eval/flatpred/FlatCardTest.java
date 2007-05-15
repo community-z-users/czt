@@ -54,6 +54,11 @@ public class FlatCardTest
     pred.inferBounds(new Bounds(null));
   }
 
+  public void testToString()
+  {
+    assertEquals("# z = s", pred.toString());
+  }
+
   public void testEmpty()
   {
     Mode m = pred.chooseMode(empty);

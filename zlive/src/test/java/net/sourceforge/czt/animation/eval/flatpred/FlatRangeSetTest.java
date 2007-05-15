@@ -38,8 +38,8 @@ import net.sourceforge.czt.z.ast.ZName;
 public class FlatRangeSetTest
   extends EvalSetTest
 {
-  /** This overrides set and emptySet to be FlatDiscreteSet objects.
-   *  set = {i,k,j,i} and emptySet = {}.
+  /** This overrides set and emptySet to be FlatRangeSet objects.
+   *  set = 10..12 and emptySet = 12..11.
    */
   public FlatRangeSetTest()
   {
@@ -129,6 +129,11 @@ public class FlatRangeSetTest
     Assert.assertFalse(set.equals(range(i,j,envIJK))); // 10..11
     Assert.assertFalse(set.equals(range(j,k,envIJK))); // 11..12
     Assert.assertEquals(BigInteger.valueOf(3), set.maxSize());
+  }
+
+  public void testToString()
+  {
+    assertEquals("i .. k = s :: set(100.0,null)", set.toString());
   }
 }
 

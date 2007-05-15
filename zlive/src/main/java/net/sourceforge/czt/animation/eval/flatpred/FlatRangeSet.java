@@ -263,28 +263,21 @@ public class FlatRangeSet extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append("FlatRangeSet[");
-    if (lowerArg_ < 0)
-      result.append("-");
-    else
-      result.append(printName(args_.get(lowerArg_)));
-    result.append(",");
-    if (upperArg_ < 0)
-      result.append("-");
-    else
-      result.append(printName(args_.get(upperArg_)));
-    result.append(",");
-    result.append(printName(args_.get(setArg_)));
-    result.append("]");
+    result.append(printArg(lowerArg_));
+    result.append(" .. ");
+    result.append(printArg(upperArg_));
+    result.append(" = ");
+    result.append(printArg(setArg_));
     EvalSet range = null;
     if (bounds_ != null)
       range = bounds_.getEvalSet(args_.get(setArg_));
     if (range != null) {
-      result.append("::");
+      result.append(" :: ");
       result.append(range.toString());
     }
     return result.toString();
   }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

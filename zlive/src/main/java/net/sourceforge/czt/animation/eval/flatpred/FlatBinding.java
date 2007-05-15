@@ -163,6 +163,24 @@ public class FlatBinding extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("<| ");
+    for (int i=0; i<bindNames_.size(); i++) {
+      result.append(printName(bindNames_.get(i)));
+      result.append("==");
+      result.append(printArg(i));
+      if (i < bindNames_.size() - 1) {
+        result.append(", ");
+      }
+    }
+    result.append(" |> = ");
+    result.append(printLastArg());
+    return result.toString();
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

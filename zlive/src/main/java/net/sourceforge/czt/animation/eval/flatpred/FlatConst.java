@@ -92,7 +92,7 @@ public class FlatConst extends FlatPred
   public String toString()
   {
     PrintVisitor printer = new PrintVisitor(false);
-    String val = "???";
+    String val = "-";   // means const value is not known yet
     if (constant_ != null)
       val = constant_.accept(printer);
     if (constant_ instanceof NumExpr) {
@@ -100,7 +100,7 @@ public class FlatConst extends FlatPred
       ZNumeral num = numExpr.getZNumeral();
       val = num.getValue().toString();
     }
-    return printName(args_.get(0)) + "==" + val;
+    return printArg(0) + " == " + val;
   }
 
 

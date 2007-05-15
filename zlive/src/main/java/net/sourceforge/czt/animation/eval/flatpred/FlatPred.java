@@ -261,6 +261,23 @@ public abstract class FlatPred
     return name.toString(); // + name.getId();
   }
 
+  /** Pretty-prints the name of the i'th argument, via nameString.
+   *  If argNum < 0, then this just prints '_', which indicates
+   *  an optional argument that is not present.
+   */
+  protected String printArg(int argNum)
+  {
+    if (argNum < 0)
+      return "_";
+    return printName(args_.get(argNum));
+  }
+
+  /** Pretty-prints getLastArg() */
+  protected String printLastArg()
+  {
+    return printName(getLastArg());
+  }
+
   /** A default implementation of toString.
    This returns "FlatXXX(args[0], args[1], ...)".
    */
