@@ -308,7 +308,22 @@ public abstract class FlatPred
 
   protected String printQuant(String quant, String stext, String body)
   {
-    return "(" + quant + " " + stext + " @ " + body + ")";
+    if (stext.contains("\n") || body.contains("\n")) {
+      return "(" + quant + " " + indent(stext) + "\n@ " + indent(body) + "\n)";
+    }
+    else {
+      return "(" + quant + " " + stext + " @ " + body + ")";
+    }
+  }
+
+  /** Indents a multi-line string by replacing all newlines
+   *  by a newline followed by two spaces.
+   * @param str the (possibly multi-line) string to indent
+   * @return  same as str, but perhaps with additional spaces
+   */
+  public String indent(String str)
+  {
+    return str.replaceAll("\n", "\n  ");
   }
 
   ///////////////////////// Pred methods ///////////////////////

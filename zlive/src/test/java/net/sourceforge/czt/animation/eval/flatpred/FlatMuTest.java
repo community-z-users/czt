@@ -50,7 +50,7 @@ public class FlatMuTest
     ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
 
-    assertEquals("(mu x .. y = tmp0; a in tmp0; a * a = tmp1 @ tmp1)",
+    assertEquals("(mu x .. y = tmp0;\n  a in tmp0;\n  a * a = tmp1\n@ tmp1\n)",
         pred.toString());
 
     Set<ZName> free = pred.freeVars();

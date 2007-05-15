@@ -556,16 +556,14 @@ public class FlatPredList extends FlatPred
   }
 
   /** This prints each FlatPred on a separate line.
-   *  If a FlatPred within the list is displayed on multiple lines,
-   *  it indents all those lines by an additional two spaces, to
-   *  preserve the nested indentation structure. 
+   *  If a FlatPred within the list is displayed on multiple lines, it
+   *  indents those lines, to preserve the nested indentation structure. 
    */
   public String toString() {
     StringBuffer result = new StringBuffer();
     for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
       String str = i.next().toString();
-      str = str.replaceAll("\n", "\n  ");  // indent any interior lines
-      result.append(str);
+      result.append(indent(str));
       if (i.hasNext())
         result.append(";\n");
     }
