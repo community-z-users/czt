@@ -33,12 +33,12 @@ import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.z.DefsWord;
 import net.sourceforge.czt.print.z.WhereWord;
 import net.sourceforge.czt.session.*;
@@ -162,17 +162,10 @@ action code
   }
 
   private LatexCommand toLatex(String s, int line, int column)
-    throws ParseException
+    throws PrintException
   {
     assert unicode2latexMap_ != null;
-    try {
-      return uniwordToLatex(s, unicode2latexMap_);
-    }
-    catch(ParseException e) {
-      e.setLine(line);
-      e.setColumn(column + e.getColumn());
-      throw e;
-    }
+    return uniwordToLatex(s, unicode2latexMap_, line, column);
   }
 
   /**
@@ -183,8 +176,9 @@ action code
     return s.replaceAll("_", "\\\\_");
   }
 
-  private LatexCommand uniwordToLatex(String word, Map latexCommands)
-    throws ParseException
+  private LatexCommand uniwordToLatex(String word, Map latexCommands,
+                                      int line, int column)
+    throws PrintException
   {
     LatexCommand command = null;
     if (markup_ == null) {
@@ -247,8 +241,9 @@ action code
         String hex = Integer.toString(zchar.codePoint(), hexBase);
         String message = "Error while transforming " + word +
           ": Unexpected character " + zchar.toString() +
-          " (\\u" + hex + ")";
-        throw new ParseException(message, 0, charcount);
+          " (\\u" + hex + ") in line " + line + " column " +
+          charcount + column;
+        throw new PrintException(message);
       }
       charcount = charcount + zchar.charCount();
     }

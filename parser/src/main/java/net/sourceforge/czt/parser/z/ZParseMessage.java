@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -52,7 +52,8 @@ public enum ZParseMessage
   //Additional error messages by completing the grammar with error productions
   //wherever possible/purposeful. By Leo
   MSG_MISSING_NL_UNBOXEDPARLIST("Missing hard new-line (i.e. \\\\, \\also, etc.) in unboxed paragraph item list."),
-  MSG_SYNTAX_ERROR_IN_VARDECL("Syntax error in variable declaration at token {0}; an expression is expected after token COLON");
+  MSG_SYNTAX_ERROR_IN_VARDECL("Syntax error in variable declaration at token {0}; an expression is expected after token COLON"),
+  MSG_SYNTAX_ERROR_IN_SECTION_HEADER("Syntax error in section header");
   
   private final String message_;
   private final String explanation_;

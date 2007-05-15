@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2004 Petra Malik
+     Copyright (C) 2004, 2007 Petra Malik
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -29,8 +29,12 @@ import java.util.List;
 import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.parser.util.Decorword;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.LocInfoImpl;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.util.TokenStack;
-import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.parser.z.ZParseError;
+import net.sourceforge.czt.parser.z.ZParseMessage;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.Factory;
@@ -107,17 +111,33 @@ public class SectHeadScanner
     return firstIsZed &amp;&amp; secondIsSection;
   }
 
+  private void reportError()
+    throws ParseException
+  {
+    ZParseMessage msg = ZParseMessage.MSG_SYNTAX_ERROR_IN_SECTION_HEADER;
+    ZParseError error = new ZParseError(msg, null, null);
+    throw new ParseException(error);
+  }
+
+  private void reportError(int left, int right)
+    throws ParseException
+  {
+    ZParseMessage msg = ZParseMessage.MSG_SYNTAX_ERROR_IN_SECTION_HEADER;
+    LocInfo locInfo = new LocInfoImpl("unknown", left, right);
+    ZParseError error = new ZParseError(msg, null, locInfo);
+    throw new ParseException(error);
+  }
+
   private ZSect parseSectHead()
     throws Exception
   {
     final Symbol nametok = lookahead_.pop();
     final Symbol next = lookahead_.pop();
-    if (nametok == null || next == null) {
-      throw new ParseException("Parse error", -1, -1);
+    if (nametok == null) {
+      reportError();
     }
-    if (nametok.sym != Sym.DECORWORD) {
-      String message = "Parse error (expected DECORWORD)";
-      throw new ParseException(message, nametok.left, nametok.right);
+    if (next == null || nametok.sym != Sym.DECORWORD) {
+      reportError(nametok.left, nametok.right);
     }
     assert nametok.value != null;
     final String name = ((Decorword) nametok.value).getName();
@@ -127,8 +147,7 @@ public class SectHeadScanner
       parseParentList(parentList);
     }
     else if (next.sym != Sym.END) {
-      String message = "Parse error (expected PARENTS or END)";
-      throw new ParseException(message, next.left, next.right);
+      reportError(next.left, next.right);
     }
     return factory_.createZSect(name, parentList, null);
   }
@@ -138,12 +157,11 @@ public class SectHeadScanner
   {
     final Symbol parentName = lookahead_.pop();
     final Symbol next = lookahead_.pop();
-    if (parentName == null || next == null) {
-      throw new ParseException("Parse error", -1, -1);
+    if (parentName == null) {
+      reportError();
     }
-    if (parentName.sym != Sym.DECORWORD) {
-      throw
-        new ParseException("Parse error", parentName.left, parentName.right);
+    if (next == null || parentName.sym != Sym.DECORWORD) {
+      reportError(parentName.left, parentName.right);
     }
     final String name = ((Decorword) parentName.value).getName();
     Parent parent = factory_.createParent(name);
@@ -153,7 +171,7 @@ public class SectHeadScanner
       parseParentList(parentList);
     }
     else if (next.sym != Sym.END) {
-      throw new ParseException("Parse error", next.left, next.right);
+      reportError(next.left, next.right);
     }
   }
 

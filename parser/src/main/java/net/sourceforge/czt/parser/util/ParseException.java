@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.czt.session.CommandException;
@@ -41,6 +42,12 @@ public class ParseException
   public ParseException(List<CztError> errorList)
   {
     errorList_ = errorList;
+  }
+
+  public ParseException(CztError error)
+  {
+    errorList_ = new ArrayList<CztError>();
+    errorList_.add(error);
   }
 
   public List<CztError> getErrorList()
