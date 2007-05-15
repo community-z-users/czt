@@ -77,7 +77,7 @@ public class FlatPlus extends FlatPred
 
     return changed;
   }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -136,6 +136,11 @@ public class FlatPlus extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return printBinOp("+");
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

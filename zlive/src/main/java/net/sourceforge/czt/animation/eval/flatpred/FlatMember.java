@@ -170,7 +170,9 @@ public class FlatMember extends FlatPred
   @Override public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append(super.toString());
+    result.append(printArg(1));
+    result.append(" in ");
+    result.append(printArg(0));
     ZName setName = args_.get(0);
     EvalSet set = null;
     RangeSet range = null;
@@ -179,7 +181,7 @@ public class FlatMember extends FlatPred
       range = bounds_.getRange(getLastArg());
     }
     if (set != null || range != null) {
-      result.append("::");
+      result.append(" :: ");
       if (set != null) {
         result.append(set.estSize());
         BigInteger lo = set.getLower();

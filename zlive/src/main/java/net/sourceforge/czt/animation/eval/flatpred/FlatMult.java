@@ -122,6 +122,12 @@ public class FlatMult extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return printBinOp("*");
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

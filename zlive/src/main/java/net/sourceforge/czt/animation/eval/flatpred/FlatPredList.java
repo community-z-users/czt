@@ -560,7 +560,7 @@ public class FlatPredList extends FlatPred
     for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
       result.append(i.next().toString());
       if (i.hasNext())
-        result.append(", ");
+        result.append("; ");
     }
     return result.toString();
   }

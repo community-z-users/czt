@@ -34,6 +34,11 @@ public class FlatModTest
 {
   private FlatPred pred = new FlatMod(x,y,z);
 
+  public void testToString()
+  {
+    assertEquals("x mod y = z", pred.toString());
+  }
+
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));

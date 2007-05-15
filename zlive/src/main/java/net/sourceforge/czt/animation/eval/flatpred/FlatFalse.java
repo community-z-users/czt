@@ -48,7 +48,7 @@ public class FlatFalse extends FlatPred
   }
 
   public String toString() {
-    return ("FlatFalse");
+    return "false";
   }
 
 

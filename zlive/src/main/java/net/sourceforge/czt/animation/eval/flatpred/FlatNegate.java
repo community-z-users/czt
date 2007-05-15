@@ -73,7 +73,7 @@ public class FlatNegate extends FlatPred
   {
     return modeOneOutput(env);
   }
-  
+
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -111,6 +111,11 @@ public class FlatNegate extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return "- "+printArg(0)+" = "+printArg(1);
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

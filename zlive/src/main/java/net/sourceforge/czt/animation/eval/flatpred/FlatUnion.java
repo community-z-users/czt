@@ -203,6 +203,12 @@ public class FlatUnion extends FlatEvalSet
   }
 */
 
+  @Override
+  public String toString()
+  {
+    return printBinOp("u");
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

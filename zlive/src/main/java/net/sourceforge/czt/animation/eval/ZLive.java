@@ -56,7 +56,7 @@ import net.sourceforge.czt.z.util.Factory;
  *  want to evaluate Z terms.  It is also used by TextUI,
  *  which provides a text-based user interface for ZLive,
  *  and it could also be used by a GUI class.
- *  
+ *
  * @author marku
  *
  */
@@ -89,22 +89,23 @@ public class ZLive
 
   private String sectName_;
   private Markup markup_ = Markup.LATEX;
-  
+
   /** Maximum size of each Given set. */
   private int givenSetSize_ = Integer.MAX_VALUE;
+
+  /** This can be called to reset the new name counter to 0.
+   *  This should be done only before starting an evaluation
+   *  that does not rely on the results of any previous evaluation
+   *  (otherwise the same name might be generated twice).
+   */
+  public void resetNewNames()
+  {
+    newNameNum = 0;
+  }
 
   /** Generates a fresh temporary name. */
   public ZName createNewName()
   {
-    // This is a temporary debugging aid, to detect some infinite loops.
-    // Once we start evaluating larger terms it will need to be removed
-    // (or at least the number increased!).
-    if (newNameNum == 554) {
-      Exception e = new Exception("infinite loop???  See ZLive.createNewName");
-      StringWriter w = new StringWriter();
-      e.printStackTrace(new PrintWriter(w));
-      LOG.fine("Stack dump: "+w.toString());
-    }
     return factory_.createZName("tmp"+(newNameNum++));
   }
 
@@ -209,7 +210,7 @@ public class ZLive
       markup_ = Enum.valueOf(Markup.class, markup);
   }
 
-  /** The maximum size of each given set. 
+  /** The maximum size of each given set.
    *  This is Integer.MAX_VALUE by default.
    */
   public int getGivenSetSize()

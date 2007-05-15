@@ -28,7 +28,7 @@ import net.sourceforge.czt.util.Visitor;
 public class FlatExists extends FlatForall
 {
   protected Bounds bounds_;
-  
+
   public FlatExists(FlatPredList sch, FlatPredList body)
   {
     super(sch,body);
@@ -80,6 +80,13 @@ public class FlatExists extends FlatForall
     return false;
   }
 
+  @Override
+  public String toString()
+  {
+    return printQuant("exists",
+        schText_.toString(),
+        body_.toString());
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

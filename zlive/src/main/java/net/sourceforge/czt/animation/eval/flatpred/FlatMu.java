@@ -155,14 +155,9 @@ public class FlatMu extends FlatPred
     return result;
   }
 
+  @Override
   public String toString() {
-    StringBuffer result = new StringBuffer();
-    result.append("FlatMu(");
-    result.append(schText_.toString());
-    result.append(" @ ");
-    result.append(printName(resultName_));
-    result.append(")");
-    return result.toString();
+    return printQuant("mu", schText_.toString(), printName(resultName_));
   }
 
   ///////////////////////// Pred methods ///////////////////////

@@ -105,6 +105,12 @@ public class FlatDiv extends FlatPred
     return result;
   }
   
+  @Override
+  public String toString()
+  {
+    return printBinOp("div");
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

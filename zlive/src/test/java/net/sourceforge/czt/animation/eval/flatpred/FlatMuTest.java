@@ -44,10 +44,14 @@ public class FlatMuTest
   {
     MuExpr mu = (MuExpr) parseExpr("(\\mu a:x \\upto y @ a*a)");
 
+    zlive_.resetNewNames();
     FlatPredList sch = new FlatPredList(zlive_);
     sch.addSchText(mu.getZSchText());
     ZName resultName = sch.addExpr(mu.getExpr());
     FlatMu pred = new FlatMu(sch, resultName);
+
+    assertEquals("(mu x .. y = tmp0; a in tmp0; a * a = tmp1 @ tmp1)",
+        pred.toString());
 
     Set<ZName> free = pred.freeVars();
     assertEquals(3, free.size());

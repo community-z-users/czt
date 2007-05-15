@@ -34,6 +34,11 @@ public class FlatDivTest
 {
   private FlatPred pred = new FlatDiv(x,y,z);
 
+  public void testToString()
+  {
+    assertEquals("x div y = z", pred.toString());
+  }
+
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));

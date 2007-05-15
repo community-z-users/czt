@@ -115,6 +115,11 @@ public class FlatPowerSet extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return "P "+printArg(0)+" = "+printArg(1);
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

@@ -36,7 +36,7 @@ public class FlatMemberTest
 {
   private NumExpr i40 = factory_.createNumExpr(40);
   private ZName w = factory_.createZName("w");
-  
+
   private FlatRangeSet set;
   private FlatMember mem;
   private FlatPredList predlist;
@@ -45,7 +45,7 @@ public class FlatMemberTest
   {
     set = new FlatRangeSet(x,y,z);
     mem = new FlatMember(z,w);  // w \in z
-    
+
     // Must set up a flatpred list and do the static inference
     // pass before we can start using FlatRangeSet.
     predlist = new FlatPredList(zlive_);
@@ -53,7 +53,12 @@ public class FlatMemberTest
     predlist.add(mem);
     predlist.inferBoundsFixPoint(new Bounds(null));
   }
-  
+
+  public void testToString()
+  {
+    assertEquals("w in z :: 100.0", mem.toString());
+  }
+
   public void testEmpty()
   {
     Mode m = mem.chooseMode(empty);

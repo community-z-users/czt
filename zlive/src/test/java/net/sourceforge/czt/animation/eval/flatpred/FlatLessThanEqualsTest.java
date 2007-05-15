@@ -34,6 +34,11 @@ public class FlatLessThanEqualsTest
 {
   private FlatPred pred = new FlatLessThanEquals(x,y);
 
+  public void testToString()
+  {
+    assertEquals("x <= y", pred.toString());
+  }
+
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));

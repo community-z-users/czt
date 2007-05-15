@@ -103,6 +103,12 @@ public class FlatEquals extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return printArg(0) + " = " + printArg(1);
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

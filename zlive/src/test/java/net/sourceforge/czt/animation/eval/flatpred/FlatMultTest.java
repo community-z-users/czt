@@ -46,8 +46,13 @@ public class FlatMultTest
   extends ZTestCase
 {
   private Expr i200 = factory_.createNumExpr(200);
-  
+
   private FlatPred pred = new FlatMult(x,y,z);
+
+  public void testToString()
+  {
+    assertEquals("x * y = z", pred.toString());
+  }
 
   public void testMBT()
   throws FileNotFoundException

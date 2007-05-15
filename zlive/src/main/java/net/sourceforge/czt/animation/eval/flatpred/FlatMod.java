@@ -50,18 +50,18 @@ public class FlatMod extends FlatPred
   {
     return modeFunction(env);
   }
-  
+
   private BigInteger specialDivide(BigInteger a, BigInteger b)
   {
     BigInteger answer = a.divide(b);
-    if (((a.compareTo(BigInteger.ZERO)<0)&&(b.compareTo(BigInteger.ZERO)>0)) || 
+    if (((a.compareTo(BigInteger.ZERO)<0)&&(b.compareTo(BigInteger.ZERO)>0)) ||
         ((a.compareTo(BigInteger.ZERO)>0)&&(b.compareTo(BigInteger.ZERO)<0))) {
-      if (!(answer.multiply(b).equals(a))) 
+      if (!(answer.multiply(b).equals(a)))
         answer = answer.subtract(BigInteger.ONE);
     }
     return answer;
   }
-  
+
   private BigInteger specialMod(BigInteger a, BigInteger b)
   {
     return a.subtract((specialDivide(a,b)).multiply(b));
@@ -109,7 +109,13 @@ public class FlatMod extends FlatPred
     }
     return result;
   }
-  
+
+  @Override
+  public String toString()
+  {
+    return printBinOp("mod");
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

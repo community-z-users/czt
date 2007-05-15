@@ -200,6 +200,12 @@ public class FlatGivenSet extends FlatPred
       throw new EvalException("GIVEN " + name_ + " is too big to iterate through.");
   }
 
+  @Override
+  public String toString()
+  {
+    return "GIVEN " + name_;
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

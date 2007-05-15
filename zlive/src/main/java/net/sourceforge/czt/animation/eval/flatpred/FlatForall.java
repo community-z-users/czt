@@ -41,7 +41,7 @@ public class FlatForall extends FlatPred
 
   protected Bounds schBounds_;
   protected Bounds bodyBounds_;
-  
+
   /** The mode returned by schText_ */
   protected Mode schMode_ = null;
 
@@ -167,22 +167,13 @@ public class FlatForall extends FlatPred
     return false;
   }
 
-
-  public String toString() {
-    StringBuffer result = new StringBuffer();
-    // Start with the class name (in case it is a subclass).
-    String fullName = this.getClass().getName();
-    int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
-    result.append(fullName.substring(dotPos));
-    // Now add ( SchemaText @ Body )
-    result.append("( ");
-    result.append(schText_.toString());
-    result.append(" @ ");
-    result.append(body_.toString());
-    result.append(" )");
-    return result.toString();
+  @Override
+  public String toString()
+  {
+    return printQuant("forall",
+        schText_.toString(),
+        body_.toString());
   }
-
 
   ///////////////////////// Pred methods ///////////////////////
 

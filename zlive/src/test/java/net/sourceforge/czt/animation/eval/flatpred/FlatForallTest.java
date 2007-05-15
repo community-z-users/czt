@@ -42,6 +42,7 @@ public class FlatForallTest
   {
     // We put the forall into a context so that we can typecheck it.
     // We have to typecheck it, so that ZNames are bound to ZDeclNames.
+    zlive_.resetNewNames();
     SchExpr e = (SchExpr) parseExpr("[x,y,z:\\nat | \\forall i:x \\upto y @ i > z]");
     TypeCheckUtils.typecheck(e, new SectionManager());
     ForallPred all = (ForallPred) e.getZSchText().getPred();
@@ -50,6 +51,11 @@ public class FlatForallTest
     FlatPredList body = new FlatPredList(zlive_);
     body.addPred(all.getPred());
     sut_ = new FlatForall(stext, body);
+  }
+
+  public void testToString()
+  {
+    assertEquals("(forall x .. y = tmp0; i in tmp0 @ z < i)", sut_.toString());
   }
 
   public void testFreeVars()

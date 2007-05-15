@@ -296,6 +296,21 @@ public abstract class FlatPred
     return result.toString();
   }
 
+  /** A toString method for binary operators.
+   *  For example, binOpString("+") gives "x + y = z",
+   *  assuming that args_ contains [x,y,z].
+   */
+  protected String printBinOp(String op)
+  {
+    assert args_.size() == 3;
+    return printArg(0) + " " + op + " " + printArg(1) + " = " + printArg(2);
+  }
+
+  protected String printQuant(String quant, String stext, String body)
+  {
+    return "(" + quant + " " + stext + " @ " + body + ")";
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   /** Calls visitor.visitPred (preferably) or visitor.visitTerm.

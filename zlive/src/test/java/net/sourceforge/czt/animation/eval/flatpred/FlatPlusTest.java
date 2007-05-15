@@ -34,6 +34,11 @@ public class FlatPlusTest
 {
   private FlatPred pred = new FlatPlus(x,y,z);
 
+  public void testToString()
+  {
+    assertEquals("x + y = z", pred.toString());
+  }
+
   public void testEmpty()
   {
     Assert.assertNull("should not return a mode", pred.chooseMode(empty));

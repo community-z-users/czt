@@ -34,7 +34,7 @@ public class FlatLessThan extends FlatPred
 {
   protected BigInteger next = null;
   private Factory factory_ = new Factory();
-  
+
   public FlatLessThan(ZName a, ZName b)
   {
     args_ = new ArrayList<ZName>(2);
@@ -66,13 +66,13 @@ public class FlatLessThan extends FlatPred
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
     Mode m = modeOneOutput(env);
-    if(m!=null) 
+    if(m!=null)
       if(m.numOutputs() > 0)
         m.setSolutions(Double.MAX_VALUE);
     return m;
   }
-  
-  public void startEvaluation() 
+
+  public void startEvaluation()
   {
     solutionsReturned_=0;
     next=null;
@@ -122,6 +122,12 @@ public class FlatLessThan extends FlatPred
       result = true;
     }
     return result;
+  }
+
+  @Override
+  public String toString()
+  {
+    return printArg(0) + " < " + printArg(1);
   }
 
   ///////////////////////// Pred methods ///////////////////////
