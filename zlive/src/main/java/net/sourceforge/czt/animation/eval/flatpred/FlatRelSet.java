@@ -19,15 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
-import net.sourceforge.czt.animation.eval.flatvisitor.FlatGivenSetVisitor;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatRelSetVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
-import net.sourceforge.czt.animation.eval.result.FuzzySet;
 import net.sourceforge.czt.animation.eval.result.RelSet;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;

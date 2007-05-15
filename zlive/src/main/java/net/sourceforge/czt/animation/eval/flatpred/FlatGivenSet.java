@@ -29,7 +29,6 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.ExprComparator;
 import net.sourceforge.czt.animation.eval.ZLive;
-import net.sourceforge.czt.animation.eval.flatvisitor.FlatDiscreteSetVisitor;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatGivenSetVisitor;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.util.Visitor;

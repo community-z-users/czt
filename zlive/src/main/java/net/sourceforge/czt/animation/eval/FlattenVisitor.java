@@ -649,20 +649,6 @@ public class FlattenVisitor
     return result;
   }
 
-  /** Returns the value of an expression, if it is a NumExpr.
-   *  Otherwise, returns a negative number.
-   *  So don't use this to look for negative numbers.
-   * @param e
-   * @return
-   */
-  private int numValue(Expr e)
-  {
-    if (e instanceof NumExpr)
-      return ((NumExpr)e).getValue().intValue();
-    else
-      return -1;
-  }
-
   /** Returns true if e is 1, false if e is 0, exception otherwise. */
   private boolean isOne(Expr e)
   {
