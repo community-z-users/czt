@@ -254,28 +254,28 @@ public class SectionManager
           logger.config("Set command for " + typeClass + " to " + command);
           return true;
         }
-        final String message = "Cannot instanciate command " +
+        final String message = "Cannot instantiate command " +
           commandClassName + "; given class is not a command";
         logger.warning(message);
       }
     }
     catch (ExceptionInInitializerError e) {
-      final String message = "Cannot instanciate command " + commandClassName +
+      final String message = "Cannot instantiate command " + commandClassName +
         "; exception in initialzier";
       logger.warning(message);
     }
     catch (IllegalAccessException e) {
-      final String message = "Cannot instanciate command " + commandClassName +
+      final String message = "Cannot instantiate command " + commandClassName +
         "; illegal access exception";
       logger.warning(message);
     }
     catch (InstantiationException e) {
-      final String message = "Cannot instanciate command " + commandClassName +
+      final String message = "Cannot instantiate command " + commandClassName +
         "; instantiation exception";
       logger.warning(message);
     }
     catch (SecurityException e) {
-      final String message = "Cannot instanciate command " + commandClassName +
+      final String message = "Cannot instantiate command " + commandClassName +
         "; security exception";
       logger.warning(message);
     }
