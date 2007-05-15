@@ -555,13 +555,25 @@ public class FlatPredList extends FlatPred
     return zlive_.getFactory();
   }
 
+  /** This prints each FlatPred on a separate line.
+   *  If a FlatPred within the list is displayed on multiple lines,
+   *  it indents all those lines by an additional two spaces, to
+   *  preserve the nested indentation structure. 
+   */
   public String toString() {
     StringBuffer result = new StringBuffer();
     for (Iterator<FlatPred> i = predlist_.iterator(); i.hasNext(); ) {
-      result.append(i.next().toString());
+      String str = i.next().toString();
+      str = str.replaceAll("\n", "\n  ");  // indent any interior lines
+      result.append(str);
       if (i.hasNext())
-        result.append("; ");
+        result.append(";\n");
     }
     return result.toString();
+  }
+  
+  public static void main(String[] args)
+  {
+    System.out.println("ab\ncd".replaceAll("\n","NNN"));
   }
 }
