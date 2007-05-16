@@ -66,7 +66,7 @@ Using CZT
   Unicode, call
 
 +-------------------------------------------------+
-    java -jar czt-dep.jar -o file.utf8 file.tex
+    java -jar czt.jar -o file.utf8 file.tex
 +-------------------------------------------------+
 
   See the usage information to get a list of supported mark-ups and
@@ -79,7 +79,7 @@ Using CZT
   the selected tool. For example, the animator is started using
 
 +----------------------------+
-java -jar czt-dep.jar zlive
+java -jar czt.jar zlive
 +----------------------------+
 
   See the usage information for a list of availabe tools.
