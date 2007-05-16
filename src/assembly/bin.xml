@@ -1,7 +1,7 @@
 <assembly>
   <!-- The binary release can be build by first doing a "mvn install"
        and then calling
-       "mvn -N assembly:directory -Ddescriptor=src/assemble/bin.xml".
+       "mvn -N assembly:directory -Ddescriptor=src/assembly/bin.xml".
        This creates a directory target/czt-...-bin. -->
   <id>bin</id>
   <formats>
