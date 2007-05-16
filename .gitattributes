@@ -402,6 +402,9 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
+src/site/apt/font.apt -text
+src/site/apt/install.apt -text
+src/site/apt/manual.apt -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text
