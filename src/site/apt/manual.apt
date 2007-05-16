@@ -94,8 +94,10 @@ java -jar czt-dep.jar zlive
   gives WYSIWYG editing of the Unicode markup for Z, template-based
   insertion of Z constructs for LaTeX and Unicode markup, automatic
   typechecking on each save, a SideKick panel that shows the structure
-  of your Z specification and much much more.  See jedit/README.txt
-  for more information.
+  of your Z specification and much much more.
+
+  See {{{jedit/index.html} subproject jedit}} for more information'
+  about how to install and use the jEdit plugins.
 
 
 
