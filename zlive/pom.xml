@@ -52,8 +52,6 @@
             <!-- exclude abstract superclasses -->
             <exclude>**/EvalTest*.java</exclude>
             <exclude>**/ZTestCase.java</exclude>
-            <!-- TODO: find out why those are failing -->
-            <exclude>**/ExprComparatorTest.java</exclude>
           </excludes>
         </configuration>
       </plugin>
