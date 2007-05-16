@@ -127,7 +127,7 @@ public class ProdSet extends DefaultEvalSet
 
   public String toString()
   {
-    return "Prod (" + baseSets_ + ")";
+    return "Prod(" + baseSets_ + ")";
   }
 
   protected class ProdSetIterator

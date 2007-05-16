@@ -119,7 +119,7 @@ public class UnionSet extends DefaultEvalSet
   {
     StringBuffer result = new StringBuffer();
     result.append(leftSet_.toString());
-    result.append(" union ");
+    result.append(" u ");
     result.append(rightSet_.toString());
     return result.toString();
   }

@@ -435,6 +435,7 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RangeSet.java -tex
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/SetComp.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/result/UnionSet.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
+zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/channels.tex -text

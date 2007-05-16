@@ -81,12 +81,14 @@ public class DiscreteSet extends EvalSet
     return contents_.contains(obj);
   }
 
+  @Override
   public Iterator<Expr> iterator()
   {
     // We could return an unmodifiable iterator here...
     return contents_.iterator();
   }
 
+  @Override
   public ListIterator<Expr> listIterator()
   {
     if (listContents_ == null)
@@ -157,6 +159,7 @@ public class DiscreteSet extends EvalSet
     return contents_.add(e);
   }
 
+  @Override
   public boolean addAll(Collection<? extends Expr> coll)
   {
     boolean changed = false;
@@ -170,9 +173,11 @@ public class DiscreteSet extends EvalSet
   {
     StringBuffer result = new StringBuffer();
     result.append("{");
+    String sep = "";
     for (Expr e : contents_) {
+      result.append(sep);
       result.append(e.toString());
-      result.append(",");
+      sep = ", ";
     }
     result.append("}");
     return result.toString();

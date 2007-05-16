@@ -169,7 +169,7 @@ public class FlatSetComp extends FlatPred
 
   /** Does the actual evaluation.
    *  In fact, in output mode this is lazy -- it just assigns
-   *  itself to the output variable, so that the members of
+   *  a SetComp object to the output variable, so that the members of
    *  the set can be evaluated (and cached) only when needed.
    *  This is the same as lazy evaluation in functional languages.
    */

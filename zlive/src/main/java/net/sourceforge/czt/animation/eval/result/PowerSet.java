@@ -141,7 +141,7 @@ public class PowerSet extends DefaultEvalSet
 
   public String toString()
   {
-    return "Power (" + baseset_ + ")";
+    return "Power(" + baseset_.toString() + ")";
   }
 
   /**

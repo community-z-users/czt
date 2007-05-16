@@ -158,8 +158,31 @@ public class RelSet extends EvalSet
     throw new UnsupportedOperationException();
   }
 
+  /** This returns the function operator that has the given
+   *  properties.  The resulting string is in email markup.
+   */
+  public static String funcName(boolean func, boolean inj,
+      boolean tot, boolean onto)
+  {
+    StringBuffer result = new StringBuffer();
+    if (! func)
+      return "<-->";
+
+    result.append(inj  ? ">"  : ""   );
+    result.append(tot  ? "--" : "-|-");
+    result.append(onto ? ">>" : ">"  );
+    return result.toString();
+  }
+
+  /** This returns the function operator, in email markup. */
+  public String funcName()
+  {
+    return funcName(function_, injective_, total_, onto_);
+  }
+
   public String toString()
   {
-    return "RelSet";
+    String func = funcName(function_, injective_, total_, onto_);
+    return from_.toString() + " " + func + " " + to_.toString();
   }
 }

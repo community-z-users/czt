@@ -52,4 +52,10 @@ public class GivenValue extends EvalResult
     else
       return false;
   }
+  
+  @Override
+  public String toString()
+  {
+    return value_;
+  }
 }

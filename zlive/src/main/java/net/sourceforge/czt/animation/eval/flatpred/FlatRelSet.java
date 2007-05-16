@@ -97,14 +97,7 @@ public class FlatRelSet
   /** This returns the function operator, in email markup. */
   public String funcName()
   {
-    StringBuffer result = new StringBuffer();
-    if (! function_)
-      return "<-->";
-
-    result.append(injective_ ? ">"  : ""   );
-    result.append(total_     ? "--" : "-|-");
-    result.append(onto_      ? ">>" : ">"  );
-    return result.toString();
+    return RelSet.funcName(function_, injective_, total_, onto_);
   }
 
   @Override
