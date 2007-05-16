@@ -314,8 +314,6 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
 jaxb/COPYING.txt -text
-jedit/src/site/content/xdocs/images/cztlogo.jpg -text
-jedit/src/site/content/xdocs/images/sflogo.png -text
 jedit/zcharmap/src/main/resources/CircusTable.xml -text
 jedit/zlive/src/main/resources/zlive.html -text
 modeljunit/COPYING.txt -text
