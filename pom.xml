@@ -63,30 +63,30 @@
   </repositories>
   <modules>
     <module>checkstyle</module>
-    <module>zml</module>
-    <module>session</module>
-    <module>util</module>
-    <module>jaxb</module>
-    <module>gnast</module>
-    <module>maven-gnast-plugin</module>
     <module>corejava</module>
-    <module>parser-src</module>
-    <module>java_cup</module>
-    <module>maven-cup-plugin</module>
-    <module>maven-jflex-plugin</module>
-    <module>parser</module>
-    <module>parser-zpatt</module>
-    <module>parser-oz</module>
-    <module>parser-circus</module>
-    <module>typechecker</module>
-    <module>rules</module>
-    <module>zlive</module>
     <module>gaffe</module>
     <module>gaffe2</module>
-    <module>modeljunit</module>
-    <module>z2b</module>
+    <module>gnast</module>
+    <module>java_cup</module>
+    <module>jaxb</module>
     <module>jedit</module>
+    <module>maven-cup-plugin</module>
+    <module>maven-gnast-plugin</module>
+    <module>maven-jflex-plugin</module>
+    <module>modeljunit</module>
+    <module>parser</module>
+    <module>parser-circus</module>
+    <module>parser-oz</module>
+    <module>parser-src</module>
+    <module>parser-zpatt</module>
+    <module>session</module>
+    <module>typechecker</module>
+    <module>rules</module>
     <module>ui</module>
+    <module>util</module>
+    <module>z2b</module>
+    <module>zlive</module>
+    <module>zml</module>
   </modules>
   <dependencies>
     <!-- JUnit -->
@@ -336,44 +336,6 @@
           <testFailureIgnore>true</testFailureIgnore> -->
         </configuration>
       </plugin>
-      <!--
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>javadoc</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <maxmemory>200m</maxmemory>
-          <groups>
-            <group>
-              <title>Standard Z Packages</title>
-              <packages>net.sourceforge.czt.z.*</packages>
-            </group>
-            <group>
-              <title>Z Pattern Packages</title>
-              <packages>net.sourceforge.czt.zpatt.*</packages>
-            </group>
-            <group>
-              <title>Object Z Packages</title>
-              <packages>net.sourceforge.czt.oz.*</packages>
-            </group>
-            <group>
-              <title>Circus Packages</title>
-              <packages>net.sourceforge.czt.circus.*</packages>
-            </group>
-            <group>
-              <title>Circus Pattern Packages</title>
-              <packages>net.sourceforge.czt.circuspatt.*</packages>
-            </group>
-          </groups>
-        </configuration>
-      </plugin>
-      -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -428,4 +390,55 @@
       </plugin>
     </plugins>
   </reporting>
+  <profiles>
+    <profile>
+      <id>dev-profile</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>compile</phase>
+                <goals>
+                  <goal>javadoc</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <maxmemory>200m</maxmemory>
+              <groups>
+                <group>
+                  <title>Standard Z Packages</title>
+                  <packages>net.sourceforge.czt.z.*</packages>
+                </group>
+                <group>
+                  <title>Z Pattern Packages</title>
+                  <packages>net.sourceforge.czt.zpatt.*</packages>
+                </group>
+                <group>
+                  <title>Object Z Packages</title>
+                  <packages>net.sourceforge.czt.oz.*</packages>
+                </group>
+                <group>
+                  <title>Circus Packages</title>
+                  <packages>net.sourceforge.czt.circus.*</packages>
+                </group>
+                <group>
+                  <title>Circus Pattern Packages</title>
+                  <packages>net.sourceforge.czt.circuspatt.*</packages>
+                </group>
+              </groups>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
