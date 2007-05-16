@@ -7,6 +7,7 @@ corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -t
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/PrintVisitor.java -text
+doc/Using[!!-~]fontforget.ppt -text
 doc/architecture.pdf -text
 doc/architecture.sxd -text
 doc/ast-hierarchy-cards/circus/circus-action-command-ast-card.jpg -text
@@ -152,7 +153,6 @@ eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
-fonts/Using[!!-~]fontforget.ppt -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
