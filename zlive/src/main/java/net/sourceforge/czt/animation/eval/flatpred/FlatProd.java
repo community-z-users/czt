@@ -49,6 +49,7 @@ public class FlatProd extends FlatPred
   /** Creates a new instance of FlatUnion */
   public FlatProd(List<ZName> baseSets, ZName s)
   {
+    assert baseSets.size() >= 2;
     args_ = new ArrayList<ZName>(baseSets);
     args_.add(s);
     solutionsReturned_ = -1;
@@ -56,7 +57,7 @@ public class FlatProd extends FlatPred
 
   /** This calculates the maximum and estimated size of the cartesian
    * product from the maximum and estimated sizes of the base sets.
-   * TODO: could perform two-way bounds propagation similar to 
+   * TODO: could perform two-way bounds propagation similar to
    *   multiplication, but this is probably rarely useful.
    */
   public boolean inferBounds(Bounds bnds)
@@ -131,6 +132,20 @@ public class FlatProd extends FlatPred
           return null;
       }
       return sets;
+  }
+
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    for (int i=0; i<args_.size()-1; i++) {
+      result.append(printArg(i));
+      if (i < args_.size()-2)
+        result.append(" x ");
+    }
+    result.append(" = ");
+    result.append(printLastArg());
+    return result.toString();
   }
 
   ///////////////////////// Pred methods ///////////////////////

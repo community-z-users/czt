@@ -29,16 +29,18 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
-/** FlatTupleSel implements the a+b=c predicate. */
+/** FlatTupleSel implements the tuple.i = result predicate.
+ *  The index i can range from 1 up to the length of the tuple.
+ */
 public class FlatTupleSel extends FlatPred
 {
-  private Integer selection;
+  private Integer selection_;
 
   public FlatTupleSel(ZName tuple, Integer i, ZName result)
   {
     if (i <= 0)
       throw new CztException("Illegal tuple selection index: " + i);
-    selection = i;
+    selection_ = i;
     args_ = new ArrayList<ZName>(2);
     args_.add(tuple);
     args_.add(result);
@@ -66,9 +68,9 @@ public class FlatTupleSel extends FlatPred
           throw new EvalException("Tuple selection cannot handle non-tuple: " + expr);
         TupleExpr tuple = (TupleExpr) expr;
         int size = tuple.getZExprList().size();
-        if (size < selection)
+        if (size < selection_)
           throw new CztException("Badly typed tuple selection: " + size);
-        Expr selected = tuple.getZExprList().get(selection - 1);
+        Expr selected = tuple.getZExprList().get(selection_ - 1);
 
         if (evalMode_.isInput(1)) {
           // Now check selected against the output
@@ -85,6 +87,11 @@ public class FlatTupleSel extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return printArg(0) + "." + selection_ + " = " + printLastArg();
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

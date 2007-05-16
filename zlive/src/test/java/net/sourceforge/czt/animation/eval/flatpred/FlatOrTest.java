@@ -35,15 +35,18 @@ import net.sourceforge.czt.z.ast.ZName;
 public class FlatOrTest
   extends ZTestCase
 {
-  public void testOr1()
-  throws FileNotFoundException
+  private FlatPred pred;
+
+  public void setUp()
   {
+    zlive_.resetNewNames();
     FlatPredList left = new FlatPredList(zlive_);
     left.addPred(parsePred("z=x"));
     //    System.out.println("left.args="+left.getArgs());
     Assert.assertEquals(2, left.getArgs().size());
     Assert.assertEquals(x, left.getArgs().get(0));
     Assert.assertEquals(z, left.getArgs().get(1));
+
     FlatPredList right = new FlatPredList(zlive_);
     right.addPred(parsePred("z \\in \\{x+1,y+1\\}"));
     //    System.out.println("right.args="+right.getArgs());
@@ -51,13 +54,30 @@ public class FlatOrTest
     Assert.assertEquals(x, right.getArgs().get(0));
     Assert.assertEquals(y, right.getArgs().get(1));
     Assert.assertEquals(z, right.getArgs().get(2));
-    FlatPred pred = new FlatOr(left, right);
+
+    pred = new FlatOr(left, right);
     //    System.out.println("pred.args="+pred.getArgs());
     Assert.assertEquals(3, pred.getArgs().size());
     Assert.assertEquals(x, pred.getArgs().get(0));
     Assert.assertEquals(y, pred.getArgs().get(1));
     Assert.assertEquals(z, pred.getArgs().get(2));
+  }
 
+  public void testToString()
+  {
+    assertEquals("( z = x\n) \\/ ( tmp1 == 1;\n"
+               + "  x + tmp1 = tmp0;\n"
+               + "  tmp3 == 1;\n"
+               + "  y + tmp3 = tmp2;\n"
+               + "  { tmp2, tmp0 } = tmp4;\n"
+               + "  z in tmp4\n"
+               + ")",
+               pred.toString());
+  }
+
+  public void testOr1()
+  throws FileNotFoundException
+  {
     FlatPredModel iut =
       new FlatPredModel(pred,
         new ZName[] {x,y,z},

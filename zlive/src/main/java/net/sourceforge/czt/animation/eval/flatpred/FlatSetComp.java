@@ -196,6 +196,15 @@ public class FlatSetComp extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return printQuant("{",
+        predsAll_.toString(),
+        printName(resultName_),
+        "} = " + printLastArg());
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)
@@ -204,13 +213,5 @@ public class FlatSetComp extends FlatPred
       return ((FlatSetCompVisitor<R>) visitor).visitFlatSetComp(this);
     else
       return super.accept(visitor);
-  }
-
-  public String toString()
-  {
-    return printQuant("{",
-        predsAll_.toString(),
-        printName(resultName_),
-        "} = " + printLastArg());
   }
 }

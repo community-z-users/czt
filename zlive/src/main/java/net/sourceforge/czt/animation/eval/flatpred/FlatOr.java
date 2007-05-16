@@ -157,6 +157,14 @@ public class FlatOr extends FlatPred
     return result;
   }
 
+  @Override
+  public String toString()
+  {
+    return "( " + indent(left_.toString())
+      + "\n) \\/ ( " + indent(right_.toString())
+      + "\n)";
+  }
+
   ///////////////////////// Pred methods ///////////////////////
 
   public <R> R accept(Visitor<R> visitor)

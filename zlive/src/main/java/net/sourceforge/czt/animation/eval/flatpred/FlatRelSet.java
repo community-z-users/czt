@@ -94,6 +94,25 @@ public class FlatRelSet
     return result;
   }
 
+  /** This returns the function operator, in email markup. */
+  public String funcName()
+  {
+    StringBuffer result = new StringBuffer();
+    if (! function_)
+      return "<-->";
+
+    result.append(injective_ ? ">"  : ""   );
+    result.append(total_     ? "--" : "-|-");
+    result.append(onto_      ? ">>" : ">"  );
+    return result.toString();
+  }
+
+  @Override
+  public String toString()
+  {
+    return printArg(0) + " " + funcName() + " " + printArg(1)
+      + " = " + printLastArg();
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 
