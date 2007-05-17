@@ -1,5 +1,7 @@
 * text=auto !eol
 /COPYING.txt -text
+/INSTALL.txt -text
+/README.txt -text
 attic/bsh/parseCircus.bsh -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbContext.java -text
@@ -153,6 +155,7 @@ eclipse/czthelp/topics_GettingStarted.xml -text
 eclipse/czthelp/topics_Reference.xml -text
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
+fonts/INSTALL.txt -text
 gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
@@ -400,9 +403,6 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
-src/site/apt/font.apt -text
-src/site/apt/install.apt -text
-src/site/apt/manual.apt -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text

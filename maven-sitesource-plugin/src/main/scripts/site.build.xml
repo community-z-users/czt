@@ -1,0 +1,24 @@
+<project>
+  <target name="site">
+    <property name="target.dir" location="target/src/site"/>
+    <property name="apt.dir" location="${target.dir}/apt"/>
+
+    <mkdir dir="${target.dir}"/>
+
+    <copy failonerror="false"
+      file="README.txt" tofile="${apt.dir}/manual.apt"/>
+    <copy failonerror="false"
+      file="INSTALL.txt" tofile="${apt.dir}/install.apt"/>
+    <copy failonerror="false"
+      file="fonts/INSTALL.txt" tofile="${apt.dir}/font.apt"/>
+
+    <replace dir="${target.dir}" token="fonts/INSTALL.txt" value="{{{font.html} font installation instructions}}"/>
+    <replace dir="${target.dir}" token="INSTALL.txt" value="{{{install.html} installation instructions}}"/>
+    <replace dir="${target.dir}" token="README.txt" value="{{{manual.html} the CZT manual}}"/>
+
+    <copy failonerror="false" todir="${target.dir}">
+      <fileset dir="src/site"/>
+    </copy>
+
+  </target>
+</project>

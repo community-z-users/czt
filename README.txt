@@ -26,8 +26,8 @@ About
 
 Source Releases
 
-  If you are dealing with a source release, see
-  {{{install.html} installation instructions}} on how to compile CZT.
+  If you are dealing with a source release, see INSTALL.txt on how to
+  compile CZT.
 
 * Sources from Subversion
 
@@ -105,8 +105,7 @@ java -jar czt.jar zlive
 * The CZT font
 
   There is a CZT font in the <<<CZT_HOME/fonts>>> directory that
-  supports the Z Starndard characters.  See the
-  {{{font.html} font installation instructions}} for more information
+  supports the Z Starndard characters.  See fonts/INSTALL.txt
   on how to install and use the font.
 
 

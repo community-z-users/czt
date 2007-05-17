@@ -45,4 +45,4 @@ Compiling CZT
 
   instead.
 
-  See {{{manual.html} the CZT manual}} for information on how to use CZT.
+  See README.txt for information on how to use CZT.
