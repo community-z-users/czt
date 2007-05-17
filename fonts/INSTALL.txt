@@ -1,4 +1,0 @@
-See
-  <CZT_HOME>/src/site/apt/font.apt or
-  http://czt.sourceforge.net/font.html
-for installation instructions.
