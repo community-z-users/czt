@@ -62,7 +62,6 @@
     </repository>
   </repositories>
   <modules>
-    <module>checkstyle</module>
     <module>corejava</module>
     <module>gaffe</module>
     <module>gaffe2</module>
@@ -336,17 +335,6 @@
           <testFailureIgnore>true</testFailureIgnore> -->
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>${czt.groupId}</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>${czt.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
     </plugins>
   </build>
   <reporting>
@@ -362,41 +350,68 @@
           </reportSet>
         </reportSets>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <configLocation>/net/sourceforge/czt/checkstyle.xml</configLocation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <targetJdk>1.5</targetJdk>
-        </configuration>
-      </plugin>
     </plugins>
   </reporting>
   <profiles>
     <profile>
-      <id>dev-profile</id>
+      <id>reports</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>checkstyle</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>${czt.groupId}</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>${czt.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <configuration>
+              <configLocation>/net/sourceforge/czt/checkstyle.xml</configLocation>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jdepend-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>taglist-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <configuration>
+              <targetJdk>1.5</targetJdk>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+    <profile>
+      <id>javadoc</id>
       <activation>
         <property>
-          <name>env</name>
-          <value>dev</value>
+          <name>javadoc</name>
         </property>
       </activation>
       <build>
