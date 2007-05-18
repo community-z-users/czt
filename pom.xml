@@ -357,7 +357,7 @@
     <profile>
       <id>reports</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <modules>
         <module>checkstyle</module>
@@ -484,10 +484,9 @@
                 <phase>compile</phase>
                 <configuration>
                   <siteDirectory>target/src/site</siteDirectory>
-                  <stagingDirectory>/tmp/web-site</stagingDirectory>
                 </configuration>
                 <goals>
-                  <goal>stage-deploy</goal>
+                  <goal>site</goal>
                 </goals>
               </execution>
             </executions>
