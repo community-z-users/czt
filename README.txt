@@ -47,7 +47,7 @@ Using CZT
 
 * Running CZT as a command line tool
 
-  The jar file <<<CZT_HOME/bin/czt.jar>>> can be executed and used as
+  The jar file <<<CZT_HOME/lib/czt.jar>>> can be executed and used as
   a command line tool by calling 
 
 +-----------------------+
@@ -96,7 +96,7 @@ java -jar czt.jar zlive
   typechecking on each save, a SideKick panel that shows the structure
   of your Z specification and much much more.
 
-  See {{{jedit/index.html} subproject jedit}} for more information'
+  See subproject {{{jedit}}} for more information
   about how to install and use the jEdit plugins.
 
 
