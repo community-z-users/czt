@@ -6,6 +6,8 @@
     <mkdir dir="${target.dir}"/>
 
     <copy failonerror="false"
+      file="README.txt" tofile="${apt.dir}/index.apt"/>
+    <copy failonerror="false"
       file="README.txt" tofile="${apt.dir}/manual.apt"/>
     <copy failonerror="false"
       file="INSTALL.txt" tofile="${apt.dir}/install.apt"/>
@@ -16,7 +18,7 @@
     <replace dir="${target.dir}" token="INSTALL.txt" value="{{{install.html} installation instructions}}"/>
     <replace dir="${target.dir}" token="README.txt" value="{{{manual.html} the CZT manual}}"/>
 
-    <copy failonerror="false" todir="${target.dir}">
+    <copy overwrite="true" failonerror="false" todir="${target.dir}">
       <fileset dir="src/site"/>
     </copy>
 
