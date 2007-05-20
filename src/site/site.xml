@@ -23,7 +23,8 @@
       <item name="Wiki" href="http://czt.sourceforge.net/wiki/"/>
       <item name="Javadoc" href="apidocs/index.html"/>
     </menu>
-    ${modules}
-    ${reports}
+    <menu ref="modules"/>
+    <menu ref="reports"/>
+    <menu ref="parent"/>
   </body>
 </project>
