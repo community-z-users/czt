@@ -43,7 +43,7 @@ Using CZT
   and follow the installation instructions.  This will create the jar files
   mentioned below.
 
-  There are at least three ways of using the CZT tools.
+  There are several ways of using the CZT tools.
 
 * Running CZT as a command line tool
 
