@@ -40,10 +40,10 @@ public enum ZParseMessage
   MSG_STROKE_IN_OPNAME ("Syntax error in operator name {0}", "Names in operator templates cannot contain strokes"),
   MSG_OPNAME_AS_DECLWORD ("{0} is declared as an operator, and cannot be used as a declaration name"),
   MSG_PARENT_NOT_FOUND ("Parent section {0} could not be found"),
-  MSG_OF_PARENT_NOT_FOUND ("{0} of parent section {1} could not be found (Command execution error message: {2})"), 
+  MSG_OF_PARENT_NOT_FOUND ("{0} of parent section {1} could not be found (Command execution error message: {2})"),
   MSG_DUPLICATE_STATE ("Duplicate state declaration"),
   MSG_DUPLICATE_INIT ("Duplicate initial state declaration"),
-  MSG_OPNAME_ERROR ("Cannot parse operator name ({0})"), 
+  MSG_OPNAME_ERROR ("Cannot parse operator name ({0})"),
   MSG_CANNOT_MERGE_OPTABLES ("Cannot merge the parent operator tables ({0})"),
   MSG_CANNOT_ADD_OP ("Cannot add operator template ({0})"),
   MSG_POSSIBLE_MISSING_SPACE ("Possible missing hard space"),
@@ -54,7 +54,7 @@ public enum ZParseMessage
   MSG_MISSING_NL_UNBOXEDPARLIST("Missing hard new-line (i.e. \\\\, \\also, etc.) in unboxed paragraph item list."),
   MSG_SYNTAX_ERROR_IN_VARDECL("Syntax error in variable declaration at token {0}; an expression is expected after token COLON"),
   MSG_SYNTAX_ERROR_IN_SECTION_HEADER("Syntax error in section header");
-  
+
   private final String message_;
   private final String explanation_;
 

@@ -28,18 +28,21 @@ import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.util.Factory;
 
+/**
+ * A class recording parser state related information.
+ */
 public class ParserState
 {
   /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
   private int previousChain_ = -1;
-  
   private Factory factory_ = new Factory();
   private final Source loc_;
 
-  public ParserState(Source source) {
-      loc_ = source;
+  public ParserState(Source source)
+  {
+    loc_ = source;
   }
-  
+
   public void setPreviousChain(int previousChain)
   {
     previousChain_ = previousChain;
@@ -49,7 +52,7 @@ public class ParserState
   {
     return previousChain_ == value;
   }
-  
+
   /**
    * Refactored from Parser.xml to ParserState.java
    * so that ParserState methods can not only create
@@ -63,25 +66,25 @@ public class ParserState
 
   public void addLocAnn(Term term, LocInfo locInfo)
   {
-      if (locInfo != null) {
-        LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
-        if (locAnn == null) {
-          locAnn = factory_.createLocAnn();
-          term.getAnns().add(locAnn);
-        }
-        locAnn.setLoc(getLoc());
-        if (locInfo.getLine() >= 0) {
-          locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
-        }
-        if (locInfo.getColumn() >= 0) {
-          locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
-        }
-        if (locInfo.getStart() >= 0) {
-          locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
-        }
-        if (locInfo.getLength() >= 0) {
-          locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
-        }
+    if (locInfo != null) {
+      LocAnn locAnn = (LocAnn) term.getAnn(LocAnn.class);
+      if (locAnn == null) {
+        locAnn = factory_.createLocAnn();
+        term.getAnns().add(locAnn);
       }
+      locAnn.setLoc(getLoc());
+      if (locInfo.getLine() >= 0) {
+        locAnn.setLine(BigInteger.valueOf(locInfo.getLine()));
+      }
+      if (locInfo.getColumn() >= 0) {
+        locAnn.setCol(BigInteger.valueOf(locInfo.getColumn()));
+      }
+      if (locInfo.getStart() >= 0) {
+        locAnn.setStart(BigInteger.valueOf(locInfo.getStart()));
+      }
+      if (locInfo.getLength() >= 0) {
+        locAnn.setLength(BigInteger.valueOf(locInfo.getLength()));
+      }
+    }
   }
 }

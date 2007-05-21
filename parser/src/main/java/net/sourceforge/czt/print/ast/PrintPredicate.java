@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -21,7 +21,6 @@ package net.sourceforge.czt.print.ast;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.impl.PredImpl;
@@ -34,9 +33,9 @@ import net.sourceforge.czt.z.impl.PredImpl;
 public class PrintPredicate
   extends PredImpl
 {
-  List something_;
-  Precedence prec_;
-  Assoc assoc_;
+  private List something_;
+  private Precedence prec_;
+  private Assoc assoc_;
 
   protected PrintPredicate(PrintFactory factory,
                            List something, Precedence prec, Assoc assoc)

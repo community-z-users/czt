@@ -1,5 +1,5 @@
 /*
-  Copyright 2004, 2005, 2006 Petra Malik
+  Copyright 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,12 +19,7 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.util.Map;
-
-import net.sourceforge.czt.java_cup.runtime.Symbol;
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Token;
 import net.sourceforge.czt.parser.z.*;
 

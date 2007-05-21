@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -92,7 +92,7 @@ public class PrecedenceVisitor
   
   public Precedence visitPrintPredicate(PrintPredicate term)
   {
-      return term.getPrecedence();
+    return term.getPrecedence();
   }
 
   public Precedence visitThetaExpr(ThetaExpr term)

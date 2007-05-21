@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2006 Petra Malik
+  Copyright (C) 2004, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -27,23 +27,8 @@ public class Precedence
 {
   private Integer prec1_;
   private Integer prec2_;
-  private static final Map<Integer,Precedence> map_ =
+  private static final Map<Integer,Precedence> MAP =
     new HashMap<Integer,Precedence>();
-
-  public static Precedence precedence(int prec)
-  {
-    Precedence result = map_.get(prec);
-    if (result == null) {
-      result = new Precedence(prec);
-      map_.put(prec, result);
-    }
-    return result;
-  }
-
-  public static Precedence precedence(int prec1, int prec2)
-  {
-    return new Precedence(prec1, prec2);
-  }
 
   private Precedence(int prec)
   {
@@ -55,6 +40,21 @@ public class Precedence
   {
     prec1_ = new Integer(prec1);
     prec2_ = new Integer(prec2);
+  }
+
+  public static Precedence precedence(int prec)
+  {
+    Precedence result = MAP.get(prec);
+    if (result == null) {
+      result = new Precedence(prec);
+      MAP.put(prec, result);
+    }
+    return result;
+  }
+
+  public static Precedence precedence(int prec1, int prec2)
+  {
+    return new Precedence(prec1, prec2);
   }
 
   public int compareTo(Object o)

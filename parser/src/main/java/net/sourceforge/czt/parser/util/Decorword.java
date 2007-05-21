@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project: http://czt.sourceforge.net
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,9 +19,6 @@
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 
 import net.sourceforge.czt.z.ast.*;
@@ -101,17 +98,15 @@ public class Decorword
   {
     Stack<ZChar> stack = new Stack<ZChar>();
     ZChar[] zchars = ZChar.toZChars(word_);
-    for(int i = 0; i < zchars.length; i++) {
+    for (int i = 0; i < zchars.length; i++) {
       if (zchars[i].equals(ZChar.NE) || zchars[i].equals(ZChar.SE)) {
         stack.push(zchars[i]);
       }
       else if (zchars[i].equals(ZChar.NW) || zchars[i].equals(ZChar.SW)) {
         if (! stack.empty()) {
           ZChar zchar = stack.pop();
-          boolean sub = zchars[i].equals(ZChar.NW) &&
-          zchar.equals(ZChar.SE);
-          boolean sup = zchars[i].equals(ZChar.SW) &&
-          zchar.equals(ZChar.NE);
+          boolean sub = zchars[i].equals(ZChar.NW) && zchar.equals(ZChar.SE);
+          boolean sup = zchars[i].equals(ZChar.SW) && zchar.equals(ZChar.NE);
           if (! (sub || sup)) {
             return zchars[i];
           }

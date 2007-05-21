@@ -20,13 +20,9 @@
 package net.sourceforge.czt.print.z;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -37,7 +33,6 @@ import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.print.util.PrintException;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -62,11 +57,11 @@ public class ZPrintVisitor
              PrintPredicateVisitor, PrintExpressionVisitor,
              PrintPropertiesKeys
 {
+  protected boolean ref_ = false;
   private Properties properties_;
   private Utils utils_ = new UtilsImpl();
   private Factory factory_ = new Factory();
-  protected boolean ref_ = false;  
-  
+
   /**
    * Creates a new Z print visitor.
    * The section information should be able to provide information of
@@ -82,7 +77,7 @@ public class ZPrintVisitor
     super(printer);
     properties_ = properties;
   }
-  
+
   private boolean getBooleanProperty(String propertyKey)
   {
     if (properties_ == null) {
@@ -101,20 +96,13 @@ public class ZPrintVisitor
     return getBooleanProperty(PROP_PRINT_NAME_IDS);
   }
 
-  protected void printGenericFormals(NameList term) {
-    if (term != null && !utils_.isEmpty(term)) {
+  protected void printGenericFormals(NameList term)
+  {
+    if (term != null && ! utils_.isEmpty(term)) {
       print(TokenName.LSQUARE);
       visit(term);
       print(TokenName.RSQUARE);
     }
-  }
-  
-  protected void printGenericActuals(ExprList term) {
-    if (term != null && !ZUtils.assertZExprList(term).isEmpty()) {
-      print(TokenName.LSQUARE);
-      visit(term);
-      print(TokenName.RSQUARE);
-    }    
   }
   
   protected void print(TokenName tokenName, Object spelling)
@@ -141,7 +129,7 @@ public class ZPrintVisitor
   {
     printDecorword(new Decorword(name));
   }
-  
+
   protected void printLPAREN(Term term)
   {
     final boolean braces = term.getAnn(ParenAnn.class) != null;
@@ -153,14 +141,14 @@ public class ZPrintVisitor
     final boolean braces = term.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.RPAREN);
   }
-  
+
   /**
    * Prints the first term followed by the symbol followed by the
    * second term.
    */
   private void print(Term t1, String symbol, Term t2)
-  {      
-    if (symbol == null) throw new PrintException("Invalid separator symbol for print", new NullPointerException());
+  {
+    if (symbol == null) throw new NullPointerException();
     visit(t1);
     printDecorword(symbol);
     visit(t2);
@@ -187,7 +175,7 @@ public class ZPrintVisitor
   }
 
   public Object visitAndExpr(AndExpr andExpr)
-  {    
+  {
     final boolean braces = andExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(TokenName.LPAREN);
     visit(andExpr.getLeftExpr());
@@ -198,14 +186,14 @@ public class ZPrintVisitor
   }
 
   /* NOTE:
-   * AxParas are appropriately transformed by the AstToPrintTreeVisitor 
+   * AxParas are appropriately transformed by the AstToPrintTreeVisitor
    * to a PrintParagraphs, which is handled by the ZPrintVisitor.
    */
   public Object visitAxPara(AxPara axPara)
   {
     throw new PrintException("Unexpeced term AxPara");
   }
-  
+
   /**
    * If the given RefExpr is a reference to a binary operator,
    * the name of the operator (without underscore characters)
@@ -319,11 +307,11 @@ public class ZPrintVisitor
     if (braces) print(TokenName.RPAREN);
     return null;
   }
-  
+
   public Object visitConjPara(ConjPara conjPara)
   {
     print(TokenName.ZED);
-    printGenericFormals(conjPara.getNameList());    
+    printGenericFormals(conjPara.getNameList());
     print(Keyword.CONJECTURE);
     visit(conjPara.getPred());
     print(TokenName.END);
@@ -1185,7 +1173,7 @@ public class ZPrintVisitor
       final List parents = zSect.getParent();
       print(TokenName.ZED);
       print(Keyword.SECTION);
-      if (name == null) throw new PrintException("Invalid section (null) name.");
+      if (name == null) throw new PrintException("Invalid section name.");
       print(TokenName.DECORWORD, new Decorword(name));
       if (parents.size() > 0) {
         print(Keyword.PARENTS);
@@ -1285,8 +1273,8 @@ public class ZPrintVisitor
         pos++;
       }
       else {
-	final Decorword decorword =
-	  new Decorword(opPart, (ZStrokeList) op.getStrokes());
+        final Decorword decorword =
+          new Decorword(opPart, (ZStrokeList) op.getStrokes());
         print(TokenName.DECORWORD, decorword);
       }
     }
@@ -1303,7 +1291,7 @@ public class ZPrintVisitor
    */
   protected void printTermList(List list, Keyword separator)
   {
-    if (separator == null) throw new PrintException("Invalid separator keyword for printTermList", new NullPointerException());
+    if (separator == null) throw new NullPointerException();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       visit(term);
@@ -1318,7 +1306,7 @@ public class ZPrintVisitor
    */
   protected void printTermList(List list, String separator)
   {
-    if (separator == null) throw new PrintException("Invalid separator keyword for printTermList", new NullPointerException());
+    if (separator == null) throw new NullPointerException();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       visit(term);

@@ -42,10 +42,10 @@ public class ToSpiveyZVisitor
              RefExprVisitor,
              SchExprVisitor
 {
-  protected static int count = 0;
-  protected Factory factory_ = new Factory();
-  List anns_;
-  Stack<Term> parents_ = new Stack<Term>();
+  private static int count_ = 0;
+  private Factory factory_ = new Factory();
+  private List anns_;
+  private Stack<Term> parents_ = new Stack<Term>();
 
   public Object visitTerm(Term term)
   {
@@ -112,7 +112,7 @@ public class ToSpiveyZVisitor
 
   protected String getNextName()
   {
-    return "cztschema" + count++;
+    return "cztschema" + count_++;
   }
 
   protected AxPara createSchema(String name, SchExpr schExpr)

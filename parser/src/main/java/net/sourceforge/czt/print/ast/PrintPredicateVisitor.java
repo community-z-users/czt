@@ -21,6 +21,9 @@ package net.sourceforge.czt.print.ast;
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A visitor for PrintPredicates.
+ */
 public interface PrintPredicateVisitor<R>
   extends Visitor<R>
 {

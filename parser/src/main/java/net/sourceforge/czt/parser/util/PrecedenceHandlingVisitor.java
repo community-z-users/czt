@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2003, 2004, 2005 Tim Miller
-  Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,7 +22,6 @@ package net.sourceforge.czt.parser.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -47,7 +46,8 @@ public class PrecedenceHandlingVisitor
              ProdExprVisitor
 {
   /** The precedence of a cross product. */
-  protected static BigInteger PRODEXPR_PRECEDENCE = BigInteger.valueOf(8);
+  protected static final BigInteger PRODEXPR_PRECEDENCE =
+    BigInteger.valueOf(8);
 
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;

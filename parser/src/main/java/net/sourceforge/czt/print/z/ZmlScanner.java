@@ -112,22 +112,11 @@ public class ZmlScanner
     implements AbstractPrintVisitor.ZPrinter
   {
     private List<Symbol> symbolList_ = new Vector<Symbol>();
-
     private Map<String, Object> fieldMap_;
-    
-    public static boolean DEBUG_SYMBOL_MAP = false;
 
     public SymbolCollector(Class clazz)
     {
       fieldMap_ = DebugUtils.getFieldMap2(clazz);
-      if (DEBUG_SYMBOL_MAP) {
-        java.util.logging.Logger l = CztLogger.getLogger(SymbolCollector.class);
-        l.fine("----- SYMBOL MAP FOR " + clazz.getName() + " -----");
-        for(String key : fieldMap_.keySet()) {
-          l.fine(key + " -> " + fieldMap_.get(key));
-        }
-        l.fine("-------------------------------------------------");
-      }
     }
 
     public void printToken(Token token)

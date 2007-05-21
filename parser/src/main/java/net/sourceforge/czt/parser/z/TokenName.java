@@ -22,6 +22,9 @@ package net.sourceforge.czt.parser.z;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.Token;
 
+/**
+ * An enumeration of Z tokens.
+ */
 public enum TokenName
   implements Token
 {
