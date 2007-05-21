@@ -1,9 +1,28 @@
 <?xml version="1.0"?>
 <document>
   <body>
-    <release version="0.6" date="unreleased">
+    <release version="1.0" date="May 2007">
       <action dev="Petra" type="update">
-        Support the new ENDCHAR character U+2514.
+        Update to ZML 2.1 and the corresponding changes in the AST.
+      </action>
+      <action dev="Petra" type="update">
+        Use the new Unicode characters defined by the Technical
+        Corrigendum 13568/001 of the Z Standard.
+      </action>
+      <action dev="Petra" type="update">
+        Support the theorem environment introduced by the Technical
+        Corrigendum 13568/003 of the Z Standard.
+      </action>
+      <action dev="Petra" type="update">
+        Update the lexis of punctation characters according to the Technical
+        Corrigendum 13568/006 of the Z Standard.
+      </action>
+      <action type="update">
+        Lots of improvements in the way errors and warnings are handled.
+      </action>
+      <action dev="Petra" type="update">
+        Move the different sort of parsers (Z Pattern, Object Z, Circus, etc)
+        into their own subprojects.
       </action>
     </release>
     <release version="0.5" date="July 6, 2006">
