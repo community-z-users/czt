@@ -1,6 +1,39 @@
 <?xml version="1.0"?>
 <document>
   <body>
+    <release version="2.1.0" date="May, 2007">
+      <action dev="Petra" type="update">
+        Remove interfaces and classes DeclName, ZDeclName, RefName,
+        ZRefName, DeclNameList, ZDeclNameList, RefNameList, and ZRefNameList
+        and add new interfaces and classes Name, ZName, NameList, and
+        ZNameList instead.  The distinction between DeclName and RefName
+        does not seem to be relevant and makes handling of IDs more difficult.
+        Name is now used in places where either a DeclName or a RefName has
+        been used; NameList is used in places where either a DeclNameList or
+        a RefNameList has been used.
+      </action>
+      <action dev="Petra" type="update">
+        Remove setter and getter for Author, Modified, and Source from
+        interface Spec and class SpecImpl.  Annotations can be used to
+        preserve this sort of information.
+      </action>
+      <action dev="Leo,Tim,Petra" type="update">
+        Update classes in packages oz, circus, and zpatt
+        according to the changes in the corresponding XML Schema files
+        (too many changes to explicitly list them here).
+      </action>
+      <action dev="MarkU" type="update">
+        Generalize PrintVisitor so it has a flag to control whether
+        it produces Unicode strings or ASCII strings.
+      </action>
+      <action dev="Petra" type="remove">
+        Drop support for TCOZ.  It isn't used or worked on.
+      </action>
+      <action dev="Petra" type="remove">
+        Drop support for on-demand validation since JAXB2 in Java 1.6
+        doesn't support that.
+      </action>
+    </release>
     <release version="2.0.0" date="July 6, 2006">
       <action dev="Petra" type="update">
         Remove interface
