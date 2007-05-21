@@ -5,14 +5,20 @@
   </properties>
   <body>
     <release version="1.0" date="May 2007" description="Major release based on ZML 2.1; tools like parser, typechecker, etc. are quite mature now">
-      <action dev="Petra Malik" type="add">
+      <action type="update">
+        Update to changes of the Z Standard (defect reports 001..013).
+      </action>
+      <action type="update">
+        Lots of improvements and bug fixes; see the changes report
+        of the subprojects for more information.
+      </action>
+      <action type="update">
         Use maven as build system.  This includes lots of changes to
         the project and directory structure to follow the maven
         conventions.
       </action>
       <action type="add">
-        Lots of improvements and bug fixes; see the changes report
-        of the subprojects for more information.
+        Add a Z to B translator.
       </action>
     </release>
     <release version="0.5" date="July 2006"
