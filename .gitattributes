@@ -1,7 +1,4 @@
 * text=auto !eol
-/COPYING.txt -text
-/INSTALL.txt -text
-/README.txt -text
 attic/bsh/parseCircus.bsh -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbContext.java -text
