@@ -22,5 +22,12 @@
         <exclude>**/target/**</exclude>
       </excludes>
     </fileSet>
+    <fileSet>
+      <outputDirectory>doc</outputDirectory>
+      <directory>doc/refcard/z</directory>
+      <includes>
+        <include>*.pdf</include>
+      </includes>
+    </fileSet>
   </fileSets>
 </assembly>
