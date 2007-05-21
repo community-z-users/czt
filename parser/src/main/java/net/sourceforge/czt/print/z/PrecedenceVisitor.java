@@ -89,7 +89,7 @@ public class PrecedenceVisitor
   {
     return null;
   }
-  
+
   public Precedence visitPrintPredicate(PrintPredicate term)
   {
     return term.getPrecedence();
@@ -227,7 +227,7 @@ public class PrecedenceVisitor
   {
     return Precedence.precedence(60);
   }
-  
+
   public Precedence visitAndPred(AndPred term)
   {
     final And andType = term.getAnd();
@@ -235,7 +235,6 @@ public class PrecedenceVisitor
       return Precedence.precedence(10);
     }
     return Precedence.precedence(60);
-    
   }
 
   public Precedence visitOrPred(OrPred term)
