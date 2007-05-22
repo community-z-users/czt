@@ -153,7 +153,6 @@ eclipse/czthelp/topics_Reference.xml -text
 fonts/CZTSans-circus.ttf -text
 fonts/CZTSans.ttf -text
 fonts/INSTALL.txt -text
-gaffe/COPYING.txt -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
@@ -313,10 +312,8 @@ java_cup/src/main/java/net/sourceforge/czt/java_cup/symbol_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/terminal_set.java -text
 java_cup/src/main/java/net/sourceforge/czt/java_cup/version.java -text
-jaxb/COPYING.txt -text
 jedit/zcharmap/src/main/resources/CircusTable.xml -text
 jedit/zlive/src/main/resources/zlive.html -text
-modeljunit/COPYING.txt -text
 modeljunit/jdsl/overview/overview.pdf -text
 modeljunit/jdsl/tutorial/lesson06/tree.jpg -text
 modeljunit/jdsl/tutorial/lesson06/treeWithBoxes.jpg -text
@@ -358,7 +355,6 @@ parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
 parser-src/pom.xml -text
 parser-src/src/main/java/net/sourceforge/czt/parser/maven/Plugin.java -text
 parser-zpatt/src/main/java/net/sourceforge/czt/parser/zpatt/ZPattKeyword.java -text
-parser/COPYING.txt -text
 parser/doc/parser.jpg -text
 parser/doc/parser.pdf -text svneol=unset#unset
 parser/doc/parser.sxd -text
@@ -367,7 +363,6 @@ parser/doc/z/Z[!!-~]Latex2Unicode[!!-~]JFlex[!!-~]States[!!-~]Diagram.vsd -text
 parser/src/main/java/net/sourceforge/czt/parser/util/WarningManager.java -text
 parser/src/main/java/net/sourceforge/czt/parser/z/doc-files/parser.jpg -text
 parser/src/main/java/net/sourceforge/czt/print/util/PrintException.java -text
-rules/COPYING.txt -text
 rules/src/main/java/net/sourceforge/czt/rules/unification/OccursCheckVisitor.java -text
 rules/src/main/resources/net/sourceforge/czt/rules/images/closed.png -text svneol=unset#image/png
 rules/src/main/resources/net/sourceforge/czt/rules/images/fact.jpg -text svneol=unset#image/jpeg
@@ -381,7 +376,6 @@ rules/src/test/resources/rewrite/DifferentName.tex -text
 rules/src/test/resources/rewrite/NestedSameName.tex -text
 rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
-session/COPYING.txt -text
 session/src/main/resources/circus.commands -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
@@ -393,11 +387,8 @@ typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypeCheckR
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckPropertiesKeys.java -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
-typechecker/COPYING.txt -text
 typechecker/tests/z/CharTuple.tex -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
-util/COPYING.txt -text
-zlive/COPYING.txt -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/EnvirUtils.java -text
