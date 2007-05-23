@@ -18,7 +18,7 @@ About
   Releases can be
   {{{http://sourceforge.net/project/showfiles.php?group_id=86250}
   downloaded from Sourceforge}}.  There are three bundles on the
-  sourceforge web-site. The bundle <corejava> is deprecated and
+  Sourceforge web-site. The bundle <corejava> is deprecated and
   contains only old releases of corejava. The bundle <czt> is a
   collection of all the tools that we consider mature enough to be
   distributed, and also contains <corejava>.  The bundle <typechecker>
@@ -34,7 +34,7 @@ Source Releases
   If you are really feeling adventurous, you can try to build CZT
   using the sources from Subversion. See
   {{{http://sourceforge.net/svn/?group_id=86250} the documentation about
-  Subversion on sourceforge}} for more information about how to access
+  Subversion on Sourceforge}} for more information about how to access
   the CZT repository.
 
 Using CZT
@@ -85,7 +85,7 @@ Using CZT
 java -jar czt.jar zlive
 +----------------------------+
 
-  See the usage information for a list of availabe tools.
+  See the usage information for a list of available tools.
 
 
 
@@ -108,12 +108,12 @@ java -jar czt.jar zlive
 * The CZT font
 
   There is a CZT font in the <<<CZT_HOME/fonts>>> directory that
-  supports the Z Starndard characters.  See fonts/INSTALL.txt
+  supports the Z Standard characters.  See fonts/INSTALL.txt
   on how to install and use the font.
 
 
 Questions, Feedback, Bug Reports
 
   Please visit our
-  {{{http://sourceforge.net/projects/czt/} web-site at sourceforge}},
+  {{{http://sourceforge.net/projects/czt/} web-site at Sourceforge}},
   where you can file bugs, ask for help, provide patches, etc.
