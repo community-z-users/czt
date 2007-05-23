@@ -41,13 +41,19 @@
   <licenses>
     <license>
       <name>GPL</name>
-      <url>COPYING.txt</url>
+      <url>http://www.gnu.org/copyleft/gpl.txt</url>
     </license>
   </licenses>
   <scm>
     <developerConnection>scm:svn:https://czt.svn.sourceforge.net/svnroot/czt/trunk</developerConnection>
     <url>http://svn.sourceforge.net/viewcvs.cgi/czt/trunk</url>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>czt</id>
+      <url>scpexe://czt.sourceforge.net/home/groups/c/cz/czt/htdocs/</url>
+    </site>
+  </distributionManagement>
   <repositories>
     <repository>
       <id>czt</id>
