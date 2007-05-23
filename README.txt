@@ -40,10 +40,13 @@ Source Releases
 Using CZT
 
   If you are dealing with the CZT sources, see chapter Source Releases
-  and follow the installation instructions.  This will create the jar files
-  mentioned below.
+  above and follow the installation instructions.  This will create
+  the jar files mentioned below.
 
-  There are several ways of using the CZT tools.
+  There are several ways of using the CZT tools.  Independently of the
+  way, you need the Java Runtime Environment (JRE) 6 (1.6) or any later
+  version, which can be downloaded from
+  {{{http://java.sun.com/javase/downloads/index.jsp} here}}.
 
 * Running CZT as a command line tool
 
