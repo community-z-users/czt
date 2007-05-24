@@ -131,4 +131,11 @@ public class ZLiveTest extends ZTestCase
       // good!  We should get this exception.
     }
   }
+
+
+  public void testVersionNumberPresent()
+  {
+    String version = ZLive.getVersion();
+    assertTrue(version.startsWith("0") || version.startsWith("1"));
+  }
 }

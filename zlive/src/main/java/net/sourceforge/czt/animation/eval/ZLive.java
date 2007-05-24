@@ -507,9 +507,19 @@ public class ZLive
   }
 
   /**
-   * Returns the name and current version of ZLive
+   * Returns the name and current version of ZLive.
    */
   public static String getBanner()
+  {
+    return "ZLive version " + getVersion() + ", (C) 2006, Mark Utting";
+  }
+
+  /**
+   * Returns the version number as a String, or "unknown" if an error
+   * occured when accessing the property containing the version
+   * information.
+   */
+  public static String getVersion()
   {
     String version = "unknown";
     try {
@@ -521,7 +531,7 @@ public class ZLive
       }
     }
     catch (IOException e) {}
-    return "ZLive version " + version + ", (C) 2006, Mark Utting";
+    return version;
   }
 
   public static void main(String args[])
