@@ -126,7 +126,9 @@
              Semicolons in for statements should be followed by
              a space character.
              (rule 69) -->
-        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAfter">
+          <property name="tokens" value="SEMI, TYPECAST"/>
+        </module>
 
         <!-- Conventional operators should be surrounded
              by a space character.
