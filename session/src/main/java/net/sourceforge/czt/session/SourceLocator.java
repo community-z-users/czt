@@ -28,7 +28,7 @@ import java.net.URL;
 public class SourceLocator
   implements Command
 {
-  final protected String [] suffix_ = {".tex", ".utf8", ".utf16", ""};
+  protected final String [] suffix_ = {".tex", ".utf8", ".utf16", ""};
 
   public boolean compute(String name, SectionManager manager)
     throws CommandException
@@ -57,6 +57,9 @@ public class SourceLocator
     throw new SourceLocatorException(name);
   }
 
+  /**
+   * Exception thrown when source could not be found.
+   */
   public static class SourceLocatorException
     extends CommandException
   {

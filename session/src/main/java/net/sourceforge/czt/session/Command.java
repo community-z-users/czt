@@ -20,8 +20,9 @@
 
 package net.sourceforge.czt.session;
 
-import java.util.Properties;
-
+/**
+ * The command interface provides a method for computing.
+ */
 public interface Command
 {
   boolean compute(String name,

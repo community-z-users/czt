@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.session;
 
+/**
+ * An enumeration of supported mark-ups.
+ */
 public enum Markup
 {
   LATEX,

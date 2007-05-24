@@ -21,9 +21,10 @@ package net.sourceforge.czt.session;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
+/**
+ * Source from standard input.
+ */
 public class StdInSource
   extends Source
 {

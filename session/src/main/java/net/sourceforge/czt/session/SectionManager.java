@@ -80,7 +80,7 @@ import java.util.logging.Logger;
 public class SectionManager
   implements Cloneable, SectionInfo
 {
-  private final static String DEFAULT_EXTENSION = "z";
+  private static final String DEFAULT_EXTENSION = "z";
 
   /**
    * The Cache, a mapping from Key to Object.
@@ -353,7 +353,6 @@ public class SectionManager
     final String name = key.getName();
     Object result = content_.get(key);
     if (result == null) {
-      getLogger().finer("Collecting command for " + infoType);  
       Command command = (Command) commands_.get(infoType);
       if (command == null) {
         throw new CommandException("No command available to compute " + key);

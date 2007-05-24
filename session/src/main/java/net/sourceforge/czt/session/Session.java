@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Petra Malik
+  Copyright (C) 2005, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,18 +19,14 @@
 
 package net.sourceforge.czt.session;
 
-import java.net.URL;
-import java.util.logging.Logger;
-
+/**
+ * A session contains a section manager and records the name of the
+ * current section.
+ */
 public class Session
 {
   private SectionManager manager_ = new SectionManager();
   private String section_ = "";
-
-  private Logger getLogger()
-  {
-    return Logger.getLogger(getClass().getName());
-  }
 
   public Object get(Class c)
     throws CommandException

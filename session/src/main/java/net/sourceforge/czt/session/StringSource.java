@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+/**
+ * A source given as a String.
+ */
 public class StringSource
   extends Source
 {
@@ -42,7 +45,7 @@ public class StringSource
   /**
    * @param name the name of this StringSource; usually used to describe
    *             the source since it is used when printing error messages.
-   *               
+   *
    * @throws NullPointerException if value or source is <code>null</code>.
    */
   public StringSource(String value, String name)
