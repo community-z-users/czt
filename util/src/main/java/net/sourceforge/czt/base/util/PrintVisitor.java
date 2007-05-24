@@ -22,6 +22,9 @@ package net.sourceforge.czt.base.util;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 
+/**
+ * A printer for terms.
+ */
 public class PrintVisitor
   extends VisitorImpl<String>
   implements TermVisitor<String>

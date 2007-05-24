@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2005 Mark Utting
+  Copyright (C) 2005, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,10 @@
 
 package net.sourceforge.czt.base.util;
 
+/**
+ * An exception thrown by visitors when an unexpected AST class has
+ * been found.
+ */
 public class UnsupportedAstClassException
   extends RuntimeException
 {

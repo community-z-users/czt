@@ -32,6 +32,7 @@ import net.sourceforge.czt.util.Visitor;
 /**
  * <p>A list implementation that integrates nicely into the AST.</p>
  *
+ * @param <E> the type of the elements in this list.
  * @author Petra Malik
  */
 public class ListTermImpl<E>
@@ -53,17 +54,6 @@ public class ListTermImpl<E>
    * Constructs an empty list term that accepts all Objects.
    */
   public ListTermImpl()
-  {
-    super();
-  }
-
-  /**
-   * Constructs an empty list term that accepts elements of
-   * the specified class.
-   *
-   * @param aClass ignored
-   */
-  public ListTermImpl(Class aClass)
   {
     super();
   }

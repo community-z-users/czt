@@ -1,5 +1,5 @@
 /*
-  Copyright 2006 Mark Utting
+  Copyright 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,6 +22,9 @@ package net.sourceforge.czt.base.util;
 import net.sourceforge.czt.base.ast.Term;
 
 /**
+ * An interace for a visit method.
+ *
+ * @param <R> the return type of the visit method.
  * @author Petra Malik
  */
 public interface Visit<R>

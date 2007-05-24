@@ -1,5 +1,5 @@
 /*
-  Copyright 2003, 2006 Mark Utting
+  Copyright 2003, 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,9 @@
 
 package net.sourceforge.czt.base.ast;
 
+/**
+ * An enumeration of the digits zero to nine.
+ */
 public enum Digit
 {
   ZERO(0),
