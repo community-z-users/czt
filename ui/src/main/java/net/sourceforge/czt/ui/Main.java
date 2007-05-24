@@ -172,6 +172,26 @@ public class Main
     }
   }
 
+  /**
+   * Returns the version number as a String, or "unknown" if an error
+   * occured when accessing the property containing the version
+   * information.
+   */
+  public static String getVersion()
+  {
+    String version = "unknown";
+    try {
+      Properties props = new Properties();
+      URL url = Main.class.getResource("/net/sourceforge/czt/czt.properties");
+      if (url != null) {
+        props.load(url.openStream());
+        version = (String) props.get("version");
+      }
+    }
+    catch (IOException e) {}
+    return version;
+  }
+
   public static String usage()
   {
     return usage(PREFIX);
@@ -179,7 +199,7 @@ public class Main
 
   public static String usage(String prefix)
   {
-    return "Usage:\n" +
+    return "Community Z Tools " + getVersion() + "\nUsage:\n" +
       "  " + prefix + "[-d <dialect>] [-o <filename>] [-s] <filename>\n" +
       "  " + prefix + "<command> [<commandArg1> .. <commandArgN>]\n" +
       "Flags:\n" +
