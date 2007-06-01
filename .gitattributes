@@ -171,8 +171,6 @@ gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZGivenTest.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZNumberTest.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZSetTest.java -text
 gaffe/src/test/java/net/sourceforge/czt/animation/gui/temp/ZTupleTest.java -text
-gaffe2/.classpath -text
-gaffe2/.project -text
 gaffe2/ChangeLog -text
 gaffe2/Readme -text
 gaffe2/classpath.bat -text
