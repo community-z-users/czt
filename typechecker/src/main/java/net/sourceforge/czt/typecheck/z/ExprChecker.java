@@ -717,7 +717,7 @@ public class ExprChecker
 
   public Type2 visitCondExpr(CondExpr condExpr)
   {
-    Type2 type = factory().createUnknownType();
+    Type2 type = factory().createVariableType();
 
     //visit the Pred
     Pred pred = condExpr.getPred();
@@ -735,14 +735,14 @@ public class ExprChecker
     Type2 leftType = leftExpr.accept(exprChecker());
     Type2 rightType = rightExpr.accept(exprChecker());
 
-    UResult unified = unify(leftType, rightType);
+    //unify the new type with the left and right types
+    UResult lUnified = unificationEnv().unify(leftType, type);
+    UResult rUnified = unificationEnv().unify(rightType, type);
 
-    if (unified == FAIL) {
+    //if the unification failed, raise an error
+    if (lUnified == FAIL || rUnified == FAIL) {
       Object [] params = {condExpr, leftType, rightType};
       error(condExpr, ErrorMessage.TYPE_MISMATCH_IN_CONDEXPR, params);
-    }
-    else {
-      type = leftType;
     }
 
     //add the type annotation

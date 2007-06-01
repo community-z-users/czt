@@ -386,6 +386,7 @@ typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypeCheckR
 typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckPropertiesKeys.java -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
 typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
+typechecker/tests/oz/weak/ClassCondExpr.tex -text
 typechecker/tests/z/CharTuple.tex -text
 ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 zlive/doc/design.pdf -text
