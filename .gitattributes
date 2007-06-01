@@ -35,6 +35,7 @@ doc/refcard/z/refcard.dvi -text
 doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
 doc/refcard/z/refcard.pdf -text
+eclipse/README.txt -text
 eclipse/czteditor/icons/obj16/axpara16.png -text
 eclipse/czteditor/icons/obj16/conj16.png -text
 eclipse/czteditor/icons/obj16/def16.png -text
