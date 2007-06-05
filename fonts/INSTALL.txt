@@ -8,12 +8,11 @@ Installing the CZT font
 * Installing the CZT font on Windows XP
 
   WARNING: Installing this font on Windows stops Visual Studio 2005
-  from opening its GUI Code Designer window!  (It gives an error
-  that says something about memory being corrupt).  To fix this
-  this you will need to uninstall the CZT font.  We think this error
-  is caused by the FontForge tool generating a CZTSans.ttf file
-  that Visual Studio cannot handle, but we are still investigating
-  possible solutions. 
+  from opening its GUI Code Designer window!  (It gives an error that
+  says something about memory being corrupt).  To fix this, you will
+  need to uninstall the CZT font.  We think this error is caused by
+  the FontForge tool generating a CZTSans.ttf file that Visual Studio
+  cannot handle, but we are still investigating possible solutions.
 
  
   Go into <Start/Control Panel>, then into the <Fonts> program.
