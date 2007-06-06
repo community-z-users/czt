@@ -268,7 +268,6 @@
       <xs:enumeration value="Expr"/>
       <xs:enumeration value="Name"/>
       <xs:enumeration value="Pred"/>
-      <xs:enumeration value="Type"/>
     </xs:restriction>
   </xs:simpleType>
 
