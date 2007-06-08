@@ -342,13 +342,6 @@
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:Pred"/>
-          <xs:element ref="P:Deduction" minOccurs="0" maxOccurs="1">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

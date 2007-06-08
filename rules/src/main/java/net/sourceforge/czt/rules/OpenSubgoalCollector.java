@@ -54,11 +54,12 @@ public class OpenSubgoalCollector
 
   public Object visitSequent(Sequent sequent)
   {
-    if (sequent.getDeduction() == null) {
+    Deduction ded = sequent.getAnn(Deduction.class);
+    if (ded == null) {
       subgoals_.add(sequent);
     }
     else {
-      sequent.getDeduction().accept(this);
+      ded.accept(this);
     }
     return null;
   }

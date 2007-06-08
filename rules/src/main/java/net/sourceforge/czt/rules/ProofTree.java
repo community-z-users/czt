@@ -153,11 +153,12 @@ public class ProofTree
 
   private void reset(Sequent sequent)
   {
-    if (sequent.getDeduction() != null) {
+    Deduction ded = sequent.getAnn(Deduction.class);
+    if (ded != null) {
       java.util.List<Binding> bindings = new java.util.ArrayList<Binding>();
       ProverUtils.collectBindings(sequent, bindings);
       ProverUtils.reset(bindings);
-      sequent.setDeduction(null);
+      sequent.getAnns().remove(ded);
     }
   }
 
@@ -229,7 +230,8 @@ public class ProofTree
     {
       final Sequent sequent = (Sequent) node.getUserObject();
       JPopupMenu popup = new JPopupMenu();
-      if (sequent.getDeduction() != null) {
+      Deduction ded = sequent.getAnn(Deduction.class);
+      if (ded != null) {
         JMenuItem menuItem = new JMenuItem("Undo rule application");
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -291,7 +293,7 @@ public class ProofTree
     public ProofNode(Sequent sequent)
     {
       super(sequent);
-      Deduction ded = sequent.getDeduction();
+      Deduction ded = sequent.getAnn(Deduction.class);
       if (ded instanceof RuleAppl) {
         for (Sequent s : ((RuleAppl) ded).getSequentList()) {
           insert(createNode(s), getChildCount());
@@ -309,7 +311,7 @@ public class ProofTree
 
     public boolean isClosed()
     {
-      Deduction ded = getSequent().getDeduction();
+      Deduction ded = getSequent().getAnn(Deduction.class);
       if (ded == null) return false;
       if (ded instanceof RuleAppl) {
         for (Enumeration<TreeNode> e = children();
@@ -396,8 +398,9 @@ public class ProofTree
       else if (value instanceof ProofNode) {
         ProofNode node = (ProofNode) value;
         Sequent sequent = node.getSequent();
-        if (sequent.getDeduction() instanceof RulePara) {
-          RulePara rulePara = (RulePara) sequent.getDeduction();
+	Deduction ded = sequent.getAnn(Deduction.class);
+        if (ded instanceof RulePara) {
+          RulePara rulePara = (RulePara) ded;
           setToolTipText("Rule " + rulePara.getName());
         }
         else {

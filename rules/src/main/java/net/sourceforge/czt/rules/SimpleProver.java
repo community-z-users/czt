@@ -139,7 +139,7 @@ public class SimpleProver
           // we use a random id number in log messages to make it
           // clearer which rule application each message is talking about.
           int id = rand_.nextInt(1000);
-          Deduction ded = sequent.getDeduction();
+          Deduction ded = sequent.getAnn(Deduction.class);
           if (ded instanceof RuleAppl) {
             RuleAppl ruleAppl = (RuleAppl) ded;
             String message = "Applied rule " + rulePara.getName() + "." + id
@@ -184,12 +184,12 @@ public class SimpleProver
    */
   public void undo(Sequent sequent)
   {
-    Deduction deduction = sequent.getDeduction();
+    Deduction deduction = sequent.getAnn(Deduction.class);
     if (deduction == null) return;
     if (deduction instanceof RuleAppl) {
       RuleAppl ruleAppl = (RuleAppl) deduction;
       ProverUtils.reset(ruleAppl.getBinding());
-      sequent.setDeduction(null);
+      sequent.getAnns().remove(deduction);
     }
     else if (deduction instanceof OracleAppl) {
       OracleAppl oracleAppl = (OracleAppl) deduction;
@@ -199,7 +199,7 @@ public class SimpleProver
         oracleAppl.setOracleAnswer(null);
       }
       ProverUtils.reset(oracleAppl.getBinding());
-      sequent.setDeduction(null);
+      sequent.getAnns().remove(deduction);
     }
     else {
       throw new CztException("Unsupported deduction " + deduction);
@@ -287,7 +287,7 @@ public class SimpleProver
    */
   public static boolean apply(Rule rule, Sequent sequent)
   {
-    if (sequent.getDeduction() != null) {
+    if (sequent.getAnn(Deduction.class) != null) {
       String message =
         "This Sequent already has a deduction associated to it.";
       throw new IllegalArgumentException(message);
@@ -304,7 +304,7 @@ public class SimpleProver
       RuleAppl ruleAppl = factory.createRuleAppl(bindingList,
                                                  rule.getAntecedents(),
                                                  rule.getName());
-      sequent.setDeduction(ruleAppl);
+      sequent.getAnns().add(ruleAppl);
       return true;
     }
     return false;
@@ -319,7 +319,7 @@ public class SimpleProver
    */
   public static boolean apply(Oracle oracle, Sequent sequent)
   {
-    if (sequent.getDeduction() != null) {
+    if (sequent.getAnn(Deduction.class) != null) {
       String message =
         "This Sequent already has a deduction associated to it.";
       throw new IllegalArgumentException(message);
@@ -336,7 +336,7 @@ public class SimpleProver
       OracleAppl oracleAppl =
         factory.createOracleAppl(bindingList, null, oracle.getName());
       oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
-      sequent.setDeduction(oracleAppl);
+      sequent.getAnns().add(oracleAppl);
       return true;
     }
     return false;
@@ -366,7 +366,7 @@ public class SimpleProver
     throws RuleApplicationException
   {
     try {
-      if (sequent.getDeduction() != null) {
+      if (sequent.getAnn(Deduction.class) != null) {
         String message =
           "This Sequent already has a deduction associated to it.";
         throw new IllegalArgumentException(message);
@@ -383,7 +383,7 @@ public class SimpleProver
         Deduction deduction = factory.createRuleAppl(bindingList,
                                                      rule.getAntecedents(),
                                                      rule.getName());
-        sequent.setDeduction(deduction);
+        sequent.getAnns().add(deduction);
         return true;
       }
       return false;
@@ -397,7 +397,7 @@ public class SimpleProver
     throws RuleApplicationException
   {
     try {
-      if (sequent.getDeduction() != null) {
+      if (sequent.getAnn(Deduction.class) != null) {
         String message =
           "This Sequent already has a deduction associated to it.";
         throw new IllegalArgumentException(message);
@@ -415,7 +415,7 @@ public class SimpleProver
                                                          null,
                                                          oracle.getName());
         oracleAppl.getAnns().add(ProverUtils.collectJokers(oracle));
-        sequent.setDeduction(oracleAppl);
+        sequent.getAnns().add(oracleAppl);
         return true;
       }
       return false;

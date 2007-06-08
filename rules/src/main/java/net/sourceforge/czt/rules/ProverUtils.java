@@ -127,7 +127,7 @@ public final class ProverUtils
 
   public static void collectBindings(Sequent sequent, List<Binding> list)
   {
-    Deduction ded = sequent.getDeduction();
+    Deduction ded = sequent.getAnn(Deduction.class);
     if (ded == null) return;
     if (ded instanceof RuleAppl) {
       RuleAppl ruleAppl = (RuleAppl) ded;

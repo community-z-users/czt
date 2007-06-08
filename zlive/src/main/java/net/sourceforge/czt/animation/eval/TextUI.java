@@ -69,6 +69,7 @@ import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.z.ast.ZNumeral;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
+import net.sourceforge.czt.zpatt.ast.Deduction;
 import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.ast.RulePara;
 import net.sourceforge.czt.zpatt.util.Factory;
@@ -285,7 +286,8 @@ public class TextUI {
                 ProverUtils.createSequent(pred, true);
               SimpleProver prover = new SimpleProver(rules, manager, section);
               if (SimpleProver.apply(rulePara, sequent)) {
-                boolean proveresult = prover.prove(sequent.getDeduction());
+		Deduction ded = sequent.getAnn(Deduction.class);
+                boolean proveresult = prover.prove(ded);
                 if (proveresult)
                   output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 
                 else
