@@ -1165,7 +1165,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(YYINITIAL);
           reportError(ErrorType.ERROR,
-                      ZParseMessage.MSG_UNEXPECTED_TOKEN,
+                      ZParseMessage.MSG_UNEXPECTED_TOKEN_NAME_EXPECTED,
                       yytext());
         }
 }
