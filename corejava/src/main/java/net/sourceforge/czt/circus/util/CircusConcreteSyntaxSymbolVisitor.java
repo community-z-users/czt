@@ -77,14 +77,6 @@ public class CircusConcreteSyntaxSymbolVisitor
        return null;
     }
     
-    public CircusConcreteSyntaxSymbol visitProcessRefConjPara(ProcessRefConjPara term) {
-        return CircusConcreteSyntaxSymbol.PROCESS_REF_CONJ_PARA;
-    }
-    
-    public CircusConcreteSyntaxSymbol visitActionRefConjPara(ActionRefConjPara term) {
-        return CircusConcreteSyntaxSymbol.ACTION_REF_CONJ_PARA;
-    }
-    
     public CircusConcreteSyntaxSymbol visitLetVarAction(LetVarAction term) {
         return CircusConcreteSyntaxSymbol.LETVAR_ACTION;
     }
@@ -305,6 +297,18 @@ public class CircusConcreteSyntaxSymbolVisitor
     }
     public CircusConcreteSyntaxSymbol visitIntChoiceProcessIdx(IntChoiceProcessIdx term) {
         return CircusConcreteSyntaxSymbol.IDX_INTCH_PROCESS;
+    }
+
+    public CircusConcreteSyntaxSymbol visitTransformerPara(TransformerPara term) {
+        return CircusConcreteSyntaxSymbol.TRANSFORMER_PARA;
+    }
+
+    public CircusConcreteSyntaxSymbol visitProcessTransformerPred(ProcessTransformerPred term) {
+        return CircusConcreteSyntaxSymbol.PROCESS_TRANSFORMER_PRED;
+    }
+
+    public CircusConcreteSyntaxSymbol visitActionTransformerPred(ActionTransformerPred term) {
+        return CircusConcreteSyntaxSymbol.ACTION_TRANSFORMER_PRED;
     }
     
     public interface Utils

@@ -137,8 +137,12 @@ public enum CircusConcreteSyntaxSymbol
   IN_FIELD("Input communication field"), 
   
   /* Circus Lists */  
-  FIELD_LIST("List of communication fields");
+  FIELD_LIST("List of communication fields"),
 
+  TRANSFORMER_PARA("Term transformer paragraph"),
+  PROCESS_TRANSFORMER_PRED("Process transformer predicate"),
+  ACTION_TRANSFORMER_PRED("Action transformer predicate");
+  
   private final String description_;
 
   CircusConcreteSyntaxSymbol(String description)
