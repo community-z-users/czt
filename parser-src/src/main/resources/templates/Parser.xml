@@ -1720,14 +1720,14 @@ terminal LocInfo
         // Keychars
         CIRCREFINES, CIRCDEF, CIRCINDEX, CIRCMU, CIRCTHEN, CIRCELSE, PREFIXTHEN, 
         PREFIXCOLON, CIRCSEQ, INTERLEAVE, REPINTERLEAVE, REPPARALLEL, CIRCHIDING, 
-        EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN,
+        EXTCHOICE, REPEXTCHOICE, INTCHOICE, REPINTCHOICE, CIRCASSIGN, CIRCSIMULATES,
         _CIRCGUARD, _REPSEQ, 
         
         /* Note:
          *
          * CIRCGUARD => As there are no similar UNICODE char for &amp;, I am just
          *              using ANDALSO (from free type definition) directly.
-         *              In circus_toolkit, \circguard is then mapped to the same 
+         *              In circus_prelude, \circguard is then mapped to the same 
          *              UNICODE as ANDALSO, which is 0026, and CircChar has no
          *              entry for this token!
          *              Nevertheless, I still nedd the CIRCGUARD token for 
@@ -2129,7 +2129,7 @@ non terminal ParamQualifier
   circusQualifier,
   optCircusQualifier;    
   
-non terminal Model
+non terminal Transformation
   refines;
   
 /// Circus action definition ///////////////////////////////////////////////        
@@ -2410,7 +2410,7 @@ emptySectionHeader ::=
            final Parent poz = factory_.createParent(OZ_TOOLKIT);
 </add:oz>
 <add:circus>
-           final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_TOOLKIT);
+           final Parent pcircus = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
 </add:circus>
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetOpTable(name, parents, eleft, eright);
@@ -2492,8 +2492,8 @@ sectionHeader ::=
            }
 </add:oz>
 <add:circus>
-           final Parent circusParent = factory_.createParent(CircusUtils.CIRCUS_TOOLKIT);
-           if ((! name.equals(CircusUtils.CIRCUS_TOOLKIT)) &amp;&amp;
+           final Parent circusParent = factory_.createParent(CircusUtils.CIRCUS_PRELUDE);
+           if ((! name.equals(CircusUtils.CIRCUS_PRELUDE)) &amp;&amp;
                (! p.contains(circusParent)) &amp;&amp;
                (! name.equals(Section.PRELUDE.getName()))) {
              p.add(circusParent);
@@ -4913,26 +4913,43 @@ nameSubstitution ::=
 processRefPara ::=
         CIRCASSERTREF process:spec refines:r process:impl
         {:
-           RESULT = factory_.createProcessRefConjPara(spec, impl, r);
+           RESULT = factory_.createTransformerPara(
+                factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(), spec, impl));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
+           parserState_.clearRefinementModel();
         :}
         ;
         
 actionRefPara ::=
         CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
         {:
-           RESULT = factory_.createActionRefConjPara(spec, impl, r);
+           RESULT = factory_.createTransformerPara(
+                factory_.createActionTransformerPred(null, r, parserState_.getRefinementModel(), spec, impl));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
+           parserState_.clearRefinementModel();
+
         :}
         ;
         
 refines ::=         
+        CIRCSIMULATES 
+        {: RESULT = Transformation.Simulation; :}
+        |
+        EQUALS
+        {: RESULT = Transformation.Equivalence; :}
+        |
         CIRCREFINES 
-        {: RESULT = CircusUtils.DEFAULT_REFINEMENT_MODEL; :}
+        {: 
+           RESULT = Transformation.Refinement; 
+           parserState_.setRefinementModel(CircusUtils.DEFAULT_REFINEMENT_MODEL);
+        :}
         |
         CIRCREFINES DECORWORD:dw
-        {: RESULT = validateModel(dw); :}        
-        ;
+        {: 
+           RESULT = Transformation.Refinement; 
+           parserState_.setRefinementModel(validateModel(dw));
+        :}        
+        ;        
 </add:circus>     
                 
 /// schema text ///////////////////////////////////////////
