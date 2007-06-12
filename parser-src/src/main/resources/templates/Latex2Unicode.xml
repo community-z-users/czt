@@ -573,6 +573,44 @@ NAME =   {NOT_LB}*
           yybegin(ERROR);
         }
 </add:zpatt>
+<add:circuspatt>
+  "\\begin" {IGNORE}* "{circusjoker}" {IGNORE}* "{"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("circusjoker");
+          braceStack_.push(BraceType.NAME);
+          return result(CircusPattString.CIRCUSJOKER);
+        }
+  "\\begin" {IGNORE}* "{circusjoker}" {IGNORE}*
+        {
+          yybegin(ERROR);
+        }
+  "\\begin" {IGNORE}* "{actionlaw}" {IGNORE}* "{"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("actionlaw");
+          braceStack_.push(BraceType.NAME);
+          return result(CircusPattString.CIRCUSACTIONLAW);
+        }
+  "\\begin" {IGNORE}* "{actionlaw}" {IGNORE}*
+        {
+          yybegin(ERROR);
+        }  
+  "\\begin" {IGNORE}* "{processlaw}" {IGNORE}* "{"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("processlaw");
+          braceStack_.push(BraceType.NAME);
+          return result(CircusPattString.CIRCUSPROCESSLAW);
+        }
+  "\\begin" {IGNORE}* "{processlaw}" {IGNORE}*
+        {
+          yybegin(ERROR);
+        }  
+</add:circuspatt>
 <add:circus>
   "\\begin" {IGNORE}* "{circus}"
         {
@@ -793,6 +831,29 @@ NAME =   {NOT_LB}*
           return result(LatexSym.END, result);
         }
 </add:zpatt>
+<add:circuspatt>
+  "\\end" {IGNORE}* "{circusjoker}"
+        {
+          end("circusjoker");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+  "\\end" {IGNORE}* "{actionlaw}"
+        {
+          end("actionlaw");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }  
+  "\\end" {IGNORE}* "{processlaw}"
+        {
+          end("processlaw");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+</add:circuspatt>
 <add:circus>
   "\\end" {IGNORE}* "{circus}"
         { 

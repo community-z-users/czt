@@ -253,6 +253,7 @@ RINTER = "\u301B"   /* left interleave bracket */
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
     <add:zpatt> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:zpatt>    
+    <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSACTIONCHAR} </add:circus>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
@@ -265,6 +266,11 @@ RULECHAR = "\u25A0"
 PROVISO = "\u25B8"
 RULELINE="\u2501"
 </add:zpatt>
+<add:circuspatt>
+CIRCUSJOKERCHAR = "\u2606"      /* hollow version of Joker char */
+CIRCUSACTIONLAWCHAR = "\u25A1"  /* hollow version of Rule char  */
+CIRCUSPROCESSLAWCHAR = "\u25A3" /* hollow contained version of Rule char */
+</add:circuspatt>
 <add:circus>
 CIRCUSACTIONCHAR = "\u2014"  /* EM dash */
 </add:circus>
@@ -305,6 +311,11 @@ NL = {NLCHAR}
 JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
 </add:zpatt>
+<add:circuspatt>
+CIRCUSJOKER = {CIRCUSJOKERCHAR}
+CIRCUSACTIONLAW = {CIRCUSACTIONLAWCHAR}
+CIRCUSPROCESSLAW = {CIRCUSPROCESSLAWCHAR}
+</add:circuspatt>
 <add:circus>
 CIRCUSACTION = {CIRCUSACTIONCHAR}
 </add:circus>
@@ -327,6 +338,13 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
   {RULE}        {  beginZed(); return symbol(Sym.RULE); }
   {PROVISO}     {  beginZed(); return symbol(Sym.PROVISO); }
   </add:zpatt>
+  
+  <add:circuspatt>
+  /* Circus pattern paragraph */
+  {CIRCUSJOKER}       {  beginZed(); return symbol(Sym.CIRCUSJOKER); }
+  {CIRCUSACTIONLAW}   {  beginZed(); return symbol(Sym.CIRCUSACTIONLAW); }
+  {CIRCUSPROCESSLAW}  {  beginZed(); return symbol(Sym.CIRCUSPROCESSLAW); }
+  </add:circuspatt>
   
   <add:circus>
   {CIRCUSACTION}      {  beginZed(); return symbol(Sym.CIRCUSACTION); }   

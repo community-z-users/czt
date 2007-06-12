@@ -61,6 +61,9 @@ public class <class/>
 <add:zpatt>
                 Sym.RULELINE, Sym.RULE, Sym.JOKER, Sym.RULELINE,
 </add:zpatt>
+<add:circuspatt>
+                Sym.CIRCUSJOKER, Sym.CIRCUSACTIONLAW, Sym.CIRCUSPROCESSLAW,
+</add:circuspatt>
 <add:oz>
                 Sym.CLASS, Sym.GENCLASS, Sym.STATE, Sym.INIT, Sym.OPSCH,
                 Sym.PARALLEL, Sym.ASSOPARALLEL, Sym.GCH, 
