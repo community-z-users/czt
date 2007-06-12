@@ -17,20 +17,21 @@ import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ParamQualifier;
+import net.sourceforge.czt.circus.ast.TransformerPara;
 import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.circus.ast.ActionPara;
-import net.sourceforge.czt.circus.ast.ActionRefConjPara;
+import net.sourceforge.czt.circus.ast.ActionTransformerPred;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.CircusFieldList;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.ProcessPara;
-import net.sourceforge.czt.circus.ast.ProcessRefConjPara;
+import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
 
 /**
  *
@@ -44,8 +45,11 @@ public final class CircusUtils {
   private CircusUtils() {
   }
 
-  /** The name of the Circus toolkit. */
+  /** The name of the basic Circus toolkit. */
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
+
+  /** The name of the Circus prelude. */
+  public static final String CIRCUS_PRELUDE = "circus_prelude";
 
   /**
    * Every basic process main action is named with this internal name.
@@ -142,8 +146,9 @@ public final class CircusUtils {
   public static boolean isCircusInnerProcessPara(Para term) {
       return !ZUtils.isZPara(term) &&
           ((term instanceof ActionPara) ||
-          (term instanceof NameSetPara) ||
-          (term instanceof ActionRefConjPara));
+           (term instanceof NameSetPara) ||
+           ((term instanceof TransformerPara) &&
+            ((TransformerPara)term).getTransformerPred() instanceof ActionTransformerPred));
   }
   
   public static boolean isCircusGlobalPara(Para term) {
@@ -151,7 +156,8 @@ public final class CircusUtils {
           ((term instanceof ChannelPara) ||
           (term instanceof ProcessPara) ||
           (term instanceof ChannelSetPara) ||
-          (term instanceof ProcessRefConjPara));
+          ((term instanceof TransformerPara) &&
+           ((TransformerPara)term).getTransformerPred() instanceof ProcessTransformerPred));
   }
     
   public static CircusFieldList assertCircusFieldList(Term term) {
@@ -170,5 +176,25 @@ public final class CircusUtils {
     final String message = "Expected a CircusFactoryImpl but found " + 
       String.valueOf(factory);
     throw new UnsupportedAstClassException(message);    
+  }
+  
+  public static ActionTransformerPred assertActionTransformerPred(Term term)
+  {
+    if (term instanceof ActionTransformerPred) {
+      return (ActionTransformerPred) term;
+    }
+    final String message =
+      "Expected a ActionTransformerPred but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+  
+  public static ProcessTransformerPred assertProcessTransformerPred(Term term)
+  {
+    if (term instanceof ProcessTransformerPred) {
+      return (ProcessTransformerPred) term;
+    }
+    final String message =
+      "Expected a ActionTransformerPred but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
   }
 }
