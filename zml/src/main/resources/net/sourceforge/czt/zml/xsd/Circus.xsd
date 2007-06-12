@@ -1306,7 +1306,8 @@ These interfaces represent the AST for Circus.
 
   <!-- Circus predicates -->
   
-  <xs:element name="TransformerPred" type="CIRCUS:TransformerPred" abstract="true">
+  <xs:element name="TransformerPred" type="CIRCUS:TransformerPred" 
+    substitutionGroup="Z:Pred" abstract="true">
     <xs:annotation>
       <xs:documentation>
         A quantified refinement predicate, where the quantifier is

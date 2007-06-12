@@ -135,6 +135,18 @@
   between some of these jokers, which again are just sequent within Rule.                 
   -->
   
+  <xs:element name="CircusJokers" type="CP:CircusJokers" substitutionGroup="Z:Para">
+    <xs:annotation>
+      <xs:documentation>
+        This records the names that have been declared as a particular
+        kind of joker.  It is used by the parser to map those names to
+        the appropriate kind of JokerXXX term, but is not needed later
+        when rules are being used.  It is similar in purpose to the
+        LaTeX markup directives in the standard Z XML schema.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
   <!-- Jokers are syntactical categories place holders. They can appear wherever the 
        corresponding syntax could. One could see them as formal parameters of a rule -->
   <xs:element name="JokerProcess" type="CP:JokerProcess" substitutionGroup="CIRCUS:CircusProcess"/>
@@ -182,6 +194,27 @@
     </xs:complexContent>
   </xs:complexType>
   -->
+  
+  <xs:complexType name="CircusJokers">
+    <xs:complexContent>
+      <xs:extension base="Z:Para">
+        <xs:sequence>
+          <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Kind" type="CP:CircusJokerType" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="CircusJokerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Process"/>
+      <xs:enumeration value="Action"/>
+      <xs:enumeration value="Communication"/>
+      <xs:enumeration value="ChanelSet"/>
+      <xs:enumeration value="ChanelNameSet"/>
+    </xs:restriction>
+  </xs:simpleType>
   
   <xs:complexType name="JokerProcess">
     <xs:complexContent>
