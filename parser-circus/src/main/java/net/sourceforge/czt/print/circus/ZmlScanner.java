@@ -45,7 +45,7 @@ public class ZmlScanner
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector(Sym.class);
     CircusPrintVisitor visitor = new CircusPrintVisitor(collector, manager);
-    term.accept(visitor);    
+    term.accept(visitor);
     symbols_ = collector.getSymbols();
   }
 }
