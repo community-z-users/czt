@@ -45,6 +45,9 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader;
 </add:zpatt>
+<add:circuspatt>
+import net.sourceforge.czt.circuspatt.jaxb.JaxbXmlReader;
+</add:circuspatt>
 <add:circus>
 import net.sourceforge.czt.circus.jaxb.JaxbXmlReader;
 </add:circus>
@@ -57,7 +60,7 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 
 /**
  * Utilities for parsing <add:oz>Object</add:oz>
- *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> <add:circus> and Circus</add:circus> specifications.
+ *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> <add:circuspatt> Circus pattern</add:circuspatt><add:circus> and Circus</add:circus> specifications.
  *
  * @author Petra Malik, Tim Miller
  */

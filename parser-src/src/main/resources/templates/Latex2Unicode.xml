@@ -44,6 +44,9 @@ import net.sourceforge.czt.circus.util.CircusString;
 <add:zpatt>
 import net.sourceforge.czt.zpatt.util.ZPattString;
 </add:zpatt>
+<add:circuspatt>
+import net.sourceforge.czt.circus.util.CircusPattString;
+</add:circuspatt>
 
 import net.sourceforge.czt.parser.util.ErrorType;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;

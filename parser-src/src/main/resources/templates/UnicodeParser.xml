@@ -36,21 +36,6 @@ import net.sourceforge.czt.parser.util.CztError;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.parser.util.ScanException;
 import net.sourceforge.czt.util.CztLogger;
-<add:z>
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
-</add:z>
-<add:zpatt>
-import net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter;
-</add:zpatt>
-<add:circus>
-import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
-</add:circus>
-<add:oz>
-import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
-</add:oz>
-<add:tcoz>
-import net.sourceforge.czt.tcoz.jaxb.JaxbXmlWriter;
-</add:tcoz>
 import net.sourceforge.czt.session.*;
 
 /**

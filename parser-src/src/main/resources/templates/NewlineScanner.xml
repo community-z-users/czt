@@ -36,6 +36,8 @@ import net.sourceforge.czt.util.CztException;
  * (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
 <add:oz> * Object Z</add:oz>
+<add:zpatt>* Z pattern </add:zpatt>
+<add:circuspatt>* Circus pattern </add:circuspatt>
 <add:circus>* Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  */

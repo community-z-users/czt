@@ -106,6 +106,10 @@ public class KeywordScanner
     addKeywords(result, CircusKeyword.values());
 </add:circus>
 
+<add:circuspatt>
+    /* Adds all Circus pattern keyword tokens */
+    addKeywords(result, CircusPattKeyword.values());
+</add:circuspatt>
     return result;
   }
   

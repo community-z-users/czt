@@ -34,7 +34,9 @@ import net.sourceforge.czt.session.*;
  * &lt;p&gt;A scanner for lexing
 <add:z> * Z specifications</add:z>
 <add:oz> * Object Z specifications</add:oz>
-<add:circus>* Circus specification</add:circus>
+<add:circus>* Circus specifications</add:circus>
+<add:zpatt>* Z Pattern specifications</add:zpatt>
+<add:circuspatt>* Z Pattern specifications</add:circuspatt>
 <add:tcoz> * TCOZ specifications</add:tcoz>
  * in unicode format.&lt;/p&gt;
  *
