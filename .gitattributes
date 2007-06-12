@@ -6,6 +6,7 @@ corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -t
 corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/PrintVisitor.java -text
+corejava/src/main/xml/circuspattchar.xml -text
 corejava/xsl/circuspattchar2class.xsl -text
 corejava/xsl/circuspattchar2stringclass.xsl -text
 doc/Using[!!-~]fontforget.ppt -text

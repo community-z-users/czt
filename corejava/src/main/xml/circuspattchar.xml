@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CIRCUSPATTCHAR>
+  <SPECIAL>     
+    <BOXCHAR>      
+      <char id="CIRCUSJOKERCHAR" hex="2606" description="hollow version of JOKER char."/>            
+      <char id="CIRCUSACTIONLAWCHAR" hex="25A1" description="hollow version of Rule char."/>            
+      <char id="CIRCUSPROCESSLAWCHAR" hex="25A3" description="hollow contained version of Rule char."/>            
+    </BOXCHAR>
+  </SPECIAL>
+  <!--
+  <SYMBOL>
+  </SYMBOL>
+  -->
+</CIRCUSPATTCHAR>
