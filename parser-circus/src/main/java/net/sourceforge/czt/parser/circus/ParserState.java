@@ -27,6 +27,7 @@ import java.util.List;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.CircusAction;
+import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.util.CircusUtils;
@@ -80,6 +81,8 @@ public class ParserState
   private ProcessPara processPara_ = null;
   
   private BasicProcess basicProcess_ = null;
+  
+  private Model fModel = null;
   
   /**
    * LocInfo for the BasicProcess entering scope position. Useful to build/use
@@ -180,6 +183,7 @@ public class ParserState
       
       clearSectBasicProcessScopeWarnings();
       clearSectBasicProcessEndWarning();      
+      clearRefinementModel();
   }
   
 
@@ -492,7 +496,7 @@ public class ParserState
       assert processEndWarning_ == null : "Cannot have duplicated CIRCEND warnings";
       final String msg = java.text.MessageFormat.format(
             CircusParseMessage.MSG_MISSING_BASIC_PROCESS_CIRCEND.getMessage(), 
-               new Object[] { procName, loc });
+               new Object[] { procName, loc });  
       processEndWarning_ = new Pair<Name, LocInfo>(procName, loc);
   }  
               
@@ -502,5 +506,17 @@ public class ParserState
     
   public void clearSectBasicProcessScopeWarnings() {
      processScopeWarnings_.clear();
+  }
+  
+  public Model getRefinementModel() {
+      return fModel;
+  }
+   
+  public void setRefinementModel(Model model) {
+      fModel = model;
+  }
+  
+  public void clearRefinementModel() {
+      fModel = null;
   }
 }
