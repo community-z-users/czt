@@ -78,7 +78,7 @@ public class <class/>
                 /* Sym.CIRCGUARD, // removed, see Parser.xml terminal section for an explanation */
                 Sym.CIRCSEQ, Sym.INTERLEAVE, Sym.CIRCHIDING, 
                 Sym.EXTCHOICE, Sym.INTCHOICE, Sym.CIRCASSIGN,
-                Sym.CIRCREFINES,
+                Sym.CIRCREFINES, Sym.CIRCSIMULATES,
                 
                 /* Those shall be allowed new soft lines on both sides for formatting purposes */
                 Sym.LPAR, Sym.LINTER, Sym.RPAR, Sym.RINTER
