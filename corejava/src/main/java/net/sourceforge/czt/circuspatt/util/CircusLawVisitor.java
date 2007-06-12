@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007 Leo Freitas
+  Copyright 2007 Leo Freitas
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -18,12 +18,19 @@
 */
 
 package net.sourceforge.czt.circuspatt.util;
-        
+
+import net.sourceforge.czt.util.Visitor;
+
 /**
- * @author Leo Freitas
+ *
+ * @author leo
  */
-public class PrintVisitor
-  extends net.sourceforge.czt.circus.util.PrintVisitor                  
+public interface CircusLawVisitor<R> extends Visitor<R>
 {
-  
+  /**
+   * Visits a(n) JokerAction.
+   * @param  term the JokerAction to be visited.
+   * @return some kind of <code>Object</code>.
+   */
+  R visitCircusLaw(CircusLaw term);
 }
