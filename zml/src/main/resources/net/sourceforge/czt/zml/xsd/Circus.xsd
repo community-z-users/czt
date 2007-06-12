@@ -163,21 +163,16 @@ These interfaces represent the AST for Circus.
     </xs:annotation>
   </xs:element>
   
-  <xs:element name="ActionRefConjPara" type="CIRCUS:ActionRefConjPara" substitutionGroup="CIRCUS:CircusConjPara">
+  <xs:element name="TransformerPara" type="CIRCUS:TransformerPara" substitutionGroup="CIRCUS:CircusConjPara">
     <xs:annotation>
       <xs:documentation>
-        Refinement conjecture between two circus actions
+        A circus conjecture between two circus transformer predicates.
+        This is usually used by the model checker as a refinement transformation
+        between process and actions, but can also be used as a simulation or 
+        equivalence transformation by other tools.
       </xs:documentation>
     </xs:annotation>        
-  </xs:element>
-  
-  <xs:element name="ProcessRefConjPara" type="CIRCUS:ProcessRefConjPara" substitutionGroup="CIRCUS:CircusConjPara">
-    <xs:annotation>
-      <xs:documentation>
-        Refinement conjecture between two circus processes
-      </xs:documentation>
-    </xs:annotation>        
-  </xs:element>
+  </xs:element>  
   
   <!-- Section level declarations -->  
   <!-- Channel declaration -->
@@ -1309,6 +1304,61 @@ These interfaces represent the AST for Circus.
     </xs:annotation>
   </xs:element>
 
+  <!-- Circus predicates -->
+  
+  <xs:element name="TransformerPred" type="CIRCUS:TransformerPred" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        A quantified refinement predicate, where the quantifier is
+        universal on the alphabet of the Circus preocess or action.
+        For instance, in A \subseteq B, we have that 
+        \forall V @ B \implies A.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <!-- DESIGN DECISION:
+     An alternative to adding a new predicate class would be to reuse MemPred
+     and have the transformation relations as just relational operators defined
+     within circuspatt_toolkit.tex (much like what already happens for ZPattern).
+     
+     The problem for Circus is that neither Action nor Process are expressions,
+     as opposed to schemas in ZPattern, hence the need to include Action/Process
+     within the Expr subtree if this path were to be followed in CircusPattern.xsd. 
+     
+     Although regarding the AST this placement choice is somewhat irrelevant, 
+     choosing the option with MemPred might unnecessarily complicate the CircusPttern
+     parser. Thus, we decided to have them as separate predicates and do not 
+     touch/mofidy/extend the Expr tree.
+     
+     Another benefitial consequence of this choice is that we now do not need
+     varied forms of assertion check paragraphs, but just a transformer paragraph
+     for any type of transformer predicate!
+  -->
+  
+  <xs:element name="ActionTransformerPred" type="CIRCUS:ActionTransformerPred"
+    substitutionGroup="CIRCUS:TransformerPred">
+    <xs:annotation>
+      <xs:documentation>
+        An action transformer predicate is a predicate that relates two actions
+        by one of the available transformation relations in one of the available
+        models. 
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ProcessTransformerPred" type="CIRCUS:ProcessTransformerPred"
+    substitutionGroup="CIRCUS:TransformerPred">
+    <xs:annotation>
+      <xs:documentation>
+        An process transformer predicate is a predicate that relates two process
+        by one of the available transformation relations in one of the available
+        models. 
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  
   <!-- Special Circus actions used on post-parsing. 
        They are related to scope for mutual recursion and variable declaration.
     -->  
@@ -1557,61 +1607,15 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="ActionRefConjPara">
+  <xs:complexType name="TransformerPara">
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusConjPara">
         <xs:sequence>
-          <xs:element ref="CIRCUS:CircusAction">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Specification"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:CircusAction">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Implementation"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>  
-        <xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>        
+          <xs:element ref="CIRCUS:TransformerPred"/>                      
+        </xs:sequence>                  
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-  
-  <xs:complexType name="ProcessRefConjPara">
-    <xs:complexContent>
-      <xs:extension base="CIRCUS:CircusConjPara">
-        <xs:sequence>
-          <xs:element ref="CIRCUS:CircusProcess">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Specification"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="CIRCUS:CircusProcess">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="Implementation"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>  
-        <xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>        
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  
-  <xs:simpleType name="Model">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Tr"/>
-      <xs:enumeration value="SFl"/>
-      <xs:enumeration value="FlDv"/>
-    </xs:restriction>
-  </xs:simpleType>
+  </xs:complexType>  
 
   <!-- Channel Set Expression complexTypes -->
   <xs:complexType name="ChannelSet">
@@ -2518,6 +2522,87 @@ These interfaces represent the AST for Circus.
           <xs:element ref="Z:DeclList"/>
           <xs:element ref="CIRCUS:CircusAction"/>
         </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <!-- Circus predicates -->
+  
+  <xs:complexType name="TransformerPred">
+    <xs:complexContent>
+      <xs:extension base="Z:Pred">
+        <xs:sequence>
+          <!-- Quantified alphabets -->
+          <xs:element ref="Z:SchText"/>          
+        </xs:sequence>
+        <xs:attribute name="Transformation" type="CIRCUS:Transformation" use="optional" default="Refinement"/>        
+        <xs:attribute name="Model" type="CIRCUS:Model" use="optional" default="FlDv"/>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+    
+  <xs:simpleType name="Transformation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Refinement"/>
+      <xs:enumeration value="Equivalence"/>
+      <xs:enumeration value="Simulation"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="Model">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Tr"/>
+      <xs:enumeration value="SFl"/>
+      <xs:enumeration value="FlDv"/>
+    </xs:restriction>
+  </xs:simpleType>  
+  
+  <xs:complexType name="ActionTransformerPred">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:TransformerPred">
+        <xs:sequence>          
+          <xs:element ref="CIRCUS:CircusAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Spec"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:CircusAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Impl"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+        </xs:sequence>        
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>  
+  
+  <xs:complexType name="ProcessTransformerPred">
+    <xs:complexContent>
+      <xs:extension base="CIRCUS:TransformerPred">
+        <xs:sequence>          
+          <xs:element ref="CIRCUS:CircusProcess">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Spec"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:CircusProcess">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Impl"
+                  generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+        </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
