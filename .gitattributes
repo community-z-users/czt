@@ -330,6 +330,8 @@ modeljunit/src/main/java/net/sourceforge/czt/modeljunit/coverage/package.html -t
 modeljunit/src/main/java/net/sourceforge/czt/modeljunit/package.html -text
 modeljunit/src/test/java/net/sourceforge/czt/modeljunit/ResetTest.java -text
 parser-circus/src/main/resources/lib/circus.unicode.latb -text
+parser-circus/src/main/resources/lib/circus_mc_toolkit.tex -text
+parser-circus/src/main/resources/lib/circus_prelude.tex -text
 parser-circus/src/test/java/net/sourceforge/czt/parser/circus/ParserUtilsTest.java -text
 parser-circus/src/test/java/net/sourceforge/czt/print/circus/PrintTest.java -text
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
