@@ -90,24 +90,7 @@ action code
     map.put(ZString.NEG, new LatexCommand("-", ZString.NEG, false, false));
 </add:oldz>
 <add:circus>
-    /* Add here all the keyword mappings that are not already directives */
-    /*
-    map.put(CircusString.CIRCDO, new LatexCommand("\\circdo\\", , false, true));
-    map.put(CircusString.CIRCVAR, new LatexCommand("\\circvar\\", , false, true));
-    map.put(CircusString.CIRCVAL, new LatexCommand("\\circval\\", , false, true));
-    map.put(CircusString.CIRCRES, new LatexCommand("\\circres\\", , false, true));
-    map.put(CircusString.CIRCVRES, new LatexCommand("\\circvres\\", , false, true));
-    map.put(CircusString.CIRCCHAN, new LatexCommand("\\circchannel\\", , false, true));
-    map.put(CircusString.CIRCCHANFROM, new LatexCommand("\\circchannelfrom\\", , false, true));
-    map.put(CircusString.CIRCCHANSET, new LatexCommand("\\circchannelset\\", , false, true));    
-    map.put(CircusString.CIRCNAMESET, new LatexCommand("\\circnameset\\", , false, true));    
-    map.put(CircusString.CIRCPROC, new LatexCommand("\\circprocess\\", , false, true));        
-    map.put(CircusString.CIRCASSERTREF, new LatexCommand("\\circassertref\\", , false, true));        
-    map.put(CircusString.CIRCBEGIN, new LatexCommand("\\circvar\\", , false, true));
-    map.put(CircusString.CIRCSTATE, new LatexCommand("\\circvar\\", , false, true));
-    map.put(CircusString.CIRCREPINTERLEAVE, new LatexCommand("\\circvar\\", , false, true));
-    map.put(CircusString.CIRC, new LatexCommand("\\circvar\\", , false, true));    
-    */
+    /*   */
 </add:circus>
     return map;
   }
@@ -547,11 +530,17 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    CIRCUSACTION, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
                    LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
                    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
-                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, CIRCREFINES,
+                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, CIRCREFINES,                   
+                   
+                   CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL, CIRCRES, CIRCVRES, CIRCNAMESET,
+                   CIRCASSERTREF, CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
 </add:circus>
 <add:zpatt>
                    JOKER, RULE, RULELINE, PROVISO,
 </add:zpatt>
+<add:circuspatt>
+                   CIRCUSJOKER, CIRCUSACTIONLAW, CIRCUSPROCESSLAW,
+</add:circuspatt>
                    END_MARKUP,
                    TOKENSEQ, PARA_START, PARA_END;
 terminal ZSect     SECTHEAD;
@@ -712,7 +701,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 <add:zpatt>
              |
              JOKER decorword:w tokenSeq:s END
-             {:
+             {:                
                 String result = begin("zedjoker") + "{" + w.getName() + "}";
                 if (s != null) result += s.getName();
                 result += end("zedjoker");
@@ -727,6 +716,32 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(result);
              :}
 </add:zpatt>
+<add:circuspatt>
+            |
+            CIRCUSJOKER decorword:w tokenSeq:s END
+            {:                
+               String result = begin("circusjoker") + "{" + w.getName() + "}";
+               if (s != null) result += s.getName();
+               result += end("circusjoker");
+               parser.write(result);
+            :}
+            |
+            CIRCUSACTIONLAW decorword:w tokenSeq:s END
+            {:
+               String result = begin("circusactionlaw") + "{" + w.getName() + "}";
+               if (s != null) result += s.getName();
+               result += end("rule");
+               parser.write(result);
+            :}
+            |
+            CIRCUSPROCESSLAW decorword:w tokenSeq:s END
+            {:
+               String result = begin("circusprocesslaw") + "{" + w.getName() + "}";
+               if (s != null) result += s.getName();
+               result += end("rule");
+               parser.write(result);
+            :}
+</add:circuspatt>
 <add:circus>
              |
              CIRCUSACTION tokenSeq:s END
@@ -844,18 +859,6 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   new LatexCommand("\\sdef", OzString.SDEF, true, true);
              :}             
 </add:oz>
-<add:circus>
-            /* NOTE:
-             * Most Circus keywords that were previously here were moved to
-             * addStandardMapping method above, as this seems to be the appropriate
-             * way to parse decorword toLaTeX (see method).             
-             *
-             * As mostly all keywords are directives, there is no need to worry here.
-             *
-             * TODO: QUESTION: Ask Petra/Tim about why do they need \where here
-             *                 if it is already a directive ?
-             */  
-</add:circus>
 <add:zpatt>
              |
              RULELINE
