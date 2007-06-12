@@ -97,6 +97,7 @@ public enum CircusKeyword implements Token {
   INTCHOICE(CircusString.INTCHOICE),        /* \\intchoice      , U+2293 */
   CIRCASSIGN(CircusString.CIRCASSIGN),      /* :=               , :=     */
   CIRCREFINES(CircusString.CIRCREFINES),    /* \\circrefines    , U+2291 */
+  CIRCSIMULATES(CircusString.CIRCSIMULATES),/* \\circsimulates  , U+227C */
   CIRCMU(CircusString.CIRCMU),              /* \\circmu         , U+00B5 */
   
   /**
