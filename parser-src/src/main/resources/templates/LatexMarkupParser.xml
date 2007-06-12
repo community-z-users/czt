@@ -165,13 +165,13 @@ public class <class/>
     if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = "Specification";
-      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz><add:circus>, circus_toolkit</add:circus>";
+      parents_ = "standard_toolkit<add:oz>, oz_toolkit</add:oz><add:circus>, circus_prelude</add:circus>";
       addMarkupFunction("prelude");
 <add:oz>
       addMarkupFunction("oz_toolkit");
 </add:oz>
 <add:circus>
-      addMarkupFunction("circus_toolkit");
+      addMarkupFunction("circus_prelude");
 </add:circus>
       addMarkupFunction("standard_toolkit");
     }
@@ -193,8 +193,8 @@ public class <class/>
 <add:circus>
         /* Educated guess that it is needed based on Oz code */
         if (! sectName_.equals("prelude") &amp;&amp;
-            ! sectName_.equals("circus_toolkit")) {
-          addMarkupFunction("circus_toolkit");
+            ! sectName_.equals("circus_prelude")) {
+          addMarkupFunction("circus_prelude");
         }
 </add:circus>
         if (parents_ != null) {
