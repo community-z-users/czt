@@ -261,6 +261,11 @@ gnast/src/vm/CreateVisitor.vm -text
 gnast/src/vm/FlyweightFactory.vm -text
 gnast/src/vm/InputField.java -text
 gnast/src/vm/InputFieldImpl.java -text
+gnast/src/vm/JokerActionBindingImpl.java -text
+gnast/src/vm/JokerChannelSetBindingImpl.java -text
+gnast/src/vm/JokerCommunicationBindingImpl.java -text
+gnast/src/vm/JokerNameSetBindingImpl.java -text
+gnast/src/vm/JokerProcessBindingImpl.java -text
 gnast/src/vm/LetMuAction.java -text
 gnast/src/vm/LetMuActionImpl.java -text
 gnast/src/vm/MuAction.java -text
