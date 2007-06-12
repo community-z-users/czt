@@ -25,6 +25,7 @@
   <SYMBOL>
     <CORESYMBOL>
       <char id="CIRCREFINES" hex="2291" description="refinement"/>
+      <char id="CIRCSIMULATES" hex="227C" description="simulation"/>
       <char id="PREFIXCOLON" hex="2236" description="prefix input field colon"/>
       <char id="CIRCDEF" hex="2259" description="Spivey's like definition symbol (or just \defs?)"/>
       <char id="CIRCINDEX" hex="2299" description="Process indexing spot or 2A00"/>
