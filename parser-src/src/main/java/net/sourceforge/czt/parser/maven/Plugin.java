@@ -109,6 +109,10 @@ public class Plugin
         generateZpattParser("net.sourceforge.czt.parser.");
         generateZpattPrinter("net.sourceforge.czt.print.");
       }
+      else if ("circuspatt".equals(dialect)) {
+        generateCircuspattParser("net.sourceforge.czt.parser.");
+        generateCircuspattPrinter("net.sourceforge.czt.print.");
+      }
       else {
         throw new MojoExecutionException("Unsupported dialect " + dialect);
       }
@@ -162,6 +166,28 @@ public class Plugin
   {
     final String add = "{zpatt}";
     final String packageName =  basePackage + "zpatt";
+    generateCup("Parser", packageName, add);
+    generateJava("LatexParser", packageName, add);
+    generateJava("UnicodeParser", packageName, add);
+    generateJFlex("Latex2Unicode", packageName, add);
+    generateJava("LatexToUnicode", packageName, add);
+    generateJava("LatexMarkupParser", packageName, add);
+    generateJava("LatexScanner", packageName, add);
+    generateJava("ParseUtils", packageName, add);
+    generateJava("UnicodeScanner", packageName, add);
+    generateJava("OperatorScanner", packageName, add);
+    generateJava("NewlineScanner", packageName, add);
+    generateJava("KeywordScanner", packageName, add);
+    generateJFlex("ContextFreeScanner", packageName, add);
+    generateJava("SmartScanner", packageName, add);
+    generateJava("SymMap", packageName, add);
+  }
+  
+  private void generateCircuspattParser(String basePackage)
+    throws Exception
+  {
+    final String add = "{z}{zpatt}{circus}{circuspatt}";
+    final String packageName =  basePackage + "circuspatt";
     generateCup("Parser", packageName, add);
     generateJava("LatexParser", packageName, add);
     generateJava("UnicodeParser", packageName, add);
@@ -277,6 +303,18 @@ public class Plugin
                  "{zpatt}{print}");
   }
 
+  private void generateCircuspattPrinter(String basePackage)
+    throws Exception
+  {
+    generateCup("Unicode2Latex", basePackage + "circuspatt", "{z}{zpatt}{circus}{circuspatt}");
+    generateJFlex("ContextFreeScanner",
+                  "net.sourceforge.czt.print.circuspatt",
+                  "{zpatt}{circus}{circuspatt}{print}");
+    generateJava("SectHeadScanner",
+                 "net.sourceforge.czt.print.circuspatt",
+                 "{zpatt}{circus}{circuspatt}{print}");
+  }
+  
   private void generateOzPrinter(String basePackage)
     throws Exception
   {
