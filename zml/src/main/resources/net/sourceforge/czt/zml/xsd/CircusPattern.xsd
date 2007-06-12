@@ -107,6 +107,8 @@
 
   <!-- Section level paragraphs -->
   
+  <!-- CircusLaw is just a Bridge to a Rule, where the paragraphs are extracted accordingly.
+       It is now part of an utility class into net.sourceforge.czt.circuspatt.util.CircusLaw.
   <xs:element name="CircusLaw" type="CP:CircusLaw" substitutionGroup="P:Rule">
     <xs:annotation>
       <xs:documentation>
@@ -117,16 +119,52 @@
         </p>        
       </xs:documentation>
     </xs:annotation>
-  </xs:element>  
+  </xs:element> 
   
-  <xs:element name="JokerProcess" type="CP:JokerProcess"     substitutionGroup="CIRCUS:CircusProcess"/>
-  <xs:element name="JokerAction" type="CP:JokerAction"     substitutionGroup="CIRCUS:CircusAction"/>
-  <xs:element name="JokerCommunication" type="CP:JokerCommunication"     substitutionGroup="CIRCUS:Communication"/>
-  <xs:element name="JokerNameSet" type="CP:JokerNameSet"     substitutionGroup="CIRCUS:NameSet"/>
-  <xs:element name="JokerChannelSet" type="CP:JokerChannelSet"     substitutionGroup="CIRCUS:ChannelSet"/>
-    
+  From the provided grammar, a CircusLaw, say for actions, is given as:
+  
+  <ACTION_LAW> ::= <BEGIN_ENV> <ACTION_LAW_LABEL> <LAW_NAME>
+                 <ACTION_TRANS>
+                 [<PROVIDED> <OP> (<NEXT> <OP>)*]
+                 [<ARGS> <ARG> (<NEXT> <ARG>)*]
+                 <END_ENV> <ACTION_LABEL>
+  
+  This is just a rule, where the adequate provisos and arguments leave
+  at different places within the Sequent list. Arguments are the jokers
+  above the line in a rule. Provisos are relations (i.e. MemPred) to hold 
+  between some of these jokers, which again are just sequent within Rule.                 
+  -->
+  
+  <!-- Jokers are syntactical categories place holders. They can appear wherever the 
+       corresponding syntax could. One could see them as formal parameters of a rule -->
+  <xs:element name="JokerProcess" type="CP:JokerProcess" substitutionGroup="CIRCUS:CircusProcess"/>
+  <xs:element name="JokerAction" type="CP:JokerAction" substitutionGroup="CIRCUS:CircusAction"/>
+  <xs:element name="JokerCommunication" type="CP:JokerCommunication" substitutionGroup="CIRCUS:Communication"/>
+  <xs:element name="JokerChannelSet" type="CP:JokerChannelSet" substitutionGroup="CIRCUS:ChannelSet"/>
+  <xs:element name="JokerNameSet" type="CP:JokerNameSet" substitutionGroup="CIRCUS:NameSet"/>
+  
+  <!-- Bindings are real instances to associate jokers with. They are instantiated by
+       rules wherever Jokers were used. One could see them as actual parameters of a rule -->  
+  <xs:element name="JokerProcessBinding" type="CP:JokerProcessBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerActionBinding" type="CP:JokerActionBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerCommunicationBinding" type="CP:JokerCommunicationBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerNameSetBinding" type="CP:JokerNameSetBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerChannelSetBinding" type="CP:JokerChannelSetBinding" substitutionGroup="P:Binding"/>
+  
+  <!-- 
+  I am not convinced there is a case for CommunicationExpr or other forms of 
+  inclusion within the Expr tree. That is, although Circus have a form of expression
+  that is a communication, it should not be allowed to appear anywhere a Z expression
+  is allowed. If at all, such CommunicationExpr may be part of some Circus Law, but 
+  we will see. 
+  
+  For Process and Action there is definitely a case for it since we want them to
+  be part of the \refs, \sim, tree. 
+  -->
+  
   <!-- Complex types -->
-
+  
+  <!-- 
   <xs:complexType name="CircusLaw">
     <xs:complexContent>
       <xs:extension base="P:Rule">
@@ -143,6 +181,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  -->
   
   <xs:complexType name="JokerProcess">
     <xs:complexContent>
@@ -189,4 +228,88 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:complexType name="JokerProcessBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerProcess">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:CircusProcess"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerActionBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerAction">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:CircusAction"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerCommunicationBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerCommunication">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:Communication"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerChannelSetBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerChannelSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:ChannelSet"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="JokerNameSetBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="CP:JokerNameSet">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:NameSet"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
 </xs:schema>
