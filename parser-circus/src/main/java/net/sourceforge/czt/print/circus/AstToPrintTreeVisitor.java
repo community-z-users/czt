@@ -19,29 +19,30 @@
 
 package net.sourceforge.czt.print.circus;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.CircusUtils;
-import net.sourceforge.czt.parser.circus.CircusKeyword;
+import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.parser.circus.CircusToken;
 import net.sourceforge.czt.parser.util.Decorword;
-import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
-import net.sourceforge.czt.print.ast.PrintParagraph;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.circus.ast.*;
 import net.sourceforge.czt.circus.visitor.*;
 
+/** 
+ * AstToPrintTreeVisitors should not use Keyword enum. Instead,
+ * they should add the corresponding DecordWord. Thast is becsause
+ * the Unicode2Latex parser does not yet know about keywords. 
+ * The CircusPrintVisitor.visitPrintParagraph (in ZPrintVisitor) 
+ * will associate CircusString as a DecorWord!
+ */
 public class AstToPrintTreeVisitor
   extends net.sourceforge.czt.print.z.AstToPrintTreeVisitor
   implements BasicProcessVisitor<Term>, ActionParaVisitor<Term>, ProcessParaVisitor<Term>
@@ -68,20 +69,22 @@ public class AstToPrintTreeVisitor
     List list = new ArrayList();
     
     list.add(TokenName.ZED);
-    list.add(CircusKeyword.CIRCPROC);    
+    list.add(CircusString.CIRCPROC);    
     
     // TODO: CHECK WITH PETRA HOW TO HANDLE THOSE HERE.
     //       i.e. SHALL WE HAVE printGenFormals as in ZPrintVisitor?
     list.add(visit(term.getGenFormals()));
     list.add(visit(term.getName()));
-    list.add(CircusKeyword.CIRCDEF);
+    list.add(CircusString.CIRCDEF);
     boolean isBasicProcess = (term.getCircusProcess() instanceof BasicProcess);
     
     // basic processes will be spread across different environments
     if (isBasicProcess) {        
-        list.add(CircusKeyword.CIRCBEGIN);
+        list.add(CircusString.CIRCBEGIN);
         list.add(TokenName.END);
-        list.add(TokenName.NL);        
+        //NOTE: NL cannot happen after END as a Token!
+        //      if needed use it as String/Text like CRLF or \n
+        //list.add(TokenName.NL);        
     }
     // adding a printParagraph to the list will make it be print. ok.
     list.add(visit(term.getCircusProcess()));    
@@ -99,13 +102,13 @@ public class AstToPrintTreeVisitor
             getWM().warnDuplicatedState(term);
         } else {
             assert CircusUtils.isOnTheFly(term) : "Action para marked as basic process state but not as on-the-fly. PARSER-BUG";
-            list.add(CircusKeyword.CIRCSTATE);
+            list.add(CircusString.CIRCSTATE);
             processedState_ = true;
             list.add(visit(term));
         }
       } else { 
           list.add(visit(term.getName()));
-          list.add(CircusKeyword.CIRCDEF);
+          list.add(CircusString.CIRCDEF);
           list.add(visit(term.getCircusAction()));
       }      
       list.add(TokenName.END);
@@ -145,7 +148,7 @@ public class AstToPrintTreeVisitor
                 
                 // since it is an horizontal schema, we must add a circus environment for it
                 list.add(CircusToken.CIRCUSACTION);
-                list.add(CircusKeyword.CIRCSTATE);
+                list.add(CircusString.CIRCSTATE);
                 list.add(visit(next));
                 list.add(TokenName.END);
             }
@@ -182,7 +185,7 @@ public class AstToPrintTreeVisitor
     }        
     
     list.add(TokenName.ZED);
-    list.add(CircusKeyword.CIRCEND);
+    list.add(CircusString.CIRCEND);
     // the environment closure is done at ProcessPara above
         
     return getZPrintFactory().createPrintParagraph(list);
