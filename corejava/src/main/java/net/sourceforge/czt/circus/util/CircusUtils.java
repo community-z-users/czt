@@ -37,20 +37,22 @@ import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
  *
  * @author leo
  */
-public final class CircusUtils {
+public final class CircusUtils
+{
   
   /**
    * Do not create instances of this class.
    */
-  private CircusUtils() {
+  private CircusUtils()
+  {
   }
-
+  
   /** The name of the basic Circus toolkit. */
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
-
+  
   /** The name of the Circus prelude. */
   public static final String CIRCUS_PRELUDE = "circus_prelude";
-
+  
   /**
    * Every basic process main action is named with this internal name.
    * Internal names start with a double dollar sign.
@@ -61,34 +63,35 @@ public final class CircusUtils {
   /**
    * Default name of state for stateless processes.
    */
-  public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt"; 
-
+  public static final String DEFAULT_PROCESS_STATE_NAME = "$$defaultSt";
+  
   public static final String DEFAULT_IMPLICIT_ACTION_NAME_PREFIX = "$$implicitAct";
   public static final String DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX = "$$implicitProc";
-      
+  
   /**
    * Default number of multisynchronisation occurrences for particular communication pattern.
    * At the moment this feature is still experimental, and may disapear in the future.
    */
   public static final BigInteger DEFAULT_MULTISYNCH = BigInteger.ZERO;
-
+  
   /**
    * Default model for RefinementConjPara is failures-divergences.
-   */    
+   */
   public static final Model DEFAULT_REFINEMENT_MODEL = Model.FlDv;
-
+  
   /**
    * Default parameter qualifier for process and actions is by value.
    */
-  public static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value; 
+  public static final ParamQualifier DEFAULT_PARAMETER_QUALIFIER = ParamQualifier.Value;
   
   /**
-   * Returns true if the <code>ActionPara</code> is indeed a schema expression action 
+   * Returns true if the <code>ActionPara</code> is indeed a schema expression action
    * with a non-null <code>Name</code>.
    */
-  public static boolean isActionParaSchemaValid(ActionPara ap) {    
-    return (ap.getName() != null) && 
-           (ap.getCircusAction() instanceof SchExprAction);
+  public static boolean isActionParaSchemaValid(ActionPara ap)
+  {
+    return (ap.getName() != null) &&
+      (ap.getCircusAction() instanceof SchExprAction);
   }
   
   /**
@@ -97,9 +100,11 @@ public final class CircusUtils {
    * properly encoded as either a horizontal or a boxed schema; or an
    * <code>ActionPara</code> term with a <code>SchExprAction</code>.
    */
-  public static boolean isSchema(Para para) {
+  public static boolean isSchema(Para para)
+  {
     boolean result = ZUtils.isSchema(para);
-    if (!result) {
+    if (!result)
+    {
       // If it is not an AxPara schema, it can still be a SchExprAction one.
       result = (para instanceof ActionPara) &&
         (((ActionPara)para).getCircusAction() instanceof SchExprAction);
@@ -111,76 +116,90 @@ public final class CircusUtils {
    * If the given paragraph <code>isSchema(para)</code>, returns
    * the declared schema name. Otherwise, the method returns null.
    */
-  public static Name getSchemaName(Para para)  {
+  public static Name getSchemaName(Para para)
+  {
     Name result = null;
-    if (isSchema(para)) {
+    if (isSchema(para))
+    {
       result = ZUtils.getSchemaName(para);
-      if (result == null) {
+      if (result == null)
+      {
         ActionPara ap = (ActionPara)para;
         assert isActionParaSchemaValid(ap);
         result = ap.getName();
       }
     }
     return result;
-  } 
+  }
   
-  public static boolean isChannelFromDecl(ChannelDecl term) {
+  public static boolean isChannelFromDecl(ChannelDecl term)
+  {
     return (term.getNameList() == null && term.getExpr() instanceof RefExpr);
   }
   
-  public static boolean isOnTheFly(Term term) {
-     // if it is already getCircusAction() with a annotation...
-     boolean result = (term.getAnn(OnTheFlyDefAnn.class) != null);
-     if (term instanceof ActionPara) {
-         // else, check within the getCircusAction()
-         ActionPara ap = (ActionPara)term;
-         result = ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
-     }
-     return result;
+  public static boolean isOnTheFly(Term term)
+  {
+    // if it is already getCircusAction() with a annotation...
+    boolean result = (term.getAnn(OnTheFlyDefAnn.class) != null);
+    if (term instanceof ActionPara)
+    {
+      // else, check within the getCircusAction()
+      ActionPara ap = (ActionPara)term;
+      result = ap.getCircusAction().getAnn(OnTheFlyDefAnn.class) != null;
+    }
+    return result;
   }
   
-  public static boolean isCircusState(Term term) {
-     return term.getAnn(CircusStateAnn.class) != null;
+  public static boolean isCircusState(Term term)
+  {
+    return term.getAnn(CircusStateAnn.class) != null;
   }
   
-  public static boolean isCircusInnerProcessPara(Para term) {
-      return !ZUtils.isZPara(term) &&
-          ((term instanceof ActionPara) ||
-           (term instanceof NameSetPara) ||
-           ((term instanceof TransformerPara) &&
-            ((TransformerPara)term).getTransformerPred() instanceof ActionTransformerPred));
+  public static boolean isCircusInnerProcessPara(Para term)
+  {
+    return !ZUtils.isZPara(term) &&
+      ((term instanceof ActionPara) ||
+      (term instanceof NameSetPara) ||
+      ((term instanceof TransformerPara) &&
+      ((TransformerPara)term).getTransformerPred() instanceof ActionTransformerPred));
   }
   
-  public static boolean isCircusGlobalPara(Para term) {
-      return !ZUtils.isZPara(term) &&
-          ((term instanceof ChannelPara) ||
-          (term instanceof ProcessPara) ||
-          (term instanceof ChannelSetPara) ||
-          ((term instanceof TransformerPara) &&
-           ((TransformerPara)term).getTransformerPred() instanceof ProcessTransformerPred));
+  public static boolean isCircusGlobalPara(Para term)
+  {
+    return !ZUtils.isZPara(term) &&
+      ((term instanceof ChannelPara) ||
+      (term instanceof ProcessPara) ||
+      (term instanceof ChannelSetPara) ||
+      ((term instanceof TransformerPara) &&
+      ((TransformerPara)term).getTransformerPred() instanceof ProcessTransformerPred));
   }
-    
-  public static CircusFieldList assertCircusFieldList(Term term) {
-    if (term instanceof CircusFieldList) {
+  
+  public static CircusFieldList assertCircusFieldList(Term term)
+  {
+    if (term instanceof CircusFieldList)
+    {
       return (CircusFieldList) term;
     }
-    final String message = "Expected a CircusFieldList but found " + 
+    final String message = "Expected a CircusFieldList but found " +
       String.valueOf(term);
-    throw new UnsupportedAstClassException(message);    
-  }        
+    throw new UnsupportedAstClassException(message);
+  }
   
-  public static CircusFactoryImpl assertCircusFactoryImpl(Object factory) {
-    if (factory instanceof CircusFactoryImpl) {
+  public static CircusFactoryImpl assertCircusFactoryImpl(Object factory)
+  {
+    if (factory instanceof CircusFactoryImpl)
+    {
       return (CircusFactoryImpl) factory;
     }
-    final String message = "Expected a CircusFactoryImpl but found " + 
+    final String message = "Expected a CircusFactoryImpl but found " +
       String.valueOf(factory);
-    throw new UnsupportedAstClassException(message);    
+    throw new UnsupportedAstClassException(message);
   }
   
   public static ActionTransformerPred assertActionTransformerPred(Term term)
   {
-    if (term instanceof ActionTransformerPred) {
+    if (term instanceof ActionTransformerPred)
+    {
       return (ActionTransformerPred) term;
     }
     final String message =
@@ -190,7 +209,8 @@ public final class CircusUtils {
   
   public static ProcessTransformerPred assertProcessTransformerPred(Term term)
   {
-    if (term instanceof ProcessTransformerPred) {
+    if (term instanceof ProcessTransformerPred)
+    {
       return (ProcessTransformerPred) term;
     }
     final String message =

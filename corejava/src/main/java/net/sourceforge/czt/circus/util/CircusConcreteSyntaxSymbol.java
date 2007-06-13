@@ -12,28 +12,28 @@ package net.sourceforge.czt.circus.util;
 /**
  * An enumeration of concrete syntax symbols.
  * These are based on the concrete syntax productions in
- * Circus, 
+ * Circus,
  * <p>
  * The {@link CircusConcreteSyntaxSymbolVisitor} in this package can be
- * used to classify most kinds of AST nodes as one of these 
+ * used to classify most kinds of AST nodes as one of these
  * symbols.
  * </p>
  * @author leo
  */
 public enum CircusConcreteSyntaxSymbol
 {
-  /* Process level paragraphs */  
+  /* Process level paragraphs */
   CHANNEL_PARA("Channel paragraph"),
   CHANNELSET_PARA("Channel set paragraph"),
   PROCESS_PARA("Process paragraph"),
   PROCESS_REF_CONJ_PARA("Process refinement conjecture paragraph"),
   ACTION_REF_CONJ_PARA("Action refinement conjecture paragraph"),
   
-  /* Action level paragraphs */  
+  /* Action level paragraphs */
   ACTION_PARA("Action paragraph"),
   NAMESET_PARA("Name set paragraph"),
-
-  /* Declarations */  
+  
+  /* Declarations */
   TYPED_CHANNEL_DECL("Typed channel declaration"),
   SYNCH_CHANNEL_DECL("Synchronisation channel declaration"),
   SCH_CHANNEL_DECL("Channels from schema declaration"),
@@ -41,16 +41,16 @@ public enum CircusConcreteSyntaxSymbol
   
   /* Special Circus sets */
   CHANNELSET("Channel set"),
-  BASIC_CHANNELSET_EXPR("Enumerated channel set"),  
+  BASIC_CHANNELSET_EXPR("Enumerated channel set"),
   NAMESET("Name set"),
   
-  /* (Abstract) Process definitions */  
-  CIRCUS_PROCESS("Process definition"),                     // CircProcess 
+  /* (Abstract) Process definitions */
+  CIRCUS_PROCESS("Process definition"),                     // CircProcess
   UNARY_PROCESS("Unary process definition"),                // Process1
-  BINARY_PROCESS("Binary process definition"),              // Process2  
+  BINARY_PROCESS("Binary process definition"),              // Process2
   ITE_PROCESS("Iterated process definition"),               // ProcessIte
   //PARAM_PROCESS("Parameterised process definition"),        // ProcessD
-  //IDX_PROCESS("Indexed process definition"),                // ProcessIdx  
+  //IDX_PROCESS("Indexed process definition"),                // ProcessIdx
   
   /* (Concrete) Process definitions */
   PARAM_PROCESS("Parameterised process"),                   // ParamProcess  : Decl @ Process
@@ -61,7 +61,7 @@ public enum CircusConcreteSyntaxSymbol
   CALL_PROCESS("Process call"),
   HIDE_PROCESS("Hide process"),
   RENAME_PROCESS("Rename process"),
-
+  
   /* (Concrete Binary) Process definitions */
   SEQ_PROCESS("Sequential composition process"),
   EXTCH_PROCESS("External choice process"),
@@ -83,22 +83,22 @@ public enum CircusConcreteSyntaxSymbol
   IDX_INTLV_PROCESS("Indexed interleave process"),
   IDX_ALPHAPAR_PROCESS("Indexed alphabetised parallel process"),
   IDX_INTPAR_PROCESS("Indexed interface parallel process"),
-    
   
-  /* (Abstract) Action definitions */  
-  CIRCUS_ACTION("Action definition"),                     // CircAction 
+  
+  /* (Abstract) Action definitions */
+  CIRCUS_ACTION("Action definition"),                     // CircAction
   UNARY_ACTION("Unary action definition"),                // Action1
-  BINARY_ACTION("Binary action definition"),              // Action2  
+  BINARY_ACTION("Binary action definition"),              // Action2
   ITE_ACTION("Iterated action definition"),               // ActionIte
-  //PARAM_ACTION("Parameterised action definition"),        // ActionD  
-   
+  //PARAM_ACTION("Parameterised action definition"),        // ActionD
+  
   /* (Concrete Special + Unary) Action definitions */
   SKIP_ACTION("Skip action"),
   STOP_ACTION("Stop action"),
-  CHAOS_ACTION("Chaos action"),  
+  CHAOS_ACTION("Chaos action"),
   SCHEXPR_ACTION("Schema expression action"),             // REMOVE altogether and have call only?
-  CALL_ACTION("Action call"),                             
-  PARAM_ACTION("Parameterised action"),                   // ParamAction  
+  CALL_ACTION("Action call"),
+  PARAM_ACTION("Parameterised action"),                   // ParamAction
   MU_ACTION("Recursive action"),
   GUARDED_ACTION("Guarded action"),
   HIDE_ACTION("Hide action"),
@@ -106,7 +106,7 @@ public enum CircusConcreteSyntaxSymbol
   SUBST_ACTION("Substitution action"),
   LETVAR_ACTION("Local environment for variable declaration"),
   LETMU_ACTION("Local environment for recursive actions"),
-  SIGMA_EXPR("Communication expression"),  
+  SIGMA_EXPR("Communication expression"),
   
   /* (Concrete Binary) Action definitions */
   SEQ_ACTION("Sequential composition action"),
@@ -121,7 +121,7 @@ public enum CircusConcreteSyntaxSymbol
   ITE_INTCH_ACTION("Iterated internal choice action"),
   ITE_INTLV_ACTION("Iterated interleave action"),
   ITE_ALPHAPAR_ACTION("Iterated alphabetised parallel action"),
-  ITE_INTPAR_ACTION("Iterated interface parallel action"),  
+  ITE_INTPAR_ACTION("Iterated interface parallel action"),
   
   /* Commands */
   COMMAND("Command"),
@@ -134,22 +134,22 @@ public enum CircusConcreteSyntaxSymbol
   COMMUNICATION("Communication"),
   DOT_FIELD("Dotted (value) communication field"),
   OUT_FIELD("Output (expression) communication field"),
-  IN_FIELD("Input communication field"), 
+  IN_FIELD("Input communication field"),
   
-  /* Circus Lists */  
+  /* Circus Lists */
   FIELD_LIST("List of communication fields"),
-
+  
   TRANSFORMER_PARA("Term transformer paragraph"),
   PROCESS_TRANSFORMER_PRED("Process transformer predicate"),
   ACTION_TRANSFORMER_PRED("Action transformer predicate");
   
   private final String description_;
-
+  
   CircusConcreteSyntaxSymbol(String description)
   {
     description_ = description;
   }
-
+  
   public String getDescription()
   {
     return description_;
