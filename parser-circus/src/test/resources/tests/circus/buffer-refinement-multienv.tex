@@ -42,86 +42,121 @@ I know it doesn't typeset nicely. This boxed-process feature will be
 available soon. The bottom line is that apart from
 
 \begin{circus}
-    \circprocess\ BufferMultiEnv \circdef \circbegin \\
-    %Schemas are given with == in the Z Std, the 2 hard spaces (~~) are optional
-    ControllerState ~~==~~ [~ cache : \nat
-        \\%
-        size: 0 \upto maxbuff
-        \\%
-        ringsize : 0 \upto maxring
-        \\%
-        top, bot : 1 \upto maxring
-        |
+    \circprocess\ BufferMultiEnv \circdef \circbegin
+\end{circus}
+
+\begin{schema}{ControllerState}
+    cache : \nat
+\\%
+   size: 0 \upto maxbuff
+    \\%
+    ringsize : 0 \upto maxring
+    \\%
+    top, bot : 1 \upto maxring
+\where
         (ringsize \mod maxring) = ((top - bot) \mod maxring)
         \\%
         ringsize = size-1
-        ~] \\
+\end{schema}
+
+% some  schemas can be given in multiple horizontal paragraph within a single Z environment.
+\begin{zed}
     RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
-    CBufferState ~~==~~ (ControllerState \lor RingState) \\
-    \circstate\  CBufferState \\
-    ControllerInit ~~==~~ [~ ControllerState~'; RingState~' | (size'=0) \land (bot'=1) \land (top'=1) ~] \\
-    CacheInput~~==~~ [~ \Delta ControllerState;
-        \\%
-        \Xi RingState
+    CBufferState ~~==~~ (ControllerState \lor RingState)
+\end{zed}
+
+\begin{cricusaction}
+    \circstate\  CBufferState
+\end{cricusaction}
+
+\begin{schema}{ControllerInit}
+    ControllerState~'; RingState~'
+\where
+    size'=0 \\
+    bot'=1 \\
+    top'=1
+\end{schema}
+
+\begin{schema}{CacheInput}
+   \Delta ControllerState
+       \\%
+       \Xi RingState
         \\%
         x?:\nat
-        |
+\where
         (size = 0) \land (size' = 1)
         \\%
-        (cache' = x?) \land (bot' = bot) \land (top' = top) ~]\\
-    StoreInput ~~==~~ [~ \Delta CBufferState
+        (cache' = x?) \land (bot' = bot) \land (top' = top) 
+\end{schema}
+
+\begin{schema}{StoreInput}
+    \Delta CBufferState
         \\%
         x?: \nat
-        |
+\where
         (0 < size) \land (size < maxbuff)
         \\%
         (size' = size+1) \land (cache'=cache)
         \\%
         (bot'=bot) \land (top'=(top \mod maxring)+1)
         \\%
-        ring' = ring \oplus \{ top \mapsto x? \} ~] \\
-    StoreInputController ~~==~~ [~ \Delta ControllerState
+        ring' = ring \oplus \{ top \mapsto x? \} 
+\end{schema}
+
+\begin{schema}{StoreInputController
+    \Delta ControllerState
         \\%
         \Xi RingState
-        |
+\where
         (0 < size) \land (size < maxbuff)
         \\%
         (size' = size+1) \land (cache'=cache)
         \\%
-        (bot'=bot) \land (top'=(top \mod maxring)+1) ~] \\
-    %Actions and circus staff need \circdef rather than \defs or ==
+        (bot'=bot) \land (top'=(top \mod maxring)+1) 
+\end{schema}
+        
+%Actions and circus staff need \circdef rather than \defs or ==
+%        % the \t1 is optional, just to show it accepts tabulation
+%
+%        % because guards are "Predicate", and predicates can be
+%        % parenthesised, we need a different token for disambiguation.
+%        % so, every guard REQUIRES a \lcircguard pred \rcircguard \circguard A
+%
+%        % like for variable names, channel names can accept ?/!/'
+%        % so the hard space is needed to indicate this is input prefix
+%        % the choice of restricting channel names not to have ?/!/' is not
+%        % as straightforward as it sounds, and it does not solve the problem anyway.
+
+\begin{circusaction}
     InputController ~~\circdef~~ \\
-        % the \t1 is optional, just to show it accepts tabulation
-
-        % because guards are "Predicate", and predicates can be
-        % parenthesised, we need a different token for disambiguation.
-        % so, every guard REQUIRES a \lcircguard pred \rcircguard \circguard A
-
-        % like for variable names, channel names can accept ?/!/'
-        % so the hard space is needed to indicate this is input prefix
-        % the choice of restricting channel names not to have ?/!/' is not
-        % as straightforward as it sounds, and it does not solve the problem anyway.
         \t1 \lcircguard size < maxbuff \rcircguard \circguard input~?x \then
             (\lcircguard size = 0 \rcircguard \circguard CacheInput
             \extchoice
              \lcircguard size > 0 \rcircguard \circguard write.top~!x \then StoreInputController
-            ) \\
+            ) \\        
     CInput \circdef \\
         \t1 \lcircguard size < maxbuff \rcircguard \circguard input~?x \then
             (\lcircguard size = 0 \rcircguard \circguard CacheInput)
             \extchoice
-            (\lcircguard size > 0 \rcircguard \circguard StoreInput) \\
-    NoNewCache ~~==~~ [~ \Delta ControllerState
-            \\%
-            \Xi RingState
-        |
-            size = 1
+            (\lcircguard size > 0 \rcircguard \circguard StoreInput) 
+\end{circusaction}
+            
+\begin{schema}{NoNewCache
+    \Delta ControllerState
+    \\%
+    \Xi RingState
+\where
+           size = 1
             \\%
             size' = 0 \land cache' = cache
             \\%
-            bot' = bot \land top' = top ~] \\
-    StoreNewCache ~~==~~ [~ \Delta CBufferState
-        |
+            bot' = bot \land top' = top 
+\end{schema}
+
+
+\begin{StoreNewCache}
+    \Delta CBufferState
+\where
             size > 1
             \\
             % function application DO REQUIRE hard spaces.
@@ -130,29 +165,40 @@ available soon. The bottom line is that apart from
             \\
             bot' = (bot \mod maxring)+1 \land top' = top
             \\
-            ring' = ring ~] \\
-    StoreNewCacheController ~~==~~ [~     \Delta ControllerState
+            ring' = ring 
+\end{StoreNewCache}
+
+\begin{schema}{StoreNewCacheController}
+    \Delta ControllerState
             \\%
             \Xi RingState
             \\%
             x? : \nat
-        |
+\where
             size > 1
             \\%
             size' = size-1 \land cache' = x?
             \\%
-            bot' = (bot \mod maxring)+1 \land top' = top ~] \\
-        % new hard line (\\, \also) after \circdef is optional
+            bot' = (bot \mod maxring)+1 \land top' = top 
+\end{schema}
+
+%        % new hard line (\\, \also) after \circdef is optional
+\begin{circusaction}
     OutputController ~~\circdef~~
             \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then
             (\lcircguard size > 1 \rcircguard \circguard read.bot~?x \then StoreNewCacheController)
             \extchoice
-            (\lcircguard size = 1 \rcircguard \circguard NoNewCache) \\
+            (\lcircguard size = 1 \rcircguard \circguard NoNewCache) 
+\end{circusaction}
+
+\begin{circusaction}
     COutput ~~\circdef~~
             \t1 \lcircguard size > 0 \rcircguard \circguard output~!cache \then
             (\lcircguard size > 1 \rcircguard \circguard StoreNewCache)
             \extchoice
-            (\lcircguard size = 1 \rcircguard \circguard NoNewCache) \\
+            (\lcircguard size = 1 \rcircguard \circguard NoNewCache)
+\end{circusaction}
+
     % You should be careful with the precedences. See the process.tex for this, and then
     % properly include the parenthesis. See the Z standard precedence table for Z,
     % and FDR manual for CSP precedence.
@@ -161,23 +207,31 @@ available soon. The bottom line is that apart from
     % We need a different LaTeX markup. It typesets just like ";", however.
 
     % missing parenthesis errors are the harder to find and the worst in error generation!
+    
+\begin{circusaction}
     ControllerAction \circdef ControllerInit \circseq (\circmu\ X @ ((InputController \extchoice OutputController) \circseq X)) \\
+\end{circusaction}
 
-    StoreRingCmd == [~
-            \Xi ControllerState
-            \\%
-            \Delta RingState
-            \\%
-            i? : 1 \upto maxring
-            \\%
-            x? : \nat
-        |
-            ring' = ring \oplus \{ i? \mapsto x? \} ~] \\
 
+\begin{schema}{StoreRingCmd}
+    \Xi ControllerState
+    \\%
+    \Delta RingState
+    \\%
+    i? : 1 \upto maxring
+    \\%
+    x? : \nat
+\where
+    ring' = ring \oplus \{ i? \mapsto x? \} 
+\end{schema}
+
+\begin{circusaction}
    StoreRing \circdef write~?i~?x \then StoreRingCmd \\
    NewCacheRing \circdef read~?i~!(ring~i) \then Skip \\
+   RingAction \circdef \circmu\ X @ ((StoreRing \extchoice NewCacheRing) \circseq X) 
+\end{circusaction}
 
-   RingAction \circdef \circmu\ X @ ((StoreRing \extchoice NewCacheRing) \circseq X) \\
+\begin{circusaction}
     \t1 @
 
    % The production is : circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
@@ -186,6 +240,9 @@ available soon. The bottom line is that apart from
         \{ size, ringsize, cache, top, bot \} |
         \lchanset write, read \rchanset |
         \{ ring \} \rpar
-    RingAction) \circhide \lchanset write, read \rchanset \\
+    RingAction) \circhide \lchanset write, read \rchanset
+\end{circusaction}
+
+\begin{circus}
     \circend
 \end{circus}
