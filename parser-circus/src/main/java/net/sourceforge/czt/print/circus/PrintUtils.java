@@ -156,23 +156,23 @@ public final class PrintUtils
     transformWarningMap(warnings, toPrintTree.getClass(), warningManager_.getZSectWarnings());        
     
     warningManager_.clear();
-    System.out.println("02: CREATING ZML SCANNER FOR TRAVERSED PTV");
+    //System.out.println("02: CREATING ZML SCANNER FOR TRAVERSED PTV");
     ZmlScanner scanner = new ZmlScanner(tree, warningManager_);
     transformWarningMap(warnings, scanner.getClass(), warningManager_.getZSectWarnings());        
         
-    System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
+    //System.out.println("03: CREATING UNICODE->LATEX PARSER FOR ZML SCANNER");
     Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
-    System.out.println("04: CREATING UNICODE PRINTER FOR GIVEN FILE WRITER");
+    //System.out.println("04: CREATING UNICODE PRINTER FOR GIVEN FILE WRITER");
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
-      System.out.println("05: ABOUT TO PARSE FOR PRINTING USING UNICODE->LATEX PARSER");    
+      //System.out.println("05: ABOUT TO PARSE FOR PRINTING USING UNICODE->LATEX PARSER");    
       parser.parse();
-      System.out.println("06: PARSING FOR PRINTING COMPLETE; CHECKING WARNINGS");          
+      //System.out.println("06: PARSING FOR PRINTING COMPLETE; CHECKING WARNINGS");          
     }
     catch (Exception e) { 
-      System.out.println("07: EXCEPTION OCCURRED WIHTIN PRINT-LATEX METHOD");
+      //System.out.println("07: EXCEPTION OCCURRED WIHTIN PRINT-LATEX METHOD");
       e.printStackTrace();
       throw new CztException(e);
     }
