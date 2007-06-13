@@ -23,7 +23,14 @@ import net.sourceforge.czt.circus.util.CircusString;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.Token;
 
-public enum CircusToken
+/**
+ * These tokens are for the ContextFreeScanner that occurs before
+ * decorwords are translated into keywords, so that the context
+ * sensitive lexing can take place. TODO: review this list and
+ * add CIRCUS box into here (which may solve the \begin{circus} 
+ * problem with \begin{zed} within the scanners.
+ */
+public enum CircusToken  
   implements Token
 {
   /* TODO: Maybe include hard-space here "~" for beautification */

@@ -26,6 +26,13 @@ import net.sourceforge.czt.circus.util.CircusString;
 /**
  * Circus keyword spelling for KeywordScanner 
  *
+ * These are the keywords for the context senstitive lexis (see Z standard
+ * and the context sensitive lexer, as the keyword scanner). Context 
+ * sensitive lexing happens after the context free scanner transforms
+ * DecorWord strings into Keywords. TODO: Rearrange this and CircusToken,
+ * trying to follow a logical arrangement of keywords and tokens like 
+ * what was done in the Z standard.
+ *
  * @author Leo Freitas
  */
 public enum CircusKeyword implements Token {  
