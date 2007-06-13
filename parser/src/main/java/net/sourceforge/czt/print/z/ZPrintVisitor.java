@@ -656,8 +656,8 @@ public class ZPrintVisitor
   private void printNarrText(List list)
   {
     StringBuffer txt = new StringBuffer();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      txt.append(iter.next().toString());
+    for (Object o : list) {
+      txt.append(o.toString());
     }
     print(TokenName.TEXT, new LocString(txt.toString(), null));
   }
@@ -765,9 +765,8 @@ public class ZPrintVisitor
     }
     print(TokenName.LPAREN);
     List list = optempPara.getOper();
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Term term = (Term) iter.next();
-      visit(term);
+    for (Oper oper : optempPara.getOper()) {
+      visit(oper);
     }
     print(TokenName.RPAREN);
     print(TokenName.END);
@@ -1187,9 +1186,7 @@ public class ZPrintVisitor
 
   public Object visitZParaList(ZParaList list)
   {
-    for (Para p : list) {
-      visit(p);
-    }
+    for (Para p : list) visit(p);
     return null;
   }
 

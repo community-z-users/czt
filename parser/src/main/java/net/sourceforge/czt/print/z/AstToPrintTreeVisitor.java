@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005, 2006 Petra Malik
+  Copyright (C) 2004, 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,13 +19,9 @@
 
 package net.sourceforge.czt.print.z;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
