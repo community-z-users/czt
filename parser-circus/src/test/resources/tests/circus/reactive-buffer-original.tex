@@ -1,0 +1,2881 @@
+\documentclass{article}
+
+\usepackage{my-a4,circus}
+
+% Unifying Theory macros
+\newcommand{\healthiness}[1]{\mathbf{#1}}
+\newcommand{\pseudoId}{\hbox{\large\texttt{\emph{I}}}\!\!\hbox{\large\texttt{\emph{I}}}} %
+\newcommand{\infixIf}{\ \raisebox{-.1ex}{\hbox{\large$\triangleleft$}}\ } %
+\newcommand{\infixElse}{\ \raisebox{-.1ex}{\hbox{\large$\triangleright$}}\ } %
+
+\bibliographystyle{plain}
+
+\begin{document}
+
+\title{\Circus: a concurrent refinement language}
+
+\author{ %
+  \begin{tabular}[t]{c}
+    Jim Woodcock
+    \\ %
+    University of Kent at Canterbury
+    \\ %
+    England - UK
+  \end{tabular}
+  \quad
+  \begin{tabular}[t]{c}
+    Ana Cavalcanti
+    \\ %
+    Universidade Federal
+    \\ %
+    de Pernambuco
+    \\ %
+    Brazil
+  \end{tabular}
+  } %
+
+\bigskip
+
+\maketitle
+
+\bigskip
+
+\begin{abstract}
+  \noindent We introduce \Circus, a concurrent language appropriate for
+  refinement, based on imperative CSP with added specification
+  facilities in the style of Z.  We describe this language of \Circus\
+  and give a simple example of the specification of a reactive buffer.
+  We also formalise the model of \Circus\ in Hoare \& He's unifying
+  theories of programming.
+\end{abstract}
+
+\bigskip \bigskip
+
+\begin{quote}
+  \begin{quote}
+    \begin{quote}
+      \begin{quote}
+        \begin{description}
+        \item[\Circus] \emph{n}.  An open space where different routes
+          come together (as in \emph{Oxford Circus}). [L, = ring]
+        \end{description}
+      \end{quote}
+    \end{quote}
+  \end{quote}
+\end{quote}
+
+\newpage %
+
+\tableofcontents
+
+\newpage %
+
+\section{Introduction}
+
+With the current trend to integrate different languages and techniques
+to obtain formalisms that are suited to a broader range of
+applications, several combinations of
+Z~\cite{ZStandard,Spi88,Spi92,Spi95,WD96} with some process
+algebra~\cite{Hoa85,Mil89,Ros98} have been proposed.  In all these
+works~\cite{Fis98}, the objective is to specify both state and
+communication aspects of concurrent systems in a convenient way,
+integrating languages, related theories, and tools.  The semantics of
+the resulting languages are given by an extension of an existing
+semantics definition for the process algebra.
+
+We are interested in a formalism that is not only suitable for the
+specification of concurrent systems, but that also has an associated
+theory of refinement.  We aim, in particular, at a methodology of
+program development that is based on refinement laws and is
+calculational in style.  Several refinement calculi have been proposed
+and used~\cite{BW98,Mor94,Mor87c}.  The benefits of calculating as
+opposed to verifying programs are manifold.  Morgan's style of program
+refinement, in particular, produces developments that can be presented
+uniformly as sequences of small refinement steps.  The refinement laws
+provide guidance in the development of programs.  A similar calculus
+has been proposed for Z in~\cite{CW99,Cav97}.
+
+The usual semantic model for imperative refinement calculi is based on
+predicate transformers.  Theories of refinement for CSP, however, have
+been based on the failures-divergences model~\cite{Hoa85,Ros98}.  The
+works in~\cite{Smi97} and \cite{Fis97,Fis00} present the semantics for
+combinations of Object-Z and CSP by providing a failures-divergences
+model for Object-Z classes.  Data refinement has been briefly explored
+for such a combination, but no refinement laws have been proposed.
+Behavioural semantics have been given to abstract data types, using
+the failures model~\cite{WDB00}.  In~\cite{CS00}, refinement rules
+have been proposed to support the development of Java programs, but no
+semantic model has been provided.
+
+The semantic model proposed in~\cite{HH98} is a unifying theory, where
+both state and communication aspects of concurrent systems are
+captured by observational variables that represent an enriched
+failures-divergences model.  A simple and elegant definition of
+refinement is proposed in this work; therefore, it is natural to
+consider it as a basis for the justification of refinement laws.
+
+Our objective is to propose and formalise a refinement calculus for a
+combination of Z and CSP.  Of all the process algebras,
+CSP~\cite{Hoa85,Ros98} is perhaps the most successful for industrial
+application.  Its key distinguishing feature is that the language has
+been designed around the notion of refinement, making it suitable for
+the development of large-scale systems.  Moreover, commercial tools
+for analysis and simulation of CSP specifications are
+available~\cite{FDR99, PROBE98}.
+
+In this report, as a first step, we define \Circus, a language that
+combines Z and CSP and whose semantic model is based on the unifying
+theory of~\cite{HH98}.  Specification constructs usually found in
+refinement calculi and the constructs of the Dijkstra's language of
+guarded commands~\cite{Dij76} are also included.  Our goals in
+designing \Circus\ are: ease of use for those familiar with Z and CSP;
+encapsulation of the underlying model; and the possibility of reusing
+existing theories, techniques, methods, and tools.
+
+The language we propose is a unified programming language, as usual
+for refinement calculi.  Specifications in \Circus\ are based largely
+on the use of Z constructs and specification statements.  These
+constructs can be combined with executable commands, like assignments,
+conditionals, and loops; reactive behaviour, including communication,
+parallelism, and choice, is defined with the use of CSP constructs.
+All existing combinations of Z with a process algebra model concurrent
+programs as communicating abstract data types, but we do not insist on
+identifying events with operations that change the state.  The result
+is a general programming language adequate for developing concurrent
+programs.
+
+In the next section we give an overview of the structure of \Circus\
+programs and define its syntax.  In Section~\ref{section:EARB}, we
+give an example in which \Circus\ is used to present two possible
+definitions of a buffer.  It is our conjecture that the second
+definition is a refinement of the initial, more abstract, one.
+Section~\ref{section:TUT} provides a brief introduction to
+\emph{Unifying Theories of Programming} before, in
+Section~\ref{section:TMOC}, we give the formal semantics of \Circus.
+Finally, in Sections~\ref{section:RW} and~\ref{section:FW} we discuss
+some related and future works, respectively.
+
+\section{\Circus}\label{section:C}
+
+A \Circus\ program is formed by a sequence of paragraphs, like a Z
+specification; each of these can either be a Z paragraph, a channel
+definition, a channel set definition, or a process definition.
+Figures~\ref{CircusSyntax1} and~\ref{CircusSyntax2} present the BNF
+description of the syntax of \Circus.  We use
+$\mathsf{CircusParagraph^*}$ to denote a list of 0 or more elements of
+the syntactic category $\mathsf{CircusParagraph}$; similarly for
+$\mathsf{PParagraph^*}$ and $\mathsf{CParameter^*}$.  The notation
+$\mathsf{N^+}$ is used for a comma-separated list of identifiers and
+similarly for $\mathsf{Expression^+}$.  The syntactic category
+$\mathsf{N}$ is that of the valid Z identifiers.  The categories
+called $\mathsf{Paragraph}$, $\mathsf{Schema\hbox{-}Exp}$,
+$\mathsf{Expression}$, $\mathsf{Declaration}$, and
+$\mathsf{Predicate}$, are, as expected, those of Z paragraphs, schema
+expressions, expressions, declarations and predicates; their
+definitions are standard and can be found in~\cite{Spi92}.
+
+\begin{figure}[t] \small
+  \begin{syntax}
+    %----------------------------------------------------------------%
+    \mathsf{Program} & %
+    \quad \mathsf{::=} \quad & \mathsf{CircusParagraph^*}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{CircusParagraph} & %
+    \mathsf{::=} & \mathsf{Paragraph}
+    \\ %
+    & \mathsf{|} & \mathsf{ChannelDefinition} %
+    \ \mathsf{|} \ \mathsf{ChanSetDefinition}
+    \\ %
+    & \mathsf{|} & \mathsf{ProcessDefinition}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{ChannelDefinition} & %
+    \mathsf{::=} & \mathsf{\circchannel\ CDeclaration}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{CDeclaration} & %
+    \mathsf{::=} & \mathsf{SimpleCDeclaration} %
+    \ \mathsf{|} \ \mathsf{SimpleCDeclaration; CDeclaration}
+    \\ %
+    %----------------------------------------------------------------%
+    \mathsf{SimpleCDeclaration} & %
+    \mathsf{::=} & \mathsf{N^+} %
+    \ \mathsf{|} \ \mathsf{N^+: Expression} %
+    \ \mathsf{|} \ \mathsf{Schema\hbox{-}Exp}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{ChanSetDefinition} & %
+    \mathsf{::=} & \mathsf{\circchanset\ N == CSExpression}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{CSExpression} & %
+    \mathsf{::=} & \mathsf{ \lchanset ~ \rchanset } %
+    \ \mathsf{|} \ \mathsf{ \lchanset N^+ \rchanset} %
+    \ \mathsf{|} \ \mathsf{N}
+    \\ %
+    & \mathsf{|} & \mathsf{CSExpression \cup CSExpression} %
+    \ \mathsf{|} \ \mathsf{CSExpression \cap CSExpression}
+    \\ %
+    & \mathsf{|} & \mathsf{CSExpression \setminus CSExpression}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{ProcessDefinition} & %
+    \mathsf{::=} & \mathsf{\circprocess\ N \defs Process}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{Process} & %
+    \mathsf{::=} & \mathsf{\circbegin\ PParagraph^* @ Action\ \circend} %
+    \ \mathsf{|} \ \mathsf{N}
+    \\ %
+    & \mathsf{|} & \mathsf{Process; Process} %
+    \ \mathsf{|} \ \mathsf{Process} \extchoice \mathsf{Process} %
+    \ \mathsf{|} \ \mathsf{Process} \intchoice \mathsf{Process}
+    \\ %
+    & \mathsf{|} & \mathsf{Process} \lpar \mathsf{CSExpression}
+    \rpar \mathsf{Process} %
+    \\ %
+    & \mathsf{|} & \mathsf{Process} \interleave \mathsf{Process}
+    %
+    \ \mathsf{|} \ \mathsf{Process} \hide \mathsf{CSExpression}
+    \\ %
+    & \mathsf{|} & \mathsf{Declaration} \odot \mathsf{Process} %
+    \ \mathsf{|} \ \mathsf{Process \lfloor \mathsf{Expression^+}
+      \rfloor} %
+    \ \mathsf{|} \ \mathsf{Process} [ \mathsf{N^+} := \mathsf{N^+} ]
+    \\ %
+    & \mathsf{|} & \Comp \mathsf{Declaration} \odot \mathsf{Process} %
+    \\ %
+    & \mathsf{|} & \Extchoice \mathsf{Declaration} \odot \mathsf{Process} %
+    \ \mathsf{|} \ \Intchoice \mathsf{Declaration} \odot \mathsf{Process}
+    \\ %
+    & \mathsf{|} & \!\!\! \Parallel \mathsf{Declaration} \lpar
+    \mathsf{CSExpression} \rpar \odot \mathsf{Process}
+    %
+    \ \mathsf{|} \ \Interleave \mathsf{Declaration} \odot
+    \mathsf{Process}
+    \\ %
+    & \mathsf{|} & \mathsf{Declaration} @ \mathsf{Process} %
+    \ \mathsf{|} \ \mathsf{Process} ( \mathsf{Expression^+} )
+    \\ %
+    & \mathsf{|} & \Comp \mathsf{Declaration} @ \mathsf{Process} %
+    \ \mathsf{|} \ \Extchoice \mathsf{Declaration} @ \mathsf{Process} %
+    \ \mathsf{|} \ \Intchoice \mathsf{Declaration} @ \mathsf{Process}
+    \\ %
+    & \mathsf{|} & \!\!\! \Parallel \mathsf{Declaration} \lpar
+    \mathsf{CSExpression} \rpar @ \mathsf{Process} %
+    %
+    \ \mathsf{|} \ \Interleave \mathsf{Declaration} @ \mathsf{Process}
+    \\ %
+    & \mathsf{|} & \mathsf{[ N^+ ] Process} %
+    \ \mathsf{|} \ \mathsf{Process[ Expression^+ ]}
+    %----------------------------------------------------------------%
+  \end{syntax}
+  \caption{\Circus\ syntax}
+  \label{CircusSyntax1}
+\end{figure}
+
+\begin{figure}[t] \small
+  \begin{syntax}
+    %----------------------------------------------------------------%
+    \mathsf{PParagraph} & %
+    \mathsf{::=} & \mathsf{Paragraph} %
+    \ \mathsf{|} \ \mathsf{N \defs Action}
+    \ \mathsf{|} \ \mathsf{NameSetDefinition}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{Action} & %
+    \mathsf{::=} & \mathsf{Schema\hbox{-}Exp} %
+    \ \mathsf{|} \ \mathsf{CSPActionExp} %
+    \ \mathsf{|} \ \mathsf{Command}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{CSPActionExp} & %
+    \mathsf{::=} & Skip %
+    \ \mathsf{|} \ Stop %
+    \ \mathsf{|} \ Chaos
+    \\ %
+    & \mathsf{|} & \mathsf{Communication} \then \mathsf{Action} %
+    \ \mathsf{|} \ \mathsf{Predicate}\ \&\ \mathsf{Action}
+    \\ %
+    & \mathsf{|} & \mathsf{Action}; \mathsf{Action} %
+    \ \mathsf{|} \ \mathsf{Action} \extchoice \mathsf{Action} %
+    \ \mathsf{|} \ \mathsf{Action} \intchoice \mathsf{Action}
+    \\ %
+    & \mathsf{|} & \mathsf{Action} \lpar
+    \mathsf{NSExpression} | \mathsf{CSExpression} |
+    \mathsf{NSExpression} \rpar \mathsf{Action} %
+    \ \mathsf{|} \ \mathsf{Action} \interleave \mathsf{Action}
+    \\ %
+    & \mathsf{|} & \mathsf{Action} \hide \mathsf{CSExpression} %
+    \ \mathsf{|} \ \mu \mathsf{N} @ \mathsf{Action}
+    \\ %
+    & \mathsf{|} & \mathsf{Declaration} @ \mathsf{Action} %
+    \ \mathsf{|} \ \mathsf{Action} (\mathsf{Expression^+})
+    \\ %
+    & \mathsf{|} & \Comp \mathsf{Declaration} @ \mathsf{Declaration} %
+    \ \mathsf{|} \ \Extchoice \mathsf{Declaration} @ \mathsf{Action} %
+    \ \mathsf{|} \Intchoice \mathsf{Declaration} @ \mathsf{Action}
+    \\ %
+    & \mathsf{|} & \!\!\! \Parallel \mathsf{Declaration} \lpar
+    \mathsf{NSExpression} | \mathsf{CSExpression} |
+    \mathsf{NSExpression} \rpar @ \mathsf{Action} %
+    \\ %
+    & \mathsf{|} & \Interleave \mathsf{Declaration} @ \mathsf{Action}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{Communication} & %
+    \mathsf{::=} & \mathsf{N \ CParameter^*}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{CParameter} & %
+    \mathsf{::=} & ?~\mathsf{N} %
+    \ \mathsf{|} \ ?~\mathsf{N: Predicate} %
+    \ \mathsf{|} \ !~\mathsf{Expression} %
+    \ \mathsf{|} \ .~\mathsf{Expression}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{Command} & %
+    \mathsf{::=} & \mathsf{N^+} : [~ \mathsf{Predicate} ,
+    \mathsf{Predicate} ~] %
+    \ \mathsf{|} \ \mathsf{N^+} := \mathsf{Expression^+}
+    \\ %
+    & \mathsf{|} & \circif\ \mathsf{GuardedActions}\ \circfi
+    \ \mathsf{|} \ \circvar\ \mathsf{Declaration} @ \mathsf{Action}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{GuardedActions} & %
+    \mathsf{::=} & \mathsf{Predicate} \then \mathsf{Action} %
+    \\ %
+    & \mathsf{|} & \mathsf{Predicate} \then \mathsf{Action} \extchoice
+    \mathsf{GuardedActions}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{NameSetDefinition} & %
+    \mathsf{::=} & \mathsf{\circnameset\ N == NSExpression}
+    \also %
+    %----------------------------------------------------------------%
+    \mathsf{NSExpression} & %
+    \mathsf{::=} & \mathsf{ \{ ~ \}} %
+    \ \mathsf{|} \ \mathsf{ \{ N^+ \}} %
+    \ \mathsf{|} \ \mathsf{N}
+    \\ %
+    & \mathsf{|} & \mathsf{NSExpression \cup NSExpression} %
+    \ \mathsf{|} \ \mathsf{NSExpression \cap NSExpression}
+    \\ %
+    & \mathsf{|} & \mathsf{NSExpression \setminus NSExpression}
+    \also %
+  \end{syntax}
+  \caption{\Circus\ syntax}
+  \label{CircusSyntax2}
+\end{figure}
+
+To explain the main constructs of \Circus, we use a small example
+taken from~\cite{Hoa85}:~we define a process that outputs the
+Fibonacci sequence (see Figure~\ref{fibonacciGenerator}).
+\begin{figure}[t]
+  \begin{zed}
+    \circprocess\ Fib \defs \circbegin
+    \also %
+    \t1
+    \begin{block}
+      FibState \defs [~ x, y: \nat ~]
+      \also %
+      InitFibState \defs [~ FibState' | x' = y' = 1 ~]
+      \\ %
+      InitFib \defs out!1 \then out!1 \then InitFibState
+      \also %
+      OutFibState \defs [~ \Delta FibState; next!: \nat | next! = y' =
+      x + y \land x' = y ~]
+      \\
+      OutFib \defs \mu X @ (~ \circvar\ next: \nat @ OutFibState;
+      out!next \then X ~)
+      \also %
+      @ InitFib; OutFib
+    \end{block}
+    \also %
+    \circend
+  \end{zed}
+  \caption{A Fibonacci generator}
+  \label{fibonacciGenerator}
+\end{figure}
+
+\subsection{Channels}
+
+A channel definition declares channels to which the processes may
+refer:~it gives the name of each of the channels and the type of the
+values it can communicate.  Our example process outputs through a
+channel $out$ that communicates natural numbers.
+\begin{zed}
+  \circchannel\ out: \nat
+\end{zed}
+More than one channel may be declared in such a paragraph.  When a
+channel is not used to communicate values, but just as a synchronising
+event, its declaration consists of only its name:~no type is defined.
+We can also use a schema to declare channels.  Such a schema groups
+channel declarations, but does not have a predicate part, as the only
+restriction we can impose on a channel is the type of the values it
+communicates.  The notion of type here is more general than that of
+the maximal type of Z; the values output on a channel have to belong
+to its declared type.
+
+Sets of previously defined channels may be introduced in a
+$\circchanset$ paragraph.  We give a name to the channel set and a
+channel-set expression that determines the members of this set.  The
+syntactic category $\mathsf{CSExpression}$ of channel set expressions
+contains the empty set of channels $\lchanset ~ \rchanset$, channel
+enumerations enclosed in $\lchanset$ and $\rchanset$, and set
+expressions formed by the usual set operators.  These sets of channels
+are used in process expressions.
+
+\subsection{Processes}
+
+A process definition declares its name and gives a process
+specification.  The most basic sort of process specification is formed
+by a sequence of process paragraphs and a distinguished nameless
+action at the end delimited by $\circbegin$ and $\circend$.  A process
+paragraph can be a Z paragraph or an action definition; together, they
+define the state and the behaviour of the process.  The \Circus\
+process that generates the Fibonacci sequence in
+Figure~\ref{fibonacciGenerator} is defined in this way.
+
+The internal state of the process is described in the schema
+$FibState$:~it contains two natural numbers, $x$ and $y$; the latter
+records the last value output, and the former records the value output
+before the last. A proof-obligation requires us to prove that the
+invariant is different from $false$; in this case and in most examples
+this proof-obligation is trivial.
+
+The definitions that follow are action specifications.  The behaviour
+of $Fib$ is described by the last, unnamed action; $Fib$ behaves first
+as described by the action $InitFib$, and then as described by the
+action $OutFib$.  We use the CSP sequence operator.
+
+The action $InitFib$ outputs the number $1$ twice and then records
+this by initialising the state components.  It uses the prefix
+operator of CSP twice to output $1$ through $out$ and the schema
+$InitFibState$ to initialise the state.  This is a schema that follows
+the standard style of Z of defining initialisation operations.
+
+The action $OutFib$ is defined recursively with the use of the CSP
+operator $\mu$.  It consists of a local variable definition, an
+operation on the state, an output on the $out$ channel, and a
+recursive call.  The declaration of $next$ is required so that it is
+in scope for both the operation schema $OutFibState$ and the
+outputting action $out!next \then X$.
+
+The schema $OutFibState$ actually defines the value of $next!  $,
+which represents the value of $next$ in the state after the execution
+of $OutFibState$.  The outputting action refers to $next$, the value
+of this variable in the state before its execution.  In pure Z, dash
+and shriek decorations are used to refer to after-state and output
+variables, respectively.  In the above example, however, we can use
+either $next!$ or $next'$ to refer to the after-state value of $next$.
+Our choice has the purpose of emphasising the fact that $next$ is a
+local variable, and so not really part of the state of $Fib$, and its
+value is output in the next action.  In \Circus, dashes and shrieks
+can be used interchangeably.
+
+In summary, the action $OutFib$ first behaves like $OutFibState $.
+This changes the state:~it records in $y$ the next output value $x +
+y$ and records in $x$ the value of the previously output value $y$.
+This action also initialises the value of $next$ to be $x + y$.
+Afterwards, $OutFib$ outputs the value of $next$ and then proceeds
+recursively.
+
+It is possible to give a simpler definition to $OutFib$.  As already
+explained, we define the output using the schema component $next!$;
+the following action outputs this value.  As a consequence, we have to
+bring $next$ into scope, which we do using a local variable
+declaration.  This construction is very useful for implicit
+specifications, but here the output is deterministic, so we can write
+the action as follows.
+\begin{zed}
+  OutFibState \defs [~ \Delta FibState | y'= x + y \land x' = y ~]
+  \\
+  OutFib \defs \mu X @ out!(x + y) \then OutFibState; X
+\end{zed}
+In this case, the action $OutFibState$ only changes the state.  As for
+the action $OutFib$, it first outputs the value $x + y$, then it
+changes the state, and finally proceeds recursively.
+
+\subsection{Process Expressions}
+
+A process definition like that of $Fib$ is explicit, in that it uses Z
+and CSP constructs to define the state and the behaviour of the
+process.  We can also use CSP operators to define processes in terms
+of others previously defined.
+
+We can use sequence, internal and external choice, parallelism, and
+interleaving.  For instance, we can define a process $FibTwice$ as
+follows.
+\begin{zed}
+  FibTwice \defs Fib \interleave Fib
+\end{zed}
+In this case we are using the interleaving operator:~communications in
+either process occur independently, with no need for one process to
+synchronise with the other.
+
+The state of the resulting process includes all the components of the
+state of the operand processes.  In the above example, since both
+operands are $Fib$, the state of $FibTwice$ includes two copies of the
+components of $FibState$.
+
+As expected, the behaviour of the resulting process is defined by
+composing the actions that determine the behaviour of the operand
+processes using the operator applied.  The process $FibTwice$ outputs
+the Fibonacci sequence through the channel $out$ twice.  The sequences
+are merged in an unpredictable way, as the communications occur
+independently.  Further examples of the use of the above process
+operators are presented in the next section.
+
+Our parallel operator is alphabetised:~an extra argument determines
+the channels on which the operand processes are required to
+synchronise (following~\cite{Ros98}, rather than~\cite{Hoa85}).
+Communications through channels that are not listed occur
+independently.
+
+We can also use hiding to define a process.  In this case, the state
+and behaviour of the resulting process is exactly like that of the
+operand process, except only that communications through the specified
+channels are hidden from the environment.
+
+A \Circus\ process operator that is not available in CSP is that of
+indexing.  We can, for instance, define a process as $i: T \odot P $.
+It behaves exactly like $P$, but the channels it uses are different.
+For each channel $c$ of $P$, we have a channel $c\_i$, which must be a
+fresh channel name.  It communicates pairs of values:~the first
+element, the index, is a value $i$ of type $T$, and the second element
+is a value of the original type of $c$.  The declarations of the
+channels $c\_i$ are an implicit consequence of the indexing operation.
+
+In $i: T \odot P$, the index is a parameter; correspondingly, we have
+an instantiation operation.  If $P$ is an indexed process, then
+$P\lfloor e\rfloor$ behaves exactly like $P$, but communicates,
+through all the channels, pairs whose first element is the value of
+the expression $e$.  The value of $e$ is the value of the index.
+
+For example, suppose we want to generate two Fibonacci sequences, but
+we want to identify the generator of each element.  We consider the
+process $i: \{ 1,2 \} \odot Fib$.  It outputs through channel $out\_i$
+the pairs $(i,1)$, $(i,1)$, $(i,2)$, $(i,3)$, $(i,5)$, and so on,
+where in each case $i$ is either 1 or 2.  The process $(i: \{ 1,2 \}
+\odot Fib)\lfloor 1\rfloor$ produces pairs through $out\_i$ whose
+first elements are 1; similarly for $(i: \{ 1,2 \} \odot Fib)\lfloor
+2\rfloor$.  Finally, $(i: \{ 1,2 \} \odot Fib)\lfloor 1\rfloor
+\interleave (i: \{ 1,2 \} \odot Fib)\lfloor 2\rfloor$ produces an
+arbitrary merge of the two sequences of pairs:~the first element of
+the pair identifies the generator and the second is a Fibonacci
+number.
+
+We can declare an arbitrary number of indexes of arbitrary types with
+the indexing operator.  The communicated values are tuples whose last
+elements are the values originally communicated and the others are
+values for the indexes; the instantiation operation, therefore, may
+take a list of index values as argument.  Partial instantiation is
+possible.
+
+In CSP, indexing is achieved by renaming.  Channels do not have
+types:~a communication of a value 2 through a channel $c$ is regarded
+as an event $c.2$.  To achieve the effect of a channel $c$ that can
+communicate arbitrary natural numbers, we need the infinite set of
+events containing $c.0$, $c.1$, $ c.2$, and so on.  Indexing in CSP
+amounts to defining a process $l.P$, where $l$ is a label, or rather,
+a name.  This renames all channels resulting in a process that engages
+in $l.c$ when $P$ engages in $c$.  We can also apply an arbitrary
+injective function $f$ on event names to a process $P $ to obtain
+another process that uses channel $f(c)$ in the same way that $P$ uses
+$c$.
+
+In \Circus\ channels have a name and a type; the reason for this
+distinction is the need for strong typing of communications in the
+spirit of Z.  We, therefore, have two operations:~the first is that of
+indexing, explained above, which changes the type of the channels; the
+second is that of renaming.  In the process $P[oldc := newc]$, the
+communications of $P$ through channel $oldc$ are done through the
+channel $newc$, which is implicitly declared by this operation, if it
+has not already been declared.  Usually, indexing and renaming are
+used in conjunction.  An example is presented in the next section.
+
+We can define iterated combinations of processes using the operators
+of sequence, internal or external choice, parallelism, or
+interleaving.  For example, if $P$ is an indexed process, then
+$\Interleave i: T \odot P\lfloor i\rfloor$ is the process defined by
+interleaving each of the processes $P\lfloor v\rfloor$ formed by
+instantiating $P $ with a value $v$ of $T$.  Except for sequence, all
+the above operators are commutative and associative, so there is no
+concern about the order of the elements of $T$ or about the grouping
+of the processes.  For the sequence operator, we require that $T$ is a
+sequence and define $\Semi\ i: T \odot P\lfloor i\rfloor$ to be the
+sequence of the processes $P\lfloor v\rfloor$, with $v$ taken from $T$
+in the order that they appear.  We illustrate the use of iterated
+operators in the next section.  For the indexed parallel operator, we
+also need to provide the list of synchronising channels.
+
+Parametrisation can also be used in the definition of processes.  The
+parameters are variables that can be used in the process specification
+as values of their declared type.  For example, we could define $Fib $
+to be a parametrised process with parameters $a$ and $b$ of type
+$\nat$.  These should be declared just before the process
+specification and could be used, for instance, to initialise the state
+components $x$ and $y$ as the first values output.  In this case, the
+instantiated process $Fib(5,8)$ outputs the Fibonacci sequence
+starting from its fourth element.
+
+Instantiation of parametrised processes can also be combined in
+iterated operators with sequence, internal or external choice,
+parallelism, or interleaving.  For a parametrised process $P$, for
+instance, we have that $\Interleave i: T @ P(i)$ is the process
+defined by interleaving each of the processes $P(v)$ formed by
+instantiating $P$ with a value $v$ of $T$.
+
+We can also define generic processes; the mechanism is similar to that
+of a generic schema in Z.  In the process $[X]P$, the name $X$ is a
+generic parameter that can be used as a type in the definition of $P$.
+Later references to $P$ need to define a value for this parameter.  It
+can be either inferred from the context or defined explicitly as in
+$P[\nat]$, where $X$ is defined to be the set of natural numbers.
+
+\subsection{Actions}
+
+As already explained, an explicit process definition contains both Z
+and CSP constructs.  Mainly, we have a Z specification where some
+paragraphs are action definitions.  There is also a main action which
+defines the behaviour of the process.  As exemplified in the
+definition of the $Fib$ process, an action can be a schema, a CSP
+process, a guarded command, or a combination of these constructs.
+
+A schema expression defining an operation over the process state is an
+action.  It changes the state, but does not communicate any value.
+
+The action $Skip$ terminates immediately, without communicating any
+value or changing the state; the action $Stop$ deadlocks, and $Chaos$
+diverges.  The prefixing operator is standard, but can be associated
+with the guard construction.  The action $p \guard c?x \then A$, for
+instance, inputs a value through channel $c$, assigns it to the
+variable $x$, and then behaves like the action $A$, if the condition
+$p$ is true; otherwise, it blocks:~the predicate $p$ is an enabling
+condition.  A guard or firing condition may be associated with any
+kind of action.
+
+In an action, all free variables have to be in scope; the state
+components are always in scope, and input communications introduce
+further variables into scope.  Input variables, however, may not be
+used as the targets of assignment statements.
+
+We can also use the CSP operators of sequence, internal and external
+choice, parallelism, interleaving, hiding, and recursion.  We observe
+that CSP operators are used both at the level of processes and at the
+level of actions.  The operations that apply, however, are different
+in each case.  At the level of processes, we do not handle
+communications and, for the sake of simplicity, we do not have
+recursive definitions.  The usefulness and the modelling of recursive
+processes is a topic for further research.
+
+Like parametrised processes, parametrised actions declare variables
+that can be used locally in their definition.  Instantiations of these
+actions give fixed values to these parameters.  Iterated sequences,
+internal and external choices, parallelisms, and interleavings can
+also be used.  The resulting action is formed by applying the used
+operator to combine all the actions obtained by considering the values
+in the type of the index.
+
+In the parallel composition $A \lpar C \rpar B$, the user state is
+affected by both $A$ and $B$.  It is the responsibility of the
+programmer to guarantee that no conflict arises.  As a general policy,
+operations that modify the state should not be run in parallel with
+other operations that also modify the state; this restriction is
+enforced by occam, for instance.  We must observe, however, that a
+\Circus\ process, as opposed to an action, encapsulates its state.
+Therefore, we can run processes in parallel without the need to worry
+about interference.
+
+An action can also be defined using Dijkstra's guarded commands.  An
+action can be an assignment, possibly multiple, or a guarded
+alternation.  For example, using an assignment, the $InitFib$ action
+of the process $Fib$ can be defined as follows.
+\begin{zed}
+  InitFib \defs out!1 \then out!1 \then x,y := 1,1
+\end{zed}
+As exemplified in the definition of the action $OutFib$, we can also
+use variable blocks.  In the interest of supporting a calculational
+approach to development, an action can also be a specification
+statement in the style of Morgan's refinement calculus~\cite{Mor94}.
+
+\section{Example: a reactive buffer} \label{section:EARB}
+
+In this section, we give a specification in \Circus\ of a simple
+bounded reactive buffer that is used to store natural numbers.  We go
+on to describe a possible implementation as a ring of cells with a
+central controller and a cached head.
+
+\subsection{Abstract behaviour}
+
+As already explained, \Circus\ specifications are sequences of
+paragraphs containing Z paragraphs, channel definitions, channel set
+definitions, or process definitions.  Typically, standard Z paragraphs
+are used to define given sets and global constants that are used in
+several process definitions throughout a specification.
+
+The reactive buffer is bounded in its length:~it may hold no more than
+$maxbuff$ elements.
+\begin{axdef}
+  maxbuff: \nat_1
+\end{axdef}
+It is sensible to require that it can hold at least one value.
+
+Usually, the definition of a process is preceded by a declaration of
+channels.
+\begin{zed}
+  \circchannel\ input, output: \nat
+\end{zed}
+The process $Buffer$ has two channels: $input$ and $output
+$.
+
+\subsubsection{Process state}
+
+The state of a process is defined as in Z.  For the $Buffer$, there
+are two state components:~the contents of the buffer and its size, a
+derived component.
+
+\begin{zed}
+  \circprocess\ Buffer \defs \circbegin
+  \also %
+  BufferState \defs [~ buff: \seq \nat; size: 0 \upto maxbuff | size =
+  \# buff \leq maxbuff ~]
+\end{zed}
+The size of the buffer has to be less than or equal to $maxbuff$.
+
+\subsubsection{Process actions}
+
+In describing a \Circus\ process, a series of actions is defined,
+showing the interaction between external event behaviour and
+transformations on the internal state.  For the $Buffer$, there are
+three actions:~initialisation, input, and output.  Initialisation sets
+the buffer to empty.
+\begin{zed}
+  BufferInit \defs [~ BufferState' | buff' = \langle\rangle \land
+  size' = 0 ~]
+\end{zed}
+The $Input$ action is enabled if there is space in the buffer for the
+new input; the corresponding input operation on the state has this as
+its precondition.  The new element is appended to the buffer's
+contents and the size is updated.
+\begin{schema}{InputCmd}
+  \Delta BufferState
+  \\ %
+  x?: \nat
+  \where %
+  size < maxbuff
+  \\ %
+  buff' = buff \cat \langle x? \rangle \land size' = size + 1
+\end{schema}
+\begin{zed}
+  Input \defs size < maxbuff \guard input?x \then InputCmd
+\end{zed}
+The action $Input$ guarantees the precondition by being guarded.
+
+The output action is enabled if there is something in the buffer.  The
+first element in the buffer is output; the remaining elements are
+retained in order; the size of the buffer is suitably updated.
+\begin{schema}{OutputCmd}
+  \Delta BufferState
+  \where %
+  size > 0
+  \\ %
+  buff'= tail~buff \land size' = size - 1
+\end{schema}
+\begin{zed}
+  Output \defs size > 0 \guard output!(head~buff) \then OutputCmd
+\end{zed}
+The output is actually defined in the $Output$ action.
+
+In every \Circus\ process, there is always an unnamed action that
+defines the externally-visible behaviour.
+\begin{zed}
+  @ BufferInit; \mu X @ (~ Input \extchoice Output ~) ; X
+  \\ %
+  \circend
+\end{zed}
+First, the buffer is initialised, and then it loops, offering to the
+environment the choice to input and output.  The guards of these
+actions guarantee that if the buffer is full, the input is blocked,
+and if it is empty, the output is blocked.
+
+\subsection{A cached-head ring buffer}
+
+A well-known implementation of a \textsc{fifo}-buffer uses a ring:~a
+circular array, with two indexes showing where the first and last
+elements reside.  Our refinement uses a ring of cells, each
+implemented as a \Circus\ process and holding just a single element,
+and a central controller that keeps track of the indexes of the first
+and last elements, offering the input and output services.
+
+An interesting problem arises immediately:~the buffer must not refuse
+to output if it is non-empty, so how should this be achieved?  One way
+is to distribute control around the ring, so that the cell owning the
+head of the buffer is enabled for output, but the others are disabled.
+The cost of this solution is the overhead of the protocol for
+distributed control.
+
+Another solution is to cache the head of the ring in the controller,
+and distribute only the tail of the buffer around the ring.  The
+resulting protocol is very simple.
+
+\subsubsection{Controller process}
+
+We start the \Circus\ description of the cached ring with a
+specification of the $Controller$ process.  It specifies the behaviour
+of the buffer, but does not contain the buffer itself in its state,
+just the cache; the ring is specified by another process.
+
+First, there are two global declarations to define the indexes of the
+ring cells.  The maximum size of the ring is one less than the size of
+the buffer, as the head is cached.
+\begin{axdef}
+  maxring: \nat
+  \where %
+  maxring = maxbuff - 1
+\end{axdef}
+The indexes of the ring go from 0 to $maxring - 1$.
+\begin{zed}
+  RingIndex == 0 \upto maxring - 1
+\end{zed}
+The channels $input$ and $output$ are the external buffer channels.
+The channels $read$ and $write$ are used for communication with the
+ring cells.
+\begin{zed}
+  \circchannel\ read, write: RingIndex \times \nat
+\end{zed}
+The values communicated through $read$ and $write$ are pairs, where the
+first element identifies a cell and the second element is the natural
+number actually communicated.
+
+\subsubsection{Controller state}
+
+The state of the controller contains the size of the buffer, the size
+of the ring, the cache, and two ring indexes, $top$ and $bot$, keeping
+track of the index of the next available position and the index of the
+first value stored, respectively.
+\begin{zed}
+  \circprocess\ Controller \defs \circbegin
+\end{zed}
+\begin{schema}{ControllerState}
+  size: 0 \upto maxbuff
+  \\ %
+  ringsize: 0 \upto maxring
+  \\ %
+  cache: \nat
+  \\ %
+  top, bot: RingIndex
+  \where %
+  ringsize = max \{ 0, size - 1 \}
+  \\ %
+  ringsize \mod maxring = (top - bot) \mod maxring
+\end{schema}
+The size of the ring \pagebreak may be computed from the positions of
+the $top $ and $bot$ indexes:~the number of elements between the two
+indexes is $(top - bot) \mod maxring$.  Since this confuses two values
+of the state (when the ring is full and when the ring is empty), it is
+necessary to add the first equation that relates $ringsize$ and $size$.
+
+\subsubsection{Controller actions}
+
+Initially, the buffer is empty and so has zero size; we choose some
+suitable values for $top$ and $bot$.
+\begin{zed}
+  InitController \defs [~ ControllerState' | size' = 0 \land bot' = 0
+  \land top' = 0 ~]
+\end{zed}
+The input action depends on whether the buffer is empty or not.  If it
+is empty, then the input must be kept in the cache; if it is
+non-empty, then it must be passed on to the appropriate ring cell; if
+it is full, then no input action is possible.
+
+When the input is cached, the $top$ and $bot$ indexes do not change.
+\begin{schema}{CacheInput}
+  \Delta ControllerState
+  \\ %
+  x?: \nat
+  \where %
+  size = 0
+  \\ %
+  size' = 1 \land cache' = x?
+  \\ %
+  bot' = bot \land top' = top
+\end{schema}
+When the input is passed on to the ring, the $top$ index advances.
+\begin{schema}{StoreInput}
+  \Delta ControllerState
+  \\ %
+  \where %
+  size > 0
+  \\ %
+  size' = size + 1 \land cache' = cache
+  \\ %
+  bot' = bot \land top' = (top + 1) \mod maxring
+\end{schema}
+The input action is enabled when there is space in the buffer; the
+subsequent behaviour depends on whether the buffer is empty or not.  In
+the case that it is non-empty, the controller transmits the input $x$
+to the cell at the $top$ of the ring using the communication
+$write.top!x$.
+\begin{zed}
+  InputController \defs
+  \\ %
+  \t1
+  \begin{block}
+    size < maxbuff \guard input?x \then
+    \\ %
+    \t1 \begin{block}
+      size = 0 \guard CacheInput
+      \\ %
+      \extchoice
+      \\ %
+      size > 0 \guard write.top!x \then StoreInput
+    \end{block}
+  \end{block}
+\end{zed}
+We observe that there is not, for this action, a one-to-one
+correspondence between the communication $input?x$ and operations that
+change the state.
+
+There is a similar case analysis for output:~the output always comes
+from the cache, which must be replaced if the ring is non-empty.  In
+the case that the ring is empty, we have $size = 1$; $size$ is reset;
+nothing else changes.
+\begin{zed}
+  NoNewCache \defs [~ \Delta ControllerState | size = 1 \land size' =
+  0 \land bot' = bot \land top' = top~]
+\end{zed}
+If the ring \pagebreak is non-empty, then a new element~(obtained from
+the ring) is stored in the cache; $bot$ must be advanced.
+\begin{schema}{StoreNewCache}
+  \Delta ControllerState
+  \\ %
+  x?: \nat
+  \where %
+  size > 1
+  \\ %
+  size' = size - 1 \land cache' = x?
+  \\ %
+  bot' = (bot + 1) \mod maxring \land top' = top
+\end{schema}
+So, the output action is enabled when there is something in the
+buffer; the subsequent behaviour depends on whether the ring is empty
+or not.  In the case that the ring is non-empty, the controller
+obtains the input $x$ from the cell at the $bot$ of the ring using the
+communication $read.bot?x$.
+\begin{zed}
+  OutputController \defs
+  \\ %
+  \t1
+  \begin{block}
+    size > 0 \guard output!cache \then
+    \\ %
+    \t1
+    \begin{block}
+      size > 1 \guard read.bot?x \then StoreNewCache
+      \\ %
+      \extchoice
+      \\ %
+      size = 1 \guard NoNewCache
+    \end{block}
+  \end{block}
+\end{zed}
+Neither of the operation schemas describe the value that gets
+communicated on the $output$ channel; it is the $cache$ that gets
+output, and it is natural to describe this directly in the CSP part of
+the action.
+
+\subsubsection{Controller behaviour}
+
+We conclude the description of the controller by describing its
+overall behaviour:~after being initialised, it repeatedly offers
+inputs and outputs.
+\begin{zed}
+  ControllerCycle \defs \mu X @ (~ InputController \extchoice
+  OutputController ~); X
+  \also %
+  @ InitController; ControllerCycle
+  \also %
+  \circend
+\end{zed}
+We have now to specify the ring.
+
+\subsubsection{Ring cell process}
+
+Each ring cell has a $rd$ and a $wrt$ channel.
+\begin{zed}
+  \circchannel\ rd, wrt: \nat
+\end{zed}
+A cell contains one value.
+\begin{zed}
+  \circprocess\ RingCell \defs \circbegin\ CellState \defs [~ val:
+  \nat ~]
+\end{zed}
+There are just two actions on the ring cell state.  The $Read$ action
+is so simple that we do not bother to define a corresponding operation
+on the state:~it merely outputs $val$.
+\begin{zed}
+  Read \defs rd!val \then Skip
+\end{zed}
+The $Write$ action updates $val$.
+\begin{zed}
+  CellWrite \defs [~ \Delta CellState; x?: \nat | val' = x? ~]
+  \also %
+  Write \defs wrt?x \then CellWrite
+\end{zed}
+The ring cell \pagebreak starts its behaviour with a $Write$ action;
+subsequently, it allows either $Read$ or $Write$ actions.
+\begin{zed}
+  @ Write; \mu X @ ( Read \extchoice Write ); X
+  \also %
+  \circend
+\end{zed}
+The ring itself is formed by composing the cells in parallel.
+
+\subsubsection{The cached-head ring buffer's behaviour}
+
+Our first step is to assemble the ring.  From $RingCell$, we define an
+indexed process, with indexes taken from the set of ring indexes.
+\begin{zed}
+  \circprocess\ IRingCell \defs (i: RingIndex \odot RingCell)[rd\_i,
+  wrt\_i := read, write]
+\end{zed}
+The resulting indexed process operates on channels $rd\_i$ and
+$wrt\_i$ of type $RingIndex \times \nat$.  We rename them to $read$
+and $write$, respectively. The behaviour of an indexed ring cell is
+exactly the same as that of a ring cell, except that the
+communications $rd!val$ and $wrt?x$ are replaced by $read.i!val$ and
+$write.i?x$, respectively.
+
+There is no interaction between the ring's cells, so the ring is
+constructed by interleaving the indexed ring cells.
+\begin{zed}
+  \circprocess\ Ring \defs \Interleave i: RingIndex \odot
+  IRingCell\lfloor i\rfloor
+\end{zed}
+Finally, the cached-head ring is composed by putting the controller
+and the ring in parallel, interacting along the internal $read$ and
+$write$ channels.
+\begin{zed}
+  \circprocess\ CRing \defs (~ Controller \lpar \lchanset read, write
+  \rchanset \rpar Ring ~) \hide \lchanset read, write \rchanset
+\end{zed}
+This completes our specification.
+
+\section{Unifying Theories of Programming} \label{section:TUT}
+
+In this section, we give an overview of Hoare \& He's unifying theory
+of programming~\cite{HH98}, where the theory of relations is used as a
+unifying basis for the science of programming across many different
+computational paradigms: procedural and declarative, sequential and
+parallel, closely-coupled and distributed, and hardware and software.
+Programs, designs, and specifications are all interpreted as relations
+between an initial observation and a single subsequent (intermediate
+or final) observation of the behaviour of a device executing a
+program.
+
+In their unification, different theories share common ideas:
+sequential composition is relational composition; the conditional is a
+simple Boolean connective; nondeterminism is disjunction; and
+parallelism is a restricted form of conjunction.  The miracle of the
+refinement calculus is the empty relation and abortion is the
+universal relation.  The definition of assertions as
+conditional-aborts brings all of assertional reasoning within the
+scope of the theory.  Both correctness and refinement are interpreted
+as inclusion of relations, and all the laws of a relational calculus
+are valid for reasoning about correctness in all theories and in all
+languages.
+
+Particular design calculi and programming languages are differentiated
+by their alphabet, signature, and healthiness conditions.  The
+\emph{alphabet} of a theory gives names for a range of external
+observations of program behaviour.  By convention, the name of an
+initial observation is undecorated, but the name of a similar
+observation taken subsequently is decorated with a dash.  This allows
+a relation to be expressed as in Z by its characteristic predicate.
+The \emph{signature} provides syntax for denoting the objects of the
+theory.  It names the relations corresponding to primitive operations
+directly, and provides operators for combining them.  The
+\emph{healthiness conditions} select the objects of a sub-theory from
+those of a more expressive theory in which it is embedded.  Thus
+programs form a subset of designs, and designs form a subset of
+specifications.
+
+The alphabet of each theory contains variables to describe all aspects
+of program behaviour that are considered relevant.  In a purely
+procedural paradigm, these stand for the initial and final values of
+the global variables accessed and updated by a program block.  Some
+variables are \emph{external}, because they are globally shared with
+the real world in which the program operates, and so they cannot be
+declared locally.  The first example is the Boolean variable
+$okay$:~it means that the system has been properly started in a stable
+state; $okay'$ means subsequent stabilisation in an observable state.
+This permits a description of programs that fail due to nonterminating
+loops or recursion.
+
+In a theory of reactive processes, the variable $tr$ records past
+interactions between a process and its environment; and the Boolean
+variable $wait$ distinguishes the intermediate observations of waiting
+states from final observations of termination.  During a wait, the
+process can refuse to participate in certain events offered by the
+environment; these are specified by the variable $ref$.
+
+The operator that introduces concurrency into programs is one that
+presents the greatest challenge for unification.  The solution that
+has been found uniformly successful is to translate all forms of
+parallelism into a disjoint form where it can be modelled simply by a
+conjunction of relations.  Parallel composition operators $P \parallel
+Q$ are, for instance, uniformly described as though each component
+process operates on its own differently subscripted version of the
+external variables.  The initial values of the pair of variables are
+identical.  The value of the decorated, final, variables is the result
+of the merge of the subscripted variables by an associative, symmetric
+operator.
+
+The signature of a theory varies in accordance with its intended use,
+whether in specification, in design, or in programming.  A
+specification language has the least restricted signature; for
+example, it includes quantifiers and all the operators of the
+relational calculus, even the converse.  Design calculi successively
+remove unimplementable operators, starting with negation; all
+operators are then monotonic, and recursion can safely be introduced
+as a fixed-point operator.  In the programming language, only
+implementable operations are left.  Operations of the chosen
+programming language are defined in terms of their observable effects
+using the more general specification language.
+
+A healthiness condition, rather like a conservation law in physics,
+distinguishes feasible descriptions of reality from infeasible ones.
+By a suitable restriction of signature, design languages satisfy many
+healthiness conditions, and programming languages satisfy even more.
+There are typically healthiness conditions associated with each of the
+external variables, and with groups of related variables.  Hoare \& He
+have shown that all healthiness conditions of interest may be
+expressed in the form $P = \phi(P)$, where $\phi$ is an idempotent
+function mapping all relations to the healthy ones of a particular
+theory.  These idempotents are called \emph{links}, and they may be
+used to translate higher-level designs into lower level
+implementations.
+
+The laws of CSP are not true for all predicates over the observational
+variables; there are eight healthiness conditions for CSP
+processes:~three characterise \emph{reactive} processes in general;
+two constrain reactive processes to be CSP ones; and a further three
+are more specific still.  The first healthiness condition for a
+reactive process~($\healthiness{R1}$) is that its execution can never
+undo any event that has already been performed.  The second
+healthiness condition ($\healthiness{R2}$) requires that a reactive
+process's behaviour is oblivious of what has gone before.  The third
+healthiness condition ($\healthiness{R3}$) is designed to make
+sequential composition work as intended.  Suppose that we have the
+sequential composition of two processes $P_1$ and $P_2$.  When $P_1$
+terminates, the value of $wait'$ is false; therefore, $P_2$'s value of
+$wait$ is also false, and control passes from $P_1$ to $P_2$.  On the
+other hand, if $P_1$ is still waiting for interaction with its
+environment, then its value of $wait'$ and $P_2$'s value of $wait$ are
+both true; in this case, $P_2$ must leave the state unchanged.  Of
+course, this is sensitive to the previous process's stability:~if
+activated when $okay$ is false, then its only guarantee is to extend
+the trace.
+
+$\healthiness{R}$ is the set of reactive processes, which satisfy
+these first three healthiness conditions.  An interesting subset of
+$\healthiness{R}$ satisfies two additional conditions.  The first
+($\healthiness{CSP1}$) states that, if a process has not started, then
+we can make no prediction about its behaviour.  The second
+($\healthiness{CSP2}$) states that we cannot require a process to
+abort; this is characterised by the monotonicity of the $okay'$
+variable.
+
+$\healthiness{CSP}$ is the set of reactive processes that satisfy
+these two healthiness conditions.  Further healthiness conditions are
+required to capture the standard theory of CSP; each of them is given
+as a simple unit law.  The first ($\healthiness{CSP3}$) requires that
+a CSP process does not depend on the initial value of the $ref$
+variable when $wait$ is false.  Of course, when $wait$ is true, then
+it must behave as required by $\healthiness{R3}$.  The second
+($\healthiness{CSP4}$) requires that the $ref'$ variable is irrelevant
+after termination.  The third ($\healthiness{CSP5}$) requires that
+refusal sets must be subset-closed.
+
+The model we define in the next section for \Circus\ is based on this
+theory.  We express this model in Z, which is a very suitable language
+for the specification of relations.
+
+\section{The Model of \Circus} \label{section:TMOC}
+
+Our model for a \Circus\ program is a Z specification; the model of a
+process is itself a Z specification, and the model of an action is a
+schema.  With just a few syntactic adjustments, we can use
+Z/EVES~\cite{ZEVES00} to analyse the model of \Circus\ as defined
+here.
+
+\subsection{Channel environment}
+
+The semantics of a process depends on the channels in scope, which are
+recorded in a channel environment.  We not only use Z specifications
+and paragraphs as models, but also use the Z mathematical notation as
+a meta-language to define the association of \Circus\ constructs to
+these models.  The set $ChanName$ is a given set containing the valid
+channel names.  The channel environment associates a channel name to
+its type.
+\begin{zed}
+  ChanEnv == ChanName \ffun \mathsf{Expression}
+\end{zed}
+
+The channel environment corresponding to a \Circus\ program is
+determined basically by its channel definitions.  The semantic
+function \mbox{$\lbag\_ \rbag^{\cal CD}$} gives the meaning of channel
+definitions as channel environments.
+\begin{zed}
+  \lbag\_ \rbag^{\cal CD}: \mathsf{ChannelDefinition} \pfun ChanEnv
+  \also %
+  \lbag \circchannel\ cdecl \rbag^{\cal CD} = \lbag cdecl \rbag^{\cal
+    C}
+\end{zed}
+The function \mbox{$\lbag\_ \rbag^{\cal C}$} determines the
+environment defined by a channel declaration.
+\begin{zed}
+  \lbag\_\rbag^{\cal C}: \mathsf{CDeclaration} \fun ChanEnv
+\end{zed}
+If a channel declaration just gives a channel name, but no type, this
+channel is not used for communication, but only as a synchronising
+event.  In this case, its type is recorded as $Sync$.
+\begin{zed}
+  \lbag n\rbag^{\cal C} = \{ n \mapsto Sync \}
+\end{zed}
+If the type is given in the channel declaration, it is recorded in the
+environment.
+\begin{zed}
+  \lbag n: T \rbag^{\cal C} = \{ n \mapsto T \}
+\end{zed}
+If $n$ is a list of channel names, these definitions can be
+generalised in a straightforward way.
+\newpage
+
+If the channel declaration is a schema expression, then the channels
+declared are the components of this schema; it should not have a
+predicate part, which is ignored here.
+\begin{zed}
+  \lbag sExp \rbag^{\cal C} =  \lbag SComp~sExp \rbag^{\cal C}
+\end{zed}
+The syntactic function $SComp$, when applied to a schema expression
+$sExp$, yields the declaration of the components of the schema denoted
+by $sExp$.  It is the environment corresponding to this declaration
+that we record.
+
+Finally, if the channel declaration actually introduces several
+channels of possibly different types, we accumulate a record of all
+these channels.
+\begin{zed}
+  \lbag sdecl; cdecl\rbag^{\cal C} = \lbag sdecl \rbag^{\cal C} \oplus
+  \lbag cdecl \rbag^{\cal C}
+\end{zed}
+Redefinition of channel names is not a concern; the latest definition
+is the one that matters.
+
+\paragraph{Channel sets.}
+
+A channel is not a value in our model.  For this reason, we cannot
+define a set of channels.  In a \Circus\ program channel sets are used
+to abbreviate process expressions like parallelism and hiding.  We
+assume, therefore, that these process expressions are expanded by
+replacing references to channel sets with the set of channels it
+defines.  The channel set definitions can then be eliminated.
+
+\subsection{Process environment}
+
+A process definition may refer to other processes previously defined.
+Therefore, its semantics also depends on a process environment, which
+records associations of process names to their models.  The given set
+$ProcName$ contains the valid process names, and
+$\mathsf{ZSpecification}$ is the syntactic category of Z
+specifications.  The set $ProcEnv$ is that of the finite sequences of
+pairs that associate process names to their models. We use sequences
+because the order in which processes are declared is relevant.  The Z
+specification corresponding to a whole program includes the Z
+specifications corresponding to the individual processes in the order
+that they appear.
+\begin{zed}
+  ProcEnv == \seq (ProcName \times \mathsf{ZSpecification})
+\end{zed}
+
+The following relations inspect a process environment.  $N\ recorded\
+\rho$ holds if the process name $N$ is recorded in the environment
+$\rho$.
+\begin{axdef}
+  \_ recorded \_: \power (ProcName \times ProcEnv)
+  \where %
+  \forall N: ProcName; \rho: ProcEnv @ N\ recorded\ \rho \iff N \in
+  \ran (\rho \comp fst)
+\end{axdef}
+The function $modelOf\ N\ in\ \rho$ gives the Z specification recorded
+in $\rho$ as the model of $N$.
+\begin{axdef}
+  modelOf \_ in \_: ProcName \times ProcEnv \pfun
+  \mathsf{ZSpecification}
+  \where %
+  \forall N: ProcName; \rho: ProcEnv @ N\ recorded\ \rho \implies
+  (N,modelOf\ N\ in\ \rho) \in \ran \rho
+\end{axdef}
+Of course, $modelOf\ N\ in\ \rho$ is only defined if $N$ is actually
+recorded in $\rho$.
+
+A process definition enriches the environment by associating a process
+name to the Z specification corresponding to the declared process.
+Moreover, if the process specification involves indexing or channel
+renaming, new channel names are implicitly declared, if they have not
+yet.  Therefore, a process definition may also change the channel
+environment.  The semantic function \mbox{$\lbag\_ \rbag^{\cal PD} $}
+gives the meaning of a process definition as a process environment
+that records just the single process it declares, and a channel
+environment recording the new channels it introduces, if any.
+\begin{zed}
+  \lbag\_ \rbag^{\cal PD}: \mathsf{ProcessDefinition} \pfun ChanEnv
+  \pfun ProcEnv \pfun (ChanEnv \times ProcEnv)
+  \also %
+  \forall \gamma: ChanEnv; \rho: ProcEnv @
+  \\ %
+  \t1 \lbag \circprocess\ N \defs P \rbag^{\cal PD}\gamma\ \rho = \LET
+  Ps == \lbag P \rbag^{\cal P}\gamma\ \rho @ (Ps.1,\langle (N,
+  Ps.2)\rangle)
+\end{zed}
+The semantics $Ps$ of $P$ is taken in the current channel and process
+environments; it is a pair containing a channel environment and a Z
+specification.  The semantics of the process definition is the pair
+formed by the channel environment and the process environment that
+associates $N$ to the Z specification.  The function \mbox{$\lbag\_
+  \rbag^{\cal P}$} gives the meaning of processes and is defined later
+on.
+
+\subsection{Programs}
+
+The meaning of a program is given by the function \mbox{$\lbag\_
+  \rbag^{\cal PROG}$}.
+\begin{zed}
+  \lbag\_ \rbag^{\cal PROG}: \mathsf{Program} \pfun
+  \mathsf{ZSpecification}
+\end{zed}
+The specification corresponding to a complete \Circus\ program $prog$
+is formed mainly by its Z paragraphs and the paragraphs of the
+specifications that model its process declarations.  More precisely,
+the specification starts with the following four paragraphs.  We need
+to define a boolean type, which is not directly available in Z; we use
+variables of this type as predicates, for the sake of simplicity.
+\newcommand{\freetypeFalse}{\freetype{False}}
+\newcommand{\freetypeTrue}{\freetype{True}}
+\begin{zed}
+  Bool ::= \freetypeFalse | \freetypeTrue
+\end{zed}
+The second paragraph declares the given sets $Sync$ and $Event$.  The
+first is the type of the synchronisation events, which are declared as
+untyped channels.  The given type $Event$ includes the possible
+communications of the program.  A communication is characterised by
+the channels through which it occurs and the value communicated.  As
+we formalise later on, as channels are declared, we define injective
+functions into $Event$ that determine the communications that can
+occur through those channels.
+\begin{zed}
+  [ Sync, Event ]
+\end{zed}
+The third paragraph is a schema that specifies the components that
+comprise the state of a process, in addition to the user state
+components.  These are the variables of the unifying theory model
+presented in Section~\ref{section:TUT} and the additional $trace$
+variable.  Our processes do not have an alphabet as in~\cite{HH98};
+instead we consider the alphabetised parallel operator
+of~\cite{Ros98}.
+\begin{zed}
+  ProcessState \defs [~ trace,tr: \seq Event; ref: \power Event; okay,
+  wait: Bool ~]
+\end{zed}
+Changes to the process state are constrained as specified in the
+fourth paragraph:~valid process observations increase the trace.  The
+extra component $trace$ records the events that occurred since the
+last observation.
+\begin{zed}
+  ProcessStateObs \defs [~ \Delta ProcessState | tr \prefix tr' \land
+  trace' = tr' - tr ~]
+\end{zed}
+The remaining paragraphs are determined by $\lbag prog \rbag^{\cal
+  CPARL}\ \emptyset\ \emptyset$.  This is the semantics of the list of
+paragraphs that compose the program itself, taken in the empty process
+environment and the empty channel environment.
+
+\subsection{Paragraphs}
+
+A \Circus\ paragraph can contribute to the Z specification defined by
+the whole program in three ways:~by extending the Z specification with
+new paragraphs, by extending the channel environment, and by extending
+the process environment.  Therefore, the function \mbox{$\lbag\_
+  \rbag^{\cal CPAR}$}, which defines the semantics of a \Circus\
+paragraph, yields a triple: a Z specification, a channel environment,
+and a process environment.
+\begin{zed}
+  \lbag\_ \rbag^{\cal CPAR}: \mathsf{CircusParagraph} \pfun ChanEnv
+  \pfun ProcEnv \pfun
+  \\ %
+  \t1 (\mathsf{ZSpecification} \times ChanEnv \times ProcEnv)
+\end{zed}
+For a Z paragraph $Zp$, the definition of \mbox{$\lbag\_ \rbag^{\cal
+    CPAR}$} is as follows.
+\begin{zed}
+  \lbag Zp \rbag^{\cal CPAR}\ \gamma\ \rho = (tc~Zp,\gamma,\rho)
+\end{zed}
+Essentially, a Z paragraph is added to the Z specification as it is,
+and does not affect the channel or the process environment.  Slight
+changes to the Z paragraph may be needed because of schemas with
+untyped components, which are assumed to be synchronisation event
+declarations.  The function $tc$, when applied to a schema that
+declares such component, yields the schema obtained by declaring the
+types of these components to be $Sync$.  When applied to any other
+sort of Z paragraph, $tc$ keeps it as it is:~behaves like the
+identity.
+
+A channel definition $cd$ gives rise to a few paragraphs in the Z
+specification and enriches the channel environment.
+\begin{zed}
+  \lbag cd \rbag^{\cal CPAR}\ \gamma\ \rho = \LET \gamma' == \lbag cd
+  \rbag^{\cal CD} @ (events~\gamma',\gamma \oplus \gamma',\rho)
+\end{zed}
+The environment $\gamma'$ records the channels declared in $cd$ and is
+used to enrich the current environment.  For each channel $c$ recorded
+to have type $T$ different from $Sync$ in the environment $\gamma'$,
+we have that $event~\gamma'$ yields an axiomatic description that
+declares $c$ to be an injective function from $T$ to $Event$.
+\begin{axdef}
+  c: T \inj Event
+\end{axdef}
+If $T$ is $Sync$, we define $c$ to be itself an event.
+\begin{axdef}
+  c: Event
+\end{axdef}
+These constants and injective functions are $Event$ constructors.
+
+A process definition $pd$ determines a Z specification of its model in
+the unifying theory, and enriches the process environment and possibly
+the channel environment as well.
+\begin{zed}
+  \lbag pd \rbag^{\cal CPAR}\ \gamma\ \rho = \LET pds == \lbag pd
+  \rbag^{\cal PD}\ \gamma\ \rho @
+  \\ %
+    \quad
+      ((pds.2~1).2,\gamma \oplus pds.1,(\rho \filter \{n: ProcName;
+        s: {\sf ZSpecification} | n \neq (pds.2\ 1).1\}) \cat pds.2)
+\end{zed}
+The semantics of $pd$ is a pair $pds$ containing the channel
+environment that records the channels $pd$~(implicitly) declares, and
+a process environment that records the process defined by $pd$.  The Z
+specification corresponding to the process is the second element of
+the pair in the first and unique position of the process environment,
+which is itself the second element of $pds$.
+
+The function \mbox{$\lbag\_ \rbag^{\cal CPARL}$} gives meaning to
+lists of \Circus\ paragraphs as a Z specification.
+\begin{zed}
+  \lbag\_ \rbag^{\cal CPARL}: \mathsf{CircusParagraph^*} \pfun ProcEnv
+  \pfun ChanEnv \pfun \mathsf{ZSpecification}
+\end{zed}
+If the list contains only one paragraph $cp$, then the specification
+is the first element of the tuple determined by its semantics.
+\begin{zed}
+  \lbag cp \rbag^{\cal CPARL}\ \gamma\ \rho = (\lbag cp \rbag^{\cal
+    CPAR}\ \gamma\ \rho).1
+\end{zed}
+If, on the other hand, we \pagebreak have a list $cp\ cpl$ containing
+more than one \Circus\ paragraph, then the Z specification is formed by
+the paragraphs corresponding to the first \Circus\ paragraph $cp$,
+followed by the paragraphs corresponding to the rest of the list of
+\Circus\ paragraphs $cpl$.  The semantics of these paragraphs, however,
+is taken in enriched channel and process environments that record the
+declaration(s) in the first \Circus\ paragraph.
+\begin{zed}
+  \lbag cp~cpl \rbag^{\cal CPARL}\ \gamma\ \rho = \LET cps == \lbag cp
+  \rbag^{\cal CPAR}\ \gamma\ \rho @ cps.1\ (\lbag cpl \rbag^{\cal
+    CPARL}\ cps.2\ cps.3)
+\end{zed}
+The semantics $cps$ of the first \Circus\ paragraph $cp$ is a
+tuple:~the first element is the Z specification, which is part of the
+specification corresponding to $cp~cpl$; and the second and the third
+elements are the channel and process environments, which are used in
+the evaluation of the following paragraphs.
+
+We eliminate repeated names used across different process definitions
+by prefixing each name with the name of the process in which it is
+declared.  Also, in the model of a process, where several schemas are
+defined, the names of these schemas should be fresh.  Below, in the
+presentation of this model we leave this assumption implicit.
+
+\subsection{Processes}
+
+The semantic function \mbox{$\lbag\_ \rbag^{\cal P}$} gives the
+meaning of a process declaration as a pair containing a channel
+environment and a Z specification.
+\begin{zed}
+  \lbag\_ \rbag^{\cal P}: \mathsf{Process} \pfun ChanEnv \pfun ProcEnv
+  \pfun (ChanEnv \times \mathsf{ZSpecification})
+\end{zed}
+The function takes the current channel and process environments as
+arguments.  For a process name $N$, its definition is as follows.
+\begin{zed}
+  \lbag N \rbag^{\cal P}\gamma\ \rho = (\gamma,modelOf\ N\ in\ \rho)
+\end{zed}
+A well-formed process definition does not refer to undeclared
+processes, so we can assume that $N$ is in $\rho$.
+
+For an explicit process specification we define
+\begin{zed}
+  \lbag \circbegin\ ppl @ A\ \circend\rbag^{\cal P}\ \gamma\ \rho
+\end{zed}
+as a Z specification containing the following paragraphs.
+\begin{itemize}
+\item $ProcObs$, a schema describing the observations that may be made
+  of the process.
+\item The Z paragraphs as they are, except for those that are schemas
+  that define operations as these are actions.
+\item For each action, a schema constraining the process observations.
+\end{itemize}
+In order to define $ProcObs$ we specify a schema $State$ that defines
+the process state.  It includes the components of the schema
+$ProcessState$ previously defined and those of the state defined in
+$ppl$.
+\begin{zed}
+  State \defs UserState \land ProcessState
+\end{zed}
+We assume that the state schema in $ppl$ is called $UserState$.  In
+summary, the overall state of a \Circus\ process in our model includes
+the components of the state in its specification, which we refer to as
+user state, and the observation variables of the Unifying Theory.
+
+A process observation corresponds to a state change.
+\begin{zed}
+  ProcObs \defs \Delta UserState \land ProcStateObs
+\end{zed}
+Restrictions on changes to both the user state and the observation
+variables apply.
+
+As we explain later on, the state can be extended by the declaration
+of extra variables.  Therefore, we actually consider a family of
+schemas $ProcObs(USt)$; for a schema $USt$, $ProcObs(USt)$ is the
+schema defined as $ProcObs$ above, except that it includes
+\mbox{$\Delta USt$}, instead of \mbox{$\Delta UserState$}.  The
+semantics of \mbox{$\circbegin\ ppl @ A\ \circend$} includes exactly
+the schema $ProcObs$ defined above, or rather, $ProcObs(UserState)$.
+
+\subsection{Actions}
+
+To each action \mbox{$N \defs A$} corresponds a schema named $N$.
+\begin{zed}
+  N \defs \lbag A \rbag^{\cal A}\ \gamma\ UserState\
+\end{zed}
+It is determined by the function \mbox{$\lbag\_ \rbag^{\cal A}$} that
+takes as arguments the current channel environment and the name of the
+schema that defines the user state.  As shown above, for the actions
+in $ppl$, the parameter given is $UserState$, the state defined in
+$ppl$ itself.
+\begin{zed}
+  \lbag\_ \rbag^{\cal A}: \mathsf{Action} \pfun ChanEnv \pfun
+  \mathsf{N} \pfun \mathsf{Schema\hbox{-}Exp}
+\end{zed}
+
+The main action is nameless; the schema corresponding to it is given a
+fresh name.  This schema is also determined by the function $\lbag\_
+\rbag^{\cal A}$ as above.  We distinguish three cases in the
+definition of the behaviour of an action:~the normal case, the cases
+in which the previous operation diverged, and the case in which the
+previous operation has not terminated.
+\begin{zed}
+  \lbag A \rbag^{\cal A}\gamma\ USt = \lbag A \rbag^{\cal A_N}\gamma\
+  USt \lor Diverge(USt) \lor Wait(USt)
+\end{zed}
+The function \mbox{$\lbag\_ \rbag^{\cal A_N}$} characterises the
+normal behaviour of an action.
+\begin{zed}
+  \lbag\_ \rbag^{\cal A_N}: \mathsf{Action} \pfun ChanEnv \pfun
+  \mathsf{N} \pfun \mathsf{Schema\hbox{-}Exp}
+\end{zed}
+It is defined by induction below.
+
+The schema, or rather, the family of schemas $Diverge(USt)$
+characterise the behaviour of an action in the presence of divergence.
+\begin{zed}
+  Diverge(USt) \defs [~ ProcObs(USt) | \lnot okay ~]
+\end{zed}
+Divergence is characterised by the fact that $okay$ is false.  There
+are no guarantees as to the final value of any of the state
+components, except only that the $trace$ can only be extended: a
+restriction enforced by $ProcObs$.
+
+For $Wait(USt)$ we have the following definition.
+\begin{zed}
+  Wait(USt) \defs [~  \Xi State(USt) |   okay \land wait ~]
+\end{zed}
+The waiting state is characterised by the fact that both $okay$ and
+$wait$ are true: there is no divergence, but the previous action has
+not terminated.  In this case, the state does not change.
+
+The normal case of the actions behaviour is characterised by the
+schema below.
+\begin{zed}
+  Normal(USt) \defs [~ ProcObs(USt) | okay \land \lnot wait ~]
+\end{zed}
+In this case, $okay$ is true, but $wait$ is false:~there is no
+divergence and the previous action has terminated.
+
+In the sequel, we define the normal behaviour of the actions.
+
+\subsubsection{Schema Expressions}
+
+For a schema expression $SExp$, we have the following definition.
+\begin{zed}
+  \lbag SExp \rbag^{\cal A_N}\gamma\ USt = SExp \land OpNormal \lor
+  OpDiverge
+\end{zed}
+The schema $OpNormal$ characterises the case in which $SExp$ is
+activated in a state that satisfies its precondition;~the $trace$ is
+not modified and $okay$ and $wait$ do not change;~the operation
+terminates successfully.
+\begin{zed}
+  OpNormal \defs [~ Normal(USt) | trace' = \langle\rangle \land okay'
+  \land \lnot wait' ~]
+\end{zed}
+If, on the other hand, the precondition of $SExp$ is not satisfied,
+the action diverges.  This case is specified by $OpDiverge$.
+\begin{zed}
+  OpDiverge \defs [~ Normal(USt); SExp \lor \lnot SExp | \lnot \pre
+  SExp \land \lnot okay' ~]
+\end{zed}
+We include $SExp \lor \lnot SExp$ to put possible input and output
+variables in scope.  The output variables $o!$ need to be renamed to
+$o'$, since in \Circus\ the shriek and dash decorations are
+interchangeable.
+
+\subsubsection{CSP Expressions}
+
+The definition of the normal behaviour of $Skip$ is as follows.
+\begin{zed}
+  \lbag Skip \rbag^{\cal A_N}\gamma\ USt = [~ Normal(USt) \land \Xi
+  USt | trace' = \langle\rangle \land okay' \land \lnot wait' ~]
+\end{zed}
+The user state is not changed, the trace is also not changed, and it
+terminates.
+
+For $Stop$, we have the following definition.
+\begin{zed}
+  \lbag Stop \rbag^{\cal A_N}\gamma\ USt = [~ Normal(USt) \land \Xi
+  USt | trace' = \langle\rangle \land okay' \land wait' ~]
+\end{zed}
+Again, the user state does not change as does not the trace.  Deadlock
+is characterised by the fact that $wait'$ is true.
+
+The $Chaos$ action normal behaviour is specified as shown below.
+\begin{zed}
+  \lbag Chaos \rbag^{\cal A_N}\gamma\ USt \defs [~ Normal(USt) | \lnot
+  okay' ~]
+\end{zed}
+We require $\lnot okay'$, which characterises divergence.
+
+Sequencing is defined in terms of a function $sequence$ on
+$ProcObs(USt)$ as follows.
+\begin{schema}{\lbag A; B \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \theta ProcObs(USt) = \theta (\lbag A \rbag^{\cal A}\gamma\ USt)\
+  sequence\ \theta (\lbag B \rbag^{\cal A}\gamma\ USt)
+\end{schema}
+The function $sequence$ takes two process observations, and returns
+the process observation that characterises their sequential
+composition.
+\begin{axdef}
+  \_ sequence \_: ProcObs(USt) \times ProcObs(USt) \pfun ProcObs(USt)
+  \where %
+  \forall a, b, c : ProcObs(USt) | c = a\ sequence\ b \iff
+  \\ %
+  \t1 before\ c = before\ a \land after\ a = before\ b \land after\ b
+  = after\ c
+\end{axdef}
+The sequential composition of two process observations \pagebreak is
+well-defined only if the final state of the first is equal to the
+initial state of the second.
+
+The functions $before$ and $after$ project out the initial and the
+final state of a process observation, respectively.
+\begin{axdef}
+  before: ProcObs(USt) \fun State(USt)
+  \where %
+  \forall ProcObs(USt) @ before\ \theta ProcObs(USt) = \theta
+  State(USt)
+\end{axdef}
+
+\begin{axdef}
+  after: ProcObs(USt) \fun State(USt)
+  \where %
+  \forall ProcObs(USt) @ after\ \theta ProcObs(USt) = \theta
+  State(USt)'
+\end{axdef}
+The schema $State(USt)$ is, as expected, similar to the schema $State$
+defined earlier on, except that it includes $USt$ instead of
+$UserState$.
+
+In the definition of $sequence$, if $a$ diverges, then we have that
+$\lnot a.okay'$ and consequently $\lnot b.okay$.  So, if $b$ satisfies
+the healthiness condition \textbf{CSP1}, then the composite
+$a~sequence~b$ diverges.  Similarly, if $a$ is waiting, then we have
+$a.wait'$ and so $b.wait$.  So if $b $ satisfies the healthiness
+condition \textbf{R3}, then $a~sequence~b$ waits.
+
+Before defining the different forms of prefixing, we specify a
+communication as a process observation $Comm(USt)$.  The occurrence of
+a communication is an event, which is characterised by a channel name
+and a value communicated through that channel, and in our model is an
+element of $Event$.  The process observation $Comm(USt)$ takes as
+input the set of events $accEvents?$ that can take place, and outputs
+the event $e!$ that actually takes place.
+
+We can make observations at two stages of the communication. The first
+is when the communication has not actually taken place yet:~we are
+waiting for it to happen.
+\begin{schema}{CommWaiting(USt)}
+  Normal(USt)
+  \\ %
+  accEvents?: \power Event
+  \\ %
+  \Xi USt
+  \where %
+  trace' = \langle\rangle \land accEvents? \cap ref' = \emptyset
+  \\ %
+  okay' \land wait'
+\end{schema}
+The trace has not been extended, the acceptable events cannot be
+refused, and the user state is not changed.
+
+We can also observe a communication after it has occurred.
+\begin{schema}{CommDone(USt)}
+  Normal(USt)
+  \\ %
+  accEvents?: \power Event
+  \\ %
+  e!: Event
+  \\ %
+  \Xi USt
+  \where %
+  e! \in accEvents?
+  \\ %
+  trace' = \langle e! \rangle
+  \\ %
+  okay' \land \lnot wait'
+\end{schema}
+The trace is extended with one of the possible events and again the
+user state is not changed.
+
+In summary, an observation of a communication falls in one of the
+above cases.
+\begin{zed}
+  Comm(USt) \defs CommWaiting(USt) \lor CommDone(USt) \lor
+  Diverge(USt) \lor Wait(USt)
+\end{zed}
+We use this definition in the model of prefixings.
+\newpage
+
+A communication is actually a more primitive concept than a prefixing,
+which is actually the sequential composition of a communication and an
+action.  For a prefixing \mbox{$c!e \then A$}, we have the following
+semantics.
+\begin{schema}{ \lbag c!e \then A \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \exists oc: Comm(USt) | oc.accEvents? = \{ c(e) \} @
+  \\ %
+  \t1 \theta ProcObs(USt) = (procObsC\ oc)\ sequence\ \theta (\lbag A
+  \rbag^{\cal A}\gamma\ USt)
+\end{schema}
+First the communication takes place, then, in sequence, the behaviour
+is that of $A$.  The only possible communication is $c(e)$.  The
+function $procObsC$ projects out the components of a communication
+that form a process observation.
+\begin{axdef}
+  procObsC: Comm(USt) \pfun ProcObs(USt)
+  \where %
+  \forall Comm(USt) @ procObsC\ \theta Comm(USt) = \theta ProcObs(USt)
+\end{axdef}
+The semantics of \mbox{$c.e \then A$} and \mbox{$c \then A$} can be
+defined in a similar way.  As a matter of fact, $c!e \then A$ is the
+same as $c.e \then A$.
+
+For \mbox{$c?x \then A$} the definition is different as $c?x$
+introduces the variable $x$ in scope for $A$.  In other words, the
+action $A$ acts on an extended state that includes $x$ as a component.
+The type of the extra component is that of the channel through which
+the parameter is supposed to be input.  The value of this new state
+component, however, is determined by the input communication and is
+fixed in $A$.  The semantics of the action $A$ is considered in the
+state $xUSt(USt)$.  The reference to \mbox{$\Delta xUSt$} in
+$ProcObs(xUSt)$ is a reference to the schema below, which enforces the
+fact that the input variable $x$ is not modified.
+\begin{zed}
+  xUSt(USt) \defs [~ USt ; x: \gamma\ c ~]
+  \also %
+  \Delta xUSt(USt) \defs [~ xUSt(USt); xUSt'(USt) | x = x' ~]
+\end{zed}
+\begin{schema}{\lbag c?x \then A \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \LET as == \theta (\lbag A \rbag^{\cal A}\gamma\ xUSt(USt)) @
+  \\ %
+  \ \
+  \begin{block}
+    \exists ic: Comm(USt) |
+    \\ %
+    \ \
+    \begin{block}
+      ic.accEvents? = \{~ x: \gamma\ c @ c(x) ~\} \land c(as.x') = ic.e! @
+      \\ %
+      \theta ProcObs(USt) = (procObsC\ ic)\ sequence\ (procObsPxP\ as)
+    \end{block}
+  \end{block}
+\end{schema}
+The accepted events for an input communication are all those formed by
+applying the event constructor $c$ to a valid value of the type of
+$c$.  This type is necessarily different from $Sync$, as otherwise the
+prefixing \mbox{$c?x \then A$} is not well-formed.  The value actually
+communicated is defined as the initial~(constant) value of $x$.
+
+The projection function $procObsPxP$ extracts a process observation
+out of a $ProcObs(xUSt)$.
+\begin{axdef}
+  procObsPxP: ProcObs(xUSt) \fun ProcObs(USt)
+  \where %
+  \forall PxProcObs(xUSt) @ procObsPxP\ \theta ProcObs(xUSt) = \theta
+  ProcObs(USt)
+\end{axdef}
+
+The semantics of a prefixing $c?x: input \then A$, where the predicate
+$input$ restricts the set of acceptable values that can be
+communicated through $c$, can be defined in the same way as above.  We
+need to change the definition of the set $ic.accEvents?$ to be $\{~ x:
+\gamma\ c | input @ c(x) ~\}$.  In this way, the values $x$ that can be
+communicated are those of the type of $c$ which satisfy $input$.
+
+We can easily define the semantics of a prefixing like $c?x!e \then A$
+where the channel $c$ is used simultaneously for input and output.
+\begin{schema}{\lbag c?x!e \then A \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \LET as == \theta (\lbag A \rbag^{\cal A}\gamma\ xUSt(USt)) @
+  \\ %
+  \ \
+  \begin{block}
+    \exists ioc: Comm(USt) |
+    \\ %
+    \ \
+    \begin{block}
+      ioc.accEvents? = \{~ p: \gamma\ c| snd\ p = e[c\inv(ioc.e!)/x] @
+      c(p) ~\} \land {}
+      \\ %
+      as.x = c\inv(ioc.e!) @
+      \\ %
+      \theta ProcObs(USt) = (procObsC\ ioc)\ sequence\ (procObsPxP\
+      as)
+    \end{block}
+  \end{block}
+\end{schema}
+In this case, the type of $c$ is a pair and the values that can be
+communicated are pairs whose second element is $e[c\inv(ioc.e!)/x]$.
+If the input variable $x$ is used in the definition of the output
+expression $e$, it is replace with the input value.  This is obtained
+by applying the inverse of the $c$ event constructor to the event
+$ioc.e!$ that actually takes place.  This value is also used to
+initialise $x$.  We do not consider here all the possible combinations
+of inputs and outputs that can be used.  Their semantics is lengthy,
+but not illuminating.
+
+In CSP, the semantics of input is given as an external choice over the
+acceptable events.  Here, as already mentioned, we regard
+communication as a primitive concept.  The resulting Z specification
+is more compact and we avoid the need for an infinite choice.
+
+The action $p \guard A$ is enabled only if the $p$ condition holds.
+Its semantics is defined as follows.
+\begin{schema}{\lbag p \guard A \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  p \implies \lbag A\rbag^{\cal A}\gamma\ USt
+  \\ %
+  \lnot p \implies trace' = \langle\rangle \land okay' \land wait'
+  \land USt = USt'
+\end{schema}
+If the $p$ condition holds, the action behaves as $A$; otherwise it
+behaves as $Stop$.
+
+The behaviour of an external choice $A \extchoice B$ can be observed
+in two points:~before the choice is made and after the choice is made.
+Before the choice is made, the trace is empty, the process is waiting,
+and the user state has not been changed; both $A$ and $B$ have to
+behave in this way.
+\begin{schema}{ExtChoiceWaiting(USt)}
+  Normal(USt)
+  \\ %
+  \Xi USt
+  \where %
+  trace' = \langle\rangle \land okay' \land wait'
+  \\ %
+  \lbag A\rbag^{\cal A}\gamma\ USt
+  \\ %
+  \lbag B \rbag^{\cal A}\gamma\ USt
+\end{schema}
+The refusal set is characterised by the restrictions of both $A$ and
+$B$; this means that an event is refused only if it is refused by both
+$A$ and $B$.
+\newpage
+
+If a choice has been made, then either the trace is not empty or the
+action has diverged or terminated.
+\begin{schema}{ExtChoiceNotWaiting(USt)}
+  Normal(USt)
+  \where %
+  trace' \neq \langle\rangle \lor \lnot okay' \lor \lnot wait'
+  \\ %
+  \lbag A\rbag^{\cal A}\gamma\ USt \lor \lbag B \rbag^{\cal A}\gamma\
+  USt
+\end{schema}
+The behaviour presented is either that of $A$ or that of $B$.
+\begin{zed}
+  \lbag A \extchoice B \rbag^{\cal A_N}\gamma\ USt \defs
+  ExtChoiceWaiting(USt) \lor ExtChoiceNotWaiting(USt)
+\end{zed}
+The behaviour of the external choice is given by the disjunction of
+the above two cases.
+
+The semantics of the internal choice $A \intchoice B$ is given by the
+disjunction of the semantics of $A$ and $B$.
+\begin{zed}
+  \lbag A \intchoice B \rbag^{\cal A_N}\gamma\ USt \defs \lbag
+  A\rbag^{\cal A}\gamma\ USt \lor \lbag B \rbag^{\cal A}\gamma\ USt
+\end{zed}
+The action $A \intchoice B$ behaves either like $A$ or like $B$ and
+the choice is independent of the environment.
+
+Before specifying the semantics of parallelism and hiding, we need to
+define the set of events determined by a channel set $C$.  This is the
+set of all communications through a channel in $C$, which in our model
+are the events constructed using the injections into $Event$ defined
+by the channels in $C$.  The definition of this set is shown below; it
+depends on the current channel environment.
+\begin{zed}
+  \lbag \_ \rbag: \mathsf{CSExpression} \pfun ChanEnv \pfun \power
+  Event
+  \also %
+  \lbag \lchanset ~ \rchanset \rbag\gamma = \emptyset
+  \also %
+  \forall C: \mathsf{CSExpression} @ C \neq \lchanset ~ \rchanset
+  \implies \exists c: \mathsf{N} @ c \in C \land {}
+  \\ %
+  \t1
+  \begin{block}
+    \gamma\ c \neq Sync \implies \lbag C \rbag\gamma = \{~ v: \gamma\ c
+    @ c(v) ~\} \cup \lbag C\setminus \{ c \} \rbag\gamma \land {}
+    \\ %
+    \gamma\ c = Sync \implies \lbag C \rbag\gamma = \{ c \} \cup \lbag
+    C\setminus \{ c \} \rbag\gamma
+  \end{block}
+\end{zed}
+We consider only the empty channel set and a channel set defined by
+enumeration, as we assume in our semantics that more elaborate channel
+set expressions are expanded and eliminated.
+
+The definition of the $\_ \parallel \_ sync \_$ operator is as
+follows.
+\begin{axdef}
+  \_ \parallel \_ sync \_ : \seq Event \times \seq Event \times \power
+  Event \fun \power (\seq Event)
+  \where %
+  \forall t_1, t_2: \seq Event; s: \power Event; e_1,e_2: Event @
+  \\ %
+  \t1
+  \begin{block}
+    t_1 \parallel t_2\ sync\ s = t_2 \parallel t_1\ sync\ s \land {}
+    \\ %
+    \langle\rangle \parallel \langle\rangle\ sync\ s = \{
+    \langle\rangle \} \land {}
+    \\ %
+    (e_1 \in s \implies
+    \\ %
+    \t1
+      \begin{block}
+        \langle e_1 \rangle \parallel \langle\rangle\ sync\ s =
+        \emptyset \land {}
+        \\ %
+        (\langle e_1\rangle \cat t_1) \parallel (\langle
+        e_1\rangle\cat t_2)\ sync\ s = \{~ t_3: (t_1 \parallel t_2\
+        sync\ s) @ \langle e_1\rangle\cat t_3 ~\} \land {}
+        \\ %
+        e_2 \notin s \implies (\langle e_1\rangle\cat t_1) \parallel
+        (\langle e_2\rangle\cat t_2)\ sync\ s =
+        \\ %
+        \t3 \{~ t_3: ((\langle e_1\rangle\cat t_1) \parallel t_2\ sync\
+        s) @ \langle e_2\rangle\cat t_3 ~\} \land {}
+        \\ %
+        e_2 \in s \land e_1 \neq e_2 \implies (\langle e_1\rangle\cat
+        t_1) \parallel (\langle e_2\rangle\cat t_2)\ sync\ s =
+        \emptyset) \land {}
+      \end{block}
+    \\ %
+    (e_1 \notin s \implies
+    \\ %
+    \t1
+      \begin{block}
+        \langle e_1 \rangle \parallel \langle\rangle\ sync\ s = \{
+        \langle e_1 \rangle \} \land {}
+        \\ %
+        e_2 \notin s \implies (\langle e_1\rangle\cat t_1) \parallel
+        (\langle e_2\rangle\cat t_2)\ sync\ s =
+        \\ %
+        \t3
+        \begin{block}
+          \{~ t_3: (t_1 \parallel (\langle e_2\rangle\cat t_2)\ sync\
+          s) @ \langle e_1\rangle\cat t_3 ~\}\ \cup
+          \\ %
+          \{~ t_3: ((\langle e_1\rangle\cat t_1) \parallel t_2\ sync\
+          s) @ \langle e_2\rangle\cat t_3 ~\}
+        \end{block}
+      \end{block}
+  \end{block}
+\end{axdef}
+A definition of a similar function can be found in~\cite{Ros98}.
+\newpage
+
+We define the semantics of parallelism as shown below.
+\begin{schema}{\lbag A \lpar C \rpar B \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \exists tracea, traceb, tra, trb: \seq Event; refa, refb: \power
+  Event;
+  \\ %
+  \ \
+    okaya, okayb, waita, waitb: Bool @
+  \\ %
+  \t1
+  \begin{block}
+    (\lbag A\rbag^{\cal A}\gamma\
+    USt)[tracea,tra,refa,okaya,waita/trace',tr',ref',okay',wait']
+    \land {}
+    \\ %
+    (\lbag B\rbag^{\cal A}\gamma\
+    USt)[traceb,trb,refb,okayb,waitb/trace',tr',ref',okay',wait' ]
+    \land {}
+    \\ %
+    trace' \in tracea \parallel traceb\ sync\ (\lbag C\rbag\gamma)
+    \land {}
+    \\ %
+    ref' = (refa \cup refb) \cap \lbag C\rbag\gamma\ \cup\ (refa \cap
+    refb) \setminus \lbag C\rbag\gamma \land {}
+    \\ %
+    okay' = okaya \land okayb \land {}
+    \\ %
+    wait' = waita \lor waitb
+  \end{block}
+\end{schema}
+We include the schemas that define the semantics of $A$ and $B$.
+These actions start in the same state, so their restrictions on the
+initial state are conjoined.  The final state of the parallel
+composition depends on the final state of the individual actions; we
+rename the individual final state components to use in the definition
+of the parallel composition.
+
+An event can be refused by the parallel composition if either $A$ or
+$B$ can refuse it and they have to synchronise on it, or rather, it is
+in the synchronisation set $C$.  If it is not, then it can only be
+refused if both $A$ and $B$ can refuse it.  The parallel composition
+diverges if either $A$ or $B$ does, and it terminates when both $A$
+and $B$ do.  The trace is the combination of the traces of $A$ and $B$
+where events in the channel set determined by $C$ are synchronised.
+
+The definition of interleaving is similar to that of parallelism.
+\begin{schema}{\lbag A \interleave B \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \exists tracea, traceb, tra, trb: \seq Event; refa, refb: \power
+  Event;
+  \\ %
+  \ \
+    okaya, okayb, waita, waitb: Bool @
+  \\ %
+  \t1
+  \begin{block}
+    (\lbag A\rbag^{\cal A}\gamma\
+    USt)[tracea,tra,refa,okaya,waita/trace',tr',ref',okay',wait']  \land {}
+    \\ %
+    (\lbag B\rbag^{\cal A}\gamma\
+    USt)[traceb,trb,refb,okayb,waitb/trace',tr',ref',okay',wait' ] \land {}
+    \\ %
+    trace' \in tracea \interleave traceb \land {}
+    \\ %
+    ref' = refa \cap refb \land {}
+    \\ %
+    okay' = okaya \land okayb \land {}
+    \\ %
+    wait' = waita \lor waitb
+  \end{block}
+\end{schema}
+An event can be refused by $A \interleave B$ if it can be refused by
+both $A$ and $B$.  The definition of $\_ \interleave \_$ is simple.
+\begin{axdef}
+  \_ \interleave \_ : \seq Event \times \seq Event \fun \power (\seq
+  Event) \where \forall t_1, t_2: \seq Event; e_1,e_2: Event @
+  \\ %
+  \t1
+  \begin{block}
+    \langle\rangle \interleave t_1 = t_1 \interleave \langle \rangle =
+    \{ t_1 \} \land {}
+    \\ %
+    (\langle e_1\rangle\cat t_1) \interleave (\langle e_2\rangle\cat
+    t_2) =
+    \\ %
+    \t1 \{~ t_3: (t_1 \interleave (\langle e_2\rangle\cat t_2)) @
+    \langle e_1\rangle\cat t_3 ~\} \cup \{~ t_3: ((\langle e_1\rangle\cat
+    t_1) \interleave t_2) @ \langle e_2\rangle\cat t_3 ~\}
+  \end{block}
+\end{axdef}
+This function is defined in~\cite{Ros98}.
+\newpage
+
+The semantics of hiding is as follows.
+\begin{schema}{\lbag A \hide C \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \exists tracep, trp: \seq Event; refp: \power Event @
+  \\ %
+  \t1
+  \begin{block}
+    \lbag A\rbag^{\cal A}\gamma\ USt[tracep,trp,refp/trace',tr',ref'] \land {}
+    \\ %
+    trace' = tracep \filter (Event \setminus \lbag C \rbag\gamma)
+    \\ %
+    refp = ref' \cup (\lbag C \rbag\gamma)
+  \end{block}
+\end{schema}
+The traces and refusals of $A \hide C$ are determined in terms of
+those of $A$:~we eliminate all events that represent communications
+through the channels in $C$ from the trace and from the refusals.  In
+order to deal adequately with the semantics of hiding, we need to have
+infinite sequences in our model, as suggested in~\cite{Ros98}.  We
+leave the complications of this as a future work for now.
+
+The definition of the semantics of a recursive action $\mu X @ A$ is
+standard.  We must observe, however, that the action $A$ may use $X$
+as an action and, as such, is regarded as a function from actions to
+actions.  For clarity, we refer to this action as $F(X)$.
+\begin{schema}{\lbag \mu X @ F(X) \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  \theta ProcObs(USt) \in \bigcup \{~ a: SProcess(USt) | a \subseteq
+  \lbag F(\_) \rbag^{\cal F}\gamma\ USt \limg a \rimg ~\}
+\end{schema}
+In this context, a process is represented as a set of process
+observations that satisfies the healthiness conditions.  To specify the
+set $SProcess$ of such sets, we formalise the healthiness conditions.
+
+The first healthiness condition~($\healthiness{R1}$) is already
+enforced by $ProcStateObs$, which requires $tr \prefix tr'$.  This
+guarantees that $tr' - tr$ is well-defined.  The sets of process
+observations that satisfy $\healthiness{R2}$ can be defined as
+follows.
+\begin{zed}
+  \healthiness{R2} == \{~ p: \power ProcObs(USt) | \forall po_1: p @
+  \exists po_2: p @
+  \\ %
+  \t3
+  \begin{block}
+    po_2.tr = \langle\rangle \land po_2.tr' = po_1.tr' - po_1.tr \land {}
+    \\ %
+    po_2.ref = po_1.ref \land po_2.ref' = po_1.ref' \land {}
+    \\ %
+    po_2.okay = po_1.okay \land po_2.okay' = po_1.okay' \land {}
+    \\ %
+    po_2.wait = po_1.wait \land po_2.wait' = po_1.wait' \land {}
+    \\ %
+    userStateObs\ po_2 = userStateObs\ po_1 ~\}
+  \end{block}
+\end{zed}
+This requires that the observations are independent from previous
+events:~for each observation, there is another one that is similar and
+occurs in a state where no communication has happened yet.  The
+function $userStateObs$ extracts the user state components out of a
+process observation.
+\begin{axdef}
+  userStateObs: ProcObs(USt) \fun \Delta USt
+  \where %
+  \forall ProcObs(USt) @ userStateObs\ \theta ProcObs(USt) = \theta
+  (\Delta USt)
+\end{axdef}
+We formalise the healthiness condition $\healthiness{R3}$ as shown
+below.
+\begin{zed}
+  \healthiness{R3} == \{~ p: \power ProcObs(USt) | \forall po: p @
+  po.wait \land po.okay \land before\ po = after\ po ~\}
+\end{zed}
+This requires that if the previous process has not diverged and not
+finished, then the current process does not touch the state.
+\newpage
+
+The set of reactive processes $\healthiness{R}$ is defined as the
+intersection of $\healthiness{R2}$ and $\healthiness{R3}$.
+\begin{zed}
+  \healthiness{R} == \healthiness{R2} \cap \healthiness{R3}
+\end{zed}
+Two further healthiness conditions are needed:~$\healthiness{CSP1}$
+and~$\healthiness{CSP2}$.  The first is as follows.
+\begin{zed}
+  \healthiness{CSP1} == \{~ p: \healthiness{R} | p = p \cup Q ~\}
+  \also %
+  Q == \{~ po: ProcObs(USt) | \lnot po.okay \land tr \prefix tr' ~\}
+\end{zed}
+This further restricts the reactive processes to those for which no
+restrictions are enforced if $okay$ is false; in this situation we are
+only guaranteed that the trace is extended.
+
+The healthiness condition $\healthiness{CSP2}$ is formalised as
+follows.
+\begin{zed}
+  \healthiness{CSP2} == \{~ p: \healthiness{R} | p = p \semi J ~\}
+  \also %
+  J == \{~ po: ProcObs(USt) | ( po.okay \implies po.okay' ) \land {}
+  \\ %
+  \t2
+  \begin{block}
+    fUserState\ po = iUserState\ po \land {}
+    \\ %
+    po.tr' = po.tr \land po.wait' = po.wait \land po.ref' = po.ref ~\}
+  \end{block}
+\end{zed}
+The sequential composition of sets of process observations is defined
+in terms of the composition of individual process observations.
+\begin{axdef}
+  \_ \semi\_: \power ProcObs(USt) \times \power ProcObs(USt) \fun
+  \power ProcObs(USt)
+  \where %
+  \forall p_1, p_2: \power ProcObs(USt); po_3: ProcObs(USt) @ po_3 \in
+  p_1 \semi p_2 \iff
+  \\ %
+  \t1 \exists po_1: p_1; po_2: p_2 @ po_3 = po_1\ sequence\ po_2
+\end{axdef}
+The projection functions $fUserState$ and $iUserState$ extract the
+components of the final and initial user state of a $ProcObs$.
+\begin{axdef}
+  fUserState, iUserState: ProcObs(USt) \fun USt
+  \where %
+  \forall ProcObs(USt) @
+  \\ %
+  \t1
+  \begin{block}
+    fUserState\ \theta ProcObs(USt) = \theta USt' \land \null
+    \\ %
+    iUserState\ \theta ProcObs(USt) = \theta USt
+  \end{block}
+\end{axdef}
+The $\healthiness{CSP}$ processes are reactive processes that satisfy
+$\healthiness{CSP1}$ and $\healthiness{CSP2}$.
+\begin{zed}
+  \healthiness{CSP} = \healthiness{CSP1} \cap \healthiness{CSP2}
+\end{zed}
+Finally, our processes of interest satisfy three other healthiness
+conditions.  They are given as unit laws.  The first,
+$\healthiness{CSP3}$, requires that $Skip$ is the left unit of
+sequential composition.
+\begin{zed}
+  \healthiness{CSP3} == \{~ p: \healthiness{CSP} | p = Skip \semi p ~\}
+\end{zed}
+The set of process observations $Skip$ is defined as follows.
+\begin{zed}
+  Skip == \{~ po: ProcObs(USt) |
+  \\ %
+  \t3
+  \begin{block}
+    (po.okay \land \lnot po.wait \land {}
+    \\ %
+    \t1 fUserState\ po = iUserState\ po \land po.trace' =
+    \langle\rangle \land po.okay' \land po.wait') \lor
+    \\ %
+    \lnot po.okay \lor
+    \\ %
+    (po.okay \land po.wait \land before\ po = after\ po) ~\}
+  \end{block}
+\end{zed}
+The healthiness condition $\healthiness{CSP4}$ requires $Skip$ to be
+the right unit of sequential composition.
+\begin{zed}
+  \healthiness{CSP4} == \{~ p: \healthiness{CSP} | p = p \semi Skip ~\}
+\end{zed}
+The last healthiness condition, $\healthiness{CSP5}$, requires that
+$Skip$ is the right unit of interleaving.
+\begin{zed}
+  \healthiness{CSP4} == \{~ p: \healthiness{CSP} | p = p \interleave
+  Skip ~\}
+\end{zed}
+The definition of interleaving is as follows.
+\begin{axdef}
+  \_ \interleave\_: \power ProcObs(USt) \times \power ProcObs(USt)
+  \fun \power ProcObs(USt)
+  \where %
+  \forall p_1, p_2: \power ProcObs(USt); po_3: ProcObs(USt) @ po_3 \in
+  p_1 \interleave p_2 \iff
+  \\ %
+  \t1 \exists po_1: p_1; po_2: p_2 @ po_3 = po_1 \interleave po_2
+\end{axdef}
+For individual process observations, we define interleaving as shown
+below.
+\begin{axdef}
+  \_ \interleave\_: ProcObs(USt) \cross ProcObs(USt) \fun ProcObs(USt)
+  \where %
+  \forall po_1, po_2, po_3: ProcObs(USt) |
+  \\ %
+  \t1
+  \begin{block}
+    \t1
+    \begin{block}
+      before\ po_1 = before\ po_2 = before\ po_3 \land {}
+      \\ %
+      fUserState\ po_1 = fUserState\ po_2 = fUserState\ po_3 @
+    \end{block}
+    \\ %
+    po_3 = po_1 \interleave po_2 \iff
+    \\ %
+    \t1
+    \begin{block}
+      po_3.trace' = po_1.trace' \interleave po_2.trace' \land {}
+      \\ %
+      po_3.ref' = po_1.ref' \cap po_2.ref' \land {}
+      \\ %
+      po_3.okay' = po_1.okay' \land po_2.okay' \land {}
+      \\ %
+      po_3.wait' = po_1.wait' \lor po_2.wait'
+    \end{block}
+  \end{block}
+\end{axdef}
+We use the interleaving operation on traces defined previously.
+
+The set $SProcess$ is defined as the intersection of
+$\healthiness{CSP3}$, $\healthiness{CSP4}$, and $\healthiness{CSP5}$;
+it forms a complete lattice.
+\begin{zed}
+  SProcess(USt) == \healthiness{CSP3} \cap \healthiness{CSP4} \cap
+  \healthiness{CSP5}
+\end{zed}
+
+We use the semantic function \mbox{$\lbag \_ \rbag^{\cal F}$}, which
+gives the semantics of a function on actions as a function on process
+observations.
+\begin{zed}
+  \lbag\_ \rbag^{\cal F}: ( Action \fun Action ) \pfun ChanEnv \pfun
+  SchemaName \pfun
+  \\ %
+  \t2 (ProcObs(USt) \fun ProcObs(USt))
+\end{zed}
+The function \mbox{$\lbag F(\_) \rbag^{\cal F}\gamma\ USt$} can be
+defined in terms of \mbox{$\lbag \_ \rbag^{\cal A}$} as follows.
+\begin{axdef}
+  \lbag F(\_) \rbag^{\cal F}\gamma\ USt: ProcObs(USt) \fun
+  ProcObs(USt)
+  \where %
+  \forall po: ProcObs(USt) @ \LET \theta (\lbag X \rbag^{\cal
+    A}\gamma\ USt) == po\ @
+  \\ %
+  \t1 \exists \lbag F(X) \rbag^{\cal A}\gamma\ USt @ f\ po = \theta
+  ProcObs(USt)
+\end{axdef}
+To determine \mbox{$\lbag F(X) \rbag^{\cal A}\gamma\ USt$}, we need to
+know \mbox{$\theta (\lbag X \rbag^{\cal A}\gamma\ USt)$}.  This is
+specified above as the argument given to $\lbag F(\_) \rbag^{\cal
+  F}\gamma\ USt$.
+
+By way of illustration, consider the semantics of $\mu X @ out!2 \then
+X$, for an environment $\gamma$ in which $out$ is a channel of type
+integer. The function $\lbag out!2 \then \_\rbag^{\cal F}\ \gamma\
+USt$ is as follows.
+\begin{axdef}
+  \lbag out!2 \then \_\rbag^{\cal F}\ \gamma\ USt: ProcObs(USt) \fun
+  ProcObs(USt)
+  \where %
+  \forall po: ProcObs(USt) @ \exists Output @ f~po = \theta
+  ProcObs(USt)
+\end{axdef}
+\newpage
+\noindent
+The schema $Output$ is defined according to the semantics of $out!2
+\then X$ as shown below.
+\begin{schema}{Output}
+  Normal(USt)
+  \where %
+  \exists oc: Comm(USt) | oc.accEvents? = \{ out(2) \} @
+  \\%
+  \t1
+    \theta ProcObs(USt) = (procObsC\ oc)\ sequence\ po
+\end{schema}
+The semantics of $X$, which is required in the specification of
+$Output$ is taken to be $po$.
+
+The calculation of the semantics of other recursive actions, which
+apply to $X$ operators whose semantics are given in terms of
+\mbox{$\lbag X \rbag^{\cal A}\gamma\ USt$} instead of
+\mbox{$\theta(\lbag X \rbag^{\cal A}\gamma\ USt)$}, requires more
+effort.  We need to manipulate the definition of \mbox{$\lbag F(X)
+  \rbag^{\cal A}\gamma\ USt$} to express it in terms of \mbox{$\theta
+  (\lbag X \rbag^{\cal A}\gamma\ USt)$}.
+
+A parametrised action $D @ A$ declares extra variables that can be
+used in $A$.  As for input variables, we regard them as part of the
+state, but their values cannot be changed; they are fixed by
+instantiation.  To define the semantics of $D @ A$, we define the
+state $DUSt$ as follows.
+\begin{zed}
+  DUSt(USt) \defs [~ USt; D ~]
+\end{zed}
+We also define a schema $\Delta DUSt(USt)$, which requires that the
+variables declared in $D$ are not changed.
+\begin{zed}
+  \Delta DUSt(USt) \defs [~ DUSt(USt); DUSt'(USt) | \alpha~D' =
+  \alpha~ D ~]
+\end{zed}
+We use the function $\alpha$ that extracts from a declaration the set
+of variables it introduces.  We also decorate the declaration $D$ to
+obtain a declaration that is exactly like $D$ except that it
+introduces the dashed counterparts of the variables declared in $D$.
+In Z, decorations can be applied to schemas and variables, but here we
+also decorate declarations.  Finally, we write $\alpha~D = \alpha~ D'$
+to denote the conjunction of equalities $x = x'$ for each variable $x$
+in $\alpha D$.  With these definitions, the semantics of $D @ A$ can
+be specified as follows.
+\begin{zed}
+  \lbag D @ A\rbag^{\cal A_N}\gamma\ USt \defs \lbag A\rbag^{\cal
+    A}\gamma\ DUSt(USt)
+\end{zed}
+The semantics is that of $A$ taken in the extended state.
+
+For an instantiation $A(e)$, we just have to define the initial value
+of the extra state components in the semantics of $A$ and hide them.
+\begin{zed}
+  \lbag A(e) \rbag^{\cal A_N}\gamma\ USt \defs [~ Normal(USt) \land
+  \lbag A\rbag^{\cal A_N}\gamma\ USt | \alpha D = e ~] \hide \alpha D,
+  \alpha D'
+\end{zed}
+The semantics of $A$ is a process observation involving an extended
+user state.  We assume the extra components of this state are declared
+in $D$, and so $\alpha D$ gives the set of these components.  We must
+observe that $e$ is a list of expressions and the equality stands for
+a conjunction of equalities.  The correspondence between the variables
+in $\alpha D$ and the expressions in $e$ is positional and based in
+the order of the declaration of the extra variables.  The declaration
+$D$ may not be explicit in $A(e)$ and is an important context
+information that is implicitly used in the above definition.
+
+Iterated operators are over finite sets.  They can be defined in terms
+of the basic operator and the instantiation operator in the obvious
+way.  For example, the action $\Extchoice i: T @ A(i)$ is defined as
+$A(v_1) \extchoice \ldots \extchoice A(v_n)$, where the $v_i$ are the
+values in $T$.
+
+\subsubsection{Commands}
+
+The behaviour of a specification statement $x :[~ pre, post ~]$ is
+highly dependent on whether its precondition holds or not. If it does,
+then the postcondition must be established and the operation must
+terminate successfully, but the trace is not affected and only the
+variables $x$ in the frame can be changed.
+\begin{schema}{\lbag x :[~ pre, post ~] \rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  pre \implies post \land trace' = \langle\rangle \land okay' \land
+  \lnot wait' \land \theta (USt' \setminus x') = \theta (USt \setminus
+  x)
+  \\ %
+  \lnot pre \implies \lnot okay'
+\end{schema}
+We decorate the list of variables $x$ to obtain the list of
+corresponding dashed variables.  In an abuse of notation we use $x$
+and $x'$ as sets to define the set of user state components that
+cannot be changed:~all but those in $x$.  The conjunction of
+equalities $\alpha USt' \setminus x' = \alpha USt \setminus x$
+enforces this restriction.
+
+If the precondition holds, but the postcondition cannot be
+established~(under the given circumstances), then we have an
+infeasible~(miraculous) operation.  In such a circumstance, the
+predicate of the above schema is $false$.  Therefore, the semantics of
+$x:[~ pre, post ~]$ is a partial relation.
+
+The semantics of the assignment $x := e$ is rather simple.  This
+action does not change the trace and, since we assume the expressions
+are always well-defined, it does not diverge and terminates.  Of
+course, it sets the final value of $x$ to $e$.
+\begin{schema}{\lbag x := e\rbag^{\cal A_N}\gamma\ USt}
+  Normal(USt)
+  \where %
+  trace' = \langle\rangle \land okay' \land \lnot wait' \land x' = e
+  \land \theta (USt' \setminus x') = \theta (USt \setminus x)
+\end{schema}
+If the assignment is multiple, the equality $x' = e$ actually stands
+for a conjunction where the variables of the list $x$ are equated to
+the correspond expressions of the list $e$.
+
+The semantics of the conditional is also standard.
+\begin{schema}{\lbag \circif \extchoice i @ g_i \then A_i\
+    \circfi\rbag^{\cal A_N} \gamma\ USt}
+  Normal(USt) %
+  \where %
+  (\lor i @ g_i) \implies (\lor i @ g_i \land \lbag A_i\rbag^{\cal
+    A}\gamma\ USt)
+  \\ %
+  \lnot (\lor i @ g_i) \implies \lnot okay'
+\end{schema}
+Any of the guarded actions whose guard is true can be chosen for
+execution.
+
+The semantics of variable declaration is given by existential
+quantification.
+\begin{zed}
+  \lbag \circvar\ x: T @ A\rbag^{\cal A_N}\gamma\ USt \defs [~
+  Normal(USt) | \exists x, x': T @ \lbag A\rbag^{\cal A}\gamma\
+  xUSt(USt) ~]
+\end{zed}
+The declaration of $x$ actually puts both $x$ and $x'$ into scope.
+The semantics of the action in the scope of the variable block is
+taken in the extended user state that includes $x$.  The definition of
+$xUSt(USt)$ has been presented before, in the context of the
+definition of the semantics of input communications.  In this case,
+however, we do not restrict state changes on $xUSt$, as the variable
+$x$ can be used freely in its scope.
+
+\subsection{Process expressions}
+
+A process expression combines existing processes using CSP operators.
+For the binary operators $\mathsf{op}$, except parallelism and
+interleaving, the semantics of $P\ \mathsf{op}\ Q$ can be given in
+terms of an explicit process specification.
+\begin{zed}
+  P\ \mathsf{op}\ Q = \circbegin
+  \also %
+  \t1
+  \begin{block}
+    State \defs P.State \land Q.State
+    \also %
+    P.PPar \uparrow Q.State
+    \also %
+    Q.PPar \uparrow P.State
+    \also %
+    @ P.Act\ \mathsf{op}\ Q.Act
+  \end{block}
+  \also %
+  \circend
+\end{zed}
+The schemas $P.State$ and $Q.State$ are the schemas that define the
+user state of $P$ and $Q$.  This is a piece of context information
+that is relevant to the semantics of a process.  The state of $P\
+\mathsf{op}\ Q$ conjoins the states of $P$ and $Q$.  We assume that
+name clashes are avoided through renaming.
+
+We also refer to $P.PPar$ and $Q.PPar$, which are the process
+paragraphs that compose the definitions of $P$ and $Q$, except
+$P.State$ and $Q.State$ and their main actions.  These are all
+included in $P\ \mathsf{op}\ Q$.  We must notice, however, that the
+schemas in $P.PPar$ that specify an operation on $P.State$ are not by
+themselves actions in $P\ \mathsf{op}\ Q$; we need to lift them to act
+on the extended state defined by $State$.  This is the aim of the
+operator $\uparrow$, which simply conjoins each such schema with $\Xi
+Q.State$:~actions of $P$ are not supposed to affect the state
+components that are inherited from $Q$.  Similar comments apply to the
+actions in $Q.PPar$ and we include in $P\ \mathsf{op}\ Q$ the sequence
+of process paragraphs $Q.PPar \uparrow State$.
+
+The actions $P.Act$ and $Q.Act$ are those that specify the behaviour
+of $P$ and $Q$, or rather, their main actions.  The specification of
+the action that defines the behaviour of $P\ \mathsf{op}\ Q$ combines
+the actions $P.Act$ and $Q.Act$ using $\mathsf{op}$.  We observe that
+$P.Act$~($Q.Act$) operates on the part of the user state that is due
+to $P$~($Q$) and cannot change the components that are originally part
+of the $Q$~($P$) state.  It does not refer to them directly or
+indirectly, except through schema actions which have been conjoined
+with $\Xi Q.State$~($\Xi P.State$).
+
+For parallelism and interleaving, the conjunction with $\Xi Q.State$
+and $\Xi P.State$ is not appropriate, because state restrictions and
+updates of $P.Act$ and $Q.Act$ have to be both satisfied.  If $P.Act$
+is required not to change the state components of $P$, and vice-versa,
+then their parallel composition can be inconsistent.  For this reason,
+the definitions of $P \lpar C\rpar Q$ and $P \interleave Q$ are
+similar to that given above for the other binary operators, but the
+process paragraphs of the resulting process are slightly different.
+The state and the main action are defined in the same way, but the
+other paragraphs are defined in terms of a new operator as $P.PPar
+\uparrow_{PAR} Q.State$ and $Q.PPar \uparrow_{PAR} P.State$.  The
+paragraphs of $P$ are lifted to the extended state by conjoining the
+schemas with $\Delta Q.State$; and similarly for the paragraphs of
+$Q$.  In this way, no restrictions on the extra state components are
+imposed.
+
+The semantics of a hiding expression $P \hide C$ is even simpler.
+\begin{zed}
+  P \hide C \defs \circbegin
+  \also %
+  \t1
+  \begin{block}
+    P.State
+    \also %
+    P.PPar
+    \also %
+    @ P.Act \hide C
+  \end{block}
+  \also %
+  \circend
+\end{zed}
+The process paragraphs of $P$ are included as they are; only the main
+action is modified to include the hiding.
+
+The indexed process $i: T \odot P$ implicitly declares channels
+$c\_i$, for each channel $c$ used in $P$.  Its semantics, therefore,
+affects the channel environment.
+\begin{zed}
+  \lbag i: T \odot P\rbag^{\cal P}\ \gamma\ \rho = \LET \gamma' ==
+  \{~ c: used~P @ c\_i \mapsto T \times \gamma\ c ~\} @
+  \\ %
+  \t1 %
+  \lbag i: T @ (P[c: (used~P) @ c\_i]) \rbag^{\cal P}\ (\gamma \oplus
+  \gamma')\ \rho
+\end{zed}
+The environment $\gamma'$ records the channels implicitly declared.
+The set $used~P$ includes the channels used in $P$; they can be
+determined from the definition of $P$:~if $P$ is given by a process
+expression, then it is the union of the channels used in the operand
+processes, including those that have been hidden; and if $P$ is given
+explicitly, then it contains the channels mentioned in the actions.
+Of course, renamings and indexings have to be taken into account.  For
+each channel $c$ that is used in $P$, $\gamma'$ records a channel
+$c\_i$ which communicate pairs of values:~the index and whatever value
+was communicated originally.  Therefore its type is the cartesian
+product of $T$, the type of the index, and the type of $c$.
+
+The semantics of $i: T \odot P$ is that of a parametrised process
+taken in the extended channel environment that includes $\gamma'$.
+The parameter is the index, and the process $P[c: (used~P) @ c\_i])$
+is that obtained from $P$ by changing all the references to a used
+channel $c$ by a reference to the channel $c\_i$.  Communications
+through these channels are also changed so that the index $i$ is also
+communicated.  The generalisation of this and the previous definition
+for an arbitrary indexed process $D \odot P$ whose indexes are
+declared by $D$ is lengthy, but straightforward.
+
+The semantics of instantiation is given by substitution.
+\begin{zed}
+  P(e) = P[e/i]
+\end{zed}
+The parameter of $P$ is a contextual information needed in this
+definition.  We observe that, as in CSP, substitution, when applied to
+a process name, yields the result of applying the substitution to the
+process definition.  For instance, in CSP, if we define $P$ to be $a
+\then Q$ and $Q$ to be $\mu X @ b \then X$, then $P[c/b]$ is $a \then
+(\mu X @ c \then X)$.  The iterated operators can be defined in the
+obvious way using instantiation.
+
+Renaming of channels also affects the channel environment.
+\begin{zed}
+  \lbag P[oldc := newc]\rbag^{\cal P}\ \gamma\ \rho = \LET \gamma' ==
+  \{ newc \mapsto \gamma\ oldc \} @ \lbag P[newc/oldc]\rbag^{\cal P}\
+  (\gamma \oplus \gamma')\ \rho
+\end{zed}
+The environment $\gamma'$ records the channel $newc$, whose type is
+that of $oldc$.  The semantics of $P[oldc := newc]$ is that of
+$P[newc/oldc]$ taken in the extended channel environment that includes
+$\gamma'$.
+
+The semantics of parametrisation is rather simple:~the parameters are
+regarded as loose constants.  The channel environment in the pair
+defined by $\lbag D @ P \rbag^{\cal P}\ \gamma\ \rho$ is that in
+$\lbag P\rbag^{\cal P}\ \gamma\ \rho$.  The Z specification is also
+that in $\lbag P \rbag^{\cal P}\ \gamma\ \rho$, preceded by an
+axiomatic description that introduces $D$.  The instantiation of
+parametrised processes has the same definition of instantiation of
+indexed processes:~substitution.  Again, the iterated operators have
+the straightforward definition.
+
+The semantics of a generic process $[X]P$ is given by a rewriting of
+the Z specification denoted by $P$; the channel environment is the
+same.
+\begin{zed}
+  \lbag [X]P\rbag^{\cal P}\ \gamma\ \rho = \LET Ps == \lbag
+  P\rbag^{\cal P}\ \gamma\ \rho @ (Ps.1,generic~X~Ps.2)
+\end{zed}
+The function $generic$, when applied to a~(list of) generic
+parameter(s) $X$ and to a Z specification, turns each of its
+paragraphs into a similar generic paragraph with parameter $X$.
+
+Instantiation $P[E]$ of a generic process $P$ is defined by the
+instantiation of all definitions in the Z specification corresponding
+to $P$.  Again, the channel environment is not affected.
+\begin{zed}
+  \lbag P[E]\rbag^{\cal P}\ \gamma\ \rho = \LET Ps == \lbag
+  P\rbag^{\cal P}\ \gamma\ \rho @ (Ps.1,instantiate~E~Ps.2)
+\end{zed}
+The function $instantiate$ instantiates with argument $E$ all the
+generic definitions in $Ps.2$.  The instantiated definitions are given
+fresh names, as usual.
+
+\section{Related Work} \label{section:RW}
+
+We have presented a unified language of specification, design, and
+programming that combines Z and CSP, and is suitable for refinement.
+Many approaches to the integration of Z or one of its extensions with
+a process algebra have been presented elsewhere.  Our main objective
+is not to propose yet another language, but to provide support for the
+formal development of concurrent programs.  Nevertheless, we believe
+the language presented here has some interesting characteristics of
+its own.
+
+In~\cite{Fis98}, Fischer surveys several integrations of Z with
+process algebras.  That work considers the combinations of Z with CCS
+in~\cite{Gal96,TA97}; the combinations of Z with CSP
+in~\cite{Fis97,RWW94}; and the combination of Z with
+Object-Z~\cite{CDDKRS90} in~\cite{Fis97}.  Several issues involved in
+the integration of Z with a process algebra are discussed and the
+above approaches are analysed with respect to these issues.
+
+Fischer differentiates two styles for combining Z and a process
+algebra:~syntactic and semantic.  In the former, the combination has a
+single syntax, with semantic definitions lifted from the two
+languages.  In the latter, the Z specification is identified with a
+process.
+
+We adopt the first style:~the model of \Circus\ is the unifying theory
+of programming of Hoare \& He.  All the other combinations of Z and
+CSP cited above adopt the semantic approach.  The syntactic approach
+provides a deeper integration of the notations; the disadvantage is
+that we have to define the semantics of both the Z and CSP constructs,
+but we are already using an existing semantic model.  As we express
+this model using Z, we are able use Z tools to analyse \Circus\
+specifications.
+
+Another issue is the relation between CSP events and Z operations;
+Fischer identifies three possibilities.  Firstly, there is the single
+event approach, in which there is a one-to-one correspondence between
+operations and events; this leads to abstractions where operations are
+atomic transactions.  Refinement to code must preserve this abstract
+atomicity in some way.  Secondly, there is the double event approach,
+where, in general, operations are divided into two parts:~a front-end
+involving input and a back-end involving output.  This corresponds to
+a natural way of using CSP, but a less natural way of using Z.
+Finally, there is the multiple event approach, in which there is no
+fixed connection between operations and events.
+
+In \Circus, we have adopted the multiple event approach:~there is no
+identification of operations with events.  Indeed, one can see
+operations as occurring in the background between events.  Fischer
+points out the single event approach as more abstract.  We observe,
+however, that with the multiple event approach we can both adopt a
+single event style of specification, as in our abstract buffer
+example, and consider programs where events and state changes are not
+associated.  For a refinement language this is certainly more
+adequate.  Furthermore, we do not split the input and output of
+parameters of the Z operations when we define processes.  The
+combination preserves the intuition about Z definitions.
+
+In most state-based formalisms, an operation may be given a partial
+specification, and so a meaning must be given to what happens when the
+operation is activated outside its precondition.  There are two
+obvious choices:~the operation waits, which is Fischer's blocking
+semantics; or the operation aborts, Fischer's non-blocking semantics.
+In the standard texts on Z, operations are given a non-blocking
+semantics; in \Circus, operations have the usual semantics: blocking
+is specified by guards in actions.  Therefore, we can capture both
+aspects of an operation (the enabling and the divergence conditions),
+while maintaining the usual semantics of Z operations.
+
+A further issue is related to the typing of inputs.  The Z type system
+is very simple:~types are maximal, and there are only four
+constructors (given set, powerset, cartesian product, and schema
+product); however, it is common practice to constrain components to
+range over subsets of types.  As inputs are non-blocking, then the
+activation of a Z operation with an input outside its constraint leads
+to abort; in CSP, such an input is blocked.  In \Circus, this is
+exactly what happens, with each language playing its usual r\^{o}le.
+
+Finally, regarding the issue of refinement, we observe that the major
+objective of \Circus\ is to provide a theory of refinement and an
+associated calculus.  Refinement has been studied for combinations of
+Object-Z and CSP~\cite{SD01}, but nothing in the style of a calculus
+has been proposed.
+
+In~\cite{HR84} a semantics for occam is presented in a style similar
+to that presented here:~programs are defined as predicates over traces
+and refusals, and over a state variable that plays the role of our
+$okay$ and $wait$ variables.  The subset of occam considered includes
+$Stop$, $Skip$, assignment, communication, conditional, loop,
+sequence, alternation, and variable declarations.  Even though the
+parallel construct is mentioned and laws are presented, the semantics
+for parallelism is left as an exercise.
+
+\section{Future Work} \label{section:FW}
+
+At the moment, we are working on a number of more substantial case
+studies on the use of \Circus.  We are considering an IP-packet filter
+firewall~\cite{WM99}, the steam boiler control system
+of~\cite{ABL96,Bau93,WC01d}, a smart card system for electronic
+finance~\cite{SCW00}, and a railway signalling
+application~\cite{Woo99}.
+
+The model of \Circus\ is a Z specification that can be analysed with
+almost no changes using the Z/EVES theorem prover~\cite{ZEVES00}.
+Analysing the model and its properties using Z/EVES is in our research
+agenda.  We are also building a tool that calculates the Z
+specification corresponding to a \Circus\ program, producing a
+specification that is suitable for analysis using Z/EVES.
+
+We are already considering the extension of \Circus\ to include the
+operators of Timed CSP~\cite{Dav93}.  The resulting language is
+expected to be adequate to the specification of data, behavioural, and
+timing aspects of real-time systems.  We intend to define its model by
+extending the unifying theory of programming to cover aspects of time.
+In order to solve the difficulty with the semantics of the hiding
+operator, we also plan to extend our model to allow infinite
+traces~\cite{Ros98}.
+
+Our main goal, however, is the proposal and proof of refinement laws
+for \Circus.  We want data refinement rules that allow, for instance,
+the proof that the process $CRing$ defined in
+Section~\ref{section:EARB} refines the process $Buffer$.  We also want
+rules that allows the stepwise refinement of $CRing$ to code in a
+calculational way.
+
+\section*{Acknowledgments}
+
+We would like to thank Augusto Sampaio and Adnam Sherif for many
+discussions and suggestions.  The work of Ana Cavalcanti is
+financially supported by CNPq, grant~\mbox{520763/98-0}.  Jim Woodcock
+gratefully acknowledges the support of CNPq and the University of
+Oxford for his visit to the Federal University of Pernambuco during
+July and December 2000.
+
+\bibliography{espfor}
+
+\end{document}
+
+% LocalWords:  CircusParagraph ChannelDefinition ChanSetDefinition CDeclaration
+% LocalWords:  ProcessDefinition SimpleCDeclaration Exp CSExpression PParagraph
+% LocalWords:  CSPActionExp CParameter GuardedActions FibState InitFibState bot
+% LocalWords:  InitFib OutFibState OutFib FibTwice maxbuff BufferState InputCmd
+% LocalWords:  BufferInit OutputCmd maxring RingIndex ControllerState ringsize
+% LocalWords:  InitController CacheInput StoreInput InputController NoNewCache
+% LocalWords:  StoreNewCache OutputController ControllerCycle wrt RingCell Sync
+% LocalWords:  CellState CellWrite IRingCell CRing ChanEnv ChanName cdecl cdecl
+% LocalWords:  sExp SComp sExp sdecl sdecl ProcEnv ProcName ZSpecification fst
+% LocalWords:  modelOf PD Ps Ps PROG ProcessState tr ref ProcessStateObs CPAR
+% LocalWords:  Zp tc Zp pd pd CPARL cp cp cpl cps UserState ProcObs USt SExp oc
+% LocalWords:  ProcStateObs SExp OpNormal OpDiverge CommWaiting accEvents Comm
+% LocalWords:  CommDone oc procObsC xUSt ic procObsPxP PxProcObs ioc snd tracea
+% LocalWords:  ExtChoiceWaiting ExtChoiceNotWaiting traceb refa refb okaya sync
+% LocalWords:  okayb waita waitb tracep refp SProcess po userStateObs DUSt op
+% LocalWords:  userStateObs fUserState iUserState SchemaName PPar oldc newc le
+% LocalWords:  rogram yntax haos ib ext ut rocess hannels pecifications nput CD
+% LocalWords:  uffer escription ead ontroller ingCell ellState val ing decl cd
+% LocalWords:  onstructs ecorded aragraph cd pds aragraphs ps pl serState ync
+% LocalWords:  equence ync pre ewc ldc
