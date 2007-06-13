@@ -29,12 +29,14 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.circus.util.CircusUtils;
 import net.sourceforge.czt.parser.circus.CircusKeyword;
 import net.sourceforge.czt.parser.circus.CircusToken;
+import net.sourceforge.czt.parser.util.Decorword;
 import net.sourceforge.czt.parser.z.Keyword;
 import net.sourceforge.czt.parser.z.TokenName;
 import net.sourceforge.czt.print.ast.PrintParagraph;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.circus.ast.*;
@@ -168,7 +170,7 @@ public class AstToPrintTreeVisitor
     
     if (term.getMainAction() != null) {
         list.add(CircusToken.CIRCUSACTION);
-        list.add(Keyword.SPOT);
+        list.add(new Decorword(ZString.SPOT));
         list.add(visit(term.getMainAction()));
         list.add(TokenName.NL);
     } else {
