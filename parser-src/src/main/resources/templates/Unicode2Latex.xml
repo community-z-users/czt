@@ -90,7 +90,9 @@ action code
     map.put(ZString.NEG, new LatexCommand("-", ZString.NEG, false, false));
 </add:oldz>
 <add:circus>
-    /*   */
+    /*  Add here only additional elements that have not been declared in toolkits
+     *  or in other Keyword/Token related files.
+     */
 </add:circus>
     return map;
   }
@@ -527,13 +529,13 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
 <add:circus>
-                   CIRCUSACTION, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
-                   LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+                   CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
                    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
-                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, CIRCREFINES,                   
+                   LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, 
                    
-                   CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL, CIRCRES, CIRCVRES, CIRCNAMESET,
-                   CIRCASSERTREF, CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
+                   //CIRCREFINES, CIRCDEF, CIRCCHAN, CIRCCHANFROM, CIRCCHANSET,
+                   //CIRCPROC, CIRCDO, CIRCVAR, CIRCVAL, CIRCRES, CIRCVRES, CIRCNAMESET,
+                   //CIRCASSERTREF, CIRCBEGIN, CIRCSTATE, CIRCREPINTERLEAVE, CIRCEND,
 </add:circus>
 <add:zpatt>
                    JOKER, RULE, RULELINE, PROVISO,
