@@ -355,6 +355,8 @@ parser-circus/src/test/resources/tests/circus/channel-errors.tex -text
 parser-circus/src/test/resources/tests/circus/channel2-errors.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
 parser-circus/src/test/resources/tests/circus/equals-test.tex -text
+parser-circus/src/test/resources/tests/circus/fib-multenv.tex -text
+parser-circus/src/test/resources/tests/circus/fib-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/just-main-action-stateless-bp.tex -text
 parser-circus/src/test/resources/tests/circus/just-main-action-stateless-multienv-bp.tex -text
 parser-circus/src/test/resources/tests/circus/missing-circend-errors.tex -text
