@@ -40,6 +40,10 @@
            description="Conjecture"
            unicode="&#x2500;&#xA;  &#x22A2;? PRED&#xA;&#x2514;&#xA;"
            latex="\begin{theorem}{NAME}&#xA;  \vdash? PRED&#xA;\end{theorem}&#xA;"/>
+     <item name="Proc"
+           description="Process"
+           unicode="&#x2500;&#xA;  NAME == PROC&#xA;"
+           latex="\begin{circus}&#xA;  NAME == PROC&#xA;\end{circus}&#xA;"/> 
   </row>
   <row heading="Predicates">
     <item name="&#x2200;"
