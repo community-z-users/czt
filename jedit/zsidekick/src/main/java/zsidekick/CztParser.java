@@ -1,5 +1,5 @@
 /*
- * AbstractParser.java
+ * CztParser.java
  * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
@@ -36,16 +36,21 @@ import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.z.util.TypeErrorException;
 import net.sourceforge.czt.z.ast.*;
 
-public abstract class AbstractParser
+public class CztParser
   extends SideKickParser
   implements ParsePropertiesKeys,
              PrintPropertiesKeys
 {
-  WffHighlight wffHighlight_= new WffHighlight();
+  /* Z extension (dialect). */
+  private String extension_;
+  private Markup markup_;
+  private WffHighlight wffHighlight_= new WffHighlight();
 
-  public AbstractParser(String name)
+  public CztParser(String extension, Markup markup)
   {
-    super(name);
+    super(extension + (markup == Markup.UNICODE ? "" : "latex"));
+    extension_ = extension;
+    markup_ = markup;
   }
 
   public void activate(EditPane editPane)
@@ -61,9 +66,17 @@ public abstract class AbstractParser
     editPane.getTextArea().getPainter().removeExtension(wffHighlight_);
   }
 
-  public abstract Markup getMarkup();
+  public Markup getMarkup()
+  {
+    return markup_;
+  }
 
-  public abstract SectionManager getManager();
+  public SectionManager getManager()
+  {
+    SectionManager manager = new SectionManager(extension_);
+    setParseProperties(manager);
+    return manager;
+  }
 
   public SideKickParsedData parse(Buffer buffer,
                                   DefaultErrorSource errorSource)

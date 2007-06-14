@@ -4,36 +4,36 @@
 
 <SERVICES>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="z">
-    new zsidekick.GenericParser("z",
+    new zsidekick.CztParser("z",
                                 net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="oz">
-    new zsidekick.GenericParser("oz",
+    new zsidekick.CztParser("oz",
                                 net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="circus">
-    new zsidekick.GenericParser("circus",
+    new zsidekick.CztParser("circus",
                                 net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zlatex">
-    new zsidekick.GenericParser("z",
+    new zsidekick.CztParser("z",
                                 net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="ozlatex">
-    new zsidekick.GenericParser("oz",
+    new zsidekick.CztParser("oz",
                                 net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="circuslatex">
-    new zsidekick.GenericParser("circus",
+    new zsidekick.CztParser("circus",
                                 net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
 
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zpatt">
-    new zsidekick.GenericParser("zpatt",
+    new zsidekick.CztParser("zpatt",
                                 net.sourceforge.czt.session.Markup.UNICODE);
   </SERVICE>
   <SERVICE CLASS="sidekick.SideKickParser" NAME="zpattlatex">
-    new zsidekick.GenericParser("zpatt",
+    new zsidekick.CztParser("zpatt",
                                 net.sourceforge.czt.session.Markup.LATEX);
   </SERVICE>
 </SERVICES>
