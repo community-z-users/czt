@@ -412,14 +412,10 @@ ui/src/main/resources/net/sourceforge/czt/ui/command.properties -text
 zlive/doc/design.pdf -text
 zlive/examples/calc.czt -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/EnvirUtils.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/ResultTreeToZVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSet.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatPowerSetVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatProdVisitor.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/DiscreteSetVisitor.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/PowerSetVisitor.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/ProdSetVisitor.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
