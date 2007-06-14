@@ -417,13 +417,6 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatPowerSet.jav
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatpred/FlatProd.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatPowerSetVisitor.java -text
 zlive/src/main/java/net/sourceforge/czt/animation/eval/flatvisitor/FlatProdVisitor.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/DiscreteSet.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/EvalResult.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/FuzzySet.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/FuzzySetException.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RangeSet.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/SetComp.java -text
-zlive/src/main/java/net/sourceforge/czt/animation/eval/result/UnionSet.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
