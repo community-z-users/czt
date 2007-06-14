@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sourceforge.czt.animation.eval.ExprComparator;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.NumExpr;
 
@@ -166,6 +167,14 @@ public class DiscreteSet extends EvalSet
     for (Expr e : coll)
       changed |= add(e);
     return changed;
+  }
+
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof DiscreteSetVisitor) {
+      return ((DiscreteSetVisitor<R>)visitor).visitDiscreteSet(this);
+    }
+    return super.accept(visitor);
   }
 
   @Override

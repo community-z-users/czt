@@ -27,6 +27,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZExprList;
@@ -123,6 +124,19 @@ public class ProdSet extends DefaultEvalSet
   protected void resetResult()
   {
     super.resetResult();
+  }
+
+  public List<EvalSet> getBaseSets()
+  {
+    return baseSets_;
+  }
+
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof ProdSetVisitor) {
+      return ((ProdSetVisitor<R>)visitor).visitProdSet(this);
+    }
+    return super.accept(visitor);
   }
 
   public String toString()

@@ -271,10 +271,10 @@ public abstract class EvalSet
 
   public <R> R accept(Visitor<R> visitor)
   {
-    if (visitor instanceof EvalSetVisitor)
+    if (visitor instanceof EvalSetVisitor) {
       return ((EvalSetVisitor<R>)visitor).visitEvalSet(this);
-    else
-      return null;
+    }
+    return super.accept(visitor);
   }
 
   /** Each subclass should implement a nice toString. */

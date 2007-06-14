@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -137,6 +138,19 @@ public class PowerSet extends DefaultEvalSet
   {
     super.resetResult();
     iter_ = null;
+  }
+
+  public EvalSet getBaseSet()
+  {
+    return baseset_;
+  }
+
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof PowerSetVisitor) {
+      return ((PowerSetVisitor<R>)visitor).visitPowerSet(this);
+    }
+    return super.accept(visitor);
   }
 
   public String toString()
