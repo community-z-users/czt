@@ -112,8 +112,24 @@ public class FlatTuple extends FlatPred
     return result;
   }
   
+  
   ///////////////////////// Pred methods ///////////////////////
   
+  @Override
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("(");
+    for (int i=0; i < args_.size() - 1; i++) {
+      result.append(printArg(i));
+      if (i < args_.size() - 2)
+        result.append(", ");
+    }
+    result.append(") = ");
+    result.append(printLastArg());
+    return result.toString();
+  }
+
   public <R> R accept(Visitor<R> visitor)
   {
     if (visitor instanceof FlatTupleVisitor)

@@ -40,13 +40,13 @@ public class FlatTupleTest
   extends ZTestCase
 {
   private ZName w = factory_.createZName("w");
-  
+
   private ZName l = factory_.createZName("l");
   private ZName m = factory_.createZName("m");
   private ZName n = factory_.createZName("n");
   private ZName o = factory_.createZName("o");
   private ZName p = factory_.createZName("p");
-  
+
   private ZName a = factory_.createZName("a");
   private ZName b = factory_.createZName("b");
   private ZName c = factory_.createZName("c");
@@ -64,6 +64,11 @@ public class FlatTupleTest
     tupleList.add(o);
     tupleList.add(p);
     pred = new FlatTuple(tupleList,z);
+  }
+
+  public void testToString()
+  {
+    assertEquals("(l, m, n, o, p) = z", pred.toString());
   }
 
   public void testEmpty()
@@ -153,7 +158,7 @@ public class FlatTupleTest
     Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));
     Assert.assertFalse(pred.nextEvaluation());
   }
-  
+
   public void testPartialOI()
   {
     Envir envABCDE = empty.plus(a,i10).plus(b,i11).plus(c,i12).plus(d,i13).plus(e,i14);
@@ -199,7 +204,7 @@ public class FlatTupleTest
     Assert.assertEquals("result value", i13, mode.getEnvir().lookup(o));
     Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));
     Assert.assertFalse(pred.nextEvaluation());
-    
+
     //Adding the ZName m to the envir, which is NOT compliant with its corresponding value in the tuple
     Envir envABCDEZMN = envABCDEZM.plus(n,i13);
     mode = null;
@@ -228,7 +233,7 @@ public class FlatTupleTest
     Assert.assertEquals("result value", i11, mode.getEnvir().lookup(m));
     Assert.assertEquals("result value", i13, mode.getEnvir().lookup(n));
     Assert.assertEquals("result value", i13, mode.getEnvir().lookup(o));
-    Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));    
+    Assert.assertEquals("result value", i14, mode.getEnvir().lookup(p));
   }
 }
 
