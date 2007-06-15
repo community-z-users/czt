@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.czt.animation.eval.TextUI;
 import net.sourceforge.czt.animation.eval.ZTestCase;
+import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.z.ast.Expr;
 
 /**
@@ -56,6 +58,7 @@ public class RelSetTest extends ZTestCase
       set.add(iter.next());
     }
     assertTrue(relSet.contains(set));
+    assertEquals("\\{ 1 \\} \\rel \\{ 2 , 3 \\}", latex(relSet));
   }
 
   public void testSimpleFun1()
@@ -64,6 +67,7 @@ public class RelSetTest extends ZTestCase
       new RelSet(getSet1(), getSet1(), true, true, true, true);
     assertFalse(relSet.contains(getEmptySet()));
     assertTrue(relSet.contains(set(tuple(i1, i1))));
+    assertEquals("\\{ 1 \\} \\bij \\{ 1 \\}", latex(relSet));
   }
 
   public void testSimpleFun2()
@@ -112,5 +116,10 @@ public class RelSetTest extends ZTestCase
     list.add(set(e2));
     ProdSet prod = new ProdSet(list);
     return prod.iterator().next();
+  }
+  
+  private String latex(RelSet rel)
+  {
+    return new TextUI(zlive_, null).printTerm(rel, Markup.LATEX);
   }
 }

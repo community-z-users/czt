@@ -27,9 +27,11 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.EvalException;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZExprList;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * A power set with lazy evaluation of its elements.
@@ -60,6 +62,16 @@ public class RelSet extends EvalSet
     total_ = total;
     onto_ = onto;
     injective_ = injective;
+  }
+
+  public Expr getDom()
+  {
+    return from_;
+  }
+
+  public Expr getRan()
+  {
+    return to_;
   }
 
   public boolean isEmpty()
@@ -174,15 +186,54 @@ public class RelSet extends EvalSet
     return result.toString();
   }
 
+  public static String funcNameUnicode(boolean func, boolean inj,
+      boolean tot, boolean onto)
+  {
+    String email = funcName(func, inj, tot, onto);
+    if ("<-->".equals(email))
+      return ZString.REL;
+    if ("-|->>".equals(email))
+      return ZString.PSURJ;
+    if ("-|->".equals(email))
+      return ZString.PFUN;
+    if ("-->>".equals(email))
+      return ZString.SURJ;
+    if ("-->".equals(email))
+      return ZString.FUN;
+    //if (">-|->>".equals(email))
+    //  return ZString.FINJ   is almost right, but finite-only
+    if (">-|->".equals(email))
+      return ZString.PINJ;
+    if (">-->>".equals(email))
+      return ZString.BIJ;
+    if (">-->".equals(email))
+      return ZString.INJ;
+    throw new RuntimeException("There is no unicode for "+email);
+  }
+
   /** This returns the function operator, in email markup. */
   public String funcName()
   {
     return funcName(function_, injective_, total_, onto_);
   }
 
+  /** This returns the function operator, in Unicode markup. */
+  public String funcNameUnicode()
+  {
+    return funcNameUnicode(function_, injective_, total_, onto_);
+  }
+
   public String toString()
   {
     String func = funcName(function_, injective_, total_, onto_);
     return from_.toString() + " " + func + " " + to_.toString();
+  }
+  
+  public <R> R accept(Visitor<R> visitor)
+  {
+    if (visitor instanceof RelSetVisitor) {
+      return ((RelSetVisitor<R>)visitor).visitRelSet(this);
+    }
+    return super.accept(visitor);
   }
 }

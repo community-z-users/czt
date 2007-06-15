@@ -23,27 +23,74 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.result.*;
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.ZString;
 
 public class ResultTreeToZVisitor
-  implements DiscreteSetVisitor<Term>,
+  implements TermVisitor<Term>,
+             EvalSetVisitor<Term>,
 	     PowerSetVisitor<Term>,
-	     ProdSetVisitor<Term>
+             ProdSetVisitor<Term>,
+             RelSetVisitor<Term>
 {
   private Factory factory_ = new Factory();
+  
+  /** Stop evaluating elements of a set after this many. */
+  private static int evalSetSize = -1;  // infinity
+  
+  public ResultTreeToZVisitor()
+  {
+    VisitorUtils.checkVisitorRules(this);
+  }
+
+  public static int getEvalSetSize()
+  {
+    return evalSetSize;
+  }
+
+  /** Set the maximum number of set elements that the printer
+   *  will try to display.  If the set contains more elements
+   *  that this number, then '...' will be printed for the remaining
+   *  elements.  A value of -1 is interpreted as meaning 'infinite'.
+   * @param size
+   */
+  public static void setEvalSetSize(int size)
+  {
+    evalSetSize = size;
+  }
+
+  /** A convenience version of setEvalSetSize that takes a string parameter. */
+  public static void setEvalSetSize(String sizeString)
+  {
+    evalSetSize = Integer.parseInt(sizeString);
+  }
+
+  /** Returns a name that represents an unknown number of elements. */
+  protected Expr etc()
+  {
+    return factory_.createRefExpr(factory_.createZName("..."));
+  }
 
   public Term visitTerm(Term term)
   {
     return VisitorUtils.visitTerm(this, term, false);
   }
 
-  public Term visitDiscreteSet(DiscreteSet discreteSet)
+  public Term visitEvalSet(EvalSet evalSet)
   {
     ZExprList elements = factory_.createZExprList();
-    for (Iterator<Expr> iter = discreteSet.iterator(); iter.hasNext();) {
+    Iterator<Expr> iter = evalSet.iterator();
+    int count = 0;
+    while (iter.hasNext() && count != evalSetSize) {
       elements.add((Expr) visit(iter.next()));
+      count++;
+    }
+    if (iter.hasNext()) {
+      // too many to evaluate, so show that there are still more to come...
+      elements.add(etc());
     }
     return factory_.createSetExpr(elements);
   }
@@ -61,6 +108,22 @@ public class ResultTreeToZVisitor
       baseSets.add((Expr) visit(evalSet));
     }
     return factory_.createProdExpr(baseSets);
+  }
+
+  /** We do not attempt to enumerate function spaces,
+   *  since this is rarely useful -- they are usually too big,
+   *  and they are usually used for membership tests.
+   *  Instead, this returns expressions like: domain op range, 
+   *  where op is one of the function space operators.
+   */
+  public Term visitRelSet(RelSet relSet)
+  {
+    String func = relSet.funcNameUnicode();
+    Name funcName = factory_.createZName(ZString.ARG_TOK+func+ZString.ARG_TOK);
+    ZExprList args = factory_.createZExprList();
+    args.add( (Expr) visit(relSet.getDom()));
+    args.add( (Expr) visit(relSet.getRan()));
+    return factory_.createRefExpr(funcName, args, Boolean.TRUE);
   }
 
   private Term visit(Term t)

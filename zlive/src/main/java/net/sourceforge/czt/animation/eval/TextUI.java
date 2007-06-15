@@ -425,6 +425,7 @@ public class TextUI {
     out.println("givensetsize = " + zlive_.getGivenSetSize());
     out.println("numitersize  = " + RangeSet.getNumIterSize());
     out.println("searchsize   = " + FlatPredList.getSearchSize());
+    out.println("printsetsize  = " + ResultTreeToZVisitor.getEvalSetSize());
   }
 
   /** Set one of the ZLive settings to the given value. */
@@ -446,6 +447,9 @@ public class TextUI {
     else if ("searchsize".equals(name)) {
         FlatPredList.setSearchSize(value);
       }
+    else if ("printsetsize".equals(name)) {
+      ResultTreeToZVisitor.setEvalSetSize(value);
+    }
     else {
       output_.println("Unknown setting: " + name);
     }
@@ -458,8 +462,8 @@ public class TextUI {
     out.println("load file.tex     -- Read a Z specification into ZLive");
     out.println("eval <expr>       -- Evaluate an expression");
     out.println("evalp <pred>      -- Evaluate a predicate (synonym for eval)");
-    out.println("why               -- Print out the internal code of the last command");
-    out.println("set               -- Print out all settings");
+    out.println("why               -- Show the internal code of the last command");
+    out.println("set               -- Show all current settings");
     out.println("set <var> <value> -- Sets <var> to <value>.");
     out.println("show              -- Show name & type of defns in current section");
     out.println("version           -- Display the version of ZLive");
@@ -467,7 +471,16 @@ public class TextUI {
     out.println("conjectures       -- Evaluate all conjectures in the current section");
     out.println("reset             -- Remove all loaded specifications");
     out.println("quit              -- Exit the ZLive program");
+    out.println("  unfold term     -- Show term after initial unfolding (debug)");
+    out.println("  apply rule expr -- Try to rewrite expr using rule (debug)");
     out.println();
+  }
+
+  public String printTerm(Term term, Markup markup)
+  {
+    StringWriter stringWriter = new StringWriter();
+    printTerm(new PrintWriter(stringWriter), term, markup);
+    return stringWriter.toString();
   }
 
   /** Prints an evaluated expression as a standard text string. 
@@ -479,61 +492,29 @@ public class TextUI {
     writer.flush();
   }
 
-  /** Writes an evaluated expression as a standard text string. 
+  /** Writes an evaluated expression as LaTeX or Unicode.
+   *  This converts most ZLive-specific terms into standard Z terms
+   *  then uses the usual print visitors. 
    */
-  public void printTerm(PrintWriter out, Term term, Markup markup)
+  public void printTerm(PrintWriter out, Term term0, Markup markup)
   {
-    if (term instanceof NumExpr) {
-      NumExpr num = (NumExpr) term;
-      ZNumeral znum = (ZNumeral) num.getNumeral();
-      out.print(znum.getValue());
-    }
-    else if (term instanceof GivenValue) {
-      out.print(((GivenValue)term).getValue());
-    }
-    else if (term instanceof FlatGivenSet) {
-      out.print(((FlatGivenSet)term).getName());
-    }
-    else if (term instanceof EvalSet) {
-      EvalSet set = (EvalSet) term;
-      out.print("{ ");
-      Iterator<Expr> i = set.iterator();
-      while (i.hasNext()) {
-        printTerm(out, (Expr) i.next(), markup);
-        if (i.hasNext())
-          out.print(", ");
-      }
-      out.print(" }");
-    }
-    else {
+    try {
+      Term term = term0.accept(new ResultTreeToZVisitor());
       if (Markup.LATEX.equals(markup)) {
-        try {
-          PrintUtils.printLatex(term, out, zlive_.getSectionManager(),
-                                zlive_.getCurrentSection());
-          out.flush();
-          return;
-        }
-        catch (Exception e) {
-          e.printStackTrace(System.err);
-        }
+        PrintUtils.printLatex(term, out, 
+            zlive_.getSectionManager(),
+            zlive_.getCurrentSection());
       }
-      try {
-        PrintUtils.printUnicode(term, out, zlive_.getSectionManager());
-        out.flush();
-        return;
+      else {
+        PrintUtils.printUnicode(term, out, 
+            zlive_.getSectionManager(),
+            zlive_.getCurrentSection());
       }
-      catch (Exception e) {
-        e.printStackTrace(System.err);
-      }
-      out.print(term);
+    }
+    catch (Exception e) {
+      out.print("Error trying to print: " + term0);
+      e.printStackTrace(System.err);
     }
     out.flush();
-  }
-
-  public String printTerm(Term term, Markup markup)
-  {
-    StringWriter stringWriter = new StringWriter();
-    printTerm(new PrintWriter(stringWriter), term, markup);
-    return stringWriter.toString();
   }
 }
