@@ -17,7 +17,7 @@
       placeholders for expressions, predicates, declaration lists etc.,
       plus two new kinds of paragraphs: Jokers associates names with
       a particular kind of joker AST term, and Rule defines a
-      proof rule (with one conclusion and possible several antecedents).
+      proof rule (with one conclusion and possible several premisses).
 
       $Id$
       
@@ -91,7 +91,7 @@
     <xs:annotation>
       <xs:documentation>
         This is a proof/transformation rule with one conclusion sequent
-        and optionally, several antecedent sequents.  
+        and optionally, several premiss sequents.  
         Each sequent has the form Context |- Predicate.
       </xs:documentation>
     </xs:annotation>
@@ -235,7 +235,7 @@
           <xs:element ref="P:SequentList">
             <xs:annotation>
               <xs:appinfo>
-                <jaxb:property name="Antecedents"
+                <jaxb:property name="Premisses"
                   generateElementProperty="true"/>
               </xs:appinfo>
             </xs:annotation>

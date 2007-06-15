@@ -291,7 +291,7 @@ public class TextUI {
                 if (proveresult)
                   output_.println(zlive_.printTerm(ProverUtils.removeJoker(joker.boundTo())));                 
                 else
-                  output_.println("Could not prove antecedent "+proveresult);
+                  output_.println("Could not prove premiss "+proveresult);
               }
               else {
                 output_.println("Cannot apply rule " + parts[0] +

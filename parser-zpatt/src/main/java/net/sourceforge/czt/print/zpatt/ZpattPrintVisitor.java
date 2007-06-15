@@ -149,7 +149,7 @@ public class ZpattPrintVisitor
   {
     printDecorword(ZPattString.RULE);
     printDecorword(rule.getName());
-    visit(rule.getAntecedents());
+    visit(rule.getPremisses());
     printDecorword(ZPattString.RULELINE);
     visit(rule.getSequent());
     return null;

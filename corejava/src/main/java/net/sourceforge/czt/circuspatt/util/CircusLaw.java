@@ -50,7 +50,7 @@ public final class CircusLaw extends RuleImpl {
             throw new IllegalArgumentException("Invalid Rule for Circus law.");
         setSequent(rule.getSequent());
         setName(rule.getName());
-        setAntecedents(rule.getAntecedents());        
+        setPremisses(rule.getPremisses());        
         getAnns().addAll(rule.getAnns());
     }
     
@@ -120,7 +120,7 @@ public final class CircusLaw extends RuleImpl {
      * present to some other tool or to the user.
      */
     public SequentList getProvisoos() {
-        return getAntecedents();
+        return getPremisses();
     }
 }
 

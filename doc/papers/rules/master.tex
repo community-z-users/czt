@@ -133,7 +133,7 @@ ProofPower\footnote{See the ProofPower web site,
 similar transformation commands as Z/EVES, but with a much larger set of
 rewriting tactics, with a variety of behaviour.  It is also possible to
 prove derived inference rules, which can have similar expressiveness as the
-ZedRules of this paper (with antecedents, jokers etc.).  However, such
+ZedRules of this paper (with premisses, jokers etc.).  However, such
 rules are expressed in the proof notation of ProofPower (ML and HOL),
 rather than in Z syntax.
 
@@ -161,8 +161,8 @@ specific to CZT and could be adopted by other Z tools.
 
 Each rule is introduced with the keyword \emph{rule} and a unique name for
 the rule.  It has a single conclusion, written below a line, and zero or
-more antecedents, written above the line.  The syntax of consequents and
-antecedents is that of Standard Z predicates extended with jokers.
+more premisses, written above the line.  The syntax of consequents and
+premisses is that of Standard Z predicates extended with jokers.
 
 For example, the \emph{Funct} rule from the $\V$
 logic~\cite{brien:calculus-schemas-z00} might be written as follows:
@@ -192,8 +192,8 @@ meta level operator, which we write as $x \notfreein E$.  To reason about Z
 in a convenient way, it is also useful to be able to check properties of
 signatures, distinguish between the different kinds of decorations on
 names, etc.  The ZedRules notation provides a variety of provisos to
-support this kind of reasoning.  Some of the antecedents of a rule can be
-provisos.  They are distinguished from normal antecedents by a leading
+support this kind of reasoning.  Some of the premisses of a rule can be
+provisos.  They are distinguished from normal premisses by a leading
 $\proviso$ character (U+25B8), for example $\proviso x \notfreein E$.
 
 It is also necessary to declare which names are metavariables
@@ -315,7 +315,7 @@ of rules into code).
 
 If the provisos of a well-typed rule all evaluate to $PASS$, then the
 application of that rule is valid if and only if the conjunction of
-its other antecedents implies its consequent.  Note that the validity
+its other premisses implies its consequent.  Note that the validity
 of a rule depends on the context in which it is applied, and so
 responsibility for ensuring that a rule is valid is shared by the
 author and the user of a rule.  Proof tools are responsible for
@@ -359,7 +359,7 @@ reasons:
 The interactive prover shown in Figure~\ref{fig:cztprover} displays a
 proof in tree form.  Each node is labelled with a subgoal.  If a rule
 has been applied to a node, it can have children (instantiations of
-the antecedents of the rule).  An icon indicates whether a node has
+the premisses of the rule).  An icon indicates whether a node has
 been proven (\ding{52}) or still needs to be proven ({\bf ?}).
 
 The user can manipulate the proof tree by applying rules, evaluating
@@ -402,7 +402,7 @@ Given a predicate, it tries to apply the rules in the order they
 appear in the Z specification.  If the conclusion of a rule can be
 unified with the predicate, the resulting joker instantiations are
 recorded and a sequence of new subgoals is created from the
-antecedents of the rule (taking the joker instantiations into account)
+premisses of the rule (taking the joker instantiations into account)
 and attempted to be proven next (in the order provided by the rule).
 If proving the new subgoals fails, the other rules are tried instead.
 To discharge a proviso, code for checking the predicate is executed.
@@ -426,8 +426,8 @@ using a given set of rewrite rules.  A rewrite rule is a rule whose
 conclusion is of the form $t1~r~t2$, where the left side $t1$ must
 match the term to be rewritten, the right side $t2$ represents the
 result of the transformation, and $r$ is some equivalence relation.
-Note that rewrite rules may have antecedents, so applying such rewrite
-rules requires proving any antecedent predicates and provisos --- the
+Note that rewrite rules may have premisses, so applying such rewrite
+rules requires proving any premiss predicates and provisos --- the
 latter task is done using the prover described in
 section~\ref{sec:prover}.
 
@@ -574,7 +574,7 @@ are only carrier sets).
 
 The TopLevel rule is an equality rewrite rule for expressions.  The
 type proviso ensures that it is applicable only when $E$ is a schema
-expression.  The last antecedent uses the $\sexprUnfoldsTo$ rules in
+expression.  The last premiss uses the $\sexprUnfoldsTo$ rules in
 this section to rewrite $E$ to $[D | P]$.
 
 \begin{zedrule}{TopLevel}
@@ -870,9 +870,9 @@ proposals for Z logics), since they are rather different and it would
 be interesting to compare them in a common framework.  For example,
 substitution is a meta-level operation in $\Zc$ but is defined within
 the object logic of $\V$.  To support richer logics such as these, it
-would be necessary to generalise antecedents into sequents that can
+would be necessary to generalise premisses into sequents that can
 specify a different context to that of the conclusion.  For example,
-an antecedent such as $x:T \vdash P$ would allow the proof of $P$ to
+a premiss such as $x:T \vdash P$ would allow the proof of $P$ to
 proceed in an extended context where the new variable $x$ is declared
 and has type $T$.  This is similar to the common sequent calculus
 style of proof~\cite{girard:proofs-types90}.

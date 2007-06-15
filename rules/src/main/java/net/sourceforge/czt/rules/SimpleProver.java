@@ -154,7 +154,7 @@ public class SimpleProver
             else {
               undo(sequent);
               message = "Undid rule " + rulePara.getName() + "." + id
-                + " because antecedent " + problem + " failed";
+                + " because premiss " + problem + " failed";
               getLogger().fine(message);
             }
           }
@@ -302,7 +302,7 @@ public class SimpleProver
       List<Binding> bindingList = new ArrayList<Binding>();
       bindingList.addAll(bindings);
       RuleAppl ruleAppl = factory.createRuleAppl(bindingList,
-                                                 rule.getAntecedents(),
+                                                 rule.getPremisses(),
                                                  rule.getName());
       sequent.getAnns().add(ruleAppl);
       return true;
@@ -381,7 +381,7 @@ public class SimpleProver
         List<Binding> bindingList = new ArrayList<Binding>();
         bindingList.addAll(bindings);
         Deduction deduction = factory.createRuleAppl(bindingList,
-                                                     rule.getAntecedents(),
+                                                     rule.getPremisses(),
                                                      rule.getName());
         sequent.getAnns().add(deduction);
         return true;

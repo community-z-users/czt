@@ -47,7 +47,7 @@ The goals of this proposal are:
 \begin{enumerate}
 \item to provide a high-level notation for Z transformations,
   by allowing rules to be written in Z syntax as much as possible.
-  Each rule has a single conclusion and possibly several antecedents,
+  Each rule has a single conclusion and possibly several premisses,
   so is a horn clause.  Thus we have a high-level Prolog-like notation
   (but with Z syntax) for defining Z transformations and automatic proofs.
   This should be powerful enough to define all the schema
@@ -176,9 +176,9 @@ It is not completely clear to me exactly what we need to
 allow in the left hand side of sequents for the $Z_C$ and $\V$
 logics.  I propose that we initially leave the conclusion context implicit
 in all rules and simply list any predicates and typing facts that
-are \emph{added} in the antecedent sequents.  This means that the
+are \emph{added} in the premiss sequents.  This means that the
 left hand side of a conclusion sequent is always empty, while the
-left hand side of each antecedent sequent can be either empty or
+left hand side of each premiss sequent can be either empty or
 a comma-separated sequence of predicates and typing facts (Var:Type).
 
 
@@ -364,7 +364,7 @@ or U+25B8 in Unicode) to improve readability and avoid syntactic ambiguity.
   \textbf{Note: this is the one that I am a little undecided about.
   This `search for assumptions' style is the same style of sequent
   calculus that the Ergo prover used, and means that the conclusion
-  sequent is always implicit and simply extended by the antecedents.
+  sequent is always implicit and simply extended by the premisses.
   But a more traditional alternative (used partially by $\V$)
   is to allow the conclusion
   sequent to match predicates or paragraphs in the context,
@@ -411,10 +411,10 @@ Here are some notes and discussion points about the syntax of rules.
 \begin{itemize}
 \item 
   %The $\Context \vdash$ prefixes of all the sequents can be omitted 
-  %in rules where it is the same in all antecedents as in the conclusion.
-  If there are no antecedents, the horizontal line (\verb!\derives!)
+  %in rules where it is the same in all premisses as in the conclusion.
+  If there are no premisses, the horizontal line (\verb!\derives!)
   must be omitted.
-\item Contexts can only appear in antecedents and are a comma-separated
+\item Contexts can only appear in premisses and are a comma-separated
   list of Z paragraphs.  They are usually empty, in which case the
   turnstile must be omitted too.  This means that the context is
   unchanged (i.e., the same as the context of the conclusion).
@@ -422,13 +422,13 @@ Here are some notes and discussion points about the syntax of rules.
   ($\V$ uses $|$ to suggest that the left hand side adds variables
   and the right hand side is in the scope of those variables.  This
   is nice, but comma is more traditional).
-\item Antecedents are separated by either semicolons or newlines
-  -- using semicolons allows one to put several antecedents on
+\item Premisses are separated by either semicolons or newlines
+  -- using semicolons allows one to put several premisses on
   one line, whereas using newlines puts them on separate lines.
   Note that semicolons and newlines are normally allowed \emph{within}
   predicates in Z, but this will not be allowed within rules 
   -- explicit conjunction $\land$ must be used instead.  
-  The predicate conclusion of each antecedent 
+  The predicate conclusion of each premiss 
   will be parsed using the `term' production of our Z grammar, which
   has a tighter precedence than semicolons or newlines.
 \end{itemize}
@@ -500,18 +500,18 @@ jokerPara ::= JOKER name nameList END ;
 /* CZT proof rules */
 rulePara ::=
         RULE name
-            optAntecedents
+            optPremisses
             conclusion
             END
         ;
 
-optAntecedents ::=
-        antecedents RULELINE
+optPremisses ::=
+        premisses RULELINE
         | /*empty*/
         ;
 
-antecedents ::=
-        antecedents sep anySequent
+premisses ::=
+        premisses sep anySequent
         | anySequent
         ;
 
@@ -537,11 +537,11 @@ provisoSequent ::=
 /* Left hand side of a sequent is a comma-separated list
    of predicates and typing facts.
 */
-sequentLHS ::= sequentLHS COMMA antecedent
-        | antecedent
+sequentLHS ::= sequentLHS COMMA premiss
+        | premiss
         ;
 
-antecedent ::= predicate
+premiss ::= predicate
         | name COLON baseType
         ;
 
@@ -626,7 +626,7 @@ for rewriting subtraction into addition of a negated number.
 A typical well-formedness condition on simple rewrite rules like this
 is that all jokers appearing in the right hand side must also
 appear in the left hand side and the conclusion of the rule
-must be an equality.  For rules that contain antecedents, more 
+must be an equality.  For rules that contain premisses, more 
 sophisticated well-formedness conditions could be designed. 
 Such conditions could be checked by the
 Java methods that process and apply the rewrite rules (via a mode
@@ -1012,7 +1012,7 @@ interface Deduction
     /** This rule/engine is correctly applied to the conclusion. */
     boolean isValid();
 
-    /** The number of child sequents (antecedents) of this rule.
+    /** The number of child sequents (premisses) of this rule.
         Note that this may change after each call to next().
       */
     //@ requires isValid();

@@ -157,7 +157,7 @@ unification are undone correctly.
 \end{zed}
 
 This conjecture tests that rules are undone correctly when their
-antecedents fail (because normaliseConstDecl42 will fail, then
+premisses fail (because normaliseConstDecl42 will fail, then
 normaliseConstDecl will succeed).
 \begin{zed}
   \vdash?~ [ x==42 | true ] \unfoldsTo [ x:\{42\} | true ]

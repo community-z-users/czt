@@ -2002,9 +2002,9 @@ non terminal List&lt;Sequent&gt;
     sequentLHS;
 
 non terminal SequentList
-    antecedents;
+    premisses;
 
-non terminal Sequent antecedent;
+non terminal Sequent premiss;
 
 non terminal Sequent conclusion;
 
@@ -6910,7 +6910,7 @@ jokerPara ::=
         ;
 
 rulePara ::=
-        RULE:r DECORWORD:dw antecedents:a RULELINE conclusion:c END:end
+        RULE:r DECORWORD:dw premisses:a RULELINE conclusion:c END:end
         {:
            RESULT = factory_.createRule(c, dw.getName(), a);
            addLocAnn(RESULT, getLocation(r, end));
@@ -6918,8 +6918,8 @@ rulePara ::=
         |
         RULE:r DECORWORD:dw conclusion:c END:end
         {:
-           SequentList antecedents = factory_.createSequentList();
-           RESULT = factory_.createRule(c, dw.getName(), antecedents);
+           SequentList premisses = factory_.createSequentList();
+           RESULT = factory_.createRule(c, dw.getName(), premisses);
            addLocAnn(RESULT, getLocation(r, end));
         :}
         ;
@@ -6943,14 +6943,14 @@ jokerList ::=
        {: RESULT = factory_.list(dw.getName()); :}
        ;
 
-antecedents ::=
+premisses ::=
         sequent:s
         {:
            RESULT = factory_.createSequentList();
            RESULT.add(s);
         :}
         |
-        antecedents:a NL sequent:s
+        premisses:a NL sequent:s
         {:
            a.add(s);
            RESULT = a;
@@ -6989,19 +6989,19 @@ predSequent ::=
         ;
 
 sequentLHS ::=
-        sequentLHS:slhs COMMA antecedent:a
+        sequentLHS:slhs COMMA premiss:a
         {:
            slhs.add(a);
            RESULT = slhs;
         :}
         |
-        antecedent:a
+        premiss:a
         {:
            RESULT = factory_.list(a);
         :}
         ;
 
-antecedent ::=
+premiss ::=
         term:t
         {:
            SequentContext sc = factory_.createSequentContext();
