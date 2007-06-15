@@ -362,7 +362,6 @@ public class ZLive
 
   /** Evaluate a schema with some given inputs/output.
    *  This calls evalExpr(exists binding @ schema).
-   *  The expressions in the BindExpr must be type checked.
    *  @param expr  A net.sourceforge.czt.z.ast.Pred object.
    *  @return      An instance of EvalSet.
   */
@@ -372,7 +371,8 @@ public class ZLive
     String currSect = getCurrentSection();
     Key key = new Key(currSect, DefinitionTable.class);
     DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
-    SchText schText = factory_.createZSchText(args.getZDeclList(), factory_.createTruePred());
+    SchText schText = factory_.createZSchText(args.getZDeclList(), 
+        factory_.createTruePred());
     Expr schema = table.lookup(schemaName).getExpr();
     if (schema == null) {
       CztException ex =new CztException("Cannot find schema: "+schemaName);
