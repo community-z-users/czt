@@ -2548,8 +2548,7 @@ parentList ::=
 paragraphList ::= 
         paragraphList:pl boxedParagraph:p
         {:
-           if (p != null) {
-             pl.add(p);
+           if (p != null) {             
              <add:circus>                 
              // for boxed paragraphs for basic circus process added
              // across multiple circus LaTeX environments
@@ -2577,15 +2576,21 @@ paragraphList ::=
                     parser.report_error(CircusParseMessage.MSG_INVALID_INNER_PROCESS_PARA,
                         new Object[] { p.getClass().getSimpleName(), loc }, loc);
                 }
-             }
-             </add:circus>
+             } 
+             // Only add to the list when not within a basic process 
+             else              
+             </add:circus>             
+                pl.add(p);
            }
            RESULT = pl;
         :}
         |
         paragraphList:pl unboxedParagraphList:upl
         {:
-           pl.addAll(upl);
+           <add:circus>
+           if (!parserState_.isWithinMultipleEnvBasicProcessScope())
+           </add:circus>
+              pl.addAll(upl);
            RESULT = pl;
         :}
 <add:circus>                
@@ -2603,8 +2608,12 @@ paragraphList ::=
 </add:circus>                
         |
         paragraphList:pl narrParagraph:np
-        {:
-           pl.add(np);
+        {:           
+           <add:circus>
+           // If not within a basic process keep the narr para at section level
+           if (!parserState_.isWithinMultipleEnvBasicProcessScope())
+           </add:circus>
+              pl.add(np);
            RESULT = pl;
         :}
         |
@@ -2653,6 +2662,14 @@ narrParagraph ::=
         {:
            RESULT = factory_.createNarrPara(toStringList(nwl));
            addLocAnn(RESULT, getLocation(nwl));
+           <add:circus>           
+           // If within a basic process keep the narr para within it.           
+           if (parserState_.isWithinMultipleEnvBasicProcessScope()) {
+              // raise a scoping warning if needed                          
+              addBasicProcessScopePostCheckFor("narrative paragraph", getLocation(nwl));              
+              parserState_.addLocallyDeclPara(RESULT);
+           }
+           </add:circus>
         :}
         ;
 
@@ -2760,7 +2777,7 @@ unboxedParagraphItem ::=
         optFormalParameters:ofp CONJECTURE predicate:p
         {:
            RESULT = factory_.createConjPara(ofp, p);
-           addLocAnn(RESULT, getLocation(ofpleft, ofpright));
+           addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
         :}
         |
         operatorTemplate:ot
@@ -3294,6 +3311,20 @@ circusInnerProcPara ::=
            addBasicProcessScopePostCheckFor("action refinement paragraph", getLocation(rp));
            parserState_.addLocallyDeclPara(RESULT);           
         :}
+        /*
+        |
+        // This production seems to never occur since paragraphList at the 
+        // section level always captures it first. Anyway, both places are 
+        // covered. Perhaps we could remove this production later.        
+        narrParagraph:np
+        {:
+           System.out.println("KEEP-PRODUCTION-?");
+           RESULT = np;
+           // raise a scoping warning if needed
+           addBasicProcessScopePostCheckFor("narrative paragraph @ circusInnerProcPara", getLocation(np));
+           parserState_.addLocallyDeclPara(RESULT);
+        :}
+        */
         ;        
         
 /// Circus declaration list (no opName) ////////////////////////////////
@@ -3522,7 +3553,7 @@ channelSet ::=
         {:          
            Expr eValid = validateChannelSetExpr(e);
            RESULT = factory_.createCircusChannelSet(eValid);
-           addLocAnn(RESULT, getLocation(eleft, eright));
+           addLocAnn(RESULT, getLocation(e));
         :}
         ;
       
@@ -3693,7 +3724,7 @@ paramProcess ::=
         circusParamDeclList:dp SPOT:sp processDesc:p
         {:
             RESULT = factory_.createParamProcess(p, dp);
-            addLocAnn(RESULT, getLocation(dpleft, dpright));
+            addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         |
         /* Replicated processes productions in precendence order */
@@ -3800,7 +3831,7 @@ indexedProcess ::=
         circusParamDeclList:dp CIRCINDEX:ci processDesc:p
         {: 
             RESULT = factory_.createIndexedProcess(p, dp);
-            addLocAnn(RESULT, getLocation(dpleft, dpright));
+            addLocAnn(RESULT, getLocation(getLocation(dpleft, dpright), getLocation(p)));
         :}
         /* Indexed processes productions in precendence order */
         |         
@@ -3956,7 +3987,7 @@ processCall ::=
             /* The CallKind is Param and the generic actuals are empty */
             /* RefExpr: mixfix = false, explicit = false */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ap, CallKind.Param);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Genertic parameterised process call with instantiations */
@@ -3965,7 +3996,7 @@ processCall ::=
             /* The CallKind is Param and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
               createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ap, CallKind.Param);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Nongeneric indexed process call with instantiations */
@@ -3973,7 +4004,7 @@ processCall ::=
         {:
             /* The CallKind is Index and the generic actuals are empty */            
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)), ai, CallKind.Index);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Generic indexed process call with instantiations */
@@ -3982,7 +4013,7 @@ processCall ::=
             /* The CallKind is Index and both generic actuals and indexes are not null */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
               createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), ai, CallKind.Index);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |        
         /* Generic parameterless process call with instantiation */
@@ -3992,7 +4023,7 @@ processCall ::=
             RESULT = factory_.createCallProcess(factory_.createRefExpr(
               createZName(dw), ga, Boolean.FALSE, Boolean.TRUE), 
               factory_.createZExprList(), CallKind.Param);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |        
         /* Nongeneric parameterless process call */
@@ -4001,7 +4032,7 @@ processCall ::=
             /* The CallKind is irrelevant and both generic actuals and parameters are empty */
             RESULT = factory_.createCallProcess(factory_.createRefExpr(createZName(dw)),
                 factory_.createZExprList(), CallKind.Param);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         ;
         
@@ -4315,7 +4346,7 @@ circusProcessState ::=
            addLocAnn(st, getLocation(n, e));
            
            // no generic arguments for state schema
-           LocInfo loc = getLocation(getLocation(csleft, csright), e);
+           LocInfo loc = getLocation(n, e);
            ZNameList zdnl = factory_.createZNameList();
            RESULT = factory_.createAxPara(zdnl, st, Box.OmitBox);
            addLocAnn(RESULT, loc);
@@ -4335,13 +4366,13 @@ circusProcessState ::=
         /* On-the-fly state schema as a SchExprAction */
         CIRCSTATE:cs expression:e
         {:             
-           Name dn = parserState_.createDefaultProcessStateName(getLocation(csleft, csright));           
+           LocInfo loc = getLocation(e);
+           Name dn = parserState_.createDefaultProcessStateName(loc);
           
            // Add it as an implicitly declared paragraph
            SchExprAction sa = factory_.createSchExprAction(e);           
-           addLocAnn(sa, getLocation(dn, e));
-           ActionPara ap = factory_.createActionPara(dn, sa);
-           LocInfo loc = getLocation(cs, e);
+           addLocAnn(sa, loc);
+           ActionPara ap = factory_.createActionPara(dn, sa);           
            addLocAnn(ap, loc);
            
            // add CircusStateAnn to paragraph. assumes there is LocInfo in RESULT
@@ -4456,7 +4487,7 @@ paramAction ::=
         circusParamDeclList:cp SPOT circusAction:pa
         {:
             RESULT = factory_.createParamAction(pa, cp);
-            addLocAnn(RESULT, getLocation(cpleft, cpright));
+            addLocAnn(RESULT, getLocation(getLocation(cpleft, cpright), getLocation(pa)));
         :}
         |
         /* Replicated action productions in precendence order */
@@ -4650,14 +4681,14 @@ actionCall ::=
         DECORWORD:dw actualParameters:ap 
         {:            
             RESULT = factory_.createCallAction(createZName(dw), ap);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :} 
         | 
         /* Action call */
         DECORWORD:dw 
         {:
             RESULT = factory_.createCallAction(createZName(dw), factory_.createZExprList());
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :} 
         ;
         
@@ -4693,7 +4724,7 @@ communication ::=
             /* RefExpr: mixfix=false, explicit=false */
             RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw)), 
                 factory_.createCircusFieldList(ocf), retrieveCommKind(ocf), CircusUtils.DEFAULT_MULTISYNCH);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         |
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
@@ -4702,7 +4733,7 @@ communication ::=
             /* RefExpr: mixfix=false, explicit=true */
             RESULT = factory_.createCommunication(factory_.createRefExpr(createZName(dw), el, Boolean.FALSE, Boolean.TRUE), 
                 factory_.createCircusFieldList(cf), retrieveCommKind(cf), CircusUtils.DEFAULT_MULTISYNCH);
-            addLocAnn(RESULT, getLocation(dwleft, dwright));
+            addLocAnn(RESULT, dw.getLocation());
         :}
         ;
 
@@ -4784,14 +4815,14 @@ commField ::=
         INSTROKE:in DECORWORD:dw
         {:
             RESULT = factory_.createInputField(createZName(dw), factory_.createTruePred());
-            addLocAnn(RESULT, getLocation(in, getLocation(dwleft, dwright)));
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
         :}
         |
         /* Input communicatio as in: c?x : P */
         INSTROKE:in DECORWORD:dw PREFIXCOLON predicate:p
         {:
             RESULT = factory_.createInputField(createZName(dw), p);
-            addLocAnn(RESULT, getLocation(in, getLocation(dwleft, dwright)));
+            addLocAnn(RESULT, getLocation(in, dw.getLocation()));
         :}
         |
         /* Output communicatio as in: c!e */
@@ -4856,7 +4887,7 @@ command ::=
         refNameList:rnl COLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
         {:            
             RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl), pre, post);
-            addLocAnn(RESULT, getLocation(rnlleft, rnlright));
+            addLocAnn(RESULT, getLocation(getLocation(rnlleft, rnlright), getLocation(post)));
         :}
         |
         /* Specification statement with empty frame*/
