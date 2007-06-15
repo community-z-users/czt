@@ -81,6 +81,7 @@ public class SectionManager
   implements Cloneable, SectionInfo
 {
   private static final String DEFAULT_EXTENSION = "z";
+  private String dialect_ = DEFAULT_EXTENSION;
 
   /**
    * The Cache, a mapping from Key to Object.
@@ -109,11 +110,17 @@ public class SectionManager
   {
     getLogger().config("Creating a new " + extension + " section manager");
     putCommands(extension);
+    dialect_ = extension;
   }
 
   private Logger getLogger()
   {
     return Logger.getLogger(getClass().getName());
+  }
+
+  public String getDialect()
+  {
+    return dialect_;
   }
 
   /**

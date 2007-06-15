@@ -26,7 +26,6 @@ import org.gjt.sp.jedit.Buffer;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor;
 
 public class CztTreeNode
   extends DefaultMutableTreeNode
@@ -35,20 +34,30 @@ public class CztTreeNode
     "net.sourceforge.czt.z.util.ShortDescriptionResourceBundle";
   private final static String ZPATT_SHORT_DESCRIPTION_RESOURCE =
     "net.sourceforge.czt.zpatt.util.ShortDescriptionResourceBundle";
-  private static Visitor<String> getShortStringVisitor_ =
-    new ConcreteSyntaxDescriptionVisitor(SHORT_DESCRIPTION_RESOURCE,
-                                         ZPATT_SHORT_DESCRIPTION_RESOURCE);
-  private static Visitor<String> getLongStringVisitor_ =
-    new ConcreteSyntaxDescriptionVisitor();
-  private static Visitor<Term[]> getChildrenVisitor_ =
+  private final static String CIRCUS_SHORT_DESCRIPTION_RESOURCE =
+    "net.sourceforge.czt.circus.util.ShortDescriptionResourceBundle";
+
+  private final static Visitor<String> zShortDescriptionVisitor_ =
+    new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor(
+            SHORT_DESCRIPTION_RESOURCE, ZPATT_SHORT_DESCRIPTION_RESOURCE);
+  private final static Visitor<String> circusShortDescriptionVisitor_ =
+    new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor(
+            SHORT_DESCRIPTION_RESOURCE, CIRCUS_SHORT_DESCRIPTION_RESOURCE);
+
+  private final static Visitor<String> zLongDescriptionVisitor_ =
+    new net.sourceforge.czt.zpatt.util.ConcreteSyntaxDescriptionVisitor();
+  private final static Visitor<String> circusLongDescriptionVisitor_ =
+    new net.sourceforge.czt.circus.util.ConcreteSyntaxDescriptionVisitor();
+
+  private final static Visitor<Term[]> getChildrenVisitor_ =
     new GetChildrenVisitor();
 
   private Term term_;
 
-  public CztTreeNode(Term term, Buffer buffer)
+  public CztTreeNode(Term term, String dialect, Buffer buffer)
   {
-    super(new CztAsset(term.accept(getShortStringVisitor_),
-                       term.accept(getLongStringVisitor_),
+    super(new CztAsset(term.accept("circus".equals(dialect) ? circusShortDescriptionVisitor_ : zShortDescriptionVisitor_),
+                       term.accept("circus".equals(dialect) ? circusLongDescriptionVisitor_ : zLongDescriptionVisitor_),
                        getStart(term, buffer),
                        getEnd(term, buffer)));
     term_ = term;
@@ -56,14 +65,14 @@ public class CztTreeNode
       Object[] children = term.getChildren();
       for (Object o : children) {
         if (o instanceof Term) {
-          add(new CztTreeNode((Term) o, buffer));
+          add(new CztTreeNode((Term) o, dialect, buffer));
         }
       }
     }
     else {
       Term[] children = term.accept(getChildrenVisitor_);
       for (Term child : children) {
-        add(new CztTreeNode(child, buffer));
+        add(new CztTreeNode(child, dialect, buffer));
       }
     }
   }

@@ -47,7 +47,7 @@ public class ParsedData
     wffHighlight_ = wffHighlight;
     wffHighlight_.setSpec(spec);
     for (Sect sect : spec.getSect()) {
-      root.add(new CztTreeNode(sect, buffer));
+      root.add(new CztTreeNode(sect, manager.getDialect(), buffer));
     }
   }
 
