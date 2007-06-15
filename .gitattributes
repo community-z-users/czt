@@ -1,9 +1,6 @@
 * text=auto !eol
 attic/bsh/parseCircus.bsh -text
 attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
-corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbContext.java -text
-corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlReader.java -text
-corejava/src/main/java/net/sourceforge/czt/circuspatt/jaxb/JaxbXmlWriter.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLaw.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLawVisitor.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusPattUtils.java -text
