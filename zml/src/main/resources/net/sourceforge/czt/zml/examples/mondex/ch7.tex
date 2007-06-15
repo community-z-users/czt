@@ -1,5 +1,9 @@
 \chapter{\Conc\ model: implementation}\label{ch7}
 
+\begin{zsection}
+  \SECTION ch7 \parents ch6
+\end{zsection}
+
 \section{Concrete World State}
 
 The \Conc\ world state has the same components as the \Betw\ state;
@@ -35,10 +39,10 @@ semantic difference as this is just a ``syntactic cosmetic
 surgery''.
 
 \begin{LNewSDef}[Renamed $ConWorld$ for Chapter~7]
-\begin{syntax}
-    ConWorldCh7 & ~~\defs~~& ConWorld[conAuthPurseCh7/conAuthPurse, \\
-                &       &  \t1 etherCh7/ether, archiveCh7/archive]
-\end{syntax}~\end{LNewSDef}
+\begin{zed}
+    ConWorldCh7 \defs ConWorld[conAuthPurseCh7/conAuthPurse, \\
+                \t1 etherCh7/ether, archiveCh7/archive]
+\end{zed}~\end{LNewSDef}
 
 \section{Framing Schema}\label{ch7.PhiCOp}
 
@@ -54,7 +58,7 @@ surgery''.
   name? \in \dom~conAuthPurseCh7
   \\      \theta ConPurse = conAuthPurseCh7~name?
   \also
-  conAuthPurseCh7' = conAuthPurseCh7 \oplus \{~ name? \mapsto \theta ConPurse' ~\}
+  conAuthPurseCh7' = conAuthPurseCh7 \oplus \{~ name? \mapsto \theta ConPurse~' ~\}
   \also
   archiveCh7' = archiveCh7
   \also
@@ -172,8 +176,12 @@ The same \LaTeX\ problems for subscripted names occurs here.
   conAuthPurseCh7' = conAuthPurseCh7
   \\      etherCh7' \subseteq etherCh7
   \also
-  archiveCh7 \subseteq
-  \\ \t1          archiveCh7' \subseteq
+% There seems to be a bug in the typechecker
+% that prevents the following line from working 
+%  archiveCh7 \subseteq
+% so substituted by the following line instead
+    archiveCh7 \subseteq archiveCh7'
+\\ \t1          archiveCh7' \subseteq
   \\ \t2          archiveCh7' \cup \{~ log: NAMES \cross PayDetails |
   \\ \t5                          exceptionLogResult~log \in etherCh7 ~\}
   \also
@@ -186,9 +194,9 @@ The same \LaTeX\ problems for subscripted names occurs here.
 %
 \begin{LSDef}[$ConWorld$ initialisation state]
 \begin{schema}{ConInitState}
-  ConWorldCh7'
+  ConWorldCh7~'
   \where
-  \exists BetweenWorld' | BetweenInitState @
+  \exists BetweenWorld~' | BetweenInitState @
   \\ \t1          conAuthPurseCh7' = conAuthPurse'
   \\ \t1          \land archiveCh7' = archive'
   \\ \t1          \land \{~\bot~\} \subseteq etherCh7' \subseteq ether'
@@ -220,8 +228,8 @@ $53$ on original document).
 \where %
   \dom gAuthPurse = \dom conAuthPurseCh7
   \also %
-  \znote{Obvious assumption that the set comprehension}
-  \znote{below in the set intersection is finite.}
+%  \znote{Obvious assumption that the set comprehension}
+%  \znote{below in the set intersection is finite.}
   \forall name: \dom~conAuthPurseCh7 @
   \t1 (gAuthPurse~name).balance
   \\ %

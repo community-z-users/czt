@@ -1,5 +1,9 @@
 \chapter{Auxiliary toolkit definitions}\label{apD}
 
+\begin{zsection}
+  \SECTION apD \parents ch3
+\end{zsection}
+
 Originally Appendix D (p.$225$). In this document it appears after the original
 Chapter $4$ because we need the definitions of $NAME$ and $AbPurse$ from
 Chapter $3$ and $PayDetails$ from chapter $4$. These functions were used in
@@ -11,11 +15,11 @@ conjectures in the original Chapter $2$.
 \begin{axdef}
    totalAbBalance: (NAME \ffun AbPurse) \fun \nat
 \where
-   \znote{Use braces for empty set to allow better automation}
-   \Label{rule dTotalAbBalanceBase}
+%   \znote{Use braces for empty set to allow better automation}
+%   \Label{rule dTotalAbBalanceBase}
       totalAbBalance~\{~\} = 0
    \also
-   \Label{rule dTotalAbBalanceInduc}
+%   \Label{rule dTotalAbBalanceInduc}
       \forall w: (NAME \ffun AbPurse); n: NAME; AbPurse | n \notin \dom~w @ \\
           \t1 totalAbBalance~( \{~ n \mapsto \theta AbPurse ~\} \cup w) = \\
                 \t3 balance + totalAbBalance~w
@@ -33,10 +37,10 @@ conjectures in the original Chapter $2$.
 \begin{axdef}
    totalLost: (NAME \ffun AbPurse) \fun \nat
 \where
-   \Label{rule dTotalLostBase}
+%   \Label{rule dTotalLostBase}
       totalAbBalance~\{~\} = 0
    \also
-   \Label{rule dTotalLostInduc}
+%   \Label{rule dTotalLostInduc}
       \forall w: (NAME \ffun AbPurse); n: NAME; AbPurse | n \notin \dom~w @ \\
           \t1 totalLost~( \{~ n \mapsto \theta AbPurse ~\} \cup w) = \\
                 \t3 balance + totalLost~w

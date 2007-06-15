@@ -1,5 +1,9 @@
 \chapter{\Abs\ model:~security policy}\label{ch3}
 
+\begin{zsection}
+  \SECTION ch3 \parents fuzz
+\end{zsection}
+
 A positive side-effect for being faithful to the
 original source is that we do not need to worry
 much about understanding the protocol. As it happens,
@@ -57,19 +61,20 @@ This is also useful in order to prove the definition of $NAMES$ is consistent.
 \begin{axdef}
   name1, name2: NAME
 \where
-  \Label{disabled rule dExistsDistinctNames}  \lnot name1 = name2
+%  \Label{disabled rule dExistsDistinctNames}
+  \lnot name1 = name2
 \end{axdef}~\end{LNewADef}
 %
 Next, we ensure that the definition of $NAMES$ we are about to introduce is
 consistent.
 %
 \begin{LConsistency}[$NAMES$ definition existential consistency]
-\begin{theorem}{tNamesExistentialConsistency}
+\begin{zeves-theorem}{tNamesExistentialConsistency}
     \exists NAMES: \finset_1~NAME @ \exists n1, n2: NAMES @ \lnot  n1 = n2
 \end{theorem}~\end{LConsistency}
 %
 \begin{LConsistency}[$NAMES$ definition universal consistency]
-\begin{theorem}{tNamesUniversalConsistency}
+\begin{zeves-theorem}{tNamesUniversalConsistency}
     \exists NAMES: \finset_1~NAME @ \forall n1: NAMES @ \exists n2: NAMES @ \lnot  n1 = n2
 \end{theorem}~\end{LConsistency}
 %
@@ -79,8 +84,10 @@ After proving those two theorems, we can then safely axiomatically define $NAMES
 \begin{axdef}
   NAMES: \finset_1~NAME
 \where
-  \Label{disabled dNamesElem} \exists n1, n2: NAMES @ \lnot  n1 = n2 \\
-  \Label{disabled dNamesDistinctElem} \forall n1: NAMES @ \exists  n2: NAMES @ \lnot  n1 = n2
+%  \Label{disabled dNamesElem}
+  \exists n1, n2: NAMES @ \lnot  n1 = n2 \\
+%  \Label{disabled dNamesDistinctElem}
+  \forall n1: NAMES @ \exists  n2: NAMES @ \lnot  n1 = n2
 \end{axdef}~\end{LNewADef}
 %
 With this structure model of names, we represent the finiteness assumptions
@@ -90,19 +97,19 @@ total.
 \subsection*{Automation}
 
 \begin{LRRT}[Every structured name belongs to the original $NAME$]
-\begin{theorem}{rule rInNames}
+\begin{zeves-theorem}{rule rInNames}
     n \in NAMES \implies n \in NAME
 \end{theorem}~\end{LRRT}
 
 \begin{LToolkit}[Finite set weakening]
-\begin{theorem}{rule rFiniteMember}[X]
+\begin{zeves-theorem}{rule rFiniteMember}[X]
     A \in \finset~X \implies A \in \power~X
 \end{theorem}~\end{LToolkit}
 
 The next theorem is an obvious conclusion from the declaration of $NAMES$ using $\finset_1$.
 %
 \begin{LNewLemma}[There exists at least one structured name]
-\begin{theorem}{lExistsName}
+\begin{zeves-theorem}{lExistsName}
     \exists name: NAMES @ true
 \end{theorem}~\end{LNewLemma}
 
@@ -112,7 +119,7 @@ we must have at least one distinct originator and receptor for any
 authentic payment transaction to take place.
 %
 \begin{LNewLemma}[There exists two different names]
-\begin{theorem}{lExistsDifferentNames}
+\begin{zeves-theorem}{lExistsDifferentNames}
     \exists n1, n2: NAMES @ \lnot n1 = n2
 \end{theorem}~\end{LNewLemma}
 %
@@ -121,7 +128,7 @@ always allows a payment to take place. Similarly, we sometimes know
 one of the names and only assert the existence of the next one.
 
 \begin{LNewLemma}[Given a name, there exists another distinct name]
-\begin{theorem}{lExistsDifferentNameFromGivenName}
+\begin{zeves-theorem}{lExistsDifferentNameFromGivenName}
     \forall n1: NAMES @ \exists n2: NAMES @ \lnot n1 = n2
 \end{theorem}~\end{LNewLemma}
 
@@ -133,12 +140,12 @@ non-empty range over $\nat$, which is bounded by a $MAX\_NAT$
 value defined as
 %
 \begin{LConsistency}[$NAT$ boundary consistency]
-\begin{theorem}{tNATBoundaryConsistency}
+\begin{zeves-theorem}{tNATBoundaryConsistency}
    \exists MAX\_NAT: \nat @ true
 \end{theorem}~\end{LConsistency}
 %
 \begin{LConsistency}[$NAT$ definition consistency]
-\begin{theorem}{tNATDefinitionConsistency}
+\begin{zeves-theorem}{tNATDefinitionConsistency}
    \exists NAT: \power~(0 \upto MAX\_NAT) @ true
 \end{theorem}~\end{LConsistency}
 
@@ -158,22 +165,22 @@ Next, we add some trivial automation rules about these data types
 in order to improve automation levels.
 %
 \begin{LGRT}[$MAX\_NAT$ maximal type]
-\begin{theorem}{grule gMaxNatMaxType}
+\begin{zeves-theorem}{grule gMaxNatMaxType}
     MAX\_NAT \in  \num
 \end{theorem}~\end{LGRT}
 %
 \begin{LGRT}[$MAX\_NAT$ type]
-\begin{theorem}{grule gMaxNatNatType}
+\begin{zeves-theorem}{grule gMaxNatNatType}
     MAX\_NAT \in  \nat
 \end{theorem}~\end{LGRT}
 %
 \begin{LRRT}[$MAX\_NAT$ is a natural number (LHS)]
-\begin{theorem}{rule rMaxNatType}
+\begin{zeves-theorem}{rule rMaxNatType}
     MAX\_NAT \geq  0
 \end{theorem}~\end{LRRT}
 %
 \begin{LRRT}[$MAX\_NAT$ is a natural number (RHS)]
-\begin{theorem}{rule rMaxNatType2}
+\begin{zeves-theorem}{rule rMaxNatType2}
     0 \leq  MAX\_NAT
 \end{theorem}~\end{LRRT}
 %
@@ -184,13 +191,13 @@ making rules application smoother.
 After that, we do the same for $NAT$.
 %
 \begin{LNewThm}[$NAT$ definition is consistent]
-\begin{theorem}{tNATConsistency}
+\begin{zeves-theorem}{tNATConsistency}
     \exists  n: NAT @ true
 \end{theorem}~\end{LNewThm}
 %
 
 \begin{LRRT}[$NAT$ equivalence]
-\begin{theorem}{rule rInNAT}
+\begin{zeves-theorem}{rule rInNAT}
     x \in NAT \iff x \in \num \land x \geq 0 \land x \leq MAX\_NAT
 \end{theorem}~\end{LRRT}
 
@@ -212,22 +219,22 @@ there is no requirement that it should be finite.
 \subsection*{Automation}
 
 \begin{LFRT}[$TransferDetails$ $value$ type]
-\begin{theorem}{frule fTransferDetailsValueType}
+\begin{zeves-theorem}{frule fTransferDetailsValueType}
     \forall TransferDetails @ value \in NAT
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$TransferDetails$ binding maximal type]
-\begin{theorem}{frule fTransferDetailsMemberMaxType}
+\begin{zeves-theorem}{frule fTransferDetailsMemberMaxType}
     x \in  TransferDetails \implies  x \in  \lblot from: NAME; to: NAME; value: \num \rblot
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$TransferDetails$ binding type]
-\begin{theorem}{frule fTransferDetailsMember}
+\begin{zeves-theorem}{frule fTransferDetailsMember}
     x \in  TransferDetails \implies  x \in  \lblot from: NAME; to: NAME; value: \nat \rblot
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$TransferDetails$ binding bembership]
-\begin{theorem}{frule fTransferDetailsInSetMember}
+\begin{zeves-theorem}{frule fTransferDetailsInSetMember}
     x \in  \lblot from: NAMES; to: NAMES; value: NAT \rblot \implies  x \in  TransferDetails
 \end{theorem}~\end{LFRT}
 
@@ -237,8 +244,8 @@ there is no requirement that it should be finite.
 \begin{schema}{AbWorld}
   abAuthPurse: NAMES \pfun  AbPurse
 \where
-  \znote{Partial finiteness functionality factored to the}
-  \znote{predicate part for Z/Eves automation purposes only.}
+%  \znote{Partial finiteness functionality factored to the}
+%  \znote{predicate part for Z/Eves automation purposes only.}
   abAuthPurse \in  NAMES \ffun  AbPurse
 \end{schema}~\end{LSDef}
 
@@ -258,7 +265,7 @@ This is the same as subsection $2.2.3$ (p.$12$) from PRG-$126$.
 \subsection*{Automation}
 
 \begin{LFRT}[Authentic $name$ type]
-\begin{theorem}{frule fAuthenticNameType}
+\begin{zeves-theorem}{frule fAuthenticNameType}
   \forall  Authentic @ name? \in  \dom~abAuthPurse
 \end{theorem}~\end{LFRT}
 
@@ -268,7 +275,7 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 \begin{LSDef}[Abstract purses have sufficient funds]
 \begin{schema}{SufficientFundsProperty}
   AbWorld\\
-  TransferDetails?
+  TransferDetails~?
 \where
   Authentic[from?/name?]\\
   value? \leq  (abAuthPurse~from?).balance
@@ -300,37 +307,37 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 \subsection*{Automation}
 
 \begin{LGRT}[Abstract input transfer constructor $\pfun$ maximal type]
-\begin{theorem}{grule gAINTrasferPFunMaxType}
+\begin{zeves-theorem}{grule gAINTrasferPFunMaxType}
     transfer \in  \lblot from: NAME; to: NAME; value: \num \rblot  \pfun  AIN
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[Abstract input transfer constructor relational type]
-\begin{theorem}{grule gAINTrasferRelType}
+\begin{zeves-theorem}{grule gAINTrasferRelType}
     transfer \in  \lblot from: NAME; to: NAME; value: \nat \rblot  \rel  AIN
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[Abstract input transfer constructor partial function type]
-\begin{theorem}{grule gAINTrasferPFunType}
+\begin{zeves-theorem}{grule gAINTrasferPFunType}
     transfer \in  \lblot from: NAME; to: NAME; value: \nat \rblot  \pfun  AIN
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[Abstract input transfer constructor partial injection type]
-\begin{theorem}{grule gAINTransferType}
+\begin{zeves-theorem}{grule gAINTransferType}
     transfer \in  \lblot from: NAME; to: NAME; value: \nat \rblot  \pinj  AIN
 \end{theorem}~\end{LGRT}
 
 \begin{LRRT}[Abstract input transfer constructor result type]
-\begin{theorem}{rule rAINTransferResult}
+\begin{zeves-theorem}{rule rAINTransferResult}
     \forall  TransferDetails @ transfer \theta  TransferDetails \in  AIN
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Abstract input transfer constructor is a total function]
-\begin{theorem}{rule rAINTransferIsTotal}
+\begin{zeves-theorem}{rule rAINTransferIsTotal}
     \forall  TransferDetails @ \theta  TransferDetails \in  \dom~transfer
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Abstract input transfer constructor inverse type]
-\begin{theorem}{rule rAINTransferDomRanRel}
+\begin{zeves-theorem}{rule rAINTransferDomRanRel}
     \forall  in: AIN | in \in  \ran~transfer @ in \in  \dom~(transfer~\inv)
 \end{theorem}~\end{LRRT}
 
@@ -353,10 +360,10 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 \begin{LSDef}[Abstract purse secure operations signature]
 \begin{schema}{AbWorldSecureOp}
   AbOp\\
-  TransferDetails?
+  TransferDetails~?
 \where
   a? \in  \ran  transfer\\
-  \theta  TransferDetails? = (transfer~\inv)~a?\\
+  \theta  TransferDetails~? = (transfer~\inv)~a?\\
   \{~from?, to?~\} \ndres  abAuthPurse' = \{~from?, to?~\} \ndres  abAuthPurse
 \end{schema}~\end{LSDef}
 
@@ -367,27 +374,27 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 % For the second case for abAuthPurse' to?
 % abAuthPurse' from? does not need balance \in nat because there is the relationship with respect to value? from SecureFundsProperty.
 \begin{LRRT}[Expanded abstract purse $balance$ type]
-\begin{theorem}{rule rAbPurseBalanceTypeOpen}
+\begin{zeves-theorem}{rule rAbPurseBalanceTypeOpen}
     \forall  purse: NAMES \ffun AbPurse; name: NAMES | name \in \dom~purse @ \\
         \t1 (purse~name).balance \in \nat
 \end{theorem}~\end{LRRT}
 
 % As the goal appears with the elements expanded (after invoke) we need the ugly definition
 \begin{LRRT}[Expanded abstract purse $lost$ type]
-\begin{theorem}{rule rAbPurseLostTypeOpen}
+\begin{zeves-theorem}{rule rAbPurseLostTypeOpen}
    \forall purse: NAMES \ffun AbPurse; name: NAMES | \\
       \t1 name \in \dom~purse @ (purse~name).lost \in \nat
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Theta instantiation idiom for abstract purses]
-\begin{theorem}{rule rThetaPurseInstantiated}
+\begin{zeves-theorem}{rule rThetaPurseInstantiated}
   \forall purse: NAMES \ffun AbPurse; name: NAMES | name \in  \dom~purse @ \\
       \t1 \theta AbPurse[balance := (purse name).balance, \\
             \t3 lost := (purse~name).lost] = purse~name
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Authentic $from?$ purse $TransferOkay$ mu equivalence]
-\begin{theorem}{rule lAbAuthPurseFromTransferOkayMuEquivalence}
+\begin{zeves-theorem}{rule lAbAuthPurseFromTransferOkayMuEquivalence}
     \forall  AbWorldSecureOp | Authentic[from?/name?] \land  SufficientFundsProperty \\
         \t1 \land from? \neq to? @ \\
         \t1\ (~\mu \Delta AbPurse | \\
@@ -400,7 +407,7 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Authentic $to?$ purse $TransferOkay$ mu equivalence]
-\begin{theorem}{rule lAbAuthPurseToTransferOkayMuEquivalence}
+\begin{zeves-theorem}{rule lAbAuthPurseToTransferOkayMuEquivalence}
     \forall  AbWorldSecureOp | Authentic[to?/name?] \land SufficientFundsProperty \\
         \t1 \land from? \neq  to? @ \\
         \t1\ (~\mu  \Delta AbPurse | \\
@@ -413,7 +420,7 @@ This is the same as subsection $2.2.4$ (p.$12$) from PRG-$126$.
 \end{theorem}~\end{LRRT}
 
 \begin{LRRT}[Authentic $from?$ purse $TransferLost$ mu equivalence]
-\begin{theorem}{rule lAbAuthPurseFromTransferLostMuEquivalence}
+\begin{zeves-theorem}{rule lAbAuthPurseFromTransferLostMuEquivalence}
     \forall  AbWorldSecureOp | Authentic[from?/name?] \land  SufficientFundsProperty \\
         \t1 \land from? \neq  to? @ \\
         \t1\ (~\mu  \Delta AbPurse | \\
@@ -456,10 +463,10 @@ $\Delta Authentic$ below.
   from? \neq to?\\
   abAuthPurse' from? = (\mu  \Delta AbPurse | \theta  AbPurse = \\
       \t1 abAuthPurse~from? \land  balance' = balance - value? \land \\
-      \t1 lost' = lost \land  \Xi AbPurseTransfer @ \theta  AbPurse')\\
+      \t1 lost' = lost \land  \Xi AbPurseTransfer @ \theta  AbPurse~')\\
   abAuthPurse' to? = (\mu  \Delta AbPurse | \theta  AbPurse = \\
       \t1 abAuthPurse~to? \land  balance' = balance + value? \land  \\
-      \t1 lost' = lost \land  \Xi AbPurseTransfer @ \theta  AbPurse')
+      \t1 lost' = lost \land  \Xi AbPurseTransfer @ \theta  AbPurse~')
 \end{schema}~\end{LSDef}
 
 \begin{LSDef}[Successful secure transfer operation with hidden details]
@@ -486,7 +493,7 @@ to the domain of $abAuthPurse'$.
       \t1 \land balance' = balance - value? \\
       \t1 \land lost' = lost + value? \\
       \t1 \land \Xi AbPurseTransfer \\
-      \t2 @ \theta AbPurse' ~\}\\
+      \t2 @ \theta AbPurse~' ~\}\\
   abAuthPurse'~to? = abAuthPurse~to?
 \end{schema}~\end{LSDef}
 
@@ -506,7 +513,7 @@ to the domain of $abAuthPurse'$.
 
 \begin{LSDef}[Abstract world initialisation state]
 \begin{zed}
-  AbInitState ~~\defs~~ AbWorld'
+  AbInitState ~~\defs~~ AbWorld~'
 \end{zed}~\end{LSDef}
 
 \begin{LSDef}[Abstract and global initialisation input relationship]

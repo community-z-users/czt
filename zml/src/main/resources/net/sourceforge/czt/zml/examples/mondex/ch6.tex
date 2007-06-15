@@ -1,5 +1,9 @@
 \chapter{\Betw\ model, initialisation and finalisation}\label{ch6}
 
+\begin{zsection}
+  \SECTION ch6 \parents ch5
+\end{zsection}
+
 \section{Summing values}\label{ch6.sumValue}
 
 Originally from Appendix~D, p.$226$.
@@ -7,10 +11,10 @@ Originally from Appendix~D, p.$226$.
 \begin{axdef}
    sumValue: \finset PayDetails \fun \nat
 \where
-   \Label{rule dSumValueBase}
+%   \Label{rule dSumValueBase}
       sumValue~\{~\} = 0
    \also
-   \Label{rule dSumValueInduc}
+%   \Label{rule dSumValueInduc}
       \forall pds: \finset PayDetails; PayDetails | \theta PayDetails \notin pds @ \\
           \t1 sumValue~( \{~ \theta PayDetails ~\} \cup pds) = \\
                 \t3 value + sumValue~pds
@@ -20,7 +24,7 @@ Originally from Appendix~D, p.$226$.
 
 \begin{LSDef}[Between world initial state]
 \begin{schema}{BetweenInitState}
-  BetweenWorld' \where \{ readExceptionLog, \bot \}
+  BetweenWorld~' \where \{ readExceptionLog, \bot \}
   \\ %
   \cup
   \\ %
@@ -35,17 +39,17 @@ Originally from Appendix~D, p.$226$.
 These rules are similar to those found in~\ref{ch4.valTransferOp} for $CounterPartyDetails$.
 %
 \begin{LFRT}[Payment details $from$ purse type]
-\begin{theorem}{frule fPayDetailsFromType}
+\begin{zeves-theorem}{frule fPayDetailsFromType}
    x \in PayDetails \implies x.from \in NAMES
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[Payment details $to$ purse type]
-\begin{theorem}{frule fPayDetailsToType}
+\begin{zeves-theorem}{frule fPayDetailsToType}
    x \in PayDetails \implies x.to \in NAMES
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[Payment details $value$ type]
-\begin{theorem}{frule fPayDetailsValueType}
+\begin{zeves-theorem}{frule fPayDetailsValueType}
    x \in PayDetails \implies x.value \in NAT
 \end{theorem}~\end{LFRT}
 
@@ -58,30 +62,30 @@ is slightly different at the end. Also, we need to include the
 relationship between $req$ and $PayDetails$ explicitly.
 %
 \begin{LFRT}[$PayDetails$ binding type]
-\begin{theorem}{frule fPayDetailsMember}
+\begin{zeves-theorem}{frule fPayDetailsMember}
     x \in  PayDetails \implies  x \in  \lblot from: NAME; fromSeqNo: \nat; \\
         \t1 to: NAME; toSeqNo: \nat; value: \nat \rblot
 \end{theorem}~\end{LFRT}
 
 \begin{LGRT}[$req$ $MESSAGE$ relational type]
-\begin{theorem}{grule gMESSAGEReqRelType}
+\begin{zeves-theorem}{grule gMESSAGEReqRelType}
    req \in  \lblot from: NAME; fromSeqNo: \nat; \\
         \t1 to: NAME; toSeqNo: \nat; value: \nat \rblot  \rel MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$req$ $MESSAGE$ partial function type]
-\begin{theorem}{grule gMESSAGEReqPFunType}
+\begin{zeves-theorem}{grule gMESSAGEReqPFunType}
   req \in  \lblot from: NAME; fromSeqNo: \nat; \\
         \t1 to: NAME; toSeqNo: \nat; value: \nat \rblot  \pfun MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$req$ $MESSAGE$ relational non-maximal type]
-\begin{theorem}{grule gMESSAGEReqPayDetailsRelType}
+\begin{zeves-theorem}{grule gMESSAGEReqPayDetailsRelType}
    req \in PayDetails \rel MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$req$ $MESSAGE$ partial injection type]
-\begin{theorem}{grule gMESSAGEReqPInjType}
+\begin{zeves-theorem}{grule gMESSAGEReqPInjType}
    req \in \lblot from: NAME; fromSeqNo: \nat; \\
         \t1 to: NAME; toSeqNo: \nat; value: \nat \rblot \pinj MESSAGE
 \end{theorem}~\end{LGRT}
@@ -96,7 +100,7 @@ obvious, it is quite hard to prove. A simple suggestion around this, would be to
 \end{gzed}
 %
 \begin{LRRT}[$req$ $MESSAGE$ inverse maximal type]
-\begin{theorem}{rule rMESSAGEReqInvMaxType}
+\begin{zeves-theorem}{rule rMESSAGEReqInvMaxType}
    \forall m: MESSAGE | m \in \ran req @ req\inv m \in \\ \t1
       \lblot from: NAMES; fromSeqNo: NAT; to: NAMES; toSeqNo: NAT; value: NAT \rblot
 \end{theorem}~\end{LRRT}

@@ -1,9 +1,13 @@
 \chapter{\Betw\ model, promoted world}\label{ch5}
 
+\begin{zsection}
+  \SECTION ch5 \parents ch4
+\end{zsection}
+
 \section{The world}
 
 \begin{LConsistency}[$Logbook$ consistency]
-\begin{theorem}{tLogbookConsistency}
+\begin{zeves-theorem}{tLogbookConsistency}
     \exists Logbook: \power~(NAMES \rel PayDetails) @ \\
         \t1 Logbook = \power~(\{~PayDetails @ from \mapsto \theta PayDetails~\} \cup \\
              \t2 \{~PayDetails @ to \mapsto \theta PayDetails ~\})
@@ -13,7 +17,7 @@
 \begin{axdef}
    Logbook: \power~(NAMES \rel PayDetails)
 \where
-   \Label{disabled rule dLogbook}
+%   \Label{disabled rule dLogbook}
    Logbook = \power~(\{~PayDetails @ from \mapsto \theta PayDetails~\} \cup \\
       \t2 \{~PayDetails @ to \mapsto \theta PayDetails ~\})
 \end{axdef}~\end{LADef}
@@ -48,9 +52,9 @@ from $ConWorld$.
    definitelyLost: \power~PayDetails \\
    maybeLost: \power~PayDetails
 \where
-   \znote{Finiteness of components left out for better automation.}
-   \znote{They are proved as theorems instead, because conAuthPurse}
-   \znote{is finite anyway.}
+%   \znote{Finiteness of components left out for better automation.}
+%   \znote{They are proved as theorems instead, because conAuthPurse}
+%   \znote{is finite anyway.}
    toInEpv \in \finset~PayDetails \\
    toInEapayee \in \finset~PayDetails \\
    fromInEpr \in \finset~PayDetails \\
@@ -60,24 +64,24 @@ from $ConWorld$.
    fromLogged = \{~ pd: authenticFrom | pd.from \mapsto pd \in allLogs ~\} \\
    toLogged = \{~ pd: authenticTo | pd.to \mapsto pd \in allLogs ~\}
    \also
-   \znote{See comment above on the definition of ConWorld}
+%   \znote{See comment above on the definition of ConWorld}
    authenticFrom \\
       \t1 = \{~ pd: PayDetails | pd.from \in \dom~conAuthPurse~\} \\
    authenticTo \\
       \t1 = \{~ pd: PayDetails | pd.to \in \dom~conAuthPurse~\}
    \also
    toInEpv = \{~ pd: authenticTo | \\
-          \t3 (conAuthPurse pd.to).status = epv \\
-          \t2 \land (conAuthPurse pd.to).pdAuth = pd ~\} \\
+          \t3 (conAuthPurse~pd.to).status = epv \\
+          \t2 \land (conAuthPurse~pd.to).pdAuth = pd ~\} \\
    toInEapayee = \{~ pd: authenticTo | \\
-          \t3 (conAuthPurse pd.to).status = eaTo \\
-          \t2 \land (conAuthPurse pd.to).pdAuth = pd ~\} \\
+          \t3 (conAuthPurse~pd.to).status = eaTo \\
+          \t2 \land (conAuthPurse~pd.to).pdAuth = pd ~\} \\
    fromInEpr = \{~ pd: authenticFrom | \\
-          \t3 (conAuthPurse pd.from).status = epr \\
-          \t2 \land (conAuthPurse pd.from).pdAuth = pd ~\} \\
+          \t3 (conAuthPurse~pd.from).status = epr \\
+          \t2 \land (conAuthPurse~pd.from).pdAuth = pd ~\} \\
    fromInEpa = \{~ pd: authenticFrom | \\
-          \t3 (conAuthPurse pd.from).status = epa \\
-          \t2 \land (conAuthPurse pd.from).pdAuth = pd ~\}
+          \t3 (conAuthPurse~pd.from).status = epa \\
+          \t2 \land (conAuthPurse~pd.from).pdAuth = pd ~\}
    \also
    allLogs = archive \cup \\
       \t2 \{~ n: \dom~conAuthPurse; pd: PayDetails | pd \in (conAuthPurse~n).exLog ~\}
@@ -87,7 +91,7 @@ from $ConWorld$.
 \end{schema}~\end{LSDef}
 %
 \begin{LThm}[Auxiliary world elements identity]
-\begin{theorem}{tAuxWorldIdentity}
+\begin{zeves-theorem}{tAuxWorldIdentity}
    \forall AuxWorld @ definitelyLost \cup maybeLost = \\
         \t1 (fromInEpa \cup fromLogged) \cap (toInEpv \cup toLogged)
 \end{theorem}~\end{LThm}
@@ -104,13 +108,13 @@ finiteness of particular $PayDetails$ sets.
 \subsubsection{Extending the toolkit}
 
 \begin{LToolkit}[Improved version of toolkit rule $crossFinite$]
-\begin{theorem}{rule rCrossFinite}
+\begin{zeves-theorem}{rule rCrossFinite}
   A \cross B \in \finset (C \cross D) \iff \\\t1
   A = \{\} \lor B = \{\} \lor (A \in \finset C \land B \in \finset D)
 \end{theorem}~\end{LToolkit}
 
 \begin{LToolkit}[Subset of finite set is finite]
-\begin{theorem}{lFinsetSubset}
+\begin{zeves-theorem}{lFinsetSubset}
   X \in \power Y \land Y \in \finset Z \implies X \in \finset Z
 \end{theorem}~\end{LToolkit}
 
@@ -143,60 +147,60 @@ shaped as
 \end{zed}~\end{LNewADef}
 
 \begin{LNewLemma}[$PayDetails$ space is finite]
-\begin{theorem}{lPayDetailsSpaceFiniteMaxType}
+\begin{zeves-theorem}{lPayDetailsSpaceFiniteMaxType}
     PayDetailsSpace \in \finset~((NAME \cross NAME) \cross (\num \cross (\num \cross \num)))
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ bindings are within $PayDetails$ space]
-\begin{theorem}{lPayDetailsBindingsSubsetPayDetailsSpace}
+\begin{zeves-theorem}{lPayDetailsBindingsSubsetPayDetailsSpace}
     \dom~PayDetailsBindings \in \power~PayDetailsSpace
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ bindings are finite]
-\begin{theorem}{lPayDetailsBindingsFiniteMaxType}
+\begin{zeves-theorem}{lPayDetailsBindingsFiniteMaxType}
     \dom~PayDetailsBindings \in \finset~((NAME \cross NAME) \cross (\num \cross (\num \cross \num)))
 \end{theorem}~\end{LNewLemma}
 
 \begin{LGRT}[$PayDetails$ bindings maximal $\pfun$ type]
-\begin{theorem}{grule gPayDetailsBindingsPfun}
+\begin{zeves-theorem}{grule gPayDetailsBindingsPfun}
     PayDetailsBindings \in ((NAME \cross NAME) \cross (\num \cross (\num \cross \num))) \pfun PayDetails
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$PayDetails$ bindings maximal $\ffun$ type]
-\begin{theorem}{grule gPayDetailsBindingsFfun}
+\begin{zeves-theorem}{grule gPayDetailsBindingsFfun}
     PayDetailsBindings \in ((NAME \cross NAME) \cross (\num \cross (\num \cross \num))) \ffun PayDetails
 \end{theorem}~\end{LGRT}
 
 \begin{LNewLemma}[$PayDetails$ bindings encompass the whole of $PayDetails$]
-\begin{theorem}{rule lPayDetailsBindinsRange}
+\begin{zeves-theorem}{rule lPayDetailsBindinsRange}
     \ran~PayDetailsBindings = PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ is a finite set of its bindings]
-\begin{theorem}{grule lPayDetailsIsFinite}
+\begin{zeves-theorem}{grule lPayDetailsIsFinite}
     PayDetails \in \finset~\lblot from: NAME; fromSeqNo: \num; to: NAME; toSeqNo: \num; value: \num \rblot
 \end{theorem}~\end{LNewLemma}
 
 \subsubsection{$PayDetails$ sets that we are interested in are finite}
 
 \begin{LNewLemma}[$PayDetails$ fixed $from$ is finite]
-\begin{theorem}{rule lPayDetailsFromPurseNameFinite}
+\begin{zeves-theorem}{rule lPayDetailsFromPurseNameFinite}
     \forall name: NAMES @ \{~  pd: PayDetails | pd.from = name ~\} \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ fixed $to$ is finite]
-\begin{theorem}{rule lPayDetailsToPurseNameFinite}
+\begin{zeves-theorem}{rule lPayDetailsToPurseNameFinite}
     \forall name: NAMES @ \{~  pd: PayDetails | pd.to = name ~\} \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ $from$ purse from $\dom$ is finite]
-\begin{theorem}{rule lPayDetailsFromPurseDomainFinite}
+\begin{zeves-theorem}{rule lPayDetailsFromPurseDomainFinite}
     \forall purse: NAMES \finj ConPurse  @ \\
         \t1 \{~  pd: PayDetails | pd.from \in \dom~purse ~\} \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$PayDetails$ $to$ purse from $\dom$ is finite]
-\begin{theorem}{rule lPayDetailsToPurseDomainFinite}
+\begin{zeves-theorem}{rule lPayDetailsToPurseDomainFinite}
     \forall purse: NAMES \finj ConPurse  @ \\
         \t1 \{~  pd: PayDetails | pd.to \in \dom~purse ~\} \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
@@ -205,12 +209,12 @@ shaped as
 Now, from the definition of $AuxWorld$, the necessary theorems about its components is trivial.
 %
 \begin{LFRT}[$AuxWorld$ $authenticFrom$ is finite]
-\begin{theorem}{frule fAuxWorldAuthenticFromIsFinite}
+\begin{zeves-theorem}{frule fAuxWorldAuthenticFromIsFinite}
    \forall AuxWorld @ authenticFrom \in \finset~PayDetails
 \end{theorem}~\end{LFRT}
 %
 \begin{LFRT}[$AuxWorld$ $authenticFrom$ is finite]
-\begin{theorem}{frule fAuxWorldAuthenticToIsFinite}
+\begin{zeves-theorem}{frule fAuxWorldAuthenticToIsFinite}
    \forall AuxWorld @ authenticTo \in \finset~PayDetails
 \end{theorem}~\end{LFRT}
 
@@ -233,7 +237,7 @@ Firstly, we add those payments related to the domain of authentic purses.
 \begin{axdef}
    PayDetailsFromDomPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsFromDomPurse}
+%  \Label{rule dPayDetailsFromDomPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsFromDomPurse = \\
     \t1 \{~ pd: PayDetails | pd.from \in \dom~purse ~\}
 \end{axdef}~\end{LNewADef}
@@ -247,7 +251,7 @@ TODO: Add consistency lambda-terms here! See Z/Eves user's guide p.22 (3.1.3).
 \begin{axdef}
    PayDetailsToDomPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsToDomPurse}
+%  \Label{rule dPayDetailsToDomPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsToDomPurse = \\
     \t1 \{~ pd: PayDetails | pd.to \in \dom~purse ~\}
 \end{axdef}~\end{LNewADef}
@@ -258,7 +262,7 @@ Next, we add those payments filtered accordingly.
 \begin{axdef}
    PayDetailsFromDomEPRPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsFromDomEPRPurse}
+%  \Label{rule dPayDetailsFromDomEPRPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsFromDomEPRPurse = \\
     \t1 \{~ pd: \{~ pd1: PayDetails | pd1.from \in \dom~purse ~\} | \\
         \t2 (purse~pd.from).status = epr \\
@@ -269,7 +273,7 @@ Next, we add those payments filtered accordingly.
 \begin{axdef}
    PayDetailsFromDomEPAPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsFromDomEPAPurse}
+%  \Label{rule dPayDetailsFromDomEPAPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsFromDomEPAPurse = \\
     \t1 \{~ pd: \{~ pd1: PayDetails | pd1.from \in \dom~purse ~\} | \\
         \t2 (purse~pd.from).status = epa \\
@@ -280,7 +284,7 @@ Next, we add those payments filtered accordingly.
 \begin{axdef}
    PayDetailsToDomEPVPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsToDomEPVPurse}
+% \Label{rule dPayDetailsToDomEPVPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsToDomEPVPurse = \\
     \t1 \{~ pd: \{~ pd1: PayDetails | pd1.to \in \dom~purse ~\} | \\
         \t2 (purse~pd.to).status = epv \land \\
@@ -291,7 +295,7 @@ Next, we add those payments filtered accordingly.
 \begin{axdef}
    PayDetailsToDomEATOPurse: \power~PayDetails
 \where
-  \Label{rule dPayDetailsToDomEATOPurse}
+%  \Label{rule dPayDetailsToDomEATOPurse}
     \forall purse: NAMES \finj ConPurse @ PayDetailsToDomEATOPurse = \\
     \t1 \{~ pd: \{~ pd1: PayDetails | pd1.to \in \dom~purse ~\} | \\
         \t2 (purse~pd.to).status = eaTo \land \\
@@ -301,29 +305,29 @@ Next, we add those payments filtered accordingly.
 After that, we add the necessary lemmas
 %
 \begin{LNewLemma}[$PayDetailsFromDomEPRPurse$ is finite]
-\begin{theorem}{rule lPayDetailsFromPurseEPRIsFinite}
+\begin{zeves-theorem}{rule lPayDetailsFromPurseEPRIsFinite}
     \forall purse: NAMES \finj ConPurse @ PayDetailsFromDomEPRPurse \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$epa$ set of payment details is finite via $from$]
-\begin{theorem}{rule lPayDetailsFromPurseEPAIsFinite}
+\begin{zeves-theorem}{rule lPayDetailsFromPurseEPAIsFinite}
     \forall purse: NAMES \finj ConPurse @ PayDetailsFromDomEPAPurse \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$epv$ set of payment details is finite via $to$]
-\begin{theorem}{rule lPayDetailsToPurseEPVIsFinite}
+\begin{zeves-theorem}{rule lPayDetailsToPurseEPVIsFinite}
     \forall purse: NAMES \finj ConPurse @ PayDetailsToDomEPVPurse \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 
 \begin{LNewLemma}[$eaTo$ set of payment details is finite via $to$]
-\begin{theorem}{rule lPayDetailsToPurseEATOIsFinite}
+\begin{zeves-theorem}{rule lPayDetailsToPurseEATOIsFinite}
     \forall purse: NAMES \finj ConPurse @ PayDetailsToDomEATOPurse \in \finset~PayDetails
 \end{theorem}~\end{LNewLemma}
 %
 And finally, we prove the original Mondex theorem.
 %
 \begin{LThm}[$AuxWorld$ do not add constraints to $ConWorld$] %
-\begin{theorem}{tAuxWorldDoesNotAddConstraints}
+\begin{zeves-theorem}{tAuxWorldDoesNotAddConstraints}
    \forall ConWorld @ \exists_1 NewVariables @ AuxWorld
 \end{theorem}~\end{LThm}
 
@@ -543,23 +547,23 @@ toLogged \in \finset PayDetails
 \end{schema}~\end{LNewSDef}
 
 \begin{LSDef}[Complete between world definition]
-\begin{syntax}
-   BetweenWorld & ~~\defs~~ & BetweenWorldB1 \land BetweenWorldB2 \land \\
-                &           & BetweenWorldB3 \land BetweenWorldB4 \land \\
-                &           & BetweenWorldB5 \land BetweenWorldB6 \land \\
-                &           & BetweenWorldB7  \land BetweenWorldB8 \land \\
-                &           & BetweenWorldB9 \land BetweenWorldB10 \land \\
-                &           & BetweenWorldB11 \land BetweenWorldB12 \land \\
-                &           & BetweenWorldB13 \land BetweenWorldB14 \land \\
-                &           & BetweenWorldB15 \land BetweenWorldB16
-\end{syntax}~\end{LSDef}
+\begin{zed}
+   BetweenWorld \defs BetweenWorldB1 \land BetweenWorldB2 \land \\
+                BetweenWorldB3 \land BetweenWorldB4 \land \\
+                BetweenWorldB5 \land BetweenWorldB6 \land \\
+                BetweenWorldB7  \land BetweenWorldB8 \land \\
+                BetweenWorldB9 \land BetweenWorldB10 \land \\
+                BetweenWorldB11 \land BetweenWorldB12 \land \\
+                BetweenWorldB13 \land BetweenWorldB14 \land \\
+                BetweenWorldB15 \land BetweenWorldB16
+\end{zed}~\end{LSDef}
 
 \subsection*{Expanded $BetweenWorld$}
 
 Cannot be a rule because of quantifiers in the goal.
 %
 \begin{LNewLemma}[Between world simple expansion]
-\begin{theorem}{lBetweenWorldExpansion}
+\begin{zeves-theorem}{lBetweenWorldExpansion}
     \forall BetweenWorld @
     \znote{BetweenWorld components}
     AuxWorld \land \\ \t1
@@ -625,7 +629,7 @@ next theorem is required. That is because $AuxWorld$ is blown away by \zeves\
 when the closed $BetweenWorld$ appears early on the list of assumptions.
 %
 \begin{LNewLemma}[Between $AuxWorld$ expansion]
-\begin{theorem}{lBetweenWorldAuxWorldExpansion}
+\begin{zeves-theorem}{lBetweenWorldAuxWorldExpansion}
     \znote{AuxWorld components}
     \forall BetweenWorld @ ConWorld \land
             allLogs \in NAMES \rel PayDetails \land \\ \t1
@@ -702,7 +706,7 @@ one for each invariant property and schema component. (see Chapter~\ref{ch10} fo
 were it is used).
 %
 \begin{LNewLemma}[Between world full expansion]
-\begin{theorem}{lBetweenWorldFullExpansion}
+\begin{zeves-theorem}{lBetweenWorldFullExpansion}
     \znote{ConWorld components and invariant}
     \forall BetweenWorld @ conAuthPurse \in NAMES \finj ConPurse \land
             ether \in \power~MESSAGE \land \\ \t1
@@ -795,7 +799,7 @@ between the \zeves\ GUI and \zeves\ x-emacs interfaces.
   name? \in \dom~conAuthPurse
   \\    \theta ConPurse = conAuthPurse~name?
   \also
-  conAuthPurse' = conAuthPurse \oplus \{ name? \mapsto \theta ConPurse' \}
+  conAuthPurse' = conAuthPurse \oplus \{ name? \mapsto \theta ConPurse~' \}
   \also
   archive' = archive
   \also
@@ -943,7 +947,8 @@ The next two operations are used in lemmas from Section~\ref{ch14.between-specia
   conAuthPurse' = conAuthPurse
   \\    ether' = ether
   \also
-  archive \subseteq
+% probably a bug in the typechecker:  archive \subseteq
+  archive \subseteq archive'
   \\ \t1                archive' \subseteq
   \\ \t2                archive \cup \{~ log: NAMES \cross PayDetails |
   \\ \t4                                exceptionLogResult~log \in ether ~\}

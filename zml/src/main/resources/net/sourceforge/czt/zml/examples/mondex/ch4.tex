@@ -1,5 +1,9 @@
 \chapter{\Betw\ model, single purse, operations}\label{ch4}
 
+\begin{zsection}
+  \SECTION ch4 \parents ch3
+\end{zsection}
+
 \section{Status}
 
 \begin{LFType}[Between world status type]
@@ -72,7 +76,7 @@ leat one payment details could be created, which is ensured by
 the next lemma.
 %
 \begin{LNewLemma}[It is always possible to find a payment details]
-\begin{theorem}{lExistsPayDetails}
+\begin{zeves-theorem}{lExistsPayDetails}
     \exists pd: PayDetails @ true
 \end{theorem}~\end{LNewLemma}
 
@@ -101,19 +105,19 @@ $image$ an injection on some choice of $c \in CLEAR$.
 \end{axdef}~\end{LADef}
 
 \section{Messages}
-
+%%Zinword \bot bot
 \begin{LFType}[Between world message type]
-\begin{syntax}
-   MESSAGE & ~~::= ~~ & startFrom \ldata CounterPartyDetails \rdata \\
-           & | & startTo \ldata CounterPartyDetails \rdata \\
-           & | & readExceptionLog \\
-           & | & req \ldata PayDetails \rdata \\
-           & | & val \ldata PayDetails \rdata \\
-           & | & ack \ldata PayDetails \rdata \\
-           & | & exceptionLogResult \ldata NAMES \cross PayDetails \rdata \\
-           & | & exceptionLogClear \ldata NAMES \cross CLEAR \rdata \\
-           & | & \bot
-\end{syntax}~\end{LFType}
+\begin{zed}
+   MESSAGE ::= startFrom \ldata CounterPartyDetails \rdata \\
+           | startTo \ldata CounterPartyDetails \rdata \\
+           | readExceptionLog \\
+           | req \ldata PayDetails \rdata \\
+           | val \ldata PayDetails \rdata \\
+           | ack \ldata PayDetails \rdata \\
+           | exceptionLogResult \ldata NAMES \cross PayDetails \rdata \\
+           | exceptionLogClear \ldata NAMES \cross CLEAR \rdata \\
+           | \bot
+\end{zed}~\end{LFType}
 
 \section{A concrete purse}
 
@@ -222,27 +226,27 @@ from counter party details schema. They appear because in the definite descripti
 \begin{gzed} StartFromPurseEafromOkay \end{gzed} we make direct use of the fields of $cpd$.
 %
 \begin{LFRT}[$CounterPartyDetails$ $name$ type]
-\begin{theorem}{frule fCounterPartyDetailsNameType}
+\begin{zeves-theorem}{frule fCounterPartyDetailsNameType}
    x \in CounterPartyDetails \implies x.name \in NAMES
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$CounterPartyDetails$ $value$ upper bound]
-\begin{theorem}{frule fCounterPartyDetailsValueUpperBound}
+\begin{zeves-theorem}{frule fCounterPartyDetailsValueUpperBound}
    x \in CounterPartyDetails \implies x.value \leq MAX\_NAT
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$CounterPartyDetails$ $value$ lower bound]
-\begin{theorem}{frule fCounterPartyDetailsValueLowerBound}
+\begin{zeves-theorem}{frule fCounterPartyDetailsValueLowerBound}
    x \in CounterPartyDetails \implies 0 \leq x.value
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$CounterPartyDetails$ $nextSeqNo$ upper bound]
-\begin{theorem}{frule fCounterPartyDetailsNextSeqNoUpperBound}
+\begin{zeves-theorem}{frule fCounterPartyDetailsNextSeqNoUpperBound}
    x \in CounterPartyDetails \implies x.nextSeqNo \leq MAX\_NAT
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$CounterPartyDetails$ $nextSeqNo$ lower bound]
-\begin{theorem}{frule fCounterPartyDetailsNextSeqNoLowerBound}
+\begin{zeves-theorem}{frule fCounterPartyDetailsNextSeqNoLowerBound}
    x \in CounterPartyDetails \implies 0 \leq x.nextSeqNo
 \end{theorem}~\end{LFRT}
 %
@@ -250,27 +254,27 @@ The following $5$ rules are needed for discharging goals involving \begin{gzed} 
 The relationship between them is explained in the corresponding proof scripts below.
 %
 \begin{LFRT}[$CounterPartyDetails$ binding type]
-\begin{theorem}{frule fCounterPartyDetailsMember}
+\begin{zeves-theorem}{frule fCounterPartyDetailsMember}
     x \in  CounterPartyDetails \implies  x \in  \lblot name: NAME; nextSeqNo: \nat ; value: \nat \rblot
 \end{theorem}~\end{LFRT}
 
 \begin{LFRT}[$CounterPartyDetails$ binding membership]
-\begin{theorem}{frule fCounterPartyDetailsInSetMember}
+\begin{zeves-theorem}{frule fCounterPartyDetailsInSetMember}
    x \in  \lblot name: NAMES; nextSeqNo: NAT ; value: NAT \rblot  \implies  x \in  CounterPartyDetails
 \end{theorem}~\end{LFRT}
 
 \begin{LGRT}[$startFrom$ $MESSAGE$ relation type]
-\begin{theorem}{grule gMESSAGEStartFromRelType}
+\begin{zeves-theorem}{grule gMESSAGEStartFromRelType}
    startFrom \in  \lblot name: NAME; nextSeqNo: \nat ; value: \nat \rblot  \rel  MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$startFrom$ $MESSAGE$ partial function type]
-\begin{theorem}{grule gMESSAGEStartFromPFunType}
+\begin{zeves-theorem}{grule gMESSAGEStartFromPFunType}
    startFrom \in  \lblot name: NAME; nextSeqNo: \nat ; value: \nat \rblot  \pfun  MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$startFrom$ $MESSAGE$ partial injection type]
-\begin{theorem}{grule gMESSAGEStartFromPInjType}
+\begin{zeves-theorem}{grule gMESSAGEStartFromPInjType}
    startFrom \in \lblot name: NAME; nextSeqNo: \nat ;  value: \nat \rblot \pinj MESSAGE
 \end{theorem}~\end{LGRT}
 %
@@ -340,8 +344,8 @@ Let us see.
    \also
    \Xi ConPurseStart
    \also
-   \znote{Due to the limit on natural number values}
-   \znote{we must make sure we are not at the limit}
+%   \znote{Due to the limit on natural number values}
+%   \znote{we must make sure we are not at the limit}
    nextSeqNo < MAX\_NAT \\
    nextSeqNo' > nextSeqNo
    \also
@@ -369,17 +373,17 @@ Let us see.
 These theorems are similar to those for $startFrom$ in~\ref{ch4.valTransferOp}
 %
 \begin{LGRT}[$startTo$ $MESSAGE$ relation type]
-\begin{theorem}{grule gMESSAGEStartToRelType}
+\begin{zeves-theorem}{grule gMESSAGEStartToRelType}
    startTo \in  \lblot name: NAME; nextSeqNo: \nat ; value: \nat \rblot  \rel  MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$startTo$ $MESSAGE$ partial function type]
-\begin{theorem}{grule gMESSAGEStartToPFunType}
+\begin{zeves-theorem}{grule gMESSAGEStartToPFunType}
    startTo \in  \lblot name: NAME; nextSeqNo: \nat ; value: \nat \rblot  \pfun  MESSAGE
 \end{theorem}~\end{LGRT}
 
 \begin{LGRT}[$startTo$ $MESSAGE$ partial injection type]
-\begin{theorem}{grule gMESSAGEStartToPInjType}
+\begin{zeves-theorem}{grule gMESSAGEStartToPInjType}
    startTo \in \lblot name: NAME; nextSeqNo: \nat; value: \nat \rblot \pinj MESSAGE
 \end{theorem}~\end{LGRT}
 
@@ -411,8 +415,8 @@ These theorems are similar to those for $startFrom$ in~\ref{ch4.valTransferOp}
    \also
    \Xi ConPurseStart
    \also
-   \znote{Due to the limit on natural number values}
-   \znote{we must make sure we are not at the limit}
+%   \znote{Due to the limit on natural number values}
+%   \znote{we must make sure we are not at the limit}
    nextSeqNo < MAX\_NAT \\
    nextSeqNo' > nextSeqNo
    \also
@@ -425,7 +429,7 @@ These theorems are similar to those for $startFrom$ in~\ref{ch4.valTransferOp}
    \also
    status' = epv
    \also
-   m! = req pdAuth'
+   m! = req~pdAuth'
 \end{schema}~\end{LSDef}
 
 \begin{LSDef}[Successful $startTo$ operation with recovery from abortion]
