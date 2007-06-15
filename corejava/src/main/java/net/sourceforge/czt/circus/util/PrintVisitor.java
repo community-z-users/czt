@@ -66,6 +66,7 @@ import net.sourceforge.czt.z.ast.FalsePred;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.MemPred;
 import net.sourceforge.czt.z.ast.NarrPara;
+import net.sourceforge.czt.z.ast.NarrSect;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.RefExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
@@ -86,6 +87,7 @@ import net.sourceforge.czt.z.visitor.FalsePredVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.MemPredVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
+import net.sourceforge.czt.z.visitor.NarrSectVisitor;
 import net.sourceforge.czt.z.visitor.ParentVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
@@ -129,6 +131,7 @@ public class PrintVisitor
   AndPredVisitor<String>,
   LatexMarkupParaVisitor<String>,
   NarrParaVisitor<String>,
+  NarrSectVisitor<String>,
   DirectiveVisitor<String>,
   ChannelParaVisitor<String>,
   ZDeclListVisitor<String>,
@@ -158,9 +161,24 @@ public class PrintVisitor
     return result.toString();
   }
   
+  protected String visitNarrText(String header, List text) {
+    int size = text.size();
+    StringBuilder result = new StringBuilder(header + "(" + size + ")={");
+    if (size > 0) {
+      String s = text.get(0).toString();
+      result.append(s.substring(0, Math.min(50, s.length())));
+    }
+    result.append("...}");    
+    return result.toString();
+  }
+  
   public String visitNarrPara(NarrPara term)
   {
-    return "NarrPara(" + term.getContent().size() + " in size)";
+    return visitNarrText("NarrPara", term.getContent());
+  }
+  
+  public String  visitNarrSect(NarrSect term) {
+    return visitNarrText("NarrSect", term.getContent());
   }
   
   public String visitLatexMarkupPara(LatexMarkupPara term)
