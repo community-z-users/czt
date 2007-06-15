@@ -39,17 +39,17 @@ public class PrintTest  extends ParserTest
   }
   
   protected void collectTest(TestSuite suite, File file)
-  {   
-    // DO NOTHING, FOR NOW
-    //super.collectTest(suite, file);
+  {       
+     super.collectTest(suite, file);
   }
   
   protected FileWriter print(Term term, String file) throws Exception
   {      
     assert term != null && file != null;
     FileWriter writer = new FileWriter(file);    
+    System.out.println("Printing " + file);        
     PrintUtils.printLatex(term, writer, getSectionManager());
-    if (DEBUG_TESTING) {
+    if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
         System.out.println("DEBUG: AFTER PRINTING, saved to " + file);                
         System.out.flush();

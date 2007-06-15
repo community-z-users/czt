@@ -20,6 +20,7 @@
 package net.sourceforge.czt.print.circus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -214,20 +215,26 @@ public class AstToPrintTreeVisitor
       //if (iter.hasNext()) list.add(TokenName.NL);
     }
     
-    // implicitly declared action paragraphs
-    for (Iterator<Para> iter = term.getZOnTheFlyPara().iterator();
-    iter.hasNext();)
-    {
-      Para next = iter.next();
-      if (next instanceof ActionPara)
+    if (!term.getZOnTheFlyPara().isEmpty()) {                    
+      // trying to add a NarrPara?
+      NarrPara np = getZFactory().createNarrPara(
+        Arrays.asList("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%Implicitly declared paragraphs\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n"));
+      list.add(visit(np));
+      // implicitly declared action paragraphs
+      for (Iterator<Para> iter = term.getZOnTheFlyPara().iterator();
+      iter.hasNext();)
       {
-        ActionPara ap = (ActionPara)next;
-        list.add(visit(ap));
-        if (iter.hasNext()) list.add(TokenName.NL);
-      }
-      else
-      {
-        getWM().warnBadParagraphFor("Implicitly", next, term);
+        Para next = iter.next();
+        if (next instanceof ActionPara)
+        {
+          ActionPara ap = (ActionPara)next;
+          list.add(visit(ap));
+          //if (iter.hasNext()) list.add(TokenName.NL);
+        }
+        else
+        {
+          getWM().warnBadParagraphFor("Implicitly", next, term);
+        }
       }
     }
     

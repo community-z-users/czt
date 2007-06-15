@@ -42,11 +42,21 @@ import net.sourceforge.czt.zml.Resources;
 public abstract class AbstractParserTest extends TestCase
 {
   protected static boolean DEBUG_TESTING = true;
-  protected static Level DEBUG_LEVEL = Level.FINE;
+  protected static Level DEBUG_LEVEL = Level.ALL;
   protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
 
-  protected static final ParseErrorLogging pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
-  protected static final ParseErrorLogging pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
+  protected static final ParseErrorLogging pel_;
+  protected static final ParseErrorLogging pelsm_;
+  
+  static {
+      if (DEBUG_TESTING) {
+        pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
+        pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
+      } else {
+        pel_ = null;
+        pelsm_ = null;
+      }
+  }
   
   protected final SectionManager manager_ = new SectionManager();
   protected final String lineSeparator_ = System.getProperty("line.separator", "\r\n");
@@ -77,13 +87,14 @@ public abstract class AbstractParserTest extends TestCase
   
   protected Term parse(Source source) throws Exception
   {
-    Term term = ParseUtils.parse(source, manager_);
-    if (DEBUG_TESTING) {
+    System.out.println("Parsing " + source);        
+    Term term = ParseUtils.parse(source, manager_);    
+    if (DEBUG_TESTING && DEBUG_LEVEL.intValue() <= Level.INFO.intValue()) {
         System.out.flush();
-        //PrintVisitor pv = new PrintVisitor();
+        PrintVisitor pv = new PrintVisitor();
         System.out.println("DEBUG: AFTER PARSING, PrintVisitor for " + source);        
-        //System.out.println(pv.printProcessPara(term));
-        //System.out.println();
+        System.out.println(pv.printProcessPara(term));
+        System.out.println();
         System.out.println(term);
         System.out.flush();
     }
