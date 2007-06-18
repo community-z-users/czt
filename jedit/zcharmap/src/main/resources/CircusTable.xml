@@ -323,38 +323,61 @@
     <item name="A &#x2293; B"
           description="Internal choice"
           latex="A \intchoice B"/>
+    <item name="A &#x2980; B"
+          description="Action interleave with empty name sets"
+          latex="A \interleave B"/>          
+    <item name="&#x27E6;..&#x27E7;"
+          description="Action parallel composition with empty name sets and explicit channel set"
+          unicode="A &#x27E6; &#x2983; c &#x2984; &#x27E7; B"
+          latex="A \lpar \lchanset c \rchanset \rpar B"/>                    
     <item name="A &#x2AF5; B"
           description="Hiding"
           latex="A \circhide B"/>
   </row>
-  <row heading="Rep. CSP Act.">
-    <item name="&#x2A1F;"
-          description="Replicated sequential composition"
-          unicode="&#x2A1F; x: T &#x2981; A(x)"
-          latex="\Semi x: T @ A(x)"/>    
-    <item name="&#x2A1F;" 
-          description="Replicated external choice"
-          unicode="&#x2A1F; x: T &#x2981; A(x)"
-          latex="\Extchoice x: T @ A(x)"/>    
-    <item name="&#x2294;" 
-          description="Replicated internal choice"
-          unicode="&#x2294; x: T &#x2981; A(x)"
-          latex="\Intchoice x: T @ A(x)"/>    
-  </row>
+  <row heading="Circus Acts.">
+    <item name="&#x2768; SExp &#x2769;"
+          description="Schema expression action"
+          latex="\lschexpract\ SExp \rschexpract"/>
+    <item name="&#x2768; SExp &#x2769;"
+          description="Schema expression action"
+          latex="\lschexpract\ SExp \rschexpract"/>          
+    <item name="&#x301A;.. &#x301B;"
+          description="Action interleave"
+          unicode="A &#x301A; nA | nB &#x301B; B"
+          latex="A \linter nA | \rinter B"/>          
+    <item name="&#x27E6;..|..&#x27E7;"
+          description="Action parallel composition with explicit channel set"
+          unicode="A &#x27E6; nsA | &#x2983; c &#x2984; | nsB &#x27E7; B"
+          latex="A \lpar nsA | \lchanset c \rchanset | nsB \rpar B"/>                                
+  </row>  
+  <!--
+  <row heading="Circus Proc.">
+    <item name="x: T &#x2299; P"
+          description="Indexed process"
+          latex="x: T \circindex P"/>                  
+  </row>    -->
   <row heading="Commands">
-    <item name="var..."
+    <item name="var"
           description="Local variable declaration"
           unicode="var x: T &#x2981; A &#xA;"
-          latex="\circvar\ x : T @ A &#xA;"/>      
-    <item name="if..."
+          latex="\circvar\ x : T @ A &#xA;"/>  
+    <item name=":="
+          description="Assignment"
+          unicode="x := y"
+          latex="x := y"/>  
+    <item name="if"
           description="If-then-else statement"
           unicode="if g1 &#x27FC; A1 &#xA; &#x25AF; g2 &#x27FC; A2 &#xA; fi &#xA;"
           latex="\circif\ g1 \circthen\ A1 &#xA; \t1 \circelse\ g2 \circthen\ A2 &#xA; \circfi\ &#xA;"/>  
-    <item name="do..."
+    <item name="do"
           description="do-od (loop) statement"
           unicode="do g &#x27FC; A &#xA; od &#xA;"
-          latex="\circdo\ g \circthen\ A &#xA; \circod &#xA;"/>            
-    <item name="con..."
+          latex="\circdo\ g \circthen\ A &#xA; \circod &#xA;"/>                      
+    <item name="stmt"
+          description="Specification statement"
+          unicode="x : [ P, Q ]"
+          latex="x : [ P, Q ]"/>                      
+    <item name="con"
           description="Logical constant declaration"
           unicode="var x: T &#x2981; A &#xA;"
           latex="\circvar\ x : T @ A &#xA;"/>                
@@ -370,6 +393,20 @@
           description="Parameter passed by value-result"
           unicode="vres x: T "
           latex="\circvres\ x : T "/>          
-  </row>  
+  </row>
+  <row heading="Rep. CSP Act.">
+    <item name="&#x2A1F;"
+          description="Replicated sequential composition"
+          unicode="&#x2A1F; x: T &#x2981; A(x)"
+          latex="\Semi x: T @ A(x)"/>    
+    <item name="&#x25A1;" 
+          description="Replicated external choice"
+          unicode="&#x25A1; x: T &#x2981; A(x)"
+          latex="\Extchoice x: T @ A(x)"/>    
+    <item name="&#x2294;" 
+          description="Replicated internal choice"
+          unicode="&#x2294; x: T &#x2981; A(x)"
+          latex="\Intchoice x: T @ A(x)"/>    
+  </row>
 </table>         
 
