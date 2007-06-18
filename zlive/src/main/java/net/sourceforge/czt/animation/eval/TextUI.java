@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.flatpred.FlatGivenSet;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.animation.eval.flatpred.FlatRangeSet;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.GivenValue;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
@@ -417,15 +418,40 @@ public class TextUI {
     }
   }
 
-  /** Prints the current values of all the ZLive settings. */
+  /** Prints the current values of all the ZLive settings.
+   *  NOTE: when you change this, make sure you update printSettingsHelp too.
+   */
   public void printSettings(PrintWriter out)
   {
-    out.println("markup       = " + zlive_.getMarkup());
-    out.println("section      = " + zlive_.getCurrentSection());
-    out.println("givensetsize = " + zlive_.getGivenSetSize());
-    out.println("numitersize  = " + RangeSet.getNumIterSize());
-    out.println("searchsize   = " + FlatPredList.getSearchSize());
-    out.println("printsetsize  = " + ResultTreeToZVisitor.getEvalSetSize());
+    out.println("markup          = " + zlive_.getMarkup());
+    out.println("section         = " + zlive_.getCurrentSection());
+    out.println("givensetsize    = " + zlive_.getGivenSetSize());
+    out.println("numitersize     = " + RangeSet.getNumIterSize());
+    out.println("closedrangesize = " + FlatRangeSet.getAverageClosedRange());
+    out.println("searchsize      = " + FlatPredList.getSearchSize());
+    out.println("printsetsize    = " + ResultTreeToZVisitor.getEvalSetSize());
+  }
+
+  /** Prints a help message about all the settings. */
+  public void printSettingsHelp(PrintWriter out)
+  {
+    out.println("Explanation of ZLive Settings");
+    out.println("markup: controls whether LATEX or UNICODE markup is");
+    out.println("        used when reading and printing Z terms.");
+    out.println("section: determines the context of evaluations.");
+    out.println("givensetsize: the maximum size of each given set.");
+    out.println("        This is effectively infinite by default, but can be");
+    out.println("        set lower if you want to assume finite given sets");
+    out.println("        (this may compromise correctness for some specs).");
+    out.println("numitersize: how far we try to enumerate large ranges n..m,");
+    out.println("        before reporting an EvalException.");
+    out.println("closedrangesize: the average estimated size of closed n..m");
+    out.println("        ranges, when n and m are unknown.");
+    out.println("searchsize: the max acceptable evaluation cost for each predicate.");
+    out.println("        If no evaluation mode with less cost than this can be found,");
+    out.println("        then evaluation will not be started.");
+    out.println("printsetsize: the max number of elements of each set that will be");
+    out.println("        printed during output.");
   }
 
   /** Set one of the ZLive settings to the given value. */
@@ -443,6 +469,9 @@ public class TextUI {
     }
     else if ("numitersize".equals(name)) {
       RangeSet.setNumIterSize(value);
+    }
+    else if ("closedrangesize".equals(name)) {
+      FlatRangeSet.setAverageClosedRange(value);
     }
     else if ("searchsize".equals(name)) {
         FlatPredList.setSearchSize(value);
@@ -474,6 +503,7 @@ public class TextUI {
     out.println("  unfold term     -- Show term after initial unfolding (debug)");
     out.println("  apply rule expr -- Try to rewrite expr using rule (debug)");
     out.println();
+    printSettingsHelp(out);
   }
 
   public String printTerm(Term term, Markup markup)

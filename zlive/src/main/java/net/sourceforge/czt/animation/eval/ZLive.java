@@ -90,7 +90,7 @@ public class ZLive
   private String sectName_;
   private Markup markup_ = Markup.LATEX;
 
-  /** Maximum size of each Given set. */
+  /** Maximum size of each Given set.  The default is (effectively) infinite. */
   private int givenSetSize_ = Integer.MAX_VALUE;
 
   /** This can be called to reset the new name counter to 0.
@@ -207,11 +207,11 @@ public class ZLive
    */
   public void setMarkup(String markup)
   {
-      markup_ = Enum.valueOf(Markup.class, markup);
+      markup_ = Enum.valueOf(Markup.class, markup.toUpperCase());
   }
 
   /** The maximum size of each given set.
-   *  This is Integer.MAX_VALUE by default.
+   *  This is effectively infinite (actually Integer.MAX_VALUE) by default.
    */
   public int getGivenSetSize()
   {
@@ -422,7 +422,7 @@ public class ZLive
             writer.println("Code is empty!");
           for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
             FlatPred p = (FlatPred) i.next();
-            writer.write("  " + p.toString() + "\n");
+            writer.write(p.toString() + ";\n");
           }
           writer.flush();
         }

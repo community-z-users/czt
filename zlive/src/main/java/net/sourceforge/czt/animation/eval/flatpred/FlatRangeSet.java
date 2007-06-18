@@ -99,9 +99,21 @@ public class FlatRangeSet extends FlatPred
    * This is used to guess the best evaluation order during mode analysis.
    * @param averageClosedRange should be 2..1000000000.
    */
-  public static void setAverageClosedRange_(int size)
+  public static void setAverageClosedRange(int size)
   {
+    if (size < 2) {
+      throw new RuntimeException("illegal average closed range size: "+size);
+    }
     FlatRangeSet.averageClosedRange_ = size;
+  }
+
+  /** A convenience method for setting the average expected size
+   *  of a closed range a..b.
+   * @param str An integer in string form.
+   */
+  public static void setAverageClosedRange(String str)
+  {
+    FlatRangeSet.averageClosedRange_ = Integer.parseInt(str);
   }
 
   /** Saves the Bounds information for later use.
@@ -123,7 +135,7 @@ public class FlatRangeSet extends FlatPred
     if (estimate.maxSize() == null
         && lowerArg_ >= 0
         && upperArg_ >= 0) {
-      // it will be a finite range at evaltime, so we guess its size.
+      // It will be a finite range at evaltime, so we guess its size.
       FuzzySet fuzzy = new FuzzySet(getLastArg().toString(),
           averageClosedRange_, null);
       fuzzy.setLower(lo);
@@ -172,67 +184,6 @@ public class FlatRangeSet extends FlatPred
       result = ((NumExpr)e).getValue();
     }
     return result;
-  }
-
- /* public BigInteger getLower()
-  {
-	lower_ = getBound(lBound_);
-	return lower_;
-  }
-
-  public BigInteger getUpper()
-  {
-	upper_ = getBound(uBound_);
-	return upper_;
-  }
-*/
-
-  /** Auxiliary function for calculating the size of the range set.
-   *  @param low  Bottom of the range, or null if no limit.
-   *  @param high Top of the range, or null if no limit.
-   *  @return     The number of elements in the set.
-   */
-  private double setSize(BigInteger low, BigInteger high)
-  {
-    if (low == null || high == null)
-      return Double.POSITIVE_INFINITY;
-    if(high.compareTo(low)<0)
-      return 0.0;
-    else
-      return (high.subtract(low).add(BigInteger.ONE).doubleValue());
-  }
-
-  /** Estimate the size of the set in the given environment.
-   *  TODO: could delete this???
-   */
-  public double estSize(Envir env)
-  {
-    return setSize(getBound(env, lowerArg_), getBound(env, upperArg_));
-  }
-
-  /** TODO: could delete this???
-   */
-  public double estSubsetSize(Envir env, ZName element)
-  {
-    assert bounds_ != null; // inferBounds should have been called.
-    BigInteger low = getBound(env, lowerArg_);
-    BigInteger high = getBound(env, upperArg_);
-    BigInteger elemLow = bounds_.getLower(element);
-    BigInteger elemHigh = bounds_.getUpper(element);
-
-    if (low == null) {
-      low = elemLow;
-    }
-    else if (elemLow != null)
-      low = low.max(elemLow);
-
-    if (high == null) {
-      high = elemHigh;
-    }
-    else if (elemHigh != null)
-      high = high.min(elemHigh);
-
-    return setSize(low, high);
   }
 
   /** Does the actual evaluation */

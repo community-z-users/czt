@@ -183,7 +183,11 @@ public class FlatMember extends FlatPred
     if (set != null || range != null) {
       result.append(" :: ");
       if (set != null) {
-        result.append(set.estSize());
+        if (set.estSize() < Double.POSITIVE_INFINITY) {
+          result.append(set.estSize());
+          result.append(" ");
+        }
+        // now calculate range intersection of setName and set.
         BigInteger lo = set.getLower();
         BigInteger hi = set.getUpper();
         RangeSet elemRange = null;
