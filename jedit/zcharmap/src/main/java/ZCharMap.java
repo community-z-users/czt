@@ -23,6 +23,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JScrollPane;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
@@ -115,7 +116,11 @@ public class ZCharMap extends JPanel
       new ZCharTable(getClass().getResource("/ObjectZTable.xml"));
     circusTableModel_ = new ZCharTable(getClass().getResource("/CircusTable.xml"));
     mTable = new JTable();
-    setTableModel();
+    setTableModel();    
+    
+    JScrollPane scrollPane = new JScrollPane(mTable);
+    mTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    mTable.setFillsViewportHeight(true);    
     mTable.setFont(view.getTextArea().getPainter().getFont());
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
     mTable.setRowHeight(view.getTextArea().getPainter().getFont().getSize()+4);
@@ -128,7 +133,7 @@ public class ZCharMap extends JPanel
     mTable.addMouseListener(new MouseHandler());
     mTable.addMouseMotionListener(new MouseHandler());
     
-    add(BorderLayout.CENTER,new JScrollPane(mTable));
+    add(BorderLayout.CENTER, scrollPane);
     
     status = new StatusRenderer(" ");
     status.setFont(view.getTextArea().getPainter().getFont());
