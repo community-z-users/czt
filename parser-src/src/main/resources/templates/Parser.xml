@@ -513,14 +513,17 @@ action code
         memPred = (MemPred) ((AndPred) pred).getRightPred();
       }
 
-      if (parserState_.isPreviousChain(Sym.MEM)) {
+      //if the previous infix is a mem pred
+      if (memPred.getMixfix().equals(Boolean.FALSE)) {
         result = memPred.getRightExpr();
       }
-      else if (parserState_.isPreviousChain(Sym.EQUALS)) {
+      //if the previous infix is an equals
+      else if (memPred.getMixfix().equals(Boolean.TRUE) &amp;&amp;
+               memPred.getRightExpr() instanceof SetExpr) {
         SetExpr se = (SetExpr) memPred.getRightExpr();
         result = se.getZExprList().get(0);
       }
-      //previousChain_ == Sym.IP
+      //if the previous infix is an IP
       else {
         TupleExpr te = (TupleExpr) memPred.getLeftExpr();
         result = te.getZExprList().get(1);
@@ -553,8 +556,6 @@ action code
       MemPred mp = factory_.createMemPred(lExpr, rExpr, mixfix);
       addLocAnn(mp, loc);
       result = factory_.createAndPred(chain, mp, And.Chain);
-
-      parserState_.setPreviousChain(-1);
       return result;
     }
 
@@ -576,8 +577,6 @@ action code
       MemPred mp = createMemPred(opName, exprs, loc);
       addLocAnn(mp, loc);
       result = factory_.createAndPred(chain, mp, And.Chain);
-
-      parserState_.setPreviousChain(-1);
       return result;
     }
 
@@ -6556,7 +6555,6 @@ infixRel ::=
 infixChainRel ::=
         term:lhs MEM:m term:rhs
         {:
-           parserState_.setPreviousChain(Sym.MEM);
            RESULT =
              factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
            addLocAnn(RESULT, getLocation(mleft, mright, lhs, rhs));
@@ -6564,14 +6562,12 @@ infixChainRel ::=
         |
         term:lhs EQUALS:equals term:rhs
         {:
-           parserState_.setPreviousChain(Sym.EQUALS);
            RESULT = factory_.createEquality(expr(lhs), expr(rhs));
            addLocAnn(RESULT, getLocation(equalsleft, equalsright, lhs, rhs));
         :}
         |
         term:lhs IP:ip term:rhs
         {:
-           parserState_.setPreviousChain(Sym.IP);
            List&lt;String&gt; opName = factory_.list(ARG_TOK);
            opName.add(ip.getString());
            opName.add(ARG_TOK);
@@ -6588,7 +6584,6 @@ infixChainRel ::=
            RESULT =
              transformChainRel(icr, Sym.MEM, expr(rhs), getLocation(icr));
            addLocAnn(RESULT, getLocation(icr, rhs));           
-           parserState_.setPreviousChain(Sym.MEM);
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
@@ -6597,7 +6592,6 @@ infixChainRel ::=
            RESULT = transformChainRel(icr, Sym.EQUALS, expr(rhs),
                                       getLocation(icrleft, icrright));
            addLocAnn(RESULT, getLocation(icrleft, icrright));
-           parserState_.setPreviousChain(Sym.EQUALS);
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
@@ -6606,7 +6600,6 @@ infixChainRel ::=
            RESULT = transformChainRelInfix(icr, expr(rhs), ip.getString(),
                                            getLocation(icrleft, icrright));
            addLocAnn(RESULT, getLocation(icrleft, icrright));
-           parserState_.setPreviousChain(Sym.IP);
         :}
         ;
 
