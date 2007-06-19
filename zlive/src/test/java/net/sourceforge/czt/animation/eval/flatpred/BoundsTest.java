@@ -20,10 +20,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
+import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** Tests the Bounds class. */
@@ -425,5 +427,89 @@ public class BoundsTest extends ZTestCase
     //assertNotNull(est.maxSize());
     //assertTrue(est.maxSize().intValue() <= 1000);
     checkFixPoint(preds, bnds);
+  }
+
+  public void testAlias1()
+  {
+    Bounds bnds = new Bounds(null);
+    assertFalse(bnds.isAliased(x, y));
+    assertTrue(bnds.isAliased(x, x));
+    assertFalse(bnds.boundsChanged());
+    assertEquals(0, bnds.getDeductions());
+    bnds.addAlias(x, y);
+    assertTrue(bnds.boundsChanged());
+    assertTrue(bnds.isAliased(x, y));
+    assertTrue(bnds.isAliased(y, x));
+    assertEquals(2, bnds.getAliasKeys().size());
+    Set<Object> aliases = bnds.getAliases(x);
+    assertSame(aliases, bnds.getAliases(y));
+    assertTrue(aliases.contains(x));
+    assertTrue(aliases.contains(y));
+
+    // add some bounds to an aliased var
+    assertTrue(bnds.addLower(x, BigInteger.valueOf(10)));
+    assertEquals(BigInteger.valueOf(10), bnds.getLower(x));
+    assertEquals(BigInteger.valueOf(10), bnds.getLower(y));
+
+    assertTrue(bnds.addUpper(x, BigInteger.valueOf(20)));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(x));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(y));
+
+    // alias a third variable
+    bnds.addAlias(x,z);
+    assertTrue(bnds.isAliased(x, y));
+    assertTrue(bnds.isAliased(y, z));
+    assertTrue(bnds.isAliased(y, x));
+    assertTrue(bnds.isAliased(z, y));
+    aliases = bnds.getAliases(x);
+    assertEquals(3, aliases.size());
+    assertSame(aliases, bnds.getAliases(y));
+    assertSame(aliases, bnds.getAliases(z));
+    assertTrue(aliases.contains(x));
+    assertTrue(aliases.contains(y));
+    assertTrue(aliases.contains(z));
+
+    // check the above lower bound
+    assertEquals(BigInteger.valueOf(10), bnds.getLower(z));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(z));
+  }
+  
+
+  public void testAliasTuple()
+  {
+    Bounds bnds = new Bounds(null);
+    
+    // alias x = (y,z)
+    Expr left = factory_.createRefExpr(y);
+    Expr right = factory_.createRefExpr(z);
+    TupleExpr tuple = factory_.createTupleExpr(left, right);
+    bnds.addAlias(x, tuple);
+    assertTrue(bnds.boundsChanged());
+    assertTrue(bnds.getDeductions() > 0);
+    assertTrue(bnds.isAliased(x, tuple));
+    Set<Object> aliases = bnds.getAliases(x);
+    assertEquals(2, aliases.size());
+    assertTrue(aliases.contains(x));
+    assertTrue(aliases.contains(tuple));
+    
+    // alias x = w in a sub-bounds.
+    bnds.startAnalysis();
+    assertEquals(0, bnds.getDeductions());
+    Bounds bnds2 = new Bounds(bnds);
+    bnds2.startAnalysis(bnds);
+    assertEquals(0, bnds2.getDeductions());
+    ZName w = factory_.createZName("w");
+    bnds2.addAlias(w, x);
+    assertTrue(bnds2.boundsChanged());
+    assertTrue(bnds2.getDeductions() > 0);
+    assertTrue(bnds2.isAliased(x, tuple));
+    Set<Object> aliases2 = bnds2.getAliases(x);
+    assertEquals(3, aliases2.size());
+    assertTrue(aliases2.contains(w));
+    assertTrue(aliases2.contains(x));
+    assertTrue(aliases2.contains(tuple));
+    bnds2.endAnalysis();
+    // parent should have noticed the changes
+    assertEquals(1, bnds.getDeductions());
   }
 }

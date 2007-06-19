@@ -22,11 +22,14 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.animation.eval.result.RangeSet;
+import net.sourceforge.czt.z.ast.BindExpr;
+import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /** Maintains lower and upper bounds for integer variables.
@@ -38,17 +41,15 @@ import net.sourceforge.czt.z.ast.ZName;
  *  elements of those sets.  Finally, it records some alias names for
  *  structures such as tuples and bindings.  For example, from an equality
  *  like t=(a,c,d), we record the facts: t.1=a, t.2=c, t.3=d.
- *  
- *  Bounds information is usually attached
- *  to ZName objects, but other objects that represent parts of
- *  a tuple (x.1) or binding (x.k) can also be used, provided they
- *  are immutable and have sensible equals and hashCode methods.
  *  <p>
  *  It records information about whether new bounds information
  *  has recently (since the last call to startAnalysis)
  *  been added.  The implementation may even record <em>which</em>
  *  variables have recently changed, so that clients can decide
  *  whether or not it is worth re-analyzing a given FlatPred.
+ *  TODO: the record of <em>which</em> variables have changed is not
+ *  currently used, and it needs to be updated so that it changes
+ *  when aliases are added.
  *  </p>
  *  <p>
  *  The enterLocalBounds method can be used to clone a Bounds
@@ -72,24 +73,30 @@ public class Bounds
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
 
   protected Bounds parent_;
-  
+
   /** The number of bounds deductions in this scope (and child scopes). */
   protected int deductions_ = 0;
 
-  private HashMap<Object, BigInteger> lowerBound_;
-  private HashMap<Object, BigInteger> upperBound_;
-  private HashMap<Object, EvalSet> set_;
-  private Set<Object> changed_;
+  private HashMap<ZName, BigInteger> lowerBound_;
+  private HashMap<ZName, BigInteger> upperBound_;
+  private HashMap<ZName, EvalSet> set_;
+  /** We use a LinkedHashSet so that the first name added (which will always
+   *  be a ZName) stays in the same place/order.  We attach all bounds
+   *  information for all the aliased names only to this first name.
+   */
+  private HashMap<ZName, LinkedHashSet<Object>> aliases_;
+  private Set<ZName> changed_;
 
   /** Create a fresh Bounds object with no bounds values.
    *  @param parent Optional parent to inherit bounds from.
    */
   public Bounds(Bounds parent)
   {
-    lowerBound_ = new HashMap<Object, BigInteger>();
-    upperBound_ = new HashMap<Object, BigInteger>();
-    set_        = new HashMap<Object, EvalSet>();
-    changed_    = new HashSet<Object>();
+    lowerBound_ = new HashMap<ZName, BigInteger>();
+    upperBound_ = new HashMap<ZName, BigInteger>();
+    set_        = new HashMap<ZName, EvalSet>();
+    aliases_    = new HashMap<ZName, LinkedHashSet<Object>>();
+    changed_    = new HashSet<ZName>();
     parent_     = parent;
   }
 
@@ -119,12 +126,15 @@ public class Bounds
     assert parent_ == parent;
     changed_.clear();
     // copy bounds from parent to result (the child).
-    for (Object key : parent.getLowerKeys())
+    for (ZName key : parent.getLowerKeys())
       addLower(key, parent.getLower(key));
-    for (Object key : parent.getUpperKeys())
+    for (ZName key : parent.getUpperKeys())
       addUpper(key, parent.getUpper(key));
-    for (Object key : parent.getEvalSetKeys())
+    for (ZName key : parent.getEvalSetKeys())
       setEvalSet(key, parent.getEvalSet(key));
+    for (ZName key : parent.getAliasKeys())
+      for (Object alias : parent.getAliases(key))
+        addAlias(key, alias);
     // now clear our deduction counter, but retain information
     // about which vars have just received tighter bounds.
     deductions_ = 0;
@@ -178,7 +188,7 @@ public class Bounds
   }
 
   /** True iff the bounds of key have changed in this pass. */
-  public boolean boundsChanged(Object key)
+  public boolean boundsChanged(ZName key)
   {
     return changed_.contains(key);
   }
@@ -193,19 +203,19 @@ public class Bounds
   }
 
   /** Returns the keys that have lower bounds. */
-  public Set<Object> getLowerKeys()
+  public Set<ZName> getLowerKeys()
   {
     return lowerBound_.keySet();
   }
 
   /** Returns the keys that have upper bounds. */
-  public Set<Object> getUpperKeys()
+  public Set<ZName> getUpperKeys()
   {
     return upperBound_.keySet();
   }
 
   /** Returns the keys that have set information. */
-  public Set<Object> getEvalSetKeys()
+  public Set<ZName> getEvalSetKeys()
   {
     return set_.keySet();
   }
@@ -214,7 +224,8 @@ public class Bounds
   {
     return "Lows="+lowerBound_.toString()
           +"+Highs="+upperBound_.toString()
-          +"+Sets="+set_.keySet().toString();
+          +"+Sets="+set_.keySet().toString()
+          +"+Aliases="+aliases_.toString();
   }
 
   /** Get the EvalSet for var, if known.
@@ -222,21 +233,23 @@ public class Bounds
    * @param var  The name of an integer variable.
    * @return     The EvalSet (null means unknown).
    */
-  public EvalSet getEvalSet(Object var)
+  public EvalSet getEvalSet(ZName var0)
   {
+    ZName var = getBestAlias(var0);
     return set_.get(var);
   }
 
   /** Set the EvalSet for var.
-   *  This increments the deduction counter if there was 
+   *  This increments the deduction counter if there was
    *  previously no EvalSet information for key, or if
    *  any of the attributes of the EvalSet have decreased.
    *
    * @param var  The name of an integer variable.
    * @param set  A non-null EvalSet (usually a FuzzySet).
    */
-  public boolean setEvalSet(/*@non_null@*/Object var, /*@non_null@*/EvalSet set)
+  public boolean setEvalSet(/*@non_null@*/ZName var0, /*@non_null@*/EvalSet set)
   {
+    ZName var = getBestAlias(var0);
     EvalSet old = set_.get(var);
     set_.put(var,set);
     if (old == null
@@ -288,9 +301,9 @@ public class Bounds
    * @param var  The name of an integer variable.
    * @return     The lower bound (null means -infinity).
    */
-  public BigInteger getLower(Object var)
+  public BigInteger getLower(ZName var)
   {
-    return lowerBound_.get(var);
+    return lowerBound_.get(getBestAlias(var));
   }
 
   /** Get the optional upper bound for var.
@@ -298,16 +311,17 @@ public class Bounds
    * @param var  The name of an integer variable.
    * @return     The upper bound (null means -infinity).
    */
-  public BigInteger getUpper(Object var)
+  public BigInteger getUpper(ZName var)
   {
-    return upperBound_.get(var);
+    return upperBound_.get(getBestAlias(var));
   }
 
   /** Returns the lower and/or upper bounds of an integer
    *  variable (if known), or null otherwise.
    */
-  public RangeSet getRange(Object var)
+  public RangeSet getRange(ZName var0)
   {
+    ZName var = getBestAlias(var0);
     BigInteger lo = getLower(var);
     BigInteger hi = getUpper(var);
     if (lo == null && hi == null)
@@ -326,8 +340,9 @@ public class Bounds
    * @param lower The lower bound (must be non-null).
    * @return      true iff the bound has changed (ie. is tighter).
    */
-  public boolean addLower(Object var, /*@non_null@*/BigInteger lower)
+  public boolean addLower(ZName var0, /*@non_null@*/BigInteger lower)
   {
+    ZName var = getBestAlias(var0);
     assert lower != null;
     BigInteger old = lowerBound_.get(var);
     if (old == null || lower.compareTo(old) > 0) {
@@ -350,8 +365,9 @@ public class Bounds
    * @param upper The upper bound (must be non-null).
    * @return      true iff the bound has changed (ie. is tighter).
    */
-  public boolean addUpper(Object var, /*@non_null@*/BigInteger upper)
+  public boolean addUpper(ZName var0, /*@non_null@*/BigInteger upper)
   {
+    ZName var = getBestAlias(var0);
     assert upper != null;
     BigInteger old = upperBound_.get(var);
     if (old == null || upper.compareTo(old) < 0) {
@@ -362,5 +378,145 @@ public class Bounds
     }
     else
       return false;
+  }
+
+
+  /** Returns the keys that have alias information. */
+  public Set<ZName> getAliasKeys()
+  {
+    return aliases_.keySet();
+  }
+
+  /** Returns a list of all known aliases for var.
+   *  The resulting list will contain ZName, TupleExpr and BindExpr
+   *  objects.  For example: getAliases(x) == [ y, z, (a,b,c), (g,h,i') ]
+   *  means that x = y = z = (a,b,c) = (g,h,i').
+   *
+   * @param var
+   * @return A list of aliases, which should be treated as read-only.
+   */
+  public Set<Object> getAliases(ZName var)
+  {
+    return aliases_.get(var);
+  }
+
+  /** Returns the ZName that has the bounds information attached to it.
+   *  If var is aliased with other objects, then the bounds information
+   *  is always attached to the first object in the LinkedHashSet,
+   *  which will always be a ZName.
+   */
+  protected /*@non_null@*/ZName getBestAlias(/*@non_null@*/ ZName var)
+  {
+    LinkedHashSet<Object> set = aliases_.get(var);
+    if (set == null) {
+      return var;
+    }
+    else {
+      return (ZName) set.iterator().next();
+    } 
+  }
+
+  /** True iff var and other are known to be aliased. */
+  public boolean isAliased(ZName var, Object other)
+  {
+    if (var.equals(other))
+      return true;
+    Set<Object> known = aliases_.get(var);
+    return known != null && known.contains(other);
+  }
+
+  /** Add another alias for var.
+   *  The alias object must be a ZName,
+   *  TupleExpr (which contains only ZName objects),
+   *  or BindExpr object (which contains only ZName objects after each ==).
+   * @param var
+   * @param alias
+   */
+  public void addAlias(ZName var, Object newAlias)
+  {
+    if (isAliased(var, newAlias))
+      return; // no change needed.
+    deductions_++;
+    changed_.add(var);
+    if (newAlias instanceof ZName) {
+      merge(var, (ZName) newAlias);
+      // TODO: go through and infer more equalities, from (a,b)=(c,d) etc.
+    }
+    else {
+      assert newAlias instanceof TupleExpr || newAlias instanceof BindExpr;
+      Set<Object> known = aliases_.get(var);
+      if (known == null) {
+        LinkedHashSet<Object> list = new LinkedHashSet<Object>();
+        list.add(var);
+        list.add(newAlias);
+        aliases_.put(var, list);
+      }
+      else {
+        known.add(newAlias);
+        // TODO: go through and infer more equalities, from (a,b)=(c,d) etc.
+      }
+    }
+  }
+
+  /** Calculates the union of two alias sets and makes sure that
+   * both var1 and var2 point to that union.
+   *
+   * @param var1
+   * @param var2
+   * @return Result may be a fresh list, or the one for var1 or var2.
+   */
+  private void merge(ZName var1, ZName var2)
+  {
+    LinkedHashSet<Object> list1 = aliases_.get(var1);
+    LinkedHashSet<Object> list2 = aliases_.get(var2);
+    if (list1 == null && list2 == null) {
+      LinkedHashSet<Object> result = new LinkedHashSet<Object>();
+      result.add(var1);
+      result.add(var2);
+      assert result.iterator().next() == var1;
+      moveBounds(var2, var1);
+      aliases_.put(var1, result);
+      aliases_.put(var2, result);
+    }
+    else if (list1 == null) {
+      // list2 is non-null
+      assert list2.contains(var2);
+      list2.add(var1);
+      moveBounds(var1, (ZName) list2.iterator().next());
+      aliases_.put(var1, list2);
+    }
+    else if (list2 == null) {
+      // list1 is non-null
+      assert list1.contains(var1);
+      list1.add(var2);
+      moveBounds(var2, (ZName) list1.iterator().next());
+      aliases_.put(var2, list1);
+    }
+    else {
+      // both are non-null
+      list1.addAll(list2);
+      assert list1.contains(var1);
+      assert list2.contains(var2);
+      moveBounds((ZName) list2.iterator().next(), (ZName) list1.iterator().next());
+      aliases_.put(var2, list1);
+    }
+  }
+
+  /** Moves all bounds information for name 'from' onto name 'to'. */
+  private void moveBounds(ZName from, ZName to)
+  {
+    BigInteger bnd = getLower(from);
+    if (bnd != null) {
+      addLower(to, bnd);
+    }
+    bnd = getUpper(from);
+    if (bnd != null) {
+      addUpper(to, bnd);
+    }
+    EvalSet set = getEvalSet(from);
+    if (set != null) {
+      setEvalSet(to, set);
+    }
+    // TODO: could delete the old bounds
   }
 }
