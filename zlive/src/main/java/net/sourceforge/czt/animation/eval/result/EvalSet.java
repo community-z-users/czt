@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.Envir;
@@ -42,6 +43,10 @@ import net.sourceforge.czt.z.ast.ZName;
  * state, where the free variables of the set are not known yet,
  * so the contents of the set are uncertain.  In this state, many of
  * the iterator and size methods may return null or throw an exception.
+ *
+ * TODO: return more information about each iterator, such as whether or
+ * not it is NoDuplicates, Bidirection, Sorted etc.
+ *
  * <p>
  *  EvalSet provides default implementations
  *  of several of the Set methods.

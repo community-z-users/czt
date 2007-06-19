@@ -56,7 +56,7 @@ public class FlatMemberTest
 
   public void testToString()
   {
-    assertEquals("w in z :: 100.0", mem.toString());
+    assertEquals("w in z :: 100.0 ", mem.toString());
   }
 
   public void testEmpty()

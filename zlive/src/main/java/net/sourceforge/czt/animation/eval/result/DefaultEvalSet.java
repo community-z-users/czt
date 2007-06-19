@@ -140,9 +140,7 @@ public abstract class DefaultEvalSet
     return memberSet_.size();
   }
 
-  /** Must only be called AFTER nextEvaluation(), because all free
-   *  variables of the set must be instantiated before we can
-   *  enumerate the members of the set.
+  /** Enumerates the members of the set.
    *
    * @return an expression iterator.
    */

@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
- * A simple implementation of a power set.
+ * A simple implementation of a cartesian product set.
  *
  * @author Petra Malik
  */

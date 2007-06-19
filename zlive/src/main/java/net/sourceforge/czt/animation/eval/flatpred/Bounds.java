@@ -35,7 +35,11 @@ import net.sourceforge.czt.z.ast.ZName;
  *  variables, based on the semantics of each FlatPred operator.
  *  It also stores information about variables that will bind
  *  to sets, since this can help when deducing bounds of the
- *  elements of those sets.  Bounds information is usually attached
+ *  elements of those sets.  Finally, it records some alias names for
+ *  structures such as tuples and bindings.  For example, from an equality
+ *  like t=(a,c,d), we record the facts: t.1=a, t.2=c, t.3=d.
+ *  
+ *  Bounds information is usually attached
  *  to ZName objects, but other objects that represent parts of
  *  a tuple (x.1) or binding (x.k) can also be used, provided they
  *  are immutable and have sensible equals and hashCode methods.

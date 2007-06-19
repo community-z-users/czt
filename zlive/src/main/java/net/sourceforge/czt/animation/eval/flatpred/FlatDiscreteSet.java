@@ -84,7 +84,7 @@ public class FlatDiscreteSet extends FlatPred
     }
     fuzzy.setLower(lo);
     fuzzy.setUpper(hi);
-    return bnds.setEvalSet(args_.get(args_.size()-1), fuzzy);
+    return bnds.setEvalSet(getLastArg(), fuzzy);
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
