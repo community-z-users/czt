@@ -31,6 +31,7 @@ import javax.swing.*;
 import org.gjt.sp.jedit.*;
 import org.gjt.sp.jedit.msg.*;
 import com.microstar.xml.*;
+import java.util.ArrayList;
 
 /**
  * <p>A window containing a Z character map.</p>
@@ -119,17 +120,16 @@ public class ZCharMap extends JPanel
     setTableModel();    
     
     JScrollPane scrollPane = new JScrollPane(mTable);
-    mTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    mTable.setPreferredScrollableViewportSize(new Dimension(300, 70));
     mTable.setFillsViewportHeight(true);    
-    mTable.setFont(view.getTextArea().getPainter().getFont());
-    mTable.getColumnModel().getColumn(0).setMinWidth(90);
+    mTable.setFont(view.getTextArea().getPainter().getFont());    
     mTable.setRowHeight(view.getTextArea().getPainter().getFont().getSize()+4);
     mTable.setFocusable(false);
     mTable.setDefaultRenderer(ZChar.class, new StringRenderer(true));
     mTable.setDefaultRenderer(String.class, new StringRenderer(false));
     mTable.setRowSelectionAllowed(false);
     mTable.setColumnSelectionAllowed(false);
-    mTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+    mTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     mTable.addMouseListener(new MouseHandler());
     mTable.addMouseMotionListener(new MouseHandler());
     
@@ -170,6 +170,10 @@ public class ZCharMap extends JPanel
     }
   }
 
+  private static final int MIN_STR_WIDTH = 50;
+  private final List<String> widestCollumn = new ArrayList<String>();
+  private static int check = 1;
+  
   private void setTableModel()
   {
     Mode mode = mView.getBuffer().getMode();    
@@ -183,13 +187,31 @@ public class ZCharMap extends JPanel
       }
     } else {
       mTable.setModel(zTableModel_);
-    }   
+    }
+    FileWriter fw;
+    try
+    {
+      fw = new FileWriter("c:\\temp\\zcharmap3.txt");      
+      fw.write(check + "-getTable: " + widestCollumn.toString());
+      fw.close();
+    } catch (IOException ex)
+    {      
+      ex.printStackTrace();
+    }    
+    check++;
+    FontMetrics fm = mView.getFontMetrics(mView.getTextArea().getPainter().getFont());
+    for(int colIdx = 0; colIdx < mTable.getColumnModel().getColumnCount(); colIdx++) {
+      int strWidth = fm.stringWidth(widestCollumn.get(colIdx));
+      mTable.getColumnModel().getColumn(colIdx).setMinWidth(MIN_STR_WIDTH);
+      mTable.getColumnModel().getColumn(colIdx).setMaxWidth(strWidth * 2);
+      mTable.getColumnModel().getColumn(colIdx).setPreferredWidth(strWidth);
+    }
   }
 
   //############################################################
   //###################### INNER CLASSES #######################
   //############################################################
-
+  
   /**
    * A table model for the Z character table.
    */
@@ -207,6 +229,7 @@ public class ZCharMap extends JPanel
       mTableArray = getTable(url);
     }
 
+    
     private Object[][] getTable(URL url)
     {
       try {
@@ -221,16 +244,24 @@ public class ZCharMap extends JPanel
           int size = list.size();
           if (size > maxsize) maxsize = size;
         }
+        // row/col
         Object[][] result = new Object[lists.size()][maxsize];
+        widestCollumn.clear();
+        for(int k = 0; k < maxsize; k++) {
+          widestCollumn.add("");
+        }
         int i = 0;
         for (List<Object> list : lists) {
           int j = 0;
           for (Object elem : list) {
             result[i][j] = elem;
+            if (elem.toString().length() > widestCollumn.get(j).length()) {
+              widestCollumn.add(j, elem.toString());
+            }
             j++;
           }
-          i++;
-        }
+          i++;        
+        }          
         return result;
       }
       catch (Exception e) {
