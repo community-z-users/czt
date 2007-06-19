@@ -429,6 +429,7 @@ public class BoundsTest extends ZTestCase
     checkFixPoint(preds, bnds);
   }
 
+  /** Tests simple aliasing between ZNames within one Bounds object. */
   public void testAlias1()
   {
     Bounds bnds = new Bounds(null);
@@ -474,7 +475,9 @@ public class BoundsTest extends ZTestCase
     assertEquals(BigInteger.valueOf(20), bnds.getUpper(z));
   }
   
-
+  /** Tests aliasing between ZNames and a Tuple, using parent
+   * and child Bounds objects.
+   */
   public void testAliasTuple()
   {
     Bounds bnds = new Bounds(null);
