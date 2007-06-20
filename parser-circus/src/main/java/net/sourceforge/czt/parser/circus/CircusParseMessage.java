@@ -51,6 +51,8 @@ public enum CircusParseMessage {
   MSG_INVALID_MULTIENV_BASIC_PROCESS_CIRCEND("Basic process scope from multiple environments was closed without been previouly opened at {0}."),  
   MSG_INVALID_INNER_PROCESS_PARA("Invalid unboxed paragraph (i.e. within ZED env) for Circus basic process scope. " +
       "Only Z paragraphs are valid within Z unboxed paragraph environment but a {0} was found at {1}."),   
+      
+  MSG_INVALID_CIRCUS_PARA_IN_ZED("Invalid Circus {0} paragraph within ZED environment. It must be declared within a {1} environment."),      
   MSG_CHANNEL_TYPE_ERROR("Channel type expression is missing or is incorrect at colon.");  
   
   private final String message_;
