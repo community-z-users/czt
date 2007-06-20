@@ -349,7 +349,7 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
   </add:circuspatt>
   
   <add:circus>
-  /*CIRCUS            */
+  {CIRCUS}            {  beginZed(); return symbol(Sym.CIRCUS); }   
   {CIRCUSACTION}      {  beginZed(); return symbol(Sym.CIRCUSACTION); }   
   </add:circus>
   
