@@ -40,7 +40,7 @@ public class PrintTest  extends ParserTest
   
   protected void collectTest(TestSuite suite, File file)
   {       
-     super.collectTest(suite, file);
+     if (TESTING_PRINTING) { super.collectTest(suite, file);}
   }
   
   protected FileWriter print(Term term, String file) throws Exception

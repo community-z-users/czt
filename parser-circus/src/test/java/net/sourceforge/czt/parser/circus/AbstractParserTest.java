@@ -41,7 +41,13 @@ import net.sourceforge.czt.zml.Resources;
  */
 public abstract class AbstractParserTest extends TestCase
 {
+  // true => looks into tests/circus/debug/*.tex;
+  // false=> looks into tests/circus/*.tex
   protected static boolean DEBUG_TESTING = true;
+  
+  // true => executes the printing tests, which will reparse and print files.
+  protected static boolean TESTING_PRINTING = true;
+  
   protected static Level DEBUG_LEVEL = Level.ALL;
   protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
 
