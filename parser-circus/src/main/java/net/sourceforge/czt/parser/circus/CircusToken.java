@@ -49,6 +49,7 @@ public enum CircusToken
   LCIRCRENAME(CircusString.LCIRCRENAME), 
   RCIRCRENAME(CircusString.RCIRCRENAME),
   
+  CIRCUS(CircusString.CIRCUS),
   CIRCUSACTION(CircusString.CIRCUSACTION);
 
   private String spelling_;
