@@ -345,7 +345,6 @@ parser-circus/src/test/resources/tests/circus/basicprocesses.tex -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement-multienv.tex -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/channel-errors.tex -text
-parser-circus/src/test/resources/tests/circus/channel2-errors.tex -text
 parser-circus/src/test/resources/tests/circus/channels.tex -text
 parser-circus/src/test/resources/tests/circus/equals-test.tex -text
 parser-circus/src/test/resources/tests/circus/fib-multenv.tex -text
@@ -356,11 +355,9 @@ parser-circus/src/test/resources/tests/circus/missing-circend-errors.tex -text
 parser-circus/src/test/resources/tests/circus/processDesc.tex -text
 parser-circus/src/test/resources/tests/circus/processes.tex -text
 parser-circus/src/test/resources/tests/circus/processes.xml -text
-parser-circus/src/test/resources/tests/circus/reactive-buffer-original.tex -text
 parser-circus/src/test/resources/tests/circus/reactive-buffer-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-multienv.tex -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-original.pdf -text
-parser-circus/src/test/resources/tests/circus/steam-boiler-original.tex -text
 parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.pdf -text svneol=unset#unset
 parser-circus/src/test/resources/tests/circus/steam-boiler-singleenv.tex -text
 parser-oz/src/main/java/net/sourceforge/czt/parser/oz/OzKeyword.java -text
