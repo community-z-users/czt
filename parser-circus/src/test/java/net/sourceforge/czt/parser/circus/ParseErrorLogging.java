@@ -116,15 +116,16 @@ public class ParseErrorLogging
     public boolean isLoggable(LogRecord record)
     {            
       String message = record.getMessage();
-      // If the mssage have "c:....\/..." remove the path
-      int cidx = message.indexOf("\"C:");
+      // If the mssage have "c:....\/..." remove the path      
+      int cidx = message.toUpperCase().indexOf("\"C:");
       int slashidx = message.lastIndexOf("/");
-      slashidx = slashidx == -1 ? message.lastIndexOf("\\") : -1;
-      int quoteidx = message.lastIndexOf("\"");
-      if ( cidx != -1 && slashidx != -1 && quoteidx != -1) {
+      slashidx = slashidx == -1 ? message.lastIndexOf("\\") : -1;      
+      int quoteidx = message.lastIndexOf("\",");
+      if ( cidx != -1 && slashidx != -1 && quoteidx != -1 &&
+           cidx < slashidx && slashidx < quoteidx && quoteidx < message.length()) {
         String msg = 
             // Next token is (..... in 
-            message.substring(0, cidx) + 
+            message.substring(0, cidx) +        
             // filename.tex
             message.substring(slashidx+1, quoteidx) + 
             // ,  .....).
