@@ -33,18 +33,28 @@ Firstly, the $\circchannel$ keyword without a name or with wrong types
 \end{circus}
 
 \begin{circus}
-    \circchannelset 
+    \circchannelset
 \end{circus}
 
 \begin{circus}
-    \circchannelset\ C1 \\ 
+    \circchannelset\ C1 \\
 \end{circus}
 
 \begin{circus}
     \circchannelset\ C2 == \\
 \end{circus}
 \begin{circus}
-    \circchannelset\ [X, Y] C3 == 
+    \circchannelset\ [X, Y] C3 ==
 \end{circus}
 
-\end{document} 
+
+By the way, channels and other process level paragraphs MUST
+be declared within the CIRCUS environment! The declaration
+below is a valid ChannelPara, but it raise an error since it 
+is given within a ZED environment.
+%
+\begin{zed}
+    \circchannel\ x: \nat   
+\end{zed}
+
+\end{document}
