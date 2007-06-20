@@ -14,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -46,19 +48,21 @@ public abstract class AbstractParserTest extends TestCase
   protected static boolean DEBUG_TESTING = true;
   
   // true => executes the printing tests, which will reparse and print files.
-  protected static boolean TESTING_PRINTING = true;
+  protected static boolean TESTING_PRINTING = false;
   
   protected static Level DEBUG_LEVEL = Level.ALL;
-  protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");  
-
+  protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
   protected static final ParseErrorLogging pel_;
   protected static final ParseErrorLogging pelsm_;
   
   static {
+      TESTS_SOURCEDIR.add("tests/circus");
       if (DEBUG_TESTING) {
         pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
         pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
+        TESTS_SOURCEDIR.add("tests/circus/debug");
       } else {
+        // If not debugging testing, then do not do logging.
         pel_ = null;
         pelsm_ = null;
       }
@@ -151,8 +155,15 @@ public abstract class AbstractParserTest extends TestCase
   
   protected abstract void collectTest(TestSuite suite, File file);
   
+  protected void collectTests(TestSuite suite, List<String> directoryNames) 
+  {
+    for(String dirName : directoryNames) {
+      collectTests(suite, dirName);
+    }
+  }
+  
   //test all the files from a directory
-  protected void collectTests(TestSuite suite, String directoryName)
+  private void collectTests(TestSuite suite, String directoryName)
   {
     String cztHome = System.getProperty("czt.home");
     //System.out.println("CZT-HOME = " + cztHome);

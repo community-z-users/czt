@@ -29,10 +29,30 @@ import net.sourceforge.czt.z.ast.ZSect;
 public class SectionManagerCircusParserTest extends TestCase
 {
   
+ // true => looks into tests/circus/debug/*.tex;
+  // false=> looks into tests/circus/*.tex
   protected static boolean DEBUG_TESTING = true;
-  protected static final Level DEBUG_LEVEL = Level.OFF;
-  protected static String TESTS_SOURCEDIR = (DEBUG_TESTING ? "tests/circus/debug" : "tests/circus");
-  protected static final ParseErrorLogging pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
+  
+  // true => executes the printing tests, which will reparse and print files.
+  protected static boolean TESTING_PRINTING = false;
+  
+  protected static Level DEBUG_LEVEL = Level.ALL;
+  protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
+  protected static final ParseErrorLogging pel_;
+  protected static final ParseErrorLogging pelsm_;
+  
+  static {
+      TESTS_SOURCEDIR.add("tests/circus");
+      if (DEBUG_TESTING) {
+        pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
+        pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
+        TESTS_SOURCEDIR.add("tests/circus/debug");        
+      } else {
+        // If not debugging testing, then do not do logging.
+        pel_ = null;
+        pelsm_ = null;
+      }
+  }
   
   public SectionManagerCircusParserTest(String testName)
   {
@@ -41,6 +61,13 @@ public class SectionManagerCircusParserTest extends TestCase
   
   private List<File> files_;
   private SectionManager manager_;
+  
+  protected void collectTestFiles(List<String> directoryNames) 
+  {
+    for(String dirName : directoryNames) {
+      collectTestFiles(dirName);
+    }
+  }
   
   private void collectTestFiles(String directoryName)
   {
