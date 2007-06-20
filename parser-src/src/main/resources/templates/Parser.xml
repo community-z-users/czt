@@ -2045,6 +2045,7 @@ non terminal ActionPara
     actionPara;
 
 non terminal List&lt;Para&gt;
+    singleCircusParagraphItemList,
     circusMultiEnvParagraphList,    
     circusInnerProcParaList;
     
@@ -2445,13 +2446,15 @@ section ::=
         sectionHeader:header paragraphList:pl
         {:
            <add:circus>
-               //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", getLocation(pl.get(0)));
+               //logProductionResult(pl, "PARAGRAPH LIST AT SECTION", pl.isEmpty() ? null : getLocation(pl.get(0)));
            </add:circus>           
            header.setParaList(pl);
            RESULT = updateZSect(header, opTable_           
              <add:zpatt>, jokerTable_ </add:zpatt>);
            if (pl.size() > 0) {             
-             LocInfo loc = getLocation(pl.get(pl.size() - 1));
+             Para plPara = pl.get(pl.size()-1);
+             //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
+             LocInfo loc = getLocation(plPara);
              LocAnn locAnn = (LocAnn) RESULT.getAnn(LocAnn.class);
              if (loc.getStart() >= 0 &amp;&amp;
                  loc.getLength() >= 0  &amp;&amp;
@@ -2596,13 +2599,14 @@ paragraphList ::=
         |
         paragraphList:pl circusMultiEnvParagraphList:ucpl
         {:
-           assert ucpl.isEmpty() : "Circus paragraph list from multiple environment must be empty. " +
-               "Its members are stored within the parserState and collected when the basic process " +
-               "scope is closed. If they appear dangling outside a scope, relevant warnings/errors " +
-               "are raised accordingly. For this production, it is necessary in order to allow the " +
-               "tokens to be consumed, even if stored indirectly as in here.";
-           //pl.addAll(ucpl);
+           //assert ucpl.isEmpty() : "Circus paragraph list from multiple environment must be empty. " +
+           //    "Its members are stored within the parserState and collected when the basic process " +
+           //    "scope is closed. If they appear dangling outside a scope, relevant warnings/errors " +
+           //    "are raised accordingly. For this production, this s necessary in order to allow the " +
+           //    "tokens to be consumed, even if stored indirectly as in here.";           
+           pl.addAll(ucpl);
            RESULT = pl;           
+           logProductionResult(RESULT, "MULTIPLE-CIRCUS-PARAGRAPH-LIST", null);
         :}
 </add:circus>                
         |
@@ -2728,6 +2732,32 @@ unboxedParagraphList ::=
            </add:circus>           
            RESULT = uil;
         :}
+<add:circus>        
+        |
+        ZED:zed singleCircusParagraphItemList:ppl END:end
+        {:            
+           RESULT = factory_.list();           
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
+              new Object[] { "process level", "CIRCUS" }, getLocation(zed, end));
+        :}        
+        /*
+        NOTE: It would be nice to have the production below with an error message as well,
+              but unfortunately, it is creating conflicts. So, leave it out for now.
+        |                
+        ZED:zed circusInnerProcParaList:ppl END:end        
+        {:                             
+           RESULT = factory_.list();
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
+              new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));
+        :}*/
+        |                
+        ZED:zed circusBasicProcessMainAction:cbpma END:end
+        {:
+           RESULT = factory_.list();
+           parser.report_error(CircusParseMessage.MSG_INVALID_CIRCUS_PARA_IN_ZED, 
+              new Object[] { "action level", "CIRCUSACTION" }, getLocation(zed, end));           
+        :}
+</add:circus>        
         |        
         ZED:z error:e END
         {:
@@ -2793,12 +2823,14 @@ unboxedParagraphItem ::=
            RESULT = ot;
         :}
 <add:circus>
+        /*
         |
         singleCircusParagraphItem:scpi
         {:
             RESULT = scpi;            
-            //logProductionResult(RESULT, "UNBOXED-PARAGRAPH-ITEM", getLocation(scpi));
+            //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(scpi));
         :}
+        */
 </add:circus>        
         ;
 
@@ -3125,12 +3157,13 @@ varg ::=
  * These paragraphs encompass all Circus paragraphs across multiple 
  * Circus environments, except BasicProcess. 
  */
-circusMultiEnvParagraphList ::=                             
-        /* (REMOVED: see below for an explanation
-        // Haven't used CIRCUS here because of problems with Latex2Unicode
+circusMultiEnvParagraphList ::=                                     
         CIRCUS:circ singleCircusParagraphItemList:ppl END:end
-        {: RESULT = ppl; :}
-        |*/                
+        {: 
+           RESULT = ppl; 
+           //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM-LIST", getLocation(circ, end));
+        :}
+        |                
         CIRCUSACTION:circ circusInnerProcParaList:ppl END:end        
         {:                             
            ensureInnerProcParaListKnownInBasicProcessScope(ppl, "MULTIPLE ENV", getLocation(circ, end));
@@ -3150,24 +3183,32 @@ circusMultiEnvParagraphList ::=
         :}
         ;
        
-/* I tried using circus environment on its own (i.e. different from ZED),
- * but couldn't make it work for entries with less than one item. So I went
- * back as it was before.
- *
 singleCircusParagraphItemList ::=                
         singleCircusParagraphItemList:cpl NL singleCircusParagraphItem:cpi
         {:
            if (cpi != null) cpl.add(cpi);
            RESULT = cpl;
         :}      
-        |
+        |        
         singleCircusParagraphItem:cpi
         {:
-           RESULT = factory_.list(cpi);
+           RESULT = factory_.list();
+           
+           // This nullness result check is important for 
+           // consistency with the check above for lists.
+           //
+           // It is also important to avoid duplication 
+           // of Circus BasicPorcess declared across multiple 
+           // Circus environments.
+           //
+           // see unboxedParagraphItem
+           if (cpi != null) {
+             RESULT.add(cpi);                                 
+             //logProductionResult(RESULT, "CIRCUS-PARAGRAPH-ITEM", getLocation(cpi));
+           }
         :}
         ;   
-*/
-
+        
 /**
  * These items represent global paragraphs (possibly within a single circus environment).
  * They are process, refinement, channel, and chennel set declarations.
