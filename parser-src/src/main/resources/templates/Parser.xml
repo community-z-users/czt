@@ -2013,17 +2013,8 @@ non terminal Sequent
 
 non terminal Term jokerRef;
 
-non terminal Expr baseType;
-
 non terminal DeclList
-    signature;
-
-non terminal ZDeclList
-    varDeclList;
-
-non terminal DeclList
-    jokerDeclList,
-    varJokerDeclList;
+    jokerDeclList;
 </add:zpatt>
 
 <add:circus>
@@ -5941,10 +5932,8 @@ term ::=
         /* schema hiding */
         term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN:rparen
         {:
-           ZName rn = factory_.createZName(jnl.getString(), null);
-           List&lt;Name&gt; rnl = factory_.list((Name) rn);
-           ZNameList zNameList = factory_.createZNameList(rnl);
-           RESULT = factory_.createHideExpr(expr(t), zNameList);
+           NameList nl = factory_.createJokerNameList(jnl.getString(), null);
+           RESULT = factory_.createHideExpr(expr(t), nl);
            addLocAnn(RESULT, getLocation(hideleft, hideright, t, rparen));
         :}
         |
@@ -7044,98 +7033,6 @@ premiss ::=
            RESULT = factory_.createSequent(sc, pred(t));
            addLocAnn(RESULT, getLocation(t));
         :}
-        ;
-
-baseType ::=
-        refName:rn /* given type or generic parameter type */
-        {:
-           RESULT = factory_.createRefExpr(rn);
-           addLocAnn(RESULT, getLocation(rn));
-        :}
-        |
-        POWER:p baseType:bt /* powerset type */
-        {:
-           RESULT = factory_.createPowerExpr(bt);
-           addLocAnn(RESULT, getLocation(p, bt));
-        :}
-        |
-        baseType:lbt CROSS baseType:rbt /* Cartesian product type */
-        {:
-           if (lbt instanceof ProdExpr) {
-             ProdExpr pt = (ProdExpr) lbt;
-             pt.getZExprList().add(rbt);
-           }
-           else {
-             ZExprList zExprList = factory_.createZExprList();
-             zExprList.add(lbt);
-             zExprList.add(rbt);
-             RESULT = factory_.createProdExpr(zExprList);
-           }
-           addLocAnn(RESULT, getLocation(lbt, rbt));
-        :}
-        |
-        LSQUARE:lsq signature:s RSQUARE:rsq /* schema type */
-        {:
-           ZSchText st = factory_.createZSchText(s, null);
-           RESULT = factory_.createSchExpr(st);
-           addLocAnn(RESULT, getLocation(lsq, rsq));
-        :}
-        |
-        LPAREN:lp baseType:bt RPAREN /* parenthesized type */
-        {:
-           RESULT = bt;
-           // It would be nice to add this, but multiple LocAnns are
-           // not allowed.
-           // addLocAnn(RESULT, lpleft, right);
-        :}
-        |
-        JOKEREXPR:je /* joker type */
-        {:
-           RESULT = factory_.createJokerExpr(je.getString(), null);
-           addLocAnn(RESULT, je.getLocation());
-        :}
-        ;
-
-signature ::=
-        varDeclList:vdl
-        {: RESULT = vdl; :}
-        |
-        varJokerDeclList:jdl
-        {: RESULT = jdl; :}
-        ;
-
-varDeclList ::=
-        varDeclList:vdl SEMICOLON declName:dn COLON baseType:bt
-        {:
-           ZNameList zdnl = factory_.createZNameList();
-           zdnl.add(dn);
-           VarDecl vd = factory_.createVarDecl(zdnl, bt);
-           vdl.getDecl().add(vd);
-           RESULT = vdl;
-        :}
-        |
-        declName:dn COLON baseType:bt
-        {:
-           ZNameList zdnl = factory_.createZNameList();
-           zdnl.add(dn);
-           VarDecl vd = factory_.createVarDecl(zdnl, bt);
-           addLocAnn(vd, getLocation(dn, bt));
-           RESULT = factory_.createZDeclList(factory_.list(vd));
-        :}
-        ;
-
-varJokerDeclList ::=
-        varDeclList:vdl SEMICOLON JOKERDECLLIST:jdl
-        {:
-           RESULT = factory_.createHeadDeclList(vdl,
-             factory_.createJokerDeclList(jdl.getString(), null));
-        :}
-        |
-        JOKERDECLLIST:jdl
-        {:
-           RESULT = factory_.createJokerDeclList(jdl.getString(), null);
-           addLocAnn(RESULT, jdl.getLocation());
-        :}        
         ;
 
 jokerRef ::=
