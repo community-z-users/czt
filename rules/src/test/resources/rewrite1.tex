@@ -109,6 +109,16 @@
     ]
 \end{theorem}
 
+\begin{theorem}{SimpleHide}
+  \vdash? Simple \hide (x) =
+                [ | (\exists x:\arithmos @ (true \land x\in\nat))]  
+\end{theorem}
+
+\begin{theorem}{SimpleHide2}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x,y) =
+                [ | (\exists x:\arithmos; y:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+\end{theorem}
+
 \begin{schema}{SimpleConstDecl}
   y == 3
 \end{schema}

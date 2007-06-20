@@ -22,8 +22,6 @@ into something of the form $[D|P]$, where $D$ is a list of variable
 declarations whose types are all base types and $P$ is a predicate that
 will contain constraints like $x \in \nat$ and $p~x$.
 
-We start by declaring the jokers used in all the rules in this section.
-
 To clearly distinguish our rules for unfolding declaration lists and
 schema expressions from other rules, we introduce two new infix
 operators: $\sexprUnfoldsTo$ and $\declListUnfoldsTo$.  
@@ -339,6 +337,13 @@ such as $x$, $x?$ and $x_2$.
   (\exists E6~_9 @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~_9])
                    \land
                    (\exists E6   @ [E2 | \theta E6   = \theta E6~_9]))
+\end{zedrule}
+
+\begin{zedrule}{SchemaHiding}
+  E ::\power [D1| true] \\
+  [D1|true]\hide (NameList) \is \exists [D2|true] @ [D1|true]
+\derives
+  E\hide (NameList) = \exists [D2|true] @ E
 \end{zedrule}
 
 TODO: schema hiding, schema piping,
