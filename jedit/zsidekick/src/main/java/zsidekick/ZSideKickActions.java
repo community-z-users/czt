@@ -283,7 +283,7 @@ public class ZSideKickActions
                   result = Rewrite.rewriteOnce((SchText) term, prover);
                 }
                 if (! replaceWff(term, result, view, manager, section)) {
-                  reportError(view, "Unfolding failed");
+                  reportError(view, "Rewriting failed");
                 }
               }
               else {
@@ -413,7 +413,8 @@ public class ZSideKickActions
     WffHighlight wffHighlight = getWffHighlight(view);
     if (wffHighlight != null) {
       Term term = wffHighlight.getSelectedWff();
-      if (term instanceof Expr) {
+      if (term instanceof Expr ||
+	  term instanceof SchText) {
         ParsedData parsedData = getParsedData(view);
         if (parsedData != null) {
           SectionManager manager = parsedData.getManager();
@@ -428,7 +429,13 @@ public class ZSideKickActions
                 ruleManager.get(new Key("unfold", RuleTable.class));
               if (rules != null) {
                 Prover prover = new SimpleProver(rules, manager, section);
-                Term result = Rewrite.rewriteOnce((Expr) term, prover);
+		Term result;
+		if (term instanceof Expr) {
+		  result = Rewrite.rewriteOnce((Expr) term, prover);
+		}
+		else {
+		  result = Rewrite.rewriteOnce((SchText) term, prover);
+		}
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
                 }
@@ -447,7 +454,7 @@ public class ZSideKickActions
         }
       }
       else {
-        reportError(view, "Highlighted term is not an expression");
+        reportError(view, "Highlighted term is neither an expression nor a schema text");
       }
     }
   }
