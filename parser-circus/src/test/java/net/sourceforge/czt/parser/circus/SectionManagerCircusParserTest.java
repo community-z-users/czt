@@ -31,12 +31,12 @@ public class SectionManagerCircusParserTest extends TestCase
   
  // true => looks into tests/circus/debug/*.tex;
   // false=> looks into tests/circus/*.tex
-  protected static boolean DEBUG_TESTING = true;
+  protected static boolean DEBUG_TESTING = false;
   
   // true => executes the printing tests, which will reparse and print files.
   protected static boolean TESTING_PRINTING = false;
   
-  protected static Level DEBUG_LEVEL = Level.ALL;
+  protected static Level DEBUG_LEVEL = DEBUG_TESTING ? Level.FINEST : Level.OFF;
   protected static List<String> TESTS_SOURCEDIR = new ArrayList<String>();
   protected static final ParseErrorLogging pel_;
   protected static final ParseErrorLogging pelsm_;
