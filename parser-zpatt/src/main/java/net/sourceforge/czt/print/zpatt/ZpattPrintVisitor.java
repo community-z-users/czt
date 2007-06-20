@@ -94,11 +94,25 @@ public class ZpattPrintVisitor
     return null;
   }
 
+  public Object visitJokerNameList(JokerNameList joker)
+  {
+    printDecorword(joker.getName());
+    return null;
+  }
+
   public Object visitJokerExprListBinding(JokerExprListBinding binding)
   {
     visit(binding.getJokerExprList());
     printDecorword("\u219D");
     visit(binding.getExprList());
+    return null;
+  }
+
+  public Object visitJokerNameListBinding(JokerNameListBinding binding)
+  {
+    visit(binding.getJokerNameList());
+    printDecorword("\u219D");
+    visit(binding.getNameList());
     return null;
   }
 

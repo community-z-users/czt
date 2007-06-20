@@ -59,7 +59,9 @@ public class CopyVisitor
              ZSchTextVisitor<Term>,
              JokerDeclListVisitor<Term>,
              JokerExprVisitor<Term>,
+             JokerExprListVisitor<Term>,
              JokerNameVisitor<Term>,
+             JokerNameListVisitor<Term>,
              JokerPredVisitor<Term>,
              RefExprVisitor<Term>
 {
@@ -170,9 +172,19 @@ public class CopyVisitor
     return factory_.createJokerExpr(joker.getName(), joker.getId());
   }
 
+  public Term visitJokerExprList(JokerExprList joker)
+  {
+    return factory_.createJokerExprList(joker.getName(), joker.getId());
+  }
+
   public Term visitJokerName(JokerName joker)
   {
     return factory_.createJokerName(joker.getName(), joker.getId());
+  }
+
+  public Term visitJokerNameList(JokerNameList joker)
+  {
+    return factory_.createJokerNameList(joker.getName(), joker.getId());
   }
 
   public Term visitJokerPred(JokerPred joker)
