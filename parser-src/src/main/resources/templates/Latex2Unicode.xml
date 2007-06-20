@@ -623,6 +623,7 @@ NAME =   {NOT_LB}*
           //       it proved to be harded to have singled-item circus
           //       environments
           return result(ZString.ZED);
+          //return result(CircusString.CIRCUS);
         }
   "\\begin" {IGNORE}* "{circusaction}"
         {

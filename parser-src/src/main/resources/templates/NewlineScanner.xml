@@ -75,7 +75,7 @@ public class <class/>
 </add:tcoz>
 <add:circus>
                 /* Circus LaTeX environments */
-                Sym.CIRCUSACTION,
+                Sym.CIRCUS, Sym.CIRCUSACTION,
                 
                 /* Everything infix comes here */
                 Sym.CIRCDEF, Sym.CIRCINDEX, Sym.CIRCTHEN, Sym.CIRCELSE, 

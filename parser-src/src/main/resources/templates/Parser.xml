@@ -1710,7 +1710,7 @@ terminal LocInfo
 </add:zpatt>
 <add:circus>
         // Environment chars
-        CIRCUSACTION, 
+        CIRCUS, CIRCUSACTION, 
         
         /**
          * For CSP, we follow the precedences from FDR's user manual v.2.82 June/2005.         
@@ -3416,10 +3416,10 @@ channelFromDeclList ::=
  */         
 channelDecl ::=        
         /* Generically defined typed channels */
-        formalParameters:ofp circusDeclWordList:cdwl COLON expression:e
+        formalParameters:fp circusDeclWordList:cdwl COLON expression:e
         {:                       
-           RESULT = factory_.createChannelDecl(ofp, cdwl, e);
-           addLocAnn(RESULT, getLocation(ofp, e));
+           RESULT = factory_.createChannelDecl(fp, cdwl, e);
+           addLocAnn(RESULT, getLocation(fp, e));
         :}
         |
         /* Typed channels */
@@ -3442,19 +3442,19 @@ channelDecl ::=
 	:} 
         /* Generically defined typed channels with type error */
         |
-        formalParameters:ofp circusDeclWordList:cdwl COLON:c error:e optNL
+        formalParameters:fp circusDeclWordList:cdwl COLON:c error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(); 
-          addLocAnn(RESULT, getLocation(ofp, getLocation(eleft, eright)));
+          RESULT = factory_.createChannelDecl(fp, cdwl, null); 
+          addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :}
         |
         formalParameters:fp circusDeclWordList:cdwl error:e optNL
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(); 
+          RESULT = factory_.createChannelDecl(fp, cdwl, null); 
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :} 
         |
@@ -3463,7 +3463,7 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(); 
+          RESULT = factory_.createChannelDecl(factory_.createZNameList(), cdwl, null); 
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}
         |
@@ -3472,7 +3472,7 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(); 
+          RESULT = factory_.createChannelDecl(factory_.createZNameList(), cdwl, null); 
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}    
         ;
@@ -3703,7 +3703,7 @@ processDesc ::=
         indexedProcess:ip
         {:
             RESULT = ip;
-        :}
+        :}        
         |
         process:p
         {:
@@ -3925,7 +3925,7 @@ indexedProcess ::=
         /* Note: Add further productions here if needed. */
         ;
         
-process ::=       
+process ::=               
         circusBasicProcess:bp
         {: RESULT = bp; :}
         |
@@ -4940,6 +4940,8 @@ nameSubstitution ::=
         :}
         ;        
         
+// NOTE: Shall it allow basic process here? i.e. shall "process" not contain "circusBasicProc" 
+//       and this production should then go to processDesc?
 processRefPara ::=
         CIRCASSERTREF process:spec refines:r process:impl
         {:

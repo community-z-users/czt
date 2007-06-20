@@ -529,7 +529,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    CLASS, GENCLASS, OPSCH, INIT, STATE, SDEF,
  </add:oz>
 <add:circus>
-                   CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
+                   CIRCUS, CIRCUSACTION, LCIRCCHANSET, RCIRCCHANSET, CIRCLINST, CIRCRINST,
                    LPAR, RPAR, LINTER, RINTER, LCIRCGUARD, RCIRCGUARD,
                    LSCHEXPRACT, RSCHEXPRACT, LCIRCRENAME, RCIRCRENAME, 
                    
@@ -745,14 +745,23 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
             :}
 </add:circuspatt>
 <add:circus>
-             |
-             CIRCUSACTION tokenSeq:s END
-             {:
+            // TODO: Add here, like for OZ, the appropriate printing productions
+            |
+            CIRCUS tokenSeq:s END
+            {:
+                String result = begin("circus");
+                if (s != null) { result += s.getName(); }
+                result += end("circus");
+                parser.write(result);
+            :}
+            |
+            CIRCUSACTION tokenSeq:s END
+            {:
                 String result = begin("circusaction");
                 if (s != null) result += s.getName();
                 result += end("circusaction");
                 parser.write(result);
-             :}
+            :}
 </add:circus>
              ;
 
