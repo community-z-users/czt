@@ -63,6 +63,7 @@ public interface CircusString extends ZPattString
   String CIRCSTOP = "Stop";
   String CIRCCHAOS = "Chaos";
   String CIRCASSIGN = ":=";
+  String CIRCUS = CIRCUSCHAR;
   String CIRCUSACTION = CIRCUSACTIONCHAR;
 }
 <xsl:text>
