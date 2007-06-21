@@ -1,0 +1,19 @@
+\begin{zsection}
+  \SECTION IncompatibleFeatureInClassUnionExpr\_Attr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{axdef}
+    a : \nat
+  \end{axdef}
+\end{class}
+
+\begin{class}{B}
+  \begin{axdef}
+    a : \power \nat
+  \end{axdef}
+\end{class}
+
+\begin{zed}
+   CU == A \classuni B
+\end{zed}

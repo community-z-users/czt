@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonClassInherited\_InheritedClass\_NonClassRef
+\end{zsection}
+
+\begin{class}{A}
+  \nat
+\end{class}

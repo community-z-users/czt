@@ -1,0 +1,80 @@
+\begin{zsection}
+  \SECTION Downcasting\_Weak \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+ a == 1\\
+ OpA \sdef [x? : \power \nat]
+\end{class}
+
+\begin{class}{B}
+ A\\
+ b == 1\\
+ OpB \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{D}
+ B\\
+ d == 1
+\end{class}
+
+\begin{class}{F}
+ B\\
+ f == 1
+\end{class}
+
+\begin{class}{C}
+ A\\
+ c == 1\\
+ OpC \sdef [x? : \nat]
+\end{class}
+
+\begin{class}{E}
+  C\\
+  e == 1
+\end{class}
+
+\begin{axdef}
+  a : \poly A\\
+  b : B
+\where
+  a \in B \implies a.b = 1\\
+  a \in C \implies a.c = 1\\
+  a \in \poly B \implies (a \in D \implies a.d = 1)\\
+  a \in \poly C \implies (a \in E \implies a.e = 1)\\
+\end{axdef}
+
+\begin{schema}{ASchema}
+  x? : \nat\\
+  a : \poly A
+\where
+  true \land
+  (a.b = 1 \land a \in B \land a.b = 1 \lor\\
+   a.c = 1 \land a \in C \land a.c = 1)\\
+  a.b = 1 \iff a \in \poly B\\
+\end{schema}
+
+\begin{axdef}
+  x? : \nat\\
+  pa : \poly A
+\where
+  true \land pa \in \poly B\\
+  (pa \in D \land pa.d = 1 \lor pa \in F \land pa.f = 1) \\
+  pa.b = 1
+\end{axdef}
+
+Test downcasting from withing anonymous operation expressions.
+
+\begin{class}{Down}
+ \begin{state}
+   poly\_a : \poly A
+ \end{state}
+ Op1 \sdef [a : \poly A | poly\_a \in B] \land poly\_a.OpB\\
+ Op2 \sdef [o : \oid | o.b = 1 \land o \in B] @ o.OpB\\
+ Op3 \sdef [a : \poly A] @ ([ poly\_a \in B] @ poly\_a.OpB)\\
+ Op4 \sdef [a : \poly A] @ ([ poly\_a \in B] \land poly\_a.OpB)\\
+ Op5 \sdef [a : \poly A] @ ([ a \in B] @ a.OpB)\\
+ Op6 \sdef [a : \poly A] @ ([ a \in B] \land a.OpB)\\
+ Op7 \sdef [poly\_a : \poly A | poly\_a \in B] @ poly\_a.OpB\\
+ Op8 \sdef \dcnj n : \nat | poly\_a \in B @ poly\_a.OpB
+\end{class}

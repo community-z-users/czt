@@ -1,0 +1,36 @@
+\begin{zsection}
+  \SECTION OID
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{B}
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{C}
+  A\\
+\end{class}
+
+\begin{axdef}
+  polya : \poly A\\
+  ab : A \classuni B\\
+  o : \oid\\
+  a : A\\
+  b : B
+\where
+  polya \in \oid\\
+  ab \in \oid\\
+  a \in \oid\\
+  b \in \oid\\
+  polya = o\\
+  ab = o\\
+  a = o\\
+  b = o
+\end{axdef}

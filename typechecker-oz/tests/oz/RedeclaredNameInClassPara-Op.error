@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_Op \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    a? : \nat
+  \where
+    a = a?
+  \end{op}\\
+  \begin{op}{Op2}
+    a? : \nat
+  \end{op}\\
+  Op1 \sdef Op2\\
+\end{class}

@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION Incompatible\_Overriding\_StateDecl \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}
+\end{class}
+
+\begin{class}{B}
+  A\\
+  \begin{state}
+    s : \power \nat
+  \end{state}
+\end{class}
+

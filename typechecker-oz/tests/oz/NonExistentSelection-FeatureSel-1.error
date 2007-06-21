@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_FeatureSel\_1 \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    x? : \nat
+  \end{op}
+\end{class}
+
+\begin{axdef}
+  a : A
+\where
+  a.b = 1
+\end{axdef}

@@ -1,0 +1,23 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_Downcast\_3
+\end{zsection}
+
+\begin{class}{A}
+ a == 1\\
+ OpA \sdef [x? : \power \nat]
+\end{class}
+
+\begin{class}{B}
+ A\\
+ b == 1\\
+ OpB \sdef [x? : \nat]
+\end{class}
+
+Test that downcasts in iff preds are localised.
+
+\begin{axdef}
+  a : \poly A
+\where
+  a.b = 1 \iff a \in \poly B\\
+  a.b = 1
+\end{axdef}

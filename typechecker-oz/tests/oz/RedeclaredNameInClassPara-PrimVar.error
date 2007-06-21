@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_PrimVar \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{axdef}
+    a : \nat
+  \end{axdef}\\
+  \begin{state}
+    a : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    a? : \nat
+  \where
+    a = a?
+  \end{op}\\
+\end{class}

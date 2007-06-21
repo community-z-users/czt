@@ -1,0 +1,15 @@
+\begin{zsection}
+  \SECTION ParametersNotDetermined\_BindSelExpr\_Equality
+\end{zsection}
+
+\begin{class}{A[Z]}
+ \begin{gendef}[X,Y]
+  x : \power X
+ \end{gendef}
+\end{class}
+
+\begin{gendef}[X]
+  a : A[X]
+\where
+  a.x = \{\}
+\end{gendef}

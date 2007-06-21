@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION CyclicInheritance\_Graph
+\end{zsection}
+
+
+\begin{class}{E}
+  B\\
+  C
+\end{class}
+
+
+\begin{class}{C}
+  A
+\end{class}
+
+\begin{class}{B}
+  A
+\end{class}
+
+\begin{class}{A}
+  E
+\end{class}

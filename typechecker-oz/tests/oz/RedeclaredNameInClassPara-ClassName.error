@@ -1,0 +1,9 @@
+\begin{zsection}
+  \SECTION RedeclaredNameInClassPara\_ClassName \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    A : \nat
+  \end{state}\\
+\end{class}

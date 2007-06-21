@@ -1,0 +1,20 @@
+\begin{zsection}
+  \SECTION Incompatible\_Op\_Overriding\_Operation \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{state}
+    s : \nat
+  \end{state}\\
+  \begin{op}{Op1}
+    s? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  A\\
+  \begin{op}{Op1}
+    s? : \power \nat
+  \end{op}
+\end{class}
+

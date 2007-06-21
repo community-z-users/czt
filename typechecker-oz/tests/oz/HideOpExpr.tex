@@ -1,0 +1,22 @@
+\begin{zsection}
+  \SECTION HideOpExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  hideOpExpr1 \sdef [x : \nat] \hide (x) \\
+  hideOpExpr2 \sdef [x,y,z : \nat] \hide (x,y,z) \\
+  hideOpExpr3 \sdef [x,y,z : \nat] \hide (x)\\
+  hideOpExpr4 \sdef [x,y,z : \nat] \hide (x,z)\\
+\end{class}
+
+Test that the components have been hidden by conjoining with an
+incompatible type.
+\begin{class}{B}
+ \begin{state}
+   a : A
+ \end{state}\\
+ Op1 \sdef a.hideOpExpr1 \land [x : \power \nat]\\
+ Op2 \sdef a.hideOpExpr2 \land [x,y,z : \power \nat]\\
+ Op3 \sdef a.hideOpExpr3 \land [x : \power \nat]\\
+ Op4 \sdef a.hideOpExpr4 \land [x,z : \power \nat]\\
+\end{class}

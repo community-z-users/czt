@@ -1,0 +1,17 @@
+\begin{zsection}
+  \SECTION NonClassInherited\_InheritedClass\_ClassRef\_1
+\end{zsection}
+
+Test that the inherited class is of a valid type, but not the name of a class in 
+the specification.
+
+\begin{class}{A}
+\end{class}
+
+\begin{zed}
+  B == A
+\end{zed}
+
+\begin{class}{C}
+  B
+\end{class}
