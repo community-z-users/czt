@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="org.eclipse.pde.core.requiredPlugins" kind="con"/>
-	<classpathentry excluding="net/sourceforge/czt/eclipse/views/CztXmlHandler.java" path="src/main/java" kind="src"/>
-	<classpathentry path="/parser" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/parser-oz" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/session" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/typechecker" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/corejava" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/util" combineaccessrules="false" kind="src"/>
-	<classpathentry path="eclipse_build" kind="output"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="net/sourceforge/czt/eclipse/views/CztXmlHandler.java" kind="src" path="src/main/java"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/parser-oz"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/session"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/typechecker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/corejava"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/typechecker-oz"/>
+	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>
