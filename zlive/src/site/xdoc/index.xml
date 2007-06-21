@@ -13,12 +13,11 @@
       Z expressions, predicates and schemas.  It can be used to execute
       some schemas, to test that given values satisfy a schema, or
       to generate all solutions of a set or schema.</p>
-    <p>   
+    <p>
       ZLive provides a simple textual user interface that handles Z in LaTeX
-      markup.  A graphical user interface is planned for Unicode markup,
-      with menus to enter common Z symbols.  Also, ZLive will become the
-      evaluation engine behind the Gaffe user interface builder.  This
-      will allow customised graphical interfaces to be built for the
+      and Unicode markup.  Also, ZLive is the evaluation engine behind the
+      experimental Gaffe2 user interface builder.  In the future, this will
+      allow customised graphical interfaces to be built for the
       animation of a given Z specification.</p>
     <p>
       Here is a simple example of using the text interface of ZLive:
