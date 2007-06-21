@@ -36,8 +36,7 @@ public class Suite
     TestSuite suite = new TestSuite();
     //suite.addTest(UnificationEnvTest.suite());
     //suite.addTest(TypeInference.suite());
-    suite.addTest(net.sourceforge.czt.typecheck.z.TypeCheckerTest.suite());
-    suite.addTest(net.sourceforge.czt.typecheck.oz.TypeCheckerTest.suite());
+    suite.addTest(net.sourceforge.czt.typecheck.z.TypeCheckerTest.suite());    
     return suite;
   }
 }

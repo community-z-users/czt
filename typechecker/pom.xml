@@ -20,11 +20,7 @@
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-oz</artifactId>
-    </dependency>
+    </dependency>    
     <dependency>
       <groupId>${czt.groupId}</groupId>
       <artifactId>session</artifactId>
