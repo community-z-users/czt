@@ -34,6 +34,11 @@ import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ZName;
 
 /**
+ *  TODO: move the caching functionality of this class into several
+ *  different iterator-wrappers, one that caches elements, another that
+ *  converts an Iterator into a ListIterator, etc.  This class could
+ *  then be deleted.
+ *
  *  This class provides a lazy-evaluation mechanism that uses the
  *  memberList and memberSet data structures to record which members
  *  of the set have already been evaluated and to remove duplicates.

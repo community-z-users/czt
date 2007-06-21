@@ -45,7 +45,7 @@ import net.sourceforge.czt.z.ast.ZName;
  * the iterator and size methods may return null or throw an exception.
  *
  * TODO: return more information about each iterator, such as whether or
- * not it is NoDuplicates, Bidirection, Sorted etc.
+ * not it is NoDuplicates, Bidirectional, Sorted etc.
  *
  * <p>
  *  EvalSet provides default implementations

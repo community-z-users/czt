@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.czt.animation.eval.ZTestCase;
@@ -442,7 +444,7 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds.isAliased(x, y));
     assertTrue(bnds.isAliased(y, x));
     assertEquals(2, bnds.getAliasKeys().size());
-    Set<Object> aliases = bnds.getAliases(x);
+    Set<ZName> aliases = bnds.getAliases(x);
     assertSame(aliases, bnds.getAliases(y));
     assertTrue(aliases.contains(x));
     assertTrue(aliases.contains(y));
@@ -474,45 +476,116 @@ public class BoundsTest extends ZTestCase
     assertEquals(BigInteger.valueOf(10), bnds.getLower(z));
     assertEquals(BigInteger.valueOf(20), bnds.getUpper(z));
   }
-  
+
+  /** Tests w=x, then y=z, then x=y aliasing within one Bounds object. */
+  public void testAlias2()
+  {
+    //System.out.println("Starting testAlias2");
+    ZName w = factory_.createZName("w");
+    Bounds bnds = new Bounds(null);
+    // add some bounds:  w : 10..20
+    assertTrue(bnds.addLower(w, BigInteger.valueOf(10)));
+    assertTrue(bnds.addUpper(w, BigInteger.valueOf(20)));
+
+    //System.out.println("w=x  (where w:10..20)");
+    bnds.addAlias(w, x);
+    assertTrue(bnds.boundsChanged());
+    assertTrue(bnds.isAliased(w, x));
+    assertTrue(bnds.isAliased(x, w));
+    assertEquals(BigInteger.valueOf(10), bnds.getLower(w));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(w));
+    assertEquals(BigInteger.valueOf(10), bnds.getLower(x));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(x));
+
+    // add some bounds:  y : 11..21
+    assertTrue(bnds.addLower(y, BigInteger.valueOf(11)));
+    assertTrue(bnds.addUpper(y, BigInteger.valueOf(21)));
+
+    //System.out.println("y=z  (where y:11..21)");
+    bnds.addAlias(y, z);
+    assertTrue(bnds.boundsChanged());
+    assertTrue(bnds.isAliased(y, z));
+    assertTrue(bnds.isAliased(z, y));
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(y));
+    assertEquals(BigInteger.valueOf(21), bnds.getUpper(y));
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(z));
+    assertEquals(BigInteger.valueOf(21), bnds.getUpper(z));
+
+    //System.out.println("x=y");
+    bnds.addAlias(x, y);
+    assertTrue(bnds.isAliased(w, x));
+    assertTrue(bnds.isAliased(x, y));
+    assertTrue(bnds.isAliased(y, z));
+    assertTrue(bnds.isAliased(z, w));
+    Set<ZName> aliases = bnds.getAliases(x);
+    assertEquals(4, aliases.size());
+    assertTrue(aliases.contains(w));
+    assertTrue(aliases.contains(x));
+    assertTrue(aliases.contains(y));
+    assertTrue(aliases.contains(z));
+
+    // check the above lower bound
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(w));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(w));
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(x));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(x));
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(y));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(y));
+    assertEquals(BigInteger.valueOf(11), bnds.getLower(z));
+    assertEquals(BigInteger.valueOf(20), bnds.getUpper(z));
+  }
+
   /** Tests aliasing between ZNames and a Tuple, using parent
    * and child Bounds objects.
    */
   public void testAliasTuple()
   {
     Bounds bnds = new Bounds(null);
-    
+
     // alias x = (y,z)
-    Expr left = factory_.createRefExpr(y);
-    Expr right = factory_.createRefExpr(z);
-    TupleExpr tuple = factory_.createTupleExpr(left, right);
-    bnds.addAlias(x, tuple);
+    Map<Object, ZName> args = new HashMap<Object, ZName>();
+    args.put(Integer.valueOf(1), y);
+    args.put(Integer.valueOf(2), z);
+    bnds.setStructure(x, args);
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.getDeductions() > 0);
-    assertTrue(bnds.isAliased(x, tuple));
-    Set<Object> aliases = bnds.getAliases(x);
-    assertEquals(2, aliases.size());
-    assertTrue(aliases.contains(x));
-    assertTrue(aliases.contains(tuple));
-    
+    assertEquals(args, bnds.getStructure(x));
+
     // alias x = w in a sub-bounds.
-    bnds.startAnalysis();
+    bnds.startAnalysis();  // resets deduction count
     assertEquals(0, bnds.getDeductions());
     Bounds bnds2 = new Bounds(bnds);
     bnds2.startAnalysis(bnds);
+    assertEquals(args, bnds2.getStructure(x)); // should be copied down
     assertEquals(0, bnds2.getDeductions());
     ZName w = factory_.createZName("w");
     bnds2.addAlias(w, x);
+    assertTrue(bnds2.isAliased(x, w));
     assertTrue(bnds2.boundsChanged());
     assertTrue(bnds2.getDeductions() > 0);
-    assertTrue(bnds2.isAliased(x, tuple));
-    Set<Object> aliases2 = bnds2.getAliases(x);
-    assertEquals(3, aliases2.size());
-    assertTrue(aliases2.contains(w));
-    assertTrue(aliases2.contains(x));
-    assertTrue(aliases2.contains(tuple));
+    assertEquals(args, bnds2.getStructure(w));
+    assertEquals(args, bnds2.getStructure(x));
     bnds2.endAnalysis();
     // parent should have noticed the changes
-    assertEquals(1, bnds.getDeductions());
+    assertTrue(bnds.getDeductions() > 0);
+
+    // now alias x = (u,v) in the parent.
+    Map<Object, ZName> argsUV = new HashMap<Object, ZName>();
+    ZName u = factory_.createZName("u");
+    ZName v = factory_.createZName("v");
+    argsUV.put(Integer.valueOf(1), u);
+    argsUV.put(Integer.valueOf(2), v);
+    bnds.setStructure(x, argsUV);
+
+    // check that the parent has deduced u=y and v=z
+    assertTrue(bnds.getDeductions() > 0);
+    assertTrue(bnds.isAliased(y, u));
+    assertTrue(bnds.isAliased(v, z));
+
+    // check that the new aliases flow down into the child
+    bnds2.startAnalysis(bnds);
+    assertTrue(bnds.isAliased(y, u));
+    assertTrue(bnds.isAliased(v, z));
+    bnds2.endAnalysis();
   }
 }

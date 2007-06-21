@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -48,13 +49,19 @@ import net.sourceforge.czt.z.ast.ZName;
  *  variables have recently changed, so that clients can decide
  *  whether or not it is worth re-analyzing a given FlatPred.
  *  TODO: the record of <em>which</em> variables have changed is not
- *  currently used, and it needs to be updated so that it changes
- *  when aliases are added.
+ *  currently used.  Before it is used, it needs to be updated so that
+ *  it changes when aliases are added.
  *  </p>
  *  <p>
- *  The enterLocalBounds method can be used to clone a Bounds
- *  object, so that local bounds information can be added to it
- *  without affecting the bounds information in the parent.
+ *  The constructor and the startAnalysis method both take a 'parent'
+ *  object as a parameter, so that these bounds objects can be built
+ *  into a tree, where each node of the tree stores the bounds information
+ *  for a local scope such as within a quantifier, or within a disjunction.
+ *  The startAnalysis method copies bounds information from the parent
+ *  into the child, but additional bounds information added to the child
+ *  does not flow back to the parent.
+ *  </p>
+ *  <p>
  *  This class also counts the number of bounds deductions that
  *  it has detected (see the getDeductions method).  Child Bounds
  *  objects typically add their deduction count to their parent,
@@ -80,12 +87,27 @@ public class Bounds
   private HashMap<ZName, BigInteger> lowerBound_;
   private HashMap<ZName, BigInteger> upperBound_;
   private HashMap<ZName, EvalSet> set_;
+
   /** We use a LinkedHashSet so that the first name added (which will always
    *  be a ZName) stays in the same place/order.  We attach all bounds
    *  information for all the aliased names only to this first name.
    */
-  private HashMap<ZName, LinkedHashSet<Object>> aliases_;
+  private HashMap<ZName, LinkedHashSet<ZName>> aliases_;
+
+  /** This records alias information for structures such as f=(a,b,c).
+   *  It is primarily used for tuples and bindings.
+   *  For the f=(a,b,c) example, structure_.get(f) will return a
+   *  Map that maps 1 to a, 2 to b and 3 to c.
+   *  For f=\lblot a==a, b==b' \rblot, structure_.get(f) will return
+   *  a Map that maps a to a and b to b'.
+   */
+  private HashMap<ZName, Map<Object, ZName>> structure_;
+
+  /** Records the set of names that have recently had new bounds
+   *  information added.
+   */
   private Set<ZName> changed_;
+
 
   /** Create a fresh Bounds object with no bounds values.
    *  @param parent Optional parent to inherit bounds from.
@@ -95,7 +117,8 @@ public class Bounds
     lowerBound_ = new HashMap<ZName, BigInteger>();
     upperBound_ = new HashMap<ZName, BigInteger>();
     set_        = new HashMap<ZName, EvalSet>();
-    aliases_    = new HashMap<ZName, LinkedHashSet<Object>>();
+    aliases_    = new HashMap<ZName, LinkedHashSet<ZName>>();
+    structure_  = new HashMap<ZName, Map<Object, ZName>>();
     changed_    = new HashSet<ZName>();
     parent_     = parent;
   }
@@ -133,8 +156,10 @@ public class Bounds
     for (ZName key : parent.getEvalSetKeys())
       setEvalSet(key, parent.getEvalSet(key));
     for (ZName key : parent.getAliasKeys())
-      for (Object alias : parent.getAliases(key))
+      for (ZName alias : parent.getAliases(key))
         addAlias(key, alias);
+    for (ZName key : parent.getStructureKeys())
+      setStructure(key, parent.getStructure(key));
     // now clear our deduction counter, but retain information
     // about which vars have just received tighter bounds.
     deductions_ = 0;
@@ -380,6 +405,10 @@ public class Bounds
       return false;
   }
 
+  /**
+   * Methods for managing aliasing of atomic names
+   * =============================================
+   */
 
   /** Returns the keys that have alias information. */
   public Set<ZName> getAliasKeys()
@@ -389,13 +418,13 @@ public class Bounds
 
   /** Returns a list of all known aliases for var.
    *  The resulting list will contain ZName, TupleExpr and BindExpr
-   *  objects.  For example: getAliases(x) == [ y, z, (a,b,c), (g,h,i') ]
-   *  means that x = y = z = (a,b,c) = (g,h,i').
+   *  objects.  For example: getAliases(x) == [ x, y, z ]
+   *  means that x = y = z.
    *
    * @param var
    * @return A list of aliases, which should be treated as read-only.
    */
-  public Set<Object> getAliases(ZName var)
+  public Set<ZName> getAliases(ZName var)
   {
     return aliases_.get(var);
   }
@@ -407,21 +436,21 @@ public class Bounds
    */
   protected /*@non_null@*/ZName getBestAlias(/*@non_null@*/ ZName var)
   {
-    LinkedHashSet<Object> set = aliases_.get(var);
+    LinkedHashSet<ZName> set = aliases_.get(var);
     if (set == null) {
       return var;
     }
     else {
       return (ZName) set.iterator().next();
-    } 
+    }
   }
 
   /** True iff var and other are known to be aliased. */
-  public boolean isAliased(ZName var, Object other)
+  public boolean isAliased(ZName var, ZName other)
   {
     if (var.equals(other))
       return true;
-    Set<Object> known = aliases_.get(var);
+    Set<ZName> known = aliases_.get(var);
     return known != null && known.contains(other);
   }
 
@@ -429,80 +458,74 @@ public class Bounds
    *  The alias object must be a ZName,
    *  TupleExpr (which contains only ZName objects),
    *  or BindExpr object (which contains only ZName objects after each ==).
-   * @param var
-   * @param alias
-   */
-  public void addAlias(ZName var, Object newAlias)
-  {
-    if (isAliased(var, newAlias))
-      return; // no change needed.
-    deductions_++;
-    changed_.add(var);
-    if (newAlias instanceof ZName) {
-      merge(var, (ZName) newAlias);
-      // TODO: go through and infer more equalities, from (a,b)=(c,d) etc.
-    }
-    else {
-      assert newAlias instanceof TupleExpr || newAlias instanceof BindExpr;
-      Set<Object> known = aliases_.get(var);
-      if (known == null) {
-        LinkedHashSet<Object> list = new LinkedHashSet<Object>();
-        list.add(var);
-        list.add(newAlias);
-        aliases_.put(var, list);
-      }
-      else {
-        known.add(newAlias);
-        // TODO: go through and infer more equalities, from (a,b)=(c,d) etc.
-      }
-    }
-  }
-
-  /** Calculates the union of two alias sets and makes sure that
-   * both var1 and var2 point to that union.
-   *
    * @param var1
    * @param var2
-   * @return Result may be a fresh list, or the one for var1 or var2.
    */
-  private void merge(ZName var1, ZName var2)
+  public void addAlias(ZName var1, ZName var2)
   {
-    LinkedHashSet<Object> list1 = aliases_.get(var1);
-    LinkedHashSet<Object> list2 = aliases_.get(var2);
+    if (isAliased(var1, var2))
+      return; // no change needed.
+    deductions_++;
+
+    // Now calculate the union of the two alias sets,
+    // then copy bounds information one variable to the other
+    // (must do this *before* the next step),
+    // then update both var1 and var2 to point to the new alias set.
+    LinkedHashSet<ZName> list1 = aliases_.get(var1);
+    LinkedHashSet<ZName> list2 = aliases_.get(var2);
     if (list1 == null && list2 == null) {
-      LinkedHashSet<Object> result = new LinkedHashSet<Object>();
+      LinkedHashSet<ZName> result = new LinkedHashSet<ZName>();
       result.add(var1);
       result.add(var2);
       assert result.iterator().next() == var1;
       moveBounds(var2, var1);
       aliases_.put(var1, result);
       aliases_.put(var2, result);
+      // double-check that we moved the bounds to the correct variable
+      assert getBestAlias(var2) == var1;
     }
     else if (list1 == null) {
       // list2 is non-null
-      assert list2.contains(var2);
-      list2.add(var1);
-      moveBounds(var1, (ZName) list2.iterator().next());
+      list2.add(var1); // this updates all existing aliases of var2.
+      assert getBestAlias(var2) == var2; // must be unchanged
+      moveBounds(var1, var2);
       aliases_.put(var1, list2);
+      // double-check that we moved the bounds to the correct variable
+      assert getBestAlias(var1) == var2;
     }
     else if (list2 == null) {
       // list1 is non-null
-      assert list1.contains(var1);
-      list1.add(var2);
-      moveBounds(var2, (ZName) list1.iterator().next());
+      list1.add(var2); // this updates all existing aliases of var1.
+      assert getBestAlias(var1) == var1; // must be unchanged
+      moveBounds(var2, var1);
       aliases_.put(var2, list1);
+      // double-check that we moved the bounds to the correct variable
+      assert getBestAlias(var2) == var1;
     }
     else {
-      // both are non-null
-      list1.addAll(list2);
-      assert list1.contains(var1);
+      // both are non-null, so add list1 into list2.
+      ZName best1 = getBestAlias(var1);
+      ZName best2 = getBestAlias(var2);
+      moveBounds(best1, best2);
+      list2.addAll(list1);
+      assert list2.contains(var1);
       assert list2.contains(var2);
-      moveBounds((ZName) list2.iterator().next(), (ZName) list1.iterator().next());
-      aliases_.put(var2, list1);
+      // now ensure that ALL names in list1 and list2 point to the new list2.
+      for (ZName key : list2)
+        aliases_.put(key, list2);
+      // double-check that we moved the bounds to the correct variable
+      assert getBestAlias(var1) == best2;
+      assert getBestAlias(var2) == best2;
     }
+    
+    // mark all var1 and var2 aliases as changed
+    changed_.addAll(aliases_.get(var1));
   }
 
-  /** Moves all bounds information for name 'from' onto name 'to'. */
+  /** Moves all bounds information for name 'from' onto name 'to'.
+   *  Note that this is a lower-level method, so does not use
+   *  getBestAlias, it just uses exactly the names given.
+   */
   private void moveBounds(ZName from, ZName to)
   {
     BigInteger bnd = getLower(from);
@@ -517,6 +540,58 @@ public class Bounds
     if (set != null) {
       setEvalSet(to, set);
     }
-    // TODO: could delete the old bounds
+    Map<Object,ZName> args = getStructure(from);
+    if (args != null) {
+      setStructure(to, args);
+    }
+    // TODO: could delete the old bounds to clean things up
+  }
+
+
+  /**
+   * Methods for managing aliasing of structures (tuples/bindings)
+   * =============================================================
+   */
+
+  /** Returns the names that are known to be structures (tuples/bindings). */
+  public Set<ZName> getStructureKeys()
+  {
+    return structure_.keySet();
+  }
+
+  /** Returns information about the argument names of a structure
+   *  such as a tuple or binding.  This will return null if var
+   *  is not known to be a structure.
+   * @param var The name of the whole structure
+   * @return A map from argument positions to the names at those positions
+   */
+  public Map<Object, ZName> getStructure(ZName var)
+  {
+    return structure_.get(getBestAlias(var));
+  }
+
+  /** Record the fact that var is a structure, and the names of its
+   *  arguments (subcomponents).
+   *  See the docs for the structure_ field for examples.
+   * @param var  The name of the whole structure.
+   * @param args A map from argument positions to the names at those positions
+   */
+  public void setStructure(ZName var, Map<Object, ZName> args)
+  {
+    Map<Object, ZName> knownargs = getStructure(var);
+    if (args.equals(knownargs))
+      return; // no change needed.
+    deductions_++;
+    changed_.add(var);
+    if (knownargs == null) {
+      structure_.put(getBestAlias(var), args);
+    }
+    else {
+      // the ZNames in args and knownargs must be aliases.
+      assert knownargs.size() == args.size();  // it should be well-typed
+      for (Object argName : args.keySet()) {
+        addAlias(args.get(argName), knownargs.get(argName));
+      }
+    }
   }
 }
