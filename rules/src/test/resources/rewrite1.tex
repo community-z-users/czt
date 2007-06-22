@@ -109,6 +109,27 @@
     ]
 \end{theorem}
 
+\begin{theorem}{SimplePipe}
+  \vdash? (Simple \land [z!:\nat]) \pipe (Simple \land [z?:\nat]) =
+    [
+      x : \arithmos
+    |
+      (\exists z_{9}:\arithmos | true
+       @ (true \land
+          ((\exists z! : \arithmos | true
+            @ (true \land
+               ((x \in \nat \land z! \in \nat) \land
+                \lblot z == z! \rblot =
+                \lblot z == z_{9} \rblot )))
+           \land
+           (\exists z? : \arithmos | true
+            @ (true \land
+               ((x \in \nat \land z? \in \nat) \land
+                \lblot z == z? \rblot =
+                \lblot z == z_{9} \rblot))))))
+    ]
+\end{theorem}
+
 \begin{theorem}{SimpleHide}
   \vdash? Simple \hide (x) =
                 [ | (\exists x:\arithmos @ (true \land x\in\nat))]  

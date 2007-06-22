@@ -81,12 +81,18 @@ public class SimpleProver
     sl1.add(prime);
     ZStrokeList sl2 = factory.createZStrokeList();
     sl2.add(num9Stroke);
+    ZStrokeList sl3 = factory.createZStrokeList();
+    sl3.add(out);
+    ZStrokeList sl4 = factory.createZStrokeList();
+    sl4.add(in);
 
     Map<String,AbstractOracle> result = new HashMap<String,AbstractOracle>();
     result.put("TypecheckOracle", new TypecheckOracle());
     result.put("LookupOracle", new LookupOracle());
     result.put("CalculateThetaOracle", new ThetaOracle(null));
     result.put("CalculateThetaPrimeOracle", new ThetaOracle(sl1));
+    result.put("CalculateThetaOutOracle", new ThetaOracle(sl3));
+    result.put("CalculateThetaInOracle", new ThetaOracle(sl4));
     result.put("CalculateTheta9Oracle", new ThetaOracle(sl2));
     result.put("PrimeOracle", new DecorateOracle(prime));
     result.put("OutOracle", new DecorateOracle(out));

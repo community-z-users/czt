@@ -8,7 +8,7 @@
   \SECTION oracle\_toolkit \parents zpattern\_toolkit
 \end{zsection}
 
-\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9 \end{zedjoker}
+\begin{zedjoker}{DeclList} D, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11 \end{zedjoker}
 \begin{zedjoker}{Pred} P, P1, P2, P3, P4, P5, P6, P7, P8, P9 \end{zedjoker}
 \begin{zedjoker}{Expr} T, E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
@@ -76,6 +76,14 @@
 
 \begin{zedoracle}{CalculateThetaPrimeOracle}
   \theta E~' \is E2
+\end{zedoracle}
+
+\begin{zedoracle}{CalculateThetaOutOracle}
+  \theta E~! \is E2
+\end{zedoracle}
+
+\begin{zedoracle}{CalculateThetaInOracle}
+  \theta E~? \is E2
 \end{zedoracle}
 
 \begin{zedoracle}{CalculateTheta9Oracle}

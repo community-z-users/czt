@@ -160,6 +160,20 @@ be handled by a single rule.
   \theta E~' = E2
 \end{zedrule}
 
+\begin{zedrule}{ThetaOut}
+  E :: \power [D | true] \\
+  \theta [D | true] ! \is E2
+\derives
+  \theta E~! = E2
+\end{zedrule}
+
+\begin{zedrule}{ThetaIn}
+  E :: \power [D | true] \\
+  \theta [D | true] ? \is E2
+\derives
+  \theta E~? = E2
+\end{zedrule}
+
 \begin{zedrule}{ThetaDecor9}
   E :: \power [D | true] \\
   \theta [D | true]~_{9} \is E2
@@ -240,18 +254,36 @@ NOTE: we also currently need thirteen versions of this next rule
    E~_{9} \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
-The type oracle in the ExistsSchema rule checks that $D1$ and $D2$ are
+The type oracle in the SchemaExists rule checks that $D1$ and $D2$ are
 type compatible.  The $\schemaminus$ oracle calculates $D2 - D1$.
 That is, $D4$ will contain all the declarations that appear in $D2$
 but do not appear in $D1$.
 
-\begin{zedrule}{ExistsSchema}
+\begin{zedrule}{SchemaExists}
    [D|P] \sexprUnfoldsTo [D1 | P1] \\
    E2 \sexprUnfoldsTo [D2 | P2] \\
    ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
    ([D2|true] \schemaminus [D1|true]) \is [D4|true]
 \derives
    (\exists D | P @ E2) \sexprUnfoldsTo [D4 | (\exists D1 @ P1 \land P2)]
+\end{zedrule}
+
+\begin{zedrule}{SchemaExists1}
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
+   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
+   ([D2|true] \schemaminus [D1|true]) \is [D4|true]
+\derives
+   (\exists_1 D | P @ E2) \sexprUnfoldsTo [D4 | (\exists_1 D1 @ P1 \land P2)]
+\end{zedrule}
+
+\begin{zedrule}{SchemaForall}
+   [D|P] \sexprUnfoldsTo [D1 | P1] \\
+   E2 \sexprUnfoldsTo [D2 | P2] \\
+   ([D1 | true] \land [D2 | true]) :: \power [D3 | true] \\
+   ([D2|true] \schemaminus [D1|true]) \is [D4|true]
+\derives
+   (\forall D | P @ E2) \sexprUnfoldsTo [D4 | (\forall D1 @ P1 \land P2)]
 \end{zedrule}
 
 The semantics of schema negation requires the schema to be
@@ -339,15 +371,28 @@ such as $x$, $x?$ and $x_2$.
                    (\exists E6   @ [E2 | \theta E6   = \theta E6~_9]))
 \end{zedrule}
 
+\begin{zedrule}{SchemaPiping}
+  E1 :: \power [D1 | true] \\
+  E2 :: \power [D2 | true] \\
+  (split [D1|true]) \is ([D3|true]? \land [D4|true] \land
+                         [D5|true]' \land [D6|true]!) \\
+  (split [D2|true]) \is ([D7|true]? \land [D8|true] \land
+                         [D9|true]' \land [D10|true]!) \\
+  ([D6 | true] \schemaminus [D7 | true]) \is E3\\
+  ([D6 | true] \schemaminus E3) \is E6 % matching names
+\derives
+  E1 \pipe E2 =
+  (\exists E6~_9 @ (\exists E6~! @ [E1 | \theta E6~! = \theta E6~_9])
+                   \land
+                   (\exists E6~? @ [E2 | \theta E6~? = \theta E6~_9]))
+\end{zedrule}
+
 \begin{zedrule}{SchemaHiding}
   E ::\power [D1| true] \\
   [D1|true]\hide (NameList) \is \exists [D2|true] @ [D1|true]
 \derives
   E\hide (NameList) = \exists [D2|true] @ E
 \end{zedrule}
-
-TODO: schema hiding, schema piping,
-schema forall, schema exists unique.
 
 
 \section{Rules for Unfolding Declarations}
