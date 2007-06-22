@@ -360,15 +360,15 @@ such as $x$, $x?$ and $x_2$.
 \begin{zedrule}{SchemaComposition}
   E1 :: \power [D1 | true] \\
   E2 :: \power [D2 | true] \\
-  (split [D1|true]) \is ([D6|true]? \land [D9|true] \land
-                         [D4|true]' \land [D8|true]!) \\
-  ([D4 | true] \schemaminus [D2 | true]) \is E5\\
-  ([D4 | true] \schemaminus E5) \is E6 % matching names
+  (split [D1|true]) \is ([D3|true]? \land [D4|true] \land
+                         [D5|true]' \land [D6|true]!) \\
+  ([D5 | true] \schemaminus [D2 | true]) \is E3\\
+  ([D5 | true] \schemaminus E3) \is E4 % matching names
 \derives
   E1 \semi E2 =
-  (\exists E6~_9 @ (\exists E6~' @ [E1 | \theta E6~' = \theta E6~_9])
+  (\exists E4~_9 @ (\exists E4~' @ [E1 | \theta E4~' = \theta E4~_9])
                    \land
-                   (\exists E6   @ [E2 | \theta E6   = \theta E6~_9]))
+                   (\exists E4   @ [E2 | \theta E4   = \theta E4~_9]))
 \end{zedrule}
 
 \begin{zedrule}{SchemaPiping}
