@@ -119,6 +119,16 @@
                 [ | (\exists x:\arithmos; y:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
 \end{theorem}
 
+\begin{theorem}{SimpleHide3}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(y) =
+                [ x:\arithmos | (\exists y:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+\end{theorem}
+
+\begin{theorem}{SimpleHide3}
+  \vdash? (Simple \land [y:\arithmos | y \in\nat])\hide(x) =
+                [ y:\arithmos | (\exists x:\arithmos @ (true \land (x\in\nat \land y\in\nat)))]
+\end{theorem}
+
 \begin{schema}{SimpleConstDecl}
   y == 3
 \end{schema}
