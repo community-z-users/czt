@@ -15,11 +15,15 @@
   <dependencies>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>parser-circus</artifactId>
+      <artifactId>zlive</artifactId>
     </dependency>
     <dependency>
       <groupId>${czt.groupId}</groupId>
-      <artifactId>zlive</artifactId>
+      <artifactId>typechecker-oz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-circus</artifactId>
     </dependency>
   </dependencies>
   <build>
