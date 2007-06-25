@@ -13,6 +13,7 @@
 \begin{zedjoker}{Expr} T, E, E1, E2, E3, E4, E5, E6, E7, E8, E9 \end{zedjoker}
 \begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 \begin{zedjoker}{NameList}NameList\end{zedjoker}
+\begin{zedjoker}{RenameList}RenameList\end{zedjoker}
 
 \begin{zed}
   \relation ( \_ :: \_ )
@@ -105,6 +106,10 @@
 
 \begin{zedoracle}{HideOracle}
   [D1|true] \hide (NameList) \is \exists [D2|true] @ [D1|true]
+\end{zedoracle}
+
+\begin{zedoracle}{RenameOracle}
+  E [ RenameList ] \is E2
 \end{zedoracle}
 
 \end{document}

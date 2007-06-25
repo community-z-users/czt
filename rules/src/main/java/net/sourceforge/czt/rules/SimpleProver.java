@@ -102,6 +102,7 @@ public class SimpleProver
     result.put("UnprefixOracle", new UnprefixOracle());
     result.put("SplitNamesOracle", new SplitNamesOracle());
     result.put("HideOracle", new HideOracle());
+    result.put("RenameOracle", new RenameOracle());
     return result;
   }
 

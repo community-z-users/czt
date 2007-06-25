@@ -1782,7 +1782,8 @@ terminal LocInfo
 
 terminal LocString
 <add:zpatt>
-        JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED, JOKERDECLLIST,
+        JOKERNAME, JOKERNAMELIST, JOKERRENAMELIST,
+        JOKEREXPR, JOKEREXPRLIST, JOKERPRED, JOKERDECLLIST, JOKERSTROKE,
 </add:zpatt>
         TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -1879,7 +1880,8 @@ non terminal ZName
 
 non terminal List&lt;ZName&gt; refNameList;
 
-non terminal ZRenameList renameList;
+non terminal RenameList renameList;
+non terminal ZRenameList zRenameList;
 non terminal NewOldPair rename;
     
 non terminal ZDeclList
@@ -6405,8 +6407,18 @@ stroke ::=
         :}
         ;
 
-renameList ::= 
-        renameList:rnl COMMA rename:rn
+renameList ::=
+        zRenameList:zrnl
+        {: RESULT = zrnl; :}
+<add:zpatt>
+        |
+	JOKERRENAMELIST:jrl
+        {: RESULT = factory_.createJokerRenameList(jrl.getString(), null); :}
+</add:zpatt>
+        ;    
+
+zRenameList ::=
+        zRenameList:rnl COMMA rename:rn
         {:
            rnl.getNewOldPair().add(rn);
            RESULT = rnl;
@@ -6414,7 +6426,7 @@ renameList ::=
         |
         rename:rn  
         {: RESULT = factory_.createZRenameList(factory_.list(rn)); :}
-        ;    
+        ;
 
 rename ::=
         declName:lhs SLASH refName:rhs

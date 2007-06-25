@@ -254,6 +254,13 @@ NOTE: we also currently need thirteen versions of this next rule
    E~_{9} \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
+\begin{zedrule}{SchemaRenaming}
+   E \sexprUnfoldsTo E1 \\
+   E1 [ RenameList ] \is E2 \\
+\derives
+   E [ RenameList ] \sexprUnfoldsTo E2
+\end{zedrule}
+
 The type oracle in the SchemaExists rule checks that $D1$ and $D2$ are
 type compatible.  The $\schemaminus$ oracle calculates $D2 - D1$.
 That is, $D4$ will contain all the declarations that appear in $D2$

@@ -63,6 +63,8 @@ public class CopyVisitor
              JokerNameVisitor<Term>,
              JokerNameListVisitor<Term>,
              JokerPredVisitor<Term>,
+	     JokerRenameListVisitor<Term>,
+	     JokerStrokeVisitor<Term>,
              RefExprVisitor<Term>
 {
   private Factory factory_;
@@ -190,6 +192,16 @@ public class CopyVisitor
   public Term visitJokerPred(JokerPred joker)
   {
     return factory_.createJokerPred(joker.getName(), joker.getId());
+  }
+
+  public Term visitJokerRenameList(JokerRenameList joker)
+  {
+    return factory_.createJokerRenameList(joker.getName(), joker.getId());
+  }
+
+  public Term visitJokerStroke(JokerStroke joker)
+  {
+    return factory_.createJokerStroke(joker.getName(), joker.getId());
   }
 
   public Term visitRefExpr(RefExpr expr)

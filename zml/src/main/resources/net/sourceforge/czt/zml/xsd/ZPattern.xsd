@@ -114,6 +114,8 @@
 
   <xs:element name="JokerExpr"     type="P:JokerExpr"     substitutionGroup="Z:Expr"/>
   <xs:element name="JokerExprList" type="P:JokerExprList" substitutionGroup="Z:ExprList"/>
+  <xs:element name="JokerRenameList" type="P:JokerRenameList" substitutionGroup="Z:RenameList"/>
+  <xs:element name="JokerStroke" type="P:JokerStroke" substitutionGroup="Z:Stroke"/>
   <xs:element name="JokerNameList" type="P:JokerNameList" substitutionGroup="Z:NameList"/>
   <xs:element name="JokerPred"     type="P:JokerPred"     substitutionGroup="Z:Pred"/>
   <xs:element name="JokerDeclList" type="P:JokerDeclList" substitutionGroup="Z:DeclList"/>
@@ -130,6 +132,8 @@
 
   <xs:element name="JokerExprBinding"     type="P:JokerExprBinding"     substitutionGroup="P:Binding"/>
   <xs:element name="JokerExprListBinding" type="P:JokerExprListBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerRenameListBinding" type="P:JokerRenameListBinding" substitutionGroup="P:Binding"/>
+  <xs:element name="JokerStrokeBinding" type="P:JokerStrokeBinding" substitutionGroup="P:Binding"/>
   <xs:element name="JokerNameListBinding" type="P:JokerNameListBinding" substitutionGroup="P:Binding"/>
   <xs:element name="JokerPredBinding"     type="P:JokerPredBinding"     substitutionGroup="P:Binding"/>
   <xs:element name="JokerDeclListBinding" type="P:JokerDeclListBinding" substitutionGroup="P:Binding"/>
@@ -272,6 +276,8 @@
       <xs:enumeration value="Name"/>
       <xs:enumeration value="NameList"/>
       <xs:enumeration value="Pred"/>
+      <xs:enumeration value="RenameList"/>
+      <xs:enumeration value="Stroke"/>
     </xs:restriction>
   </xs:simpleType>
 
@@ -367,6 +373,22 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="JokerRenameList">
+    <xs:complexContent>
+      <xs:extension base="Z:RenameList">
+        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="Id" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerStroke">
+    <xs:complexContent>
+      <xs:extension base="Z:Stroke">
+        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="Id" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="JokerNameList">
     <xs:complexContent>
       <xs:extension base="Z:NameList">
@@ -455,6 +477,38 @@
             </xs:annotation>
           </xs:element>
           <xs:element ref="Z:ExprList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerRenameListBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="P:JokerRenameList">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:RenameList"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerStrokeBinding">
+    <xs:complexContent>
+      <xs:extension base="P:Binding">
+        <xs:sequence>
+          <xs:element ref="P:JokerStroke">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="Z:Stroke"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

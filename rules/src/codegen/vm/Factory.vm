@@ -67,8 +67,7 @@ public class ProverFactory
     throw new UnsupportedOperationException(message);
   }
 
-  public ${j.BindingName} create${j.BindingName}(${j.Name} binding,
-    ${j.TypeName} v${j.TypeName})
+  public ${j.BindingName} create${j.BindingName}(${j.Name} binding)
   {
     String name = binding.getName();
     ${j.ClassName} joker = m${j.Name}s_.get(name);

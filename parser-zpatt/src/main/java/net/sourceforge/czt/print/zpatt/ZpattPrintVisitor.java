@@ -94,6 +94,18 @@ public class ZpattPrintVisitor
     return null;
   }
 
+  public Object visitJokerRenameList(JokerRenameList joker)
+  {
+    printDecorword(joker.getName());
+    return null;
+  }
+
+  public Object visitJokerStroke(JokerStroke joker)
+  {
+    printDecorword(joker.getName());
+    return null;
+  }
+
   public Object visitJokerNameList(JokerNameList joker)
   {
     printDecorword(joker.getName());
@@ -105,6 +117,22 @@ public class ZpattPrintVisitor
     visit(binding.getJokerExprList());
     printDecorword("\u219D");
     visit(binding.getExprList());
+    return null;
+  }
+
+  public Object visitJokerRenameListBinding(JokerRenameListBinding binding)
+  {
+    visit(binding.getJokerRenameList());
+    printDecorword("\u219D");
+    visit(binding.getRenameList());
+    return null;
+  }
+
+  public Object visitJokerStrokeBinding(JokerStrokeBinding binding)
+  {
+    visit(binding.getJokerStroke());
+    printDecorword("\u219D");
+    visit(binding.getStroke());
     return null;
   }
 
