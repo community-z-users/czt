@@ -14,6 +14,7 @@
 \begin{zedjoker}{Name} v, v1, v2, v3, v4, v5, v6, v7, v8, v9 \end{zedjoker}
 \begin{zedjoker}{NameList}NameList\end{zedjoker}
 \begin{zedjoker}{RenameList}RenameList\end{zedjoker}
+\begin{zedjoker}{Stroke}Stroke\end{zedjoker}
 
 \begin{zed}
   \relation ( \_ :: \_ )
@@ -55,40 +56,16 @@
   \_ \is \_ : E1 \rel E2
 \end{gendef}
 
-\begin{zedoracle}{PrimeOracle}
-  E~' \is E2
+\begin{zedoracle}{DecorOracle}
+  E~Stroke \is E2
 \end{zedoracle}
 
-\begin{zedoracle}{OutOracle}
-  E~! \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{InOracle}
-  E~? \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{Decor9Oracle}
-  E~_9 \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{CalculateThetaOracle}
+\begin{zedoracle}{ThetaOracle}
   \theta E \is E2
 \end{zedoracle}
 
-\begin{zedoracle}{CalculateThetaPrimeOracle}
-  \theta E~' \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{CalculateThetaOutOracle}
-  \theta E~! \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{CalculateThetaInOracle}
-  \theta E~? \is E2
-\end{zedoracle}
-
-\begin{zedoracle}{CalculateTheta9Oracle}
-  \theta E~ _9 \is E2
+\begin{zedoracle}{DecorThetaOracle}
+  \theta E~Stroke \is E2
 \end{zedoracle}
 
 \begin{zedoracle}{SchemaMinusOracle}

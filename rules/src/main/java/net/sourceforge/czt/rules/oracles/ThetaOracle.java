@@ -36,11 +36,11 @@ import net.sourceforge.czt.zpatt.util.Factory;
 public class ThetaOracle
   extends AbstractOracle
 {
-  ZStrokeList strokes_;
+  boolean decorated_;
 
-  public ThetaOracle(ZStrokeList strokes)
+  public ThetaOracle(boolean decorated)
   {
-    strokes_ = strokes;
+    decorated_ = decorated;
   }
 
   public Set<Binding> check(List args, SectionManager manager, String section)
@@ -48,7 +48,15 @@ public class ThetaOracle
   {
     Factory factory = new Factory(new ProverFactory());
     Expr expr = (Expr) ProverUtils.removeJoker((Term) args.get(0));
-    Expr result = (Expr) args.get(1);
+    Stroke stroke = null;
+    Expr result;
+    if (decorated_) {
+      stroke = (Stroke)  ProverUtils.removeJoker((Term) args.get(1));
+      result = (Expr) args.get(2);
+    }
+    else {
+      result = (Expr) args.get(1);
+    }
     List errors =
       TypeCheckUtils.typecheck(expr, manager, false, true, section);
     if (errors == null || errors.isEmpty()) {
@@ -66,7 +74,7 @@ public class ThetaOracle
                                               origName.getStrokeList());
             ZStrokeList strokes = factory.createZStrokeList();
             strokes.addAll(origName.getZStrokeList());
-            if (strokes_ != null) strokes.addAll(strokes_);
+            if (stroke != null) strokes.add(stroke);
             ZName name2 = factory.createZName(origName.getWord(), strokes);
             RefExpr refExpr = factory.createRefExpr(name2);
             zDeclList.add(factory.createConstDecl(name1, refExpr));

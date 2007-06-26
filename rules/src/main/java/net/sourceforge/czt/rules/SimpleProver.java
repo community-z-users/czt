@@ -89,15 +89,9 @@ public class SimpleProver
     Map<String,AbstractOracle> result = new HashMap<String,AbstractOracle>();
     result.put("TypecheckOracle", new TypecheckOracle());
     result.put("LookupOracle", new LookupOracle());
-    result.put("CalculateThetaOracle", new ThetaOracle(null));
-    result.put("CalculateThetaPrimeOracle", new ThetaOracle(sl1));
-    result.put("CalculateThetaOutOracle", new ThetaOracle(sl3));
-    result.put("CalculateThetaInOracle", new ThetaOracle(sl4));
-    result.put("CalculateTheta9Oracle", new ThetaOracle(sl2));
-    result.put("PrimeOracle", new DecorateOracle(prime));
-    result.put("OutOracle", new DecorateOracle(out));
-    result.put("InOracle", new DecorateOracle(in));
-    result.put("Decor9Oracle", new DecorateOracle(num9Stroke));
+    result.put("ThetaOracle", new ThetaOracle(false));
+    result.put("DecorThetaOracle", new ThetaOracle(true));
+    result.put("DecorOracle", new DecorateOracle());
     result.put("SchemaMinusOracle", new SchemaMinusOracle());
     result.put("UnprefixOracle", new UnprefixOracle());
     result.put("SplitNamesOracle", new SplitNamesOracle());

@@ -6170,6 +6170,27 @@ RSQUARE:rsq
            }
            addLocAnn(RESULT, getLocation(it, s));
         :}
+<add:zpatt>
+        |
+        /* schema decoration */
+        inner_term:it JOKERSTROKE:js
+        {:
+           Stroke s = factory_.createJokerStroke(js.getString(), null);
+           //if the inner term is a theta expr, add the stroke to the
+           //theta expr instead, which has a tighter binding.
+           Object pAnn = it.getAnn(ParenAnn.class);
+           if (it instanceof ThetaExpr &amp;&amp; pAnn == null) {
+             ThetaExpr te = (ThetaExpr) it;
+	     te.getZStrokeList().add(s);
+	     addLocAnn(te, getLocation(te, s));
+	     RESULT = te;
+           }
+           else {
+             RESULT = factory_.createDecorExpr(expr(it), s);
+           }
+           addLocAnn(RESULT, getLocation(it, s));
+        :}
+</add:zpatt>
         |
         /* binding construction */
         THETA:theta inner_term:it

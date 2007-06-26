@@ -43,18 +43,12 @@ import net.sourceforge.czt.zpatt.visitor.*;
 public class DecorateOracle
   extends AbstractOracle
 {
-  Stroke stroke_;
-
-  public DecorateOracle(Stroke stroke)
-  {
-    stroke_ = stroke;
-  }
-
   public Set<Binding> check(List args, SectionManager manager, String section)
     throws UnboundJokerException
   {
     Expr expr = (Expr) ProverUtils.removeJoker((Term) args.get(0));
-    Expr result = (Expr) args.get(1);
+    Stroke stroke = (Stroke) ProverUtils.removeJoker((Term) args.get(1));
+    Expr result = (Expr) args.get(2);
     if (expr instanceof SchExpr) {
       SchExpr schExpr = (SchExpr) expr;
       // We typecheck before decorating to ensure that ids are correct
@@ -65,7 +59,7 @@ public class DecorateOracle
           new CollectStateVariablesVisitor();
         schExpr.getZSchText().getDeclList().accept(collectVisitor);
         final DecorateNamesVisitor visitor =
-          new DecorateNamesVisitor(collectVisitor.getVariables(), stroke_);
+          new DecorateNamesVisitor(collectVisitor.getVariables(), stroke);
         schExpr = (SchExpr) schExpr.accept(visitor);
         if (schExpr != null) {
           return UnificationUtils.unify(schExpr, result);
