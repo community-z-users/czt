@@ -231,7 +231,14 @@ public class PrintVisitor
   
   public String visitLatexMarkupPara(LatexMarkupPara term)
   {
-    return visitList(term.getDirective(), "LatexMarkupPara[", ", ", "]");
+    StringBuilder result = new StringBuilder("LaTeXMarkUpPara(");
+    result.append(term.getDirective().size());
+    result.append(")[");
+    for(Directive directive : term.getDirective()) {
+      result.append(visit(directive));
+    }
+    result.append("]");
+    return result.toString();    
   }
   
   public String visitDirective(Directive term)
@@ -259,7 +266,7 @@ public class PrintVisitor
     result.append(")[");
     openTabScope(result);
     int i = term.size() - 1; int j = 0;
-    for(Para p : term) {
+    for(Para p : term) {      
       if (p == null) result.append("FOUND NULL @ " + j + "  ");
       result.append(visit(p));
       if (i > 0) {
@@ -269,8 +276,14 @@ public class PrintVisitor
     }
     closeTabScope(result);
     result.append("]");
-    addNLAndTabs(result);
+    addNLAndTabs(result);            
     return result.toString();    
+//    int j = 0;
+//    for(Para p: term) {
+//      System.out.println("j = " + j + " ; " + p != null ? p.getClass().getName() : "null");
+//      j++;
+//    }
+//    return "";
   }
   
   public String visitZDeclList(ZDeclList term)

@@ -10,9 +10,12 @@
 package net.sourceforge.czt.circus.util;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.UnsupportedAstClassException;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
+import net.sourceforge.czt.circus.ast.CircusFactory;
 import net.sourceforge.czt.circus.ast.CircusStateAnn;
 import net.sourceforge.czt.circus.ast.Model;
 import net.sourceforge.czt.circus.ast.OnTheFlyDefAnn;
@@ -22,6 +25,8 @@ import net.sourceforge.czt.circus.impl.CircusFactoryImpl;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.ZParaList;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.circus.ast.ActionPara;
 import net.sourceforge.czt.circus.ast.ActionTransformerPred;
@@ -29,9 +34,11 @@ import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.ast.CircusFieldList;
+import net.sourceforge.czt.circus.ast.CircusProcess;
 import net.sourceforge.czt.circus.ast.NameSetPara;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessTransformerPred;
+import net.sourceforge.czt.z.ast.ZName;
 
 /**
  *
@@ -46,6 +53,8 @@ public final class CircusUtils
   private CircusUtils()
   {
   }
+  
+  public static final CircusFactory FACTORY = new CircusFactoryImpl();
   
   /** The name of the basic Circus toolkit. */
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
@@ -172,6 +181,44 @@ public final class CircusUtils
       (term instanceof ChannelSetPara) ||
       ((term instanceof TransformerPara) &&
       ((TransformerPara)term).getTransformerPred() instanceof ProcessTransformerPred));
+  }     
+
+  /**
+   * From a given ZSect term, this method extract all the implicitly declared 
+   * CircusProcess definitions, which are associated with the corresponding 
+   * names in the map. If duplicated names are found, process paragraphs with 
+   * CircusProcess definitions not marked as on-the-flyor, or on-the-fly 
+   * processes with formal generic parameters, this method throws an
+   * UnsupportedAstClassException. These situations should never happen wihtin
+   * a well-implemented parser/typechecker.
+   */
+  public static Map<ZName, CircusProcess> getZSectImplicitProcessPara(ZSect term) {
+    HashMap<ZName, CircusProcess> result = new HashMap<ZName, CircusProcess>();
+    ZParaList implicitProcPara = getZSectImplicitProcessParaList(term);
+    for (Para p : implicitProcPara) {
+      if (!(p instanceof ProcessPara))
+        throw new UnsupportedAstClassException("Unsupported on-the-fly paragraph class " + p.getClass().getName());
+      ProcessPara pp = (ProcessPara)p;
+      if (pp.getCircusProcess().getAnn(OnTheFlyDefAnn.class) == null) 
+        throw new UnsupportedAstClassException("Invalid on-the-fly process definition within ZSect.");      
+      if (pp.getZGenFormals() != null && !pp.getZGenFormals().isEmpty()) 
+        throw new UnsupportedAstClassException("On-the-fly process definition within ZSect cannot have formal generic parameters.");      
+      CircusProcess old = result.put(pp.getZName(), pp.getCircusProcess());
+      if (old != null)
+        throw new UnsupportedAstClassException("Duplicated name for on-the-fly process definition with ZSect: " + pp.getZName());      
+    }    
+    return result;
+  }
+    
+  protected static ZParaList /*List<ProcessPara>*/ getZSectImplicitProcessParaList(ZSect term) 
+  {
+    ZParaList result = FACTORY.createZParaList();        
+    for(Para p : term.getZParaList()) {
+      if ((p instanceof ProcessPara) && 
+         ((ProcessPara)p).getZName().getWord().startsWith(DEFAULT_IMPLICIT_PROCESS_NAME_PREFIX))
+        result.add(p);
+    }
+    return result;
   }
   
   public static CircusFieldList assertCircusFieldList(Term term)
