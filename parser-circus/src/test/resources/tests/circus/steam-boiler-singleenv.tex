@@ -923,7 +923,7 @@ the current time, modulo the cycle time.
 %See original steam boiler for how the encoding of circus.sty
 \begin{circus}
    \circprocess\ Timer ~\circdef~ \circbegin \\
-     \t1 cycletime == 5 \\ %     
+     \t1 cycletime == 5 \\ %
      \t1 cyclelimit == cycletime - 1 \\ %
      \t1 Time == 0 \upto cyclelimit \\
      \t1 \circstate\ TimeState == [~ time: Time ~] \\ %
@@ -2486,7 +2486,14 @@ It is easy to code this requirement in CSP.
                             \t3  \LET x == true @ emergencystop.x \rchanset \rpar \\
         \t2 Deadlock %
 \end{circus}
-
+%
+\begin{addedstuff}
+   Also note that the channel set above generates a parsing warning about a channel set
+   that seems more complicated than expected. That is because the parser accepts any Z
+   expression within a Channel set expression, yet some of the expression productions
+   are not valid (typecheckable) channel sets. See typechecker for details.
+\end{addedstuff}
+%
 \[
   \mathbf{assert}\
   \begin{block}

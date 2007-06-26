@@ -2112,7 +2112,7 @@ sequence of events.
 \end{circusaction}
 
 \begin{circusaction}
-    \t1 @ InitAnalyserState \circseq\ AnalyserCycle 
+    \t1 @ InitAnalyserState \circseq\ AnalyserCycle
 \end{circusaction}
 The $Analyse$ reference is given as an action call. If one wants it to be a schema expression action
 directly, one needs to include the schema expression fat parenthesis around it.
@@ -2212,7 +2212,7 @@ behaviour shown in table~\ref{tab:controller-modes}.
 Each time the \( \mathsl{Controller} \, \)\/ enters a new state, it
 reports this fact.
 \begin{circusaction}
-    EnterMode \circdef m: Mode @ reportmode~!m \then mode := m \\   
+    EnterMode \circdef m: Mode @ reportmode~!m \then mode := m \\
 \end{circusaction}
 The \( \mathsl{Controller} \, \)\/ starts by entering the
 initialisation state, then it behaves like \( \mathsl{ControllerCycle}
@@ -2308,7 +2308,7 @@ degraded mode.
         \t3  sendprogready \then Skip \extchoice levelokay.false \then Skip~) ~) \extchoice \\
         \t4 qfailure.true \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
         \t5 vzero.false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
-        \t2 sbwaiting.false \then Skip 
+        \t2 sbwaiting.false \then Skip
 \end{circusaction}
 
 \section{Normal mode}
@@ -2321,7 +2321,7 @@ already have entered the emergency-stop mode.
 \begin{circusaction}
 \t1 NormalModeAnalysis \circdef failures.false \then Skip \extchoice \\
             \t3 qfailure.true \then EnterMode~(\freetyperescue) \extchoice \\
-            \t3 nonqfailure.true \then EnterMode~(\freetypedegraded)   
+            \t3 nonqfailure.true \then EnterMode~(\freetypedegraded)
 \end{circusaction}
 
 \section{Degraded mode}
@@ -2339,7 +2339,7 @@ emergency-stop mode.
 \begin{circusaction}
   \t1 DegradedModeAnalysis \circdef qfailure.false \then \\
                 \t3 ( failures.true \then Skip \extchoice failures.false \then EnterMode~(\freetypenormal) ~) \\
-                \t3\ \extchoice qfailure.true \then EnterMode~(\freetyperescue) 
+                \t3\ \extchoice qfailure.true \then EnterMode~(\freetyperescue)
 \end{circusaction}
 
 \section{Rescue mode}
@@ -2353,7 +2353,7 @@ emergency-stop mode.
 \begin{circusaction}
         \t1 RescueModeAnalysis \circdef qfailure.true \then Skip \extchoice \\
             \t2 qfailure.false \then ( failures.false \then EnterMode~(\freetypenormal) \\
-                \t5 \extchoice failures.true \then EnterMode~(\freetypedegraded)~) 
+                \t5 \extchoice failures.true \then EnterMode~(\freetypedegraded)~)
 \end{circusaction}
 
 \section{Actions}
@@ -2363,7 +2363,7 @@ what has to be done: raise, reduce, or retain the level.
 \begin{circusaction}
         \t1 AdjustLevel \circdef  levelbelowmin \then RaiseLevel \extchoice \\ %
             \t2 levelabovemax \then ReduceLevel \extchoice  \\ %
-            \t2 levelokay.true \then RetainLevel 
+            \t2 levelokay.true \then RetainLevel
 \end{circusaction}
 If the level needs to be raised, then the pumps are started.  The
 valve may need to be closed, but this would be in only the
@@ -2373,7 +2373,7 @@ undesirable effect.
         \t1 RaiseLevel \circdef StartPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen CloseValve \\
             \t2 \circelse mode \neq \freetypeinitialisation \circthen Skip \\
-            \t2 \circfi  
+            \t2 \circfi
 \end{circusaction}
 If the level needs to be reduced, then the pumps are stopped.  The
 valve may be opened in only the initialisation mode.  We assume that
@@ -2382,7 +2382,7 @@ opening an open valve has no undesirable effect.
         \t1 ReduceLevel \circdef StopPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen OpenValve \\
             \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen Skip \\
-            \t2 \circfi 
+            \t2 \circfi
 \end{circusaction}
 To retain the level, we stop the pumps and make sure that the valve is
 closed in initialisation mode.
@@ -2390,7 +2390,7 @@ closed in initialisation mode.
         \t1 RetainLevel \circdef StopPumps \circseq\ \\
             \t2 \circif mode = \freetypeinitialisation \circthen CloseValve \\
             \t2\ \ \circelse mode \neq \freetypeinitialisation \circthen Skip \\
-            \t2 \circfi  
+            \t2 \circfi
 \end{circusaction}
 Starting and stopping pumps and opening and closing valves are all
 simple matters.
@@ -2398,7 +2398,7 @@ simple matters.
         \t1 StartPumps \circdef startpumps \then Skip        \\ %
         \t1 StopPumps \circdef stoppumps \then Skip         \\ %
         \t1 OpenValve \circdef openvalve \then Skip         \\ %
-        \t1 CloseValve \circdef closevalve \then Skip 
+        \t1 CloseValve \circdef closevalve \then Skip
 \end{circusaction}
 
 \begin{addedstuff}
@@ -2423,7 +2423,7 @@ This completes the description of the \( \mathsl{Controller} \, \).
 
 \begin{circus}
    \circassertref\ DF \circrefines\ FLDV~ Controller \\
-   \circassertref\ LF \circrefines\ FLDV~ Controller \\   
+   \circassertref\ LF \circrefines\ FLDV~ Controller \\
 \end{circus}
 \[
   \mathbf{assert}\ \mathsl{Controller} :[ \hbox{ deadlock free } [FD] ] %
@@ -2487,10 +2487,10 @@ It is communicated on the \( \mathsl{output} \) channel.
 \end{circus}
 The process is defined as follows.
 \begin{circus}
-    \circprocess\ Reporter \circdef \circbegin 
+    \circprocess\ Reporter \circdef \circbegin
 \end{circus}
 The process waits for the start of the report phase; after this, it
-provides its report service. 
+provides its report service.
 
 \begin{addedstuff} Again, this is added in the end after the SPOT ($@$) symbol.\end{addedstuff}
 
@@ -2528,14 +2528,14 @@ the message to the physical units, and then telling the \(
 \begin{circusaction}
     \t1 TidyUp \circdef endreport \then failuresrepairs~?x \then FailuresRepairs \circseq \\
         \t3 output~!( \theta OutputMsg ) \then \\
-        \t3 pumps~!pumpState \then Reporter 
+        \t3 pumps~!pumpState \then Reporter
     \also
     \t1 ALTERNATIVE\_TidyUp \circdef endreport \then \\
     \t3 (\circvar\ nopairsX, repairsX: \power UnitFailure @ \\
         \t4 failuresrepairs~?x \prefixcolon x = (nopairsX, repairsX) \then \\
         \t4 \lschexpract FailuresRepairs[nopairsX/nopairs, repairsX/repairs] \rschexpract ) \circseq \\
     \t3 output~!( \theta OutputMsg ) \then \\
-    \t3 pumps~!pumpState \then Reporter 
+    \t3 pumps~!pumpState \then Reporter
 \end{circusaction}
 Reports are added to the various message components as they arrive.
 \begin{circusaction}
@@ -2559,7 +2559,7 @@ Reports are added to the various message components as they arrive.
             \\ %
             \t3 \extchoice
             \\ %
-            \t3 closevalve \then signals := signals \cup \{ \freetypecloseValve \} 
+            \t3 closevalve \then signals := signals \cup \{ \freetypecloseValve \}
 \end{circusaction}
 \begin{circusaction}
     \t1 @ startreport \then ReportService
@@ -2585,7 +2585,7 @@ from deadlock and livelock.
 
 \begin{circus}
    \circchannelset\ TACReporterInterface == Reports\ \cup \\
-        \t1 \lchanset startreport, reportmode, endreport, afailuresrepairs, apumps \rchanset  
+        \t1 \lchanset startreport, reportmode, endreport, afailuresrepairs, apumps \rchanset
    \also
    \circprocess\ TACReporter \circdef \\
     \t1 ( TAController \\
@@ -2607,7 +2607,7 @@ The steam boiler has the behaviour of the four processes:
 \end{circus}
 This is a refinement of the abstract specification.
 \begin{circus}
-    \circassertref\ SteamBoiler1 \circrefines\ FLDV~ SteamBoiler 
+    \circassertref\ SteamBoiler1 \circrefines\ FLDV~ SteamBoiler
 \end{circus}
 \[
   \mathsl{SteamBoiler1} \refinedby_{FD} \mathsl{SteamBoiler}
@@ -2712,11 +2712,19 @@ It is easy to code this requirement in CSP.
             \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
                             \t3  \LET x == true @ sbwaiting.x, \\
                             \t3  \LET x == true @ emergencystop.x \rchanset \rpar \\
-        \t2 Deadlock 
+        \t2 Deadlock
    \also
    \circassertref\ ControllerStop \circrefines FLDV~ WaitForSBWaiting \\
-   \circassertref\ WaitForSBWaiting \circrefines FLDV~ ControllerStop 
+   \circassertref\ WaitForSBWaiting \circrefines FLDV~ ControllerStop
 \end{circus}
+%
+\begin{addedstuff}
+   Also note that the channel set above generates a parsing warning about a channel set
+   that seems more complicated than expected. That is because the parser accepts any Z
+   expression within a Channel set expression, yet some of the expression productions 
+   are not valid (typecheckable) channel sets. See typechecker for details.
+\end{addedstuff}
+%
 \[
   \mathbf{assert}\
   \begin{block}

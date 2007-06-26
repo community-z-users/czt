@@ -55,13 +55,13 @@ public abstract class AbstractParserTest extends TestCase
   protected static final ParseErrorLogging pel_;
   protected static final ParseErrorLogging pelsm_;
   
-  static {
-      TESTS_SOURCEDIR.add("tests/circus");
+  static {      
       if (DEBUG_TESTING) {
         pel_ = new ParseErrorLogging(Parser.class, DEBUG_LEVEL);
         pelsm_ = new ParseErrorLogging(SectionManager.class, DEBUG_LEVEL);
         TESTS_SOURCEDIR.add("tests/circus/debug");
       } else {
+        TESTS_SOURCEDIR.add("tests/circus");
         // If not debugging testing, then do not do logging.
         pel_ = null;
         pelsm_ = null;

@@ -249,12 +249,24 @@ public class ParserState
     implicitlyDeclProcPara_.add(pp);
   }
   
-  public List<ActionPara> getImplicitlyDeclActPara()
+  // To be called by the parser at the update ZSect production 
+  public List<ProcessPara> getImplicitlyDeclProcPara()
   {    
-    return implicitlyDeclActPara_;
+    return implicitlyDeclProcPara_;
   }
   
-  public List<Para> getLocallyDeclPara()
+  // Should not be called outside the ParserState. 
+  // It is called through updateBasicProcess. 
+  // Leave protected in case derived classes need it.
+  protected List<ActionPara> getImplicitlyDeclActPara()
+  {    
+    return implicitlyDeclActPara_;
+  }  
+  
+  // Should not be called outside the ParserState. 
+  // It is called through updateBasicProcess
+  // Leave protected in case derived classes need it.
+  protected List<Para> getLocallyDeclPara()
   {    
     return locallyDeclPara_;
   }
