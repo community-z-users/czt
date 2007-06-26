@@ -725,10 +725,28 @@ action code
           CztLogger.getLogger(<class/>.class).warning(message);
         }
       }
+      // Retrieves the markup directives through the markup function
+      // from the section manager. The markup function calculates the
+      // LaTeX markup directives within a section. When no directives
+      // are added, this paragraph is added to the front of the paragraph
+      // list of the section with an empty list of  directives.
       if (latexMarkupFunction != null) {
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
         ZUtils.assertZParaList(sect.getParaList()).add(0, markupPara);
       }
+      
+<add:circus>
+      // Add implicit process paragraphs to the ZSect term.
+      ZUtils.assertZParaList(sect.getParaList()).addAll(parserState_.getImplicitlyDeclProcPara());
+//      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
+//         sect.getName() + ".");
+//      for(Para para : sect.getPara()) {
+//        System.out.println("\t" + para.toString());
+//      }      
+//      System.out.println();
+      
+</add:circus>      
+      
       if (parseError) return sect;
 
       Set dependencies = new HashSet();
@@ -740,14 +758,6 @@ action code
 <add:zpatt>
       sectInfo_.put(new Key(sectName, JokerTable.class), jokerTable, dependencies);
 </add:zpatt>
-//<add:circus>
-//      System.out.println("Printing " + sect.getPara().size() + " paragraphs from " +
-//         sect.getName() + ".");
-//      for(Para para : sect.getPara()) {
-//        System.out.println("\t" + para.toString());
-//      }      
-//      System.out.println();
-//</add:circus>
       return sect;
     }
 
@@ -895,7 +905,8 @@ action code
      * the a parsing error is thrown and the result is just an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr createBasicChannelSetExpr(ZExprList zrl) {      
+    protected Expr createBasicChannelSetExpr(LocInfo loc, ZExprList zrl) {      
+      //assert zrl != null &amp;&amp; !zrl.isEmpty();
       int errorIdx = -1;
       Iterator&lt;Expr&gt; it = zrl.iterator(); 
       while(it.hasNext() &amp;&amp; (errorIdx==-1)) {
@@ -906,12 +917,13 @@ action code
         }
       }      
       BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());      
+      if (loc != null) { addLocAnn(result, loc); }
       if (errorIdx == -1) {
         result.getZExprList().addAll(zrl);
       } else {
         CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage() + " at {1}",  
-            new Object[] { errorIdx, getLocation(result) }));       
+            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),  
+            new Object[] { errorIdx, loc }));       
       }       
       return result;
     } 
@@ -936,7 +948,7 @@ action code
       Expr result = e;
       // For reference empty sets transform them into basic set extension.
       if (isEmptySetRefExpr(result)) {
-        result = createBasicChannelSetExpr(factory_.createZExprList());
+        result = createBasicChannelSetExpr(getLocation(e), factory_.createZExprList());
       } 
       // For set extensions (possibly empty) or comprehension, report an error.
       else if (result instanceof SetExpr || result instanceof SetCompExpr){
@@ -6016,7 +6028,7 @@ term ::=
         {:
            // NOTE: The validation below makes sure that if this is a channel set extension,
            //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.
-           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(oel));
+           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(getLocation(lc, rc), oel));
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
 </add:circus>
