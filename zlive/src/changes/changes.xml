@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <document>
   <body>
-    <release version="1.0" date="unreleased">
+    <release version="1.0" date="July 2007">
       <action dev="open" type="add">
          The calculation of free/bound variables now handles tmpNNN
          variables as normal variables, so that they are scoped correctly.

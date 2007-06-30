@@ -4,7 +4,7 @@
     <title>CZT Changes Report</title>
   </properties>
   <body>
-    <release version="1.0" date="May 2007" description="Major release based on ZML 2.1; tools like parser, typechecker, etc. are quite mature now">
+    <release version="1.0" date="July 2007" description="Major release based on ZML 2.1; tools like parser, typechecker, etc. are quite mature now">
       <action type="update">
         Update to changes of the Z Standard (defect reports 001..013).
       </action>

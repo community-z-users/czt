@@ -2,7 +2,7 @@
 <document>
   <body>
     <!-- Add new releases here -->
-    <release version="0.6" date="unreleased">
+    <release version="1.0" date="July 2007">
       <action dev="Tim" type="fix">
         Corrected bug 1688910 -- Characterisation rules not
         implemented correctly

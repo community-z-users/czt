@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <document>
   <body>
-    <release version="1.0" date="May 2007">
+    <release version="1.0" date="July 2007">
       <action dev="Petra" type="update">
         Update to ZML 2.1 and the corresponding changes in the AST.
       </action>
