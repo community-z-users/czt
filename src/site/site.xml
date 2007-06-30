@@ -20,7 +20,7 @@
     </menu>
     <menu name="Documentation">
       <item name="Manual" href="http://czt.sourceforge.net/manual.html"/>
-      <item name="Wiki" href="http://czt.sourceforge.net/wiki/"/>
+      <item name="Wiki" href="http://czt.wiki.sourceforge.net/"/>
       <item name="Javadoc" href="apidocs/index.html"/>
     </menu>
     <menu ref="modules"/>
