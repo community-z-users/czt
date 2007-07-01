@@ -1,5 +1,10 @@
 \begin{thebibliography}{MGW96}
 
+\bibitem[Arm00]{armour:business-model00}
+Phillip~G. Armour.
+\newblock The case for a new business model.
+\newblock {\em CACM}, 43(8):19--22, August 2000.
+
 \bibitem[BM00]{brien:calculus-schemas-z00}
 S.~M. Brien and A.~P. Martin.
 \newblock A calculus for schemas in {Z}.
