@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.sourceforge.czt.jedit</groupId>
     <artifactId>jedit</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>ZCharMap</artifactId>
   <packaging>jar</packaging>
