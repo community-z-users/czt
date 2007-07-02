@@ -188,6 +188,7 @@ public class ZCharMap extends JPanel
     } else {
       mTable.setModel(zTableModel_);
     }
+    /*
     FileWriter fw;
     try
     {
@@ -197,7 +198,8 @@ public class ZCharMap extends JPanel
     } catch (IOException ex)
     {      
       ex.printStackTrace();
-    }    
+    }
+     */    
     check++;
     FontMetrics fm = mView.getFontMetrics(mView.getTextArea().getPainter().getFont());
     for(int colIdx = 0; colIdx < mTable.getColumnModel().getColumnCount(); colIdx++) {
