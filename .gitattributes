@@ -1,6 +1,4 @@
 * text=auto !eol
-attic/bsh/parseCircus.bsh -text
-attic/parser-tcoz/src/main/java/net/sourceforge/czt/parser/tcoz/TcozKeyword.java -text
 corejava/src/main/java/net/sourceforge/czt/circuspatt/util/CircusLaw.java -text
 corejava/src/main/xml/circuspattchar.xml -text
 corejava/src/test/java/net/sourceforge/czt/circuspatt/impl/LawTest.java -text
@@ -26,12 +24,6 @@ doc/cztlogo/czttitle.xcf -text
 doc/cztlogo/czttitle3.xcf -text
 doc/cztlogo/wordart.png -text
 doc/eclipse-projects.zip -text
-doc/papers/ifm/Typecheckers.zuml -text
-doc/papers/ifm/mc.arch.stages.eps -text
-doc/papers/rules/cztprover1.eps -text
-doc/papers/rules/cztprover1.png -text svneol=unset#image/png
-doc/papers/rules/master.bbl -text
-doc/papers/rules/master.tex -text
 doc/refcard/z/refcard.dvi -text
 doc/refcard/z/refcard.p1.latb -text
 doc/refcard/z/refcard.p2.latb -text
@@ -390,13 +382,6 @@ session/src/main/resources/circuspatt.commands -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text
-typechecker-circus/pom.xml -text
-typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorAnn.java -text
-typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/ErrorMessage.java -text
-typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypeCheckResources.java -text
-typechecker-circus/src/main/java/net/sourceforge/czt/typecheck/circus/TypecheckPropertiesKeys.java -text
-typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_en.properties -text
-typechecker-circus/src/main/resources/net/sourceforge/czt/typecheck/circus/ErrorMessage_pt.properties -text
 typechecker-oz/src/main/resources/net/sourceforge/czt/typecheck/oz/ErrorMessage_en.properties -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistConjOpExpr.error -text
 typechecker-oz/src/test/resources/oz/DuplicateNameInDistOpExpr-DistExChoiceOpExpr.error -text
