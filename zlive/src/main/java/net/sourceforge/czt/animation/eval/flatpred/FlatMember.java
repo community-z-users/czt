@@ -198,8 +198,9 @@ public class FlatMember extends FlatPred
         else
           range = range.intersect(elemRange);
       }
-      if (range != null)
+      if (range != null) {
         result.append(range.toString());
+      }
     }
     return result.toString();
   }

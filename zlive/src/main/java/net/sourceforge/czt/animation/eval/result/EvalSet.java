@@ -170,6 +170,25 @@ public abstract class EvalSet
       return new SubsetIterator<Expr>(this.iterator(), otherSet);
   }
 
+  /** Iterate through the subset of this set that unifies with
+   *  the given substructures in args.  For example, if this set is
+   *  a set of triples, then args might map 1 to 42 and 3 to 50,
+   *  which would mean that search can be restricted to those triples
+   *  that match (42, ?, 50).
+   *  <p>
+   *  This method is intended purely to reduce the number of elements
+   *  visited, so implementations are free to ignore otherSet if
+   *  they wish.  The result will contain no duplicates.
+   *  <p>
+   *  EvalSet provides a default implementation that calls iterator().
+   *  </p>
+   * @return an Iterator object.
+   */
+  public Iterator<Expr> matchIterator(Map<Object, Expr> args)
+  {
+      return iterator();
+  }
+
   public boolean containsAll(Collection<?> c)
   {
     for (Object obj : c)

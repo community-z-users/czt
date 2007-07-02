@@ -512,6 +512,7 @@ zlive/src/main/java/net/sourceforge/czt/animation/eval/result/RelSetVisitor.java
 zlive/src/test/java/net/sourceforge/czt/animation/eval/flatpred/FlatForallTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/DiscreteSetTest.java -text
 zlive/src/test/java/net/sourceforge/czt/animation/eval/result/RangeSetTest.java -text
+zlive/src/test/java/net/sourceforge/czt/animation/eval/result/SetCompTest.java -text
 zlive/tests/UserTest-Statistics.xls -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/channels.tex -text
 zml/src/main/resources/net/sourceforge/czt/zml/examples/circus/channels.xml -text

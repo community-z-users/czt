@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
@@ -40,15 +43,7 @@ import net.sourceforge.czt.z.ast.ZName;
 public class SetComp extends DefaultEvalSet
 {
   /** This FlatPredList is used to evaluate ALL members of the set. */
-  protected FlatPredList predsAll_;
-
-  /** This FlatPredList is used to check membership of ONE given value.
-      Its first entry is resultNNN=value, where resultNNN is a fresh
-      ZName (see resultName) and value is initially unknown, but will
-      be set within the contains method before this FlatPredList is evaluated.
-  */
-  protected FlatPredList predsOne_;
-
+  protected FlatPredList preds_;
 
   /** This is the environment that defines all the free variables
    *  of this set comprehension.
@@ -73,18 +68,54 @@ public class SetComp extends DefaultEvalSet
   /** The fresh ZName which will be bound to a member of the set. */
   protected ZName resultName_;
 
-  public SetComp(FlatPredList predsAll, FlatPredList predsOne,
-       ZName resultName, Envir env0, Bounds bnds)
+  /** The resultName must be for predsAll. */
+  public SetComp(FlatPredList preds, ZName resultName,
+      Envir env0, Bounds bnds)
   {
-    predsAll_ = predsAll;
-    predsOne_ = predsOne;
+    preds_ = preds;
     env0_ = env0;
-    bounds_ = bnds;
+    bounds_ = new Bounds(bnds);
     resultName_ = resultName;
+    // infer bounds for the free vars, whose values are now known.
+    for (ZName free : preds.freeVars()) {
+      if ( ! free.equals(resultName_)) {
+        Expr val = env0.lookup(free);
+        //System.out.println("add bounds for "+free+" = "+val);
+        assert val != null : "free var "+free+" has no value";
+        addBounds(preds_, bounds_, free, val);
+      }
+    }
+    //System.out.println("bounds = "+bounds_);
+    //System.out.println("predsAll_ free= "+preds_.freeVars()+", "+preds_);
     // try to estimate its size.
-    Mode m = predsAll_.chooseMode(env0_);
-    if (m != null)
+    Mode m = preds_.chooseMode(env0_);
+    if (m != null) {
       estSize_ = m.getSolutions();
+      // TODO: infer maxSize here???
+    }
+  }
+
+  protected void addBounds(FlatPredList preds, Bounds bnds, 
+      ZName name, Expr value)
+  {
+    bnds.startAnalysis();
+    if (value instanceof NumExpr) {
+      // TODO: make this code common with FlatConst.
+      BigInteger val = ((NumExpr)value).getValue();
+      bnds.addLower(name,val);
+      bnds.addUpper(name,val);
+    }
+    if (value instanceof EvalSet) {
+      bnds.setEvalSet(name, (EvalSet) value);
+    }
+    preds.inferBoundsFixPoint(bnds);
+    bnds.endAnalysis();    
+  }
+
+  @Override
+  public BigInteger maxSize()
+  {
+    return super.maxSize();
   }
 
   @Override
@@ -105,42 +136,81 @@ public class SetComp extends DefaultEvalSet
     // rather than generating all possible results.
     Envir env = env0_.plus(resultName_, (Expr)e);
     // now do some additional static inference for this member.
-    Bounds ebnds = new Bounds(bounds_);
-    ebnds.startAnalysis(bounds_);
-    if (e instanceof NumExpr) {
-      // TODO: make this code common with FlatConst.
-      BigInteger val = ((NumExpr)e).getValue();
-      ebnds.addLower(resultName_,val);
-      ebnds.addUpper(resultName_,val);
-    }
-    if (e instanceof EvalSet) {
-      ebnds.setEvalSet(resultName_, (EvalSet) e);
-    }
-    predsOne_.inferBoundsFixPoint(ebnds);
-    ebnds.endAnalysis();
-    Mode m = predsOne_.chooseMode(env); // TODO: try doing this at constructor time?
+    // TODO: find out why this *weakens* bounds_
+    //Bounds ebnds = new Bounds(bounds_);
+    //addBounds(preds_, ebnds, resultName_, (Expr)e);
+    Mode m = preds_.chooseMode(env); // TODO: try doing this at constructor time?
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);
-    predsOne_.setMode(m);
-    predsOne_.startEvaluation();
-    return predsOne_.nextEvaluation();
+    preds_.setMode(m);
+    preds_.startEvaluation();
+    return preds_.nextEvaluation();
   }
 
   @Override
   public Expr nextMember()
   {
     if (outputEnvir_ == null) {
-      Mode m = predsAll_.chooseMode(env0_);
+      Mode m = preds_.chooseMode(env0_);
       if (m == null)
         throw new EvalException("Cannot generate members of SetComp: " + this);
-      predsAll_.setMode(m);
-      predsAll_.startEvaluation();
-      outputEnvir_ = predsAll_.getOutputEnvir();
+      preds_.setMode(m);
+      preds_.startEvaluation();
+      outputEnvir_ = preds_.getOutputEnvir();
     }
-    if (predsAll_.nextEvaluation())
+    if (preds_.nextEvaluation())
       return outputEnvir_.lookup(resultName_);
     else
       return null;
+  }
+
+  @Override
+  public Iterator<Expr> matchIterator(Map<Object, Expr> argValues)
+  {
+    // Add the expected args of resultName_ so that the enumeration
+    // of members sees that those args are already known.
+    Map<Object, ZName> argNames = bounds_.getStructure(resultName_);
+    if (argNames == null) {
+      return iterator();  // no known aliasing
+    }
+    else {
+      Envir env = env0_;
+      // add the known argument values to the initial environment
+      for (Entry<Object, Expr> argValue : argValues.entrySet()) {
+        env = env.plus(argNames.get(argValue.getKey()), argValue.getValue());
+      }
+      /*
+      ebnds.startAnalysis(bounds_);
+      if (e instanceof NumExpr) {
+        // TODO: make this code common with FlatConst.
+        BigInteger val = ((NumExpr)e).getValue();
+        ebnds.addLower(resultName_,val);
+        ebnds.addUpper(resultName_,val);
+      }
+      if (e instanceof EvalSet) {
+        ebnds.setEvalSet(resultName_, (EvalSet) e);
+      }
+      predsOne_.inferBoundsFixPoint(ebnds);
+      ebnds.endAnalysis();
+      */
+      Mode m = preds_.chooseMode(env);
+      if (m == null)
+        throw new EvalException("Cannot generate matching members ("
+            +argValues+"\n    of SetComp: " + this);
+      preds_.setMode(m);
+      preds_.startEvaluation();
+
+      // TODO: find a nicer way of returning the set without enumerating
+      //   all solutions first.  Perhaps the result should be an EvalSet?
+
+      // put all evaluation results into a discrete set
+      EvalSet result = new DiscreteSet();
+      Envir outputEnv = preds_.getOutputEnvir();
+      while (preds_.nextEvaluation()) {
+        result.add(outputEnv.lookup(resultName_));
+      }
+      return result.iterator();
+    }
   }
 
   @Override
@@ -148,7 +218,7 @@ public class SetComp extends DefaultEvalSet
   {
     StringBuffer result = new StringBuffer();
     result.append("{ ");
-    result.append(predsAll_.toString());
+    result.append(preds_.toString());
     result.append(" @ ");
     result.append(resultName_.toString());
     result.append(" }");

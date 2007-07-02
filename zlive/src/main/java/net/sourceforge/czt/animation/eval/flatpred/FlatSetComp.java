@@ -49,13 +49,6 @@ public class FlatSetComp extends FlatPred
   /** This FlatPredList is used to evaluate ALL members of the set. */
   protected FlatPredList predsAll_;
 
-  /** This FlatPredList is used to check membership of ONE given value.
-      Its first entry is resultNNN=value, where resultNNN is a fresh
-      ZName (see resultName) and value is initially unknown, but will
-      be set within the contains method before this FlatPredList is evaluated.
-  */
-  protected FlatPredList predsOne_;
-
   /** The fresh ZName which will be bound to a member of the set. */
   protected ZName resultName_;
 
@@ -73,28 +66,22 @@ public class FlatSetComp extends FlatPred
 		       /*@non_null@*/ZName set)
   {
     predsAll_ = new FlatPredList(zlive);
-    predsOne_ = new FlatPredList(zlive);
     resultName_ = zlive.createNewName();
     predsAll_.makeBound(resultName_);
-    predsOne_.makeBound(resultName_);
     for (Iterator i = decls.iterator(); i.hasNext(); ) {
       Decl decl = (Decl)i.next();
       predsAll_.addDecl(decl);
-      predsOne_.addDecl(decl);
     }
     if (pred != null) {
       predsAll_.addPred(pred);
-      predsOne_.addPred(pred);
     }
     // Now add 'resultName = result'.
     RefExpr resultExpr = zlive.getFactory().createRefExpr(resultName_);
     Pred eq = zlive.getFactory().createEquality(resultExpr, result);
     predsAll_.addPred(eq);
-    predsOne_.addPred(eq);
 
     // Calculate free vars of preds_.
     predsAll_.makeFree(set);
-    predsOne_.makeFree(set);
     args_ = new ArrayList<ZName>(predsAll_.freeVars());
     args_.add(set);  // TODO: could set already be in args?
     solutionsReturned_ = -1;
@@ -110,7 +97,6 @@ public class FlatSetComp extends FlatPred
       bounds_ = new Bounds(bnds);
     bounds_.startAnalysis(bnds);
     boolean result = predsAll_.inferBounds(bounds_);
-    predsOne_.inferBounds(bounds_);  // give it the same information.
     bounds_.endAnalysis();
 
     String name = getLastArg().toString();
@@ -182,7 +168,7 @@ public class FlatSetComp extends FlatPred
     {
       solutionsReturned_++;
       ZName setName = getLastArg();
-      SetComp set = new SetComp(predsAll_, predsOne_, resultName_,
+      SetComp set = new SetComp(predsAll_, resultName_,
                                 evalMode_.getEnvir0(), bounds_);
       if (evalMode_.isInput(args_.size()-1)) {
         Expr otherSet = evalMode_.getEnvir().lookup(setName);

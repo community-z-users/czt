@@ -200,7 +200,7 @@ public abstract class DefaultEvalSet
   {
     // return size() == 0;   //
     if (memberList_.size() > 0) {
-      return true;
+      return false;
     }
     return ! insertMember();
   }

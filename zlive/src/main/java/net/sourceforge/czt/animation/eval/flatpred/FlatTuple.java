@@ -93,6 +93,7 @@ public class FlatTuple extends FlatPred
       //The case where the tuple itself is an input
       if(evalMode_.isInput(args_.size()-1)) {
         Expr tupleExpr = evalMode_.getEnvir().lookup(tupleName);
+        System.out.println("lookup of "+tupleName+" gives "+tupleExpr);
         List<Expr> memberList = ((TupleExpr)tupleExpr).getZExprList();
         //no. of elements in env.tuple should be same as that passed as inputs
         if(memberList.size() == args_.size()-1) {
