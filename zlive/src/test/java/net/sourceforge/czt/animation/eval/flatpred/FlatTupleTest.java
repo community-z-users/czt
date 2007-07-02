@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.Envir;
@@ -69,6 +70,16 @@ public class FlatTupleTest
   public void testToString()
   {
     assertEquals("(l, m, n, o, p) = z", pred.toString());
+  }
+
+  public void testBounds()
+  {
+    Bounds bnds = new Bounds(null);
+    pred.inferBounds(bnds);
+    Map<Object, ZName> args = bnds.getStructure(z);
+    assertNotNull(args);
+    assertEquals(l, args.get(Integer.valueOf(1)));
+    assertEquals(p, args.get(Integer.valueOf(5)));
   }
 
   public void testEmpty()

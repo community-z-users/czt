@@ -95,7 +95,7 @@ public class Bounds
   private HashMap<ZName, LinkedHashSet<ZName>> aliases_;
 
   /** This records alias information for structures such as f=(a,b,c).
-   *  It is primarily used for tuples and bindings.
+   *  It is used for tuples and bindings.
    *  For the f=(a,b,c) example, structure_.get(f) will return a
    *  Map that maps 1 to a, 2 to b and 3 to c.
    *  For f=\lblot a==a, b==b' \rblot, structure_.get(f) will return
@@ -250,7 +250,8 @@ public class Bounds
     return "Lows="+lowerBound_.toString()
           +"+Highs="+upperBound_.toString()
           +"+Sets="+set_.keySet().toString()
-          +"+Aliases="+aliases_.toString();
+          +"+Aliases="+aliases_.toString()
+          +"+Structures="+structure_.toString();
   }
 
   /** Get the EvalSet for var, if known.
@@ -436,22 +437,26 @@ public class Bounds
    */
   protected /*@non_null@*/ZName getBestAlias(/*@non_null@*/ ZName var)
   {
+    assert var != null;
     LinkedHashSet<ZName> set = aliases_.get(var);
     if (set == null) {
       return var;
     }
     else {
-      return (ZName) set.iterator().next();
+      ZName result = (ZName) set.iterator().next();
+      assert result != null;
+      return result;
     }
   }
 
   /** True iff var and other are known to be aliased. */
-  public boolean isAliased(ZName var, ZName other)
+  public boolean isAliased(/*@non_null@*/ZName var, /*@non_null@*/ ZName other)
   {
+    assert var != null;
+    assert other != null;
     if (var.equals(other))
       return true;
-    Set<ZName> known = aliases_.get(var);
-    return known != null && known.contains(other);
+    return getBestAlias(var) == getBestAlias(other);
   }
 
   /** Add another alias for var.
@@ -463,12 +468,14 @@ public class Bounds
    */
   public void addAlias(ZName var1, ZName var2)
   {
+    assert var1 != null;
+    assert var2 != null;
     if (isAliased(var1, var2))
       return; // no change needed.
     deductions_++;
 
     // Now calculate the union of the two alias sets,
-    // then copy bounds information one variable to the other
+    // then copy bounds information from one variable to the other
     // (must do this *before* the next step),
     // then update both var1 and var2 to point to the new alias set.
     LinkedHashSet<ZName> list1 = aliases_.get(var1);

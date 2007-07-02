@@ -20,7 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatTupleVisitor;
@@ -39,18 +41,32 @@ import net.sourceforge.czt.z.util.Factory;
 public class FlatTuple extends FlatPred
 {
   protected Factory factory_ = new Factory();
-  
+
   public FlatTuple(List<ZName> elements, ZName tuple)
   {
     args_ = new ArrayList<ZName>(elements);
     args_.add(tuple);
     solutionsReturned_ = -1;
   }
-  
+
   //@ requires newargs.size() >= 1;
   public FlatTuple(List<ZName> newargs)
   {
     this(newargs.subList(0,newargs.size()-1),newargs.get(newargs.size()-1));
+  }
+
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.animation.eval.flatpred.FlatPred#inferBounds(net.sourceforge.czt.animation.eval.flatpred.Bounds)
+   */
+  @Override
+  public boolean inferBounds(Bounds bnds)
+  {
+    Map<Object, ZName> bindings = new HashMap<Object, ZName>();
+    for (int i=0; i< args_.size()-1; i++) {
+      bindings.put(Integer.valueOf(i+1), args_.get(i));
+    }
+    bnds.setStructure(getLastArg(), bindings);
+    return false;
   }
 
   /** Same modes as FlatBinding */
@@ -66,7 +82,7 @@ public class FlatTuple extends FlatPred
     assert (solutionsReturned_ >= 0);
     // @czt.todo package these assertions into a separate function.
     if(!evalMode_.isInput(args_.size()-1)) {
-      for (int i=0;i<args_.size()-1;i++) 
+      for (int i=0;i<args_.size()-1;i++)
         assert (evalMode_.isInput(i));
     }
     boolean result = false;
@@ -111,10 +127,10 @@ public class FlatTuple extends FlatPred
     }
     return result;
   }
-  
-  
+
+
   ///////////////////////// Pred methods ///////////////////////
-  
+
   @Override
   public String toString()
   {

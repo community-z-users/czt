@@ -19,6 +19,8 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
@@ -45,6 +47,22 @@ public class FlatTupleSel extends FlatPred
     args_.add(tuple);
     args_.add(result);
     solutionsReturned_ = -1;
+  }
+
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.animation.eval.flatpred.FlatPred#inferBounds(net.sourceforge.czt.animation.eval.flatpred.Bounds)
+   */
+  @Override
+  public boolean inferBounds(Bounds bnds)
+  {
+    Map<Object, ZName> bindings = bnds.getStructure(args_.get(0));
+    if (bindings != null) {
+      ZName name = bindings.get(Integer.valueOf(selection_));
+      if (name != null) {
+        bnds.addAlias(name, args_.get(1));
+      }
+    }
+    return false;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
