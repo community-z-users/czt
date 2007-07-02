@@ -3,10 +3,10 @@
   <groupId>net.sourceforge.czt</groupId>
   <artifactId>czt</artifactId>
   <packaging>pom</packaging>
-  <version>0.6-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <name>Community Z Tools</name>
   <properties>
-    <czt.version>0.6-SNAPSHOT</czt.version>
+    <czt.version>1.1-SNAPSHOT</czt.version>
     <czt.groupId>net.sourceforge.czt</czt.groupId>
   </properties>
   <description>
