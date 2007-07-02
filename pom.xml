@@ -91,7 +91,6 @@
     <module>rules</module>
     <module>ui</module>
     <module>util</module>
-    <module>z2b</module>
     <module>zlive</module>
     <module>zml</module>
   </modules>
