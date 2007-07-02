@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <document>
   <body>
-    <release version="2.1.0" date"July 2007">
+    <release version="2.1.0" date="July 2007">
       <action dev="Petra" type="update">
         Remove interfaces and classes DeclName, ZDeclName, RefName,
         ZRefName, DeclNameList, ZDeclNameList, RefNameList, and ZRefNameList
