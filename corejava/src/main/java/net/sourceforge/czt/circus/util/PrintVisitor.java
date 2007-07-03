@@ -29,7 +29,6 @@ import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
-import net.sourceforge.czt.circus.ast.ChannelType;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
@@ -44,7 +43,6 @@ import net.sourceforge.czt.circus.ast.SchExprAction;
 import net.sourceforge.czt.circus.visitor.BasicProcessVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelDeclVisitor;
 
-import net.sourceforge.czt.circus.visitor.ChannelTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetTypeVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessParaVisitor;
 import net.sourceforge.czt.circus.visitor.ProcessTypeVisitor;
@@ -110,7 +108,7 @@ import net.sourceforge.czt.z.visitor.ZSectVisitor;
  */
 public class PrintVisitor
   extends net.sourceforge.czt.z.util.PrintVisitor
-  implements ChannelTypeVisitor<String>,
+  implements 
   ChannelSetTypeVisitor<String>,
   ProcessTypeVisitor<String>,
   ActionTypeVisitor<String>,
@@ -519,7 +517,7 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
-  
+  /*
   public String visitChannelType(ChannelType term)
   {
     StringBuilder result =  new StringBuilder("CHANNEL_TYPE ");
@@ -531,7 +529,7 @@ public class PrintVisitor
     else
       result.append(" SYNCH");//TODO:Check this
     return result.toString();
-  }
+  }*/
   
   public String visitChannelSetType(ChannelSetType term)
   {

@@ -69,12 +69,7 @@ public class CircusConcreteSyntaxSymbolVisitor
   {
     return null;
   }
-  
-  public CircusConcreteSyntaxSymbol visitChannelType(ChannelType term)
-  {
-    return null;
-  }
-  
+    
   public CircusConcreteSyntaxSymbol visitNameSetType(NameSetType term)
   {
     return null;
