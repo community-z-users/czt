@@ -23,11 +23,7 @@
       </excludes>
     </fileSet>
     <fileSet>
-      <outputDirectory>doc</outputDirectory>
-      <directory>doc/refcard/z</directory>
-      <includes>
-        <include>*.pdf</include>
-      </includes>
+      <directory>doc/refcard</directory>
     </fileSet>
   </fileSets>
 </assembly>
