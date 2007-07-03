@@ -74,18 +74,21 @@ public class SetComp extends DefaultEvalSet
   {
     preds_ = preds;
     env0_ = env0;
-    bounds_ = new Bounds(bnds);
     resultName_ = resultName;
+    bounds_ = new Bounds(bnds);
+    bounds_.startAnalysis(bnds);
     // infer bounds for the free vars, whose values are now known.
     for (ZName free : preds.freeVars()) {
       if ( ! free.equals(resultName_)) {
         Expr val = env0.lookup(free);
         //System.out.println("add bounds for "+free+" = "+val);
         assert val != null : "free var "+free+" has no value";
-        addBounds(preds_, bounds_, free, val);
+        addBounds(bounds_, free, val);
       }
     }
-    //System.out.println("bounds = "+bounds_);
+    preds_.inferBoundsFixPoint(bounds_);
+    bounds_.endAnalysis();
+    //System.out.println("setComp bounds = "+bounds_);
     //System.out.println("predsAll_ free= "+preds_.freeVars()+", "+preds_);
     // try to estimate its size.
     Mode m = preds_.chooseMode(env0_);
@@ -95,10 +98,8 @@ public class SetComp extends DefaultEvalSet
     }
   }
 
-  protected void addBounds(FlatPredList preds, Bounds bnds, 
-      ZName name, Expr value)
+  protected void addBounds(Bounds bnds, ZName name, Expr value)
   {
-    bnds.startAnalysis();
     if (value instanceof NumExpr) {
       // TODO: make this code common with FlatConst.
       BigInteger val = ((NumExpr)value).getValue();
@@ -108,8 +109,6 @@ public class SetComp extends DefaultEvalSet
     if (value instanceof EvalSet) {
       bnds.setEvalSet(name, (EvalSet) value);
     }
-    preds.inferBoundsFixPoint(bnds);
-    bnds.endAnalysis();    
   }
 
   @Override
@@ -171,12 +170,16 @@ public class SetComp extends DefaultEvalSet
     // of members sees that those args are already known.
     Map<Object, ZName> argNames = bounds_.getStructure(resultName_);
     if (argNames == null) {
+      // System.out.println("matchIterator -- no aliases for "+resultName_);
       return iterator();  // no known aliasing
     }
     else {
       Envir env = env0_;
       // add the known argument values to the initial environment
       for (Entry<Object, Expr> argValue : argValues.entrySet()) {
+        // System.out.println("matchIterator adding "+argValue.getKey()
+        //     +": "+argNames.get(argValue.getKey())
+        //     +" = "+argValue.getValue());
         env = env.plus(argNames.get(argValue.getKey()), argValue.getValue());
       }
       /*

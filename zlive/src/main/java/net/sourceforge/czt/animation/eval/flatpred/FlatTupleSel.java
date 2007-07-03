@@ -55,13 +55,9 @@ public class FlatTupleSel extends FlatPred
   @Override
   public boolean inferBounds(Bounds bnds)
   {
-    Map<Object, ZName> bindings = bnds.getStructure(args_.get(0));
-    if (bindings != null) {
-      ZName name = bindings.get(Integer.valueOf(selection_));
-      if (name != null) {
-        bnds.addAlias(name, args_.get(1));
-      }
-    }
+    bnds.addStructureArg(args_.get(0),
+        Integer.valueOf(selection_),
+        args_.get(1));
     return false;
   }
 

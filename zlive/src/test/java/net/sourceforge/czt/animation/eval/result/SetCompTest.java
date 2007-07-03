@@ -20,12 +20,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.animation.eval.result;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.ZTestCase;
 import net.sourceforge.czt.animation.eval.flatpred.Bounds;
 import net.sourceforge.czt.animation.eval.flatpred.FlatPredList;
+import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
@@ -74,5 +77,21 @@ public class SetCompTest extends ZTestCase
     assertEquals(8.0, set.estSize(), ACCURACY);  // very roughly 8.0
     //assertEquals(BigInteger.ZERO, set.maxSize());
     assertEquals(10, set.size());
+  }
+
+  /** This tests (?,6) in {x:nat | x<y @ (x,x*2)} can find the ?. */
+  public void testMatchIterator()
+  {
+    SetComp set = makeSet(BigInteger.valueOf(1000000000));
+    TupleExpr tuple = factory_.createTupleExpr(i2, i4);
+    assertTrue(set.contains(tuple));
+    Map<Object, Expr> known = new HashMap<Object, Expr>();
+    known.put(Integer.valueOf(2), i6);
+    Iterator<Expr> iter = set.matchIterator(known);
+    assertTrue(iter.hasNext());
+    TupleExpr result = (TupleExpr) iter.next();
+    assertEquals(i3, result.getZExprList().get(0));
+    assertEquals(i6, result.getZExprList().get(1));
+    assertFalse(iter.hasNext());
   }
 }

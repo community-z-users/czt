@@ -543,13 +543,15 @@ public class BoundsTest extends ZTestCase
     Bounds bnds = new Bounds(null);
 
     // alias x = (y,z)
-    Map<Object, ZName> args = new HashMap<Object, ZName>();
-    args.put(Integer.valueOf(1), y);
-    args.put(Integer.valueOf(2), z);
-    bnds.setStructure(x, args);
+    bnds.addStructureArg(x, Integer.valueOf(1), y);
+    bnds.addStructureArg(x, Integer.valueOf(2), z);
     assertTrue(bnds.boundsChanged());
     assertTrue(bnds.getDeductions() > 0);
-    assertEquals(args, bnds.getStructure(x));
+    Map<Object, ZName> args = bnds.getStructure(x);
+    assertNotNull(args);
+    assertEquals(2, args.size());
+    assertEquals(y, args.get(Integer.valueOf(1)));
+    assertEquals(z, args.get(Integer.valueOf(2)));
 
     // alias x = w in a sub-bounds.
     bnds.startAnalysis();  // resets deduction count
@@ -563,19 +565,26 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds2.isAliased(x, w));
     assertTrue(bnds2.boundsChanged());
     assertTrue(bnds2.getDeductions() > 0);
-    assertEquals(args, bnds2.getStructure(w));
-    assertEquals(args, bnds2.getStructure(x));
+    
+    args = bnds2.getStructure(w);
+    assertEquals(2, args.size());
+    assertEquals(y, args.get(Integer.valueOf(1)));
+    assertEquals(z, args.get(Integer.valueOf(2)));
+    
+    args = bnds2.getStructure(x);
+    assertEquals(2, args.size());
+    assertEquals(y, args.get(Integer.valueOf(1)));
+    assertEquals(z, args.get(Integer.valueOf(2)));
+    
     bnds2.endAnalysis();
     // parent should have noticed the changes
     assertTrue(bnds.getDeductions() > 0);
 
     // now alias x = (u,v) in the parent.
-    Map<Object, ZName> argsUV = new HashMap<Object, ZName>();
     ZName u = factory_.createZName("u");
     ZName v = factory_.createZName("v");
-    argsUV.put(Integer.valueOf(1), u);
-    argsUV.put(Integer.valueOf(2), v);
-    bnds.setStructure(x, argsUV);
+    bnds.addStructureArg(x, Integer.valueOf(1), u);
+    bnds.addStructureArg(x, Integer.valueOf(2), v);
 
     // check that the parent has deduced u=y and v=z
     assertTrue(bnds.getDeductions() > 0);

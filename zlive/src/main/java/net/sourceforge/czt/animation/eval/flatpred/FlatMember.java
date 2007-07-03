@@ -21,7 +21,9 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatMemberVisitor;
@@ -81,6 +83,27 @@ public class FlatMember extends FlatPred
     return changed;
   }
 
+  /** Returns the set of arguments that already have known values.
+   *  (though the values may be null at chooseMode time).
+   * @param env  The environment in which to look for the values
+   * @return     null if no args are known.
+   */
+  protected Map<Object, Expr> knownValues(Envir env)
+  {
+    Map<Object, ZName> argNames = bounds_.getStructure(args_.get(1));
+    Map<Object, Expr> argValues = null;
+    if (argNames != null) {
+      for (Map.Entry<Object, ZName> e : argNames.entrySet()) {
+        if (env.isDefined(e.getValue())) {
+          if (argValues == null)
+            argValues = new HashMap<Object,Expr>();
+          argValues.put(e.getKey(), env.lookup(e.getValue()));
+        }
+      }
+    }
+    return argValues;
+  }
+
   public Mode chooseMode(Envir env)
   {
     assert bounds_ != null;
@@ -110,7 +133,7 @@ public class FlatMember extends FlatPred
           // the size of the set is another limit on the number of solutions
           size = RangeSet.minPos(size, set.maxSize());
           // now translate size to double and use min(size,set.estSize())
-          double solns = set.estSize();
+          double solns = 100.0; //set.estSize();   TODO better estimate
           if (size != null)
             solns = Math.min(solns, size.doubleValue());
           result.setSolutions(solns);
@@ -150,10 +173,14 @@ public class FlatMember extends FlatPred
       }
     }
     else {
-      // iterate through the members of set_
+      // iterate through (some of) the members of set_
       if (solutionsReturned_ == 0) {
-        // set up the iterator...
-        current_ = set_.subsetIterator(bounds_.getRange(element));
+        // set up an iterator...
+        Map<Object, Expr> argValues = knownValues(evalMode_.getEnvir0());
+        if (argValues != null)
+          current_ = set_.matchIterator(argValues);
+        else
+          current_ = set_.subsetIterator(bounds_.getRange(element));
       }
       assert current_ != null;
       solutionsReturned_++;
@@ -171,6 +198,12 @@ public class FlatMember extends FlatPred
   {
     StringBuffer result = new StringBuffer();
     result.append(printArg(1));
+    if (evalMode_ != null) {
+      Map<Object, Expr> known = knownValues(evalMode_.getEnvir0());
+      if (known != null) {
+        result.append(known.toString());
+      }
+    }
     result.append(" in ");
     result.append(printArg(0));
     ZName setName = args_.get(0);

@@ -64,6 +64,8 @@ public class FlatEquals extends FlatPred
     if (rmax != null)
       changed |= bnds.addUpper(left, rmax);
 
+    // now record the actual equality
+    bnds.addAlias(left, right);
     return changed;
   }
 
