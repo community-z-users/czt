@@ -809,6 +809,16 @@ public final class ZUtils
     throw new UnsupportedAstClassException(message);
   }
   
+  public static ZStrokeList assertZStrokeList(Term term)
+  {
+    if (term instanceof ZStrokeList) {
+      return (ZStrokeList) term;
+    }
+    final String message =
+      "Expected a ZStrokeList but found " + String.valueOf(term);
+    throw new UnsupportedAstClassException(message);
+  }
+  
   public static ZFactoryImpl assertZFactoryImpl(Object factory) {
     if (factory instanceof ZFactoryImpl) {
       return (ZFactoryImpl) factory;
