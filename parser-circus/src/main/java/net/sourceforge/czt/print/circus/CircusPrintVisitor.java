@@ -861,10 +861,6 @@ public class CircusPrintVisitor
      * Unexpected terms
      ***********************************************************/
     
-    public Object visitChannelType(ChannelType term) {
-        throw new UnsupportedOperationException("Unexpected term ChannelType.");
-    }
-    
     public Object visitChannelSetType(ChannelSetType term) {
         throw new UnsupportedOperationException("Unexpected term ChannelSetType.");
     }
