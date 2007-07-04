@@ -153,32 +153,11 @@ each possible decoration.   In the future we will add
 support for Stroke-List jokers, so that all decorations can
 be handled by a single rule.
 
-\begin{zedrule}{ThetaPrime}
+\begin{zedrule}{ThetaDecor}
   E :: \power [D | true] \\
-  \theta [D | true] ' \is E2
+  \theta [D | true]~Stroke \is E2
 \derives
-  \theta E~' = E2
-\end{zedrule}
-
-\begin{zedrule}{ThetaOut}
-  E :: \power [D | true] \\
-  \theta [D | true] ! \is E2
-\derives
-  \theta E~! = E2
-\end{zedrule}
-
-\begin{zedrule}{ThetaIn}
-  E :: \power [D | true] \\
-  \theta [D | true] ? \is E2
-\derives
-  \theta E~? = E2
-\end{zedrule}
-
-\begin{zedrule}{ThetaDecor9}
-  E :: \power [D | true] \\
-  \theta [D | true]~_{9} \is E2
-\derives
-  \theta E~_{9} = E2
+  \theta E~Stroke = E2
 \end{zedrule}
 
 \begin{zedrule}{SchemaConstruction1}
@@ -223,35 +202,11 @@ then the above SchemaRef rule would have unfolded it.
   v \sexprUnfoldsTo [D1|P1 \land \theta [D2|true] = \theta [D2|true]~']
 \end{zedrule}
 
-NOTE: we also currently need thirteen versions of this next rule 
--- one for each possible decoration. 
-
-\begin{zedrule}{SchemaPrime}
+\begin{zedrule}{SchemaDecor}
    E \sexprUnfoldsTo [D1 | P1] \\
-   [D1|P1]~' \is [D2|P2] \\
+   [D1|P1]~Stroke \is [D2|P2] \\
 \derives
-   E~' \sexprUnfoldsTo [D2 | P2]
-\end{zedrule}
-
-\begin{zedrule}{SchemaDecor2}
-   E \sexprUnfoldsTo [D1 | P1] \\
-   [D1|P1]~? \is [D2|P2] \\
-\derives
-   E~? \sexprUnfoldsTo [D2 | P2]
-\end{zedrule}
-
-\begin{zedrule}{SchemaDecor3}
-   E \sexprUnfoldsTo [D1 | P1] \\
-   [D1|P1]~! \is [D2|P2] \\
-\derives
-   E~! \sexprUnfoldsTo [D2 | P2]
-\end{zedrule}
-
-\begin{zedrule}{SchemaDecor9}
-   E \sexprUnfoldsTo [D1 | P1] \\
-   [D1|P1]~_{9} \is  [D2|P2] \\
-\derives
-   E~_{9} \sexprUnfoldsTo [D2 | P2]
+   E~Stroke \sexprUnfoldsTo [D2 | P2]
 \end{zedrule}
 
 \begin{zedrule}{SchemaRenaming}
