@@ -399,9 +399,13 @@ public class ProofTree
         ProofNode node = (ProofNode) value;
         Sequent sequent = node.getSequent();
 	Deduction ded = sequent.getAnn(Deduction.class);
-        if (ded instanceof RulePara) {
-          RulePara rulePara = (RulePara) ded;
-          setToolTipText("Rule " + rulePara.getName());
+        if (ded instanceof RuleAppl) {
+          RuleAppl ruleAppl = (RuleAppl) ded;
+          setToolTipText("Rule " + ruleAppl.getName());
+        }
+        else if (ded instanceof OracleAppl) {
+          OracleAppl oracleAppl = (OracleAppl) ded;
+          setToolTipText("Oracle " + oracleAppl.getName());
         }
         else {
           setToolTipText("No rule has been applied to this sequent");
