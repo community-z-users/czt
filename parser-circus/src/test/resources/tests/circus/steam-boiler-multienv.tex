@@ -26,7 +26,8 @@
 \newcommand{\processname}[1]{\mathsl{#1}}
 
 \newcommand{\boolean}{{\mathbb B}}
-
+\newcommand{\true}{\ensuremath{\mathbf{true}}}
+\newcommand{\false}{\ensuremath{\mathbf{false}}}
 \newcommand{\event}[1]{\mathsl{#1}}
 \renewcommand{\freetype}[1]{\mathsf{#1}}
 
@@ -1147,11 +1148,11 @@ This is not the full story about the model for a pump: there are
 various invariants that must also hold.
 
 The requirements tell us that the lower-bound for the \( i \)-th pump
-is zero if one of the following holds true: the pump is closed; the
+is zero if one of the following holds \true: the pump is closed; the
 pump has failed; or the pump's controller has failed.  If none of
 these holds, then the lower-bound is assumed to be \( P \).
 Similarly, the upper-bound for the \( i \)-th pump is \( P \)\/ if one
-of the following holds true: the pump is open; the pump has failed; or
+of the following holds \true: the pump is open; the pump has failed; or
 the pump's controller has failed.  If none of these holds, then the
 upper-bound is assumed to be zero.
 
@@ -1808,7 +1809,7 @@ figure~\ref{figure:events}.
       \textbf{\slshape event} & \textbf{\slshape interpretation}
       \\ %
       \hline %
-      \( \event{emergencystop.true} \) & too many equipment failures
+      \( \event{emergencystop.\true} \) & too many equipment failures
       \\ %
       & three stop-commands
       \\ %
@@ -1816,23 +1817,23 @@ figure~\ref{figure:events}.
       \\ %
       & transmission failure
       \\ %
-      \( \event{sbwaiting.true} \) & boiler waiting signal received
+      \( \event{sbwaiting.\true} \) & boiler waiting signal received
       \\ %
-      \( \event{physicalunitsready.true} \) & physical units ready signal
+      \( \event{physicalunitsready.\true} \) & physical units ready signal
       \\ %
-      \( \event{vzero.true} \) & no steam leaving boiler
+      \( \event{vzero.\true} \) & no steam leaving boiler
       \\ %
       \( \event{levelbelowmin} \) & water level below \( N_1 \)
       \\ %
       \( \event{levelabovemax} \) & water level above \( N_2 \)
       \\ %
-      \( \event{levelokay.true} \) & water level in normal range
+      \( \event{levelokay.\true} \) & water level in normal range
       \\ %
-      \( \event{failures.false} \) & no failures
+      \( \event{failures.\false} \) & no failures
       \\ %
-      \( \event{qfailure.true} \) & level failure
+      \( \event{qfailure.\true} \) & level failure
       \\ %
-      \( \event{nonqfailure.true} \) & steam, pump, or controller failure
+      \( \event{nonqfailure.\true} \) & steam, pump, or controller failure
     \end{tabular}
   \end{center}
   \caption{Events and their interpretations}\label{figure:events}
@@ -1889,7 +1890,7 @@ When an input message has been received, it is stored and the sensors,
 unit states, and stop-count are adjusted.
 
 The new state calls for an emergency stop if any of the following are
-true: it contains at least three stop commands; the water level is
+\true: it contains at least three stop commands; the water level is
 near one of its two danger-limit values; or there has been a
 transmission failure.  The risk of reaching either \( M_1 \)\/ or \(
 M_2 \)\/ is assessed by the water level having exceeded the normal
@@ -2000,7 +2001,7 @@ unit states, and stop-count are adjusted.
 \end{flushleft}
 
 The new state calls for an emergency stop if any of the following are
-true: it contains at least three stop commands; the water level is
+\true: it contains at least three stop commands; the water level is
 near one of its two danger-limit values; or there has been a
 transmission failure.  The risk of reaching either \( M_1 \)\/ or \(
 M_2 \)\/ is assessed by the water level having exceeded the normal
@@ -2200,7 +2201,7 @@ behaviour shown in table~\ref{tab:controller-modes}.
       \( \freetyperescue \) & water sensor failed, all other components okay
       \\ %
       \( \freetypeemergencyStop \) & two component failures,
-      \event{emergencystop.true}, or
+      \event{emergencystop.\true}, or
       \\ %
       & transmission failure
     \end{tabular}
@@ -2234,9 +2235,9 @@ participation in the \( \event{startreport} \, \)\/ event.
 \begin{circusaction}
     \t1 ControllerCycle \circdef startexec \then startreport \then NewModeAnalysis \circseq\ \\
         \t2 AdjustLevel \circseq endreport \then ControllerCycle \\
-    \t1 NewModeAnalysis \circdef emergencystop.true \then EnterMode~(\freetypeemergencyStop) \\ %
+    \t1 NewModeAnalysis \circdef emergencystop.\true \then EnterMode~(\freetypeemergencyStop) \\ %
         \t2 \extchoice
-        emergencystop.false \then   \\ %
+        emergencystop.\false \then   \\ %
             \t3 \circif\ \ mode = \freetypeinitialisation \circthen InitModeAnalysis \\ %
             \t3\ \ \circelse\ mode = \freetypenormal \circthen NormalModeAnalysis \\
             \t3\ \ \circelse\ mode = \freetypedegraded \circthen DegradedModeAnalysis \\
@@ -2260,25 +2261,25 @@ normal mode.
 \[
   \langle~ %
   \begin{block}
-    \event{sbwaiting.true},
+    \event{sbwaiting.\true},
     \\ %
     \t1
     \begin{block}
-      \event{vzero.true},
+      \event{vzero.\true},
       \\ %
       \t1
       \begin{block}
-        \event{qfailure.false},
+        \event{qfailure.\false},
         \\ %
         \t1
         \begin{block}
-          \event{levelokay.true},
+          \event{levelokay.\true},
           \\ %
           \t1
           \begin{block}
             \event{sendprogready},
             \\ %
-            \t1 \event{physicalunitsready.true} ~\rangle
+            \t1 \event{physicalunitsready.\true} ~\rangle
           \end{block}
         \end{block}
       \end{block}
@@ -2299,16 +2300,16 @@ level have failed, but some other component has, then it must be some
 kind of pump failure; the \( \mathsl{Controller} \, \)\/ proceeds in
 degraded mode.
 \begin{circusaction}
-  \t1 InitModeAnalysis \circdef sbwaiting.true \then (~ vzero.true \then \\
-    \t2 (~ qfailure.false \then (~ physicalunitsready.true \then (~ levelokay.true \then \\
-        \t3 (~ failures.false \then EnterMode~(\freetypenormal) \extchoice \\
-        \t3\ \ failures.true \then EnterMode~(\freetypedegraded)~) \extchoice \\
-        \t3 levelokay.false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
-        \t2 physicalunitsready.false \then (~ levelokay.true \then \\
-        \t3  sendprogready \then Skip \extchoice levelokay.false \then Skip~) ~) \extchoice \\
-        \t4 qfailure.true \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
-        \t5 vzero.false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
-        \t2 sbwaiting.false \then Skip
+  \t1 InitModeAnalysis \circdef sbwaiting.\true \then (~ vzero.\true \then \\
+    \t2 (~ qfailure.\false \then (~ physicalunitsready.\true \then (~ levelokay.\true \then \\
+        \t3 (~ failures.\false \then EnterMode~(\freetypenormal) \extchoice \\
+        \t3\ \ failures.\true \then EnterMode~(\freetypedegraded)~) \extchoice \\
+        \t3 levelokay.\false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
+        \t2 physicalunitsready.\false \then (~ levelokay.\true \then \\
+        \t3  sendprogready \then Skip \extchoice levelokay.\false \then Skip~) ~) \extchoice \\
+        \t4 qfailure.\true \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
+        \t5 vzero.\false \then EnterMode~(\freetypeemergencyStop)~) \extchoice \\
+        \t2 sbwaiting.\false \then Skip
 \end{circusaction}
 
 \section{Normal mode}
@@ -2319,9 +2320,9 @@ mode; if anything else fails, then it enters degraded mode; if there
 were too many failures, then the \( \mathsl{Controller} \, \)\/ would
 already have entered the emergency-stop mode.
 \begin{circusaction}
-\t1 NormalModeAnalysis \circdef failures.false \then Skip \extchoice \\
-            \t3 qfailure.true \then EnterMode~(\freetyperescue) \extchoice \\
-            \t3 nonqfailure.true \then EnterMode~(\freetypedegraded)
+\t1 NormalModeAnalysis \circdef failures.\false \then Skip \extchoice \\
+            \t3 qfailure.\true \then EnterMode~(\freetyperescue) \extchoice \\
+            \t3 nonqfailure.\true \then EnterMode~(\freetypedegraded)
 \end{circusaction}
 
 \section{Degraded mode}
@@ -2337,9 +2338,9 @@ rescue mode.  If there were too many failures, then the \(
 \mathsl{Controller} \, \)\/ would already have entered the
 emergency-stop mode.
 \begin{circusaction}
-  \t1 DegradedModeAnalysis \circdef qfailure.false \then \\
-                \t3 ( failures.true \then Skip \extchoice failures.false \then EnterMode~(\freetypenormal) ~) \\
-                \t3\ \extchoice qfailure.true \then EnterMode~(\freetyperescue)
+  \t1 DegradedModeAnalysis \circdef qfailure.\false \then \\
+                \t3 ( failures.\true \then Skip \extchoice failures.\false \then EnterMode~(\freetypenormal) ~) \\
+                \t3\ \extchoice qfailure.\true \then EnterMode~(\freetyperescue)
 \end{circusaction}
 
 \section{Rescue mode}
@@ -2351,9 +2352,9 @@ further repairs outstanding.  If there were too many failures, then
 the \( \mathsl{Controller} \, \)\/ would already have entered the
 emergency-stop mode.
 \begin{circusaction}
-        \t1 RescueModeAnalysis \circdef qfailure.true \then Skip \extchoice \\
-            \t2 qfailure.false \then ( failures.false \then EnterMode~(\freetypenormal) \\
-                \t5 \extchoice failures.true \then EnterMode~(\freetypedegraded)~)
+        \t1 RescueModeAnalysis \circdef qfailure.\true \then Skip \extchoice \\
+            \t2 qfailure.\false \then ( failures.\false \then EnterMode~(\freetypenormal) \\
+                \t5 \extchoice failures.\true \then EnterMode~(\freetypedegraded)~)
 \end{circusaction}
 
 \section{Actions}
@@ -2363,7 +2364,7 @@ what has to be done: raise, reduce, or retain the level.
 \begin{circusaction}
         \t1 AdjustLevel \circdef  levelbelowmin \then RaiseLevel \extchoice \\ %
             \t2 levelabovemax \then ReduceLevel \extchoice  \\ %
-            \t2 levelokay.true \then RetainLevel
+            \t2 levelokay.\true \then RetainLevel
 \end{circusaction}
 If the level needs to be raised, then the pumps are started.  The
 valve may need to be closed, but this would be in only the
@@ -2441,13 +2442,13 @@ contains the following information.
 
 \begin{addedstuff}
 Added \LaTeX\ markup directives for the next free type:
-%Zword \freetypeprogramReady programReady
-%Zword \freetypeopenValve openValve
-%Zword \freetypecloseValve closeValve
-%Zword \freetypelevelFailureDetection levelFailureDetection
-%Zword \freetypesteamFailureDetection steamFailureDetection
-%Zword \freetypelevelRepairedAcknowledgement levelRepairedAcknowledgement
-%Zword \freetypesteamRepairedAcknowledgement steamRepairedAcknowledgement
+%%Zword \freetypeprogramReady programReady
+%%Zword \freetypeopenValve openValve
+%%Zword \freetypecloseValve closeValve
+%%Zword \freetypelevelFailureDetection levelFailureDetection
+%%Zword \freetypesteamFailureDetection steamFailureDetection
+%%Zword \freetypelevelRepairedAcknowledgement levelRepairedAcknowledgement
+%%Zword \freetypesteamRepairedAcknowledgement steamRepairedAcknowledgement
 \end{addedstuff}
 
 \begin{itemize}
@@ -2647,15 +2648,15 @@ event-sequence whilst waiting for the steam-boiler waiting message.
       \\ %
       \t1
       \begin{block}
-        emergencystop.false,
+        emergencystop.\false,
         \\ %
         \t1
         \begin{block}
-          sbwaiting.false,
+          sbwaiting.\false,
           \\ %
           \t1
           \begin{block}
-            levelokay.true,
+            levelokay.\true,
             \\ %
             \t1
             \begin{block}
@@ -2683,9 +2684,9 @@ It is easy to code this requirement in CSP.
    \circprocess\ WaitForSBWaiting \circdef \circbegin \\
    \t1 @ startexec \then \\
         \t2 startreport \then \\
-            \t3 emergencystop.false \then \\
-                \t4 sbwaiting.false \then \\
-                   \t5 levelokay.true \then \\
+            \t3 emergencystop.\false \then \\
+                \t4 sbwaiting.\false \then \\
+                   \t5 levelokay.\true \then \\
                         \t6 stoppumps \then \\
                             \t7 closevalve \then \\
                                 \t8 endreport \then \\
@@ -2699,7 +2700,7 @@ It is easy to code this requirement in CSP.
    used by FDR.
 
    Moreover, as a channel set extension is an expression (and is formed by expressions elements),
-   the original syntax is slightly problematic. We cannot use $sbwaiting.true$ because the production
+   the original syntax is slightly problematic. We cannot use $sbwaiting.\true$ because the production
    it uses is misleading (it is binding selection), which expects a $RefName$ rather than an expression
    after the dot. One way around this is by using a $\LET$ expression. Another way, would be to
    fiddle with the Z expression sub-tree to include a channel selection production.
@@ -2710,8 +2711,8 @@ It is easy to code this requirement in CSP.
    \circprocess\ ControllerStop \circdef \\
         \t1 Controller \\
             \t2 \lpar \lchanset levelabovemax, levelbelowmin, \\
-                            \t3  \LET x == true @ sbwaiting.x, \\
-                            \t3  \LET x == true @ emergencystop.x \rchanset \rpar \\
+                            \t3  \LET x == \true @ sbwaiting.x, \\
+                            \t3  \LET x == \true @ emergencystop.x \rchanset \rpar \\
         \t2 Deadlock
    \also
    \circassertref\ ControllerStop \circrefines FLDV~ WaitForSBWaiting \\
@@ -2721,7 +2722,7 @@ It is easy to code this requirement in CSP.
 \begin{addedstuff}
    Also note that the channel set above generates a parsing warning about a channel set
    that seems more complicated than expected. That is because the parser accepts any Z
-   expression within a Channel set expression, yet some of the expression productions 
+   expression within a Channel set expression, yet some of the expression productions
    are not valid (typecheckable) channel sets. See typechecker for details.
 \end{addedstuff}
 %
