@@ -253,14 +253,14 @@ public class Plugin
   {
     final String add = "{circus}";
     final String packageName =  basePackage + "circus";
-    generateCup("Parser", packageName, "{circus}");
+    generateCup("Parser", packageName, "{z}" + add); // We want for this one the error message in Expr expr(Term t)!
     generateJava("LatexParser", packageName, add);
     generateJava("UnicodeParser", packageName, add);
     generateJFlex("Latex2Unicode", packageName, add);
     generateJava("LatexToUnicode", packageName, add);
     generateJava("LatexMarkupParser", packageName, add);
     generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add);
+    generateJava("ParseUtils", packageName, add); // We don't want for this one the import for z.JaxbXmlWriter!
     generateJava("UnicodeScanner", packageName, add);
     generateJava("OperatorScanner", packageName, add);
     generateJava("NewlineScanner", packageName, add);
