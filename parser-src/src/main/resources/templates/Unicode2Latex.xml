@@ -841,7 +841,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              NUMSTROKE:i
              {:
                 final String numString = i.getValue().toString();
-                String latex = "^" + numString;
+                String latex = "_" + numString;
                 String unicode = ZString.SE + numString + ZString.NW;
                 RESULT =
                   new LatexCommand(latex, unicode, false, false);
