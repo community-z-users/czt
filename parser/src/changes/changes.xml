@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <document>
   <body>
+    <release version="1.1" date="unreleased">
+      <action dev="Petra" type="fix" fixes-bug="1747445">
+        Fix the printers to handle number strokes in decoration
+        expressions correctly.
+      </action>
+    </release>
     <release version="1.0" date="July 2007">
       <action dev="Petra" type="update">
         Update to ZML 2.1 and the corresponding changes in the AST.

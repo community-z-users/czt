@@ -69,6 +69,9 @@ public class UnicodePrinter
     if (TokenName.NL.equals(token)) {
       print("\n");
     }
+    else if (TokenName.NUMSTROKE.getName().equals(token.getName())) {
+      print(ZString.SE + token.getSpelling() + ZString.NW);
+    }
     else {
       print(token.spelling());
     }
