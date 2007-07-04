@@ -66,7 +66,7 @@ public final class ProverUtils
   public static Sequent createRewriteSequent(Expr expr, boolean copy)
   {
     ProverJokerExpr joker = (ProverJokerExpr)
-      FACTORY.createJokerExpr("_", null);
+      new Factory(new ProverFactory()).createJokerExpr("_", null);
     Pred pred = FACTORY.createEquality(expr, joker);
     return createSequent(pred, copy);
   }
@@ -74,7 +74,7 @@ public final class ProverUtils
   public static Sequent createRewriteSequent(Pred pred, boolean copy)
   {
     ProverJokerPred joker = (ProverJokerPred)
-      FACTORY.createJokerPred("_", null);
+      new Factory(new ProverFactory()).createJokerPred("_", null);
     return createSequent(FACTORY.createIffPred(pred, joker), copy);
   }
 
@@ -82,7 +82,7 @@ public final class ProverUtils
                                              boolean copy)
   {
     ProverJokerExpr joker = (ProverJokerExpr)
-      FACTORY.createJokerExpr("_", null);
+      new Factory(new ProverFactory()).createJokerExpr("_", null);
     Expr original = FACTORY.createSchExpr(schText);
     TupleExpr pair = FACTORY.createTupleExpr(original, joker);
     String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
