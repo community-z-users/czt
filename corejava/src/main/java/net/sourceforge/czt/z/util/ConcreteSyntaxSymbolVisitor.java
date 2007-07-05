@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.z.util;
 
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -32,7 +34,8 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class ConcreteSyntaxSymbolVisitor
-  implements ZVisitor<ConcreteSyntaxSymbol>
+  implements ZVisitor<ConcreteSyntaxSymbol>,
+             ListTermVisitor<ConcreteSyntaxSymbol>
 {
   private Utils utils_;
 
@@ -44,6 +47,11 @@ public class ConcreteSyntaxSymbolVisitor
   public ConcreteSyntaxSymbolVisitor(Utils utils)
   {
     utils_ = utils;
+  }
+
+  public ConcreteSyntaxSymbol visitListTerm(ListTerm term)
+  {
+    return ConcreteSyntaxSymbol.LIST;
   }
 
   public ConcreteSyntaxSymbol visitAndExpr(AndExpr term)
