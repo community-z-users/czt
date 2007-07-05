@@ -19,9 +19,9 @@
       <item name="Download" href="http://sourceforge.net/project/showfiles.php?group_id=86250&amp;package_id=89518"/>
     </menu>
     <menu name="Documentation">
-      <item name="Manual" href="http://czt.sourceforge.net/manual.html"/>
-      <item name="Wiki" href="http://czt.wiki.sourceforge.net/"/>
-      <item name="Javadoc" href="apidocs.html"/>
+      <item name="CZT Manual" href="http://czt.sourceforge.net/manual.html"/>
+      <item name="CZT Wiki" href="http://czt.wiki.sourceforge.net/"/>
+      <item name="API documentation" href="./apidocs/index.html"/>
     </menu>
     <menu ref="modules"/>
     <menu ref="reports"/>
