@@ -22,16 +22,17 @@
     <mkdir dir="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${util.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
-    <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${session.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${java_cup.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${parser-oz.jar.file}" dest="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
-    <copy todir="${czt.build.dir}/czt">
+    <unjar src="${jar.dir}/${typechecker-oz.jar.file}" dest="${czt.build.dir}"/>
+<!--    <copy todir="${czt.build.dir}/czt">
       <fileset dir="bin/bsh"/>
     </copy>
-<!--    <retroweaver srcdir="${czt.build.dir}"/>-->
-    <jar jarfile="${jar.dir}/czt_typecheck.jar" update="true">
+    <retroweaver srcdir="${czt.build.dir}"/>-->
+    <jar jarfile="lib/czt_typecheck.jar" update="true">
       <fileset dir="${czt.build.dir}"/>
       <manifest> 
         <attribute
