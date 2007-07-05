@@ -53,6 +53,11 @@
       zsidekick.ZSideKickActions.interactive_rewrite(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.unfold1CurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.unfold1(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.unfoldCurrentWff">
     <CODE>
       zsidekick.ZSideKickActions.unfold(view);

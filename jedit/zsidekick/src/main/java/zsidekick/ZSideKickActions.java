@@ -407,7 +407,7 @@ public class ZSideKickActions
     return false;
   }
 
-  public static void unfold(View view)
+  public static void unfold1(View view)
     throws UnboundJokerException
   {
     WffHighlight wffHighlight = getWffHighlight(view);
@@ -455,6 +455,45 @@ public class ZSideKickActions
       }
       else {
         reportError(view, "Highlighted term is neither an expression nor a schema text");
+      }
+    }
+  }
+
+  public static void unfold(View view)
+    throws UnboundJokerException
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      ParsedData parsedData = getParsedData(view);
+      if (parsedData != null) {
+        SectionManager manager = parsedData.getManager();
+        ZSect zSect = wffHighlight.findZSectForCurrentWff();
+        if (zSect != null) {
+          String section = zSect.getName();
+          try {
+            SectionManager ruleManager = new SectionManager("zpatt");
+            Source unfoldSource = new UrlSource(RuleUtils.getUnfoldRules());
+            ruleManager.put(new Key("unfold", Source.class), unfoldSource);
+            RuleTable rules = (RuleTable)
+              ruleManager.get(new Key("unfold", RuleTable.class));
+            if (rules != null) {
+              Term result = Rewrite.rewrite(manager, section, term, rules);
+              if (! replaceWff(term, result, view, manager, section)) {
+                reportError(view, "Unfolding failed");
+              }
+            }
+            else {
+              reportError(view, "Cannot find unfold rules");
+            }
+          }
+          catch (CommandException e) {
+            reportError(view, "Cannot get rule table");
+          }
+        }
+        else {
+          reportError(view, "Cannot find Z section for selected term");
+        }
       }
     }
   }
