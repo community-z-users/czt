@@ -103,17 +103,6 @@ public abstract class DefaultEvalSet
     return null;
   }
 
-  /** Estimate the size of the set.
-   *  <p>
-   *  EvalSet provides a default implementation that
-   *  returns UNKNOWN_SIZE.
-   *  </p>
-   */
-  public double estSize()
-  {
-    return UNKNOWN_SIZE;
-  }
-
   /** Estimate the size of {x:this | x=elem} in a given environment.
    *  This allows the bounds of elem to be used to reduce the size of set.
    *  <p>

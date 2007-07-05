@@ -93,7 +93,7 @@ public class RelSet extends EvalSet
   @Override
   public double estSize()
   {
-    return Double.POSITIVE_INFINITY;
+    return EvalSet.INFINITE_SIZE;  // most of them are infinite...
   }
 
   /**

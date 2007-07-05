@@ -60,6 +60,14 @@ public abstract class EvalSet
   /** Default estimate for the approximate size of an unknown set. */
   public static final double UNKNOWN_SIZE = 1000.0;
 
+  /** Default estimate for the approximate size of an infinite set.
+   *  We make this slightly less than Double.INFINITY, so that we
+   *  can reduce it by halving or taking the log etc.  This allows us
+   *  to compare the size of large/'infinite' sets in a simplistic way.
+   */
+  public static final double INFINITE_SIZE = Double.MAX_VALUE;
+
+
   /** There seems to be no reason to need annotations,
    *  but the Expr interface forces us to have a non-null list.
    */
@@ -101,13 +109,17 @@ public abstract class EvalSet
 
   /** Estimate the size of the set.
    *  <p>
-   *  EvalSet provides a default implementation that
-   *  returns UNKNOWN_SIZE.
-   *  </p>
+   *  EvalSet provides a default implementation that is the same as
+   *  maxSize(), but converted to a double.
+   *  So maxSize()==null gives EvalSet.INFINITE_SIZE here.
    */
   public double estSize()
   {
-    return UNKNOWN_SIZE;
+    BigInteger size = maxSize();
+    if (size == null)
+      return EvalSet.INFINITE_SIZE;
+    else
+      return size.doubleValue();
   }
 
   /** Estimate the size of {x:this | x=elem} in a given environment.

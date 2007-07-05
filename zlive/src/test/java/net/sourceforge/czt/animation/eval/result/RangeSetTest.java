@@ -66,8 +66,8 @@ public class RangeSetTest extends ZTestCase
   public void testEstSize()
   {
     assertEquals(0.0, empty1.estSize(), ACCURACY);
-    assertEquals(Double.POSITIVE_INFINITY, nats.estSize(), ACCURACY);
-    assertEquals(Double.POSITIVE_INFINITY, upto3.estSize(), ACCURACY);
+    assertEquals(EvalSet.INFINITE_SIZE, nats.estSize(), ACCURACY);
+    assertEquals(EvalSet.INFINITE_SIZE, upto3.estSize(), ACCURACY);
     assertEquals(1.0, zero.estSize(), ACCURACY);
     assertEquals(4.0, zeroTo3.estSize(), ACCURACY);
   }
@@ -265,7 +265,7 @@ public class RangeSetTest extends ZTestCase
 
   public void testEstSubsetSize()
   {
-    assertEquals(Double.POSITIVE_INFINITY, upto3.estSubsetSize(new Envir(), x), ACCURACY);
+    assertEquals(EvalSet.INFINITE_SIZE, upto3.estSubsetSize(new Envir(), x), ACCURACY);
     assertEquals(4.0, zeroTo3.estSubsetSize(new Envir(), x), ACCURACY);
   }
 

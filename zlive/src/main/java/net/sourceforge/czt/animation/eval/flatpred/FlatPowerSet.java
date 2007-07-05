@@ -71,7 +71,7 @@ public class FlatPowerSet extends FlatPred
       if (basesize != null &&
           basesize.compareTo(BigInteger.valueOf(1000)) > 0)
           size = BigInteger.valueOf(2).pow(basesize.intValue());
-      if (size != null || estsize < Double.POSITIVE_INFINITY)
+      if (size != null || estsize < EvalSet.INFINITE_SIZE)
         fuzzy = new FuzzySet(getLastArg().toString(), estsize, size);
     }
     if (fuzzy == null)

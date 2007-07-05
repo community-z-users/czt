@@ -118,7 +118,7 @@ public class FlatMember extends FlatPred
         // The actual EvalSet object will be available at evaluation
         // time, but we check to see if it is already available.
         // If it is, we can get better estimates.
-        result.setSolutions(Double.POSITIVE_INFINITY); // worst case
+        result.setSolutions(Double.MAX_VALUE); // a large worst case
         Expr e = env.lookup(setName);
         if (e == null)
           e = bounds_.getEvalSet(setName);
@@ -222,7 +222,7 @@ public class FlatMember extends FlatPred
     if (set != null || range != null) {
       result.append(" :: ");
       if (set != null) {
-        if (set.estSize() < Double.POSITIVE_INFINITY) {
+        if (set.estSize() < EvalSet.INFINITE_SIZE) {
           result.append(set.estSize());
           result.append(" ");
         }

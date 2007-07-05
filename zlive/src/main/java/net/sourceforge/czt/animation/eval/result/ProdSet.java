@@ -81,19 +81,6 @@ public class ProdSet extends DefaultEvalSet
     return result;
   }
 
-  /** This is the same as maxSize(), but converted to a double.
-   *  So maxSize()==null gives Double.POSITIVE_INFINITY here.
-   */
-  @Override
-  public double estSize()
-  {
-    BigInteger size = maxSize();
-    if (size == null)
-      return Double.POSITIVE_INFINITY;
-    else
-      return size.doubleValue();
-  }
-
   @Override
   public boolean contains(Object e)
   {

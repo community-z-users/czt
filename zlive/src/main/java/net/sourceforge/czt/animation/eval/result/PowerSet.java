@@ -88,19 +88,6 @@ public class PowerSet extends DefaultEvalSet
     return BigInteger.valueOf(2).pow(basesize.intValue());
   }
 
-  /** This is the same as maxSize(), but converted to a double.
-   *  So maxSize()==null gives Double.POSITIVE_INFINITY here.
-   */
-  @Override
-  public double estSize()
-  {
-    BigInteger size = maxSize();
-    if (size == null)
-      return Double.POSITIVE_INFINITY;
-    else
-      return size.doubleValue();
-  }
-
   /**
    * @throws EvalException if the given object is not an EvalSet.
    */
