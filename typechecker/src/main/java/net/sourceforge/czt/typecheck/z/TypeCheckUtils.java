@@ -204,7 +204,7 @@ public class TypeCheckUtils
 
   protected boolean printBenchmarkTimesDefault()
   {
-    return true;
+    return false;
   }
 
   /** The list of known toolkits.
@@ -412,8 +412,8 @@ public class TypeCheckUtils
     }
     long totalTime = System.currentTimeMillis() - zeroTime;
     
-    System.out.println(totalTime + "ms for " + files.size() + " files.");
     if (printBenchmark) {      
+      System.out.println(totalTime + "ms for " + files.size() + " files.");
       for(String file : timesPerFile.keySet()) {
         List<Long> times = timesPerFile.get(file);
         System.out.println("\t" + times.get(4) + "ms for " + file + ":");
