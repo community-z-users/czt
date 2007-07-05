@@ -1,59 +1,166 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateRelationsTest
-Tests run: 102, Failures: 0, Errors: 26, Time elapsed: 204.953 sec
+Tests run: 102, Failures: 0, Errors: 19, Time elapsed: 678.687 sec
 ------------- Standard Output ---------------
 Passed test:animate_relations.tex:22
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:23
 Passed test:animate_relations.tex:24
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:25
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:26
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:27
+Reducing FlatMember estimate from 2000.0 to log: 7.600902459542082
+Reducing FlatMember estimate from 2000.0 to log: 7.600902459542082
 Passed test:animate_relations.tex:28
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:29
 Passed test:animate_relations.tex:30
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:31
 Passed test:animate_relations.tex:34
+Reducing FlatMember estimate from 3.0 to log: 1.0986122886681098
 Passed test:animate_relations.tex:35
 Passed undef test: animate_relations.tex:36
 Passed undef test: animate_relations.tex:37
+Reducing FlatMember estimate from 2.0 to log: 0.6931471805599453
 Passed undef test: animate_relations.tex:38
+Reducing FlatMember estimate from 4.0 to log: 1.3862943611198906
 Passed undef test: animate_relations.tex:39
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:41
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:42
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed undef test: animate_relations.tex:43
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:44
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed test:animate_relations.tex:45
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
 Passed undef test: animate_relations.tex:46
+Reducing FlatMember estimate from 10.0 to log: 2.302585092994046
 Passed test:animate_relations.tex:47
+Reducing FlatMember estimate from 10.0 to log: 2.302585092994046
 Passed test:animate_relations.tex:48
+Reducing FlatMember estimate from 10.0 to log: 2.302585092994046
 Passed undef test: animate_relations.tex:49
+Reducing FlatMember estimate from 20.0 to log: 2.995732273553991
 Passed undef test: animate_relations.tex:50
 Passed test:animate_relations.tex:54
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:56
 Passed test:animate_relations.tex:57
 Passed test:animate_relations.tex:58
 Passed test:animate_relations.tex:59
 Passed test:animate_relations.tex:60
 Passed test:animate_relations.tex:61
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:62
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:63
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:64
 Passed test:animate_relations.tex:67
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:69
 Passed test:animate_relations.tex:70
 Passed test:animate_relations.tex:71
 Passed test:animate_relations.tex:72
 Passed test:animate_relations.tex:73
 Passed test:animate_relations.tex:74
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:75
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:76
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:77
 Passed test:animate_relations.tex:81
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:83
 Passed test:animate_relations.tex:84
 Passed test:animate_relations.tex:86
 Passed test:animate_relations.tex:88
 Passed test:animate_relations.tex:90
 Passed test:animate_relations.tex:91
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:93
 Passed test:animate_relations.tex:94
 Passed test:animate_relations.tex:95
 Passed test:animate_relations.tex:96
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Passed test:animate_relations.tex:97
 Passed test:animate_relations.tex:108
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:112
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:113
 Passed test:animate_relations.tex:114
 Passed test:animate_relations.tex:115
@@ -73,1016 +180,1032 @@ Passed test:animate_relations.tex:130
 Passed test:animate_relations.tex:132
 Passed test:animate_relations.tex:137
 Passed test:animate_relations.tex:138
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from 1000.0 to log: 6.907755278982137
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:139
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:140
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:141
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
+Reducing FlatMember estimate from Infinity to log: Infinity
 Passed test:animate_relations.tex:142
 ------------- ---------------- ---------------
 
-Testcase: animate_relations.tex:22 took 0.368 sec
-Testcase: animate_relations.tex:23 took 1.613 sec
-Testcase: animate_relations.tex:24 took 1.856 sec
-Testcase: animate_relations.tex:25 took 2.472 sec
-Testcase: animate_relations.tex:26 took 1.838 sec
-Testcase: animate_relations.tex:27 took 1.789 sec
-Testcase: animate_relations.tex:28 took 2.247 sec
-Testcase: animate_relations.tex:29 took 2.812 sec
-Testcase: animate_relations.tex:30 took 1.429 sec
-Testcase: animate_relations.tex:31 took 1.039 sec
-Testcase: animate_relations.tex:34 took 0.396 sec
-Testcase: animate_relations.tex:35 took 0.648 sec
-Testcase: animate_relations.tex:36 took 0.149 sec
-Testcase: animate_relations.tex:37 took 0.284 sec
-Testcase: animate_relations.tex:38 took 0.411 sec
-Testcase: animate_relations.tex:39 took 0.68 sec
-Testcase: animate_relations.tex:41 took 1.244 sec
-Testcase: animate_relations.tex:42 took 1.236 sec
-Testcase: animate_relations.tex:43 took 1.11 sec
-Testcase: animate_relations.tex:44 took 1.275 sec
-Testcase: animate_relations.tex:45 took 1.253 sec
-Testcase: animate_relations.tex:46 took 1.143 sec
-Testcase: animate_relations.tex:47 took 0.587 sec
-Testcase: animate_relations.tex:48 took 0.59 sec
-Testcase: animate_relations.tex:49 took 0.467 sec
-Testcase: animate_relations.tex:50 took 0.511 sec
-Testcase: animate_relations.tex:54 took 1.468 sec
-Testcase: animate_relations.tex:55 took 1.792 sec
+Testcase: animate_relations.tex:22 took 1.184 sec
+Testcase: animate_relations.tex:23 took 4.9 sec
+Testcase: animate_relations.tex:24 took 6.84 sec
+Testcase: animate_relations.tex:25 took 9.061 sec
+Testcase: animate_relations.tex:26 took 5.536 sec
+Testcase: animate_relations.tex:27 took 6.394 sec
+Testcase: animate_relations.tex:28 took 7.953 sec
+Testcase: animate_relations.tex:29 took 9.369 sec
+Testcase: animate_relations.tex:30 took 4.386 sec
+Testcase: animate_relations.tex:31 took 3.43 sec
+Testcase: animate_relations.tex:34 took 1.796 sec
+Testcase: animate_relations.tex:35 took 2.571 sec
+Testcase: animate_relations.tex:36 took 0.486 sec
+Testcase: animate_relations.tex:37 took 0.975 sec
+Testcase: animate_relations.tex:38 took 1.458 sec
+Testcase: animate_relations.tex:39 took 2.681 sec
+Testcase: animate_relations.tex:41 took 4.32 sec
+Testcase: animate_relations.tex:42 took 4.741 sec
+Testcase: animate_relations.tex:43 took 4.339 sec
+Testcase: animate_relations.tex:44 took 3.898 sec
+Testcase: animate_relations.tex:45 took 4.519 sec
+Testcase: animate_relations.tex:46 took 3.83 sec
+Testcase: animate_relations.tex:47 took 2.012 sec
+Testcase: animate_relations.tex:48 took 2.033 sec
+Testcase: animate_relations.tex:49 took 2.211 sec
+Testcase: animate_relations.tex:50 took 2.205 sec
+Testcase: animate_relations.tex:54 took 4 sec
+Testcase: animate_relations.tex:55 took 6.058 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
-	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:262)
 	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:168)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:126)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:151)
-	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:116)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:169)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:163)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:152)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:104)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:193)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:140)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:135)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:160)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:129)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:296)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:56 took 0.973 sec
-Testcase: animate_relations.tex:57 took 1.54 sec
-Testcase: animate_relations.tex:58 took 1.545 sec
-Testcase: animate_relations.tex:59 took 1.638 sec
-Testcase: animate_relations.tex:60 took 3.078 sec
-Testcase: animate_relations.tex:61 took 1.496 sec
-Testcase: animate_relations.tex:62 took 1.63 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6096]::_.._, FlatMember[tmp6096,n]::Infinity0.._, tmp6099==0, FlatRangeSet[tmp6099,-,tmp6098]::0.._, FlatMember[tmp6098,n]::Infinity0.._, tmp6104==1, FlatPlus[n,tmp6104,tmp6103], FlatTuple[n,tmp6103,tmp6102], FlatEquals[tmp6095,tmp6102] @ tmp6095 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6096]::_.._, FlatMember[tmp6096,n]::Infinity0.._, tmp6099==0, FlatRangeSet[tmp6099,-,tmp6098]::0.._, FlatMember[tmp6098,n]::Infinity0.._, tmp6104==1, FlatPlus[n,tmp6104,tmp6103], FlatTuple[n,tmp6103,tmp6102], FlatEquals[tmp6095,tmp6102] @ tmp6095 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:63 took 1.617 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6135]::_.._, FlatMember[tmp6135,x]::Infinity0.._, tmp6138==0, FlatRangeSet[tmp6138,-,tmp6137]::0.._, FlatMember[tmp6137,x]::Infinity0.._, tmp6143==2, FlatPlus[x,tmp6143,tmp6142], FlatTuple[x,tmp6142,tmp6141], FlatEquals[tmp6134,tmp6141] @ tmp6134 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6135]::_.._, FlatMember[tmp6135,x]::Infinity0.._, tmp6138==0, FlatRangeSet[tmp6138,-,tmp6137]::0.._, FlatMember[tmp6137,x]::Infinity0.._, tmp6143==2, FlatPlus[x,tmp6143,tmp6142], FlatTuple[x,tmp6142,tmp6141], FlatEquals[tmp6134,tmp6141] @ tmp6134 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:64 took 1.746 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6175]::_.._, FlatMember[tmp6175,x]::Infinity0.._, tmp6178==0, FlatRangeSet[tmp6178,-,tmp6177]::0.._, FlatMember[tmp6177,x]::Infinity0.._, tmp6183==2, FlatPlus[x,tmp6183,tmp6182], FlatTuple[x,tmp6182,tmp6181], FlatEquals[tmp6174,tmp6181] @ tmp6174 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6175]::_.._, FlatMember[tmp6175,x]::Infinity0.._, tmp6178==0, FlatRangeSet[tmp6178,-,tmp6177]::0.._, FlatMember[tmp6177,x]::Infinity0.._, tmp6183==2, FlatPlus[x,tmp6183,tmp6182], FlatTuple[x,tmp6182,tmp6181], FlatEquals[tmp6174,tmp6181] @ tmp6174 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:57)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:67 took 1.508 sec
-Testcase: animate_relations.tex:68 took 1.739 sec
+Testcase: animate_relations.tex:56 took 2.96 sec
+Testcase: animate_relations.tex:57 took 5.566 sec
+Testcase: animate_relations.tex:58 took 5.265 sec
+Testcase: animate_relations.tex:59 took 5.751 sec
+Testcase: animate_relations.tex:60 took 11.461 sec
+Testcase: animate_relations.tex:61 took 4.676 sec
+Testcase: animate_relations.tex:62 took 5.782 sec
+Testcase: animate_relations.tex:63 took 4.363 sec
+Testcase: animate_relations.tex:64 took 5.933 sec
+Testcase: animate_relations.tex:67 took 4.009 sec
+Testcase: animate_relations.tex:68 took 5.882 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
-	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:262)
 	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:168)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:126)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:151)
-	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:116)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:169)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:163)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:152)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:104)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:193)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:140)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:135)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:160)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:129)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:296)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:69 took 0.984 sec
-Testcase: animate_relations.tex:70 took 1.547 sec
-Testcase: animate_relations.tex:71 took 1.58 sec
-Testcase: animate_relations.tex:72 took 1.714 sec
-Testcase: animate_relations.tex:73 took 2.574 sec
-Testcase: animate_relations.tex:74 took 1.502 sec
-Testcase: animate_relations.tex:75 took 1.665 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6522]::_.._, FlatMember[tmp6522,n]::Infinity0.._, tmp6525==0, FlatRangeSet[tmp6525,-,tmp6524]::0.._, FlatMember[tmp6524,n]::Infinity0.._, tmp6530==1, FlatPlus[n,tmp6530,tmp6529], FlatTuple[n,tmp6529,tmp6528], FlatEquals[tmp6521,tmp6528] @ tmp6521 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6522]::_.._, FlatMember[tmp6522,n]::Infinity0.._, tmp6525==0, FlatRangeSet[tmp6525,-,tmp6524]::0.._, FlatMember[tmp6524,n]::Infinity0.._, tmp6530==1, FlatPlus[n,tmp6530,tmp6529], FlatTuple[n,tmp6529,tmp6528], FlatEquals[tmp6521,tmp6528] @ tmp6521 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:76 took 1.665 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6561]::_.._, FlatMember[tmp6561,x]::Infinity0.._, tmp6564==0, FlatRangeSet[tmp6564,-,tmp6563]::0.._, FlatMember[tmp6563,x]::Infinity0.._, tmp6569==2, FlatPlus[tmp6569,tmp6568,x], FlatTuple[tmp6568,x,tmp6567], FlatEquals[tmp6560,tmp6567] @ tmp6560 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6561]::_.._, FlatMember[tmp6561,x]::Infinity0.._, tmp6564==0, FlatRangeSet[tmp6564,-,tmp6563]::0.._, FlatMember[tmp6563,x]::Infinity0.._, tmp6569==2, FlatPlus[tmp6569,tmp6568,x], FlatTuple[tmp6568,x,tmp6567], FlatEquals[tmp6560,tmp6567] @ tmp6560 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:77 took 1.866 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6603]::_.._, FlatMember[tmp6603,x]::Infinity0.._, tmp6606==0, FlatRangeSet[tmp6606,-,tmp6605]::0.._, FlatMember[tmp6605,x]::Infinity0.._, tmp6611==2, FlatPlus[tmp6611,tmp6610,x], FlatTuple[tmp6610,x,tmp6609], FlatEquals[tmp6602,tmp6609] @ tmp6602 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp6603]::_.._, FlatMember[tmp6603,x]::Infinity0.._, tmp6606==0, FlatRangeSet[tmp6606,-,tmp6605]::0.._, FlatMember[tmp6605,x]::Infinity0.._, tmp6611==2, FlatPlus[tmp6611,tmp6610,x], FlatTuple[tmp6610,x,tmp6609], FlatEquals[tmp6602,tmp6609] @ tmp6602 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatNot.nextEvaluation(FlatNot.java:57)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:81 took 1.593 sec
-Testcase: animate_relations.tex:83 took 1.242 sec
-Testcase: animate_relations.tex:84 took 1.847 sec
-Testcase: animate_relations.tex:86 took 1.672 sec
-Testcase: animate_relations.tex:88 took 1.722 sec
-Testcase: animate_relations.tex:90 took 1.87 sec
-Testcase: animate_relations.tex:91 took 2.127 sec
-Testcase: animate_relations.tex:93 took 1.322 sec
-Testcase: animate_relations.tex:94 took 1.696 sec
-Testcase: animate_relations.tex:95 took 1.689 sec
-Testcase: animate_relations.tex:96 took 2.068 sec
-Testcase: animate_relations.tex:97 took 1.834 sec
-	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp7046]::_.._, FlatMember[tmp7046,n]::Infinity0.._, tmp7049==0, FlatRangeSet[tmp7049,-,tmp7048]::0.._, FlatMember[tmp7048,n]::Infinity0.._, tmp7054==1, FlatPlus[n,tmp7054,tmp7053], FlatTuple[n,tmp7053,tmp7052], FlatEquals[tmp7045,tmp7052] @ tmp7045 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp7046]::_.._, FlatMember[tmp7046,n]::Infinity0.._, tmp7049==0, FlatRangeSet[tmp7049,-,tmp7048]::0.._, FlatMember[tmp7048,n]::Infinity0.._, tmp7054==1, FlatPlus[n,tmp7054,tmp7053], FlatTuple[n,tmp7053,tmp7052], FlatEquals[tmp7045,tmp7052] @ tmp7045 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.contains(SetComp.java:126)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:147)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
-
-Testcase: animate_relations.tex:108 took 2.683 sec
-Testcase: animate_relations.tex:109 took 2.257 sec
+Testcase: animate_relations.tex:69 took 2.891 sec
+Testcase: animate_relations.tex:70 took 5.51 sec
+Testcase: animate_relations.tex:71 took 5.304 sec
+Testcase: animate_relations.tex:72 took 5.772 sec
+Testcase: animate_relations.tex:73 took 8.945 sec
+Testcase: animate_relations.tex:74 took 5.277 sec
+Testcase: animate_relations.tex:75 took 5.007 sec
+Testcase: animate_relations.tex:76 took 5.274 sec
+Testcase: animate_relations.tex:77 took 5.96 sec
+Testcase: animate_relations.tex:81 took 4.767 sec
+Testcase: animate_relations.tex:83 took 4.095 sec
+Testcase: animate_relations.tex:84 took 6.366 sec
+Testcase: animate_relations.tex:86 took 5.672 sec
+Testcase: animate_relations.tex:88 took 4.875 sec
+Testcase: animate_relations.tex:90 took 6.213 sec
+Testcase: animate_relations.tex:91 took 9.057 sec
+Testcase: animate_relations.tex:93 took 4.225 sec
+Testcase: animate_relations.tex:94 took 6.125 sec
+Testcase: animate_relations.tex:95 took 5.33 sec
+Testcase: animate_relations.tex:96 took 7.799 sec
+Testcase: animate_relations.tex:97 took 5.879 sec
+Testcase: animate_relations.tex:108 took 9.677 sec
+Testcase: animate_relations.tex:109 took 7.015 sec
 	Caused an ERROR
 Cannot start iteration through ALL integers
 net.sourceforge.czt.animation.eval.EvalException: Cannot start iteration through ALL integers
-	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:275)
+	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:262)
 	at net.sourceforge.czt.animation.eval.result.RangeSet$RangeSetIterator.next(RangeSet.java:1)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:168)
-	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:162)
-	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:126)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:151)
-	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:116)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.nextAddElementIterator(PowerSet.java:169)
+	at net.sourceforge.czt.animation.eval.result.PowerSet$PowerSetIterator.<init>(PowerSet.java:163)
+	at net.sourceforge.czt.animation.eval.result.PowerSet.nextMember(PowerSet.java:114)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.result.ProdSet$ProdSetIterator.hasNext(ProdSet.java:152)
+	at net.sourceforge.czt.animation.eval.result.ProdSet.nextMember(ProdSet.java:104)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:193)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:140)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:135)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:160)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:129)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:296)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:112 took 1.626 sec
-Testcase: animate_relations.tex:113 took 1.65 sec
-Testcase: animate_relations.tex:114 took 1.933 sec
-Testcase: animate_relations.tex:115 took 2.453 sec
-Testcase: animate_relations.tex:116 took 2.592 sec
-Testcase: animate_relations.tex:117 took 2.661 sec
-Testcase: animate_relations.tex:118 took 2.734 sec
-Testcase: animate_relations.tex:119 took 3.297 sec
-Testcase: animate_relations.tex:120 took 2.24 sec
-Testcase: animate_relations.tex:121 took 2.69 sec
-Testcase: animate_relations.tex:122 took 3.107 sec
-Testcase: animate_relations.tex:125 took 3.05 sec
-Testcase: animate_relations.tex:126 took 3.623 sec
-Testcase: animate_relations.tex:127 took 2.682 sec
-Testcase: animate_relations.tex:128 took 2.671 sec
-Testcase: animate_relations.tex:129 took 1.945 sec
-Testcase: animate_relations.tex:130 took 2.502 sec
-Testcase: animate_relations.tex:132 took 2.843 sec
-Testcase: animate_relations.tex:133 took 1.981 sec
+Testcase: animate_relations.tex:112 took 5.902 sec
+Testcase: animate_relations.tex:113 took 6.003 sec
+Testcase: animate_relations.tex:114 took 6.98 sec
+Testcase: animate_relations.tex:115 took 9.475 sec
+Testcase: animate_relations.tex:116 took 11.3 sec
+Testcase: animate_relations.tex:117 took 10.36 sec
+Testcase: animate_relations.tex:118 took 10.002 sec
+Testcase: animate_relations.tex:119 took 11.47 sec
+Testcase: animate_relations.tex:120 took 9.011 sec
+Testcase: animate_relations.tex:121 took 7.455 sec
+Testcase: animate_relations.tex:122 took 8.912 sec
+Testcase: animate_relations.tex:125 took 10.722 sec
+Testcase: animate_relations.tex:126 took 7.54 sec
+Testcase: animate_relations.tex:127 took 8.806 sec
+Testcase: animate_relations.tex:128 took 8.437 sec
+Testcase: animate_relations.tex:129 took 8.115 sec
+Testcase: animate_relations.tex:130 took 6.911 sec
+Testcase: animate_relations.tex:132 took 9.756 sec
+Testcase: animate_relations.tex:133 took 6.706 sec
 	Caused an ERROR
-Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp8095]::_.._, FlatMember[tmp8095,x]::Infinity0.._, tmp8098==0, FlatRangeSet[tmp8098,-,tmp8097]::0.._, FlatMember[tmp8097,x]::Infinity0.._, tmp8103==2, FlatMult[x,tmp8103,tmp8102], FlatTuple[x,tmp8102,tmp8101], FlatEquals[tmp8094,tmp8101] @ tmp8094 }
-net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { FlatRangeSet[-,-,tmp8095]::_.._, FlatMember[tmp8095,x]::Infinity0.._, tmp8098==0, FlatRangeSet[tmp8098,-,tmp8097]::0.._, FlatMember[tmp8097,x]::Infinity0.._, tmp8103==2, FlatMult[x,tmp8103,tmp8102], FlatTuple[x,tmp8102,tmp8101], FlatEquals[tmp8094,tmp8101] @ tmp8094 }
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:135)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:249)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:322)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:159)
+Cannot generate members of SetComp: { _ .. _ = tmp5316 :: _.._;
+x in tmp5316 :: 0.._;
+tmp5318 == 0;
+tmp5318 .. _ = tmp5317 :: 0.._;
+x in tmp5317 :: 0.._;
+tmp5321 == 2;
+x * tmp5321 = tmp5320;
+(x, tmp5320) = tmp5319;
+tmp5315 = tmp5319 @ tmp5315 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { _ .. _ = tmp5316 :: _.._;
+x in tmp5316 :: 0.._;
+tmp5318 == 0;
+tmp5318 .. _ = tmp5317 :: 0.._;
+x in tmp5317 :: 0.._;
+tmp5321 == 2;
+x * tmp5321 = tmp5320;
+(x, tmp5320) = tmp5319;
+tmp5315 = tmp5319 @ tmp5315 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:155)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatMember.nextEvaluation(FlatMember.java:193)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:140)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:252)
-	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:135)
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:160)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.size(DefaultEvalSet.java:129)
 	at net.sourceforge.czt.animation.eval.ExprComparator.compare(ExprComparator.java:209)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:88)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatEquals.nextEvaluation(FlatEquals.java:91)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:531)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:295)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:296)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:137 took 4.19 sec
-Testcase: animate_relations.tex:138 took 5.19 sec
-Testcase: animate_relations.tex:139 took 6.317 sec
-Testcase: animate_relations.tex:140 took 4.137 sec
-Testcase: animate_relations.tex:141 took 4.628 sec
-Testcase: animate_relations.tex:142 took 4.283 sec
-Testcase: animate_relations.tex:146 took 0.63 sec
+Testcase: animate_relations.tex:137 took 13.422 sec
+Testcase: animate_relations.tex:138 took 16.405 sec
+Testcase: animate_relations.tex:139 took 18.861 sec
+Testcase: animate_relations.tex:140 took 12.814 sec
+Testcase: animate_relations.tex:141 took 14.752 sec
+Testcase: animate_relations.tex:142 took 13.3 sec
+Testcase: animate_relations.tex:146 took 2.065 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:147 took 1.208 sec
+Testcase: animate_relations.tex:147 took 3.949 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:148 took 1.485 sec
+Testcase: animate_relations.tex:148 took 5.415 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:149 took 3.201 sec
+Testcase: animate_relations.tex:149 took 11.217 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:150 took 1.175 sec
+Testcase: animate_relations.tex:150 took 3.45 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:151 took 2.49 sec
+Testcase: animate_relations.tex:151 took 9.1 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.ApplExprImpl yet.  _ ?+?
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:561)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
 	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:1)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:282)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:155 took 3.122 sec
+Testcase: animate_relations.tex:155 took 8.971 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:156 took 2.661 sec
+Testcase: animate_relations.tex:156 took 8.501 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:157 took 2.956 sec
+Testcase: animate_relations.tex:157 took 9.517 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:158 took 2.755 sec
+Testcase: animate_relations.tex:158 took 8.584 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:117)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:160 took 3.113 sec
+Testcase: animate_relations.tex:160 took 8.784 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:161 took 3.173 sec
+Testcase: animate_relations.tex:161 took 8.859 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:117)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:162 took 2.226 sec
+Testcase: animate_relations.tex:162 took 6.605 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:163 took 2.744 sec
+Testcase: animate_relations.tex:163 took 8.662 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_relations.tex:164 took 3.024 sec
+Testcase: animate_relations.tex:164 took 9.694 sec
 	Caused an ERROR
 null
 net.sourceforge.czt.typecheck.z.util.UndeterminedTypeException
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:169)
-	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:37)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:168)
+	at net.sourceforge.czt.typecheck.z.util.CarrierSet.visitVariableType(CarrierSet.java:36)
 	at net.sourceforge.czt.typecheck.z.impl.VariableType.accept(VariableType.java:183)
-	at net.sourceforge.czt.rules.ast.ProverTypeProviso.check(ProverTypeProviso.java:76)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:176)
-	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:116)
-	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:236)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:123)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.rules.oracles.TypecheckOracle.check(TypecheckOracle.java:52)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:237)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:164)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:267)
+	at net.sourceforge.czt.rules.SimpleProver.prove(SimpleProver.java:150)
+	at net.sourceforge.czt.rules.Rewrite.rewriteOnce(Rewrite.java:253)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:124)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.RefExprImpl.accept(RefExprImpl.java:156)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:185)
-	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:200)
+	at net.sourceforge.czt.rules.Rewrite.visitSchText(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.SchTextImpl.accept(SchTextImpl.java:102)
 	at net.sourceforge.czt.z.impl.ZSchTextImpl.accept(ZSchTextImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:135)
-	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:140)
+	at net.sourceforge.czt.rules.Rewrite.visitExpr(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:102)
 	at net.sourceforge.czt.z.impl.Expr2Impl.accept(Expr2Impl.java:117)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:117)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
 	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:113)
-	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:1)
-	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:146)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:92)
-	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:128)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:152)
-	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:1)
+	at net.sourceforge.czt.rules.Rewrite.visitTerm(Rewrite.java:64)
+	at net.sourceforge.czt.base.impl.ListTermImpl.accept(ListTermImpl.java:136)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitArray(VisitorUtils.java:90)
+	at net.sourceforge.czt.base.visitor.VisitorUtils.visitTerm(VisitorUtils.java:126)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:162)
+	at net.sourceforge.czt.rules.Rewrite.visitPred(Rewrite.java:64)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:102)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:130)
-	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:288)
-	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:128)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:275)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:135)
+	at net.sourceforge.czt.rules.Rewrite.rewrite(Rewrite.java:306)
+	at net.sourceforge.czt.animation.eval.Preprocess.preprocess(Preprocess.java:127)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:276)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
