@@ -147,7 +147,8 @@ public class Bounds
    */
   public void startAnalysis(Bounds parent)
   {
-    assert parent_ == parent;
+    // We allow parent to be the direct parent or the grandparent.
+    assert parent_ == parent || parent_ == parent.parent_;
     changed_.clear();
     // copy bounds from parent to result (the child).
     for (ZName key : parent.getLowerKeys())

@@ -133,7 +133,13 @@ public class FlatMember extends FlatPred
           // the size of the set is another limit on the number of solutions
           size = RangeSet.minPos(size, set.maxSize());
           // now translate size to double and use min(size,set.estSize())
-          double solns = 100.0; //set.estSize();   TODO better estimate
+          double solns = set.estSize();
+          Map<Object, Expr> argValues = knownValues(env);
+          if (argValues != null) {
+            System.out.println("Reducing FlatMember estimate from "+solns
+                +" to log: "+Math.log(solns));
+            solns = Math.log(solns);   // much smaller
+          }
           if (size != null)
             solns = Math.min(solns, size.doubleValue());
           result.setSolutions(solns);
