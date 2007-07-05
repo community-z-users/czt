@@ -55,17 +55,6 @@ public final class VisitorUtils
   }
 
   /**
-   * Returns the logger used for logging.
-   *
-   * @return the logger used for this class.
-   */
-  private static Logger getLogger()
-  {
-    return Logger.getLogger("net.sourceforge.czt.base.util."
-                            + getClassName());
-  }
-
-  /**
    * <p>Visits all the terms (instances of {@link Term}) contained in
    * the array by calling the {@link Term#accept accept-method} with
    * the provided visitor as argument.  The array is changed to
@@ -83,7 +72,6 @@ public final class VisitorUtils
   {
     boolean hasChanged = false;
     Object[] arguments = {visitor, array };
-    getLogger().entering(getClassName(), "visitArray", arguments);
     for (int i = 0; i < array.length; i++) {
       final Object object = array[i];
       if (object instanceof Term) {
@@ -121,17 +109,13 @@ public final class VisitorUtils
                                              boolean share)
   {
     Object[] arguments = {visitor, term, Boolean.valueOf(share)};
-    getLogger().entering(getClassName(), "visitTerm", arguments);
     Object[] args = term.getChildren();
     boolean changed = visitArray(visitor, args);
     if (!changed && share) {
-      getLogger().exiting(getClassName(), "visitTerm", term);
       return term;
     }
-    getLogger().fine("Term has changed.");
     T newTerm = (T) term.create(args);
     newTerm.getAnns().addAll(term.getAnns());
-    getLogger().exiting(getClassName(), "visitTerm", newTerm);
     return newTerm;
   }
 
@@ -142,7 +126,6 @@ public final class VisitorUtils
   public static void visitTerm(Visitor visitor, Term term)
   {
     Object[] arguments = {visitor, term};
-    getLogger().entering(getClassName(), "visitTerm", arguments);
     visitArray(visitor, term.getChildren());
   }
 
