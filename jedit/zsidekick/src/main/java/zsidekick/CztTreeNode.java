@@ -1,6 +1,6 @@
 /*
  * CztTreeNode.java
- * Copyright (C) 2006 Petra Malik
+ * Copyright (C) 2006, 2007 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,10 +56,7 @@ public class CztTreeNode
 
   public CztTreeNode(Term term, String dialect, Buffer buffer)
   {
-    super(new CztAsset(term.accept("circus".equals(dialect) ? circusShortDescriptionVisitor_ : zShortDescriptionVisitor_),
-                       term.accept("circus".equals(dialect) ? circusLongDescriptionVisitor_ : zLongDescriptionVisitor_),
-                       getStart(term, buffer),
-                       getEnd(term, buffer)));
+    super(createAsset(term, dialect, buffer));
     term_ = term;
     if (buffer.getBooleanProperty("zsidekick.show-complete-tree")) {
       Object[] children = term.getChildren();
@@ -75,6 +72,25 @@ public class CztTreeNode
         add(new CztTreeNode(child, dialect, buffer));
       }
     }
+  }
+
+  private static CztAsset createAsset(Term term, String dialect, Buffer buffer)
+  {
+    String name = term.accept("circus".equals(dialect) ?
+                              circusShortDescriptionVisitor_ :
+                              zShortDescriptionVisitor_);
+    if (name == null) {
+      name = term.getClass().toString();
+    }
+    String description = term.accept("circus".equals(dialect) ?
+                                     circusLongDescriptionVisitor_ :
+                                     zLongDescriptionVisitor_);
+    if (description == null) {
+      description = term.getClass().toString();
+    }
+    final Position startPos = getStart(term, buffer);
+    final Position endPos = getEnd(term, buffer);
+    return new CztAsset(name, description, startPos, endPos);
   }
 
   static private Position getStart(Term term, Buffer buffer)
