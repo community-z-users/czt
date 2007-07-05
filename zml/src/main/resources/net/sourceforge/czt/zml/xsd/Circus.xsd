@@ -1388,6 +1388,26 @@ These interfaces represent the AST for Circus.
   
   <!-- Additional top-level types in Circus -->
   
+  <!-- DESIGN CLARIFICATION:
+  
+  In Standard Z, the BNF for the type system includes Type, Type2, and Signature. 
+  Type represent generic types, which encompass all constructs that allow the
+  declaration of (formal) generic parameters, such as generic axiomatic descriptions
+  and generic schemas.
+  Type2 represent bare types where (formal) generic parameters have been resolved,
+  even if the resolution is to a "GENTYPE". 
+  Signature contains a list of name type pairs, where the type associated with each 
+  name is Type, hence allowing the opportunity for declarations which have (formal)
+  generic parameters, such as channel declarations.
+  
+  For example:
+  
+  channel [X, Y] c, d: X x Y; e, f: Y 
+  
+  ChannelPara has a signature containing a generic type should have Type, where [X, Y] 
+  are part of GenericType, and the references to X and Y are GENTYPE X/Y. Thus, 
+  there is no need for a ChannelType.
+  
   <xs:element name="ChannelType" type="CIRCUS:ChannelType" substitutionGroup="Z:Type">
     <xs:annotation>
       <xs:documentation>
@@ -1395,7 +1415,9 @@ These interfaces represent the AST for Circus.
         The <code>OptionalType</code> is the resolved type after instantiation via generic actuals or type inference.
       </xs:documentation>
     </xs:annotation>
-  </xs:element>  
+  </xs:element>    
+  -->
+  
   <xs:element name="ChannelSetType" type="CIRCUS:ChannelSetType" substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>
@@ -2666,40 +2688,7 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>
   </xs:complexType>
   
-  <!-- Circus Types and Signatures -->
-  
-  <xs:complexType name="ChannelType">
-    <xs:complexContent>
-      <xs:extension base="Z:Type">
-        <xs:sequence>
-          <!-- Use concrete (rather than allowing Joker) names here -->
-          <xs:element ref="Z:ZNameList">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"
-                 generateElementProperty="true"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <!-- How to make this possibly empty? -->
-          <xs:element ref="Z:Type2">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="DeclaredType"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Type2" minOccurs="0">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="ResolvedType"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>  
+  <!-- Circus Types and Signatures -->  
   
   <xs:complexType name="ChannelSetType">
     <xs:complexContent>
@@ -2721,7 +2710,13 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element ref="CIRCUS:ProcessSignature"/>
+          <xs:element ref="CIRCUS:ProcessSignature">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property generateElementProperty="true"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2742,6 +2737,7 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
+  
   <xs:complexType name="NameSetType">
     <xs:complexContent>
       <xs:extension base="Z:Type2">
