@@ -1,20 +1,20 @@
-/**
-Copyright (C) 2004 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright (C) 2004, 2007 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -27,7 +27,7 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A definition table stores all the definitions of a section.
+ * A definition table stores all the global definitions of a section.
  */
 public class DefinitionTable
 {
@@ -39,10 +39,10 @@ public class DefinitionTable
   /**
    * Records all operators defined in this section.
    *
-   * @czt.todo should the domain be String, Name or DeclName?
+   * @czt.todo should the domain be String or Name?
    */
-  private /*@non_null@*/ SortedMap/*<String,Term>*/ definitions_ =
-    new TreeMap();
+  private /*@non_null@*/ SortedMap<String,Definition> definitions_ =
+    new TreeMap<String,Definition>();
 
   /**
    * Constructs a definition table for a new section.
@@ -50,13 +50,12 @@ public class DefinitionTable
    * @param parents Definition tables of all direct parents of the new section.
    */
   public DefinitionTable(String section,
-                         Collection/*<DefinitionTable>*/ parents)
+                         Collection<DefinitionTable> parents)
     throws DefinitionException
   {
     section_ = section;
     if (parents != null) {
-      for (Iterator iter = parents.iterator(); iter.hasNext();) {
-        DefinitionTable table = (DefinitionTable) iter.next();
+      for (DefinitionTable table : parents) {
         addParentDefinitionTable(table);
       }
     }
@@ -130,7 +129,7 @@ public class DefinitionTable
    *  this Definition records the type parameters T,U and
    *  the right hand side expression.
    */
-  public static class Definition extends TermImpl
+  public static class Definition
   {
     private ZNameList genericParams_;
     private Expr definition_;
@@ -154,27 +153,6 @@ public class DefinitionTable
     public String toString()
     {
       return genericParams_.toString() + " " + definition_.toString();
-    }
-
-    @Override
-    public <R> R accept(Visitor<R> v)
-    {
-      if (v instanceof DefinitionVisitor) {
-        DefinitionVisitor<R> defv = (DefinitionVisitor<R>)v;
-        return defv.visitDefinition(this);
-      }
-      else
-        return super.accept(v);
-    }
-
-    public Term create(Object[] args)
-    {
-      throw new RuntimeException("Should not need to create Definitions");
-    }
-
-    public Object[] getChildren()
-    {
-      return new Object[] {genericParams_, definition_};
     }
   }
 }
