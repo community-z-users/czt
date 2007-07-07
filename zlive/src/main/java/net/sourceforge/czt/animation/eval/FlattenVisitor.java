@@ -504,93 +504,104 @@ public class FlattenVisitor
     if (arg instanceof TupleExpr)
       argList = ((TupleExpr) arg).getZExprList();
 
+    // handle some builtin functions like arithmetic in special ways.
     if (func instanceof RefExpr
         && ((RefExpr) func).getZName().getZStrokeList().size() == 0) {
       String funcname = ((RefExpr) func).getZName().getWord();
-      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK))
+      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) {
         flat_.add(new FlatPlus(
             argList.get(0).accept(this),
             argList.get(1).accept(this),
             result));
-      else if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK))
+        return result;
+      }
+      if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK)) {
         /* a-b=c <=> a=b+c (we could do this via a rewrite rule) */
         flat_.add(new FlatPlus(
             argList.get(1).accept(this),
 	    result,
 	    argList.get(0).accept(this)));
-      else if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK))
+        return result;
+      }
+      if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK)) {
         flat_.add(new FlatMult(
             argList.get(0).accept(this),
             argList.get(1).accept(this),
             result));
-      else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
+        return result;
+      }
+      if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK)) {
         flat_.add(new FlatDiv(
             argList.get(0).accept(this),
             argList.get(1).accept(this),
             result));
-      else if (funcname.equals(ZString.ARG_TOK + "mod" + ZString.ARG_TOK))
+        return result;
+      }
+      if (funcname.equals(ZString.ARG_TOK + "mod" + ZString.ARG_TOK)) {
         flat_.add(new FlatMod(
             argList.get(0).accept(this),
             argList.get(1).accept(this),
             result));
-      else if (funcname.equals(ZString.ARG_TOK + ".." + ZString.ARG_TOK))
+        return result;
+      }
+      if (funcname.equals(ZString.ARG_TOK + ".." + ZString.ARG_TOK)) {
         flat_.add(new FlatRangeSet(
             argList.get(0).accept(this),
             argList.get(1).accept(this),
             result));
-      else if (funcname.equals("#" + ZString.ARG_TOK)) {
+        return result;
+      }
+      if (funcname.equals("#" + ZString.ARG_TOK)) {
         ZName argVar = arg.accept(this);
         flat_.add(new FlatCard(argVar, result));
+        return result;
       }
-      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
+      if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
         ZName argVar = arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
+        return result;
       }
-      else if (funcname.equals("succ" + ZString.ARG_TOK)) {
+      if (funcname.equals("succ" + ZString.ARG_TOK)) {
         /* succ _ = _ + 1; _ + 1 = result using FlatPlus */
         ZName argVar = arg.accept(this);
         Expr num1 = zlive_.getFactory().createNumExpr(1);
         ZName refForNum1 = num1.accept(this);
         flat_.add(new FlatPlus(argVar, refForNum1, result));
+        return result;
       }
-      else if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
+      if (funcname.equals(ZString.ARG_TOK + ZString.CUP + ZString.ARG_TOK)) {
           flat_.add(new FlatUnion(
             (ZName) argList.get(0).accept(this),
             (ZName) argList.get(1).accept(this),
             result));
-      }
-      // else if (...)   TODO: add more cases...
-      else {
-        return notYet(e, funcname);
+          return result;
       }
     }
-    else {
-      // Transform (func~arg) into (\mu p:func | p.1=arg @ p.2)
-      // (this cannot be done at the same time as the preprocess rules,
-      //  because we have to handle the above special cases first).
-      Factory factory = zlive_.getFactory();
-      // TODO: simplify this...
-      // create the DeclList:  p:func
-      ZStrokeList sl = factory.createZStrokeList();
-      ZName pName =
-        factory.createZName("p", sl, "ZLiveAppl"+(applvar++));
-      ZNameList zdnl = factory.createZNameList();
-      zdnl.add(pName);
-      VarDecl decl = factory.createVarDecl(zdnl, func);
-      ZDeclList decls = factory.createZDeclList(factory.list(decl));
-      // create the predicate: p.1=arg
-      Expr pRefExpr = factory.createRefExpr(pName);
-      Expr p1 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(1));
-      Pred pred = factory.createEquality(p1,arg);
-      ZSchText stext = factory.createZSchText(decls,pred);
-      // create the expr: p.2
-      Expr p2 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(2));
-      // create (\mu [p:func | p.1=arg] @ p.2)
-      FlatPredList fp = new FlatPredList(zlive_);
-      fp.addSchText(stext);
-      result = fp.addExpr(p2);
-      flat_.add(new FlatMu(fp, result));
-    }
+
+    // Transform (func~arg) into (\mu p:func | p.1=arg @ p.2)
+    // (this cannot be done at the same time as the preprocess rules,
+    //  because we have to handle the above special cases first).
+    Factory factory = zlive_.getFactory();
+    // create the DeclList:  p:func
+    ZStrokeList sl = factory.createZStrokeList();
+    ZName pName =
+      factory.createZName("p", sl, "ZLiveAppl"+(applvar++));
+    ZNameList zdnl = factory.createZNameList();
+    zdnl.add(pName);
+    VarDecl decl = factory.createVarDecl(zdnl, func);
+    ZDeclList decls = factory.createZDeclList(factory.list(decl));
+    // create the predicate: p.1=arg
+    Expr pRefExpr = factory.createRefExpr(pName);
+    Expr p1 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(1));
+    Pred pred = factory.createEquality(p1,arg);
+    ZSchText stext = factory.createZSchText(decls,pred);
+    // create the expr: p.2
+    Expr p2 = factory.createTupleSelExpr(pRefExpr,factory.createZNumeral(2));
+    // create (\mu [p:func | p.1=arg] @ p.2)
+    FlatPredList fp = new FlatPredList(zlive_);
+    fp.addSchText(stext);
+    result = fp.addExpr(p2);
+    flat_.add(new FlatMu(fp, result));
     return result;
   }
 
@@ -757,7 +768,7 @@ public class FlattenVisitor
       }
     }
     BindExpr binding = zlive_.getFactory().createBindExpr(cdecls);
-    ZName setName = zlive_.createNewName();
+    ZName setName = createBoundName();
     flat_.add( new FlatSetComp(zlive_, 
         decls, sch.getZSchText().getPred(), binding, setName));
     return setName;
