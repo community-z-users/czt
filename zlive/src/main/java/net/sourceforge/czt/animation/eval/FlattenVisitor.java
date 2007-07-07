@@ -84,6 +84,7 @@ import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.ProdExpr;
 import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SetCompExpr;
 import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.TruePred;
@@ -117,6 +118,7 @@ import net.sourceforge.czt.z.visitor.OrPredVisitor;
 import net.sourceforge.czt.z.visitor.PowerExprVisitor;
 import net.sourceforge.czt.z.visitor.ProdExprVisitor;
 import net.sourceforge.czt.z.visitor.RefExprVisitor;
+import net.sourceforge.czt.z.visitor.SchExprVisitor;
 import net.sourceforge.czt.z.visitor.SetCompExprVisitor;
 import net.sourceforge.czt.z.visitor.SetExprVisitor;
 import net.sourceforge.czt.z.visitor.TruePredVisitor;
@@ -159,7 +161,8 @@ public class FlattenVisitor
       TupleExprVisitor<ZName>,
       BindExprVisitor<ZName>,
       LetExprVisitor<ZName>,
-      ZNameVisitor<ZName>
+      ZNameVisitor<ZName>,
+      SchExprVisitor<ZName>
 {
   /** A reference to the main animator object, so that we can
       access all kinds of settings, tables and section manager etc.
@@ -566,7 +569,7 @@ public class FlattenVisitor
       // (this cannot be done at the same time as the preprocess rules,
       //  because we have to handle the above special cases first).
       Factory factory = zlive_.getFactory();
-      // TODO: simplify this... 
+      // TODO: simplify this...
       // create the DeclList:  p:func
       ZStrokeList sl = factory.createZStrokeList();
       ZName pName =
@@ -683,6 +686,9 @@ public class FlattenVisitor
     return result;
   }
 
+  /** This translates our special LET isFun==1;... @ A x B
+   *  constructs into FlatRelSet objects that represent function spaces.
+   */
   public ZName visitLetExpr(LetExpr e) {
     ZName result = createBoundName();
     ZSchText stext = e.getZSchText();
@@ -713,7 +719,7 @@ public class FlattenVisitor
         ProdExpr prod = (ProdExpr) ((PowerExpr) e.getExpr()).getExpr();
         ZName domSet = prod.getZExprList().get(0).accept(this);
         ZName ranSet = prod.getZExprList().get(1).accept(this);
-        flat_.add(new FlatRelSet(domSet, ranSet, 
+        flat_.add(new FlatRelSet(domSet, ranSet,
             isFunc, isTotal, isOnto, isInj, result));
         return result;
       }
@@ -729,7 +735,34 @@ public class FlattenVisitor
     }
     return flat_.addExpr(e.getExpr());
   }
-  
+
+  /** This does [D | P] = \{ D | P @ \theta [D | true] \}
+   *  because this is currently hard to do in preprocess.tex.
+   * @param zedObject
+   * @return
+   */
+  public ZName visitSchExpr(SchExpr sch)
+  {
+    ZDeclList decls = sch.getZSchText().getZDeclList();
+    // now build the binding that is the result
+    ZDeclList cdecls = zlive_.getFactory().createZDeclList();
+    for (Decl d : decls) {
+      if (d instanceof VarDecl) {
+        ZName name = (ZName) ((VarDecl)d).getZNameList().get(0);
+        RefExpr ref = zlive_.getFactory().createRefExpr(name);
+        cdecls.add(zlive_.getFactory().createConstDecl(name, ref));
+      }
+      else {
+        throw new EvalException("Schema should have been unfolded: "+sch);
+      }
+    }
+    BindExpr binding = zlive_.getFactory().createBindExpr(cdecls);
+    ZName setName = zlive_.createNewName();
+    flat_.add( new FlatSetComp(zlive_, 
+        decls, sch.getZSchText().getPred(), binding, setName));
+    return setName;
+  }
+
   /*
   public ZDeclList visitZDeclList(ZDeclList declList)
   {
@@ -783,7 +816,6 @@ public class FlattenVisitor
   public ZName visitNegExpr(NegExpr zedObject) {return zedObject; }
   public ZName visitDecorExpr(DecorExpr zedObject) {return zedObject; }
   public ZName visitExists1Pred(Exists1Pred zedObject) {return zedObject; }
-  public ZName visitSchExpr(SchExpr zedObject) {return zedObject; }
 */
 }
 
