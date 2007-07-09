@@ -35,6 +35,8 @@ import net.sourceforge.czt.animation.eval.flatpred.Mode;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.parser.util.DefinitionTable.Definition;
+import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.util.PrintPropertiesKeys;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.rules.RuleUtils;
@@ -373,8 +375,16 @@ public class ZLive
     DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
     SchText schText = factory_.createZSchText(args.getZDeclList(), 
         factory_.createTruePred());
-    Expr schema = table.lookup(schemaName).getExpr();
-    if (schema == null) {
+    DefinitionTable.Definition def = table.lookup(schemaName);
+    // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)      
+    if (def == null || !def.getDefinitionType().equals(DefinitionType.CONSTDECL))
+    {
+      CztException ex =new CztException("Cannot find schema: "+schemaName);
+      throw ex;
+    }
+    Expr schema = def.getExpr();
+    if (schema == null)
+    {
       CztException ex =new CztException("Cannot find schema: "+schemaName);
       throw ex;
     }

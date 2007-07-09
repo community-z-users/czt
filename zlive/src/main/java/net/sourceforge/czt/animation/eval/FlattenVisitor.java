@@ -60,6 +60,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.BindExpr;
@@ -475,7 +476,9 @@ public class FlattenVisitor
       // We only try to unfold undecorated names at the moment.
       if (e.getZName().getZStrokeList().isEmpty())
         def = table_.lookup(e.getZName().getWord());
-      if (def != null && def.getDeclNames().size() == e.getZExprList().size()) {
+      // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)
+      if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL) &&
+          def.getDeclNames().size() == e.getZExprList().size()) {
         Expr newExpr = def.getExpr();
         result = newExpr.accept(this);
       }
