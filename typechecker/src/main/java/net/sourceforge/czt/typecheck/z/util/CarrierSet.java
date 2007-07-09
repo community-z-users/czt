@@ -79,6 +79,10 @@ public class CarrierSet
     return term;
   }
 
+  /**
+   * The carrier set of \power~T is the power expression
+   * for the carrier set of T.
+   */
   public Term visitPowerType(PowerType powerType)
   {
     Type type = powerType.getType();
@@ -93,6 +97,10 @@ public class CarrierSet
     return result;
   }
 
+  /**
+   * The carrier set of \power~T is the power expression
+   * for the carrier set of T.
+   */
   public Term visitGenParamType(GenParamType genParamType)
   {
     ZName genParamName = ZUtils.assertZName(genParamType.getName());
