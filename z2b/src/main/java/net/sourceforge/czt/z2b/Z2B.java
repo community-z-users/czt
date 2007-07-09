@@ -27,11 +27,13 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.DefinitionTable;
+import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.PrintVisitor;
@@ -185,7 +187,22 @@ public class Z2B
     DefinitionTable defTable = (DefinitionTable)
       manager_.get(new Key(sectName, DefinitionTable.class));
     String name = triple.getName().accept(new PrintVisitor());
-    Expr result = defTable.lookup(name).getExpr();
+
+    //Expr result = defTable.lookup(name).getExpr();
+    
+    DefinitionTable.Definition def = defTable.lookup(name);
+    // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)      
+    if (def == null || !def.getDefinitionType().equals(DefinitionType.CONSTDECL))
+    {
+      CztException ex =new CztException("Cannot find name: "+name);
+      throw ex;
+    }
+    Expr result = def.getExpr();
+    if (result == null)
+    {
+      CztException ex =new CztException("Cannot find name: "+name);
+      throw ex;
+    }
     System.out.print("Unfold ");
     print(result, sectName);
     result = (Expr) preprocessor_.unfold(result, sectName, manager_);
