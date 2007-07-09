@@ -15,12 +15,12 @@
 
 \begin{circus}
     \circprocess\ Fib ~~\circdef~~ \circbegin \\
-    \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
-    InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
-    InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
-    OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~] \\
-    OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
-    @ InitFib ~\circseq~ OutFib \\
+    	\t1 \circstate\ FibState ~~==~~ [~ x, y: \nat ~] \\
+    	\t1 InitFibState ~~==~~ [~ FibState~' | x' = y' = 1 ~] \\
+	\t1 InitFib ~~\circdef~~ out~!1 \then out~!1 \then InitFibState \\
+	\t1 OutFibState ~~==~~ [~ \Delta FibState; next!: \nat | next! = y' = x + y \land x' = y ~] \\
+	\t1 OutFib ~~\circdef~~ \circmu\ X @ (~ \circvar\ next: \nat @ OutFibState \circseq out~!next \then X ~)
+	\t1 @ InitFib ~\circseq~ OutFib \\
     \circend
 \end{circus}
 
