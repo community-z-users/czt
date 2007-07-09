@@ -109,7 +109,7 @@ public class DefinitionTable
   /**
    * @czt.todo How should this class look like?
    */
-  public class DefinitionException
+  public static class DefinitionException
     extends Exception
   {
     public DefinitionException(String message)
@@ -131,13 +131,16 @@ public class DefinitionTable
    */
   public static class Definition
   {
-    private ZNameList genericParams_;
-    private Expr definition_;
+    private final ZNameList genericParams_;
+    private final Expr definition_;
+    private final DefinitionType defType_;
 
-    public Definition(ZNameList generic, Expr definition)
+    public Definition(ZNameList generic, Expr definition, DefinitionType definitionType)
     {
+      assert generic != null && definition != null && definitionType != null;
       genericParams_ = generic;
       definition_ = definition;
+      defType_ = definitionType;
     }
 
     public ZNameList getDeclNames()
@@ -149,10 +152,15 @@ public class DefinitionTable
     {
       return definition_;
     }
+    
+    public DefinitionType getDefinitionType() 
+    {
+      return defType_;
+    }
 
     public String toString()
     {
-      return genericParams_.toString() + " " + definition_.toString();
+      return genericParams_.toString() + " " + definition_.toString() + " [" + defType_.toString() + "]";
     }
   }
 }
