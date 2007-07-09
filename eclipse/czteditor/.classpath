@@ -3,12 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry excluding="net/sourceforge/czt/eclipse/views/CztXmlHandler.java" kind="src" path="src/main/java"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/parser-oz"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/session"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/typechecker"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/corejava"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/util"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/typechecker-oz"/>
+	<classpathentry kind="lib" path="lib/czt.jar"/>
 	<classpathentry kind="output" path="eclipse_build"/>
 </classpath>

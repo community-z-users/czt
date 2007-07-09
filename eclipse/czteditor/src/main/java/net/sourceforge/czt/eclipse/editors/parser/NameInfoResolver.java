@@ -78,8 +78,8 @@ public class NameInfoResolver
 //    System.out.println("ID: " + id);
 //    System.out.println("WORD: " + word);
     
-    // Check whether the word starts with DELTA/XI. In AST, the prefix is always a single
-    // character (¦¤/¦®) for both LaTeX and Unicode mode.
+    // Check whether the word starts with DELTA/XI. In AST, the prefix is always
+    // a single unicode character (Delta or Xi) for both LaTeX and Unicode mode.
 //    if (id.equals(ID_DELTAXI)) {
 //      while ((word != null) && (word.startsWith(DELTA) || word.startsWith(XI)))
 //      {
@@ -128,7 +128,7 @@ public class NameInfoResolver
       // Add names inside a declaration
       visitChildrenOfTerm(existingNames, zSect, section);
     } catch (CommandException e) {
-      System.out.println("CommandException");
+      System.out.println("CommandException in NameInfoResolver: "+e);
     }
   }
   
@@ -264,12 +264,12 @@ public class NameInfoResolver
           
         if (toe != null && !toe.equals("")) {
           for (Name name : nameList) {
-            System.out.println("Name: " + name);
+            // System.out.println("Name: " + name);
             if (name != null && name instanceof ZName) {
               ZName zName = (ZName)name;
               if (!existingNames.containsKey(zName)) {
                 existingNames.put(zName, new NameInfo(zName, section, toe, false));
-                System.out.println("Insert into table from VarDecl - " + name.accept(getTypeNameVisitor_));
+                //System.out.println("Insert into table from VarDecl - " + name.accept(getTypeNameVisitor_));
               }
             }
           }
@@ -306,7 +306,7 @@ public class NameInfoResolver
                     t = t.trim();
                   if (t != null && t.equals("") && !existingNames.containsKey(name)) {
                     existingNames.put(name, new NameInfo(name, section, t, false));
-                    System.out.println("Insert into table from InclDecl - " + name.accept(getTypeNameVisitor_));
+                    // System.out.println("Insert into table from InclDecl - " + name.accept(getTypeNameVisitor_));
                   }
                 }
               }
@@ -333,7 +333,7 @@ public class NameInfoResolver
           String t = type.accept(getTypeNameVisitor_);
           if (t != null && !existingNames.containsKey(name)) {
             existingNames.put(name, new NameInfo(name, section, t, false));
-            System.out.println("Insert into table from Expr - " + name.accept(getTypeNameVisitor_));
+            // System.out.println("Insert into table from Expr - " + name.accept(getTypeNameVisitor_));
           }  
         }
       }  

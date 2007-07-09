@@ -99,14 +99,15 @@ public class ParsedData
   private void outputTypeAnns(Term term)
   {
     if (term != null) {
-      System.out.println("1. term.class -- " + term.getClass());
+      //System.out.println("1. term.class -- " + term.getClass());
       TypeAnn typeAnn = (TypeAnn) term.getAnn(TypeAnn.class);
-      System.out.println("2. TypeAnn.value = " + String.valueOf(typeAnn));
+      //System.out.println("2. TypeAnn.value = " + String.valueOf(typeAnn));
       if (typeAnn != null) {
-        System.out.println("3. value: " + String.valueOf(typeAnn.getType()));
-        if (typeAnn.getType() != null)
-          System.out
-              .println("4. NonNullValue: " + typeAnn.getType().toString());
+        //System.out.println("3. value: " + String.valueOf(typeAnn.getType()));
+        //if (typeAnn.getType() != null) {
+        //  System.out
+        //      .println("4. NonNullValue: " + typeAnn.getType().toString());
+        //}
       }
 
       for (Object child : term.getChildren()) {
@@ -123,20 +124,24 @@ public class ParsedData
   private void outputRanges(Object obj)
   {
     if (obj == null) {
-      System.out.println("null object");
+      //System.out.println("null object");
       return;
     }
-    System.out.println("Object: " + obj.getClass());
+    //System.out.println("Object: " + obj.getClass());
     if (obj instanceof Term) {
       Position pos = getRangeOfTerm((Term) obj);
-      if (pos != null)
+      /*
+      if (pos != null) {
         System.out
             .println("(" + pos.getOffset() + ", " + pos.getLength() + ")");
-      else
+      }
+      else {
         System.out.println("null");
+      }
+      */
       Object[] children = ((Term) obj).getChildren();
       for (int i = 0; i < children.length; i++) {
-        System.out.print("" + i + ".    ");
+        // System.out.print("" + i + ".    ");
         outputRanges(children[i]);
       }
     }
@@ -320,9 +325,9 @@ public class ParsedData
       return new CztTreeNode(source_, term, range, namePosition);
     }
     /************** Object-Z nodes ***********************/
+    // TODO: add more kinds of Object-Z nodes here
     else if (term instanceof ClassPara) {
       ClassPara cpara = (ClassPara) term;
-      System.out.println("Saw ClassPara with name "+cpara.getName());
       Position range = getPosition(term);
       Position namePosition = getPosition(cpara.getName());
       return new CztTreeNode(source_, term, range, namePosition);

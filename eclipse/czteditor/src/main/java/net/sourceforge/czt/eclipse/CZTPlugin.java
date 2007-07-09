@@ -341,7 +341,7 @@ public class CZTPlugin extends AbstractUIPlugin
     if (fSectionManager == null) {
       fSectionManager = createSectionManager("z");
     }
-    System.out.println("Cloning section manager "+fSectionManager.hashCode());
+    //System.out.println("Cloning section manager "+fSectionManager.hashCode());
     return (SectionManager) fSectionManager.clone();
   }
 
@@ -349,7 +349,7 @@ public class CZTPlugin extends AbstractUIPlugin
   {
     SectionManager sectManager = new SectionManager(dialect);
     
-    System.out.println("Created new SectionManager("+dialect+") -> "+sectManager.hashCode());
+    //System.out.println("Created new SectionManager("+dialect+") -> "+sectManager.hashCode());
     IPreferenceStore store = getPreferenceStore();
     /**
      * Sets the properties of the section manager
