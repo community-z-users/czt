@@ -79,26 +79,36 @@ public class DefinitionTableVisitor
     for (Para p : list) visit(p);
     return null;
   }
-
+  
   public Object visitAxPara(AxPara axPara)
-  {
-    ZNameList declNames = axPara.getName();
+  { 
+    // gets the generic names
+    ZNameList genFormals = axPara.getZNameList();
+    
+    // gets the declarations 
     ZSchText schText = axPara.getZSchText();
     List<Decl> decls = schText.getZDeclList();
+    
     for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) {
       Decl decl = iter.next();
-      if (decl instanceof ConstDecl) {
-        ConstDecl constDecl = (ConstDecl) decl;
-        Name declName = constDecl.getName();
-        String name = declName.accept(new PrintVisitor());
-        DefinitionTable.Definition def =
-          new DefinitionTable.Definition(declNames, constDecl.getExpr());
-        try {
-          table_.add(name, def);
+      // 
+      if (decl instanceof ConstDecl) 
+      {        
+        ConstDecl constDecl = (ConstDecl) decl;        
+        addDefinition(genFormals, constDecl.getName(), constDecl.getExpr(), DefinitionType.CONSTDECL);
+      } 
+      else if (decl instanceof VarDecl)
+      {
+        VarDecl varDecl = (VarDecl) decl;
+        Expr defExpr = varDecl.getExpr();
+        for(Name name : varDecl.getZNameList())
+        {
+          addDefinition(genFormals, name, defExpr, DefinitionType.VARDECL);
         }
-        catch (Exception e) {
-          throw new CztException(e);
-        }
+      }
+      else if (decl instanceof InclDecl)
+      {
+        // TODO: What to do when finding inclusions on Ax boxes?
       }
     }
     return null;
@@ -133,5 +143,18 @@ public class DefinitionTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
+  }
+  
+  protected void addDefinition(ZNameList genFormals, Name declName, Expr defExpr, DefinitionType type)
+  {
+    String name = declName.accept(new PrintVisitor());
+    DefinitionTable.Definition def =
+      new DefinitionTable.Definition(genFormals, defExpr, type);
+    try {
+      table_.add(name, def);
+    }
+    catch (DefinitionTable.DefinitionException e) {
+      throw new CztException(e);
+    }
   }
 }
