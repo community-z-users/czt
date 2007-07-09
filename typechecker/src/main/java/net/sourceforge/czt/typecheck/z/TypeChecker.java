@@ -20,6 +20,39 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 import java.util.logging.Logger;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.session.CommandException;
+import net.sourceforge.czt.session.Key;
+import net.sourceforge.czt.session.Markup;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.typecheck.z.impl.Factory;
+import net.sourceforge.czt.typecheck.z.util.CarrierSet;
+import net.sourceforge.czt.typecheck.z.util.SectTypeEnv;
+import net.sourceforge.czt.typecheck.z.util.TypeEnv;
+import net.sourceforge.czt.typecheck.z.util.UResult;
+import net.sourceforge.czt.typecheck.z.util.UnificationEnv;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.NameSectTypeTriple;
+import net.sourceforge.czt.z.ast.NameTypePair;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.visitor.DeclVisitor;
+import net.sourceforge.czt.z.visitor.ExprVisitor;
+import net.sourceforge.czt.z.visitor.ParaVisitor;
+import net.sourceforge.czt.z.visitor.PredVisitor;
+
+/*
+NOTE: This list of imports could cause confusion on which FACTORY we 
+ *    intend to import.
+ *
+import java.util.List;
+import java.util.logging.Logger;
 
 import static net.sourceforge.czt.typecheck.z.util.GlobalDefs.*;
 
@@ -31,9 +64,20 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.util.*;
 import net.sourceforge.czt.typecheck.z.impl.*;
 import net.sourceforge.czt.util.CztLogger;
+*/
 
 /**
+ * <p>
  * The top-level class in the type checker classes.
+ * </p>
+ *<p>
+ * It separates the various Term categories across 
+ * a series of different checker classes that can be
+ * plugged in by different extensions, so that surgical
+ * reuse of code can be achieved. This is important 
+ * bacause Z extensions might want to change/upgrade
+ * specific parts of the AST accordingly.
+ *</p>
  */
 public class TypeChecker
   implements TermVisitor<Object>,
@@ -130,6 +174,22 @@ public class TypeChecker
     charTupleChecker_ = new CharTupleChecker(this);
   }
 
+  /**
+   * <p>
+   * This method retrieves the SectTypeEnv from the given section name
+   * within the given section manager, and add all (parent) declarations 
+   * to the current section being typechecked. It should be called by
+   * child sections to include type information from parent sections.
+   * </p>
+   * <p>
+   * Whilst retrieving the SectTypeEnv, the parent section is parsed
+   * and typechecked implicitly through the SectionManager command for
+   * SectTypeEnvAnn. If an error occurs and the parent section type
+   * information cannot be retrieved, a warning is logged and no type
+   * information from the parent section is added for typechecking the
+   * current (child) section.
+   * </p>
+   */
   protected void setPreamble(String sectName, SectionManager sectInfo)
   {
     if (sectName != null && sectInfo != null) {
@@ -142,7 +202,8 @@ public class TypeChecker
                                                                SectTypeEnvAnn.class));
       }
       catch (CommandException e) {
-        logger_.warning("Caught exception " + e);
+        logger_.warning("Could not parse and typecheck parent section " + sectName_.toString() +
+          " because a command exception was thrown: " + e);
       }
       if (sectTypeEnvAnn != null) {
         //add the parent's global decls to this section's global type environment
