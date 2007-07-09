@@ -645,6 +645,23 @@ public final class ZUtils
     }
     return result;
   }
+  
+  
+  /**
+   * Returns the relational operator name for the given term if 
+   * it is a relational operator MemPred (i.e. isRelOpApplPred), 
+   * or null otherwise. The name is the second (right) expression 
+   * of the MemPred term returned as a RefExpr.
+   */
+  public static RefExpr getRelOpName(Term term) 
+  {
+    RefExpr result = null;
+    if (isRelOpApplPred(term))
+    {
+      result = (RefExpr)getMemPredRHS((MemPred)term);            
+    }
+    return result;
+  }
 
   /**
    * Returns the relational operator application arguments, or null if
