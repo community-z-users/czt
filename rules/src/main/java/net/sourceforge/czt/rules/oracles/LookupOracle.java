@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.DefinitionType;
 import net.sourceforge.czt.rules.*;
 import net.sourceforge.czt.rules.ast.GetNameWordVisitor;
 import net.sourceforge.czt.rules.ast.ProverFactory;
@@ -76,7 +77,10 @@ public class LookupOracle
       assert ref.getExprList() != null;
       String word = ref.getName().accept(new GetNameWordVisitor());
       DefinitionTable.Definition def = table.lookup(word);
-      if (def != null) {
+      // ADDED: equality to CONSTDECL type, since old DefinitionTable only
+      //        dealt with ConstDecl. Latter on, generalise this to VarDecl 
+      //        as well. This check does not affect original code/tests. (Leo)
+      if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL)) {
         assert def.getDeclNames() != null;
         List<Expr> formals = new ArrayList<Expr>();
         Map<ZName,Expr> formalMap = new HashMap<ZName,Expr>();
