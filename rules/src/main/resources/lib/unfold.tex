@@ -148,10 +148,10 @@ freedom to reorder things later.
   \theta E = E2
 \end{zedrule}
 
-NOTE: we need thirteen versions of this next rule -- one for
-each possible decoration.   In the future we will add
-support for Stroke-List jokers, so that all decorations can
-be handled by a single rule.
+This rule handles an arbitrary stroke, but does not handle
+lists of strokes.  In the future we will add
+support for Stroke-List jokers, so that all lists of
+decorations can be handled by this rule.
 
 \begin{zedrule}{ThetaDecor}
   E :: \power [D | true] \\
