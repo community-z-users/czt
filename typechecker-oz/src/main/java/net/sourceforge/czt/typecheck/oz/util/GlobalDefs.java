@@ -106,7 +106,7 @@ public class GlobalDefs
   {
     boolean result = false;
     for (ClassRef element : list) {
-      if (namesEqual(classRef.getZName(), element.getZName())) {
+      if (namesEqual(classRef.getName(), element.getName())) {
         result = true;
         break;
       }

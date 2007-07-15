@@ -239,7 +239,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getZName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getName(), classRefsB);
         if (classRefB != null) {
           UResult unified = instantiations(classRefA, classRefB);
           if (SUCC.equals(unified)) {
@@ -264,7 +264,7 @@ public class UnificationEnv
     }
     else {
       for (ClassRef classRefA : classRefsA) {
-        ClassRef classRefB = findRef(classRefA.getZName(), classRefsB);
+        ClassRef classRefB = findRef(classRefA.getName(), classRefsB);
         if (classRefB == null) {
           result = FAIL;
           break;
@@ -313,11 +313,11 @@ public class UnificationEnv
     return result;
   }
 
-  protected ClassRef findRef(ZName zName, List<ClassRef> classRefs)
+  protected ClassRef findRef(Name name, List<ClassRef> classRefs)
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (namesEqual(zName, classRef.getZName())) {
+      if (namesEqual(name, classRef.getName())) {
         result = classRef;
       }
     }

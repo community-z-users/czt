@@ -50,13 +50,6 @@ public class ClassRefImpl
     return result;
   }
 
-  public ZName getZName()
-  {
-    ClassRef classRef = (ClassRef) term_;
-    ZName result = classRef.getZName();
-    return result;
-  }
-
   public ListTerm<NewOldPair> getNewOldPair()
   {
     ClassRef classRef = (ClassRef) term_;

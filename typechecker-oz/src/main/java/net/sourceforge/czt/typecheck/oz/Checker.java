@@ -255,7 +255,7 @@ abstract public class Checker<R>
     List<ClassRef> superClasses = factory().list(classRefType.getSuperClass());
     List<ClassRef> superSuperClasses = factory().list();
     for (ClassRef superClass : superClasses) {
-      Type2 type = unwrapType(getType(superClass.getZName()));
+      Type2 type = unwrapType(getType(superClass.getName()));
       if (type instanceof PowerType &&
           powerType(type).getType() instanceof ClassRefType) {
         ClassRefType superClassType =
@@ -851,7 +851,7 @@ abstract public class Checker<R>
   {
     ClassRef result = null;
     for (ClassRef classRef : classRefs) {
-      if (namesEqual(zName, classRef.getZName())) {
+      if (namesEqual(zName, classRef.getName())) {
         result = classRef;
       }
     }
@@ -900,7 +900,7 @@ abstract public class Checker<R>
   protected Type2 lookupClass(ClassRef classRef)
   {
     Type2 result = factory().createUnknownType();
-    Type refType = getType(classRef.getZName());
+    Type refType = getType(classRef.getName());
     if (refType instanceof GenericType) {
       ZNameList names = assertZNameList(genericType(refType).getNameList());
       List<Type2> types = classRef.getType();
@@ -940,7 +940,7 @@ abstract public class Checker<R>
       //they are compatible
       for (ClassRef lClassRef : lClassType.getClasses()) {
         for (ClassRef rClassRef : rClassType.getClasses()) {
-          if (namesEqual(lClassRef.getZName(), rClassRef.getZName())) {
+          if (namesEqual(lClassRef.getName(), rClassRef.getName())) {
             assert lClassRef.getType().size() == rClassRef.getType().size();
             for (int i = 0; i < lClassRef.getType().size(); i++) {
               Type2 lrType = lClassRef.getType().get(i);
@@ -1120,7 +1120,7 @@ abstract public class Checker<R>
       }
     }
     ClassRef result =
-      factory().createClassRef(classRef.getZName(),
+      factory().createClassRef(classRef.getName(),
                                classRef.getType(),
                                newClassRefPairs);
     return result;
@@ -1168,7 +1168,7 @@ abstract public class Checker<R>
   public String classRefTypeToString(ClassRefType ctype)
   {
     String result = new String();
-    ZName className = ctype.getThisClass().getZName();
+    Name className = ctype.getThisClass().getName();
     result += "(CLASS " + className + "\n";
 
     result += "\tREF(" + ctype.getClasses() + ")\n";

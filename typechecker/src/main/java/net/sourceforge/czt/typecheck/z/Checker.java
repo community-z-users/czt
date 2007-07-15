@@ -1118,6 +1118,13 @@ abstract public class Checker<R>
   }
 
   //gets the type of the expression represented by a name
+  protected Type getType(Name name)
+  {
+    assert name instanceof ZName;
+    return getType((ZName) name);
+  }
+
+  //gets the type of the expression represented by a name
   protected Type getType(ZName zName)
   {
     setIsPending(false);

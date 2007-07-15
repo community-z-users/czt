@@ -381,7 +381,7 @@ public class ParaChecker
       //class paragraph.
       ClassRef classRef = classRefType.getThisClass();
       ZName superName = getZName(expr);
-      if (!namesEqual(superName, classRef.getZName())) {
+      if (!namesEqual(superName, classRef.getName())) {
         Object [] params = {expr};
         error(expr, ErrorMessage.NON_CLASS_INHERITED, params);
       }
@@ -391,8 +391,7 @@ public class ParaChecker
       List<ClassRef> currentSuperClasses = current.getSuperClass();
       List<ClassRef> superClasses = getSuperClasses(classRefType);
       for (ClassRef superClass : superClasses) {
-        ZName superClassName = superClass.getZName();
-        if (namesEqual(className(), superClassName)) {
+        if (namesEqual(className(), superClass.getName())) {
           Object [] params = {className()};
           error(expr, ErrorMessage.CYCLIC_INHERITANCE, params);
         }
