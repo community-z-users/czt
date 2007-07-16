@@ -248,8 +248,8 @@ public class Gnast implements GlobalProperties
     try {
       // The order here must respect dependencies!
       generate(Resources.getZSchema());
-      generate(Resources.getOzSchema());
       generate(Resources.getZpattSchema());
+      generate(Resources.getOzSchema());
       generate(Resources.getCircusSchema());
       generate(Resources.getCircusPattSchema());
     }

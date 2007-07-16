@@ -70,6 +70,7 @@
     </xs:appinfo>
   </xs:annotation>
 
+  <xs:import namespace="http://czt.sourceforge.net/zpatt" schemaLocation="ZPattern.xsd"/>  
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
   <!-- Extending the Paragraph hierarchy -->
