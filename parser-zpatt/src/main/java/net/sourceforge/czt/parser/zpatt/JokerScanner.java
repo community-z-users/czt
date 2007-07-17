@@ -68,10 +68,10 @@ public class JokerScanner
   {
     Symbol result = scanner_.next_token();
 
-    if (result.sym == Sym.RULE || result.sym == Sym.PROVISO) {
+    if (isRuleStart(result)) {
       lookup_ = true;
     }
-    else if (lookup_ == true && result.sym == Sym.END) {
+    else if (lookup_ == true && isEnd(result)) {
       lookup_ = false;
     }
     else {
@@ -79,6 +79,26 @@ public class JokerScanner
     }
 
     return result;
+  }
+
+  protected boolean isRuleStart(Symbol symbol)
+  {
+    return symbol.sym == Sym.RULE || symbol.sym == Sym.PROVISO;
+  }
+
+  protected boolean isEnd(Symbol symbol)
+  {
+    return symbol.sym == Sym.END;
+  }
+
+  protected boolean isDecorword(Symbol symbol)
+  {
+    return symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD;
+  }
+
+  protected Field[] getFields()
+  {
+    return Sym.class.getFields();
   }
 
   /**
@@ -91,14 +111,14 @@ public class JokerScanner
       return symbol;
     }
     Symbol result = null;
-    if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
+    if (isDecorword(symbol)) {
       Decorword decorword = (Decorword) symbol.value;
       String name = decorword.getName();
       JokerType jokertype = table_.getTokenType(name);
       int type = -1;
       if (jokertype != null) {
         String jokertypeString = "joker" + jokertype.toString();
-        Field[] fields = Sym.class.getFields();
+        Field[] fields = getFields();
         for (int i = 0; i < fields.length; i++) {
           Field field = fields[i];
           try {

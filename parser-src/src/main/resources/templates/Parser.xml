@@ -53,7 +53,6 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 <add:ozpatt>
 import net.sourceforge.czt.parser.oz.ParserState;
-import net.sourceforge.czt.parser.zpatt.JokerScanner;
 import net.sourceforge.czt.parser.zpatt.JokerTable;
 import net.sourceforge.czt.parser.zpatt.ZpattParseError;
 import net.sourceforge.czt.parser.zpatt.ZpattParseMessage;
@@ -705,8 +704,8 @@ action code
         parser.report_error(ZpattParseMessage.MSG_CANNOT_MERGE_JOKERTABLES,
                             new Object[] { e.getMessage() },
                             getLocation(line, column));
-     }
-     jokerScanner_.setJokerTable(jokerTable_);
+      }
+      jokerScanner_.setJokerTable(jokerTable_);
     }
 </add:pattern>
 
