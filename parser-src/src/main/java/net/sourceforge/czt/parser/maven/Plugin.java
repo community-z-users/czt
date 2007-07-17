@@ -46,7 +46,7 @@ public class Plugin
   extends AbstractMojo
 {
   /**
-   * @parameter expression="all"
+   * @parameter expression="z"
    * @required
    */
   private String dialect;
@@ -91,30 +91,25 @@ public class Plugin
       project.addCompileSourceRoot(outputDirectory);
     }
     try {
-      if ("all".equals(dialect)) {
-        generate();
+      if ("z".equals(dialect)) {
+        generateParser("net.sourceforge.czt.parser.z", "{z}");
+        generateZPrinter("net.sourceforge.czt.print.");
       }
       else if ("circus".equals(dialect)) {
-        generateCircusParser("net.sourceforge.czt.parser.");
+        generateParser("net.sourceforge.czt.parser.circus", "{circus}");
         generateCircusPrinter("net.sourceforge.czt.print.");
       }
       else if ("oz".equals(dialect)) {
-        generateOzParser("net.sourceforge.czt.parser.");
+        generateParser("net.sourceforge.czt.parser.oz", "{oz}{ozz}");
         generateOzPrinter("net.sourceforge.czt.print.");
       }
       else if ("ozpatt".equals(dialect)) {
-        generateOzPattParser("net.sourceforge.czt.parser.");
-      }
-      else if ("tcoz".equals(dialect)) {
-        generateTcozParser("net.sourceforge.czt.parser.");
+        generateParser("net.sourceforge.czt.parser.ozpatt",
+                       "{oz}{ozz}{pattern}{ozpatt}" );
       }
       else if ("zpatt".equals(dialect)) {
-        generateZpattParser("net.sourceforge.czt.parser.");
+        generateParser("net.sourceforge.czt.parser.zpatt", "{pattern}{zpatt}");
         generateZpattPrinter("net.sourceforge.czt.print.");
-      }
-      else if ("circuspatt".equals(dialect)) {
-        generateCircuspattParser("net.sourceforge.czt.parser.");
-        generateCircuspattPrinter("net.sourceforge.czt.print.");
       }
       else {
         throw new MojoExecutionException("Unsupported dialect " + dialect);
@@ -129,25 +124,9 @@ public class Plugin
     }
   }
 
-  private void generate()
+  private void generateParser(String packageName, String add)
     throws Exception
   {
-    generateParser();
-    generatePrinter();
-  }
-
-  private void generateParser()
-    throws Exception
-  {
-    final String basePackage = "net.sourceforge.czt.parser.";
-    generateZParser(basePackage);
-  }
-
-  private void generateZParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{z}";
-    final String packageName =  basePackage + "z";
     generateCup("Parser", packageName, add);
     generateJava("LatexParser", packageName, add);
     generateJava("UnicodeParser", packageName, add);
@@ -162,144 +141,7 @@ public class Plugin
     generateJava("KeywordScanner", packageName, add);
     generateJFlex("ContextFreeScanner", packageName, add);
     generateJava("SmartScanner", packageName, add);
-  }
-
-  private void generateZpattParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{pattern}{zpatt}";
-    final String packageName =  basePackage + "zpatt";
-    generateCup("Parser", packageName, add);
-    generateJava("LatexParser", packageName, add);
-    generateJava("UnicodeParser", packageName, add);
-    generateJFlex("Latex2Unicode", packageName, add);
-    generateJava("LatexToUnicode", packageName, add);
-    generateJava("LatexMarkupParser", packageName, add);
-    generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add);
-    generateJava("UnicodeScanner", packageName, add);
-    generateJava("OperatorScanner", packageName, add);
-    generateJava("NewlineScanner", packageName, add);
-    generateJava("KeywordScanner", packageName, add);
-    generateJFlex("ContextFreeScanner", packageName, add);
-    generateJava("SmartScanner", packageName, add);
-    generateJava("SymMap", packageName, add);
-  }
-  
-  private void generateCircuspattParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{z}{zpatt}{circus}{circuspatt}";
-    final String packageName =  basePackage + "circuspatt";
-    generateCup("Parser", packageName, add);
-    generateJava("LatexParser", packageName, add);
-    generateJava("UnicodeParser", packageName, add);
-    generateJFlex("Latex2Unicode", packageName, add);
-    generateJava("LatexToUnicode", packageName, add);
-    generateJava("LatexMarkupParser", packageName, add);
-    generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add);
-    generateJava("UnicodeScanner", packageName, add);
-    generateJava("OperatorScanner", packageName, add);
-    generateJava("NewlineScanner", packageName, add);
-    generateJava("KeywordScanner", packageName, add);
-    generateJFlex("ContextFreeScanner", packageName, add);
-    generateJava("SmartScanner", packageName, add);
-    generateJava("SymMap", packageName, add);
-  }
-
-  private void generateOzParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{oz}";
-    final String packageName =  basePackage + "oz";
-    generateJava("LatexParser", packageName, add);
-    generateCup("Parser", packageName, "{oz}{ozz}");
-    generateJava("UnicodeParser", packageName, add);
-    generateJFlex("Latex2Unicode", packageName, add);
-    generateJava("LatexToUnicode", packageName, add);
-    generateJava("LatexMarkupParser", packageName, add);
-    generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add);
-    generateJava("UnicodeScanner", packageName, add);
-    generateJava("OperatorScanner", packageName, add);
-    generateJava("NewlineScanner", packageName, add);
-    generateJava("KeywordScanner", packageName, add);
-    generateJFlex("ContextFreeScanner", packageName, add);
-    generateJava("SmartScanner", packageName, add);
-    generateJava("SymMap", packageName, add);
-  }
-
-  private void generateOzPattParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{oz}{pattern}{ozpatt}";
-    final String packageName =  basePackage + "ozpatt";
-    generateJava("LatexParser", packageName, add);
-    generateCup("Parser", packageName, "{ozz}" + add);
-    generateJava("UnicodeParser", packageName, add);
-    generateJFlex("Latex2Unicode", packageName, add);
-    generateJava("LatexToUnicode", packageName, add);
-    generateJava("LatexMarkupParser", packageName, add);
-    generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add);
-    generateJava("UnicodeScanner", packageName, add);
-    generateJava("OperatorScanner", packageName, add);
-    generateJava("NewlineScanner", packageName, add);
-    generateJava("KeywordScanner", packageName, add);
-    generateJFlex("ContextFreeScanner", packageName, add);
-    generateJava("SmartScanner", packageName, add);
-    generateJava("SymMap", packageName, add);
-  }
-
-  private void generateTcozParser(String basePackage)
-    throws Exception
-  {
-    final String packageName =  basePackage + "tcoz";
-    generateCup("Parser", packageName, "{oz}{tcoz}");
-    generateJava("LatexParser", packageName, "{tcoz}");
-    generateJava("UnicodeParser", packageName, "{tcoz}");
-    generateJFlex("Latex2Unicode", packageName, "{oz}{tcoz}");
-    generateJava("LatexToUnicode", packageName, "{tcoz}");
-    generateJava("LatexMarkupParser", packageName, "{tcoz}");
-    generateJava("LatexScanner", packageName, "{tcoz}");
-    generateJava("ParseUtils", packageName, "{tcoz}");
-    generateJava("UnicodeScanner", packageName, "{tcoz}");
-    generateJava("OperatorScanner", packageName, "{oz}{tcoz}");
-    generateJava("NewlineScanner", packageName, "{oz}{tcoz}");
-    generateJava("KeywordScanner", packageName, "{oz}{tcoz}");
-    generateJFlex("ContextFreeScanner", packageName, "{oz}{tcoz}");
-    generateJava("SmartScanner", packageName, "{z}{oz}");
-    generateJava("SymMap", packageName, "{tcoz}");
-  }
-
-  private void generateCircusParser(String basePackage)
-    throws Exception
-  {
-    final String add = "{circus}";
-    final String packageName =  basePackage + "circus";
-    generateCup("Parser", packageName, "{z}" + add); // We want for this one the error message in Expr expr(Term t)!
-    generateJava("LatexParser", packageName, add);
-    generateJava("UnicodeParser", packageName, add);
-    generateJFlex("Latex2Unicode", packageName, add);
-    generateJava("LatexToUnicode", packageName, add);
-    generateJava("LatexMarkupParser", packageName, add);
-    generateJava("LatexScanner", packageName, add);
-    generateJava("ParseUtils", packageName, add); // We don't want for this one the import for z.JaxbXmlWriter!
-    generateJava("UnicodeScanner", packageName, add);
-    generateJava("OperatorScanner", packageName, add);
-    generateJava("NewlineScanner", packageName, add);
-    generateJava("KeywordScanner", packageName, add);
-    generateJFlex("ContextFreeScanner", packageName, add);
-    generateJava("SmartScanner", packageName, add);
-    generateJava("SymMap", packageName, add);
-  }    
-
-  private void generatePrinter()
-    throws Exception
-  {
-    final String basePackage = "net.sourceforge.czt.print.";
-    generateZPrinter(basePackage);
+    if (! "{z}".equals(add)) generateJava("SymMap", packageName, add);
   }
 
   private void generateZPrinter(String basePackage)
@@ -328,18 +170,6 @@ public class Plugin
                  "{zpatt}{print}");
   }
 
-  private void generateCircuspattPrinter(String basePackage)
-    throws Exception
-  {
-    generateCup("Unicode2Latex", basePackage + "circuspatt", "{z}{zpatt}{circus}{circuspatt}");
-    generateJFlex("ContextFreeScanner",
-                  "net.sourceforge.czt.print.circuspatt",
-                  "{zpatt}{circus}{circuspatt}{print}");
-    generateJava("SectHeadScanner",
-                 "net.sourceforge.czt.print.circuspatt",
-                 "{zpatt}{circus}{circuspatt}{print}");
-  }
-  
   private void generateOzPrinter(String basePackage)
     throws Exception
   {

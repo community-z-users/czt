@@ -377,6 +377,10 @@ action code
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:z>
+<add:circus>
+        parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
+                            new Object [0], getLocation(t));
+</add:circus>
 <add:pattern>
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
