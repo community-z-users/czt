@@ -36,12 +36,6 @@ import net.sourceforge.czt.session.Source;
 
 /**
  * &lt;p&gt;The context-free lexer for
-<add:z> * Z</add:z>
-<add:print> * Z</add:print>
-<add:oz> * Object Z</add:oz>
-<add:circus> * Circus</add:circus>
-<add:circuspatt> * Circus pattern </add:circuspatt>
-<add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
  * @author Petra Malik
