@@ -387,6 +387,7 @@ rules/src/test/resources/rewrite/SameName.tex -text
 rules/src/test/resources/rewrite/SplitNestedSameName.tex -text
 session/src/main/resources/circus.commands -text
 session/src/main/resources/circuspatt.commands -text
+session/src/main/resources/ozpatt.commands -text
 src/site/resources/images/cztlogo.jpg -text
 src/site/resources/images/jedit_unicode_example.png -text svneol=unset#image/png
 src/site/resources/images/project.jpg -text

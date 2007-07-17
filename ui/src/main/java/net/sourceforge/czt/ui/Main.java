@@ -215,6 +215,7 @@ public class Main
       "  oz      Object Z\n" +
       "  circus  Circus language\n" +
       "  zpatt   Z with transformation rules\n" +
+      "  ozpatt  Object Z with transformation rules\n" +
       "File ending bindings:\n" +
       "  tex, zed --> LaTeX mark-up\n" +
       "  xml, zml --> ZML\n" +

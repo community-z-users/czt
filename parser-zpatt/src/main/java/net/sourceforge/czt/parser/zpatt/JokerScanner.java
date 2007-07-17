@@ -1,6 +1,6 @@
 /*
   Copyright (C) 2005 Tim Miller
-  Copyright (C) 2005, 2006 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public class JokerScanner
    */
   private boolean lookup_ = false;
 
-  JokerScanner(Scanner scanner)
+  public JokerScanner(Scanner scanner)
   {
     scanner_ = scanner;
     factory_ = new Factory();

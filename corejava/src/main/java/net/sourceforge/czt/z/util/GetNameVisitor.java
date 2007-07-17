@@ -20,6 +20,7 @@
 package net.sourceforge.czt.z.util;
 
 import net.sourceforge.czt.base.ast.ListTerm;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.ListTermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -71,7 +72,17 @@ public class GetNameVisitor
 
   public String visitListTerm(ListTerm listTerm)
   {
-    return visitList(listTerm, LIST_SEPARATOR);
+    final StringBuilder result = new StringBuilder();
+    String sep = LIST_SEPARATOR;
+    for (Object obj : listTerm) {
+      String string;
+      if (obj instanceof Term) string = visit((Term) obj);
+      else string = obj.toString();
+      if (string != null) {
+        result.append(sep + string);
+      }
+    }
+    return result.toString();
   }
 
   public String visitVarDecl(VarDecl varDecl)

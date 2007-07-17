@@ -84,6 +84,7 @@
     <module>parser</module>
     <module>parser-circus</module>
     <module>parser-oz</module>
+    <module>parser-ozpatt</module>
     <module>parser-src</module>
     <module>parser-zpatt</module>
     <module>session</module>
@@ -186,6 +187,18 @@
       <dependency>
         <groupId>${czt.groupId}</groupId>
         <artifactId>parser-oz</artifactId>
+        <version>${czt.version}</version>
+        <type>test-jar</type>
+        <scope>test</scope>
+     </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-ozpatt</artifactId>
+        <version>${czt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${czt.groupId}</groupId>
+        <artifactId>parser-ozpatt</artifactId>
         <version>${czt.version}</version>
         <type>test-jar</type>
         <scope>test</scope>

@@ -34,11 +34,6 @@ import net.sourceforge.czt.util.CztException;
 /**
  * &lt;p&gt;This is a NL lexer
  * (part of context-sensitive lexis) for
-<add:z> * Z</add:z>
-<add:oz> * Object Z</add:oz>
-<add:zpatt>* Z pattern </add:zpatt>
-<add:circuspatt>* Circus pattern </add:circuspatt>
-<add:circus>* Circus </add:circus><add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  */
 public class <class/>
@@ -58,9 +53,9 @@ public class <class/>
                 Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
                 Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
                 Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
-<add:zpatt>
+<add:pattern>
                 Sym.RULELINE, Sym.RULE, Sym.JOKER, Sym.RULELINE,
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
                 Sym.CIRCUSJOKER, Sym.CIRCUSACTIONLAW, Sym.CIRCUSPROCESSLAW,
 </add:circuspatt>
@@ -109,9 +104,9 @@ public class <class/>
                 Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
                 Sym.PRE, Sym.PREP, Sym.L, Sym.LP, Sym.CONJECTURE, 
                 Sym.ZED, Sym.AX, Sym.SCH, Sym.GENAX, Sym.GENSCH,
-<add:zpatt>
+<add:pattern>
                 Sym.PROVISO,
-</add:zpatt>
+</add:pattern>
 <add:oz>
                 Sym.DCNJ, Sym.DGCH, Sym.DSQC, Sym.POLY, Sym.OPNAME,
                 Sym.DEFNAME,

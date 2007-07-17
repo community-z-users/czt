@@ -43,6 +43,10 @@ import net.sourceforge.czt.z.util.ZString;
 <add:tcoz>
 import net.sourceforge.czt.parser.oz.OzKeyword;
 </add:tcoz>
+<add:ozpatt>
+import net.sourceforge.czt.parser.oz.OzKeyword;
+import net.sourceforge.czt.parser.zpatt.ZPattKeyword;
+</add:ozpatt>
 
 import net.sourceforge.czt.parser.util.Token;
 
@@ -86,10 +90,10 @@ public class KeywordScanner
     /* Adds all Z Standard keyword tokens */
     addKeywords(result, Keyword.values());
 
-<add:zpatt>
+<add:pattern>
     /* Adds all Z pattern keyword tokens */
     addKeywords(result, ZPattKeyword.values());
-</add:zpatt>
+</add:pattern>
 
 <add:oz>
     /* Adds all Object-Z keyword tokens */

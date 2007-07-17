@@ -41,9 +41,9 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 <add:circus>
 import net.sourceforge.czt.circus.util.CircusString;
 </add:circus>
-<add:zpatt>
+<add:pattern>
 import net.sourceforge.czt.zpatt.util.ZPattString;
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
 import net.sourceforge.czt.circus.util.CircusPattString;
 </add:circuspatt>
@@ -535,7 +535,7 @@ NAME =   {NOT_LB}*
           begin("theorem");
           return result(ZString.ZED);
         }
-<add:zpatt>
+<add:pattern>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
         {
           yybegin(ZED);
@@ -572,7 +572,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(ERROR);
         }
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
   "\\begin" {IGNORE}* "{circusjoker}" {IGNORE}* "{"
         {
@@ -803,7 +803,7 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
-<add:zpatt>
+<add:pattern>
   "\\end" {IGNORE}* "{zedjoker}"
         {
           end("zedjoker");
@@ -825,7 +825,7 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
   "\\end" {IGNORE}* "{circusjoker}"
         {

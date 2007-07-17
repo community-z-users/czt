@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004, 2005, 2006 Petra Malik
+     Copyright (C) 2003, 2004, 2005, 2006, 2007 Petra Malik
      Copyright (C) 2003, 2004, 2005 Tim Miller
      This file is part of the czt project.
      
@@ -59,8 +59,7 @@ import net.sourceforge.czt.tcoz.jaxb.JaxbXmlReader;
 </add:tcoz>
 
 /**
- * Utilities for parsing <add:oz>Object</add:oz>
- *  <add:tcoz>TCO</add:tcoz>Z<add:zpatt>patt</add:zpatt> <add:circuspatt> Circus pattern</add:circuspatt><add:circus> and Circus</add:circus> specifications.
+ * Utilities for parsing specifications.
  *
  * @author Petra Malik, Tim Miller
  */

@@ -246,7 +246,7 @@ RINTER = "\u301B"   /* left interleave bracket */
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
-    <add:zpatt> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:zpatt>    
+    <add:pattern> | {JOKERCHAR} | {RULECHAR} | {PROVISO}</add:pattern>    
     <add:circuspatt> | {CIRCUSJOKERCHAR} | {CIRCUSACTIONLAWCHAR} | {CIRCUSPROCESSLAWCHAR}</add:circuspatt>
     <add:circus> | {CIRCUSCHAR} | {CIRCUSACTIONCHAR} </add:circus>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
@@ -254,12 +254,12 @@ AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
 GENCHAR = "\u2550" /* box drawings double horizontal */
 ENDCHAR = "\u2514" /* box drawings light up and right */
-<add:zpatt>
+<add:pattern>
 JOKERCHAR = "\u2605"
 RULECHAR = "\u25A0"
 PROVISO = "\u25B8"
 RULELINE="\u2501"
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
 CIRCUSJOKERCHAR = "\u2606"      /* hollow version of Joker char */
 CIRCUSACTIONLAWCHAR = "\u25A1"  /* hollow version of Rule char  */
@@ -302,10 +302,10 @@ GENAX = {AXCHAR} {GENCHAR}
 GENSCH = {SCHCHAR} {GENCHAR}
 END = {ENDCHAR}
 NL = {NLCHAR}
-<add:zpatt>
+<add:pattern>
 JOKER = {JOKERCHAR}
 RULE = {RULECHAR}
-</add:zpatt>
+</add:pattern>
 <add:circuspatt>
 CIRCUSJOKER = {CIRCUSJOKERCHAR}
 CIRCUSACTIONLAW = {CIRCUSACTIONLAWCHAR}
@@ -328,12 +328,12 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
   {GENSCH}      {  beginZed(); return symbol(Sym.GENSCH); }
 
 &lt;YYINITIAL&gt; {
-  <add:zpatt>
+  <add:pattern>
   /* Z joker paragraph */
   {JOKER}       {  beginZed(); return symbol(Sym.JOKER); }
   {RULE}        {  beginZed(); return symbol(Sym.RULE); }
   {PROVISO}     {  beginZed(); return symbol(Sym.PROVISO); }
-  </add:zpatt>
+  </add:pattern>
   
   <add:circuspatt>
   /* Circus pattern paragraph */
@@ -385,9 +385,9 @@ CIRCUSACTION = {CIRCUSACTIONCHAR}
      can be read properly */
   {SPACE} | {CONTROL} { }
 
-  <add:zpatt>
+  <add:pattern>
   {RULELINE}    { return symbol(Sym.RULELINE); }
-  </add:zpatt>
+  </add:pattern>
 
   <add:oz>
   /* Object-Z box characters */

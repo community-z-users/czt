@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Petra Malik
+  Copyright (C) 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -102,6 +102,9 @@ public class Plugin
         generateOzParser("net.sourceforge.czt.parser.");
         generateOzPrinter("net.sourceforge.czt.print.");
       }
+      else if ("ozpatt".equals(dialect)) {
+        generateOzPattParser("net.sourceforge.czt.parser.");
+      }
       else if ("tcoz".equals(dialect)) {
         generateTcozParser("net.sourceforge.czt.parser.");
       }
@@ -164,7 +167,7 @@ public class Plugin
   private void generateZpattParser(String basePackage)
     throws Exception
   {
-    final String add = "{zpatt}";
+    final String add = "{pattern}{zpatt}";
     final String packageName =  basePackage + "zpatt";
     generateCup("Parser", packageName, add);
     generateJava("LatexParser", packageName, add);
@@ -212,6 +215,28 @@ public class Plugin
     final String packageName =  basePackage + "oz";
     generateJava("LatexParser", packageName, add);
     generateCup("Parser", packageName, "{oz}{ozz}");
+    generateJava("UnicodeParser", packageName, add);
+    generateJFlex("Latex2Unicode", packageName, add);
+    generateJava("LatexToUnicode", packageName, add);
+    generateJava("LatexMarkupParser", packageName, add);
+    generateJava("LatexScanner", packageName, add);
+    generateJava("ParseUtils", packageName, add);
+    generateJava("UnicodeScanner", packageName, add);
+    generateJava("OperatorScanner", packageName, add);
+    generateJava("NewlineScanner", packageName, add);
+    generateJava("KeywordScanner", packageName, add);
+    generateJFlex("ContextFreeScanner", packageName, add);
+    generateJava("SmartScanner", packageName, add);
+    generateJava("SymMap", packageName, add);
+  }
+
+  private void generateOzPattParser(String basePackage)
+    throws Exception
+  {
+    final String add = "{oz}{pattern}{ozpatt}";
+    final String packageName =  basePackage + "ozpatt";
+    generateJava("LatexParser", packageName, add);
+    generateCup("Parser", packageName, "{ozz}" + add);
     generateJava("UnicodeParser", packageName, add);
     generateJFlex("Latex2Unicode", packageName, add);
     generateJava("LatexToUnicode", packageName, add);

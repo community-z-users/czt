@@ -25,6 +25,10 @@
       <groupId>${czt.groupId}</groupId>
       <artifactId>parser-circus</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${czt.groupId}</groupId>
+      <artifactId>parser-ozpatt</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

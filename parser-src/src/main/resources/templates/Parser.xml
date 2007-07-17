@@ -51,6 +51,13 @@ import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
+<add:ozpatt>
+import net.sourceforge.czt.parser.oz.ParserState;
+import net.sourceforge.czt.parser.zpatt.JokerScanner;
+import net.sourceforge.czt.parser.zpatt.JokerTable;
+import net.sourceforge.czt.parser.zpatt.ZpattParseError;
+import net.sourceforge.czt.parser.zpatt.ZpattParseMessage;
+</add:ozpatt>
 import net.sourceforge.czt.session.*;
 <add:tcoz>
 import net.sourceforge.czt.tcoz.ast.*;
@@ -59,8 +66,10 @@ import net.sourceforge.czt.tcoz.util.Factory;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.*;
-<add:zpatt>
+<add:pattern>
 import net.sourceforge.czt.zpatt.ast.*;
+</add:pattern>
+<add:zpatt>
 import net.sourceforge.czt.zpatt.util.Factory;
 </add:zpatt>
 
@@ -81,10 +90,10 @@ action code
     /** The table of operators. */
     protected OpTable opTable_;
 
-<add:zpatt>
+<add:pattern>
     /** The table of joker names. */
     protected JokerTable jokerTable_;
-</add:zpatt>
+</add:pattern>
 
     /** The source currently being parsed. */
     protected Source source_ = null;
@@ -102,9 +111,9 @@ action code
     /** The operator scanner. */
     protected OperatorScanner opScanner_;
     protected NewlineScanner nlScanner_;
-<add:zpatt>
+<add:pattern>
     protected JokerScanner jokerScanner_;
-</add:zpatt>
+</add:pattern>
 <add:oz>
 
     /**
@@ -368,10 +377,10 @@ action code
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
 </add:z>
-<add:zpatt>
+<add:pattern>
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
                             new Object [0], getLocation(t));
-</add:zpatt>
+</add:pattern>
       }
       else {
         parser.report_error(ZParseMessage.MSG_EXPR_EXPECTED, 
@@ -652,7 +661,7 @@ action code
      opScanner_.setOperatorTable(opTable_);
     }
 
-<add:zpatt>
+<add:pattern>
     private JokerTable getJokerTable(String section, int line, int column)
        throws CommandException
     {
@@ -695,7 +704,7 @@ action code
      }
      jokerScanner_.setJokerTable(jokerTable_);
     }
-</add:zpatt>
+</add:pattern>
 
     private ZSect createZSect(String name, List&lt;Parent&gt; parents)
     {
@@ -705,7 +714,7 @@ action code
     }
 
     private ZSect updateZSect(ZSect zSect, OpTable opTable
-      <add:zpatt>, JokerTable jokerTable </add:zpatt>)
+      <add:pattern>, JokerTable jokerTable </add:pattern>)
     {
       final boolean parseError = parser.error_;
       final String sectName = zSect.getName();
@@ -755,9 +764,9 @@ action code
       }
       sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
       sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
-<add:zpatt>
+<add:pattern>
       sectInfo_.put(new Key(sectName, JokerTable.class), jokerTable, dependencies);
-</add:zpatt>
+</add:pattern>
       return sect;
     }
 
@@ -1448,9 +1457,9 @@ parser code
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
-<add:zpatt>
+<add:pattern>
     private JokerScanner jokerScanner_;
-</add:zpatt>
+</add:pattern>
 
     /**
      * Creates a new parser with the given scanner, source information,
@@ -1479,10 +1488,10 @@ parser code
         }
       }
       opScanner_ = new OperatorScanner(getScanner());
-<add:zpatt>
+<add:pattern>
       jokerScanner_ = new JokerScanner(getScanner());
       opScanner_ = new OperatorScanner(jokerScanner_);
-</add:zpatt>
+</add:pattern>
       nlScanner_ = new NewlineScanner(opScanner_);
       CztLogger.getLogger(<class/>.class).finer("New " + <class/>.class.getName() + " parser created for " + source_ + ".");      
     }
@@ -1542,7 +1551,7 @@ parser code
       report_error(null, new ZParseError(msg, params, locInfo));
     }
 
- <add:zpatt>
+ <add:pattern>
     public void report_error(ZpattParseMessage msg,
                              Object[] params,
                              LocInfo locInfo)
@@ -1550,7 +1559,7 @@ parser code
       report_error(null, new ZpattParseError(msg, params, locInfo));
     }
 
-</add:zpatt>
+</add:pattern>
 <add:circus>
     public void report_error(CircusParseMessage msg,
                              Object[] params,
@@ -1697,9 +1706,9 @@ init with
     action_obj.nlScanner_ = nlScanner_;
     action_obj.parserState_ = createParserState(source_);
     action_obj.factory_ = createParserFactory();
-<add:zpatt>
+<add:pattern>
     action_obj.jokerScanner_ = jokerScanner_;
-</add:zpatt>
+</add:pattern>
 :}
 
 scan with {: return local_next_token(); :};
@@ -1717,9 +1726,9 @@ terminal LocInfo
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED,
-<add:zpatt>
+<add:pattern>
         JOKER, RULE, RULELINE, VDASH, PROVISO,
-</add:zpatt>
+</add:pattern>
 <add:circus>
         // Environment chars
         CIRCUS, CIRCUSACTION, 
@@ -1793,10 +1802,10 @@ terminal LocInfo
         _APPLICATION, _RENAME;
 
 terminal LocString
-<add:zpatt>
+<add:pattern>
         JOKERNAME, JOKERNAMELIST, JOKERRENAMELIST,
         JOKEREXPR, JOKEREXPRLIST, JOKERPRED, JOKERDECLLIST, JOKERSTROKE,
-</add:zpatt>
+</add:pattern>
         TEXT, PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
@@ -2003,7 +2012,7 @@ non terminal LocString
 non terminal And
     optNL;
 
-<add:zpatt>
+<add:pattern>
 /// Z pattern constructs ///////////////////////////////////////////////
 non terminal Jokers jokerPara;
 non terminal Rule rulePara;
@@ -2029,7 +2038,7 @@ non terminal Term jokerRef;
 
 non terminal DeclList
     jokerDeclList;
-</add:zpatt>
+</add:pattern>
 
 <add:circus>
 /// Circus paragraphs ///////////////////////////////////////////////
@@ -2337,9 +2346,9 @@ precedence left         CHAN, SENSOR, ACTUATOR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
-<add:zpatt>
+<add:pattern>
 precedence left         RULELINE;
-</add:zpatt>
+</add:pattern>
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
@@ -2389,7 +2398,7 @@ specification ::=
         {:
            header.setParaList(pl);
            ZSect zSect = updateZSect(header, opTable_
-             <add:zpatt>, jokerTable_ </add:zpatt>);
+             <add:pattern>, jokerTable_ </add:pattern>);
            RESULT = createSpec(factory_.list(zSect));
            <add:circus>               
                //logProductionResult(pl, "EMPTY-SECTION-HEADER", getLocation(RESULT));
@@ -2419,9 +2428,9 @@ emptySectionHeader ::=
 </add:circus>
            final List&lt;Parent&gt; parents = factory_.list(p<add:oz>, poz</add:oz><add:circus>, pcircus</add:circus>);
            resetOpTable(name, parents, eleft, eright);
-<add:zpatt>
+<add:pattern>
            resetJokerTable(name, parents, eleft, eright);
-</add:zpatt>
+</add:pattern>
            RESULT = createZSect(name, parents);
 <add:circus>                        
            parserState_.clearAllProcessInformation();
@@ -2455,7 +2464,7 @@ section ::=
            </add:circus>           
            header.setParaList(pl);
            RESULT = updateZSect(header, opTable_           
-             <add:zpatt>, jokerTable_ </add:zpatt>);
+             <add:pattern>, jokerTable_ </add:pattern>);
            if (pl.size() > 0) {             
              Para plPara = pl.get(pl.size()-1);
              //logProductionResult(plPara, "PARAGRAPH LOCATION AT SECTION", getLocation(plPara));
@@ -2507,9 +2516,9 @@ sectionHeader ::=
            }
 </add:circus>
            resetOpTable(name, p, pleft, pright);
-<add:zpatt>
+<add:pattern>
            resetJokerTable(name, p, pleft, pright);
-</add:zpatt>
+</add:pattern>
            RESULT = createZSect(name, p);
 <add:circus>                       
            parserState_.clearAllProcessInformation();           
@@ -2641,7 +2650,7 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd 
         {: RESULT = gd; :}
-<add:zpatt>
+<add:pattern>
         |
         jokerPara:jp
         {: RESULT = jp; :}
@@ -2651,7 +2660,7 @@ boxedParagraph ::=
         |
         oraclePara:pp
         {: RESULT = pp; :}
-</add:zpatt>
+</add:pattern>
 <add:oz>
         |
         class:c
@@ -5062,7 +5071,7 @@ declPart ::=
            addLocAnn(zdl, getLocation(getLocation(zdl.get(0)),
                                       getLocation(zdl.get(zdl.size() - 1))));
         :}
-<add:zpatt>
+<add:pattern>
         | jokerDeclList:jdl
         {: RESULT = jdl; :}
         ;
@@ -5076,7 +5085,7 @@ jokerDeclList ::=
         {:
            RESULT = factory_.createJokerDeclList(j.getString(), null);
         :}
-</add:zpatt>
+</add:pattern>
         ;
 
 zDeclList ::=
@@ -5143,7 +5152,7 @@ varDecl ::=
            ZParseMessage msg = ZParseMessage.MSG_SYNTAX_ERROR_IN_VARDECL;
            parser.report_syntax_error(msg);
         :}
-<add:zpatt>
+<add:pattern>
         |
         JOKERNAME:jn COLON expression:e
         {:
@@ -5153,7 +5162,7 @@ varDecl ::=
            RESULT = factory_.createVarDecl(zdnl, e);
            addLocAnn(RESULT, getLocation(jn.getLocation(), e));
         :}
-</add:zpatt>
+</add:pattern>
         ;
 
 constDecl ::= 
@@ -5162,7 +5171,7 @@ constDecl ::=
            RESULT = factory_.createConstDecl(dn, e);
            addLocAnn(RESULT, getLocation(defequalleft, defequalright, dn, e));
         :}
-<add:zpatt>
+<add:pattern>
         |
         JOKERNAME:jn DEFEQUAL:defequal expression:e
         {:
@@ -5172,7 +5181,7 @@ constDecl ::=
            LocInfo loc = getLocation(defequalleft, defequalright, jnLoc, e);
            addLocAnn(RESULT, loc);
         :}
-</add:zpatt>
+</add:pattern>
         ;  
 
 sep ::=
@@ -5942,7 +5951,7 @@ term ::=
            addLocAnn(RESULT, getLocation(hideleft, hideright, t, rparen));
         :}
         |
-<add:zpatt>
+<add:pattern>
         /* schema hiding */
         term:t ZHIDE:hide LPAREN JOKERNAMELIST:jnl RPAREN:rparen
         {:
@@ -5951,7 +5960,7 @@ term ::=
            addLocAnn(RESULT, getLocation(hideleft, hideright, t, rparen));
         :}
         |
-</add:zpatt>
+</add:pattern>
         /* schema projection */
         term:lhs ZPROJ:proj term:rhs
         {:
@@ -6182,7 +6191,7 @@ RSQUARE:rsq
            }
            addLocAnn(RESULT, getLocation(it, s));
         :}
-<add:zpatt>
+<add:pattern>
         |
         /* schema decoration */
         inner_term:it JOKERSTROKE:js
@@ -6202,7 +6211,7 @@ RSQUARE:rsq
            }
            addLocAnn(RESULT, getLocation(it, s));
         :}
-</add:zpatt>
+</add:pattern>
         |
         /* binding construction */
         THETA:theta inner_term:it
@@ -6289,14 +6298,14 @@ RSQUARE:rsq
         inner_opExpr:ioe
         {: RESULT = ioe; :}
 </add:oz>        
-<add:zpatt>
+<add:pattern>
         |
         jokerRef:jr
         {:
            RESULT = jr;
            addLocAnn(RESULT, getLocation(jrleft, jrright));
         :}
-</add:zpatt>
+</add:pattern>
         ;
 
 optAppendageList ::=
@@ -6443,11 +6452,11 @@ stroke ::=
 renameList ::=
         zRenameList:zrnl
         {: RESULT = zrnl; :}
-<add:zpatt>
+<add:pattern>
         |
 	JOKERRENAMELIST:jrl
         {: RESULT = factory_.createJokerRenameList(jrl.getString(), null); :}
-</add:zpatt>
+</add:pattern>
         ;    
 
 zRenameList ::=
@@ -6952,7 +6961,7 @@ optNL ::=
         NL
         ;
 
-<add:zpatt>
+<add:pattern>
 /// Z pattern constructs ///////////////////////////////////////////////
 jokerPara ::=
         JOKER:j DECORWORD:dw jokerList:jl END:end
@@ -7103,7 +7112,7 @@ jokerRef ::=
         :}
         ;
 
-</add:zpatt>
+</add:pattern>
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
