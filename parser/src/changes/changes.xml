@@ -6,6 +6,9 @@
         Fix the printers to handle number strokes in decoration
         expressions correctly.
       </action>
+      <action type="update">
+        Improve error and warning messages.
+      </action>
     </release>
     <release version="1.0" date="July 2007">
       <action dev="Petra" type="update">
