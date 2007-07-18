@@ -183,13 +183,17 @@ public class CztParser
       if (endOffset < 0 || endOffset >= buffer.getLineLength(line)) {
         endOffset = 0;
       }
-      errorSource.addError(ErrorType.ERROR.equals(error.getErrorType()) ?
-                             ErrorSource.ERROR : ErrorSource.WARNING,
-                           buffer.getPath(),
-                           line,
-                           startOffset,
-                           endOffset,
-                           error.getMessage());
+      DefaultErrorSource.DefaultError jerror =
+        new DefaultErrorSource.DefaultError(errorSource,
+               ErrorType.ERROR.equals(error.getErrorType()) ?
+                                ErrorSource.ERROR : ErrorSource.WARNING,
+               buffer.getPath(),
+               line,
+               startOffset,
+               endOffset,
+               error.getMessage());
+      if (error.getInfo() != null) jerror.addExtraMessage(error.getInfo());
+      errorSource.addError(jerror);
     }
   }
 

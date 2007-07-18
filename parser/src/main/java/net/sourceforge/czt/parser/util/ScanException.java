@@ -70,6 +70,11 @@ public class ScanException
     return ErrorType.ERROR;
   }
 
+  public String getInfo()
+  {
+    return null;
+  }
+
   public String toString()
   {
     return locInfo_.toString() + ": " + getMessage();

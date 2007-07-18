@@ -46,6 +46,17 @@ public class ZParseError
                             Object[] params,
                             LocInfo locInfo)
   {
+    report(sectInfo, source, errorType, msg, params, locInfo, null);
+  }
+
+  public static void report(SectionInfo sectInfo,
+                            Source source,
+                            ErrorType errorType,
+                            ZParseMessage msg,
+                            Object[] params,
+                            LocInfo locInfo,
+                            String info)
+  {
     try {
       ParseException parseException = (ParseException)
         sectInfo.get(new Key(source.getName(),
@@ -53,6 +64,7 @@ public class ZParseError
       List<CztError> errorList = parseException.getErrors();
       ZParseError error = new ZParseError(msg, params, locInfo);
       error.setErrorType(errorType);
+      error.setInfo(info);
       errorList.add(error);
     }
     catch (CommandException e) {

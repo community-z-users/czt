@@ -33,4 +33,11 @@ public interface CztError
 {
   String getMessage();
   ErrorType getErrorType();
+
+  /**
+   * Returns a more detailed description of this error and/or possible
+   * fixes.  Might be <code>null</code> if no additional information
+   * is available for this error.
+   */
+  String getInfo();
 }

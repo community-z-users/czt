@@ -372,6 +372,9 @@ public class Main
   {
     for (CztError error : errors) {
       System.out.println(error);
+      if (error.getInfo() != null) {
+        System.out.println("  (" + error.getInfo() + ")");
+      }
     }
   }
 

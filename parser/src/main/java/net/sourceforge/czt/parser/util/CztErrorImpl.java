@@ -32,6 +32,7 @@ public abstract class CztErrorImpl
   implements CztError
 {
   private String message_;
+  private String info_;
   private Object[] params_;
   private ErrorType errorType_ = ErrorType.ERROR;
 
@@ -60,6 +61,16 @@ public abstract class CztErrorImpl
   public ErrorType getErrorType()
   {
     return errorType_;
+  }
+
+  public String getInfo()
+  {
+    return info_;
+  }
+
+  public void setInfo(String info)
+  {
+    info_ = info;
   }
 
   public String toString()

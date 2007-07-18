@@ -116,11 +116,6 @@ import net.sourceforge.czt.z.util.ZString;
 %type LocToken
 
 %{
-  private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
-
-  private static String RESOURCE_NAME =
-    "net.sourceforge.czt.parser.z.ZParseResourceBundle";
-
   /**
    * &lt;p&gt;
    * The latex markup function for the current section to be scanned.
@@ -345,11 +340,17 @@ import net.sourceforge.czt.z.util.ZString;
 
   private void reportError(ErrorType type, ZParseMessage msg, String arg0)
   {
+    reportError(type, msg, arg0, null);
+  }
+
+  private void reportError(ErrorType type, ZParseMessage msg,
+                           String arg0, String info)
+  {
     final Level level =
       ErrorType.ERROR.equals(type) ? Level.SEVERE : Level.WARNING;
     final LocInfo locInfo = getLocation();
     final Object[] args = { arg0, locInfo, };
-    ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo);
+    ZParseError.report(sectInfo_, getSource(), type, msg, args, locInfo, info);
   }
 
   private void reportUnknownLatexCommand(String command)
@@ -358,9 +359,28 @@ import net.sourceforge.czt.z.util.ZString;
     if (getBooleanProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)) {
       errorType = ErrorType.WARNING;
     }
+    String info = null;
+    if (isFuzzCommand(command)) {
+      info = "Make sure your specification is ISO Standard Z conforming "
+        + "or try to add fuzz_toolkit as a parent to get access to some "
+        + "commonly used non-Standard latex commands.";
+    }
     reportError(errorType,
                 ZParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
-                command);
+                command,
+                info);
+  }
+
+  private boolean isFuzzCommand(String command)
+  {
+    try {
+      Key key = new Key("fuzz_toolkit", LatexMarkupFunction.class);
+      LatexMarkupFunction lmf = (LatexMarkupFunction) sectInfo_.get(key);
+      if (lmf.getCommandDirective(command) != null) return true;
+    }
+    catch (CommandException e) {
+    }
+    return false;
   }
 
   private void begin(String name)
