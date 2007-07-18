@@ -364,33 +364,50 @@ public class ZLive
 
   /** Evaluate a schema with some given inputs/output.
    *  This calls evalExpr(exists binding @ schema).
-   *  @param expr  A net.sourceforge.czt.z.ast.Pred object.
-   *  @return      An instance of EvalSet.
+   *  So additional bindings in args will be ignored.
+   *  @param expr  An expression of type powerset of bindings.
+   *  @parem args  A binding that gives some of the input/output values.
+   *  @return      A set of bindings.
   */
-  public Expr evalSchema(String schemaName, BindExpr args)
+  public EvalSet evalSchema(Expr schema, BindExpr args)
   throws EvalException, CommandException
   {
+    SchText schText = factory_.createZSchText(args.getZDeclList(), 
+        factory_.createTruePred());
+    ExistsExpr expr = factory_.createExistsExpr(schText, schema);
+    LOG.fine("evalSchema is starting to evaluate: "+printTerm(expr));
+    // if evalExpr doesn't throw a typecheck error, expr (and schema) must 
+    // be a schema expression, so the result should be an EvalSet.
+    return (EvalSet) evalExpr(expr);
+  }
+
+  /** This is a convenience version of evalSchema that accepts a
+   *  schema name rather than a schema expression.
+   *  The schema name is looked up in the definition table of the
+   *  current section.
+   * @param schemaName The undecorated name of a schema.
+   * @param args       A binding that gives some of the input/output values.
+   * @return           A set of bindings.
+   */
+  public EvalSet evalSchema(String schemaName, BindExpr args)
+  throws EvalException, CommandException
+  {    
+    Expr schema = null;
     String currSect = getCurrentSection();
     Key key = new Key(currSect, DefinitionTable.class);
     DefinitionTable table = (DefinitionTable) getSectionManager().get(key);
-    SchText schText = factory_.createZSchText(args.getZDeclList(), 
-        factory_.createTruePred());
     DefinitionTable.Definition def = table.lookup(schemaName);
     // Added distinction with CONSTDECL, for compatibility with old DefinitionTable (Leo)      
-    if (def == null || !def.getDefinitionType().equals(DefinitionType.CONSTDECL))
+    if (def != null && def.getDefinitionType().equals(DefinitionType.CONSTDECL))
     {
-      CztException ex =new CztException("Cannot find schema: "+schemaName);
-      throw ex;
+      schema = def.getExpr();
     }
-    Expr schema = def.getExpr();
     if (schema == null)
     {
       CztException ex =new CztException("Cannot find schema: "+schemaName);
       throw ex;
     }
-    ExistsExpr expr = factory_.createExistsExpr(schText, schema);
-    LOG.fine("evalSchema is starting to evaluate: "+printTerm(expr));
-    return evalExpr(expr);
+    return evalSchema(schema, args);
   }
 
   /** Typechecks a term, to check its correctness and to

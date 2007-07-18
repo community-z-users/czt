@@ -73,7 +73,7 @@ public class FlatSetComp extends FlatPred
       predsAll_.addDecl(decl);
     }
     if (pred != null) {
-      predsAll_.addPred(pred);
+      predsAll_.addExistsPred(pred);
     }
     // Now add 'resultName = result'.
     RefExpr resultExpr = zlive.getFactory().createRefExpr(resultName_);

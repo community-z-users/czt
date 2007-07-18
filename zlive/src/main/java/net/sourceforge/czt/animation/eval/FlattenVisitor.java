@@ -394,6 +394,11 @@ public class FlattenVisitor
     return null;
   }
 
+  /** TODO: see if we can optimize more aggressively here.
+   *   Eg. by using (exists D @ P) <=> (exists D | P @ true)?
+   *   And by calling addExistsPred, rather than addPred, so that
+   *   nested exists are flattened out. 
+   */
   public ZName visitExistsPred(ExistsPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
     sch.addSchText(p.getZSchText());
@@ -427,6 +432,10 @@ public class FlattenVisitor
   /** Simple RefExpr objects are returned unchanged.
    *  We try to unfold non-generic definitions of names.
    *  We replace \nat and \num by FlatRangeSet.
+   *  Arithmos is also mapped into FlatRangeSet (integers), which
+   *  means ZLive handles integers only for now.
+   *  TODO: implement arithmos differently so that ZLive can 
+   *  eventually support non-integer numbers, such as real numbers.
    */
   public ZName visitRefExpr(RefExpr e) {
     if (e.getZExprList().size() != 0)

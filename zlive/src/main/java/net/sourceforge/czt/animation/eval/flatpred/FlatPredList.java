@@ -31,8 +31,10 @@ import net.sourceforge.czt.animation.eval.ZLive;
 import net.sourceforge.czt.animation.eval.ZNameComparator;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.Decl;
+import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
@@ -279,6 +281,41 @@ public class FlatPredList extends FlatPred
     }
     catch (CommandException exception) {
       throw new EvalException(exception);
+    }
+  }
+
+  /** This is similar to addPred, but it flattens out any existential
+   *  quantifiers within pred.  That is, it merges the declarations
+   *  from within the exists with those outside it.  So you should
+   *  only call this method from a context where this is sound, such
+   *  as within an exists or within a set comprehension whose result
+   *  expression is filled in.  It also flattens nested exists and
+   *  exists within one branch of a conjunction.  Note that this
+   *  method would not be sound for a predicate like
+   *  <pre>
+   *   (exists x:0..20 @ x<10) and (exists x:0..20 @ x>10),
+   *  </pre>
+   *  because the flattened result would unify the two x's,
+   *  and the resulting predicate would be false, rather than true.
+   *  However, such inputs should never occur, since CZT ASTs
+   *  always use a different ID for each variable with a different scope.
+   *
+   * @param pred
+   */
+  public void addExistsPred(Pred pred)
+  {
+    if (pred instanceof AndPred) {
+      AndPred and = (AndPred) pred;
+      addExistsPred(and.getLeftPred());
+      addExistsPred(and.getRightPred());
+    }
+    else if (pred instanceof ExistsPred) {
+      ExistsPred ex = (ExistsPred) pred;
+      addSchText(ex.getZSchText());
+      addExistsPred(ex.getPred());
+    }
+    else {
+      addPred(pred);
     }
   }
 
@@ -557,7 +594,7 @@ public class FlatPredList extends FlatPred
 
   /** This prints each FlatPred on a separate line.
    *  If a FlatPred within the list is displayed on multiple lines, it
-   *  indents those lines, to preserve the nested indentation structure. 
+   *  indents those lines, to preserve the nested indentation structure.
    */
   public String toString() {
     StringBuffer result = new StringBuffer();
@@ -569,7 +606,7 @@ public class FlatPredList extends FlatPred
     }
     return result.toString();
   }
-  
+
   public static void main(String[] args)
   {
     System.out.println("ab\ncd".replaceAll("\n","NNN"));

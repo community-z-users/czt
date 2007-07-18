@@ -19,12 +19,16 @@
 
 package net.sourceforge.czt.animation.eval;
 
+import java.util.Iterator;
+
 import junit.framework.Assert;
+import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.Markup;
 import net.sourceforge.czt.session.Source;
 import net.sourceforge.czt.session.StringSource;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.Spec;
@@ -98,25 +102,21 @@ public class ZLiveTest extends ZTestCase
     Assert.assertEquals(expected, result);
   }
 
-  /** This tests the evaluation of schema AIncr with a==0 and b==10.
+  /** This tests the evaluation of schema AIncr with a==0 and b==10. */
   public void testEvalOperation1()
   throws CommandException
   {
     BindExpr args = (BindExpr) parseExpr("\\lblot a==0, b==10 \\rblot");
     //ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
     //    "evalSchema.log", Level.FINEST);
-    Expr result = zlive_.evalSchema("AIncr", args);
-    assertTrue(result instanceof EvalSet);
-    EvalSet set = (EvalSet) result;
+    EvalSet set = zlive_.evalSchema("AIncr", args);
     Assert.assertEquals(1, set.size());
     Iterator<Expr> iter = set.iterator();
     assertTrue(iter.hasNext());
     BindExpr expect = (BindExpr) parseExpr("\\lblot a'==1, b'==10 \\rblot");
-    assertEquals(expect, iter.next());
+    assertTrue(ExprComparator.equalZ(expect, iter.next()));
     //ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
   }
-  */
-
 
   public void testReset()
   {
