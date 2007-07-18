@@ -143,16 +143,31 @@ public class DefinitionTable
       defType_ = definitionType;
     }
 
+    /** Returns the list of generic type parameters of this definition.
+     *  It never returns null, so if the definition has no generic
+     *  parameters, it returns an empty list.
+     * @return List of the names of any type parameters.
+     */
     public ZNameList getDeclNames()
     {
       return genericParams_;
     }
 
+    /** For an equality definition (name==expr), this returns the
+     *  right-hand side of the definition, expr.
+     *  For a variable declaration (name:expr), this returns the type
+     *  expression, expr.  Note that this is often more specific than
+     *  the carrier set of name (as returned by the typechecker).
+     */
     public Expr getExpr()
     {
       return definition_;
     }
     
+    /** Tells you whether this name was declared via a constant
+     * definition, or a variable declaration.
+     * @return
+     */
     public DefinitionType getDefinitionType() 
     {
       return defType_;

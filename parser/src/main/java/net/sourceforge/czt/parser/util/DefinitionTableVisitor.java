@@ -95,7 +95,8 @@ public class DefinitionTableVisitor
       if (decl instanceof ConstDecl) 
       {        
         ConstDecl constDecl = (ConstDecl) decl;        
-        addDefinition(genFormals, constDecl.getName(), constDecl.getExpr(), DefinitionType.CONSTDECL);
+        addDefinition(genFormals, constDecl.getName(), constDecl.getExpr(),
+            DefinitionType.CONSTDECL);
       } 
       else if (decl instanceof VarDecl)
       {
@@ -108,7 +109,19 @@ public class DefinitionTableVisitor
       }
       else if (decl instanceof InclDecl)
       {
-        // TODO: What to do when finding inclusions on Ax boxes?
+        // TODO: What to do when finding inclusions in Ax boxes?
+        // For now, we just ignore them, which means that our definition
+        // tables are incomplete.  This is not a disaster, since we currently
+        // use these definition tables to get *extra* information.
+        //
+        // A general solution is difficult, since
+        // the inclusion expression could be a schema expression that uses
+        // fancy schema operators like composition and renaming, which
+        // obfuscates the set of names that it declares.  A possible 
+        // solution might be to handle just the easy case here
+        // (where the schema inclusion is just a name, or perhaps a
+        // decorated name), and ignore the complex cases, or use the
+        // typechecker to map every declared name to its carrier set.
       }
     }
     return null;
