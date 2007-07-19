@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateScopeTest
-Tests run: 18, Failures: 4, Errors: 10, Time elapsed: 72.433 sec
+Tests run: 18, Failures: 4, Errors: 9, Time elapsed: 39.062 sec
 ------------- Standard Output ---------------
 Passed test:animate_scope.tex:33
 Passed test:animate_scope.tex:34
@@ -8,9 +8,10 @@ Passed test:animate_scope.tex:49
 WARNING: changing x id from 8590 to 8593
 WARNING: changing x id from 8590 to 8593
 WARNING: changing x id from 8599 to 8600
+Passed test:animate_scope.tex:69
 ------------- ---------------- ---------------
 
-Testcase: animate_scope.tex:21 took 3.687 sec
+Testcase: animate_scope.tex:21 took 1.957 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
@@ -22,11 +23,11 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 	Predicate: x \in x
 	LHS type: \arithmos
 	RHS type: \arithmos
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:22 took 4.392 sec
+Testcase: animate_scope.tex:22 took 2.334 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
@@ -38,33 +39,11 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 	Predicate: x \in x
 	LHS type: \arithmos
 	RHS type: \arithmos
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:25 took 4.383 sec
-	Caused an ERROR
-Error: unfolded term contains type errors.
-"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
-	Predicate: x \in x
-	LHS type: \arithmos
-	RHS type: \arithmos"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
-	Predicate: y \in x
-	LHS type: \arithmos
-	RHS type: \arithmos
-net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
-"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
-	Predicate: x \in x
-	LHS type: \arithmos
-	RHS type: \arithmos"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
-	Predicate: y \in x
-	LHS type: \arithmos
-	RHS type: \arithmos
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_scope.tex:26 took 4.386 sec
+Testcase: animate_scope.tex:25 took 2.32 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
@@ -82,11 +61,33 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 	Predicate: y \in x
 	LHS type: \arithmos
 	RHS type: \arithmos
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:28 took 6.622 sec
+Testcase: animate_scope.tex:26 took 2.323 sec
+	Caused an ERROR
+Error: unfolded term contains type errors.
+"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
+	Predicate: x \in x
+	LHS type: \arithmos
+	RHS type: \arithmos"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
+	Predicate: y \in x
+	LHS type: \arithmos
+	RHS type: \arithmos
+net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains type errors.
+"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
+	Predicate: x \in x
+	LHS type: \arithmos
+	RHS type: \arithmos"jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
+	Predicate: y \in x
+	LHS type: \arithmos
+	RHS type: \arithmos
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+
+Testcase: animate_scope.tex:28 took 3.564 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "jar:file:/research/czt/trunk/zlive/target/zlive-1.1-SNAPSHOT-jar-with-dependencies.jar!/lib/unfold.tex", line 91: Type mismatch in membership predicate
@@ -104,139 +105,114 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 	Predicate: x' \in x
 	LHS type: \arithmos
 	RHS type: \arithmos
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:33 took 1.596 sec
-Testcase: animate_scope.tex:34 took 2.411 sec
-Testcase: animate_scope.tex:40 took 4.753 sec
+Testcase: animate_scope.tex:33 took 0.819 sec
+Testcase: animate_scope.tex:34 took 1.286 sec
+Testcase: animate_scope.tex:40 took 2.567 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_scope.tex:43 took 4.757 sec
+Testcase: animate_scope.tex:43 took 2.495 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_scope.tex:48 took 0.709 sec
-Testcase: animate_scope.tex:49 took 1.549 sec
-Testcase: animate_scope.tex:51 took 3.114 sec
+Testcase: animate_scope.tex:48 took 0.373 sec
+Testcase: animate_scope.tex:49 took 0.823 sec
+Testcase: animate_scope.tex:51 took 1.749 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_scope.tex:52 took 3.118 sec
+Testcase: animate_scope.tex:52 took 1.686 sec
 	FAILED
 null
 junit.framework.AssertionFailedError
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_scope.tex:56 took 5.056 sec
+Testcase: animate_scope.tex:56 took 2.721 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
 	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:57 took 5.121 sec
+Testcase: animate_scope.tex:57 took 2.887 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
 	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:328)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:332)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:115)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:58 took 4.774 sec
+Testcase: animate_scope.tex:58 took 2.582 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
 	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:328)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:332)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:115)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:59 took 4.662 sec
+Testcase: animate_scope.tex:59 took 2.477 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
 	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_scope.tex:69 took 7.335 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.flattenExprList(FlattenVisitor.java:294)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetExpr(FlattenVisitor.java:613)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.SetExprImpl.accept(SetExprImpl.java:102)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
+Testcase: animate_scope.tex:69 took 4.086 sec

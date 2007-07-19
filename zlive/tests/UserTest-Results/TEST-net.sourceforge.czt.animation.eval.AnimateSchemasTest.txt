@@ -1,5 +1,5 @@
 Testsuite: net.sourceforge.czt.animation.eval.AnimateSchemasTest
-Tests run: 37, Failures: 0, Errors: 27, Time elapsed: 363.898 sec
+Tests run: 37, Failures: 3, Errors: 12, Time elapsed: 209.625 sec
 ------------- Standard Output ---------------
 Passed test:animate_schemas.tex:22
 Passed test:animate_schemas.tex:23
@@ -9,6 +9,11 @@ Passed test:animate_schemas.tex:26
 Passed test:animate_schemas.tex:27
 WARNING: changing a id from 39700 to 39699
 Passed test:animate_schemas.tex:28
+Passed test:animate_schemas.tex:36
+Passed test:animate_schemas.tex:37
+Passed test:animate_schemas.tex:66
+Passed test:animate_schemas.tex:69
+Passed test:animate_schemas.tex:72
 Passed test:animate_schemas.tex:82
 Passed test:animate_schemas.tex:83
 Passed test:animate_schemas.tex:84
@@ -20,6 +25,7 @@ WARNING: changing x' id from 39735 to 39874
 WARNING: changing out! id from 39739 to 39875
 WARNING: changing x id from 39734 to 39873
 WARNING: changing x' id from 39735 to 39874
+Passed test:animate_schemas.tex:89
 WARNING: changing x id from 39734 to 39898
 WARNING: changing x' id from 39735 to 39899
 WARNING: changing out! id from 39739 to 39900
@@ -28,6 +34,12 @@ WARNING: changing x' id from 39735 to 39899
 WARNING: changing out! id from 39739 to 39900
 WARNING: changing x id from 39734 to 39898
 WARNING: changing x' id from 39735 to 39899
+Passed test:animate_schemas.tex:92
+Passed test:animate_schemas.tex:96
+Passed test:animate_schemas.tex:97
+Passed test:animate_schemas.tex:98
+Passed test:animate_schemas.tex:113
+Passed test:animate_schemas.tex:134
 copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7086884a
 copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7086884a
 copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@7086884a
@@ -53,547 +65,359 @@ copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.
 copy visitor for seq _  transforms type X to expr net.sourceforge.czt.rules.ast.ProverJokerExpr@a8e6bc36
 ------------- ---------------- ---------------
 
-Testcase: animate_schemas.tex:22 took 0.595 sec
-Testcase: animate_schemas.tex:23 took 0.912 sec
-Testcase: animate_schemas.tex:24 took 1.231 sec
-Testcase: animate_schemas.tex:25 took 1.885 sec
-Testcase: animate_schemas.tex:26 took 1.231 sec
-Testcase: animate_schemas.tex:27 took 2.254 sec
-Testcase: animate_schemas.tex:28 took 2.92 sec
-Testcase: animate_schemas.tex:31 took 1.18 sec
+Testcase: animate_schemas.tex:22 took 0.324 sec
+Testcase: animate_schemas.tex:23 took 0.486 sec
+Testcase: animate_schemas.tex:24 took 0.652 sec
+Testcase: animate_schemas.tex:25 took 1.048 sec
+Testcase: animate_schemas.tex:26 took 0.659 sec
+Testcase: animate_schemas.tex:27 took 1.18 sec
+Testcase: animate_schemas.tex:28 took 1.582 sec
+Testcase: animate_schemas.tex:31 took 0.625 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
 	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
 	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:346)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:32 took 1.175 sec
+Testcase: animate_schemas.tex:32 took 0.622 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
 	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
 	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:346)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:33 took 1.175 sec
+Testcase: animate_schemas.tex:33 took 0.62 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.BindSelExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
 	at net.sourceforge.czt.z.impl.Expr1Impl.accept(Expr1Impl.java:117)
 	at net.sourceforge.czt.z.impl.BindSelExprImpl.accept(BindSelExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:346)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:36 took 4.331 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:377)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+Testcase: animate_schemas.tex:36 took 2.413 sec
+Testcase: animate_schemas.tex:37 took 2.682 sec
+Testcase: animate_schemas.tex:63 took 4.872 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:37 took 4.774 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+Testcase: animate_schemas.tex:66 took 5.081 sec
+Testcase: animate_schemas.tex:69 took 5.146 sec
+Testcase: animate_schemas.tex:72 took 5.135 sec
+Testcase: animate_schemas.tex:75 took 9.746 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:63 took 8.522 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
+Testcase: animate_schemas.tex:78 took 9.01 sec
+	FAILED
+null
+junit.framework.AssertionFailedError
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:136)
 
-Testcase: animate_schemas.tex:66 took 8.986 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:69 took 9.233 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:72 took 9.2 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:75 took 15.836 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:78 took 15.724 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:82 took 7.668 sec
-Testcase: animate_schemas.tex:83 took 7.744 sec
-Testcase: animate_schemas.tex:84 took 8.005 sec
-Testcase: animate_schemas.tex:85 took 7.67 sec
+Testcase: animate_schemas.tex:82 took 4.145 sec
+Testcase: animate_schemas.tex:83 took 4.199 sec
+Testcase: animate_schemas.tex:84 took 4.336 sec
+Testcase: animate_schemas.tex:85 took 4.136 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
 	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
 	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
 	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:89 took 12.835 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:377)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:308)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.AndPredImpl.accept(AndPredImpl.java:115)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:92 took 12.948 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:377)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:309)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.AndPredImpl.accept(AndPredImpl.java:115)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:397)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitExistsPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ExistsPredImpl.accept(ExistsPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:328)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitNegPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.NegPredImpl.accept(NegPredImpl.java:115)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:96 took 11.135 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:97 took 8.636 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:98 took 15.458 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:100 took 16.474 sec
+Testcase: animate_schemas.tex:89 took 7.625 sec
+Testcase: animate_schemas.tex:92 took 7.705 sec
+Testcase: animate_schemas.tex:96 took 6.283 sec
+Testcase: animate_schemas.tex:97 took 4.833 sec
+Testcase: animate_schemas.tex:98 took 8.757 sec
+Testcase: animate_schemas.tex:100 took 9.364 sec
 	Caused an ERROR
 ZLive does not handle net.sourceforge.czt.z.impl.IffPredImpl yet. 
 net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.IffPredImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitIffPred(FlattenVisitor.java:325)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitIffPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitIffPred(FlattenVisitor.java:329)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitIffPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.IffPredImpl.accept(IffPredImpl.java:102)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:309)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:313)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitAndPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.AndPredImpl.accept(AndPredImpl.java:115)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitForallPred(FlattenVisitor.java:406)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitForallPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitForallPred(FlattenVisitor.java:415)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitForallPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.ForallPredImpl.accept(ForallPredImpl.java:102)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:318)
 	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:76)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:628)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:654)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSetCompExpr(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.SetCompExprImpl.accept(SetCompExprImpl.java:102)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:377)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:381)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:113 took 4.951 sec
+Testcase: animate_schemas.tex:113 took 3.381 sec
+Testcase: animate_schemas.tex:114 took 2.708 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
+ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.Exists1PredImpl yet. 
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:272)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:267)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:307)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:139)
 	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
+	at net.sourceforge.czt.z.impl.PredImpl.accept(PredImpl.java:104)
+	at net.sourceforge.czt.z.impl.QntPredImpl.accept(QntPredImpl.java:130)
+	at net.sourceforge.czt.z.impl.Exists1PredImpl.accept(Exists1PredImpl.java:104)
+	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:318)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addExistsPred(FlatPredList.java:310)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatSetComp.<init>(FlatSetComp.java:76)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:784)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitSchExpr(FlattenVisitor.java:139)
+	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:115)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:567)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:346)
+	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:139)
 	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
 	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:280)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:285)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:114 took 4.874 sec
+Testcase: animate_schemas.tex:117 took 2.716 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+Cannot generate members of SetComp: { _ .. _ = tmp8722 :: _.._;
+x in tmp8722 :: 0.._;
+tmp8724 == 0;
+tmp8724 .. _ = tmp8723 :: 0.._;
+x in tmp8723 :: 0.._;
+(forall _ .. _ = tmp8725 :: _.._;
+    f in tmp8725 :: 1.._;
+    tmp8727 == 0;
+    tmp8727 .. _ = tmp8726 :: 0.._;
+    f in tmp8726 :: 1.._;
+    tmp8729 == 1;
+    x + tmp8729 = tmp8728;
+    f = tmp8728
+  @ tmp8730 == 10;
+    f = tmp8730
+  );
+<| x==x |> = tmp8731;
+tmp8721 = tmp8731 @ tmp8721 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { _ .. _ = tmp8722 :: _.._;
+x in tmp8722 :: 0.._;
+tmp8724 == 0;
+tmp8724 .. _ = tmp8723 :: 0.._;
+x in tmp8723 :: 0.._;
+(forall _ .. _ = tmp8725 :: _.._;
+    f in tmp8725 :: 1.._;
+    tmp8727 == 0;
+    tmp8727 .. _ = tmp8726 :: 0.._;
+    f in tmp8726 :: 1.._;
+    tmp8729 == 1;
+    x + tmp8729 = tmp8728;
+    f = tmp8728
+  @ tmp8730 == 10;
+    f = tmp8730
+  );
+<| x==x |> = tmp8731;
+tmp8721 = tmp8731 @ tmp8721 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:155)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:86)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:568)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:298)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:117 took 4.884 sec
+Testcase: animate_schemas.tex:119 took 3.264 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+Cannot generate members of SetComp: { _ .. _ = tmp8736 :: _.._;
+x in tmp8736 :: 0.._;
+tmp8738 == 0;
+tmp8738 .. _ = tmp8737 :: 0.._;
+x in tmp8737 :: 0.._;
+(forall _ .. _ = tmp8739 :: _.._;
+    f in tmp8739 :: 2..2;
+    tmp8741 == 2;
+    tmp8742 == 2;
+    tmp8741 .. tmp8742 = tmp8740 :: 2..2;
+    f in tmp8740 :: 1.0 2..2
+  @ (exists _ .. _ = tmp8743 :: _.._;
+        g in tmp8743 :: 2..2;
+        tmp8745 == 0;
+        tmp8745 .. _ = tmp8744 :: 0.._;
+        g in tmp8744 :: 2..2;
+        f = g
+      @ g = x
+      )
+  );
+<| x==x |> = tmp8746;
+tmp8735 = tmp8746 @ tmp8735 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { _ .. _ = tmp8736 :: _.._;
+x in tmp8736 :: 0.._;
+tmp8738 == 0;
+tmp8738 .. _ = tmp8737 :: 0.._;
+x in tmp8737 :: 0.._;
+(forall _ .. _ = tmp8739 :: _.._;
+    f in tmp8739 :: 2..2;
+    tmp8741 == 2;
+    tmp8742 == 2;
+    tmp8741 .. tmp8742 = tmp8740 :: 2..2;
+    f in tmp8740 :: 1.0 2..2
+  @ (exists _ .. _ = tmp8743 :: _.._;
+        g in tmp8743 :: 2..2;
+        tmp8745 == 0;
+        tmp8745 .. _ = tmp8744 :: 0.._;
+        g in tmp8744 :: 2..2;
+        f = g
+      @ g = x
+      )
+  );
+<| x==x |> = tmp8746;
+tmp8735 = tmp8746 @ tmp8735 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:155)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:86)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:568)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:298)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:119 took 5.912 sec
+Testcase: animate_schemas.tex:121 took 3.313 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+Cannot generate members of SetComp: { _ .. _ = tmp8751 :: _.._;
+x in tmp8751 :: 0.._;
+tmp8753 == 0;
+tmp8753 .. _ = tmp8752 :: 0.._;
+x in tmp8752 :: 0.._;
+_ .. _ = tmp8754 :: _.._;
+f in tmp8754 :: 2..4;
+tmp8756 == 2;
+tmp8757 == 4;
+tmp8756 .. tmp8757 = tmp8755 :: 2..4;
+f in tmp8755 :: 3.0 2..4;
+(forall _ .. _ = tmp8758 :: _.._;
+    g in tmp8758 :: 2..4;
+    tmp8760 == 0;
+    tmp8760 .. _ = tmp8759 :: 0.._;
+    g in tmp8759 :: 2..4;
+    f = g
+  @ g = x
+  );
+<| x==x |> = tmp8761;
+tmp8750 = tmp8761 @ tmp8750 }
+net.sourceforge.czt.animation.eval.EvalException: Cannot generate members of SetComp: { _ .. _ = tmp8751 :: _.._;
+x in tmp8751 :: 0.._;
+tmp8753 == 0;
+tmp8753 .. _ = tmp8752 :: 0.._;
+x in tmp8752 :: 0.._;
+_ .. _ = tmp8754 :: _.._;
+f in tmp8754 :: 2..4;
+tmp8756 == 2;
+tmp8757 == 4;
+tmp8756 .. tmp8757 = tmp8755 :: 2..4;
+f in tmp8755 :: 3.0 2..4;
+(forall _ .. _ = tmp8758 :: _.._;
+    g in tmp8758 :: 2..4;
+    tmp8760 == 0;
+    tmp8760 .. _ = tmp8759 :: 0.._;
+    g in tmp8759 :: 2..4;
+    f = g
+  @ g = x
+  );
+<| x==x |> = tmp8761;
+tmp8750 = tmp8761 @ tmp8750 }
+	at net.sourceforge.czt.animation.eval.result.SetComp.nextMember(SetComp.java:155)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.insertMember(DefaultEvalSet.java:244)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet.access$1(DefaultEvalSet.java:241)
+	at net.sourceforge.czt.animation.eval.result.DefaultEvalSet$EvalSetIterator.hasNext(DefaultEvalSet.java:314)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatCard.nextEvaluation(FlatCard.java:86)
+	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.nextEvaluation(FlatPredList.java:568)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:298)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:121 took 5.915 sec
+Testcase: animate_schemas.tex:134 took 4.156 sec
+Testcase: animate_schemas.tex:162 took 34.948 sec
 	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
+Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ee64808f (\# [ offheap! : \arithmos ; items : \power ( \arithmos \cross \arithmos ) ; maxsize : \arithmos ; currsize : \arithmos ; items' : \power ( \arithmos \cross \arithmos ) ; maxsize' : \arithmos ; currsize' : \arithmos | ( ( ( ( offheap! \in \nat \land ( ( ( ( ( items \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land ( maxsize \in \nat \land ( currsize \in \nat \land true ) ) ) \land ( maxsize \geq currsize \\
+ currsize =~\# \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land true ) @ x . 2 \} ) ) \land ( ( ( items' \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land ( maxsize' \in \nat \land ( currsize' \in \nat \land true ) ) ) \land ( maxsize' \geq currsize' \\
+ currsize' =~\# \{ x : \arithmos \cross \arithmos | ( ( x \in items' \land true ) \land true ) @ x . 2 \} ) ) \land true ) ) \land true ) \land true ) ) \land ( ( ( currsize > 0 \\
+ \exists i : \arithmos ; v : \arithmos | ( ( i \in \nat \land ( v \in \nat \land true ) ) \land ( ( i , v ) \in items \land v = min \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land true ) @ x . 2 \} ) ) @ ( items' = \{ p : \arithmos \cross \arithmos | ( ( p \in \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land x \notin \{ ( i , v ) \} ) \} \land true ) \land true ) @ ( \# \{ i : \arithmos | ( ( i \in \{ x : \arithmos \cross \arithmos | ( ( x \in \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land x \notin \{ ( i , v ) \} ) \} \land true ) \land true ) @ x . 1 \} \land true ) \land i \leq p . 1 ) \} , p . 2 ) \} \land offheap! = v ) ) \\
+ currsize' = currsize - 1 ) \\
+ maxsize' = maxsize ) ) \land true ) \land ( maxsize = 10 \land items = \{ ( 1 , 2 ) \} ) ) ] = 1)
+net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ee64808f (\# [ offheap! : \arithmos ; items : \power ( \arithmos \cross \arithmos ) ; maxsize : \arithmos ; currsize : \arithmos ; items' : \power ( \arithmos \cross \arithmos ) ; maxsize' : \arithmos ; currsize' : \arithmos | ( ( ( ( offheap! \in \nat \land ( ( ( ( ( items \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land ( maxsize \in \nat \land ( currsize \in \nat \land true ) ) ) \land ( maxsize \geq currsize \\
+ currsize =~\# \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land true ) @ x . 2 \} ) ) \land ( ( ( items' \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land ( maxsize' \in \nat \land ( currsize' \in \nat \land true ) ) ) \land ( maxsize' \geq currsize' \\
+ currsize' =~\# \{ x : \arithmos \cross \arithmos | ( ( x \in items' \land true ) \land true ) @ x . 2 \} ) ) \land true ) ) \land true ) \land true ) ) \land ( ( ( currsize > 0 \\
+ \exists i : \arithmos ; v : \arithmos | ( ( i \in \nat \land ( v \in \nat \land true ) ) \land ( ( i , v ) \in items \land v = min \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land true ) @ x . 2 \} ) ) @ ( items' = \{ p : \arithmos \cross \arithmos | ( ( p \in \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land x \notin \{ ( i , v ) \} ) \} \land true ) \land true ) @ ( \# \{ i : \arithmos | ( ( i \in \{ x : \arithmos \cross \arithmos | ( ( x \in \{ x : \arithmos \cross \arithmos | ( ( x \in items \land true ) \land x \notin \{ ( i , v ) \} ) \} \land true ) \land true ) @ x . 1 \} \land true ) \land i \leq p . 1 ) \} , p . 2 ) \} \land offheap! = v ) ) \\
+ currsize' = currsize - 1 ) \\
+ maxsize' = maxsize ) ) \land true ) \land ( maxsize = 10 \land items = \{ ( 1 , 2 ) \} ) ) ] = 1)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:294)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:134 took 7.465 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:377)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:162 took 58.888 sec
-	Caused an ERROR
-ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-net.sourceforge.czt.animation.eval.EvalException: ZLive does not handle net.sourceforge.czt.z.impl.SchExprImpl yet. 
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:268)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.notYet(FlattenVisitor.java:263)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:303)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitTerm(FlattenVisitor.java:136)
-	at net.sourceforge.czt.base.impl.TermImpl.accept(TermImpl.java:65)
-	at net.sourceforge.czt.z.impl.ExprImpl.accept(ExprImpl.java:104)
-	at net.sourceforge.czt.z.impl.SchExprImpl.accept(SchExprImpl.java:117)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:539)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitApplExpr(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.ApplExprImpl.accept(ApplExprImpl.java:115)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:342)
-	at net.sourceforge.czt.animation.eval.FlattenVisitor.visitMemPred(FlattenVisitor.java:136)
-	at net.sourceforge.czt.z.impl.MemPredImpl.accept(MemPredImpl.java:128)
-	at net.sourceforge.czt.animation.eval.Flatten.flattenPred(Flatten.java:72)
-	at net.sourceforge.czt.animation.eval.flatpred.FlatPredList.addPred(FlatPredList.java:278)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:283)
-	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
-
-Testcase: animate_schemas.tex:172 took 26.435 sec
+Testcase: animate_schemas.tex:172 took 15.018 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "file:/research/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 169: Argument of binding selection must have schema type
@@ -603,11 +427,11 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 "file:/research/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 169: Argument of binding selection must have schema type
 	Expression: ( \mu deref : \power ( \arithmos \cross \arithmos ) | ( ( ( ( deref \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land true ) \land deref = \{ ( 1 , 1 ) , ( 2 , 3 ) , ( 3 , 5 ) , ( 4 , 7 ) \} ) \land true ) \land true ) ) . deref
 	Type: \power ( \arithmos \cross \arithmos )
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
-Testcase: animate_schemas.tex:173 took 44.82 sec
+Testcase: animate_schemas.tex:173 took 26.844 sec
 	Caused an ERROR
 Error: unfolded term contains type errors.
 "file:/research/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 170: Argument of binding selection must have schema type
@@ -621,7 +445,7 @@ net.sourceforge.czt.animation.eval.EvalException: Error: unfolded term contains 
 	Type: \power ( \arithmos \cross \arithmos )"file:/research/czt/trunk/zlive/target/test-classes/animate_schemas.tex", line 170: Argument of binding selection must have schema type
 	Expression: ( \mu deref : \power ( \arithmos \cross \arithmos ) | ( ( ( ( deref \in \{ f : \power ( \arithmos \cross \arithmos ) | ( ( f \in \LET isFun == 1 | true @ \power ( \nat \cross \nat ) \land true ) \land \{ x : \arithmos \cross \arithmos | ( ( x \in f \land true ) \land true ) @ x . 1 \} = 1 \upto \# f ) \} \land true ) \land deref = \{ ( 1 , 1 ) , ( 2 , 3 ) , ( 3 , 5 ) , ( 4 , 7 ) \} ) \land true ) \land true ) ) . deref
 	Type: \power ( \arithmos \cross \arithmos )
-	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:402)
-	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:279)
+	at net.sourceforge.czt.animation.eval.ZLive.typecheck(ZLive.java:429)
+	at net.sourceforge.czt.animation.eval.ZLive.evalPred(ZLive.java:281)
 	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:134)
 
