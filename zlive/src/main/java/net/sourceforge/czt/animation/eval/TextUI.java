@@ -59,6 +59,7 @@ import net.sourceforge.czt.session.StringSource;
 import net.sourceforge.czt.typecheck.z.ErrorAnn;
 import net.sourceforge.czt.typecheck.z.TypeCheckUtils;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.BindExpr;
 import net.sourceforge.czt.z.ast.ConjPara;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.ExprPred;
@@ -156,12 +157,6 @@ public class TextUI {
       output_ = new PrintWriter(System.out, true); // with autoflush
     else
       output_ = output;
-    
-    List<Expr> es = new ArrayList<Expr>();
-    es.add(zlive_.getFactory().createNumExpr(0));
-    es.add(zlive_.getFactory().createNumExpr(1));
-    es.add(zlive_.getFactory().createNumExpr(2));
-    currSet_ = es.listIterator();
   }
 
   /** The main read-process loop. */
@@ -203,17 +198,8 @@ public class TextUI {
         catch (SourceLocator.SourceLocatorException e) {
           output_.println("Cannot find source for section '" + e.getName() + "'");
         }
-        catch (NumberFormatException e) {
-          // probably an incorrect parameter to the 'set' command.
-          output_.println("Error: " + e);
-        }
-        catch (IllegalArgumentException e) {
-          // probably an incorrect parameter to the 'set' command.
-          output_.println("Error: " + e);
-        }
         catch (Exception e) {
           output_.println("Error: " + e);
-          e.printStackTrace(output_);  // TODO: for debugging (remove later)
         }
         output_.flush();
       }
@@ -229,18 +215,8 @@ public class TextUI {
       evalExprPred(args, output_);
     }
     else if (cmd.equals("do")) {
-      Term term = parseTerm(args, output_);
-      if ( ! (term instanceof Expr)) {
-        throw new IllegalArgumentException("do expression must be a set");
-      }
-      Term result = zlive_.evalExpr( (Expr)term );
-      if ( ! (result instanceof EvalSet)) {
-        throw new RuntimeException("expected an EvalSet result, not "+result.getClass());
-      }
-      currSet_ = ((EvalSet) result).listIterator();
-      currPosition_ = -1;
-      currMember_ = null;
-      moveToMember(0);
+      Expr result = zlive_.evalExpr(parseExpr(args, output_));
+      doEvalSet(result);
     }
     else if (cmd.equals("next")) {
       moveToMember(currPosition_ + 1);
@@ -253,6 +229,15 @@ public class TextUI {
     }
     else if (cmd.equals("help")) {
       printHelp(output_);
+    }
+    else if (cmd.equals(";")) {
+      if (currMember_ == null || ! (currMember_ instanceof BindExpr)) {
+        throw new RuntimeException("no current binding to compose with");
+      }
+      Expr schema = parseExpr(args,output_);
+      // TODO: unprime the binding currMember_
+      Expr result = zlive_.evalSchema(schema, (BindExpr) currMember_);
+      doEvalSet(result);
     }
     else if (cmd.equals("unfold")) {
       Term term = parseTerm(args, output_);
@@ -437,6 +422,16 @@ public class TextUI {
       return term;
   }
 
+  /** Same as parseTerm, but insists on the result being an Expr. */
+  public Expr parseExpr(String args, PrintWriter out)
+  throws IOException, CommandException
+  {
+    Term result = parseTerm(args, out);
+    if (result instanceof Expr)
+      return (Expr) result;
+    throw new RuntimeException("expression required, not "+args);
+  }
+
   /** Returns the preprocessed form of a term, before evaluation
    *  starts.  This is mostly used for debugging
    */
@@ -467,6 +462,18 @@ public class TextUI {
     if (result != null)
       printTerm(out, result, zlive_.getMarkup());
     out.println();
+  }
+
+  /** Checks that expr is an EvalSet, and starts to iterate through it. */
+  protected void doEvalSet(Expr expr)
+  {
+    if ( ! (expr instanceof EvalSet)) {
+      throw new RuntimeException("expected an EvalSet result, not "+expr.getClass());
+    }
+    currSet_ = ((EvalSet) expr).listIterator();
+    currPosition_ = 0;
+    currMember_ = null;
+    moveToMember(1);
   }
 
   /** Tries to move to member number 'position' in currSet.
