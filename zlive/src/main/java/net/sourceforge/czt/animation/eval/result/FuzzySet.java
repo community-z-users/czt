@@ -28,10 +28,10 @@ import net.sourceforge.czt.z.ast.Expr;
 /** A partially-known set.
  *  This records some approximate details about the size and
  *  bounds of another set, but it cannot be used to iterate
- *  through the members of the set etc.  
- *  It can be used to record information about sets in Bounds, 
+ *  through the members of the set etc.
+ *  It can be used to record information about sets in Bounds,
  *  but should never be put into an Envir, because there it would
- *  masquerade as the real solution. 
+ *  masquerade as the real solution.
  *
  * @author marku
  *
@@ -72,7 +72,7 @@ public class FuzzySet extends EvalSet
   {
     throw new FuzzySetException("iterator called too early on set: "+name_);
   }
-  
+
   public ListIterator<Expr> listIterator()
   {
     throw new FuzzySetException("listIterator called too early on set: "+name_);
@@ -98,9 +98,9 @@ public class FuzzySet extends EvalSet
   @Override
   public boolean containsAll(java.util.Collection<?> c)
   {
-    throw new FuzzySetException("containsAll called too early on set: "+name_); 
+    throw new FuzzySetException("containsAll called too early on set: "+name_);
   }
-  
+
   public boolean isEmpty()
   {
     throw new FuzzySetException("isEmpty called too early on set: "+name_);
@@ -117,6 +117,10 @@ public class FuzzySet extends EvalSet
     return lower_;
   }
 
+  /** Set the optional lower bound.
+   *
+   * @param lower  Null means no known lower bound.
+   */
   public void setLower(BigInteger lower)
   {
     this.lower_ = lower;
@@ -127,6 +131,10 @@ public class FuzzySet extends EvalSet
     return upper_;
   }
 
+  /** Set the optional upper bound.
+   *
+   * @param upper  Null means no known upper bound.
+   */
   public void setUpper(BigInteger upper)
   {
     this.upper_ = upper;
