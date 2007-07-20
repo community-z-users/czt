@@ -162,8 +162,10 @@ public class Rewrite
     return VisitorUtils.visitTerm(this, pred, true);
   }
 
-  /** For LET expressions, we rewrite only the expressions,
-   *  rather than the whole schema text.
+  /** For LET expressions, we rewrite only the expressions, rather
+   *  than the whole schema text because let expressions can only
+   *  contain constant declarations and a general rewrite rule might
+   *  transform a constant into a variable declaration.
    * @param expr  The LET expression LET V1=E1;...Vn=En @ E
    * @return      The rewritten expression: LET V1=E1';...Vn=En' @ E'
    */
@@ -184,12 +186,13 @@ public class Rewrite
     return factory.createLetExpr(newStext, newExpr);
   }
 
-  /** This rewrites schema text, using rules with conclusions
-   *  of the form [D1|P1] \schemaEquals [D2|P2].
+  /** This rewrites schema text, using rules with conclusions of the
+   *  form [D1|P1] \schemaEquals [D2|P2].  Applies the first matching
+   *  rule that succeeds, and does this just once to ensure
+   *  termination.
    */
   public Term visitSchText(SchText schText)
   {
-    // apply the first matching rule just once.
     try {
       schText = (SchText) rewriteOnce(schText, prover_);
     }
