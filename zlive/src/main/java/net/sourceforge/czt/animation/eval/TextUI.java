@@ -235,8 +235,8 @@ public class TextUI {
         throw new RuntimeException("no current binding to compose with");
       }
       Expr schema = parseExpr(args,output_);
-      // TODO: unprime the binding currMember_
-      Expr result = zlive_.evalSchema(schema, (BindExpr) currMember_);
+      BindExpr inputs = zlive_.unprime( (BindExpr) currMember_ );
+      Expr result = zlive_.evalSchema(schema, inputs);
       doEvalSet(result);
     }
     else if (cmd.equals("unfold")) {

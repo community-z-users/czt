@@ -566,4 +566,31 @@ public class ZLive
     System.out.println(getBanner());
     System.out.println("To use ZLive from the command line, run TextUI.");
   }
+
+  /** Converts an output BindExpr to an input BindExpr.
+   *  That is, it throws away all entries whose names do not end with a
+   *  prime, and removes one prime from the entries that do end with a prime.
+   *  
+   * @param expr  Eg. &lt;| x==1, x'==2, y''==3, i?==4, o!==5 |&gt;
+   * @return      Eg. &lt;| x==2, y'==3 |&gt;
+   */
+  public BindExpr unprime(BindExpr expr)
+  {
+    ZDeclList pairs = factory_.createZDeclList();
+    for (Decl decl : expr.getZDeclList()) {
+      ConstDecl cdecl = (ConstDecl) decl;
+      ZName name = cdecl.getZName();
+      ZStrokeList strokes = name.getZStrokeList();
+      if (strokes.size() > 0 
+          && strokes.get(strokes.size()-1) instanceof NextStroke) {
+        // copy all strokes except the last
+        ZStrokeList newStrokes = factory_.createZStrokeList();
+        for (int i=0; i<strokes.size()-1; i++)
+          newStrokes.add(strokes.get(i));
+        ZName newName = factory_.createZName(name.getWord(), newStrokes);
+        pairs.add(factory_.createConstDecl(newName, cdecl.getExpr()));
+      }
+    }
+    return factory_.createBindExpr(pairs);
+  }
 }
