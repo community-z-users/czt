@@ -52,7 +52,7 @@ import net.sourceforge.czt.zpatt.util.Factory;
  *
  * <p>Given a set or rules and a term (AST), this engine rewrites the
  * term using the rules.  It rewrites each level of the term in a
- * top-down fashion.
+ * top-down or, if a flag is set, bottom-up fashion.
  *
  * It tries the rules in the order that they appear in the
  * specification and commits to the first matching rule.
@@ -81,12 +81,13 @@ public class Rewrite
 
   private RuleTable rules_;
 
+  private boolean bottomUp_ = false;
+
   /** The name of the schema text equality operator: schemaEquals. */
   private static RefExpr schemaEqualsRefExpr_;
 
   public Rewrite(SectionManager manager, RuleTable rules)
   {
-    VisitorUtils.checkVisitorRules(this);
     manager_ = manager;
     rules_ = rules;
     Factory factory = new Factory(new ProverFactory());
@@ -102,6 +103,11 @@ public class Rewrite
     prover_ = new SimpleProver(rules, manager, section);
   }
 
+  public void setBottomUp(boolean bottomUp)
+  {
+    bottomUp_ = bottomUp;
+  }
+
   public Term visitZSect(ZSect zSect)
   {
     prover_ = new SimpleProver(rules_, manager_, zSect.getName());
@@ -115,26 +121,40 @@ public class Rewrite
 
   public Term visitExpr(Expr expr)
   {
+    if (bottomUp_) {
+      return rewrite((Expr) visitChildren(expr));
+    }
+    return visitChildren(rewrite(expr));
+  }
+
+  protected Expr rewrite(Expr expr)
+  {
+    Expr result = expr;
     Expr oldExpr = expr;
     // apply rules until no more changes
     int rewrites = 0;
     do {
-      oldExpr = expr;
+      oldExpr = result;
       try {
-        expr = (Expr) rewriteOnce(expr, prover_);
+        result = (Expr) rewriteOnce(result, prover_);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
       }
       rewrites++;
       if (rewrites > MAX_REWRITES) {
-        throw new RuntimeException("Infinite loop in rules on expr "+expr);
+        throw new RuntimeException("Infinite loop in rules on expr "+result);
       }
-    } while (! expr.equals(oldExpr));
+    } while (! result.equals(oldExpr));
+    return result;
+  }
+
+  protected Term visitChildren(Expr expr)
+  {
     // now recurse into subexpressions
     if (expr instanceof LetExpr) {
       // special case for LET, that rewrites only the RHS of ConstDecls
-      return visitLetExpr( (LetExpr)expr );
+      return visitLetExpr((LetExpr) expr);
     }
     else
       return VisitorUtils.visitTerm(this, expr, true);
@@ -142,23 +162,36 @@ public class Rewrite
 
   public Term visitPred(Pred pred)
   {
+    if (bottomUp_) {
+      return rewrite((Pred) visitChildren(pred));
+    }
+    return visitChildren(rewrite(pred));
+  }
+
+  protected Pred rewrite(Pred pred)
+  {
+    Pred result = pred;
     Pred oldPred = pred;
     // apply rules until no more changes
     int rewrites = 0;
     do {
-      oldPred = pred;
+      oldPred = result;
       try {
-        pred = (Pred) rewriteOnce(pred, prover_);
+        result = (Pred) rewriteOnce(result, prover_);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
       }
       rewrites++;
       if (rewrites > MAX_REWRITES) {
-        throw new RuntimeException("Infinite loop in rules on pred "+pred);
+        throw new RuntimeException("Infinite loop in rules on pred "+result);
       }
-    } while (! pred.equals(oldPred));
-    // now recurse into subexpressions
+    } while (! result.equals(oldPred));
+    return result;
+  }
+
+  protected Term visitChildren(Pred pred)
+  {
     return VisitorUtils.visitTerm(this, pred, true);
   }
 
@@ -193,13 +226,24 @@ public class Rewrite
    */
   public Term visitSchText(SchText schText)
   {
+    if (bottomUp_) {
+      return rewrite((SchText) visitChildren(schText));
+    }
+    return visitChildren(rewrite(schText));
+  }
+
+  protected SchText rewrite(SchText schText)
+  {
     try {
-      schText = (SchText) rewriteOnce(schText, prover_);
+      return (SchText) rewriteOnce(schText, prover_);
     }
     catch (UnboundJokerException e) {
       throw new RuntimeException(e);
     }
-    // now recurse into subexpressions
+  }
+
+  protected Term visitChildren(SchText schText)
+  {
     return VisitorUtils.visitTerm(this, schText, true);
   }
 
