@@ -133,7 +133,7 @@ public class FlatRangeSetTest
 
   public void testToString()
   {
-    assertEquals("i .. k = s :: set(100.0,null)", set.toString());
+    assertEquals("s = i .. k :: set(100.0,null)", set.toString());
   }
 }
 

@@ -138,4 +138,14 @@ public class ZLiveTest extends ZTestCase
     String version = ZLive.getVersion();
     assertTrue(version.startsWith("0") || version.startsWith("1"));
   }
+  
+  public void testUnprime()
+  {
+    BindExpr orig = (BindExpr)
+      parseExpr("\\lblot x==1, x'==2, y''==3, i?==4, o!==5 \\rblot");
+    BindExpr expect = (BindExpr)
+          parseExpr("\\lblot x==2, y'==3 \\rblot");
+    BindExpr unprimed = zlive_.unprime(orig);
+    assertTrue(ExprComparator.equalZ(expect, unprimed));
+  }
 }

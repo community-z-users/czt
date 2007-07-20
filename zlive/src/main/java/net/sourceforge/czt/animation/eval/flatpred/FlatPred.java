@@ -29,6 +29,7 @@ import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatPredVisitor;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.PrintVisitor;
 
 /** FlatPred is the base class of the flattened predicates used in ZLive.
  Each flattened predicate can be evaluated in one or more different
@@ -82,6 +83,9 @@ public abstract class FlatPred
    *  after it has been called.
    */
   protected int solutionsReturned_ = -1;
+
+  /** A non-unicode print visitor used for debug and toString messages. */
+  protected static PrintVisitor printer_ = new PrintVisitor(false);
 
   /** Default constructor for subclasses to call. */
   protected FlatPred()
@@ -255,10 +259,10 @@ public abstract class FlatPred
    *  (This controls whether we print internal names with Ids or not.)
    * @return
    */
-  public String printName(ZName name)
+  public static String printName(ZName name)
   {
     // add the getId part if you want to show Ids of names within FlatPreds.
-    return name.toString(); // + name.getId();
+    return printer_.visitZName(name); // + name.getId();
   }
 
   /** Pretty-prints the name of the i'th argument, via nameString.
@@ -310,7 +314,7 @@ public abstract class FlatPred
       String endQuant)
   {
     if (stext.contains("\n") || body.contains("\n")) {
-      return quant + " " + indent(stext) + "\n@ " + indent(body) 
+      return quant + " " + indent(stext) + "\n@ " + indent(body)
             + "\n" + endQuant;
     }
     else {

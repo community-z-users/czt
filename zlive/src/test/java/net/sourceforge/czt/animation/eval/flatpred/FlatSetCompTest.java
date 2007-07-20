@@ -71,7 +71,7 @@ public class FlatSetCompTest
 
   public void testToString()
   {
-    assertEquals("{ i .. k = tmp1 :: 10..12;\n"
+    assertEquals("{ tmp1 = i .. k :: 10..12;\n"
                + "    r in tmp1 :: 3.0 10..12;\n"
                + "    tmp0 = r\n  @ tmp0\n  } = s",
         set.toString());

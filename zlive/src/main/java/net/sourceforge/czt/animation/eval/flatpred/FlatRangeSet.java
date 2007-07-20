@@ -123,6 +123,7 @@ public class FlatRangeSet extends FlatPred
    */
   public boolean inferBounds(Bounds bnds)
   {
+    EvalSet estimate = null;
     bounds_ = bnds;
     BigInteger lo = null;
     BigInteger up = null;
@@ -131,8 +132,11 @@ public class FlatRangeSet extends FlatPred
     if (upperArg_ >= 0)
       up = bnds.getUpper(args_.get(upperArg_));
 
-    EvalSet estimate = new RangeSet(lo,up);
-    if (estimate.maxSize() == null
+    if (lo != null || up != null) {
+      // we have some definite bounds information
+      estimate = new RangeSet(lo,up);
+    }
+    if ((estimate == null || estimate.maxSize() == null)
         && lowerArg_ >= 0
         && upperArg_ >= 0) {
       // It will be a finite range at evaltime, so we guess its size.
@@ -142,7 +146,10 @@ public class FlatRangeSet extends FlatPred
       fuzzy.setUpper(up);
       estimate = fuzzy;
     }
-    return bnds.setEvalSet(args_.get(setArg_), estimate);
+    if (estimate == null)
+      return false;
+    else
+      return bnds.setEvalSet(args_.get(setArg_), estimate);
   }
 
   public BigInteger getBound(int which)
@@ -214,11 +221,11 @@ public class FlatRangeSet extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
+    result.append(printArg(setArg_));
+    result.append(" = ");
     result.append(printArg(lowerArg_));
     result.append(" .. ");
     result.append(printArg(upperArg_));
-    result.append(" = ");
-    result.append(printArg(setArg_));
     EvalSet range = null;
     if (bounds_ != null)
       range = bounds_.getEvalSet(args_.get(setArg_));
