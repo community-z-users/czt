@@ -111,6 +111,12 @@ public class TextUI {
     return zlive_;
   }
 
+  /** The current output stream for messages and errors. */
+  public PrintWriter getOutput()
+  {
+    return output_;
+  }
+
   /** Set the current output writer. */
   public void setOutput(/*@non_null*/PrintWriter output)
   {
@@ -164,7 +170,8 @@ public class TextUI {
   throws IOException
   {
     while (true) {
-      output_.print("zlive> ");
+      String sect = zlive_.getCurrentSection();
+      output_.print(sect + "> ");
       output_.flush();
       String str = input.readLine();
       str = str.trim();
@@ -172,98 +179,166 @@ public class TextUI {
         break;
       else if ( ! str.equals("")) {
         String parts[] = str.split(" +", 2);
-        try {
-          processCmd(parts[0], parts.length > 1 ? parts[1] : "");
-        }
-        catch (UndefException ex)
-        {
-          output_.println("Undefined!  " + ex.getMessage());
-          if (ex.getTerm() != null) {
-            output_.print("    term = ");
-            printTerm(output_, ex.getTerm(), zlive_.getMarkup());
-            output_.println();
-          }
-        }
-        catch (EvalException ex)
-        {
-          output_.println();
-          output_.println("Error: evaluation too difficult/large: "
-              + ex.getMessage());
-          if (ex.getTerm() != null) {
-            output_.print("    term = ");
-            printTerm(output_, ex.getTerm(), zlive_.getMarkup());
-            output_.println();
-          }
-        }
-        catch (SourceLocator.SourceLocatorException e) {
-          output_.println("Cannot find source for section '" + e.getName() + "'");
-        }
-        catch (Exception e) {
-          output_.println("Error: " + e);
-        }
-        output_.flush();
+        processCmd(parts[0], parts.length > 1 ? parts[1] : "");
       }
     }
   }
 
-  /** Process one input command and write output to writer. */
+  /** Process one input command.
+   *  This handles most of the commands listed in printHelp.
+   *  However, 'quit' must be handled by the caller.
+   *  Unknown commands are passed on to doUnknownCmd.
+   */
   public void processCmd(String cmd, String args)
-  throws CommandException, IOException, UnboundJokerException
+  {
+    assert cmd != null;
+    assert args != null;
+    try {
+      final SectionManager manager = zlive_.getSectionManager();
+      if (cmd.equals("load")) {
+        String sectName = doLoadSpec(args);
+        if (sectName != null) {
+          output_.println("Setting section to " + sectName);
+          zlive_.setCurrentSection(sectName);
+        }
+      }
+      else if (cmd.equals("eval") || cmd.equals("evalp")) {
+        doEvalExprPred(args, output_);
+      }
+      else if (cmd.equals("do")) {
+        doEvalSet(zlive_.evalExpr(parseExpr(args, output_)));
+      }
+      else if (cmd.equals("next")) {
+        doMove(currPosition_ + 1);
+      }
+      else if (cmd.equals("curr")) {
+        doMove(currPosition_);
+      }
+      else if (cmd.equals("prev")) {
+        doMove(currPosition_ - 1);
+      }
+      else if (cmd.equals(";")) {
+        if (currMember_ == null || ! (currMember_ instanceof BindExpr)) {
+          throw new RuntimeException("no current binding to compose with");
+        }
+        Expr schema = parseExpr(args,output_);
+        BindExpr inputs = zlive_.unprime( (BindExpr) currMember_ );
+        // TODO: prompt user for any missing inputs???
+        Expr result = zlive_.evalSchema(schema, inputs);
+        doEvalSet(result);
+      }
+      else if (cmd.equals("why")) {
+        zlive_.printCode(output_);
+      }
+      else if (cmd.equals("set")) {
+        if (args == null || "".equals(args))
+          printSettings(output_);
+        else {
+          final String parts[] = args.split(" +", 2);
+          final String value = parts.length > 1 ? parts[1] : "";
+          setSetting(parts[0], value);
+        }
+      }
+      else if (cmd.equals("show")) {
+        String sectName = zlive_.getCurrentSection();
+        SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
+        for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
+          if (triple.getSect().equals(sectName))
+            output_.println("    "+triple.getZName()+":  "+triple.getType());
+        }
+      }
+      else if (cmd.equals("conjectures")) {
+        doConjectures();
+      }
+      else if (cmd.equals("reset")) {
+        zlive_.reset();
+        output_.println("All specifications cleared...");
+      }
+      else if (cmd.equals("ver") || cmd.equals("version")) {
+        output_.println(ZLive.getBanner());
+      }
+      else if (cmd.equals("help")) {
+        printHelp(output_);
+      }
+      else if (cmd.equals("env")) {
+        final String section = zlive_.getCurrentSection();
+        if (section != null) {
+          output_.println(manager.get(new Key(section, OpTable.class)));
+          output_.println(manager.get(new Key(section, DefinitionTable.class)));
+        }
+      }
+      else if (cmd.equals("unfold")) {
+        Term term = parseTerm(args, output_);
+        term = unfoldTerm(term);
+        if (term != null)
+          output_.println("Term = "+zlive_.printTerm(term));
+      }
+      else if (cmd.equals("apply")) {
+        doApplyRule(args);
+      }
+      else {
+        doUnknownCmd(cmd, args);
+      }
+    }
+
+    // Now handle the various kinds of exceptions that we expect.
+    catch (UndefException ex)
+    {
+      output_.println("Undefined!  " + ex.getMessage());
+      if (ex.getTerm() != null) {
+        output_.print("    term = ");
+        printTerm(output_, ex.getTerm(), zlive_.getMarkup());
+        output_.println();
+      }
+    }
+    catch (EvalException ex)
+    {
+      output_.println();
+      output_.println("Error: evaluation too difficult/large: "
+          + ex.getMessage());
+      if (ex.getTerm() != null) {
+        output_.print("    term = ");
+        printTerm(output_, ex.getTerm(), zlive_.getMarkup());
+        output_.println();
+      }
+    }
+    catch (SourceLocator.SourceLocatorException ex) {
+      output_.println("Cannot find source for section '" + ex.getName() + "'");
+    }
+    catch (Exception ex) {
+      output_.println("Error: " + ex);
+    }
+    output_.flush();
+  }
+
+  /** This is called for commands that processCmd does not handle.
+   *  The default implementation just prints an error message.
+   *  However, it could be overridden to handle additional commands.
+   * @param cmd
+   * @param args
+   */
+  public void doUnknownCmd(String cmd, String args)
+  {
+    output_.println("Invalid command.  Try 'help'");
+  }
+
+  /** Loads the given specification file into ZLive. */
+  public String doLoadSpec(String filename)
+  throws CommandException
   {
     final SectionManager manager = zlive_.getSectionManager();
-    if (cmd.equals("eval") || cmd.equals("evalp")) {
-      evalExprPred(args, output_);
+    Key key = new Key(filename, Spec.class);
+    if (manager.isCached(key))
+    {
+      output_.println(filename + " is already loaded.");
+      output_.println("Do a reset before you reload a specification.");
+      return null;
     }
-    else if (cmd.equals("do")) {
-      Expr result = zlive_.evalExpr(parseExpr(args, output_));
-      doEvalSet(result);
-    }
-    else if (cmd.equals("next")) {
-      moveToMember(currPosition_ + 1);
-    }
-    else if (cmd.equals("prev")) {
-      moveToMember(currPosition_ - 1);
-    }
-    else if (cmd.equals("curr")) {
-      moveToMember(currPosition_);
-    }
-    else if (cmd.equals("help")) {
-      printHelp(output_);
-    }
-    else if (cmd.equals(";")) {
-      if (currMember_ == null || ! (currMember_ instanceof BindExpr)) {
-        throw new RuntimeException("no current binding to compose with");
-      }
-      Expr schema = parseExpr(args,output_);
-      BindExpr inputs = zlive_.unprime( (BindExpr) currMember_ );
-      Expr result = zlive_.evalSchema(schema, inputs);
-      doEvalSet(result);
-    }
-    else if (cmd.equals("unfold")) {
-      Term term = parseTerm(args, output_);
-      term = unfoldTerm(term);
-      if (term != null)
-        output_.println("Term = "+zlive_.printTerm(term));
-    }
-    else if (cmd.equals("ver") || cmd.equals("version")) {
-      output_.println(ZLive.getBanner());
-    }
-    else if (cmd.equals("why")) {
-      zlive_.printCode(output_);
-    }
-    else if (cmd.equals("set")) {
-      if (args == null || "".equals(args))
-        printSettings(output_);
-      else {
-        final String parts[] = args.split(" +", 2);
-        final String value = parts.length > 1 ? parts[1] : "";
-        setSetting(parts[0], value);
-      }
-    }
-    else if (cmd.equals("load")) {
-      Source source = new FileSource(args);
-      manager.put(new Key(args, Source.class), source);
-      Spec spec = (Spec) manager.get(new Key(args, Spec.class));
+    else
+    {
+      Source source = new FileSource(filename);
+      manager.put(new Key(filename, Source.class), source);
+      Spec spec = (Spec) manager.get(key);
       String sectName = null;
       for (Sect sect : spec.getSect()) {
         if (sect instanceof ZSect) {
@@ -273,181 +348,14 @@ public class TextUI {
           /* ignore the result */  manager.get(typekey);
         }
       }
-      if (sectName != null) {
-        output_.println("Setting section to " + sectName);
-        zlive_.setCurrentSection(sectName);
+      if (sectName == null) {
+        output_.println("Warning: " + filename + " contains no Z!");
       }
-    }
-    else if (cmd.equals("reset")) {
-      zlive_.reset();
-      System.out.println("All specifications cleared...");
-    }
-    else if (cmd.equals("show")) {
-      String sectName = zlive_.getCurrentSection();
-      SectTypeEnvAnn types = (SectTypeEnvAnn) manager.get(new Key(sectName, SectTypeEnvAnn.class));
-      for (NameSectTypeTriple triple : types.getNameSectTypeTriple()) {
-        if (triple.getSect().equals(sectName))
-          System.out.println("    "+triple.getZName()+":  "+triple.getType());
-      }
-    }
-    else if (cmd.equals("conjectures")) {
-      final String section = zlive_.getCurrentSection();
-      if (section == null) {
-        output_.println("Error: no current section.");
-      }
-      else {
-        ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
-        for (Para par : ZUtils.assertZParaList(sect.getParaList()))
-          if (par instanceof ConjPara) {
-            ConjPara conj = (ConjPara) par;
-            LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
-            if (loc != null) {
-              output_.println("Conjecture on line "+loc.getLine());
-            }
-            try {
-              printTerm(output_, zlive_.evalPred( conj.getPred() ), zlive_.getMarkup());
-              output_.println();
-            }
-            catch (Exception e) {
-              output_.println("Error: "+e);
-              output_.println("  in: ");
-              zlive_.printTerm(output_, conj.getPred(), zlive_.getMarkup());
-              e.printStackTrace(output_);
-            }
-          }
-        output_.println();
-      }
-    }
-    else if (cmd.equals("env")) {
-      final String section = zlive_.getCurrentSection();
-      if (section != null) {
-        output_.println(manager.get(new Key(section, OpTable.class)));
-        output_.println(manager.get(new Key(section, DefinitionTable.class)));
-      }
-    }
-    else if (cmd.equals("apply")) {
-      if (args == null || "".equals(args)) {
-        output_.println("Invalid command.  Try 'help'");
-      }
-      else {
-        final String parts[] = args.split(" +", 2);
-        if (parts.length > 1) {
-          String section = zlive_.getCurrentSection();
-          Source src = new StringSource(parts[1]);
-          Markup markup = zlive_.getMarkup();
-          src.setMarkup(markup);
-          Expr expr = ParseUtils.parseExpr(src, section, manager);
-          List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(expr, manager, false, section);
-          if (errs.size() > 0)
-            output_.println("Type errors: "+errs);
-          RuleTable rules = (RuleTable)
-          manager.get(new Key("ZLivePreprocess", RuleTable.class));
-          RulePara rulePara = rules.get(parts[0]);
-          if (rulePara == null) {
-            output_.println("Cannot find rule paragraph " + parts[0]);
-          }
-          else {
-            Factory fact = new Factory(new ProverFactory());
-            ProverJokerExpr joker = (ProverJokerExpr)
-            fact.createJokerExpr("_", null);
-            Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
-            Sequent sequent =
-              ProverUtils.createSequent(pred, true);
-            SimpleProver prover = new SimpleProver(rules, manager, section);
-            if (SimpleProver.apply(rulePara, sequent)) {
-              Deduction ded = sequent.getAnn(Deduction.class);
-              boolean proveresult = prover.prove(ded);
-              if (proveresult) {
-                Expr result = (Expr) joker.boundTo();
-                if (result == null) {
-                  output_.println("Error: output joker is null -- not bound");
-                }
-                else {
-                  output_.println(zlive_.printTerm(ProverUtils.removeJoker(result)));
-                }
-              }
-              else {
-                output_.println("Could not prove premiss "+proveresult);
-              }
-            }
-            else {
-              output_.println("Cannot apply rule " + parts[0] +
-                  " to expr " + zlive_.printTerm(expr));
-            }
-          }
-        }
-        else {
-          output_.println("Command 'apply' requires two arguments.  Try 'help'");
-        }
-      }
-    }
-    else {
-      output_.println("Invalid command.  Try 'help'");
+      return sectName;
     }
   }
 
-  /** Parses and typechecks the string args into a Pred or an Expr.
-   *  The result will be null if args contains parse or type errors.
-   *  Otherwise it will be a Term.  You can use 'instanceof Pred'
-   *  to find out if the result is a predicate or an expression.
-   *
-   * @param args String containing an expression or predicate
-   * @param out  Where to print error and progress messages.
-   * @return     The typechecked Pred/Expr, or null if it contained errors.
-   * @throws IOException
-   * @throws CommandException
-   */
-  public Term parseTerm(String args, PrintWriter out)
-  throws IOException, CommandException
-  {
-    SectionManager manager = zlive_.getSectionManager();
-    String section = zlive_.getCurrentSection();
-    Source src = new StringSource(args);
-    Markup markup = zlive_.getMarkup();
-    src.setMarkup(markup);
-    Term term = ParseUtils.parsePred(src, section, manager);
-    if (term instanceof ExprPred)
-      term = ((ExprPred)term).getExpr();
-    List<? extends ErrorAnn> errors =
-      TypeCheckUtils.typecheck(term, manager, false, section);
-    if (errors.size() > 0) {
-      out.println("Error: term contains type errors.");
-      //print any errors
-      for (ErrorAnn next : errors) {
-        out.println(next);
-      }
-      return null;
-    }
-    else
-      return term;
-  }
-
-  /** Same as parseTerm, but insists on the result being an Expr. */
-  public Expr parseExpr(String args, PrintWriter out)
-  throws IOException, CommandException
-  {
-    Term result = parseTerm(args, out);
-    if (result instanceof Expr)
-      return (Expr) result;
-    throw new RuntimeException("expression required, not "+args);
-  }
-
-  /** Returns the preprocessed form of a term, before evaluation
-   *  starts.  This is mostly used for debugging
-   */
-  public Term unfoldTerm(Term term)
-  throws EvalException
-  {
-    if (term == null)
-      return null;
-    String sect = zlive_.getCurrentSection();
-    if (sect == null) {
-      throw new CztException("Must choose a section!");
-    }
-    return zlive_.getPreprocess().preprocess(sect, term);
-  }
-
-  public void evalExprPred(String args, PrintWriter out)
+  public void doEvalExprPred(String args, PrintWriter out)
   throws IOException, CommandException
   {
     Term term = parseTerm(args, out);
@@ -473,12 +381,112 @@ public class TextUI {
     currSet_ = ((EvalSet) expr).listIterator();
     currPosition_ = 0;
     currMember_ = null;
-    moveToMember(1);
+    doMove(1);
+  }
+
+  /** Tries to prove all the conjectures in the current section.
+   *  Proof consists of exhaustively checking all possible instantiations
+   *  of the conjecture, which is similar to model-checking.
+   *  This command means that conjectures are a convenient way
+   *  of storing ZLive examples and regression tests in a Z section.
+   */
+  public void doConjectures()
+  throws CommandException
+  {
+    SectionManager manager = zlive_.getSectionManager();
+    final String section = zlive_.getCurrentSection();
+    if (section == null) {
+      output_.println("Error: no current section.");
+    }
+    else {
+      ZSect sect = (ZSect) manager.get(new Key(section, ZSect.class));
+      for (Para par : ZUtils.assertZParaList(sect.getParaList()))
+        if (par instanceof ConjPara) {
+          ConjPara conj = (ConjPara) par;
+          LocAnn loc = (LocAnn) par.getAnn(LocAnn.class);
+          if (loc != null) {
+            output_.println("Conjecture on line "+loc.getLine());
+          }
+          try {
+            printTerm(output_, zlive_.evalPred( conj.getPred() ), zlive_.getMarkup());
+            output_.println();
+          }
+          catch (Exception e) {
+            output_.println("Error: "+e);
+            output_.println("  in: ");
+            zlive_.printTerm(output_, conj.getPred(), zlive_.getMarkup());
+            e.printStackTrace(output_);
+          }
+        }
+      output_.println();
+    }
+  }
+
+  /** Implements the 'apply rulename expr' command.
+   *  This is useful for debugging rules.
+   * @param args
+   * @throws CommandException
+   * @throws IOException
+   * @throws UnboundJokerException
+   */
+  public void doApplyRule(String args)
+  throws CommandException, IOException, UnboundJokerException
+  {
+    SectionManager manager = zlive_.getSectionManager();
+    String section = zlive_.getCurrentSection();
+    final String parts[] = args.split(" +", 2);
+    if (parts.length > 1) {
+      Source src = new StringSource(parts[1]);
+      Markup markup = zlive_.getMarkup();
+      src.setMarkup(markup);
+      Expr expr = ParseUtils.parseExpr(src, section, manager);
+      List<? extends ErrorAnn> errs = TypeCheckUtils.typecheck(expr, manager, false, section);
+      if (errs.size() > 0)
+        output_.println("Type errors: "+errs);
+      RuleTable rules = (RuleTable)
+      manager.get(new Key("ZLivePreprocess", RuleTable.class));
+      RulePara rulePara = rules.get(parts[0]);
+      if (rulePara == null) {
+        output_.println("Cannot find rule paragraph " + parts[0]);
+      }
+      else {
+        Factory fact = new Factory(new ProverFactory());
+        ProverJokerExpr joker = (ProverJokerExpr)
+        fact.createJokerExpr("_", null);
+        Pred pred = ProverUtils.FACTORY.createEquality(expr, joker);
+        Sequent sequent =
+          ProverUtils.createSequent(pred, true);
+        SimpleProver prover = new SimpleProver(rules, manager, section);
+        if (SimpleProver.apply(rulePara, sequent)) {
+          Deduction ded = sequent.getAnn(Deduction.class);
+          boolean proveresult = prover.prove(ded);
+          if (proveresult) {
+            Expr result = (Expr) joker.boundTo();
+            if (result == null) {
+              output_.println("Error: output joker is null -- not bound");
+            }
+            else {
+              output_.println(zlive_.printTerm(ProverUtils.removeJoker(result)));
+            }
+          }
+          else {
+            output_.println("Could not prove premiss "+proveresult);
+          }
+        }
+        else {
+          output_.println("Cannot apply rule " + parts[0] +
+              " to expr " + zlive_.printTerm(expr));
+        }
+      }
+    }
+    else {
+      output_.println("Command 'apply' requires two arguments.  Try 'help'");
+    }
   }
 
   /** Tries to move to member number 'position' in currSet.
    */
-  public void moveToMember(int position)
+  public void doMove(int position)
   {
     if (currSet_ == null) {
       throw new RuntimeException("no current set or schema");
@@ -582,7 +590,7 @@ public class TextUI {
   /** Prints the ZLive help/usage message */
   public void printHelp(PrintWriter out)
   {
-    out.println("\n--------------- ZLive Help ---------------");
+    out.println("\n--------------- ZLive Commands ---------------");
     out.println("load file.tex     -- Read a Z specification into ZLive");
     out.println("eval <expr>       -- Evaluate an expression");
     out.println("evalp <pred>      -- Evaluate a predicate (synonym for eval)");
@@ -593,11 +601,12 @@ public class TextUI {
     out.println("set               -- Show all current settings");
     out.println("set <var> <value> -- Sets <var> to <value>.");
     out.println("show              -- Show name & type of defns in current section");
-    out.println("version           -- Display the version of ZLive");
-    out.println("help              -- Display this help summary");
     out.println("conjectures       -- Evaluate all conjectures in the current section");
     out.println("reset             -- Remove all loaded specifications");
+    out.println("version           -- Display the version of ZLive");
+    out.println("help              -- Display this help summary");
     out.println("quit              -- Exit the ZLive program");
+    out.println("  env             -- Show internal defn/operator tables");
     out.println("  unfold term     -- Show term after initial unfolding (debug)");
     out.println("  apply rule expr -- Try to rewrite expr using rule (debug)");
     out.println();
@@ -644,5 +653,66 @@ public class TextUI {
       e.printStackTrace(System.err);
     }
     out.flush();
+  }
+
+  /** Parses and typechecks the string args into a Pred or an Expr.
+   *  The result will be null if args contains parse or type errors.
+   *  Otherwise it will be a Term.  You can use 'instanceof Pred'
+   *  to find out if the result is a predicate or an expression.
+   *
+   * @param args String containing an expression or predicate
+   * @param out  Where to print error and progress messages.
+   * @return     The typechecked Pred/Expr, or null if it contained errors.
+   * @throws IOException
+   * @throws CommandException
+   */
+  public Term parseTerm(String args, PrintWriter out)
+  throws IOException, CommandException
+  {
+    SectionManager manager = zlive_.getSectionManager();
+    String section = zlive_.getCurrentSection();
+    Source src = new StringSource(args);
+    Markup markup = zlive_.getMarkup();
+    src.setMarkup(markup);
+    Term term = ParseUtils.parsePred(src, section, manager);
+    if (term instanceof ExprPred)
+      term = ((ExprPred)term).getExpr();
+    List<? extends ErrorAnn> errors =
+      TypeCheckUtils.typecheck(term, manager, false, section);
+    if (errors.size() > 0) {
+      out.println("Error: term contains type errors.");
+      //print any errors
+      for (ErrorAnn next : errors) {
+        out.println(next);
+      }
+      return null;
+    }
+    else
+      return term;
+  }
+
+  /** Same as parseTerm, but insists on the result being an Expr. */
+  public Expr parseExpr(String args, PrintWriter out)
+  throws IOException, CommandException
+  {
+    Term result = parseTerm(args, out);
+    if (result instanceof Expr)
+      return (Expr) result;
+    throw new RuntimeException("expression required, not "+args);
+  }
+
+  /** Returns the preprocessed form of a term, before evaluation
+   *  starts.  This is mostly used for debugging
+   */
+  public Term unfoldTerm(Term term)
+  throws EvalException
+  {
+    if (term == null)
+      return null;
+    String sect = zlive_.getCurrentSection();
+    if (sect == null) {
+      throw new CztException("Must choose a section!");
+    }
+    return zlive_.getPreprocess().preprocess(sect, term);
   }
 }

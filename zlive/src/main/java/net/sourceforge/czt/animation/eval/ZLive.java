@@ -244,6 +244,10 @@ public class ZLive
     return sectName_;
   }
 
+  /** Sets the current section to the one whose name is sectName.
+   *  It parses and typechecks the section first.
+   *  If sectName is null or empty, a reset is done instead.
+   */
   public void setCurrentSection(String sectName)
   throws CommandException
   {
