@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.animation.eval.result;
 
+import net.sourceforge.czt.base.ast.Term;
+
 
 /** A member of a given set.
  *
@@ -57,5 +59,23 @@ public class GivenValue extends EvalResult
   public String toString()
   {
     return value_;
+  }
+  
+  /** {@inheritDoc}
+   *  EvalResult provides a default implementation of
+   *  getChildren that returns an empty array of children.
+   */
+  public Object[] getChildren()
+  {
+    return new Object[0];
+  }
+
+  /** {@inheritDoc}
+   *  EvalResult provides a default implementation of
+   *  create that throws UnsupportedOperationException.
+   */
+  public Term create(Object[] args)
+  {
+    return this; // GivenValues are like constants
   }
 }

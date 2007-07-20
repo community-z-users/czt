@@ -379,7 +379,6 @@ public class ZLive
     SchText schText = factory_.createZSchText(args.getZDeclList(), 
         factory_.createTruePred());
     ExistsExpr expr = factory_.createExistsExpr(schText, schema);
-    LOG.fine("evalSchema is starting to evaluate: "+printTerm(expr));
     // if evalExpr doesn't throw a typecheck error, expr (and schema) must 
     // be a schema expression, so the result should be an EvalSet.
     return (EvalSet) evalExpr(expr);

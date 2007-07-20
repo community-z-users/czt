@@ -223,6 +223,7 @@ public class TextUI {
         }
         Expr schema = parseExpr(args,output_);
         BindExpr inputs = zlive_.unprime( (BindExpr) currMember_ );
+        inputs = (BindExpr) inputs.accept(new ResultTreeToZVisitor());
         // TODO: prompt user for any missing inputs???
         Expr result = zlive_.evalSchema(schema, inputs);
         doEvalSet(result);
@@ -307,6 +308,7 @@ public class TextUI {
     }
     catch (Exception ex) {
       output_.println("Error: " + ex);
+      ex.printStackTrace();
     }
     output_.flush();
   }

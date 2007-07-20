@@ -36,7 +36,7 @@ public class EvalResult extends ExprImpl
    */
   public Object[] getChildren()
   {
-    return new Object[0];
+    throw new UnsupportedOperationException(getClass().getName()+".getChildren(_)");
   }
 
   /** {@inheritDoc}
@@ -45,6 +45,6 @@ public class EvalResult extends ExprImpl
    */
   public Term create(Object[] args)
   {
-    throw new UnsupportedOperationException("GivenValue.create(...)");
+    throw new UnsupportedOperationException(getClass().getName()+".create(_)");
   }
 }
