@@ -51,7 +51,7 @@ public class PostChecker
 
   public ErrorAnn visitThetaExpr(ThetaExpr thetaExpr)
   {
-    TypeAnn typeAnn = (TypeAnn) thetaExpr.getAnn(TypeAnn.class);
+    TypeAnn typeAnn = thetaExpr.getAnn(TypeAnn.class);
     Type type = typeAnn.getType();
     if (type instanceof SchemaType) {
       //check that each name in the signature is present in the
@@ -82,7 +82,7 @@ public class PostChecker
 
   public ErrorAnn visitExprPred(ExprPred exprPred)
   {
-    TypeAnn typeAnn = (TypeAnn) exprPred.getExpr().getAnn(TypeAnn.class);
+    TypeAnn typeAnn = exprPred.getExpr().getAnn(TypeAnn.class);
     Type type = typeAnn.getType();
     if (type instanceof PowerType &&
         powerType(type).getType() instanceof SchemaType) {
@@ -111,21 +111,36 @@ public class PostChecker
     return null;
   }
 
+  private ErrorAnn createUndeclaredNameError(ZName zName)
+  {
+    Object [] params = {zName};
+    ErrorAnn errorAnn =
+      errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
+    if (zName.getZStrokeList().size() > 0) {
+      ZName testName = factory().createZName(zName, false);
+      ZStrokeList sl = testName.getZStrokeList();
+      sl.remove(sl.size() - 1);
+      if (exprChecker().getType(testName) != null) {
+        errorAnn.setInfo("ISO Standard Z requires that any decoration "
+                         + "on a reference to a schema is separated from "
+                         + "the schema name by a hard space (~ in LaTeX)");
+      }
+    }
+    return errorAnn;
+  }
+
   public ErrorAnn visitRefExpr(RefExpr refExpr)
   {
     ZName zName = refExpr.getZName();
-    UndeclaredAnn uAnn = (UndeclaredAnn) zName.getAnn(UndeclaredAnn.class);
-    ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
-
-    //check if this name is undeclared
-    if (uAnn != null) {
-      Object [] params = {zName};
-      ErrorAnn errorAnn =
-        errorAnn(zName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
+    UndeclaredAnn uAnn = zName.getAnn(UndeclaredAnn.class);
+    ParameterAnn pAnn = refExpr.getAnn(ParameterAnn.class);
+    final boolean nameIsUndeclared = uAnn != null;
+    if (nameIsUndeclared) {
+      ErrorAnn errorAnn = createUndeclaredNameError(zName);
       removeAnn(zName, uAnn);
 
       //if this ref expr was created for an ExprPred
-      ExprPred exprPred = (ExprPred) zName.getAnn(ExprPred.class);
+      ExprPred exprPred = zName.getAnn(ExprPred.class);
       boolean added = false;
       if (exprPred == null) {
         added = addErrorAnn(zName, errorAnn);
@@ -133,7 +148,7 @@ public class PostChecker
       else {
         added = addErrorAnn(exprPred, errorAnn);
         removeAnn(zName, exprPred);
-        Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
+        Object ann = exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
       }
       return added ? errorAnn : null;

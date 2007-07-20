@@ -88,23 +88,13 @@ public class ExprChecker
     ZName zName = refExpr.getZName();
     Type type = exprChecker().getType(zName);
 
-    //if the referes to a schema, create new IDs for all names
+    //if the RefExpr referes to a schema, create new IDs for all names
     //in the schema's signature
-    if (type instanceof PowerType &&
-        ((PowerType) type).getType() instanceof SchemaType) {
-      SchemaType schType = (SchemaType) ((PowerType) type).getType();
-      List<NameTypePair> pairs = factory().list();
+    SchemaType schType;
+    if ((schType = referenceToSchema(type)) != null) {
       Signature signature = schType.getSignature();
       if (! (signature instanceof VariableSignature)) {
-        List<NameTypePair> oldPairs = signature.getNameTypePair();
-        for (NameTypePair pair : oldPairs) {
-          ZName oldName = pair.getZName();
-          ZName newName = factory().createZName(oldName, false);
-          //add a unique ID to this name
-          factory().overwriteNameID(newName);
-          pairs.add(factory().createNameTypePair(newName, pair.getType()));
-        }
-        Signature sig = factory().createSignature(pairs);
+        Signature sig = createNewIds(signature);
         SchemaType newSchemaType = factory().createSchemaType(sig);
         type = factory().createPowerType(newSchemaType);
       }
@@ -624,7 +614,7 @@ public class ExprChecker
     //enter a new variable scope
     typeEnv().enterScope();
 
-    //get and visit visit the SchText
+    //get and visit the SchText
     SchText schText = letExpr.getSchText();
     schText.accept(schTextChecker());
 
@@ -1306,5 +1296,39 @@ public class ExprChecker
     //create the new signature
     Signature signature = factory().createSignature(pairs);
     return signature;
+  }
+
+  /**
+   * Creates a Signature with new IDs for all names in the given
+   * Signature.
+   */
+  protected Signature createNewIds(Signature signature)
+  {
+    List<NameTypePair> pairs = factory().list();
+    List<NameTypePair> oldPairs = signature.getNameTypePair();
+    for (NameTypePair pair : oldPairs) {
+      ZName oldName = pair.getZName();
+      ZName newName = factory().createZName(oldName, false);
+      //add a unique ID to this name
+      factory().overwriteNameID(newName);
+      pairs.add(factory().createNameTypePair(newName, pair.getType()));
+    }
+    return factory().createSignature(pairs);
+  }
+
+  /**
+   * Returns the schema type if the given type is a power type of a
+   * schema type, that is, if the given type is of a reference to a
+   * schema; <code>null</code> otherwise.
+   */
+  protected SchemaType referenceToSchema(Type type)
+  {
+    if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      if (powerType.getType() instanceof SchemaType) {
+        return (SchemaType) powerType.getType();
+      }
+    }
+    return null;
   }
 }
