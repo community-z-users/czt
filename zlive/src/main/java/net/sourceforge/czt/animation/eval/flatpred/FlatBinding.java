@@ -74,6 +74,18 @@ public class FlatBinding extends FlatPred
     solutionsReturned_ = -1;
   }
 
+  /* (non-Javadoc)
+   * @see net.sourceforge.czt.animation.eval.flatpred.FlatPred#inferBounds(net.sourceforge.czt.animation.eval.flatpred.Bounds)
+   */
+  @Override
+  public boolean inferBounds(Bounds bnds)
+  {
+    for (int i=0; i< bindNames_.size(); i++) {
+      bnds.addStructureArg(getLastArg(), bindNames_.get(i), args_.get(i));
+    }
+    return false;
+  }
+
   /** Same modes as FlatTuple */
   public Mode chooseMode(Envir env)
   {
