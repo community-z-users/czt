@@ -251,11 +251,33 @@ public class Bounds
 
   public String toString()
   {
-    return "Lows="+lowerBound_.toString()
-          +"+Highs="+upperBound_.toString()
-          +"+Sets="+set_.keySet().toString()
-          +"+Aliases="+aliases_.toString()
-          +"+Structures="+structure_.toString();
+    StringBuffer result = new StringBuffer();
+    result.append("Lows=");
+    result.append(printMap(lowerBound_));
+    result.append("+Highs=");
+    result.append(printMap(upperBound_));
+    result.append("+Aliases=");
+    result.append(printMap(aliases_));
+    result.append("+Structs=");
+    result.append(printMap(structure_));
+    return result.toString();
+  }
+
+  /** A alternative version of Map&lt;ZName,???&gt;.toString() 
+   *  that prints the names in a non-unicode way.
+   */
+  public static <V> String printMap(Map<ZName,V> map)
+  {
+    StringBuffer result = new StringBuffer();
+    for (Map.Entry<ZName, V> pair : map.entrySet()) {
+      result.append(",");
+      result.append(FlatPred.printName(pair.getKey()));
+      result.append("=");
+      result.append(pair.getValue().toString());
+    }
+    result.replace(0, 1, "{");
+    result.append("}");
+    return result.toString();
   }
 
   /** Get the EvalSet for var, if known.
@@ -528,7 +550,7 @@ public class Bounds
       assert getBestAlias(var1) == best2;
       assert getBestAlias(var2) == best2;
     }
-    
+
     // mark all var1 and var2 aliases as changed
     changed_.addAll(aliases_.get(var1));
   }
