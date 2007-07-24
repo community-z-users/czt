@@ -88,8 +88,7 @@ public class ZGiven implements ZValue
    */
   public boolean equals(Object obj)
   {
-    //return obj instanceof ZGiven && ((ZGiven) obj).value_.equals(value_);
-    return ex_.toString().equals(((ZValue) obj).toString());
+    return obj instanceof ZGiven && toString().equals(obj.toString());
   }
 
   /**

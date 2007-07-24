@@ -11,7 +11,8 @@ public class ZGivenTest extends TestCase
   private ZGiven gb = new ZGiven("A");
   private ZGiven gc = new ZGiven("C");
   
-  private ZGiven gd = new ZGiven("Try_019_!@#$%^&*()~|\"\\\"?<>:;''''{}[]-=_,.+");
+  private String name_ = "Try_019_!@#$%^&*()~|\"\\\"?<>:;''''{}[]-=_,.+";
+  private ZGiven gd = new ZGiven(name_);
   
   /*
    * Test method for 'net.sourceforge.czt.animation.gui.temp.ZGiven.hashCode()'
@@ -27,10 +28,11 @@ public class ZGivenTest extends TestCase
    */
   public void testZGivenString()
   {
-    Assert.assertEquals(ga,new ZGiven("A"));
-    Assert.assertEquals(gb,new ZGiven("A"));
+    Assert.assertEquals("A",ga.toString());
+    Assert.assertEquals(gb,ga);
     Assert.assertEquals(gc,new ZGiven("C"));
-    Assert.assertEquals(gd,new ZGiven("Try_019_!@#$%^&*()~|\"\\\"?<>:;''''{}[]-=_,.+"));
+    Assert.assertFalse(ga.equals(gc));
+    Assert.assertEquals(gd,new ZGiven(name_));
   }
 
   /*
