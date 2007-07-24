@@ -22,5 +22,5 @@ package net.sourceforge.czt.circuspatt.jaxb;
 public class JaxbContext
 {
   public static final String PATH =
-    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.circuspatt.jaxb.gen";
+    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.zpatt.jaxb.gen:net.sourceforge.czt.circus.jaxb.gen:net.sourceforge.czt.circuspatt.jaxb.gen";
 }
