@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
  * A printer for terms.
  */
 public class PrintVisitor
-  extends VisitorImpl<String>
   implements TermVisitor<String>
 {
   public String visitTerm(Term term)

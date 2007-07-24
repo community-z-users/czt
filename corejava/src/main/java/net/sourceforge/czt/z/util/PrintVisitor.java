@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2006 Mark Utting
+  Copyright (C) 2006, 2007 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,7 +22,6 @@ package net.sourceforge.czt.z.util;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.VisitorImpl;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -39,7 +38,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class PrintVisitor
-  extends VisitorImpl<String>
+  extends net.sourceforge.czt.base.util.PrintVisitor
   implements GenericTypeVisitor<String>,
              GenParamTypeVisitor<String>,
              GivenTypeVisitor<String>,
@@ -295,5 +294,11 @@ public class PrintVisitor
       return first + visitList(list, separator) + last;
     }
     return "";
+  }
+
+  protected String visit(Term term)
+  {
+    if (term != null) return term.accept(this);
+    return null;
   }
 }

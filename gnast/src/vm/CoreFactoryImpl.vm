@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2005 Petra Malik
+Copyright 2003, 2005, 2007 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -29,13 +29,12 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 package ${project.BasePackage}.${class.Package};
 
-import net.sourceforge.czt.base.util.VisitorImpl;
-
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end
 import ${project.AstPackage}.*;
 import ${project.BasePackage}.util.PrintVisitor;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * <p>An implementation of the object factory for constructing
@@ -63,7 +62,7 @@ public class ${class.Name}
 #end
   implements ${FactoryInterface.FullName}
 {
-  protected ${class.Name}(VisitorImpl<String> toStringVisitor)
+  protected ${class.Name}(Visitor<String> toStringVisitor)
   {
     super(toStringVisitor);
   }

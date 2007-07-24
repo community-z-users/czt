@@ -394,56 +394,42 @@ action code
 
 <add:oz>
     /**
-     * Converts an Term to an OpExpr.
+     * Converts a Term to an OpExpr.
      */
     protected OpExpr opExpr(Term t)
       throws ParseException
     {
-      OpExpr result = null;
-
-      if (t instanceof OpExpr) {
-        result = (OpExpr) t;
-      }
-      else if (t instanceof RefExpr) {
+      if (t instanceof OpExpr) return (OpExpr) t;
+      if (t instanceof RefExpr) {
         RefExpr re = (RefExpr) t;
-        result = factory_.createOpPromotionExpr(null, re.getName());
+        OpExpr result = factory_.createOpPromotionExpr(null, re.getName());
         LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
         if (locAnn != null) result.getAnns().add(locAnn);
+        return result;
       }
-      else {
-        parser.report_error(ZParseMessage.MSG_OPEXPR_EXPECTED,
-                            new Object[0], getLocation(t));
-      }
-      return result;
+      parser.report_error(ZParseMessage.MSG_OPEXPR_EXPECTED,
+                          new Object[0], getLocation(t));
+      return null;
     }
 </add:oz>
 
     /**
      * Converts a Term to a Name.
      */
-    protected Name refname(Term t)
-      throws ParseException
+    protected Name name(Term t)
     {
-      Name result = null;
-
-      if (t instanceof Name) {
-        result = (Name) t; 
-      }
-      else if (t instanceof RefExpr) {
+      if (t instanceof Name) return (Name) t;
+      if (t instanceof RefExpr) {
         RefExpr re = (RefExpr) t;
-
         if (re.getZExprList().size() > 0) {
           parser.report_error(ZParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
                               new Object [0], getLocation(re));
         }
-        result = re.getName();
+        return re.getName();
       }
-      else {
-        parser.report_error(ZParseMessage.MSG_REFNAME_EXPECTED,
-                            new Object [0], getLocation(t));
-      }
-
-      return result;
+      parser.report_error(ZParseMessage.MSG_REFNAME_EXPECTED,
+                          new Object [0], getLocation(t));
+      return null;
     }
 
     /**
@@ -1641,7 +1627,7 @@ parser code
      */
     protected void setZFactoryToStringVisitor(Factory f) {
         ZUtils.assertZFactoryImpl(f.getZFactory()).setToStringVisitor(
-            CircusUtils.assertCircusFactoryImpl(f.getCircusFactory()).getToStringVisitor(), false);
+            CircusUtils.assertCircusFactoryImpl(f.getCircusFactory()).getToStringVisitor());
     }
 
 </add:circus>
@@ -1688,15 +1674,16 @@ parser code
       return new LocInfoImpl(locAnn);
     }
     
-    protected ParserState createParserState(Source src) {
-        ParserState result = new ParserState(src);
-        return result;
+    protected ParserState createParserState(Source src)
+    {
+      return new ParserState(src);
     }
 
-    protected Factory createParserFactory() {
-        Factory result = new Factory();
-        <add:circus>setZFactoryToStringVisitor(result);</add:circus>
-        return result;
+    protected Factory createParserFactory()
+    {
+      Factory result = new Factory();
+      <add:circus>setZFactoryToStringVisitor(result);</add:circus>
+      return result;
     }
 :}
 
@@ -6244,7 +6231,7 @@ RSQUARE:rsq
            rename expressions fail to parse. */
         inner_term:it LSQUARE expressionList:el RSQUARE:rsquare
         {:
-           RESULT = factory_.createRefExpr(refname(it), el, Boolean.FALSE, Boolean.TRUE);
+           RESULT = factory_.createRefExpr(name(it), el, Boolean.FALSE, Boolean.TRUE);
            addLocAnn(RESULT, getLocation(it, rsquare));
         :}
         |
@@ -7234,7 +7221,7 @@ inheritedClass ::=
         |
         inheritedClass:ic LSQUARE expressionList:el RSQUARE:rsq
         {:
-           Name rn = refname(ic);
+           Name rn = name(ic);
            addLocAnn(rn, getLocation(icleft, icright));
            RESULT =
              factory_.createRefExpr(rn, el, Boolean.FALSE, Boolean.TRUE);
@@ -7663,7 +7650,7 @@ inner_opExpr ::=
 /*
         inner_inner_term:it NEXTPRO inner_opExpr:t
         {:
-           Event et = factory_.createEvent(refname(oplhs), expr(it));
+           Event et = factory_.createEvent(name(oplhs), expr(it));
            RESULT = factory_.createAtProExpr(et, null, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}
@@ -7686,7 +7673,7 @@ inner_opExpr ::=
         opPromotionLhs:oplhs DOT inner_term:it 
            ATTIME expression:e NEXTPRO inner_term:t
         {:
-           Event et = factory_.createEvent(refname(oplhs), expr(it));
+           Event et = factory_.createEvent(name(oplhs), expr(it));
            RESULT = factory_.createAtProExpr(et, e, oe);
            addLocAnn(RESULT, oplhsleft, oplhsright);
         :}

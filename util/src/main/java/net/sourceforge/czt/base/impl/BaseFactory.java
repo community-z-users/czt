@@ -21,14 +21,14 @@ package net.sourceforge.czt.base.impl;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.Visit;
-import net.sourceforge.czt.base.util.VisitorImpl;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * The base class of AST factories.
  */
 public abstract class BaseFactory
 {
-  private VisitorImpl<String> toStringVisitor_;
+  private Visitor<String> toStringVisitor_;
 
   protected BaseFactory()
   {
@@ -38,35 +38,17 @@ public abstract class BaseFactory
   /**
    * Sets the visit method of the given visitor to toString.
    */
-  protected BaseFactory(VisitorImpl<String> toStringVisitor)
+  protected BaseFactory(Visitor<String> toStringVisitor)
   {
     toStringVisitor_ = toStringVisitor;
-    setVisitMethod();
   }
 
-  private void setVisitMethod()
-  {
-    if (toStringVisitor_ != null) {
-      Visit<String> visit = new Visit<String>()
-        {
-          public String visit(Term term)
-          {
-            if (term != null) return term.toString();
-            return null;
-          }
-        };
-      toStringVisitor_.setVisit(visit);
-    }
-  }
-
-  public void setToStringVisitor(VisitorImpl<String> toStringVisitor,
-                                 boolean setVisitMethod)
+  public void setToStringVisitor(Visitor<String> toStringVisitor)
   {
     toStringVisitor_ = toStringVisitor;
-    if (setVisitMethod) setVisitMethod();
   }
 
-  public VisitorImpl<String> getToStringVisitor()
+  public Visitor<String> getToStringVisitor()
   {
     return toStringVisitor_;
   }

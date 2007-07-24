@@ -124,7 +124,7 @@ public class ZLive
     // Make a factory that prints names in ASCII, not Unicode
     // (This is better for debugging and for console output).
     ZFactoryImpl tmp = new ZFactoryImpl();
-    tmp.setToStringVisitor(new PrintVisitor(false), true);
+    tmp.setToStringVisitor(new PrintVisitor(false));
     factory_ = new Factory(tmp);
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
