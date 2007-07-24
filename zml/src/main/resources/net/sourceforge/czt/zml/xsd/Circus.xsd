@@ -1561,17 +1561,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
-          <!-- Generic types, possibly empty but not null? -->                    
-          <xs:element ref="Z:NameList">          
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="GenFormals"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <!-- List of channel names for channel, or null for channelFrom -->        
-          <xs:element ref="Z:NameList"/>          
-          <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
+          <xs:element ref="Z:NameList" minOccurs="2" maxOccurs="2"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>

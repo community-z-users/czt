@@ -154,13 +154,13 @@ public class CircusPrintVisitor
     public Object visitChannelDecl(ChannelDecl term) {
         if (CircusUtils.isChannelFromDecl(term)) {
             print(CircusKeyword.CIRCCHANFROM);
-            printGenericFormals(term.getGenFormals());
+            printGenericFormals(term.getNameList().get(0));
             assert term.getExpr() != null;
             visit(term.getExpr());
         } else {
             print(CircusKeyword.CIRCCHAN);
-            printGenericFormals(term.getGenFormals());
-            visit(term.getNameList());
+            printGenericFormals(term.getNameList().get(0));
+            visit(term.getNameList().get(1));
             if (term.getExpr() != null) {
                 print(Keyword.COLON);
                 visit(term.getExpr());

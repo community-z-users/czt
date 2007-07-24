@@ -3476,14 +3476,15 @@ channelDecl ::=
         /* Generically defined typed channels */
         formalParameters:fp circusDeclWordList:cdwl COLON expression:e
         {:                       
-           RESULT = factory_.createChannelDecl(fp, cdwl, e);
+           RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), e);
            addLocAnn(RESULT, getLocation(fp, e));
         :}
         |
         /* Typed channels */
         circusDeclWordList:cdwl COLON expression:e
-        {:                       
-           RESULT = factory_.createChannelDecl(factory_.createZNameList(), cdwl, e);
+        {:
+           ZNameList znl = factory_.createZNameList();
+           RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), e);
            addLocAnn(RESULT, getLocation(cdwl.get(0), e));
         :}    
         |
@@ -3495,7 +3496,8 @@ channelDecl ::=
          */
         nameList:nl
 	{:                  
-           RESULT = factory_.createChannelDecl(factory_.createZNameList(), nl, null);
+           ZNameList znl = factory_.createZNameList();
+           RESULT = factory_.createChannelDecl(factory_.list(znl, nl), null);
            addLocAnn(RESULT, getLocation(nl));
 	:} 
         /* Generically defined typed channels with type error */
@@ -3504,7 +3506,7 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(fp, cdwl, null); 
+          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null); 
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :}
         |
@@ -3512,7 +3514,7 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(fp, cdwl, null); 
+          RESULT = factory_.createChannelDecl(factory_.list(fp, cdwl), null); 
           addLocAnn(RESULT, getLocation(fp, getLocation(eleft, eright)));
         :} 
         |
@@ -3521,7 +3523,8 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(factory_.createZNameList(), cdwl, null); 
+          ZNameList znl = factory_.createZNameList();
+          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null); 
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}
         |
@@ -3530,7 +3533,8 @@ channelDecl ::=
         {: 
           parser.report_error(CircusParseMessage.MSG_CHANNEL_TYPE_ERROR,
                             new Object[0], getLocation(eleft, eright));
-          RESULT = factory_.createChannelDecl(factory_.createZNameList(), cdwl, null); 
+          ZNameList znl = factory_.createZNameList();
+          RESULT = factory_.createChannelDecl(factory_.list(znl, cdwl), null); 
           addLocAnn(RESULT, getLocation(cdwl.get(0), getLocation(eleft, eright)));
         :}    
         ;
@@ -3544,7 +3548,8 @@ channelFromDecl ::=
         optFormalParameters:ofp DECORWORD:dw genericActuals:ga
         {:  
            RefExpr re = factory_.createRefExpr(createZName(dw), ga, Boolean.FALSE, Boolean.TRUE);
-           RESULT = factory_.createChannelDecl(ofp, factory_.createZNameList(), re);
+           ZNameList znl = factory_.createZNameList();
+           RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, ga));
         :}        
         | 
@@ -3552,7 +3557,8 @@ channelFromDecl ::=
         optFormalParameters:ofp DECORWORD:dw
         {:
            RefExpr re = factory_.createRefExpr(createZName(dw));/*same as: FALSE, FALSE*/
-           RESULT = factory_.createChannelDecl(ofp, factory_.createZNameList(), re);
+           ZNameList znl = factory_.createZNameList();
+           RESULT = factory_.createChannelDecl(factory_.list(ofp, znl), re);
            addLocAnn(RESULT, getLocation(ofp, dw.getLocation()));
         :}                        
         ; 
