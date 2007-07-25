@@ -639,21 +639,26 @@ public class PrintVisitor
     result.append(term.hashCode());
     result.append(")[");
     openTabScope(result);
+    /*
     result.append("StatePara=");
     result.append(visit(term.getStatePara()));
-    int paraCnt = term.getZLocalPara().size();
+    int paraCnt = term.getLocalPara().size();
     addNLAndTabs(result);
     result.append("LocalPara(" + paraCnt + ")");
-    result.append(visit(term.getZLocalPara()));
-    int ontheflyCnt = term.getZOnTheFlyPara().size();
+    result.append(visitList(term.getLocalPara(), "\n"));
+    int ontheflyCnt = term.getOnTheFlyPara().size();
     addNLAndTabs(result);
     result.append("OnTheFlyPara(" + ontheflyCnt + ")");
-    result.append(visit(term.getZOnTheFlyPara()));
+    result.append(visitList(term.getOnTheFlyPara(), "\n"));
     addNLAndTabs(result);
     result.append("MainAction=");
     result.append(visit(term.getMainAction()));
     addNLAndTabs(result);
     result.append("\tTotal paras=" + (paraCnt+ontheflyCnt));
+    */
+    result.append(visit(term.getZParaList()));
+    addNLAndTabs(result);
+    result.append("\tTotal paras=" + (term.getZParaList().size()));
     closeTabScope(result);
     result.append("]");
     //addNLAndTabs(result);
