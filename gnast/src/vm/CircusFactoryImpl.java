@@ -22,5 +22,5 @@
     
     /** Creates an interleave action with empty (basic) name sets. This is a convenience method */    
     public InterleaveAction createInterleaveAction(CircusAction left, CircusAction right) {
-      return createInterleaveAction(left, right, createEmptyCircusNameSet(), createEmptyCircusNameSet());
+      return createInterleaveAction(java.util.Arrays.asList(left, right), createEmptyCircusNameSet(), createEmptyCircusNameSet());
     }
