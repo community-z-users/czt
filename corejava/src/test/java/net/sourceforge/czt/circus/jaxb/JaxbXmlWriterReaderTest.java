@@ -67,6 +67,11 @@ public class JaxbXmlWriterReaderTest extends XmlWriterReaderTest
   {
     List<URL> result = new ArrayList();
     result.add(Resources.getCircusExample("channels.xml"));
+    // STILL SOME PROBLEMS...
+    //result.add(Resources.getCircusExample("fib-multenv.xml"));
+    //result.add(Resources.getCircusExample("fib-singleenv.xml"));
+    //result.add(Resources.getCircusExample("steam-boiler-multienv.xml"));
+    //result.add(Resources.getCircusExample("steam-boiler-singleenv.xml"));
     return result;
   }
 }
