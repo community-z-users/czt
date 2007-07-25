@@ -498,7 +498,8 @@ public class Bounds
     assert var2 != null;
     if (isAliased(var1, var2))
       return; // no change needed.
-    deductions_++;
+    // Now we know that var1 and var2 are not equal.
+    System.out.println("addAlias("+var1+","+var2+") when bounds="+toString());
 
     // Now calculate the union of the two alias sets,
     // then copy bounds information from one variable to the other
@@ -510,7 +511,6 @@ public class Bounds
       LinkedHashSet<ZName> result = new LinkedHashSet<ZName>();
       result.add(var1);
       result.add(var2);
-      assert result.iterator().next() == var1;
       moveBounds(var2, var1);
       aliases_.put(var1, result);
       aliases_.put(var2, result);
@@ -519,26 +519,31 @@ public class Bounds
     }
     else if (list1 == null) {
       // list2 is non-null
+      ZName best2 = getBestAlias(var2);
+      assert best2 != var1;
       list2.add(var1); // this updates all existing aliases of var2.
-      //TODO: assert getBestAlias(var2) == var2; // must be unchanged
-      moveBounds(var1, var2);
+      assert getBestAlias(var2) == best2; // must be unchanged
+      moveBounds(var1, best2);
       aliases_.put(var1, list2);
       // double-check that we moved the bounds to the correct variable
-      // TODO: assert getBestAlias(var1) == var2;
+      assert getBestAlias(var1) == best2;
     }
     else if (list2 == null) {
       // list1 is non-null
+      ZName best1 = getBestAlias(var1);
+      assert best1 != var2;
       list1.add(var2); // this updates all existing aliases of var1.
-      //TODO: assert getBestAlias(var1) == var1; // must be unchanged
-      moveBounds(var2, var1);
+      assert getBestAlias(var1) == best1; // must be unchanged
+      moveBounds(var2, best1);
       aliases_.put(var2, list1);
       // double-check that we moved the bounds to the correct variable
-      //TODO: assert getBestAlias(var2) == var1;
+      assert getBestAlias(var2) == best1;
     }
     else {
       // both are non-null, so add list1 into list2.
       ZName best1 = getBestAlias(var1);
       ZName best2 = getBestAlias(var2);
+      assert best1 != best2;
       moveBounds(best1, best2);
       list2.addAll(list1);
       assert list2.contains(var1);
@@ -551,6 +556,7 @@ public class Bounds
       assert getBestAlias(var2) == best2;
     }
 
+    deductions_++;
     // mark all var1 and var2 aliases as changed
     changed_.addAll(aliases_.get(var1));
   }
@@ -561,6 +567,7 @@ public class Bounds
    */
   private void moveBounds(ZName from, ZName to)
   {
+    assert from != to;
     BigInteger bnd = getLower(from);
     if (bnd != null) {
       addLower(to, bnd);
@@ -578,7 +585,12 @@ public class Bounds
       for (Map.Entry<Object, ZName> e : args.entrySet())
         addStructureArg(to, e.getKey(), e.getValue());
     }
-    // TODO: could delete the old bounds to clean things up
+    // now delete the old bounds to clean things up
+    lowerBound_.remove(from);
+    upperBound_.remove(from);
+    set_.remove(from);
+    aliases_.remove(from);
+    structure_.remove(from);
   }
 
 
