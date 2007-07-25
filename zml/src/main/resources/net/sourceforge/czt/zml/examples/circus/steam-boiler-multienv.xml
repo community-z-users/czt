@@ -1,0 +1,1567 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="2.1" xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_2_1.xsd" xmlns:ns2="http://czt.sourceforge.net/circus" xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NarrSect>
+        <Anns>
+            <LocAnn Start="0" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="0" Length="34336" Col="0"/>
+        </Anns>
+        <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">\documentclass{report}
+
+\usepackage{vmargin}
+\usepackage[color]{circus}
+
+\setpapersize{A4}
+\setmarginsrb{40mm}{20mm}{40mm}{20mm}{12pt}{11mm}{0pt}{10mm}
+
+\newcommand{\HandelC}{\textsf{\slshape Handel-C}}
+
+\newcommand{\action}[1]{\mathsl{#1}}
+
+\newcommand{\cbegin}{\mathbf{begin}}
+\newcommand{\ccon}{\mathbf{con}}
+\newcommand{\cend}{\mathbf{end}}
+\newcommand{\chanevents}[1]{\{\!\mid #1 \mid\!\}}
+\newcommand{\channelname}[1]{\mathsl{#1}}
+\newcommand{\chan}{\mathbf{channel}}
+\newcommand{\compresslist}{\itemsep=0pt \parskip=0pt}
+\newcommand{\cprocess}{\mathbf{process}}
+\newcommand{\cvar}{\mathbf{var}}
+\newcommand{\eventname}[1]{\mathsl{#1}}
+\newcommand{\processname}[1]{\mathsl{#1}}
+
+\newcommand{\boolean}{{\mathbb B}}
+\newcommand{\true}{\ensuremath{\mathbf{true}}}
+\newcommand{\false}{\ensuremath{\mathbf{false}}}
+\newcommand{\event}[1]{\mathsl{#1}}
+\renewcommand{\freetype}[1]{\mathsf{#1}}
+
+\newcommand{\freetypecloseValve}{\freetype{closeValve}}
+\newcommand{\freetypeclosed}{\freetype{closed}}
+\newcommand{\freetypeclosecmd}{\freetype{closecmd}}
+\newcommand{\freetypedegraded}{\freetype{degraded}}
+\newcommand{\freetypeemergencyStop }{\freetype{emergencyStop}}
+\newcommand{\freetypeflow}{\freetype{flow}}
+\newcommand{\freetypeinitialisation}{\freetype{initialisation}}
+\newcommand{\freetypelevelFailureDetection}{\freetype{levelFailureDetection}}
+\newcommand{\freetypelevelRepairedAcknowledgement}  {\freetype{levelRepairedAcknowledgement}}
+\newcommand{\freetypenoflow}{\freetype{noflow}}
+\newcommand{\freetypenormal}{\freetype{normal}}
+\newcommand{\freetypeopenValve}{\freetype{openValve}}
+\newcommand{\freetypeopen}{\freetype{open}}
+\newcommand{\freetypeopencmd}{\freetype{opencmd}}
+\newcommand{\freetypepcfailed}{\freetype{pcfailed}}
+\newcommand{\freetypepcfail}{\freetype{pcfail}}
+\newcommand{\freetypepcflow}{\freetype{pcflow}}
+\newcommand{\freetypepclosed}{\freetype{pclosed}}
+\newcommand{\freetypepcnoflow}{\freetype{pcnoflow}}
+\newcommand{\freetypepfailed}{\freetype{pfailed}}
+\newcommand{\freetypepfail}{\freetype{pfail}}
+\newcommand{\freetypephysicalUnitsReady}{\freetype{physicalUnitsReady}}
+\newcommand{\freetypepopen}{\freetype{popen}}
+\newcommand{\freetypeprogramReady}{\freetype{programReady}}
+\newcommand{\freetypepwaiting}{\freetype{pwaiting}}
+\newcommand{\freetypeqfail}{\freetype{qfail}}
+\newcommand{\freetyperescue}{\freetype{rescue}}
+\newcommand{\freetypesfailed}{\freetype{sfailed}}
+\newcommand{\freetypesokay}{\freetype{sokay}}
+\newcommand{\freetypesteamBoilerWaiting}{\freetype{steamBoilerWaiting}}
+\newcommand{\freetypesteamFailureDetection}{\freetype{steamFailureDetection}}
+\newcommand{\freetypesteamRepairedAcknowledgement}  {\freetype{steamRepairedAcknowledgement}}
+\newcommand{\freetypestop}{\freetype{stop}}
+\newcommand{\freetypetransmissionFailure}{\freetype{transmissionFailure}}
+\newcommand{\freetypevclosed}{\freetype{vclosed}}
+\newcommand{\freetypevfail}{\freetype{vfail}}
+\newcommand{\freetypevopen}{\freetype{vopen}}
+
+\newenvironment{addedstuff}{\begin{flushleft}\textbf{ADDED TO ORIGINAL BEGIN}\begin{quote}\begin{minipage}{.8\textwidth}}{\end{minipage}\end{quote}\textbf{ADDED TO ORIGINAL END}\end{flushleft}}
+
+\newcommand{\lschexpract}{\left(\!\!\left(}
+\newcommand{\rschexpract}{\right)\!\!\right)}
+\newcommand{\lcircguard}{\left\langle}
+\newcommand{\rcircguard}{\right\rangle}
+\newcommand{\prefixcolon}{~:~}
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+\title{\Circus\ Example --- Parsable Steam Boiler\\ (unboxed processes)}
+\author{Leonardo Freitas}
+\date{June 2006}
+
+\maketitle
+
+\begin{abstract}
+   \noindent This document is a parsable version of the original report
+   back in 2002 by Jim Woodcock. We kept the text as the original, except
+   from the text between basic process, as this is a unboxed version (\textit{i.e.},
+   processes appear in a single circus environment).
+\end{abstract}
+
+
+
+\newpage 
+\tableofcontents 
+\newpage 
+
+\chapter{Introduction}
+
+
+This report has been prepared for the Defence Evaluation and Research
+Agency, Malvern, UK, under grant number CU009-0000004344.
+
+The research was carried out by the author at the University of
+Oxford, and whilst on visits to the following institutions: the
+Federal University of Pernambuco, Trinity College Dublin, the Stevens
+Institute of Technology in New Jersey, and the United Nations
+University, International Institute for Software Technology in Macau
+(UNU/IIST).
+
+The author has discussed the steam boiler over a long period of time
+with many people, including: Jean-Raymond Abrial, Dines Bj{\o}rner,
+Eerke Boiten, Christie Bolton, Egon B\"{o}rger, Andrew Butterfield,
+Ana Cavalcanti, Charlie Crichton, Jim Davies, John Derrick, Lindsay
+Groves, Daniel Jackson, He Jifeng, Tony Hoare, Steve King, Andrew
+Martin, Alistair \hbox{McEwan}, Colin O'Halloran, Augusto Sampaio,
+Anthony Smith, Ib Holm S{\o}rensen, and the Visiting Fellows at
+UNU/IIST.
+
+
+\section{\Circus}
+
+The research in this report has influenced the design of \Circus, a
+concurrent refinement calculus \cite{woodcock-cavalcanti-01} that
+unifies the Z notation \cite{spivey-88, potter-sinclair-till-91,
+  spivey-92, woodcock-davies-96}, CSP \cite{hoare-85, roscoe-98}, and
+ZRC \cite{cavalcanti-97, cavalcanti-woodcock-98}, a refinement
+calculus for Z.  The semantics of \Circus\ is based on Hoare \&amp; He's
+\emph{Unifying Theories of Programming} \cite{hoare-he-98}, in which
+the theory of alphabetised relations is used as a common semantic
+basis for many diverse paradigms of programming, including imperative
+programming, concurrency, and communication, which are fundamental to
+\Circus.
+
+An objective of the design of \Circus\ is to provide a sound
+development technique based on the refinement calculus \cite
+{morgan-94} for parallel programming languages including
+\textsf{occam} \cite{inmos-84}, \HandelC\
+\cite{embedded-solutions-ltd-99}, and even Java
+\cite{arnold-gosling-96, cavalcanti-sampaio-01}.  The effective use of
+such a calculus requires tool support, and we use two tools together
+in analysing \Circus\ specifications: Z/Eves
+\cite{meisels-saaltink-97, saaltink-97} and FDR
+\cite{formal-systems-97}.  The Z specifications in this document have
+been parsed and type-checked using \fuzz\ \cite{spivey-95} and the FDR
+scripts checked using FDR 2.78; a verification using Z/Eves was
+incomplete at the date of writing.
+
+In \cite{woodcock-cavalcanti-01}, Z is used as the concrete syntax for
+the theory of alphabetised relations, so a \Circus\ specification
+actually denotes a Z specification, in spite of containing terms in
+the syntax of CSP.  This means that Z tools may be used to analyse
+entire \Circus\ specifications, not just those parts written in Z.
+This is particularly useful when it is not possible or convenient to
+reduce a \Circus\ specification to the size where it may be
+model-checked using FDR, and we need to verify a development with a
+theorem prover.
+
+
+\section{The steam boiler problem}
+
+The \emph{steam-boiler} problem has established itself as one of the
+standard problems in software engineering, alongside the library, the
+lift, and the telephone exchange.  It was first posed by Bauer from
+the University of Waterloo \cite{bauer-93}, and subsequently
+popularised by Abrial as the subject of a Dagstuhl workshop
+\cite{abrial-96-b}.  The problem description and twenty-two solutions
+are contained in \cite{abrial-borger-langmaack-96}; Abrial's own
+solution is published separately in \cite{abrial-96-a}.
+
+The problem is to program the control system for a steam boiler, such
+as might be found in a power station.  The control software is
+supposed to exist within a physical environment with the following
+elements.
+{\slshape
+  \begin{itemize}\compresslist
+  \item The steam boiler.
+  \item A sensor to detect the level of the water in the boiler.
+  \item Four pumps supplying the steam boiler with water.
+  \item Four pump controllers.
+  \item A sensor to measure the quantity of steam being produced.
+  \item An operator's desk.
+  \item A message transmission system.
+  \end{itemize}
+}
+The steam-boiler's components have various parameters that constrain
+their working capacities; these are described in
+table~\ref{table:parameters}.
+\begin{table}[htbp]
+  \bigskip   \begin{center}\slshape
+    \begin{tabular}{c|l}
+      \textbf{\slshape parameter} &amp; \textbf{\slshape meaning}
+      \\[1mm]       \hline       \\[-3mm]       \( C \) &amp; the capacity of the boiler
+      \\       \( M_1 \) &amp; the minimum water level; if the level remains below
+      \( M_1 \)\/ while
+      \\       &amp; the steam production is at its maximum, then the steam boiler
+      \\       &amp; would be in danger after five seconds
+      \\       \( M_2 \) &amp; the maximum water level; if the level remains above \(
+      M_2 \)\/ without
+      \\       &amp; steam production, then the steam boiler would be in danger
+      \\       &amp; after five seconds
+      \\       \( N_1 \) &amp; the minimum normal quantity of water, where \( M_1 &lt;
+      N_1 \)
+      \\       \( N_2 \) &amp; the maximum normal quantity of water, where \( N_2 &lt;
+      M_2 \)
+      \\       \( W \) &amp; the maximum quantity of steam at the steam-boiler exit
+      \\       \( U_1 \) &amp; the maximum gradient of increase of the quantity of
+      steam
+      \\       \( U_2 \) &amp; the maximum gradient of decrease of the quantity of
+      steam
+      \\       \( q \) &amp; the measure of the water level
+      \\       \( P \) &amp; the capacity of a pump
+      \\       \( v \) &amp; the measure of the steam rate
+    \end{tabular}
+  \end{center}
+  \caption{Parameters and their meanings}\label{table:parameters}
+\end{table}
+
+After a pump has been switched on, it takes five seconds before water
+is pumped into the boiler, because of the need to balance pressures;
+however, it can be stopped instantaneously.  A pump controller reports
+on whether there is water passing through its pump.
+
+The program communicates with the physical units through messages that
+are transmitted over dedicated lines.  Transmission times may be
+neglected and all messages may be regarded as arriving simultaneously.
+The control program operates in five different modes.
+\begin{itemize}\compresslist
+\item \emph{Initialisation}.  The program checks the water and steam
+  sensors for correct operation; it ensures that the water level is
+  between normal operating limits.
+\item \emph{Normal}.  This is the standard operating mode, where the
+  program tries to maintain the water level; there are no unrepaired
+  failures.
+\item \emph{Degraded}.  The water sensor has not failed, but some
+  other non-vital piece of equipment has; the program continues to
+  operate.
+\item \emph{Rescue}.  The water sensor has failed; the program
+  continues to operate.
+\item \emph{Emergency stop}.  The program enters this mode if it has
+  been instructed to stop, if the water level is near to one of the
+  overall limits, if a vital piece of equipment has failed, or if
+  there is some irregularity in the protocol between the program and
+  the physical equipment.
+\end{itemize}
+The program does not terminate and follows a cycle that takes place
+every five seconds: \emph{receive messages---analyse
+  information---transmit messages}.
+
+\section{The \Circus\ solution}
+
+Our solution to the problem consists of four processes operating in
+parallel.
+\begin{enumerate}\compresslist
+\item The \textbf{\( \mathsl{Timer} \)}\/ makes sure that the
+  program's cycle begins every five seconds.
+\item The \textbf{\( \mathsl{Analyser} \)}\/ inputs messages from the
+  physical units and analyses their content.  Once the analysis is
+  complete, it offers an \emph{information service} to the \(
+  \mathsl{Controller} \).
+\item The \textbf{\( \mathsl{Controller} \)}\/ decides on the actions
+  to be taken, based on the information that it receives.  It
+  generates outputs for the \( \mathsl{Reporter} \).
+\item The \textbf{\( \mathsl{Reporter} \)}\/ offers a \emph{reporting
+    service} to the \( \mathsl{Controller} \)\/ by gathering its
+  outputs and packaging them together for dispatch to the physical
+  units.  It signals the completion of the cycle.
+\end{enumerate}
+
+Our solution is guided by a desire to find efficient ways of verifying
+our model; in particular, we want to use the FDR model checker.  There
+are two obstacles to using a model checker for a system such as this:
+the state explosion problem and the presence of loose constants.  FDR
+can check an impressive number of states, but the rich state of the
+steam boiler exceeds this capacity by many orders of magnitude.
+
+Loose constants complicate model checking, since they must be given
+specific values; an argument is then required to extrapolate from
+these specific values to arbitrary ones.  The full steam-boiler
+system, described at the level of the requirements, depends on several
+loosely-specified constants; any reasonable instantiation of these
+constants leads to a massive number of states.
+
+Our solution is to separate the \( \mathsl{Controller} \) and its
+finite state machine from the \( \mathsl{Analyser}\) and the rich
+state that it constructs from the history of input messages.  The \(
+\mathsl{Analyser} \)\/ digests the incoming messages and makes this
+digest available to the \( \mathsl{Controller} \)\/ as abstract
+events; this makes the \( \mathsl{Controller} \)\/ amenable to fully
+automatic model checking using FDR, having fewer than one million
+states and no loose constants to instantiate.
+
+Extrapolation from the abstract behaviour of the \(
+\mathsl{Controller} \) to the concrete realities of the requirements
+is provided by the \( \mathsl{Analyser} \).  In fact, it may be viewed
+as a retrieve function from the concrete details of the state to an
+abstract interpretation of those details, in the sense of data
+refinement~\cite{jones-90, woodcock-davies-96}.
+
+The sequence of messages involved in the interaction between these
+five processes is described in the message sequence chart in
+figure~\ref{fig:msg-seq-chart}.  In this diagram, the \(
+\mathsl{ainput} \)\/ and \( \mathsl{aoutput} \)\/ channels connect to
+the environment; everything else is internal.  The \( \mathsl{ainfo}
+\)\/ and \( \mathsl{a}\-\mathsl{report} \)\/ represent collections of
+communications between their respective processes.  To understand the
+sequence of messages in a little more detail, we present an
+abstraction of the \Circus\ specification as a pure CSP process.
+\begin{figure}[htbp]
+  \begin{center}
+    \begin{picture}(250,320)(0,0)
+            \put(50,280){\color{blue}\circle*{5}}
+      \put(50,0){\color{blue}\line(0,1){280}}
+      \put(50,0){\color{blue}\circle*{5}}
+      \put(100,280){\color{red}\circle*{5}}
+      \put(100,0){\color{red}\line(0,1){280}}
+      \put(100,0){\color{red}\circle*{5}}
+      \put(150,280){\color{blue}\circle*{5}}
+      \put(150,0){\color{blue}\line(0,1){280}}
+      \put(150,0){\color{blue}\circle*{5}}
+      \put(200,280){\color{red}\circle*{5}}
+      \put(200,0){\color{red}\line(0,1){280}}
+      \put(200,0){\color{red}\circle*{5}}
+            \put(50,295){\color{blue}\makebox(0,0)[t]{\( \mathsl{Timer} \)}}
+      \put(100,295){\color{red}\makebox(0,.5)[t]{\( \mathsl{Analyser} \)}}
+      \put(150,295){\color{blue}\makebox(0,.5)[t]{\( \mathsl{Controller} \)}}
+      \put(200,295){\color{red}\makebox(0,0)[t]{\( \mathsl{Reporter} \)}}
+                        \put(75,260){\makebox(0,0)[t]{\footnotesize\color{blue}\(
+          \mathsl{startcycle} \)}}
+      \put(50,250){\color{blue}\vector(1,0){50}}
+            \put(50,240){\makebox(0,0)[t]{\footnotesize\( \mathsl{ainput} \)}}
+      \put(10,230){\circle*{5}}
+      \put(12,230){\vector(1,0){87.5}}
+      \put(27.5,220){\makebox(0,0)[t]{\footnotesize\( \mathsl{clocktick} \)}}
+      \put(12,210){\vector(1,0){37.5}}
+      \put(10,210){\circle*{5}}
+      \put(27.5,200){\makebox(0,0)[t]{\footnotesize\( \mathsl{clocktick} \)}}
+      \put(12,190){\vector(1,0){37.5}}
+      \put(10,190){\circle*{5}}
+      \put(27.5,180){\makebox(0,0)[t]{\footnotesize\( \mathsl{clocktick} \)}}
+      \put(12,170){\vector(1,0){37.5}}
+      \put(10,170){\circle*{5}}
+      \put(27.5,160){\makebox(0,0)[t]{\footnotesize\( \mathsl{clocktick} \)}}
+      \put(12,150){\vector(1,0){37.5}}
+      \put(10,150){\circle*{5}}
+      \put(27.5,140){\makebox(0,0)[t]{\footnotesize\( \mathsl{clocktick} \)}}
+      \put(12,130){\vector(1,0){37.5}}
+      \put(10,130){\circle*{5}}
+                  \put(125,220){\makebox(0,0)[t]{\footnotesize\color{red}\(
+          \mathsl{startexec} \)}}
+      \put(100,210){\color{red}\vector(1,0){50}}
+            \put(175,200){\makebox(0,0)[t]{\footnotesize\color{blue}\(
+          \mathsl{startreport} \)}}
+      \put(150,190){\color{blue}\vector(1,0){50}}
+            \put(125,160){\makebox(0,0)[t]{\footnotesize\color{red}\(
+          \mathsl{ainfo} \)}}
+      \put(100,150){\color{red}\vector(1,0){50}}
+            \put(175,140){\makebox(0,0)[t]{\footnotesize\color{blue}\(
+          \mathsl{areport} \)}}
+      \put(150,130){\color{blue}\vector(1,0){50}}
+                  \put(175,120){\makebox(0,0)[t]{\footnotesize\color{blue}\(
+          \mathsl{reportmode} \)}}
+      \put(150,110){\color{blue}\vector(1,0){50}}
+            \put(175,100){\makebox(0,0)[t]{\footnotesize\color{blue}\(
+          \mathsl{endreport} \)}}
+      \put(150,90){\color{blue}\vector(1,0){50}}
+                  \put(150,80){\makebox(0,0)[t]{\footnotesize\color{red}\(
+          \mathsl{afailuresrepairs} \)}}
+      \put(100,70){\color{red}\vector(1,0){100}}
+            \put(219.75,50){\makebox(0,0)[t]{\footnotesize\( \mathsl{aoutput} \)}}
+      \put(239.95,40){\circle*{5}}
+      \put(200,40){\vector(1,0){38.5}}
+            \put(150,30){\makebox(0,0)[t]{\footnotesize\color{red}\(
+          \mathsl{apumps} \)}}
+      \put(200,20){\color{red}\vector(-1,0){100}}
+          \end{picture}
+    \caption{Message sequence chart}
+    \label{fig:msg-seq-chart}
+  \end{center}
+\end{figure}
+
+Both the \( \mathsl{Controller} \)\/ and the \( \mathsl{Reporter} \)\/
+keep track of the current mode, which is selected from the following
+data-type.
+\[
+  \mathbf{datatype}\ Mode = \mathsf{initialisation} \mid   \mathsf{normal} \mid \mathsf{degraded} \mid \mathsf{rescue} \mid
+  \mathsf{emergencyStop}
+  \also   NonEmergencyModes = \{ \mathsf{initialisation}, \mathsf{normal},
+  \mathsf{degraded}, \mathsf{rescue} \}
+\]
+The mode is stored in a simple variable process, which starts off in
+\( \mathsf{initialisation} \)\/ mode.
+\[
+\mathbf{channel}\ \mathsl{getmode}, \mathsl{putmode}: Mode
+  \also   ModeStateInterface = \chanevents{\mathsl{getmode}, \mathsl{putmode}}
+  \also   \mathsl{ModeState} =
+  \\   \t1
+  \begin{block}
+    \mathbf{let}
+    \\     \t1
+    \begin{block}
+      \mathsl{MS}(m) =
+      \begin{block}
+        \mathsl{putmode}\,?n \then MS(n)
+        \\         \extchoice
+        \\         \mathsl{getmode}\,!m \then \mathsl{MS}(m)
+      \end{block}
+    \end{block}
+    \\     \mathbf{within}
+    \\     \t1 \mathsl{MS}(\mathsf{initialisation})
+  \end{block}
+  \also   \mathsl{EnterMode}(m) = \mathsl{reportmode}\,!m \then
+  \mathsl{putmode}\,!m \then \mathsl{SKIP}
+\]
+
+We must define all the channels from the message sequence chart in
+figure~\ref{fig:msg-seq-chart}.  In our abstract view, channels that
+carry communications have been reduced to mere synchronisations, with
+the exception of the \( \mathsl{aoutput} \)\/ and \(
+\mathsl{reportmode} \)\/ channels, which merely communicate the
+current mode.
+\[
+  \mathbf{channel}\   \begin{block}
+    \mathsl{ainfo}, \mathsl{areport}, \mathsl{clocktick},
+    \mathsl{endcycle}, \mathsl{endreport}, \mathsl{afailuresrepairs},
+    \mathsl{ainput},
+    \\     \mathsl{apumps}, \mathsl{startcycle}, \mathsl{startexec},
+    \mathsl{startreport}
+  \end{block}
+  \also   \mathbf{channel}\  \mathsl{aoutput}, \mathsl{reportmode} : Mode
+\]
+We describe the internal interfaces between the processes being
+composed from left to right:~\( TAnalyserInterface \)\/ is the
+interface between the \( \mathsl{Timer} \)\/ and the \(
+\mathsl{Analyser1} \); \( TA\-Controller\-Interface1 \)\/ is the
+interface between the \( \mathsl{Timer1} \)-\( \mathsl{Analyser1}\)\/
+subsystem and the \( \mathsl{Controller1} \); and \(
+TACReporterInterface1 \)\/ is the interface between the \(
+\mathsl{Timer} \)-\( \mathsl{Analyser1}\)-\(\mathsl{Controller1} \)\/
+subsystem and the \( \mathsl{Reporter1} \).  The `-1' suffix denotes a
+component that is refined later in the report.
+\[
+  TAnalyserInterface = \{ \mathsl{startcycle} \}
+  \also   TAControllerInterface1 = \{ \mathsl{ainfo}, \mathsl{startexec} \}
+  \also   TACReporterInterface1 =
+  \also   \t1 \chanevents{
+    \begin{block}
+      \mathsl{apumps}, \mathsl{areport}, \mathsl{endreport},
+      \mathsl{afailuresrepairs}, \mathsl{reportmode},
+      \mathsl{startreport}}
+  \end{block}
+\]
+The \( \mathsl{Timer} \)\/ signals the start of the cycle and repeats
+this after every fifth clock tick.
+\[
+  cycletime = 5   \also   cyclelimit = cycletime - 1
+  \also   \mathsl{TCycle}(time) =
+  \\   \t1
+  \begin{block}
+    ( \If ( time + 1 ) \mod cycletime = 0 \Then startcycle \then
+    \mathsl{SKIP} \Else \mathsl{SKIP});
+    \\     \mathsl{clocktick} \then \mathsl{TCycle}(( time + 1 ) \mod
+    cycletime)
+  \end{block}
+  \also   \mathsl{Timer} = \mathsl{TCycle}(cyclelimit)
+\]
+The \( \mathsl{Analyser} \)\/ cycles through its sequence of events,
+offering as many \( \mathsl{ainfo} \)\/ events as required.  The
+information service is terminated by the transmission of data about
+outstanding failures and repair acknowledgements.  This is followed by
+the receipt of information about the instructions sent to pumps, which
+is needed by the \( \mathsl{Analyser} \) in order to maintain its
+model of their state.
+\[
+  \mathsl{Analyser1} = \mathsl{startcycle} \then \mathsl{ainput} \then   \mathsl{startexec} \then \mathsl{InfoService1}
+  \also   \mathsl{InfoService1} =
+  \\   \t1
+  \begin{block}
+    \mathsl{ainfo} \then \mathsl{InfoService1}
+    \\     \extchoice
+    \\     \mathsl{afailuresrepairs} \then \mathsl{apumps}
+    \then \mathsl{Analyser1}
+  \end{block}
+\]
+We add the \( \mathsl{Analyser} \)\/ to the \( \mathsl{Timer} \),
+synchronising on its hidden interface.
+\[
+  \mathsl{TAnalyser1} =   \\   \t1 ( \mathsl{Timer} \parallel [ TAnalyserInterface ]
+  \mathsl{Analyser1} ) \hide TAnalyserInterface
+\]
+The assembly is free from deadlock and livelock.
+\[
+  \mathbf{assert}\ \mathsl{TAnalyser1} :[ \hbox{ deadlock free } [FD] ]
+  \also   \mathbf{assert}\ \mathsl{TAnalyser1} :[ \hbox{ livelock free } [FD] ]
+\]
+The \( \mathsl{Controller} \)\textsl{'s}\/ behaviour is initiated by a
+\( \mathsl{startexec} \)\/ event, which it passes on to the \(
+\mathsl{Reporter} \)\/ as a \( \mathsl{startreport} \)\/ event.  The
+\( \mathsl{Controller} \)\textsl{'s}\/ task is to generate
+instructions to control the steam boiler, based on the information
+made available to it by the \( \mathsl{Analyser} \).
+
+One possibility is that the \( \mathsl{Analyser} \)\/ instructs the \(
+\mathsl{Controller} \)\/ to perform an \( \mathsf{emergencyStop} \).
+If this does not happen, then the \( \mathsl{Controller} \)\/ receives
+a number of \( \mathsl{ainfo} \)\/ signals from the \(
+\mathsl{Analyser} \)\/ and takes action on them, depending on the
+current mode.
+\[
+  \mathsl{Controller1} =
+  \\   \t1
+  \begin{block}
+    \mathsl{startexec} \then
+    \\     \t1
+    \begin{block}
+      \mathsl{startreport} \then
+      \\       \t1
+      \begin{block}
+        \mathsl{NewModeAnalysis1};
+        \\         \begin{block}
+          \mathsl{getmode}\,?m \then
+          \\           \t1
+          \begin{block}
+            (\
+            \begin{block}
+              \If m \neq \mathsf{emergencyStop} \Then
+              \\               \t1 \Intchoice i: \{ 0 \upto limit \} \spot
+              \mathsl{PutReports}(i)
+              \\               \Else \mathsl{SKIP}\ );
+            \end{block}
+            \\             \mathsl{endreport} \then \mathsl{Controller1}
+          \end{block}
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{block}
+\]
+The process \( \mathsl{NewModeAnalysis1} \)\/ decides on the next mode
+to enter, given the current mode and the information made available to
+it.  Once \( \mathsl{NewModeAnalysis1} \)\/ has completed its work,
+the \( \mathsl{Controller} \)\/ generates some \( \mathsl{areports}
+\), and passes information back to the \( \mathsl{Analyser} \)\/ on
+the required state of the steam-boiler's pumps.
+\[
+  \mathsl{NewModeAnalysis1} =
+  \\   \t1
+  \begin{block}
+    \mathsl{ainfo} \then \mathsl{EnterMode}(emergencyStop)
+    \\     \intchoice
+    \\     (\
+    \begin{block}
+      ( \Intchoice i: \{ 0 \upto limit \} @
+      \mathsl{GetInfomation}(i) );
+      \\       \mathsl{getmode}\,?mode \then
+      \\       \t1
+      \begin{block}
+        \If mode = \mathsf{initialisation} \Then
+        \mathsl{InitModeAnalysis1}
+        \\         \Else \If mode = \mathsf{normal} \Then
+        \mathsl{NormalModeAnalysis1}
+        \\         \Else \If mode = \mathsf{degraded} \Then
+        \mathsl{DegradedModeAnalysis1}
+        \\         \Else \If mode = \mathsf{rescue} \Then
+        \mathsl{RescueModeAnalysis1}
+        \\         \Else \mathsl{SKIP}
+      \end{block}
+      \\       )
+    \end{block}
+  \end{block}
+\]
+In each nonemergency mode, it is possible to transit to other modes.
+\[
+  \mathsl{InitModeAnalysis1} =   \\   \t1 \mathsl{SKIP} \intchoice \mathsl{EnterMode}(\mathsf{normal})
+  \intchoice \mathsl{EnterMode}(\mathsf{degraded}) \intchoice
+  \mathsl{EnterMode}(\mathsf{emergencyStop})
+  \also   \mathsl{NormalModeAnalysis1} = \mathsl{SKIP} \intchoice
+  \mathsl{EnterMode}(\mathsf{rescue}) \intchoice
+  \mathsl{EnterMode}(\mathsf{degraded})
+  \also   \mathsl{DegradedModeAnalysis1} = \mathsl{SKIP} \intchoice
+  \mathsl{EnterMode}(\mathsf{normal}) \intchoice
+  \mathsl{EnterMode}(\mathsf{rescue})
+  \also   \mathsl{RescueModeAnalysis1} = \mathsl{SKIP} \intchoice
+  \mathsl{EnterMode}(\mathsf{normal}) \intchoice
+  \mathsl{EnterMode}(\mathsf{degraded})
+\]
+Since the \( \mathsl{Controller} \)\/ is responsible for demanding
+information and for generating reports, it is here that we place
+bounds on the number of exchanges that are possible.  If we fail to do
+this, then hiding these exchanges will lead to divergence.
+\[
+  limit = 8
+  \also   \mathsl{Get}(\mathsl{event},n) =\ \If n &gt; 0 \Then \mathsl{event}
+  \then \mathsl{Get}(\mathsl{event},n-1) \Else \mathsl{SKIP}
+  \also   \mathsl{GetInformation}(n) = \mathsl{Get}(\mathsl{ainfo},n)
+  \also   \mathsl{PutReports}(n) = \mathsl{Get}(\mathsl{areport},n)
+\]
+We add a simple mode variable to the \( \mathsl{Controller} \)\/ and
+then add the result to the \( \mathsl{TAnalyser} \), hiding the
+internal interfaces.
+\[
+  \mathsl{TAController1} =
+  \\   \t1
+  \begin{block}
+    (\
+    \begin{block}
+      \mathsl{TAnalyser1}
+      \\       \parallel [ TAControllerInterface1 ]
+      \\       (\
+      \begin{block}
+        \mathsl{Controller1}
+        \\         \parallel [ ModeStateInterface ]
+        \\         \mathsl{ModeState}
+      \end{block}
+      \\       ) \hide ModeStateInterface
+    \end{block}
+    \\     ) \hide TAControllerInterface1
+  \end{block}
+\]
+The composition is free from livelock.
+\[
+  \mathbf{assert}\ \mathsl{TAController1}   : [ \hbox{ livelock free } [FD] ]
+\]
+Notice that the composition isn't deadlock free, since the \(
+\mathsl{Analyser} \)\/ can perform the trace
+\[
+  \langle~ \mathsl{startcycle}, \mathsl{ainput}, \mathsl{startexec},   \mathsl{afailuresrepairs} ~\rangle
+\]
+whilst at the same time, the \( \mathsl{Controller} \)\/ can perform
+the trace
+\[
+  \langle~ \mathsl{startexec}, \mathsl{startreport} ~\rangle \]
+This corresponds to the \( \mathsl{Analyser} \) having completed a
+cycle of behaviour in which its information service was not required,
+but the \( \mathsl{Controller} \) paradoxically being in a state where
+it actually requires the service.  This paradox is resolved by the
+interaction between the \( \mathsl{Controller} \) and the \(
+\mathsl{Reporter} \), which requires that the \(
+\mathsl{afailuresrepairs} \) event occurs only after the \(
+\mathsl{Controller} \) has completed its requirement for the
+information service.
+
+The \( \mathsl{Reporter} \)\/ starts its cycle with a \(
+\mathsl{startreport} \)\/ event.
+\[
+  \mathsl{Reporter1} = \mathsl{startreport} \then \mathsl{ReportService1} \]
+Following this, it repeatedly gathers \( \mathsl{areport} \)\/ events,
+paying particular attention to the mode that the \(
+\mathsl{Controller} \)\/ is in, until it receives the signal to end
+the report phase, whereupon it does some tidying up.  An \(
+\mathsf{emergencyStop} \)\/ mode is serious enough to terminate the
+cycle.
+\[
+  \mathsl{ReportService1} =   \\   \t1
+  \begin{block}
+    \Extchoice m: NonEmergencyModes \spot \mathsl{reportmode}.m \then
+    \mathsl{putmode}\,!m \then \mathsl{ReportService1}
+    \\     \extchoice
+    \\     \mathsl{areport} \then \mathsl{ReportService1}
+    \\     \extchoice
+    \\     \mathsl{reportmode}.emergencyStop \then
+    \mathsl{putmode}\,!emergencyStop \then \mathsl{TidyUp1}
+    \\     \extchoice
+    \\     \mathsl{TidyUp1}
+  \end{block}
+\]
+Tidying up involves fetching some information from the \(
+\mathsl{Analyser} \)\/ about recently failed devices and
+acknowledgements of information about repairs, dispatching the output
+to the physical units, and informing the \( \mathsl{Analyser} \) about
+the commands sent to the pumps.
+\[
+  \mathsl{TidyUp1} =   \\   \t1
+  \begin{block}
+    \mathsl{endreport} \then
+    \\     \t1
+    \begin{block}
+      \mathsl{afailuresrepairs} \then
+      \\       \t1
+      \begin{block}
+        \mathsl{getmode}\,?m \then
+        \\         \t1
+        \begin{block}
+          \mathsl{aoutput}\,!m \then
+          \\           \t1
+          \begin{block}
+            \mathsl{apumps} \then
+            \\             \t1 \mathsl{Reporter1}
+          \end{block}
+        \end{block}
+      \end{block}
+    \end{block}
+  \end{block}
+\]
+We add the \( \mathsl{Reporter} \)\/ to the rest of the components,
+hiding the internal interface.
+\[
+  \mathsl{TACReporter1} =
+  \\   \t1
+  \begin{block}
+    (\
+    \begin{block}
+      \mathsl{TAController1}
+      \\       \parallel [ TACReporterInterface1 ]
+      \\       (\
+      \begin{block}
+        (\
+        \begin{block}
+          \mathsl{Reporter1}
+          \\           \parallel [ ModeStateInterface ]
+          \\           \mathsl{ModeState}
+        \end{block}
+        \\         ) \hide ModeStateInterface
+      \end{block}
+      \\       )
+    \end{block}
+    \\     ) \hide TACReporterInterface1
+  \end{block}
+\]
+The entire composition is free from deadlock and from livelock.
+\[
+  \mathbf{assert}\ \mathsl{TACReporter1} :[ \hbox{ deadlock free } [FD] ]
+  \also   \mathbf{assert}\ \mathsl{TACReporter1} :[ \hbox{ livelock free } [FD] ]
+\]
+These communicating processes form our abstract view of the
+steam boiler.
+\[
+  \mathsl{SteamBoiler1} = \mathsl{TACReporter1} \]
+
+FDR code for the abstract steam boiler is contained in
+appendix~\ref{appendix:FDR-code}.  All assertions have been
+successfully checked.  The next four chapters contain the \Circus\
+specification of each process.  Collectively, they refine the abstract
+specification given here.  Appendix~\ref{appendix:FDR-code} contains
+two pure CSP descriptions: the one described in this chapter, and
+another that is derived from the \Circus\ specification by abstracting
+from most of the state details.  The refinement has been checked by
+FDR.
+
+
+\chapter{The $\mathsl{Timer}$}
+
+\begin{addedstuff}
+For section management and inclusion of the \Circus\ language keywords
+for the \LaTeX\ parser, we can include a named section importing the
+appropriate toolkit. Alternatively, without any section name given (Z
+standard anonymous sections), the \Circus\ toolkit is automatically loaded.
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Start="34339" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="893" Length="106110" Col="0"/>
+        </Anns>
+        <Name>unboxed_steam_boiler</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Start="34402" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="894" Length="15" Col="45"/>
+            </Anns>
+            <Word>circus_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>circus_prelude</Word>
+        </Parent>
+        <ZParaList>
+            <LatexMarkupPara>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1077"/>
+                    </Anns>
+                    <Command>\freetypesokay</Command>
+                    <Unicode>sokay</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1078"/>
+                    </Anns>
+                    <Command>\freetypesfailed</Command>
+                    <Unicode>sfailed</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1132"/>
+                    </Anns>
+                    <Command>\freetypepopen</Command>
+                    <Unicode>popen</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1133"/>
+                    </Anns>
+                    <Command>\freetypepwaiting</Command>
+                    <Unicode>pwaiting</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1134"/>
+                    </Anns>
+                    <Command>\freetypepclosed</Command>
+                    <Unicode>pclosed</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1135"/>
+                    </Anns>
+                    <Command>\freetypepfailed</Command>
+                    <Unicode>pfailed</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1197"/>
+                    </Anns>
+                    <Command>\freetypepcflow</Command>
+                    <Unicode>pcflow</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1198"/>
+                    </Anns>
+                    <Command>\freetypepcnoflow</Command>
+                    <Unicode>pcnoflow</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1199"/>
+                    </Anns>
+                    <Command>\freetypepcfailed</Command>
+                    <Unicode>pcfailed</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1315"/>
+                    </Anns>
+                    <Command>\freetypevopen</Command>
+                    <Unicode>vopen</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1316"/>
+                    </Anns>
+                    <Command>\freetypevclosed</Command>
+                    <Unicode>vclosed</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1461"/>
+                    </Anns>
+                    <Command>\freetypeqfail</Command>
+                    <Unicode>qfail</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1462"/>
+                    </Anns>
+                    <Command>\freetypevfail</Command>
+                    <Unicode>vfail</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1463"/>
+                    </Anns>
+                    <Command>\freetypepfail</Command>
+                    <Unicode>pfail</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1464"/>
+                    </Anns>
+                    <Command>\freetypepcfail</Command>
+                    <Unicode>pcfail</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1571"/>
+                    </Anns>
+                    <Command>\freetypestop</Command>
+                    <Unicode>stop</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1572"/>
+                    </Anns>
+                    <Command>\freetypesteamBoilerWaiting</Command>
+                    <Unicode>steamBoilerWaiting</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1573"/>
+                    </Anns>
+                    <Command>\freetypephysicalUnitsReady</Command>
+                    <Unicode>physicalUnitsReady</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="1574"/>
+                    </Anns>
+                    <Command>\freetypetransmissionFailure</Command>
+                    <Unicode>transmissionFailure</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2155"/>
+                    </Anns>
+                    <Command>\freetypeinitialisation</Command>
+                    <Unicode>initialisation</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2156"/>
+                    </Anns>
+                    <Command>\freetypenormal</Command>
+                    <Unicode>normal</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2157"/>
+                    </Anns>
+                    <Command>\freetypedegraded</Command>
+                    <Unicode>degraded</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2158"/>
+                    </Anns>
+                    <Command>\freetyperescue</Command>
+                    <Unicode>rescue</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2159"/>
+                    </Anns>
+                    <Command>\freetypeemergencyStop</Command>
+                    <Unicode>emergencyStop</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2444"/>
+                    </Anns>
+                    <Command>\freetypeprogramReady</Command>
+                    <Unicode>programReady</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2445"/>
+                    </Anns>
+                    <Command>\freetypeopenValve</Command>
+                    <Unicode>openValve</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2446"/>
+                    </Anns>
+                    <Command>\freetypecloseValve</Command>
+                    <Unicode>closeValve</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2447"/>
+                    </Anns>
+                    <Command>\freetypelevelFailureDetection</Command>
+                    <Unicode>levelFailureDetection</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2448"/>
+                    </Anns>
+                    <Command>\freetypesteamFailureDetection</Command>
+                    <Unicode>steamFailureDetection</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2449"/>
+                    </Anns>
+                    <Command>\freetypelevelRepairedAcknowledgement</Command>
+                    <Unicode>levelRepairedAcknowledgement</Unicode>
+                </Directive>
+                <Directive Type="NONE">
+                    <Anns>
+                        <LocAnn Line="2450"/>
+                    </Anns>
+                    <Command>\freetypesteamRepairedAcknowledgement</Command>
+                    <Unicode>steamRepairedAcknowledgement</Unicode>
+                </Directive>
+            </LatexMarkupPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="34433" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="895" Length="396" Col="14"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\end{addedstuff}
+
+The \( \mathsl{Timer} \)\/ process is responsible for signalling to
+the other processes the start of the program's cycle, and for ensuring
+that the cycle is repeated every five seconds.  It keeps track of time
+by counting the number of \( \event{clocktick} \)\/ events that it has
+received from the environment.  The \( \mathsl{TimedSequencer} \)\/
+uses two channels:
+</Content>
+            </NarrPara>
+            <ns2:ChannelPara>
+                <Anns>
+                    <LocAnn Start="34849" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="905" Col="4"/>
+                </Anns>
+                <ZDeclList>
+                    <ns2:ChannelDecl>
+                        <Anns>
+                            <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex"/>
+                        </Anns>
+                        <ZNameList/>
+                        <ZNameList>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="34863" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="905" Length="9" Col="18"/>
+                                </Anns>
+                                <Word>clocktick</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="34874" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="905" Length="10" Col="29"/>
+                                </Anns>
+                                <Word>startcycle</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                        </ZNameList>
+                    </ns2:ChannelDecl>
+                </ZDeclList>
+            </ns2:ChannelPara>
+            <NarrPara>
+                <Anns>
+                    <LocAnn Start="34898" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="906" Length="862" Col="12"/>
+                </Anns>
+                <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+It declares a small environment containing a variable that maintains
+the current time, modulo the cycle time.
+
+\begin{addedstuff}
+   The original $Timer$ process used a complementary/total $if-then-else$ statement,
+   where the last guard is not given and assumed to be the negation of all other guards.
+   In the current version of \Circus\ this is not allowed, and guards must appear on every guarded command
+   on an alternative command. Thus, we have introduced the negation of the first guard in the alternative below.
+
+   Another interpretation could be that this is a Z $if-then-else$ statement. If that is the
+   case, the first action would not parse as $startcycle \then Skip$ is not an expressions,
+   whereas the second would parse but would be type incorrect, since $Skip$ is not an
+   expression but an action.
+\end{addedstuff}
+
+</Content>
+            </NarrPara>
+            <ns2:ProcessPara>
+                <Anns>
+                    <LocAnn Start="35842" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="969" Col="3"/>
+                </Anns>
+                <ZName>
+                    <Anns>
+                        <LocAnn Start="35856" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="925" Length="5" Col="17"/>
+                    </Anns>
+                    <Word>Timer</Word>
+                    <ZStrokeList/>
+                </ZName>
+                <ZNameList/>
+                <ns2:BasicProcess>
+                    <Anns>
+                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="925" Col="34"/>
+                    </Anns>
+                    <ZParaList>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="35897" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="926" Length="136" Col="12"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+\vspace{-1.2cm}
+\begin{flushleft}
+  \begin{tabular}{@{}l@{}l}
+    \hspace{.6\zedindent}
+    \begin{minipage}{.7\textwidth}
+      </Content>
+                        </NarrPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="36054" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="14" Col="8"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="36054" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="14" Col="8"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="36054" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="14" Col="18"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="36054" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="9" Col="8"/>
+                                            </Anns>
+                                            <Word>cycletime</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <NumExpr>
+                                            <Anns>
+                                                <LocAnn Start="36067" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="1" Col="21"/>
+                                            </Anns>
+                                            <ZNumeral Value="5">
+                                                <Anns>
+                                                    <LocAnn Start="36067" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="933" Length="1" Col="21"/>
+                                                </Anns>
+                                            </ZNumeral>
+                                        </NumExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="36094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="27" Col="8"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="36094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="27" Col="8"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="36094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="27" Col="19"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="36094" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="10" Col="8"/>
+                                            </Anns>
+                                            <Word>cyclelimit</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="36108" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="13" Col="32"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="36118" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="1" Col="32"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="36118" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="1" Col="32"/>
+                                                    </Anns>
+                                                    <Word> _ ? _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="36108" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="9" Col="22"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="36108" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="9" Col="22"/>
+                                                            </Anns>
+                                                            <Word>cycletime</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="36120" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="1" Col="34"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="1">
+                                                            <Anns>
+                                                                <LocAnn Start="36120" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="935" Length="1" Col="34"/>
+                                                            </Anns>
+                                                        </ZNumeral>
+                                                    </NumExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="36145" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="26" Col="8"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="36145" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="26" Col="8"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="36145" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="26" Col="13"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="36145" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="4" Col="8"/>
+                                            </Anns>
+                                            <Word>Time</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Start="36153" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="18" Col="18"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false" Explicit="false">
+                                                <Anns>
+                                                    <LocAnn Start="36155" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="5" Col="18"/>
+                                                </Anns>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="36155" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="5" Col="18"/>
+                                                    </Anns>
+                                                    <Word> _ .. _ </Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                                <ZExprList/>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ZExprList>
+                                                    <NumExpr>
+                                                        <Anns>
+                                                            <LocAnn Start="36153" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="1" Col="16"/>
+                                                        </Anns>
+                                                        <ZNumeral Value="0">
+                                                            <Anns>
+                                                                <LocAnn Start="36153" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="1" Col="16"/>
+                                                            </Anns>
+                                                        </ZNumeral>
+                                                    </NumExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="36161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="10" Col="24"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="36161" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="937" Length="10" Col="24"/>
+                                                            </Anns>
+                                                            <Word>cyclelimit</Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </ZExprList>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="36195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="29" Col="8"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="36195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="29" Col="8"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="36195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="29" Col="18"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="36195" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="9" Col="8"/>
+                                            </Anns>
+                                            <Word>TimeState</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Start="36208" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="16" Col="21"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <VarDecl>
+                                                        <Anns>
+                                                            <LocAnn Start="36211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="10" Col="28"/>
+                                                        </Anns>
+                                                        <ZNameList>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="36211" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="4" Col="24"/>
+                                                                </Anns>
+                                                                <Word>time</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                        </ZNameList>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="36217" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="4" Col="30"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="36217" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="939" Length="4" Col="30"/>
+                                                                </Anns>
+                                                                <Word>Time</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </ZDeclList>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <AxPara Box="OmitBox">
+                            <Anns>
+                                <LocAnn Start="36248" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="50" Col="8"/>
+                            </Anns>
+                            <ZNameList/>
+                            <ZSchText>
+                                <Anns>
+                                    <LocAnn Start="36248" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="50" Col="8"/>
+                                </Anns>
+                                <ZDeclList>
+                                    <ConstDecl>
+                                        <Anns>
+                                            <LocAnn Start="36248" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="50" Col="15"/>
+                                        </Anns>
+                                        <ZName>
+                                            <Anns>
+                                                <LocAnn Start="36248" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="6" Col="8"/>
+                                            </Anns>
+                                            <Word>TimeOp</Word>
+                                            <ZStrokeList/>
+                                        </ZName>
+                                        <SchExpr>
+                                            <Anns>
+                                                <LocAnn Start="36258" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="40" Col="18"/>
+                                            </Anns>
+                                            <ZSchText>
+                                                <ZDeclList>
+                                                    <Anns>
+                                                        <LocAnn Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex"/>
+                                                    </Anns>
+                                                    <InclDecl>
+                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                            <Anns>
+                                                                <LocAnn Start="36261" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="16" Col="21"/>
+                                                            </Anns>
+                                                            <ZName>
+                                                                <Anns>
+                                                                    <LocAnn Start="36261" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="16" Col="21"/>
+                                                                </Anns>
+                                                                <Word>?TimeState</Word>
+                                                                <ZStrokeList/>
+                                                            </ZName>
+                                                            <ZExprList/>
+                                                        </RefExpr>
+                                                    </InclDecl>
+                                                </ZDeclList>
+                                                <MemPred Mixfix="true">
+                                                    <Anns>
+                                                        <LocAnn Start="36280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="15" Col="40"/>
+                                                    </Anns>
+                                                    <TupleExpr>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="36280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="5" Col="40"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="36280" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="5" Col="40"/>
+                                                                    </Anns>
+                                                                    <Word>time</Word>
+                                                                    <ZStrokeList>
+                                                                        <NextStroke/>
+                                                                    </ZStrokeList>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="36291" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="4" Col="51"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="36291" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="4" Col="51"/>
+                                                                    </Anns>
+                                                                    <Word>time</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <Anns>
+                                                            <LocAnn Start="36286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="4" Col="46"/>
+                                                        </Anns>
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="36286" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="941" Length="4" Col="46"/>
+                                                            </Anns>
+                                                            <Word> _ ? _ </Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                </MemPred>
+                                            </ZSchText>
+                                        </SchExpr>
+                                    </ConstDecl>
+                                </ZDeclList>
+                            </ZSchText>
+                        </AxPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="36315" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="942" Length="199" Col="15"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    \end{minipage}
+  \end{tabular}
+\end{flushleft}
+To account for the $\Delta Timer$ used originally, we have
+defined $TimeOp$, which is put as an invariant check right
+after the assignment.
+</Content>
+                        </NarrPara>
+                        <NarrPara>
+                            <Anns>
+                                <LocAnn Start="36579" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="951" Length="221" Col="18"/>
+                            </Anns>
+                            <Content xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+The action \( \processname{TCycle}\, \)\/ increments the \( time \)\/
+variable; if its new value is zero, then it is time to start the next
+cycle; it waits for the next \( \mathsl{clocktick}\, \), before
+repeating.
+</Content>
+                        </NarrPara>
+                        <ns2:ActionPara>
+                            <Anns>
+                                <LocAnn Start="36825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="237" Col="3"/>
+                            </Anns>
+                            <ZName>
+                                <Anns>
+                                    <LocAnn Start="36825" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="6" Col="3"/>
+                                </Anns>
+                                <Word>TCycle</Word>
+                                <ZStrokeList/>
+                            </ZName>
+                            <ns2:SeqAction>
+                                <Anns>
+                                    <LocAnn Start="36843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="219" Col="21"/>
+                                </Anns>
+                                <ns2:SeqAction>
+                                    <Anns>
+                                        <LocAnn Start="36843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="164" Col="21"/>
+                                    </Anns>
+                                    <ns2:AssignmentCommand>
+                                        <Anns>
+                                            <LocAnn Start="36843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Col="21"/>
+                                            <ParenAnn>
+                                                <Anns>
+                                                    <LocAnn Start="36841" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="36" Col="19"/>
+                                                </Anns>
+                                            </ParenAnn>
+                                        </Anns>
+                                        <ns2:AssignmentPairs>
+                                            <ZNameList>
+                                                <ZName>
+                                                    <Anns>
+                                                        <LocAnn Start="36843" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="4" Col="21"/>
+                                                    </Anns>
+                                                    <Word>time</Word>
+                                                    <ZStrokeList/>
+                                                </ZName>
+                                            </ZNameList>
+                                            <ZExprList>
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false" Explicit="false">
+                                                        <ZName>
+                                                            <Anns>
+                                                                <LocAnn Start="36856" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="1" Col="34"/>
+                                                            </Anns>
+                                                            <Word> _ + _ </Word>
+                                                            <ZStrokeList/>
+                                                        </ZName>
+                                                        <ZExprList/>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <ZExprList>
+                                                            <RefExpr Mixfix="false" Explicit="false">
+                                                                <Anns>
+                                                                    <LocAnn Start="36851" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="4" Col="29"/>
+                                                                </Anns>
+                                                                <ZName>
+                                                                    <Anns>
+                                                                        <LocAnn Start="36851" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="4" Col="29"/>
+                                                                    </Anns>
+                                                                    <Word>time</Word>
+                                                                    <ZStrokeList/>
+                                                                </ZName>
+                                                                <ZExprList/>
+                                                            </RefExpr>
+                                                            <ApplExpr Mixfix="true">
+                                                                <RefExpr Mixfix="false" Explicit="false">
+                                                                    <ZName>
+                                                                        <Anns>
+                                                                            <LocAnn Start="36860" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="4" Col="38"/>
+                                                                        </Anns>
+                                                                        <Word> _ mod _ </Word>
+                                                                        <ZStrokeList/>
+                                                                    </ZName>
+                                                                    <ZExprList/>
+                                                                </RefExpr>
+                                                                <TupleExpr>
+                                                                    <ZExprList>
+                                                                        <NumExpr>
+                                                                            <Anns>
+                                                                                <LocAnn Start="36858" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="1" Col="36"/>
+                                                                            </Anns>
+                                                                            <ZNumeral Value="1">
+                                                                                <Anns>
+                                                                                    <LocAnn Start="36858" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="1" Col="36"/>
+                                                                                </Anns>
+                                                                            </ZNumeral>
+                                                                        </NumExpr>
+                                                                        <RefExpr Mixfix="false" Explicit="false">
+                                                                            <Anns>
+                                                                                <LocAnn Start="36865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="9" Col="43"/>
+                                                                            </Anns>
+                                                                            <ZName>
+                                                                                <Anns>
+                                                                                    <LocAnn Start="36865" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="957" Length="9" Col="43"/>
+                                                                                </Anns>
+                                                                                <Word>cycletime</Word>
+                                                                                <ZStrokeList/>
+                                                                            </ZName>
+                                                                            <ZExprList/>
+                                                                        </RefExpr>
+                                                                    </ZExprList>
+                                                                </TupleExpr>
+                                                            </ApplExpr>
+                                                        </ZExprList>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                            </ZExprList>
+                                        </ns2:AssignmentPairs>
+                                    </ns2:AssignmentCommand>
+                                    <ns2:IfGuardedCommand>
+                                        <Anns>
+                                            <LocAnn Start="36910" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="958" Length="97" Col="17"/>
+                                            <ParenAnn>
+                                                <Anns>
+                                                    <LocAnn Start="36909" Loc="C:\research\tools\java\sourceforge\czt\0.5.2\trunk\parser-circus\target\test-classes\tests\circus\steam-boiler-multienv.tex" Line="958" Length="99" Col="16"/>
+                                                </Anns>
+                                            </ParenAnn>
+                                        </Anns>
