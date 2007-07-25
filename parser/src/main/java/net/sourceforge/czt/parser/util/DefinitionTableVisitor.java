@@ -20,6 +20,7 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -27,6 +28,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.PrintVisitor;
+import net.sourceforge.czt.z.util.ZUtils;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -44,7 +46,10 @@ public class DefinitionTableVisitor
              ZSectVisitor
 {
   private DefinitionTable table_;
-
+  private final PrintVisitor printVisitor_;
+  
+  private static final Logger logger_ = Logger.getLogger(DefinitionTableVisitor.class.getName());
+          
   /**
    * Creates a new definition table visitor.
    * The section information should be able to provide information of
@@ -53,6 +58,7 @@ public class DefinitionTableVisitor
   public DefinitionTableVisitor(SectionInfo sectInfo)
   {
     super(sectInfo);
+    printVisitor_ = new PrintVisitor();
   }
 
   public Object run(Term term)
@@ -89,41 +95,8 @@ public class DefinitionTableVisitor
     ZSchText schText = axPara.getZSchText();
     List<Decl> decls = schText.getZDeclList();
     
-    for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) {
-      Decl decl = iter.next();
-      // 
-      if (decl instanceof ConstDecl) 
-      {        
-        ConstDecl constDecl = (ConstDecl) decl;        
-        addDefinition(genFormals, constDecl.getName(), constDecl.getExpr(),
-            DefinitionType.CONSTDECL);
-      } 
-      else if (decl instanceof VarDecl)
-      {
-        VarDecl varDecl = (VarDecl) decl;
-        Expr defExpr = varDecl.getExpr();
-        for(Name name : varDecl.getZNameList())
-        {
-          addDefinition(genFormals, name, defExpr, DefinitionType.VARDECL);
-        }
-      }
-      else if (decl instanceof InclDecl)
-      {
-        // TODO: What to do when finding inclusions in Ax boxes?
-        // For now, we just ignore them, which means that our definition
-        // tables are incomplete.  This is not a disaster, since we currently
-        // use these definition tables to get *extra* information.
-        //
-        // A general solution is difficult, since
-        // the inclusion expression could be a schema expression that uses
-        // fancy schema operators like composition and renaming, which
-        // obfuscates the set of names that it declares.  A possible 
-        // solution might be to handle just the easy case here
-        // (where the schema inclusion is just a name, or perhaps a
-        // decorated name), and ignore the complex cases, or use the
-        // typechecker to map every declared name to its carrier set.
-      }
-    }
+    // processes all declarations from axPara
+    processDeclList(genFormals, decls);
     return null;
   }
 
@@ -160,7 +133,7 @@ public class DefinitionTableVisitor
   
   protected void addDefinition(ZNameList genFormals, Name declName, Expr defExpr, DefinitionType type)
   {
-    String name = declName.accept(new PrintVisitor());
+    String name = declName.accept(printVisitor_);
     DefinitionTable.Definition def =
       new DefinitionTable.Definition(genFormals, defExpr, type);
     try {
@@ -168,6 +141,98 @@ public class DefinitionTableVisitor
     }
     catch (DefinitionTable.DefinitionException e) {
       throw new CztException(e);
+    }
+  }
+  
+//  private static int complexInclDeclSeed = 0;
+//  public static final String COMPLEX_INCLDECL_NAME_PATTERN = "complexInclDecl$$";
+//  
+//  protected static String createNewInclDeclDefName()
+//  {
+//    complexInclDeclSeed++;
+//    return COMPLEX_INCLDECL_NAME_PATTERN + complexInclDeclSeed;
+//  }
+//  
+//  protected void addComplexInclDeclDefinition(ZNameList genFormals, Expr expr)
+//  {
+//    String name = createNewInclDeclDefName();    
+//    addDefinition(genFormals, ZUtils.FACTORY.createZName(name), DefinitionType.INCLDECL);    
+//  }
+//  
+  protected void processDeclList(ZNameList genFormals, List<Decl> decls) 
+  {
+    for (Iterator<Decl> iter = decls.iterator(); iter.hasNext(); ) 
+    {
+      Decl decl = iter.next();
+      // 
+      if (decl instanceof ConstDecl) 
+      {        
+        ConstDecl constDecl = (ConstDecl) decl;        
+        addDefinition(genFormals, constDecl.getName(), constDecl.getExpr(),
+            DefinitionType.CONSTDECL);
+      } 
+      else if (decl instanceof VarDecl)
+      {
+        VarDecl varDecl = (VarDecl) decl;
+        Expr defExpr = varDecl.getExpr();
+        for(Name name : varDecl.getZNameList())
+        {
+          addDefinition(genFormals, name, defExpr, DefinitionType.VARDECL);
+        }
+      }
+      else if (decl instanceof InclDecl)
+      {
+        // TODO: What to do when finding inclusions in Ax boxes?
+        // For now, we just ignore them, which means that our definition
+        // tables are incomplete.  This is not a disaster, since we currently
+        // use these definition tables to get *extra* information.
+        //
+        // A general solution is difficult, since
+        // the inclusion expression could be a schema expression that uses
+        // fancy schema operators like composition and renaming, which
+        // obfuscates the set of names that it declares.  A possible 
+        // solution might be to handle just the easy case here
+        // (where the schema inclusion is just a name, or perhaps a
+        // decorated name), and ignore the complex cases, or use the
+        // typechecker to map every declared name to its carrier set.        
+
+// THIS GOES SOMEWHERE ELSE        
+//        InclDecl inclDecl = (InclDecl) decl;
+//        Name name;
+//        Expr expr = inclDecl.getExpr();
+//
+//        // if it is a reference inclusion, then it is easy
+//        if (expr instanceof RefExpr)
+//        {
+//          RefExpr refExpr = (RefExpr) expr;
+//          name = refExpr.getName();
+//          String strName = name.accept(printVisitor_);
+//          DefinitionTable.Definition def = table_.lookup(strName);
+//          if (def != null &&
+//              def.getDefinitionType().equals(DefinitionType.CONSTDECL) &&
+//              def.getExpr() instanceof SchExpr)
+//          {
+//            SchExpr schExpr = (SchExpr)def.getExpr();
+//            schExpr.getZSchText().getZDeclList()
+//            def.getExpr().accept(this);
+//          }
+//          else 
+//          {
+//            logger_.warning("Reference to a complex (schema) expression. " +
+//              "Added as INCLDECL. Other tools might try to process it further.");
+//            addDefinition(genFormals, name, refExpr, DefinitionType.INCLDECL);            
+//          }
+//        }
+//        else 
+//        {          
+//          // otherwise, we would need a dual-phase visiting.
+//          // e.g., (S \land T), go through S and T ?
+//          logger_.warning("Could not calculate definition table for schema " +
+//            "inclusion that is not a reference name. Adding it with name " + name 
+//            + " as INCLDECL. Other tools might try to process it further.");
+//          addComplexInclDeclDefinition(genFormals, expr);
+//        }        
+      }
     }
   }
 }
