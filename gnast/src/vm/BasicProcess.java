@@ -1,13 +1,7 @@
-  /**
-   * This is a convenience method.
-   * It returns the ZParaList if LocalPara is an instance of
-   * ZParaList or throws an UnsupportedAstClassException otherwise.
-   */
-  net.sourceforge.czt.z.ast.ZParaList getZLocalPara();
+  net.sourceforge.czt.z.ast.ZParaList getZParaList();
 
-  /**
-   * This is a convenience method.
-   * It returns the ZParaList if OnTheFlyPara is an instance of
-   * ZParaList or throws an UnsupportedAstClassException otherwise.
-   */
-  net.sourceforge.czt.z.ast.ZParaList getZOnTheFlyPara();
+  net.sourceforge.czt.z.ast.Para getStatePara();
+  net.sourceforge.czt.circus.ast.CircusAction getMainAction();
+  
+  java.util.List<? extends net.sourceforge.czt.z.ast.Para> getLocalPara();    
+  java.util.List<net.sourceforge.czt.circus.ast.ActionPara> getOnTheFlyPara();    
