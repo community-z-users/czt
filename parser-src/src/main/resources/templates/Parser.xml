@@ -1208,8 +1208,8 @@ action code
      * both local declarations and on-the-fly actions.
      */
     protected ZParaList getCircusStateAnnPara(BasicProcess bp) {
-      return getCircusStateAnnPara(ZUtils.assertZParaList(bp.getLocalPara()),
-          ZUtils.assertZParaList(bp.getOnTheFlyPara()));
+      return getCircusStateAnnPara(factory_.createZParaList(bp.getLocalPara()),
+          factory_.createZParaList(bp.getOnTheFlyPara()));
     }
 
     protected Model validateModel(Decorword dw) {
@@ -1340,8 +1340,7 @@ action code
     
     /** Create an empty basic process and sets the parser state valure for it */
     protected BasicProcess createMockBasicProcessFor(String from, LocInfo l) {              
-       BasicProcess result = factory_.createBasicProcess(null, factory_.createZParaList(), 
-            factory_.createZParaList(), null);       
+       BasicProcess result = factory_.createBasicProcess(factory_.createZParaList());       
        addLocAnn(result, l);
        CztLogger.getLogger(<class/>.class).finer("CREATING BASICPROCESS => " + from + 
            " @ " + l + "\n" + result);           
