@@ -74,7 +74,7 @@ public class MockActionLawsTest extends TestCase {
                 factory_.createJokerAction("A", null)));
             CircusAction impl = factory_.createJokerAction("A", null);
             ActionTransformerPred transformer = factory_.createActionTransformerPred(
-                null, Transformation.Refinement, Model.FlDv, spec, impl);
+                null, Transformation.Refinement, Model.FlDv, factory_.list(spec, impl));
             return transformer;
         }
 
@@ -129,7 +129,8 @@ public class MockActionLawsTest extends TestCase {
             
             // For simulation or equivalence, see Transformation.
             ActionTransformerPred transformer = factory_.createActionTransformerPred(
-                null, Transformation.Refinement, Model.FlDv, spec, impl);
+                null, Transformation.Refinement, Model.FlDv, 
+                factory_.list(spec, impl));
             return transformer;
         }
 
