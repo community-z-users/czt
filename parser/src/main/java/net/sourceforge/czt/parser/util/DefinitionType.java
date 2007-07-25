@@ -28,7 +28,12 @@ package net.sourceforge.czt.parser.util;
  */
 public enum DefinitionType
 {
+  // used for S == E (i.e. horizontal or schemas)
   CONSTDECL,
+  // used for axiomatic boxes
   VARDECL,
-  INCLDECL
+  // used for schema boxes from trivial (RefExpr) inclusions
+  LOCALDECL,
+  // used for complex schema inclusions
+  INCLDECL,
 }
