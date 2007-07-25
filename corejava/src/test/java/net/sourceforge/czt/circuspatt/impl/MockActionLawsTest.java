@@ -70,8 +70,8 @@ public class MockActionLawsTest extends TestCase {
         }
 
         protected TransformerPred createTransformerPred() {
-            CircusAction spec = factory_.createSeqAction(factory_.createSkipAction(),
-                factory_.createJokerAction("A", null));
+            CircusAction spec = factory_.createSeqAction(factory_.list(factory_.createSkipAction(),
+                factory_.createJokerAction("A", null)));
             CircusAction impl = factory_.createJokerAction("A", null);
             ActionTransformerPred transformer = factory_.createActionTransformerPred(
                 null, Transformation.Refinement, Model.FlDv, spec, impl);
@@ -123,9 +123,9 @@ public class MockActionLawsTest extends TestCase {
              * That is, one should not reuse the value of createSExpr or createGuard.
              */
             CircusAction spec = createSExprAction();            
-            CircusAction impl = factory_.createExtChoiceAction(
+            CircusAction impl = factory_.createExtChoiceAction(factory_.list(
                 factory_.createGuardedAction(createSExprAction(), createGuard("g1")),
-                factory_.createGuardedAction(createSExprAction(), createGuard("g2")));            
+                factory_.createGuardedAction(createSExprAction(), createGuard("g2"))));            
             
             // For simulation or equivalence, see Transformation.
             ActionTransformerPred transformer = factory_.createActionTransformerPred(
