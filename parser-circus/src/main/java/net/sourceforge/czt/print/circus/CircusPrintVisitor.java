@@ -673,11 +673,11 @@ public class CircusPrintVisitor
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusToken.LPAR);
-        visit(term.getNameSet().get(0));
+        visit(term.getLeftNameSet());
         print(Keyword.BAR);
         visit(term.getChannelSet());
         print(Keyword.BAR);
-        visit(term.getNameSet().get(1));
+        visit(term.getRightNameSet());
         print(CircusToken.RPAR);
         visit(term.getRightAction());
         printRPAREN(term);
@@ -703,9 +703,9 @@ public class CircusPrintVisitor
         printLPAREN(term);
         visit(term.getLeftAction());
         print(CircusToken.LINTER);
-        visit(term.getNameSet().get(0));
+        visit(term.getLeftNameSet());
         print(Keyword.BAR);
-        visit(term.getNameSet().get(1));
+        visit(term.getRightNameSet());
         print(CircusToken.RINTER);
         visit(term.getRightAction());
         printRPAREN(term);
