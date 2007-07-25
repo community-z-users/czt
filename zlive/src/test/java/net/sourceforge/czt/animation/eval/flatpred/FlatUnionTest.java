@@ -73,7 +73,7 @@ public class FlatUnionTest
 
   public void testToString()
   {
-    assertEquals(s1+" u "+s2+" = s", union.toString());
+    assertEquals("s = "+s1+" u "+s2, union.toString());
   }
 
   public void testEmptyBounds()

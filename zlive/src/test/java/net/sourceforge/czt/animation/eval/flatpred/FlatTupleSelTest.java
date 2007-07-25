@@ -52,7 +52,7 @@ public class FlatTupleSelTest
   public void testToString()
   {
     FlatPred pred = new FlatTupleSel(x,1,z);
-    assertEquals("x.1 = z", pred.toString());
+    assertEquals("z = x.1", pred.toString());
   }
 
   public void testMBT()

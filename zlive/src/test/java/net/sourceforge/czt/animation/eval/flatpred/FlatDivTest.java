@@ -36,7 +36,7 @@ public class FlatDivTest
 
   public void testToString()
   {
-    assertEquals("x div y = z", pred.toString());
+    assertEquals("z = x div y", pred.toString());
   }
 
   public void testEmpty()

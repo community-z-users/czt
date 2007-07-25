@@ -69,7 +69,7 @@ public class FlatTupleTest
 
   public void testToString()
   {
-    assertEquals("(l, m, n, o, p) = z", pred.toString());
+    assertEquals("z = (l, m, n, o, p)", pred.toString());
   }
 
   public void testBounds()

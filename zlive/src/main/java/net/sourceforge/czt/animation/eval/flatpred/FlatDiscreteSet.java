@@ -128,14 +128,14 @@ public class FlatDiscreteSet extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append("{ ");
+    result.append(printLastArg());
+    result.append(" = { ");
     for (int i=0; i < args_.size() - 1; i++) {
       result.append(printArg(i));
       if (i < args_.size() - 2)
         result.append(", ");
     }
-    result.append(" } = ");
-    result.append(printLastArg());
+    result.append(" }");
     return result.toString();
   }
 

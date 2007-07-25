@@ -51,7 +51,7 @@ public class FlatMultTest
 
   public void testToString()
   {
-    assertEquals("x * y = z", pred.toString());
+    assertEquals("z = x * y", pred.toString());
   }
 
   public void testMBT()

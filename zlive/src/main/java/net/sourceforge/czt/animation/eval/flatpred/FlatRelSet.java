@@ -103,8 +103,8 @@ public class FlatRelSet
   @Override
   public String toString()
   {
-    return printArg(0) + " " + funcName() + " " + printArg(1)
-      + " = " + printLastArg();
+    return printLastArg() + " = "
+      + printArg(0) + " " + funcName() + " " + printArg(1);
   }
 
   ///////////////////////// Pred methods ///////////////////////

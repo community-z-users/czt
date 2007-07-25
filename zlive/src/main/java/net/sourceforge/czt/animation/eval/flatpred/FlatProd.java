@@ -138,13 +138,13 @@ public class FlatProd extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
+    result.append(printLastArg());
+    result.append(" = ");
     for (int i=0; i<args_.size()-1; i++) {
       result.append(printArg(i));
       if (i < args_.size()-2)
         result.append(" x ");
     }
-    result.append(" = ");
-    result.append(printLastArg());
     return result.toString();
   }
 

@@ -307,7 +307,7 @@ public abstract class FlatPred
   protected String printBinOp(String op)
   {
     assert args_.size() == 3;
-    return printArg(0) + " " + op + " " + printArg(1) + " = " + printArg(2);
+    return printArg(2) + " = " + printArg(0) + " " + op + " " + printArg(1);
   }
 
   protected String printQuant(String quant, String stext, String body,

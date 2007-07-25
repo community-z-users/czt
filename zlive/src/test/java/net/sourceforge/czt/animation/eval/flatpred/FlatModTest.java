@@ -36,7 +36,7 @@ public class FlatModTest
 
   public void testToString()
   {
-    assertEquals("x mod y = z", pred.toString());
+    assertEquals("z = x mod y", pred.toString());
   }
 
   public void testEmpty()

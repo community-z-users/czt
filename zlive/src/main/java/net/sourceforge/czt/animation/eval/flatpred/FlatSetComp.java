@@ -185,10 +185,10 @@ public class FlatSetComp extends FlatPred
   @Override
   public String toString()
   {
-    return printQuant("{",
+    return printQuant(printLastArg() + " = {",
         predsAll_.toString(),
         printName(resultName_),
-        "} = " + printLastArg());
+        "}");
   }
 
   ///////////////////////// Pred methods ///////////////////////

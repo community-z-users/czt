@@ -64,8 +64,8 @@ public class FlatDiscreteSetTest
   public void testToString()
   {
     // WARNING: the order of names may depend upon HashSet ordering.
-    assertEquals("{ i, j, k } = s", set.toString());
-    assertEquals("{  } = es", emptySet.toString());
+    assertEquals("s = { i, j, k }", set.toString());
+    assertEquals("es = {  }", emptySet.toString());
   }
 
   /** Tests the static bounds inference. */

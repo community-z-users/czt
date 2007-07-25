@@ -104,7 +104,7 @@ public class FlatTupleSel extends FlatPred
   @Override
   public String toString()
   {
-    return printArg(0) + "." + selection_ + " = " + printLastArg();
+    return printLastArg() + " = " + printArg(0) + "." + selection_;
   }
 
   ///////////////////////// Pred methods ///////////////////////

@@ -61,7 +61,7 @@ public class FlatProdTest
 
   public void testToString()
   {
-    assertEquals("x x y = z", pred_.toString());
+    assertEquals("z = x x y", pred_.toString());
   }
 
   public void testProd()

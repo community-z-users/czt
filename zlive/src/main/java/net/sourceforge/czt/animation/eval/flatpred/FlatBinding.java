@@ -179,7 +179,8 @@ public class FlatBinding extends FlatPred
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append("<| ");
+    result.append(printLastArg());
+    result.append(" = <| ");
     for (int i=0; i<bindNames_.size(); i++) {
       result.append(printName(bindNames_.get(i)));
       result.append("==");
@@ -188,8 +189,7 @@ public class FlatBinding extends FlatPred
         result.append(", ");
       }
     }
-    result.append(" |> = ");
-    result.append(printLastArg());
+    result.append(" |>");
     return result.toString();
   }
 
