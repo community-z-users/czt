@@ -710,24 +710,28 @@ public class DomainCheck extends InnocuousDC implements
       String defName = name.getZName().accept(printVisitor_);
       DefinitionTable.Definition def = defTable_.lookup(defName);
       
-      // If it is a VARDECL with a RefExpr type
-      if (def != null && 
-          def.getDefinitionType().equals(DefinitionType.VARDECL) &&
-          def.getExpr() instanceof RefExpr)
+      // If there is a definition for defName
+      if (def != null) 
       {
-        RefExpr refExpr = (RefExpr)def.getExpr();
-        
-        // If such declaration is an operator (i.e. _ op _)?
-        OperatorName opName = refExpr.getZName().getOperatorName();        
-        if (opName != null)
+        // If it is a VARDECL with a RefExpr type
+        if (def.getDefinitionType().equals(DefinitionType.VARDECL) &&
+            def.getExpr() instanceof RefExpr)
         {
-          if (opName.getWord().equals(ZString.FUN))
-            applType = ApplType.TOTAL;
-          else if (opName.getWord().equals(ZString.PFUN))
-            applType = ApplType.PARTIAL;
+          RefExpr refExpr = (RefExpr)def.getExpr();
+
+          // If such declaration is an operator (i.e. _ op _)?
+          OperatorName opName = refExpr.getZName().getOperatorName();        
+          if (opName != null)
+          {
+            if (opName.getWord().equals(ZString.FUN))
+              applType = ApplType.TOTAL;
+            else if (opName.getWord().equals(ZString.PFUN))
+              applType = ApplType.PARTIAL;
+          }
+          // else, it is not \fun or \pfun, hence use appliesTo
         }
-        // else, it is not \fun or \pfun, hence use appliesTo
-      }      
+      }
+      // else, just use appliesTo
     }
     
     Pred result;
