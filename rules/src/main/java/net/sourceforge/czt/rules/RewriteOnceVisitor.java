@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007 Petra Malik
+  Copyright (C) 2005, 2006, 2007 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -40,8 +40,10 @@ import net.sourceforge.czt.zpatt.util.Factory;
 /**
  * Returns a rewritten version of the given term.  Note
  * that this is not recursive, i.e. the children of the term
- * are not rewritten.  If the rewriting fails, the given term
- * itself is returned.
+ * are not rewritten.  If the rewriting fails, the apply method
+ * returns the given term itself while the visit methods return
+ * <code>null</code>.  Note also that the term returned by the
+ * visit methods may contain jokers.
  */
 public class RewriteOnceVisitor
   implements TermVisitor<Term>,
@@ -52,7 +54,7 @@ public class RewriteOnceVisitor
   /** The name of the schema text equality operator: schemaEquals. */
   private RefExpr schemaEqualsRefExpr_;
 
-  Prover prover_;
+  private Prover prover_;
 
   public RewriteOnceVisitor(Prover prover)
   {
