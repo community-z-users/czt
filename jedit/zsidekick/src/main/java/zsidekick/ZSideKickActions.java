@@ -299,6 +299,46 @@ public class ZSideKickActions
     }
   }
 
+  public static void innermost(View view)
+    throws UnboundJokerException
+  {
+    WffHighlight wffHighlight = getWffHighlight(view);
+    if (wffHighlight != null) {
+      Term term = wffHighlight.getSelectedWff();
+      CopyVisitor copy = new CopyVisitor(ProverUtils.FACTORY);
+      term = term.accept(copy);
+      ParsedData parsedData = getParsedData(view);
+      if (parsedData != null) {
+        SectionManager manager = parsedData.getManager();
+        ZSect zSect = wffHighlight.findZSectForCurrentWff();
+        if (zSect != null) {
+          String section = zSect.getName();
+          try {
+            RuleTable rules = (RuleTable)
+              manager.get(new Key(section, RuleTable.class));
+            if (rules != null) {
+              Prover prover = new SimpleProver(rules, manager, section);
+              RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
+              Term result = Strategies.innermost(term, rewriter);
+              if (! replaceWff(term, result, view, manager, section)) {
+                reportError(view, "Rewriting failed");
+              }
+            }
+            else {
+              reportError(view, "Cannot find rules");
+            }
+          }
+          catch (CommandException e) {
+            reportError(view, "Cannot get rule table");
+          }
+        }
+        else {
+          reportError(view, "Cannot find Z section for selected term");
+        }
+      }
+    }
+  }
+
   public static void interactive_rewrite(View view)
   {
     WffHighlight wffHighlight = getWffHighlight(view);

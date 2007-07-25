@@ -48,6 +48,11 @@
       zsidekick.ZSideKickActions.rewrite(view);
     </CODE>
   </ACTION>
+  <ACTION NAME="zsidekick.rewriteInnermostCurrentWff">
+    <CODE>
+      zsidekick.ZSideKickActions.innermost(view);
+    </CODE>
+  </ACTION>
   <ACTION NAME="zsidekick.interactiveRewriteCurrentWff">
     <CODE>
       zsidekick.ZSideKickActions.interactive_rewrite(view);
