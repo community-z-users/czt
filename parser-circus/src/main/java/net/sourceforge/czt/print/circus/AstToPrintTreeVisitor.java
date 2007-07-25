@@ -159,7 +159,7 @@ public class AstToPrintTreeVisitor
     }
     
     // locally declared paragraph within basic process
-    for (Iterator<Para> iter = term.getZLocalPara().iterator();
+    for (Iterator<? extends Para> iter = term.getLocalPara().iterator();
     iter.hasNext();)
     {
       Para next = iter.next();
@@ -215,40 +215,27 @@ public class AstToPrintTreeVisitor
       //if (iter.hasNext()) list.add(TokenName.NL);
     }
     
-    if (!term.getZOnTheFlyPara().isEmpty()) {                    
+    if (!term.getOnTheFlyPara().isEmpty()) {                    
       // trying to add a NarrPara?
       NarrPara np = getZFactory().createNarrPara(
         Arrays.asList("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%Implicitly declared paragraphs\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n"));
       list.add(visit(np));
       // implicitly declared action paragraphs
-      for (Iterator<Para> iter = term.getZOnTheFlyPara().iterator();
+      for (Iterator<ActionPara> iter = term.getOnTheFlyPara().iterator();
       iter.hasNext();)
       {
-        Para next = iter.next();
-        if (next instanceof ActionPara)
-        {
-          ActionPara ap = (ActionPara)next;
-          list.add(visit(ap));
-          //if (iter.hasNext()) list.add(TokenName.NL);
-        }
-        else
-        {
-          getWM().warnBadParagraphFor("Implicitly", next, term);
-        }
+        ActionPara next = iter.next();
+        ActionPara ap = (ActionPara)next;
+        list.add(visit(ap));
+        //if (iter.hasNext()) list.add(TokenName.NL);        
       }
     }
     
-    if (term.getMainAction() != null)
-    {
-      list.add(CircusToken.CIRCUSACTION);
-      list.add(ZString.SPOT);
-      list.add(visit(term.getMainAction()));
-      list.add(TokenName.END);
-    }
-    else
-    {
-      getWM().warnMissingFor("main action", term);
-    }
+    assert (term.getMainAction() != null);    
+    list.add(CircusToken.CIRCUSACTION);
+    list.add(ZString.SPOT);
+    list.add(visit(term.getMainAction()));
+    list.add(TokenName.END);    
     
     if (hasState && !processedState_)
     {

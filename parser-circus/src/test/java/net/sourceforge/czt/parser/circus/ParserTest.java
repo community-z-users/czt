@@ -20,12 +20,14 @@
 package net.sourceforge.czt.parser.circus;
 
 import java.io.*;
+import java.io.FileOutputStream;
 
 import java.util.logging.Level;
 
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.session.FileSource;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztLogger;
@@ -60,10 +62,12 @@ public class ParserTest extends AbstractParserTest
       return new TestNormal(name);
   }
   
+  private JaxbXmlWriter writer_ = new JaxbXmlWriter();
+  
   protected class TestNormal extends TestCase
   {
     private String file_;
-    private Term term_;
+    private Term term_;    
     
     protected TestNormal(String file)
     {
@@ -86,6 +90,20 @@ public class ParserTest extends AbstractParserTest
         if (term_ == null)
         {
           fail("Parser returned null (i.e., parsing error)");
+        }
+        else
+        { 
+          System.out.println("Parsing successful, start XML printing...");
+          String xmlFile;
+          if (file_.lastIndexOf(".") != -1)
+            xmlFile = file_.substring(0, file_.lastIndexOf(".")) + ".xml";
+          else
+            xmlFile = file_ + ".xml";
+          File f = new File(xmlFile);
+          f.delete();
+          FileWriter fw = new FileWriter(f);          
+          writer_.write(term_, fw);          
+          fw.close();          
         }
       }
       catch (net.sourceforge.czt.parser.util.ParseException f)

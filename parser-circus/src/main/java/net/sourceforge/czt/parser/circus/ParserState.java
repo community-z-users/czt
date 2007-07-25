@@ -445,8 +445,15 @@ public class ParserState
               statePara = createDefaultStatePara(processLoc_);
               assert statePara != null : "Invalid default state creation";
               addLocallyDeclPara(statePara);
-          }   
+          }
+          // else, it is already in either list
+          assert (getLocallyDeclPara().contains(statePara) &&
+                  !getImplicitlyDeclActPara().contains(statePara)) 
+                 ||
+                 (getImplicitlyDeclActPara().contains(statePara) &&
+                  !getLocallyDeclPara().contains(statePara));                 
           
+          /*
           // copy the paragraphs into a ZParaList
           ZParaList localPara = factory_.createZParaList(getLocallyDeclPara());
           ZParaList onTheFlyPara = factory_.createZParaList(getImplicitlyDeclActPara());
@@ -454,11 +461,22 @@ public class ParserState
           // get main action
           CircusAction mainAction = getMainAction();      
 
-          // create new basic process to be used.
+          // create new basic process to be used.          
           basicProcess_.setStatePara(statePara);
           basicProcess_.setLocalPara(localPara);
           basicProcess_.setOnTheFlyPara(onTheFlyPara);
           basicProcess_.setMainAction(mainAction);      
+           */
+          
+          basicProcess_.getZParaList().addAll(getLocallyDeclPara());
+          basicProcess_.getZParaList().addAll(getImplicitlyDeclActPara());
+          
+          // adding consistency checks.
+          assert statePara.equals(basicProcess_.getStatePara());
+          assert getMainAction().equals(basicProcess_.getMainAction());
+          assert getLocallyDeclPara().equals(basicProcess_.getLocalPara());
+          assert getImplicitlyDeclActPara().equals(basicProcess_.getOnTheFlyPara());
+          
           addLocAnn(basicProcess_, processLoc_);
       }
       return result;
