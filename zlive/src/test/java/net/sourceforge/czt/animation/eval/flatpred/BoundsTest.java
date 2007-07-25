@@ -566,6 +566,7 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds2.boundsChanged());
     assertTrue(bnds2.getDeductions() > 0);
     
+    // check that w.1 = y and w.2 = z
     args = bnds2.getStructure(w);
     assertEquals(2, args.size());
     assertEquals(y, args.get(Integer.valueOf(1)));
