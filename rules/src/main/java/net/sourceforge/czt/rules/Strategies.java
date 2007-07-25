@@ -23,19 +23,42 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.Term;
 
+/**
+ * Strategies for term rewriting.
+ */
 public class Strategies
 {
+  /**
+   * Performs a leftmost innermost rewriting of the given term.  The
+   * redex (a sub-term that can be reduced) is searched in a
+   * left-to-right, bottom-up fashion.
+   *
+   * This algorithm is taken from the paper Mark G.J. Van den Brand,
+   * Paul Klint, and Jurgen J. Vinju: Term Rewriting with Traversal
+   * Functions.
+   *
+   * @return the rewritten term, or the original term if no rewritings
+   *         have been performed.
+   * @throws NullPointerException if the given term or rewriter are
+   *         <code>null</code>.
+   */
   public static Term innermost(Term term, RewriteOnceVisitor rewriter)
     throws UnboundJokerException
   {
     Object[] children = term.getChildren();
+    boolean aChildHasChanged = false;
     for (int i = 0; i < children.length; i++) {
       if (children[i] instanceof Term) {
         Term child = (Term) children[i];
-        children[i] = innermost(child, rewriter);
+        child = innermost(child, rewriter);
+        if (child != children[i]) {
+          aChildHasChanged = true;
+          children[i] = child;
+        }
       }
     }
-    return reduce(term.create(children), rewriter);
+    if (aChildHasChanged) return reduce(term.create(children), rewriter);
+    return reduce(term, rewriter);
   }
 
   private static Term reduce(Term term, RewriteOnceVisitor rewriter)
