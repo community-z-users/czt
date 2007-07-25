@@ -10,7 +10,5 @@
   /** Creates an empty BasicChannelSet. This is a convenience method */
   CircusChannelSet createEmptyCircusChannelSet();
   
-  /** Creates an interleave action with empty (basic) name sets. This is a convenience method */    
-  InterleaveAction createInterleaveAction(CircusAction left, CircusAction right);
   
   
