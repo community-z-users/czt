@@ -80,8 +80,7 @@ public class SimpleProverTest
   private void prove(String resource)
     throws Exception
   {
-    SectionManager manager = new SectionManager();
-    manager.putCommands("zpatt");
+    SectionManager manager = new SectionManager("zpatt");
     URL url = getClass().getResource(resource);
     assertFalse(url == null);
     manager.put(new Key(url.toString(), Source.class), new UrlSource(url));
