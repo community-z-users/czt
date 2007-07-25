@@ -517,7 +517,7 @@ public class TextUI {
       currSet_.previous();
       currMember_ = currSet_.next();
       currPosition_ = currSet_.nextIndex();
-      output_.print("Solution "+currPosition_+" is: ");
+      output_.print(currPosition_+": ");
       this.printTerm(output_, currMember_, zlive_.getMarkup());
       output_.println();
     }
