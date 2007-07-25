@@ -1,0 +1,16 @@
+
+\begin{zsection}
+   \SECTION dc\_toolkit 
+\end{zsection}
+
+%%Zinword \appliesTo appliesTo
+begin{zed}
+    \relation (\_ \appliesTo \_)
+end{zed}
+
+% Don't use \rel to avoid dependency on set_toolkit.tex
+\begin{gendef}[X, Y]
+   \appliesTo : \power(\power~(X \cross Y) \cross X)
+\where
+   \forall R: \power(X \cross Y); x: X @ (R, x) \in \appliesTo \iff (\exists_1 y: Y @ (x, y) \in R)
+\end{gendef} 
