@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 public final class ZUtils
 {
-  public static final ZFactory FACTORY = new ZFactoryImpl();
+  public static final Factory FACTORY = new Factory();
 
   /**
    * Do not create instances of this class.

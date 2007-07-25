@@ -54,7 +54,7 @@ public final class CircusUtils
   {
   }
   
-  public static final CircusFactory FACTORY = new CircusFactoryImpl();
+  public static final Factory FACTORY = new Factory();
   
   /** The name of the basic Circus toolkit. */
   public static final String CIRCUS_TOOLKIT = "circus_toolkit";
