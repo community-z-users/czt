@@ -4643,25 +4643,27 @@ cspAction ::=
         |
         circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car
         {:
-            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), nsl, nsr);
+            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), factory_.list(nsl, nsr));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal INTERLEAVE:il circusAction:car
         {:
-            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), createEmptyNameSet(), createEmptyNameSet());
+            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), 
+              factory_.list(createEmptyNameSet(), createEmptyNameSet()));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
         {:
-            RESULT = factory_.createParallelAction(factory_.list(cal, car), nsl, nsr, cs);
+            RESULT = factory_.createParallelAction(factory_.list(cal, car), factory_.list(nsl, nsr), cs);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LPAR:lp channelSet:cs RPAR:rp circusAction:car
         {:        
-            RESULT = factory_.createParallelAction(factory_.list(cal, car), createEmptyNameSet(), createEmptyNameSet(), cs);
+            RESULT = factory_.createParallelAction(factory_.list(cal, car), 
+              factory_.list(createEmptyNameSet(), createEmptyNameSet()), cs);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
@@ -4936,28 +4938,32 @@ command ::=
         /* Specification statement */
         refNameList:rnl COLON LSQUARE predicate:pre COMMA predicate:post RSQUARE
         {:            
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl), pre, post);
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(rnl), 
+              factory_.list(pre, post));
             addLocAnn(RESULT, getLocation(getLocation(rnlleft, rnlright), getLocation(post)));
         :}
         |
         /* Specification statement with empty frame*/
         COLON:c LSQUARE predicate:pre COMMA predicate:post RSQUARE:rsq
         {:            
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), pre, post);
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+              factory_.list(pre, post));
             addLocAnn(RESULT, getLocation(c, rsq));
         :}
         /* Assumption */        
         |                
         LBRACE:lb predicate:pre RBRACE:rb
         {:
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), pre, factory_.createTruePred());
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+              factory_.list(pre, factory_.createTruePred()));
             addLocAnn(RESULT, getLocation(getLocation(lbleft, lbright), getLocation(rbleft, rbright)));
         :}
         /* Coercion */ 
         | 
         LSQUARE:ls predicate:post RSQUARE:rs
         {:
-            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), factory_.createTruePred(), post);
+            RESULT = factory_.createSpecStmtCommand(factory_.createZNameList(), 
+              factory_.list(factory_.createTruePred(), post));
             addLocAnn(RESULT, getLocation(getLocation(lsleft, lsright), getLocation(rsleft, rsright)));
         :}                   
         ;
@@ -4997,7 +5003,8 @@ processRefPara ::=
         CIRCASSERTREF process:spec refines:r process:impl
         {:
            RESULT = factory_.createTransformerPara(
-                factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(), spec, impl));
+                factory_.createProcessTransformerPred(null, r, parserState_.getRefinementModel(), 
+                factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
            parserState_.clearRefinementModel();
         :}
@@ -5007,7 +5014,8 @@ actionRefPara ::=
         CIRCASSERTREF circusAction:spec refines:r circusAction:impl 
         {:
            RESULT = factory_.createTransformerPara(
-                factory_.createActionTransformerPred(null, r, parserState_.getRefinementModel(), spec, impl));
+                factory_.createActionTransformerPred(null, r, 
+                parserState_.getRefinementModel(), factory_.list(spec, impl)));
            addLocAnn(RESULT, getLocation(getLocation(spec), getLocation(impl)));
            parserState_.clearRefinementModel();
 
