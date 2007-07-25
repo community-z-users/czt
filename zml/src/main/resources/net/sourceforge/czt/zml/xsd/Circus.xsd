@@ -1352,13 +1352,12 @@ These interfaces represent the AST for Circus.
     substitutionGroup="CIRCUS:TransformerPred">
     <xs:annotation>
       <xs:documentation>
-        An process transformer predicate is a predicate that relates two process
+        A process transformer predicate is a predicate that relates two process
         by one of the available transformation relations in one of the available
         models. 
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  
   
   <!-- Special Circus actions used on post-parsing. 
        They are related to scope for mutual recursion and variable declaration.
@@ -1563,7 +1562,17 @@ These interfaces represent the AST for Circus.
         <xs:sequence>
           <!-- Because the new JAXB feature for XML read/writing does not allow
                multiple ref elements with the same type, we are forced to use lists.
-               Nevertheless, we add via GnAST the necessary convenience methods. -->
+               Nevertheless, we add via GnAST the necessary convenience methods. 
+               
+               All productions affected and modified were: 
+               
+               ChannelDecl, Process2, BasicProcess, AlphabetisedParallelProcess,
+               Action2, ParAction, AlphabetisedParallelAction, SpecStmtCommand,
+               ActionTransformerPred, ProcessTransformerPred, and ActionSignature.
+               
+               All new productions must bare this in mind from now on (revision 5826). 
+               Convenience setXXX methods follow the same implementation as Z:Expr2.
+            -->
            
           <!-- This returns a list of NameList containing exactly two elements.
                The first is the non-null (possibly emptty) generic formals, 
@@ -1751,7 +1760,8 @@ These interfaces represent the AST for Circus.
             include an empty schema for it as if it had been declared as 
             "\circstate $$defaultSt == [~ | true ~]". 
             
-            TODO:Make sure typechecker does that!(Check other places where typechecer is mentioned as well).
+            TODO:Make sure typechecker/parser does that!
+                (Check other places where typechecer is mentioned as well).
           -->
           <xs:element ref="Z:Para">          
             <xs:annotation>
@@ -1945,6 +1955,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParProcess">
         <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
@@ -1961,6 +1972,8 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          -->
+          <xs:element ref="CIRCUS:ChannelSet" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2311,6 +2324,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:Action2">
         <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:NameSet">
             <xs:annotation>
               <xs:appinfo>
@@ -2327,6 +2341,8 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          -->
+          <xs:element ref="CIRCUS:NameSet" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2350,6 +2366,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:ParAction">
         <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:ChannelSet">
             <xs:annotation>
               <xs:appinfo>
@@ -2364,8 +2381,10 @@ These interfaces represent the AST for Circus.
                 <jaxb:property name="RightAlpha"
                   generateElementProperty="true"/>
               </xs:appinfo>
-            </xs:annotation>
+            </xs:annotation>            
           </xs:element>
+          -->
+          <xs:element ref="CIRCUS:ChannelSet" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2498,6 +2517,7 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          <!--
           <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
@@ -2512,6 +2532,8 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+          -->
+          <xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2599,7 +2621,8 @@ These interfaces represent the AST for Circus.
   <xs:complexType name="ActionTransformerPred">
     <xs:complexContent>
       <xs:extension base="CIRCUS:TransformerPred">
-        <xs:sequence>          
+        <xs:sequence>
+          <!--
           <xs:element ref="CIRCUS:CircusAction">
             <xs:annotation>
               <xs:appinfo>
@@ -2616,6 +2639,8 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
+          -->
+          <xs:element ref="CIRCUS:CircusAction" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
@@ -2625,6 +2650,7 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:TransformerPred">
         <xs:sequence>          
+          <!--
           <xs:element ref="CIRCUS:CircusProcess">
             <xs:annotation>
               <xs:appinfo>
@@ -2641,6 +2667,8 @@ These interfaces represent the AST for Circus.
               </xs:appinfo>
             </xs:annotation>
           </xs:element>          
+          -->
+          <xs:element ref="CIRCUS:CircusProcess" minOccurs="2" maxOccurs="2"/>
         </xs:sequence>        
       </xs:extension>
     </xs:complexContent>
