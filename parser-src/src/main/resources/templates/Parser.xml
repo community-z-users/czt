@@ -3989,31 +3989,31 @@ process ::=
         | 
         process:pl INTERLEAVE:in process:pr
         {:
-            RESULT = factory_.createInterleaveProcess(pl, pr);
+            RESULT = factory_.createInterleaveProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(inleft, inright, pl, pr));
         :}     
         |
         process:pl LPAR:lp channelSet:cs RPAR:rp process:pr
         {:
-            RESULT = factory_.createParallelProcess(pl, pr, cs);
+            RESULT = factory_.createParallelProcess(factory_.list(pl, pr), cs);
             addLocAnn(RESULT, getLocation(rpleft, rpright, pl, pr));
         :}             
         |
         process:pl INTCHOICE:ic process:pr
         {:
-            RESULT = factory_.createIntChoiceProcess(pl, pr);
+            RESULT = factory_.createIntChoiceProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(icleft, icright, pl, pr));
         :}
         |
         process:pl EXTCHOICE:cs process:pr
         {:
-            RESULT = factory_.createExtChoiceProcess(pl, pr);
+            RESULT = factory_.createExtChoiceProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
         :}
         |
         process:pl CIRCSEQ:cs process:pr
         {:
-            RESULT = factory_.createSeqProcess(pl, pr);
+            RESULT = factory_.createSeqProcess(factory_.list(pl, pr));
             addLocAnn(RESULT, getLocation(csleft, csright, pl, pr));
         :}        
         |
@@ -4643,43 +4643,43 @@ cspAction ::=
         |
         circusAction:cal LINTER:li nameSet:nsl BAR nameSet:nsr RINTER:ri circusAction:car
         {:
-            RESULT = factory_.createInterleaveAction(cal, car, nsl, nsr);
+            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), nsl, nsr);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal INTERLEAVE:il circusAction:car
         {:
-            RESULT = factory_.createInterleaveAction(cal, car, createEmptyNameSet(), createEmptyNameSet());
+            RESULT = factory_.createInterleaveAction(factory_.list(cal, car), createEmptyNameSet(), createEmptyNameSet());
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LPAR:lp nameSet:nsl BAR channelSet:cs BAR nameSet:nsr RPAR:rp circusAction:car
         {:
-            RESULT = factory_.createParallelAction(cal, car, nsl, nsr, cs);
+            RESULT = factory_.createParallelAction(factory_.list(cal, car), nsl, nsr, cs);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal LPAR:lp channelSet:cs RPAR:rp circusAction:car
-        {:
-            RESULT = factory_.createParallelAction(cal, car, createEmptyNameSet(), createEmptyNameSet(), cs);
+        {:        
+            RESULT = factory_.createParallelAction(factory_.list(cal, car), createEmptyNameSet(), createEmptyNameSet(), cs);
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal INTCHOICE:ic circusAction:car
         {:
-            RESULT = factory_.createIntChoiceAction(cal, car);
+            RESULT = factory_.createIntChoiceAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal EXTCHOICE:cs circusAction:car
         {:
-            RESULT = factory_.createExtChoiceAction(cal, car);
+            RESULT = factory_.createExtChoiceAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         |
         circusAction:cal CIRCSEQ:cs circusAction:car
         {:
-            RESULT = factory_.createSeqAction(cal, car);
+            RESULT = factory_.createSeqAction(factory_.list(cal, car));
             addLocAnn(RESULT, getLocation(cal, car));
         :}
         /* Due to a series of reasonable conflicts (listed below), we see that 
