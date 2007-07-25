@@ -1743,72 +1743,86 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="CIRCUS:CircusProcess">
         <xs:sequence>          
-          <!-- 
-            It is simpler to just allow a Para to be the state.
-            Such paragraph contains a CircusStateAnn annotation on it.
-            The parser allows schema boxes, horizontal schemas, and schema actions.
-            That rules out generic schemas (or generic abbreviations), as the 
-            geneirc types on schemas must come from the process generic formals.
-            
-            Also, we allow implicit circus state to be declared on the fly,
-            where the default name is "$$defaultSt". That is, we allow
-            Expr production after \circstate\ as well. For example,
-            "\circstate\ S \land T", we translate the on-the-fly description 
-            to the following convention: "\circstate\ $$defaultState == S \land T".
-            
-            In the case of a BasicProcess without state, the typechecker ought to 
-            include an empty schema for it as if it had been declared as 
-            "\circstate $$defaultSt == [~ | true ~]". 
-            
-            TODO:Make sure typechecker/parser does that!
-                (Check other places where typechecer is mentioned as well).
-          -->
-          <xs:element ref="Z:Para">          
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="StatePara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>          
-          <!-- 
-            Contains both Z and Circus paragraphs, where the StatePara
-            is annotated with a CircusStateAnn.  
-          -->
-          <xs:element ref="Z:ParaList">           
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LocalPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>        
-          <!-- 
-            Contains implicitly declared ActionPara or state schema 
-            (as ActionPara with SchExprAction). This includes the 
-            main action.
-            Elements are annotated with an OnTheFlyDefAnn to be used by
-            the typechecker. If it is a state, a CircusStateAnn is also
-            included. ActionPara are named as $$implicitActN, whereas 
-            the state is named "$$defaultSt" and the main action
-            "$$mainAction".
-           -->          
-          <xs:element ref="Z:ParaList">                      
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="OnTheFlyPara"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>        
           <!--
-            The main action is the action within the ActionPara inside
-            OnTheFlyPara. It is annotated with an OnTheFlyDefAnn.
+          REFACTORING: Collapsed all BasicProcess elements into a single ParaList
+                       in order to properly implement new JAXB features. See 
+                       details below.
           -->
-          <xs:element ref="CIRCUS:CircusAction">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="MainAction"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          
+          <!--
+          This will create a get/setParaList method accessing all paragraphs.
+          We will also add the following convenience methods:
+          
+          Para getStatePara() 
+          -> returns the paragraph within ParaList with a CircusStateAnn 
+             annotation or throw a UnsupportedASTException otherwise. 
+             That is because, by default, the  parser always create a state.
+                            
+             The parser allows schema boxes, horizontal schemas, and schema actions.
+             That rules out generic schemas (or generic abbreviations), as the 
+             geneirc types on schemas must come from the process generic formals.
+                            
+              Also, we allow implicit circus state to be declared on the fly,
+              where the default name is "$$defaultSt". That is, we allow
+              Expr production after \circstate\ as well. For example,
+              "\circstate\ S \land T", we translate the on-the-fly description 
+              to the following convention: "\circstate\ $$defaultState == S \land T".
+
+              In the case of a BasicProcess without state, the parser MUST  
+              include an empty schema for it as if it had been declared as 
+              "\circstate $$defaultSt == [~ | true ~]". 
+              
+          CircusAction getMainAction()
+          -> The main action is the action within the ActionPara inside
+             OnTheFlyPara. It is annotated with an OnTheFlyDefAnn.          
+          
+          ZParaList getLocalPara()
+          -> Contains both Z and Circus paragraphs. 
+             It does not contain any OnTheFlyPara.             
+             It may contain the state para, if it was declared 
+             using a ConstDecl (i.e. \circstate\ S == expr).
+          
+          ZParaList getOnTheFlyPara(),
+          -> Contains implicitly declared ActionPara. 
+             This includes the main action, which is always implicitly declared.
+             Elements are annotated with an OnTheFlyDefAnn to be used by
+             the typechecker. If it is a state, a CircusStateAnn is also
+             included, which can only happens in the case where an expression
+             is used (i.e. \circstate S; \circstate (S \land T); etc). 
+             
+             ActionPara are named as $$implicitActN, whereas 
+             the state is named "$$defaultSt" and the main 
+             action "$$mainAction".
+             
+          INVARIANTS: 
+          
+          1) Main action is never null and always within on-the-fly paragraphs            
+          
+          * Logic: 
+          mainAct \in ohTheFlyPara
+          
+          * Java:
+          assert getZOhTheFlyPara().contains(createActionPara("$$mainAction", getMainAction());
+          
+          2) State para is never null and always within either local or on-the-fly
+            paragraphs, where the default state is just "$$defaultSt -> [|true]".
+          
+          * Logic:
+          CircStateAnn \in state.getAnns()          
+          OnTheFlyDefAnn \in state.getAnns()    \implies state \in ohTheFlyPara
+          OnTheFlyDefAnn \notin state.getAnns() \implies state \in localPara
+          
+          * Java:
+          assert ....
+          
+          3) Size is always at least two (i.e. state + main action) 
+             TODO: Think about perhaps not in case of joker(?)
+          
+          4) Local and on-the-fly para form a partition of ParaList            
+          
+          PS: Add those and other Circus.xsd invariants as unit tests for the parser.
+          -->
+          <xs:element ref="Z:ParaList"/>            
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -2895,6 +2909,7 @@ These interfaces represent the AST for Circus.
     </xs:complexContent>    
   </xs:complexType>
   
+  <!-- TODO: flattening signature elements to a list for updated JAXB -->
   <xs:complexType name="ActionSignature">
     <xs:complexContent>
       <xs:extension base="Z:Term">
