@@ -1561,7 +1561,12 @@ These interfaces represent the AST for Circus.
     <xs:complexContent>
       <xs:extension base="Z:Decl">
         <xs:sequence>
+          <!-- This returns a list of NameList containing exactly two elements.
+               The first is the non-null (possibly emptty) generic formals, 
+               whereas the second is the list of channel names for the "channel" 
+               keyword, or null for the "channelFrom" keyword. -->                    
           <xs:element ref="Z:NameList" minOccurs="2" maxOccurs="2"/>
+          <!-- Channel type for typed channels, null for synchronisation channels, or RefExpr for ChannelFrom -->
           <xs:element ref="Z:Expr" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
