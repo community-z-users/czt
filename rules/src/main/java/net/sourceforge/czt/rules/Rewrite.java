@@ -29,22 +29,15 @@ import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.LetExpr;
 import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.ast.RefExpr;
-import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchText;
-import net.sourceforge.czt.z.ast.StrokeList;
-import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZDeclList;
-import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.ast.ZSect;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.LetExprVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.z.visitor.SchTextVisitor;
 import net.sourceforge.czt.z.visitor.ZSectVisitor;
-import net.sourceforge.czt.zpatt.ast.Sequent;
 import net.sourceforge.czt.zpatt.util.Factory;
 
 /**
@@ -69,13 +62,13 @@ public class Rewrite
              ZSectVisitor<Term>,
              LetExprVisitor<Term>
 {
+  private RewriteOnceVisitor rewriter_;
+
   /** Maximum number of rewrites of the same expr/pred.
    *  If more rules than this are used, we assume that
    *  there is an infinite loop in the rules.
    */
   private int MAX_REWRITES = 20;
-
-  private Prover prover_;
 
   private SectionManager manager_;
 
@@ -83,24 +76,17 @@ public class Rewrite
 
   private boolean bottomUp_ = false;
 
-  /** The name of the schema text equality operator: schemaEquals. */
-  private static RefExpr schemaEqualsRefExpr_;
-
   public Rewrite(SectionManager manager, RuleTable rules)
   {
     manager_ = manager;
     rules_ = rules;
-    Factory factory = new Factory(new ProverFactory());
-    String schemaEqOp = ZString.ARG_TOK + "schemaEquals" + ZString.ARG_TOK;
-    StrokeList noStrokes = factory.createZStrokeList();
-    ZName name = factory.createZName(schemaEqOp, noStrokes, "global");
-    schemaEqualsRefExpr_ = factory.createRefExpr(name);
   }
 
   public Rewrite(SectionManager manager, RuleTable rules, String section)
   {
     this(manager, rules);
-    prover_ = new SimpleProver(rules, manager, section);
+    rewriter_ =
+      new RewriteOnceVisitor(new SimpleProver(rules, manager, section));
   }
 
   public void setBottomUp(boolean bottomUp)
@@ -110,7 +96,8 @@ public class Rewrite
 
   public Term visitZSect(ZSect zSect)
   {
-    prover_ = new SimpleProver(rules_, manager_, zSect.getName());
+    SimpleProver prover = new SimpleProver(rules_, manager_, zSect.getName());
+    rewriter_ = new RewriteOnceVisitor(prover);
     return VisitorUtils.visitTerm(this, zSect, true);
   }
 
@@ -136,7 +123,7 @@ public class Rewrite
     do {
       oldExpr = result;
       try {
-        result = (Expr) rewriteOnce(result, prover_);
+        result = (Expr) rewriter_.apply(result);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
@@ -177,7 +164,7 @@ public class Rewrite
     do {
       oldPred = result;
       try {
-        result = (Pred) rewriteOnce(result, prover_);
+        result = (Pred) rewriter_.apply(result);
       }
       catch (UnboundJokerException e) {
         throw new RuntimeException(e);
@@ -235,7 +222,7 @@ public class Rewrite
   protected SchText rewrite(SchText schText)
   {
     try {
-      return (SchText) rewriteOnce(schText, prover_);
+      return (SchText) rewriter_.apply(schText);
     }
     catch (UnboundJokerException e) {
       throw new RuntimeException(e);
@@ -245,83 +232,6 @@ public class Rewrite
   protected Term visitChildren(SchText schText)
   {
     return VisitorUtils.visitTerm(this, schText, true);
-  }
-
-  /**
-   * Returns a rewritten version of the given schema text by trying to prove
-   * <code>schText schemaEquals result</code> using the given prover.
-   * If the prover fails, the original schema text is returned.
-   */
-  public static SchText rewriteOnce(SchText schText, Prover prover)
-    throws UnboundJokerException
-  {
-    Factory factory = new Factory(new ProverFactory());
-    ProverJokerExpr joker = (ProverJokerExpr)
-      factory.createJokerExpr("_", null);
-    // now create the predicate: schText \schemaEquals joker
-    // System.out.println("Rewriting schtext: "+schText);
-    Expr original = factory.createSchExpr(schText);
-    TupleExpr pair = factory.createTupleExpr(original, joker);
-    Pred pred =
-      factory.createMemPred(pair, schemaEqualsRefExpr_, Boolean.TRUE);
-    Sequent sequent = factory.createSequent();
-    sequent.setPred(pred);
-    if (prover.prove(sequent)) {
-      Expr newExpr = (Expr) ProverUtils.removeJoker(joker.boundTo());
-      if (newExpr instanceof SchExpr) {
-        SchText result = ((SchExpr)newExpr).getSchText(); 
-        //        System.out.println("Rewrote to "+result);
-        return result;
-      }
-      else {
-        final String msg = "Incorrect schemaEquals rule returned: " + newExpr;
-        throw new RuntimeException(msg);
-      }
-    }
-    return schText;
-  }
-
-  /**
-   * Returns a rewritten version of the given expression by trying to
-   * prove <code>expr = JokerExpr</code> using the given prover.  Note
-   * that this is not recursive, i.e. the children of the expression
-   * are not rewritten.  If the prover fails, the given expression
-   * itself is returned.
-   */
-  public static Term rewriteOnce(Expr expr, Prover prover)
-    throws UnboundJokerException
-  {
-    Factory factory = new Factory(new ProverFactory());
-    ProverJokerExpr joker = (ProverJokerExpr)
-      factory.createJokerExpr("_", null);
-    Pred pred = factory.createEquality(expr, joker);
-    Sequent sequent = factory.createSequent();
-    sequent.setPred(pred);
-    if (prover.prove(sequent)) {
-      return ProverUtils.removeJoker(joker.boundTo());
-    }
-    return expr;
-  }
-
-  /**
-   * Returns a rewritten version of the given predicate by trying to
-   * prove <code>pred \iff JokerPred</code> using the given prover.
-   * Note that this is not recursive, i.e. the children of the
-   * predicate are not rewritten.  If the prover fails, the given
-   * predicate itself is returned.
-   */
-  public static Term rewriteOnce(Pred pred, Prover prover)
-    throws UnboundJokerException
-  {
-    Factory factory = new Factory(new ProverFactory());
-    ProverJokerPred joker = (ProverJokerPred)
-      factory.createJokerPred("_", null);
-    Sequent sequent = factory.createSequent();
-    sequent.setPred(factory.createIffPred(pred, joker));
-    if (prover.prove(sequent)) {
-      return ProverUtils.removeJoker(joker.boundTo());
-    }
-    return pred;
   }
 
   /**

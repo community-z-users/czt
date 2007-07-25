@@ -272,16 +272,8 @@ public class ZSideKickActions
                 manager.get(new Key(section, RuleTable.class));
               if (rules != null) {
                 Prover prover = new SimpleProver(rules, manager, section);
-                Term result;
-                if (term instanceof Pred) {
-                    result = Rewrite.rewriteOnce((Pred) term, prover);
-                }
-                else if (term instanceof Expr) {
-                  result = Rewrite.rewriteOnce((Expr) term, prover);
-                }
-                else {
-                  result = Rewrite.rewriteOnce((SchText) term, prover);
-                }
+                RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
+                Term result = rewriter.apply(term);
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Rewriting failed");
                 }
@@ -429,13 +421,8 @@ public class ZSideKickActions
                 ruleManager.get(new Key("unfold", RuleTable.class));
               if (rules != null) {
                 Prover prover = new SimpleProver(rules, manager, section);
-		Term result;
-		if (term instanceof Expr) {
-		  result = Rewrite.rewriteOnce((Expr) term, prover);
-		}
-		else {
-		  result = Rewrite.rewriteOnce((SchText) term, prover);
-		}
+                RewriteOnceVisitor rewriter = new RewriteOnceVisitor(prover);
+		Term result = rewriter.apply(term);
                 if (! replaceWff(term, result, view, manager, section)) {
                   reportError(view, "Unfolding failed");
                 }
