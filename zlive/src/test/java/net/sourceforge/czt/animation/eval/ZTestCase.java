@@ -46,7 +46,7 @@ public class ZTestCase extends TestCase
 {
   protected static ZLive zlive_ = new ZLive();
   
-  protected Factory factory_ = new Factory(new ZFactoryImpl());
+  protected Factory factory_ = zlive_.getFactory();
 
   /** The accuracy used to check number-of-solutions in Mode results. */
   protected final double ACCURACY = 0.01;
