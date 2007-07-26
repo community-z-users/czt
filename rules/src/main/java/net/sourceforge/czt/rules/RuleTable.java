@@ -46,11 +46,12 @@ public class RuleTable
     throws RuleTableException
   {
     final String rulename = rule.getName();
-    rules_.add(rule);
-    if (map_.get(rulename) != null) {
+    RulePara alreadyIn = map_.get(rulename);
+    if (alreadyIn != null && ! alreadyIn.equals(rule)) {
       final String message = "RulePara " + rulename + " defined twice";
       throw new RuleTableException(message);
     }
+    rules_.add(rule);
     map_.put(rulename, rule);
   }
 
