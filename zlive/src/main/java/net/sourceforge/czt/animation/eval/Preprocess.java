@@ -218,11 +218,15 @@ public final class Preprocess
       return VisitorUtils.visitTerm(this, term, true);
     }
 
-    /** For bindings, we check only the expressions, not the field names. */
+    /** For bindings, we recurse into the expressions,
+     *  and set all field names to have ID=0 (global).
+     *  (The typechecker should probably do the latter).
+     */
     public Term visitBindExpr(BindExpr e)
     {
       for (Decl d : e.getZDeclList()) {
          ConstDecl cdecl = (ConstDecl) d;
+         cdecl.getZName().setId("0");  // TODO: create a fresh ZName with ID=0
          cdecl.getExpr().accept(this);
       }
       return e;
