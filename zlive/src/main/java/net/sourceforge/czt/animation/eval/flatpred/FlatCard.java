@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.eval.Envir;
+import net.sourceforge.czt.animation.eval.EvalException;
 import net.sourceforge.czt.animation.eval.flatvisitor.FlatCardVisitor;
 import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.util.Visitor;
@@ -79,15 +80,13 @@ public class FlatCard extends FlatPred
     ZName setName = args_.get(0);
     if (solutionsReturned_ == 0) {
       solutionsReturned_++;
-      Expr set = evalMode_.getEnvir().lookup(setName);
-      assert set instanceof EvalSet;
-      Iterator it = ((EvalSet) set).iterator();
-      BigInteger i = new BigInteger("0");
-      while (it.hasNext()) {
-        it.next();
-        i = i.add(BigInteger.ONE);
+      EvalSet set = (EvalSet) evalMode_.getEnvir().lookup(setName);
+      int setSize = set.size();
+      // TODO: allow sets to return BigInteger sizes.
+      if (setSize == Integer.MAX_VALUE) {
+        throw new EvalException("cardinalities larger than "+setSize+" not handled yet");
       }
-      Expr size = factory_.createNumExpr(i.intValue()); // TODO: allow BigInteger here
+      Expr size = factory_.createNumExpr(setSize);
       if (evalMode_.isInput(args_.get(1))) {
         Expr thisSize = evalMode_.getEnvir().lookup(args_.get(1));
         if (thisSize.equals(size))
