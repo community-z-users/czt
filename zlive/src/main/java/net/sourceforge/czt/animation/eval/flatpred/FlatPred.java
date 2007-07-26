@@ -74,7 +74,11 @@ public abstract class FlatPred
   protected/*@spec_public@*/Mode evalMode_;
 
   /** The list of arguments to this FlatPred.
-   *  If the FlatPred corresponds to a function, the output is args[last].
+   *  If the FlatPred corresponds to a function, the output is
+   *  the last entry in args.
+   *  Note that it is permissible for args_ to contain the same
+   *  name more than once.  For example, a*a=b gives FlatMult(a,a,b),
+   *  which has args_=[a,a,b].
    */
   protected/*@non_null@*/ArrayList<ZName> args_;
 

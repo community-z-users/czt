@@ -135,6 +135,9 @@ import net.sourceforge.czt.z.visitor.ZNameVisitor;
  *  <p>
  *  The ZLive parameter to the constructor is used to access the
  *  section manager (to get the current context of the expr/pred).
+ *  <p>
+ *  TODO: could look for common subexpressions.  Eg. keep track of all 
+ *  expressions translated so far in a Map&lt;Expr,ZName&gt;.
  */
 public class FlattenVisitor
     implements
@@ -401,7 +404,7 @@ public class FlattenVisitor
    */
   public ZName visitExistsPred(ExistsPred p) {
     FlatPredList sch = new FlatPredList(zlive_);
-    sch.addSchText(p.getZSchText());
+    sch.addExistsSchText(p.getZSchText());
     FlatPredList body = new FlatPredList(zlive_);
     body.addPred(p.getPred());
     flat_.add(new FlatExists(sch, body));
@@ -421,12 +424,12 @@ public class FlattenVisitor
    *  except for \emptyset, which is unfolded into {}. */
   public ZName visitZName(ZName e)
   {
+    ZName result = e;
     if (e.getWord().equals(ZString.EMPTYSET) && e.getZStrokeList().isEmpty()) {
-      ZName emptyset = createBoundName();
-      flat_.add(new FlatDiscreteSet(new ArrayList<ZName>(), emptyset));
-      e = emptyset;
+      result = createBoundName();
+      flat_.add(new FlatDiscreteSet(new ArrayList<ZName>(), result));
     }
-    return e;
+    return result;
   }
 
   /** Simple RefExpr objects are returned unchanged.
@@ -613,6 +616,7 @@ public class FlattenVisitor
     FlatPredList fp = new FlatPredList(zlive_);
     fp.addSchText(stext);
     result = fp.addExpr(p2);
+    flat_.makeBound(result);
     flat_.add(new FlatMu(fp, result));
     return result;
   }
@@ -643,15 +647,13 @@ public class FlattenVisitor
   }
 
   public ZName visitSetCompExpr(SetCompExpr e) {
-    ZName result = createBoundName();
-    ZSchText text = e.getZSchText();
-    List<Decl> decls = text.getZDeclList();
-    Pred pred = text.getPred();
+    ZSchText stext = e.getZSchText();
     Expr expr = e.getExpr();
     if (expr == null)
-      expr = Flatten.charTuple(zlive_.getFactory(), decls);
+      expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
-    flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
+    ZName result = createBoundName();
+    flat_.add(new FlatSetComp(zlive_, stext, expr, result));
     return result;
   }
 
@@ -664,6 +666,7 @@ public class FlattenVisitor
     if (expr == null)
       expr = Flatten.charTuple(zlive_.getFactory(), stext.getZDeclList());
     ZName resultName = sch.addExpr(expr);
+    flat_.makeBound(resultName);
     flat_.add(new FlatMu(sch, resultName));
     return resultName;
   }
@@ -766,23 +769,24 @@ public class FlattenVisitor
    */
   public ZName visitSchExpr(SchExpr sch)
   {
-    ZDeclList decls = sch.getZSchText().getZDeclList();
+    ZSchText stext = sch.getZSchText();
     // now build the binding that is the result
     ZDeclList cdecls = zlive_.getFactory().createZDeclList();
-    for (Decl d : decls) {
+    for (Decl d : stext.getZDeclList()) {
       if (d instanceof VarDecl) {
         ZName name = (ZName) ((VarDecl)d).getZNameList().get(0);
         RefExpr ref = zlive_.getFactory().createRefExpr(name);
         cdecls.add(zlive_.getFactory().createConstDecl(name, ref));
       }
       else {
+        // TODO: could allow ConstDecls here too, or even InclDecls
+        //       if we use the typechecker to get their signature.
         throw new EvalException("Schema should have been unfolded: "+sch);
       }
     }
     BindExpr binding = zlive_.getFactory().createBindExpr(cdecls);
     ZName setName = createBoundName();
-    flat_.add( new FlatSetComp(zlive_, 
-        decls, sch.getZSchText().getPred(), binding, setName));
+    flat_.add(new FlatSetComp(zlive_, stext, binding, setName));
     return setName;
   }
 

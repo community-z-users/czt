@@ -38,7 +38,9 @@ import net.sourceforge.czt.z.ast.ExistsPred;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Name;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.SetExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
+import net.sourceforge.czt.z.ast.ZExprList;
 import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 import net.sourceforge.czt.z.util.Factory;
@@ -228,6 +230,22 @@ public class FlatPredList extends FlatPred
       addPred(p);
   }
 
+  /** Same as addSchText, but uses addExistsPred to add the predicate part.
+   *  This should only be used within existential quantifier situations,
+   *  such as set comprehensions and exists quantifiers.
+   *
+   * @param stext
+   */
+  public void addExistsSchText(/*@non_null@*/ZSchText stext)
+  {
+    assert freeVars_ == null;
+    for (Decl d : stext.getZDeclList())
+      addDecl(d);
+    Pred p = stext.getPred();
+    if (p != null)
+      addExistsPred(p);
+  }
+
   /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
@@ -255,7 +273,11 @@ public class FlatPredList extends FlatPred
         ZName zname = cdecl.getZName();
         boundVars_.add(zname);
         Expr expr = cdecl.getExpr();
-        Pred mem = getFactory().createMemPred(zname, expr);
+        // add the predicate:  zname in {expr}
+        List<Expr> list1 = getFactory().list(new Expr[] {expr});
+        ZExprList expr1 = getFactory().createZExprList(list1);
+        SetExpr set = getFactory().createSetExpr(expr1);
+        Pred mem = getFactory().createMemPred(zname, set);
         zlive_.getFlatten().flattenPred(mem, this);
       }
       else {
@@ -290,15 +312,17 @@ public class FlatPredList extends FlatPred
    *  only call this method from a context where this is sound, such
    *  as within an exists or within a set comprehension whose result
    *  expression is filled in.  It also flattens nested exists and
-   *  exists within one branch of a conjunction.  Note that this
-   *  method would not be sound for a predicate like
+   *  exists within one branch of a conjunction.
+   *  <p>
+   *  Note that this method would not be sound for a predicate like
    *  <pre>
-   *   (exists x:0..20 @ x<10) and (exists x:0..20 @ x>10),
+   *   (exists x:0..20 @ x &lt; 10) and (exists x:0..20 @ x &gt; 10),
    *  </pre>
    *  because the flattened result would unify the two x's,
    *  and the resulting predicate would be false, rather than true.
    *  However, such inputs should never occur, since CZT ASTs
-   *  always use a different ID for each variable with a different scope.
+   *  always use a different ID for each variable with a different scope,
+   *  even for sibling scopes.
    *
    * @param pred
    */
@@ -311,7 +335,7 @@ public class FlatPredList extends FlatPred
     }
     else if (pred instanceof ExistsPred) {
       ExistsPred ex = (ExistsPred) pred;
-      addSchText(ex.getZSchText());
+      addExistsSchText(ex.getZSchText());
       addExistsPred(ex.getPred());
     }
     else {
@@ -327,16 +351,19 @@ public class FlatPredList extends FlatPred
    *  after chooseMode, startEvaluation and nextEvaluation have
    *  been called, then getOutputEnvir().lookup(result) can
    *  be called to get the value of the evaluated expression.
+   *  <p>
+   *  The result name is not necessarily free or bound -- this
+   *  depends upon how the name was declared.  So it is the caller's
+   *  responsibility to make it free if this is desired.
    *
    * @param expr  The Expr to flatten and add.
-   * @return      The result name.  This is marked as a free variable.
+   * @return      The result name.
    */
   public ZName addExpr(/*@non_null@*/Expr expr)
   {
     assert freeVars_ == null;
     try {
       ZName result = zlive_.getFlatten().flattenExpr(expr, this);
-      makeFree(result);
       return result;
     }
     catch (CommandException exception) {

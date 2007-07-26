@@ -107,15 +107,15 @@ public class ZLiveTest extends ZTestCase
   throws CommandException
   {
     BindExpr args = (BindExpr) parseExpr("\\lblot a==0, b==10 \\rblot");
-    //ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
-    //    "evalSchema.log", Level.FINEST);
+    ZFormatter.startLogging("net.sourceforge.czt.animation.eval",
+        "evalSchema.log", java.util.logging.Level.FINEST);
     EvalSet set = zlive_.evalSchema("AIncr", args);
     Assert.assertEquals(1, set.size());
     Iterator<Expr> iter = set.iterator();
     assertTrue(iter.hasNext());
     BindExpr expect = (BindExpr) parseExpr("\\lblot a'==1, b'==10 \\rblot");
     assertTrue(ExprComparator.equalZ(expect, iter.next()));
-    //ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
+    ZFormatter.stopLogging("net.sourceforge.czt.animation.eval");
   }
 
   public void testReset()

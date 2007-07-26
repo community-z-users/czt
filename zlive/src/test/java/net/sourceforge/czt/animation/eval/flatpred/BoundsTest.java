@@ -29,6 +29,7 @@ import net.sourceforge.czt.animation.eval.result.EvalSet;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.TupleExpr;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.util.ZChar;
 
 /** Tests the Bounds class. */
 public class BoundsTest extends ZTestCase
@@ -425,7 +426,7 @@ public class BoundsTest extends ZTestCase
     assertNotNull(est);
     assertEquals(BigInteger.valueOf(0), est.getLower());
     assertEquals(BigInteger.valueOf(7), est.getUpper());
-    // TODO: add these
+    // TODO: add these once SetComp does better size estimation
     //assertNotNull(est.maxSize());
     //assertTrue(est.maxSize().intValue() <= 1000);
     checkFixPoint(preds, bnds);
@@ -565,18 +566,18 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds2.isAliased(x, w));
     assertTrue(bnds2.boundsChanged());
     assertTrue(bnds2.getDeductions() > 0);
-    
+
     // check that w.1 = y and w.2 = z
     args = bnds2.getStructure(w);
     assertEquals(2, args.size());
     assertEquals(y, args.get(Integer.valueOf(1)));
     assertEquals(z, args.get(Integer.valueOf(2)));
-    
+
     args = bnds2.getStructure(x);
     assertEquals(2, args.size());
     assertEquals(y, args.get(Integer.valueOf(1)));
     assertEquals(z, args.get(Integer.valueOf(2)));
-    
+
     bnds2.endAnalysis();
     // parent should have noticed the changes
     assertTrue(bnds.getDeductions() > 0);
@@ -597,5 +598,67 @@ public class BoundsTest extends ZTestCase
     assertTrue(bnds.isAliased(y, u));
     assertTrue(bnds.isAliased(v, z));
     bnds2.endAnalysis();
+  }
+  
+  /** Aliasing of tuples and bindings is done by the same code,
+   *  so we don't need different tests for them.
+   *  However, this test adds alias information in a different
+   *  order to testAliasTuple.  This test was derived from failure 
+   *  to execute the Find operation of the BirthdayBook specification.
+   */
+  public void testAliasBinding()
+  {
+    Bounds bnds = new Bounds(null);
+    
+    // alias x = <| known==known, birthday==birthday |>
+    ZName known = factory_.createZName("known");
+    ZName birthday = factory_.createZName("birthday");
+    bnds.addAlias(z, known);  // one component has an existing alias
+    ZName knownBest = bnds.getBestAlias(known);
+    bnds.addStructureArg(x, known, known);
+    bnds.addStructureArg(x, birthday, birthday);
+    assertTrue(bnds.boundsChanged());
+    assertTrue(bnds.getDeductions() > 0);
+    Map<Object, ZName> args = bnds.getStructure(x);
+    assertNotNull(args);
+    assertEquals(2, args.size());
+    assertEquals(knownBest, args.get(known));
+    assertEquals(birthday, args.get(birthday));
+
+    // alias y = <| known==known', birthday==birthday' |>
+    ZName knownP = factory_.createZName("known"+ZChar.PRIME);
+    assertEquals("known", knownP.getWord());
+    ZName birthdayP = factory_.createZName("birthday"+ZChar.PRIME);
+    assertEquals(1, knownP.getZStrokeList().size());
+    bnds.addStructureArg(y, known, knownP);
+    bnds.addStructureArg(y, birthday, birthdayP);
+    
+    // now alias x=y in a subbounds
+    Bounds bnds2 = new Bounds(bnds);
+    bnds2.startAnalysis(bnds);
+    assertEquals(args, bnds2.getStructure(x)); // should be copied down
+    bnds2.addAlias(y, x);
+    bnds2.endAnalysis();
+    // parent should have noticed the changes
+    assertTrue(bnds.getDeductions() > 0);
+    
+    // check that bnds2 has made some deductions
+    assertTrue(bnds2.isAliased(x, y));
+    assertTrue(bnds2.boundsChanged());
+    assertTrue(bnds2.getDeductions() > 0);
+
+    // check that bnds2 has deduced x=y, known=known' and birthday=birthday'
+    assertTrue(bnds2.isAliased(x, y));
+    assertTrue(bnds2.isAliased(known, knownP));
+    assertTrue(bnds2.isAliased(birthdayP, birthday));
+
+    // check that bnds2 has correct structure information for x.
+    args = bnds2.getStructure(x);
+    assertEquals(2, args.size());
+    assertEquals(bnds2.getBestAlias(known), args.get(known));
+    assertEquals(bnds2.getBestAlias(birthdayP), args.get(birthday));
+
+    // check that bnds2 has same information for y as for x.
+    assertEquals(args, bnds2.getStructure(y));
   }
 }

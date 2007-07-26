@@ -34,7 +34,9 @@ import net.sourceforge.czt.z.ast.Decl;
 import net.sourceforge.czt.z.ast.Expr;
 import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.ast.RefExpr;
+import net.sourceforge.czt.z.ast.SchText;
 import net.sourceforge.czt.z.ast.ZName;
+import net.sourceforge.czt.z.ast.ZSchText;
 
 /**
 * @author Mark Utting
@@ -60,30 +62,20 @@ public class FlatSetComp extends FlatPred
    * @param set     The variable that the whole set will be equated to.
    */
   public FlatSetComp(/*@non_null@*/ZLive zlive,
-		       /*@non_null@*/List<Decl> decls,
-		       Pred pred,
-		       /*@non_null@*/Expr result,
-		       /*@non_null@*/ZName set)
+		     /*@non_null@*/ZSchText stext,
+		     /*@non_null@*/Expr result,
+		     /*@non_null@*/ZName set)
   {
     predsAll_ = new FlatPredList(zlive);
-    resultName_ = zlive.createNewName();
-    predsAll_.makeBound(resultName_);
-    for (Iterator i = decls.iterator(); i.hasNext(); ) {
-      Decl decl = (Decl)i.next();
-      predsAll_.addDecl(decl);
-    }
-    if (pred != null) {
-      predsAll_.addExistsPred(pred);
-    }
-    // Now add 'resultName = result'.
-    RefExpr resultExpr = zlive.getFactory().createRefExpr(resultName_);
-    Pred eq = zlive.getFactory().createEquality(resultExpr, result);
-    predsAll_.addPred(eq);
+    predsAll_.addExistsSchText(stext);
+    resultName_ = predsAll_.addExpr(result);
 
-    // Calculate free vars of preds_.
-    predsAll_.makeFree(set);
     args_ = new ArrayList<ZName>(predsAll_.freeVars());
-    args_.add(set);  // TODO: could set already be in args?
+    // Note the pathological case where set is already in args:
+    //       For example:   s = {x:\nat | x < #s @ x}
+    // chooseMode handles this correctly, because modeFunction requires
+    // args_[0..size-2] to be inputs, which includes set in this case.
+    args_.add(set);
     solutionsReturned_ = -1;
   }
 

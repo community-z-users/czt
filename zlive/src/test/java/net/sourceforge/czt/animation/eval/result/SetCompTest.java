@@ -47,7 +47,7 @@ public class SetCompTest extends ZTestCase
     Bounds bnds = new Bounds(null);
     SetCompExpr e = (SetCompExpr) parseExpr("\\{x:\\nat | x<y @ (x,x*2)\\}");
     FlatPredList predsAll = new FlatPredList(zlive_);
-    predsAll.addSchText(e.getZSchText());
+    predsAll.addExistsSchText(e.getZSchText());
     ZName resultName = predsAll.addExpr(e.getExpr());
     predsAll.inferBoundsFixPoint(bnds);
     return new SetComp(predsAll, resultName, env0, bnds);

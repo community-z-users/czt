@@ -46,6 +46,7 @@ public class FlatMu extends FlatPred
     schText_ = sch;
     resultName_ = result;
     freeVars_ = new HashSet<ZName>(schText_.freeVars());
+    freeVars_.add(result);
     // HashSet has removed duplicates
     args_ = new ArrayList<ZName>(freeVars_);
     // move resultName_ to the end of args.

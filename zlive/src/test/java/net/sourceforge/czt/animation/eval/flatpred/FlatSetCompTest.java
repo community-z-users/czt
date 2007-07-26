@@ -24,6 +24,7 @@ import java.util.Set;
 import junit.framework.Assert;
 import net.sourceforge.czt.animation.eval.EvalSetTest;
 import net.sourceforge.czt.z.ast.SetCompExpr;
+import net.sourceforge.czt.z.ast.ZName;
 import net.sourceforge.czt.z.ast.ZSchText;
 
 
@@ -50,39 +51,36 @@ public class FlatSetCompTest
     setIJKBounds();
     SetCompExpr setComp = (SetCompExpr) parseExpr(setCompStr);
     SetCompExpr emptySetComp = (SetCompExpr) parseExpr(emptySetCompStr);
-    ZSchText text = setComp.getZSchText();
     set = new FlatPredList(zlive_);
     set.add(new FlatSetComp(zlive_,
-			  text.getZDeclList(),
-			  text.getPred(),
-			  setComp.getExpr(),
-			  s));
+        setComp.getZSchText(),
+        setComp.getExpr(),
+        s));
     set.inferBounds(bounds_);
 
     emptySet = new FlatPredList(zlive_);
-    text = emptySetComp.getZSchText();
     emptySet.add(new FlatSetComp(zlive_,
-			       text.getZDeclList(),
-			       text.getPred(),
-			       emptySetComp.getExpr(),
-			       es));
+        emptySetComp.getZSchText(),
+        emptySetComp.getExpr(),
+        es));
     emptySet.inferBounds(bounds_);
   }
 
   public void testToString()
   {
-    assertEquals("s = { tmp1 = i .. k :: 10..12;\n"
-               + "    r in tmp1 :: 3.0 10..12;\n"
-               + "    tmp0 = r\n  @ tmp0\n  }",
+    assertEquals("s = { tmp0 = i .. k :: 10..12;\n"
+               + "    r in tmp0 :: 3.0 10..12\n"
+               + "  @ r\n"
+               + "  }",
         set.toString());
   }
 
   public void testFreeVars()
   {
-    Set vars = set.freeVars();
+    Set<ZName> vars = set.freeVars();
+    System.out.println("freevars="+vars.toString());
     Assert.assertEquals(3, vars.size());
     Assert.assertTrue(vars.contains(i));
-    Assert.assertFalse(vars.contains(j));
     Assert.assertTrue(vars.contains(k));
     Assert.assertTrue(vars.contains(s));
   }

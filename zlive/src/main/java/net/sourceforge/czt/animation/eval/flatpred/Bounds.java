@@ -157,15 +157,21 @@ public class Bounds
       addUpper(key, parent.getUpper(key));
     for (ZName key : parent.getEvalSetKeys())
       setEvalSet(key, parent.getEvalSet(key));
-    for (ZName key : parent.getAliasKeys())
-      for (ZName alias : parent.getAliases(key))
-        addAlias(key, alias);
+    for (ZName key : parent.getAliasKeys()) {
+      // to save time, and so that the child starts off with the
+      // same "best alias" of each name as the parent,
+      // we try to add each alias pair just once.
+      if (key == parent.getBestAlias(key)) {
+        for (ZName alias : parent.getAliases(key))
+          addAlias(key, alias);
+      }
+    }
     for (ZName key : parent.getStructureKeys()) {
       for (Map.Entry<Object, ZName> e : parent.getStructure(key).entrySet())
         addStructureArg(key, e.getKey(), e.getValue());
     }
     // now clear our deduction counter, but retain information
-    // about which vars have just received tighter bounds.
+    // about which vars have just inherited tighter bounds.
     deductions_ = 0;
   }
 
@@ -263,7 +269,7 @@ public class Bounds
     return result.toString();
   }
 
-  /** A alternative version of Map&lt;ZName,???&gt;.toString() 
+  /** A alternative version of Map&lt;ZName,???&gt;.toString()
    *  that prints the names in a non-unicode way.
    */
   public static <V> String printMap(Map<ZName,V> map)
@@ -499,7 +505,8 @@ public class Bounds
     if (isAliased(var1, var2))
       return; // no change needed.
     // Now we know that var1 and var2 are not equal.
-    System.out.println("addAlias("+var1+","+var2+") when bounds="+toString());
+    System.out.println("addAlias("+var1+","+var2+") in "+hashCode());
+    System.out.println("  when bounds="+toString());
 
     // Now calculate the union of the two alias sets,
     // then copy bounds information from one variable to the other
@@ -559,6 +566,7 @@ public class Bounds
     deductions_++;
     // mark all var1 and var2 aliases as changed
     changed_.addAll(aliases_.get(var1));
+    System.out.println("  gave bounds="+toString());
   }
 
   /** Moves all bounds information for name 'from' onto name 'to'.
