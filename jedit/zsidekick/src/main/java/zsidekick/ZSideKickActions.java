@@ -236,6 +236,7 @@ public class ZSideKickActions
               }
             }
             catch (CommandException e) {
+              e.printStackTrace();
               reportError(view, "Cannot get rule table");
             }
           }
@@ -283,6 +284,7 @@ public class ZSideKickActions
               }
             }
             catch (CommandException e) {
+              e.printStackTrace();
               reportError(view, "Cannot get rule table");
             }
           }
@@ -329,6 +331,7 @@ public class ZSideKickActions
             }
           }
           catch (CommandException e) {
+            e.printStackTrace();
             reportError(view, "Cannot get rule table");
           }
         }
@@ -384,6 +387,7 @@ public class ZSideKickActions
               }
             }
             catch (CommandException e) {
+              e.printStackTrace();
               reportError(view, "Cannot get rule table");
             }
           }
@@ -472,6 +476,7 @@ public class ZSideKickActions
               }
             }
             catch (CommandException e) {
+              e.printStackTrace();
               reportError(view, "Cannot get rule table");
             }
           }
@@ -515,6 +520,7 @@ public class ZSideKickActions
             }
           }
           catch (CommandException e) {
+            e.printStackTrace();
             reportError(view, "Cannot get rule table");
           }
         }
