@@ -444,6 +444,8 @@ public class FlatPredList extends FlatPred
     while (!flatPreds.isEmpty() && chooseMode(env, flatPreds, submodes)) {
       Mode m = submodes.get(submodes.size() - 1);
       cost *= m.getSolutions();
+      LOG.finer(this.hashCode() + " cost=" + m.getSolutions()
+          + " outputs=" + m.getOutputs() + " pred=" + m.getParent());
       if (optimize_ && cost > maxCost_) {
         LOG.finer("too expensive (" + cost + ") to evaluate " + this
             + " with env=" + env);
@@ -451,8 +453,6 @@ public class FlatPredList extends FlatPred
         return null;
       }
       env = m.getEnvir();
-      LOG.finer(this.hashCode() + " " + m.getParent() + " gives cost=" + cost
-          + " and outputs=" + m.getOutputs());
     }
     if ( ! flatPreds.isEmpty()) {
       LOG.finer("no mode for " + flatPreds.get(0) + " with env=" + env);
@@ -480,9 +480,12 @@ public class FlatPredList extends FlatPred
         FlatPred flatPred = iter.next();
         Mode m = flatPred.chooseMode(env0);
         if (m != null) {
+          LOG.finest("considering "+m+" pred="+flatPred);
           assert flatPred == m.getParent();
-          if (mode == null || m.getSolutions() < mode.getSolutions())
+          if (mode == null || m.getSolutions() < mode.getSolutions()) {
             mode = m;
+            LOG.finest("yes, best so far...");
+          }
           // if it is deterministic or better, just use this one.
           //if (mode.getSolutions() <= Mode.ONE_SOLUTION)
           //  break;
