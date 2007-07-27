@@ -57,7 +57,9 @@ public class Strategies
         }
       }
     }
-    if (aChildHasChanged) return reduce(term.create(children), rewriter);
+    if (aChildHasChanged) {
+      return reduce(term.create(children), rewriter);
+    }
     return reduce(term, rewriter);
   }
 
@@ -65,7 +67,9 @@ public class Strategies
     throws UnboundJokerException
   {
     Term result = rewriter.apply(term);
-    if (result != term) return innermost(result, rewriter);
+    if (result != term) {
+      return innermost(result, rewriter);
+    }
     return term;
   }
 }
