@@ -67,22 +67,18 @@ public class FlatProd extends FlatPred
     BigInteger maxSize = BigInteger.ONE;
     double estSize = 1.0;
     for (int i=0; i<args_.size()-1; i++) {
-      Expr set_i = bnds.getEvalSet(args_.get(i));
-      if (set_i != null && set_i instanceof EvalSet) {
-        EvalSet s = (EvalSet) set_i;
-        estSize *= s.estSize();
-        BigInteger max_i = s.maxSize();
+      EvalSet set_i = bnds.getEvalSet(args_.get(i));
+      if (set_i != null) {
+        estSize *= set_i.estSize();
+        BigInteger max_i = set_i.maxSize();
         if (max_i == null)
           maxSize = null;
         else if (maxSize != null)
           maxSize = maxSize.multiply(max_i);
       }
       else {
-        maxSize = null;
-        // We estimate its size as slightly worse than FlatSetComp,
-        // so that set comprehensions have priority (because products
-        // are often large and boring, from base types).
-        estSize = EvalSet.UNKNOWN_SIZE+1;
+        maxSize = null;  // infinite now
+        estSize *= EvalSet.UNKNOWN_SIZE;
       }
     }
     FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), estSize, maxSize);
