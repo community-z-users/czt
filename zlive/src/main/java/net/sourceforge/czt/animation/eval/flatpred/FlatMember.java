@@ -176,7 +176,7 @@ public class FlatMember extends FlatPred
     if (env != null) {
       Map<Object, Expr> argValues = knownValues(env);
       if (argValues != null) {
-        result = Math.log(result);   // much smaller
+        result = result / (1 + argValues.size()); // much smaller
       }
     }
 
