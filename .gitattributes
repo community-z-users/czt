@@ -344,6 +344,7 @@ parser-circus/src/test/java/net/sourceforge/czt/print/circus/PrintTest.java -tex
 parser-circus/src/test/resources/tests/circus/CookieMachine.tex -text
 parser-circus/src/test/resources/tests/circus/README.txt -text
 parser-circus/src/test/resources/tests/circus/basicprocesses.tex -text
+parser-circus/src/test/resources/tests/circus/basicprocesses.xml -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement-multienv.tex -text
 parser-circus/src/test/resources/tests/circus/buffer-refinement-singleenv.tex -text
 parser-circus/src/test/resources/tests/circus/channel-errors.tex -text
