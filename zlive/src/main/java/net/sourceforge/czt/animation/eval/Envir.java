@@ -46,9 +46,10 @@ public class Envir
   {
   }
 
-  /** Lookup the value of a name in the Environment. 
-     @return The value may be null.
-  */
+  /** Lookup the value of a name in the Environment.
+   * @throws EvalException if want is not defined in this environment.
+   * @return The value may be null.
+   */
   //@ requires isDefined(want);
   public/*@pure@*/Expr lookup(/*@non_null@*/ZName want) {
     Envir env = this;
