@@ -4793,6 +4793,7 @@ communication ::=
             addLocAnn(RESULT, dw.getLocation());
         :}
         |
+        //TODO: Generic names on channels are known to be tricky (the production is being confused somehow. Leave for later.
         /* Generic channels cannot be through synchronisation, hence commFields cannot be optional */
         DECORWORD:dw LSQUARE expressionList:el RSQUARE commFields:cf
         {:
