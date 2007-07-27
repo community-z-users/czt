@@ -25,11 +25,17 @@ import java.util.List;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.circus.ast.BasicChannelSetExpr;
 import net.sourceforge.czt.circus.ast.BasicProcess;
 import net.sourceforge.czt.circus.ast.ChannelDecl;
 import net.sourceforge.czt.circus.ast.ChannelPara;
 import net.sourceforge.czt.circus.ast.ChannelSetPara;
 import net.sourceforge.czt.circus.ast.ChannelSetType;
+import net.sourceforge.czt.circus.ast.CircusChannelSet;
+import net.sourceforge.czt.circus.ast.Communication;
+import net.sourceforge.czt.circus.ast.DotField;
+import net.sourceforge.czt.circus.ast.InputField;
+import net.sourceforge.czt.circus.ast.OutputField;
 import net.sourceforge.czt.circus.ast.ProcessPara;
 import net.sourceforge.czt.circus.ast.ProcessType;
 import net.sourceforge.czt.circus.ast.ActionType;
@@ -54,7 +60,12 @@ import net.sourceforge.czt.circus.visitor.BasicProcessSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ActionSignatureVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelParaVisitor;
 import net.sourceforge.czt.circus.visitor.ChannelSetParaVisitor;
+import net.sourceforge.czt.circus.visitor.CircusChannelSetVisitor;
+import net.sourceforge.czt.circus.visitor.BasicChannelSetExprVisitor;
 import net.sourceforge.czt.circus.visitor.SchExprActionVisitor;
+import net.sourceforge.czt.circus.visitor.CommunicationVisitor;
+import net.sourceforge.czt.circus.visitor.InputFieldVisitor;
+import net.sourceforge.czt.circus.visitor.DotFieldVisitor;
 import net.sourceforge.czt.z.ast.AndPred;
 import net.sourceforge.czt.z.ast.ApplExpr;
 import net.sourceforge.czt.z.ast.AxPara;
@@ -139,6 +150,11 @@ public class PrintVisitor
   ChannelParaVisitor<String>,
   ZDeclListVisitor<String>,
   ChannelSetParaVisitor<String>,
+  CircusChannelSetVisitor<String>,
+  BasicChannelSetExprVisitor<String>,
+  CommunicationVisitor<String>,
+  InputFieldVisitor<String>,
+  DotFieldVisitor<String>,
   ChannelDeclVisitor<String>,
   ZNameListVisitor<String>,
   SchExprActionVisitor<String>,
@@ -364,6 +380,16 @@ public class PrintVisitor
     result.append("]");
     //addNLAndTabs(result);
     return result.toString();
+  }  
+  
+  public String visitCircusChannelSet(CircusChannelSet term)
+  {
+    return visit(term.getExpr());
+  }
+  
+  public String visitBasicChannelSetExpr(BasicChannelSetExpr term)
+  {
+    return visitList(term.getCommunication(), "{ ", ", ", " }");
   }
   
   public String visitVarDecl(VarDecl term)
@@ -664,7 +690,28 @@ public class PrintVisitor
     //addNLAndTabs(result);
     return result.toString();
   }
+    
+  public String visitCommunication(Communication term)
+  {
+     StringBuilder result = new StringBuilder("Comm[");
+     result.append(visit(term.getChannelExpr()));
+     result.append(visitList(term.getCircusFieldList(), ""));
+     result.append("]");
+     return result.toString();
+  }
   
+  public String visitInputField(InputField term)
+  {
+    return "?" + term.getVariableZName() + 
+        (term.getRestriction() instanceof TruePred ? "" : " : " + 
+        visit(term.getRestriction()));
+  }
+  
+  public String visitDotField(DotField term)
+  {
+    return (term instanceof OutputField ? "!" : ".") + visit(term.getExpr());
+  }
+
   private static FindProcessPara findPP_ = new FindProcessPara();
   
   public String printProcessPara(Term term)
