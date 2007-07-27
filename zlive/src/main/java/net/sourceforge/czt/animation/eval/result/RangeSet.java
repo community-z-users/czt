@@ -51,6 +51,9 @@ public class RangeSet extends EvalSet
    */
   private static int numIterSize_ = 10;
 
+  /** The set of all integers. */
+  public final static RangeSet integers = new RangeSet(null, null);
+
   public RangeSet(BigInteger lo, BigInteger up)
   {
     lower_ = lo;
