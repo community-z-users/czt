@@ -78,7 +78,6 @@ public class FlatSetCompTest
   public void testFreeVars()
   {
     Set<ZName> vars = set.freeVars();
-    System.out.println("freevars="+vars.toString());
     Assert.assertEquals(3, vars.size());
     Assert.assertTrue(vars.contains(i));
     Assert.assertTrue(vars.contains(k));
