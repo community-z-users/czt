@@ -79,7 +79,10 @@ public class FlatProd extends FlatPred
       }
       else {
         maxSize = null;
-        estSize = EvalSet.UNKNOWN_SIZE;
+        // We estimate its size as slightly worse than FlatSetComp,
+        // so that set comprehensions have priority (because products
+        // are often large and boring, from base types).
+        estSize = EvalSet.UNKNOWN_SIZE+1;
       }
     }
     FuzzySet fuzzy = new FuzzySet(getLastArg().toString(), estSize, maxSize);
