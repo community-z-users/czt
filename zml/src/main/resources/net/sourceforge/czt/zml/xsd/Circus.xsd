@@ -246,7 +246,7 @@ These interfaces represent the AST for Circus.
     </xs:annotation>
   </xs:element>  
   
-  <xs:element name="BasicChannelSetExpr" type="Z:Expr0N" substitutionGroup="Z:Expr0N">
+  <xs:element name="BasicChannelSetExpr" type="CIRCUS:BasicChannelSetExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
       <xs:documentation>
         <p>
@@ -1665,6 +1665,17 @@ These interfaces represent the AST for Circus.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>    
+  
+  <xs:complexType name="BasicChannelSetExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element ref="CIRCUS:Communication" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
   
   <!-- Process Definition complexType -->
   <xs:complexType name="CircusProcess">
