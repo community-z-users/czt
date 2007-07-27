@@ -855,7 +855,7 @@ action code
      * Creates an empty (basic) channel set expression
      */
     protected Expr createEmptyChannelSetExpr() {
-      return factory_.createBasicChannelSetExpr(factory_.createZExprList());      
+      return factory_.createBasicChannelSetExpr(factory_.&lt;Communication&gt;list());      
     }
     
     /**
@@ -903,26 +903,37 @@ action code
      * the a parsing error is thrown and the result is just an empty &lt;code&gt;BasicChannelSetExpr&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr createBasicChannelSetExpr(LocInfo loc, ZExprList zrl) {      
-      //assert zrl != null &amp;&amp; !zrl.isEmpty();
-      int errorIdx = -1;
-      Iterator&lt;Expr&gt; it = zrl.iterator(); 
-      while(it.hasNext() &amp;&amp; (errorIdx==-1)) {
-        // If any item at a particular index is not a RefExpr,
-        // return the error index and stop the loop.
-        if (!(it.next() instanceof RefExpr)) {
-          errorIdx++;
-        }
-      }      
-      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());      
-      if (loc != null) { addLocAnn(result, loc); }
-      if (errorIdx == -1) {
-        result.getZExprList().addAll(zrl);
-      } else {
-        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
-            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),  
-            new Object[] { errorIdx, loc }));       
-      }       
+    protected Expr createBasicChannelSetExpr(LocInfo loc, List&lt;Communication&gt; zrl) {      
+//      //assert zrl != null &amp;&amp; !zrl.isEmpty();
+//      int errorIdx = 0;
+//      Iterator&lt;Expr&gt; it = zrl.iterator(); 
+//      while(it.hasNext()) {
+//        // If any item at a particular index is not a RefExpr,
+//        // return the error index and stop the loop.
+//        if (!(it.next() instanceof RefExpr)) {
+//          break;
+//        }
+//        else 
+//          errorIdx++;        
+//      }      
+//      
+//      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(factory_.createZExprList());      
+//      if (loc != null) { addLocAnn(result, loc); }
+//      
+//      int size = zrl.size();
+//      
+//      if (errorIdx >= size) {
+//        result.getZExprList().addAll(zrl);
+//      } else {        
+//        boolean isEmpty = zrl.isEmpty();
+//        assert errorIdx &gt;= 0 &amp;&amp; (errorIdx &lt; size || isEmpty);
+//        CztLogger.getLogger(<class/>.class).warning(java.text.MessageFormat.format(
+//            CircusParseMessage.MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING.getMessage(),  
+//            new Object[] { errorIdx, size-1, isEmpty ? "empty" : zrl.get(errorIdx), 
+//              isEmpty ? "null" : zrl.get(errorIdx).getClass().getName(), loc }));       
+//      } 
+      BasicChannelSetExpr result = factory_.createBasicChannelSetExpr(zrl);      
+      if (loc != null) { addLocAnn(result, loc); }      
       return result;
     } 
     
@@ -942,11 +953,11 @@ action code
      * returns &lt;code&gt;BasicChannelSetExpr(ZExprList())&lt;/code&gt;.
      * &lt;/p&gt;
      */
-    protected Expr validateChannelSetExpr(Expr e) {
+    protected Expr validateChannelSetExpr(Expr e) {      
       Expr result = e;
       // For reference empty sets transform them into basic set extension.
       if (isEmptySetRefExpr(result)) {
-        result = createBasicChannelSetExpr(getLocation(e), factory_.createZExprList());
+        result = createBasicChannelSetExpr(getLocation(e), factory_.&lt;Communication&gt;list());
       } 
       // For set extensions (possibly empty) or comprehension, report an error.
       else if (result instanceof SetExpr || result instanceof SetCompExpr){
@@ -2156,7 +2167,11 @@ non terminal Communication
 non terminal List&lt;Field&gt;    
     optCommFields,
     commFields;
-    
+
+non terminal List&lt;Communication&gt;        
+    optCommunicationList,
+    communicationList;
+
 non terminal Field
     commField;
 
@@ -3599,8 +3614,8 @@ channelSetPara ::=
         
 channelSet ::=                
         expression:e
-        {:          
-           Expr eValid = validateChannelSetExpr(e);
+        {:                  
+           Expr eValid = validateChannelSetExpr(e);           
            RESULT = factory_.createCircusChannelSet(eValid);
            addLocAnn(RESULT, getLocation(e));
         :}
@@ -6036,15 +6051,40 @@ term ::=
         |
         /* channel set extension */
         // NOTE: It must be an optExpressionList because of generic actuals on channel names.
-        LCIRCCHANSET:lc optExpressionList:oel RCIRCCHANSET:rc
+        LCIRCCHANSET:lc optCommunicationList:ocl RCIRCCHANSET:rc
         {:
+           CztLogger.getLogger(<class/>.class).fine("BASIC-CHANSET-EXPR: " + ocl);
            // NOTE: The validation below makes sure that if this is a channel set extension,
-           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.
-           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(getLocation(lc, rc), oel));
+           //       set displays (SetExpr) or comprehension (SetCompExpr) are not allowed.           
+           RESULT = validateChannelSetExpr(createBasicChannelSetExpr(getLocation(lc, rc), ocl));                      
            addLocAnn(RESULT, getLocation(lc, rc));
         :}
 </add:circus>
         ;
+        
+<add:circus>
+optCommunicationList ::=
+        //empty
+        {: RESULT = factory_.list(); :}
+        |
+        communicationList:el
+        {: RESULT = el; :}
+        ;
+
+communicationList ::=
+        communicationList:cl COMMA communication:c
+        {:      
+           cl.add(c);
+           RESULT = cl;
+        :}
+        |
+        communication:c
+        {:
+           RESULT = factory_.list(c);
+           RESULT.add(c);
+        :}
+        ;  
+</add:circus>
 
 func_appl ::=
         func_appl:fa inner_term:it
