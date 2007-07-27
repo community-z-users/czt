@@ -191,7 +191,7 @@ public class CircusPrintVisitor
     
     public Object visitBasicChannelSetExpr(BasicChannelSetExpr term) {
         print(CircusToken.LCIRCCHANSET);
-        printTermList(term.getZExprList());
+        printTermList(term.getCommunication());
         print(CircusToken.RCIRCCHANSET);
         return null;
     }

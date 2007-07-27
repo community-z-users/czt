@@ -14,7 +14,7 @@ public enum CircusParseMessage {
   
   MSG_NOT_IMPLEMENTED("{0} feature not implemented yet."),
   MSG_SETDISPLAY_NOTALLOWED_FORCHANNELSET("Expressions in channel set paragraphs can be neither set extension nor set comprehension. It must be a basic channel set expresion instead."),
-  MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING("Invalid basic channel set expression index {0} at location {1}."),
+  //MSG_REFEXPR_EXPECPTED_IN_BASICCHANNELSETEXPR_WARNING("Invalid basic channel set expression index {0} (of 0..{1}) as {2} ({3} class) at location {4}."),
   MSG_UNKNOWN_COMMUNICATION_PATTERN("Invalid communication pattern.", "The prefixing communication is neither of synchronisation, input, output, or mixed. This can only happen with specialised implementations of Field that do not obbey follow any available CommType."),
   MSG_UNBALANCED_LISTS("A {0} list of size {1} cannot be related to a {2} list of size {3}."),
   MSG_EMPTY_ASSIGNMENT("Invalid assignment, LHS is empty."),
