@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.animation.eval.Envir;
 import net.sourceforge.czt.animation.eval.EvalException;
@@ -42,6 +43,9 @@ import net.sourceforge.czt.z.ast.ZName;
  */
 public class SetComp extends DefaultEvalSet
 {
+  private static final Logger LOG =
+    Logger.getLogger("net.sourceforge.czt.animation.eval.result");
+  
   /** This FlatPredList is used to evaluate ALL members of the set. */
   protected FlatPredList preds_;
 
@@ -166,20 +170,21 @@ public class SetComp extends DefaultEvalSet
   @Override
   public Iterator<Expr> matchIterator(Map<Object, Expr> argValues)
   {
+    LOG.entering("SetComp", "matchIterator", argValues);
     // Add the expected args of resultName_ so that the enumeration
     // of members sees that those args are already known.
     Map<Object, ZName> argNames = bounds_.getStructure(resultName_);
     if (argNames == null) {
-      // System.out.println("matchIterator -- no aliases for "+resultName_);
+      LOG.exiting("SetComp", "matchIterator", "using normal iterator()");
       return iterator();  // no known aliasing
     }
     else {
       Envir env = env0_;
       // add the known argument values to the initial environment
       for (Entry<Object, Expr> argValue : argValues.entrySet()) {
-        // System.out.println("matchIterator adding "+argValue.getKey()
-        //     +": "+argNames.get(argValue.getKey())
-        //     +" = "+argValue.getValue());
+        LOG.fine("adding "+argValue.getKey()
+            +": "+argNames.get(argValue.getKey())
+            +" = "+argValue.getValue());
         env = env.plus(argNames.get(argValue.getKey()), argValue.getValue());
       }
       /*
@@ -202,6 +207,7 @@ public class SetComp extends DefaultEvalSet
             +argValues+"\n    of SetComp: " + this);
       preds_.setMode(m);
       preds_.startEvaluation();
+      LOG.fine("starting to enumerate matching members with mode "+m);
 
       // TODO: find a nicer way of returning the set without enumerating
       //   all solutions first.  Perhaps the result should be an EvalSet?
@@ -210,8 +216,12 @@ public class SetComp extends DefaultEvalSet
       EvalSet result = new DiscreteSet();
       Envir outputEnv = preds_.getOutputEnvir();
       while (preds_.nextEvaluation()) {
-        result.add(outputEnv.lookup(resultName_));
+        Expr value = outputEnv.lookup(resultName_);
+        LOG.finer("found member="+value);
+        result.add(value);
       }
+      LOG.exiting("SetComp", "matchIterator",
+          "iterator through " + result.estSize() + " matching members");
       return result.iterator();
     }
   }

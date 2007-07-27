@@ -48,10 +48,6 @@ import net.sourceforge.czt.z.ast.ZName;
 public abstract class DefaultEvalSet
   extends EvalSet
 {
-
-  /** Default estimate for the approximate size of an unknown set. */
-  public static final double UNKNOWN_SIZE = 1000000.0;
-
   /** True iff all members of the set have been evaluated. */
   private boolean fullyEvaluated_ = false;
   //@invariant fullyEvaluated_ ==> memberList != null;

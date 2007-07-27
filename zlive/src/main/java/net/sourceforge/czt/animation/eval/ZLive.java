@@ -328,23 +328,28 @@ public class ZLive
       }
       Bounds bnds = new Bounds(null);
       predlist_.inferBoundsFixPoint(bnds, INFER_PASSES);
+      LOG.finer("Starting chooseMode with env="+env0.toString());
       Mode m = predlist_.chooseMode(env0);
       if (m == null) {
         final String message =
           "Cannot find mode to evaluate: " + printTerm(term, markup_);
         throw new EvalException(message);
       }
+      LOG.finer("Setting mode "+m.toString());
       predlist_.setMode(m);
       predlist_.startEvaluation();
+      LOG.finer("Looking for first solution...");
       if (isExpr) {
         if (predlist_.nextEvaluation()) {
           assert resultName != null;
           result = predlist_.getOutputEnvir().lookup(resultName);
         }
         else {
-          // In theory this should not happen.
-          // It should have thrown some kind of exception instead.
-          throw new CztException("No solution for expression");
+          // In theory this should not happen -- nextEvaluation
+          // should have thrown some kind of exception instead.
+          CztException ex = new CztException("No solution for expression");
+          LOG.throwing("ZLive", "evalTerm", ex);
+          throw ex;
         }
       }
       else {
