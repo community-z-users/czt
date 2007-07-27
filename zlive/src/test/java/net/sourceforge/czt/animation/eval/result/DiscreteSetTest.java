@@ -64,5 +64,7 @@ public class DiscreteSetTest extends ZTestCase
     assertTrue(iter.hasNext());
     assertNotNull(iter.next());
     assertFalse(iter.hasNext());
+    assertEquals(BigInteger.valueOf(1), set.getLower());
+    assertEquals(BigInteger.valueOf(3), set.getUpper());
   }
 }
