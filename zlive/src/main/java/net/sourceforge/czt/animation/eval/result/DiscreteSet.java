@@ -122,7 +122,7 @@ public class DiscreteSet extends EvalSet
     NumExpr num = (NumExpr) expr;
     BigInteger result = num.getValue();
     while (iter.hasNext()) {
-      num = (NumExpr) expr;
+      num = (NumExpr) iter.next();
       result = result.min(num.getValue());
     }
     return result;
@@ -146,7 +146,7 @@ public class DiscreteSet extends EvalSet
     NumExpr num = (NumExpr) expr;
     BigInteger result = num.getValue();
     while (iter.hasNext()) {
-      num = (NumExpr) expr;
+      num = (NumExpr) iter.next();
       result = result.max(num.getValue());
     }
     return result;
