@@ -154,16 +154,18 @@ public class FlatMember extends FlatPred
     EvalSet set = null;
 
     // try to use static bounds information
-    if (bounds_ != null)
+    if (bounds_ != null) {
       set = bounds_.getEvalSet(setName);
+    }
     if (set != null) {
       maxSize = RangeSet.minPos(maxSize, set.maxSize());
       result = Math.min(result, set.estSize());
     }
 
     // try to use environment information about the set
-    if (env != null && env.isDefined(setName))
+    if (env != null && env.isDefined(setName)) {
       set = (EvalSet) env.lookup(setName);
+    }
     if (set != null) {
       maxSize = RangeSet.minPos(maxSize, set.maxSize());
       result = Math.min(result, set.estSize());
@@ -171,9 +173,11 @@ public class FlatMember extends FlatPred
 
     // reduce estimate further if the member is partially known
     // (this is a bit ad-hoc -- would be better to run chooseMode on the set)
-    Map<Object, Expr> argValues = knownValues(env);
-    if (argValues != null) {
-      result = Math.log(result);   // much smaller
+    if (env != null) {
+      Map<Object, Expr> argValues = knownValues(env);
+      if (argValues != null) {
+        result = Math.log(result);   // much smaller
+      }
     }
 
     // now take the minimum of maxSize and estSize
